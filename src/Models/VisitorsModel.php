@@ -13,6 +13,7 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Globals\Option;
 
 class VisitorsModel extends BaseModel
 {
@@ -1716,7 +1717,7 @@ class VisitorsModel extends BaseModel
     public function count($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date' => '',
+            'date' => DateRange::get('today'),
         ]);
 
         $fromDate = '';
@@ -1735,5 +1736,318 @@ class VisitorsModel extends BaseModel
         $result = $query->getVar();
 
         return intval($result);
+    }
+
+    /**
+     * Get top visitors with details.
+     *
+     * @return array List of top visitors ordered by total views (desc), limited to 10 rows.
+     * @since 15.0.0
+     */
+    public function getTop($args = [])
+    {
+         $args = $this->parseArgs($args, [
+            'date' => [],
+        ]);
+
+        $fromDate = '';
+        $toDate = '';
+
+        if (!empty($args['date']) && is_array($args['date'])) {
+            $fromDate = !empty($args['date']['from']) ? $args['date']['from'] . ' 00:00:00' : '';
+            $toDate = !empty($args['date']['to']) ? $args['date']['to'] . ' 23:59:59' : '';
+        }
+
+        // Subquery A: aggregate per visitor in range
+        $aggSql = Query::select([
+                'visitor_id',
+                'SUM(total_views) AS total_views',
+                'COUNT(*) AS sessions_count',
+            ])
+            ->from('sessions')
+            ->where('started_at', '>=', $fromDate)
+            ->where('started_at', '<',  $toDate)
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        // Subquery LS: last session id per visitor in range (by max ID)
+        $lastSql = Query::select([
+                'visitor_id',
+                'MAX(ID) AS last_session_id',
+            ])
+            ->from('sessions')
+            ->where('started_at', '>=', $fromDate)
+            ->where('started_at', '<',  $toDate)
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        // Helper subqueries to safely alias repeated tables (views/resource_uris)
+        $viewSql = Query::select(['ID', 'resource_uri_id'])
+            ->from('views')
+            ->getQuery();
+
+        $uriSql = Query::select(['ID', 'uri'])
+            ->from('resource_uris')
+            ->getQuery();
+
+        // Main query
+        $main = Query::select([
+                'visitors.hash AS visitor_hash',
+                'a.total_views',
+                'a.sessions_count',
+                'countries.name AS country',
+                'device_oss.name AS os',
+                'device_browsers.name AS browser',
+                'referrers.domain AS referrer_url',
+                'uri_in.uri AS entry_page',
+                'uri_out.uri AS exit_page',
+            ])
+            ->fromQuery($aggSql, 'a')
+            ->joinQuery($lastSql, ['a.visitor_id', 'ls.visitor_id'], 'ls')
+            ->join('sessions', ['ls.last_session_id', 'sessions.ID'])
+            ->join('visitors', ['a.visitor_id', 'visitors.ID'])
+            ->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT')
+            ->join('device_oss', ['sessions.device_os_id', 'device_oss.ID'], [], 'LEFT')
+            ->join('device_browsers', ['sessions.device_browser_id', 'device_browsers.ID'], [], 'LEFT')
+            ->join('referrers', ['sessions.referrer_id', 'referrers.ID'], [], 'LEFT')
+            // entry page: sessions.initial_view_id -> vi.ID -> uri_in.ID
+            ->joinQuery($viewSql, ['sessions.initial_view_id', 'vi.ID'], 'vi')
+            ->joinQuery($uriSql, ['vi.resource_uri_id', 'uri_in.ID'], 'uri_in')
+            // exit page: sessions.last_view_id -> vo.ID -> uri_out.ID
+            ->joinQuery($viewSql, ['sessions.last_view_id', 'vo.ID'], 'vo')
+            ->joinQuery($uriSql, ['vo.resource_uri_id', 'uri_out.ID'], 'uri_out')
+            ->orderBy('a.total_views', 'DESC')
+            ->perPage(1, 10)
+            ->allowCaching();
+
+        $rows = $main->getAll();
+
+        return $rows ?: [];
+    }
+
+    /**
+     * Get global visitor distribution by country.
+     *
+     * Aggregates distinct visitors per country within an optional date range.
+     * Uses a half-open window on `sessions.started_at` ([from, to+1 day)) so the
+     * end date is fully included while remaining index-friendly.
+     *
+     * @param array $args {
+     *   @type array{from:string,to:string} $date Date range (Y-m-d).
+     * }
+     * @return array List of rows with: country, code, visitors
+     * @since 15.0.0
+     */
+    public function getGlobalDistribution($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => [],
+        ]);
+
+        $fromDate = '';
+        $toEx = '';
+
+        if (!empty($args['date']) && is_array($args['date'])) {
+            $fromDate = !empty($args['date']['from']) ? $args['date']['from'] : '';
+            $toEx     = !empty($args['date']['to'])   ? date('Y-m-d', strtotime($args['date']['to'] . ' +1 day')) : '';
+        }
+
+        $query = Query::select([
+                'countries.name AS name',
+                'countries.code AS code',
+                'COUNT(DISTINCT sessions.visitor_id) AS visitors',
+            ])
+            ->from('sessions')
+            ->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT')
+            ->where('sessions.started_at', '>=', $fromDate)
+            ->where('sessions.started_at', '<',  $toEx)
+            ->groupBy('countries.name')
+            ->orderBy('visitors', 'DESC');
+
+        $rows = $query->getAll();
+
+        return $rows ?: [];
+    }
+
+    /**
+     * Get hourly traffic distribution.
+     *
+     * Aggregates views per hour (12..23) within an optional date range.
+     *
+     * @param array $args {
+     *   @type array{from:string,to:string} $date Date range (Y-m-d).
+     * }
+     * @return array List of rows with: hour, views
+     * @since 15.0.0
+     */
+    public function getHourlyTraffic($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => [],
+        ]);
+
+        $fromDate = '';
+        $toEx = '';
+
+        if (!empty($args['date']) && is_array($args['date'])) {
+            $fromDate = !empty($args['date']['from']) ? $args['date']['from'] : '';
+            $toEx     = !empty($args['date']['to'])   ? date('Y-m-d', strtotime($args['date']['to'] . ' +1 day')) : '';
+        }
+
+        // Counts per hour (12..23) in range
+        $countsSql = Query::select([
+                'HOUR(viewed_at) AS hour',
+                'COUNT(*) AS views',
+            ])
+            ->from('views')
+            ->where('viewed_at', '>=', $fromDate)
+            ->where('viewed_at', '<',  $toEx)
+            ->whereRaw('AND HOUR(viewed_at) BETWEEN 12 AND 23')
+            ->groupBy('hour')
+            ->getQuery();
+
+        // Constant hours 12..23 to ensure zero rows exist; no PHP loop is used.
+        $hoursSql = 'SELECT 12 AS hour UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19 UNION ALL SELECT 20 UNION ALL SELECT 21 UNION ALL SELECT 22 UNION ALL SELECT 23';
+
+        // UNION the counts with zero-rows and then aggregate to get a full set
+        $unionSql = "(" . $countsSql . " UNION ALL SELECT hour, 0 AS views FROM (" . $hoursSql . ") AS h)";
+
+        $rows = Query::select([
+                "CONCAT(LPAD(u.hour, 2, '0'), ':00') AS hour",
+                'SUM(u.views) AS views',
+            ])
+            ->fromQuery($unionSql, 'u')
+            ->groupBy('u.hour')
+            ->orderBy('u.hour', 'ASC')
+            ->getAll();
+
+        return $rows ?: [];
+    }
+
+    /**
+     * Get most active visitors with optimized query and attribution-aware referrer.
+     *
+     * Optimizations:
+     * - Single subquery using idx_started_visitor index
+     * - All aggregations (SUM, COUNT, MIN/MAX) in one pass
+     * - Reduced number of JOINs from 13 to 9
+     *
+     * Referrer attribution model:
+     * - last-touch: referrer from last session (fallback to first if empty)
+     * - first-touch: referrer from first session (fallback to last if empty)
+     *
+     * @param array $args {
+     *     @type array{from:string,to:string} $date Date range with 'from' and 'to' keys (Y-m-d)
+     * }
+     * @return array List of visitors with: visitor_hash, total_views, sessions_count, country, city, browser, referrer, entry_page, exit_page
+     * @since 15.0.0
+     */
+    public function getMostActiveVisitors($args = [])
+    {
+        // 1) parse args and build half-open date range
+        $args = $this->parseArgs($args, [
+            'date' => [],
+        ]);
+
+        $fromDate = '';
+        $toEx     = '';
+
+        if (!empty($args['date']) && is_array($args['date'])) {
+            $fromDate = !empty($args['date']['from']) ? $args['date']['from'] . ' 00:00:00' : '';
+            // include the WHOLE last day
+            $toEx     = !empty($args['date']['to']) ? date('Y-m-d', strtotime($args['date']['to'] . ' +1 day')) : '';
+        }
+
+        // 2) attribution model – only affects which session we read referrer from
+        $attributionModel = Option::getValue('attribution_model', 'first-touch');
+        $isLastTouch      = ($attributionModel === 'last-touch');
+
+        // 3) aggregate sessions per visitor in range
+        //    - SUM(total_views)  → total views across ALL sessions (req. 1)
+        //    - MAX(ID)           → last session (req. 2,4,5,6)
+        //    - MIN(ID)           → first session (req. 3)
+        $aggSubquery = Query::select([
+                'visitor_id',
+                'SUM(total_views) AS total_views',
+                'MAX(ID) AS last_session_id',
+                'MIN(ID) AS first_session_id',
+            ])
+            ->from('sessions')
+            ->where('started_at', '>=', $fromDate)
+            ->where('started_at', '<',  $toEx)
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        // 4) session lookup subquery – so we can alias sessions safely via joinQuery
+        $sessionSql = Query::select([
+                'ID',
+                'visitor_id',
+                'country_id',
+                'city_id',
+                'referrer_id',
+                'initial_view_id',
+                'last_view_id',
+                'ip',
+                'started_at',
+            ])
+            ->from('sessions')
+            ->getQuery();
+
+        // helper subqueries to resolve view → uri
+        $viewSql = Query::select(['ID', 'resource_uri_id', 'viewed_at'])
+            ->from('views')
+            ->getQuery();
+
+        $uriSql = Query::select(['ID', 'uri'])
+            ->from('resource_uris')
+            ->getQuery();
+
+        // 5) base select – referrer will be filled after attribution join
+        $select = [
+            'agg.visitor_id',                          // 7) visitor id
+            'visitors.hash AS visitor_hash',           // to display in UI like getTop()
+            'agg.total_views',                         // 1) total views of all sessions
+            'countries.name AS country',               // 2) from last session
+            'cities.city_name AS city',                // 2) from last session
+            'uri_in.uri AS initial_view_uri',          // 4) initial view of last session
+            'uri_out.uri AS last_view_uri',            // 4) last view of last session
+            'vo.viewed_at AS last_viewed_at',          // 5) exact time of last view
+            'referrers.domain AS referrer',            // 3) filled via attr_ses join below
+        ];
+
+        // 6) build main query (joins that are common to both attribution modes)
+        $query = Query::select($select)
+            ->fromQuery($aggSubquery, 'agg')
+            ->join('visitors', ['agg.visitor_id', 'visitors.ID'])
+            // last session (always from MAX(ID))
+            ->joinQuery($sessionSql, ['agg.last_session_id', 'last_ses.ID'], 'last_ses')
+            ->join('countries', ['last_ses.country_id', 'countries.ID'], [], 'LEFT')
+            ->join('cities', ['last_ses.city_id', 'cities.ID'], [], 'LEFT')
+            // initial view of last session
+            ->joinQuery($viewSql, ['last_ses.initial_view_id', 'vi.ID'], 'vi')
+            ->joinQuery($uriSql, ['vi.resource_uri_id', 'uri_in.ID'], 'uri_in')
+            // last view of last session
+            ->joinQuery($viewSql, ['last_ses.last_view_id', 'vo.ID'], 'vo')
+            ->joinQuery($uriSql, ['vo.resource_uri_id', 'uri_out.ID'], 'uri_out')
+            ->orderBy('agg.total_views', 'DESC')
+            ->allowCaching()
+            ->perPage(1, 10);
+
+        // 7) attribution-aware REFERRER join
+        if ($isLastTouch) {
+            // last-touch → get referrer from LAST session
+            $query
+                ->joinQuery($sessionSql, ['agg.last_session_id', 'attr_ses.ID'], 'attr_ses')
+                ->join('referrers', ['attr_ses.referrer_id', 'referrers.ID'], [], 'LEFT');
+        } else {
+            // first-touch → get referrer from FIRST session (in the same date range)
+            $query
+                ->joinQuery($sessionSql, ['agg.first_session_id', 'attr_ses.ID'], 'attr_ses')
+                ->join('referrers', ['attr_ses.referrer_id', 'referrers.ID'], [], 'LEFT');
+        }
+
+        $results = $query->getAll();
+
+        return $results ?: [];
     }
 }

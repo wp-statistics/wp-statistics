@@ -32,9 +32,22 @@ Temporary Items
 node_modules
 package-lock.json
 
+# Environment files
+.env.react
+.env*.local
+
+# Build Folders
+public/*
+!public/.gitkeep
+storybook-static/
+assets/js/tracker.js
+
 # VSCode IDE
 .vscode/*
 
 # Unit Test
 .phpunit.result.cache
 tests/logs
+
+# AI
+.claude

@@ -2,9 +2,6 @@ name: Testing
 
 on:
   pull_request:
-    branches:
-      - master
-      - development
 
 jobs:
   phpunit:

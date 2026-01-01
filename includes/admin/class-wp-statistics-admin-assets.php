@@ -6,6 +6,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Assets\AssetsFactory;
 use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class Admin_Assets
@@ -29,7 +30,7 @@ class Admin_Assets
      *
      * @var string
      */
-    public static $asset_dir = 'assets';
+    public static $asset_dir = 'public/legacy';
 
     /**
      * Basic Of Plugin Url in WordPress
@@ -51,9 +52,11 @@ class Admin_Assets
      */
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
-        add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
-        add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
+        AssetsFactory::Legacy();
+
+        // add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
+        // add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
+        // add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
     }
 
 
@@ -192,7 +195,7 @@ class Admin_Assets
 
         // Load mini-chart
         if (Helper::isAdminBarShowing()) {
-            Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
+            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
         }
 
         if (Menus::in_page('author-analytics')) {

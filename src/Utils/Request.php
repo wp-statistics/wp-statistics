@@ -297,4 +297,58 @@ class Request
         $restPrefix = trailingslashit(rest_get_url_prefix());
         return (false !== strpos($_SERVER['REQUEST_URI'], $restPrefix)) || isset($_REQUEST['rest_route']);
     }
+
+    /**
+     * Cached request data.
+     *
+     * @var array|null
+     */
+    private static $requestDataCache = null;
+
+    /**
+     * Get request data from JSON body or POST parameters.
+     *
+     * Reads the request body and attempts to parse it as JSON first (for React/API requests
+     * with Content-Type: application/json), then falls back to $_POST for form-urlencoded requests.
+     *
+     * Note: php://input can only be read once per request, so the result is cached.
+     *
+     * @return array The request data as an associative array.
+     */
+    public static function getRequestData()
+    {
+        // Return cached data if already read (php://input can only be read once)
+        if (self::$requestDataCache !== null) {
+            return self::$requestDataCache;
+        }
+
+        // Read php://input once
+        $rawBody = file_get_contents('php://input');
+
+        // Try to parse JSON body (React sends application/json)
+        if (!empty($rawBody)) {
+            $decoded = json_decode($rawBody, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                self::$requestDataCache = $decoded;
+                return self::$requestDataCache;
+            }
+        }
+
+        // Fallback to $_POST for form-urlencoded requests
+        self::$requestDataCache = $_POST;
+        return self::$requestDataCache;
+    }
+
+    /**
+     * Reset cached request data.
+     *
+     * Used primarily for testing to clear the static cache
+     * between test methods.
+     *
+     * @return void
+     */
+    public static function resetRequestDataCache(): void
+    {
+        self::$requestDataCache = null;
+    }
 }

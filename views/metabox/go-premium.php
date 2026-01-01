@@ -23,9 +23,9 @@
                 </div>
             </div>
             <div class="c-about__row c-about__footer">
-                <img class="c-about__footer__img c-about__footer__img--side" src="<?php echo WP_STATISTICS_URL . 'assets/images/premium-widget.svg' ?>"
+                <img class="c-about__footer__img c-about__footer__img--side" src="<?php echo WP_STATISTICS_URL . 'public/images/premium-widget.svg' ?>"
                      alt=" <?php esc_html_e('Get More with Premium Analytics', 'wp-statistics'); ?>" />
-                <img class="c-about__footer__img c-about__footer__img--wide" src="<?php echo WP_STATISTICS_URL . 'assets/images/premium-widget-wide.svg' ?>"
+                <img class="c-about__footer__img c-about__footer__img--wide" src="<?php echo WP_STATISTICS_URL . 'public/images/premium-widget-wide.svg' ?>"
                      alt=" <?php esc_html_e('Get More with Premium Analytics', 'wp-statistics'); ?>" />
             </div>
         </div>

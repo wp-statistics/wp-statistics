@@ -516,7 +516,7 @@ class Query
         return $result;
     }
 
-    public function getRow()
+    public function getRow($saveEmpty = true)
     {
         $query = $this->buildQuery();
         $query = $this->prepareQuery($query, $this->valuesToPrepare);
@@ -530,7 +530,7 @@ class Query
 
         $result = $this->db->get_row($query);
 
-        if ($this->allowCaching) {
+        if ($this->allowCaching && $saveEmpty) {
             $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 

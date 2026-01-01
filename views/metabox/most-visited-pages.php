@@ -57,7 +57,7 @@ if (strpos($page, 'overview') !== false) {
         $title = __('Data coming soon!', 'wp-statistics');
     }
     View::load("components/objects/no-data", [
-        'url'   => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg',
+        'url'   => WP_STATISTICS_URL . 'public/images/no-data/vector-3.svg',
         'title' => $title
     ]);
     ?>

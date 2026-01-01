@@ -1,0 +1,172 @@
+@use "variables";
+
+@use 'sass:math';
+
+.wps-ph-item {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  //padding: $ph-gutter ($ph-gutter / 2) ($ph-gutter - $ph-spacer) ($ph-gutter / 2);
+  overflow: hidden;
+  //margin-bottom: $ph-gutter;
+  background-color: variables.$ph-bg;
+  // border: 1px solid darken($ph-bg, 10%);
+  //border-radius: $ph-border-radius;
+  direction: ltr;
+
+  &, *,
+  ::after, ::before {
+    box-sizing: border-box;
+  }
+
+
+
+  &::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: 1;
+    width: 500%;
+    margin-left: -250%;
+    animation: phAnimation variables.$ph-animation-duration linear infinite;
+    background: linear-gradient(to right, rgba(variables.$ph-bg, 0) 46%, rgba(variables.$ph-bg, .35) 50%, rgba(variables.$ph-bg, 0) 54%) 50% 50%;
+  }
+
+  > * {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: column;
+    padding-right: math.div(variables.$ph-gutter, 2);
+    padding-left: math.div(variables.$ph-gutter, 2);
+  }
+
+  &.wps-text-placeholder{
+    background: transparent;
+  }
+}
+
+.wps-ph-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: math.div(variables.$ph-spacer, 2);
+
+  div {
+    height: 15px;
+    margin-bottom: math.div(variables.$ph-spacer, 2);
+    background-color: variables.$ph-color;
+  }
+  .big,
+  &.big div {
+    height: 20px;
+    margin-bottom: variables.$ph-spacer;
+  }
+  .empty {
+    background-color: rgba(variables.$ph-bg, 0);
+  }
+}
+
+@mixin wps-ph-col($num) {
+  flex: 0 0 math.div($num, 12);
+}
+
+.wps-ph-col-2 {
+  @include wps-ph-col(2);
+}
+
+.wps-ph-col-4 {
+  @include wps-ph-col(4);
+}
+
+.wps-ph-col-6 {
+  @include wps-ph-col(6);
+}
+
+.wps-ph-col-8 {
+  @include wps-ph-col(8);
+}
+
+.wps-ph-col-10 {
+  @include wps-ph-col(10);
+}
+
+.wps-ph-col-12 {
+  @include wps-ph-col(12);
+}
+
+.wps-ph-avatar {
+  position: relative;
+  width: 100%;
+  min-width: 60px;
+  background-color: variables.$ph-color;
+  margin-bottom: variables.$ph-spacer;
+  border-radius: variables.$ph-avatar-border-radius;
+  overflow: hidden;
+
+  &::before {
+    content: " ";
+    display: block;
+    padding-top: 100%;
+  }
+}
+
+.wps-ph-picture {
+  width: 100%;
+  height: 120px;
+  background-color: variables.$ph-color;
+  margin-bottom: variables.$ph-spacer;
+}
+
+@keyframes phAnimation {
+  0% {
+    transform: translate3d(-30%, 0, 0);
+  }
+  100% {
+    transform: translate3d(30%, 0, 0);
+  }
+}
+
+.wps-text-placeholder {
+  width: 90px;
+  height: 25px;
+  margin: 0px auto;
+}
+
+
+// Chart Styles
+.wps-ph-item {
+  max-height: 444px;
+
+  * {
+    max-height: 444px;
+    max-width: 444px;
+  }
+
+  .wps-ph-col-8 {
+    margin-left:20%;
+  }
+}
+
+.wps--no-data__container {
+  text-align: center;
+  padding: 14px 24px;
+  box-sizing: border-box;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .wps--no-data__text {
+    margin-top: 16px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #565759;
+  }
+
+}

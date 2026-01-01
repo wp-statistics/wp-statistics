@@ -30,7 +30,7 @@ class Addons
 
         $pluginName = sprintf(
             'wp-statistics-%1$s/wp-statistics-%1$s.php',
-            $slug
+            esc_html($slug)
         );
 
         return is_plugin_active($pluginName);

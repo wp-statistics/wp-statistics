@@ -1,0 +1,22 @@
+{
+  "US": {"code": "en-US", "name": "English"},
+  "GB": {"code": "en-GB", "name": "English"},
+  "CA": {"code": "en-CA", "name": "English"},
+  "DE": {"code": "de-DE", "name": "German"},
+  "FR": {"code": "fr-FR", "name": "French"},
+  "AU": {"code": "en-AU", "name": "English"},
+  "IN": {"code": "en-IN", "name": "English"},
+  "BR": {"code": "pt-BR", "name": "Portuguese"},
+  "JP": {"code": "ja-JP", "name": "Japanese"},
+  "NL": {"code": "nl-NL", "name": "Dutch"},
+  "ES": {"code": "es-ES", "name": "Spanish"},
+  "IT": {"code": "it-IT", "name": "Italian"},
+  "MX": {"code": "es-MX", "name": "Spanish"},
+  "SE": {"code": "sv-SE", "name": "Swedish"},
+  "CH": {"code": "de-CH", "name": "German"},
+  "PL": {"code": "pl-PL", "name": "Polish"},
+  "BE": {"code": "nl-BE", "name": "Dutch"},
+  "NO": {"code": "nb-NO", "name": "Norwegian"},
+  "DK": {"code": "da-DK", "name": "Danish"},
+  "FI": {"code": "fi-FI", "name": "Finnish"}
+}

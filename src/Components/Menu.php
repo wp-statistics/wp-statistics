@@ -26,6 +26,7 @@ class Menu
      * @var array<string,string>
      */
     public const PAGES = [
+        'dashboard'          => 'dashboard',
         'overview'           => 'overview',
         'exclusions'         => 'exclusions',
         'referrals'          => 'referrals',
@@ -47,6 +48,13 @@ class Menu
 
     /** Template for the "load-*" action when a top-level page loads. */
     private const LOAD_ADMIN_SLUG_TEMPLATE = 'toplevel_page_[slug]';
+
+    /**
+     * Template for the React-based admin-page slug.
+     * 
+     * @var string
+     */
+    private const ADMIN_REACT_SLUG_TEMPLATE = 'wp-statistics-[slug]';
 
     /**
      * Return an associative array with the generated admin-page slugs keyed by
@@ -71,6 +79,10 @@ class Menu
      */
     public static function buildPageSlug(string $pageSlug)
     {
+        if ('root' === $pageSlug) {
+            return 'wp-statistics';
+        }
+
         return str_ireplace('[slug]', $pageSlug, self::ADMIN_MENU_SLUG_TEMPLATE);
     }
 
@@ -97,7 +109,7 @@ class Menu
      * @param string $page Page key to check for
      * @return bool True if on the specified admin page
      */
-    public static function isOnPage(string $page)
+    public static function isOnPage($page)
     {
         global $pagenow;
         return (is_admin() && $pagenow === 'admin.php' && isset($_REQUEST['page']) && $_REQUEST['page'] === self::buildPageSlug($page));
@@ -174,6 +186,13 @@ class Menu
          *
          */
         $list = [
+            'dashboard' => [
+                'sub'      => 'overview',
+                'title'    => __('Dashboard', 'wp-statistics'),
+                'page_url' => 'wp-statistics',
+                'priority' => 1,
+                'is_link'  => true,
+            ],
             'settings' => [
                 'sub'      => 'overview',
                 'title'    => __('Settings', 'wp-statistics'),

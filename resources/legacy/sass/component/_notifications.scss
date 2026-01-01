@@ -1,0 +1,390 @@
+body.admin-bar .wps-notification-sidebar {
+  top: 32px;
+  height: calc(100% - 32px);
+  @media(max-width: 1029px) {
+    top: 0;
+    height: 100%;
+  }
+}
+
+.wps-notification-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999999;
+  height: 100%;
+  max-width: 100%;
+  pointer-events: none;
+
+  &.is-active {
+    pointer-events: auto;
+
+    .wps-notification-sidebar__menu {
+      visibility: visible;
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0000004D;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease-in-out ;
+
+    &.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &__menu {
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    width: 453px;
+    height: 100%;
+    background-color: #fff;
+    border: 1px solid #DADCE0;
+    z-index: 9999999;
+    overflow-y: auto;
+    max-width: 100%;
+    opacity: 0;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: all .25s ease-in-out;
+
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #EEEFF1
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #A9AAAE;
+      border-radius: 8px
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #6c757d
+    }
+
+    .rtl &{
+      transform: translateX(-100%);
+      right: auto;
+      left: 0;
+    }
+  }
+
+  &__no-card {
+    border-bottom: none!important;
+
+    .wps-notification-sidebar__card-body {
+      padding-top: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-direction: column;
+
+      h2 {
+        margin: 0;
+        font-size: 15px;
+        line-height: 20px;
+      }
+
+      p {
+        color: #56585A;
+        margin-top: -14px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  &__header {
+    padding: 12px 16px 0 16px;
+    border-bottom: 1px solid #DADCE0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    & > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &__title {
+    color: #0C0C0D;;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 23.44px;
+    margin: 0;
+    word-break: break-word;
+  }
+
+  &__close {
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    cursor: pointer;
+    opacity: 0.7;
+    background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjEiIHZpZXdCb3g9IjAgMCAyMSAyMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zLjAwNTgxIDE1LjYwNDJDMi43MzI0NCAxNS44Nzc2IDIuNzMyNDQgMTYuMzIwOCAzLjAwNTgxIDE2LjU5NDNDMy4yNzkxOCAxNi44Njc1IDMuNzIyMzkgMTYuODY3NSAzLjk5NTc1IDE2LjU5NDNMOS41OTU3NiAxMC45OTQyQzkuODY5MTMgMTAuNzIwOCA5Ljg2OTEzIDEwLjI3NzYgOS41OTU3NiAxMC4wMDQzTDMuOTk1NzUgNC40MDQyNUMzLjcyMjM5IDQuMTMwODcgMy4yNzkxOCA0LjEzMDg3IDMuMDA1ODEgNC40MDQyNUMyLjczMjQ0IDQuNjc3NjIgMi43MzI0NCA1LjEyMDgzIDMuMDA1ODEgNS4zOTQxOUw4LjExMDgzIDEwLjQ5OTJMMy4wMDU4MSAxNS42MDQyWk0xMS40MDU4IDE1LjYwNDJDMTEuMTMyNCAxNS44Nzc2IDExLjEzMjQgMTYuMzIwOCAxMS40MDU4IDE2LjU5NDNDMTEuNjc5MiAxNi44Njc1IDEyLjEyMjQgMTYuODY3NSAxMi4zOTU4IDE2LjU5NDNMMTcuOTk1OCAxMC45OTQyQzE4LjI2OTEgMTAuNzIwOCAxOC4yNjkxIDEwLjI3NzYgMTcuOTk1OCAxMC4wMDQzTDEyLjM5NTggNC40MDQyNUMxMi4xMjI0IDQuMTMwODcgMTEuNjc5MiA0LjEzMDg3IDExLjQwNTggNC40MDQyNUMxMS4xMzI0IDQuNjc3NjIgMTEuMTMyNCA1LjEyMDgzIDExLjQwNTggNS4zOTQxOUwxNi41MTA4IDEwLjQ5OTJMMTEuNDA1OCAxNS42MDQyWiIgZmlsbD0iIzU2NTg1QSIvPgo8L3N2Zz4K") center center no-repeat;
+
+    .rtl & {
+      transform: rotate(180deg);
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 12px;
+  }
+
+  &__tab {
+    cursor: pointer;
+    color: #747578;
+    padding: 0px 12px 11px 12px;
+    border-bottom: 2px solid transparent;
+    margin: 0;
+
+    &:hover {
+      color: #292D32;
+      border-bottom: 2px solid transparent;
+    }
+
+    &--active, &--active:hover {
+      color: #0c0c0d;
+      border-bottom: 2px solid #292D32;
+    }
+  }
+
+  a.wps-notification-sidebar__dismiss-all {
+    color: #565759;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    &:hover {
+      color: #0C0C0D;
+
+      &:before {
+        filter: brightness(0.5);
+      }
+    }
+
+    &:before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0LjY2NzMgNC42NjYwMkw3LjY2NzMyIDExLjY2Nkw1LjAwMDY1IDguOTk5MzVNNC4wMDA2NSAxMS42NjZMMS4zMzM5OCA4Ljk5OTM1TTExLjAwMDcgNC42NjYwMkw3LjY2NzMyIDcuOTk5MzUiIHN0cm9rZT0iIzg5OEE4RSIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K") center center no-repeat;
+    }
+  }
+
+  &__content {
+    // Styles for the content area
+  }
+
+  &__tab-pane {
+    display: none;
+
+    &--active {
+      display: block;
+    }
+  }
+
+  &__cards {
+    &--dismissed {
+      .wps-notification-sidebar__dismiss {
+        display: none;
+      }
+    }
+  }
+
+  &__card {
+    padding: 20px 16px;
+    border-bottom: 1px solid #DADCE0;
+    display: flex;
+    gap: 16px;
+    box-sizing: border-box;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &.wps-notification-sidebar__success {
+      background: #DFF7DF;
+
+      .wps-notification-sidebar__card-icon span {
+        background-color: #C6E7C6 !important;
+      }
+    }
+
+    &.wps-notification-sidebar__danger {
+      background: #FFEDED;
+
+      .wps-notification-sidebar__card-icon span {
+        background-color: #F9DBDB !important;
+      }
+    }
+
+    &.wps-notification-sidebar__info {
+      background: #E2F5FF;
+
+      .wps-notification-sidebar__card-icon span {
+        background-color: #C8E7F7 !important;
+      }
+    }
+
+    &.wps-notification-sidebar__warning {
+      background: #FFFFD9;
+
+      .wps-notification-sidebar__card-icon span {
+        background-color: #F5F5B6 !important;
+      }
+    }
+
+  }
+
+  &__card-icon {
+    min-width: 35px;
+    display: inline-block;
+    font-size: 18px;
+
+    span {
+      min-width: 35px;
+      min-height: 35px;
+      display: inline-flex;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      background-color: #B1B6FF33 !important;
+    }
+
+    svg, img {
+      width: 16px !important;
+      min-width: 16px;
+      height: 16px !important;
+      object-fit: fill;
+    }
+  }
+
+  &__card-body {
+    width: 100%;
+  }
+
+  &__card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: #292D32;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 17.58px;
+    word-break: break-word;
+    gap: 10px;
+  }
+
+  &__card-date {
+    color: #565759;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.06px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+
+  &__card-content {
+    margin-top: 10px;
+    margin-bottom: 16px;
+    color: #292D32;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    word-break: break-word;
+
+    b {
+      font-weight: 500;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 20px;
+
+      .rtl & {
+        padding-left: 0;
+        padding-right: 20px;
+      }
+
+      li {
+        font-size: 14px;
+      }
+    }
+  }
+
+  &__card-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  a.wps-notification-sidebar__button {
+    padding: 7.5px 16px;
+    border-radius: 4px;
+    background: #F6F6FF;
+    border: 1px solid #C3C9D5;
+    color: #0C0C0D;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 14px;
+    word-break: break-word;
+
+    &:hover, &:focus {
+      border: 1px solid #BCC2CD;
+      background: #E9E9FF;
+      color: #0C0C0D;
+    }
+
+  }
+
+  a.wps-notification-sidebar__dismiss {
+    color: #747578;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 15px;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+      color: #0C0C0D;
+    }
+  }
+}

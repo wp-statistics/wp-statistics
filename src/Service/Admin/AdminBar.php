@@ -3,13 +3,12 @@
 namespace WP_Statistics\Service\Admin;
 
 use WP_Admin_Bar;
-use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\Menu;
-use WP_Statistics\Utils\Route;
-use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
+use WP_Statistics\Utils\Route;
 
 /**
  * Class AdminBar
@@ -29,32 +28,92 @@ use WP_Statistics\Records\RecordFactory;
 class AdminBar
 {
     /**
-     * Views model instance for handling view-related data
+     * Analytics query handler for v15 API
      *
-     * @var ViewsModel
+     * @var AnalyticsQueryHandler
      */
-    private $viewsModel;
-
-    /**
-     * Session model instance for handling session-related data
-     *
-     * @var SessionModel
-     */
-    private $sessionModel;
+    private $queryHandler;
 
     /**
      * AdminBar constructor.
      *
-     * Initializes the admin bar service by setting up model instances
-     * and registering the callback that adds our menu items to the WordPress admin
-     * bar.
+     * Initializes the admin bar service by setting up the analytics query handler
+     * and registering the callback for the admin bar menu.
      */
     public function __construct()
     {
-        $this->viewsModel   = new ViewsModel();
-        $this->sessionModel = new SessionModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
 
         add_action('admin_bar_menu', [$this, 'renderAdminBar'], 69);
+    }
+
+    /**
+     * Get analytics data using the v15 AnalyticsQuery API.
+     *
+     * Uses batch queries for efficient data retrieval.
+     *
+     * @return array Analytics data including visitors, views, and online users
+     */
+    private function getAnalyticsData()
+    {
+        $today     = DateRange::get('today');
+        $yesterday = DateRange::get('yesterday');
+
+        // Online visitors date range: last 5 minutes
+        $now            = current_time('mysql');
+        $fiveMinutesAgo = gmdate('Y-m-d H:i:s', strtotime($now) - (5 * 60));
+
+        try {
+            // Batch query for visitors and views with compare feature
+            $result = $this->queryHandler->handleBatch(
+                [
+                    [
+                        'id'      => 'visitors',
+                        'sources' => ['visitors'],
+                        'format'  => 'flat',
+                    ],
+                    [
+                        'id'      => 'views',
+                        'sources' => ['views'],
+                        'format'  => 'flat',
+                    ],
+                    [
+                        'id'        => 'online',
+                        'sources'   => ['visitors'],
+                        'group_by'  => ['online_visitor'],
+                        'columns'   => ['visitor_id'],
+                        'per_page'  => 1,
+                        'format'    => 'table',
+                        'compare'   => false,
+                        'date_from' => $fiveMinutesAgo,
+                        'date_to'   => $now,
+                    ],
+                ],
+                $today['from'],
+                $today['to'],
+                [],
+                true,
+                null,
+                $yesterday['from'],
+                $yesterday['to']
+            );
+
+            return [
+                'visitors_today'     => $result['items']['visitors']['totals']['visitors']['current'] ?? 0,
+                'visitors_yesterday' => $result['items']['visitors']['totals']['visitors']['previous'] ?? 0,
+                'views_today'        => $result['items']['views']['totals']['views']['current'] ?? 0,
+                'views_yesterday'    => $result['items']['views']['totals']['views']['previous'] ?? 0,
+                'online_users'       => $result['items']['online']['meta']['total_rows'] ?? 0,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'visitors_today'     => 0,
+                'visitors_yesterday' => 0,
+                'views_today'        => 0,
+                'views_yesterday'    => 0,
+                'online_users'       => 0,
+            ];
+        }
     }
 
     /**
@@ -329,8 +388,10 @@ class AdminBar
      */
     private function getDefaultContext(array $context)
     {
+        $stats = $this->getAnalyticsData();
+
         $context['view_title'] = __('Total Website Views', 'wp-statistics');
-        $context['hit_number'] = number_format_i18n($this->sessionModel->countTotal());
+        $context['hit_number'] = number_format_i18n($stats['visitors_today']);
 
         return $context;
     }
@@ -346,6 +407,7 @@ class AdminBar
      */
     private function buildMenuTitle(array $context)
     {
+        $stats     = $this->getAnalyticsData();
         $menuTitle = '<span class="ab-icon"></span>';
 
         // If mini-chart add-on is not active, calculate hit numbers manually.
@@ -355,7 +417,7 @@ class AdminBar
             $menuTitle .= ' - ';
         }
 
-        $menuTitle .= sprintf('Online: %s', number_format($this->sessionModel->countOnlineUsers()));
+        $menuTitle .= sprintf('Online: %s', number_format($stats['online_users']));
 
         return $menuTitle;
     }
@@ -381,9 +443,19 @@ class AdminBar
             return 0;
         }
 
-        return $this->viewsModel->countByResourceUriId([
-            'resource_uri_id' => $resourceUriObj->ID,
-        ]);
+        try {
+            $result = $this->queryHandler->handle([
+                'sources' => ['views'],
+                'filters' => [
+                    'resource_uri_id' => $resourceUriObj->ID,
+                ],
+                'format'  => 'flat',
+            ]);
+
+            return $result['data']['views'] ?? 0;
+        } catch (\Exception $e) {
+            return 0;
+        }
     }
 
     /**
@@ -470,9 +542,11 @@ class AdminBar
      */
     private function buildVisitorsTodayTitle()
     {
+        $stats = $this->getAnalyticsData();
+
         return '<div class="wp-statistics-menu-visitors-today__title">' . __('Visitors Today', 'wp-statistics') . '</div>'
-            . '<div class="wp-statistics-menu-visitors-today__count">' . $this->sessionModel->countDaily() . '</div>'
-            . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), $this->sessionModel->countDaily(['date' => DateRange::get('yesterday')])) . '</div>';
+            . '<div class="wp-statistics-menu-visitors-today__count">' . number_format($stats['visitors_today']) . '</div>'
+            . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), number_format($stats['visitors_yesterday'])) . '</div>';
     }
 
     /**
@@ -485,9 +559,11 @@ class AdminBar
      */
     private function buildViewsTodayTitle()
     {
+        $stats = $this->getAnalyticsData();
+
         return '<div class="wp-statistics-menu-views-today__title">' . __('Views Today', 'wp-statistics') . '</div>'
-            . '<div class="wp-statistics-menu-views-today__count">' . $this->viewsModel->countDaily() . '</div>'
-            . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), $this->viewsModel->countDaily(['date' => DateRange::get('yesterday')])) . '</div>';
+            . '<div class="wp-statistics-menu-views-today__count">' . number_format($stats['views_today']) . '</div>'
+            . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), number_format($stats['views_yesterday'])) . '</div>';
     }
 
     /**
@@ -502,7 +578,7 @@ class AdminBar
     {
         return sprintf(
             '<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
-            esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
+            esc_url(WP_STATISTICS_URL . 'public/images/mini-chart-lock.png'),
             __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
             __('Learn More', 'wp-statistics')
         );
@@ -521,7 +597,7 @@ class AdminBar
     {
         return sprintf(
             '<img src="%s"/><a href="%s" target="_blank"><span class="wps-admin-bar__chart__unlock-button">%s</span></a>',
-            esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-logo.svg'),
+            esc_url(WP_STATISTICS_URL . 'public/images/mini-chart-logo.svg'),
             esc_url($footerLink),
             __('Explore Details', 'wp-statistics')
         );
@@ -538,6 +614,8 @@ class AdminBar
      */
     private function buildMenuData(array $context)
     {
+        $stats = $this->getAnalyticsData();
+
         return [
             'object_id'          => $context['object_id'],
             'view_type'          => $context['view_type'],
@@ -546,11 +624,11 @@ class AdminBar
             'footer_text'        => $context['footer_text'],
             'footer_link'        => $context['footer_link'],
             'menu_href'          => Menu::getAdminUrl('overview'),
-            'today_visits'       => number_format($this->viewsModel->countDaily()),
-            'today_visitors'     => number_format($this->sessionModel->countDaily()),
-            'yesterday_visits'   => number_format($this->viewsModel->countDaily(['date' => DateRange::get('yesterday')])),
-            'yesterday_visitors' => number_format($this->sessionModel->countDaily(['date' => DateRange::get('yesterday')])),
-            'online_users'       => number_format($this->sessionModel->countOnlineUsers()),
+            'today_visits'       => number_format($stats['views_today']),
+            'today_visitors'     => number_format($stats['visitors_today']),
+            'yesterday_visits'   => number_format($stats['views_yesterday']),
+            'yesterday_visitors' => number_format($stats['visitors_yesterday']),
+            'online_users'       => number_format($stats['online_users']),
         ];
     }
 }

@@ -1,0 +1,270 @@
+@import 'tailwindcss' important;
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-hover: var(--sidebar-hover);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-header: var(--header);
+  --color-chip: var(--chip);
+}
+
+:root {
+  --wp-admin-bar-height: 32px;
+  --header-height: 64px;
+  --radius: 0.625rem;
+
+  /* Dynamic viewport height - fallback to 100vh */
+  --app-height: 100vh;
+
+  /* WordPress admin menu height - set dynamically by main.tsx, fallback to viewport-based */
+  --wp-admin-menu-height: calc(100vh - var(--wp-admin-bar-height));
+
+  /* Safe area insets for notched devices */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --primary: oklch(51.058% 0.23015 276.976);
+  --accent: oklch(0.968 0.007 247.896);
+  --background: oklch(1 0 0);
+  --border: oklch(0.929 0.013 255.508);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.041 264.695);
+  --destructive: oklch(0.577 0.215 27.325);
+  --accent-foreground: oklch(0.208 0.04 265.755);
+  --foreground: oklch(0.129 0.041 264.695);
+  --input: rgb(203, 213, 225);
+  --muted: oklch(0.968 0.007 247.896);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --ring: oklch(0.711 0.035 256.788);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.04 265.755);
+  --muted-foreground: oklch(0.554 0.041 257.417);
+
+  --chart-1: #4F46E5; /* Primary - Indigo */
+  --chart-2: #059669; /* Secondary - Green */
+  --chart-3: #D97706; /* Tertiary - Amber */
+  --chart-4: #DC2626; /* Quaternary - Red */
+  --chart-5: #2563EB; /* Quinary - Blue */
+
+  --sidebar: oklch(0.314 0.122 276.809);
+  --sidebar-foreground: oklch(1 0 0 / 0.8);
+  --sidebar-primary: oklch(1 0 0);
+  --sidebar-primary-foreground: oklch(0.314 0.122 276.809);
+  --sidebar-accent: oklch(1 0 0 / 0.9);
+  --sidebar-accent-foreground: oklch(0.314 0.122 276.809);
+  --sidebar-border: oklch(1 0 0 / 0.1);
+  --sidebar-ring: oklch(0.711 0.035 256.788);
+  --sidebar-hover: oklch(0.38 0.12 276.809);
+  --sidebar-active: oklch(0.42 0.14 276.809);
+
+  --font-sans: Roboto, sans-serif;
+  --font-mono: Roboto Mono, monospace;
+  --header: oklch(0.32 0.02 250);
+  --header-premium: oklch(0.2 0.1 282);
+
+  --chip: rgba(226, 232, 240, 1);
+}
+
+.dark {
+  --primary: oklch(0.929 0.013 255.508);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --background: oklch(0.129 0.041 264.695);
+  --border: oklch(1 0 0 / 0.1);
+  --card: oklch(0.208 0.04 265.755);
+  --accent: oklch(0.968 0.007 247.896);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.711 0.166 22.216);
+  --foreground: oklch(0.984 0.003 247.858);
+  --input: oklch(1 0 0 / 0.15);
+  --muted: oklch(0.279 0.037 260.031);
+  --popover: oklch(0.269 0 0);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary-foreground: oklch(0.208 0.04 265.755);
+  --ring: oklch(0.554 0.041 257.417);
+  --secondary: oklch(0.279 0.037 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted-foreground: oklch(0.711 0.035 256.788);
+
+  --chart-1: #6366F1; /* Primary - Indigo (lighter for dark mode) */
+  --chart-2: #10B981; /* Secondary - Green (lighter for dark mode) */
+  --chart-3: #F59E0B; /* Tertiary - Amber (lighter for dark mode) */
+  --chart-4: #EF4444; /* Quaternary - Red (lighter for dark mode) */
+  --chart-5: #3B82F6; /* Quinary - Blue (lighter for dark mode) */
+
+  --sidebar: oklch(0.314 0.122 276.809);
+  --sidebar-foreground: oklch(1 0 0 / 0.8);
+  --sidebar-primary: oklch(1 0 0);
+  --sidebar-primary-foreground: oklch(0.314 0.122 276.809);
+  --sidebar-accent: oklch(1 0 0 / 0.9);
+  --sidebar-accent-foreground: oklch(0.314 0.122 276.809);
+  --sidebar-border: oklch(1 0 0 / 0.1);
+  --sidebar-ring: oklch(0.446 0.037 257.281);
+  --sidebar-hover: oklch(0.38 0.12 276.809);
+  --sidebar-active: oklch(0.42 0.14 276.809);
+
+  --header: oklch(0.32 0.02 250);
+  --header-premium: oklch(0.2 0.1 282);
+
+  --chip: rgba(226, 232, 240, 1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
+
+/* Support for dynamic viewport height (iOS Safari, Android Chrome) */
+@supports (height: 100dvh) {
+  :root {
+    --app-height: 100dvh;
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  :root {
+    --header-height: 56px;
+    --wp-admin-bar-height: 46px; /* WordPress mobile admin bar is taller */
+  }
+}
+
+/* Tablet breakpoint adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --header-height: 60px;
+  }
+}
+
+#wpcontent {
+  @apply ps-0;
+}
+
+#wpbody-content {
+  @apply pb-0;
+}
+
+#wpfooter {
+  @apply hidden;
+}
+
+#wp-statistics-root {
+  @apply relative h-auto w-full;
+  @apply border-border outline-ring/50;
+  @apply bg-background text-foreground;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* reset style */
+/* Reset margins and padding for common elements */
+#wp-statistics-root p,
+#wp-statistics-root h1,
+#wp-statistics-root h2,
+#wp-statistics-root h3,
+#wp-statistics-root h4,
+#wp-statistics-root h5,
+#wp-statistics-root h6,
+#wp-statistics-root ul,
+#wp-statistics-root ol,
+#wp-statistics-root li {
+  @apply p-0 m-0;
+}
+
+/* Remove link underlines */
+#wp-statistics-root a {
+  @apply no-underline text-inherit;
+}
+
+#wp-statistics-root a:hover {
+  @apply no-underline;
+}
+
+/* Remove default list styling */
+#wp-statistics-root ul,
+#wp-statistics-root ol {
+  @apply list-none pl-0 m-0;
+}
+
+/* Sidebar scrollbar styling */
+[data-slot="sidebar-content"]::-webkit-scrollbar {
+  width: 4px;
+}
+
+[data-slot="sidebar-content"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-slot="sidebar-content"]::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 0.15);
+  border-radius: 4px;
+}
+
+[data-slot="sidebar-content"]::-webkit-scrollbar-thumb:hover {
+  background: oklch(1 0 0 / 0.25);
+}
+
+/* Live indicator pulse animation - red dot that pulses outward */
+@keyframes live-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.animate-live-pulse {
+  animation: live-pulse 1.5s ease-out infinite;
+}

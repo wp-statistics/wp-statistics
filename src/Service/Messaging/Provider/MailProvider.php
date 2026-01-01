@@ -356,7 +356,7 @@ class MailProvider
             'site_url'    => home_url(),
             'site_title'  => get_bloginfo('name'),
             'footer_text' => '',
-            'logo_image'  => apply_filters('wp_statistics_email_logo', defined('WP_STATISTICS_URL') ? WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png' : ''),
+            'logo_image'  => apply_filters('wp_statistics_email_logo', defined('WP_STATISTICS_URL') ? WP_STATISTICS_URL . 'public/images/logo-statistics-header-blue.png' : ''),
             'logo_url'    => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
             'copyright'   => apply_filters(
                 'wp_statistics_email_footer_copyright',

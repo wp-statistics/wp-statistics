@@ -1,0 +1,22 @@
+{
+  "US": ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", "America/Phoenix", "America/Detroit", "America/Indiana/Indianapolis"],
+  "GB": ["Europe/London"],
+  "CA": ["America/Toronto", "America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Halifax", "America/Montreal"],
+  "DE": ["Europe/Berlin"],
+  "FR": ["Europe/Paris"],
+  "AU": ["Australia/Sydney", "Australia/Melbourne", "Australia/Perth", "Australia/Brisbane", "Australia/Adelaide"],
+  "IN": ["Asia/Kolkata"],
+  "BR": ["America/Sao_Paulo", "America/Brasilia", "America/Rio_Branco", "America/Fortaleza"],
+  "JP": ["Asia/Tokyo"],
+  "NL": ["Europe/Amsterdam"],
+  "ES": ["Europe/Madrid"],
+  "IT": ["Europe/Rome"],
+  "MX": ["America/Mexico_City", "America/Tijuana", "America/Cancun", "America/Monterrey"],
+  "SE": ["Europe/Stockholm"],
+  "CH": ["Europe/Zurich"],
+  "PL": ["Europe/Warsaw"],
+  "BE": ["Europe/Brussels"],
+  "NO": ["Europe/Oslo"],
+  "DK": ["Europe/Copenhagen"],
+  "FI": ["Europe/Helsinki"]
+}

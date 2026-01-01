@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./resources/react/src/*"],
+      "@components/*": ["./resources/react/src/components/*"],
+      "@hooks/*": ["./resources/react/src/hooks/*"],
+      "@lib/*": ["./resources/react/src/lib/*"],
+      "@services/*": ["./resources/react/src/services/*"],
+      "@types/*": ["./resources/react/src/types/*"],
+      "@stores/*": ["./resources/react/src/stores/*"],
+      "@pages/*": ["./resources/react/src/pages/*"],
+      "@routes/*": ["./resources/react/src/routes/*"]
+    }
+  },
+  "include": ["resources/react/src"]
+}

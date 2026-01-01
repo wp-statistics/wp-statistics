@@ -1,0 +1,41 @@
+{
+  "channels": {
+    "direct": 40,
+    "search": 30,
+    "social": 15,
+    "referral": 10,
+    "email": 3,
+    "paid": 2
+  },
+  "search": [
+    {"name": "Google", "domain": "google.com", "weight": 85},
+    {"name": "Bing", "domain": "bing.com", "weight": 10},
+    {"name": "Yahoo", "domain": "yahoo.com", "weight": 3},
+    {"name": "DuckDuckGo", "domain": "duckduckgo.com", "weight": 2}
+  ],
+  "social": [
+    {"name": "Facebook", "domain": "facebook.com", "weight": 40},
+    {"name": "Twitter", "domain": "twitter.com", "weight": 25},
+    {"name": "LinkedIn", "domain": "linkedin.com", "weight": 20},
+    {"name": "Instagram", "domain": "instagram.com", "weight": 10},
+    {"name": "Reddit", "domain": "reddit.com", "weight": 5}
+  ],
+  "referral": [
+    {"name": "Medium", "domain": "medium.com", "weight": 30},
+    {"name": "Dev.to", "domain": "dev.to", "weight": 20},
+    {"name": "Hacker News", "domain": "news.ycombinator.com", "weight": 15},
+    {"name": "Stack Overflow", "domain": "stackoverflow.com", "weight": 15},
+    {"name": "GitHub", "domain": "github.com", "weight": 10},
+    {"name": "Product Hunt", "domain": "producthunt.com", "weight": 10}
+  ],
+  "email": [
+    {"name": "Newsletter", "domain": "email", "weight": 70},
+    {"name": "Gmail", "domain": "mail.google.com", "weight": 20},
+    {"name": "Outlook", "domain": "outlook.live.com", "weight": 10}
+  ],
+  "paid": [
+    {"name": "Google Ads", "domain": "googleadservices.com", "weight": 60},
+    {"name": "Facebook Ads", "domain": "facebook.com", "weight": 30},
+    {"name": "LinkedIn Ads", "domain": "linkedin.com", "weight": 10}
+  ]
+}

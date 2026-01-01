@@ -43,7 +43,7 @@ class TopCountries extends BaseMetabox
 
         $data = array_merge($data, [
             'tag_id' => 'wps-top-countries',
-            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg'
+            'url'    => WP_STATISTICS_URL . 'public/images/no-data/vector-3.svg'
         ]);
 
         $output = View::load('metabox/horizontal-bar', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);

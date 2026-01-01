@@ -524,12 +524,22 @@ class ViewsModel extends BaseModel
     /**
      * Get top N pages (title, URL, views) within a datetime range.
      *
-     * Mirrors the SQL:
-     * SELECT t.resource_uri_id, r.cached_title AS title, ru.uri, t.total_views
-     * FROM ( ... ) AS t
-     * JOIN resource_uris ru ON ru.ID = t.resource_uri_id
-     * JOIN resources r ON r.ID = ru.resource_id
-     * ORDER BY t.total_views DESC;
+     * Mirrors the SQL (using direct resource_id for speed):
+     * SELECT t.resource_id, r.cached_title AS title, MIN(ru.uri) AS uri, t.views
+     * FROM (
+     *   SELECT v.resource_id, COUNT(*) AS views
+     *   FROM views v
+     *   JOIN resources r ON r.ID = v.resource_id
+     *   WHERE v.viewed_at BETWEEN :from AND :to
+     *     AND r.is_deleted = 0 AND r.resource_type IN (...)
+     *   GROUP BY v.resource_id
+     *   ORDER BY views DESC
+     *   LIMIT :per_page
+     * ) AS t
+     * JOIN resources r ON r.ID = t.resource_id
+     * LEFT JOIN resource_uris ru ON ru.resource_id = r.ID
+     * GROUP BY t.resource_id
+     * ORDER BY t.views DESC;
      *
      * @param array $args {
      * @type string $start DATETIME inclusive lower bound (Y-m-d H:i:s).
@@ -547,17 +557,16 @@ class ViewsModel extends BaseModel
         ]);
 
         $inner = Query::select([
-            'views.resource_uri_id',
+            'views.resource_id',
             'COUNT(*) AS views',
         ])
             ->from('views')
-            ->join('resource_uris', ['views.resource_uri_id', 'resource_uris.ID'])
-            ->join('resources', ['resource_uris.resource_id', 'resources.ID'])
+            ->join('resources', ['views.resource_id', 'resources.ID'])
             ->where('viewed_at', '>=', $args['date']['from'] . ' 00:00:00')
             ->where('viewed_at', '<=', $args['date']['to'] . ' 23:59:59')
             ->where('resources.is_deleted', '=', 0)
             ->where('resources.resource_type', 'IN', PostType::getQueryableTypes())
-            ->groupBy('views.resource_uri_id')
+            ->groupBy('views.resource_id')
             ->orderBy('views', 'DESC')
             ->perPage(1, (int)$args['per_page'])
             ->getQuery();
@@ -565,12 +574,13 @@ class ViewsModel extends BaseModel
         // Outer query: join metadata for title and URL.
         $query = Query::select([
             'resources.cached_title AS title',
-            'resource_uris.uri',
+            'MIN(resource_uris.uri) AS uri',
             't.views AS views',
         ])
             ->fromQuery($inner, 't')
-            ->join('resource_uris', ['t.resource_uri_id', 'resource_uris.ID'])
-            ->join('resources', ['resource_uris.resource_id', 'resources.ID'])
+            ->join('resources', ['t.resource_id', 'resources.ID'])
+            ->join('resource_uris', ['resources.ID', 'resource_uris.resource_id'], [], 'LEFT')
+            ->groupBy('t.resource_id')
             ->orderBy('t.views', 'DESC');
 
         return $query->getAll();

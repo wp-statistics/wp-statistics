@@ -20,7 +20,7 @@ class SearchEngine
      */
     public static function Asset()
     {
-        return WP_STATISTICS_URL . 'assets/images/search-engine/';
+        return WP_STATISTICS_URL . 'public/images/search-engine/';
     }
 
     /**
