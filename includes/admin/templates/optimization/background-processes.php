@@ -117,10 +117,12 @@ $processes = $service->getAll();
                                                     <a href="<?php echo esc_url($retryUrl); ?>" class="wps-button wps-button--primary">
                                                         <?php esc_html_e('Retry', 'wp-statistics'); ?>
                                                     </a>
+                                                     <a href="<?php echo esc_url($cancelUrl); ?>" class="wps-button wps-button--default">
+                                                        <?php esc_html_e('Cancel', 'wp-statistics'); ?>
+                                                    </a>
+                                                <?php else: ?>
+                                                    <?php esc_html_e('N/A', 'wp-statistics'); ?>
                                                 <?php endif; ?>
-                                                <a href="<?php echo esc_url($cancelUrl); ?>" class="wps-button wps-button--default">
-                                                    <?php esc_html_e('Cancel', 'wp-statistics'); ?>
-                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
