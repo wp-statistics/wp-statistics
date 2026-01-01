@@ -47,17 +47,21 @@ class BackgroundProcessService
             $jobInstance = new $instance();
             $jobInstance->localizeJobTexts();
 
-            $total     = method_exists($jobInstance, 'getTotal') ? $jobInstance->getTotal() : 0;
-            $processed = method_exists($jobInstance, 'getProcessed') ? $jobInstance->getProcessed() : 0;
+            $total         = method_exists($jobInstance, 'getTotal') ? $jobInstance->getTotal() : 0;
+            $processed     = method_exists($jobInstance, 'getProcessed') ? $jobInstance->getProcessed() : 0;
+            $isProcessing  = method_exists($jobInstance, 'is_processing') ? $jobInstance->is_processing() : false;
+            $isActive      = method_exists($jobInstance, 'is_active') ? $jobInstance->is_active() : false;
+            $dispatchError = method_exists($jobInstance, 'get_dispatch_error') ? $jobInstance->get_dispatch_error() : false;
 
             // Skip completed processes (processed >= total and total > 0)
             if ($total > 0 && $processed >= $total) {
                 continue;
             }
 
-            $isProcessing  = method_exists($jobInstance, 'is_processing') ? $jobInstance->is_processing() : false;
-            $isActive      = method_exists($jobInstance, 'is_active') ? $jobInstance->is_active() : false;
-            $dispatchError = method_exists($jobInstance, 'get_dispatch_error') ? $jobInstance->get_dispatch_error() : false;
+            // Skip processes with no work remaining (completed and cleaned up)
+            if ($total === 0 && !$isActive) {
+                continue;
+            }
 
             $status       = $this->determineStatus($jobInstance, $key, $isProcessing, $isActive, $dispatchError);
             $lastActivity = $this->getLastActivity($jobInstance, $key);

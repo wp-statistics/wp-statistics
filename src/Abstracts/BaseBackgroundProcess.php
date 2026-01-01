@@ -429,7 +429,7 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     /**
      * Complete the background process.
      *
-     * Overrides parent to save end time.
+     * Overrides parent to save end time and perform cleanup.
      */
     protected function complete()
     {
@@ -437,5 +437,26 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
         $this->saveEndTime();
 
         parent::complete();
+
+        // Clean up job state after successful completion
+        $this->cleanupAfterCompletion();
+    }
+
+    /**
+     * Clean up all job-related state after successful completion.
+     *
+     * This ensures the process is removed from the background processes list.
+     *
+     * @return void
+     */
+    protected function cleanupAfterCompletion()
+    {
+        $this->setInitiated(false);
+        $this->clearTotalAndProcessed();
+        $this->clearProcessTimes();
+
+        if (method_exists($this, 'clear_dispatch_error')) {
+            $this->clear_dispatch_error();
+        }
     }
 }
