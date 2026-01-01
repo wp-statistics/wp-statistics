@@ -38,6 +38,7 @@ use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\Resources\Core\ResourceSynchronizer;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Tracking\TrackerControllerFactory;
+use WP_Statistics\Service\Admin\AdminBar;
 use WP_Statistics\Service\CronEventManager;
 use WP_Statistics\Service\CustomEvent\CustomEventManager;
 
@@ -160,7 +161,8 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-mail.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-menus.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-meta-box.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-admin-bar.php';
+        // Legacy AdminBar replaced by v15 Service\Admin\AdminBar
+        // require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-admin-bar.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-rest-api.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-purge.php';
 
@@ -188,6 +190,9 @@ final class WP_Statistics
         $notificationManager        = new NotificationManager();
         $MarketingCampaignManager   = new MarketingCampaignManager();
         TrackerControllerFactory::createController();
+
+        // Admin bar (works on both admin and frontend)
+        new AdminBar();
 
         // Admin classes
         if (is_admin()) {

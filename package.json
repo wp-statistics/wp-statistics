@@ -6,7 +6,9 @@
   "private": true,
   "sideEffects": [
     "*.css",
-    "*.scss"
+    "*.scss",
+    "**/mini-chart.js",
+    "**/tracker.js"
   ],
   "scripts": {
     "build": "npm run build:legacy && npm run build:react",
