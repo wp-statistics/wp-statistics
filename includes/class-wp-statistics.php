@@ -115,23 +115,22 @@ final class WP_Statistics
         add_action('init', array($this, 'load_textdomain'));
 
         try {
+            /**
+             * Load Composer autoloader first
+             */
+            require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
 
             /**
-             * Include require file
+             * Initialize via Bootstrap
+             *
+             * Bootstrap handles v14/v15 conditional loading internally.
+             * @see \WP_Statistics\Bootstrap::init()
              */
-            $this->includes();
+            \WP_Statistics\Bootstrap::init();
 
             /**
-             * Initialize classes during WordPress initialization.
+             * Initialize migration handler (needed for both v14 and v15)
              */
-            add_action('init', function () {
-                $postsManager = new PostsManager();
-            });
-
-            /**
-             * Setup background process.
-             */
-            $this->initializeBackgroundProcess();
             MigrationHandler::init();
         } catch (Exception $e) {
             self::log($e->getMessage());
