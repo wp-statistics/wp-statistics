@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\Settings;
 
-use WP_Statistics\Bootstrap;
-
 /**
  * Main orchestrator for v15 React-based Settings page.
  *
@@ -52,11 +50,6 @@ class SettingsManager
      */
     public function modifySettingsMenu($menuList)
     {
-        // Only modify if v15 mode is active
-        if (!Bootstrap::isV15()) {
-            return $menuList;
-        }
-
         // Update settings menu to use v15 controller
         if (isset($menuList['settings'])) {
             $menuList['settings']['callback'] = SettingsController::class;
