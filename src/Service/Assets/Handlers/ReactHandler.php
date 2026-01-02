@@ -116,6 +116,18 @@ class ReactHandler extends BaseAssets
     }
 
     /**
+     * Get allowed screen IDs for React assets
+     *
+     * @return array
+     */
+    private function getAllowedScreenIds(): array
+    {
+        return [
+            'toplevel_page_wp-statistics', // Single React SPA entry point
+        ];
+    }
+
+    /**
      * Register and enqueue React admin styles
      *
      * @return void
@@ -125,7 +137,7 @@ class ReactHandler extends BaseAssets
         // Get Current Screen ID
         $screenId = Route::getScreenId();
 
-        if ('admin_page_wp-statistics' !== $screenId) {
+        if (!in_array($screenId, $this->getAllowedScreenIds(), true)) {
             return;
         }
 
@@ -156,7 +168,7 @@ class ReactHandler extends BaseAssets
         // Get Current Screen ID
         $screenId = Route::getScreenId();
 
-        if ('admin_page_wp-statistics' !== $screenId) {
+        if (!in_array($screenId, $this->getAllowedScreenIds(), true)) {
             return;
         }
 

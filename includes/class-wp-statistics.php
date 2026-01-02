@@ -116,20 +116,12 @@ final class WP_Statistics
 
         try {
             /**
-             * Load Composer autoloader first
+             * Load all includes and initialize v14 legacy architecture
              */
-            require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
+            $this->includes();
 
             /**
-             * Initialize via Bootstrap
-             *
-             * Bootstrap handles v14/v15 conditional loading internally.
-             * @see \WP_Statistics\Bootstrap::init()
-             */
-            \WP_Statistics\Bootstrap::init();
-
-            /**
-             * Initialize migration handler (needed for both v14 and v15)
+             * Initialize migration handler
              */
             MigrationHandler::init();
         } catch (Exception $e) {

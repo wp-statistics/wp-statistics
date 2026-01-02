@@ -47,6 +47,7 @@
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
@@ -91,6 +92,8 @@
     "@types/react-dom": "^19.1.9",
     "@types/react-simple-maps": "^3.0.6",
     "@vitejs/plugin-react": "^5.0.3",
+    "@vitest/browser-playwright": "^4.0.16",
+    "@vitest/coverage-v8": "^4.0.16",
     "@wordpress/i18n": "^6.7.0",
     "@wordpress/scripts": "^27.9.0",
     "autoprefixer": "^10.4.20",
@@ -121,9 +124,7 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.44.0",
     "vite": "npm:rolldown-vite@7.1.12",
-    "vitest": "^4.0.16",
-    "@vitest/browser-playwright": "^4.0.16",
-    "@vitest/coverage-v8": "^4.0.16"
+    "vitest": "^4.0.16"
   },
   "pnpm": {
     "overrides": {

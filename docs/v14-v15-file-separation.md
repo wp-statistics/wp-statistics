@@ -53,9 +53,58 @@ if ($migrationComplete || true) { // TODO: Remove '|| true' when v15 is stable
 
 ### Key Principle
 
-**v15 does NOT depend on legacy `/includes/` files.**
+**v15 minimizes dependency on legacy `/includes/` files.**
 
 All v15 functionality must be implemented in `/src/` using PSR-4 autoloading.
+
+### Core Utilities (Shared)
+
+Some utility classes from `/includes/` are still required in v15 (no UI, just helpers):
+
+- `class-wp-statistics-helper.php` - Core utility functions
+- `class-wp-statistics-db.php` - Database utilities
+- `class-wp-statistics-option.php` - Option management
+- `class-wp-statistics-timezone.php` - Timezone handling
+- `class-wp-statistics-user.php` - User utilities
+- `class-wp-statistics-country.php` - Country data
+- `class-wp-statistics-ip.php` - IP utilities
+- `class-wp-statistics-geoip.php` - GeoIP functions
+- `class-wp-statistics-visitor.php` - Visitor data
+- `class-wp-statistics-pages.php` - Page data
+- `class-wp-statistics-meta-box.php` - Meta box utilities
+- `class-wp-statistics-shortcode.php` - Shortcode support
+- `class-wp-statistics-widget.php` - Widget support
+
+These will eventually be migrated to `/src/` as pure PSR-4 classes.
+
+### v15 Services Loaded
+
+The following services from `/src/` are initialized in v15 mode:
+
+**Global Services (admin + frontend):**
+- `TrackerControllerFactory` - Tracking controller
+- `CronEventManager` - Cron scheduling
+- `CustomEventManager` - Custom events
+- `HooksManager` - WordPress hooks
+- `AdminBar` - Admin bar integration
+- `ReferralsManager` - Referral tracking
+- `AnonymizedUsageDataManager` - Usage data
+- `NotificationManager` - Notifications
+- `MarketingCampaignManager` - Marketing campaigns
+
+**Admin Services:**
+- `DashboardManager` - React dashboard
+- `AdminManager` - Admin menu and pages
+- `SettingsManager` - React settings page
+- `ContentAnalyticsManager`, `AuthorAnalyticsManager`, `CategoryAnalyticsManager` - Analytics
+- `PageInsightsManager`, `VisitorInsightsManager` - Insights
+- `GeographicManager`, `DevicesManager` - Geographic and device data
+- `OverviewManager` - Overview page
+- `PrivacyAuditManager`, `HelpCenterManager` - Support features
+- `IntegrationsManager`, `LicenseManagementManager` - Integrations and licensing
+- `TrackerDebuggerManager` - Tracker debugging
+- `MetaboxManager`, `ExclusionsManager`, `FilterManager` - Admin utilities
+- `ResourceSynchronizer`, `AjaxBackgroundProcessManager` - Background tasks
 
 ### Migration Flag
 

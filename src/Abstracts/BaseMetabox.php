@@ -2,7 +2,7 @@
 namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Components\Ajax;
-use WP_STATISTICS\Menus;
+use WP_Statistics\Components\Menu;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
 use WP_STATISTICS\User;
@@ -155,7 +155,7 @@ abstract class BaseMetabox
      */
     public function getScreen()
     {
-        return [Menus::get_action_menu_slug('overview'), 'dashboard'];
+        return [Menu::getLoadActionSlug('overview'), 'dashboard'];
     }
 
     /**

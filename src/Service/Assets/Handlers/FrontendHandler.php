@@ -57,7 +57,7 @@ class FrontendHandler extends BaseAssets
      */
     public function scripts($hook = '')
     {
-        if (Option::getValue('use_cache_plugin')) {
+        if (Option::getValue('use_cache_plugin', true)) {
             $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], TrackerHelper::getHitsDefaultParams());
             $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 

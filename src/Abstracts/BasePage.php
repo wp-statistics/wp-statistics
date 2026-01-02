@@ -3,7 +3,7 @@
 namespace WP_Statistics\Abstracts;
 
 use Exception;
-use WP_STATISTICS\Menus;
+use WP_Statistics\Components\Menu;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
@@ -13,7 +13,7 @@ abstract class BasePage extends Singleton
 
     public function __construct()
     {
-        if (Menus::in_page($this->pageSlug)) {
+        if (Menu::isOnPage($this->pageSlug)) {
             $this->init();
         }
     }

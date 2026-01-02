@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_STATISTICS\Menus;
+use WP_Statistics\Components\Menu;
 use WP_Statistics\Utils\Request;
 
 
@@ -19,6 +19,6 @@ abstract class BaseView
      */
     protected function getCurrentPage()
     {
-        return Menus::getPageKeyFromSlug(Request::get('page'))[0] ?? '';
+        return Menu::getPageKeyFromSlug(Request::get('page'))[0] ?? '';
     }
 }

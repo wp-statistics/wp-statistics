@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Loader2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -6,8 +7,90 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import { useToast } from '@/hooks/use-toast'
+
+import { EmailBuilderDialog } from '../email-builder'
 
 export function NotificationSettings() {
+  const [isBuilderOpen, setIsBuilderOpen] = React.useState(false)
+  const [isPreviewLoading, setIsPreviewLoading] = React.useState(false)
+  const [isSendingTest, setIsSendingTest] = React.useState(false)
+  const { toast } = useToast()
+
+  const handlePreviewEmail = async () => {
+    setIsPreviewLoading(true)
+    try {
+      const formData = new FormData()
+      formData.append('action', 'wp_statistics_email_preview')
+      formData.append('_wpnonce', (window as any).wps_react?.globals?.nonce || '')
+
+      const response = await fetch((window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await response.json()
+      if (data.success && data.data.html) {
+        // Open preview in new window
+        const previewWindow = window.open('', '_blank', 'width=700,height=800')
+        if (previewWindow) {
+          previewWindow.document.write(data.data.html)
+          previewWindow.document.close()
+        }
+      } else {
+        toast({
+          title: 'Preview Error',
+          description: data.data?.message || 'Unable to generate preview.',
+          variant: 'destructive',
+        })
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'An error occurred while generating preview.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsPreviewLoading(false)
+    }
+  }
+
+  const handleSendTestEmail = async () => {
+    setIsSendingTest(true)
+    try {
+      const formData = new FormData()
+      formData.append('action', 'wp_statistics_email_send_test')
+      formData.append('_wpnonce', (window as any).wps_react?.globals?.nonce || '')
+
+      const response = await fetch((window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        toast({
+          title: 'Test Email Sent',
+          description: `A test email has been sent to ${data.data.email}.`,
+        })
+      } else {
+        toast({
+          title: 'Error',
+          description: data.data?.message || 'Failed to send test email.',
+          variant: 'destructive',
+        })
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'An error occurred while sending the test email.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsSendingTest(false)
+    }
+  }
+
   return (
     <div className="space-y-6">
       <Card>
@@ -100,22 +183,39 @@ export function NotificationSettings() {
               <p className="mt-2 text-sm text-muted-foreground">
                 Drag and drop blocks to customize your email report template.
               </p>
-              <Button className="mt-4" variant="outline">
+              <Button className="mt-4" variant="outline" onClick={() => setIsBuilderOpen(true)}>
                 Open Email Builder
               </Button>
             </div>
           </div>
 
           <div className="flex gap-2">
-            <Button variant="outline" className="flex-1">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={handlePreviewEmail}
+              disabled={isPreviewLoading}
+            >
+              {isPreviewLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Preview Email
             </Button>
-            <Button variant="outline" className="flex-1">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={handleSendTestEmail}
+              disabled={isSendingTest}
+            >
+              {isSendingTest && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Send Test Email
             </Button>
           </div>
         </CardContent>
       </Card>
+
+      <EmailBuilderDialog
+        open={isBuilderOpen}
+        onOpenChange={setIsBuilderOpen}
+      />
     </div>
   )
 }

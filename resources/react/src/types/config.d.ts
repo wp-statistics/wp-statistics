@@ -156,6 +156,7 @@ declare global {
       trackLoggedInUsers: boolean
       hashIps: boolean
       userPreferences?: UserPreferences
+      currentPage: string
     }
     header: Record<
       string,
