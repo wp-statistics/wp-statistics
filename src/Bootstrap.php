@@ -234,7 +234,6 @@ class Bootstrap
      *
      * Also kept:
      * - template-functions.php  -> Public API for themes (wp_statistics_* functions)
-     * - admin/templates/        -> Layout templates used by Admin_Template::get_template()
      * - defines/                -> Country codes, robots list (data files)
      *
      * @return void

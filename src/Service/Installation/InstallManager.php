@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Installation;
 
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Options\OptionManager;
-use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Query;
@@ -153,39 +152,7 @@ class InstallManager
      */
     public static function deactivate(): void
     {
-        // Clear scheduled events
-        self::clearScheduledEvents();
-
-        // Clean up obfuscated assets if bypass ad blockers was enabled
-        if (OptionManager::get('bypass_ad_blockers', false)) {
-            if (class_exists(AssetNameObfuscator::class)) {
-                $obfuscator = new AssetNameObfuscator();
-                $obfuscator->deleteAllHashedFiles();
-            }
-        }
-    }
-
-    /**
-     * Clear all scheduled cron events.
-     *
-     * @return void
-     */
-    private static function clearScheduledEvents(): void
-    {
-        $events = [
-            'wp_statistics_dbmaint_hook',
-            'wp_statistics_referrerspam_hook',
-            'wp_statistics_report_hook',
-            'wp_statistics_geoip_hook',
-            'wp_statistics_queue_daily_summary',
-            'wp_statistics_check_licenses_status',
-            'wp_statistics_referrals_db_hook',
-            'wp_statistics_notification_hook',
-        ];
-
-        foreach ($events as $event) {
-            wp_clear_scheduled_hook($event);
-        }
+        Uninstaller::deactivate();
     }
 
     /**

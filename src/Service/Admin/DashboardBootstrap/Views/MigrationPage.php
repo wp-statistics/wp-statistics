@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Admin\DashboardBootstrap\Views;
 
 use WP_Statistics\Abstracts\BasePage;
-use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\Menu;
 use WP_Statistics\Components\View;
 
@@ -119,8 +118,8 @@ class MigrationPage extends BasePage
             'pageName' => Menu::buildPageSlug($this->getPageIndex()),
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/title'], $args);
+        View::load(['components/layout/header', 'components/layout/title'], $args);
         View::load(['pages/data-migration/data-migration'], $args);
-        Admin_Template::get_template(['layout/footer'], $args);
+        View::load(['components/layout/footer'], $args);
     }
 }
