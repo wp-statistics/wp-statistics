@@ -87,16 +87,26 @@ class CronManager
     public static function unscheduleAll()
     {
         $hooks = [
+            // Current v15 hooks
             'wp_statistics_dbmaint_hook',
             'wp_statistics_referrerspam_hook',
             'wp_statistics_geoip_hook',
-            'wp_statistics_report_hook',           // Legacy email hook (cleanup)
-            'wp_statistics_email_report',          // Current email hook
+            'wp_statistics_email_report',
             'wp_statistics_queue_daily_summary',
             'wp_statistics_licenses_hook',
             'wp_statistics_check_licenses_status',
             'wp_statistics_referrals_db_hook',
             'wp_statistics_daily_cron_hook',
+
+            // Optional hooks (self-managed but cleanup on deactivation)
+            'wp_statistics_anonymized_share_data_hook',
+
+            // Legacy hooks (v14 cleanup)
+            'wp_statistics_report_hook',
+            'wp_statistics_notification_hook',
+            'wp_statistics_dbmaint_visitor_hook',
+            'wp_statistics_marketing_campaign_hook',
+            'wp_statistics_add_visit_hook',
         ];
 
         foreach ($hooks as $hook) {
