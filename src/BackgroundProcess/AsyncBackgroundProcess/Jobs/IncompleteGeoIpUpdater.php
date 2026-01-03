@@ -7,7 +7,6 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_STATISTICS\WP_Background_Process;
 
 class IncompleteGeoIpUpdater extends WP_Background_Process
@@ -48,7 +47,7 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
                 'fields'     => ['visitor.ip']
             ]);
 
-            $location = GeolocationFactory::getLocation($visitor->getIP(), MaxmindGeoIPProvider::class);
+            $location = GeolocationFactory::getLocation($visitor->getIP());
 
             $visitorModel->updateVisitor($visitorId, [
                 'location'  => $location['country_code'],
