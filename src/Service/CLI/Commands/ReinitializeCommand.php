@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\CLI\Commands;
 
 use WP_CLI;
-use WP_STATISTICS\Install;
+use WP_Statistics\Service\Database\Managers\TableHandler;
 
 /**
  * Reinitialize WP Statistics database.
@@ -29,15 +29,9 @@ class ReinitializeCommand
      */
     public function __invoke($args, $assoc_args)
     {
-        // Ensure required files are loaded
-        if (!class_exists('WP_STATISTICS\Install')) {
-            require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-            require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
-        }
-
         WP_CLI::confirm('This will reinitialize the WP Statistics database tables. Are you sure?');
 
-        Install::create_table(false);
+        TableHandler::createAllTables();
 
         WP_CLI::success('Reinitialized WP Statistics Database!');
     }
