@@ -15,6 +15,12 @@ use WP_Statistics\Components\Ip;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Globals\Option;
 
+/**
+ * Visitors data model.
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with 'visitors' source instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ */
 class VisitorsModel extends BaseModel
 {
 

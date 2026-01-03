@@ -2,6 +2,22 @@
 
 namespace WP_STATISTICS;
 
+/**
+ * Legacy Option class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Service\Options\OptionManager instead.
+ * @see \WP_Statistics\Service\Options\OptionManager
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the OptionManager class from the v15 architecture.
+ *
+ * Migration guide:
+ * - Option::get($key)           -> OptionManager::get($key)
+ * - Option::update($key, $val)  -> OptionManager::set($key, $val)
+ * - Option::getOptions()        -> OptionManager::getAll()
+ * - Option::getByAddon()        -> OptionManager::getAddon()
+ * - Option::getOptionGroup()    -> OptionManager::getGroup()
+ */
 class Option
 {
     /**

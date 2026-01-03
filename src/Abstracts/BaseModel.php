@@ -7,6 +7,14 @@ use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\HistoricalModel;
 
+/**
+ * Base class for data models.
+ *
+ * @deprecated 15.0.0 Models are deprecated in favor of AnalyticsQuery system.
+ *             For dashboard data, use AnalyticsQueryHandler instead.
+ *             Models will be removed in a future version.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ */
 abstract class BaseModel
 {
     /**

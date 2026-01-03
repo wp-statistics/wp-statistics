@@ -82,7 +82,7 @@ class DbIpProvider extends AbstractGeoIPProvider
                 'country'       => $record->country->name,
                 'country_code'  => $record->country->isoCode,
                 'continent'     => $record->continent->name,
-                'continen_code' => $record->continent->code,
+                'continent_code' => $record->continent->code,
                 'region'        => $record->mostSpecificSubdivision->name,
                 'region_code'   => $record->mostSpecificSubdivision->isoCode,
                 'city'          => $record->city->name,

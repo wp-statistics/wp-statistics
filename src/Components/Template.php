@@ -30,10 +30,12 @@ class Template
             extract($args);
         }
 
-        $file = WP_STATISTICS_DIR . "includes/admin/templates/{$template}.php";
-
+        // Use v15 service templates when base is provided
         if (!empty($base)) {
             $file = self::getPath($template, $base);
+        } else {
+            // Fallback to views directory
+            $file = WP_STATISTICS_DIR . "views/{$template}.php";
         }
 
         if (!file_exists($file)) {

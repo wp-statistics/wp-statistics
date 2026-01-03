@@ -9,6 +9,21 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Assets\AssetsFactory;
 use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
+/**
+ * Legacy Admin_Assets class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Service\Assets\AssetsFactory instead.
+ * @see \WP_Statistics\Service\Assets\AssetsFactory
+ * @see \WP_Statistics\Components\Assets
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the AssetsFactory service from the v15 architecture.
+ *
+ * Migration guide:
+ * - Admin_Assets styles/scripts -> AssetsFactory::Legacy() for legacy pages
+ * - Asset registration          -> Use Assets component
+ * - Localization data           -> AssetsFactory handles this
+ */
 class Admin_Assets
 {
     /**

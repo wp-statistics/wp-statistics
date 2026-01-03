@@ -4,7 +4,7 @@ namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\ResourceMigrator;
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
-use WP_STATISTICS\Install;
+use WP_Statistics\Service\Installation\InstallManager;
 use WP_STATISTICS\Option;
 
 /**
@@ -46,7 +46,7 @@ class AjaxBackgroundProcessFactory
             return;
         }
 
-        if (Install::isFresh()) {
+        if (InstallManager::isFresh()) {
             return;
         }
 

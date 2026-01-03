@@ -2,6 +2,21 @@
 
 namespace WP_STATISTICS;
 
+/**
+ * Legacy DB class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Service\Database\DatabaseManager instead.
+ * @see \WP_Statistics\Service\Database\DatabaseManager
+ * @see \WP_Statistics\Utils\Query
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use DatabaseManager or Query utilities from the v15 architecture.
+ *
+ * Migration guide:
+ * - DB::table($name)        -> Use Query builder or DatabaseManager
+ * - DB::prefix()            -> global $wpdb; $wpdb->prefix
+ * - DB::ExistTable($name)   -> DatabaseManager table inspection
+ */
 class DB
 {
     /**

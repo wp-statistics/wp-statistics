@@ -24,16 +24,11 @@ require_once __DIR__ . '/includes/defines.php';
 # Set another useful plugin define.
 define('WP_STATISTICS_VERSION', '14.15.1');
 
-# Load Plugin
-if (!class_exists('WP_Statistics')) {
-    require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics.php';
-}
+# Load Composer autoloader
+require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
 
-# Returns the main instance of WP Statistics.
-function WP_Statistics()
-{
-    return WP_Statistics::instance();
-}
+# Load global functions
+require_once WP_STATISTICS_DIR . 'src/functions.php';
 
-# Global for backwards compatibility.
-$GLOBALS['WP_Statistics'] = WP_Statistics();
+# Initialize plugin
+WP_Statistics\Bootstrap::init();

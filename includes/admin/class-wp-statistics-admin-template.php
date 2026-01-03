@@ -2,6 +2,21 @@
 
 namespace WP_STATISTICS;
 
+/**
+ * Legacy Admin_Template class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Components\View instead.
+ * @see \WP_Statistics\Components\View
+ * @see \WP_Statistics\Service\Admin\ViewFactory
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the View component from the v15 architecture.
+ *
+ * Migration guide:
+ * - Admin_Template::get_template()  -> View::load() or View::render()
+ * - Admin_Template::paginate_links() -> Use WordPress paginate_links()
+ * - Template path: includes/admin/templates/ -> resources/views/
+ */
 class Admin_Template
 {
     /**

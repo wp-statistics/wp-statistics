@@ -378,8 +378,8 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
         $sql .= ' WHERE ' . implode(' AND ', $where);
     }
 
-    //Custom Action
-    if ($time == "total" and $arg['type'] == "all") {
+    //Custom Action - Historical data (legacy, may not exist in v15+)
+    if ($time == "total" and $arg['type'] == "all" && class_exists('WP_STATISTICS\Historical')) {
         $history = WP_STATISTICS\Historical::get('visitors');
     }
 
@@ -461,9 +461,9 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
         }
     }
 
-    //Custom Action
+    //Custom Action - Historical data (legacy, may not exist in v15+)
     if ($time == "total") {
-        if ($history_key && $history_id) {
+        if ($history_key && $history_id && class_exists('WP_STATISTICS\Historical')) {
             $history = WP_STATISTICS\Historical::get($history_key, $history_id);
         }
     }

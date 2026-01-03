@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service;
 
-use WP_STATISTICS\Menus;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
@@ -26,8 +25,10 @@ class HooksManager
     {
         $isPremium = (bool)LicenseHelper::isPremiumLicenseAvailable();
 
+        $settingsUrl = admin_url('admin.php?page=wp-statistics#/settings/general');
+
         $customLinks = [
-            '<a href="' . Menus::admin_url('settings') . '">' . esc_html__('Settings', 'wp-statistics') . '</a>',
+            '<a href="' . esc_url($settingsUrl) . '">' . esc_html__('Settings', 'wp-statistics') . '</a>',
             '<a target="_blank" href="https://wp-statistics.com/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Docs', 'wp-statistics') . '</a>',
         ];
 

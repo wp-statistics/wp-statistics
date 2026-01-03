@@ -12,6 +12,21 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Url;
 use WP_STATISTICS\Helper;
 
+/**
+ * Legacy Visitor class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Models\VisitorsModel or \WP_Statistics\Service\Analytics\VisitorProfile instead.
+ * @see \WP_Statistics\Models\VisitorsModel
+ * @see \WP_Statistics\Service\Analytics\VisitorProfile
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the VisitorsModel or VisitorProfile from v15 architecture.
+ *
+ * Migration guide:
+ * - Visitor::get_pages_by_visitor_id()  -> VisitorsModel queries
+ * - Visitor::getCoefficient()           -> OptionManager::get('coefficient')
+ * - Visitor data processing             -> VisitorProfile class
+ */
 class Visitor
 {
     /**

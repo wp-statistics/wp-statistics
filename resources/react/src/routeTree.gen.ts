@@ -11,7 +11,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as visitorInsightsVisitorsOverviewRouteImport } from './routes/(visitor-insights)/visitors-overview'
 import { Route as visitorInsightsVisitorsRouteImport } from './routes/(visitor-insights)/visitors'
 import { Route as visitorInsightsViewsRouteImport } from './routes/(visitor-insights)/views'
@@ -27,6 +29,15 @@ const CategoryAnalyticsLazyRouteImport = createFileRoute(
   '/category-analytics',
 )()
 const AuthorAnalyticsLazyRouteImport = createFileRoute('/author-analytics')()
+const SettingsPrivacyLazyRouteImport = createFileRoute('/settings/privacy')()
+const SettingsNotificationsLazyRouteImport = createFileRoute(
+  '/settings/notifications',
+)()
+const SettingsGeneralLazyRouteImport = createFileRoute('/settings/general')()
+const SettingsExclusionsLazyRouteImport = createFileRoute(
+  '/settings/exclusions',
+)()
+const SettingsAdvancedLazyRouteImport = createFileRoute('/settings/advanced')()
 const visitorInsightsSearchTermsLazyRouteImport = createFileRoute(
   '/(visitor-insights)/search-terms',
 )()
@@ -85,11 +96,57 @@ const AuthorAnalyticsLazyRoute = AuthorAnalyticsLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/author-analytics.lazy').then((d) => d.Route),
 )
+const SettingsRouteRoute = SettingsRouteRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SettingsRouteRoute,
+} as any)
+const SettingsPrivacyLazyRoute = SettingsPrivacyLazyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => SettingsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/settings/privacy.lazy').then((d) => d.Route),
+)
+const SettingsNotificationsLazyRoute =
+  SettingsNotificationsLazyRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => SettingsRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/notifications.lazy').then((d) => d.Route),
+  )
+const SettingsGeneralLazyRoute = SettingsGeneralLazyRouteImport.update({
+  id: '/general',
+  path: '/general',
+  getParentRoute: () => SettingsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/settings/general.lazy').then((d) => d.Route),
+)
+const SettingsExclusionsLazyRoute = SettingsExclusionsLazyRouteImport.update({
+  id: '/exclusions',
+  path: '/exclusions',
+  getParentRoute: () => SettingsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/settings/exclusions.lazy').then((d) => d.Route),
+)
+const SettingsAdvancedLazyRoute = SettingsAdvancedLazyRouteImport.update({
+  id: '/advanced',
+  path: '/advanced',
+  getParentRoute: () => SettingsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/settings/advanced.lazy').then((d) => d.Route),
+)
 const visitorInsightsSearchTermsLazyRoute =
   visitorInsightsSearchTermsLazyRouteImport
     .update({
@@ -230,6 +287,7 @@ const pageInsightsTopPagesRoute = pageInsightsTopPagesRouteImport
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRouteRouteWithChildren
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
@@ -249,6 +307,12 @@ export interface FileRoutesByFullPath {
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
   '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/exclusions': typeof SettingsExclusionsLazyRoute
+  '/settings/general': typeof SettingsGeneralLazyRoute
+  '/settings/notifications': typeof SettingsNotificationsLazyRoute
+  '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -271,10 +335,17 @@ export interface FileRoutesByTo {
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
   '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/exclusions': typeof SettingsExclusionsLazyRoute
+  '/settings/general': typeof SettingsGeneralLazyRoute
+  '/settings/notifications': typeof SettingsNotificationsLazyRoute
+  '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRouteRouteWithChildren
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
@@ -294,11 +365,18 @@ export interface FileRoutesById {
   '/(referrals)/source-categories': typeof referralsSourceCategoriesLazyRoute
   '/(visitor-insights)/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/(visitor-insights)/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/exclusions': typeof SettingsExclusionsLazyRoute
+  '/settings/general': typeof SettingsGeneralLazyRoute
+  '/settings/notifications': typeof SettingsNotificationsLazyRoute
+  '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/settings'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
@@ -318,6 +396,12 @@ export interface FileRouteTypes {
     | '/source-categories'
     | '/online-visitors'
     | '/search-terms'
+    | '/settings/advanced'
+    | '/settings/exclusions'
+    | '/settings/general'
+    | '/settings/notifications'
+    | '/settings/privacy'
+    | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -340,9 +424,16 @@ export interface FileRouteTypes {
     | '/source-categories'
     | '/online-visitors'
     | '/search-terms'
+    | '/settings/advanced'
+    | '/settings/exclusions'
+    | '/settings/general'
+    | '/settings/notifications'
+    | '/settings/privacy'
+    | '/settings'
   id:
     | '__root__'
     | '/'
+    | '/settings'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
@@ -362,10 +453,17 @@ export interface FileRouteTypes {
     | '/(referrals)/source-categories'
     | '/(visitor-insights)/online-visitors'
     | '/(visitor-insights)/search-terms'
+    | '/settings/advanced'
+    | '/settings/exclusions'
+    | '/settings/general'
+    | '/settings/notifications'
+    | '/settings/privacy'
+    | '/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
   AuthorAnalyticsLazyRoute: typeof AuthorAnalyticsLazyRoute
   CategoryAnalyticsLazyRoute: typeof CategoryAnalyticsLazyRoute
   DevicesLazyRoute: typeof DevicesLazyRoute
@@ -431,12 +529,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorAnalyticsLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/settings/privacy': {
+      id: '/settings/privacy'
+      path: '/privacy'
+      fullPath: '/settings/privacy'
+      preLoaderRoute: typeof SettingsPrivacyLazyRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/settings/notifications': {
+      id: '/settings/notifications'
+      path: '/notifications'
+      fullPath: '/settings/notifications'
+      preLoaderRoute: typeof SettingsNotificationsLazyRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/settings/general': {
+      id: '/settings/general'
+      path: '/general'
+      fullPath: '/settings/general'
+      preLoaderRoute: typeof SettingsGeneralLazyRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/settings/exclusions': {
+      id: '/settings/exclusions'
+      path: '/exclusions'
+      fullPath: '/settings/exclusions'
+      preLoaderRoute: typeof SettingsExclusionsLazyRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/settings/advanced': {
+      id: '/settings/advanced'
+      path: '/advanced'
+      fullPath: '/settings/advanced'
+      preLoaderRoute: typeof SettingsAdvancedLazyRouteImport
+      parentRoute: typeof SettingsRouteRoute
     }
     '/(visitor-insights)/search-terms': {
       id: '/(visitor-insights)/search-terms'
@@ -532,8 +679,31 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface SettingsRouteRouteChildren {
+  SettingsAdvancedLazyRoute: typeof SettingsAdvancedLazyRoute
+  SettingsExclusionsLazyRoute: typeof SettingsExclusionsLazyRoute
+  SettingsGeneralLazyRoute: typeof SettingsGeneralLazyRoute
+  SettingsNotificationsLazyRoute: typeof SettingsNotificationsLazyRoute
+  SettingsPrivacyLazyRoute: typeof SettingsPrivacyLazyRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
+}
+
+const SettingsRouteRouteChildren: SettingsRouteRouteChildren = {
+  SettingsAdvancedLazyRoute: SettingsAdvancedLazyRoute,
+  SettingsExclusionsLazyRoute: SettingsExclusionsLazyRoute,
+  SettingsGeneralLazyRoute: SettingsGeneralLazyRoute,
+  SettingsNotificationsLazyRoute: SettingsNotificationsLazyRoute,
+  SettingsPrivacyLazyRoute: SettingsPrivacyLazyRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
+}
+
+const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
+  SettingsRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SettingsRouteRoute: SettingsRouteRouteWithChildren,
   AuthorAnalyticsLazyRoute: AuthorAnalyticsLazyRoute,
   CategoryAnalyticsLazyRoute: CategoryAnalyticsLazyRoute,
   DevicesLazyRoute: DevicesLazyRoute,

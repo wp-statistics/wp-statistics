@@ -8,8 +8,6 @@ use WP_Statistics\Utils\Route;
 use WP_Statistics\Entity\EntityFactory;
 use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
-use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Traits\ErrorLoggerTrait;
 use WP_Statistics\Utils\Request;
 
@@ -51,8 +49,6 @@ class Hits extends BaseTracking
         if (!Option::getValue('exclude_loginpage')) {
             add_action('init', [$this, 'trackLoginPageCallback']);
         }
-
-        add_action('wp', [$this, 'trackServerSideCallback']);
     }
 
     /**
@@ -165,34 +161,4 @@ class Hits extends BaseTracking
         }
     }
 
-    /**
-     * Track server-rendered page hits if conditions allow.
-     *
-     * @return void
-     */
-    public function trackServerSideCallback()
-    {
-        try {
-            if (
-                is_favicon() ||
-                is_admin() ||
-                is_preview() ||
-                Option::getValue('use_cache_plugin') ||
-                TrackerHelper::isDoNotTrackEnabled()
-            ) {
-                return;
-            }
-
-            $consentLevel = Option::getValue('consent_level_integration', 'disabled');
-
-            if (
-                $consentLevel === 'disabled' ||
-                IntegrationHelper::shouldTrackAnonymously()
-            ) {
-                $this->record();
-            }
-        } catch (Exception $e) {
-            $this->errorListener();
-        }
-    }
 }

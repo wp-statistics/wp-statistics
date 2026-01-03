@@ -42,6 +42,7 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'userPreferences'       => [
                 'globalFilters' => $this->getGlobalFiltersPreferences(),
             ],
+            'currentPage'           => isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '',
         ];
 
         /**

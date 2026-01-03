@@ -8,7 +8,6 @@ use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Tracking\Controllers\AjaxBasedTracking;
 use WP_Statistics\Service\Tracking\Controllers\BatchTracking;
 use WP_Statistics\Service\Tracking\Controllers\RestApiTracking;
-use WP_Statistics\Service\Tracking\Controllers\ServerSideTracking;
 
 /**
  * Factory class responsible for creating and managing tracking controller instances.
@@ -29,24 +28,15 @@ class TrackerControllerFactory
      */
     public static function createController()
     {
-        $useClientSide   = Option::getValue('use_cache_plugin', true);
         $bypassAdblocker = Option::getValue('bypass_ad_blockers', false);
 
-        /**
-         * TODO: Add performance optimization setting, and remained controller.
-         */
-
-        if ($useClientSide) {
-            if ($bypassAdblocker) {
-                $controller = new AjaxBasedTracking();
-            } else {
-                $controller = new RestApiTracking();
-            }
-
-            new BatchTracking();
+        if ($bypassAdblocker) {
+            $controller = new AjaxBasedTracking();
         } else {
-            $controller = new ServerSideTracking();
+            $controller = new RestApiTracking();
         }
+
+        new BatchTracking();
 
         /**
          * Filter the tracking controller instance.

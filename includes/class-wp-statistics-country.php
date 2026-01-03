@@ -2,6 +2,20 @@
 
 namespace WP_STATISTICS;
 
+/**
+ * Legacy Country class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Service\Geolocation\GeolocationFactory instead.
+ * @see \WP_Statistics\Service\Geolocation\GeolocationFactory
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the Geolocation services from the v15 architecture.
+ *
+ * Migration guide:
+ * - Country::getList()    -> Use country data from GeolocationFactory
+ * - Country::getName()    -> GeolocationFactory->getCountry()
+ * - Country::getFlag()    -> Use flag assets directly
+ */
 class Country
 {
     /**

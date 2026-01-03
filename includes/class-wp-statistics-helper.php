@@ -13,6 +13,23 @@ use WP_Statistics\Utils\Signature;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
+/**
+ * Legacy Helper class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use utility classes from \WP_Statistics\Utils\ namespace instead.
+ * @see \WP_Statistics\Utils\Request
+ * @see \WP_Statistics\Utils\Signature
+ * @see \WP_Statistics\Components\DateTime
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the utility classes from the v15 architecture.
+ *
+ * Migration guide:
+ * - Helper::is_request()      -> Request::isFrom()
+ * - Helper::is_rest_request() -> Request::isRestRequest()
+ * - Helper::checkUrlQuery()   -> Use Request utilities
+ * - Helper::get_date_*()      -> DateTime or DateRange components
+ */
 class Helper
 {
     /**
@@ -896,7 +913,7 @@ class Helper
             'email_title'  => apply_filters('wp_statistics_email_title', $emailTitle),
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'public/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
-            'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
+            'copyright'    => apply_filters('wp_statistics_email_footer_copyright', \WP_Statistics\Components\Template::get('Emails/copyright', 'Messaging', [], true)),
             'email_header' => apply_filters('wp_statistics_email_header', $emailHeader),
             'email_footer' => apply_filters('wp_statistics_email_footer', $emailFooter),
             'is_rtl'       => (is_rtl() ? true : false),
