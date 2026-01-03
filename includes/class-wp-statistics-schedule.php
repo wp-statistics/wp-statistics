@@ -12,6 +12,21 @@ use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
 
+/**
+ * Legacy Schedule class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Components\Event for scheduling instead.
+ * @see \WP_Statistics\Components\Event
+ * @see \WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the Event component for cron scheduling.
+ *
+ * Migration guide:
+ * - Schedule::getSchedules()  -> Event scheduling utilities
+ * - Cron hooks                -> BackgroundProcessFactory for async tasks
+ * - Report scheduling         -> Advanced Reporting add-on handles this
+ */
 class Schedule
 {
 

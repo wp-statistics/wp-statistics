@@ -5,9 +5,20 @@ namespace WP_STATISTICS;
 use WP_Statistics\Utils\Request;
 
 /**
- * DEPRECATED: This class is not supported anymore. Please do not use it in your code.
+ * Legacy Menus class for backward compatibility.
  *
- * @deprecated since 15.0.0
+ * @deprecated 15.0.0 Use \WP_Statistics\Service\Admin\AdminMenu instead.
+ * @see \WP_Statistics\Service\Admin\AdminMenu
+ * @see \WP_Statistics\Service\Routes\RoutesManager
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the AdminMenu service from the v15 architecture.
+ *
+ * Migration guide:
+ * - Menus::admin_url()      -> Use admin_url() with new page slugs
+ * - Menus::get_page_slug()  -> AdminMenu::getPageSlug()
+ * - Menus::in_page()        -> Request::isPage() or AdminMenu utilities
+ * - Menus::set_sub_menu()   -> AdminMenu::registerSubMenu()
  */
 class Menus
 {

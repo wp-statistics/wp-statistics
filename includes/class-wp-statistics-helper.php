@@ -13,6 +13,23 @@ use WP_Statistics\Utils\Signature;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
+/**
+ * Legacy Helper class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use utility classes from \WP_Statistics\Utils\ namespace instead.
+ * @see \WP_Statistics\Utils\Request
+ * @see \WP_Statistics\Utils\Signature
+ * @see \WP_Statistics\Components\DateTime
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the utility classes from the v15 architecture.
+ *
+ * Migration guide:
+ * - Helper::is_request()      -> Request::isFrom()
+ * - Helper::is_rest_request() -> Request::isRestRequest()
+ * - Helper::checkUrlQuery()   -> Use Request utilities
+ * - Helper::get_date_*()      -> DateTime or DateRange components
+ */
 class Helper
 {
     /**

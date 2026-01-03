@@ -2,76 +2,70 @@
 
 namespace WP_Statistics;
 
-use WP_Statistics\Service\Admin\AdminBar;
-use WP_Statistics\Service\Admin\AdminMenuManager;
-use WP_Statistics\Service\Admin\DashboardBootstrap\DashboardManager;
-use WP_Statistics\Service\Admin\Settings\SettingsManager;
-use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
-use WP_Statistics\Service\Database\Managers\MigrationHandler;
-use WP_Statistics\Service\EmailReport\EmailReportManager;
+use WP_Statistics\Container\ServiceContainer;
+use WP_Statistics\Container\CoreServiceProvider;
+use WP_Statistics\Container\AdminServiceProvider;
 use WP_Statistics\Service\HooksManager;
-use WP_Statistics\Service\Tracking\TrackerControllerFactory;
-use WP_Statistics\Service\CronEventManager;
+use WP_Statistics\Service\Installation\InstallManager;
 
 defined('ABSPATH') || exit;
 
-// Load global functions
-require_once __DIR__ . '/functions.php';
-
 /**
- * Bootstrap class for WP Statistics v15.
+ * Bootstrap class for WP Statistics.
  *
- * This class handles initialization and decides whether to load
- * v14 (legacy) or v15 (new) architecture based on migration status.
- *
- * v15 = Pure new React-based architecture from /src/
- *       Only Dashboard and Settings pages
- * v14 = Legacy PHP architecture from /includes/
+ * Main plugin initialization using modern architecture with:
+ * - ServiceContainer for lazy loading
+ * - React-based Dashboard and Settings
+ * - Modular service providers
  *
  * @since 15.0.0
  */
 class Bootstrap
 {
     /**
-     * Whether v15 mode is active.
+     * Whether plugin is initialized.
      *
      * @var bool
      */
-    private static $isV15 = false;
+    private static $initialized = false;
 
     /**
-     * Main entry point - decides v14 or v15 loading.
+     * Service Container instance.
+     *
+     * @var ServiceContainer|null
+     */
+    private static $container = null;
+
+    /**
+     * Service providers to register.
+     *
+     * @var array
+     */
+    private static $providers = [
+        CoreServiceProvider::class,
+        AdminServiceProvider::class,
+    ];
+
+    /**
+     * Main entry point for plugin initialization.
      *
      * @return void
      */
     public static function init()
     {
-        // Load Option class first to check migration status
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
-
-        /**
-         * Check if migration is complete to determine which architecture to load.
-         * TODO: Remove '|| true' when v15 is stable and ready for production.
-         *
-         * @since 15.0.0
-         */
-        $migrationComplete = \WP_STATISTICS\Option::getOptionGroup('db', 'migrated', false);
-
-        if ($migrationComplete || true) { // TODO: Remove '|| true' when v15 is stable
-            self::$isV15 = true;
-            self::registerHooks();
-
-            // Initialize HooksManager early to catch obfuscated asset requests
-            // This must happen before plugins_loaded fires
-            new HooksManager();
-
-            add_action('plugins_loaded', [__CLASS__, 'pluginSetup'], 10);
-        } else {
-            self::$isV15 = false;
-            // Load legacy v14 architecture
-            require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics.php';
-            \WP_Statistics::instance();
+        if (self::$initialized) {
+            return;
         }
+
+        self::$initialized = true;
+
+        // Register activation/deactivation hooks
+        self::registerLifecycleHooks();
+
+        // Initialize HooksManager early to catch obfuscated asset requests
+        new HooksManager();
+
+        add_action('plugins_loaded', [__CLASS__, 'setup'], 10);
     }
 
     /**
@@ -79,37 +73,36 @@ class Bootstrap
      *
      * @return void
      */
-    public static function pluginSetup()
+    public static function setup()
     {
         add_action('init', [__CLASS__, 'loadTextdomain']);
-        self::initV15();
+        self::initializeServices();
         do_action('wp_statistics_loaded');
     }
 
     /**
-     * Register activation/deactivation hooks for v15 mode.
+     * Register activation/deactivation hooks.
      *
      * @return void
      */
-    private static function registerHooks()
+    private static function registerLifecycleHooks()
     {
-        register_activation_hook(WP_STATISTICS_MAIN_FILE, [__CLASS__, 'install']);
-        register_deactivation_hook(WP_STATISTICS_MAIN_FILE, [__CLASS__, 'uninstall']);
+        register_activation_hook(WP_STATISTICS_MAIN_FILE, [__CLASS__, 'activate']);
+        register_deactivation_hook(WP_STATISTICS_MAIN_FILE, [__CLASS__, 'deactivate']);
     }
 
     /**
      * Plugin activation handler.
      *
-     * @param bool $network_wide Whether the plugin is being activated network-wide.
+     * @param bool $networkWide Whether the plugin is being activated network-wide.
      * @return void
      */
-    public static function install($network_wide)
+    public static function activate($networkWide)
     {
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
+        // Load required dependencies for activation
+        self::loadActivationDependencies();
 
-        $installer = new \WP_STATISTICS\Install();
-        $installer->install($network_wide);
+        InstallManager::activate((bool) $networkWide);
     }
 
     /**
@@ -117,14 +110,37 @@ class Bootstrap
      *
      * @return void
      */
-    public static function uninstall()
+    public static function deactivate()
     {
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
-        require_once WP_STATISTICS_DIR . 'src/Components/AssetNameObfuscator.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
+        // Load required dependencies for deactivation
+        self::loadActivationDependencies();
 
-        new \WP_STATISTICS\Uninstall();
+        InstallManager::deactivate();
+    }
+
+    /**
+     * Load dependencies needed for activation/deactivation.
+     *
+     * @return void
+     */
+    private static function loadActivationDependencies()
+    {
+        // Database operations
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/DatabaseManager.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Managers/TransactionHandler.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/AbstractDatabaseOperation.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Operations/AbstractTableOperation.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Operations/Create.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Operations/Inspect.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/DatabaseFactory.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Schema/Manager.php';
+        require_once WP_STATISTICS_DIR . 'src/Service/Database/Managers/TableHandler.php';
+
+        // Options management
+        require_once WP_STATISTICS_DIR . 'src/Service/Options/OptionManager.php';
+
+        // Installation manager
+        require_once WP_STATISTICS_DIR . 'src/Service/Installation/InstallManager.php';
     }
 
     /**
@@ -138,112 +154,133 @@ class Bootstrap
     }
 
     /**
-     * Check if v15 mode is active.
+     * Get the service container.
      *
-     * @return bool
+     * @return ServiceContainer
      */
-    public static function isV15()
+    public static function container(): ServiceContainer
     {
-        return self::$isV15;
-    }
-
-    /**
-     * Initialize v15 architecture.
-     *
-     * Pure React-based architecture with only:
-     * - Dashboard (React SPA)
-     * - Settings (React SPA)
-     *
-     * NO legacy /includes/ UI components.
-     *
-     * @return void
-     */
-    private static function initV15()
-    {
-        // Load minimal core utilities needed for v15
-        self::loadCoreUtilities();
-
-        // Initialize tracking (works on frontend)
-        TrackerControllerFactory::createController();
-
-        // Initialize cron events
-        new CronEventManager();
-
-        // Initialize migration handler
-        MigrationHandler::init();
-
-        // Initialize admin bar (works on both admin and frontend)
-        new AdminBar();
-
-        // Initialize frontend assets (tracker.js, mini-chart, etc.)
-        if (!is_admin()) {
-            new FrontendHandler();
+        if (self::$container === null) {
+            self::$container = ServiceContainer::getInstance();
         }
 
-        // Admin-only: Dashboard and Settings
-        if (is_admin()) {
-            self::initAdminServices();
+        return self::$container;
+    }
+
+    /**
+     * Get a service from the container.
+     *
+     * @param string $id Service identifier.
+     * @return object|null
+     */
+    public static function get(string $id)
+    {
+        return self::container()->get($id);
+    }
+
+    /**
+     * Initialize all services.
+     *
+     * @return void
+     */
+    private static function initializeServices()
+    {
+        // Load legacy utilities that haven't been fully migrated yet
+        self::loadLegacyUtilities();
+
+        // Initialize installation hooks (multisite, upgrades)
+        InstallManager::init();
+
+        // Initialize service container
+        $container = self::container();
+
+        // Register all service providers
+        $providers = [];
+        foreach (self::$providers as $providerClass) {
+            $provider = new $providerClass();
+            $provider->register($container);
+            $providers[] = $provider;
+        }
+
+        // Boot all service providers
+        foreach ($providers as $provider) {
+            $provider->boot($container);
         }
     }
 
     /**
-     * Load minimal core utility classes.
+     * Load legacy utility classes for backward compatibility with add-ons.
      *
-     * Only load what's absolutely necessary for v15.
+     * These files provide the WP_STATISTICS namespace classes that add-ons depend on.
+     * They will be removed when add-ons migrate to the new WP_Statistics namespace.
+     *
+     * ============================================================================
+     * ADD-ON COMPATIBILITY LAYER
+     * ============================================================================
+     *
+     * Classes used by add-ons (verified via grep analysis):
+     * - Option (23 usages)      -> class-wp-statistics-option.php
+     * - Menus (27 usages)       -> class-wp-statistics-menus.php
+     * - Helper (18 usages)      -> class-wp-statistics-helper.php
+     * - Admin_Template (16)     -> admin/class-wp-statistics-admin-template.php
+     * - Admin_Assets (7)        -> admin/class-wp-statistics-admin-assets.php
+     * - User (5 usages)         -> class-wp-statistics-user.php
+     * - Visitor (4 usages)      -> class-wp-statistics-visitor.php
+     * - Country (4 usages)      -> class-wp-statistics-country.php
+     * - TimeZone (2 usages)     -> class-wp-statistics-timezone.php
+     * - DB (2 usages)           -> class-wp-statistics-db.php
+     * - IP (1 usage)            -> class-wp-statistics-ip.php
+     * - Schedule (dependency)   -> class-wp-statistics-schedule.php (Helper uses it)
+     *
+     * Also kept:
+     * - template-functions.php  -> Public API for themes (wp_statistics_* functions)
+     * - admin/templates/        -> Layout templates used by Admin_Template::get_template()
+     * - defines/                -> Country codes, robots list (data files)
      *
      * @return void
      */
-    private static function loadCoreUtilities()
+    private static function loadLegacyUtilities()
     {
-        // Core utilities needed for tracking and database
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-helper.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-timezone.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-user.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-country.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-ip.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-geoip.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-visitor.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-pages.php';
+        $legacyDir = WP_STATISTICS_DIR . 'includes/';
 
-        // Template functions (for compatibility)
-        require_once WP_STATISTICS_DIR . 'includes/template-functions.php';
-        require_once WP_STATISTICS_DIR . 'functions.php';
-    }
+        // Legacy classes required by add-ons (WP_STATISTICS namespace)
+        $legacyFiles = [
+            // Core utilities (used by add-ons)
+            'class-wp-statistics-option.php',
+            'class-wp-statistics-db.php',
+            'class-wp-statistics-timezone.php',
+            'class-wp-statistics-user.php',
+            'class-wp-statistics-helper.php',
+            'class-wp-statistics-country.php',
+            'class-wp-statistics-ip.php',
+            'class-wp-statistics-visitor.php',
+            'class-wp-statistics-menus.php',
+            'class-wp-statistics-schedule.php',
 
-    /**
-     * Initialize v15 admin services.
-     *
-     * Only Dashboard and Settings - both React-based.
-     *
-     * @return void
-     */
-    private static function initAdminServices()
-    {
-        // v15 Admin Menu (Dashboard + Settings only)
-        new AdminMenuManager();
+            // Admin UI (used by add-ons)
+            'admin/class-wp-statistics-admin-template.php',
+            'admin/class-wp-statistics-admin-assets.php',
 
-        // v15 Dashboard AJAX endpoints and React assets
-        new DashboardManager();
+            // Public API for themes
+            'template-functions.php',
+        ];
 
-        // v15 Settings (additional AJAX handlers if needed)
-        new SettingsManager();
-
-        // v15 Email Report Manager (AJAX handlers for email builder)
-        new EmailReportManager();
-    }
-
-    /**
-     * Log a message (compatibility with legacy WP_Statistics class).
-     *
-     * @param string $message Log message.
-     * @param string $level Log level.
-     * @return void
-     */
-    public static function log($message, $level = 'info')
-    {
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log("WP Statistics [{$level}]: {$message}");
+        foreach ($legacyFiles as $file) {
+            $filePath = $legacyDir . $file;
+            if (file_exists($filePath)) {
+                require_once $filePath;
+            }
         }
+    }
+
+    /**
+     * Get a background process instance.
+     *
+     * @param string $key Process key.
+     * @return object|null
+     */
+    public static function getBackgroundProcess(string $key)
+    {
+        return self::container()->get('background.' . $key);
     }
 }

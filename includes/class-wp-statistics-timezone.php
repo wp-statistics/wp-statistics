@@ -5,6 +5,20 @@ namespace WP_STATISTICS;
 use DateTimeZone;
 use WP_Statistics\Components\DateRange;
 
+/**
+ * Legacy TimeZone class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Components\DateRange instead.
+ * @see \WP_Statistics\Components\DateRange
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use the DateRange component from the v15 architecture.
+ *
+ * Migration guide:
+ * - TimeZone::getCurrentDate()     -> DateRange or WordPress date functions
+ * - TimeZone::getCurrentTimestamp() -> time() or current_time('timestamp')
+ * - TimeZone::getDateFilters()     -> DateRange::get()
+ */
 class TimeZone
 {
     /**

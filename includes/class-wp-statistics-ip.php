@@ -8,6 +8,20 @@ use WP_Statistics;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
+/**
+ * Legacy IP class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use \WP_Statistics\Service\Analytics\VisitorProfile instead.
+ * @see \WP_Statistics\Service\Analytics\VisitorProfile
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use VisitorProfile for IP handling.
+ *
+ * Migration guide:
+ * - IP::getIP()           -> VisitorProfile->getIP()
+ * - IP::hashUserIP()      -> VisitorProfile->getHashedIP()
+ * - IP::getRequestUri()   -> Use Request utilities
+ */
 class IP
 {
     /**

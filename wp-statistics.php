@@ -24,6 +24,11 @@ require_once __DIR__ . '/includes/defines.php';
 # Set another useful plugin define.
 define('WP_STATISTICS_VERSION', '14.15.1');
 
-# Load Composer autoloader and initialize
+# Load Composer autoloader
 require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
-\WP_Statistics\Bootstrap::init();
+
+# Load global functions
+require_once WP_STATISTICS_DIR . 'src/functions.php';
+
+# Initialize plugin
+WP_Statistics\Bootstrap::init();

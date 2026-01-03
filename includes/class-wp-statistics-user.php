@@ -4,6 +4,21 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
 
+/**
+ * Legacy User class for backward compatibility.
+ *
+ * @deprecated 15.0.0 Use WordPress core user functions or dedicated services.
+ * @see get_current_user_id()
+ * @see current_user_can()
+ *
+ * This class is maintained for backward compatibility with add-ons.
+ * New code should use WordPress core user functions directly.
+ *
+ * Migration guide:
+ * - User::get_user_id()    -> get_current_user_id()
+ * - User::Access()         -> current_user_can($capability)
+ * - User::is_login()       -> is_user_logged_in()
+ */
 class User
 {
     /**

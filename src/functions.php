@@ -1,37 +1,34 @@
 <?php
 /**
- * Global functions for WP Statistics v15.
+ * Global functions for WP Statistics.
  *
  * @package WP_Statistics
  * @since 15.0.0
  */
 
+use WP_Statistics\Bootstrap;
+use WP_Statistics\Service\Logger\LoggerFactory;
+
 if (!function_exists('WP_Statistics')) {
     /**
      * Global function to get WP Statistics instance.
      *
-     * Works with both v14 and v15 architectures.
-     * In v15 mode, returns a compatibility object.
-     * In v14 mode, returns the legacy WP_Statistics singleton.
+     * Returns a compatibility object for backward compatibility.
      *
      * @return object
      */
     function WP_Statistics()
     {
-        if (\WP_Statistics\Bootstrap::isV15()) {
-            return new class {
-                public function getBackgroundProcess($key)
-                {
-                    return \WP_Statistics\Bootstrap::getBackgroundProcess($key);
-                }
+        return new class {
+            public function getBackgroundProcess($key)
+            {
+                return Bootstrap::getBackgroundProcess($key);
+            }
 
-                public function log($message, $level = 'info')
-                {
-                    \WP_Statistics\Bootstrap::log($message, $level);
-                }
-            };
-        }
-
-        return \WP_Statistics::instance();
+            public function log($message, $level = 'info')
+            {
+                LoggerFactory::logger('file')->log($message, $level);
+            }
+        };
     }
 }
