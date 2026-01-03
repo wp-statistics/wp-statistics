@@ -150,6 +150,7 @@ declare global {
       ajaxUrl: string
       nonce: string
       pluginUrl: string
+      siteUrl: string
       analyticsAction: string
       filterAction: string
       userPreferencesAction: string

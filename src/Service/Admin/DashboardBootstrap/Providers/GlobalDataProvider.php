@@ -33,6 +33,7 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'ajaxUrl'               => admin_url('admin-ajax.php'),
             'nonce'                 => wp_create_nonce('wp_statistics_dashboard_nonce'),
             'pluginUrl'             => WP_STATISTICS_URL,
+            'siteUrl'               => home_url(),
             'analyticsAction'       => AnalyticsQuery::getActionName(),
             'userPreferencesAction' => UserPreferences::getActionName(),
             'filterAction'          => FilterOptions::getActionName(),
