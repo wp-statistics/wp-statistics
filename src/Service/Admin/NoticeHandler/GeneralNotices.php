@@ -29,7 +29,6 @@ class GeneralNotices
     private $coreNotices = [
         'detectConsentIntegrations',
         'detectCachePlugins',
-        'checkTrackingMode',
         'performanceAndCleanUp',
         'memoryLimitCheck',
         'emailReportSchedule',
@@ -108,8 +107,8 @@ class GeneralNotices
         // Generate notice id
         $noticeId = sanitize_key($cacheInfo['debug']) . '_cache_plugin_detected';
 
-        // Return if notice is already dismissed, server-side tracking or bypass ad blocker is active
-        if (Notice::isNoticeDismissed($noticeId) || !Option::get('use_cache_plugin') || Option::get('bypass_ad_blockers')) {
+        // Return if notice is already dismissed or bypass ad blocker is active
+        if (Notice::isNoticeDismissed($noticeId) || Option::get('bypass_ad_blockers')) {
             return;
         }
 
@@ -121,43 +120,6 @@ class GeneralNotices
         );
 
         Notice::addNotice($message, $noticeId, 'info');
-    }
-
-    /**
-     * Notifies users about the deprecation of server-side tracking.
-     *
-     * @return void
-     */
-    private function checkTrackingMode()
-    {
-        if (Notice::isNoticeDismissed('deprecate_server_side_tracking')) {
-            return;
-        }
-
-        if (!Menus::in_plugin_page()) {
-            return;
-        }
-
-        $trackingMode = Option::get('use_cache_plugin');
-
-        if ($trackingMode) {
-            return;
-        }
-
-        $settingsUrl = Menus::admin_url('settings');
-        $noticeText  = sprintf(
-            wp_kses(
-            /* translators: %s: settings URL */
-                __('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', 'wp-statistics'),
-                [
-                    'b' => [],
-                    'a' => ['href' => []],
-                ]
-            ),
-            esc_url($settingsUrl)
-        );
-
-        Notice::addNotice($noticeText, 'deprecate_server_side_tracking', 'warning');
     }
 
     /**

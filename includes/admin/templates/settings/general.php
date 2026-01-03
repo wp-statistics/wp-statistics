@@ -92,30 +92,7 @@ use WP_STATISTICS\Menus;
             <th scope="row" colspan="2"><h3><?php esc_html_e('Tracker Configuration', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr data-id="tracking_method_tr">
-            <th scope="row">
-                 <label for="wps_settings[use_cache_plugin]">
-                     <span>
-                         <?php esc_html_e('Tracking Method', 'wp-statistics'); ?>
-                     </span>
-                     <span class="wps-badge wps-badge--deprecated"><?php esc_html_e('DEPRECATED', 'wp-statistics'); ?></span>
-                 </label>
-            </th>
-
-            <td>
-                <select id="wps_settings[use_cache_plugin]" name="wps_use_cache_plugin">
-                    <option value="1" <?php echo WP_STATISTICS\Option::get('use_cache_plugin') ? "selected='selected'" : ''; ?>>
-                        <?php esc_html_e('Client Side Tracking (Recommended)', 'wp-statistics'); ?>
-                    </option>
-                    <option value="0" <?php echo !WP_STATISTICS\Option::get('use_cache_plugin') ? "selected='selected'" : ''; ?>>
-                        <?php esc_html_e('Server Side Tracking (Deprecated)', 'wp-statistics'); ?>
-                    </option>
-                </select>
-                <p class="description"><?php _e('Client Side Tracking uses the visitor’s browser for better accuracy and <b>caching compatibility</b>. Server Side Tracking is less accurate and will be deprecated. Client Side Tracking is strongly recommended. <a href="https://wp-statistics.com/2024/07/24/deprecating-server-side-tracking-in-wp-statistics-15/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr class="js-wps-show_if_use_cache_plugin_equal_1" data-id="bypass_ad_blockers_tr">
+        <tr data-id="bypass_ad_blockers_tr">
             <th scope="row">
                 <span class="wps-setting-label"><?php esc_html_e('Bypass Ad Blockers', 'wp-statistics'); ?></span>
             </th>
@@ -127,7 +104,7 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr class="js-wps-show_if_use_cache_plugin_equal_1" data-id="tracker_debugger_tr">
+        <tr data-id="tracker_debugger_tr">
             <th scope="row">
                 <span class="wps-setting-label"><?php esc_html_e('Tracker Debugger', 'wp-statistics'); ?></span>
             </th>
