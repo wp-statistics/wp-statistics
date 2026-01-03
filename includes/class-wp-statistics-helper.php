@@ -913,7 +913,7 @@ class Helper
             'email_title'  => apply_filters('wp_statistics_email_title', $emailTitle),
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'public/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
-            'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
+            'copyright'    => apply_filters('wp_statistics_email_footer_copyright', \WP_Statistics\Components\Template::get('Emails/copyright', 'Messaging', [], true)),
             'email_header' => apply_filters('wp_statistics_email_header', $emailHeader),
             'email_footer' => apply_filters('wp_statistics_email_footer', $emailFooter),
             'is_rtl'       => (is_rtl() ? true : false),
