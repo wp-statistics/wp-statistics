@@ -11,6 +11,7 @@ use WP_Statistics\Service\Blocks\BlocksManager;
 use WP_Statistics\Service\Tracking\TrackerControllerFactory;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
+use WP_Statistics\Service\CustomEvent\CustomEventHandler;
 
 /**
  * Core Service Provider.
@@ -64,6 +65,11 @@ class CoreServiceProvider implements ServiceProvider
             return new FrontendHandler();
         });
 
+        // Custom Event Handler - handles batch tracking custom events
+        $container->register('custom_events', function () {
+            return new CustomEventHandler();
+        });
+
         // Aliases for common access patterns
         $container->alias('tracker', 'tracking');
     }
@@ -103,5 +109,8 @@ class CoreServiceProvider implements ServiceProvider
         if (!is_admin()) {
             $container->get('frontend');
         }
+
+        // Initialize custom event handler
+        $container->get('custom_events');
     }
 }
