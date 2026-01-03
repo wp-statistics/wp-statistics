@@ -62,6 +62,7 @@ class Uninstaller
         'wp_statistics_dbmaint_hook',
         'wp_statistics_referrerspam_hook',
         'wp_statistics_report_hook',
+        'wp_statistics_email_report',
         'wp_statistics_geoip_hook',
         'wp_statistics_queue_daily_summary',
         'wp_statistics_check_licenses_status',
@@ -70,6 +71,7 @@ class Uninstaller
         'wp_statistics_dbmaint_visitor_hook',
         'wp_statistics_marketing_campaign_hook',
         'wp_statistics_add_visit_hook',
+        'wp_statistics_daily_cron_hook',
     ];
 
     /**
@@ -90,8 +92,8 @@ class Uninstaller
     /**
      * Run full uninstall cleanup.
      *
-     * Called when the plugin is deleted. Removes all data if the
-     * user has enabled the delete_data_on_uninstall option.
+     * Called when the plugin is deleted. Always runs deactivation cleanup,
+     * then removes all data if user enabled delete_data_on_uninstall option.
      *
      * @return void
      */
@@ -99,13 +101,14 @@ class Uninstaller
     {
         global $wpdb;
 
+        // Always run deactivation cleanup first
+        self::deactivate();
+
         // Check if we should delete data on uninstall
         $options = get_option('wp_statistics');
         $deleteOnUninstall = isset($options['delete_data_on_uninstall']) && $options['delete_data_on_uninstall'];
 
         if (!$deleteOnUninstall) {
-            // User opted to keep data, only clear cron events
-            self::clearCronEvents();
             return;
         }
 

@@ -51,8 +51,8 @@ class CronManager
      */
     private function initializeEvents()
     {
-        // Note: Email reports are handled by EmailReportManager/EmailReportScheduler in v15
-        // using the 'wp_statistics_v15_email_report' hook, not the legacy cron system.
+        // Note: Email reports are handled by EmailReportManager/EmailReportScheduler
+        // using the 'wp_statistics_email_report' hook.
         $this->events = [
             'database_maintenance' => new DatabaseMaintenanceEvent(),
             'referrer_spam'        => new ReferrerSpamEvent(),
@@ -90,8 +90,8 @@ class CronManager
             'wp_statistics_dbmaint_hook',
             'wp_statistics_referrerspam_hook',
             'wp_statistics_geoip_hook',
-            'wp_statistics_report_hook',           // Legacy email hook (unschedule for cleanup)
-            'wp_statistics_v15_email_report',      // v15 email hook
+            'wp_statistics_report_hook',           // Legacy email hook (cleanup)
+            'wp_statistics_email_report',          // Current email hook
             'wp_statistics_queue_daily_summary',
             'wp_statistics_licenses_hook',
             'wp_statistics_check_licenses_status',
@@ -119,7 +119,7 @@ class CronManager
             'wp_statistics_dbmaint_hook'          => __('Database Maintenance', 'wp-statistics'),
             'wp_statistics_referrerspam_hook'     => __('Referrer Spam Update', 'wp-statistics'),
             'wp_statistics_geoip_hook'            => __('GeoIP Database Update', 'wp-statistics'),
-            'wp_statistics_v15_email_report'      => __('Email Report', 'wp-statistics'),
+            'wp_statistics_email_report'          => __('Email Report', 'wp-statistics'),
             'wp_statistics_queue_daily_summary'   => __('Daily Summary', 'wp-statistics'),
             'wp_statistics_licenses_hook'         => __('License Migration', 'wp-statistics'),
             'wp_statistics_check_licenses_status' => __('License Status Check', 'wp-statistics'),

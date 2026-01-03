@@ -2,23 +2,27 @@
 /**
  * WP Statistics Uninstall Handler
  *
- * This file is called by WordPress when the plugin is deleted.
- * It bootstraps the autoloader and delegates to the PSR-4 Uninstaller class.
+ * Called by WordPress when the plugin is DELETED (not deactivated).
+ * Delegates cleanup to the PSR-4 Uninstaller class which:
+ * - Always clears cron events and temporary files
+ * - Optionally removes all data if delete_data_on_uninstall is enabled
  *
  * @package WP_Statistics
  * @since 15.0.0
  */
 
-// Exit if accessed directly or not being uninstalled
+// Exit if not being uninstalled by WordPress
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     exit;
 }
 
 // Load Composer autoloader
 $autoloader = __DIR__ . '/vendor/autoload.php';
-if (file_exists($autoloader)) {
-    require_once $autoloader;
+if (!file_exists($autoloader)) {
+    return;
 }
+
+require_once $autoloader;
 
 // Run the uninstaller
 if (class_exists('WP_Statistics\Service\Installation\Uninstaller')) {

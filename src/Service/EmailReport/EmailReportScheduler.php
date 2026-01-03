@@ -18,7 +18,7 @@ class EmailReportScheduler
     /**
      * Cron hook name for email reports
      */
-    private const CRON_HOOK = 'wp_statistics_v15_email_report';
+    private const CRON_HOOK = 'wp_statistics_email_report';
 
     /**
      * Email report manager instance
