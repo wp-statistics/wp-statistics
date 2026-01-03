@@ -10,6 +10,12 @@ use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Decorators\ViewDecorator;
 use WP_Statistics\Utils\PostType;
 
+/**
+ * Views data model.
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with 'views' source instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ */
 class ViewsModel extends BaseModel
 {
     public function countViews($args = [])

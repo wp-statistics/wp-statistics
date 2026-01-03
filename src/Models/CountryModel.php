@@ -11,6 +11,8 @@ use WP_Statistics\Utils\Query;
  * Provides methods to query and aggregate metrics by country.
  *
  * @since 15.0.0
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with 'country' group_by instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  */
 class CountryModel extends BaseModel
 {

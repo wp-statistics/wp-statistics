@@ -13,6 +13,8 @@ use WP_Statistics\Utils\Query;
  * Provides methods to query and interact with the sessions table.
  *
  * @since 15.0.0
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with 'sessions' source instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  */
 class SessionModel extends BaseModel
 {

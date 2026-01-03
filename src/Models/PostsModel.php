@@ -7,6 +7,12 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Query;
 
+/**
+ * Posts data model.
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with page/post grouping instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ */
 class PostsModel extends BaseModel
 {
 
