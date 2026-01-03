@@ -32,6 +32,10 @@ export class WordPress {
     return this.data.globals.pluginUrl
   }
 
+  public getSiteUrl(): string {
+    return this.data.globals.siteUrl
+  }
+
   public isTrackLoggedInEnabled(): boolean {
     return this.data.globals.trackLoggedInUsers
   }

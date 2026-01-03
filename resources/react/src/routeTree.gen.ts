@@ -17,6 +17,7 @@ import { Route as visitorInsightsVisitorsRouteImport } from './routes/(visitor-i
 import { Route as visitorInsightsViewsRouteImport } from './routes/(visitor-insights)/views'
 import { Route as visitorInsightsTopVisitorsRouteImport } from './routes/(visitor-insights)/top-visitors'
 import { Route as visitorInsightsLoggedInUsersRouteImport } from './routes/(visitor-insights)/logged-in-users'
+import { Route as pageInsightsTopPagesRouteImport } from './routes/(page-insights)/top-pages'
 
 const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
@@ -217,6 +218,15 @@ const visitorInsightsLoggedInUsersRoute =
         (d) => d.Route,
       ),
     )
+const pageInsightsTopPagesRoute = pageInsightsTopPagesRouteImport
+  .update({
+    id: '/(page-insights)/top-pages',
+    path: '/top-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/top-pages.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -226,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/top-pages': typeof pageInsightsTopPagesRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
   '/views': typeof visitorInsightsViewsRoute
@@ -247,6 +258,7 @@ export interface FileRoutesByTo {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/top-pages': typeof pageInsightsTopPagesRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
   '/views': typeof visitorInsightsViewsRoute
@@ -269,6 +281,7 @@ export interface FileRoutesById {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/(page-insights)/top-pages': typeof pageInsightsTopPagesRoute
   '/(visitor-insights)/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/(visitor-insights)/top-visitors': typeof visitorInsightsTopVisitorsRoute
   '/(visitor-insights)/views': typeof visitorInsightsViewsRoute
@@ -292,6 +305,7 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/top-pages'
     | '/logged-in-users'
     | '/top-visitors'
     | '/views'
@@ -313,6 +327,7 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/top-pages'
     | '/logged-in-users'
     | '/top-visitors'
     | '/views'
@@ -334,6 +349,7 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/(page-insights)/top-pages'
     | '/(visitor-insights)/logged-in-users'
     | '/(visitor-insights)/top-visitors'
     | '/(visitor-insights)/views'
@@ -356,6 +372,7 @@ export interface RootRouteChildren {
   GeographicLazyRoute: typeof GeographicLazyRoute
   OverviewLazyRoute: typeof OverviewLazyRoute
   PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
+  pageInsightsTopPagesRoute: typeof pageInsightsTopPagesRoute
   visitorInsightsLoggedInUsersRoute: typeof visitorInsightsLoggedInUsersRoute
   visitorInsightsTopVisitorsRoute: typeof visitorInsightsTopVisitorsRoute
   visitorInsightsViewsRoute: typeof visitorInsightsViewsRoute
@@ -505,6 +522,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof visitorInsightsLoggedInUsersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(page-insights)/top-pages': {
+      id: '/(page-insights)/top-pages'
+      path: '/top-pages'
+      fullPath: '/top-pages'
+      preLoaderRoute: typeof pageInsightsTopPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -516,6 +540,7 @@ const rootRouteChildren: RootRouteChildren = {
   GeographicLazyRoute: GeographicLazyRoute,
   OverviewLazyRoute: OverviewLazyRoute,
   PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
+  pageInsightsTopPagesRoute: pageInsightsTopPagesRoute,
   visitorInsightsLoggedInUsersRoute: visitorInsightsLoggedInUsersRoute,
   visitorInsightsTopVisitorsRoute: visitorInsightsTopVisitorsRoute,
   visitorInsightsViewsRoute: visitorInsightsViewsRoute,
