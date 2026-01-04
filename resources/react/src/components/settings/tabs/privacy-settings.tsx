@@ -25,7 +25,7 @@ export function PrivacySettings() {
   const [consentIntegration, setConsentIntegration] = useSetting(
     settings,
     'consent_integration',
-    ''
+    'none'
   )
   const [consentLevel, setConsentLevel] = useSetting(
     settings,
@@ -109,7 +109,7 @@ export function PrivacySettings() {
                 <SelectValue placeholder="Select plugin" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">None</SelectItem>
+                <SelectItem value="none">None</SelectItem>
                 <SelectItem value="wp_consent_api">Via WP Consent API</SelectItem>
                 <SelectItem value="complianz">Complianz</SelectItem>
                 <SelectItem value="cookieyes">CookieYes</SelectItem>
@@ -141,7 +141,7 @@ export function PrivacySettings() {
             </div>
           )}
 
-          {consentIntegration && consentIntegration !== '' && (
+          {consentIntegration && consentIntegration !== 'none' && (
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label htmlFor="anonymous-tracking">Anonymous Tracking</Label>
