@@ -4,12 +4,12 @@ use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\IP;
-use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 
@@ -206,44 +206,60 @@ function wp_statistics_useronline($options = array())
 }
 
 /**
- * This function get the visit statistics for a given time frame
+ * This function get the visit statistics for a given time frame.
  *
- * @param $time
- * @param null $daily
- * @return int
+ * Returns total page views (hits) for the specified time period.
  *
- * @deprecated This function has been deprecated. Use ViewsModel->countViews() or VisitorsModel->countHits().
+ * @param string|int $time Time period: 'today', 'yesterday', 'week', 'month', 'year', 'total', or days ago
+ * @param bool|null $daily If true and $time is numeric, treats $time as days ago
+ * @return int Total page views count
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with sources: ['views'] instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  */
 function wp_statistics_visit($time, $daily = null)
 {
-    // Map legacy time ranges to new range
+    // Map legacy time ranges to date range
     if ($time === 'week') {
         $time = '7days';
     } elseif ($time === 'month') {
         $time = '30days';
     } elseif ($time === 'year') {
         $time = '12months';
-    } else if (is_numeric($time) && $daily) {
+    } elseif (is_numeric($time) && $daily) {
         $time = DateTime::get("$time days");
     }
 
-    $args = [
-        'date' => DateRange::resolveDate($time)
-    ];
+    $dateRange = DateRange::resolveDate($time);
 
-    $visitorModel = new VisitorsModel();
+    try {
+        $handler = new AnalyticsQueryHandler(false);
+        $result  = $handler->handle([
+            'sources'   => ['views'],
+            'date_from' => $dateRange['from'],
+            'date_to'   => $dateRange['to'],
+            'format'    => 'flat',
+        ]);
 
-    return $visitorModel->countHits($args);
+        return (int) ($result['data']['views'] ?? 0);
+    } catch (\Exception $e) {
+        return 0;
+    }
 }
 
 /**
  * This function gets the visitor statistics for a given time frame.
  *
- * @param $time
- * @param null $daily
- * @param bool $count_only
- * @param array $options
- * @return int|null|string
+ * Returns unique visitor count for the specified time period.
+ *
+ * @param string|int $time Time period: 'today', 'yesterday', 'week', 'month', 'year', 'total', or days ago
+ * @param bool|null $daily If true, treats $time as a specific date
+ * @param bool $count_only If true, returns count only; otherwise returns query result
+ * @param array $options Additional filter options (type, ID, location, agent, platform)
+ * @return int|null|string Visitor count or query result
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with sources: ['visitors'] instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  */
 function wp_statistics_visitor($time, $daily = null, $count_only = false, $options = array())
 {
@@ -397,15 +413,18 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
 /**
  * This function returns the statistics for a given page.
  *
- * @param $time
- * @param string $page_uri
- * @param int $id
- * @param null $rangestartdate
- * @param null $rangeenddate
- * @param bool $type
- * @return int|null|string
+ * Returns total page views for a specific page/post by ID or URI.
  *
- * @todo    Replace all instances of this function with `ViewsModel->countViews()`.
+ * @param string $time Time period: 'today', 'yesterday', 'total', 'range', or date string
+ * @param string $page_uri Page URI to filter by
+ * @param int $id Post/page ID to filter by (-1 for none)
+ * @param string|null $rangestartdate Range start date (Y-m-d format)
+ * @param string|null $rangeenddate Range end date (Y-m-d format)
+ * @param string|bool $type Post type to filter by
+ * @return int Total page views count
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with sources: ['views'] and filters instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  */
 function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = null, $rangeenddate = null, $type = false)
 {
