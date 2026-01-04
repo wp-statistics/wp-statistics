@@ -291,22 +291,8 @@ export function AdvancedSettings() {
               className="w-32"
             />
             <p className="text-xs text-muted-foreground">
-              Automatically aggregate data older than this many days.
+              Automatically aggregate data older than this many days. Set to 0 to keep data forever.
             </p>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="delete-on-uninstall">Delete Data on Uninstall</Label>
-              <p className="text-sm text-muted-foreground">
-                Remove all plugin data when uninstalling WP Statistics.
-              </p>
-            </div>
-            <Switch
-              id="delete-on-uninstall"
-              checked={!!deleteOnUninstall}
-              onCheckedChange={setDeleteOnUninstall}
-            />
           </div>
         </CardContent>
       </Card>
@@ -328,6 +314,31 @@ export function AdvancedSettings() {
               id="share-anonymous"
               checked={!!shareAnonymousData}
               onCheckedChange={setShareAnonymousData}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-destructive/50">
+        <CardHeader>
+          <CardTitle className="text-destructive">Danger Zone</CardTitle>
+          <CardDescription>
+            These actions are irreversible. Please proceed with caution.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label htmlFor="delete-on-uninstall">Delete All Data on Uninstall</Label>
+              <p className="text-sm text-muted-foreground">
+                Remove all WP Statistics data from the database when the plugin is uninstalled. This
+                action cannot be undone.
+              </p>
+            </div>
+            <Switch
+              id="delete-on-uninstall"
+              checked={!!deleteOnUninstall}
+              onCheckedChange={setDeleteOnUninstall}
             />
           </div>
         </CardContent>

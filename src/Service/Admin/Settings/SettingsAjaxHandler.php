@@ -303,7 +303,7 @@ class SettingsAjaxHandler
      */
     private function getAllSettings()
     {
-        $tabs = ['general', 'privacy', 'notifications', 'exclusions', 'advanced'];
+        $tabs = ['general', 'privacy', 'notifications', 'exclusions', 'advanced', 'display', 'access'];
 
         $settings = [];
         foreach ($tabs as $tab) {
@@ -431,6 +431,25 @@ class SettingsAjaxHandler
                 // Legacy keys (deprecated in v15)
                 'auto_pop',
                 'private_country_code',
+            ],
+            'display' => [
+                // Admin Interface
+                'disable_editor',
+                'disable_column',
+                'enable_user_column',
+                'menu_bar',
+                'charts_previous_period',
+                'disable_dashboard',
+                'display_notifications',
+                'hide_notices',
+                // Frontend Display
+                'show_hits',
+                'display_hits_position',
+            ],
+            'access' => [
+                // Roles & Permissions
+                'read_capability',
+                'manage_capability',
             ],
         ];
 

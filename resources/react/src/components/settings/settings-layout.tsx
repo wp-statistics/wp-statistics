@@ -1,5 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { Settings, Shield, Bell, Ban, Wrench } from 'lucide-react'
+import { Settings, Shield, Bell, Ban, Wrench, Monitor, Users } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -13,9 +13,11 @@ interface SettingsTab {
 
 const tabs: SettingsTab[] = [
   { id: 'general', label: 'General', href: '/settings/general', icon: Settings },
+  { id: 'display', label: 'Display', href: '/settings/display', icon: Monitor },
   { id: 'privacy', label: 'Privacy', href: '/settings/privacy', icon: Shield },
   { id: 'notifications', label: 'Notifications', href: '/settings/notifications', icon: Bell },
   { id: 'exclusions', label: 'Exclusions', href: '/settings/exclusions', icon: Ban },
+  { id: 'access', label: 'Access', href: '/settings/access', icon: Users },
   { id: 'advanced', label: 'Advanced', href: '/settings/advanced', icon: Wrench },
 ]
 
