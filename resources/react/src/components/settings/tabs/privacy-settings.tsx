@@ -20,10 +20,18 @@ export function PrivacySettings() {
   // Individual settings
   const [anonymizeIps, setAnonymizeIps] = useSetting(settings, 'anonymize_ips', true)
   const [hashIps, setHashIps] = useSetting(settings, 'hash_ips', true)
-  const [ipMethod, setIpMethod] = useSetting(settings, 'ip_method', 'sequential')
   const [doNotTrack, setDoNotTrack] = useSetting(settings, 'do_not_track', false)
   const [anonymousTracking, setAnonymousTracking] = useSetting(settings, 'anonymous_tracking', false)
-  const [consentLevel, setConsentLevel] = useSetting(settings, 'consent_level_integration', 'disabled')
+  const [consentIntegration, setConsentIntegration] = useSetting(
+    settings,
+    'consent_integration',
+    ''
+  )
+  const [consentLevel, setConsentLevel] = useSetting(
+    settings,
+    'consent_level_integration',
+    'functional'
+  )
   const [privacyAudit, setPrivacyAudit] = useSetting(settings, 'privacy_audit', true)
 
   const handleSave = async () => {
@@ -46,7 +54,7 @@ export function PrivacySettings() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>IP Address Handling</CardTitle>
+          <CardTitle>Data Protection</CardTitle>
           <CardDescription>
             Configure how visitor IP addresses are stored and processed.
           </CardDescription>
@@ -56,7 +64,7 @@ export function PrivacySettings() {
             <div className="space-y-0.5">
               <Label htmlFor="anonymize-ips">Anonymize IP Addresses</Label>
               <p className="text-sm text-muted-foreground">
-                Remove the last octet of IP addresses (e.g., 192.168.1.xxx).
+                Masks the last segment of IP addresses for privacy compliance.
               </p>
             </div>
             <Switch
@@ -70,82 +78,93 @@ export function PrivacySettings() {
             <div className="space-y-0.5">
               <Label htmlFor="hash-ips">Hash IP Addresses</Label>
               <p className="text-sm text-muted-foreground">
-                Store hashed versions of IP addresses for privacy compliance.
+                Transforms IP addresses into a unique, non-reversible string.
               </p>
             </div>
             <Switch id="hash-ips" checked={!!hashIps} onCheckedChange={setHashIps} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="ip-method">IP Detection Method</Label>
-              <p className="text-sm text-muted-foreground">
-                How to detect visitor IP addresses from request headers.
-              </p>
-            </div>
-            <Select value={ipMethod as string} onValueChange={setIpMethod}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select method" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="sequential">Sequential</SelectItem>
-                <SelectItem value="REMOTE_ADDR">REMOTE_ADDR</SelectItem>
-                <SelectItem value="X_FORWARDED_FOR">X-Forwarded-For</SelectItem>
-                <SelectItem value="HTTP_X_REAL_IP">X-Real-IP</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Data Collection</CardTitle>
-          <CardDescription>Control what visitor data is collected and stored.</CardDescription>
+          <CardTitle>User Preferences</CardTitle>
+          <CardDescription>
+            Configure consent integration and respect user privacy preferences.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="do-not-track">Respect Do Not Track</Label>
+              <Label htmlFor="consent-integration">Consent Plugin Integration</Label>
               <p className="text-sm text-muted-foreground">
-                Honor the browser's Do Not Track setting.
+                Integrate with supported consent management plugins.
+              </p>
+            </div>
+            <Select
+              value={consentIntegration as string}
+              onValueChange={setConsentIntegration}
+            >
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Select plugin" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">None</SelectItem>
+                <SelectItem value="wp_consent_api">Via WP Consent API</SelectItem>
+                <SelectItem value="complianz">Complianz</SelectItem>
+                <SelectItem value="cookieyes">CookieYes</SelectItem>
+                <SelectItem value="real_cookie_banner">Real Cookie Banner</SelectItem>
+                <SelectItem value="borlabs_cookie">Borlabs Cookie</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {consentIntegration === 'wp_consent_api' && (
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="consent-level">Consent Category</Label>
+                <p className="text-sm text-muted-foreground">
+                  Select the consent category WP Statistics should track.
+                </p>
+              </div>
+              <Select value={consentLevel as string} onValueChange={setConsentLevel}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="functional">Functional</SelectItem>
+                  <SelectItem value="statistics-anonymous">Statistics-Anonymous</SelectItem>
+                  <SelectItem value="statistics">Statistics</SelectItem>
+                  <SelectItem value="marketing">Marketing</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {consentIntegration && consentIntegration !== '' && (
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="anonymous-tracking">Anonymous Tracking</Label>
+                <p className="text-sm text-muted-foreground">
+                  Track all users anonymously without PII by default.
+                </p>
+              </div>
+              <Switch
+                id="anonymous-tracking"
+                checked={!!anonymousTracking}
+                onCheckedChange={setAnonymousTracking}
+              />
+            </div>
+          )}
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label htmlFor="do-not-track">Do Not Track (DNT)</Label>
+              <p className="text-sm text-muted-foreground">
+                Respect the visitor's browser setting to not track their activity.
               </p>
             </div>
             <Switch id="do-not-track" checked={!!doNotTrack} onCheckedChange={setDoNotTrack} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="anonymous-tracking">Anonymous Tracking</Label>
-              <p className="text-sm text-muted-foreground">
-                Track visitors without storing any personal data.
-              </p>
-            </div>
-            <Switch
-              id="anonymous-tracking"
-              checked={!!anonymousTracking}
-              onCheckedChange={setAnonymousTracking}
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="consent-level">Consent Integration</Label>
-              <p className="text-sm text-muted-foreground">
-                Integrate with consent management plugins.
-              </p>
-            </div>
-            <Select value={consentLevel as string} onValueChange={setConsentLevel}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select integration" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="disabled">Disabled</SelectItem>
-                <SelectItem value="complianz">Complianz</SelectItem>
-                <SelectItem value="cookieyes">CookieYes</SelectItem>
-                <SelectItem value="cookie-notice">Cookie Notice</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </CardContent>
       </Card>

@@ -32,6 +32,28 @@ export function ExclusionSettings() {
   const [excludeAdmin, setExcludeAdmin] = useSetting(settings, 'exclude_administrator', false)
   const [excludeEditor, setExcludeEditor] = useSetting(settings, 'exclude_editor', false)
   const [excludeAuthor, setExcludeAuthor] = useSetting(settings, 'exclude_author', false)
+  const [excludeContributor, setExcludeContributor] = useSetting(
+    settings,
+    'exclude_contributor',
+    false
+  )
+  const [excludeSubscriber, setExcludeSubscriber] = useSetting(
+    settings,
+    'exclude_subscriber',
+    false
+  )
+  const [excludeAnonymous, setExcludeAnonymous] = useSetting(
+    settings,
+    'exclude_anonymous_users',
+    false
+  )
+
+  // Query Parameters
+  const [queryParamsAllowList, setQueryParamsAllowList] = useSetting(
+    settings,
+    'query_params_allow_list',
+    ''
+  )
 
   const handleSave = async () => {
     const success = await settings.save()
@@ -177,6 +199,31 @@ export function ExclusionSettings() {
 
       <Card>
         <CardHeader>
+          <CardTitle>URL Query Parameters</CardTitle>
+          <CardDescription>
+            Control which URL query parameters are retained in your statistics.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="query-params">Allowed Query Parameters</Label>
+            <Textarea
+              id="query-params"
+              placeholder="ref&#10;source&#10;utm_source&#10;utm_medium&#10;utm_campaign"
+              value={queryParamsAllowList as string}
+              onChange={(e) => setQueryParamsAllowList(e.target.value)}
+              rows={5}
+            />
+            <p className="text-xs text-muted-foreground">
+              Enter parameter names to retain, one per line. Default: ref, source, utm_source,
+              utm_medium, utm_campaign, utm_content, utm_term, utm_id, s, p.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
           <CardTitle>Bot & Crawler Detection</CardTitle>
           <CardDescription>Filter out bots and search engine crawlers.</CardDescription>
         </CardHeader>
@@ -256,6 +303,32 @@ export function ExclusionSettings() {
               <p className="text-sm text-muted-foreground">Exclude users with author role.</p>
             </div>
             <Switch checked={!!excludeAuthor} onCheckedChange={setExcludeAuthor} />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label>Contributors</Label>
+              <p className="text-sm text-muted-foreground">Exclude users with contributor role.</p>
+            </div>
+            <Switch checked={!!excludeContributor} onCheckedChange={setExcludeContributor} />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label>Subscribers</Label>
+              <p className="text-sm text-muted-foreground">Exclude users with subscriber role.</p>
+            </div>
+            <Switch checked={!!excludeSubscriber} onCheckedChange={setExcludeSubscriber} />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label>Anonymous Users</Label>
+              <p className="text-sm text-muted-foreground">
+                Exclude users who are not logged in.
+              </p>
+            </div>
+            <Switch checked={!!excludeAnonymous} onCheckedChange={setExcludeAnonymous} />
           </div>
         </CardContent>
       </Card>

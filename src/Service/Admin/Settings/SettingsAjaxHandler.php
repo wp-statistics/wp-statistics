@@ -385,6 +385,7 @@ class SettingsAjaxHandler
                 'exclude_author',
                 'exclude_contributor',
                 'exclude_subscriber',
+                'exclude_anonymous_users',
                 // IP Exclusions
                 'exclude_ip',
                 // Robot Exclusions

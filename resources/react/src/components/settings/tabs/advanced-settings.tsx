@@ -18,6 +18,14 @@ import { useSettings, useSetting } from '@/hooks/use-settings'
 export function AdvancedSettings() {
   const settings = useSettings({ tab: 'advanced' })
 
+  // IP Detection Settings
+  const [ipMethod, setIpMethod] = useSetting(settings, 'ip_method', 'sequential')
+  const [customHeaderIpMethod, setCustomHeaderIpMethod] = useSetting(
+    settings,
+    'user_custom_header_ip_method',
+    ''
+  )
+
   // GeoIP Settings
   const [geoipLicenseType, setGeoipLicenseType] = useSetting(
     settings,
@@ -51,6 +59,13 @@ export function AdvancedSettings() {
     false
   )
 
+  // Content Analytics Settings
+  const [wordCountAnalytics, setWordCountAnalytics] = useSetting(
+    settings,
+    'word_count_analytics',
+    false
+  )
+
   // Other Settings
   const [shareAnonymousData, setShareAnonymousData] = useSetting(
     settings,
@@ -76,6 +91,57 @@ export function AdvancedSettings() {
 
   return (
     <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>IP Detection</CardTitle>
+          <CardDescription>
+            Configure how visitor IP addresses are detected.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="ip-method">IP Detection Method</Label>
+            <Select value={ipMethod as string} onValueChange={setIpMethod}>
+              <SelectTrigger id="ip-method">
+                <SelectValue placeholder="Select method" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="sequential">Sequential (Check All Headers)</SelectItem>
+                <SelectItem value="REMOTE_ADDR">REMOTE_ADDR</SelectItem>
+                <SelectItem value="HTTP_CLIENT_IP">HTTP_CLIENT_IP</SelectItem>
+                <SelectItem value="HTTP_X_FORWARDED_FOR">HTTP_X_FORWARDED_FOR</SelectItem>
+                <SelectItem value="HTTP_X_FORWARDED">HTTP_X_FORWARDED</SelectItem>
+                <SelectItem value="HTTP_FORWARDED_FOR">HTTP_FORWARDED_FOR</SelectItem>
+                <SelectItem value="HTTP_FORWARDED">HTTP_FORWARDED</SelectItem>
+                <SelectItem value="HTTP_X_REAL_IP">HTTP_X_REAL_IP</SelectItem>
+                <SelectItem value="HTTP_CF_CONNECTING_IP">HTTP_CF_CONNECTING_IP (Cloudflare)</SelectItem>
+                <SelectItem value="custom">Custom Header</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              Select how visitor IP addresses should be detected. Use 'Sequential' to check all
+              headers automatically, or specify a specific header for your server configuration.
+            </p>
+          </div>
+
+          {ipMethod === 'custom' && (
+            <div className="space-y-2">
+              <Label htmlFor="custom-header">Custom Header Name</Label>
+              <Input
+                id="custom-header"
+                type="text"
+                placeholder="HTTP_X_CUSTOM_IP"
+                value={customHeaderIpMethod as string}
+                onChange={(e) => setCustomHeaderIpMethod(e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">
+                Enter the custom server header name that contains the visitor's IP address.
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>GeoIP Settings</CardTitle>
@@ -180,6 +246,29 @@ export function AdvancedSettings() {
             <p className="text-xs text-muted-foreground">
               Country code to use for private/local IP addresses.
             </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Content Analytics</CardTitle>
+          <CardDescription>Configure content analysis features.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label htmlFor="word-count-analytics">Word Count Analytics</Label>
+              <p className="text-sm text-muted-foreground">
+                Calculate and store word count for posts to enable reading time estimates and content
+                length analytics.
+              </p>
+            </div>
+            <Switch
+              id="word-count-analytics"
+              checked={!!wordCountAnalytics}
+              onCheckedChange={setWordCountAnalytics}
+            />
           </div>
         </CardContent>
       </Card>
