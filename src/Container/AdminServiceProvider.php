@@ -4,6 +4,7 @@ namespace WP_Statistics\Container;
 
 use WP_Statistics\Service\Admin\AdminBar;
 use WP_Statistics\Service\Admin\AdminMenuManager;
+use WP_Statistics\Service\Admin\CommandPalette\CommandPaletteHandler;
 use WP_Statistics\Service\Admin\DashboardBootstrap\DashboardManager;
 use WP_Statistics\Service\Admin\Settings\SettingsManager;
 use WP_Statistics\Service\Admin\Network\NetworkManager;
@@ -55,6 +56,11 @@ class AdminServiceProvider implements ServiceProvider
         $container->register('network', function () {
             return new NetworkManager();
         });
+
+        // Command Palette (WordPress Cmd+K integration)
+        $container->register('command_palette', function () {
+            return new CommandPaletteHandler();
+        });
     }
 
     /**
@@ -75,6 +81,7 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('settings');
             $container->get('email_reports');
             $container->get('network');
+            $container->get('command_palette');
         }
     }
 }
