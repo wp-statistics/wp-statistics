@@ -14,6 +14,78 @@ use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 
 /**
+ * Execute an analytics query and return results.
+ *
+ * This is the recommended way to query statistics data in v15+.
+ * Provides a simplified interface to the AnalyticsQuery system.
+ *
+ * @param array $args Query arguments:
+ *   - 'sources'   (array)  Data sources: 'visitors', 'views', 'sessions', etc.
+ *   - 'date_from' (string) Start date (Y-m-d format)
+ *   - 'date_to'   (string) End date (Y-m-d format)
+ *   - 'group_by'  (array)  Optional grouping: 'country', 'browser', 'page', etc.
+ *   - 'filters'   (array)  Optional filters
+ *   - 'format'    (string) Output format: 'flat', 'table', 'chart' (default: 'flat')
+ *   - 'cache'     (bool)   Enable caching (default: false for template functions)
+ *
+ * @return array|null Query result data, or null on error
+ *
+ * @since 15.0.0
+ *
+ * @example
+ * // Get total visitors for last 30 days
+ * $result = wp_statistics_query([
+ *     'sources'   => ['visitors'],
+ *     'date_from' => date('Y-m-d', strtotime('-30 days')),
+ *     'date_to'   => date('Y-m-d'),
+ * ]);
+ * $visitors = $result['visitors'] ?? 0;
+ *
+ * @example
+ * // Get views grouped by country
+ * $result = wp_statistics_query([
+ *     'sources'   => ['views'],
+ *     'group_by'  => ['country'],
+ *     'date_from' => '2024-01-01',
+ *     'date_to'   => '2024-01-31',
+ *     'format'    => 'table',
+ * ]);
+ */
+function wp_statistics_query($args = [])
+{
+    $defaults = [
+        'sources'   => [],
+        'date_from' => date('Y-m-d', strtotime('-30 days')),
+        'date_to'   => date('Y-m-d'),
+        'group_by'  => [],
+        'filters'   => [],
+        'format'    => 'flat',
+        'cache'     => false,
+    ];
+
+    $args = wp_parse_args($args, $defaults);
+
+    try {
+        $handler = new AnalyticsQueryHandler($args['cache']);
+        $result  = $handler->handle([
+            'sources'   => $args['sources'],
+            'date_from' => $args['date_from'],
+            'date_to'   => $args['date_to'],
+            'group_by'  => $args['group_by'],
+            'filters'   => $args['filters'],
+            'format'    => $args['format'],
+        ]);
+
+        return $result['data'] ?? null;
+    } catch (\Exception $e) {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('WP Statistics Query Error: ' . $e->getMessage());
+        }
+        return null;
+    }
+}
+
+/**
  * Get Current User IP
  */
 function wp_statistics_get_user_ip()
@@ -214,8 +286,8 @@ function wp_statistics_useronline($options = array())
  * @param bool|null $daily If true and $time is numeric, treats $time as days ago
  * @return int Total page views count
  *
- * @deprecated 15.0.0 Use AnalyticsQueryHandler with sources: ['views'] instead.
- * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ * @deprecated 15.0.0 Use wp_statistics_query() with sources: ['views'] instead.
+ * @see wp_statistics_query()
  */
 function wp_statistics_visit($time, $daily = null)
 {
@@ -232,19 +304,13 @@ function wp_statistics_visit($time, $daily = null)
 
     $dateRange = DateRange::resolveDate($time);
 
-    try {
-        $handler = new AnalyticsQueryHandler(false);
-        $result  = $handler->handle([
-            'sources'   => ['views'],
-            'date_from' => $dateRange['from'],
-            'date_to'   => $dateRange['to'],
-            'format'    => 'flat',
-        ]);
+    $result = wp_statistics_query([
+        'sources'   => ['views'],
+        'date_from' => $dateRange['from'],
+        'date_to'   => $dateRange['to'],
+    ]);
 
-        return (int) ($result['data']['views'] ?? 0);
-    } catch (\Exception $e) {
-        return 0;
-    }
+    return (int) ($result['views'] ?? 0);
 }
 
 /**
@@ -258,8 +324,8 @@ function wp_statistics_visit($time, $daily = null)
  * @param array $options Additional filter options (type, ID, location, agent, platform)
  * @return int|null|string Visitor count or query result
  *
- * @deprecated 15.0.0 Use AnalyticsQueryHandler with sources: ['visitors'] instead.
- * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ * @deprecated 15.0.0 Use wp_statistics_query() with sources: ['visitors'] instead.
+ * @see wp_statistics_query()
  */
 function wp_statistics_visitor($time, $daily = null, $count_only = false, $options = array())
 {
@@ -423,8 +489,8 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
  * @param string|bool $type Post type to filter by
  * @return int Total page views count
  *
- * @deprecated 15.0.0 Use AnalyticsQueryHandler with sources: ['views'] and filters instead.
- * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ * @deprecated 15.0.0 Use wp_statistics_query() with sources: ['views'] and filters instead.
+ * @see wp_statistics_query()
  */
 function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = null, $rangeenddate = null, $type = false)
 {
