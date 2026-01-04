@@ -3,8 +3,8 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\UserOnline;
 
 class CurrentlyOnline extends BaseMetabox
 {
@@ -23,7 +23,7 @@ class CurrentlyOnline extends BaseMetabox
 
     public function isActive()
     {
-        return UserOnline::active();
+        return Option::get('useronline');
     }
 
     public function getOptions()

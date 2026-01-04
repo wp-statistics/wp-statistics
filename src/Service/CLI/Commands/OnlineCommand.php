@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\CLI\Commands;
 
 use WP_CLI;
-use WP_STATISTICS\UserOnline;
+use WP_Statistics\Models\OnlineModel;
 
 /**
  * Show list of users online.
@@ -55,7 +55,8 @@ class OnlineCommand
         $number = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
         $format = $assoc_args['format'] ?? 'table';
 
-        $lists = UserOnline::get(['per_page' => $number]);
+        $onlineModel = new OnlineModel();
+        $lists = $onlineModel->getOnlineVisitorsData(['per_page' => $number]);
 
         if (empty($lists)) {
             WP_CLI::error('There are no users online.');
