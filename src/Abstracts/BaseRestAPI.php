@@ -7,7 +7,7 @@ use WP_REST_Server;
 use WP_REST_Response;
 use WP_Error;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Option;;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Utils\Signature;
 use Exception;
 
@@ -65,7 +65,7 @@ abstract class BaseRestAPI
         global $wpdb;
 
         $this->db     = $wpdb;
-        $this->option = Option::getOptions();
+        $this->option = Option::get();
 
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }

@@ -9,7 +9,7 @@ use WP_Statistics\Utils\Page;
 use WP_Statistics\Utils\User;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
@@ -798,7 +798,7 @@ class VisitorProfile
     public function getUserId()
     {
         return $this->getCachedData('userId', function () {
-            if (!Option::get('visitors_log') || IntegrationHelper::shouldTrackAnonymously()) {
+            if (!Option::getValue('visitors_log') || IntegrationHelper::shouldTrackAnonymously()) {
                 return 0;
             } else {
                 return User::getId();

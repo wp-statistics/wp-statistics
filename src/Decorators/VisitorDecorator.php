@@ -4,7 +4,6 @@ namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Components\Ip;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Option;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\DateTime;
 use WP_STATISTICS\TimeZone;
