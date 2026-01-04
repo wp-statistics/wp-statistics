@@ -41,7 +41,7 @@ class CommandPaletteHandler
 
         wp_enqueue_script(
             'wp-statistics-command-palette',
-            WP_STATISTICS_URL . 'assets/js/command-palette.js',
+            WP_STATISTICS_URL . 'public/legacy/js/command-palette.js',
             ['wp-commands', 'wp-data', 'wp-element'],
             WP_STATISTICS_VERSION,
             true

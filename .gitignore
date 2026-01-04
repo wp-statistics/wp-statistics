@@ -40,7 +40,6 @@ package-lock.json
 public/*
 !public/.gitkeep
 storybook-static/
-assets/js/tracker.js
 
 # VSCode IDE
 .vscode/*

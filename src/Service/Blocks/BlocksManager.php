@@ -150,7 +150,7 @@ class BlocksManager
      */
     public function enqueueEditorAssets()
     {
-        $assetFile = WP_STATISTICS_DIR . 'assets/js/blocks/statistics/index.asset.php';
+        $assetFile = WP_STATISTICS_DIR . 'public/blocks/statistics/index.asset.php';
 
         if (file_exists($assetFile)) {
             $asset = require $assetFile;
@@ -164,7 +164,7 @@ class BlocksManager
         // Enqueue editor script
         wp_enqueue_script(
             'wp-statistics-blocks-editor',
-            WP_STATISTICS_URL . 'assets/js/blocks/statistics/index.js',
+            WP_STATISTICS_URL . 'public/blocks/statistics/index.js',
             $asset['dependencies'],
             $asset['version'],
             true
@@ -173,7 +173,7 @@ class BlocksManager
         // Enqueue editor styles
         wp_enqueue_style(
             'wp-statistics-blocks-editor',
-            WP_STATISTICS_URL . 'assets/css/blocks/statistics-editor.css',
+            WP_STATISTICS_URL . 'public/blocks/statistics/statistics-editor.css',
             [],
             WP_STATISTICS_VERSION
         );
