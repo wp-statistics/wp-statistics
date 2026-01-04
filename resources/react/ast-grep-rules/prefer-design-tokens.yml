@@ -1,0 +1,19 @@
+# ast-grep rule: Detect hardcoded color classes that should use design tokens
+# Run: ast-grep scan --rule ast-grep-rules/prefer-design-tokens.yml resources/react/src
+
+id: prefer-design-tokens-error
+language: tsx
+severity: hint
+rule:
+  any:
+    - pattern: 'text-red-500'
+    - pattern: 'text-red-600'
+    - pattern: 'text-red-400'
+message: |
+  Consider using semantic design tokens instead of hardcoded colors.
+
+  Replace:
+  - text-red-500/600 -> text-destructive (or use ErrorMessage component)
+
+  Import: import { semanticColors } from '@/constants/design-tokens'
+  Or use: import { ErrorMessage } from '@/components/custom/error-message'

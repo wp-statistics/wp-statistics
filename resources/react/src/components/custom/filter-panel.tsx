@@ -110,6 +110,7 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, on
           <button
             type="button"
             onClick={handleClearAll}
+            aria-label={__('Clear all filters', 'wp-statistics')}
             className="text-xs text-neutral-500 hover:text-destructive transition-colors cursor-pointer"
           >
             {__('Clear all', 'wp-statistics')}
@@ -146,6 +147,7 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, on
           <button
             type="button"
             onClick={handleAddFilter}
+            aria-label={__('Add filter condition', 'wp-statistics')}
             className="flex items-center gap-1.5 mt-3 py-1.5 text-xs font-medium text-neutral-500 hover:text-primary transition-colors group cursor-pointer"
           >
             <span className="flex items-center justify-center w-4 h-4 rounded-full border border-dashed border-neutral-300 group-hover:border-primary group-hover:bg-primary/5 transition-all">

@@ -64,6 +64,10 @@ export default defineConfig([
           argsIgnorePattern: '^_',
         },
       ],
+
+      // Code quality rules
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
   ...pluginRouter.configs['flat/recommended'],

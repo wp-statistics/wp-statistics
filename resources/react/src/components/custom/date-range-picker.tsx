@@ -493,6 +493,8 @@ export const DateRangePicker = ({
                     key={preset.name}
                     type="button"
                     onClick={() => setPreset(preset.name)}
+                    aria-label={`Select date range: ${preset.label}`}
+                    aria-pressed={selectedPreset === preset.name}
                     className={cn(
                       'px-2.5 py-1.5 text-xs text-left rounded-md transition-colors cursor-pointer',
                       selectedPreset === preset.name

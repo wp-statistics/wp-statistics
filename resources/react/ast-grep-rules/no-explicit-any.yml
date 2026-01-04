@@ -1,0 +1,15 @@
+# ast-grep rule: Detect explicit 'any' type usage
+# Run: ast-grep scan --rule ast-grep-rules/no-explicit-any.yml resources/react/src
+
+id: no-explicit-any
+language: tsx
+severity: warning
+rule:
+  pattern: ': any'
+message: |
+  Avoid using 'any' type. Consider using:
+  - 'unknown' for values with unknown type
+  - A specific interface or type
+  - Generic type parameters
+
+  Example: Instead of 'data: any', use 'data: unknown' or define an interface.

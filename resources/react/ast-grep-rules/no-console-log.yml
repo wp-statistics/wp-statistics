@@ -1,0 +1,18 @@
+# ast-grep rule: Detect console.log statements (allow console.warn/error)
+# Run: ast-grep scan --rule ast-grep-rules/no-console-log.yml resources/react/src
+
+id: no-console-log
+language: tsx
+severity: warning
+rule:
+  pattern: console.log($$$)
+message: |
+  Avoid using console.log in production code.
+
+  Consider using:
+  - logger.debug() for debug information
+  - logger.info() for informational messages
+  - console.warn() for warnings (allowed)
+  - console.error() for errors (allowed)
+
+  Import the logger: import { logger } from '@/lib/logger'

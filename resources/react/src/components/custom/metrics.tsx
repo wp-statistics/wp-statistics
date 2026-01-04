@@ -126,6 +126,7 @@ function MetricCard({
                   isMobile && 'p-1 -m-1'
                 )}
                 type="button"
+                aria-label={`More information about ${label}`}
               >
                 <Info className="h-3 w-3" />
               </button>

@@ -1,0 +1,22 @@
+# ast-grep rule: Detect button elements without aria-label
+# Note: This is a simplified check - some buttons may have visible text content
+# Run: ast-grep scan --rule ast-grep-rules/require-aria-label-button.yml resources/react/src
+
+id: require-aria-label-button
+language: tsx
+severity: hint
+rule:
+  pattern: '<button $$$ATTRS>$$$CHILDREN</button>'
+  not:
+    has:
+      pattern: 'aria-label'
+      stopBy: end
+message: |
+  Consider adding aria-label to button elements for accessibility.
+
+  Example:
+  <button aria-label="Close dialog" onClick={handleClose}>
+    <X className="h-4 w-4" />
+  </button>
+
+  Note: If the button has visible text content, aria-label may not be needed.

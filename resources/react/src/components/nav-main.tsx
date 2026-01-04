@@ -147,7 +147,7 @@ const NavMenuItem = React.memo(function NavMenuItem({
                 <span>{item.title}</span>
               </SidebarMenuButton>
               <CollapsibleTrigger asChild>
-                <button className={chevronButtonClasses}>
+                <button className={chevronButtonClasses} aria-label={isOpen ? 'Collapse submenu' : 'Expand submenu'}>
                   <ChevronRight className="h-4 w-4 transition-transform duration-200 rtl:-scale-x-100 group-data-[state=open]/collapsible:rotate-90" />
                 </button>
               </CollapsibleTrigger>

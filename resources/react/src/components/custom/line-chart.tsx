@@ -34,6 +34,14 @@ export interface LineChartProps {
   loading?: boolean
 }
 
+// Type for chart tooltip payload entries
+interface TooltipPayloadEntry {
+  dataKey: string
+  value: number | string
+  color: string
+  name?: string
+}
+
 export function LineChart({
   data,
   metrics,
@@ -160,6 +168,8 @@ export function LineChart({
                     {metric.value && (
                       <button
                         onClick={() => toggleMetric(metric.key)}
+                        aria-label={`Toggle ${metric.label} visibility`}
+                        aria-pressed={isCurrentVisible}
                         className={cn(
                           'flex items-center gap-1.5 cursor-pointer transition-opacity',
                           // Ensure 44px minimum touch target on mobile
@@ -183,6 +193,8 @@ export function LineChart({
                     {metric.previousValue && (
                       <button
                         onClick={() => toggleMetric(`${metric.key}Previous`)}
+                        aria-label={`Toggle ${metric.label} previous period visibility`}
+                        aria-pressed={isPreviousVisible}
                         className={cn(
                           'flex items-center gap-1.5 cursor-pointer transition-opacity',
                           'min-h-[44px] md:min-h-0 py-2 md:py-0',
@@ -219,6 +231,8 @@ export function LineChart({
             {showPreviousPeriod && (
               <button
                 onClick={toggleAllPreviousPeriod}
+                aria-label={isAnyPreviousVisible ? 'Hide all previous period data' : 'Show all previous period data'}
+                aria-pressed={isAnyPreviousVisible}
                 className={cn(
                   'flex items-center gap-1.5 text-xs text-neutral-500 transition-colors cursor-pointer',
                   'min-h-[44px] md:min-h-0 py-2 md:py-0',
@@ -388,10 +402,10 @@ export function LineChart({
                 }
 
                 // Group payload by metric (current + previous together)
-                const groupedData: any[] = []
+                const groupedData: TooltipPayloadEntry[] = []
                 metrics.forEach((metric) => {
-                  const currentEntry = payload.find((p: any) => p.dataKey === metric.key)
-                  const previousEntry = payload.find((p: any) => p.dataKey === `${metric.key}Previous`)
+                  const currentEntry = payload.find((p) => (p as TooltipPayloadEntry).dataKey === metric.key) as TooltipPayloadEntry | undefined
+                  const previousEntry = payload.find((p) => (p as TooltipPayloadEntry).dataKey === `${metric.key}Previous`) as TooltipPayloadEntry | undefined
 
                   if (currentEntry) {
                     groupedData.push(currentEntry)
@@ -451,7 +465,7 @@ export function LineChart({
                       {dayOfWeek ? `${formattedDate} (${dayOfWeek})` : formattedDate}
                     </div>
                     <div className="space-y-2">
-                      {groupedData.map((entry: any) => {
+                      {groupedData.map((entry) => {
                         const isPrevious = entry.dataKey.includes('Previous')
                         const baseKey = entry.dataKey.replace('Previous', '')
                         const baseMetric = metrics.find((m) => m.key === baseKey)

@@ -12,6 +12,23 @@ import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simp
 import { COLOR_SCALE, MAP_URLS } from '@/constants/map-data'
 import type { MapViewMode, MetricOption } from '@/types/geographic'
 
+// GeoJSON geometry coordinate types
+type GeoJSONCoordinate = number[]
+type GeoJSONCoordinates = GeoJSONCoordinate | GeoJSONCoordinate[] | GeoJSONCoordinate[][] | GeoJSONCoordinate[][][]
+
+// GeoJSON feature geometry interface
+interface GeoJSONGeometry {
+  type: string
+  coordinates: GeoJSONCoordinates
+}
+
+// GeoJSON feature interface for map geography
+interface GeoJSONFeature {
+  geometry?: GeoJSONGeometry
+  properties?: Record<string, unknown>
+  rsmKey?: string
+}
+
 export interface CountryData {
   code: string
   name: string
@@ -273,7 +290,7 @@ export function GlobalMap({
   }
 
   // Calculate zoom level based on country's geographic bounds
-  const calculateZoomForBounds = useCallback((geo: any): number => {
+  const calculateZoomForBounds = useCallback((geo: GeoJSONFeature): number => {
     try {
       // Get the bounding box of the geometry
       let minLon = Infinity,
@@ -281,16 +298,16 @@ export function GlobalMap({
       let minLat = Infinity,
         maxLat = -Infinity
 
-      const processCoordinates = (coords: any) => {
+      const processCoordinates = (coords: GeoJSONCoordinates): void => {
         if (typeof coords[0] === 'number') {
           // This is a point [lon, lat]
-          minLon = Math.min(minLon, coords[0])
-          maxLon = Math.max(maxLon, coords[0])
-          minLat = Math.min(minLat, coords[1])
-          maxLat = Math.max(maxLat, coords[1])
+          minLon = Math.min(minLon, coords[0] as number)
+          maxLon = Math.max(maxLon, coords[0] as number)
+          minLat = Math.min(minLat, coords[1] as number)
+          maxLat = Math.max(maxLat, coords[1] as number)
         } else {
           // This is an array of coordinates, recurse
-          coords.forEach(processCoordinates)
+          (coords as GeoJSONCoordinates[]).forEach(processCoordinates)
         }
       }
 
@@ -320,7 +337,7 @@ export function GlobalMap({
     }
   }, [])
 
-  const handleCountryClick = (countryCode: string, countryName: string, geo?: any) => {
+  const handleCountryClick = (countryCode: string, countryName: string, geo?: GeoJSONFeature) => {
     if (!enableCityDrilldown) return
 
     const center = getCountryCenter(countryCode)

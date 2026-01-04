@@ -317,6 +317,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
                     <button
                       type="button"
                       onClick={() => handleRemoveValue(val)}
+                      aria-label={`Remove ${getDisplayLabel(val)} from filter`}
                       className="hover:text-destructive cursor-pointer"
                     >
                       ×
@@ -329,6 +330,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
                   <button
                     type="button"
                     onClick={handleClearSingle}
+                    aria-label={`Remove ${getDisplayLabel(currentValue as string)} from filter`}
                     className="hover:text-destructive cursor-pointer"
                   >
                     ×
@@ -363,6 +365,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
                 key={option.value}
                 type="button"
                 onClick={() => handleSearchableSelect(option.value, option.label)}
+                aria-label={`Select ${option.label}`}
                 className="flex w-full items-center rounded-sm px-2 py-1.5 text-xs text-left hover:bg-accent hover:text-accent-foreground cursor-pointer"
               >
                 {isMultiple && Array.isArray(currentValue) && (
@@ -529,6 +532,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
         variant="ghost"
         size="icon"
         onClick={() => onRemove(filter.id)}
+        aria-label="Remove filter"
         className="h-7 w-7 text-neutral-400 hover:text-destructive hover:bg-destructive/10 shrink-0"
       >
         <Trash2 className="h-3.5 w-3.5" />

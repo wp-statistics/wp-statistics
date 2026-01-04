@@ -108,6 +108,7 @@ function PanelAction({ children, className, ...props }: React.ComponentProps<'bu
   return (
     <button
       data-slot="panel-action"
+      aria-label={typeof children === 'string' ? children : 'Panel action'}
       className={cn(
         'inline-flex items-center gap-1.5 cursor-pointer',
         'text-xs font-medium text-neutral-500',
