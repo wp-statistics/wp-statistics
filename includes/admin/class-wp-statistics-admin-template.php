@@ -79,7 +79,7 @@ class Admin_Template
         // Load File
         foreach ($template as $file) {
 
-            $template_file = WP_STATISTICS_DIR . "includes/admin/templates/{$file}.php";
+            $template_file = WP_STATISTICS_DIR . "views/{$file}.php";
 
             if (!file_exists($template_file)) {
                 continue;
