@@ -84,7 +84,7 @@ class SiteHealthInfo
             ],
             'database_version'               => [
                 'label' => esc_html__('Database Version', 'wp-statistics'),
-                'value' => Option::getGroup('db', 'version', '0.0.0'),
+                'value' => Option::getGroupValue('db', 'version', '0.0.0'),
             ],
             'detectActiveCachePlugin'        => [
                 'label' => esc_html__('Detect Active Cache Plugin', 'wp-statistics'),

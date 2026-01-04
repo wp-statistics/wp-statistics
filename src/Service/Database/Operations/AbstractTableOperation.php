@@ -33,7 +33,7 @@ abstract class AbstractTableOperation extends AbstractDatabaseOperation
      * @return void
      */
     public function setRunTimeError() {
-        $details = Option::getGroup('db', 'migration_status_detail', null);
+        $details = Option::getGroupValue('db', 'migration_status_detail', null);
 
         if (empty($details['status'])) {
             return;

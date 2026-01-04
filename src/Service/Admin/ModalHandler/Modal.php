@@ -83,7 +83,7 @@ class Modal {
      */
     private static function getStates()
     {
-        return Option::getGroup(self::MODAL_OPTION_KEY, get_current_user_id(), []);
+        return Option::getGroupValue(self::MODAL_OPTION_KEY, get_current_user_id(), []);
     }
 
     /**

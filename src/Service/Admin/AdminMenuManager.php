@@ -5,7 +5,9 @@ namespace WP_Statistics\Service\Admin;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
 use WP_Statistics\Components\View;
-use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditPage;
+use WP_Statistics\Service\Admin\HelpCenter\HelpCenterPage;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerPage;
 
 /**
  * V15 Admin Menu Manager.
@@ -13,9 +15,9 @@ use WP_STATISTICS\Menus;
  * Registers v15 React-based admin menus plus legacy PHP pages:
  * - Dashboard (main menu) - React SPA
  * - Settings (submenu) - React SPA hash route
+ * - Add-ons - Legacy PHP page
  * - Privacy Audit - Legacy PHP page
  * - Help Center - Legacy PHP page
- * - Add-ons - Legacy PHP page (via LicenseManagementManager)
  *
  * @since 15.0.0
  */
@@ -24,7 +26,7 @@ class AdminMenuManager
     /**
      * Main menu slug for WP Statistics.
      */
-    private const MENU_SLUG = 'wp-statistics';
+    public const MENU_SLUG = 'wp-statistics';
 
     /**
      * Legacy menu slug prefix for v14-style pages.
@@ -32,12 +34,29 @@ class AdminMenuManager
     private const LEGACY_SLUG_PREFIX = 'wps_';
 
     /**
+     * Page instances.
+     */
+    private $privacyAuditPage;
+    private $helpCenterPage;
+    private $addonsPage;
+
+    /**
      * Constructor - registers admin menu hooks.
      */
     public function __construct()
     {
         add_action('admin_menu', [$this, 'registerMenus']);
-        add_filter('wp_statistics_admin_menu_list', [$this, 'registerLegacyPages']);
+    }
+
+    /**
+     * Get legacy menu slug (wps_{page}_page format).
+     *
+     * @param string $page The page identifier.
+     * @return string The legacy slug.
+     */
+    public static function getLegacySlug(string $page): string
+    {
+        return self::LEGACY_SLUG_PREFIX . $page . '_page';
     }
 
     /**
@@ -47,7 +66,7 @@ class AdminMenuManager
      */
     public function registerMenus()
     {
-        $readCapability = User::getExistingCapability(Option::getValue('read_capability', 'manage_options'));
+        $readCapability   = User::getExistingCapability(Option::getValue('read_capability', 'manage_options'));
         $manageCapability = User::getExistingCapability(Option::getValue('manage_capability', 'manage_options'));
 
         // Main Dashboard menu (position 3 = between Dashboard and Posts)
@@ -71,74 +90,67 @@ class AdminMenuManager
             null // No callback - it's just a link
         );
 
-        // Register legacy pages via Menus class (Add-ons, Privacy Audit, Help, etc.)
-        $this->registerLegacyMenus();
+        // Add-ons page (legacy PHP)
+        $this->addonsPage = new LicenseManagerPage();
+        add_submenu_page(
+            self::MENU_SLUG,
+            __('Add-ons', 'wp-statistics'),
+            '<span class="wps-text-warning">' . __('Add-ons', 'wp-statistics') . '</span>',
+            $manageCapability,
+            self::getLegacySlug('plugins'),
+            [$this->addonsPage, 'view']
+        );
+
+        // Privacy Audit page (legacy PHP)
+        $this->privacyAuditPage = new PrivacyAuditPage();
+        add_submenu_page(
+            self::MENU_SLUG,
+            __('Privacy Audit', 'wp-statistics'),
+            __('Privacy Audit', 'wp-statistics'),
+            $manageCapability,
+            self::getLegacySlug('privacy-audit'),
+            [$this->privacyAuditPage, 'view']
+        );
+
+        // Help Center page (legacy PHP)
+        $this->helpCenterPage = new HelpCenterPage();
+        add_submenu_page(
+            self::MENU_SLUG,
+            __('Help', 'wp-statistics'),
+            __('Help', 'wp-statistics'),
+            $manageCapability,
+            self::getLegacySlug('help'),
+            [$this->helpCenterPage, 'view']
+        );
 
         // Fix submenu labels and URLs
-        global $submenu;
-        if (isset($submenu[self::MENU_SLUG])) {
-            foreach ($submenu[self::MENU_SLUG] as $key => $item) {
-                // Rename first "Statistics" to "Dashboard" and add hash for SPA navigation
-                if ($item[2] === self::MENU_SLUG && $item[0] === __('Statistics', 'wp-statistics')) {
-                    $submenu[self::MENU_SLUG][$key][0] = __('Dashboard', 'wp-statistics');
-                    $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/overview');
-                }
-                // Fix Settings URL (WordPress adds admin.php?page= prefix)
-                if (strpos($item[2], '#/settings') !== false) {
-                    $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/settings/general');
-                }
-            }
-        }
+        $this->fixSubmenuItems();
     }
 
     /**
-     * Register legacy pages (Privacy Audit, Help Center).
-     *
-     * These pages are added via the wp_statistics_admin_menu_list filter
-     * which is used by the legacy Menus class.
-     *
-     * @param array $items Existing menu items.
-     * @return array Modified menu items.
-     */
-    public function registerLegacyPages($items)
-    {
-        $manageCapability = User::getExistingCapability(Option::getValue('manage_capability', 'manage_options'));
-
-        // Privacy Audit page
-        $items['privacy-audit'] = [
-            'sub'      => 'overview',
-            'title'    => __('Privacy Audit', 'wp-statistics'),
-            'page_url' => 'privacy-audit',
-            'callback' => PrivacyAudit\PrivacyAuditPage::class,
-            'cap'      => $manageCapability,
-            'priority' => 95
-        ];
-
-        // Help Center page
-        $items['help'] = [
-            'sub'      => 'overview',
-            'title'    => __('Help', 'wp-statistics'),
-            'page_url' => 'help',
-            'callback' => HelpCenter\HelpCenterPage::class,
-            'cap'      => $manageCapability,
-            'priority' => 120
-        ];
-
-        return $items;
-    }
-
-    /**
-     * Register legacy menus using the Menus class.
-     *
-     * This enables pages registered via wp_statistics_admin_menu_list filter.
+     * Fix submenu labels and URLs.
      *
      * @return void
      */
-    private function registerLegacyMenus()
+    private function fixSubmenuItems()
     {
-        if (class_exists(Menus::class)) {
-            $menus = new Menus();
-            $menus->wp_admin_menu();
+        global $submenu;
+
+        if (!isset($submenu[self::MENU_SLUG])) {
+            return;
+        }
+
+        foreach ($submenu[self::MENU_SLUG] as $key => $item) {
+            // Rename first "Statistics" to "Dashboard" and add hash for SPA navigation
+            if ($item[2] === self::MENU_SLUG && $item[0] === __('Statistics', 'wp-statistics')) {
+                $submenu[self::MENU_SLUG][$key][0] = __('Dashboard', 'wp-statistics');
+                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/overview');
+            }
+
+            // Fix Settings URL (WordPress adds admin.php?page= prefix)
+            if (strpos($item[2], '#/settings') !== false) {
+                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/settings/general');
+            }
         }
     }
 

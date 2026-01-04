@@ -98,6 +98,6 @@ class UpdateResourceCacheFields extends ExtendedBackgroundProcess
      */
     public function is_initiated()
     {
-        return Option::getGroup('jobs', 'update_resouce_cache_fields_initiated', false);
+        return Option::getGroupValue('jobs', 'update_resouce_cache_fields_initiated', false);
     }
 }

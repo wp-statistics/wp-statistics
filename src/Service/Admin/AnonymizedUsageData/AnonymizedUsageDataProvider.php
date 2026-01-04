@@ -327,7 +327,7 @@ class AnonymizedUsageDataProvider
     {
         return [
             'plugin_database_version_legacy' => get_option('wp_statistics_plugin_version'),
-            'plugin_database_version'        => Option::getGroup('db', 'version', '0.0.0'),
+            'plugin_database_version'        => Option::getGroupValue('db', 'version', '0.0.0'),
             'jobs'                           => Option::getGroup('jobs'),
             'dismissed_notices'              => Option::getGroup('dismissed_notices'),
         ];

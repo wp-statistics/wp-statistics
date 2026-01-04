@@ -43,7 +43,7 @@ class TableOperationProcess extends ExtendedBackgroundProcess
 
     public function is_initiated()
     {
-        return Option::getGroup('jobs', 'table_operations_process_initiated', false);
+        return Option::getGroupValue('jobs', 'table_operations_process_initiated', false);
     }
 
     /**

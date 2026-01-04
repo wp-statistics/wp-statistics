@@ -73,7 +73,7 @@ class MigrationHandler
      */
     private static function isMigrationComplete()
     {
-        return Option::getGroup('db', 'migrated', false) || Option::getGroup('db', 'check', true);
+        return Option::getGroupValue('db', 'migrated', false) || Option::getGroupValue('db', 'check', true);
     }
 
     /**
@@ -83,7 +83,7 @@ class MigrationHandler
      */
     private static function collectSchemaMigrations()
     {
-        $currentVersion  = Option::getGroup('db', 'version', '0.0.0');
+        $currentVersion  = Option::getGroupValue('db', 'version', '0.0.0');
         $allVersions     = [];
         $versionMappings = [];
 

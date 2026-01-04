@@ -33,7 +33,7 @@ class BackgroundProcessMonitor
             return self::$cache[$index];
         }
 
-        $data = Option::getGroup(self::$optionGroupName, $index, []);
+        $data = Option::getGroupValue(self::$optionGroupName, $index, []);
         if (! is_array($data)) {
             $data = [];
         }

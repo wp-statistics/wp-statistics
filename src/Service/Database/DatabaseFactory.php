@@ -106,7 +106,7 @@ class DatabaseFactory
      */
     public static function compareCurrentVersion($requiredVersion, $operation)
     {
-        $version = Option::getGroup('db', 'version', null);
+        $version = Option::getGroupValue('db', 'version', null);
 
         if (empty($version)) {
             return false;

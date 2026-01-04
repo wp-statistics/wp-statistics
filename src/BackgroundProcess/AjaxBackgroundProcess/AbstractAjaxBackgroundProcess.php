@@ -118,7 +118,7 @@ abstract class AbstractAjaxBackgroundProcess
      */
     public static function getMigration()
     {
-        $completedMigrations = Option::getGroup('ajax_background_process', 'jobs', []);
+        $completedMigrations = Option::getGroupValue('ajax_background_process', 'jobs', []);
 
         $pendingMigrations = array_diff(array_keys(AjaxBackgroundProcessFactory::$migrations), $completedMigrations);
 
@@ -158,7 +158,7 @@ abstract class AbstractAjaxBackgroundProcess
         }
 
         if ($this->cachedProcessAttempts === null) {
-            $this->cachedProcessAttempts = Option::getGroup('ajax_background_process', 'attempts', []);
+            $this->cachedProcessAttempts = Option::getGroupValue('ajax_background_process', 'attempts', []);
         }
 
         return isset($this->cachedProcessAttempts[$key]) ? (int) $this->cachedProcessAttempts[$key] : 0;
@@ -176,7 +176,7 @@ abstract class AbstractAjaxBackgroundProcess
      */
     protected function saveAttempts($key, $count)
     {
-        $meta = Option::getGroup('ajax_background_process', 'attempts', []);
+        $meta = Option::getGroupValue('ajax_background_process', 'attempts', []);
         $meta[$key] = $count;
 
         Option::updateGroup('attempts', $meta, 'ajax_background_process');
@@ -326,7 +326,7 @@ abstract class AbstractAjaxBackgroundProcess
         }
 
         if ($this->cachedProcessTotals === null) {
-            $this->cachedProcessTotals = Option::getGroup('ajax_background_process', 'totals', []);
+            $this->cachedProcessTotals = Option::getGroupValue('ajax_background_process', 'totals', []);
         }
 
         if (!empty($this->cachedProcessTotals[$key])) {
@@ -348,7 +348,7 @@ abstract class AbstractAjaxBackgroundProcess
      */
     protected function saveTotal($key, $total)
     {
-        $meta = Option::getGroup('ajax_background_process', 'totals', []);
+        $meta = Option::getGroupValue('ajax_background_process', 'totals', []);
 
         $meta[$key] = $total;
 
@@ -363,7 +363,7 @@ abstract class AbstractAjaxBackgroundProcess
      */
     protected function markAsCompleted($migrationClassName)
     {
-        $completedMigrations = Option::getGroup('ajax_background_process', 'jobs', []);
+        $completedMigrations = Option::getGroupValue('ajax_background_process', 'jobs', []);
 
         $completedMigrationKey = array_search($migrationClassName, AjaxBackgroundProcessFactory::$migrations, true);
 

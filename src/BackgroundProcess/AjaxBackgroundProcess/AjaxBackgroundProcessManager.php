@@ -81,7 +81,7 @@ class AjaxBackgroundProcessManager
             return;
         }
 
-        $status = Option::getGroup('ajax_background_process', 'status', null);
+        $status = Option::getGroupValue('ajax_background_process', 'status', null);
 
         if ($status !== 'done') {
             return;
@@ -116,7 +116,7 @@ class AjaxBackgroundProcessManager
             return;
         }
 
-        $status = Option::getGroup('ajax_background_process', 'status', null);
+        $status = Option::getGroupValue('ajax_background_process', 'status', null);
 
         if ($status === 'progress') {
             $message = sprintf(
@@ -147,7 +147,7 @@ class AjaxBackgroundProcessManager
             [
                 'action' => self::MIGRATION_ACTION,
                 'nonce'  => wp_create_nonce(self::MIGRATION_NONCE),
-                'status' => Option::getGroup('ajax_background_process', 'status', null),
+                'status' => Option::getGroupValue('ajax_background_process', 'status', null),
                 'current_page' => rawurlencode($current_page_url)
             ],
             admin_url('admin-post.php')
@@ -196,7 +196,7 @@ class AjaxBackgroundProcessManager
             [
                 'rest_api_nonce' => wp_create_nonce('wp_rest'),
                 'ajax_url'       => admin_url('admin-ajax.php'),
-                'status'         => Option::getGroup('ajax_background_process', 'status', null)
+                'status'         => Option::getGroupValue('ajax_background_process', 'status', null)
             ]
         );
     }

@@ -30,7 +30,7 @@ abstract class ResolvableAudit extends BaseAudit
     public static function getStatus()
     {
         // Get the independent status of the audit item
-        $status = Option::getGroup('privacy_status', static::$optionKey, 'action_required');
+        $status = Option::getGroupValue('privacy_status', static::$optionKey, 'action_required');
 
         // If audit related option is passed based on user settings, set status to 'passed'
         if (static::isOptionPassed()) {

@@ -53,7 +53,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      */
     public function __construct()
     {
-        $this->currentVersion = Option::getGroup('db', 'version', '0.0.0');
+        $this->currentVersion = Option::getGroupValue('db', 'version', '0.0.0');
     }
 
     /**
@@ -138,7 +138,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      * @return bool|null
      */
     public function isPassed() {
-        $details = Option::getGroup('db', 'migration_status_detail', null);
+        $details = Option::getGroupValue('db', 'migration_status_detail', null);
 
         if (empty($details['status'])) {
             return true;

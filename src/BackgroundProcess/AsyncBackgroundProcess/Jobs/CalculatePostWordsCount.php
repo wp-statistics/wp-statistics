@@ -60,6 +60,6 @@ class CalculatePostWordsCount extends ExtendedBackgroundProcess
 
     public function is_initiated()
     {
-        return Option::getGroup('jobs', 'word_count_process_initiated', false);
+        return Option::getGroupValue('jobs', 'word_count_process_initiated', false);
     }
 }

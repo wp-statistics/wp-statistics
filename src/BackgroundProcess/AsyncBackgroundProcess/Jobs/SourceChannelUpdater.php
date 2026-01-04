@@ -58,7 +58,7 @@ class SourceChannelUpdater extends ExtendedBackgroundProcess
 
     public function is_initiated()
     {
-        return Option::getGroup('jobs', 'update_source_channel_process_initiated', false);
+        return Option::getGroupValue('jobs', 'update_source_channel_process_initiated', false);
     }
 
     /**

@@ -56,13 +56,13 @@ class AjaxBackgroundProcessFactory
             return;
         }
 
-        $isDone = Option::getGroup('ajax_background_process', 'is_done', false);
+        $isDone = Option::getGroupValue('ajax_background_process', 'is_done', false);
 
         if ($isDone) {
             return;
         }
 
-        $completedMigrations = Option::getGroup('ajax_background_process', 'jobs', []);
+        $completedMigrations = Option::getGroupValue('ajax_background_process', 'jobs', []);
 
         $registeredMigrations = array_keys(self::$migrations);
 
@@ -99,7 +99,7 @@ class AjaxBackgroundProcessFactory
     public static function isDataMigrated($key)
     {
         $isFresh = get_option('wp_statistics_is_fresh', false);
-        $jobs    = Option::getGroup('ajax_background_process', 'jobs', []);
+        $jobs    = Option::getGroupValue('ajax_background_process', 'jobs', []);
 
         if ($isFresh) {
             if (empty($jobs)) {
@@ -110,7 +110,7 @@ class AjaxBackgroundProcessFactory
             return true;
         }
 
-        $isDone = Option::getGroup('ajax_background_process', 'is_done', false);
+        $isDone = Option::getGroupValue('ajax_background_process', 'is_done', false);
 
         if ($isDone) {
             return true;
@@ -135,8 +135,8 @@ class AjaxBackgroundProcessFactory
      */
     public static function isDatabaseMigrated()
     {
-        $migrated = Option::getGroup('db', 'migrated', false);
-        $check    = Option::getGroup('db', 'check', true);
+        $migrated = Option::getGroupValue('db', 'migrated', false);
+        $check    = Option::getGroupValue('db', 'check', true);
         return $migrated && !$check;
     }
 }

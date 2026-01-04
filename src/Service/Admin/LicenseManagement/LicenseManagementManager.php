@@ -25,22 +25,7 @@ class LicenseManagementManager
         add_action('init', [$this, 'initPluginUpdaters']);
         add_action('admin_init', [$this, 'showPluginActivationNotice']);
         add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'showUpgradeToBundle']);
-        add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
-    }
-
-
-    public function addMenuItem($items)
-    {
-        $items['plugins'] = [
-            'sub'      => 'overview',
-            'title'    => __('Add-ons', 'wp-statistics'),
-            'name'     => '<span class="wps-text-warning">' . __('Add-ons', 'wp-statistics') . '</span>',
-            'page_url' => 'plugins',
-            'callback' => LicenseManagerPage::class,
-            'cap'      => User::ExistCapability(Option::getValue('manage_capability', 'manage_options')),
-            'priority' => 90
-        ];
-        return $items;
+        // Note: Menu registration is handled by AdminMenuManager in v15
     }
 
     /**
