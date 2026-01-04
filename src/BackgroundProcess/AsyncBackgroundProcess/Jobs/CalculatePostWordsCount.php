@@ -2,12 +2,12 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
-use WP_STATISTICS\WP_Background_Process;
 
-class CalculatePostWordsCount extends WP_Background_Process
+class CalculatePostWordsCount extends ExtendedBackgroundProcess
 {
     /**
      * @var string
@@ -60,6 +60,6 @@ class CalculatePostWordsCount extends WP_Background_Process
 
     public function is_initiated()
     {
-        return Option::getOptionGroup('jobs', 'word_count_process_initiated', false);
+        return Option::getGroup('jobs', 'word_count_process_initiated', false);
     }
 }

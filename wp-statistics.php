@@ -10,7 +10,7 @@
  * Text Domain: wp-statistics
  * Domain Path: /languages
  * Requires at least: 5.3
- * Requires PHP: 7.2
+ * Requires PHP: 7.4
  * License: GPL-2.0+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -18,8 +18,8 @@
 # Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-# Load Plugin Defines
-require_once __DIR__ . '/includes/defines.php';
+# Load Plugin Constants
+require_once __DIR__ . '/src/constants.php';
 
 # Set another useful plugin define.
 define('WP_STATISTICS_VERSION', '14.15.1');

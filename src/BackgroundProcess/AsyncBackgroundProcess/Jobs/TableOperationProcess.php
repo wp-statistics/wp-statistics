@@ -2,11 +2,11 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
-use WP_STATISTICS\WP_Background_Process;
 
-class TableOperationProcess extends WP_Background_Process
+class TableOperationProcess extends ExtendedBackgroundProcess
 {
     /**
      * @var string
@@ -43,7 +43,7 @@ class TableOperationProcess extends WP_Background_Process
 
     public function is_initiated()
     {
-        return Option::getOptionGroup('jobs', 'table_operations_process_initiated', false);
+        return Option::getGroup('jobs', 'table_operations_process_initiated', false);
     }
 
     /**
@@ -52,6 +52,6 @@ class TableOperationProcess extends WP_Background_Process
     protected function complete()
     {
         parent::complete();
-        Option::saveOptionGroup('check', false, 'db');
+        Option::updateGroup('check', false, 'db');
     }
 }

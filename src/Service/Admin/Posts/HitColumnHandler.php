@@ -9,7 +9,7 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Traits\ObjectCacheTrait;
@@ -223,7 +223,7 @@ class HitColumnHandler
      * Modifies query clauses when terms are sorted by hits column.
      *
      * @param array $clauses Clauses for the query.
-     * @param array $taxonomies Taxonomy names.
+     * @param array $taxonomies Taxonomy WP_Statistics_names.
      * @param array $args Term query arguments.
      *
      * @return array Updated clauses for the query.

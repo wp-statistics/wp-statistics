@@ -35,7 +35,7 @@ interface RegistryInterface
     public function get(string $name);
 
     /**
-     * Get all registered item names.
+     * Get all registered item WP_Statistics_names.
      *
      * @return array
      */

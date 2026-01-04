@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\Notification;
 
 use WP_Statistics\Components\Event;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class NotificationManager
 {
@@ -15,7 +15,7 @@ class NotificationManager
      */
     public function __construct()
     {
-        if (Option::get('display_notifications')) {
+        if (Option::getValue('display_notifications')) {
             add_action('admin_init', [$this, 'registerActions']);
         }
     }

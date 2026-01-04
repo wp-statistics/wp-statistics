@@ -3,11 +3,11 @@
 namespace WP_Statistics\Components;
 
 use WP_Statistics;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Utils\FileSystem;
 
 /**
- * Ofuscates/Randomizes assets file names.
+ * Ofuscates/Randomizes assets file WP_Statistics_names.
  */
 class AssetNameObfuscator
 {
@@ -94,7 +94,7 @@ class AssetNameObfuscator
      */
     private function initializeVariables()
     {
-        $this->hashedAssetsArray   = Option::getOptionGroup($this->optionName, null, []);
+        $this->hashedAssetsArray   = Option::getGroup($this->optionName);
         $this->hashedFileOptionKey = str_replace($this->pluginsRoot, '', $this->inputFileDir);
 
         if (empty($this->hashedAssetsArray[$this->hashedFileOptionKey])) {
@@ -154,7 +154,7 @@ class AssetNameObfuscator
 
         $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] = WP_STATISTICS_VERSION;
         $this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']     = $this->getHashedFileDir();
-        Option::saveOptionGroup($this->hashedFileOptionKey, $this->hashedAssetsArray[$this->hashedFileOptionKey], $this->optionName);
+        Option::updateGroup($this->hashedFileOptionKey, $this->hashedAssetsArray[$this->hashedFileOptionKey], $this->optionName);
     }
 
     /**
@@ -253,7 +253,7 @@ class AssetNameObfuscator
     public function deleteAllHashedFiles()
     {
         // Method was called from uninstall probably, initialize the array again
-        $hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
+        $hashedAssetsArray = Option::getGroup($this->optionName);
 
         foreach ($hashedAssetsArray as $key => $asset) {
             $this->deleteHashedFile($hashedAssetsArray, $key);
@@ -280,7 +280,7 @@ class AssetNameObfuscator
     public function serveAssetByHash($asset)
     {
         $asset             = $this->cleanHashedFileName($asset);
-        $hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
+        $hashedAssetsArray = Option::getGroup($this->optionName);
         $originalFilePath  = $this->getHashedAssetPath($asset, $hashedAssetsArray);
 
         if ($originalFilePath && file_exists($originalFilePath)) {

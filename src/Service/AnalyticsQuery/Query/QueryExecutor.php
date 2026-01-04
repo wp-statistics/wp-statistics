@@ -543,7 +543,7 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Normalize raw table rows to have a 'date' column for consistency with summary table data.
      *
-     * Raw table queries with week/month groupBy return different column names:
+     * Raw table queries with week/month groupBy return different column WP_Statistics_names:
      * - Weekly: 'week' (YEARWEEK), 'week_start' (Y-m-d)
      * - Monthly: 'month' (Y-m)
      *
@@ -774,8 +774,8 @@ class QueryExecutor implements QueryExecutorInterface
      * If invalid, falls back to the first source or null.
      *
      * @param string|null $orderBy          Requested order_by value.
-     * @param array       $sources          Available source names (used as column aliases).
-     * @param array       $groupByNames     Available group_by names.
+     * @param array       $sources          Available source WP_Statistics_names (used as column aliases).
+     * @param array       $groupByNames     Available group_by WP_Statistics_names.
      * @param array       $requestedColumns Requested columns to include in SELECT.
      * @return string|null Valid order_by value or null.
      */
@@ -815,8 +815,8 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Determine the primary table.
      *
-     * @param array $sources    Source names.
-     * @param array $groupBy Group by names.
+     * @param array $sources    Source WP_Statistics_names.
+     * @param array $groupBy Group by WP_Statistics_names.
      * @param array $filters    Filter data.
      * @return string
      */
@@ -849,7 +849,7 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Determine the primary table based on sources only.
      *
-     * @param array $sources Source names.
+     * @param array $sources Source WP_Statistics_names.
      * @return string
      */
     private function determinePrimaryTableForSources(array $sources): string
@@ -893,7 +893,7 @@ class QueryExecutor implements QueryExecutorInterface
      * Special handling for online_visitor groupBy which needs to filter by ended_at.
      *
      * @param string $table Table name.
-     * @param array  $groupByNames GroupBy names for context-specific column selection.
+     * @param array  $groupByNames GroupBy WP_Statistics_names for context-specific column selection.
      * @return string
      */
     private function getDateColumn(string $table, array $groupByNames = []): string
@@ -941,8 +941,8 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Check if session join is needed for views query.
      *
-     * @param array $sources      Source names.
-     * @param array $groupByNames Group by names.
+     * @param array $sources      Source WP_Statistics_names.
+     * @param array $groupByNames Group by WP_Statistics_names.
      * @param array $filters      Filter key-value pairs.
      * @return bool
      */

@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class BackgroundProcessMonitor
 {
@@ -33,7 +33,7 @@ class BackgroundProcessMonitor
             return self::$cache[$index];
         }
 
-        $data = Option::getOptionGroup(self::$optionGroupName, $index, []);
+        $data = Option::getGroup(self::$optionGroupName, $index, []);
         if (! is_array($data)) {
             $data = [];
         }
@@ -48,7 +48,7 @@ class BackgroundProcessMonitor
      */
     private static function updateIndexData($index, $data)
     {
-        Option::saveOptionGroup($index, $data, self::$optionGroupName);
+        Option::updateGroup($index, $data, self::$optionGroupName);
     }
 
     /**
@@ -180,6 +180,6 @@ class BackgroundProcessMonitor
      */
     public static function deleteOption($index)
     {
-        Option::deleteOptionGroup($index, self::$optionGroupName);
+        Option::deleteGroup($index, self::$optionGroupName);
     }
 }

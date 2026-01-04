@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Database\Managers;
 
 use WP_Statistics\Service\Installation\InstallManager;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Database\Schema\Manager;
 
@@ -21,7 +21,7 @@ class TableHandler
     /**
      * Create all database tables if they do not already exist.
      *
-     * This method iterates through all known table names, inspects each table,
+     * This method iterates through all known table WP_Statistics_names, inspects each table,
      * and creates it if it is missing using the predefined schema.
      *
      * @return void
@@ -50,19 +50,19 @@ class TableHandler
             }
         }
 
-        Option::saveOptionGroup('check', false, 'db');
+        Option::updateGroup('check', false, 'db');
 
         if (InstallManager::isFresh()) {
-            Option::saveOptionGroup('migrated', true, 'db');
-            Option::saveOptionGroup('version', WP_STATISTICS_VERSION, 'db');
-            Option::saveOptionGroup('is_done', true, 'ajax_background_process');
+            Option::updateGroup('migrated', true, 'db');
+            Option::updateGroup('version', WP_STATISTICS_VERSION, 'db');
+            Option::updateGroup('is_done', true, 'ajax_background_process');
             return;
         }
 
-        Option::saveOptionGroup('migrated', false, 'db');
-        Option::saveOptionGroup('migration_status_detail', null, 'db');
-        Option::saveOptionGroup('is_done', null, 'ajax_background_process');
-        Option::saveOptionGroup('status', null, 'ajax_background_process');
+        Option::updateGroup('migrated', false, 'db');
+        Option::updateGroup('migration_status_detail', null, 'db');
+        Option::updateGroup('is_done', null, 'ajax_background_process');
+        Option::updateGroup('status', null, 'ajax_background_process');
 
         $dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
 

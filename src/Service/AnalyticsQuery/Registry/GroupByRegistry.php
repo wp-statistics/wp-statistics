@@ -214,7 +214,7 @@ class GroupByRegistry implements RegistryInterface
     /**
      * Check if any group by requires views table.
      *
-     * @param array $groupBy Group by names.
+     * @param array $groupBy Group by WP_Statistics_names.
      * @return bool
      */
     public function requiresViewsTable(array $groupBy): bool

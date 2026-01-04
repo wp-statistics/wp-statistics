@@ -326,19 +326,32 @@ function copyJsonAssets() {
   return {
     name: 'copy-json-assets',
     writeBundle() {
-      const sourceFile = resolve(__dirname, 'resources/json/source-channels.json')
+      const sourceDir = resolve(__dirname, 'resources/json')
       const destDir = resolve(__dirname, 'public/json')
-      const destFile = resolve(destDir, 'source-channels.min.json')
 
       try {
         mkdirSync(destDir, { recursive: true })
-        // Read, minify, and write JSON
-        const jsonContent = readFileSync(sourceFile, 'utf-8')
-        const minified = JSON.stringify(JSON.parse(jsonContent))
-        writeFileSync(destFile, minified)
-        console.log('✓ Minified and copied source-channels.json to public/json/source-channels.min.json')
+
+        // Get all JSON files from source directory
+        const jsonFiles = readdirSync(sourceDir).filter((file) => file.endsWith('.json'))
+
+        jsonFiles.forEach((file) => {
+          const sourcePath = join(sourceDir, file)
+          const destFileName = file.replace('.json', '.min.json')
+          const destPath = join(destDir, destFileName)
+
+          try {
+            // Read, minify, and write JSON
+            const jsonContent = readFileSync(sourcePath, 'utf-8')
+            const minified = JSON.stringify(JSON.parse(jsonContent))
+            writeFileSync(destPath, minified)
+            console.log(`✓ Minified and copied ${file} to public/json/${destFileName}`)
+          } catch (e) {
+            console.error(`Failed to minify ${file}:`, e.message)
+          }
+        })
       } catch (e) {
-        console.error('Failed to minify source-channels.json:', e)
+        console.error('Failed to copy JSON assets:', e.message)
       }
     },
   }

@@ -92,7 +92,7 @@ class CustomEventHelper
     }
 
     /**
-     * Gets a list of reserved event names that are not allowed to be used for custom events.
+     * Gets a list of reserved event WP_Statistics_names that are not allowed to be used for custom events.
      *
      * @return string[]
      */

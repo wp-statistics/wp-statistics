@@ -51,13 +51,13 @@ abstract class AbstractPlaceRecord extends AbstractRecord
         $locale = $this->firstSetNameLocale();
 
         // @phpstan-ignore-next-line
-        return $locale === null ? null : $this->names[$locale];
+        return $locale === null ? null : $this->WP_Statistics_names[$locale];
     }
 
     private function firstSetNameLocale(): ?string
     {
         foreach ($this->locales as $locale) {
-            if (isset($this->names[$locale])) {
+            if (isset($this->WP_Statistics_names[$locale])) {
                 return $locale;
             }
         }

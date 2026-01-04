@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\Geographic;
 
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Country;
+use WP_Statistics\Components\Country;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;

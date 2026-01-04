@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Database\Migrations;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Database\AbstractDatabaseOperation;
 
 /**
@@ -53,7 +53,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      */
     public function __construct()
     {
-        $this->currentVersion = Option::getOptionGroup('db', 'version', '0.0.0');
+        $this->currentVersion = Option::getGroup('db', 'version', '0.0.0');
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
             return;
         }
 
-        Option::saveOptionGroup('version', $this->targetVersion, 'db');
+        Option::updateGroup('version', $this->targetVersion, 'db');
     }
 
     /**
@@ -126,7 +126,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      */
     protected function setErrorStatus($message)
     {
-        Option::saveOptionGroup('migration_status_detail', [
+        Option::updateGroup('migration_status_detail', [
             'status' => 'failed',
             'message' => $message
         ], 'db');
@@ -138,7 +138,7 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
      * @return bool|null
      */
     public function isPassed() {
-        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
+        $details = Option::getGroup('db', 'migration_status_detail', null);
 
         if (empty($details['status'])) {
             return true;

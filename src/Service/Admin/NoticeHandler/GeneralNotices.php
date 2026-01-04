@@ -4,11 +4,11 @@ namespace WP_Statistics\Service\Admin\NoticeHandler;
 
 use WP_Statistics\Utils\Environment;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\Ip;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\Schedule;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Traits\TransientCacheTrait;
@@ -49,7 +49,7 @@ class GeneralNotices
             return;
         }
 
-        if (!Helper::is_request('ajax') && !Option::get('hide_notices') && User::Access('manage')) {
+        if (!Helper::is_request('ajax') && !Option::getValue('hide_notices') && User::Access('manage')) {
             foreach ($this->coreNotices as $notice) {
                 if (method_exists($this, $notice)) {
                     call_user_func([$this, $notice]);
@@ -65,7 +65,7 @@ class GeneralNotices
      */
     private function detectConsentIntegrations()
     {
-        if (Option::get('consent_integration')) return;
+        if (Option::getValue('consent_integration')) return;
 
         $integrations = IntegrationHelper::getAllIntegrations();
 
@@ -108,7 +108,7 @@ class GeneralNotices
         $noticeId = sanitize_key($cacheInfo['debug']) . '_cache_plugin_detected';
 
         // Return if notice is already dismissed or bypass ad blocker is active
-        if (Notice::isNoticeDismissed($noticeId) || Option::get('bypass_ad_blockers')) {
+        if (Notice::isNoticeDismissed($noticeId) || Option::getValue('bypass_ad_blockers')) {
             return;
         }
 
@@ -208,7 +208,7 @@ class GeneralNotices
             return;
         }
 
-        if (Option::get('time_report') == '0') {
+        if (Option::getValue('time_report') == '0') {
             return;
         }
 
@@ -216,7 +216,7 @@ class GeneralNotices
             return;
         }
 
-        $timeReports       = Option::get('time_report');
+        $timeReports       = Option::getValue('time_report');
         $schedulesInterval = Schedule::getSchedules();
 
         if (isset($schedulesInterval[$timeReports])) {
@@ -252,7 +252,7 @@ class GeneralNotices
             return;
         }
 
-        if (!Menus::in_plugin_page() || empty(IP::getCloudflareIp())) {
+        if (!Menus::in_plugin_page() || empty(Ip::getFromCloudflare())) {
             return;
         }
 

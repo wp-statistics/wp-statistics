@@ -41,9 +41,6 @@
 - regex: 'Servo'
   name: 'Servo'
 
-- regex: 'Goanna'
-  name: 'Goanna'
-
 - regex: 'Ekioh(?:Flow)?'
   name: 'EkiohFlow'
 
@@ -52,3 +49,9 @@
 
 - regex: 'LibWeb\+LibJs'
   name: 'LibWeb'
+
+- regex: 'ArkWeb/'
+  name: 'ArkWeb'
+
+- regex: 'Maple (?!III)(\d+[.\d]+)|Maple\d{4}'
+  name: 'Maple'

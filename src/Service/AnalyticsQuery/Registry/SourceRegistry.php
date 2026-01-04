@@ -172,7 +172,7 @@ class SourceRegistry implements RegistryInterface
     /**
      * Determine primary table for sources.
      *
-     * @param array $sources Source names.
+     * @param array $sources Source WP_Statistics_names.
      * @return string
      */
     public function determinePrimaryTable(array $sources): string

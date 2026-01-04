@@ -2,14 +2,14 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
+use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_STATISTICS\WP_Background_Process;
 
-class IncompleteGeoIpUpdater extends WP_Background_Process
+class IncompleteGeoIpUpdater extends ExtendedBackgroundProcess
 {
     /**
      * @var string
@@ -62,7 +62,7 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
 
     public function is_initiated()
     {
-        return Option::getOptionGroup('jobs', 'update_geoip_process_initiated');
+        return Option::getGroup('jobs', 'update_geoip_process_initiated');
     }
 
     /**

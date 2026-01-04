@@ -4,9 +4,9 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Option;
 
 class AboutWPS extends BaseMetabox
 {
@@ -27,9 +27,9 @@ class AboutWPS extends BaseMetabox
         }
 
         $this->settings = [
-            'custom_widget' => Option::getByAddon('show_wps_about_widget_overview', 'customization', 'yes'),
-            'title'         => Option::getByAddon('wps_about_widget_title', 'customization', ''),
-            'content'       => Option::getByAddon('wps_about_widget_content', 'customization', ''),
+            'custom_widget' => Option::getAddonValue('show_wps_about_widget_overview', 'customization', 'yes'),
+            'title'         => Option::getAddonValue('wps_about_widget_title', 'customization', ''),
+            'content'       => Option::getAddonValue('wps_about_widget_content', 'customization', ''),
         ];
     }
 

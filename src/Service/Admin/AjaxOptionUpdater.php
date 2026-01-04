@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Utils\Request;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use Exception;
 use WP_STATISTICS\User;
 
@@ -46,7 +46,7 @@ class AjaxOptionUpdater
                     $value = false;
                 }
 
-                Option::update($option, $value);
+                Option::updateValue($option, $value);
 
                 wp_send_json_success(['message' => __('Update option success.', 'wp-statistics')]);
             }

@@ -50,7 +50,7 @@ abstract class AbstractFilter implements FilterInterface
      * Filter name/identifier.
      *
      * This is the unique key used to identify the filter in API requests.
-     * It should be lowercase, using underscores for multi-word names.
+     * It should be lowercase, using underscores for multi-word WP_Statistics_names.
      *
      * Example values: 'country', 'browser', 'device_type', 'logged_in'
      *

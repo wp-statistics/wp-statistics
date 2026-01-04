@@ -3,7 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess;
 
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Models\SessionModel;
@@ -35,7 +35,7 @@ class BackgroundProcessFactory
         }
 
         // Mark as processed
-        Option::saveOptionGroup('word_count_process_initiated', true, 'jobs');
+        Option::updateGroup('word_count_process_initiated', true, 'jobs');
 
         $calculatePostWordsCount->save()->dispatch();
     }
@@ -68,7 +68,7 @@ class BackgroundProcessFactory
         }
 
         // Initiate the process
-        Option::saveOptionGroup('update_geoip_process_initiated', true, 'jobs');
+        Option::updateGroup('update_geoip_process_initiated', true, 'jobs');
 
         // Save the queue and dispatch it
         $updateIncompleteVisitorsLocations->save()->dispatch();
@@ -123,7 +123,7 @@ class BackgroundProcessFactory
         }
 
         // Initiate the process
-        Option::saveOptionGroup('update_source_channel_process_initiated', true, 'jobs');
+        Option::updateGroup('update_source_channel_process_initiated', true, 'jobs');
 
         // Save the queue and dispatch it
         $updateIncompleteVisitorsSourceChannels->save()->dispatch();
@@ -202,7 +202,7 @@ class BackgroundProcessFactory
         $totalResourcesCount = ResourcesFactory::countResources(true);
 
         if ($totalResourcesCount === 0) {
-            Option::saveOptionGroup('update_resouce_cache_fields_initiated', true, 'jobs');
+            Option::updateGroup('update_resouce_cache_fields_initiated', true, 'jobs');
             return;
         }
 
@@ -223,7 +223,7 @@ class BackgroundProcessFactory
             }
         }
 
-        Option::saveOptionGroup('update_resouce_cache_fields_initiated', true, 'jobs');
+        Option::updateGroup('update_resouce_cache_fields_initiated', true, 'jobs');
 
         $updateResource->save()->dispatch();
     }

@@ -63,7 +63,7 @@ class DatabaseSchema
     ];
 
     /**
-     * Cached table names.
+     * Cached table WP_Statistics_names.
      *
      * @var array|null
      */
@@ -119,7 +119,7 @@ class DatabaseSchema
     }
 
     /**
-     * Get all table names.
+     * Get all table WP_Statistics_names.
      *
      * @param bool $includeAddons Include addon tables.
      * @return array<string, string> Table key => full name mapping.

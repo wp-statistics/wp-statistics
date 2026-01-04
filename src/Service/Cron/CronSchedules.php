@@ -48,7 +48,7 @@ class CronSchedules
     /**
      * Get all custom schedule definitions.
      *
-     * @return array Schedule definitions with intervals, display names, and next scheduled times.
+     * @return array Schedule definitions with intervals, display WP_Statistics_names, and next scheduled times.
      */
     public static function getSchedules()
     {

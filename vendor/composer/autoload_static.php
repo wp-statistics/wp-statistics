@@ -6,10 +6,6 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit0c58b92c1859559503021091c91f6640
 {
-    public static $files = array (
-        '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'W' =>
         array (
@@ -26,6 +22,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Spyc' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
+        'WP_Statistics_WP_Async_Request' => __DIR__ . '/../..' . '/src/Dependencies/deliciousbrains/wp-background-processing/classes/wp-async-request.php',
+        'WP_Statistics_WP_Background_Process' => __DIR__ . '/../..' . '/src/Dependencies/deliciousbrains/wp-background-processing/classes/wp-background-process.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

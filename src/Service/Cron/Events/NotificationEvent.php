@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\MarketingCampaign\MarketingCampaignFetcher;
 use WP_Statistics\Service\Admin\Notification\NotificationFetcher;
 
@@ -42,7 +42,7 @@ class NotificationEvent extends AbstractCronEvent
      */
     public function execute()
     {
-        if (!Option::get('display_notifications')) {
+        if (!Option::getValue('display_notifications')) {
             return;
         }
 

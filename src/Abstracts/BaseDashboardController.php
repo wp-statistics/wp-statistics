@@ -64,10 +64,10 @@ abstract class BaseDashboardController
      * Get list of available AJAX actions.
      *
      * Child classes must implement this method to define their available AJAX endpoints.
-     * The returned array should contain action names that will be automatically registered
+     * The returned array should contain action WP_Statistics_names that will be automatically registered
      * with WordPress AJAX handling system.
      *
-     * @return array List of AJAX action names supported by this controller
+     * @return array List of AJAX action WP_Statistics_names supported by this controller
      */
     abstract public function getActions();
 }

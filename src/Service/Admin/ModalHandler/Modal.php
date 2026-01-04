@@ -2,7 +2,7 @@
 namespace WP_Statistics\Service\Admin\ModalHandler;
 
 use WP_Statistics\Components\View;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class Modal {
     const MODAL_OPTION_KEY = 'user_modals';
@@ -73,7 +73,7 @@ class Modal {
         $modals             = self::getStates();
         $modals[$modalId]   = self::generateStateObject($modalId);
 
-        Option::saveOptionGroup(get_current_user_id(), $modals, self::MODAL_OPTION_KEY);
+        Option::updateGroup(get_current_user_id(), $modals, self::MODAL_OPTION_KEY);
     }
 
     /**
@@ -83,7 +83,7 @@ class Modal {
      */
     private static function getStates()
     {
-        return Option::getOptionGroup(self::MODAL_OPTION_KEY, get_current_user_id(), []);
+        return Option::getGroup(self::MODAL_OPTION_KEY, get_current_user_id(), []);
     }
 
     /**

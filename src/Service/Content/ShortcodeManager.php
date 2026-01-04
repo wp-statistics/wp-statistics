@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Content;
 
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Pages;
+use WP_Statistics\Utils\Page;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Traits\TransientCacheTrait;
@@ -65,7 +65,7 @@ class ShortcodeManager
         // Get current page info if ID not specified
         if (empty($atts['id'])) {
             $atts['id']   = get_the_ID();
-            $currentPage  = Pages::get_page_type();
+            $currentPage  = Page::getType();
             $atts['type'] = $currentPage['type'] ?? '';
         } else {
             $atts['type'] = $this->getResourceType($atts['id']);

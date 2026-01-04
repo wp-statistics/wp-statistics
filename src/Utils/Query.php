@@ -95,7 +95,7 @@ class Query
 
         if ($this->operation === 'update') {
             foreach ($values as $field => $value) {
-                // Support qualified names like table.column → `table`.`column`
+                // Support qualified WP_Statistics_names like table.column → `table`.`column`
                 if (strpos($field, '.') !== false) {
                     list($tbl, $col) = explode('.', $field, 2);
                     $column = '`' . str_replace('`', '``', $tbl) . '`.`' . str_replace('`', '``', $col) . '`';

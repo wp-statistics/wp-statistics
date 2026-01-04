@@ -254,23 +254,28 @@ class Helper
     }
 
     /**
-     * Get Robots List
+     * Get Robots List.
      *
-     * @param string $type
-     * @return array|bool|string
+     * @param string $type 'array' or 'list' (newline-separated string).
+     * @return array|string
+     * @since 15.0.0 Changed to use JSON file instead of PHP.
      */
     public static function get_robots_list($type = 'list')
     {
-        # Set Default
-        $list = array();
+        $jsonFile = WP_STATISTICS_DIR . 'resources/json/robots-list.json';
 
-        # Load From file
-        include WP_STATISTICS_DIR . "includes/defines/robots-list.php";
-        if (isset($wps_robots_list_array)) {
-            $list = $wps_robots_list_array;
+        if (file_exists($jsonFile)) {
+            $contents = file_get_contents($jsonFile);
+            $list     = json_decode($contents, true);
+
+            if (!is_array($list)) {
+                $list = [];
+            }
+        } else {
+            $list = [];
         }
 
-        return ($type == "array" ? $list : implode("\n", $list));
+        return ($type == 'array' ? $list : implode("\n", $list));
     }
 
     /**
@@ -297,15 +302,28 @@ class Helper
 
 
     /**
-     * Get the default URL Query Parameters List
-     * @param string $type
+     * Get the default URL Query Parameters List.
+     *
+     * @param string $type 'array' or 'string' (newline-separated).
      * @return array|string
+     * @since 15.0.0 Changed to use JSON file instead of PHP.
      */
     public static function get_default_query_params_allow_list($type = 'array')
     {
-        include WP_STATISTICS_DIR . "includes/defines/query-params-allow-list.php";
-        $list = isset($wps_query_params_allow_list_array) ? $wps_query_params_allow_list_array : [];
-        return ($type == "array" ? $list : implode("\n", $list));
+        $jsonFile = WP_STATISTICS_DIR . 'resources/json/query-params-allow-list.json';
+
+        if (file_exists($jsonFile)) {
+            $contents = file_get_contents($jsonFile);
+            $list     = json_decode($contents, true);
+
+            if (!is_array($list)) {
+                $list = [];
+            }
+        } else {
+            $list = [];
+        }
+
+        return ($type == 'array' ? $list : implode("\n", $list));
     }
 
     /**

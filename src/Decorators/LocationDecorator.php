@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Decorators;
 
-use WP_STATISTICS\Country;
+use WP_Statistics\Components\Country;
 
 class LocationDecorator
 {
@@ -20,7 +20,7 @@ class LocationDecorator
      */
     public function getCountryFlag()
     {
-        return Country::flag($this->visitor->location);
+        return Country::getFlag($this->visitor->location);
     }
 
     /**

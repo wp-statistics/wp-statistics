@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 /**
  * Referrer Spam Update Cron Event.
@@ -30,7 +30,7 @@ class ReferrerSpamEvent extends AbstractCronEvent
      */
     protected function shouldSchedule()
     {
-        return (bool) Option::get('schedule_referrerspam');
+        return (bool) Option::getValue('schedule_referrerspam');
     }
 
     /**

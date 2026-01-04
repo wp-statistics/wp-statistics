@@ -374,7 +374,7 @@ class ResourceDetector
             return;
         }
 
-        $taxonomies = get_object_taxonomies($postType, 'names');
+        $taxonomies = get_object_taxonomies($postType, 'WP_Statistics_names');
 
         if (empty($taxonomies)) {
             return;

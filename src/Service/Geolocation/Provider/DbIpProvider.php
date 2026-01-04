@@ -6,7 +6,7 @@ use Exception;
 use WP_Statistics;
 use WP_Error;
 use WP_Statistics\Components\RemoteRequest;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 use WP_Statistics\Utils\Environment;
@@ -104,8 +104,8 @@ class DbIpProvider extends AbstractGeoIPProvider
      */
     public function getDownloadUrl()
     {
-        $licenseKey = Option::get('geoip_dbip_license_key_option') && Option::get('geoip_license_type') == 'user-license'
-            ? Option::get('geoip_dbip_license_key_option')
+        $licenseKey = Option::getValue('geoip_dbip_license_key_option') && Option::getValue('geoip_license_type') == 'user-license'
+            ? Option::getValue('geoip_dbip_license_key_option')
             : null;
 
         $downloadUrl = '';

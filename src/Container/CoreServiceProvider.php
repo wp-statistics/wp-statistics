@@ -12,6 +12,7 @@ use WP_Statistics\Service\Tracking\TrackerControllerFactory;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
 use WP_Statistics\Service\CustomEvent\CustomEventHandler;
+use WP_Statistics\Service\Ajax\AjaxDispatcher;
 
 /**
  * Core Service Provider.
@@ -70,6 +71,11 @@ class CoreServiceProvider implements ServiceProvider
             return new CustomEventHandler();
         });
 
+        // AJAX Dispatcher - processes wp_statistics_ajax_list filter
+        $container->register('ajax', function () {
+            return new AjaxDispatcher();
+        });
+
         // Aliases for common access patterns
         $container->alias('tracker', 'tracking');
     }
@@ -112,5 +118,8 @@ class CoreServiceProvider implements ServiceProvider
 
         // Initialize custom event handler
         $container->get('custom_events');
+
+        // Initialize AJAX dispatcher (must be after tracking to collect all handlers)
+        $container->get('ajax');
     }
 }

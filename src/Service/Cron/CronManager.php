@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Cron;
 
-use WP_STATISTICS\Option;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Cron\Events\DatabaseMaintenanceEvent;

@@ -3,7 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AbstractAjaxBackgroundProcess;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**
@@ -122,7 +122,7 @@ class VisitorColumnsMigrator extends AbstractAjaxBackgroundProcess
      */
     protected function isAlreadyDone()
     {
-        $status = Option::getOptionGroup('ajax_background_process', 'status', false);
+        $status = Option::getGroup('ajax_background_process', 'status', false);
 
         if ($status === false || in_array($status, ['progress', 'done'], true)) {
             return;

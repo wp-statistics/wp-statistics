@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Geolocation\Provider;
 
-use WP_STATISTICS\Country;
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\Country;
+use WP_Statistics\Components\Ip;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 use Exception;
 
@@ -16,7 +16,7 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
      */
     public static function isAvailable()
     {
-        if (empty(IP::getCloudflareIp())) {
+        if (empty(Ip::getFromCloudflare())) {
             return false;
         }
 

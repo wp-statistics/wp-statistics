@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Database\Schema;
 /**
  * Manages database table schemas.
  *
- * This class provides methods to retrieve schemas and manage table names
+ * This class provides methods to retrieve schemas and manage table WP_Statistics_names
  * for database operations.
  */
 class Manager
@@ -346,9 +346,9 @@ class Manager
     }
 
     /**
-     * Retrieve all table names.
+     * Retrieve all table WP_Statistics_names.
      *
-     * @return array An array of all table names defined in the schema.
+     * @return array An array of all table WP_Statistics_names defined in the schema.
      */
     public static function getAllTableNames()
     {

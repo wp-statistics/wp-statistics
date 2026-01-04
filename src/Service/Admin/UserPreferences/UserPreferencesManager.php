@@ -192,7 +192,7 @@ class UserPreferencesManager
     /**
      * Validate context name.
      *
-     * Context names must be alphanumeric with underscores only.
+     * Context WP_Statistics_names must be alphanumeric with underscores only.
      *
      * @param string $context Context name to validate.
      * @return bool True if valid.

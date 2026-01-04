@@ -2,19 +2,22 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\Country as V15Country;
+
 /**
  * Legacy Country class for backward compatibility.
  *
- * @deprecated 15.0.0 Use \WP_Statistics\Service\Geolocation\GeolocationFactory instead.
- * @see \WP_Statistics\Service\Geolocation\GeolocationFactory
+ * @deprecated 15.0.0 Use \WP_Statistics\Components\Country instead.
+ * @see \WP_Statistics\Components\Country
  *
  * This class is maintained for backward compatibility with add-ons.
- * New code should use the Geolocation services from the v15 architecture.
+ * New code should use the v15 Country component.
  *
  * Migration guide:
- * - Country::getList()    -> Use country data from GeolocationFactory
- * - Country::getName()    -> GeolocationFactory->getCountry()
- * - Country::getFlag()    -> Use flag assets directly
+ * - Country::getList()    -> V15Country::getAll()
+ * - Country::getName()    -> V15Country::getName()
+ * - Country::flag()       -> V15Country::getFlag()
+ * - Country::isValid()    -> V15Country::isValid()
  */
 class Country
 {
@@ -28,54 +31,44 @@ class Country
     /**
      * Get country codes
      *
-     * @return array|bool|string
+     * @return array
      */
     public static function getList()
     {
-        # Load From file
-        include WP_STATISTICS_DIR . "includes/defines/country-codes.php";
-        if (isset($ISOCountryCode)) {
-            return $ISOCountryCode;
-        }
-
-        return array();
+        return V15Country::getAll();
     }
 
     /**
      * Get Country flag
      *
-     * @param $location
+     * @param string $location
      * @return string
      */
     public static function flag($location)
     {
-        $list_country = self::getList();
-        if (!array_key_exists($location, $list_country)) {
-            $location = self::$unknown_location;
-        }
-        return WP_STATISTICS_URL . 'public/images/flags/' . strtolower($location) . '.svg';
+        return V15Country::getFlag($location);
     }
 
     /**
      * Get Country name by Code
      *
-     * @param $code
-     * @return mixed
+     * @param string $code
+     * @return string
      */
     public static function getName($code)
     {
-        $list_country = self::getList();
-        if (array_key_exists($code, $list_country)) {
-            return $list_country[$code];
-        }
-
-        return $list_country[self::$unknown_location];
+        return V15Country::getName($code);
     }
 
+    /**
+     * Check if a country code is valid.
+     *
+     * @param string $code
+     * @return bool
+     */
     public static function isValid($code)
     {
-        $list_country = self::getList();
-        return array_key_exists(strtoupper($code), $list_country);
+        return V15Country::isValid($code);
     }
 
     /**
@@ -89,7 +82,7 @@ class Country
         global $wpdb;
 
         // Load List Country Code
-        $ISOCountryCode = Country::getList();
+        $ISOCountryCode = V15Country::getAll();
 
         // Get List From DB
         $list = array();
@@ -131,12 +124,12 @@ class Country
         // Get Result
         $limitQuery = (isset($args['limit']) and $args['limit'] > 0) ? $wpdb->prepare("LIMIT %d", $args['limit']) : '';
         $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY location ORDER BY `count` DESC", reset($days_time_list), end($days_time_list));
-        $result     = $wpdb->get_results($sqlQuery . " " . $limitQuery); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+        $result     = $wpdb->get_results($sqlQuery . " " . $limitQuery); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);
             $list[]         = array(
                 'location' => $item->location,
-                'name'     => $ISOCountryCode[$item->location],
+                'name'     => $ISOCountryCode[$item->location] ?? V15Country::getName($item->location),
                 'flag'     => self::flag($item->location),
                 'link'     => Menus::admin_url('visitors', array('location' => $item->location)),
                 'number'   => $item->count

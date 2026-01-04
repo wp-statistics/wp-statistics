@@ -3,7 +3,7 @@ namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Components\Menu;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
@@ -103,7 +103,7 @@ abstract class BaseMetabox
             return false;
         }
 
-        $dismissedWidgets = Option::getOptionGroup('dismissed_widgets');
+        $dismissedWidgets = Option::getGroup('dismissed_widgets');
 
         return in_array($this->getKey(), $dismissedWidgets);
     }
@@ -243,11 +243,11 @@ abstract class BaseMetabox
      */
     public function register()
     {
-        $userCapability = Option::get('read_capability');
+        $userCapability = Option::getValue('read_capability');
         $screens        = $this->getScreen();
 
         // If the dashboard widgets are disabled, remove them from the screens
-        if (Option::get('disable_dashboard') && in_array('dashboard', $screens)) {
+        if (Option::getValue('disable_dashboard') && in_array('dashboard', $screens)) {
             $screens = array_diff($screens, ['dashboard']);
         }
 

@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Database\Operations;
 
 use RuntimeException;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Database\AbstractDatabaseOperation;
 
 /**
@@ -33,7 +33,7 @@ abstract class AbstractTableOperation extends AbstractDatabaseOperation
      * @return void
      */
     public function setRunTimeError() {
-        $details = Option::getOptionGroup('db', 'migration_status_detail', null);
+        $details = Option::getGroup('db', 'migration_status_detail', null);
 
         if (empty($details['status'])) {
             return;

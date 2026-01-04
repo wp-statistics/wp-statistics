@@ -6,7 +6,7 @@ use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Debugger\AbstractDebuggerProvider;
 
 /**
@@ -51,7 +51,7 @@ class TrackerProvider extends AbstractDebuggerProvider
             'sslverify' => apply_filters('https_local_ssl_verify', false),
         ];
 
-        $this->trackerPath = Assets::getSrc('js/tracker.js', Option::get('bypass_ad_blockers'), WP_STATISTICS_URL);
+        $this->trackerPath = Assets::getSrc('js/tracker.js', Option::getValue('bypass_ad_blockers'), WP_STATISTICS_URL);
         $this->initializeData();
     }
 
@@ -62,7 +62,7 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     public function checkHitRecording()
     {
-        $adBlocker = Option::get('bypass_ad_blockers', false);
+        $adBlocker = Option::getValue('bypass_ad_blockers', false);
 
         return $adBlocker ? $this->checkAjaxHit() : $this->checkRestHit();
     }

@@ -658,7 +658,7 @@ class AnalyticsQueryHandler
      */
     private function validateColumns(array $columns, array $sources, array $groupBy): void
     {
-        // Build list of valid column names (sources + group_by aliases + extra column aliases)
+        // Build list of valid column WP_Statistics_names (sources + group_by aliases + extra column aliases)
         $validColumns = $sources;
 
         foreach ($groupBy as $groupByName) {
@@ -873,8 +873,8 @@ class AnalyticsQueryHandler
      * Sums up source values from all rows to get totals.
      *
      * @param array $rows    Query result rows.
-     * @param array $sources Source names.
-     * @return array Totals array with source names as keys.
+     * @param array $sources Source WP_Statistics_names.
+     * @return array Totals array with source WP_Statistics_names as keys.
      */
     private function calculateTotalsFromRows(array $rows, array $sources): array
     {
@@ -1118,7 +1118,7 @@ class AnalyticsQueryHandler
     /**
      * Get available sources.
      *
-     * @return array List of source names with their metadata.
+     * @return array List of source WP_Statistics_names with their metadata.
      */
     public function getAvailableSources(): array
     {
@@ -1138,7 +1138,7 @@ class AnalyticsQueryHandler
     /**
      * Get available group by.
      *
-     * @return array List of group by names.
+     * @return array List of group by WP_Statistics_names.
      */
     public function getAvailableGroupBy(): array
     {
@@ -1168,7 +1168,7 @@ class AnalyticsQueryHandler
     /**
      * Get available response formats.
      *
-     * @return array List of available format names.
+     * @return array List of available format WP_Statistics_names.
      */
     public function getAvailableFormats(): array
     {

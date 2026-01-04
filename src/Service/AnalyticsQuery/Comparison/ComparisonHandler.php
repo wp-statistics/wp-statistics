@@ -31,8 +31,8 @@ class ComparisonHandler
     /**
      * Constructor.
      *
-     * @param array $sources    List of source names.
-     * @param array $groupBy List of group by names.
+     * @param array $sources    List of source WP_Statistics_names.
+     * @param array $groupBy List of group by WP_Statistics_names.
      */
     public function __construct(array $sources = [], array $groupBy = [])
     {
@@ -261,7 +261,7 @@ class ComparisonHandler
     /**
      * Set sources for comparison.
      *
-     * @param array $sources List of source names.
+     * @param array $sources List of source WP_Statistics_names.
      * @return self
      */
     public function setSources(array $sources): self
@@ -273,7 +273,7 @@ class ComparisonHandler
     /**
      * Set group by for matching.
      *
-     * @param array $groupBy List of group by names.
+     * @param array $groupBy List of group by WP_Statistics_names.
      * @return self
      */
     public function setGroupBy(array $groupBy): self

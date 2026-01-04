@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
 use WP_Statistics\Exception\LicenseException;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 class LicenseHelper
@@ -19,7 +19,7 @@ class LicenseHelper
      */
     public static function getLicenses($status = 'valid')
     {
-        $licenses = Option::getOptionGroup(self::LICENSE_OPTION_KEY) ?? [];
+        $licenses = Option::getGroup(self::LICENSE_OPTION_KEY) ?? [];
 
         if (!empty($status) && $status !== 'all') {
             $licenses = array_filter($licenses, function ($license) use ($status) {
@@ -122,7 +122,7 @@ class LicenseHelper
             'products'    => isset($licenseData->products) ? wp_list_pluck($licenseData->products, 'slug') : null,
         ];
 
-        Option::saveOptionGroup($licenseKey, $data, self::LICENSE_OPTION_KEY);
+        Option::updateGroup($licenseKey, $data, self::LICENSE_OPTION_KEY);
     }
 
     /**
@@ -133,7 +133,7 @@ class LicenseHelper
      */
     public static function updateLicense($licenseKey, $licenseData)
     {
-        Option::saveOptionGroup($licenseKey, $licenseData, self::LICENSE_OPTION_KEY);
+        Option::updateGroup($licenseKey, $licenseData, self::LICENSE_OPTION_KEY);
     }
 
     /**
@@ -145,7 +145,7 @@ class LicenseHelper
      */
     public static function removeLicense($licenseKey)
     {
-        Option::deleteOptionGroup($licenseKey, self::LICENSE_OPTION_KEY);
+        Option::deleteGroup($licenseKey, self::LICENSE_OPTION_KEY);
     }
 
     /**
@@ -217,7 +217,7 @@ class LicenseHelper
     {
         $baseUrl = esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header');
 
-        if ($promoBanner && Option::get('display_notifications', false)) {
+        if ($promoBanner && Option::getValue('display_notifications', false)) {
             $banner = [
                 'url'       => esc_url($promoBanner->getUrl()),
                 'tooltip'   => $promoBanner->getTooltip(),

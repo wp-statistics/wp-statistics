@@ -8,7 +8,7 @@ use WP_Statistics\Service\Database\Managers\TransactionHandler;
  * Base class for database operations.
  *
  * This abstract class provides common functionality for database operations,
- * such as handling connections, validating table names, and managing arguments.
+ * such as handling connections, validating table WP_Statistics_names, and managing arguments.
  */
 abstract class AbstractDatabaseOperation implements DatabaseManager
 {

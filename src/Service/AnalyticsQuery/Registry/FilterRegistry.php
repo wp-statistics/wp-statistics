@@ -180,7 +180,7 @@ class FilterRegistry
     }
 
     /**
-     * Get all registered filter names.
+     * Get all registered filter WP_Statistics_names.
      *
      * @return array
      */
@@ -273,7 +273,7 @@ class FilterRegistry
     /**
      * Check if any filter requires the views table.
      *
-     * @param array $filterNames Filter names to check.
+     * @param array $filterNames Filter WP_Statistics_names to check.
      * @return bool
      */
     public function requiresViewsTable(array $filterNames): bool
