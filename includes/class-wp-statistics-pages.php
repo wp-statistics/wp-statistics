@@ -112,20 +112,26 @@ class Pages
     }
 
     /**
-     * Get page_id from the pages table by type and id.
+     * Get resource ID from the resources table by type and WordPress ID.
      *
-     * @deprecated 15.0.0 This method queries the legacy pages table.
-     * @param string $type Page type.
-     * @param int    $id   Page/post ID.
-     * @return int Page ID from the pages table, or 0 if not found.
+     * In v15, this queries the resources table instead of the legacy pages table.
+     * The resources table stores unique WordPress resources (posts, pages, etc.)
+     * and returns the internal resource row ID.
+     *
+     * @param string $type Page type (e.g., 'post', 'page', 'category').
+     * @param int    $id   WordPress page/post ID.
+     * @return int Resource ID from the resources table, or 0 if not found.
      */
     public static function getPageId($type, $id)
     {
         global $wpdb;
 
+        $resourcesTable = $wpdb->prefix . 'statistics_resources';
+
+        // Query the v15 resources table
         $result = $wpdb->get_var(
             $wpdb->prepare(
-                "SELECT page_id FROM `" . DB::table('pages') . "` WHERE `type` = %s AND `id` = %d ORDER BY date DESC",
+                "SELECT ID FROM `{$resourcesTable}` WHERE `resource_type` = %s AND `resource_id` = %d AND `is_deleted` = 0 LIMIT 1",
                 $type,
                 $id
             )

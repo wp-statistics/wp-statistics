@@ -354,4 +354,32 @@ class Page
         }
         return false;
     }
+
+    /**
+     * Get resource row ID from the resources table by type and WordPress ID.
+     *
+     * Queries the v15 resources table to find the internal row ID for a WordPress
+     * resource (post, page, term, etc.) based on its type and WordPress ID.
+     *
+     * @param string $type      Resource type (e.g., 'post', 'page', 'category').
+     * @param int    $resourceId WordPress page/post/term ID.
+     * @return int Resource row ID from the resources table, or 0 if not found.
+     * @since 15.0.0
+     */
+    public static function getResourceId($type, $resourceId)
+    {
+        global $wpdb;
+
+        $resourcesTable = $wpdb->prefix . 'statistics_resources';
+
+        $result = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT ID FROM `{$resourcesTable}` WHERE `resource_type` = %s AND `resource_id` = %d AND `is_deleted` = 0 LIMIT 1",
+                $type,
+                $resourceId
+            )
+        );
+
+        return $result ? (int) $result : 0;
+    }
 }

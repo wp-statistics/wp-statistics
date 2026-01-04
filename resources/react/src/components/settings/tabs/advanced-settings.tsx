@@ -57,12 +57,6 @@ export function AdvancedSettings() {
     'share_anonymous_data',
     false
   )
-  const [bypassAdBlockers, setBypassAdBlockers] = useSetting(
-    settings,
-    'bypass_ad_blockers',
-    false
-  )
-  const [useCachePlugin, setUseCachePlugin] = useSetting(settings, 'use_cache_plugin', true)
 
   const handleSave = async () => {
     const success = await settings.save()
@@ -186,42 +180,6 @@ export function AdvancedSettings() {
             <p className="text-xs text-muted-foreground">
               Country code to use for private/local IP addresses.
             </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Tracker Configuration</CardTitle>
-          <CardDescription>Configure how the tracking script works on your site.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="cache-plugin">Cache Plugin Compatibility</Label>
-              <p className="text-sm text-muted-foreground">
-                Enable client-side tracking for better accuracy with caching plugins.
-              </p>
-            </div>
-            <Switch
-              id="cache-plugin"
-              checked={!!useCachePlugin}
-              onCheckedChange={setUseCachePlugin}
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="bypass-adblockers">Bypass Ad Blockers</Label>
-              <p className="text-sm text-muted-foreground">
-                Use alternative methods to track visitors who use ad blockers.
-              </p>
-            </div>
-            <Switch
-              id="bypass-adblockers"
-              checked={!!bypassAdBlockers}
-              onCheckedChange={setBypassAdBlockers}
-            />
           </div>
         </CardContent>
       </Card>
