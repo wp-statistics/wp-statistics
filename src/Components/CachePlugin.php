@@ -20,10 +20,10 @@ class CachePlugin
     /**
      * Cached detection result for the current request.
      *
-     * Holds an associative array with keys `status` (bool) and `label` (string)
-     * after detection runs, or `null` before first use.
+     * Holds an associative array with keys `status` (bool), `label` (string),
+     * and `debug` (string) after detection runs, or `null` before first use.
      *
-     * @var array{status:bool,label:string}|null
+     * @var array{status:bool,label:string,debug:string}|null
      */
     private static $pluginInfo = null;
 
@@ -63,7 +63,7 @@ class CachePlugin
      * first match. Subsequent calls return the stored result without running
      * detection again.
      *
-     * @return array{status:bool,label:string} Detection result.
+     * @return array{status:bool,label:string,debug:string} Detection result.
      */
     public static function getAll()
     {
@@ -75,6 +75,7 @@ class CachePlugin
             self::$pluginInfo = [
                 'status' => true,
                 'label'  => __('WordPress Object Cache', 'wp-statistics'),
+                'debug'  => 'WordPress Object Cache',
             ];
 
             return self::$pluginInfo;
@@ -84,6 +85,7 @@ class CachePlugin
             self::$pluginInfo = [
                 'status' => true,
                 'label'  => __('WP Rocket', 'wp-statistics'),
+                'debug'  => 'WP Rocket',
             ];
 
             return self::$pluginInfo;
@@ -93,6 +95,7 @@ class CachePlugin
             self::$pluginInfo = [
                 'status' => true,
                 'label'  => __('WP Super Cache', 'wp-statistics'),
+                'debug'  => 'WP Super Cache',
             ];
 
             return self::$pluginInfo;
@@ -102,6 +105,7 @@ class CachePlugin
             self::$pluginInfo = [
                 'status' => true,
                 'label'  => __('Comet Cache', 'wp-statistics'),
+                'debug'  => 'Comet Cache',
             ];
 
             return self::$pluginInfo;
@@ -111,6 +115,7 @@ class CachePlugin
             self::$pluginInfo = [
                 'status' => true,
                 'label'  => __('WP Fastest Cache', 'wp-statistics'),
+                'debug'  => 'WP Fastest Cache',
             ];
 
             return self::$pluginInfo;
@@ -120,6 +125,7 @@ class CachePlugin
             self::$pluginInfo = [
                 'status' => true,
                 'label'  => __('Cache Enabler', 'wp-statistics'),
+                'debug'  => 'Cache Enabler',
             ];
 
             return self::$pluginInfo;
@@ -129,6 +135,7 @@ class CachePlugin
             self::$pluginInfo = [
                 'status' => true,
                 'label'  => __('W3 Total Cache', 'wp-statistics'),
+                'debug'  => 'W3 Total Cache',
             ];
 
             return self::$pluginInfo;
@@ -138,6 +145,7 @@ class CachePlugin
             self::$pluginInfo = [
                 'status' => true,
                 'label'  => __('WP-Optimize', 'wp-statistics'),
+                'debug'  => 'WP-Optimize',
             ];
 
             return self::$pluginInfo;
@@ -148,6 +156,7 @@ class CachePlugin
             [
                 'status' => false,
                 'label'  => '',
+                'debug'  => '',
             ]
         );
 

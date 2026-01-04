@@ -8,6 +8,8 @@ use WP_Statistics\Service\Admin\CommandPalette\CommandPaletteHandler;
 use WP_Statistics\Service\Admin\DashboardBootstrap\DashboardManager;
 use WP_Statistics\Service\Admin\Settings\SettingsManager;
 use WP_Statistics\Service\Admin\Network\NetworkManager;
+use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
+use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
 use WP_Statistics\Service\EmailReport\EmailReportManager;
 
 /**
@@ -61,6 +63,16 @@ class AdminServiceProvider implements ServiceProvider
         $container->register('command_palette', function () {
             return new CommandPaletteHandler();
         });
+
+        // Site Health Info (WordPress Site Health debug information)
+        $container->register('site_health_info', function () {
+            return SiteHealthInfo::instance();
+        });
+
+        // Site Health Tests (WordPress Site Health status tests)
+        $container->register('site_health_tests', function () {
+            return SiteHealthTests::instance();
+        });
     }
 
     /**
@@ -82,6 +94,8 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('email_reports');
             $container->get('network');
             $container->get('command_palette');
+            $container->get('site_health_info');
+            $container->get('site_health_tests');
         }
     }
 }

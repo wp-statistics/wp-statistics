@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\AnonymizedUsageData;
 
-use WP_Statistics\Service\Admin\SiteHealthInfo;
+use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\DB;
 use WP_Statistics\Globals\Option;
@@ -207,7 +207,7 @@ class AnonymizedUsageDataProvider
      */
     public static function getPluginSettings()
     {
-        $siteHealthInfo = new SiteHealthInfo();
+        $siteHealthInfo = SiteHealthInfo::instance();
 
         $pluginSettings = self::processSettings($siteHealthInfo->getPluginSettings());
         $addOnSettings  = self::processSettings($siteHealthInfo->getAddOnsSettings());
