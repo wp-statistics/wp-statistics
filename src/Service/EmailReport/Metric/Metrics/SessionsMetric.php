@@ -27,18 +27,18 @@ class SessionsMetric extends AbstractMetric
         global $wpdb;
 
         $dateRange = $this->getDateRange($period);
-        $visitorsTable = $wpdb->prefix . 'statistics_visitors';
+        $summaryTotalsTable = $wpdb->prefix . 'statistics_summary_totals';
 
-        // Current period - count visits (each visitor visit is a session)
+        // Current period - use summary_totals for aggregated session counts
         $current = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT SUM(hits) FROM {$visitorsTable} WHERE last_counter BETWEEN %s AND %s",
+            "SELECT COALESCE(SUM(sessions), 0) FROM {$summaryTotalsTable} WHERE date BETWEEN %s AND %s",
             $dateRange['start_date'],
             $dateRange['end_date']
         ));
 
         // Previous period
         $previous = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT SUM(hits) FROM {$visitorsTable} WHERE last_counter BETWEEN %s AND %s",
+            "SELECT COALESCE(SUM(sessions), 0) FROM {$summaryTotalsTable} WHERE date BETWEEN %s AND %s",
             $dateRange['previous_start_date'],
             $dateRange['previous_end_date']
         ));

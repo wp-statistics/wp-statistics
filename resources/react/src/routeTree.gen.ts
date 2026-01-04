@@ -37,7 +37,9 @@ const SettingsGeneralLazyRouteImport = createFileRoute('/settings/general')()
 const SettingsExclusionsLazyRouteImport = createFileRoute(
   '/settings/exclusions',
 )()
+const SettingsDisplayLazyRouteImport = createFileRoute('/settings/display')()
 const SettingsAdvancedLazyRouteImport = createFileRoute('/settings/advanced')()
+const SettingsAccessLazyRouteImport = createFileRoute('/settings/access')()
 const visitorInsightsSearchTermsLazyRouteImport = createFileRoute(
   '/(visitor-insights)/search-terms',
 )()
@@ -140,12 +142,26 @@ const SettingsExclusionsLazyRoute = SettingsExclusionsLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/settings/exclusions.lazy').then((d) => d.Route),
 )
+const SettingsDisplayLazyRoute = SettingsDisplayLazyRouteImport.update({
+  id: '/display',
+  path: '/display',
+  getParentRoute: () => SettingsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/settings/display.lazy').then((d) => d.Route),
+)
 const SettingsAdvancedLazyRoute = SettingsAdvancedLazyRouteImport.update({
   id: '/advanced',
   path: '/advanced',
   getParentRoute: () => SettingsRouteRoute,
 } as any).lazy(() =>
   import('./routes/settings/advanced.lazy').then((d) => d.Route),
+)
+const SettingsAccessLazyRoute = SettingsAccessLazyRouteImport.update({
+  id: '/access',
+  path: '/access',
+  getParentRoute: () => SettingsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/settings/access.lazy').then((d) => d.Route),
 )
 const visitorInsightsSearchTermsLazyRoute =
   visitorInsightsSearchTermsLazyRouteImport
@@ -307,7 +323,9 @@ export interface FileRoutesByFullPath {
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
   '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/settings/access': typeof SettingsAccessLazyRoute
   '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/display': typeof SettingsDisplayLazyRoute
   '/settings/exclusions': typeof SettingsExclusionsLazyRoute
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
@@ -335,7 +353,9 @@ export interface FileRoutesByTo {
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
   '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/settings/access': typeof SettingsAccessLazyRoute
   '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/display': typeof SettingsDisplayLazyRoute
   '/settings/exclusions': typeof SettingsExclusionsLazyRoute
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
@@ -365,7 +385,9 @@ export interface FileRoutesById {
   '/(referrals)/source-categories': typeof referralsSourceCategoriesLazyRoute
   '/(visitor-insights)/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/(visitor-insights)/search-terms': typeof visitorInsightsSearchTermsLazyRoute
+  '/settings/access': typeof SettingsAccessLazyRoute
   '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/display': typeof SettingsDisplayLazyRoute
   '/settings/exclusions': typeof SettingsExclusionsLazyRoute
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
@@ -396,7 +418,9 @@ export interface FileRouteTypes {
     | '/source-categories'
     | '/online-visitors'
     | '/search-terms'
+    | '/settings/access'
     | '/settings/advanced'
+    | '/settings/display'
     | '/settings/exclusions'
     | '/settings/general'
     | '/settings/notifications'
@@ -424,7 +448,9 @@ export interface FileRouteTypes {
     | '/source-categories'
     | '/online-visitors'
     | '/search-terms'
+    | '/settings/access'
     | '/settings/advanced'
+    | '/settings/display'
     | '/settings/exclusions'
     | '/settings/general'
     | '/settings/notifications'
@@ -453,7 +479,9 @@ export interface FileRouteTypes {
     | '/(referrals)/source-categories'
     | '/(visitor-insights)/online-visitors'
     | '/(visitor-insights)/search-terms'
+    | '/settings/access'
     | '/settings/advanced'
+    | '/settings/display'
     | '/settings/exclusions'
     | '/settings/general'
     | '/settings/notifications'
@@ -578,11 +606,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsExclusionsLazyRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
+    '/settings/display': {
+      id: '/settings/display'
+      path: '/display'
+      fullPath: '/settings/display'
+      preLoaderRoute: typeof SettingsDisplayLazyRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
     '/settings/advanced': {
       id: '/settings/advanced'
       path: '/advanced'
       fullPath: '/settings/advanced'
       preLoaderRoute: typeof SettingsAdvancedLazyRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/settings/access': {
+      id: '/settings/access'
+      path: '/access'
+      fullPath: '/settings/access'
+      preLoaderRoute: typeof SettingsAccessLazyRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
     '/(visitor-insights)/search-terms': {
@@ -680,7 +722,9 @@ declare module '@tanstack/react-router' {
 }
 
 interface SettingsRouteRouteChildren {
+  SettingsAccessLazyRoute: typeof SettingsAccessLazyRoute
   SettingsAdvancedLazyRoute: typeof SettingsAdvancedLazyRoute
+  SettingsDisplayLazyRoute: typeof SettingsDisplayLazyRoute
   SettingsExclusionsLazyRoute: typeof SettingsExclusionsLazyRoute
   SettingsGeneralLazyRoute: typeof SettingsGeneralLazyRoute
   SettingsNotificationsLazyRoute: typeof SettingsNotificationsLazyRoute
@@ -689,7 +733,9 @@ interface SettingsRouteRouteChildren {
 }
 
 const SettingsRouteRouteChildren: SettingsRouteRouteChildren = {
+  SettingsAccessLazyRoute: SettingsAccessLazyRoute,
   SettingsAdvancedLazyRoute: SettingsAdvancedLazyRoute,
+  SettingsDisplayLazyRoute: SettingsDisplayLazyRoute,
   SettingsExclusionsLazyRoute: SettingsExclusionsLazyRoute,
   SettingsGeneralLazyRoute: SettingsGeneralLazyRoute,
   SettingsNotificationsLazyRoute: SettingsNotificationsLazyRoute,

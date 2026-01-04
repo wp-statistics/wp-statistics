@@ -27,24 +27,22 @@ class ReferralsMetric extends AbstractMetric
         global $wpdb;
 
         $dateRange = $this->getDateRange($period);
-        $visitorsTable = $wpdb->prefix . 'statistics_visitors';
+        $sessionsTable = $wpdb->prefix . 'statistics_sessions';
 
-        // Current period - count visitors with referrers
+        // Current period - count sessions with referrers (referrer_id IS NOT NULL)
         $current = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM {$visitorsTable}
-            WHERE last_counter BETWEEN %s AND %s
-            AND referred IS NOT NULL
-            AND referred != ''",
+            "SELECT COUNT(*) FROM {$sessionsTable}
+            WHERE DATE(started_at) BETWEEN %s AND %s
+            AND referrer_id IS NOT NULL",
             $dateRange['start_date'],
             $dateRange['end_date']
         ));
 
         // Previous period
         $previous = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM {$visitorsTable}
-            WHERE last_counter BETWEEN %s AND %s
-            AND referred IS NOT NULL
-            AND referred != ''",
+            "SELECT COUNT(*) FROM {$sessionsTable}
+            WHERE DATE(started_at) BETWEEN %s AND %s
+            AND referrer_id IS NOT NULL",
             $dateRange['previous_start_date'],
             $dateRange['previous_end_date']
         ));

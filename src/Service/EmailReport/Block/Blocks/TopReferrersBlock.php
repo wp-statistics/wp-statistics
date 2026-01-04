@@ -67,17 +67,18 @@ class TopReferrersBlock extends AbstractBlock
         $settings = wp_parse_args($settings, $this->getDefaultSettings());
         $dateRange = $this->getDateRange($period);
 
-        $visitorsTable = $wpdb->prefix . 'statistics_visitors';
+        // v15 tables
+        $sessionsTable = $wpdb->prefix . 'statistics_sessions';
+        $referrersTable = $wpdb->prefix . 'statistics_referrers';
 
         $referrers = $wpdb->get_results($wpdb->prepare(
             "SELECT
-                referred AS referrer,
-                COUNT(*) AS visitors
-            FROM {$visitorsTable}
-            WHERE last_counter BETWEEN %s AND %s
-                AND referred != ''
-                AND referred IS NOT NULL
-            GROUP BY referred
+                ref.referrer_url,
+                COUNT(DISTINCT s.visitor_id) AS visitors
+            FROM {$sessionsTable} s
+            INNER JOIN {$referrersTable} ref ON s.referrer_id = ref.id
+            WHERE DATE(s.started_at) BETWEEN %s AND %s
+            GROUP BY ref.id
             ORDER BY visitors DESC
             LIMIT %d",
             $dateRange['start_date'],
@@ -87,12 +88,12 @@ class TopReferrersBlock extends AbstractBlock
 
         $formattedReferrers = [];
         foreach ($referrers as $ref) {
-            $domain = wp_parse_url($ref->referrer, PHP_URL_HOST) ?: $ref->referrer;
+            $domain = wp_parse_url($ref->referrer_url, PHP_URL_HOST) ?: $ref->referrer_url;
             $domain = preg_replace('/^www\./', '', $domain);
 
             $formattedReferrers[] = [
                 'domain' => $domain,
-                'url' => $ref->referrer,
+                'url' => $ref->referrer_url,
                 'visitors' => intval($ref->visitors),
                 'visitorsFormatted' => $this->formatNumber($ref->visitors),
                 'favicon' => 'https://www.google.com/s2/favicons?domain=' . urlencode($domain),

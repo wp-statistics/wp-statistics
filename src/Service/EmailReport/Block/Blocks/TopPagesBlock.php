@@ -74,20 +74,20 @@ class TopPagesBlock extends AbstractBlock
         $settings = wp_parse_args($settings, $this->getDefaultSettings());
         $dateRange = $this->getDateRange($period);
 
-        // Get top pages from the pages table
-        $pagesTable = $wpdb->prefix . 'statistics_pages';
-        $visitorsTable = $wpdb->prefix . 'statistics_visitor_relationships';
+        // Get top pages from v15 tables
+        $viewsTable = $wpdb->prefix . 'statistics_views';
+        $resourcesTable = $wpdb->prefix . 'statistics_resources';
 
         $pages = $wpdb->get_results($wpdb->prepare(
             "SELECT
-                p.uri,
-                p.id AS page_id,
-                SUM(p.count) AS views,
-                COUNT(DISTINCT vr.visitor_id) AS visitors
-            FROM {$pagesTable} p
-            LEFT JOIN {$visitorsTable} vr ON p.page_id = vr.page_id
-            WHERE p.date BETWEEN %s AND %s
-            GROUP BY p.uri
+                r.resource_url,
+                r.post_id,
+                SUM(v.views) AS views,
+                SUM(v.visitors) AS visitors
+            FROM {$viewsTable} v
+            INNER JOIN {$resourcesTable} r ON v.resource_id = r.id
+            WHERE v.date BETWEEN %s AND %s
+            GROUP BY r.id
             ORDER BY views DESC
             LIMIT %d",
             $dateRange['start_date'],
@@ -97,12 +97,11 @@ class TopPagesBlock extends AbstractBlock
 
         $formattedPages = [];
         foreach ($pages as $page) {
-            $postId = url_to_postid(home_url($page->uri));
-            $title = $postId ? get_the_title($postId) : $page->uri;
+            $title = $page->post_id ? get_the_title($page->post_id) : $page->resource_url;
 
             $formattedPages[] = [
-                'title' => $title ?: $page->uri,
-                'url' => home_url($page->uri),
+                'title' => $title ?: $page->resource_url,
+                'url' => $page->resource_url,
                 'views' => intval($page->views),
                 'visitors' => intval($page->visitors),
                 'viewsFormatted' => $this->formatNumber($page->views),

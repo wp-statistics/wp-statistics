@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\CLI\Commands;
 
 use WP_CLI;
-use WP_STATISTICS\Visitor;
+use WP_Statistics\Models\VisitorsModel;
 
 /**
  * Show list of visitors.
@@ -57,7 +57,8 @@ class VisitorsCommand
         $number = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
         $format = $assoc_args['format'] ?? 'table';
 
-        $lists = Visitor::get(['per_page' => $number]);
+        $visitorsModel = new VisitorsModel();
+        $lists = $visitorsModel->getVisitorsData(['per_page' => $number]);
 
         if (empty($lists)) {
             WP_CLI::error('There are no visitors.');

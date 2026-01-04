@@ -27,18 +27,18 @@ class ViewsMetric extends AbstractMetric
         global $wpdb;
 
         $dateRange = $this->getDateRange($period);
-        $pagesTable = $wpdb->prefix . 'statistics_pages';
+        $summaryTotalsTable = $wpdb->prefix . 'statistics_summary_totals';
 
-        // Current period
+        // Current period - use summary_totals for aggregated view counts
         $current = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT SUM(count) FROM {$pagesTable} WHERE date BETWEEN %s AND %s",
+            "SELECT COALESCE(SUM(views), 0) FROM {$summaryTotalsTable} WHERE date BETWEEN %s AND %s",
             $dateRange['start_date'],
             $dateRange['end_date']
         ));
 
         // Previous period
         $previous = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT SUM(count) FROM {$pagesTable} WHERE date BETWEEN %s AND %s",
+            "SELECT COALESCE(SUM(views), 0) FROM {$summaryTotalsTable} WHERE date BETWEEN %s AND %s",
             $dateRange['previous_start_date'],
             $dateRange['previous_end_date']
         ));

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Loader2 } from 'lucide-react'
+import { Loader2, AlertTriangle, RefreshCw, Globe, Server, Trash2, RotateCcw } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -17,6 +17,27 @@ import { useSettings, useSetting } from '@/hooks/use-settings'
 
 export function AdvancedSettings() {
   const settings = useSettings({ tab: 'advanced' })
+  const [detectedIp, setDetectedIp] = React.useState<string>('Loading...')
+  const [externalIp, setExternalIp] = React.useState<string>('Loading...')
+  const [isResetting, setIsResetting] = React.useState(false)
+  const [isPurging, setIsPurging] = React.useState(false)
+
+  // Fetch detected IP on mount
+  React.useEffect(() => {
+    // Get WP Statistics detected IP from localized data
+    const wpStatsIp = (window as any).wps_react?.globals?.userIp
+    if (wpStatsIp) {
+      setDetectedIp(wpStatsIp)
+    } else {
+      setDetectedIp('Not available')
+    }
+
+    // Fetch external IP from ipify
+    fetch('https://api.ipify.org?format=json')
+      .then((res) => res.json())
+      .then((data) => setExternalIp(data.ip))
+      .catch(() => setExternalIp('Unable to detect'))
+  }, [])
 
   // IP Detection Settings
   const [ipMethod, setIpMethod] = useSetting(settings, 'ip_method', 'sequential')
@@ -139,6 +160,34 @@ export function AdvancedSettings() {
               </p>
             </div>
           )}
+
+          <div className="rounded-lg border bg-muted/50 p-4">
+            <h4 className="text-sm font-medium mb-3">Your IP Information</h4>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="flex items-center gap-2">
+                <Server className="h-4 w-4 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">WP Statistics Detected</p>
+                  <p className="text-sm font-mono">{detectedIp}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe className="h-4 w-4 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">External IP (ipify.org)</p>
+                  <p className="text-sm font-mono">{externalIp}</p>
+                </div>
+              </div>
+            </div>
+            {detectedIp !== 'Loading...' && externalIp !== 'Loading...' && detectedIp !== externalIp && (
+              <div className="mt-3 flex items-start gap-2 rounded-md bg-amber-500/10 p-2">
+                <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5" />
+                <p className="text-xs text-amber-600 dark:text-amber-400">
+                  The IPs don't match. If you're behind a proxy or CDN, ensure the correct header is selected above.
+                </p>
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 
@@ -340,6 +389,92 @@ export function AdvancedSettings() {
               checked={!!deleteOnUninstall}
               onCheckedChange={setDeleteOnUninstall}
             />
+          </div>
+
+          <div className="border-t pt-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label>Purge Old Data</Label>
+                <p className="text-sm text-muted-foreground">
+                  Immediately remove statistics data older than the retention period set above.
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={async () => {
+                  if (confirm('Are you sure you want to purge old data? This cannot be undone.')) {
+                    setIsPurging(true)
+                    try {
+                      const response = await fetch(
+                        `${(window as any).wps_react?.ajaxUrl}?action=wps_purge_old_data&nonce=${(window as any).wps_react?.nonce}`,
+                        { method: 'POST' }
+                      )
+                      if (response.ok) {
+                        alert('Old data has been purged successfully.')
+                      }
+                    } catch (error) {
+                      alert('Failed to purge data. Please try again.')
+                    } finally {
+                      setIsPurging(false)
+                    }
+                  }
+                }}
+                disabled={isPurging}
+              >
+                {isPurging ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="mr-2 h-4 w-4" />
+                )}
+                Purge Now
+              </Button>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label>Restore Default Settings</Label>
+                <p className="text-sm text-muted-foreground">
+                  Reset all WP Statistics settings to their default values. Your statistics data will
+                  not be affected.
+                </p>
+              </div>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={async () => {
+                  if (
+                    confirm(
+                      'Are you sure you want to restore all settings to defaults? This cannot be undone.'
+                    )
+                  ) {
+                    setIsResetting(true)
+                    try {
+                      const response = await fetch(
+                        `${(window as any).wps_react?.ajaxUrl}?action=wps_restore_defaults&nonce=${(window as any).wps_react?.nonce}`,
+                        { method: 'POST' }
+                      )
+                      if (response.ok) {
+                        alert('Settings have been restored to defaults. The page will now reload.')
+                        window.location.reload()
+                      }
+                    } catch (error) {
+                      alert('Failed to restore settings. Please try again.')
+                    } finally {
+                      setIsResetting(false)
+                    }
+                  }
+                }}
+                disabled={isResetting}
+              >
+                {isResetting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                )}
+                Restore Defaults
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

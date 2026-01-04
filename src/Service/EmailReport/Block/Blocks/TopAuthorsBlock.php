@@ -74,17 +74,20 @@ class TopAuthorsBlock extends AbstractBlock
         $settings = wp_parse_args($settings, $this->getDefaultSettings());
         $dateRange = $this->getDateRange($period);
 
-        $pagesTable = $wpdb->prefix . 'statistics_pages';
+        // v15 tables
+        $viewsTable = $wpdb->prefix . 'statistics_views';
+        $resourcesTable = $wpdb->prefix . 'statistics_resources';
         $postsTable = $wpdb->posts;
 
-        // Get views by author
+        // Get views by author using v15 tables
         $authors = $wpdb->get_results($wpdb->prepare(
             "SELECT
                 posts.post_author AS author_id,
-                SUM(pages.count) AS views
-            FROM {$pagesTable} pages
-            INNER JOIN {$postsTable} posts ON pages.id = posts.ID
-            WHERE pages.date BETWEEN %s AND %s
+                SUM(v.views) AS views
+            FROM {$viewsTable} v
+            INNER JOIN {$resourcesTable} r ON v.resource_id = r.id
+            INNER JOIN {$postsTable} posts ON r.post_id = posts.ID
+            WHERE v.date BETWEEN %s AND %s
                 AND posts.post_type = 'post'
                 AND posts.post_status = 'publish'
             GROUP BY posts.post_author

@@ -68,25 +68,28 @@ class TopCategoriesBlock extends AbstractBlock
         $settings = wp_parse_args($settings, $this->getDefaultSettings());
         $dateRange = $this->getDateRange($period);
 
-        $pagesTable = $wpdb->prefix . 'statistics_pages';
+        // v15 tables
+        $viewsTable = $wpdb->prefix . 'statistics_views';
+        $resourcesTable = $wpdb->prefix . 'statistics_resources';
         $postsTable = $wpdb->posts;
         $termRelTable = $wpdb->term_relationships;
         $termTaxTable = $wpdb->term_taxonomy;
         $termsTable = $wpdb->terms;
 
-        // Get views by category
+        // Get views by category using v15 tables
         $categories = $wpdb->get_results($wpdb->prepare(
             "SELECT
                 t.term_id,
                 t.name,
                 t.slug,
-                SUM(pages.count) AS views
-            FROM {$pagesTable} pages
-            INNER JOIN {$postsTable} posts ON pages.id = posts.ID
+                SUM(v.views) AS views
+            FROM {$viewsTable} v
+            INNER JOIN {$resourcesTable} r ON v.resource_id = r.id
+            INNER JOIN {$postsTable} posts ON r.post_id = posts.ID
             INNER JOIN {$termRelTable} tr ON posts.ID = tr.object_id
             INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
             INNER JOIN {$termsTable} t ON tt.term_id = t.term_id
-            WHERE pages.date BETWEEN %s AND %s
+            WHERE v.date BETWEEN %s AND %s
                 AND posts.post_type = 'post'
                 AND posts.post_status = 'publish'
                 AND tt.taxonomy = %s

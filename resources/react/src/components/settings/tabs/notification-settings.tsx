@@ -197,6 +197,22 @@ export function NotificationSettings() {
               onCheckedChange={setShowPrivacyIssues}
             />
           </div>
+
+          <div className="rounded-lg border bg-muted/50 p-4">
+            <h4 className="text-sm font-medium mb-2">Enhanced Visual Report</h4>
+            <p className="text-sm text-muted-foreground">
+              For graphical representations of your data, explore our{' '}
+              <a
+                href="https://wp-statistics.com/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Advanced Reporting Add-on
+              </a>{' '}
+              for additional chart and graph options in your email reports.
+            </p>
+          </div>
         </CardContent>
       </Card>
 
