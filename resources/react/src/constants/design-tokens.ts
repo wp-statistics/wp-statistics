@@ -34,7 +34,9 @@ export const semanticColors = {
 
   // Trend indicators - for percentage changes
   trendPositive: 'text-emerald-600', // Positive change (up arrow)
+  trendPositiveLight: 'text-emerald-400', // Positive change (light, for dark backgrounds)
   trendNegative: 'text-red-600', // Negative change (down arrow)
+  trendNegativeLight: 'text-red-400', // Negative change (light, for dark backgrounds)
   trendNeutral: 'text-neutral-400', // No change (0%)
 
   // Interactive states

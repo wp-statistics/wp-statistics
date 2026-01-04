@@ -2,6 +2,7 @@ import { ChevronDown, ChevronUp, Info } from 'lucide-react'
 import * as React from 'react'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { semanticColors } from '@/constants/design-tokens'
 import { useBreakpoint } from '@/hooks/use-breakpoint'
 import { cn } from '@/lib/utils'
 
@@ -157,10 +158,10 @@ function MetricCard({
               // Responsive text size
               'text-[10px] md:text-[11px]',
               isZero
-                ? 'text-neutral-400'
+                ? semanticColors.trendNeutral
                 : isNegative
-                  ? 'text-red-600'
-                  : 'text-emerald-600'
+                  ? semanticColors.trendNegative
+                  : semanticColors.trendPositive
             )}
           >
             {!isZero && (

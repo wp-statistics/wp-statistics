@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { GlobalMap } from '@/components/custom/global-map'
@@ -11,8 +12,15 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
-import { Skeleton } from '@/components/ui/skeleton'
+import {
+  BarListSkeleton,
+  ChartSkeleton,
+  MetricsSkeleton,
+  PanelSkeleton,
+  TableSkeleton,
+} from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
@@ -23,8 +31,8 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
   component: RouteComponent,
   errorComponent: ({ error }) => (
     <div className="p-6 text-center">
-      <h2 className="text-xl font-semibold text-red-600 mb-2">Error Loading Page</h2>
-      <p className="text-gray-600">{error.message}</p>
+      <h2 className="text-xl font-semibold text-destructive mb-2">Error Loading Page</h2>
+      <p className="text-muted-foreground">{error.message}</p>
     </div>
   ),
 })
@@ -240,22 +248,8 @@ function RouteComponent() {
     [countriesMapData]
   )
 
-  // Calculate percentage change: ((Current - Previous) / Previous) × 100
-  const calcPercentage = (current: number, previous: number) => {
-    // If both are 0, no change
-    if (previous === 0 && current === 0) {
-      return { percentage: '0', isNegative: false }
-    }
-    // If previous is 0 but current > 0, show 100% increase
-    if (previous === 0) {
-      return { percentage: '100', isNegative: false }
-    }
-    const change = ((current - previous) / previous) * 100
-    return {
-      percentage: formatDecimal(Math.abs(change)),
-      isNegative: change < 0,
-    }
-  }
+  // Use the shared percentage calculation hook
+  const calcPercentage = usePercentageCalc()
 
   // Build metrics from batch response (flat format - totals at top level)
   // Layout: 4 columns, 2 rows
@@ -368,85 +362,43 @@ function RouteComponent() {
 
         {showSkeleton || showFullPageLoading ? (
           <div className="grid gap-2 grid-cols-12">
-            {/* Metrics skeleton - 4 columns, 2 rows */}
+            {/* Metrics skeleton */}
             <div className="col-span-12">
-              <Panel className="p-4">
-                <div className="grid grid-cols-4 gap-4">
-                  {[...Array(8)].map((_, i) => (
-                    <div key={i} className="space-y-2">
-                      <Skeleton className="h-4 w-24" />
-                      <Skeleton className="h-8 w-32" />
-                    </div>
-                  ))}
-                </div>
-              </Panel>
+              <PanelSkeleton showTitle={false}>
+                <MetricsSkeleton count={8} columns={4} />
+              </PanelSkeleton>
             </div>
             {/* Chart skeleton */}
             <div className="col-span-12">
-              <Panel>
-                <div className="px-4 pt-4 pb-3">
-                  <Skeleton className="h-5 w-32" />
-                </div>
-                <div className="px-4 pb-4">
-                  <Skeleton className="h-64 w-full" />
-                </div>
-              </Panel>
+              <PanelSkeleton titleWidth="w-32">
+                <ChartSkeleton height={256} showTitle={false} />
+              </PanelSkeleton>
             </div>
-            {/* Top Referrers skeleton - full width */}
+            {/* Top Referrers skeleton */}
             <div className="col-span-12">
-              <Panel>
-                <div className="px-4 pt-4 pb-3">
-                  <Skeleton className="h-5 w-28" />
-                </div>
-                <div className="px-4 pb-4 space-y-3">
-                  {[...Array(5)].map((_, j) => (
-                    <div key={j} className="flex justify-between items-center">
-                      <Skeleton className="h-4 w-32" />
-                      <Skeleton className="h-4 w-16" />
-                    </div>
-                  ))}
-                </div>
-              </Panel>
+              <PanelSkeleton>
+                <BarListSkeleton items={5} />
+              </PanelSkeleton>
             </div>
-            {/* Three column lists skeleton */}
-            {[...Array(3)].map((_, i) => (
+            {/* Three column lists skeleton (Countries, Devices, OS) */}
+            {[1, 2, 3].map((i) => (
               <div key={i} className="col-span-4">
-                <Panel>
-                  <div className="px-4 pt-4 pb-3">
-                    <Skeleton className="h-5 w-28" />
-                  </div>
-                  <div className="px-4 pb-4 space-y-3">
-                    {[...Array(5)].map((_, j) => (
-                      <div key={j} className="flex justify-between items-center">
-                        <Skeleton className="h-4 w-32" />
-                        <Skeleton className="h-4 w-16" />
-                      </div>
-                    ))}
-                  </div>
-                </Panel>
+                <PanelSkeleton>
+                  <BarListSkeleton items={5} showIcon />
+                </PanelSkeleton>
               </div>
             ))}
-            {/* Top Visitors skeleton - full width */}
+            {/* Top Visitors skeleton */}
             <div className="col-span-12">
-              <Panel>
-                <div className="px-4 pt-4 pb-3">
-                  <Skeleton className="h-5 w-28" />
-                </div>
-                <div className="px-4 pb-4">
-                  <Skeleton className="h-48 w-full" />
-                </div>
-              </Panel>
+              <PanelSkeleton>
+                <TableSkeleton rows={5} columns={4} />
+              </PanelSkeleton>
             </div>
-            {/* Global Map skeleton - full width */}
+            {/* Global Map skeleton */}
             <div className="col-span-12">
-              <Panel>
-                <div className="px-4 pt-4 pb-3">
-                  <Skeleton className="h-5 w-40" />
-                </div>
-                <div className="px-4 pb-4">
-                  <Skeleton className="h-64 w-full" />
-                </div>
-              </Panel>
+              <PanelSkeleton titleWidth="w-40">
+                <ChartSkeleton height={256} showTitle={false} />
+              </PanelSkeleton>
             </div>
           </div>
         ) : (

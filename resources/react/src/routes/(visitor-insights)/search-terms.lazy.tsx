@@ -1,5 +1,6 @@
 import { DataTable } from '@components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@components/custom/date-range-picker'
+import { ErrorMessage } from '@/components/custom/error-message'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
@@ -119,7 +120,7 @@ function RouteComponent() {
       <div className="p-2">
         {isError ? (
           <div className="p-2 text-center">
-            <p className="text-red-500">{__('Failed to load search terms', 'wp-statistics')}</p>
+            <ErrorMessage message={__('Failed to load search terms', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
         ) : (

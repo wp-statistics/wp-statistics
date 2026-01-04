@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
@@ -417,7 +418,7 @@ function RouteComponent() {
 
         {isBatchError ? (
           <div className="p-4 text-center">
-            <p className="text-red-500">{__('Failed to load logged-in users', 'wp-statistics')}</p>
+            <ErrorMessage message={__('Failed to load logged-in users', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{batchError?.message}</p>
           </div>
         ) : (

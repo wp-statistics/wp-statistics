@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { ErrorMessage } from '@/components/custom/error-message'
 import {
   DurationCell,
   EntryPageCell,
@@ -496,7 +497,7 @@ function RouteComponent() {
       <div className="p-2">
         {isError ? (
           <div className="p-2 text-center">
-            <p className="text-red-500">{__('Failed to load online visitors', 'wp-statistics')}</p>
+            <ErrorMessage message={__('Failed to load online visitors', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
         ) : (

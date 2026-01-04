@@ -1,6 +1,7 @@
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { semanticColors } from '@/constants/design-tokens'
 import { cn, formatCompactNumber } from '@/lib/utils'
 
 export interface HorizontalBarProps {
@@ -81,7 +82,7 @@ export function HorizontalBar({
           <span
             className={cn(
               'inline-flex items-center gap-0.5 text-[10px] md:text-[11px] font-medium tabular-nums',
-              isNegative ? 'text-red-600' : 'text-emerald-600'
+              isNegative ? semanticColors.trendNegative : semanticColors.trendPositive
             )}
           >
             {isNegative ? (
@@ -110,14 +111,14 @@ export function HorizontalBar({
             <div className="flex items-center gap-4 justify-between border-t border-neutral-700 pt-1.5 mt-0.5">
               <span className="text-neutral-400">{tooltipSubtitle}</span>
               <div className="flex items-center font-medium">
-                <span className={isNegative ? 'text-red-400' : 'text-emerald-400'}>
+                <span className={isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight}>
                   {isNegative ? (
                     <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
                   ) : (
                     <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
                   )}
                 </span>
-                <span className={cn('tabular-nums', isNegative ? 'text-red-400' : 'text-emerald-400')}>
+                <span className={cn('tabular-nums', isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight)}>
                   {displayPercentage}%
                 </span>
               </div>
