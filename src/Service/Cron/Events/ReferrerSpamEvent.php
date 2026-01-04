@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 /**
  * Referrer Spam Update Cron Event.

@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Analytics\VisitorProfile;

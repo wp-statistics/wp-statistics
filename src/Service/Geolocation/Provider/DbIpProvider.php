@@ -6,7 +6,7 @@ use Exception;
 use WP_Statistics;
 use WP_Error;
 use WP_Statistics\Components\RemoteRequest;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 use WP_Statistics\Utils\Environment;

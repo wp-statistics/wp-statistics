@@ -4,6 +4,7 @@ namespace WP_Statistics\Service;
 
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Utils\UrlBuilder;
 
 class HooksManager
 {
@@ -25,7 +26,7 @@ class HooksManager
     {
         $isPremium = (bool)LicenseHelper::isPremiumLicenseAvailable();
 
-        $settingsUrl = admin_url('admin.php?page=wp-statistics#/settings/general');
+        $settingsUrl = UrlBuilder::settings('general');
 
         $customLinks = [
             '<a href="' . esc_url($settingsUrl) . '">' . esc_html__('Settings', 'wp-statistics') . '</a>',

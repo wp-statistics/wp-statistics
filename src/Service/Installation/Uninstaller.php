@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Installation;
 
+use WP_Statistics\Service\Database\Schema\Manager as SchemaManager;
+
 /**
  * Handles plugin uninstallation and cleanup operations.
  *
@@ -15,7 +17,7 @@ namespace WP_Statistics\Service\Installation;
 class Uninstaller
 {
     /**
-     * Plugin option WP_Statistics_names to delete on full uninstall.
+     * Plugin option names to delete on full uninstall.
      *
      * @var array
      */
@@ -38,11 +40,13 @@ class Uninstaller
     ];
 
     /**
-     * Plugin table WP_Statistics_names (without prefix).
+     * Legacy v14 table names (without prefix) for cleanup during migration.
+     *
+     * Note: v15 tables are retrieved dynamically from Schema/Manager.
      *
      * @var array
      */
-    private static $tables = [
+    private static $legacyTables = [
         'statistics_visitor',
         'statistics_visitor_relationships',
         'statistics_pages',
@@ -152,13 +156,21 @@ class Uninstaller
     /**
      * Drop all plugin database tables.
      *
+     * Removes both v15 tables (from Schema/Manager) and legacy v14 tables.
+     *
      * @return void
      */
     private static function dropTables(): void
     {
         global $wpdb;
 
-        foreach (self::$tables as $table) {
+        // Get v15 tables from Schema/Manager (single source of truth)
+        $v15Tables = SchemaManager::getAllTableNames();
+
+        // Merge with legacy tables for complete cleanup
+        $allTables = array_unique(array_merge($v15Tables, self::$legacyTables));
+
+        foreach ($allTables as $table) {
             $tableName = $wpdb->prefix . $table;
             // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             $wpdb->query("DROP TABLE IF EXISTS `{$tableName}`");

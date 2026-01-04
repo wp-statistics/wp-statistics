@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Utils;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 /**
  * Utility class for determining the current WordPress route or screen context.

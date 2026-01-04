@@ -7,15 +7,15 @@ use WP_Statistics\Components\Menu;
 use WP_Statistics\Components\View;
 
 /**
- * Handles rendering and data setup for the Dashboard Root admin page.
+ * Handles rendering and data setup for the Dashboard admin page.
  *
- * This class defines the structure, data, and view logic for the dashboard "Root" page
+ * This class defines the structure, data, and view logic for the dashboard page
  * within the WP Statistics admin interface. It extends the base page controller and
  * integrates with the React-based dashboard interface.
  *
  * @since 15.0.0
  */
-class Root extends BasePage
+class DashboardPage extends BasePage
 {
     /**
      * Slug identifier for the admin page.
@@ -24,7 +24,7 @@ class Root extends BasePage
      *
      * @var string
      */
-    protected $pageSlug = 'root';
+    protected $pageSlug = 'dashboard';
 
     /**
      * The page title.
@@ -38,7 +38,7 @@ class Root extends BasePage
      *
      * @var string
      */
-    protected $pageIndex = 'root';
+    protected $pageIndex = 'dashboard';
 
     /**
      * Constructor.
@@ -103,12 +103,12 @@ class Root extends BasePage
     }
 
     /**
-     * Renders the Dashboard Root page in the WordPress admin.
+     * Renders the Dashboard page in the WordPress admin.
      *
      * This method:
      * - Prepares data to be localized for the React frontend.
      * - Loads the standard WP Statistics admin header and footer.
-     * - Loads the Root page view content.
+     * - Loads the Dashboard page view content.
      */
     public function view()
     {
@@ -118,6 +118,6 @@ class Root extends BasePage
             'pageName' => Menu::buildPageSlug($this->getPageIndex()),
         ];
 
-        View::load(['pages/root/index'], $args);
+        View::load(['pages/dashboard/index'], $args);
     }
 }

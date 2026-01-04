@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\ViewsModel;

@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
 use WP_Statistics\Components\View;
 
@@ -91,7 +91,7 @@ class AdminMenuManager
      */
     public function renderApp()
     {
-        View::load(['pages/root/index'], [
+        View::load(['pages/dashboard/index'], [
             'title'    => '',
             'pageName' => self::MENU_SLUG,
         ]);

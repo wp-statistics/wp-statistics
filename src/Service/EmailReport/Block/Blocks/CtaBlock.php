@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\EmailReport\Block\Blocks;
 
 use WP_Statistics\Service\EmailReport\Block\AbstractBlock;
+use WP_Statistics\Utils\UrlBuilder;
 
 /**
  * CTA Block
@@ -64,7 +65,7 @@ class CtaBlock extends AbstractBlock
     public function getData(array $settings, string $period): array
     {
         return [
-            'dashboardUrl' => admin_url('admin.php?page=wp-statistics#/overview'),
+            'dashboardUrl' => UrlBuilder::overview(),
         ];
     }
 

@@ -3,9 +3,9 @@
 namespace WP_Statistics\Service\Admin\DashboardBootstrap;
 
 use WP_Statistics\Service\Assets\AssetsFactory;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\AnalyticsQuery;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\FilterOptions;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\UserPreferences;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints\AnalyticsQuery;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints\FilterOptions;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\HeaderDataProvider;

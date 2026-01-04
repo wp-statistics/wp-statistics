@@ -7,7 +7,7 @@ use WP_REST_Server;
 use WP_REST_Response;
 use WP_Error;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\Signature;
 use Exception;
 

@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Audits;
 
 use WP_Statistics\Components\View;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\RecommendedAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 

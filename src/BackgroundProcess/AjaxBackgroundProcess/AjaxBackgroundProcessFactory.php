@@ -5,7 +5,7 @@ namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\ResourceMigrator;
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_Statistics\Service\Installation\InstallManager;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 /**
  * Factory class responsible for managing and coordinating background database migrations.

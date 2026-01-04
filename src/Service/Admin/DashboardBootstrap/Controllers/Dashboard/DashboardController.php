@@ -1,14 +1,14 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root;
+namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Dashboard;
 
 use WP_Statistics\Abstracts\BaseDashboardController;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Views\Root;
+use WP_Statistics\Service\Admin\DashboardBootstrap\Views\DashboardPage;
 
 /**
- * Controller for handling the Dashboard Root page.
+ * Controller for handling the Dashboard page.
  *
- * This controller is responsible for wiring the dashboard "Root" view
+ * This controller is responsible for wiring the dashboard view
  * to the admin bootstrap. All analytics data requests now go through
  * the unified wp_statistics_analytics endpoint registered in
  * DashboardManager::initGlobalAjax().
@@ -19,17 +19,17 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Views\Root;
  *
  * @since 15.0.0
  */
-class RootController extends BaseDashboardController
+class DashboardController extends BaseDashboardController
 {
     /**
-     * The view class for the Dashboard Root page.
+     * The view class for the Dashboard page.
      *
      * @var string|null
      */
-    protected $pageView = Root::class;
+    protected $pageView = DashboardPage::class;
 
     /**
-     * Get AJAX actions handled by RootController.
+     * Get AJAX actions handled by DashboardController.
      *
      * Returns empty array as all analytics queries now go through
      * the unified wp_statistics_analytics endpoint registered in

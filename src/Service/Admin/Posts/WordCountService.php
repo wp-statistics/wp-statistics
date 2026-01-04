@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\Posts;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 class WordCountService
 {

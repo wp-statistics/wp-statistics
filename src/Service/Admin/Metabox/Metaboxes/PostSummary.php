@@ -1,7 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;

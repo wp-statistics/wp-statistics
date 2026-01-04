@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class LicenseMigration

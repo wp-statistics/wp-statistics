@@ -8,7 +8,7 @@ use WP_Statistics\Components\Ip;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_STATISTICS\Schedule;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Traits\TransientCacheTrait;

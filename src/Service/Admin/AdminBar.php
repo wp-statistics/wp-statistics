@@ -9,6 +9,7 @@ use WP_Statistics\Components\DateRange;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Utils\Route;
+use WP_Statistics\Utils\UrlBuilder;
 
 /**
  * Class AdminBar
@@ -316,7 +317,7 @@ class AdminBar
         $context['view_type']   = get_post_type($objectId);
         $context['view_title']  = __('Page Views', 'wp-statistics');
         $context['footer_text'] = __('View Page Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(admin_url('admin.php?page=wp-statistics#/page-analytics/' . $objectId));
+        $context['footer_link'] = esc_url(UrlBuilder::pageAnalytics($objectId));
 
         return $context;
     }
@@ -336,7 +337,7 @@ class AdminBar
         $context['view_type']   = 'category';
         $context['view_title']  = __('Category Views', 'wp-statistics');
         $context['footer_text'] = __('View Category Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(admin_url('admin.php?page=wp-statistics#/category-analytics/' . $objectId));
+        $context['footer_link'] = esc_url(UrlBuilder::categoryAnalytics($objectId));
 
         return $context;
     }
@@ -356,7 +357,7 @@ class AdminBar
         $context['view_type']   = 'post_tag';
         $context['view_title']  = __('Tag Views', 'wp-statistics');
         $context['footer_text'] = __('View Tag Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(admin_url('admin.php?page=wp-statistics#/category-analytics/' . $objectId));
+        $context['footer_link'] = esc_url(UrlBuilder::categoryAnalytics($objectId));
 
         return $context;
     }
@@ -376,7 +377,7 @@ class AdminBar
         $context['view_type']   = 'tax';
         $context['view_title']  = __('Taxonomy Views', 'wp-statistics');
         $context['footer_text'] = __('View Taxonomy Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(admin_url('admin.php?page=wp-statistics#/category-analytics/' . $objectId));
+        $context['footer_link'] = esc_url(UrlBuilder::categoryAnalytics($objectId));
 
         return $context;
     }
@@ -396,7 +397,7 @@ class AdminBar
         $context['view_type']   = 'author';
         $context['view_title']  = __('Author Views', 'wp-statistics');
         $context['footer_text'] = __('View Author Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(admin_url('admin.php?page=wp-statistics#/author-analytics/' . $objectId));
+        $context['footer_link'] = esc_url(UrlBuilder::authorAnalytics($objectId));
 
         return $context;
     }

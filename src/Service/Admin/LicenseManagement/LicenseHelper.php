@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
 use WP_Statistics\Exception\LicenseException;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 class LicenseHelper

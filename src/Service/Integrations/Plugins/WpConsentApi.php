@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Integrations\Plugins;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 class WpConsentApi extends AbstractIntegration
 {

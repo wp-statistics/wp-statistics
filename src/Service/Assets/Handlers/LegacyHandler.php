@@ -8,7 +8,7 @@ use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Menu;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 use WP_Statistics\Utils\Post;

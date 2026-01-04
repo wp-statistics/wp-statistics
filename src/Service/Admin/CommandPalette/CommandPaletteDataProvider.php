@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\CommandPalette;
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\LayoutDataProvider;
+use WP_Statistics\Utils\UrlBuilder;
 
 /**
  * Provides command data for WordPress Command Palette integration.
@@ -42,7 +43,6 @@ class CommandPaletteDataProvider
         $sidebarConfig  = $layoutData['sidebar'] ?? [];
 
         $commands = [];
-        $baseUrl  = admin_url('admin.php?page=wp-statistics#');
 
         foreach ($sidebarConfig as $key => $config) {
             $icon = $this->mapIcon($config['icon'] ?? '');
@@ -58,7 +58,7 @@ class CommandPaletteDataProvider
                             $subPage['label']
                         ),
                         'icon'  => $icon,
-                        'url'   => $baseUrl . '/' . $subPage['slug'],
+                        'url'   => UrlBuilder::reactRoute($subPage['slug']),
                     ];
                 }
             } else {
@@ -71,7 +71,7 @@ class CommandPaletteDataProvider
                         $config['label']
                     ),
                     'icon'  => $icon,
-                    'url'   => $baseUrl . '/' . $config['slug'],
+                    'url'   => UrlBuilder::reactRoute($config['slug']),
                 ];
             }
         }

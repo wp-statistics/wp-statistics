@@ -106,7 +106,7 @@ if (document.readyState === 'loading') {
 }
 
 // Render the app
-const rootElement = document.getElementById('wp-statistics-root')!
+const rootElement = document.getElementById('wp-statistics-app')!
 
 if (rootElement) {
   const root = createRoot(rootElement)

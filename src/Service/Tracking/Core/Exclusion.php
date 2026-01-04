@@ -6,7 +6,7 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Environment;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Singleton;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_STATISTICS\Utils\Request;

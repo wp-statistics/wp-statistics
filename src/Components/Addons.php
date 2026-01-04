@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Components;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 /**
  * Class responsible for handling plugin add-ons.

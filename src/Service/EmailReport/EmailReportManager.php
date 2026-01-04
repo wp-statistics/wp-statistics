@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\EmailReport;
 
 use WP_Statistics\Components\Ajax;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\EmailReport\Block\BlockRegistry;
 use WP_Statistics\Service\EmailReport\Metric\MetricRegistry;
 

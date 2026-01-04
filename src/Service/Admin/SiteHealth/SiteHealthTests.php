@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\SiteHealth;
 
 use WP_Statistics\Components\Singleton;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 /**

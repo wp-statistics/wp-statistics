@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Geolocation;
 
 use WP_Error;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;

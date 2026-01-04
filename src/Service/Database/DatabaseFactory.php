@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Database;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Database\Migrations\SchemaMigration;
 use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
 use WP_Statistics\Service\Database\Operations\Create;

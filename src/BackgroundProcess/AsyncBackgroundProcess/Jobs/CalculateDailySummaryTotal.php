@@ -3,7 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
 

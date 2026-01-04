@@ -3,7 +3,7 @@ namespace WP_Statistics\Service\Assets\Handlers;
 
 use WP_Statistics\Abstracts\BaseAssets;
 use WP_Statistics\Components\Assets;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Resources\ResourcesFactory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints;
+namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints;
 
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;

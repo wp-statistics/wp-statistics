@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Messaging;
 
 use WP_Statistics\Utils\Environment;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 class MessagingHelper
 {

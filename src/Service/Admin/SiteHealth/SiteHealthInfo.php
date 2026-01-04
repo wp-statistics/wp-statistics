@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Admin\SiteHealth;
 use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\CachePlugin;
 use WP_Statistics\Components\Singleton;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\PostType;
 use WP_Statistics\Utils\User;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;

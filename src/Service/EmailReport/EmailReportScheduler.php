@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\EmailReport;
 
 use WP_Statistics\Components\Event;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 /**
  * Email Report Scheduler

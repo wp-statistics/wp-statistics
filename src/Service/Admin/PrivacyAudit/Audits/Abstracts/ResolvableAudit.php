@@ -1,7 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 abstract class ResolvableAudit extends BaseAudit
 {

@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\Query;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryInterface;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryExecutorInterface;
 use WP_Statistics\Service\AnalyticsQuery\Registry\SourceRegistry;

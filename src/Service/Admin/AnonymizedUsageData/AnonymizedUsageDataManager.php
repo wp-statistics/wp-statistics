@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\AnonymizedUsageData;
 
 use WP_Statistics\Components\Event;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 class AnonymizedUsageDataManager
 {

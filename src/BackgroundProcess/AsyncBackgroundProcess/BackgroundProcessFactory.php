@@ -3,7 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess;
 
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Models\SessionModel;

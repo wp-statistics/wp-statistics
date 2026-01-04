@@ -2,7 +2,7 @@
 namespace WP_Statistics\Service\Analytics\Referrals;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Uri;
 use WP_Statistics\Utils\Url;

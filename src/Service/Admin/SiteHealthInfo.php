@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin;
 
 use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 

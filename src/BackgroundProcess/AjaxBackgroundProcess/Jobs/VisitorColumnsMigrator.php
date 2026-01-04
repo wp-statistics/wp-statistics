@@ -3,7 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AbstractAjaxBackgroundProcess;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**

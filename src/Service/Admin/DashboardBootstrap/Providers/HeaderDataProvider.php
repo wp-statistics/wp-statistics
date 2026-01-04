@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\DashboardBootstrap\Providers;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\Notification\NotificationFactory;

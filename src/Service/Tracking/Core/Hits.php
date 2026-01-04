@@ -2,13 +2,11 @@
 
 namespace WP_Statistics\Service\Tracking\Core;
 
-use Exception;
 use WP_Statistics\Abstracts\BaseTracking;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Entity\EntityFactory;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Traits\ErrorLoggerTrait;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -18,7 +16,6 @@ use WP_Statistics\Utils\Request;
  */
 class Hits extends BaseTracking
 {
-    use ErrorLoggerTrait;
 
     /**
      * Request key used to identify REST API-based tracking calls.
@@ -140,8 +137,6 @@ class Hits extends BaseTracking
         EntityFactory::parameter($visitorProfile)
             ->record();
 
-        $this->errorListener();
-
         return $exclusion;
     }
 
@@ -153,11 +148,7 @@ class Hits extends BaseTracking
     public function trackLoginPageCallback()
     {
         if (Route::isLoginPage()) {
-            try {
-                $this->record();
-            } catch (Exception $e) {
-                $this->errorListener();
-            }
+            $this->record();
         }
     }
 

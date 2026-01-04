@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Cron\CronSchedules;
 

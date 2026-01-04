@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Tracking;
 
 use Exception;
 use WP_Statistics\Abstracts\BaseTrackerController;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Tracking\Controllers\AjaxBasedTracking;
 use WP_Statistics\Service\Tracking\Controllers\BatchTracking;
 use WP_Statistics\Service\Tracking\Controllers\RestApiTracking;

@@ -9,7 +9,7 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Traits\ObjectCacheTrait;

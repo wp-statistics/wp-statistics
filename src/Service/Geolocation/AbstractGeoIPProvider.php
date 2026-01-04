@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Geolocation;
 
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Helper;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
 {

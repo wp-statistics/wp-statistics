@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 

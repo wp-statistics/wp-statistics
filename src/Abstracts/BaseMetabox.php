@@ -3,7 +3,7 @@ namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Components\Menu;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;

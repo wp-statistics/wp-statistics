@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Database\Managers;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**

@@ -13,7 +13,7 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 /**
  * Visitors data model.

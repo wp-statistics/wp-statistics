@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Messaging;
 
 use WP_Statistics\Components\Addons;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Messaging\Provider\MailProvider;
 use WP_Statistics\Service\Messaging\Provider\SmsProvider;
 

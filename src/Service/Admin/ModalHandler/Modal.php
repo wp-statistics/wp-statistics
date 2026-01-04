@@ -2,7 +2,7 @@
 namespace WP_Statistics\Service\Admin\ModalHandler;
 
 use WP_Statistics\Components\View;
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 class Modal {
     const MODAL_OPTION_KEY = 'user_modals';
