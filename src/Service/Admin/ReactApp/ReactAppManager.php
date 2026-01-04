@@ -12,7 +12,7 @@ use WP_Statistics\Service\Admin\ReactApp\Providers\HeaderDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\LayoutDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\FiltersProvider;
 use WP_Statistics\Service\Admin\ReactApp\Requests\AjaxManager;
-use WP_Statistics\Service\Admin\Settings\SettingsAjaxHandler;
+use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\SettingsEndpoints;
 
 /**
  * React Application Manager for WP Statistics.
@@ -41,11 +41,11 @@ class ReactAppManager
     private $ajax;
 
     /**
-     * Instance of SettingsAjaxHandler for Settings AJAX requests.
+     * Instance of SettingsEndpoints for Settings AJAX requests.
      *
-     * @var SettingsAjaxHandler
+     * @var SettingsEndpoints
      */
-    private $settingsAjax;
+    private $settingsEndpoints;
 
     /**
      * Instance of LocalizeDataManager handling data sent to React.
@@ -103,8 +103,8 @@ class ReactAppManager
      */
     private function initSettingsAjax()
     {
-        $this->settingsAjax = new SettingsAjaxHandler();
-        $this->settingsAjax->register();
+        $this->settingsEndpoints = new SettingsEndpoints();
+        $this->settingsEndpoints->register();
     }
 
     /**
@@ -138,13 +138,13 @@ class ReactAppManager
     }
 
     /**
-     * Get the Settings AJAX handler.
+     * Get the Settings endpoints handler.
      *
-     * @return SettingsAjaxHandler
+     * @return SettingsEndpoints
      */
-    public function getSettingsAjaxHandler()
+    public function getSettingsEndpoints()
     {
-        return $this->settingsAjax;
+        return $this->settingsEndpoints;
     }
 
     /**

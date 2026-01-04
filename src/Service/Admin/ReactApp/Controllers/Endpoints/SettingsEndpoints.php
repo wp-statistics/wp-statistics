@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Settings;
+namespace WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Utils\Request;
@@ -9,7 +9,7 @@ use WP_STATISTICS\User;
 use Exception;
 
 /**
- * Handles AJAX requests for the v15 Settings page.
+ * Settings AJAX Endpoints for the React SPA.
  *
  * Provides endpoints for:
  * - Getting settings values
@@ -17,9 +17,11 @@ use Exception;
  * - Email preview generation
  * - Test email sending
  *
+ * Registered globally in ReactAppManager::initSettingsAjax().
+ *
  * @since 15.0.0
  */
-class SettingsAjaxHandler
+class SettingsEndpoints
 {
     /**
      * Register AJAX handlers.
