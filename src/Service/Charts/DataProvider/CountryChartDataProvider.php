@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Country;
+use WP_Statistics\Components\Country;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
@@ -56,7 +56,7 @@ class CountryChartDataProvider extends AbstractChartDataProvider
 
         foreach ($data as $item) {
             $parsedData['labels'][] = Country::getName($item->country);
-            $parsedData['icons'][]  = Country::flag($item->country);
+            $parsedData['icons'][]  = Country::getFlag($item->country);
             $parsedData['visitors'][] = intval($item->visitors);
         }
 

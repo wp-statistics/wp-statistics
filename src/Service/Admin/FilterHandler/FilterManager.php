@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\FilterHandler;
 
-use WP_STATISTICS\Country;
+use WP_Statistics\Components\Country;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\ViewsModel;
@@ -159,7 +159,7 @@ class FilterManager
     public function location()
     {
         $args         = [];
-        $country_list = Country::getList();
+        $country_list = Country::getAll();
 
         foreach ($country_list as $key => $name) {
             $args[$key] = $name;

@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Geolocation;
 
 use Exception;
 use WP_Error;
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\Ip;
 
 class GeolocationService
 {
@@ -43,7 +43,7 @@ class GeolocationService
          * @review: If this is not necessary, remove it.
          */
         try {
-            if (IP::checkIPRange(IP::$private_SubNets, $ipAddress)) {
+            if (Ip::isInRange(Ip::$privateSubNets, $ipAddress)) {
                 $location            = $this->provider->getDefaultLocation();
                 $location['country'] = $this->provider->getPrivateCountryCode();
 

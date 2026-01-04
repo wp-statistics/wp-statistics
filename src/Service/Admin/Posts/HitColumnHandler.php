@@ -223,7 +223,7 @@ class HitColumnHandler
      * Modifies query clauses when terms are sorted by hits column.
      *
      * @param array $clauses Clauses for the query.
-     * @param array $taxonomies Taxonomy names.
+     * @param array $taxonomies Taxonomy WP_Statistics_names.
      * @param array $args Term query arguments.
      *
      * @return array Updated clauses for the query.

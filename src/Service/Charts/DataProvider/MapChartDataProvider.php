@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_STATISTICS\Country;
+use WP_Statistics\Components\Country;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
@@ -68,7 +68,7 @@ class MapChartDataProvider extends AbstractChartDataProvider
                 'code'         => $item->country,
                 'visitors'     => $formattedVisitors,
                 'visitors_raw' => $item->visitors,
-                'flag'         => Country::flag($item->country)
+                'flag'         => Country::getFlag($item->country)
             ];
         }
 

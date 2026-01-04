@@ -222,14 +222,20 @@ class OptionManager
     /**
      * Get default robot list.
      *
-     * @return string Default robots list.
+     * @return string Default robots list (newline-separated).
+     * @since 15.0.0 Changed to use JSON file instead of PHP.
      */
     private static function getDefaultRobotList(): string
     {
-        $dataFile = WP_STATISTICS_DIR . 'includes/defines/robots-list.php';
+        $jsonFile = WP_STATISTICS_DIR . 'resources/json/robots-list.json';
 
-        if (file_exists($dataFile)) {
-            return implode("\n", include $dataFile);
+        if (file_exists($jsonFile)) {
+            $contents = file_get_contents($jsonFile);
+            $robots   = json_decode($contents, true);
+
+            if (is_array($robots)) {
+                return implode("\n", $robots);
+            }
         }
 
         return '';

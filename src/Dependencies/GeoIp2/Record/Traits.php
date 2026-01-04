@@ -45,7 +45,7 @@ use WP_Statistics\Dependencies\GeoIp2\Util;
  * whether the IP address is used by an anonymizing service.
  * @property-read bool $isAnonymousVpn This is true if the IP address is
  * registered to an anonymous VPN provider. If a VPN provider does not register
- * subnets under names associated with them, we will likely only flag their IP
+ * subnets under WP_Statistics_names associated with them, we will likely only flag their IP
  * ranges using the isHostingProvider property. This property is only available
  * from GeoIP2 Insights.
  * @property-read bool $isHostingProvider This is true if the IP address belongs

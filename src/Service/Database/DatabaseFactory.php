@@ -23,7 +23,7 @@ use WP_Statistics\Service\Database\Operations\Update;
 class DatabaseFactory
 {
     /**
-     * Mapping of operation names to their corresponding classes.
+     * Mapping of operation WP_Statistics_names to their corresponding classes.
      *
      * @var array
      */

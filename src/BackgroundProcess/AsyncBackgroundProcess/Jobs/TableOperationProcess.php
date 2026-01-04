@@ -2,11 +2,11 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
+use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
-use WP_STATISTICS\WP_Background_Process;
 
-class TableOperationProcess extends WP_Background_Process
+class TableOperationProcess extends ExtendedBackgroundProcess
 {
     /**
      * @var string

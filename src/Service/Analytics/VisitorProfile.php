@@ -2,12 +2,11 @@
 
 namespace WP_Statistics\Service\Analytics;
 
-use WP_Statistics\Components\Ip as ComponentsIp;
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\Ip;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Traits\ObjectCacheTrait;
-use WP_STATISTICS\User;
-use WP_STATISTICS\Pages;
+use WP_Statistics\Utils\Page;
+use WP_Statistics\Utils\User;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
@@ -580,7 +579,7 @@ class VisitorProfile
     public function getIp()
     {
         return $this->getCachedData('ip', function () {
-            return IP::getIP();
+            return Ip::getCurrent();
         });
     }
 
@@ -592,7 +591,7 @@ class VisitorProfile
     public function getProcessedIPForStorage()
     {
         return $this->getCachedData('processedIPForStorage', function () {
-            return IP::getStoreIP();
+            return Ip::getAnonymized();
         });
     }
 
@@ -608,7 +607,7 @@ class VisitorProfile
     public function getHashedIPForStorage()
     {
         return $this->getCachedData('hashedIPForStorage', function () {
-            return ComponentsIp::hash();
+            return Ip::hash();
         });
     }
 
@@ -802,7 +801,7 @@ class VisitorProfile
             if (!Option::get('visitors_log') || IntegrationHelper::shouldTrackAnonymously()) {
                 return 0;
             } else {
-                return User::get_user_id();
+                return User::getId();
             }
         });
     }
@@ -815,7 +814,7 @@ class VisitorProfile
     public function getCurrentPageType()
     {
         return $this->getCachedData('currentPageType', function () {
-            return Pages::get_page_type();
+            return Page::getType();
         });
     }
 }

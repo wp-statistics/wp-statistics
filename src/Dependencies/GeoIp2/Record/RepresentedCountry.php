@@ -27,7 +27,7 @@ class RepresentedCountry extends Country
         'geonameId',
         'isInEuropeanUnion',
         'isoCode',
-        'names',
+        'WP_Statistics_names',
         'type',
     ];
 }

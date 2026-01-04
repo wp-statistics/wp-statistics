@@ -21,7 +21,7 @@ class TableHandler
     /**
      * Create all database tables if they do not already exist.
      *
-     * This method iterates through all known table names, inspects each table,
+     * This method iterates through all known table WP_Statistics_names, inspects each table,
      * and creates it if it is missing using the predefined schema.
      *
      * @return void

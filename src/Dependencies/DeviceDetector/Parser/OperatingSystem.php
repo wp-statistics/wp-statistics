@@ -71,6 +71,7 @@ class OperatingSystem extends AbstractParser
         'COS' => 'Chrome OS',
         'CRS' => 'Chromium OS',
         'CHN' => 'China OS',
+        'COL' => 'Coolita OS',
         'CYN' => 'CyanogenMod',
         'DEB' => 'Debian',
         'DEE' => 'Deepin',
@@ -108,10 +109,12 @@ class OperatingSystem extends AbstractParser
         'KAL' => 'Kali',
         'KAN' => 'Kanotix',
         'KIN' => 'KIN OS',
+        'KOL' => 'KolibriOS',
         'KNO' => 'Knoppix',
         'KTV' => 'KreaTV',
         'KBT' => 'Kubuntu',
         'LIN' => 'GNU/Linux',
+        'LEA' => 'LeafOS',
         'LND' => 'LindowsOS',
         'LNS' => 'Linspire',
         'LEN' => 'Lineage OS',
@@ -126,6 +129,7 @@ class OperatingSystem extends AbstractParser
         'MAG' => 'Mageia',
         'MDR' => 'Mandriva',
         'SMG' => 'MeeGo',
+        'MET' => 'Meta Horizon',
         'MCD' => 'MocorDroid',
         'MON' => 'moonOS',
         'EZX' => 'Motorola EZX',
@@ -143,6 +147,7 @@ class OperatingSystem extends AbstractParser
         'OS2' => 'OS/2',
         'T64' => 'OSF1',
         'OBS' => 'OpenBSD',
+        'OHS' => 'OpenHarmony',
         'OVS' => 'OpenVMS',
         'OVZ' => 'OpenVZ',
         'OWR' => 'OpenWrt',
@@ -175,6 +180,7 @@ class OperatingSystem extends AbstractParser
         'RRS' => 'Resurrection Remix OS',
         'REX' => 'REX',
         'RZD' => 'RazoDroiD',
+        'RXT' => 'RTOS & Next',
         'SAB' => 'Sabayon',
         'SSE' => 'SUSE',
         'SAF' => 'Sailfish OS',
@@ -233,7 +239,7 @@ class OperatingSystem extends AbstractParser
         'Android'               => [
             'AND', 'CYN', 'FIR', 'REM', 'RZD', 'MLD', 'MCD', 'YNS', 'GRI', 'HAR',
             'ADR', 'CLR', 'BOS', 'REV', 'LEN', 'SIR', 'RRS', 'WER', 'PIC', 'ARM',
-            'HEL', 'BYI', 'RIS', 'PUF',
+            'HEL', 'BYI', 'RIS', 'PUF', 'LEA', 'MET', 'OHS',
         ],
         'AmigaOS'               => ['AMG', 'MOR', 'ARO'],
         'BlackBerry'            => ['BLB', 'QNX'],
@@ -255,12 +261,12 @@ class OperatingSystem extends AbstractParser
             'NOV', 'ROU', 'ZOR', 'RED', 'KAL', 'ORA', 'VID', 'TIV', 'BSN', 'RAS',
             'UOS', 'PIO', 'FRI', 'LIR', 'WEB', 'SER', 'ASP', 'AOS', 'LOO', 'EUL',
             'SCI', 'ALP', 'CLO', 'ROC', 'OVZ', 'PVE', 'RST', 'EZX', 'GNS', 'JOL',
-            'TUR', 'QTP', 'WPO', 'PAN', 'VIZ', 'AZU',
+            'TUR', 'QTP', 'WPO', 'PAN', 'VIZ', 'AZU', 'COL',
         ],
         'Mac'                   => ['MAC'],
         'Mobile Gaming Console' => ['PSP', 'NDS', 'XBX'],
         'OpenVMS'               => ['OVS'],
-        'Real-time OS'          => ['MTK', 'TDX', 'MRE', 'JME', 'REX'],
+        'Real-time OS'          => ['MTK', 'TDX', 'MRE', 'JME', 'REX', 'RXT', 'KOL'],
         'Other Mobile'          => ['WOS', 'POS', 'SBA', 'TIZ', 'SMG', 'MAE', 'LUN', 'GEO'],
         'Symbian'               => ['SYM', 'SYS', 'SY3', 'S60', 'S40'],
         'Unix'                  => [
@@ -274,7 +280,7 @@ class OperatingSystem extends AbstractParser
     ];
 
     /**
-     * Contains a list of mappings from OS names we use to known client hint values
+     * Contains a list of mappings from OS WP_Statistics_names we use to known client hint values
      *
      * @var array<string, array<string>>
      */
@@ -289,7 +295,7 @@ class OperatingSystem extends AbstractParser
      * @var array
      */
     protected static $desktopOsArray = [
-        'AmigaOS', 'IBM', 'GNU/Linux', 'Mac', 'Unix', 'Windows', 'BeOS', 'Chrome OS', 'Chromium OS',
+        'AmigaOS', 'IBM', 'GNU/Linux', 'Mac', 'Unix', 'Windows', 'BeOS', 'Chrome OS',
     ];
 
     /**
@@ -318,6 +324,8 @@ class OperatingSystem extends AbstractParser
      * @var array
      */
     private $lineageOsVersionMapping = [
+        '16'    => '23',
+        '15'    => '22',
         '14'    => '21',
         '13'    => '20.0',
         '12.1'  => '19.1',
@@ -391,6 +399,8 @@ class OperatingSystem extends AbstractParser
      */
     public function parse(): ?array
     {
+        $this->restoreUserAgentFromClientHints();
+
         $osFromClientHints = $this->parseOsFromClientHints();
         $osFromUserAgent   = $this->parseOsFromUserAgent();
 
@@ -405,12 +415,17 @@ class OperatingSystem extends AbstractParser
                 $version = $osFromUserAgent['version'];
             }
 
+            // On Windows, version 0.0.0 can be either 7, 8 or 8.1
+            if ('Windows' === $name && '0.0.0' === $version) {
+                $version = ('10' === $osFromUserAgent['version']) ? '' : $osFromUserAgent['version'];
+            }
+
             // If the OS name detected from client hints matches the OS family from user agent
             // but the os name is another, we use the one from user agent, as it might be more detailed
             if (self::getOsFamily($osFromUserAgent['name']) === $name && $osFromUserAgent['name'] !== $name) {
                 $name = $osFromUserAgent['name'];
 
-                if ('HarmonyOS' === $name) {
+                if ('LeafOS' === $name || 'HarmonyOS' === $name) {
                     $version = '';
                 }
 
@@ -418,11 +433,11 @@ class OperatingSystem extends AbstractParser
                     $version = $osFromUserAgent['version'];
                 }
 
-                if ('Fire OS' === $osFromUserAgent['name']) {
-                        $majorVersion = (int) (\explode('.', $version, 1)[0] ?? '0');
+                if ('Fire OS' === $name && !empty($osFromClientHints['version'])) {
+                    $majorVersion = (int) (\explode('.', $version, 1)[0] ?? '0');
 
-                        $version = $this->fireOsVersionMapping[$version]
-                            ?? $this->fireOsVersionMapping[$majorVersion] ?? '';
+                    $version = $this->fireOsVersionMapping[$version]
+                        ?? $this->fireOsVersionMapping[$majorVersion] ?? '';
                 }
             }
 
@@ -433,6 +448,19 @@ class OperatingSystem extends AbstractParser
                 && 'Chrome OS' === $osFromUserAgent['name']
                 && $osFromClientHints['version'] === $osFromUserAgent['version']
             ) {
+                $name  = $osFromUserAgent['name'];
+                $short = $osFromUserAgent['short_name'];
+            }
+
+            // Chrome OS is in some cases reported as Android in client hints
+            if ('Android' === $name && 'Chrome OS' === $osFromUserAgent['name']) {
+                $name    = $osFromUserAgent['name'];
+                $version = '';
+                $short   = $osFromUserAgent['short_name'];
+            }
+
+            // Meta Horizon is reported as Linux in client hints
+            if ('GNU/Linux' === $name && 'Meta Horizon' === $osFromUserAgent['name']) {
                 $name  = $osFromUserAgent['name'];
                 $short = $osFromUserAgent['short_name'];
             }
@@ -574,15 +602,20 @@ class OperatingSystem extends AbstractParser
 
             if ('Windows' === $name) {
                 $majorVersion = (int) (\explode('.', $version, 1)[0] ?? '0');
+                $minorVersion = (int) (\explode('.', $version, 2)[1] ?? '0');
 
-                if ($majorVersion > 0 && $majorVersion < 11) {
+                if (0 === $majorVersion) {
+                    $minorVersionMapping = [1 => '7', 2 => '8', 3 => '8.1'];
+                    $version             = $minorVersionMapping[$minorVersion] ?? $version;
+                } elseif ($majorVersion > 0 && $majorVersion < 11) {
                     $version = '10';
                 } elseif ($majorVersion > 10) {
                     $version = '11';
                 }
             }
 
-            if (0 === (int) $version) {
+            // On Windows, version 0.0.0 can be either 7, 8 or 8.1, so we return 0.0.0
+            if ('Windows' !== $name && '0.0.0' !== $version && 0 === (int) $version) {
                 $version = '';
             }
         }
@@ -711,7 +744,7 @@ class OperatingSystem extends AbstractParser
             return 'SPARC64';
         }
 
-        if ($this->matchUserAgent('64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64')) {
+        if ($this->matchUserAgent('64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|.*amd64|.*x86_?64')) {
             return 'x64';
         }
 

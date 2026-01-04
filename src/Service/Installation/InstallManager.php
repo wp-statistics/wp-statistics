@@ -184,7 +184,7 @@ class InstallManager
     }
 
     /**
-     * Get all plugin table names.
+     * Get all plugin table WP_Statistics_names.
      *
      * @return array
      */

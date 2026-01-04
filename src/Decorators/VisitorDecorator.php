@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Decorators;
 
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\Ip;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Visitor;
@@ -112,7 +112,7 @@ class VisitorDecorator
      */
     public function isHashedIP()
     {
-        return IP::IsHashIP($this->visitor->ip);
+        return Ip::isHashed($this->visitor->ip);
     }
 
     /**

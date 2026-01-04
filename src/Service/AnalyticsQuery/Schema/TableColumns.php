@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\AnalyticsQuery\Schema;
 /**
  * Defines the available columns for each table in the analytics query system.
  *
- * This class provides standardized column names and aliases for consistent
+ * This class provides standardized column WP_Statistics_names and aliases for consistent
  * data access across the analytics query builder.
  *
  * @since 15.0.0

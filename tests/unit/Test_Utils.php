@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Tests\Utils;
 
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\Ip;
 use WP_UnitTestCase;
 
 class Test_Utils extends WP_UnitTestCase
@@ -14,7 +14,7 @@ class Test_Utils extends WP_UnitTestCase
      */
     public function test_checkSanitizeIp($input, $expected)
     {
-        $this->assertEquals($expected, IP::check_sanitize_ip($input));
+        $this->assertEquals($expected, Ip::isSanitized($input));
     }
 
     public function ipProvider()

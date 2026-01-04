@@ -2,12 +2,12 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
+use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
 use WP_Statistics\Globals\Option;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\WP_Background_Process;
 
-class CalculateDailySummaryTotal extends WP_Background_Process
+class CalculateDailySummaryTotal extends ExtendedBackgroundProcess
 {
     /**
      * Prefix for the background process.

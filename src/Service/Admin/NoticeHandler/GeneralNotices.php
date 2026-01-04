@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\NoticeHandler;
 
 use WP_Statistics\Utils\Environment;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\Ip;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
@@ -252,7 +252,7 @@ class GeneralNotices
             return;
         }
 
-        if (!Menus::in_plugin_page() || empty(IP::getCloudflareIp())) {
+        if (!Menus::in_plugin_page() || empty(Ip::getFromCloudflare())) {
             return;
         }
 

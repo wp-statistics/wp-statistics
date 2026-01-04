@@ -7,7 +7,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Utils\FileSystem;
 
 /**
- * Ofuscates/Randomizes assets file names.
+ * Ofuscates/Randomizes assets file WP_Statistics_names.
  */
 class AssetNameObfuscator
 {

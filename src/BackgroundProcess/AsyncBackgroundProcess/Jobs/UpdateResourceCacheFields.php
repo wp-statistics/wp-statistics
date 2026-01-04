@@ -2,15 +2,15 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
+use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
 use WP_STATISTICS\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Resources\Core\ResourceDetector;
 use WP_Statistics\Utils\PostType;
 use WP_Statistics\Utils\Query;
-use WP_STATISTICS\WP_Background_Process;
 
-class UpdateResourceCacheFields extends WP_Background_Process
+class UpdateResourceCacheFields extends ExtendedBackgroundProcess
 {
     /**
      * @var string

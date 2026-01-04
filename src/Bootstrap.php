@@ -233,7 +233,6 @@ class Bootstrap
      * - Schedule (dependency)   -> class-wp-statistics-schedule.php (Helper uses it)
      *
      * Also kept:
-     * - template-functions.php  -> Public API for themes (wp_statistics_* functions)
      * - defines/                -> Country codes, robots list (data files)
      *
      * @return void
@@ -255,13 +254,11 @@ class Bootstrap
             'class-wp-statistics-visitor.php',
             'class-wp-statistics-menus.php',
             'class-wp-statistics-schedule.php',
+            'class-wp-statistics-pages.php',
 
             // Admin UI (used by add-ons)
             'admin/class-wp-statistics-admin-template.php',
             'admin/class-wp-statistics-admin-assets.php',
-
-            // Public API for themes
-            'template-functions.php',
         ];
 
         foreach ($legacyFiles as $file) {

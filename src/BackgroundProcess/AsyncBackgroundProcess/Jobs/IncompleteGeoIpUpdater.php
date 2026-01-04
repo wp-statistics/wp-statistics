@@ -2,14 +2,14 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
+use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_STATISTICS\WP_Background_Process;
 
-class IncompleteGeoIpUpdater extends WP_Background_Process
+class IncompleteGeoIpUpdater extends ExtendedBackgroundProcess
 {
     /**
      * @var string

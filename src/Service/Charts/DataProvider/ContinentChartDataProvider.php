@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_STATISTICS\Country;
+use WP_Statistics\Components\Country;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;

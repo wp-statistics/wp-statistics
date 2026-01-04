@@ -15,7 +15,7 @@ namespace WP_Statistics\Service\Installation;
 class Uninstaller
 {
     /**
-     * Plugin option names to delete on full uninstall.
+     * Plugin option WP_Statistics_names to delete on full uninstall.
      *
      * @var array
      */
@@ -38,7 +38,7 @@ class Uninstaller
     ];
 
     /**
-     * Plugin table names (without prefix).
+     * Plugin table WP_Statistics_names (without prefix).
      *
      * @var array
      */

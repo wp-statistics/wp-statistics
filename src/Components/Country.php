@@ -7,7 +7,7 @@ use DateTimeZone;
 /**
  * Manages country-related data.
  *
- * Provides access to localized country names, flag URLs, and validation utilities
+ * Provides access to localized country WP_Statistics_names, flag URLs, and validation utilities
  * based on ISO country codes. Also supports country inference via WordPress timezone settings.
  *
  * @package WP_Statistics\Components
@@ -30,7 +30,7 @@ class Country
     private static $countryListCache = null;
 
     /**
-     * Get all country codes mapped to their localized names.
+     * Get all country codes mapped to their localized WP_Statistics_names.
      *
      * @return array
      */

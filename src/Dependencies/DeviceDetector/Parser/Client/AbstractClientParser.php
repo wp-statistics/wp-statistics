@@ -65,9 +65,9 @@ abstract class AbstractClientParser extends AbstractParser
     }
 
     /**
-     * Returns all names defined in the regexes
+     * Returns all WP_Statistics_names defined in the regexes
      *
-     * Attention: This method might not return all names of detected clients
+     * Attention: This method might not return all WP_Statistics_names of detected clients
      *
      * @return array
      */
@@ -75,18 +75,32 @@ abstract class AbstractClientParser extends AbstractParser
     {
         $instance = new static(); // @phpstan-ignore-line
         $regexes  = $instance->getRegexes();
-        $names    = [];
+        $WP_Statistics_names    = [];
 
         foreach ($regexes as $regex) {
-            if ('$1' === $regex['name']) {
+            if (false !== \strpos($regex['name'], '$1') || false !== \strpos($regex['name'], '$2')) {
                 continue;
             }
 
-            $names[] = $regex['name'];
+            $WP_Statistics_names[] = $regex['name'];
         }
 
-        \natcasesort($names);
+        if (static::class === MobileApp::class) {
+            $WP_Statistics_names = \array_merge($WP_Statistics_names, [
+                // Microsoft Office $1
+                'Microsoft Office Access', 'Microsoft Office Excel', 'Microsoft Office OneDrive for Business',
+                'Microsoft Office OneNote', 'Microsoft Office PowerPoint', 'Microsoft Office Project',
+                'Microsoft Office Publisher', 'Microsoft Office Visio', 'Microsoft Office Word',
+                // Podkicker$1
+                'Podkicker', 'Podkicker Pro', 'Podkicker Classic',
+                // radio.$1
+                'radio.at', 'radio.de', 'radio.dk', 'radio.es', 'radio.fr',
+                'radio.it',  'radio.pl', 'radio.pt', 'radio.se',  'radio.net',
+            ]);
+        }
 
-        return \array_unique($names);
+        \natcasesort($WP_Statistics_names);
+
+        return \array_unique($WP_Statistics_names);
     }
 }

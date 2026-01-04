@@ -50,7 +50,7 @@ abstract class AbstractParser
     protected $clientHints = null;
 
     /**
-     * Contains a list of mappings from names we use to known client hint values
+     * Contains a list of mappings from WP_Statistics_names we use to known client hint values
      * @var array<string, array<string>>
      */
     protected static $clientHintMapping = [];
@@ -136,6 +136,43 @@ abstract class AbstractParser
     {
         $this->setUserAgent($ua);
         $this->setClientHints($clientHints);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function restoreUserAgentFromClientHints(): void
+    {
+        if (null === $this->clientHints) {
+            return;
+        }
+
+        $deviceModel = $this->clientHints->getModel();
+
+        if ('' === $deviceModel) {
+            return;
+        }
+
+        // Restore Android User Agent
+        if ($this->hasUserAgentClientHintsFragment()) {
+            $osVersion = $this->clientHints->getOperatingSystemVersion();
+            $this->setUserAgent((string) \preg_replace(
+                '(Android (?:10[.\d]*; K|1[1-5]))',
+                \sprintf('Android %s; %s', '' !== $osVersion ? $osVersion : '10', $deviceModel),
+                $this->userAgent
+            ));
+        }
+
+        // Restore Desktop User Agent
+        if (!$this->hasDesktopFragment()) {
+            return;
+        }
+
+        $this->setUserAgent((string) \preg_replace(
+            '(X11; Linux x86_64)',
+            \sprintf('X11; Linux x86_64; %s', $deviceModel),
+            $this->userAgent
+        ));
     }
 
     /**
@@ -271,7 +308,7 @@ abstract class AbstractParser
 
     /**
      * Returns the provided name after applying client hint mappings.
-     * This is used to map names provided in client hints to the names we use.
+     * This is used to map WP_Statistics_names provided in client hints to the WP_Statistics_names we use.
      *
      * @param string $name
      *
@@ -296,6 +333,34 @@ abstract class AbstractParser
     protected function getRegexesDirectory(): string
     {
         return \dirname(__DIR__);
+    }
+
+    /**
+     * Returns if the parsed UA contains the 'Windows NT;' or 'X11; Linux x86_64' fragments
+     *
+     * @return bool
+     */
+    protected function hasDesktopFragment(): bool
+    {
+        $regexExcludeDesktopFragment = \implode('|', [
+            'CE-HTML',
+            ' Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser',
+            'PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)',
+        ]);
+
+        return
+            $this->matchUserAgent('(?:Windows (?:NT|IoT)|X11; Linux x86_64)') &&
+            !$this->matchUserAgent($regexExcludeDesktopFragment);
+    }
+
+    /**
+     * Returns if the parsed UA contains the 'Android 10 K;' or Android 10 K Build/` fragment
+     *
+     * @return bool
+     */
+    protected function hasUserAgentClientHintsFragment(): bool
+    {
+        return (bool) \preg_match('~Android (?:10[.\d]*; K(?: Build/|[;)])|1[1-5]\)) AppleWebKit~i', $this->userAgent);
     }
 
     /**
