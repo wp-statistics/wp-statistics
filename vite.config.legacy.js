@@ -415,12 +415,8 @@ function moveFrontendAssets() {
           }
         })
 
-        // Also copy tracker.min.js to assets/js/tracker.js for backward compatibility
-        const trackerSource = join(frontendJsDir, 'tracker.min.js')
-        const trackerDest = resolve(__dirname, 'assets/js/tracker.js')
-        if (existsSync(trackerSource)) {
-          cpSync(trackerSource, trackerDest)
-        }
+        // Note: Backward compatibility copy to assets/js/ removed in v15
+        // All tracker loading now uses public/frontend/js/tracker.min.js
 
         // Copy only chart.umd.min.js from chartjs directory to frontend/js/chartjs/ (others stay in legacy)
         const chartjsSourceDir = join(sourceJsDir, 'chartjs')

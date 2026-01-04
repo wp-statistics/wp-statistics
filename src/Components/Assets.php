@@ -186,17 +186,20 @@ class Assets
      *
      * @return  string
      */
-    public static function getSrc($src, $obfuscate = false, $plugin_url = null)
+    public static function getSrc($src, $obfuscate = false, $plugin_url = null, $isInPublic = false)
     {
+        // Determine asset directory based on location
+        $asset_dir = $isInPublic ? 'public/frontend' : self::$asset_dir;
+
         if ($obfuscate) {
             $file = $plugin_url ? FileSystem::urlToDir($plugin_url) : self::$plugin_dir;
-            $file = new AssetNameObfuscator(path_join($file, self::$asset_dir . '/' . $src));
+            $file = new AssetNameObfuscator(path_join($file, $asset_dir . '/' . $src));
             return $file->getUrlThroughProxy();
         }
 
         $url = $plugin_url ? untrailingslashit($plugin_url) . '/' : self::$plugin_url;
 
-        return $url . self::$asset_dir . '/' . $src;
+        return $url . $asset_dir . '/' . $src;
     }
 
     /**

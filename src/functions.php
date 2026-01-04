@@ -31,7 +31,6 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Logger\LoggerFactory;
-use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Page;
 use WP_Statistics\Utils\Uri;
 use WP_Statistics\Utils\User;
@@ -462,7 +461,7 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
         $time = '12months';
     } elseif (is_numeric($time) && $daily) {
         $time = DateTime::get("$time days");
-    } elseif ($daily === true && TimeZone::isValidDate($time)) {
+    } elseif ($daily === true && DateTime::isValidDate($time)) {
         // Specific date provided
     }
 
@@ -1045,7 +1044,7 @@ function wp_statistics_referrer($time = null, $range = [])
             'from' => $range['start'],
             'to'   => $range['end']
         ];
-    } elseif (TimeZone::isValidDate($time)) {
+    } elseif (DateTime::isValidDate($time)) {
         // Specific date provided
         $dateRange = [
             'from' => $time,

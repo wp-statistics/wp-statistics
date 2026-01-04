@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\TimeZone;
+use WP_Statistics\Components\DateTime;
 
 /**
  * This class is used to get summary stats about a post (e.g. visitors, views, referrers, etc.).
@@ -93,7 +93,7 @@ class PostSummaryDataProvider
      */
     public function setFrom($from, $checkPublishDate = true)
     {
-        if (!TimeZone::isValidDate($from)) {
+        if (!DateTime::isValidDate($from)) {
             return;
         }
 
@@ -117,7 +117,7 @@ class PostSummaryDataProvider
      */
     public function setTo($to)
     {
-        if (!TimeZone::isValidDate($to)) {
+        if (!DateTime::isValidDate($to)) {
             return;
         }
 

@@ -8,7 +8,7 @@ use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\TimeZone;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Traits\ObjectCacheTrait;
 
 /**
@@ -115,10 +115,10 @@ class WebsitePerformanceDataProvider
      */
     private function setPeriods($fromDate, $toDate = '')
     {
-        if (!TimeZone::isValidDate($fromDate)) {
+        if (!DateTime::isValidDate($fromDate)) {
             $fromDate = TimeZone::getTimeAgo(7);
             $toDate   = TimeZone::getTimeAgo();
-        } else if (!TimeZone::isValidDate($toDate)) {
+        } else if (!DateTime::isValidDate($toDate)) {
             $toDate = TimeZone::getTimeAgo();
         }
 

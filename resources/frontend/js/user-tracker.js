@@ -41,7 +41,9 @@ if (!window.WpStatisticsUserTracker) {
                 // Send initial hit request (engagement tracking will be initialized after hit succeeds)
                 // Session ID will be set from the hit response
                 this.checkHitRequestConditions();
-                if (WP_Statistics_Tracker_Object.option.userOnline) {
+                // Only use legacy keepUserOnline if engagement tracking is disabled
+                // The new engagement tracking uses batch queue instead
+                if (WP_Statistics_Tracker_Object.option.userOnline && !this.useEngagementTracking) {
                     this.keepUserOnline();
                 }
             }

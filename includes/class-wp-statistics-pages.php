@@ -110,4 +110,27 @@ class Pages
     {
         return Page::isHome($postID);
     }
+
+    /**
+     * Get page_id from the pages table by type and id.
+     *
+     * @deprecated 15.0.0 This method queries the legacy pages table.
+     * @param string $type Page type.
+     * @param int    $id   Page/post ID.
+     * @return int Page ID from the pages table, or 0 if not found.
+     */
+    public static function getPageId($type, $id)
+    {
+        global $wpdb;
+
+        $result = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT page_id FROM `" . DB::table('pages') . "` WHERE `type` = %s AND `id` = %d ORDER BY date DESC",
+                $type,
+                $id
+            )
+        );
+
+        return $result ? (int) $result : 0;
+    }
 }

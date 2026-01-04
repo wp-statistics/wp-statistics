@@ -37,7 +37,6 @@ class SettingsAjaxHandler
         // Email operations (admin only, not public)
         Ajax::register('email_preview', [$this, 'generateEmailPreview'], false);
         Ajax::register('email_send_test', [$this, 'sendTestEmail'], false);
-        Ajax::register('email_save_template', [$this, 'saveEmailTemplate'], false);
     }
 
     /**
@@ -73,7 +72,11 @@ class SettingsAjaxHandler
         try {
             $this->verifyRequest();
 
-            $settings = Request::get('settings', []);
+            // Get raw settings value (don't sanitize - it's JSON that we'll decode and sanitize per-key)
+            $rawSettings = isset($_REQUEST['settings']) ? wp_unslash($_REQUEST['settings']) : '';
+
+            // Decode JSON string (frontend sends JSON-encoded settings)
+            $settings = is_string($rawSettings) ? json_decode($rawSettings, true) : $rawSettings;
 
             if (empty($settings) || !is_array($settings)) {
                 throw new Exception(__('No settings provided.', 'wp-statistics'));
@@ -145,8 +148,13 @@ class SettingsAjaxHandler
         try {
             $this->verifyRequest();
 
-            $tab      = sanitize_key(Request::get('tab', 'general'));
-            $settings = Request::get('settings', []);
+            $tab = sanitize_key(Request::get('tab', 'general'));
+
+            // Get raw settings value (don't sanitize - it's JSON that we'll decode and sanitize per-key)
+            $rawSettings = isset($_REQUEST['settings']) ? wp_unslash($_REQUEST['settings']) : '';
+
+            // Decode JSON string (frontend sends JSON-encoded settings)
+            $settings = is_string($rawSettings) ? json_decode($rawSettings, true) : $rawSettings;
 
             if (empty($settings) || !is_array($settings)) {
                 throw new Exception(__('No settings provided.', 'wp-statistics'));
@@ -268,38 +276,6 @@ class SettingsAjaxHandler
     }
 
     /**
-     * Save email template configuration.
-     *
-     * @return void
-     */
-    public function saveEmailTemplate()
-    {
-        try {
-            $this->verifyRequest();
-
-            $template = Request::get('template', []);
-
-            if (empty($template)) {
-                throw new Exception(__('No template provided.', 'wp-statistics'));
-            }
-
-            // Validate and sanitize template structure
-            $sanitizedTemplate = $this->sanitizeEmailTemplate($template);
-
-            Option::updateValue('email_report_template', $sanitizedTemplate);
-
-            wp_send_json_success([
-                'message' => __('Email template saved successfully.', 'wp-statistics'),
-            ]);
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-                'code'    => 'template_error',
-            ]);
-        }
-    }
-
-    /**
      * Verify the AJAX request.
      *
      * @throws Exception If verification fails.
@@ -315,7 +291,7 @@ class SettingsAjaxHandler
             throw new Exception(__('You do not have permission to perform this action.', 'wp-statistics'));
         }
 
-        if (!check_ajax_referer('wp_rest', 'wps_nonce', false)) {
+        if (!check_ajax_referer('wp_statistics_dashboard_nonce', 'wps_nonce', false)) {
             throw new Exception(__('Security check failed. Please refresh the page and try again.', 'wp-statistics'));
         }
     }
@@ -366,6 +342,7 @@ class SettingsAjaxHandler
         $tabKeys = [
             'general' => [
                 // Tracking Options
+                'useronline',
                 'visitors_log',
                 'store_ua',
                 'attribution_model',
@@ -373,22 +350,22 @@ class SettingsAjaxHandler
                 'use_cache_plugin',
                 'bypass_ad_blockers',
                 // Legacy keys for backward compatibility
-                'useronline',
                 'visits',
                 'visitors',
                 'pages',
             ],
             'privacy' => [
-                // IP Address Handling
+                // Data Protection
                 'anonymize_ips',
                 'hash_ips',
-                'ip_method',
-                // Data Collection
-                'do_not_track',
-                'anonymous_tracking',
-                'consent_level_integration',
-                // Privacy Audit
+                'hash_rotation_interval',
+                // Privacy Compliance
                 'privacy_audit',
+                // User Preferences
+                'consent_integration',
+                'consent_level_integration',
+                'anonymous_tracking',
+                'do_not_track',
             ],
             'notifications' => [
                 // Email Reports
@@ -400,49 +377,59 @@ class SettingsAjaxHandler
                 'email_free_content_header',
                 'email_free_content_footer',
                 'show_privacy_issues_in_report',
-                // Email Template (v15)
-                'email_report_template',
             ],
             'exclusions' => [
-                // IP/URL Exclusions
-                'exclude_ip',
-                'excluded_urls',
-                'excluded_countries',
-                'included_countries',
-                // Bot Exclusions
-                'robotlist',
-                'robot_threshold',
-                'record_exclusions',
-                // Page Exclusions
-                'exclude_404s',
-                'exclude_feeds',
-                'exclude_loginpage',
-                // Role Exclusions (dynamic keys)
+                // Role Exclusions (dynamic keys for all WP roles)
                 'exclude_administrator',
                 'exclude_editor',
                 'exclude_author',
                 'exclude_contributor',
                 'exclude_subscriber',
-                // Query params
+                // IP Exclusions
+                'exclude_ip',
+                // Robot Exclusions
+                'robotlist',
+                'robot_threshold',
+                // Geolocation Exclusions
+                'excluded_countries',
+                'included_countries',
+                // URL Exclusions
+                'exclude_loginpage',
+                'exclude_feeds',
+                'exclude_404s',
+                'excluded_urls',
+                // URL Query Parameters
                 'query_params_allow_list',
+                // Referrer Spam (deprecated but still supported)
+                'referrerspam',
+                'schedule_referrerspam',
+                // Host Exclusions
+                'excluded_hosts',
+                // General Exclusions
+                'record_exclusions',
             ],
             'advanced' => [
-                // GeoIP Settings
+                // IP Detection Method
+                'ip_method',
+                'user_custom_header_ip_method',
+                // Geolocation Settings
+                'geoip_location_detection_method',
                 'geoip_license_type',
                 'geoip_license_key',
                 'geoip_dbip_license_key_option',
-                'geoip_location_detection_method',
                 'schedule_geoip',
-                // Database Settings
+                // Content Analytics
+                'word_count_analytics',
+                // Data Aggregation
+                'auto_aggregate_old_data',
                 'schedule_dbmaint_days',
-                'delete_data_on_uninstall',
-                // Other
+                // Anonymous Usage Data
                 'share_anonymous_data',
+                // Danger Zone
+                'delete_on_uninstall',
+                // Legacy keys (deprecated in v15)
                 'auto_pop',
                 'private_country_code',
-                // Legacy keys
-                'bypass_ad_blockers',
-                'use_cache_plugin',
             ],
         ];
 
@@ -508,61 +495,5 @@ class SettingsAjaxHandler
 </html>';
 
         return $html;
-    }
-
-    /**
-     * Sanitize email template configuration.
-     *
-     * @param array $template Raw template data.
-     * @return array Sanitized template.
-     */
-    private function sanitizeEmailTemplate($template)
-    {
-        $sanitized = [
-            'blocks'         => [],
-            'globalSettings' => [],
-        ];
-
-        // Sanitize blocks
-        if (!empty($template['blocks']) && is_array($template['blocks'])) {
-            foreach ($template['blocks'] as $block) {
-                if (!isset($block['type'])) {
-                    continue;
-                }
-
-                $sanitizedBlock = [
-                    'type'     => sanitize_key($block['type']),
-                    'id'       => sanitize_key($block['id'] ?? uniqid('block_')),
-                    'settings' => [],
-                ];
-
-                if (!empty($block['settings']) && is_array($block['settings'])) {
-                    foreach ($block['settings'] as $key => $value) {
-                        $sanitizedBlock['settings'][sanitize_key($key)] = is_array($value)
-                            ? array_map('sanitize_text_field', $value)
-                            : sanitize_text_field($value);
-                    }
-                }
-
-                $sanitized['blocks'][] = $sanitizedBlock;
-            }
-        }
-
-        // Sanitize global settings
-        if (!empty($template['globalSettings']) && is_array($template['globalSettings'])) {
-            foreach ($template['globalSettings'] as $key => $value) {
-                $sanitizedKey = sanitize_key($key);
-
-                if (is_bool($value)) {
-                    $sanitized['globalSettings'][$sanitizedKey] = $value;
-                } elseif (is_array($value)) {
-                    $sanitized['globalSettings'][$sanitizedKey] = array_map('sanitize_text_field', $value);
-                } else {
-                    $sanitized['globalSettings'][$sanitizedKey] = sanitize_text_field($value);
-                }
-            }
-        }
-
-        return $sanitized;
     }
 }

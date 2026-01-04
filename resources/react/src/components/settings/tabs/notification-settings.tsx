@@ -7,14 +7,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import { Textarea } from '@/components/ui/textarea'
 import { useSettings, useSetting } from '@/hooks/use-settings'
 import { useToast } from '@/hooks/use-toast'
 
-import { EmailBuilderDialog } from '../email-builder'
-
 export function NotificationSettings() {
   const settings = useSettings({ tab: 'notifications' })
-  const [isBuilderOpen, setIsBuilderOpen] = React.useState(false)
   const [isPreviewLoading, setIsPreviewLoading] = React.useState(false)
   const [isSendingTest, setIsSendingTest] = React.useState(false)
   const { toast } = useToast()
@@ -23,6 +21,9 @@ export function NotificationSettings() {
   const [timeReport, setTimeReport] = useSetting(settings, 'time_report', '0')
   const [sendReport, setSendReport] = useSetting(settings, 'send_report', '0')
   const [emailList, setEmailList] = useSetting(settings, 'email_list', '')
+  const [contentReport, setContentReport] = useSetting(settings, 'content_report', '')
+  const [emailHeader, setEmailHeader] = useSetting(settings, 'email_free_content_header', '')
+  const [emailFooter, setEmailFooter] = useSetting(settings, 'email_free_content_footer', '')
   const [showPrivacyIssues, setShowPrivacyIssues] = useSetting(
     settings,
     'show_privacy_issues_in_report',
@@ -201,36 +202,52 @@ export function NotificationSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Email Template</CardTitle>
+          <CardTitle>Email Content</CardTitle>
           <CardDescription>
-            Customize the content and appearance of your email reports.
+            Customize the content of your email reports. You can use shortcodes to display statistics.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="rounded-lg border border-dashed p-8 text-center">
-            <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-10 w-10 text-muted-foreground"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              <h3 className="mt-4 text-lg font-semibold">Email Builder</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Drag and drop blocks to customize your email report template.
-              </p>
-              <Button className="mt-4" variant="outline" onClick={() => setIsBuilderOpen(true)}>
-                Open Email Builder
-              </Button>
-            </div>
+        <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="email-header">Custom Header Content</Label>
+            <Textarea
+              id="email-header"
+              placeholder="Enter custom header text..."
+              value={emailHeader as string}
+              onChange={(e) => setEmailHeader(e.target.value)}
+              rows={3}
+            />
+            <p className="text-xs text-muted-foreground">
+              This text will appear at the top of your email reports.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="content-report">Report Content</Label>
+            <Textarea
+              id="content-report"
+              placeholder="Enter report content with shortcodes..."
+              value={contentReport as string}
+              onChange={(e) => setContentReport(e.target.value)}
+              rows={6}
+            />
+            <p className="text-xs text-muted-foreground">
+              Customize the main content of your email report. Shortcodes are supported.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="email-footer">Custom Footer Content</Label>
+            <Textarea
+              id="email-footer"
+              placeholder="Enter custom footer text..."
+              value={emailFooter as string}
+              onChange={(e) => setEmailFooter(e.target.value)}
+              rows={3}
+            />
+            <p className="text-xs text-muted-foreground">
+              This text will appear at the bottom of your email reports.
+            </p>
           </div>
 
           <div className="flex gap-2">
@@ -268,8 +285,6 @@ export function NotificationSettings() {
           Save Changes
         </Button>
       </div>
-
-      <EmailBuilderDialog open={isBuilderOpen} onOpenChange={setIsBuilderOpen} />
     </div>
   )
 }

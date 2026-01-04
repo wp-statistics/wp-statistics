@@ -51,7 +51,7 @@ class TrackerProvider extends AbstractDebuggerProvider
             'sslverify' => apply_filters('https_local_ssl_verify', false),
         ];
 
-        $this->trackerPath = Assets::getSrc('js/tracker.js', Option::getValue('bypass_ad_blockers'), WP_STATISTICS_URL);
+        $this->trackerPath = Assets::getSrc('js/tracker.min.js', Option::getValue('bypass_ad_blockers'), WP_STATISTICS_URL, true);
         $this->initializeData();
     }
 
