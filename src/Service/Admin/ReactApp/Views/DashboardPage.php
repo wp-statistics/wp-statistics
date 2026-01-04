@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Views;
+namespace WP_Statistics\Service\Admin\ReactApp\Views;
 
 use WP_Statistics\Abstracts\BasePage;
 use WP_Statistics\Components\Menu;

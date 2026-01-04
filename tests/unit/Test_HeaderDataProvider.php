@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Tests\DashboardBootstrap;
+namespace WP_Statistics\Tests\ReactApp;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\HeaderDataProvider;
+use WP_Statistics\Service\Admin\ReactApp\Providers\HeaderDataProvider;
 
 /**
  * Test HeaderDataProvider class.

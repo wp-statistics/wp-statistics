@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Tests\DashboardBootstrap;
+namespace WP_Statistics\Tests\ReactApp;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\GlobalDataProvider;
+use WP_Statistics\Service\Admin\ReactApp\Providers\GlobalDataProvider;
 
 /**
  * Test GlobalDataProvider class.

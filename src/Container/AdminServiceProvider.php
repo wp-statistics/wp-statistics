@@ -6,13 +6,12 @@ use WP_Statistics\Service\Admin\AdminBar;
 use WP_Statistics\Service\Admin\AdminMenuManager;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\CommandPalette\CommandPaletteHandler;
-use WP_Statistics\Service\Admin\DashboardBootstrap\DashboardManager;
+use WP_Statistics\Service\Admin\ReactApp\ReactAppManager;
 use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Network\NetworkManager;
 use WP_Statistics\Service\Admin\Notification\NotificationManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
-use WP_Statistics\Service\Admin\Settings\SettingsManager;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
 use WP_Statistics\Service\EmailReport\EmailReportManager;
@@ -44,14 +43,14 @@ class AdminServiceProvider implements ServiceProvider
             return new AdminMenuManager();
         });
 
-        // Dashboard Manager (React SPA)
-        $container->register('dashboard', function () {
-            return new DashboardManager();
-        });
-
-        // Settings Manager (AJAX handlers)
-        $container->register('settings', function () {
-            return new SettingsManager();
+        // React App Manager (Dashboard + Settings SPA)
+        // Handles both Dashboard and Settings React pages, including:
+        // - React asset loading
+        // - Dashboard AJAX endpoints (analytics, filters, preferences)
+        // - Settings AJAX endpoints (get/save settings, email preview)
+        // - Localized data providers
+        $container->register('react_app', function () {
+            return new ReactAppManager();
         });
 
         // Email Report Manager
@@ -119,8 +118,7 @@ class AdminServiceProvider implements ServiceProvider
         // Admin-only services
         if (is_admin()) {
             $container->get('admin_menu');
-            $container->get('dashboard');
-            $container->get('settings');
+            $container->get('react_app');
             $container->get('email_reports');
             $container->get('network');
             $container->get('command_palette');

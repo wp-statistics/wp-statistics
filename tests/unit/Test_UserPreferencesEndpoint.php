@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Tests;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Root\Endpoints\UserPreferences;
+use WP_Statistics\Service\Admin\ReactApp\Controllers\Root\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 use WP_Statistics\Utils\Request as RequestUtil;
 use WP_UnitTestCase;

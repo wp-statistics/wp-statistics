@@ -1,12 +1,12 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Providers;
+namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints\AnalyticsQuery;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints\FilterOptions;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints\UserPreferences;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
+use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\AnalyticsQuery;
+use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\FilterOptions;
+use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 

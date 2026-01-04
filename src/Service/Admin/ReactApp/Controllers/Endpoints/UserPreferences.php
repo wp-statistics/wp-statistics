@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints;
+namespace WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 use WP_Statistics\Utils\Request as RequestUtil;
 
@@ -12,7 +12,7 @@ use WP_Statistics\Utils\Request as RequestUtil;
  * Handles save and reset operations for user dashboard preferences.
  * Note: Get operation is not needed - preferences are returned via analytics query response.
  *
- * Registered globally in DashboardManager::initAjax() as
+ * Registered globally in ReactAppManager::initAjax() as
  * 'wp_statistics_user_preferences' AJAX action.
  *
  * @since 15.0.0

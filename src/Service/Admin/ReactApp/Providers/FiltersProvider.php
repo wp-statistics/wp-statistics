@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Providers;
+namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\AnalyticsQuery\Registry\FilterRegistry;
 
 /**

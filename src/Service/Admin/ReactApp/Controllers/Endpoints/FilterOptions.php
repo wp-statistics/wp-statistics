@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints;
+namespace WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Service\AnalyticsQuery\Registry\FilterRegistry;
 use WP_Statistics\Utils\Request;
 

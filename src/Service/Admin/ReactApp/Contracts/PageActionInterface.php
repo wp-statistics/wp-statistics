@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Contracts;
+namespace WP_Statistics\Service\Admin\ReactApp\Contracts;
 
 /**
  * Interface for global endpoint handlers.

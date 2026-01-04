@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\CommandPalette;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Providers\LayoutDataProvider;
+use WP_Statistics\Service\Admin\ReactApp\Providers\LayoutDataProvider;
 use WP_Statistics\Utils\UrlBuilder;
 
 /**

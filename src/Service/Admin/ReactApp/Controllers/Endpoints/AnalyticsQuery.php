@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Endpoints;
+namespace WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Abstracts\AbstractAnalyticsPage;
+use WP_Statistics\Service\Admin\ReactApp\Abstracts\AbstractAnalyticsPage;
 
 /**
  * Unified Analytics Query endpoint handler.
@@ -11,7 +11,7 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Abstracts\AbstractAnalyticsPa
  * for the entire application. It replaces the multiple per-page action handlers with a
  * single unified endpoint using the sources + group_by approach.
  *
- * Registered globally in DashboardManager::registerAnalyticsQueryEndpoint() as
+ * Registered globally in ReactAppManager::registerAnalyticsQueryEndpoint() as
  * 'wp_statistics_analytics' AJAX action.
  *
  * Supports both single queries and batch queries for efficient dashboard loading.

@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Managers;
+namespace WP_Statistics\Service\Admin\ReactApp\Managers;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 
 /**
  * Manager for handling localized data sent to React components.

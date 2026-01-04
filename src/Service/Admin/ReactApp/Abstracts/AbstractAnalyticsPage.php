@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Abstracts;
+namespace WP_Statistics\Service\Admin\ReactApp\Abstracts;
 
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidSourceException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidGroupByException;

@@ -116,15 +116,29 @@ class ReactHandler extends BaseAssets
     }
 
     /**
-     * Get allowed screen IDs for React assets
+     * Get allowed screen IDs for React assets.
+     *
+     * Add-ons can extend this list using the 'wp_statistics_react_screen_ids' filter
+     * to load React assets on their own admin pages.
      *
      * @return array
      */
     private function getAllowedScreenIds(): array
     {
-        return [
+        $screenIds = [
             'toplevel_page_wp-statistics', // Single React SPA entry point
         ];
+
+        /**
+         * Filter the screen IDs where React assets should be loaded.
+         *
+         * Add-ons can use this filter to extend React functionality to their own pages.
+         *
+         * @since 15.0.0
+         *
+         * @param array $screenIds Array of WordPress admin screen IDs.
+         */
+        return apply_filters('wp_statistics_react_screen_ids', $screenIds);
     }
 
     /**

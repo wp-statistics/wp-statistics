@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Controllers\Dashboard;
+namespace WP_Statistics\Service\Admin\ReactApp\Controllers\Dashboard;
 
 use WP_Statistics\Abstracts\BaseDashboardController;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Views\DashboardPage;
+use WP_Statistics\Service\Admin\ReactApp\Views\DashboardPage;
 
 /**
  * Controller for handling the Dashboard page.
@@ -11,7 +11,7 @@ use WP_Statistics\Service\Admin\DashboardBootstrap\Views\DashboardPage;
  * This controller is responsible for wiring the dashboard view
  * to the admin bootstrap. All analytics data requests now go through
  * the unified wp_statistics_analytics endpoint registered in
- * DashboardManager::initGlobalAjax().
+ * ReactAppManager::initGlobalAjax().
  *
  * The controller no longer manages page-specific AJAX actions, as these
  * have been replaced by the unified Analytics Query API using the
@@ -33,7 +33,7 @@ class DashboardController extends BaseDashboardController
      *
      * Returns empty array as all analytics queries now go through
      * the unified wp_statistics_analytics endpoint registered in
-     * DashboardManager::initGlobalAjax().
+     * ReactAppManager::initGlobalAjax().
      *
      * @return array Empty array
      */

@@ -1,10 +1,10 @@
 <?php
 
-namespace WP_Statistics\Tests\DashboardBootstrap;
+namespace WP_Statistics\Tests\ReactApp;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Managers\LocalizeDataManager;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
+use WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 
 /**
  * Test LocalizeDataManager class.

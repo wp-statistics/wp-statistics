@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Providers;
+namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\LocalizeDataProviderInterface;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\Notification\NotificationFactory;
 use WP_Statistics\Utils\User;

@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\DashboardBootstrap\Requests;
+namespace WP_Statistics\Service\Admin\ReactApp\Requests;
 
 use WP_Statistics\Components\Ajax;
-use WP_Statistics\Service\Admin\DashboardBootstrap\Contracts\PageActionInterface;
+use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Utils\User;
 
 /**
