@@ -238,9 +238,14 @@ class Menus
 
     /**
      * Load WordPress Admin Menu
+     *
+     * Note: In v15, the main menu slug is 'wp-statistics' (not 'wps_overview_page').
+     * Legacy submenus that use 'sub' => 'overview' are registered under the new main menu.
      */
     public function wp_admin_menu()
     {
+        // v15 main menu slug
+        $mainMenuSlug = 'wp-statistics';
 
         // Get the read/write capabilities.
         $read_cap = User::ExistCapability(Option::get('read_capability', 'manage_options'));
@@ -282,7 +287,9 @@ class Menus
             if (array_key_exists('sub', $menu)) {
                 //Check Conditions For Show Menu
                 if (Option::check_option_require($menu) === true) {
-                    add_submenu_page(self::get_page_slug($menu['sub']), $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback);
+                    // In v15, use the new main menu slug instead of legacy wps_overview_page
+                    $parentSlug = ($menu['sub'] === 'overview') ? $mainMenuSlug : self::get_page_slug($menu['sub']);
+                    add_submenu_page($parentSlug, $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback);
                 }
             } else {
                 add_menu_page($menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback, $menu['icon']);

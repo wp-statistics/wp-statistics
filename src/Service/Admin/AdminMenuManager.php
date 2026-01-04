@@ -5,16 +5,17 @@ namespace WP_Statistics\Service\Admin;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Menus;
 
 /**
  * V15 Admin Menu Manager.
  *
- * Registers only the v15 React-based admin menus:
- * - Dashboard (main menu)
- * - Settings (submenu link to same page with hash route)
- *
- * Both Dashboard and Settings use the SAME React SPA.
- * Navigation is via React Router hash routes, avoiding page reloads.
+ * Registers v15 React-based admin menus plus legacy PHP pages:
+ * - Dashboard (main menu) - React SPA
+ * - Settings (submenu) - React SPA hash route
+ * - Privacy Audit - Legacy PHP page
+ * - Help Center - Legacy PHP page
+ * - Add-ons - Legacy PHP page (via LicenseManagementManager)
  *
  * @since 15.0.0
  */
@@ -26,11 +27,17 @@ class AdminMenuManager
     private const MENU_SLUG = 'wp-statistics';
 
     /**
+     * Legacy menu slug prefix for v14-style pages.
+     */
+    private const LEGACY_SLUG_PREFIX = 'wps_';
+
+    /**
      * Constructor - registers admin menu hooks.
      */
     public function __construct()
     {
         add_action('admin_menu', [$this, 'registerMenus']);
+        add_filter('wp_statistics_admin_menu_list', [$this, 'registerLegacyPages']);
     }
 
     /**
@@ -64,6 +71,9 @@ class AdminMenuManager
             null // No callback - it's just a link
         );
 
+        // Register legacy pages via Menus class (Add-ons, Privacy Audit, Help, etc.)
+        $this->registerLegacyMenus();
+
         // Fix submenu labels and URLs
         global $submenu;
         if (isset($submenu[self::MENU_SLUG])) {
@@ -78,6 +88,57 @@ class AdminMenuManager
                     $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/settings/general');
                 }
             }
+        }
+    }
+
+    /**
+     * Register legacy pages (Privacy Audit, Help Center).
+     *
+     * These pages are added via the wp_statistics_admin_menu_list filter
+     * which is used by the legacy Menus class.
+     *
+     * @param array $items Existing menu items.
+     * @return array Modified menu items.
+     */
+    public function registerLegacyPages($items)
+    {
+        $manageCapability = User::getExistingCapability(Option::getValue('manage_capability', 'manage_options'));
+
+        // Privacy Audit page
+        $items['privacy-audit'] = [
+            'sub'      => 'overview',
+            'title'    => __('Privacy Audit', 'wp-statistics'),
+            'page_url' => 'privacy-audit',
+            'callback' => PrivacyAudit\PrivacyAuditPage::class,
+            'cap'      => $manageCapability,
+            'priority' => 95
+        ];
+
+        // Help Center page
+        $items['help'] = [
+            'sub'      => 'overview',
+            'title'    => __('Help', 'wp-statistics'),
+            'page_url' => 'help',
+            'callback' => HelpCenter\HelpCenterPage::class,
+            'cap'      => $manageCapability,
+            'priority' => 120
+        ];
+
+        return $items;
+    }
+
+    /**
+     * Register legacy menus using the Menus class.
+     *
+     * This enables pages registered via wp_statistics_admin_menu_list filter.
+     *
+     * @return void
+     */
+    private function registerLegacyMenus()
+    {
+        if (class_exists(Menus::class)) {
+            $menus = new Menus();
+            $menus->wp_admin_menu();
         }
     }
 
