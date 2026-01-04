@@ -1,15 +1,50 @@
 import * as React from 'react'
 
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import { useSettings, useSetting } from '@/hooks/use-settings'
+import { Loader2 } from 'lucide-react'
 
 export function GeneralSettings() {
+  const settings = useSettings({ tab: 'general' })
+
+  // Individual settings
+  const [visitorsLog, setVisitorsLog] = useSetting(settings, 'visitors_log', false)
+  const [storeUa, setStoreUa] = useSetting(settings, 'store_ua', false)
+  const [attributionModel, setAttributionModel] = useSetting(settings, 'attribution_model', 'first-touch')
+  const [useCachePlugin, setUseCachePlugin] = useSetting(settings, 'use_cache_plugin', true)
+  const [bypassAdBlockers, setBypassAdBlockers] = useSetting(settings, 'bypass_ad_blockers', false)
+
+  const handleSave = async () => {
+    const success = await settings.save()
+    if (success) {
+      // Could show a toast notification here
+    }
+  }
+
+  if (settings.isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="h-6 w-6 animate-spin" />
+        <span className="ml-2">Loading settings...</span>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Tracking Settings</CardTitle>
+          <CardTitle>Tracking Options</CardTitle>
           <CardDescription>
             Configure what data WP Statistics collects from your visitors.
           </CardDescription>
@@ -17,75 +52,109 @@ export function GeneralSettings() {
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="track-online">Track Online Visitors</Label>
+              <Label htmlFor="visitors-log">Track Logged-In User Activity</Label>
               <p className="text-sm text-muted-foreground">
-                Show real-time count of visitors currently on your site.
+                Tracks activities of logged-in users with their WordPress User IDs. If disabled,
+                logged-in users are tracked anonymously.
               </p>
             </div>
-            <Switch id="track-online" />
+            <Switch
+              id="visitors-log"
+              checked={!!visitorsLog}
+              onCheckedChange={setVisitorsLog}
+            />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="track-visits">Track Page Visits</Label>
+              <Label htmlFor="store-ua">Store Entire User Agent String</Label>
               <p className="text-sm text-muted-foreground">
-                Record each page view on your website.
+                Records full details of visitors for diagnostic purposes.
               </p>
             </div>
-            <Switch id="track-visits" defaultChecked />
+            <Switch id="store-ua" checked={!!storeUa} onCheckedChange={setStoreUa} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="track-visitors">Track Unique Visitors</Label>
+              <Label htmlFor="attribution-model">Attribution Model</Label>
               <p className="text-sm text-muted-foreground">
-                Count unique visitors to your website.
+                Select how conversions are attributed: First-Touch credits the first interaction,
+                Last-Touch credits the most recent.
               </p>
             </div>
-            <Switch id="track-visitors" defaultChecked />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="track-logged-in">Track Logged-in Users</Label>
-              <p className="text-sm text-muted-foreground">
-                Include logged-in users in your statistics.
-              </p>
-            </div>
-            <Switch id="track-logged-in" />
+            <Select value={attributionModel as string} onValueChange={setAttributionModel}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select model" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="first-touch">First-Touch</SelectItem>
+                <SelectItem value="last-touch">Last-Touch</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>404 Page Tracking</CardTitle>
-          <CardDescription>
-            Monitor broken links and missing pages on your site.
-          </CardDescription>
+          <CardTitle>Tracker Configuration</CardTitle>
+          <CardDescription>Configure how the tracking script works on your site.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="track-404">Track 404 Pages</Label>
+              <Label htmlFor="use-cache-plugin">Tracking Method</Label>
               <p className="text-sm text-muted-foreground">
-                Record when visitors encounter missing pages.
+                Client Side Tracking uses the visitor's browser for better accuracy and caching
+                compatibility.
               </p>
             </div>
-            <Switch id="track-404" />
+            <Select
+              value={useCachePlugin ? '1' : '0'}
+              onValueChange={(v) => setUseCachePlugin(v === '1')}
+            >
+              <SelectTrigger className="w-[280px]">
+                <SelectValue placeholder="Select method" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">Client Side Tracking (Recommended)</SelectItem>
+                <SelectItem value="0">Server Side Tracking (Deprecated)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="exclude-query-strings">Exclude Query Strings</Label>
-              <p className="text-sm text-muted-foreground">
-                Ignore query parameters in 404 page tracking.
-              </p>
+          {useCachePlugin && (
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="bypass-ad-blockers">Bypass Ad Blockers</Label>
+                <p className="text-sm text-muted-foreground">
+                  Dynamically load the tracking script with a unique name and address to bypass ad
+                  blockers.
+                </p>
+              </div>
+              <Switch
+                id="bypass-ad-blockers"
+                checked={!!bypassAdBlockers}
+                onCheckedChange={setBypassAdBlockers}
+              />
             </div>
-            <Switch id="exclude-query-strings" />
-          </div>
+          )}
         </CardContent>
       </Card>
+
+      {settings.error && (
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+          {settings.error}
+        </div>
+      )}
+
+      <div className="flex justify-end">
+        <Button onClick={handleSave} disabled={settings.isSaving}>
+          {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Save Changes
+        </Button>
+      </div>
     </div>
   )
 }

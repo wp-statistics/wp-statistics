@@ -7,27 +7,52 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import { useSettings, useSetting } from '@/hooks/use-settings'
 import { useToast } from '@/hooks/use-toast'
 
 import { EmailBuilderDialog } from '../email-builder'
 
 export function NotificationSettings() {
+  const settings = useSettings({ tab: 'notifications' })
   const [isBuilderOpen, setIsBuilderOpen] = React.useState(false)
   const [isPreviewLoading, setIsPreviewLoading] = React.useState(false)
   const [isSendingTest, setIsSendingTest] = React.useState(false)
   const { toast } = useToast()
+
+  // Individual settings
+  const [timeReport, setTimeReport] = useSetting(settings, 'time_report', '0')
+  const [sendReport, setSendReport] = useSetting(settings, 'send_report', '0')
+  const [emailList, setEmailList] = useSetting(settings, 'email_list', '')
+  const [showPrivacyIssues, setShowPrivacyIssues] = useSetting(
+    settings,
+    'show_privacy_issues_in_report',
+    false
+  )
+
+  const handleSave = async () => {
+    const success = await settings.save()
+    if (success) {
+      toast({
+        title: 'Settings Saved',
+        description: 'Notification settings have been updated.',
+      })
+    }
+  }
 
   const handlePreviewEmail = async () => {
     setIsPreviewLoading(true)
     try {
       const formData = new FormData()
       formData.append('action', 'wp_statistics_email_preview')
-      formData.append('_wpnonce', (window as any).wps_react?.globals?.nonce || '')
+      formData.append('wps_nonce', (window as any).wps_react?.globals?.restNonce || '')
 
-      const response = await fetch((window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php', {
-        method: 'POST',
-        body: formData,
-      })
+      const response = await fetch(
+        (window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      )
 
       const data = await response.json()
       if (data.success && data.data.html) {
@@ -60,12 +85,15 @@ export function NotificationSettings() {
     try {
       const formData = new FormData()
       formData.append('action', 'wp_statistics_email_send_test')
-      formData.append('_wpnonce', (window as any).wps_react?.globals?.nonce || '')
+      formData.append('wps_nonce', (window as any).wps_react?.globals?.restNonce || '')
 
-      const response = await fetch((window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php', {
-        method: 'POST',
-        body: formData,
-      })
+      const response = await fetch(
+        (window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      )
 
       const data = await response.json()
       if (data.success) {
@@ -91,6 +119,15 @@ export function NotificationSettings() {
     }
   }
 
+  if (settings.isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="h-6 w-6 animate-spin" />
+        <span className="ml-2">Loading settings...</span>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       <Card>
@@ -101,24 +138,15 @@ export function NotificationSettings() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="enable-reports">Enable Email Reports</Label>
-              <p className="text-sm text-muted-foreground">
-                Receive periodic statistics reports via email.
-              </p>
-            </div>
-            <Switch id="enable-reports" />
-          </div>
-
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="report-frequency">Report Frequency</Label>
-              <Select defaultValue="weekly">
+              <Select value={timeReport as string} onValueChange={setTimeReport}>
                 <SelectTrigger id="report-frequency">
                   <SelectValue placeholder="Select frequency" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="0">Disabled</SelectItem>
                   <SelectItem value="daily">Daily</SelectItem>
                   <SelectItem value="weekly">Weekly</SelectItem>
                   <SelectItem value="biweekly">Bi-weekly</SelectItem>
@@ -129,13 +157,13 @@ export function NotificationSettings() {
 
             <div className="space-y-2">
               <Label htmlFor="delivery-method">Delivery Method</Label>
-              <Select defaultValue="email">
+              <Select value={sendReport as string} onValueChange={setSendReport}>
                 <SelectTrigger id="delivery-method">
                   <SelectValue placeholder="Select method" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="email">Email</SelectItem>
-                  <SelectItem value="slack" disabled>Slack (Coming soon)</SelectItem>
+                  <SelectItem value="0">Please select</SelectItem>
+                  <SelectItem value="mail">Email</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -147,10 +175,26 @@ export function NotificationSettings() {
               id="email-list"
               type="text"
               placeholder="admin@example.com, user@example.com"
+              value={emailList as string}
+              onChange={(e) => setEmailList(e.target.value)}
             />
             <p className="text-xs text-muted-foreground">
               Enter comma-separated email addresses to receive reports.
             </p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label htmlFor="privacy-issues">Show Privacy Issues in Report</Label>
+              <p className="text-sm text-muted-foreground">
+                Include privacy audit results in email reports.
+              </p>
+            </div>
+            <Switch
+              id="privacy-issues"
+              checked={!!showPrivacyIssues}
+              onCheckedChange={setShowPrivacyIssues}
+            />
           </div>
         </CardContent>
       </Card>
@@ -212,10 +256,20 @@ export function NotificationSettings() {
         </CardContent>
       </Card>
 
-      <EmailBuilderDialog
-        open={isBuilderOpen}
-        onOpenChange={setIsBuilderOpen}
-      />
+      {settings.error && (
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+          {settings.error}
+        </div>
+      )}
+
+      <div className="flex justify-end">
+        <Button onClick={handleSave} disabled={settings.isSaving}>
+          {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Save Changes
+        </Button>
+      </div>
+
+      <EmailBuilderDialog open={isBuilderOpen} onOpenChange={setIsBuilderOpen} />
     </div>
   )
 }

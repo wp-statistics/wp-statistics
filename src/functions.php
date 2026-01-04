@@ -230,7 +230,8 @@ function wp_statistics_get_user_location($ip = false)
 /**
  * Get count or list of currently online users.
  *
- * Retrieves real-time online user data from the useronline table.
+ * Retrieves real-time online user data using the v15 AnalyticsQuery system.
+ * Online users are determined by sessions with ended_at within the last 5 minutes.
  * Supports filtering by page type, location, browser, and platform.
  *
  * @param array $options {
@@ -245,157 +246,148 @@ function wp_statistics_get_user_location($ip = false)
  * }
  * @return int|array User count or array of online user data.
  *
- * @deprecated 15.0.0 This function uses legacy v14 database structure (useronline table).
- *                    v15 tracks online users via sessions.ended_at in the sessions table.
- *                    Consider using wp_statistics_query() with group_by: ['online_visitor'] instead.
- *
  * @since 1.0.0
+ * @since 15.0.0 Updated to use AnalyticsQuery system with sessions table.
  */
 function wp_statistics_useronline($options = array())
 {
     $defaults = array(
-        /**
-         * Type Of Page in WordPress
-         * @See Frontend\get_page_type
-         *
-         * -- Acceptable values --
-         *
-         * post     -> WordPress Post single page From All of public post Type
-         * page     -> WordPress page single page
-         * product  -> WooCommerce product single page
-         * home     -> Home Page website
-         * category -> WordPress Category Page
-         * post_tag -> WordPress Post Tags Page
-         * tax      -> WordPress Term Page for all Taxonomies
-         * author   -> WordPress Users page
-         * 404      -> 404 Not Found Page
-         * archive  -> WordPress Archive Page
-         * all      -> All Site Page
-         *
-         */
         'type'         => 'all',
-        /**
-         * WordPress Query object ID
-         * @example array('type' => 'product', 'ID' => 5)
-         */
         'ID'           => 0,
-        /**
-         * Get number of logged users or all users
-         *
-         * -- Acceptable values --
-         * false  -> Get Number of all users
-         * true   -> Get Number of all logged users in wordpress
-         */
         'logged_users' => false,
-        /**
-         * Get number User From Custom Country
-         *
-         * -- Acceptable values --
-         * ISO Country Code -> For Get List @See \wp-statistics\includes\functions\country-code.php
-         *
-         */
         'location'     => 'all',
-        /**
-         * Search Filter by User agent name
-         * e.g : Firefox , Chrome , Safari , Unknown ..
-         * @see wp_statistics_get_browser_list()
-         *
-         */
         'agent'        => 'all',
-        /**
-         * Search filter by User Operating System name
-         * e.g : Windows, iPad, Macintosh, Unknown, ..
-         *
-         */
         'platform'     => 'all',
-        /**
-         * Return Of Data
-         *
-         * -- Acceptable values --
-         * count -> Get number of user online
-         * all   -> Get List of User Online data
-         */
         'return'       => 'count'
     );
 
-    // Parse incoming $args into an array and merge it with $defaults
     $arg = wp_parse_args($options, $defaults);
 
     // Online threshold: sessions with ended_at within the last 5 minutes
+    $now            = gmdate('Y-m-d H:i:s');
     $fiveMinutesAgo = gmdate('Y-m-d H:i:s', time() - 300);
 
-    // Use Query builder to construct the query
-    $query = \WP_Statistics\Utils\Query::select(
-        $arg['return'] === 'all'
-            ? [
-                'sessions.ID AS session_id',
-                'sessions.visitor_id',
-                'sessions.ip',
-                'sessions.started_at AS created',
-                'sessions.ended_at AS timestamp',
-                'sessions.user_id',
-                'sessions.total_views AS hits',
-                'visitors.hash',
-                'countries.code AS location',
-                'countries.name AS country_name',
-                'cities.region_name AS region',
-                'cities.city_name AS city',
-                'device_browsers.name AS agent',
-                'device_browser_versions.version AS version',
-                'device_oss.name AS platform',
-                'device_types.name AS device',
-                'referrers.domain AS referred',
-                'referrers.channel AS source_channel',
-                'users.display_name',
-                'users.user_email'
-            ]
-            : ['COUNT(DISTINCT sessions.visitor_id)']
-    )
-        ->from('sessions')
-        ->join('visitors', ['sessions.visitor_id', 'visitors.ID'])
-        ->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT')
-        ->join('cities', ['sessions.city_id', 'cities.ID'], [], 'LEFT')
-        ->join('device_browsers', ['sessions.device_browser_id', 'device_browsers.ID'], [], 'LEFT')
-        ->join('device_browser_versions', ['sessions.device_browser_version_id', 'device_browser_versions.ID'], [], 'LEFT')
-        ->join('device_oss', ['sessions.device_os_id', 'device_oss.ID'], [], 'LEFT')
-        ->join('device_types', ['sessions.device_type_id', 'device_types.ID'], [], 'LEFT')
-        ->join('referrers', ['sessions.referrer_id', 'referrers.ID'], [], 'LEFT')
-        ->join('users', ['sessions.user_id', 'users.ID'], [], 'LEFT')
-        ->where('sessions.ended_at', '>=', $fiveMinutesAgo);
-
-    // Filter by page type/ID (requires joining views table)
-    if ($arg['type'] !== 'all' && !empty($arg['ID'])) {
-        $query->join('views', ['views.session_id', 'sessions.ID'])
-            ->join('resources', ['views.resource_id', 'resources.ID'])
-            ->where('resources.resource_id', '=', $arg['ID']);
-    }
+    // Build filters array for AnalyticsQuery
+    $filters = [];
 
     // Filter by logged-in users
     if ($arg['logged_users'] === true) {
-        $query->where('sessions.user_id', '>', 0);
+        $filters['logged_in'] = ['value' => '1', 'operator' => 'is'];
     }
 
-    // Filter by country
+    // Filter by country code - need to look up country ID
     if ($arg['location'] !== 'all') {
-        $query->where('countries.code', '=', $arg['location']);
+        $countryId = _wp_statistics_get_country_id_by_code($arg['location']);
+        if ($countryId) {
+            $filters['country'] = ['value' => $countryId, 'operator' => 'is'];
+        }
     }
 
-    // Filter by browser (agent)
+    // Filter by browser name - need to look up browser ID
     if ($arg['agent'] !== 'all') {
-        $query->where('device_browsers.name', '=', $arg['agent']);
+        $browserId = _wp_statistics_get_browser_id_by_name($arg['agent']);
+        if ($browserId) {
+            $filters['browser'] = ['value' => $browserId, 'operator' => 'is'];
+        }
     }
 
-    // Filter by platform (OS)
+    // Filter by OS name - need to look up OS ID
     if ($arg['platform'] !== 'all') {
-        $query->where('device_oss.name', '=', $arg['platform']);
+        $osId = _wp_statistics_get_os_id_by_name($arg['platform']);
+        if ($osId) {
+            $filters['os'] = ['value' => $osId, 'operator' => 'is'];
+        }
     }
+
+    // Filter by page ID (resource_id filter)
+    if ($arg['type'] !== 'all' && !empty($arg['ID'])) {
+        $filters['resource_id'] = ['value' => (int) $arg['ID'], 'operator' => 'is'];
+    }
+
+    // Use AnalyticsQuery for consistency with rest of v15 codebase
+    $result = wp_statistics_query([
+        'sources'   => ['visitors'],
+        'group_by'  => ['online_visitor'],
+        'date_from' => $fiveMinutesAgo,
+        'date_to'   => $now,
+        'filters'   => $filters,
+        'format'    => 'table',
+        'cache'     => false,
+    ]);
 
     if ($arg['return'] === 'count') {
-        return (int) ($query->getVar() ?? 0);
+        // Return total count from meta
+        return (int) ($result['meta']['total_rows'] ?? 0);
     }
 
-    // Return list of online users
-    return $query->getAll() ?? [];
+    // Return list of online users - transform to legacy format for backward compatibility
+    $rows = $result['data'] ?? [];
+
+    return array_map(function ($row) {
+        return [
+            'visitor_id'     => $row['visitor_id'] ?? null,
+            'ip'             => $row['ip_address'] ?? null,
+            'created'        => $row['first_visit'] ?? null,
+            'timestamp'      => $row['last_visit'] ?? null,
+            'user_id'        => $row['user_id'] ?? null,
+            'hits'           => $row['total_views'] ?? 0,
+            'hash'           => $row['visitor_hash'] ?? null,
+            'location'       => $row['country_code'] ?? null,
+            'country_name'   => $row['country_name'] ?? null,
+            'region'         => $row['region_name'] ?? null,
+            'city'           => $row['city_name'] ?? null,
+            'agent'          => $row['browser_name'] ?? null,
+            'version'        => $row['browser_version'] ?? null,
+            'platform'       => $row['os_name'] ?? null,
+            'device'         => $row['device_type_name'] ?? null,
+            'referred'       => $row['referrer_domain'] ?? null,
+            'source_channel' => $row['referrer_channel'] ?? null,
+            'display_name'   => $row['user_login'] ?? null,
+            'user_email'     => $row['user_email'] ?? null,
+        ];
+    }, $rows);
+}
+
+/**
+ * Get country ID by ISO country code.
+ *
+ * @internal
+ * @param string $code ISO country code (e.g., 'US', 'GB').
+ * @return int|null Country ID or null if not found.
+ */
+function _wp_statistics_get_country_id_by_code($code)
+{
+    global $wpdb;
+    $table = $wpdb->prefix . 'statistics_countries';
+    return $wpdb->get_var($wpdb->prepare("SELECT ID FROM {$table} WHERE code = %s LIMIT 1", strtoupper($code)));
+}
+
+/**
+ * Get browser ID by name.
+ *
+ * @internal
+ * @param string $name Browser name (e.g., 'Chrome', 'Firefox').
+ * @return int|null Browser ID or null if not found.
+ */
+function _wp_statistics_get_browser_id_by_name($name)
+{
+    global $wpdb;
+    $table = $wpdb->prefix . 'statistics_device_browsers';
+    return $wpdb->get_var($wpdb->prepare("SELECT ID FROM {$table} WHERE name = %s LIMIT 1", $name));
+}
+
+/**
+ * Get OS ID by name.
+ *
+ * @internal
+ * @param string $name OS name (e.g., 'Windows', 'macOS').
+ * @return int|null OS ID or null if not found.
+ */
+function _wp_statistics_get_os_id_by_name($name)
+{
+    global $wpdb;
+    $table = $wpdb->prefix . 'statistics_device_oss';
+    return $wpdb->get_var($wpdb->prepare("SELECT ID FROM {$table} WHERE name = %s LIMIT 1", $name));
 }
 
 /**

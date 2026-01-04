@@ -1,29 +1,76 @@
 import * as React from 'react'
+import { Loader2 } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import { Textarea } from '@/components/ui/textarea'
+import { useSettings, useSetting } from '@/hooks/use-settings'
 
 export function ExclusionSettings() {
+  const settings = useSettings({ tab: 'exclusions' })
+
+  // IP/URL Exclusions
+  const [excludeIp, setExcludeIp] = useSetting(settings, 'exclude_ip', '')
+  const [excludedUrls, setExcludedUrls] = useSetting(settings, 'excluded_urls', '')
+  const [excludedCountries, setExcludedCountries] = useSetting(settings, 'excluded_countries', '')
+  const [includedCountries, setIncludedCountries] = useSetting(settings, 'included_countries', '')
+
+  // Bot Exclusions
+  const [robotlist, setRobotlist] = useSetting(settings, 'robotlist', '')
+  const [robotThreshold, setRobotThreshold] = useSetting(settings, 'robot_threshold', 10)
+  const [recordExclusions, setRecordExclusions] = useSetting(settings, 'record_exclusions', false)
+
+  // Page Exclusions
+  const [excludeLoginpage, setExcludeLoginpage] = useSetting(settings, 'exclude_loginpage', false)
+  const [excludeFeeds, setExcludeFeeds] = useSetting(settings, 'exclude_feeds', false)
+  const [exclude404s, setExclude404s] = useSetting(settings, 'exclude_404s', false)
+
+  // Role Exclusions
+  const [excludeAdmin, setExcludeAdmin] = useSetting(settings, 'exclude_administrator', false)
+  const [excludeEditor, setExcludeEditor] = useSetting(settings, 'exclude_editor', false)
+  const [excludeAuthor, setExcludeAuthor] = useSetting(settings, 'exclude_author', false)
+
+  const handleSave = async () => {
+    const success = await settings.save()
+    if (success) {
+      // Could show a toast notification here
+    }
+  }
+
+  if (settings.isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="h-6 w-6 animate-spin" />
+        <span className="ml-2">Loading settings...</span>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Traffic Exclusions</CardTitle>
+          <CardTitle>Page Exclusions</CardTitle>
           <CardDescription>
-            Configure which traffic should be excluded from your statistics.
+            Exclude specific pages or paths from being tracked.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-bots">Exclude Bots & Crawlers</Label>
+              <Label htmlFor="exclude-loginpage">Exclude Login Page</Label>
               <p className="text-sm text-muted-foreground">
-                Filter out known bots and search engine crawlers.
+                Don't track WordPress login page visits.
               </p>
             </div>
-            <Switch id="exclude-bots" defaultChecked />
+            <Switch
+              id="exclude-loginpage"
+              checked={!!excludeLoginpage}
+              onCheckedChange={setExcludeLoginpage}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -33,17 +80,39 @@ export function ExclusionSettings() {
                 Don't count RSS feed requests in statistics.
               </p>
             </div>
-            <Switch id="exclude-feeds" />
+            <Switch
+              id="exclude-feeds"
+              checked={!!excludeFeeds}
+              onCheckedChange={setExcludeFeeds}
+            />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-self-referral">Exclude Self-Referrals</Label>
+              <Label htmlFor="exclude-404s">Exclude 404 Pages</Label>
               <p className="text-sm text-muted-foreground">
-                Ignore traffic coming from your own domain.
+                Don't track visits to pages that return 404 errors.
               </p>
             </div>
-            <Switch id="exclude-self-referral" />
+            <Switch
+              id="exclude-404s"
+              checked={!!exclude404s}
+              onCheckedChange={setExclude404s}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="exclude-urls">Excluded URLs</Label>
+            <Textarea
+              id="exclude-urls"
+              placeholder="/admin&#10;/wp-json&#10;/api/*"
+              value={excludedUrls as string}
+              onChange={(e) => setExcludedUrls(e.target.value)}
+              rows={4}
+            />
+            <p className="text-xs text-muted-foreground">
+              Enter URL paths to exclude, one per line. Supports wildcards (*).
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -51,19 +120,20 @@ export function ExclusionSettings() {
       <Card>
         <CardHeader>
           <CardTitle>IP Exclusions</CardTitle>
-          <CardDescription>
-            Exclude specific IP addresses from being tracked.
-          </CardDescription>
+          <CardDescription>Exclude specific IP addresses from being tracked.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="exclude-ips">Excluded IP Addresses</Label>
-            <Input
+            <Textarea
               id="exclude-ips"
-              placeholder="192.168.1.1, 10.0.0.0/8"
+              placeholder="192.168.1.1&#10;10.0.0.0/8"
+              value={excludeIp as string}
+              onChange={(e) => setExcludeIp(e.target.value)}
+              rows={4}
             />
             <p className="text-xs text-muted-foreground">
-              Enter IP addresses or CIDR ranges, separated by commas.
+              Enter IP addresses or CIDR ranges, one per line.
             </p>
           </div>
         </CardContent>
@@ -71,21 +141,87 @@ export function ExclusionSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>URL Exclusions</CardTitle>
-          <CardDescription>
-            Exclude specific pages or paths from being tracked.
-          </CardDescription>
+          <CardTitle>Country Filters</CardTitle>
+          <CardDescription>Filter visitors by country.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="exclude-urls">Excluded URLs</Label>
-            <Input
-              id="exclude-urls"
-              placeholder="/admin, /wp-json, /api/*"
+            <Label htmlFor="excluded-countries">Excluded Countries</Label>
+            <Textarea
+              id="excluded-countries"
+              placeholder="US&#10;CN"
+              value={excludedCountries as string}
+              onChange={(e) => setExcludedCountries(e.target.value)}
+              rows={3}
             />
             <p className="text-xs text-muted-foreground">
-              Enter URL paths to exclude. Supports wildcards (*).
+              Enter 2-letter country codes to exclude, one per line.
             </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="included-countries">Included Countries Only</Label>
+            <Textarea
+              id="included-countries"
+              placeholder="US&#10;CA&#10;GB"
+              value={includedCountries as string}
+              onChange={(e) => setIncludedCountries(e.target.value)}
+              rows={3}
+            />
+            <p className="text-xs text-muted-foreground">
+              If specified, only track visitors from these countries.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Bot & Crawler Detection</CardTitle>
+          <CardDescription>Filter out bots and search engine crawlers.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="robotlist">Bot User Agent List</Label>
+            <Textarea
+              id="robotlist"
+              placeholder="Googlebot&#10;Bingbot&#10;YandexBot"
+              value={robotlist as string}
+              onChange={(e) => setRobotlist(e.target.value)}
+              rows={5}
+            />
+            <p className="text-xs text-muted-foreground">
+              Enter bot user agent names to exclude, one per line.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="robot-threshold">Daily Hit Threshold</Label>
+            <Input
+              id="robot-threshold"
+              type="number"
+              min="0"
+              value={robotThreshold as number}
+              onChange={(e) => setRobotThreshold(parseInt(e.target.value) || 0)}
+              className="w-32"
+            />
+            <p className="text-xs text-muted-foreground">
+              Consider visitors with more than this many daily hits as bots (0 to disable).
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label htmlFor="record-exclusions">Record Exclusions</Label>
+              <p className="text-sm text-muted-foreground">
+                Log excluded visitors for debugging purposes.
+              </p>
+            </div>
+            <Switch
+              id="record-exclusions"
+              checked={!!recordExclusions}
+              onCheckedChange={setRecordExclusions}
+            />
           </div>
         </CardContent>
       </Card>
@@ -93,9 +229,7 @@ export function ExclusionSettings() {
       <Card>
         <CardHeader>
           <CardTitle>User Role Exclusions</CardTitle>
-          <CardDescription>
-            Exclude users with specific roles from being tracked.
-          </CardDescription>
+          <CardDescription>Exclude users with specific roles from being tracked.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
@@ -105,30 +239,39 @@ export function ExclusionSettings() {
                 Exclude users with administrator role.
               </p>
             </div>
-            <Switch defaultChecked />
+            <Switch checked={!!excludeAdmin} onCheckedChange={setExcludeAdmin} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Editors</Label>
-              <p className="text-sm text-muted-foreground">
-                Exclude users with editor role.
-              </p>
+              <p className="text-sm text-muted-foreground">Exclude users with editor role.</p>
             </div>
-            <Switch />
+            <Switch checked={!!excludeEditor} onCheckedChange={setExcludeEditor} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Authors</Label>
-              <p className="text-sm text-muted-foreground">
-                Exclude users with author role.
-              </p>
+              <p className="text-sm text-muted-foreground">Exclude users with author role.</p>
             </div>
-            <Switch />
+            <Switch checked={!!excludeAuthor} onCheckedChange={setExcludeAuthor} />
           </div>
         </CardContent>
       </Card>
+
+      {settings.error && (
+        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+          {settings.error}
+        </div>
+      )}
+
+      <div className="flex justify-end">
+        <Button onClick={handleSave} disabled={settings.isSaving}>
+          {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Save Changes
+        </Button>
+      </div>
     </div>
   )
 }

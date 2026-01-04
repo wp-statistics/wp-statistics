@@ -199,8 +199,15 @@ class Request
                     }
                     break;
                 case 'url':
-                    // Validate url
-                    if (!filter_var($paramValue, FILTER_VALIDATE_URL)) {
+                    // Validate url - use wp_parse_url which is more lenient with
+                    // percent-encoded non-ASCII characters in query strings
+                    $parsed = wp_parse_url($paramValue);
+                    if (
+                        empty($parsed) ||
+                        empty($parsed['scheme']) ||
+                        !in_array($parsed['scheme'], ['http', 'https'], true) ||
+                        empty($parsed['host'])
+                    ) {
                         return false;
                     }
                     break;

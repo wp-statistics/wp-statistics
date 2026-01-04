@@ -365,42 +365,84 @@ class SettingsAjaxHandler
     {
         $tabKeys = [
             'general' => [
+                // Tracking Options
+                'visitors_log',
+                'store_ua',
+                'attribution_model',
+                // Tracker Configuration
+                'use_cache_plugin',
+                'bypass_ad_blockers',
+                // Legacy keys for backward compatibility
                 'useronline',
                 'visits',
                 'visitors',
                 'pages',
-                'track_logged_in_users',
-                'monitor_404_page',
-                'exclude_404_query_strings',
             ],
             'privacy' => [
+                // IP Address Handling
                 'anonymize_ips',
                 'hash_ips',
-                'store_ua',
-                'consent_required',
+                'ip_method',
+                // Data Collection
                 'do_not_track',
+                'anonymous_tracking',
+                'consent_level_integration',
+                // Privacy Audit
+                'privacy_audit',
             ],
             'notifications' => [
+                // Email Reports
                 'time_report',
                 'send_report',
                 'email_list',
+                // Email Content
+                'content_report',
+                'email_free_content_header',
+                'email_free_content_footer',
+                'show_privacy_issues_in_report',
+                // Email Template (v15)
                 'email_report_template',
             ],
             'exclusions' => [
+                // IP/URL Exclusions
                 'exclude_ip',
-                'exclude_url',
-                'exclude_user_role',
+                'excluded_urls',
+                'excluded_countries',
+                'included_countries',
+                // Bot Exclusions
+                'robotlist',
+                'robot_threshold',
+                'record_exclusions',
+                // Page Exclusions
+                'exclude_404s',
                 'exclude_feeds',
-                'exclude_bots',
-                'exclude_users',
-                'exclude_self_referral',
+                'exclude_loginpage',
+                // Role Exclusions (dynamic keys)
+                'exclude_administrator',
+                'exclude_editor',
+                'exclude_author',
+                'exclude_contributor',
+                'exclude_subscriber',
+                // Query params
+                'query_params_allow_list',
             ],
             'advanced' => [
+                // GeoIP Settings
+                'geoip_license_type',
+                'geoip_license_key',
+                'geoip_dbip_license_key_option',
+                'geoip_location_detection_method',
+                'schedule_geoip',
+                // Database Settings
+                'schedule_dbmaint_days',
+                'delete_data_on_uninstall',
+                // Other
+                'share_anonymous_data',
+                'auto_pop',
+                'private_country_code',
+                // Legacy keys
                 'bypass_ad_blockers',
                 'use_cache_plugin',
-                'prefix_table_name',
-                'read_capability',
-                'manage_capability',
             ],
         ];
 
