@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Database\Managers;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Database\DatabaseFactory;
 
 /**
@@ -50,16 +50,16 @@ class MigrationHandler
                     foreach ($migration['methods'] as $method) {
                         if (method_exists($instance, $method)) {
                             $instance->$method();
-                            Option::saveOptionGroup('version', $version, 'db');
+                            Option::updateGroup('version', $version, 'db');
                         }
                     }
                 }
             }
 
-            Option::saveOptionGroup('migrated', true, 'db');
+            Option::updateGroup('migrated', true, 'db');
 
         } catch (\Exception $e) {
-            Option::saveOptionGroup('migration_status_detail', [
+            Option::updateGroup('migration_status_detail', [
                 'status'  => 'failed',
                 'message' => $e->getMessage()
             ], 'db');
@@ -73,7 +73,7 @@ class MigrationHandler
      */
     private static function isMigrationComplete()
     {
-        return Option::getOptionGroup('db', 'migrated', false) || Option::getOptionGroup('db', 'check', true);
+        return Option::getGroup('db', 'migrated', false) || Option::getGroup('db', 'check', true);
     }
 
     /**
@@ -83,7 +83,7 @@ class MigrationHandler
      */
     private static function collectSchemaMigrations()
     {
-        $currentVersion  = Option::getOptionGroup('db', 'version', '0.0.0');
+        $currentVersion  = Option::getGroup('db', 'version', '0.0.0');
         $allVersions     = [];
         $versionMappings = [];
 
@@ -103,7 +103,7 @@ class MigrationHandler
         }
 
         if (empty($allVersions)) {
-            Option::saveOptionGroup('migrated', true, 'db');
+            Option::updateGroup('migrated', true, 'db');
         }
 
         usort($allVersions, 'version_compare');

@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Integrations;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
 use WP_Statistics\Service\Integrations\Plugins\RealCookieBanner;
 use WP_Statistics\Service\Integrations\Plugins\AbstractIntegration;
@@ -63,7 +63,7 @@ class IntegrationHelper
      */
     public static function getActiveIntegration()
     {
-        $integration = Option::get('consent_integration');
+        $integration = Option::getValue('consent_integration');
         $integration = self::getIntegration($integration);
 
         return !empty($integration) && $integration->isActive()

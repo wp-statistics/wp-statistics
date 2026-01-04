@@ -4,7 +4,7 @@ namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
@@ -58,7 +58,7 @@ class SourceChannelUpdater extends ExtendedBackgroundProcess
 
     public function is_initiated()
     {
-        return Option::getOptionGroup('jobs', 'update_source_channel_process_initiated', false);
+        return Option::getGroup('jobs', 'update_source_channel_process_initiated', false);
     }
 
     /**

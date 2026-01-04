@@ -7,7 +7,7 @@ use WP_Statistics\Components\Assets;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Meta_Box;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
@@ -30,7 +30,7 @@ class PostsManager
         }
 
         // Add Hits column in edit lists of all post types
-        if (User::Access('read') && !Option::get('disable_column')) {
+        if (User::Access('read') && !Option::getValue('disable_column')) {
             add_action('admin_init', [$this, 'initHitsColumn']);
         }
 

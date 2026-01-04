@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\Posts;
 
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class WordCountService
 {
@@ -11,7 +11,7 @@ class WordCountService
 
     public static function isActive()
     {
-        return Option::get('word_count_analytics', true);
+        return Option::getValue('word_count_analytics', true);
     }
 
     /**

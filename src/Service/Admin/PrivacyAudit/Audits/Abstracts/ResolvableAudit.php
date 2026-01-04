@@ -1,7 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 abstract class ResolvableAudit extends BaseAudit
 {
@@ -30,7 +30,7 @@ abstract class ResolvableAudit extends BaseAudit
     public static function getStatus()
     {
         // Get the independent status of the audit item
-        $status = Option::getOptionGroup('privacy_status', static::$optionKey, 'action_required');
+        $status = Option::getGroup('privacy_status', static::$optionKey, 'action_required');
 
         // If audit related option is passed based on user settings, set status to 'passed'
         if (static::isOptionPassed()) {
@@ -48,7 +48,7 @@ abstract class ResolvableAudit extends BaseAudit
      */
     public static function isOptionEnabled()
     {
-        return Option::get(static::$optionKey) == true;
+        return Option::getValue(static::$optionKey) == true;
     }
 
     /**
@@ -66,7 +66,7 @@ abstract class ResolvableAudit extends BaseAudit
      */
     public static function resolve()
     {
-        Option::saveOptionGroup(static::$optionKey, 'resolved', 'privacy_status');
+        Option::updateGroup(static::$optionKey, 'resolved', 'privacy_status');
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class ResolvableAudit extends BaseAudit
      */
     public static function undo()
     {
-        Option::saveOptionGroup(static::$optionKey, 'action_required', 'privacy_status');
+        Option::updateGroup(static::$optionKey, 'action_required', 'privacy_status');
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Resources\Core\ResourceDetector;
@@ -98,6 +98,6 @@ class UpdateResourceCacheFields extends ExtendedBackgroundProcess
      */
     public function is_initiated()
     {
-        return Option::getOptionGroup('jobs', 'update_resouce_cache_fields_initiated', false);
+        return Option::getGroup('jobs', 'update_resouce_cache_fields_initiated', false);
     }
 }

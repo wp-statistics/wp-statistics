@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\Settings;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Utils\Request;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\User;
 use Exception;
 
@@ -95,7 +95,7 @@ class SettingsAjaxHandler
                     $sanitizedValue = sanitize_text_field($value);
                 }
 
-                Option::update($sanitizedKey, $sanitizedValue);
+                Option::updateValue($sanitizedKey, $sanitizedValue);
             }
 
             wp_send_json_success([
@@ -176,7 +176,7 @@ class SettingsAjaxHandler
                     $sanitizedValue = sanitize_text_field($value);
                 }
 
-                Option::update($sanitizedKey, $sanitizedValue);
+                Option::updateValue($sanitizedKey, $sanitizedValue);
             }
 
             wp_send_json_success([
@@ -286,7 +286,7 @@ class SettingsAjaxHandler
             // Validate and sanitize template structure
             $sanitizedTemplate = $this->sanitizeEmailTemplate($template);
 
-            Option::update('email_report_template', $sanitizedTemplate);
+            Option::updateValue('email_report_template', $sanitizedTemplate);
 
             wp_send_json_success([
                 'message' => __('Email template saved successfully.', 'wp-statistics'),
@@ -349,7 +349,7 @@ class SettingsAjaxHandler
         $settings = [];
 
         foreach ($keys as $key) {
-            $settings[$key] = Option::get($key);
+            $settings[$key] = Option::getValue($key);
         }
 
         return $settings;

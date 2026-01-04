@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Admin\AnonymizedUsageData;
 use WP_Statistics\Service\Admin\SiteHealthInfo;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class AnonymizedUsageDataProvider
 {
@@ -327,9 +327,9 @@ class AnonymizedUsageDataProvider
     {
         return [
             'plugin_database_version_legacy' => get_option('wp_statistics_plugin_version'),
-            'plugin_database_version'        => Option::getOptionGroup('db', 'version', '0.0.0'),
-            'jobs'                           => Option::getOptionGroup('jobs'),
-            'dismissed_notices'              => Option::getOptionGroup('dismissed_notices'),
+            'plugin_database_version'        => Option::getGroup('db', 'version', '0.0.0'),
+            'jobs'                           => Option::getGroup('jobs'),
+            'dismissed_notices'              => Option::getGroup('dismissed_notices'),
         ];
     }
 }

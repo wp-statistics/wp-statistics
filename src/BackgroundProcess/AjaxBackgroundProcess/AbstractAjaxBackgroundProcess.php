@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 
@@ -118,7 +118,7 @@ abstract class AbstractAjaxBackgroundProcess
      */
     public static function getMigration()
     {
-        $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
+        $completedMigrations = Option::getGroup('ajax_background_process', 'jobs', []);
 
         $pendingMigrations = array_diff(array_keys(AjaxBackgroundProcessFactory::$migrations), $completedMigrations);
 
@@ -158,7 +158,7 @@ abstract class AbstractAjaxBackgroundProcess
         }
 
         if ($this->cachedProcessAttempts === null) {
-            $this->cachedProcessAttempts = Option::getOptionGroup('ajax_background_process', 'attempts', []);
+            $this->cachedProcessAttempts = Option::getGroup('ajax_background_process', 'attempts', []);
         }
 
         return isset($this->cachedProcessAttempts[$key]) ? (int) $this->cachedProcessAttempts[$key] : 0;
@@ -176,10 +176,10 @@ abstract class AbstractAjaxBackgroundProcess
      */
     protected function saveAttempts($key, $count)
     {
-        $meta = Option::getOptionGroup('ajax_background_process', 'attempts', []);
+        $meta = Option::getGroup('ajax_background_process', 'attempts', []);
         $meta[$key] = $count;
 
-        Option::saveOptionGroup('attempts', $meta, 'ajax_background_process');
+        Option::updateGroup('attempts', $meta, 'ajax_background_process');
     }
 
     /**
@@ -326,7 +326,7 @@ abstract class AbstractAjaxBackgroundProcess
         }
 
         if ($this->cachedProcessTotals === null) {
-            $this->cachedProcessTotals = Option::getOptionGroup('ajax_background_process', 'totals', []);
+            $this->cachedProcessTotals = Option::getGroup('ajax_background_process', 'totals', []);
         }
 
         if (!empty($this->cachedProcessTotals[$key])) {
@@ -348,11 +348,11 @@ abstract class AbstractAjaxBackgroundProcess
      */
     protected function saveTotal($key, $total)
     {
-        $meta = Option::getOptionGroup('ajax_background_process', 'totals', []);
+        $meta = Option::getGroup('ajax_background_process', 'totals', []);
 
         $meta[$key] = $total;
 
-        Option::saveOptionGroup('totals', $meta, 'ajax_background_process');
+        Option::updateGroup('totals', $meta, 'ajax_background_process');
     }
 
     /**
@@ -363,7 +363,7 @@ abstract class AbstractAjaxBackgroundProcess
      */
     protected function markAsCompleted($migrationClassName)
     {
-        $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
+        $completedMigrations = Option::getGroup('ajax_background_process', 'jobs', []);
 
         $completedMigrationKey = array_search($migrationClassName, AjaxBackgroundProcessFactory::$migrations, true);
 
@@ -373,7 +373,7 @@ abstract class AbstractAjaxBackgroundProcess
 
         $completedMigrations = array_unique($completedMigrations);
 
-        Option::saveOptionGroup('jobs', $completedMigrations, 'ajax_background_process');
+        Option::updateGroup('jobs', $completedMigrations, 'ajax_background_process');
     }
 
     /**
@@ -385,8 +385,8 @@ abstract class AbstractAjaxBackgroundProcess
      */
     protected function markProcessCompleted()
     {
-        Option::saveOptionGroup('status', 'done', 'ajax_background_process');
-        Option::saveOptionGroup('is_done', true, 'ajax_background_process');
+        Option::updateGroup('status', 'done', 'ajax_background_process');
+        Option::updateGroup('is_done', true, 'ajax_background_process');
     }
 
     /**

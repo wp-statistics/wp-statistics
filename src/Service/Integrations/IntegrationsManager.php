@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Integrations;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class IntegrationsManager
 {
@@ -36,7 +36,7 @@ class IntegrationsManager
      */
     public function unsetIntegrationUponDeactivation($oldPlugins, $newPlugins)
     {
-        $activeIntegration = Option::get('consent_integration');
+        $activeIntegration = Option::getValue('consent_integration');
         $activeIntegration = IntegrationHelper::getIntegration($activeIntegration);
 
         if (!$activeIntegration) return;
@@ -45,7 +45,7 @@ class IntegrationsManager
         $isPluginDeactivated = in_array($plugin, $oldPlugins) && !in_array($plugin, $newPlugins);
 
         if ($isPluginDeactivated) {
-            Option::update('consent_integration', '');
+            Option::updateValue('consent_integration', '');
         }
     }
 }

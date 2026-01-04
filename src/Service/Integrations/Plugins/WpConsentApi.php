@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Integrations\Plugins;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class WpConsentApi extends AbstractIntegration
 {
@@ -35,7 +35,7 @@ class WpConsentApi extends AbstractIntegration
 
     public function trackAnonymously()
     {
-        return Option::get('anonymous_tracking', false) != false;
+        return Option::getValue('anonymous_tracking', false) != false;
     }
 
     public function hasConsent()
@@ -44,7 +44,7 @@ class WpConsentApi extends AbstractIntegration
             return true;
         }
 
-        $consentLevel = Option::get('consent_level_integration', 'disabled');
+        $consentLevel = Option::getValue('consent_level_integration', 'disabled');
 
         return ($consentLevel === 'disabled') ? true : wp_has_consent($consentLevel);
     }
@@ -68,7 +68,7 @@ class WpConsentApi extends AbstractIntegration
     {
         return [
             'has_consent'       => $this->hasConsent(),
-            'consent_level'     => Option::get('consent_level_integration', 'disabled'),
+            'consent_level'     => Option::getValue('consent_level_integration', 'disabled'),
             'track_anonymously' => $this->trackAnonymously()
         ];
     }

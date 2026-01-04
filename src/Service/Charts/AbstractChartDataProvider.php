@@ -1,7 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Charts;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 abstract class AbstractChartDataProvider
 {
@@ -23,6 +23,6 @@ abstract class AbstractChartDataProvider
             return true;
         }
 
-        return Option::get('charts_previous_period', 1) ? true : false;
+        return Option::getValue('charts_previous_period', 1) ? true : false;
     }
 }

@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Database\Operations;
 
 use RuntimeException;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 /**
  * Handles data insertion and migration between database tables.
@@ -65,7 +65,7 @@ class Insert extends AbstractTableOperation
                 $this->transactionHandler->executeInTransaction([$this, 'insertData']);
             }
         } catch (\Exception $e) {
-            Option::saveOptionGroup('migration_status_detail', [
+            Option::updateGroup('migration_status_detail', [
                 'status' => 'failed',
                 'message' => $e->getMessage()
             ], 'db');

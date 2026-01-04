@@ -5,7 +5,7 @@ namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\ResourceMigrator;
 use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\Jobs\VisitorColumnsMigrator;
 use WP_Statistics\Service\Installation\InstallManager;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 /**
  * Factory class responsible for managing and coordinating background database migrations.
@@ -56,13 +56,13 @@ class AjaxBackgroundProcessFactory
             return;
         }
 
-        $isDone = Option::getOptionGroup('ajax_background_process', 'is_done', false);
+        $isDone = Option::getGroup('ajax_background_process', 'is_done', false);
 
         if ($isDone) {
             return;
         }
 
-        $completedMigrations = Option::getOptionGroup('ajax_background_process', 'jobs', []);
+        $completedMigrations = Option::getGroup('ajax_background_process', 'jobs', []);
 
         $registeredMigrations = array_keys(self::$migrations);
 
@@ -99,18 +99,18 @@ class AjaxBackgroundProcessFactory
     public static function isDataMigrated($key)
     {
         $isFresh = get_option('wp_statistics_is_fresh', false);
-        $jobs    = Option::getOptionGroup('ajax_background_process', 'jobs', []);
+        $jobs    = Option::getGroup('ajax_background_process', 'jobs', []);
 
         if ($isFresh) {
             if (empty($jobs)) {
                 $jobs = array_keys(self::$migrations);
-                Option::saveOptionGroup('jobs', $jobs, 'ajax_background_process');
+                Option::updateGroup('jobs', $jobs, 'ajax_background_process');
             }
 
             return true;
         }
 
-        $isDone = Option::getOptionGroup('ajax_background_process', 'is_done', false);
+        $isDone = Option::getGroup('ajax_background_process', 'is_done', false);
 
         if ($isDone) {
             return true;
@@ -135,8 +135,8 @@ class AjaxBackgroundProcessFactory
      */
     public static function isDatabaseMigrated()
     {
-        $migrated = Option::getOptionGroup('db', 'migrated', false);
-        $check    = Option::getOptionGroup('db', 'check', true);
+        $migrated = Option::getGroup('db', 'migrated', false);
+        $check    = Option::getGroup('db', 'check', true);
         return $migrated && !$check;
     }
 }

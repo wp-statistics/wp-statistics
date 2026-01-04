@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Geolocation;
 
 use WP_Error;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
@@ -55,7 +55,7 @@ class GeolocationFactory
      */
     public static function getProviderInstance()
     {
-        $locationDetection = Option::get('geoip_location_detection_method', 'maxmind');
+        $locationDetection = Option::getValue('geoip_location_detection_method', 'maxmind');
 
         if (
             'cf' === $locationDetection &&

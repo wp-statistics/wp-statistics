@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Geolocation;
 
 use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Helper;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
 {
@@ -46,7 +46,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      */
     public function getPrivateCountryCode()
     {
-        $privateCountryCode = Option::get('private_country_code');
+        $privateCountryCode = Option::getValue('private_country_code');
 
         if ($privateCountryCode) {
             return trim($privateCountryCode);
@@ -144,7 +144,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      */
     public function getLastDownloadTimestamp()
     {
-        return Option::get('last_geoip_dl');
+        return Option::getValue('last_geoip_dl');
     }
 
     /**
@@ -189,7 +189,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      */
     protected function updateLastDownloadTimestamp()
     {
-        Option::update('last_geoip_dl', time());
+        Option::updateValue('last_geoip_dl', time());
     }
 
     /**
@@ -197,7 +197,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      */
     protected function batchUpdateIncompleteGeoIp()
     {
-        if (Option::get('auto_pop')) {
+        if (Option::getValue('auto_pop')) {
             BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
         }
     }
@@ -209,7 +209,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      */
     protected function sendGeoIpUpdateEmail(string $notice)
     {
-        if (Option::get('geoip_report')) {
+        if (Option::getValue('geoip_report')) {
             Helper::send_mail(
                 Option::getEmailNotification(),
                 __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'),

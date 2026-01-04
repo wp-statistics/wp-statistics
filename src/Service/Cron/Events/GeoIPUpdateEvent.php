@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Cron\CronSchedules;
 
@@ -33,12 +33,12 @@ class GeoIPUpdateEvent extends AbstractCronEvent
     protected function shouldSchedule()
     {
         // Don't schedule if using CloudFlare for geolocation
-        $locationMethod = Option::get('geoip_location_detection_method', 'maxmind');
+        $locationMethod = Option::getValue('geoip_location_detection_method', 'maxmind');
         if ($locationMethod === 'cf') {
             return false;
         }
 
-        return (bool) Option::get('schedule_geoip');
+        return (bool) Option::getValue('schedule_geoip');
     }
 
     /**
@@ -59,7 +59,7 @@ class GeoIPUpdateEvent extends AbstractCronEvent
      */
     public function execute()
     {
-        $locationMethod = Option::get('geoip_location_detection_method', 'maxmind');
+        $locationMethod = Option::getValue('geoip_location_detection_method', 'maxmind');
 
         // Only update if using MaxMind or DB-IP
         if (in_array($locationMethod, ['maxmind', 'dbip'], true)) {

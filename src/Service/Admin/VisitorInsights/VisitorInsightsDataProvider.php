@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\ViewsModel;
@@ -27,7 +27,7 @@ class VisitorInsightsDataProvider
     {
         $this->args = $args;
 
-        $this->isTrackLoggedInUsersEnabled = Option::get('visitors_log') ? true : false;
+        $this->isTrackLoggedInUsersEnabled = Option::getValue('visitors_log') ? true : false;
 
         $this->visitorsModel = new VisitorsModel();
         $this->onlineModel   = new OnlineModel();

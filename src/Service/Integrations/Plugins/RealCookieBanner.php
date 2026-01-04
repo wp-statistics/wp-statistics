@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Integrations\Plugins;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class RealCookieBanner extends AbstractIntegration
 {
@@ -76,8 +76,8 @@ class RealCookieBanner extends AbstractIntegration
 
     public function handleIntegration($integration)
     {
-        $options        = Option::getOptions();
-        $defaultOptions = Option::defaultOption();
+        $options        = Option::get();
+        $defaultOptions = Option::getDefaults();
         $hashIps        = boolval($options['hash_ips'] ?? $defaultOptions['hash_ips']);
         $file           = constant('WP_STATISTICS_MAIN_FILE');
 

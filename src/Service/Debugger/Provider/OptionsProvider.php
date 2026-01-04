@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Debugger\Provider;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Debugger\AbstractDebuggerProvider;
 use WP_STATISTICS\User;
 
@@ -43,7 +43,7 @@ class OptionsProvider extends AbstractDebuggerProvider
     private function setSavedOptions()
     {
         if (empty($this->savedOptions)) {
-            $this->savedOptions = Option::getOptions();
+            $this->savedOptions = Option::get();
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Privacy;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 
@@ -98,7 +98,7 @@ class PrivacyPolicyGenerator
      */
     private function getVisitorLogSection()
     {
-        if (!Option::get('visitors_log')) {
+        if (!Option::getValue('visitors_log')) {
             return '';
         }
 
@@ -121,7 +121,7 @@ class PrivacyPolicyGenerator
     private function getIpAddressSection()
     {
         // Only show if IPs are not anonymized
-        if (Option::get('anonymize_ips') && Option::get('hash_ips')) {
+        if (Option::getValue('anonymize_ips') && Option::getValue('hash_ips')) {
             return '';
         }
 
@@ -143,7 +143,7 @@ class PrivacyPolicyGenerator
      */
     private function getUserAgentSection()
     {
-        if (!Option::get('store_ua')) {
+        if (!Option::getValue('store_ua')) {
             return '';
         }
 

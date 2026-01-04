@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Database;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Database\Migrations\SchemaMigration;
 use WP_Statistics\Service\Database\Operations\AbstractTableOperation;
 use WP_Statistics\Service\Database\Operations\Create;
@@ -106,7 +106,7 @@ class DatabaseFactory
      */
     public static function compareCurrentVersion($requiredVersion, $operation)
     {
-        $version = Option::getOptionGroup('db', 'version', null);
+        $version = Option::getGroup('db', 'version', null);
 
         if (empty($version)) {
             return false;

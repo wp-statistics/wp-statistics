@@ -7,7 +7,7 @@ use PharData;
 use WP_Error;
 use WP_Statistics;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 use WP_Statistics\Utils\Environment;
 
@@ -107,8 +107,8 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
      */
     public function getDownloadUrl()
     {
-        $licenseKey = Option::get('geoip_license_key') && Option::get('geoip_license_type') == 'user-license'
-            ? Option::get('geoip_license_key')
+        $licenseKey = Option::getValue('geoip_license_key') && Option::getValue('geoip_license_type') == 'user-license'
+            ? Option::getValue('geoip_license_key')
             : null;
 
         $defaultUrl = $licenseKey
@@ -188,7 +188,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
              * Check if the server is using MaxMind's GeoIP database.
              * If so, extract the database file from the archive.
              */
-            if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
+            if (Option::getValue('geoip_license_type') === "user-license" && Option::getValue('geoip_license_key')) {
                 if (!class_exists('PharData')) {
                     throw new Exception(__('PharData class not found.', 'wp-statistics'));
                 }

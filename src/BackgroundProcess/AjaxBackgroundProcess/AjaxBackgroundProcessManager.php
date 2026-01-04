@@ -4,7 +4,7 @@ namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
 
@@ -81,7 +81,7 @@ class AjaxBackgroundProcessManager
             return;
         }
 
-        $status = Option::getOptionGroup('ajax_background_process', 'status', null);
+        $status = Option::getGroup('ajax_background_process', 'status', null);
 
         if ($status !== 'done') {
             return;
@@ -99,7 +99,7 @@ class AjaxBackgroundProcessManager
         );
 
         Notice::addFlashNotice($message, 'success', false);
-        Option::saveOptionGroup('status', null, 'ajax_background_process');
+        Option::updateGroup('status', null, 'ajax_background_process');
     }
 
     /**
@@ -116,7 +116,7 @@ class AjaxBackgroundProcessManager
             return;
         }
 
-        $status = Option::getOptionGroup('ajax_background_process', 'status', null);
+        $status = Option::getGroup('ajax_background_process', 'status', null);
 
         if ($status === 'progress') {
             $message = sprintf(
@@ -147,7 +147,7 @@ class AjaxBackgroundProcessManager
             [
                 'action' => self::MIGRATION_ACTION,
                 'nonce'  => wp_create_nonce(self::MIGRATION_NONCE),
-                'status' => Option::getOptionGroup('ajax_background_process', 'status', null),
+                'status' => Option::getGroup('ajax_background_process', 'status', null),
                 'current_page' => rawurlencode($current_page_url)
             ],
             admin_url('admin-post.php')
@@ -196,7 +196,7 @@ class AjaxBackgroundProcessManager
             [
                 'rest_api_nonce' => wp_create_nonce('wp_rest'),
                 'ajax_url'       => admin_url('admin-ajax.php'),
-                'status'         => Option::getOptionGroup('ajax_background_process', 'status', null)
+                'status'         => Option::getGroup('ajax_background_process', 'status', null)
             ]
         );
     }
@@ -218,7 +218,7 @@ class AjaxBackgroundProcessManager
 
         check_admin_referer(self::MIGRATION_NONCE, 'nonce');
 
-        Option::saveOptionGroup('status', 'progress', 'ajax_background_process');
+        Option::updateGroup('status', 'progress', 'ajax_background_process');
 
         $this->handleRedirect();
     }

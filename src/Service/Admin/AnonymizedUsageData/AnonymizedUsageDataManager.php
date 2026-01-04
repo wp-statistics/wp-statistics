@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\AnonymizedUsageData;
 
 use WP_Statistics\Components\Event;
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 
 class AnonymizedUsageDataManager
 {
@@ -15,7 +15,7 @@ class AnonymizedUsageDataManager
      */
     public function __construct()
     {
-        if (Option::get('share_anonymous_data')) {
+        if (Option::getValue('share_anonymous_data')) {
             add_filter('cron_schedules', [$this, 'anonymizedUsageDataCronIntervalsHook']);
             Event::schedule('wp_statistics_anonymized_share_data_hook', time(), 'every_two_months', [$this, 'sendAnonymizedUsageData']);
         } else {

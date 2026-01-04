@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use WP_STATISTICS\Option;
+use WP_Statistics\Globals\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class LicenseMigration
@@ -55,7 +55,7 @@ class LicenseMigration
 
         if ($allLicensesMigrated) {
             // All licenses have been migrated successfully without any errors
-            Option::saveOptionGroup('licenses_migrated', true, 'jobs');
+            Option::updateGroup('licenses_migrated', true, 'jobs');
         }
     }
 
@@ -66,7 +66,7 @@ class LicenseMigration
      */
     public static function hasLicensesAlreadyMigrated()
     {
-        return Option::getOptionGroup('jobs', 'licenses_migrated');
+        return Option::getGroup('jobs', 'licenses_migrated');
     }
 
     /**
