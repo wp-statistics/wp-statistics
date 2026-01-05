@@ -16,14 +16,6 @@ use WP_Statistics\Utils\Route;
  */
 class ReactHandler extends BaseAssets
 {
-    /**
-     * Vite dev server URL
-     *
-     * Can be overridden via WP_STATISTICS_VITE_DEV_SERVER constant in wp-config.php
-     *
-     * @var string
-     */
-    private const VITE_DEV_SERVER_DEFAULT = 'http://localhost:5173';
 
     /**
      * Manifest main JS file path
@@ -49,7 +41,7 @@ class ReactHandler extends BaseAssets
     /**
      * Get Vite dev server URL
      *
-     * Can be customized via WP_STATISTICS_VITE_DEV_SERVER constant.
+     * Must be explicitly configured via WP_STATISTICS_VITE_DEV_SERVER constant.
      *
      * @return string
      */
@@ -58,7 +50,7 @@ class ReactHandler extends BaseAssets
         if (defined('WP_STATISTICS_VITE_DEV_SERVER')) {
             return WP_STATISTICS_VITE_DEV_SERVER;
         }
-        return self::VITE_DEV_SERVER_DEFAULT;
+        return '';
     }
 
     /**
@@ -78,8 +70,12 @@ class ReactHandler extends BaseAssets
     /**
      * Check if Vite dev mode is active
      *
-     * Dev mode is auto-enabled when the Vite dev server is running.
-     * Can be explicitly disabled by setting WP_STATISTICS_VITE_DEV to false.
+     * Dev mode must be explicitly enabled by defining WP_STATISTICS_VITE_DEV_SERVER
+     * constant in wp-config.php. This prevents unnecessary HTTP requests to localhost
+     * in production environments.
+     *
+     * To enable dev mode, add to wp-config.php:
+     * define('WP_STATISTICS_VITE_DEV_SERVER', 'http://localhost:5173');
      *
      * @return bool
      */
@@ -89,25 +85,29 @@ class ReactHandler extends BaseAssets
             return $this->isDevMode;
         }
 
-        // Allow explicit disable via constant
-        if (defined('WP_STATISTICS_VITE_DEV') && !WP_STATISTICS_VITE_DEV) {
+        // Dev mode requires explicit configuration
+        $devServerUrl = $this->getDevServerUrl();
+        if (empty($devServerUrl)) {
             $this->isDevMode = false;
             return false;
         }
 
-        // Auto-detect: Check if Vite dev server is running
-        $this->isDevMode = $this->isViteServerRunning();
+        // Check if Vite dev server is actually running
+        $this->isDevMode = $this->isViteServerRunning($devServerUrl);
         return $this->isDevMode;
     }
 
     /**
      * Check if Vite dev server is running
      *
+     * Only called when WP_STATISTICS_VITE_DEV_SERVER is explicitly defined.
+     *
+     * @param string $devServerUrl The dev server URL to check
      * @return bool
      */
-    private function isViteServerRunning(): bool
+    private function isViteServerRunning(string $devServerUrl): bool
     {
-        $response = wp_remote_get($this->getDevServerUrl() . '/@vite/client', [
+        $response = wp_remote_get($devServerUrl . '/@vite/client', [
             'timeout'   => 1,
             'sslverify' => false,
         ]);
