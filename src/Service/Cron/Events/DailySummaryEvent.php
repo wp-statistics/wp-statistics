@@ -24,11 +24,16 @@ class DailySummaryEvent extends AbstractCronEvent
     protected $recurrence = 'daily';
 
     /**
+     * @var string
+     */
+    protected $description = 'Daily Summary';
+
+    /**
      * Daily summary should always be scheduled.
      *
      * @return bool
      */
-    protected function shouldSchedule()
+    public function shouldSchedule(): bool
     {
         return true;
     }
@@ -40,7 +45,7 @@ class DailySummaryEvent extends AbstractCronEvent
      *
      * @return int Timestamp.
      */
-    protected function getNextScheduleTime()
+    protected function getNextScheduleTime(): int
     {
         $timezone = wp_timezone();
         $datetime = new \DateTimeImmutable('now', $timezone);
@@ -54,7 +59,7 @@ class DailySummaryEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         BackgroundProcessFactory::processDailySummaryTotal();
         BackgroundProcessFactory::processDailySummary();

@@ -24,11 +24,16 @@ class ReferrerSpamEvent extends AbstractCronEvent
     protected $recurrence = 'weekly';
 
     /**
+     * @var string
+     */
+    protected $description = 'Referrer Spam Update';
+
+    /**
      * Check if referrer spam update should be scheduled.
      *
      * @return bool
      */
-    protected function shouldSchedule()
+    public function shouldSchedule(): bool
     {
         return (bool) Option::getValue('schedule_referrerspam');
     }
@@ -38,7 +43,7 @@ class ReferrerSpamEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         // The referrer spam list update is handled by the ReferralsDatabase service
         // This hook allows addons/extensions to hook into the update process

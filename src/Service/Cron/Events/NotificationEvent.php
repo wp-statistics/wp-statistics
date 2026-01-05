@@ -26,11 +26,16 @@ class NotificationEvent extends AbstractCronEvent
     protected $recurrence = 'daily';
 
     /**
+     * @var string
+     */
+    protected $description = 'Daily Tasks';
+
+    /**
      * Notification event should always be scheduled.
      *
      * @return bool
      */
-    protected function shouldSchedule()
+    public function shouldSchedule(): bool
     {
         return true;
     }
@@ -40,7 +45,7 @@ class NotificationEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         if (!Option::getValue('display_notifications')) {
             return;
@@ -55,7 +60,7 @@ class NotificationEvent extends AbstractCronEvent
      *
      * @return void
      */
-    private function fetchNotifications()
+    private function fetchNotifications(): void
     {
         $notificationFetcher = new NotificationFetcher();
         $notificationFetcher->fetchNotification();
@@ -66,7 +71,7 @@ class NotificationEvent extends AbstractCronEvent
      *
      * @return void
      */
-    private function fetchMarketingCampaigns()
+    private function fetchMarketingCampaigns(): void
     {
         $marketingCampaignFetcher = new MarketingCampaignFetcher();
         $marketingCampaignFetcher->fetchMarketingCampaign();

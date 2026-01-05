@@ -84,21 +84,10 @@ class Schedule
             wp_schedule_event(time(), 'monthly', 'wp_statistics_referrals_db_hook');
         }
 
-        
-
-        // Add the report schedule if it doesn't exist and is enabled.
-        if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
-            $timeReports       = Option::get('time_report');
-            $schedulesInterval = self::getSchedules();
-
-            if (isset($schedulesInterval[$timeReports], $schedulesInterval[$timeReports]['next_schedule'])) {
-                $scheduleTime = $schedulesInterval[$timeReports]['next_schedule'];
-                wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook');
-            }
-        }
-
-        // Remove the report schedule if it does exist and is disabled.
-        if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') == '0') {
+        // Note: Email report scheduling is now handled by CronManager/EmailReportEvent.
+        // Legacy 'wp_statistics_report_hook' handling has been removed.
+        // Cleanup any existing legacy hooks.
+        if (wp_next_scheduled('wp_statistics_report_hook')) {
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 
@@ -146,7 +135,10 @@ class Schedule
         add_action( 'wp_statistics_queue_daily_summary', [BackgroundProcessFactory::class, 'processDailySummaryTotal']);
         add_action( 'wp_statistics_queue_daily_summary', [BackgroundProcessFactory::class, 'processDailySummary']);
 
-        add_action('wp_statistics_report_hook', array($this, 'send_report'));
+        // Note: Email reports are now handled by CronManager/EmailReportEvent
+        // using the 'wp_statistics_email_report' hook.
+        // Legacy 'wp_statistics_report_hook' is deprecated and will be removed.
+
         add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
 
         Event::schedule('wp_statistics_check_licenses_status', time(), 'weekly', [$this, 'check_licenses_status']);
@@ -284,8 +276,16 @@ class Schedule
         Purge::purge_data($purge_days);
     }
 
+    /**
+     * Get email subject.
+     *
+     * @deprecated 15.0.0 Use EmailReportManager::getEmailSubject() instead.
+     * @return string
+     */
     public function getEmailSubject()
     {
+        _deprecated_function(__METHOD__, '15.0.0', 'WP_Statistics\Service\EmailReport\EmailReportManager::getEmailSubject()');
+
         $schedule = Option::get('time_report', false);
         $subject  = __('Your WP Statistics Report', 'wp-statistics');
 
@@ -303,10 +303,20 @@ class Schedule
     }
 
     /**
-     * Send WP Statistics Report
+     * Send WP Statistics Report.
+     *
+     * @deprecated 15.0.0 Email reports are now handled by CronManager/EmailReportEvent.
+     * @see \WP_Statistics\Service\Cron\Events\EmailReportEvent
+     * @return void
      */
     public function send_report()
     {
+        _deprecated_function(__METHOD__, '15.0.0', 'WP_Statistics\Service\Cron\Events\EmailReportEvent::execute()');
+
+        // Legacy support: Only run if somehow the old hook is still being called
+        // and the new system hasn't handled it yet.
+        // This provides backward compatibility for any add-ons using the old hook.
+
         // apply Filter ShortCode for email content
         $email_content = Option::get('content_report');
 

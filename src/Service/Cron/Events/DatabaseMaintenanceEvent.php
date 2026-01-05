@@ -25,11 +25,16 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
     protected $recurrence = 'daily';
 
     /**
+     * @var string
+     */
+    protected $description = 'Database Maintenance';
+
+    /**
      * Check if database maintenance should be scheduled.
      *
      * @return bool
      */
-    protected function shouldSchedule()
+    public function shouldSchedule(): bool
     {
         return (bool) OptionManager::get('schedule_dbmaint');
     }
@@ -39,7 +44,7 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         $purgeDays = intval(OptionManager::get('schedule_dbmaint_days', 180));
 

@@ -8,7 +8,10 @@ use WP_Statistics\Components\Option;
 /**
  * Email Report Scheduler
  *
- * Handles scheduling and triggering of automated email reports.
+ * Utility class for email report scheduling information.
+ *
+ * Note: Actual scheduling is now handled by CronManager/EmailReportEvent.
+ * This class provides helper methods for frequency, recipients, and intervals.
  *
  * @package WP_Statistics\Service\EmailReport
  * @since 15.0.0
@@ -18,7 +21,7 @@ class EmailReportScheduler
     /**
      * Cron hook name for email reports
      */
-    private const CRON_HOOK = 'wp_statistics_email_report';
+    public const CRON_HOOK = 'wp_statistics_email_report';
 
     /**
      * Email report manager instance
@@ -35,43 +38,9 @@ class EmailReportScheduler
     public function __construct(EmailReportManager $manager)
     {
         $this->manager = $manager;
-        $this->init();
-    }
 
-    /**
-     * Initialize scheduler
-     *
-     * @return void
-     */
-    private function init(): void
-    {
-        // Register cron event handler
-        add_action(self::CRON_HOOK, [$this, 'sendScheduledReport']);
-
-        // Schedule cron event if email reports are enabled
-        $this->maybeSchedule();
-    }
-
-    /**
-     * Schedule cron event if not already scheduled
-     *
-     * @return void
-     */
-    private function maybeSchedule(): void
-    {
-        if (!$this->isEnabled()) {
-            $this->unschedule();
-            return;
-        }
-
-        if (wp_next_scheduled(self::CRON_HOOK)) {
-            return;
-        }
-
-        $frequency = $this->getFrequency();
-        $interval = $this->getIntervalName($frequency);
-
-        Event::schedule(self::CRON_HOOK, time(), $interval, [$this, 'sendScheduledReport']);
+        // Note: Scheduling is handled by CronManager/EmailReportEvent.
+        // This class no longer registers hooks or schedules events directly.
     }
 
     /**
@@ -90,11 +59,14 @@ class EmailReportScheduler
     /**
      * Reschedule cron event with new frequency
      *
+     * @deprecated 15.0.0 Use CronManager::rescheduleEvent('email_report') instead.
      * @param string $frequency New frequency
      * @return void
      */
     public function reschedule(string $frequency): void
     {
+        _deprecated_function(__METHOD__, '15.0.0', 'CronManager::rescheduleEvent()');
+
         $this->unschedule();
 
         if (!$this->isEnabled()) {
@@ -102,16 +74,19 @@ class EmailReportScheduler
         }
 
         $interval = $this->getIntervalName($frequency);
-        Event::schedule(self::CRON_HOOK, time(), $interval, [$this, 'sendScheduledReport']);
+        Event::schedule(self::CRON_HOOK, time(), $interval);
     }
 
     /**
      * Send scheduled email report
      *
+     * @deprecated 15.0.0 Use EmailReportEvent::execute() instead.
      * @return void
      */
     public function sendScheduledReport(): void
     {
+        _deprecated_function(__METHOD__, '15.0.0', 'EmailReportEvent::execute()');
+
         if (!$this->isEnabled()) {
             return;
         }

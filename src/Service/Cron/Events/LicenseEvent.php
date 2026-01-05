@@ -27,6 +27,11 @@ class LicenseEvent extends AbstractCronEvent
     protected $recurrence = 'daily';
 
     /**
+     * @var string
+     */
+    protected $description = 'License Migration';
+
+    /**
      * Status check hook name.
      *
      * @var string
@@ -38,7 +43,7 @@ class LicenseEvent extends AbstractCronEvent
      *
      * @return bool
      */
-    protected function shouldSchedule()
+    public function shouldSchedule(): bool
     {
         return !LicenseMigration::hasLicensesAlreadyMigrated();
     }
@@ -48,7 +53,7 @@ class LicenseEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function maybeSchedule()
+    public function maybeSchedule(): void
     {
         // Handle migration event
         parent::maybeSchedule();
@@ -62,7 +67,7 @@ class LicenseEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function registerCallback()
+    public function registerCallback(): void
     {
         add_action($this->hook, [$this, 'execute']);
         // Status check is registered via Event::schedule
@@ -73,7 +78,7 @@ class LicenseEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         $apiCommunicator  = new ApiCommunicator();
         $licenseMigration = new LicenseMigration($apiCommunicator);
@@ -85,7 +90,7 @@ class LicenseEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function checkLicensesStatus()
+    public function checkLicensesStatus(): void
     {
         LicenseHelper::checkLicensesStatus();
     }

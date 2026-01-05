@@ -24,11 +24,16 @@ class ReferralsDatabaseEvent extends AbstractCronEvent
     protected $recurrence = 'monthly';
 
     /**
+     * @var string
+     */
+    protected $description = 'Referrals Database';
+
+    /**
      * Referrals database maintenance should always be scheduled.
      *
      * @return bool
      */
-    protected function shouldSchedule()
+    public function shouldSchedule(): bool
     {
         return true;
     }
@@ -38,7 +43,7 @@ class ReferralsDatabaseEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         /**
          * Action for referrals database maintenance.

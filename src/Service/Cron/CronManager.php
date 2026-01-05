@@ -11,11 +11,13 @@ use WP_Statistics\Service\Cron\Events\DailySummaryEvent;
 use WP_Statistics\Service\Cron\Events\LicenseEvent;
 use WP_Statistics\Service\Cron\Events\ReferralsDatabaseEvent;
 use WP_Statistics\Service\Cron\Events\NotificationEvent;
+use WP_Statistics\Service\Cron\Events\EmailReportEvent;
 
 /**
  * Cron Manager for WP Statistics v15.
  *
  * Handles scheduling and management of all cron events.
+ * Implements centralized event management with admin visibility.
  *
  * @since 15.0.0
  */
@@ -24,7 +26,7 @@ class CronManager
     /**
      * Event handlers.
      *
-     * @var array
+     * @var ScheduledEventInterface[]
      */
     private $events = [];
 
@@ -41,6 +43,9 @@ class CronManager
 
         // Schedule events on init
         add_action('init', [$this, 'scheduleEvents']);
+
+        // Listen for settings changes to reschedule events
+        add_action('wp_statistics_settings_updated', [$this, 'onSettingsUpdated']);
     }
 
     /**
@@ -50,8 +55,6 @@ class CronManager
      */
     private function initializeEvents()
     {
-        // Note: Email reports are handled by EmailReportManager/EmailReportScheduler
-        // using the 'wp_statistics_email_report' hook.
         $this->events = [
             'database_maintenance' => new DatabaseMaintenanceEvent(),
             'referrer_spam'        => new ReferrerSpamEvent(),
@@ -60,7 +63,15 @@ class CronManager
             'license'              => new LicenseEvent(),
             'referrals_database'   => new ReferralsDatabaseEvent(),
             'notification'         => new NotificationEvent(),
+            'email_report'         => new EmailReportEvent(),
         ];
+
+        /**
+         * Allow add-ons to register additional scheduled events.
+         *
+         * @param CronManager $manager The cron manager instance.
+         */
+        do_action('wp_statistics_register_cron_events', $this);
     }
 
     /**
@@ -147,5 +158,131 @@ class CronManager
         }
 
         return $events;
+    }
+
+    /**
+     * Register an event handler.
+     *
+     * @param string $key Event key.
+     * @param ScheduledEventInterface $event Event handler.
+     * @return void
+     */
+    public function registerEvent(string $key, ScheduledEventInterface $event): void
+    {
+        $this->events[$key] = $event;
+    }
+
+    /**
+     * Get an event handler by key.
+     *
+     * @param string $key Event key.
+     * @return ScheduledEventInterface|null
+     */
+    public function getEvent(string $key): ?ScheduledEventInterface
+    {
+        return $this->events[$key] ?? null;
+    }
+
+    /**
+     * Get all event handlers.
+     *
+     * @return ScheduledEventInterface[]
+     */
+    public function getEvents(): array
+    {
+        return $this->events;
+    }
+
+    /**
+     * Get detailed information about all events.
+     *
+     * @return array
+     */
+    public function getEventsInfo(): array
+    {
+        $info = [];
+
+        foreach ($this->events as $key => $event) {
+            $info[$key] = $event->getInfo();
+        }
+
+        return $info;
+    }
+
+    /**
+     * Handle settings update - reschedule affected events.
+     *
+     * @param array $updatedSettings Updated settings keys.
+     * @return void
+     */
+    public function onSettingsUpdated(array $updatedSettings = []): void
+    {
+        // Map settings to events that need rescheduling
+        $settingsToEvents = [
+            'time_report'       => 'email_report',
+            'email_list'        => 'email_report',
+            'schedule_dbmaint'  => 'database_maintenance',
+            'schedule_geoip'    => 'geoip_update',
+            'schedule_referrerspam' => 'referrer_spam',
+        ];
+
+        $eventsToReschedule = [];
+
+        foreach ($updatedSettings as $setting) {
+            if (isset($settingsToEvents[$setting])) {
+                $eventsToReschedule[$settingsToEvents[$setting]] = true;
+            }
+        }
+
+        // Reschedule affected events
+        foreach (array_keys($eventsToReschedule) as $eventKey) {
+            if (isset($this->events[$eventKey])) {
+                $this->events[$eventKey]->reschedule();
+            }
+        }
+    }
+
+    /**
+     * Reschedule a specific event.
+     *
+     * @param string $key Event key.
+     * @return bool True if rescheduled, false if event not found.
+     */
+    public function rescheduleEvent(string $key): bool
+    {
+        if (!isset($this->events[$key])) {
+            return false;
+        }
+
+        $this->events[$key]->reschedule();
+        return true;
+    }
+
+    /**
+     * Reschedule all events.
+     *
+     * @return void
+     */
+    public function rescheduleAll(): void
+    {
+        foreach ($this->events as $event) {
+            $event->reschedule();
+        }
+    }
+
+    /**
+     * Get the email report event.
+     *
+     * @return Events\EmailReportEvent|null
+     */
+    public function getEmailReportEvent(): ?Events\EmailReportEvent
+    {
+        $event = $this->getEvent('email_report');
+
+        if ($event instanceof Events\EmailReportEvent) {
+            return $event;
+        }
+
+        return null;
     }
 }

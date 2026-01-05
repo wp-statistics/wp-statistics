@@ -26,11 +26,16 @@ class GeoIPUpdateEvent extends AbstractCronEvent
     protected $recurrence = 'monthly';
 
     /**
+     * @var string
+     */
+    protected $description = 'GeoIP Database Update';
+
+    /**
      * Check if GeoIP update should be scheduled.
      *
      * @return bool
      */
-    protected function shouldSchedule()
+    public function shouldSchedule(): bool
     {
         // Don't schedule if using CloudFlare for geolocation
         $locationMethod = Option::getValue('geoip_location_detection_method', 'maxmind');
@@ -46,7 +51,7 @@ class GeoIPUpdateEvent extends AbstractCronEvent
      *
      * @return int Timestamp for first day of next month at 8:00 AM.
      */
-    protected function getNextScheduleTime()
+    protected function getNextScheduleTime(): int
     {
         $schedules = CronSchedules::getSchedules();
         return $schedules['monthly']['next_schedule'] ?? time();
@@ -57,7 +62,7 @@ class GeoIPUpdateEvent extends AbstractCronEvent
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         $locationMethod = Option::getValue('geoip_location_detection_method', 'maxmind');
 
