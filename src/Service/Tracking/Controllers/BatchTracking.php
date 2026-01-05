@@ -5,9 +5,9 @@ namespace WP_Statistics\Service\Tracking\Controllers;
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Utils\Query;
 use WP_Statistics\Utils\Request;
 use Exception;
 use WP_REST_Server;
@@ -215,9 +215,16 @@ class BatchTracking extends BaseTrackerController
                 $visitorProfile = new VisitorProfile();
                 $visitorHash    = $visitorProfile->getProcessedIPForStorage();
 
-                // Find the visitor's active session
-                $sessionModel = new SessionModel();
-                $session      = $sessionModel->getActiveSessionByHash($visitorHash);
+                // Find the visitor's active session using direct query
+                $thirtyMinutesAgo = DateTime::getUtc('Y-m-d H:i:s', '-30 minutes');
+                $session = Query::select('sessions.*')
+                    ->from('sessions')
+                    ->join('visitors', ['sessions.visitor_id', 'visitors.ID'])
+                    ->where('visitors.hash', '=', $visitorHash)
+                    ->where('sessions.ended_at', '>=', $thirtyMinutesAgo)
+                    ->orderBy('sessions.ID', 'DESC')
+                    ->perPage(1)
+                    ->getRow();
 
                 if ($session && !empty($session->ID)) {
                     $this->updateSessionEngagement((int) $session->ID, $engagementTime);

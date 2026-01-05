@@ -2,11 +2,8 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\Country;
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 
@@ -14,21 +11,31 @@ class CountryChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
+
+    /**
+     * Continent name to code mapping.
+     *
+     * @var array
+     */
+    protected static $continentNameToCode = [
+        'Africa'        => 'AF',
+        'Antarctica'    => 'AN',
+        'Asia'          => 'AS',
+        'Europe'        => 'EU',
+        'North America' => 'NA',
+        'Oceania'       => 'OC',
+        'South America' => 'SA',
+    ];
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->args = array_merge($this->args, [
-            'not_null'  => 'location',
-            'fields'    => ['COUNT(DISTINCT visitor.ID) as visitors', 'visitor.location as country'],
-            'order_by'  => 'visitors',
-            'page'      => 1,
-            'per_page'  => 5
-        ]);
-
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
 
@@ -36,8 +43,26 @@ class CountryChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsGeoData($this->args);
-        $data = $this->parseData($data);
+        $queryParams = [
+            'sources'   => ['visitors'],
+            'group_by'  => ['country'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ];
+
+        // Add continent filter if provided
+        if (!empty($this->args['continent'])) {
+            $continentName = $this->args['continent'];
+            $continentCode = self::$continentNameToCode[$continentName] ?? $continentName;
+            $queryParams['filters'] = [
+                'continent' => $continentCode,
+            ];
+        }
+
+        $result = $this->queryHandler->handle($queryParams);
+        $data   = $this->parseData($result['data']['rows'] ?? []);
 
         $this->setChartLabels($data['labels']);
         $this->setChartData($data['visitors']);
@@ -48,18 +73,51 @@ class CountryChartDataProvider extends AbstractChartDataProvider
 
     protected function parseData($data)
     {
-        $parsedData = [
-            'labels'    => [],
-            'icons'     => [],
-            'visitors'  => []
-        ];
+        $parsedData = [];
 
-        foreach ($data as $item) {
-            $parsedData['labels'][] = Country::getName($item->country);
-            $parsedData['icons'][]  = Country::getFlag($item->country);
-            $parsedData['visitors'][] = intval($item->visitors);
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                $countryCode = $row['country_code'] ?? '';
+                $visitors    = intval($row['visitors'] ?? 0);
+
+                if (!empty($countryCode)) {
+                    $parsedData[] = [
+                        'label'    => Country::getName($countryCode),
+                        'icon'     => Country::getFlag($countryCode),
+                        'visitors' => $visitors
+                    ];
+                }
+            }
+
+            // Sort data by visitors
+            usort($parsedData, function ($a, $b) {
+                return $b['visitors'] - $a['visitors'];
+            });
+
+            if (count($parsedData) > 4) {
+                // Get top 4 results, and others
+                $topData   = array_slice($parsedData, 0, 4);
+                $otherData = array_slice($parsedData, 4);
+
+                // Show the rest of the results as others, and sum up the visitors
+                $otherItem = [
+                    'label'    => esc_html__('Other', 'wp-statistics'),
+                    'icon'     => '',
+                    'visitors' => array_sum(array_column($otherData, 'visitors')),
+                ];
+
+                $parsedData = array_merge($topData, [$otherItem]);
+            }
         }
 
-        return $parsedData;
+        $labels   = wp_list_pluck($parsedData, 'label');
+        $visitors = wp_list_pluck($parsedData, 'visitors');
+        $icons    = wp_list_pluck($parsedData, 'icon');
+
+        return [
+            'labels'   => $labels,
+            'visitors' => $visitors,
+            'icons'    => $icons,
+        ];
     }
 }

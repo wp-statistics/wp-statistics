@@ -2,45 +2,42 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 
 /**
  * This class is used to get summary stats about a post (e.g. visitors, views, referrers, etc.).
+ *
+ * @since 15.0.0 Refactored to use AnalyticsQueryHandler instead of legacy models.
  */
 class PostSummaryDataProvider
 {
     private $postId = 0;
 
-    /**
-     * Arguments to use in the visitors and views models.
-     *
-     * @var array
-     */
-    private $args = [];
-
-    /**
-     * Arguments to use in the visitors and views models when fetching total stats.
-     *
-     * @var array
-     */
-    private $argsTotal = [];
-
     private $fromDate = '';
     private $toDate = '';
 
-    private $visitorsModel;
-    private $viewsModel;
+    /**
+     * Total period date range (from publish date to today).
+     *
+     * @var array Format: ['from' => 'Y-m-d', 'to' => 'Y-m-d']
+     */
+    private $totalDateRange = [];
+
+    /**
+     * Analytics query handler instance.
+     *
+     * @var AnalyticsQueryHandler
+     */
+    private $queryHandler;
 
     /**
      * Initializes the class.
      *
-     * @param   \WP_Post    $post
+     * @param int $postId
      *
-     * @throws  \Exception
+     * @throws \Exception
      */
     public function __construct($postId)
     {
@@ -50,46 +47,24 @@ class PostSummaryDataProvider
 
         $this->postId = $postId;
 
-        $this->setFrom(TimeZone::getTimeAgo(7));
-        $this->setTo(TimeZone::getTimeAgo());
+        $this->setFrom(DateTime::get('-7 days'));
+        $this->setTo(DateTime::get());
 
-        $this->argsTotal = [
-            'resource_id'   => $this->postId,
-            'resource_type' => Helper::getPostTypes(),
-            'date'    => [
-                'from' => $this->getPublishDate(),
-                'to'   => date('Y-m-d'),
-            ],
+        $this->totalDateRange = [
+            'from' => $this->getPublishDate(),
+            'to'   => date('Y-m-d'),
         ];
 
-        $this->visitorsModel = new VisitorsModel();
-        $this->viewsModel    = new ViewsModel();
-    }
-
-    /**
-     * Sets/Resets `$args` array based on the class attributes.
-     *
-     * @return  void
-     */
-    private function setArgs()
-    {
-        $this->args = [
-            'resource_id'   => $this->postId,
-            'resource_type' => Helper::getPostTypes(),
-            'date'    => [
-                'from' => $this->fromDate,
-                'to'   => $this->toDate,
-            ],
-        ];
+        $this->queryHandler = new AnalyticsQueryHandler(false);
     }
 
     /**
      * Sets a new value for the `$fromDate` attribute.
      *
-     * @param   string  $from
-     * @param   bool    $checkPublishDate   Make sure the input date is after (or equal) the post's publish date.
+     * @param string $from
+     * @param bool   $checkPublishDate Make sure the input date is after (or equal) the post's publish date.
      *
-     * @return  void
+     * @return void
      */
     public function setFrom($from, $checkPublishDate = true)
     {
@@ -105,15 +80,14 @@ class PostSummaryDataProvider
         }
 
         $this->fromDate = $from;
-        $this->setArgs();
     }
 
     /**
      * Sets a new value for the `$toDate` attribute.
      *
-     * @param   string  $to
+     * @param string $to
      *
-     * @return  void
+     * @return void
      */
     public function setTo($to)
     {
@@ -122,7 +96,6 @@ class PostSummaryDataProvider
         }
 
         $this->toDate = $to;
-        $this->setArgs();
     }
 
     /**
@@ -206,72 +179,150 @@ class PostSummaryDataProvider
     /**
      * Returns the number of visitors for this post.
      *
-     * @param   bool    $isTotal    Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
+     * @param bool $isTotal Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
      *
-     * @return  int
+     * @return int
      */
     public function getVisitors($isTotal = false)
     {
-        return intval($this->visitorsModel->countVisitors($isTotal ? $this->argsTotal : $this->args));
+        $dateRange = $isTotal ? $this->totalDateRange : ['from' => $this->fromDate, 'to' => $this->toDate];
+
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'date_from' => $dateRange['from'],
+            'date_to'   => $dateRange['to'],
+            'filters'   => [
+                'resource_id' => $this->postId,
+            ],
+            'format'    => 'flat',
+        ]);
+
+        return intval($result['data']['totals']['visitors'] ?? 0);
     }
 
     /**
      * Returns the number of views for this post.
      *
-     * @param   bool    $isTotal    Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
+     * @param bool $isTotal Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
      *
-     * @return  int
+     * @return int
      */
     public function getViews($isTotal = false)
     {
-        $args = $isTotal ? $this->argsTotal : $this->args;
+        $dateRange = $isTotal ? $this->totalDateRange : ['from' => $this->fromDate, 'to' => $this->toDate];
 
-        return intval($this->viewsModel->countViews(array_merge($args, ['post_id' => $this->args['resource_id']])));
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'date_from' => $dateRange['from'],
+            'date_to'   => $dateRange['to'],
+            'filters'   => [
+                'resource_id' => $this->postId,
+            ],
+            'format'    => 'flat',
+        ]);
+
+        return intval($result['data']['totals']['views'] ?? 0);
     }
 
     /**
      * Returns daily views for this post for the past x days.
      *
-     * @return  array   Format: `[['views' => {COUNT}, 'date' => '{DATE}'], ['views' => {COUNT}, 'date' => '{DATE}'], ...]`.
+     * @return array Format: `[['views' => {COUNT}, 'date' => '{DATE}'], ['views' => {COUNT}, 'date' => '{DATE}'], ...]`.
      */
     public function getDailyViews()
     {
-        return $this->viewsModel->countDailyViews($this->args);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'group_by'  => ['date'],
+            'date_from' => $this->fromDate,
+            'date_to'   => $this->toDate,
+            'filters'   => [
+                'resource_id' => $this->postId,
+            ],
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $dailyViews = [];
+        if (!empty($result['data']['rows'])) {
+            foreach ($result['data']['rows'] as $row) {
+                $dailyViews[] = [
+                    'views' => intval($row['views'] ?? 0),
+                    'date'  => $row['date'] ?? '',
+                ];
+            }
+        }
+
+        return $dailyViews;
     }
 
     /**
      * Returns daily visitors for this post for the past x days.
      *
-     * @return  array   Format: `[['date' => '{DATE}', 'visitors' => {COUNT}], ['date' => '{DATE}', 'visitors' => {COUNT}], ...]`.
+     * @return array Format: `[['date' => '{DATE}', 'visitors' => {COUNT}], ['date' => '{DATE}', 'visitors' => {COUNT}], ...]`.
      */
     public function getDailyVisitors()
     {
-        return $this->visitorsModel->countDailyVisitors($this->args);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['date'],
+            'date_from' => $this->fromDate,
+            'date_to'   => $this->toDate,
+            'filters'   => [
+                'resource_id' => $this->postId,
+            ],
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $dailyVisitors = [];
+        if (!empty($result['data']['rows'])) {
+            foreach ($result['data']['rows'] as $row) {
+                $dailyVisitors[] = [
+                    'date'     => $row['date'] ?? '',
+                    'visitors' => intval($row['visitors'] ?? 0),
+                ];
+            }
+        }
+
+        return $dailyVisitors;
     }
 
     /**
      * Returns the top referrer website and its hit count for this post.
      *
-     * @param   bool    $isTotal    Should return the top referrer of all time? Or use `$fromDate` and `$toDate` as date range?
+     * @param bool $isTotal Should return the top referrer of all time? Or use `$fromDate` and `$toDate` as date range?
      *
-     * @return  array               Format: `['url' => '{URL}', 'count' => {COUNT}]`.
+     * @return array Format: `['url' => '{URL}', 'count' => {COUNT}]`.
      */
     public function getTopReferrerAndCount($isTotal = false)
     {
-        $args = $isTotal ? $this->argsTotal : $this->args;
+        $dateRange = $isTotal ? $this->totalDateRange : ['from' => $this->fromDate, 'to' => $this->toDate];
 
-        $topReferrer = $this->visitorsModel->getReferrers(array_merge($args, ['post_id' => $this->args['resource_id']]));
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['referrer'],
+            'date_from' => $dateRange['from'],
+            'date_to'   => $dateRange['to'],
+            'filters'   => [
+                'resource_id' => $this->postId,
+            ],
+            'format'    => 'table',
+            'per_page'  => 1,
+        ]);
 
-        if (empty($topReferrer) && empty($topReferrer[0]->referred)) {
+        if (empty($result['data']['rows']) || empty($result['data']['rows'][0]['referrer'])) {
             return [
                 'url'   => '',
                 'count' => 0,
             ];
         }
 
+        $topReferrer = $result['data']['rows'][0];
+
         return [
-            'url'   => esc_url($topReferrer[0]->referred),
-            'count' => intval($topReferrer[0]->visitors),
+            'url'   => esc_url($topReferrer['referrer']),
+            'count' => intval($topReferrer['visitors'] ?? 0),
         ];
     }
 

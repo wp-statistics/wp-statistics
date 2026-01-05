@@ -3,9 +3,6 @@
 namespace WP_Statistics\Service\Admin\WebsitePerformance;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\AuthorsModel;
-use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
@@ -61,21 +58,6 @@ class WebsitePerformanceDataProvider
      * @var AnalyticsQueryHandler
      */
     private $queryHandler;
-
-    /**
-     * @var PostsModel
-     */
-    private $postsModel;
-
-    /**
-     * @var AuthorsModel
-     */
-    private $authorsModel;
-
-    /**
-     * @var TaxonomyModel
-     */
-    private $taxonomiesModel;
 
     /**
      * @param string $fromDate Start date of the report in `Y-m-d` format.
@@ -495,11 +477,45 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (empty($this->postsModel)) {
-            $this->postsModel = new PostsModel();
+        $period = $isCurrentPeriod ? $this->getCurrentPeriod() : $this->getPreviousPeriod();
+
+        return $this->countPublishedPosts($period);
+    }
+
+    /**
+     * Count published posts in a date range.
+     *
+     * @param array $dateRange Date range with 'from' and 'to' keys.
+     * @return int
+     */
+    private function countPublishedPosts($dateRange)
+    {
+        global $wpdb;
+
+        $postTypes = get_post_types(['public' => true]);
+        unset($postTypes['attachment']);
+
+        if (empty($postTypes)) {
+            return 0;
         }
 
-        return $this->postsModel->countPosts($isCurrentPeriod ? $this->argsCurrentPeriod : $this->argsPreviousPeriod);
+        $placeholders = implode(',', array_fill(0, count($postTypes), '%s'));
+        $params       = array_merge(
+            array_values($postTypes),
+            [$dateRange['from'] . ' 00:00:00', $dateRange['to'] . ' 23:59:59']
+        );
+
+        $count = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT COUNT(*) FROM {$wpdb->posts}
+                 WHERE post_type IN ({$placeholders})
+                 AND post_status = 'publish'
+                 AND post_date BETWEEN %s AND %s",
+                $params
+            )
+        );
+
+        return intval($count);
     }
 
     /**
@@ -604,7 +620,7 @@ class WebsitePerformanceDataProvider
 
 
     /**
-     * Returns the name of the author with the most published posts in current period.
+     * Returns the name of the author whose content had the most views in current period.
      *
      * @return string
      */
@@ -614,12 +630,22 @@ class WebsitePerformanceDataProvider
             return $this->getCache('topAuthor');
         }
 
-        if (empty($this->authorsModel)) {
-            $this->authorsModel = new AuthorsModel();
+        $period = $this->getCurrentPeriod();
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'group_by'  => ['author'],
+            'date_from' => $period['from'],
+            'date_to'   => $period['to'],
+            'format'    => 'table',
+            'per_page'  => 1,
+        ]);
+
+        $authorName = '';
+        if (!empty($result['data']['rows'][0]['author_name'])) {
+            $authorName = $result['data']['rows'][0]['author_name'];
         }
 
-        $topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
-        $this->setCache('topAuthor', !empty($topAuthor) ? $topAuthor[0]->name : '');
+        $this->setCache('topAuthor', $authorName);
 
         return $this->getCache('topAuthor');
     }
@@ -698,17 +724,23 @@ class WebsitePerformanceDataProvider
             return $this->getCache('topCategory');
         }
 
-        if (empty($this->taxonomiesModel)) {
-            $this->taxonomiesModel = new TaxonomyModel();
+        $period = $this->getCurrentPeriod();
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'group_by'  => ['taxonomy'],
+            'filters'   => ['taxonomy_type' => ['is' => 'category']],
+            'date_from' => $period['from'],
+            'date_to'   => $period['to'],
+            'format'    => 'table',
+            'per_page'  => 1,
+        ]);
+
+        $categoryName = '';
+        if (!empty($result['data']['rows'][0]['term_name'])) {
+            $categoryName = $result['data']['rows'][0]['term_name'];
         }
 
-        $topCategory = $this->taxonomiesModel->getTermsData([
-            'date'     => $this->getCurrentPeriod(),
-            'order_by' => 'views',
-            'order'    => 'DESC',
-            'taxonomy' => array_keys(Helper::get_list_taxonomy()),
-        ]);
-        $this->setCache('topCategory', (!empty($topCategory) && is_array($topCategory) && !empty($topCategory[0]->term_name)) ? $topCategory[0]->term_name : '');
+        $this->setCache('topCategory', $categoryName);
 
         return $this->getCache('topCategory');
     }

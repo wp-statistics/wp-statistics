@@ -7,13 +7,11 @@ use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Traits\ObjectCacheTrait;
-use WP_Statistics\Utils\Request;
 
 /**
  * This class will add, render, modify sort and modify order by hits column in posts and taxonomies list pages.
@@ -28,6 +26,13 @@ class HitColumnHandler
      * @var MiniChartHelper
      */
     private $miniChartHelper;
+
+    /**
+     * Analytics query handler for v15 API.
+     *
+     * @var AnalyticsQueryHandler
+     */
+    private $queryHandler;
 
     private $initialPostDate;
 
@@ -54,6 +59,7 @@ class HitColumnHandler
         $this->initialPostDate = Helper::getInitialPostDate();
 
         $this->miniChartHelper = new MiniChartHelper();
+        $this->queryHandler    = new AnalyticsQueryHandler();
     }
 
     /**
@@ -287,41 +293,45 @@ class HitColumnHandler
             return null;
         }
 
-        $hitArgs = [
-            'resource_type' => $this->getCache('postType'),
-            'ignore_date'   => true
+        $countDisplay = $this->miniChartHelper->getCountDisplay();
+        $isVisitors   = $this->miniChartHelper->getChartMetric() === 'visitors';
+
+        // Build the query request
+        $queryRequest = [
+            'sources' => [$isVisitors ? 'visitors' : 'views'],
+            'filters' => [
+                'resource_id' => $objectId,
+                'post_type'   => $this->getCache('postType'),
+            ],
+            'format'  => 'flat',
         ];
 
-        // Change `resource_type` parameter if it's a term
-        if (!empty($term)) {
-            $hitArgs['resource_type'] = $this->getCache('postType');
-        }
-
-        if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
-            $hitArgs['date'] = [
+        // Add date range if configured
+        if ($countDisplay === 'date_range') {
+            $dateRange = [
                 'from' => TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))),
                 'to'   => date('Y-m-d'),
             ];
+
+            $queryRequest['date_from'] = $dateRange['from'];
+            $queryRequest['date_to']   = $dateRange['to'];
+
+            // Cache hitArgs for use in getHitColumnContent
+            $this->setCache('hitArgs', ['date' => $dateRange]);
+        } else {
+            // For total count, we don't limit by date
+            $queryRequest['date_from'] = $this->initialPostDate;
+            $queryRequest['date_to']   = date('Y-m-d');
+
+            $this->setCache('hitArgs', []);
         }
 
-        // Cache hitArgs
-        $this->setCache('hitArgs', $hitArgs);
-
-        $hitCount = 0;
-        if ($this->miniChartHelper->getChartMetric() === 'visitors') {
-            $visitorsModel = new VisitorsModel();
-            $hitCount      = $visitorsModel->countVisitors(array_merge($hitArgs, ['resource_id' => $objectId]));
-        } else {
-            $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId]));
-
-            // Consider historical if `count_display` is equal to 'total'
-            if ($this->miniChartHelper->getCountDisplay() === 'total') {
-                $uri = empty($term) ? get_permalink($objectId) : get_term_link(intval($term->term_id), $term->taxonomy);
-                $uri = !is_wp_error($uri) ? wp_make_link_relative($uri) : '';
-
-                $hitCount = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId, 'uri' => $uri, 'historical' => true]));
-            }
+        try {
+            $result   = $this->queryHandler->handle($queryRequest);
+            $source   = $isVisitors ? 'visitors' : 'views';
+            $hitCount = $result['data'][$source] ?? 0;
+        } catch (\Exception $e) {
+            $hitCount = 0;
         }
 
         return $hitCount;

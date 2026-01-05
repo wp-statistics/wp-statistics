@@ -3,8 +3,8 @@
 namespace WP_Statistics\Service\Blocks;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Components\DateRange;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 
 /**
  * Statistics Block for WP Statistics v15.
@@ -251,19 +251,16 @@ class StatisticsBlock
                 return wp_statistics_useronline();
 
             case 'visits':
-                $model = new VisitorsModel();
-                return $model->countHits(['date' => self::parseTime($time)]);
+                return self::getViewsCount($time);
 
             case 'visitors':
-                return wp_statistics_visitor($time, null, true);
+                return self::getVisitorsCount($time);
 
             case 'pagevisits':
-                $model = new ViewsModel();
-                return $model->countViews(['date' => self::parseTime($time)]);
+                return self::getViewsCount($time);
 
             case 'pagevisitors':
-                $model = new VisitorsModel();
-                return $model->countVisitors(['date' => self::parseTime($time)]);
+                return self::getVisitorsCount($time);
 
             case 'searches':
                 return wp_statistics_searchengine('all', $time);
@@ -292,23 +289,67 @@ class StatisticsBlock
     }
 
     /**
-     * Parse time parameter to date format.
+     * Get views count using AnalyticsQueryHandler.
      *
-     * @param string $time Time parameter.
-     * @return string|array Date value.
+     * @param string $time Time period.
+     * @return int Views count.
      */
-    private static function parseTime($time)
+    private static function getViewsCount($time)
     {
-        $map = [
+        $dateRange    = self::getDateRange($time);
+        $queryHandler = new AnalyticsQueryHandler();
+
+        $result = $queryHandler->handle([
+            'sources'   => ['views'],
+            'date_from' => $dateRange['from'],
+            'date_to'   => $dateRange['to'],
+            'format'    => 'flat',
+        ]);
+
+        return $result['data']['views'] ?? 0;
+    }
+
+    /**
+     * Get visitors count using AnalyticsQueryHandler.
+     *
+     * @param string $time Time period.
+     * @return int Visitors count.
+     */
+    private static function getVisitorsCount($time)
+    {
+        $dateRange    = self::getDateRange($time);
+        $queryHandler = new AnalyticsQueryHandler();
+
+        $result = $queryHandler->handle([
+            'sources'   => ['visitors'],
+            'date_from' => $dateRange['from'],
+            'date_to'   => $dateRange['to'],
+            'format'    => 'flat',
+        ]);
+
+        return $result['data']['visitors'] ?? 0;
+    }
+
+    /**
+     * Get date range from time parameter.
+     *
+     * @param string $time Time parameter (today, yesterday, week, month, year, total).
+     * @return array Date range with 'from' and 'to' keys.
+     */
+    private static function getDateRange($time)
+    {
+        $periodMap = [
             'today'     => 'today',
             'yesterday' => 'yesterday',
             'week'      => '7days',
             'month'     => '30days',
             'year'      => '12months',
-            'total'     => '',
+            'total'     => 'total',
         ];
 
-        return $map[$time] ?? $time;
+        $period = $periodMap[$time] ?? '30days';
+
+        return DateRange::get($period);
     }
 
     /**

@@ -287,4 +287,15 @@ class FilterBuilder
     {
         return FilterRegistry::getInstance()->requiresViewsTable(array_keys($filters));
     }
+
+    /**
+     * Check if any filter requires the events table.
+     *
+     * @param array $filters Filter key-value pairs.
+     * @return bool True if events table is required.
+     */
+    public static function requiresEventsTable(array $filters): bool
+    {
+        return FilterRegistry::getInstance()->requiresEventsTable(array_keys($filters));
+    }
 }

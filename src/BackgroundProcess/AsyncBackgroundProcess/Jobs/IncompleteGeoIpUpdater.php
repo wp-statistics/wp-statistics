@@ -3,11 +3,11 @@
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Utils\Query;
 
 class IncompleteGeoIpUpdater extends ExtendedBackgroundProcess
 {
@@ -35,26 +35,30 @@ class IncompleteGeoIpUpdater extends ExtendedBackgroundProcess
      */
     protected function task($item)
     {
-        $visitors     = $item['visitors'];
-        $visitorModel = new VisitorsModel();
+        $visitors = $item['visitors'];
 
         foreach ($visitors as $visitorId) {
-            /** @var VisitorDecorator $visitor */
-            $visitor    = $visitorModel->getVisitorData([
-                'visitor_id' => $visitorId,
-                'user_info'  => false,
-                'page_info'  => false,
-                'fields'     => ['visitor.ip']
-            ]);
+            $visitor = Query::select(['visitor.ip'])
+                ->from('visitor')
+                ->where('visitor.ID', '=', $visitorId)
+                ->getRow();
 
-            $location = GeolocationFactory::getLocation($visitor->getIP());
+            if (empty($visitor) || empty($visitor->ip)) {
+                continue;
+            }
 
-            $visitorModel->updateVisitor($visitorId, [
-                'location'  => $location['country_code'],
-                'city'      => $location['city'],
-                'region'    => $location['region'],
-                'continent' => $location['continent'],
-            ]);
+            $ip       = Ip::isHashed($visitor->ip) ? '' : $visitor->ip;
+            $location = GeolocationFactory::getLocation($ip);
+
+            Query::update('visitor')
+                ->set([
+                    'location'  => $location['country_code'],
+                    'city'      => $location['city'],
+                    'region'    => $location['region'],
+                    'continent' => $location['continent'],
+                ])
+                ->where('ID', '=', $visitorId)
+                ->execute();
         }
 
         return false;

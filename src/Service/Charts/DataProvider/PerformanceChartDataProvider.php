@@ -5,8 +5,7 @@ namespace WP_Statistics\Service\Charts\DataProvider;
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
@@ -15,17 +14,22 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 {
     use LineChartResponseTrait;
 
-    protected $visitorsModel;
-    protected $viewsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
+
+    /**
+     * @var PostsModel
+     */
     protected $postsModel;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->visitorsModel    = new VisitorsModel();
-        $this->viewsModel       = new ViewsModel();
-        $this->postsModel       = new PostsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
+        $this->postsModel   = new PostsModel();
     }
 
     public function getData()
@@ -45,19 +49,27 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 
     protected function setThisPeriodData()
     {
-        $currentPeriod  = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $currentDates   = array_keys(TimeZone::getListDays($currentPeriod));
+        $currentPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
+        $currentDates  = array_keys(TimeZone::getListDays($currentPeriod));
 
-        $visitors   = $this->visitorsModel->countDailyVisitors($this->args);
-        $views      = $this->viewsModel->countDailyViews($this->args);
-        $posts      = empty($this->args['post_id']) && empty($this->args['hide_post']) ? $this->postsModel->countDailyPosts($this->args) : []; // On single post view, no need to count posts
-
-        $parsedData = $this->parseData($currentDates, [
-            'visitors'  => $visitors,
-            'views'     => $views,
-            'posts'     => $posts
+        // Query visitors and views using AnalyticsQueryHandler
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors', 'views'],
+            'group_by'  => ['date'],
+            'date_from' => $currentPeriod['from'] ?? null,
+            'date_to'   => $currentPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
         ]);
 
+        $analyticsData = $result['data']['rows'] ?? [];
+
+        // Get posts data separately (not part of analytics query system)
+        $posts = empty($this->args['post_id']) && empty($this->args['hide_post'])
+            ? $this->postsModel->countDailyPosts($this->args)
+            : [];
+
+        $parsedData = $this->parseData($currentDates, $analyticsData, $posts);
 
         $this->setChartLabels($parsedData['labels']);
 
@@ -88,18 +100,23 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 
     protected function setPrevPeriodData()
     {
-        $currentPeriod  = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $prevPeriod     = DateRange::getPrevPeriod($currentPeriod);
-        $pervDates      = array_keys(TimeZone::getListDays($prevPeriod));
+        $currentPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
+        $prevPeriod    = DateRange::getPrevPeriod($currentPeriod);
+        $prevDates     = array_keys(TimeZone::getListDays($prevPeriod));
 
-        $visitors   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['date' => $prevPeriod]));
-        $views      = $this->viewsModel->countDailyViews(array_merge($this->args, ['date' => $prevPeriod]));
-
-        $parsedData = $this->parseData($pervDates, [
-            'visitors'  => $visitors,
-            'views'     => $views,
-            'posts'     => []
+        // Query visitors and views for previous period using AnalyticsQueryHandler
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors', 'views'],
+            'group_by'  => ['date'],
+            'date_from' => $prevPeriod['from'] ?? null,
+            'date_to'   => $prevPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
         ]);
+
+        $analyticsData = $result['data']['rows'] ?? [];
+
+        $parsedData = $this->parseData($prevDates, $analyticsData, []);
 
         $this->setChartPreviousLabels($parsedData['labels']);
 
@@ -116,22 +133,40 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         );
     }
 
-    protected function parseData($dates, $data)
+    /**
+     * Parse analytics data and posts data into chart format.
+     *
+     * @param array $dates         Array of dates to include.
+     * @param array $analyticsData Analytics data from AnalyticsQueryHandler (rows with date, visitors, views).
+     * @param array $postsData     Posts data from PostsModel.
+     * @return array Parsed data with labels, visitors, views, and posts arrays.
+     */
+    protected function parseData($dates, $analyticsData, $postsData)
     {
-        $visitors   = wp_list_pluck($data['visitors'], 'visitors', 'date');
-        $views      = wp_list_pluck($data['views'], 'views', 'date');
-        $posts      = wp_list_pluck($data['posts'], 'posts', 'date');
+        // Index analytics data by date for quick lookup
+        $visitorsMap = [];
+        $viewsMap    = [];
+        foreach ($analyticsData as $row) {
+            $date = $row['date'] ?? '';
+            if (!empty($date)) {
+                $visitorsMap[$date] = intval($row['visitors'] ?? 0);
+                $viewsMap[$date]    = intval($row['views'] ?? 0);
+            }
+        }
+
+        // Index posts data by date
+        $postsMap = wp_list_pluck($postsData, 'posts', 'date');
 
         $parsedData = [];
         foreach ($dates as $date) {
-            $parsedData['labels'][]     = [
-                'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                'date'              => date_i18n('Y-m-d', strtotime($date)),
-                'day'               => date_i18n('D', strtotime($date))
+            $parsedData['labels'][] = [
+                'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                'date'           => date_i18n('Y-m-d', strtotime($date)),
+                'day'            => date_i18n('D', strtotime($date))
             ];
-            $parsedData['visitors'][]   = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
-            $parsedData['views'][]      = isset($views[$date]) ? intval($views[$date]) : 0;
-            $parsedData['posts'][]      = isset($posts[$date]) ? intval($posts[$date]) : 0;
+            $parsedData['visitors'][] = isset($visitorsMap[$date]) ? $visitorsMap[$date] : 0;
+            $parsedData['views'][]    = isset($viewsMap[$date]) ? $viewsMap[$date] : 0;
+            $parsedData['posts'][]    = isset($postsMap[$date]) ? intval($postsMap[$date]) : 0;
         }
 
         return $parsedData;

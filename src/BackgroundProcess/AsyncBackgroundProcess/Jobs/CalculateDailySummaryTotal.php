@@ -3,9 +3,10 @@
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Utils\Query;
 
 class CalculateDailySummaryTotal extends ExtendedBackgroundProcess
 {
@@ -37,10 +38,8 @@ class CalculateDailySummaryTotal extends ExtendedBackgroundProcess
             return false;
         }
 
-        $sessionModel = new SessionModel();
+        $row = $this->getDailySummaryTotal();
 
-        $row = $sessionModel->getDailySummaryTotal();
-        
         if (empty($row) || empty($row->date)) {
             return false;
         }
@@ -63,6 +62,56 @@ class CalculateDailySummaryTotal extends ExtendedBackgroundProcess
         ]);
 
         return false;
+    }
+
+    /**
+     * Site-wide daily totals (visitors, sessions, views, duration, bounces).
+     *
+     * Aggregates metrics across all resources for a single calendar day.
+     * A *bounce* is defined here as a session with **at most one** view
+     * (i.e., zero or one rows in `views` for that session).
+     *
+     * @return object|null Aggregated totals for the day, or `null` if none.
+     */
+    private function getDailySummaryTotal()
+    {
+        $dateRange = DateTime::getUtcRangeForLocalDate('yesterday');
+        $startUtc  = $dateRange['startUtc'];
+        $endUtc    = $dateRange['endUtc'];
+        $labelDate = $dateRange['labelDate'];
+
+        $oneResSub = Query::select([
+            'session_id',
+            'COUNT(*) AS view_count',
+        ])
+            ->from('views')
+            ->groupBy(['session_id'])
+            ->getQuery();
+
+        $bounceSessionsSub = Query::select([
+            'sessions.ID AS session_id',
+        ])
+            ->from('sessions')
+            ->joinQuery($oneResSub, ['one.session_id', 'sessions.ID'], 'one', 'LEFT')
+            ->whereRaw('COALESCE(one.view_count, 0) <= 1')
+            ->getQuery();
+
+        $query = Query::select([
+            "'{$labelDate}' AS date",
+            'COUNT(DISTINCT visitors.hash) AS visitors',
+            'COUNT(DISTINCT sessions.ID) AS sessions',
+            'COUNT(views.ID) AS views',
+            'SUM(sessions.duration) AS total_duration',
+            'COUNT(DISTINCT b.session_id) AS bounces',
+        ])
+            ->from('sessions')
+            ->join('visitors', ['visitors.ID', 'sessions.visitor_id'])
+            ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
+            ->joinQuery($bounceSessionsSub, ['b.session_id', 'sessions.ID'], 'b', 'LEFT')
+            ->where('sessions.started_at', '>=', $startUtc)
+            ->where('sessions.started_at', '<', $endUtc);
+
+        return $query->getRow();
     }
 
     /**

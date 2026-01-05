@@ -3,11 +3,11 @@
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
-use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
+use WP_Statistics\Utils\Query;
 
 class SourceChannelUpdater extends ExtendedBackgroundProcess
 {
@@ -29,28 +29,35 @@ class SourceChannelUpdater extends ExtendedBackgroundProcess
      */
     protected function task($item)
     {
-        $visitors     = $item['visitors'];
-        $visitorModel = new VisitorsModel();
+        $visitors = $item['visitors'];
 
         foreach ($visitors as $visitorId) {
-            $visitor = $visitorModel->getVisitorData([
-                'visitor_id' => $visitorId,
-                'user_info'  => false,
-                'page_info'  => true,
-                'decorate'   => false,
-                'fields'     => ['visitor.referred']
-            ]);
+            $visitor = Query::select([
+                'visitor.referred',
+                'pages.uri as first_uri'
+            ])
+                ->from('visitor')
+                ->join('pages', ['first_page', 'pages.page_id'], [], 'LEFT')
+                ->where('visitor.ID', '=', $visitorId)
+                ->getRow();
 
-            $referrer   = $visitor->referred;
-            $firstPage  = $visitor->first_uri;
+            if (empty($visitor)) {
+                continue;
+            }
+
+            $referrer  = $visitor->referred;
+            $firstPage = $visitor->first_uri;
 
             $sourceDetector = new SourceDetector($referrer, $firstPage);
 
-            $visitorModel->updateVisitor($visitorId, [
-                'source_channel'    => $sourceDetector->getChannel(),
-                'source_name'       => $sourceDetector->getName(),
-                'referred'          => Referrals::getUrl($referrer)
-            ]);
+            Query::update('visitor')
+                ->set([
+                    'source_channel' => $sourceDetector->getChannel(),
+                    'source_name'    => $sourceDetector->getName(),
+                    'referred'       => Referrals::getUrl($referrer)
+                ])
+                ->where('ID', '=', $visitorId)
+                ->execute();
         }
 
         return false;

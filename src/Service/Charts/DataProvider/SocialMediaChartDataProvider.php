@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
@@ -13,21 +13,16 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
 {
     use LineChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        // Set default values
-        $this->args = array_merge($args, [
-            'source_channel'    => ['social', 'paid_social'],
-            'group_by'          => ['source_name', 'last_counter'],
-            'per_page'          => false,
-            'not_null'          => false
-        ]);
-
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
     public function getData()
@@ -57,12 +52,29 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         // Set chart labels
         $this->setChartLabels($this->generateChartLabels($thisPeriodDates));
 
-        $data = $this->visitorsModel->getReferrers($this->args);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['referrer', 'date'],
+            'date_from' => $thisPeriod['from'] ?? null,
+            'date_to'   => $thisPeriod['to'] ?? null,
+            'filters'   => [
+                'referrer_channel' => ['in' => ['social', 'paid_social']]
+            ],
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
 
-        foreach ($data as $item) {
-            $visitors = intval($item->visitors);
-            $thisParsedData[$item->source_name][$item->last_counter] = $visitors;
-            $thisPeriodTotal[$item->last_counter]                    += $visitors;
+        $data = $result['data']['rows'] ?? [];
+
+        foreach ($data as $row) {
+            $visitors   = intval($row['visitors'] ?? 0);
+            $sourceName = $row['referrer_name'] ?? '';
+            $date       = $row['date'] ?? '';
+
+            if (!empty($sourceName) && !empty($date)) {
+                $thisParsedData[$sourceName][$date] = $visitors;
+                $thisPeriodTotal[$date]            += $visitors;
+            }
         }
 
         // Sort data by referrals number
@@ -101,17 +113,34 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
 
-        $data = $this->visitorsModel->getReferrers(array_merge($this->args, ['date' => $prevPeriod]));
-
         $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
 
         $this->setChartPreviousLabels($this->generateChartLabels($prevPeriodDates));
 
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['referrer', 'date'],
+            'date_from' => $prevPeriod['from'] ?? null,
+            'date_to'   => $prevPeriod['to'] ?? null,
+            'filters'   => [
+                'referrer_channel' => ['in' => ['social', 'paid_social']]
+            ],
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $data = $result['data']['rows'] ?? [];
+
         // Previous period data
         $prevPeriodTotal = array_fill_keys($prevPeriodDates, 0);
 
-        foreach ($data as $item) {
-            $prevPeriodTotal[$item->last_counter] += intval($item->visitors);
+        foreach ($data as $row) {
+            $visitors = intval($row['visitors'] ?? 0);
+            $date     = $row['date'] ?? '';
+
+            if (!empty($date)) {
+                $prevPeriodTotal[$date] += $visitors;
+            }
         }
 
         if (!empty($prevPeriodTotal)) {

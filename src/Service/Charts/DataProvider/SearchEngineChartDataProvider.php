@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
@@ -13,21 +13,16 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 {
     use LineChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        // Set default values
-        $this->args = array_merge($args, [
-            'source_channel'    => ['search', 'paid_search'],
-            'group_by'          => ['source_name', 'last_counter'],
-            'per_page'          => false,
-            'not_null'          => false
-        ]);
-
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
     public function getData()
@@ -57,35 +52,51 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         // Set chart labels
         $this->setChartLabels($this->generateChartLabels($thisPeriodDates));
 
-        $data = $this->visitorsModel->getReferrers($this->args);
+        // Query for search engine referrals (search and paid channels)
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['referrer', 'date'],
+            'filters'   => [
+                'referrer_channel' => ['in' => ['search', 'paid']],
+            ],
+            'date_from' => $thisPeriod['from'] ?? null,
+            'date_to'   => $thisPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
 
-        foreach ($data as $item) {
-            $dateKey = date('Y-m-d', strtotime($item->last_counter));
+        $data = $result['data']['rows'] ?? [];
 
-            $visitors = intval($item->visitors);
-            $thisParsedData[$item->source_name][$dateKey] = $visitors;
-            $thisPeriodTotal[$dateKey]                    += $visitors;
+        foreach ($data as $row) {
+            $dateKey      = $row['date'] ?? '';
+            $referrerName = $row['referrer_name'] ?? '';
+            $visitors     = intval($row['visitors'] ?? 0);
+
+            if (!empty($referrerName) && !empty($dateKey)) {
+                $thisParsedData[$referrerName][$dateKey] = ($thisParsedData[$referrerName][$dateKey] ?? 0) + $visitors;
+                $thisPeriodTotal[$dateKey]               = ($thisPeriodTotal[$dateKey] ?? 0) + $visitors;
+            }
         }
 
         // Sort data by search engine referrals number
-        uasort($thisParsedData, function($a, $b) {
+        uasort($thisParsedData, function ($a, $b) {
             return array_sum($b) - array_sum($a);
         });
 
         // Get top 3 search engines
         $topSearchEngines = array_slice($thisParsedData, 0, 3, true);
 
-        foreach ($topSearchEngines as $searchEngine => &$data) {
+        foreach ($topSearchEngines as $searchEngine => &$searchEngineData) {
             // Fill out missing visitors with 0
-            $data = array_merge(array_fill_keys($thisPeriodDates, 0), $data);
+            $searchEngineData = array_merge(array_fill_keys($thisPeriodDates, 0), $searchEngineData);
 
             // Sort data by date
-            ksort($data);
+            ksort($searchEngineData);
 
             // Add search engine data as dataset
             $this->addChartDataset(
                 ucfirst($searchEngine),
-                array_values($data)
+                array_values($searchEngineData)
             );
         }
 
@@ -103,17 +114,35 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
 
-        $data = $this->visitorsModel->getReferrers(array_merge($this->args, ['date' => $prevPeriod]));
-
         $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
 
         $this->setChartPreviousLabels($this->generateChartLabels($prevPeriodDates));
 
+        // Query for previous period search engine referrals
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['date'],
+            'filters'   => [
+                'referrer_channel' => ['in' => ['search', 'paid']],
+            ],
+            'date_from' => $prevPeriod['from'] ?? null,
+            'date_to'   => $prevPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $data = $result['data']['rows'] ?? [];
+
         // Previous period data
         $prevPeriodTotal = array_fill_keys($prevPeriodDates, 0);
 
-        foreach ($data as $item) {
-            $prevPeriodTotal[$item->last_counter] += intval($item->visitors);
+        foreach ($data as $row) {
+            $dateKey  = $row['date'] ?? '';
+            $visitors = intval($row['visitors'] ?? 0);
+
+            if (!empty($dateKey) && isset($prevPeriodTotal[$dateKey])) {
+                $prevPeriodTotal[$dateKey] += $visitors;
+            }
         }
 
         if (!empty($prevPeriodTotal)) {

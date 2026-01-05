@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\CLI\Commands;
 
 use WP_CLI;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 
 /**
  * Show list of visitors.
@@ -12,6 +12,21 @@ use WP_Statistics\Models\VisitorsModel;
  */
 class VisitorsCommand
 {
+    /**
+     * Analytics query handler.
+     *
+     * @var AnalyticsQueryHandler
+     */
+    private $queryHandler;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->queryHandler = new AnalyticsQueryHandler(false);
+    }
+
     /**
      * Show list of visitors.
      *
@@ -57,8 +72,17 @@ class VisitorsCommand
         $number = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
         $format = $assoc_args['format'] ?? 'table';
 
-        $visitorsModel = new VisitorsModel();
-        $lists = $visitorsModel->getVisitorsData(['per_page' => $number]);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['visitor'],
+            'per_page'  => $number,
+            'order_by'  => 'last_visit',
+            'order'     => 'DESC',
+            'date_from' => date('Y-m-d', strtotime('-30 days')),
+            'date_to'   => date('Y-m-d'),
+        ]);
+
+        $lists = $result['data'] ?? [];
 
         if (empty($lists)) {
             WP_CLI::error('There are no visitors.');
@@ -70,13 +94,13 @@ class VisitorsCommand
 
         foreach ($lists as $row) {
             $items[] = [
-                'IP'               => $row['hash_ip'] ?? $row['ip']['value'] ?? '-',
-                'Date'             => $row['date'] ?? '-',
-                'Browser'          => $row['browser']['name'] ?? '-',
-                'Referrer'         => wp_strip_all_tags($row['referred'] ?? ''),
-                'Operating System' => $row['platform'] ?? '-',
-                'User ID'          => (!empty($row['user']['ID']) ? $row['user']['ID'] : '-'),
-                'Country'          => $row['country']['name'] ?? '-',
+                'IP'               => $row['ip_address'] ?? '-',
+                'Date'             => $row['last_visit'] ?? '-',
+                'Browser'          => $row['browser_name'] ?? '-',
+                'Referrer'         => wp_strip_all_tags($row['referrer_domain'] ?? ''),
+                'Operating System' => $row['os_name'] ?? '-',
+                'User ID'          => (!empty($row['user_id']) ? $row['user_id'] : '-'),
+                'Country'          => $row['country_name'] ?? '-',
             ];
         }
 

@@ -4,7 +4,8 @@ namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
@@ -13,18 +14,16 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
 {
     use LineChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->args['group_by'] = ['visitor.source_channel', 'visitor.last_counter'];
-        $this->args['per_page'] = false;
-        $this->args['decorate'] = true;
-        $this->args['not_null'] = false;
-
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
     public function getData()
@@ -48,42 +47,58 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
 
         // This period data
-        $thisParsedData     = [];
-        $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
+        $thisParsedData  = [];
+        $thisPeriodTotal = array_fill_keys($thisPeriodDates, 0);
 
         // Set chart labels
         $this->setChartLabels($this->generateChartLabels($thisPeriodDates));
 
-        $data = $this->visitorsModel->getReferrers($this->args);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['referrer_channel', 'date'],
+            'date_from' => $thisPeriod['from'] ?? null,
+            'date_to'   => $thisPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
 
-        foreach ($data as $item) {
-            $visitors       = $item->getTotalReferrals(true);
-            $sourceChannel  = $item->getSourceChannel();
-            $date           = $item->getDate();
+        $data = $result['data']['rows'] ?? [];
 
-            $thisParsedData[$sourceChannel][$date] = $visitors;
-            $thisPeriodTotal[$date]                += $visitors;
+        foreach ($data as $row) {
+            $visitors       = intval($row['visitors'] ?? 0);
+            $sourceChannel  = $row['referrer_channel'] ?? '';
+            $date           = $row['date'] ?? '';
+
+            if (empty($sourceChannel) || empty($date)) {
+                continue;
+            }
+
+            // Get display name for the channel
+            $channelName = SourceChannels::getName($sourceChannel) ?: ucfirst($sourceChannel);
+
+            $thisParsedData[$channelName][$date] = $visitors;
+            $thisPeriodTotal[$date]              += $visitors;
         }
 
-        // Sort data by search engine referrals number
-        uasort($thisParsedData, function($a, $b) {
+        // Sort data by total visitors number
+        uasort($thisParsedData, function ($a, $b) {
             return array_sum($b) - array_sum($a);
         });
 
         // Get top 3
         $topCategories = array_slice($thisParsedData, 0, 3, true);
 
-        foreach ($topCategories as $category => &$data) {
+        foreach ($topCategories as $category => &$categoryData) {
             // Fill out missing visitors with 0
-            $data = array_merge(array_fill_keys($thisPeriodDates, 0), $data);
+            $categoryData = array_merge(array_fill_keys($thisPeriodDates, 0), $categoryData);
 
             // Sort data by date
-            ksort($data);
+            ksort($categoryData);
 
-            // Add search engine data as dataset
+            // Add category data as dataset
             $this->addChartDataset(
                 $category,
-                array_values($data)
+                array_values($categoryData)
             );
         }
 
@@ -101,17 +116,31 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
 
-        $data = $this->visitorsModel->getReferrers(array_merge($this->args, ['date' => $prevPeriod]));
-
         $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
 
         $this->setChartPreviousLabels($this->generateChartLabels($prevPeriodDates));
 
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['referrer_channel', 'date'],
+            'date_from' => $prevPeriod['from'] ?? null,
+            'date_to'   => $prevPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $data = $result['data']['rows'] ?? [];
+
         // Previous period data
         $prevPeriodTotal = array_fill_keys($prevPeriodDates, 0);
 
-        foreach ($data as $item) {
-            $prevPeriodTotal[$item->getDate()] += $item->getTotalReferrals(true);
+        foreach ($data as $row) {
+            $visitors = intval($row['visitors'] ?? 0);
+            $date     = $row['date'] ?? '';
+
+            if (!empty($date) && isset($prevPeriodTotal[$date])) {
+                $prevPeriodTotal[$date] += $visitors;
+            }
         }
 
         if (!empty($prevPeriodTotal)) {
@@ -127,9 +156,9 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $labels = array_map(
             function ($date) {
                 return [
-                    'formatted_date'    => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                    'date'              => date_i18n('Y-m-d', strtotime($date)),
-                    'day'               => date_i18n('D', strtotime($date))
+                    'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                    'date'           => date_i18n('Y-m-d', strtotime($date)),
+                    'day'            => date_i18n('D', strtotime($date))
                 ];
             },
             $dateRange

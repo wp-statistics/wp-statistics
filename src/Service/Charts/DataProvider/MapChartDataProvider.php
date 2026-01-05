@@ -3,10 +3,7 @@
 namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_Statistics\Components\Country;
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_STATISTICS\Helper;
-use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\MapChartResponseTrait;
 
@@ -14,29 +11,32 @@ class MapChartDataProvider extends AbstractChartDataProvider
 {
     use MapChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
     public function getData()
     {
-        $args = array_merge($this->args, [
-            'fields'   => [
-                'visitor.location as country',
-                'COUNT(*) as visitors'
-            ],
-            'order_by' => [],
-        ]);
-
         $this->initChartData();
 
-        $data       = $this->visitorsModel->getVisitorsGeoData($args);
-        $parsedData = $this->parseData($data);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['country'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $parsedData = $this->parseData($result['data']['rows'] ?? []);
 
         $labels  = wp_list_pluck($parsedData, 'label');
         $flags   = wp_list_pluck($parsedData, 'flag');
@@ -57,18 +57,23 @@ class MapChartDataProvider extends AbstractChartDataProvider
     {
         $parsedData = [];
 
-        foreach ($data as $item) {
-            if (empty($item->country)) continue;
+        foreach ($data as $row) {
+            $countryCode = $row['country_code'] ?? '';
+            $visitors    = intval($row['visitors'] ?? 0);
+
+            if (empty($countryCode)) {
+                continue;
+            }
 
             // Format the visitors count
-            $formattedVisitors = number_format($item->visitors);
+            $formattedVisitors = number_format($visitors);
 
             $parsedData[] = [
-                'label'        => Country::getName($item->country),
-                'code'         => $item->country,
+                'label'        => Country::getName($countryCode),
+                'code'         => $countryCode,
                 'visitors'     => $formattedVisitors,
-                'visitors_raw' => $item->visitors,
-                'flag'         => Country::getFlag($item->country)
+                'visitors_raw' => $visitors,
+                'flag'         => Country::getFlag($countryCode)
             ];
         }
 

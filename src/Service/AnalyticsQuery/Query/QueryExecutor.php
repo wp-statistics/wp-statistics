@@ -662,7 +662,7 @@ class QueryExecutor implements QueryExecutorInterface
 
         // Add date range filter
         if ($dateFrom && $dateTo) {
-            $dateColumn = $this->getDateColumn($primaryTable, $groupByNames);
+            $dateColumn = $this->getDateColumn($primaryTable, $groupByNames, $sources);
             $where[]    = "$dateColumn >= %s";
             $where[]    = "$dateColumn <= %s";
             $params[]   = $this->formatDateTimeStart($dateFrom);
@@ -732,7 +732,7 @@ class QueryExecutor implements QueryExecutorInterface
 
         // Add date range filter
         if ($dateFrom && $dateTo) {
-            $dateColumn = $this->getDateColumn($primaryTable);
+            $dateColumn = $this->getDateColumn($primaryTable, [], $sources);
             $where[]    = "$dateColumn >= %s";
             $where[]    = "$dateColumn <= %s";
             $params[]   = $this->formatDateTimeStart($dateFrom);
@@ -825,20 +825,41 @@ class QueryExecutor implements QueryExecutorInterface
         // Check sources
         foreach ($sources as $sourceName) {
             $source = $this->sourceRegistry->get($sourceName);
-            if ($source && $source->getTable() === 'views') {
-                return 'views';
+            if ($source) {
+                $table = $source->getTable();
+                if ($table === 'exclusions') {
+                    return 'exclusions';
+                }
+                if ($table === 'events') {
+                    return 'events';
+                }
+                if ($table === 'views') {
+                    return 'views';
+                }
             }
         }
 
         // Check group by
         foreach ($groupBy as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
-            if ($groupByItem && $groupByItem->getRequirement() === 'views') {
-                return 'views';
+            if ($groupByItem) {
+                $requirement = $groupByItem->getRequirement();
+                if ($requirement === 'exclusions') {
+                    return 'exclusions';
+                }
+                if ($requirement === 'events') {
+                    return 'events';
+                }
+                if ($requirement === 'views') {
+                    return 'views';
+                }
             }
         }
 
         // Check filters
+        if (FilterBuilder::requiresEventsTable($filters)) {
+            return 'events';
+        }
         if (FilterBuilder::requiresViewsTable($filters)) {
             return 'views';
         }
@@ -856,8 +877,17 @@ class QueryExecutor implements QueryExecutorInterface
     {
         foreach ($sources as $sourceName) {
             $source = $this->sourceRegistry->get($sourceName);
-            if ($source && $source->getTable() === 'views') {
-                return 'views';
+            if ($source) {
+                $table = $source->getTable();
+                if ($table === 'exclusions') {
+                    return 'exclusions';
+                }
+                if ($table === 'events') {
+                    return 'events';
+                }
+                if ($table === 'views') {
+                    return 'views';
+                }
             }
         }
 
@@ -890,16 +920,18 @@ class QueryExecutor implements QueryExecutorInterface
     /**
      * Get date column for a table.
      *
-     * Special handling for online_visitor groupBy which needs to filter by ended_at.
+     * Special handling for online_visitor groupBy and online_visitors source
+     * which need to filter by ended_at (last activity) instead of started_at.
      *
      * @param string $table Table name.
      * @param array  $groupByNames GroupBy WP_Statistics_names for context-specific column selection.
+     * @param array  $sourceNames Source WP_Statistics_names for context-specific column selection.
      * @return string
      */
-    private function getDateColumn(string $table, array $groupByNames = []): string
+    private function getDateColumn(string $table, array $groupByNames = [], array $sourceNames = []): string
     {
-        // Special case: online_visitor groupBy uses ended_at for date filtering
-        if (in_array('online_visitor', $groupByNames, true)) {
+        // Special case: online_visitor groupBy or online_visitors source uses ended_at for date filtering
+        if (in_array('online_visitor', $groupByNames, true) || in_array('online_visitors', $sourceNames, true)) {
             return 'sessions.ended_at';
         }
 
@@ -910,6 +942,10 @@ class QueryExecutor implements QueryExecutorInterface
                 return 'views.viewed_at';
             case 'visitors':
                 return 'visitors.created_at';
+            case 'events':
+                return 'events.date';
+            case 'exclusions':
+                return 'exclusions.date';
             default:
                 return 'sessions.started_at';
         }

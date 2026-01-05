@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 
@@ -11,21 +11,16 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->args = array_merge($this->args, [
-            'fields' => ['visitor.device']
-        ]);
-
-        // Get all results
-        $this->args['page']     = false;
-        $this->args['per_page'] = false;
-
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
 
@@ -33,8 +28,16 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
-        $data = $this->parseData($data);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['device_type'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $data = $this->parseData($result['data']['rows'] ?? []);
 
         $this->setChartLabels($data['labels']);
         $this->setChartIcons($data['icons']);
@@ -48,22 +51,16 @@ class DeviceChartDataProvider extends AbstractChartDataProvider
         $parsedData = [];
 
         if (!empty($data)) {
-            foreach ($data as $item) {
-                $device = $item->getDevice()->getType();
+            foreach ($data as $row) {
+                $device   = $row['device_type'] ?? '';
+                $visitors = intval($row['visitors'] ?? 0);
 
                 if (!empty($device)) {
-                    $devices = array_column($parsedData, 'label');
-
-                    if (!in_array($device, $devices)) {
-                        $parsedData[] = [
-                            'label'    => $device,
-                            'icon'     => DeviceHelper::getDeviceLogo($device),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($device, $devices);
-                        $parsedData[$index]['visitors']++;
-                    }
+                    $parsedData[] = [
+                        'label'    => $device,
+                        'icon'     => DeviceHelper::getDeviceLogo($device),
+                        'visitors' => $visitors
+                    ];
                 }
             }
 

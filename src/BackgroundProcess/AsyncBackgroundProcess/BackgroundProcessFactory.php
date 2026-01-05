@@ -2,12 +2,12 @@
 
 namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess;
 
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Service\Resources\ResourcesFactory;
+use WP_Statistics\Utils\Query;
 
 class BackgroundProcessFactory
 {
@@ -53,10 +53,22 @@ class BackgroundProcessFactory
             return;
         }
 
-        $visitorModel                      = new VisitorsModel();
-        $visitorsWithIncompleteLocation    = $visitorModel->getVisitorsWithIncompleteLocation();
+        $privateCountry                 = GeolocationFactory::getProviderInstance()->getPrivateCountryCode();
+        $visitorsWithIncompleteLocation = Query::select(['ID'])
+            ->from('visitor')
+            ->whereRaw(
+                "(location = ''
+            OR location = %s
+            OR location IS NULL
+            OR continent = ''
+            OR continent IS NULL
+            OR (continent = location))
+            AND ip NOT LIKE '#hash#%%'",
+                [$privateCountry]
+            )
+            ->getAll();
 
-        $visitorsWithIncompleteLocation    = wp_list_pluck($visitorsWithIncompleteLocation, 'ID');
+        $visitorsWithIncompleteLocation = wp_list_pluck($visitorsWithIncompleteLocation, 'ID');
 
         // Define the batch size
         $batchSize = 100;
@@ -108,10 +120,14 @@ class BackgroundProcessFactory
             return;
         }
 
-        $visitorModel                           = new VisitorsModel();
-        $visitorsWithIncompleteSourceChannel    = $visitorModel->getVisitorsWithIncompleteSourceChannel();
+        $visitorsWithIncompleteSourceChannel = Query::select(['visitor.ID'])
+            ->from('visitor')
+            ->whereNotNull('referred')
+            ->whereNull('source_channel')
+            ->whereNull('source_name')
+            ->getAll();
 
-        $visitorsWithIncompleteSourceChannel    = wp_list_pluck($visitorsWithIncompleteSourceChannel, 'ID');
+        $visitorsWithIncompleteSourceChannel = $visitorsWithIncompleteSourceChannel ? wp_list_pluck($visitorsWithIncompleteSourceChannel, 'ID') : [];
 
         // Define the batch size
         $batchSize = 100;
@@ -132,10 +148,9 @@ class BackgroundProcessFactory
     /**
      * Batch calculation of per-resource daily summaries.
      *
-     * Retrieves the set of resource URI IDs for the target day via
-     * {@see SessionModel::getResourceUriIdsByDate()}, splits them into
-     * manageable batches, and enqueues a background job (`calculate_daily_summary`)
-     * for each batch.
+     * Retrieves the set of resource URI IDs for the target day,
+     * splits them into manageable batches, and enqueues a background job
+     * (`calculate_daily_summary`) for each batch.
      *
      * @return void
      * @since 15.0.0
@@ -148,16 +163,46 @@ class BackgroundProcessFactory
             return;
         }
 
-        $todayResoueces = (new SessionModel())->getResourceUriIdsByDate();
+        $todayResources = self::getResourceUriIdsByDate();
 
         $batchSize = 50;
-        $batches   = array_chunk($todayResoueces, $batchSize);
+        $batches   = array_chunk($todayResources, $batchSize);
 
         foreach ($batches as $batch) {
             $calculateDailySummary->push_to_queue(['ids' => $batch]);
         }
 
         $calculateDailySummary->save()->dispatch();
+    }
+
+    /**
+     * List distinct resource URI IDs that occurred on yesterday.
+     *
+     * Returns the set of `views.resource_uri_id` values among sessions whose
+     * `started_at` date matches yesterday. Sessions without any view rows
+     * are represented by the sentinel `''`.
+     *
+     * @return array<int|string> Ordered list of resource URI IDs (may include '').
+     */
+    private static function getResourceUriIdsByDate()
+    {
+        $dateRange = DateTime::getUtcRangeForLocalDate('yesterday');
+        $startUtc  = $dateRange['startUtc'];
+        $endUtc    = $dateRange['endUtc'];
+
+        $rows = Query::select("DISTINCT COALESCE(views.resource_uri_id, '') AS resource_uri_id")
+            ->from('sessions')
+            ->join('views', ['views.session_id', 'sessions.ID'], null, 'LEFT')
+            ->where('sessions.started_at', '>=', $startUtc)
+            ->where('sessions.started_at', '<', $endUtc)
+            ->orderBy('resource_uri_id')
+            ->getAll();
+
+        if (empty($rows)) {
+            return [];
+        }
+
+        return array_column($rows, 'resource_uri_id');
     }
 
     /**

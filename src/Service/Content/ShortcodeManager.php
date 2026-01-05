@@ -4,8 +4,7 @@ namespace WP_Statistics\Service\Content;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Page;
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Traits\TransientCacheTrait;
 
 /**
@@ -32,10 +31,19 @@ class ShortcodeManager
     use TransientCacheTrait;
 
     /**
+     * Analytics query handler for v15 API.
+     *
+     * @var AnalyticsQueryHandler
+     */
+    private $queryHandler;
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
+        $this->queryHandler = new AnalyticsQueryHandler();
+
         add_shortcode('wpstatistics', [$this, 'renderShortcode']);
         add_action('admin_init', [$this, 'registerShortcake']);
     }
@@ -91,22 +99,16 @@ class ShortcodeManager
                 return wp_statistics_useronline();
 
             case 'visits':
-                $visitorsModel = new VisitorsModel();
-                $args          = $this->parseTimeArgs($atts);
-                return $visitorsModel->countHits($args);
+                return $this->getViewsCount($atts);
 
             case 'visitors':
-                return wp_statistics_visitor($atts['time'], null, true);
+                return $this->getVisitorsCount($atts);
 
             case 'pagevisits':
-                $viewsModel = new ViewsModel();
-                $args       = $this->parsePageArgs('pagevisits', $atts);
-                return $viewsModel->countViews($args);
+                return $this->getPageViewsCount($atts);
 
             case 'pagevisitors':
-                $visitorModel = new VisitorsModel();
-                $args         = $this->parsePageArgs('pagevisitors', $atts);
-                return $visitorModel->countVisitors($args);
+                return $this->getPageVisitorsCount($atts);
 
             case 'searches':
                 return wp_statistics_searchengine($atts['provider'], $atts['time']);
@@ -147,91 +149,210 @@ class ShortcodeManager
     }
 
     /**
-     * Parse time-based arguments.
+     * Get total views count using AnalyticsQueryHandler.
      *
      * @param array $atts Shortcode attributes.
-     * @return array Parsed arguments.
+     * @return int Views count.
      */
-    private function parseTimeArgs($atts)
+    private function getViewsCount($atts)
     {
-        $args = [
-            'date' => '',
-        ];
+        try {
+            $request = [
+                'sources' => ['views'],
+                'format'  => 'flat',
+            ];
 
-        if (!empty($atts['time'])) {
-            $args['date'] = $this->parseTimeValue($atts['time']);
-        }
-
-        return $args;
-    }
-
-    /**
-     * Parse page-specific arguments.
-     *
-     * @param string $modelType Type of model (pagevisits or pagevisitors).
-     * @param array  $atts      Shortcode attributes.
-     * @return array Parsed arguments.
-     */
-    private function parsePageArgs($modelType, $atts)
-    {
-        $args = [
-            'post_type'     => '',
-            'post_id'       => '',
-            'resource_id'   => '',
-            'resource_type' => '',
-            'date'          => '',
-        ];
-
-        // Set resource/post ID
-        if (!empty($atts['id'])) {
-            if ($modelType === 'pagevisits') {
-                $args['post_id'] = $atts['id'];
-            } else {
-                $args['resource_id'] = $atts['id'];
+            // Add date filter if specified
+            $dateRange = $this->parseDateRange($atts);
+            if (!empty($dateRange)) {
+                $request['date_from'] = $dateRange['from'];
+                $request['date_to']   = $dateRange['to'];
             }
-        }
 
-        // Set resource type
-        if (!empty($atts['type'])) {
-            $args['resource_type'] = $atts['type'];
-        } else {
-            $args['resource_type'] = $this->getResourceType($atts['id']);
-        }
+            $result = $this->queryHandler->handle($request);
 
-        // Set time/date
-        if (!empty($atts['time'])) {
-            $args['date'] = $this->parseTimeValue($atts['time']);
+            return $result['totals']['views'] ?? 0;
+        } catch (\Exception $e) {
+            return 0;
         }
-
-        return $args;
     }
 
     /**
-     * Parse time value to date format.
+     * Get total visitors count using AnalyticsQueryHandler.
      *
-     * @param string $time Time value.
-     * @return mixed Date value or array.
+     * @param array $atts Shortcode attributes.
+     * @return int Visitors count.
      */
-    private function parseTimeValue($time)
+    private function getVisitorsCount($atts)
     {
-        $timeMap = [
-            'week'  => '7days',
-            'month' => '30days',
-            'year'  => '12months',
-        ];
+        try {
+            $request = [
+                'sources' => ['visitors'],
+                'format'  => 'flat',
+            ];
 
-        if (isset($timeMap[$time])) {
-            return $timeMap[$time];
+            // Add date filter if specified
+            $dateRange = $this->parseDateRange($atts);
+            if (!empty($dateRange)) {
+                $request['date_from'] = $dateRange['from'];
+                $request['date_to']   = $dateRange['to'];
+            }
+
+            $result = $this->queryHandler->handle($request);
+
+            return $result['totals']['visitors'] ?? 0;
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Get page views count using AnalyticsQueryHandler.
+     *
+     * @param array $atts Shortcode attributes.
+     * @return int Page views count.
+     */
+    private function getPageViewsCount($atts)
+    {
+        try {
+            $request = [
+                'sources' => ['views'],
+                'format'  => 'flat',
+                'filters' => [],
+            ];
+
+            // Add resource filter
+            if (!empty($atts['id'])) {
+                $request['filters']['resource_id'] = $atts['id'];
+            }
+
+            if (!empty($atts['type'])) {
+                $request['filters']['resource_type'] = $atts['type'];
+            }
+
+            // Add date filter if specified
+            $dateRange = $this->parseDateRange($atts);
+            if (!empty($dateRange)) {
+                $request['date_from'] = $dateRange['from'];
+                $request['date_to']   = $dateRange['to'];
+            }
+
+            $result = $this->queryHandler->handle($request);
+
+            return $result['totals']['views'] ?? 0;
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Get page visitors count using AnalyticsQueryHandler.
+     *
+     * @param array $atts Shortcode attributes.
+     * @return int Page visitors count.
+     */
+    private function getPageVisitorsCount($atts)
+    {
+        try {
+            $request = [
+                'sources' => ['visitors'],
+                'format'  => 'flat',
+                'filters' => [],
+            ];
+
+            // Add resource filter
+            if (!empty($atts['id'])) {
+                $request['filters']['resource_id'] = $atts['id'];
+            }
+
+            if (!empty($atts['type'])) {
+                $request['filters']['resource_type'] = $atts['type'];
+            }
+
+            // Add date filter if specified
+            $dateRange = $this->parseDateRange($atts);
+            if (!empty($dateRange)) {
+                $request['date_from'] = $dateRange['from'];
+                $request['date_to']   = $dateRange['to'];
+            }
+
+            $result = $this->queryHandler->handle($request);
+
+            return $result['totals']['visitors'] ?? 0;
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Parse date range from shortcode attributes.
+     *
+     * @param array $atts Shortcode attributes.
+     * @return array Date range with 'from' and 'to' keys, or empty array.
+     */
+    private function parseDateRange($atts)
+    {
+        if (empty($atts['time'])) {
+            return [];
         }
 
+        $time = $atts['time'];
+
+        // Handle predefined time ranges
+        switch ($time) {
+            case 'today':
+                return [
+                    'from' => date('Y-m-d 00:00:00'),
+                    'to'   => date('Y-m-d 23:59:59'),
+                ];
+
+            case 'yesterday':
+                return [
+                    'from' => date('Y-m-d 00:00:00', strtotime('-1 day')),
+                    'to'   => date('Y-m-d 23:59:59', strtotime('-1 day')),
+                ];
+
+            case 'week':
+                return [
+                    'from' => date('Y-m-d 00:00:00', strtotime('-7 days')),
+                    'to'   => date('Y-m-d 23:59:59'),
+                ];
+
+            case 'month':
+                return [
+                    'from' => date('Y-m-d 00:00:00', strtotime('-30 days')),
+                    'to'   => date('Y-m-d 23:59:59'),
+                ];
+
+            case 'year':
+                return [
+                    'from' => date('Y-m-d 00:00:00', strtotime('-1 year')),
+                    'to'   => date('Y-m-d 23:59:59'),
+                ];
+
+            case 'total':
+                // For total, we don't set date filters (returns all data)
+                return [];
+        }
+
+        // Handle numeric values (days ago)
         if (is_numeric($time)) {
             return [
-                'from' => date('Y-m-d', strtotime("{$time} days")),
-                'to'   => date('Y-m-d'),
+                'from' => date('Y-m-d 00:00:00', strtotime("{$time} days")),
+                'to'   => date('Y-m-d 23:59:59'),
             ];
         }
 
-        return $time;
+        // Handle strtotime format
+        $timestamp = strtotime($time);
+        if ($timestamp !== false) {
+            return [
+                'from' => date('Y-m-d 00:00:00', $timestamp),
+                'to'   => date('Y-m-d 23:59:59'),
+            ];
+        }
+
+        return [];
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\CLI\Commands;
 
 use WP_CLI;
-use WP_Statistics\Models\OnlineModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 
 /**
  * Show list of users online.
@@ -12,6 +12,26 @@ use WP_Statistics\Models\OnlineModel;
  */
 class OnlineCommand
 {
+    /**
+     * Online threshold in seconds (5 minutes).
+     */
+    const ONLINE_THRESHOLD = 300;
+
+    /**
+     * Analytics query handler.
+     *
+     * @var AnalyticsQueryHandler
+     */
+    private $queryHandler;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->queryHandler = new AnalyticsQueryHandler(false);
+    }
+
     /**
      * Show list of users online.
      *
@@ -55,8 +75,21 @@ class OnlineCommand
         $number = \WP_CLI\Utils\get_flag_value($assoc_args, 'number', 15);
         $format = $assoc_args['format'] ?? 'table';
 
-        $onlineModel = new OnlineModel();
-        $lists = $onlineModel->getOnlineVisitorsData(['per_page' => $number]);
+        // Online visitors are those with last activity within the last 5 minutes
+        // Using date_from filter which gets applied to sessions.ended_at for online_visitor group_by
+        $fiveMinutesAgo = gmdate('Y-m-d H:i:s', time() - self::ONLINE_THRESHOLD);
+
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['online_visitor'],
+            'per_page'  => $number,
+            'order_by'  => 'last_visit',
+            'order'     => 'DESC',
+            'date_from' => $fiveMinutesAgo,
+            'date_to'   => gmdate('Y-m-d H:i:s'),
+        ]);
+
+        $lists = $result['data'] ?? [];
 
         if (empty($lists)) {
             WP_CLI::error('There are no users online.');
@@ -68,16 +101,41 @@ class OnlineCommand
 
         foreach ($lists as $row) {
             $items[] = [
-                'IP'         => $row['hash_ip'] ?? $row['ip']['value'] ?? '-',
-                'Browser'    => $row['browser']['name'] ?? '-',
-                'Online For' => $row['online_for'] ?? '-',
-                'Referrer'   => wp_strip_all_tags($row['referred'] ?? ''),
-                'Page'       => $row['page']['title'] ?? '-',
-                'User ID'    => (!empty($row['user']['ID']) ? $row['user']['ID'] : '-'),
-                'Country'    => $row['country']['name'] ?? '-',
+                'IP'         => $row['ip_address'] ?? '-',
+                'Browser'    => $row['browser_name'] ?? '-',
+                'Online For' => $this->calculateOnlineTime($row['last_visit'] ?? null),
+                'Referrer'   => wp_strip_all_tags($row['referrer_domain'] ?? ''),
+                'Page'       => $row['entry_page_title'] ?? $row['entry_page'] ?? '-',
+                'User ID'    => (!empty($row['user_id']) ? $row['user_id'] : '-'),
+                'Country'    => $row['country_name'] ?? '-',
             ];
         }
 
         \WP_CLI\Utils\format_items($format, $items, $columns);
+    }
+
+    /**
+     * Calculate how long a visitor has been online.
+     *
+     * @param string|null $lastVisit Last visit timestamp.
+     * @return string Human readable time duration.
+     */
+    private function calculateOnlineTime(?string $lastVisit): string
+    {
+        if (empty($lastVisit)) {
+            return '-';
+        }
+
+        $lastVisitTime = strtotime($lastVisit);
+        $now           = time();
+        $diff          = $now - $lastVisitTime;
+
+        if ($diff < 60) {
+            return sprintf('%d sec', $diff);
+        } elseif ($diff < 3600) {
+            return sprintf('%d min', floor($diff / 60));
+        } else {
+            return sprintf('%d hr', floor($diff / 3600));
+        }
     }
 }

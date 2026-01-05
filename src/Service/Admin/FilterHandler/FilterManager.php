@@ -5,10 +5,9 @@ namespace WP_Statistics\Service\Admin\FilterHandler;
 use WP_Statistics\Components\Country;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Referred;
 use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Url;
@@ -346,19 +345,27 @@ class FilterManager
     {
         $args = [];
 
-        $visitorsModel = new VisitorsModel();
-        $referrers  = $visitorsModel->getReferrers([
-            'referrer'      => $search,
-            'decorate'      => true
+        $queryHandler = new AnalyticsQueryHandler();
+        $result       = $queryHandler->handle([
+            'sources'  => ['visitors'],
+            'group_by' => ['referrer'],
+            'filters'  => !empty($search) ? ['referrer_domain' => ['contains' => $search]] : [],
+            'per_page' => 50,
+            'format'   => 'table',
         ]);
 
-        foreach ($referrers as $referrer) {
-            $option = [
-                'id'   => $referrer->getRawReferrer(),
-                'text' => $referrer->getRawReferrer()
-            ];
+        $rows = $result['data'] ?? [];
 
-            $args[] = $option;
+        foreach ($rows as $row) {
+            $referrerDomain = $row['referrer_domain'] ?? '';
+            if (empty($referrerDomain)) {
+                continue;
+            }
+
+            $args[] = [
+                'id'   => $referrerDomain,
+                'text' => $referrerDomain,
+            ];
         }
 
         return $args;
@@ -581,27 +588,44 @@ class FilterManager
         $queryKey = 'qp';
         $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
         $postId   = Request::get('post_id', '', 'number');
-
-        $viewsModel = new ViewsModel();
-        $parameters = $viewsModel->getViewedPageUri(['id' => $postId]);
-        $pageSlug   = get_page_uri($postId);
+        $pageSlug = get_page_uri($postId);
 
         $args = [];
 
-        foreach ($parameters as $key => $parameter) {
-            $title = preg_replace('/^.*' . preg_quote($pageSlug, '/') . '/', '', $parameter->uri);
+        if (!empty($postId)) {
+            $queryHandler = new AnalyticsQueryHandler();
+            $result       = $queryHandler->handle([
+                'sources'  => ['views'],
+                'group_by' => ['page'],
+                'filters'  => ['resource_id' => $postId],
+                'per_page' => 100,
+                'format'   => 'table',
+            ]);
 
-            $args[] = [
-                'slug' => esc_attr($parameter->page_id),
-                'name' => !empty($title) ? esc_html($title) : esc_html($parameter->uri),
-                'url' => add_query_arg([$queryKey => $parameter->page_id], $baseUrl)
-            ];
+            $rows = $result['data'] ?? [];
+
+            foreach ($rows as $row) {
+                $uri       = $row['page_uri'] ?? '';
+                $pageUriId = $row['page_uri_id'] ?? '';
+
+                if (empty($uri) || empty($pageUriId)) {
+                    continue;
+                }
+
+                $title = preg_replace('/^.*' . preg_quote($pageSlug, '/') . '/', '', $uri);
+
+                $args[] = [
+                    'slug' => esc_attr($pageUriId),
+                    'name' => !empty($title) ? esc_html($title) : esc_html($uri),
+                    'url'  => add_query_arg([$queryKey => $pageUriId], $baseUrl),
+                ];
+            }
         }
 
         return [
-            'args' => $args,
-            'baseUrl' => $baseUrl,
-            'selectedOption' => Request::get($queryKey)
+            'args'           => $args,
+            'baseUrl'        => $baseUrl,
+            'selectedOption' => Request::get($queryKey),
         ];
     }
 

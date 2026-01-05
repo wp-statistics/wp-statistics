@@ -2,54 +2,49 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_STATISTICS\Helper;
-use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
-use WP_STATISTICS\UserAgent;
 
 class PlatformChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
 
-    protected $data;
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
+        parent::__construct($args);
+
         $this->args = wp_parse_args($args, [
             'limit' => 5
         ]);
 
-        $this->visitorsModel = new VisitorsModel();
-
-        $this->data = $this->getVisitorsData($this->args);
-    }
-
-    private function getVisitorsData($args)
-    {
-        if (!empty($this->args['referred_visitors'])) {
-            $rawData = $this->visitorsModel->getReferredVisitors($this->args);
-        } else {
-            $rawData = $this->visitorsModel->getVisitorsData($this->args);
-        }
-
-        return $this->parseData($rawData);
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
     public function getOsData()
     {
         $this->initChartData();
 
-        $labels = wp_list_pluck($this->data['os'], 'label');
-        $data   = wp_list_pluck($this->data['os'], 'visitors');
-        $icons  = wp_list_pluck($this->data['os'], 'icon');
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['os'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
 
-        $this->setChartLabels($labels);
-        $this->setChartData($data);
-        $this->setChartIcons($icons);
+        $data = $this->parseOsData($result['data']['rows'] ?? []);
+
+        $this->setChartLabels($data['labels']);
+        $this->setChartData($data['visitors']);
+        $this->setChartIcons($data['icons']);
 
         return $this->getChartData();
     }
@@ -58,13 +53,20 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $labels = wp_list_pluck($this->data['browser'], 'label');
-        $data   = wp_list_pluck($this->data['browser'], 'visitors');
-        $icons  = wp_list_pluck($this->data['browser'], 'icon');
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['browser'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
 
-        $this->setChartLabels($labels);
-        $this->setChartData($data);
-        $this->setChartIcons($icons);
+        $data = $this->parseBrowserData($result['data']['rows'] ?? []);
+
+        $this->setChartLabels($data['labels']);
+        $this->setChartData($data['visitors']);
+        $this->setChartIcons($data['icons']);
 
         return $this->getChartData();
     }
@@ -73,11 +75,19 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $labels = wp_list_pluck($this->data['device'], 'label');
-        $data   = wp_list_pluck($this->data['device'], 'visitors');
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['device_type'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
 
-        $this->setChartLabels($labels);
-        $this->setChartData($data);
+        $data = $this->parseDeviceData($result['data']['rows'] ?? []);
+
+        $this->setChartLabels($data['labels']);
+        $this->setChartData($data['visitors']);
 
         return $this->getChartData();
     }
@@ -86,119 +96,160 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $labels = wp_list_pluck($this->data['model'], 'label');
-        $data   = wp_list_pluck($this->data['model'], 'visitors');
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['device_model'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
 
-        $this->setChartLabels($labels);
-        $this->setChartData($data);
+        $data = $this->parseModelData($result['data']['rows'] ?? []);
+
+        $this->setChartLabels($data['labels']);
+        $this->setChartData($data['visitors']);
 
         return $this->getChartData();
     }
 
-    protected function parseData($data)
+    protected function parseOsData($data)
     {
-        $parsedData = [
-            'os'        => [],
-            'browser'   => [],
-            'device'    => [],
-            'model'     => []
-        ];
+        $parsedData = [];
 
         if (!empty($data)) {
-            foreach ($data as $item) {
-                /** @var VisitorDecorator $item */
-                $platform   = $item->getOs()->getName();
-                $agent      = $item->getBrowser()->getRaw();
-                $device     = $item->getDevice()->getType();
-                $model      = $item->getDevice()->getModel();
+            foreach ($data as $row) {
+                $platform = $row['os'] ?? '';
+                $visitors = intval($row['visitors'] ?? 0);
 
-                // OS data
                 if (!empty($platform)) {
-                    $platforms = array_column($parsedData['os'], 'label');
-
-                    if (!in_array($platform, $platforms)) {
-                        $parsedData['os'][] = [
-                            'label'    => $platform,
-                            'icon'     => DeviceHelper::getPlatformLogo($platform),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($platform, $platforms);
-                        $parsedData['os'][$index]['visitors']++;
-                    }
-                }
-
-                // Browser data
-                if (!empty($agent)) {
-                    $agents = array_column($parsedData['browser'], 'label');
-
-                    if (!in_array($agent, $agents)) {
-                        $parsedData['browser'][] = [
-                            'label'    => $agent,
-                            'icon'     => DeviceHelper::getBrowserLogo($agent),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($agent, $agents);
-                        $parsedData['browser'][$index]['visitors']++;
-                    }
-                }
-
-                // Device data
-                if (!empty($device)) {
-                    $devices = array_column($parsedData['device'], 'label');
-
-                    if (!in_array($device, $devices)) {
-                        $parsedData['device'][] = [
-                            'label'    => $device,
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($device, $devices);
-                        $parsedData['device'][$index]['visitors']++;
-                    }
-                }
-
-                // Model data
-                if (!empty($model)) {
-                    $models = array_column($parsedData['model'], 'label');
-
-                    if (!in_array($model, $models)) {
-                        $parsedData['model'][] = [
-                            'label'    => $model,
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($model, $models);
-                        $parsedData['model'][$index]['visitors']++;
-                    }
-                }
-            }
-
-            foreach ($parsedData as $key => &$data) {
-                // Sort data by visitors
-                usort($data, function ($a, $b) {
-                    return $b['visitors'] - $a['visitors'];
-                });
-
-                // Limit the number of items. If limit is 5, limit items to 4 + other
-                $limit = $this->args['limit'] - 1;
-
-                if (count($data) > $limit) {
-                    // Get top 4 results, and others
-                    $topData    = array_slice($data, 0, $limit);
-                    $otherData  = array_slice($data, $limit);
-
-                    // Show the rest of the results as others, and sum up the visitors
-                    $otherItem    = [
-                        'label'    => esc_html__('Other', 'wp-statistics'),
-                        'icon'     => '',
-                        'visitors' => array_sum(array_column($otherData, 'visitors')),
+                    $parsedData[] = [
+                        'label'    => $platform,
+                        'icon'     => DeviceHelper::getPlatformLogo($platform),
+                        'visitors' => $visitors
                     ];
-
-                    $parsedData[$key] = array_merge($topData, [$otherItem]);
                 }
             }
+
+            $parsedData = $this->applyLimitWithOthers($parsedData);
+        }
+
+        return [
+            'labels'   => wp_list_pluck($parsedData, 'label'),
+            'visitors' => wp_list_pluck($parsedData, 'visitors'),
+            'icons'    => wp_list_pluck($parsedData, 'icon'),
+        ];
+    }
+
+    protected function parseBrowserData($data)
+    {
+        $parsedData = [];
+
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                $browser  = $row['browser'] ?? '';
+                $visitors = intval($row['visitors'] ?? 0);
+
+                if (!empty($browser)) {
+                    $parsedData[] = [
+                        'label'    => $browser,
+                        'icon'     => DeviceHelper::getBrowserLogo($browser),
+                        'visitors' => $visitors
+                    ];
+                }
+            }
+
+            $parsedData = $this->applyLimitWithOthers($parsedData);
+        }
+
+        return [
+            'labels'   => wp_list_pluck($parsedData, 'label'),
+            'visitors' => wp_list_pluck($parsedData, 'visitors'),
+            'icons'    => wp_list_pluck($parsedData, 'icon'),
+        ];
+    }
+
+    protected function parseDeviceData($data)
+    {
+        $parsedData = [];
+
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                $device   = $row['device_type'] ?? '';
+                $visitors = intval($row['visitors'] ?? 0);
+
+                if (!empty($device)) {
+                    $parsedData[] = [
+                        'label'    => $device,
+                        'visitors' => $visitors
+                    ];
+                }
+            }
+
+            $parsedData = $this->applyLimitWithOthers($parsedData);
+        }
+
+        return [
+            'labels'   => wp_list_pluck($parsedData, 'label'),
+            'visitors' => wp_list_pluck($parsedData, 'visitors'),
+        ];
+    }
+
+    protected function parseModelData($data)
+    {
+        $parsedData = [];
+
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                $model    = $row['device_model'] ?? '';
+                $visitors = intval($row['visitors'] ?? 0);
+
+                if (!empty($model)) {
+                    $parsedData[] = [
+                        'label'    => $model,
+                        'visitors' => $visitors
+                    ];
+                }
+            }
+
+            $parsedData = $this->applyLimitWithOthers($parsedData);
+        }
+
+        return [
+            'labels'   => wp_list_pluck($parsedData, 'label'),
+            'visitors' => wp_list_pluck($parsedData, 'visitors'),
+        ];
+    }
+
+    /**
+     * Apply limit with "Other" aggregation.
+     *
+     * @param array $parsedData Data to apply limit to.
+     * @return array Filtered data with "Other" aggregation if needed.
+     */
+    protected function applyLimitWithOthers($parsedData)
+    {
+        // Sort data by visitors
+        usort($parsedData, function ($a, $b) {
+            return $b['visitors'] - $a['visitors'];
+        });
+
+        // Limit the number of items. If limit is 5, limit items to 4 + other
+        $limit = $this->args['limit'] - 1;
+
+        if (count($parsedData) > $limit) {
+            // Get top N-1 results, and others
+            $topData   = array_slice($parsedData, 0, $limit);
+            $otherData = array_slice($parsedData, $limit);
+
+            // Show the rest of the results as others, and sum up the visitors
+            $otherItem = [
+                'label'    => esc_html__('Other', 'wp-statistics'),
+                'icon'     => '',
+                'visitors' => array_sum(array_column($otherData, 'visitors')),
+            ];
+
+            $parsedData = array_merge($topData, [$otherItem]);
         }
 
         return $parsedData;

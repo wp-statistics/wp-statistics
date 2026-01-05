@@ -2,8 +2,7 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_Statistics\Components\Country;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 
@@ -11,22 +10,16 @@ class ContinentChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->args = array_merge($this->args, [
-            'not_null'  => 'continent',
-            'fields'    => ['COUNT(DISTINCT visitor.ID) as visitors', 'visitor.continent as continent'],
-            'order_by'  => 'visitors',
-            'group_by'  => 'continent',
-            'page'      => 1,
-            'per_page'  => 5
-        ]);
-
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
 
@@ -34,8 +27,16 @@ class ContinentChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsGeoData($this->args);
-        $data = $this->parseData($data);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['continent'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $data = $this->parseData($result['data']['rows'] ?? []);
 
         $this->setChartLabels($data['labels']);
         $this->setChartData($data['visitors']);
@@ -45,16 +46,47 @@ class ContinentChartDataProvider extends AbstractChartDataProvider
 
     protected function parseData($data)
     {
-        $parsedData = [
-            'labels'    => [],
-            'visitors'  => []
-        ];
+        $parsedData = [];
 
-        foreach ($data as $item) {
-            $parsedData['labels'][]     = $item->continent;
-            $parsedData['visitors'][]   = intval($item->visitors);
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                $continent = $row['continent'] ?? '';
+                $visitors  = intval($row['visitors'] ?? 0);
+
+                if (!empty($continent)) {
+                    $parsedData[] = [
+                        'label'    => $continent,
+                        'visitors' => $visitors
+                    ];
+                }
+            }
+
+            // Sort data by visitors
+            usort($parsedData, function ($a, $b) {
+                return $b['visitors'] - $a['visitors'];
+            });
+
+            if (count($parsedData) > 4) {
+                // Get top 4 results, and others
+                $topData   = array_slice($parsedData, 0, 4);
+                $otherData = array_slice($parsedData, 4);
+
+                // Show the rest of the results as others, and sum up the visitors
+                $otherItem = [
+                    'label'    => esc_html__('Other', 'wp-statistics'),
+                    'visitors' => array_sum(array_column($otherData, 'visitors')),
+                ];
+
+                $parsedData = array_merge($topData, [$otherItem]);
+            }
         }
 
-        return $parsedData;
+        $labels   = wp_list_pluck($parsedData, 'label');
+        $visitors = wp_list_pluck($parsedData, 'visitors');
+
+        return [
+            'labels'   => $labels,
+            'visitors' => $visitors,
+        ];
     }
 }

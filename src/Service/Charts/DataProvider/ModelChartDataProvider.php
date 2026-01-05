@@ -2,8 +2,7 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 
@@ -11,17 +10,16 @@ class ModelChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->args = array_merge($this->args, [
-            'fields' => ['visitor.model']
-        ]);
-
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
 
@@ -29,8 +27,16 @@ class ModelChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
-        $data = $this->parseData($data);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['device_model'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $data = $this->parseData($result['data']['rows'] ?? []);
 
         $this->setChartLabels($data['labels']);
         $this->setChartData($data['visitors']);
@@ -44,29 +50,17 @@ class ModelChartDataProvider extends AbstractChartDataProvider
         $unknownData = 0;
 
         if (!empty($data)) {
-            foreach ($data as $item) {
-                if ($item instanceof VisitorDecorator) {
-                    $model = $item->getDevice()->getModel();
+            foreach ($data as $row) {
+                $model    = $row['device_model'] ?? '';
+                $visitors = intval($row['visitors'] ?? 0);
+
+                if (!empty($model) && $model !== 'Unknown') {
+                    $parsedData[] = [
+                        'label'    => $model,
+                        'visitors' => $visitors
+                    ];
                 } else {
-                    continue;
-                }
-
-                if (!empty($model)) {
-                    $models = array_column($parsedData, 'label');
-
-                    if (!in_array($model, $models)) {
-                        $parsedData[] = [
-                            'label'    => $model,
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($model, $models);
-                        $parsedData[$index]['visitors']++;
-                    }
-                }
-
-                if ($model === 'Unknown' || empty($model)) {
-                    ++$unknownData;
+                    $unknownData += $visitors;
                 }
             }
 

@@ -8,7 +8,7 @@ use WP_Statistics\Traits\ObjectCacheTrait;
 use WP_Statistics\Utils\Page;
 use WP_Statistics\Utils\User;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\Visitor;
@@ -559,13 +559,10 @@ class VisitorProfile
     public function getVisitorId()
     {
         return $this->getCachedData('visitorId', function () {
-            if (false) {
-                $visitor = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
-            } else {
-                $visitor = (new VisitorsModel())->getByHashAndDate([
-                    'hash' => $this->getProcessedIPForStorage()
-                ]);
-            }
+            $visitor = RecordFactory::visitor()->get([
+                'hash'             => $this->getHashedIPForStorage(),
+                'DATE(created_at)' => DateTime::get()
+            ]);
 
             return $visitor->ID ?? 0;
         });
@@ -619,12 +616,9 @@ class VisitorProfile
     public function isIpActiveToday()
     {
         return $this->getCachedData('isIpActiveToday', function () {
-            if (false) {
-                return Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
-            }
-
-            return (new VisitorsModel())->getByHashAndDate([
-                'hash' => $this->getHashedIPForStorage()
+            return RecordFactory::visitor()->get([
+                'hash'             => $this->getHashedIPForStorage(),
+                'DATE(created_at)' => DateTime::get()
             ]);
         });
     }

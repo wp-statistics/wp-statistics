@@ -228,4 +228,15 @@ class RecordFactory
     {
         return new ResourceUriRecord($record);
     }
+
+    /**
+     * Create a new EventRecord instance.
+     *
+     * @param object|null $record Optional existing record to wrap.
+     * @return EventRecord
+     */
+    public static function event($record = null)
+    {
+        return new EventRecord($record);
+    }
 }

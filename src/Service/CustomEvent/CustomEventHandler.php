@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\CustomEvent;
 
 use Exception;
-use WP_Statistics\Models\EventsModel;
+use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
 /**
@@ -46,9 +46,15 @@ class CustomEventHandler
             $eventDataParser = new CustomEventDataParser($eventName, $eventData, $visitorProfile);
             $parsedData = $eventDataParser->getParsedData();
 
-            // Insert event into the database
-            $eventsModel = new EventsModel();
-            $eventsModel->insertEvent($parsedData);
+            // Insert event into the database using RecordFactory
+            RecordFactory::event()->insert([
+                'date'       => current_time('mysql'),
+                'page_id'    => $parsedData['page_id'] ?? null,
+                'visitor_id' => $parsedData['visitor_id'] ?? null,
+                'user_id'    => $parsedData['user_id'] ?? null,
+                'event_name' => $parsedData['event_name'],
+                'event_data' => is_array($parsedData['event_data']) ? json_encode($parsedData['event_data']) : $parsedData['event_data'],
+            ]);
 
         } catch (Exception $e) {
             // Log error but don't break the request

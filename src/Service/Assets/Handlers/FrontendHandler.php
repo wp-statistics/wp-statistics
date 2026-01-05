@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Assets\Handlers;
 use WP_Statistics\Abstracts\BaseAssets;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
@@ -139,14 +139,19 @@ class FrontendHandler extends BaseAssets
         // Check post type
         $post_type = get_post_type($post_id);
 
-        // Get post hits
-        $viewsModel = new ViewsModel();
-        $hits       = $viewsModel->countViews([
-            'resource_type' => $post_type,
-            'post_id'       => $post_id,
-            'date'          => 'total',
-            'post_type'     => '',
+        // Get post hits using AnalyticsQueryHandler
+        $queryHandler = new AnalyticsQueryHandler();
+        $result = $queryHandler->handle([
+            'sources'   => ['views'],
+            'filters'   => [
+                'post_type'   => $post_type,
+                'resource_id' => $post_id,
+            ],
+            'date_from' => '1970-01-01',
+            'date_to'   => date('Y-m-d'),
         ]);
+
+        $hits = $result['data']['totals']['views'] ?? 0;
 
         $hits_html = '<p>' . sprintf(__('Views: %s', 'wp-statistics'), $hits) . '</p>';
 

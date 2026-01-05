@@ -335,26 +335,20 @@ class EmailReportDataProvider
      */
     public function getTopAuthor()
     {
-        global $wpdb;
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'group_by'  => ['author'],
+            'date_from' => $this->dateRange['from'],
+            'date_to'   => $this->dateRange['to'],
+            'format'    => 'table',
+            'per_page'  => 1,
+        ]);
 
-        // Get top author by post views in the period
-        $result = $wpdb->get_row(
-            $wpdb->prepare(
-                "SELECT u.display_name, SUM(v.count) as total_views
-                 FROM {$wpdb->prefix}statistics_views v
-                 INNER JOIN {$wpdb->posts} p ON v.page_id = p.ID
-                 INNER JOIN {$wpdb->users} u ON p.post_author = u.ID
-                 WHERE v.date BETWEEN %s AND %s
-                 AND p.post_status = 'publish'
-                 GROUP BY p.post_author
-                 ORDER BY total_views DESC
-                 LIMIT 1",
-                $this->dateRange['from'],
-                $this->dateRange['to']
-            )
-        );
+        if (!empty($result['data']['rows'][0]['author_name'])) {
+            return $result['data']['rows'][0]['author_name'];
+        }
 
-        return $result ? $result->display_name : null;
+        return null;
     }
 
     /**
@@ -364,28 +358,21 @@ class EmailReportDataProvider
      */
     public function getTopCategory()
     {
-        global $wpdb;
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'group_by'  => ['taxonomy'],
+            'filters'   => ['taxonomy_type' => ['is' => 'category']],
+            'date_from' => $this->dateRange['from'],
+            'date_to'   => $this->dateRange['to'],
+            'format'    => 'table',
+            'per_page'  => 1,
+        ]);
 
-        $result = $wpdb->get_row(
-            $wpdb->prepare(
-                "SELECT t.name, SUM(v.count) as total_views
-                 FROM {$wpdb->prefix}statistics_views v
-                 INNER JOIN {$wpdb->posts} p ON v.page_id = p.ID
-                 INNER JOIN {$wpdb->term_relationships} tr ON p.ID = tr.object_id
-                 INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-                 INNER JOIN {$wpdb->terms} t ON tt.term_id = t.term_id
-                 WHERE v.date BETWEEN %s AND %s
-                 AND tt.taxonomy = 'category'
-                 AND p.post_status = 'publish'
-                 GROUP BY tt.term_id
-                 ORDER BY total_views DESC
-                 LIMIT 1",
-                $this->dateRange['from'],
-                $this->dateRange['to']
-            )
-        );
+        if (!empty($result['data']['rows'][0]['term_name'])) {
+            return $result['data']['rows'][0]['term_name'];
+        }
 
-        return $result ? $result->name : null;
+        return null;
     }
 
     /**

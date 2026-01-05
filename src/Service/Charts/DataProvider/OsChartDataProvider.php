@@ -2,9 +2,8 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
-use WP_Statistics\Decorators\VisitorDecorator;
-use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 
@@ -12,17 +11,16 @@ class OsChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
 
-    protected $visitorsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->args = array_merge($this->args, [
-            'fields' => ['visitor.platform']
-        ]);
-
-        $this->visitorsModel = new VisitorsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
 
@@ -30,8 +28,16 @@ class OsChartDataProvider extends AbstractChartDataProvider
     {
         $this->initChartData();
 
-        $data = $this->visitorsModel->getVisitorsData($this->args);
-        $data = $this->parseData($data);
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['os'],
+            'date_from' => $this->args['date']['from'] ?? null,
+            'date_to'   => $this->args['date']['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $data = $this->parseData($result['data']['rows'] ?? []);
 
         $this->setChartLabels($data['labels']);
         $this->setChartData($data['visitors']);
@@ -45,22 +51,16 @@ class OsChartDataProvider extends AbstractChartDataProvider
         $parsedData = [];
 
         if (!empty($data)) {
-            foreach ($data as $item) {
-                $platform = $item->getOs()->getName();
+            foreach ($data as $row) {
+                $platform = $row['os'] ?? '';
+                $visitors = intval($row['visitors'] ?? 0);
 
                 if (!empty($platform)) {
-                    $platforms = array_column($parsedData, 'label');
-
-                    if (!in_array($platform, $platforms)) {
-                        $parsedData[] = [
-                            'label'    => $platform,
-                            'icon'     => DeviceHelper::getPlatformLogo($platform),
-                            'visitors' => 1
-                        ];
-                    } else {
-                        $index = array_search($platform, $platforms);
-                        $parsedData[$index]['visitors']++;
-                    }
+                    $parsedData[] = [
+                        'label'    => $platform,
+                        'icon'     => DeviceHelper::getPlatformLogo($platform),
+                        'visitors' => $visitors
+                    ];
                 }
             }
 

@@ -14,20 +14,33 @@ use WP_Statistics\Service\AnalyticsQuery\Sources\AvgTimeOnPageSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\TotalDurationSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\VisitorStatusSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\SearchesSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\EventsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ExclusionsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\OnlineVisitorsSource;
 
 /**
  * Registry for analytics sources.
+ *
+ * Uses lazy loading to only instantiate source objects when they are first accessed.
+ * This improves performance by deferring object creation until actually needed.
  *
  * @since 15.0.0
  */
 class SourceRegistry implements RegistryInterface
 {
     /**
-     * Registered sources.
+     * Registered source instances (lazy loaded).
      *
      * @var array<string, SourceInterface>
      */
     private $sources = [];
+
+    /**
+     * Registered source class names for lazy loading.
+     *
+     * @var array<string, string>
+     */
+    private $sourceClasses = [];
 
     /**
      * Singleton instance.
@@ -35,6 +48,13 @@ class SourceRegistry implements RegistryInterface
      * @var self|null
      */
     private static $instance = null;
+
+    /**
+     * Whether defaults have been registered.
+     *
+     * @var bool
+     */
+    private $defaultsRegistered = false;
 
     /**
      * Constructor.
@@ -59,28 +79,56 @@ class SourceRegistry implements RegistryInterface
     }
 
     /**
-     * Register default sources.
+     * Register default sources using class names for lazy loading.
      *
      * @return void
      */
     private function registerDefaults(): void
     {
-        $defaults = [
-            new VisitorsSource(),
-            new ViewsSource(),
-            new SessionsSource(),
-            new BounceRateSource(),
-            new AvgSessionDurationSource(),
-            new PagesPerSessionSource(),
-            new AvgTimeOnPageSource(),
-            new TotalDurationSource(),
-            new VisitorStatusSource(),
-            new SearchesSource(),
+        if ($this->defaultsRegistered) {
+            return;
+        }
+
+        // Register class names for lazy instantiation
+        $this->sourceClasses = [
+            'visitors'             => VisitorsSource::class,
+            'views'                => ViewsSource::class,
+            'sessions'             => SessionsSource::class,
+            'bounce_rate'          => BounceRateSource::class,
+            'avg_session_duration' => AvgSessionDurationSource::class,
+            'pages_per_session'    => PagesPerSessionSource::class,
+            'avg_time_on_page'     => AvgTimeOnPageSource::class,
+            'total_duration'       => TotalDurationSource::class,
+            'visitor_status'       => VisitorStatusSource::class,
+            'searches'             => SearchesSource::class,
+            'events'               => EventsSource::class,
+            'exclusions'           => ExclusionsSource::class,
+            'online_visitors'      => OnlineVisitorsSource::class,
         ];
 
-        foreach ($defaults as $source) {
-            $this->register($source->getName(), $source);
+        $this->defaultsRegistered = true;
+    }
+
+    /**
+     * Resolve a source instance (lazy loading).
+     *
+     * @param string $name Source name.
+     * @return SourceInterface|null
+     */
+    private function resolve(string $name): ?SourceInterface
+    {
+        // Already instantiated
+        if (isset($this->sources[$name])) {
+            return $this->sources[$name];
         }
+
+        // Create instance from class name
+        if (isset($this->sourceClasses[$name])) {
+            $this->sources[$name] = new $this->sourceClasses[$name]();
+            return $this->sources[$name];
+        }
+
+        return null;
     }
 
     /**
@@ -92,7 +140,22 @@ class SourceRegistry implements RegistryInterface
             throw new \InvalidArgumentException('Item must implement SourceInterface');
         }
 
+        // Remove from class registry if it was there (instance takes precedence)
+        unset($this->sourceClasses[$name]);
+
         $this->sources[$name] = $item;
+    }
+
+    /**
+     * Register a source class for lazy loading.
+     *
+     * @param string $name      Source name.
+     * @param string $className Fully qualified class name.
+     * @return void
+     */
+    public function registerClass(string $name, string $className): void
+    {
+        $this->sourceClasses[$name] = $className;
     }
 
     /**
@@ -100,7 +163,7 @@ class SourceRegistry implements RegistryInterface
      */
     public function has(string $name): bool
     {
-        return isset($this->sources[$name]);
+        return isset($this->sources[$name]) || isset($this->sourceClasses[$name]);
     }
 
     /**
@@ -110,7 +173,7 @@ class SourceRegistry implements RegistryInterface
      */
     public function get(string $name): ?SourceInterface
     {
-        return $this->sources[$name] ?? null;
+        return $this->resolve($name);
     }
 
     /**
@@ -118,7 +181,10 @@ class SourceRegistry implements RegistryInterface
      */
     public function getAll(): array
     {
-        return array_keys($this->sources);
+        return array_unique(array_merge(
+            array_keys($this->sources),
+            array_keys($this->sourceClasses)
+        ));
     }
 
     /**

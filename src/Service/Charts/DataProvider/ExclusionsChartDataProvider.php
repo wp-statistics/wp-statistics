@@ -4,9 +4,7 @@ namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
-use WP_STATISTICS\Helper;
-use WP_Statistics\Models\ExclusionsModel;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
@@ -15,15 +13,16 @@ class ExclusionsChartDataProvider extends AbstractChartDataProvider
 {
     use LineChartResponseTrait;
 
-    protected $exclusionsModel;
+    /**
+     * @var AnalyticsQueryHandler
+     */
+    protected $queryHandler;
 
     public function __construct($args)
     {
         parent::__construct($args);
 
-        $this->args['group_by'] = ['date', 'reason'];
-
-        $this->exclusionsModel = new ExclusionsModel();
+        $this->queryHandler = new AnalyticsQueryHandler();
     }
 
     public function getData()
@@ -48,41 +47,58 @@ class ExclusionsChartDataProvider extends AbstractChartDataProvider
         $this->setChartLabels(array_map(
             function ($date) {
                 return [
-                    'formatted_date'    =>DateTime::format($date, ['exclude_year' => true, 'short_month' => true]),
-                    'date'              =>DateTime::format($date, ['date_format' => 'Y-m-d']),
-                    'day'               =>DateTime::format($date, ['date_format' => 'D'])
+                    'formatted_date' => DateTime::format($date, ['exclude_year' => true, 'short_month' => true]),
+                    'date'           => DateTime::format($date, ['date_format' => 'Y-m-d']),
+                    'day'            => DateTime::format($date, ['date_format' => 'D'])
                 ];
             },
             $periodDates
         ));
 
-        $data = $this->exclusionsModel->getExclusions($this->args);
+        // Query exclusions data using AnalyticsQueryHandler
+        $result = $this->queryHandler->handle([
+            'sources'   => ['exclusions'],
+            'group_by'  => ['exclusion_date', 'exclusion_reason'],
+            'date_from' => $period['from'] ?? null,
+            'date_to'   => $period['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
 
-        foreach ($data as $item) {
-            $count = intval($item->count);
-            $parsedData[$item->reason][$item->date] = $count;
-            $totalData[$item->date]                 += $count;
+        $data = $result['data']['rows'] ?? [];
+
+        foreach ($data as $row) {
+            $date   = $row['date'] ?? '';
+            $reason = $row['reason'] ?? '';
+            $count  = intval($row['exclusions'] ?? 0);
+
+            if (!empty($reason) && !empty($date)) {
+                $parsedData[$reason][$date] = $count;
+                if (isset($totalData[$date])) {
+                    $totalData[$date] += $count;
+                }
+            }
         }
 
         // Sort data
-        uasort($parsedData, function($a, $b) {
+        uasort($parsedData, function ($a, $b) {
             return array_sum($b) - array_sum($a);
         });
 
         // Get top 3 exclusions
         $topData = array_slice($parsedData, 0, 3, true);
 
-        foreach ($topData as $reason => $data) {
+        foreach ($topData as $reason => $reasonData) {
             // Fill out missing counts with 0
-            $data = array_merge(array_fill_keys($periodDates, 0), $data);
+            $reasonData = array_merge(array_fill_keys($periodDates, 0), $reasonData);
 
             // Sort data by date
-            ksort($data);
+            ksort($reasonData);
 
             // Add data as dataset
             $this->addChartDataset(
                 ucfirst($reason),
-                array_values($data)
+                array_values($reasonData)
             );
         }
 

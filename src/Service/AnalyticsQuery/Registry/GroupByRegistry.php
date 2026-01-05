@@ -14,7 +14,9 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\RegionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\BrowserGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\OsGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\DeviceTypeGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\DeviceModelGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ReferrerGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\ReferrerChannelGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\PageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\VisitorGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\OnlineVisitorGroupBy;
@@ -23,6 +25,10 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\LanguageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ResolutionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\SearchTermGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\EntryPageGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\AuthorGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\TaxonomyGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionReasonGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionDateGroupBy;
 
 /**
  * Registry for analytics group by.
@@ -32,11 +38,18 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\EntryPageGroupBy;
 class GroupByRegistry implements RegistryInterface
 {
     /**
-     * Registered group by.
+     * Registered group by instances (lazy loaded).
      *
      * @var array<string, GroupByInterface>
      */
     private $groupBy = [];
+
+    /**
+     * Registered group by class names for lazy loading.
+     *
+     * @var array<string, string>
+     */
+    private $groupByClasses = [];
 
     /**
      * Singleton instance.
@@ -44,6 +57,13 @@ class GroupByRegistry implements RegistryInterface
      * @var self|null
      */
     private static $instance = null;
+
+    /**
+     * Whether defaults have been registered.
+     *
+     * @var bool
+     */
+    private $defaultsRegistered = false;
 
     /**
      * Constructor.
@@ -68,37 +88,68 @@ class GroupByRegistry implements RegistryInterface
     }
 
     /**
-     * Register default group by.
+     * Register default group by using class names for lazy loading.
      *
      * @return void
      */
     private function registerDefaults(): void
     {
-        $defaults = [
-            new DateGroupBy(),
-            new WeekGroupBy(),
-            new MonthGroupBy(),
-            new HourGroupBy(),
-            new CountryGroupBy(),
-            new CityGroupBy(),
-            new RegionGroupBy(),
-            new BrowserGroupBy(),
-            new OsGroupBy(),
-            new DeviceTypeGroupBy(),
-            new ReferrerGroupBy(),
-            new PageGroupBy(),
-            new VisitorGroupBy(),
-            new OnlineVisitorGroupBy(),
-            new ContinentGroupBy(),
-            new LanguageGroupBy(),
-            new ResolutionGroupBy(),
-            new SearchTermGroupBy(),
-            new EntryPageGroupBy(),
+        if ($this->defaultsRegistered) {
+            return;
+        }
+
+        // Register class names for lazy instantiation
+        $this->groupByClasses = [
+            'date'             => DateGroupBy::class,
+            'week'             => WeekGroupBy::class,
+            'month'            => MonthGroupBy::class,
+            'hour'             => HourGroupBy::class,
+            'country'          => CountryGroupBy::class,
+            'city'             => CityGroupBy::class,
+            'region'           => RegionGroupBy::class,
+            'browser'          => BrowserGroupBy::class,
+            'os'               => OsGroupBy::class,
+            'device_type'      => DeviceTypeGroupBy::class,
+            'device_model'     => DeviceModelGroupBy::class,
+            'referrer'         => ReferrerGroupBy::class,
+            'referrer_channel' => ReferrerChannelGroupBy::class,
+            'page'             => PageGroupBy::class,
+            'visitor'          => VisitorGroupBy::class,
+            'online_visitor'   => OnlineVisitorGroupBy::class,
+            'continent'        => ContinentGroupBy::class,
+            'language'         => LanguageGroupBy::class,
+            'resolution'       => ResolutionGroupBy::class,
+            'search_term'      => SearchTermGroupBy::class,
+            'entry_page'       => EntryPageGroupBy::class,
+            'author'           => AuthorGroupBy::class,
+            'taxonomy'         => TaxonomyGroupBy::class,
+            'exclusion_reason' => ExclusionReasonGroupBy::class,
+            'exclusion_date'   => ExclusionDateGroupBy::class,
         ];
 
-        foreach ($defaults as $groupByItem) {
-            $this->register($groupByItem->getName(), $groupByItem);
+        $this->defaultsRegistered = true;
+    }
+
+    /**
+     * Resolve a group by instance (lazy loading).
+     *
+     * @param string $name Group by name.
+     * @return GroupByInterface|null
+     */
+    private function resolve(string $name): ?GroupByInterface
+    {
+        // Already instantiated
+        if (isset($this->groupBy[$name])) {
+            return $this->groupBy[$name];
         }
+
+        // Create instance from class name
+        if (isset($this->groupByClasses[$name])) {
+            $this->groupBy[$name] = new $this->groupByClasses[$name]();
+            return $this->groupBy[$name];
+        }
+
+        return null;
     }
 
     /**
@@ -109,8 +160,22 @@ class GroupByRegistry implements RegistryInterface
         if (!$item instanceof GroupByInterface) {
             throw new \InvalidArgumentException('Item must implement GroupByInterface');
         }
+        // Remove from class registry if it was there (instance takes precedence)
+        unset($this->groupByClasses[$name]);
 
         $this->groupBy[$name] = $item;
+    }
+
+    /**
+     * Register a group by class for lazy loading.
+     *
+     * @param string $name      Group by name.
+     * @param string $className Fully qualified class name.
+     * @return void
+     */
+    public function registerClass(string $name, string $className): void
+    {
+        $this->groupByClasses[$name] = $className;
     }
 
     /**
@@ -118,7 +183,7 @@ class GroupByRegistry implements RegistryInterface
      */
     public function has(string $name): bool
     {
-        return isset($this->groupBy[$name]);
+        return isset($this->groupBy[$name]) || isset($this->groupByClasses[$name]);
     }
 
     /**
@@ -128,7 +193,7 @@ class GroupByRegistry implements RegistryInterface
      */
     public function get(string $name): ?GroupByInterface
     {
-        return $this->groupBy[$name] ?? null;
+        return $this->resolve($name);
     }
 
     /**
@@ -136,7 +201,10 @@ class GroupByRegistry implements RegistryInterface
      */
     public function getAll(): array
     {
-        return array_keys($this->groupBy);
+        return array_unique(array_merge(
+            array_keys($this->groupBy),
+            array_keys($this->groupByClasses)
+        ));
     }
 
     /**
