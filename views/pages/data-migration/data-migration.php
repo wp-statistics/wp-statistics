@@ -11,4 +11,4 @@
 
 defined('ABSPATH') || exit;
 ?>
-<div id="wps-data-migration-page" class="postbox-container"></div>
+<div id="wp-statistics-app" class="postbox-container"></div>
