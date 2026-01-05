@@ -1,7 +1,7 @@
 <?php
 namespace WP_Statistics\Components;
 
-use WP_STATISTICS\Schedule;
+use WP_Statistics\Service\Cron\CronSchedules;
 
 class Event
 {
@@ -82,7 +82,7 @@ class Event
         // unschedule previous event
         self::unschedule($event);
 
-        $schedules = Schedule::getSchedules();
+        $schedules = CronSchedules::getSchedules();
 
         if (isset($schedules[$recurrence])) {
             $nextRun = $schedules[$recurrence]['next_schedule'];

@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
+use WP_Statistics\Components\Event;
 use WP_Statistics\Service\Cron\ScheduledEventInterface;
 
 /**
@@ -103,7 +104,7 @@ abstract class AbstractCronEvent implements ScheduledEventInterface
     protected function schedule(): void
     {
         $timestamp = $this->getNextScheduleTime();
-        wp_schedule_event($timestamp, $this->recurrence, $this->hook);
+        Event::schedule($this->hook, $timestamp, $this->recurrence);
     }
 
     /**
@@ -113,10 +114,7 @@ abstract class AbstractCronEvent implements ScheduledEventInterface
      */
     public function unschedule(): void
     {
-        $timestamp = wp_next_scheduled($this->hook);
-        if ($timestamp) {
-            wp_unschedule_event($timestamp, $this->hook);
-        }
+        Event::unschedule($this->hook);
     }
 
     /**
@@ -162,7 +160,7 @@ abstract class AbstractCronEvent implements ScheduledEventInterface
      */
     public function isScheduled(): bool
     {
-        return (bool) wp_next_scheduled($this->hook);
+        return Event::isScheduled($this->hook);
     }
 
     /**
@@ -172,7 +170,8 @@ abstract class AbstractCronEvent implements ScheduledEventInterface
      */
     public function getNextRunTime()
     {
-        return wp_next_scheduled($this->hook);
+        $event = Event::get($this->hook);
+        return $event ? $event->timestamp : false;
     }
 
     /**
