@@ -19,6 +19,10 @@ export interface CityDataItem {
   country_name: string
   visitors?: number
   views?: number
+  /** Latitude coordinate from GeoNames via Analytics API */
+  latitude?: number
+  /** Longitude coordinate from GeoNames via Analytics API */
+  longitude?: number
 }
 
 export interface GetCitiesDataResponse {
@@ -42,6 +46,18 @@ export const getCitiesDataQueryOptions = ({
         action: WordPress.getInstance().getAnalyticsAction(),
         sources: [metric],
         group_by: ['city'],
+        // Explicitly request coordinate columns from GeoNames data
+        columns: [
+          'city_id',
+          'city_name',
+          'city_region_code',
+          'city_region_name',
+          'country_code',
+          'country_name',
+          'latitude',
+          'longitude',
+          metric,
+        ],
         filters: {
           country: {
             operator: 'is',
