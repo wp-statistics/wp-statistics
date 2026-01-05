@@ -15,12 +15,30 @@ use WP_Statistics\Service\Tracking\Controllers\RestApiTracking;
  * This factory determines which tracking implementation to use based on plugin settings
  * and allows for custom tracking controllers through WordPress filters.
  *
+ * Uses lazy loading - the controller is only created once and cached for subsequent calls.
+ *
  * @since 15.0.0
  */
 class TrackerControllerFactory
 {
     /**
+     * Cached controller instance (lazy loaded).
+     *
+     * @var BaseTrackerController|null
+     */
+    private static $controller = null;
+
+    /**
+     * Whether batch tracking has been initialized.
+     *
+     * @var bool
+     */
+    private static $batchInitialized = false;
+
+    /**
      * Creates and returns the appropriate tracking controller based on settings.
+     *
+     * Uses caching - the controller is created once and reused for subsequent calls.
      *
      * @return BaseTrackerController The configured tracking controller instance
      * @throws Exception If custom controller validation fails
@@ -28,6 +46,11 @@ class TrackerControllerFactory
      */
     public static function createController()
     {
+        // Return cached instance if available
+        if (self::$controller !== null) {
+            return self::$controller;
+        }
+
         $bypassAdblocker = Option::getValue('bypass_ad_blockers', false);
 
         if ($bypassAdblocker) {
@@ -36,7 +59,11 @@ class TrackerControllerFactory
             $controller = new RestApiTracking();
         }
 
-        new BatchTracking();
+        // Initialize batch tracking only once
+        if (!self::$batchInitialized) {
+            new BatchTracking();
+            self::$batchInitialized = true;
+        }
 
         /**
          * Filter the tracking controller instance.
@@ -52,7 +79,10 @@ class TrackerControllerFactory
             throw new Exception('Custom tracker controller must extend BaseTrackerController');
         }
 
-        return $controller;
+        // Cache the controller
+        self::$controller = $controller;
+
+        return self::$controller;
     }
 
     /**
@@ -70,5 +100,19 @@ class TrackerControllerFactory
             error_log('WP Statistics: ' . $e->getMessage());
             return null;
         }
+    }
+
+    /**
+     * Reset the cached controller.
+     *
+     * Useful for testing or when settings change.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public static function reset()
+    {
+        self::$controller = null;
+        // Note: We don't reset $batchInitialized since hooks are already registered
     }
 }

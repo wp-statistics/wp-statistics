@@ -7,6 +7,9 @@ namespace WP_Statistics\Service\Blocks;
  *
  * Handles registration and management of Gutenberg blocks.
  *
+ * Uses lazy loading - block instances are only created when
+ * explicitly requested via getBlock(), not during registration.
+ *
  * @since 15.0.0
  */
 class BlocksManager
@@ -17,11 +20,18 @@ class BlocksManager
     private const NAMESPACE = 'wp-statistics';
 
     /**
-     * Block instances.
+     * Block instances (lazy loaded).
      *
      * @var array
      */
     private $blocks = [];
+
+    /**
+     * Block class names for lazy loading.
+     *
+     * @var array<string, string>
+     */
+    private $blockClasses = [];
 
     /**
      * Constructor.
@@ -45,6 +55,9 @@ class BlocksManager
 
     /**
      * Register the Statistics block.
+     *
+     * Uses static render callback - no instance needed during registration.
+     * Block class is stored for lazy loading via getBlock().
      *
      * @return void
      */
@@ -72,7 +85,8 @@ class BlocksManager
             'render_callback' => [StatisticsBlock::class, 'render'],
         ]);
 
-        $this->blocks['statistics'] = new StatisticsBlock();
+        // Store class name for lazy loading - instance created only when needed
+        $this->blockClasses['statistics'] = StatisticsBlock::class;
     }
 
     /**
@@ -254,13 +268,37 @@ class BlocksManager
     }
 
     /**
-     * Get a block instance.
+     * Get a block instance (lazy loading).
+     *
+     * Creates the block instance on first access.
      *
      * @param string $name Block name.
      * @return object|null Block instance.
      */
     public function getBlock($name)
     {
-        return $this->blocks[$name] ?? null;
+        // Return existing instance
+        if (isset($this->blocks[$name])) {
+            return $this->blocks[$name];
+        }
+
+        // Lazy load from class name
+        if (isset($this->blockClasses[$name])) {
+            $this->blocks[$name] = new $this->blockClasses[$name]();
+            return $this->blocks[$name];
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if a block is registered.
+     *
+     * @param string $name Block name.
+     * @return bool
+     */
+    public function hasBlock($name)
+    {
+        return isset($this->blocks[$name]) || isset($this->blockClasses[$name]);
     }
 }

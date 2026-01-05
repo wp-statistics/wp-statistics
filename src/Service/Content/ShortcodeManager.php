@@ -12,6 +12,9 @@ use WP_Statistics\Traits\TransientCacheTrait;
  *
  * Handles the [wpstatistics] shortcode for displaying statistics on the frontend.
  *
+ * Uses lazy loading - the AnalyticsQueryHandler is only instantiated when
+ * a shortcode is actually rendered, not during manager initialization.
+ *
  * ## Usage
  *
  * [wpstatistics stat=xxx time=xxxx provider=xxxx format=xxxxxx id=xxx]
@@ -31,21 +34,35 @@ class ShortcodeManager
     use TransientCacheTrait;
 
     /**
-     * Analytics query handler for v15 API.
+     * Analytics query handler for v15 API (lazy loaded).
      *
-     * @var AnalyticsQueryHandler
+     * @var AnalyticsQueryHandler|null
      */
-    private $queryHandler;
+    private $queryHandler = null;
 
     /**
      * Constructor.
+     *
+     * Registers the shortcode without instantiating the query handler.
+     * The handler is created on-demand when a shortcode is rendered.
      */
     public function __construct()
     {
-        $this->queryHandler = new AnalyticsQueryHandler();
-
         add_shortcode('wpstatistics', [$this, 'renderShortcode']);
         add_action('admin_init', [$this, 'registerShortcake']);
+    }
+
+    /**
+     * Get the analytics query handler (lazy loading).
+     *
+     * @return AnalyticsQueryHandler
+     */
+    private function getQueryHandler()
+    {
+        if ($this->queryHandler === null) {
+            $this->queryHandler = new AnalyticsQueryHandler();
+        }
+        return $this->queryHandler;
     }
 
     /**
@@ -169,7 +186,7 @@ class ShortcodeManager
                 $request['date_to']   = $dateRange['to'];
             }
 
-            $result = $this->queryHandler->handle($request);
+            $result = $this->getQueryHandler()->handle($request);
 
             return $result['totals']['views'] ?? 0;
         } catch (\Exception $e) {
@@ -198,7 +215,7 @@ class ShortcodeManager
                 $request['date_to']   = $dateRange['to'];
             }
 
-            $result = $this->queryHandler->handle($request);
+            $result = $this->getQueryHandler()->handle($request);
 
             return $result['totals']['visitors'] ?? 0;
         } catch (\Exception $e) {
@@ -237,7 +254,7 @@ class ShortcodeManager
                 $request['date_to']   = $dateRange['to'];
             }
 
-            $result = $this->queryHandler->handle($request);
+            $result = $this->getQueryHandler()->handle($request);
 
             return $result['totals']['views'] ?? 0;
         } catch (\Exception $e) {
@@ -276,7 +293,7 @@ class ShortcodeManager
                 $request['date_to']   = $dateRange['to'];
             }
 
-            $result = $this->queryHandler->handle($request);
+            $result = $this->getQueryHandler()->handle($request);
 
             return $result['totals']['visitors'] ?? 0;
         } catch (\Exception $e) {

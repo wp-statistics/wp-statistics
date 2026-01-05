@@ -18,17 +18,32 @@ use WP_Statistics\Service\Cron\Events\EmailReportEvent;
  *
  * Handles scheduling and management of all cron events.
  * Implements centralized event management with admin visibility.
+ * Uses lazy loading to defer event instantiation until needed.
  *
  * @since 15.0.0
  */
 class CronManager
 {
     /**
-     * Event handlers.
+     * Instantiated event handlers (lazy loaded).
      *
      * @var ScheduledEventInterface[]
      */
     private $events = [];
+
+    /**
+     * Event class names for lazy loading.
+     *
+     * @var array<string, string>
+     */
+    private $eventClasses = [];
+
+    /**
+     * Whether defaults have been registered.
+     *
+     * @var bool
+     */
+    private $defaultsRegistered = false;
 
     /**
      * Constructor.
@@ -38,7 +53,7 @@ class CronManager
         // Register custom cron schedules
         CronSchedules::register();
 
-        // Initialize event handlers
+        // Initialize event class names (lazy loading)
         $this->initializeEvents();
 
         // Schedule events on init
@@ -49,22 +64,29 @@ class CronManager
     }
 
     /**
-     * Initialize all event handlers.
+     * Initialize event class names for lazy loading.
      *
      * @return void
      */
     private function initializeEvents()
     {
-        $this->events = [
-            'database_maintenance' => new DatabaseMaintenanceEvent(),
-            'referrer_spam'        => new ReferrerSpamEvent(),
-            'geoip_update'         => new GeoIPUpdateEvent(),
-            'daily_summary'        => new DailySummaryEvent(),
-            'license'              => new LicenseEvent(),
-            'referrals_database'   => new ReferralsDatabaseEvent(),
-            'notification'         => new NotificationEvent(),
-            'email_report'         => new EmailReportEvent(),
+        if ($this->defaultsRegistered) {
+            return;
+        }
+
+        // Register class names only - no instantiation yet
+        $this->eventClasses = [
+            'database_maintenance' => DatabaseMaintenanceEvent::class,
+            'referrer_spam'        => ReferrerSpamEvent::class,
+            'geoip_update'         => GeoIPUpdateEvent::class,
+            'daily_summary'        => DailySummaryEvent::class,
+            'license'              => LicenseEvent::class,
+            'referrals_database'   => ReferralsDatabaseEvent::class,
+            'notification'         => NotificationEvent::class,
+            'email_report'         => EmailReportEvent::class,
         ];
+
+        $this->defaultsRegistered = true;
 
         /**
          * Allow add-ons to register additional scheduled events.
@@ -75,12 +97,50 @@ class CronManager
     }
 
     /**
+     * Resolve an event instance (lazy loading).
+     *
+     * @param string $key Event key.
+     * @return ScheduledEventInterface|null
+     */
+    private function resolve(string $key): ?ScheduledEventInterface
+    {
+        // Already instantiated
+        if (isset($this->events[$key])) {
+            return $this->events[$key];
+        }
+
+        // Create instance from class name
+        if (isset($this->eventClasses[$key])) {
+            $this->events[$key] = new $this->eventClasses[$key]();
+            return $this->events[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * Resolve all events (instantiate all).
+     *
+     * @return void
+     */
+    private function resolveAll(): void
+    {
+        foreach (array_keys($this->eventClasses) as $key) {
+            $this->resolve($key);
+        }
+    }
+
+    /**
      * Schedule all cron events.
+     *
+     * Note: This resolves all events as scheduling requires checking each one.
      *
      * @return void
      */
     public function scheduleEvents()
     {
+        $this->resolveAll();
+
         foreach ($this->events as $event) {
             $event->maybeSchedule();
             $event->registerCallback();
@@ -161,7 +221,7 @@ class CronManager
     }
 
     /**
-     * Register an event handler.
+     * Register an event handler instance.
      *
      * @param string $key Event key.
      * @param ScheduledEventInterface $event Event handler.
@@ -169,32 +229,76 @@ class CronManager
      */
     public function registerEvent(string $key, ScheduledEventInterface $event): void
     {
+        // Remove from class registry if it was there (instance takes precedence)
+        unset($this->eventClasses[$key]);
+
         $this->events[$key] = $event;
     }
 
     /**
-     * Get an event handler by key.
+     * Register an event class for lazy loading.
+     *
+     * @param string $key Event key.
+     * @param string $className Fully qualified class name.
+     * @return void
+     */
+    public function registerEventClass(string $key, string $className): void
+    {
+        $this->eventClasses[$key] = $className;
+    }
+
+    /**
+     * Check if an event exists.
+     *
+     * @param string $key Event key.
+     * @return bool
+     */
+    public function hasEvent(string $key): bool
+    {
+        return isset($this->events[$key]) || isset($this->eventClasses[$key]);
+    }
+
+    /**
+     * Get an event handler by key (lazy loading).
      *
      * @param string $key Event key.
      * @return ScheduledEventInterface|null
      */
     public function getEvent(string $key): ?ScheduledEventInterface
     {
-        return $this->events[$key] ?? null;
+        return $this->resolve($key);
+    }
+
+    /**
+     * Get all event keys.
+     *
+     * @return array
+     */
+    public function getEventKeys(): array
+    {
+        return array_unique(array_merge(
+            array_keys($this->events),
+            array_keys($this->eventClasses)
+        ));
     }
 
     /**
      * Get all event handlers.
      *
+     * Note: This resolves all events.
+     *
      * @return ScheduledEventInterface[]
      */
     public function getEvents(): array
     {
+        $this->resolveAll();
         return $this->events;
     }
 
     /**
      * Get detailed information about all events.
+     *
+     * Note: This resolves all events.
      *
      * @return array
      */
@@ -202,8 +306,11 @@ class CronManager
     {
         $info = [];
 
-        foreach ($this->events as $key => $event) {
-            $info[$key] = $event->getInfo();
+        foreach ($this->getEventKeys() as $key) {
+            $event = $this->resolve($key);
+            if ($event) {
+                $info[$key] = $event->getInfo();
+            }
         }
 
         return $info;
@@ -211,6 +318,8 @@ class CronManager
 
     /**
      * Handle settings update - reschedule affected events.
+     *
+     * Only resolves the specific events that need rescheduling.
      *
      * @param array $updatedSettings Updated settings keys.
      * @return void
@@ -234,10 +343,11 @@ class CronManager
             }
         }
 
-        // Reschedule affected events
+        // Reschedule affected events (lazy - only resolves needed events)
         foreach (array_keys($eventsToReschedule) as $eventKey) {
-            if (isset($this->events[$eventKey])) {
-                $this->events[$eventKey]->reschedule();
+            $event = $this->resolve($eventKey);
+            if ($event) {
+                $event->reschedule();
             }
         }
     }
@@ -250,22 +360,25 @@ class CronManager
      */
     public function rescheduleEvent(string $key): bool
     {
-        if (!isset($this->events[$key])) {
+        $event = $this->resolve($key);
+        if (!$event) {
             return false;
         }
 
-        $this->events[$key]->reschedule();
+        $event->reschedule();
         return true;
     }
 
     /**
      * Reschedule all events.
      *
+     * Note: This resolves all events.
+     *
      * @return void
      */
     public function rescheduleAll(): void
     {
-        foreach ($this->events as $event) {
+        foreach ($this->getEvents() as $event) {
             $event->reschedule();
         }
     }

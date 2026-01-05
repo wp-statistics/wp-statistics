@@ -80,14 +80,17 @@ class ReactAppManager
      * - wp_statistics_get_filter_options: Filter options search endpoint
      * - wp_statistics_user_preferences: User preferences save/reset endpoint
      *
+     * Uses lazy loading - endpoints are only instantiated when the AJAX
+     * request is actually made, not during manager initialization.
+     *
      * @return void
      */
     private function initDashboardAjax()
     {
         $this->ajax = (new AjaxManager())
-            ->registerGlobalEndpoint(new AnalyticsQuery())
-            ->registerGlobalEndpoint(new FilterOptions())
-            ->registerGlobalEndpoint(new UserPreferences());
+            ->registerGlobalEndpointClass(AnalyticsQuery::class, 'analytics')
+            ->registerGlobalEndpointClass(FilterOptions::class, 'get_filter_options')
+            ->registerGlobalEndpointClass(UserPreferences::class, 'user_preferences');
     }
 
     /**
@@ -110,8 +113,9 @@ class ReactAppManager
     /**
      * Initialize localized data providers.
      *
-     * Sets up the LocalizeDataManager and registers all data providers
-     * that will send data to React components via window.wps_react.
+     * Sets up the LocalizeDataManager and registers provider class names
+     * for lazy loading. Providers are only instantiated when the filter
+     * is actually triggered (when React needs the data).
      *
      * @return void
      */
@@ -119,11 +123,12 @@ class ReactAppManager
     {
         $this->localizeDataManager = new LocalizeDataManager();
 
+        // Register provider classes for lazy loading - no instantiation yet
         $this->localizeDataManager
-            ->registerProvider(new LayoutDataProvider())
-            ->registerProvider(new GlobalDataProvider())
-            ->registerProvider(new HeaderDataProvider())
-            ->registerProvider(new FiltersProvider())
+            ->registerProviderClass(LayoutDataProvider::class)
+            ->registerProviderClass(GlobalDataProvider::class)
+            ->registerProviderClass(HeaderDataProvider::class)
+            ->registerProviderClass(FiltersProvider::class)
             ->init();
     }
 
