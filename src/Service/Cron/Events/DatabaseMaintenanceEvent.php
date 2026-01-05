@@ -49,7 +49,7 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
         $purgeDays = intval(OptionManager::get('schedule_dbmaint_days', 180));
 
         if ($purgeDays > 0) {
-            Purge::purge_data($purgeDays);
+            Purge::purge_data($purgeDays); // todo need to be implemented.
         }
     }
 }
