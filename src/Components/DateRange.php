@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Components;
 
-use WP_STATISTICS\User;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Utils\User;
 
 class DateRange
 {

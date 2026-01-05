@@ -61,7 +61,7 @@ class PostType
                 'public'   => true,
                 '_builtin' => true
             ],
-            'WP_Statistics_names'
+            'names'
         );
 
         return array_diff($builtinPostTypes, ['attachment']);
@@ -98,7 +98,7 @@ class PostType
             $args['publicly_queryable'] = true;
         }
 
-        return get_post_types($args, 'WP_Statistics_names');
+        return get_post_types($args, 'names');
     }
 
     /**

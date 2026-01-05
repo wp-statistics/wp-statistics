@@ -3,8 +3,8 @@
 namespace WP_Statistics\BackgroundProcess\AjaxBackgroundProcess;
 
 use WP_Statistics\Components\Option;
-use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Utils\User;
 
 /**
  * Base class for handling background database migrations in an asynchronous manner.
@@ -396,7 +396,7 @@ abstract class AbstractAjaxBackgroundProcess
     {
         check_ajax_referer('wp_rest', 'wps_nonce');
 
-        if (!Request::isFrom('ajax') || !User::Access('manage')) {
+        if (!Request::isFrom('ajax') || !User::hasAccess('manage')) {
             wp_send_json_error([
                 'message' => esc_html__('Unauthorized request or insufficient permissions.', 'wp-statistics')
             ]);

@@ -5,8 +5,8 @@ namespace WP_Statistics\Service\Admin;
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Option;
+use WP_Statistics\Utils\User;
 use Exception;
-use WP_STATISTICS\User;
 
 class AjaxOptionUpdater
 {
@@ -34,7 +34,7 @@ class AjaxOptionUpdater
     public function optionUpdater()
     {
         try {
-            if (Request::isFrom('ajax') && User::Access('manage')) {
+            if (Request::isFrom('ajax') && User::hasAccess('manage')) {
                 check_ajax_referer('wp_rest', 'wps_nonce');
 
                 $option = Request::get('option');

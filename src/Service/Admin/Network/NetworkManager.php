@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\Network;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\Option;
-use WP_STATISTICS\User;
+use WP_Statistics\Utils\User;
 
 /**
  * Network Manager for WP Statistics v15.
@@ -37,8 +37,8 @@ class NetworkManager
      */
     public function registerNetworkMenu()
     {
-        $readCap   = User::ExistCapability(Option::getValue('read_capability', 'manage_options'));
-        $manageCap = User::ExistCapability(Option::getValue('manage_capability', 'manage_options'));
+        $readCap   = User::getExistingCapability(Option::getValue('read_capability', 'manage_options'));
+        $manageCap = User::getExistingCapability(Option::getValue('manage_capability', 'manage_options'));
 
         // Add the top level menu
         add_menu_page(

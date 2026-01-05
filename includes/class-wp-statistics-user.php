@@ -3,21 +3,32 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Utils\User as UtilsUser;
 
 /**
  * Legacy User class for backward compatibility.
  *
- * @deprecated 15.0.0 Use WordPress core user functions or dedicated services.
- * @see get_current_user_id()
- * @see current_user_can()
+ * @deprecated 15.0.0 Use \WP_Statistics\Utils\User instead.
+ * @see \WP_Statistics\Utils\User
  *
  * This class is maintained for backward compatibility with add-ons.
- * New code should use WordPress core user functions directly.
+ * New code should use \WP_Statistics\Utils\User directly.
  *
  * Migration guide:
- * - User::get_user_id()    -> get_current_user_id()
- * - User::Access()         -> current_user_can($capability)
- * - User::is_login()       -> is_user_logged_in()
+ * - User::is_login()              -> UtilsUser::isLoggedIn()
+ * - User::get_user_id()           -> UtilsUser::getId()
+ * - User::get()                   -> UtilsUser::getInfo()
+ * - User::get_name()              -> UtilsUser::getName()
+ * - User::exists()                -> UtilsUser::exists()
+ * - User::getMeta()               -> UtilsUser::getMeta()
+ * - User::saveMeta()              -> UtilsUser::saveMeta()
+ * - User::get_role_list()         -> UtilsUser::getRoles()
+ * - User::ExistCapability()       -> UtilsUser::getExistingCapability()
+ * - User::Access()                -> UtilsUser::hasAccess()
+ * - User::isAdmin()               -> UtilsUser::isAdmin()
+ * - User::checkUserCapability()   -> UtilsUser::hasCapability()
+ * - User::isCapabilityNeedingPostId() -> UtilsUser::requiresPostContext()
+ * - User::getLastLogin()          -> UtilsUser::getLastLoginTime()
  */
 class User
 {
@@ -33,205 +44,166 @@ class User
     /**
      * Check User is Logged in WordPress
      *
-     * @return mixed
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::isLoggedIn() instead.
+     * @see \WP_Statistics\Utils\User::isLoggedIn()
+     *
+     * @return bool
      */
     public static function is_login()
     {
-        return is_user_logged_in();
+        return UtilsUser::isLoggedIn();
     }
 
     /**
      * Get Current User ID
      *
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::getId() instead.
+     * @see \WP_Statistics\Utils\User::getId()
+     *
      * @return int
      */
     public static function get_user_id()
     {
-        $user_id = 0;
-        if (self::is_login() === true) {
-            $user_id = get_current_user_id();
-        }
-
-        return apply_filters('wp_statistics_user_id', $user_id);
+        return UtilsUser::getId();
     }
 
     /**
      * Get User Data
      *
-     * @param bool $user_id
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::getInfo() instead.
+     * @see \WP_Statistics\Utils\User::getInfo()
+     *
+     * @param int|bool $user_id
      * @return array
      */
     public static function get($user_id = false)
     {
+        $userId   = $user_id ? (int) $user_id : get_current_user_id();
+        $userInfo = UtilsUser::getInfo($userId);
 
-        # Get User ID
-        $user_id = $user_id ? $user_id : get_current_user_id();
+        // Maintain backward compatibility for 'role' key (legacy uses 'role', new uses 'roles')
+        if (isset($userInfo['roles'])) {
+            $userInfo['role'] = $userInfo['roles'];
+        }
 
-        # Get User Data
-        $user_data = get_userdata($user_id);
-        $user_info = get_object_vars($user_data->data);
+        // Maintain backward compatibility for 'cap' key (legacy uses 'cap', new uses 'caps')
+        if (isset($userInfo['caps'])) {
+            $userInfo['cap'] = $userInfo['caps'];
+        }
 
-        # Get User roles
-        $user_info['role'] = $user_data->roles;
-
-        # Get User Caps
-        $user_info['cap'] = $user_data->caps;
-
-        # Get User Meta
-        $user_info['meta'] = array_map(function ($a) {
-            return $a[0];
-        }, get_user_meta($user_id));
-
-        return $user_info;
+        return $userInfo;
     }
 
-
+    /**
+     * Get user meta value.
+     *
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::getMeta() instead.
+     * @see \WP_Statistics\Utils\User::getMeta()
+     *
+     * @param string   $metaKey The meta key.
+     * @param bool     $single  Whether to return a single value.
+     * @param int|bool $userId  User ID or false for current user.
+     * @return mixed
+     */
     public static function getMeta($metaKey, $single = false, $userId = false)
     {
-        $userId = !empty($userId) ? $userId : get_current_user_id();
-        return get_user_meta($userId, $metaKey, $single);
+        return UtilsUser::getMeta($metaKey, $single, $userId ? (int) $userId : 0);
     }
 
+    /**
+     * Save user meta value.
+     *
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::saveMeta() instead.
+     * @see \WP_Statistics\Utils\User::saveMeta()
+     *
+     * @param string   $metaKey   The meta key.
+     * @param mixed    $metaValue The meta value.
+     * @param int|bool $userId    User ID or false for current user.
+     * @return int|bool
+     */
     public static function saveMeta($metaKey, $metaValue, $userId = false)
     {
-        $userId = !empty($userId) ? $userId : get_current_user_id();
-        return update_user_meta($userId, $metaKey, $metaValue);
+        return UtilsUser::saveMeta($metaKey, $metaValue, $userId ? (int) $userId : 0);
     }
 
     /**
      * Get Full name of User
      *
-     * @param $user_id
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::getName() instead.
+     * @see \WP_Statistics\Utils\User::getName()
+     *
+     * @param int $user_id
      * @return string
      */
     public static function get_name($user_id)
     {
-
-        # Get User Info
-        $user_info = self::get($user_id);
-
-        # check display name
-        if ($user_info['display_name'] != "") {
-            return $user_info['display_name'];
-        }
-
-        # Check First and Last name
-        if ($user_info['meta']['first_name'] != "") {
-            return $user_info['meta']['first_name'] . " " . $user_info['meta']['last_name'];
-        }
-
-        # return Username
-        return $user_info['user_login'];
+        return UtilsUser::getName((int) $user_id);
     }
 
     /**
      * Check User Exist By id
      *
-     * @param $user_id
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::exists() instead.
+     * @see \WP_Statistics\Utils\User::exists()
+     *
+     * @param int $user_id
      * @return bool
-     * We Don`t Use get_userdata or get_user_by function, because We need only count nor UserData object.
      */
     public static function exists($user_id)
     {
-        global $wpdb;
-
-        $count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $wpdb->users WHERE `ID` = %d", $user_id));
-        return $count > 0;
+        return UtilsUser::exists((int) $user_id);
     }
 
     /**
      * Returns WordPress' roles names + an extra "Anonymous Users" index.
      *
-     * @return  array
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::getRoles() instead.
+     * @see \WP_Statistics\Utils\User::getRoles()
+     *
+     * @return array
      */
     public static function get_role_list()
     {
-        global $wp_roles;
-
-        $rolesNames   = $wp_roles->get_names();
-        $rolesNames[] = 'Anonymous Users';
-
-        return $rolesNames;
+        return UtilsUser::getRoles();
     }
 
     /**
      * Validation User Capability
      *
-     * @default manage_options
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::getExistingCapability() instead.
+     * @see \WP_Statistics\Utils\User::getExistingCapability()
+     *
      * @param string $capability Capability
-     * @return string 'manage_options'
+     * @return string
      */
     public static function ExistCapability($capability)
     {
-        global $wp_roles;
-
-        if (!is_object($wp_roles) || !is_array($wp_roles->roles)) {
-            return self::$default_manage_cap;
-        }
-
-        foreach ($wp_roles->roles as $role) {
-            $cap_list = $role['capabilities'];
-
-            foreach ($cap_list as $key => $cap) {
-                if ($capability == $key) {
-                    return $capability;
-                }
-            }
-        }
-
-        return self::$default_manage_cap;
+        return UtilsUser::getExistingCapability((string) $capability);
     }
 
     /**
      * Check User Access To WP Statistics Admin
      *
-     * @param string $type [manage | read ]
-     * @param string|boolean $export
-     * @return bool
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::hasAccess() instead.
+     * @see \WP_Statistics\Utils\User::hasAccess()
+     *
+     * @param string         $type   One of 'manage', 'read', or 'both'.
+     * @param string|boolean $export Pass 'cap' to return capability slug instead of boolean.
+     * @return bool|string
      */
     public static function Access($type = 'both', $export = false)
     {
-
-        //List Of Default Cap
-        $list = array(
-            'manage' => array('manage_capability', 'manage_options'),
-            'read'   => array('read_capability', 'manage_options')
-        );
-
-        //User User Cap
-        $cap = 'both';
-        if (!empty($type) and array_key_exists($type, $list)) {
-            $cap = $type;
-        }
-
-        //Check Export Cap name or Validation current_can_user
-        if ($export == "cap") {
-            return self::ExistCapability(Option::get($list[$cap][0], $list[$cap][1]));
-        }
-
-        //Check Access
-        switch ($type) {
-            case "manage":
-            case "read":
-                return current_user_can(self::ExistCapability(Option::get($list[$cap][0], $list[$cap][1])));
-                break;
-            case "both":
-                foreach (array('manage', 'read') as $c) {
-                    if (self::Access($c) === true) {
-                        return true;
-                    }
-                }
-                break;
-        }
-
-        return false;
+        return UtilsUser::hasAccess($type, $export === 'cap');
     }
 
     /**
      * Get Date Filter
      *
-     * @param $metaKey
-     * @return mixed
+     * @deprecated 15.0.0 Use \WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager instead.
+     * @see \WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager
+     *
+     * @param string $metaKey
+     * @return array
      */
     public static function getDefaultDateFilter($metaKey)
     {
@@ -271,8 +243,11 @@ class User
     /**
      * Save Date Filter
      *
-     * @param $metaKey
-     * @param $value
+     * @deprecated 15.0.0 Use \WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager instead.
+     * @see \WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager
+     *
+     * @param string $metaKey
+     * @param array  $args
      * @return void
      */
     public static function saveDefaultDateFilter($metaKey, $args)
@@ -308,91 +283,65 @@ class User
     /**
      * Retrieves the last login time of a WordPress user.
      *
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::getLastLoginTime() instead.
+     * @see \WP_Statistics\Utils\User::getLastLoginTime()
+     *
      * @param int|false $userId The ID of the user to retrieve the last login time for. Defaults to the current user.
-     * @return string|false The last login time of the user, or false if no login time is found.
+     * @return int|false The last login time of the user, or false if no login time is found.
      */
     public static function getLastLogin($userId = false)
     {
-        $userId    = empty($userId) ? get_current_user_id() : $userId;
-        $lastLogin = get_user_meta($userId, 'session_tokens', true);
-
-        if (!empty($lastLogin)) {
-            $lastLogin = array_values($lastLogin);
-            return $lastLogin[0]['login'];
-        } else {
-            return false;
-        }
+        return UtilsUser::getLastLoginTime($userId ? (int) $userId : 0);
     }
 
     /**
      * Check if the current user is an administrator or super admin in multisite network.
      *
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::isAdmin() instead.
+     * @see \WP_Statistics\Utils\User::isAdmin()
+     *
      * @return bool Whether the current user is an administrator.
      */
     public static function isAdmin()
     {
-        if (!is_user_logged_in()) {
-            return false;
-        }
-
-        return is_multisite() ? is_super_admin() : current_user_can('manage_options');
+        return UtilsUser::isAdmin();
     }
 
     /**
      * Check if the current user has the specified capability.
      *
-     * @param string $capability The user capability to check.
-     * @param int $postId The post ID
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::hasCapability() instead.
+     * @see \WP_Statistics\Utils\User::hasCapability()
+     *
+     * @param string   $capability The user capability to check.
+     * @param int|null $postId     The post ID.
      * @return bool|null Whether the current user has the specified capability.
      */
     public static function checkUserCapability($capability, $postId = null)
     {
-        if (!self::is_login() || empty($capability)) {
-            return;
+        // Maintain backward compatibility for null return on empty/invalid input
+        if (!UtilsUser::isLoggedIn() || empty($capability)) {
+            return null;
         }
 
-        if (self::isCapabilityNeedingPostId($capability) && empty($postId)) {
-            return;
+        if (UtilsUser::requiresPostContext((string) $capability) && empty($postId)) {
+            return null;
         }
 
-        if (is_multisite()) {
-            if (!empty(get_current_blog_id()) && current_user_can_for_site(get_current_blog_id(), $capability)) {
-                return true;
-            }
-
-            return;
-        }
-
-        if (!empty($postId) && current_user_can($capability, $postId)) {
-            return true;
-        }
-
-        if (current_user_can($capability)) {
-            return true;
-        }
-
-        return;
+        return UtilsUser::hasCapability((string) $capability, $postId) ? true : null;
     }
 
     /**
      * Checks if a capability requires a post ID.
      *
-     * @param string $capability
+     * @deprecated 15.0.0 Use \WP_Statistics\Utils\User::requiresPostContext() instead.
+     * @see \WP_Statistics\Utils\User::requiresPostContext()
      *
+     * @param string $capability
      * @return bool
      */
     public static function isCapabilityNeedingPostId($capability)
     {
-        if (strpos($capability, 'edit') !== false || strpos($capability, 'delete') !== false || strpos($capability, 'read') !== false) {
-            $postType = str_replace(['edit_', 'delete_', 'read_'], '', $capability);
-
-            if (substr($postType, -1) === 's') {
-                return false;
-            }
-
-            return true;
-        }
-
-        return false;
+        return UtilsUser::requiresPostContext((string) $capability);
     }
 }

@@ -3,7 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\User;
+use WP_Statistics\Utils\User;
 
 class UserDecorator
 {
@@ -71,7 +71,7 @@ class UserDecorator
      */
     public function getLastLogin()
     {
-        $lastLogin = User::getLastLogin($this->getId());
+        $lastLogin = User::getLastLoginTime($this->getId());
         return $lastLogin ? date_i18n(Helper::getDefaultDateFormat(true), $lastLogin) : null;
     }
 }

@@ -10,8 +10,8 @@ use WP_STATISTICS\Meta_Box;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
-use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Utils\User;
 
 class PostsManager
 {
@@ -30,7 +30,7 @@ class PostsManager
         }
 
         // Add Hits column in edit lists of all post types
-        if (User::Access('read') && !Option::getValue('disable_column')) {
+        if (User::hasAccess('read') && !Option::getValue('disable_column')) {
             add_action('admin_init', [$this, 'initHitsColumn']);
         }
 

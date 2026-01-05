@@ -9,10 +9,10 @@ use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Referred;
 use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
-use WP_STATISTICS\User;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Url;
+use WP_Statistics\Utils\User;
 
 /**
  * Class FilterManager
@@ -96,7 +96,7 @@ class FilterManager
      */
     public function search_filter_action_callback()
     {
-        if (Request::isFrom('ajax') && User::Access('read')) {
+        if (Request::isFrom('ajax') && User::hasAccess('read')) {
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             $source      = Request::get('source', '');

@@ -7,6 +7,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
+use WP_Statistics\Utils\User;
 
 /**
  * Class SiteHealthInfo
@@ -531,7 +532,7 @@ class SiteHealthInfo
     public function getUserRoleExclusions($translate = true)
     {
         $excludeRoles = [];
-        foreach (\WP_STATISTICS\User::get_role_list() as $role) {
+        foreach (User::getRoles() as $role) {
             $optionName = 'exclude_' . str_replace(" ", "_", strtolower($role));
 
             if (Option::getValue($optionName)) {

@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints;
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Option;
-use WP_STATISTICS\User;
+use WP_Statistics\Utils\User;
 use Exception;
 
 /**
@@ -289,7 +289,7 @@ class SettingsEndpoints
             throw new Exception(__('Invalid request.', 'wp-statistics'));
         }
 
-        if (!User::Access('manage')) {
+        if (!User::hasAccess('manage')) {
             throw new Exception(__('You do not have permission to perform this action.', 'wp-statistics'));
         }
 

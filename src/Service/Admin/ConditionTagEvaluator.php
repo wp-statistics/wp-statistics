@@ -6,7 +6,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\User;
+use WP_Statistics\Utils\User;
 
 class ConditionTagEvaluator
 {

@@ -5,10 +5,10 @@ namespace WP_Statistics\Service\Admin\NoticeHandler;
 use WP_Statistics\Utils\Environment;
 use WP_STATISTICS\DB;
 use WP_Statistics\Components\Ip;
-use WP_STATISTICS\User;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\Option;
+use WP_Statistics\Utils\User;
 use WP_STATISTICS\Schedule;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Traits\TransientCacheTrait;
@@ -49,7 +49,7 @@ class GeneralNotices
             return;
         }
 
-        if (!Helper::is_request('ajax') && !Option::getValue('hide_notices') && User::Access('manage')) {
+        if (!Helper::is_request('ajax') && !Option::getValue('hide_notices') && User::hasAccess('manage')) {
             foreach ($this->coreNotices as $notice) {
                 if (method_exists($this, $notice)) {
                     call_user_func([$this, $notice]);

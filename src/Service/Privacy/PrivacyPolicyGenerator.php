@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Privacy;
 
 use WP_Statistics\Components\Option;
-use WP_STATISTICS\User;
+use WP_Statistics\Utils\User;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 
 /**
