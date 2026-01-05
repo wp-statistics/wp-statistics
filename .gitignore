@@ -48,5 +48,6 @@ storybook-static/
 .phpunit.result.cache
 tests/logs
 
-# AI
-.claude
+# AI / Claude Code
+.claude/
+.mcp.json
