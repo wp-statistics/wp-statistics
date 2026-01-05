@@ -207,7 +207,7 @@ function Sidebar({
       <div
         data-slot="sidebar-container"
         className={cn(
-          'absolute inset-y-0 z-10 hidden h-full w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear lg:flex',
+          'absolute inset-y-0 z-10 hidden w-(--sidebar-width) bg-sidebar transition-[left,right,width] duration-200 ease-linear lg:flex',
           side === 'left'
             ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
             : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
@@ -222,7 +222,7 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="bg-sidebar group-data-[variant=floating]:border-sidebar-border relative flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
+          className="group-data-[variant=floating]:border-sidebar-border sticky top-0 flex w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm h-[calc(100vh-var(--wp-admin-bar-height)-var(--header-height))]"
         >
           {children}
         </div>
