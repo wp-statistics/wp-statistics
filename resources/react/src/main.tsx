@@ -5,25 +5,26 @@ import { createRoot } from 'react-dom/client'
 
 import { App } from './app'
 
-// Set CSS variable for WordPress admin menu height to ensure React app fills properly
-// Uses the maximum of viewport height and WP admin menu height to prevent gaps
-const setAdminMenuHeight = () => {
+// Set CSS variables for WordPress admin layout to ensure React app integrates properly
+const setAdminLayoutVars = () => {
   const adminBar = document.getElementById('wpadminbar')
   const adminBarHeight = adminBar ? adminBar.offsetHeight : 32 // Default 32px
   const viewportAvailableHeight = window.innerHeight - adminBarHeight
 
-  // Get the WordPress admin menu height
+  // Get the WordPress admin menu height and width
   const adminMenuWrap = document.getElementById('adminmenuwrap')
   const adminMenuHeight = adminMenuWrap ? adminMenuWrap.scrollHeight : 0
+  const adminMenuWidth = document.getElementById('adminmenu')?.offsetWidth ?? 160 // Default 160px
 
   // Use the maximum of viewport height and admin menu height to prevent gaps
   const appHeight = Math.max(viewportAvailableHeight, adminMenuHeight)
   document.documentElement.style.setProperty('--wp-admin-menu-height', `${appHeight}px`)
+  document.documentElement.style.setProperty('--wp-admin-sidebar-width', `${adminMenuWidth}px`)
 }
 
-// Set initial height and observe changes
-setAdminMenuHeight()
-window.addEventListener('resize', setAdminMenuHeight)
+// Set initial layout vars and observe changes
+setAdminLayoutVars()
+window.addEventListener('resize', setAdminLayoutVars)
 
 /**
  * Sync WordPress admin menu with React Router hash

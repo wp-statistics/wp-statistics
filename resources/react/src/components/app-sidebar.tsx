@@ -44,7 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="pb-12">
         <NavMain items={navItems} />
       </SidebarContent>
-      <SidebarFooter className="fixed bottom-0 left-0 w-(--sidebar-width) shrink-0 border-t border-border bg-sidebar transition-[width] duration-200 ease-linear group-data-[collapsible=icon]:w-(--sidebar-width-icon)">
+      <SidebarFooter className="fixed bottom-0 left-(--wp-admin-sidebar-width) w-(--sidebar-width) shrink-0 border-t border-border bg-sidebar transition-[width] duration-200 ease-linear group-data-[collapsible=icon]:w-(--sidebar-width-icon)">
         <SidebarTrigger className="ms-auto" />
       </SidebarFooter>
     </Sidebar>
