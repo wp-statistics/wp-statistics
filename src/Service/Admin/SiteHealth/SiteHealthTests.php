@@ -10,6 +10,7 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
  * Class SiteHealthTests
  *
  * Provides WP Statistics health tests for the WordPress Site Health Status page.
+ * @todo: the admin_url links should be updated when the settings page is ready.
  *
  * @package WP_Statistics\Service\Admin\SiteHealth
  */
