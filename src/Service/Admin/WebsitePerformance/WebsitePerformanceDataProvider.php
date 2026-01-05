@@ -6,13 +6,15 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Traits\ObjectCacheTrait;
 
 /**
  * This class is used to get data needed for "Your performance at a glance" section (mostly used in e-mail reports).
+ *
+ * @since 15.0.0 Refactored to use AnalyticsQueryHandler instead of legacy models.
  */
 class WebsitePerformanceDataProvider
 {
@@ -54,14 +56,11 @@ class WebsitePerformanceDataProvider
     private $argsPreviousPeriod = [];
 
     /**
-     * @var VisitorsModel
+     * Analytics query handler instance.
+     *
+     * @var AnalyticsQueryHandler
      */
-    private $visitorsModel;
-
-    /**
-     * @var ViewsModel
-     */
-    private $viewsModel;
+    private $queryHandler;
 
     /**
      * @var PostsModel
@@ -86,8 +85,7 @@ class WebsitePerformanceDataProvider
     {
         $this->setArgs($fromDate, $toDate);
 
-        $this->visitorsModel = new VisitorsModel();
-        $this->viewsModel    = new ViewsModel();
+        $this->queryHandler = new AnalyticsQueryHandler(false);
     }
 
     /**
@@ -106,7 +104,7 @@ class WebsitePerformanceDataProvider
     }
 
     /**
-     * Sets current and previous period dates.
+     * Sets current and previous period dates using DateRange component.
      *
      * @param string $fromDate Start date of the report in `Y-m-d` format.
      * @param string $toDate End date of the report in `Y-m-d` format. Default: Yesterday.
@@ -115,43 +113,82 @@ class WebsitePerformanceDataProvider
      */
     private function setPeriods($fromDate, $toDate = '')
     {
+        $yesterday = DateTime::get('-1 day');
+
         if (!DateTime::isValidDate($fromDate)) {
-            $fromDate = TimeZone::getTimeAgo(7);
-            $toDate   = TimeZone::getTimeAgo();
-        } else if (!DateTime::isValidDate($toDate)) {
-            $toDate = TimeZone::getTimeAgo();
+            $fromDate = DateTime::get('-7 days');
+            $toDate   = $yesterday;
+        } elseif (!DateTime::isValidDate($toDate)) {
+            $toDate = $yesterday;
         }
 
-        if ($fromDate == TimeZone::getTimeAgo()) {
-            // Current period: Yesterday - Previous period: The day before yesterday
-            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(2), TimeZone::getTimeAgo(2));
-        } else if ($fromDate == TimeZone::getTimeAgo(7)) {
-            // Current period: From 7 days ago to yesterday - Previous period: From 2 weeks ago to 8 days ago
-            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(7), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(14), TimeZone::getTimeAgo(8));
-        } else if ($fromDate == TimeZone::getTimeAgo(14)) {
-            // Current period: From 2 weeks ago to yesterday - Previous period: From 4 weeks ago to 15 days ago
-            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(14), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(28), TimeZone::getTimeAgo(15));
-        } else if ($fromDate == date('Y-m-d', strtotime('First day of previous month'))) {
-            // Current period: Last month - Previous period: Previous month
+        // Try to match to a predefined period for proper prev_period calculation
+        $periodName = $this->detectPeriodName($fromDate, $toDate);
+
+        if ($periodName) {
+            // Use DateRange for predefined periods
+            $range     = DateRange::get($periodName, true);
+            $prevRange = DateRange::getPrevPeriod($periodName, true);
+
             $this->setCurrentAndPreviousPeriods(
-                date('Y-m-d', strtotime('First day of previous month')),
-                date('Y-m-d', strtotime('Last day of previous month')),
-                date('Y-m-d', strtotime('First day of -2 months')),
-                date('Y-m-d', strtotime('Last day of -2 months'))
+                $range['from'],
+                $range['to'],
+                $prevRange['from'],
+                $prevRange['to']
             );
-        } else if (!empty($fromDate)) {
-            // Current period: From the `$fromDate` to `$toDate` - Previous period: From twice the `$fromDate` to one day before the `$fromDate`
+        } elseif (!empty($fromDate)) {
+            // Custom date range - calculate previous period dynamically
+            $prevRange = DateRange::getPrevPeriod(['from' => $fromDate, 'to' => $toDate]);
+
             $this->setCurrentAndPreviousPeriods(
                 $fromDate,
                 $toDate,
-                TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) * 2),
-                TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) + 1)
+                $prevRange['from'],
+                $prevRange['to']
             );
         } else {
-            // Current period: Total (including today) - Skip previous period (and the percentage change number)
-            $this->setCurrentAndPreviousPeriods(date('Y-m-d', 0), TimeZone::getTimeAgo(0));
+            // Total period - skip percentage changes
+            $range = DateRange::get('total');
+            $this->setCurrentAndPreviousPeriods($range['from'], $range['to']);
             $this->calculatePercentageChanges = false;
         }
+    }
+
+    /**
+     * Detect the period name from date range.
+     *
+     * @param string $fromDate Start date.
+     * @param string $toDate End date.
+     * @return string|false Period name or false if not matched.
+     */
+    private function detectPeriodName($fromDate, $toDate)
+    {
+        $yesterday = DateTime::get('-1 day');
+
+        // Check for 'yesterday' (single day)
+        if ($fromDate === $yesterday && $toDate === $yesterday) {
+            return 'yesterday';
+        }
+
+        // Check for '7days' (excludeToday = true shifts range)
+        $sevenDaysRange = DateRange::get('7days', true);
+        if ($fromDate === $sevenDaysRange['from'] && $toDate === $sevenDaysRange['to']) {
+            return '7days';
+        }
+
+        // Check for '14days'
+        $fourteenDaysRange = DateRange::get('14days', true);
+        if ($fromDate === $fourteenDaysRange['from'] && $toDate === $fourteenDaysRange['to']) {
+            return '14days';
+        }
+
+        // Check for 'last_month'
+        $lastMonthRange = DateRange::get('last_month');
+        if ($fromDate === $lastMonthRange['from'] && $toDate === $lastMonthRange['to']) {
+            return 'last_month';
+        }
+
+        return false;
     }
 
     /**
@@ -248,7 +285,7 @@ class WebsitePerformanceDataProvider
     }
 
     /**
-     * Returns visitors for the selected period.
+     * Returns visitors for the selected period using AnalyticsQueryHandler.
      *
      * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
@@ -261,7 +298,16 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        return $this->visitorsModel->countVisitors($isCurrentPeriod ? $this->argsCurrentPeriod : $this->argsPreviousPeriod);
+        $period = $isCurrentPeriod ? $this->getCurrentPeriod() : $this->getPreviousPeriod();
+
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'date_from' => $period['from'],
+            'date_to'   => $period['to'],
+            'format'    => 'flat',
+        ]);
+
+        return intval($result['data']['totals']['visitors'] ?? 0);
     }
 
     /**
@@ -293,7 +339,7 @@ class WebsitePerformanceDataProvider
     }
 
     /**
-     * Returns visitors for the selected period.
+     * Returns views for the selected period using AnalyticsQueryHandler.
      *
      * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
@@ -306,7 +352,16 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        return $this->viewsModel->countViewsFromPagesOnly($isCurrentPeriod ? $this->argsCurrentPeriod : $this->argsPreviousPeriod);
+        $period = $isCurrentPeriod ? $this->getCurrentPeriod() : $this->getPreviousPeriod();
+
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'date_from' => $period['from'],
+            'date_to'   => $period['to'],
+            'format'    => 'flat',
+        ]);
+
+        return intval($result['data']['totals']['views'] ?? 0);
     }
 
     /**
@@ -338,11 +393,11 @@ class WebsitePerformanceDataProvider
     }
 
     /**
-     * Returns referrals for the selected period.
+     * Returns referrals for the selected period using AnalyticsQueryHandler.
      *
      * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return array Format: `['visitors' => {COUNT}, 'referrer' => {URL}, 'visitors' => {COUNT}, 'referrer' => {URL}, ...]`
+     * @return array Format: `[['visitors' => {COUNT}, 'referrer' => {URL}], ...]`
      */
     public function getReferrals($isCurrentPeriod = true)
     {
@@ -351,7 +406,29 @@ class WebsitePerformanceDataProvider
             return [];
         }
 
-        return $this->visitorsModel->getReferrers($isCurrentPeriod ? $this->argsCurrentPeriod : $this->argsPreviousPeriod);
+        $period = $isCurrentPeriod ? $this->getCurrentPeriod() : $this->getPreviousPeriod();
+
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => ['referrer'],
+            'date_from' => $period['from'],
+            'date_to'   => $period['to'],
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $referrals = [];
+        if (!empty($result['data']['rows'])) {
+            foreach ($result['data']['rows'] as $row) {
+                // Convert to object format for backward compatibility
+                $referrals[] = (object) [
+                    'visitors' => intval($row['visitors'] ?? 0),
+                    'referred' => $row['referrer'] ?? '',
+                ];
+            }
+        }
+
+        return $referrals;
     }
 
     /**
@@ -558,12 +635,23 @@ class WebsitePerformanceDataProvider
             return $this->getCache('topPost');
         }
 
-        if (empty($this->postsModel)) {
-            $this->postsModel = new PostsModel();
+        $period = $this->getCurrentPeriod();
+
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'group_by'  => ['page'],
+            'date_from' => $period['from'],
+            'date_to'   => $period['to'],
+            'format'    => 'table',
+            'per_page'  => 1,
+        ]);
+
+        $title = '';
+        if (!empty($result['data']['rows'][0]['page_title'])) {
+            $title = $result['data']['rows'][0]['page_title'];
         }
 
-        $topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
-        $this->setCache('topPost', !empty($topPost) ? $topPost[0]->post_title : '');
+        $this->setCache('topPost', $title);
 
         return $this->getCache('topPost');
     }
