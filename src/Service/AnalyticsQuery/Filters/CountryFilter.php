@@ -19,16 +19,16 @@ class CountryFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: countries.ID
+     * @var string Column path: countries.code
      */
-    protected $column = 'countries.ID';
+    protected $column = 'countries.code';
 
     /**
      * Value type for sanitization.
      *
-     * @var string Data type: integer
+     * @var string Data type: string
      */
-    protected $type = 'integer';
+    protected $type = 'string';
 
     /**
      * Required JOINs to access the column.
@@ -75,7 +75,7 @@ class CountryFilter extends AbstractFilter
      *
      * @param string $search Search term.
      * @param int    $limit  Maximum results.
-     * @return array Array of options with 'value' and 'label'.
+     * @return array Array of options with 'value' (code) and 'label' (name).
      */
     public function searchOptions(string $search = '', int $limit = 20): array
     {
@@ -83,7 +83,7 @@ class CountryFilter extends AbstractFilter
 
         $table = $wpdb->prefix . 'statistics_countries';
 
-        $sql = "SELECT ID as value, name as label FROM {$table}";
+        $sql = "SELECT code as value, name as label FROM {$table}";
 
         if (!empty($search)) {
             $sql .= $wpdb->prepare(" WHERE name LIKE %s OR code LIKE %s", '%' . $wpdb->esc_like($search) . '%', '%' . $wpdb->esc_like($search) . '%');
