@@ -406,4 +406,167 @@ class DateTime
             'labelDate' => $labelDate,
         ];
     }
+
+    /**
+     * Get a date string for X days ago from current timestamp.
+     *
+     * @param int    $daysAgo Number of days ago. Default 1.
+     * @param string $format  Date format string. Default 'Y-m-d'.
+     * @return string Formatted date string.
+     * @since 15.0.0
+     */
+    public static function getTimeAgo($daysAgo = 1, $format = 'Y-m-d')
+    {
+        $timestamp = self::getCurrentTimestamp();
+        return date($format, strtotime("-{$daysAgo} day", $timestamp));
+    }
+
+    /**
+     * Get the number of days between two dates.
+     *
+     * @param string      $from Start date string.
+     * @param string|bool $to   End date string. If false, uses current timestamp.
+     * @return int Number of days between the two dates.
+     * @since 15.0.0
+     */
+    public static function getNumberDayBetween($from, $to = false)
+    {
+        $toTimestamp   = ($to === false) ? self::getCurrentTimestamp() : strtotime($to);
+        $fromTimestamp = strtotime($from);
+        $dateDiff      = $toTimestamp - $fromTimestamp;
+
+        return (int) ceil($dateDiff / (60 * 60 * 24));
+    }
+
+    /**
+     * Get a list of days between two dates.
+     *
+     * Returns an array with date as key and array of timestamp/formatted date as value.
+     *
+     * @param array $args {
+     *     @type string $from   Start date (required).
+     *     @type string $to     End date. Default is current date.
+     *     @type string $format Display format for each day. Default 'j M'.
+     * }
+     * @return array List of days with their timestamps and formatted values.
+     * @since 15.0.0
+     */
+    public static function getListDays($args = [])
+    {
+        $defaults = [
+            'from'   => '',
+            'to'     => false,
+            'format' => 'j M'
+        ];
+        $args = wp_parse_args($args, $defaults);
+        $list = [];
+
+        // Use current date if 'to' is not set
+        $args['to'] = ($args['to'] === false) ? self::get('now', 'Y-m-d') : $args['to'];
+
+        // Build the date period
+        $period = new \DatePeriod(
+            new \DateTime($args['from']),
+            new \DateInterval('P1D'),
+            new \DateTime(date('Y-m-d', strtotime('+1 day', strtotime($args['to']))))
+        );
+
+        foreach ($period as $value) {
+            $list[$value->format('Y-m-d')] = [
+                'timestamp' => $value->format('U'),
+                'format'    => $value->format(apply_filters('wp_statistics_request_days_format', $args['format']))
+            ];
+        }
+
+        return $list;
+    }
+
+    /**
+     * Convert timestamp difference to human-readable "time ago" format.
+     *
+     * @param string|\DateTime $currentDate  Current date/time.
+     * @param \DateTime        $visitDate    Visit date/time.
+     * @param string           $originalDate Formatted date to return if > 24 hours ago.
+     * @return string Human-readable time difference or original date.
+     * @since 15.0.0
+     */
+    public static function getElapsedTime($currentDate, $visitDate, $originalDate)
+    {
+        if (!($currentDate instanceof \DateTime)) {
+            $currentDate = new \DateTime($currentDate);
+        }
+
+        $diffMinutes = round(($currentDate->getTimestamp() - $visitDate->getTimestamp()) / 60);
+
+        if ($diffMinutes < 1) {
+            return esc_html__('Now', 'wp-statistics');
+        }
+
+        if ($diffMinutes >= 1440) {
+            return $originalDate;
+        }
+
+        if ($diffMinutes >= 60) {
+            $hours   = floor($diffMinutes / 60);
+            $minutes = $diffMinutes % 60;
+
+            if ($minutes > 0) {
+                return sprintf(
+                    esc_html(
+                        _n(
+                            '%1$d hour %2$d minute ago',
+                            '%1$d hours %2$d minutes ago',
+                            absint($hours),
+                            'wp-statistics'
+                        )
+                    ),
+                    absint($hours),
+                    absint($minutes)
+                );
+            }
+
+            return sprintf(
+                esc_html(
+                    _n(
+                        '%d hour ago',
+                        '%d hours ago',
+                        absint($hours),
+                        'wp-statistics'
+                    )
+                ),
+                absint($hours)
+            );
+        }
+
+        return sprintf(
+            esc_html(
+                _n(
+                    '%d minute ago',
+                    '%d minutes ago',
+                    absint($diffMinutes),
+                    'wp-statistics'
+                )
+            ),
+            absint($diffMinutes)
+        );
+    }
+
+    /**
+     * Get the country code for a given timezone identifier.
+     *
+     * @param string $timezone Timezone identifier (e.g., 'Europe/London').
+     * @return string|false Country code or false if not found.
+     * @since 15.0.0
+     */
+    public static function getCountryFromTimezone($timezone)
+    {
+        $timezones = timezone_identifiers_list();
+
+        if (in_array($timezone, $timezones, true)) {
+            $location = timezone_location_get(new \DateTimeZone($timezone));
+            return $location['country_code'] ?? false;
+        }
+
+        return false;
+    }
 }
