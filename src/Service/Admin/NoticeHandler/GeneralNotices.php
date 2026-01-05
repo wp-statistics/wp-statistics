@@ -100,6 +100,14 @@ class GeneralNotices
         // Return if no cache plugin is active
         if (empty($cacheInfo['status'])) return;
 
+        // List of cache plugins that don't require the warning (they handle tracker.js correctly)
+        $excludedCachePlugins = apply_filters('wp_statistics_excluded_cache_warnings', ['WP Super Cache']);
+
+        // Return if the detected cache plugin is in the excluded list
+        if (isset($cacheInfo['debug']) && in_array($cacheInfo['debug'], $excludedCachePlugins, true)) {
+            return;
+        }
+
         // Generate notice id
         $noticeId = sanitize_key($cacheInfo['debug']) . '_cache_plugin_detected';
 
