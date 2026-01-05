@@ -7,7 +7,6 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
-use WP_STATISTICS\User;
 
 class PluginActions
 {
