@@ -526,18 +526,70 @@ class MailProvider
             add_filter('wp_mail_content_type', [$this, 'htmlFilter']);
         }
 
-        $this->attachments = apply_filters(
-            'wp_statistics_mail_attachments',
-            $this->attachments,
-            $this
-        );
+        /**
+         * Action hook fired before sending an email.
+         *
+         * @since 15.0.0
+         * @param MailProvider $mailProvider The mail provider instance.
+         */
+        do_action('wp_statistics_mail_before_send', $this);
 
-        return wp_mail(
-            $this->to,
-            $this->buildSubject(),
-            $this->body,
-            $this->buildHeaders(),
-            $this->attachments
-        );
+        /**
+         * Filter the email recipients.
+         *
+         * @since 15.0.0
+         * @param array $recipients List of email addresses.
+         * @param MailProvider $mailProvider The mail provider instance.
+         */
+        $recipients = apply_filters('wp_statistics_mail_recipients', $this->to, $this);
+
+        /**
+         * Filter the email subject.
+         *
+         * @since 15.0.0
+         * @param string $subject The email subject.
+         * @param MailProvider $mailProvider The mail provider instance.
+         */
+        $subject = apply_filters('wp_statistics_mail_subject', $this->buildSubject(), $this);
+
+        /**
+         * Filter the email body content.
+         *
+         * @since 15.0.0
+         * @param string $body The email body HTML or text.
+         * @param MailProvider $mailProvider The mail provider instance.
+         */
+        $body = apply_filters('wp_statistics_mail_body', $this->body, $this);
+
+        /**
+         * Filter the email headers.
+         *
+         * @since 15.0.0
+         * @param string $headers The email headers string.
+         * @param MailProvider $mailProvider The mail provider instance.
+         */
+        $headers = apply_filters('wp_statistics_mail_headers', $this->buildHeaders(), $this);
+
+        /**
+         * Filter the email attachments.
+         *
+         * @since 15.0.0
+         * @param array $attachments List of file paths to attach.
+         * @param MailProvider $mailProvider The mail provider instance.
+         */
+        $attachments = apply_filters('wp_statistics_mail_attachments', $this->attachments, $this);
+
+        $result = wp_mail($recipients, $subject, $body, $headers, $attachments);
+
+        /**
+         * Action hook fired after sending an email.
+         *
+         * @since 15.0.0
+         * @param bool $result Whether the email was sent successfully.
+         * @param MailProvider $mailProvider The mail provider instance.
+         */
+        do_action('wp_statistics_mail_after_send', $result, $this);
+
+        return $result;
     }
 }

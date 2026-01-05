@@ -186,7 +186,8 @@ class EmailReportEvent extends AbstractCronEvent
     private function getLogger(): EmailReportLogger
     {
         if ($this->logger === null) {
-            $this->logger = new EmailReportLogger();
+            // Use manager's logger for consistency
+            $this->logger = $this->getManager()->getLogger();
         }
 
         return $this->logger;
