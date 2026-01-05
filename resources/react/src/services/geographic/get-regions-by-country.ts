@@ -54,7 +54,8 @@ export const getRegionsByCountryQueryOptions = ({
           columns: ['region_name', 'region_code', 'country_code', 'country_name', ...sources],
           filters: {
             country: {
-              is: countryCode,
+              operator: 'is',
+              value: countryCode,
             },
           },
           per_page: 100,
