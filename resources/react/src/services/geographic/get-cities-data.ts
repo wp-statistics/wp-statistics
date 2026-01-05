@@ -1,6 +1,7 @@
 import { clientRequest } from '@lib/client-request'
 import { WordPress } from '@lib/wordpress'
 import { queryOptions } from '@tanstack/react-query'
+import { QUERY_CACHE } from '@/constants/map-constants'
 
 export interface GetCitiesDataParams {
   countryCode: string
@@ -42,31 +43,35 @@ export const getCitiesDataQueryOptions = ({
   return queryOptions({
     queryKey: ['geographic', 'cities', countryCode, metric, date_from, date_to],
     queryFn: () =>
-      clientRequest.post<GetCitiesDataResponse>('', {
-        action: WordPress.getInstance().getAnalyticsAction(),
-        sources: [metric],
-        group_by: ['city'],
-        // Explicitly request coordinate columns from GeoNames data
-        columns: [
-          'city_id',
-          'city_name',
-          'city_region_code',
-          'city_region_name',
-          'country_code',
-          'country_name',
-          'latitude',
-          'longitude',
-          metric,
-        ],
-        filters: {
-          country: {
-            operator: 'is',
-            value: countryCode,
+      clientRequest.post<GetCitiesDataResponse>(
+        '',
+        {
+          sources: [metric],
+          group_by: ['city'],
+          // Explicitly request coordinate columns from GeoNames data
+          columns: [
+            'city_id',
+            'city_name',
+            'city_region_code',
+            'city_region_name',
+            'country_code',
+            'country_name',
+            'latitude',
+            'longitude',
+            metric,
+          ],
+          filters: {
+            country: countryCode,
           },
+          ...(date_from && { date_from }),
+          ...(date_to && { date_to }),
         },
-        ...(date_from && { date_from }),
-        ...(date_to && { date_to }),
-      }),
-    staleTime: 5 * 60 * 1000, // 5 minutes cache
+        {
+          params: {
+            action: WordPress.getInstance().getAnalyticsAction(),
+          },
+        }
+      ),
+    staleTime: QUERY_CACHE.CITIES_STALE_TIME_MS,
   })
 }

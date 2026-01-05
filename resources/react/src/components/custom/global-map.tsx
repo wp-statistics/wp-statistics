@@ -2,6 +2,7 @@ import { Button } from '@components/ui/button'
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Tabs, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { getCountryCenter, getCountryZoomLevel } from '@lib/country-centers'
+import { createRegionMatcher, type RegionData } from '@lib/region-matcher'
 import { cn, formatDecimal } from '@lib/utils'
 import { getRegionsByCountryQueryOptions } from '@services/geographic/get-regions-by-country'
 import { useQuery } from '@tanstack/react-query'
@@ -10,6 +11,18 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
 import { COLOR_SCALE, MAP_URLS } from '@/constants/map-data'
+import {
+  calculateZoomFromDimension,
+  COLOR_SCALE_THRESHOLDS,
+  getColorFromScale,
+  MAP_ANIMATION,
+  MAP_PROJECTION,
+  MAP_STROKES,
+  MAP_ZOOM,
+  REGION_COLORS,
+  WORLD_CENTER,
+} from '@/constants/map-constants'
+import { MapErrorBoundary } from '@/components/custom/map-error-boundary'
 import type { MapViewMode, MetricOption } from '@/types/geographic'
 
 // GeoJSON geometry coordinate types
@@ -109,7 +122,7 @@ export function GlobalMap({
     setIsAnimating(true)
     const startPosition = { ...position }
     const startTime = performance.now()
-    const duration = 400 // ms - reduced for better performance
+    const duration = MAP_ANIMATION.DURATION_MS
 
     const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3)
 
@@ -152,7 +165,7 @@ export function GlobalMap({
       }
       scrollHintTimeoutRef.current = setTimeout(() => {
         setShowScrollHint(false)
-      }, 2000)
+      }, MAP_ANIMATION.SCROLL_HINT_TIMEOUT_MS)
     }
   }, [])
 
@@ -201,17 +214,14 @@ export function GlobalMap({
     return max
   }, [data, selectedMetric])
 
-  const getColorForValue = (value: number | null): string => {
-    if (value == null || value === 0) return '#e5e7eb' // gray-200 for no data
-
-    const normalized = value / maxValue
-    if (normalized < 0.2) return COLOR_SCALE[0]
-    if (normalized < 0.4) return COLOR_SCALE[1]
-    if (normalized < 0.6) return COLOR_SCALE[2]
-    if (normalized < 0.8) return COLOR_SCALE[3]
-    if (normalized < 0.9) return COLOR_SCALE[4]
-    return COLOR_SCALE[5]
-  }
+  const getColorForValue = useCallback(
+    (value: number | null): string => {
+      if (value == null || value === 0) return COLOR_SCALE_THRESHOLDS.NO_DATA_COLOR
+      const normalized = value / maxValue
+      return getColorFromScale(normalized, COLOR_SCALE)
+    },
+    [maxValue]
+  )
 
   const getCountryMatch = (geo: {
     properties: Record<string, unknown>
@@ -273,13 +283,19 @@ export function GlobalMap({
   }
 
   const handleZoomIn = () => {
-    if (position.zoom >= 50) return
-    setTargetPosition({ coordinates: position.coordinates as [number, number], zoom: position.zoom * 1.5 })
+    if (position.zoom >= MAP_ZOOM.MAX) return
+    setTargetPosition({
+      coordinates: position.coordinates as [number, number],
+      zoom: position.zoom * MAP_ZOOM.STEP_MULTIPLIER,
+    })
   }
 
   const handleZoomOut = () => {
-    if (position.zoom <= 1) return
-    setTargetPosition({ coordinates: position.coordinates as [number, number], zoom: position.zoom / 1.5 })
+    if (position.zoom <= MAP_ZOOM.MIN) return
+    setTargetPosition({
+      coordinates: position.coordinates as [number, number],
+      zoom: position.zoom / MAP_ZOOM.STEP_MULTIPLIER,
+    })
   }
 
   const handleMoveEnd = (newPosition: { coordinates: [number, number]; zoom: number }) => {
@@ -322,18 +338,11 @@ export function GlobalMap({
       // Use the larger dimension to determine zoom
       const maxDimension = Math.max(width, height)
 
-      // Calculate zoom based on dimension (adjust these values for better fit)
-      // Larger countries have bigger dimensions, so they need less zoom
-      if (maxDimension > 60) return 3.5 // Very large countries (Russia, Canada, USA, China)
-      if (maxDimension > 40) return 4.5 // Large countries (Brazil, Australia)
-      if (maxDimension > 25) return 6 // Medium-large (Iran, Algeria, Saudi Arabia)
-      if (maxDimension > 15) return 7.5 // Medium (France, Spain, Turkey)
-      if (maxDimension > 8) return 9 // Small (UK, Germany, Japan)
-      if (maxDimension > 4) return 11 // Very small (Netherlands, Belgium)
-      return 14 // Tiny (Singapore, Luxembourg)
+      // Use utility function with centralized thresholds
+      return calculateZoomFromDimension(maxDimension)
     } catch (error) {
       console.warn('Error calculating zoom for country bounds:', error)
-      return 6 // Default fallback
+      return MAP_ZOOM.FALLBACK
     }
   }, [])
 
@@ -361,7 +370,7 @@ export function GlobalMap({
     setViewMode('countries')
     setSelectedCountry(null)
     // Use animated zoom back to world
-    setTargetPosition({ coordinates: [0, 0], zoom: 1 })
+    setTargetPosition({ coordinates: WORLD_CENTER, zoom: MAP_ZOOM.DEFAULT })
     setTooltip({ visible: false, x: 0, y: 0, content: '' })
   }
 
@@ -371,53 +380,30 @@ export function GlobalMap({
   }
 
   // Get region data from API response
+  // Path: regionsResponse (AxiosResponse) -> data (API response) -> data.rows
   const regionItems = useMemo(() => {
     return regionsResponse?.data?.data?.rows || []
   }, [regionsResponse])
 
-  // Build region data map for province matching
-  const regionData = useMemo(() => {
-    const regions = new Map<string, { name: string; visitors: number; views: number }>()
-    regionItems.forEach((region) => {
-      const regionName = region.region_name || 'Unknown'
-      regions.set(regionName, {
-        name: regionName,
-        visitors: Number(region.visitors) || 0,
-        views: Number(region.views) || 0,
-      })
-    })
-    return regions
+  // Build optimized region matcher with O(n) lookup instead of O(n²)
+  // Uses pre-built lookup maps for exact, case-insensitive, and partial matching
+  const regionMatcher = useMemo(() => {
+    return createRegionMatcher(regionItems)
   }, [regionItems])
 
-  // Total values for percentage calculation
+  // Total values for percentage calculation - now uses matcher's total function
   const totalRegionValue = useMemo(
-    () => regionItems.reduce((sum, r) => sum + (Number(r[selectedMetric]) || 0), 0) || 1,
-    [regionItems, selectedMetric]
+    () => regionMatcher.total(selectedMetric),
+    [regionMatcher, selectedMetric]
   )
 
-  // Helper to match province name from GeoJSON to our region data
-  const getRegionMatch = (
-    provinceName: string
-  ): { name: string; visitors: number; views: number } | null => {
-    // Direct match
-    if (regionData.has(provinceName)) {
-      return regionData.get(provinceName)!
-    }
-    // Try case-insensitive match
-    for (const [key, value] of regionData.entries()) {
-      if (key.toLowerCase() === provinceName.toLowerCase()) {
-        return value
-      }
-      // Partial match (province name might be longer)
-      if (
-        provinceName.toLowerCase().includes(key.toLowerCase()) ||
-        key.toLowerCase().includes(provinceName.toLowerCase())
-      ) {
-        return value
-      }
-    }
-    return null
-  }
+  // Helper to match province name from GeoJSON to our region data - O(1) average
+  const getRegionMatch = useCallback(
+    (provinceName: string): RegionData | null => {
+      return regionMatcher.match(provinceName)
+    },
+    [regionMatcher]
+  )
 
   const makeRegionTooltip = (
     provinceName: string,
@@ -483,7 +469,7 @@ export function GlobalMap({
                 size="icon"
                 className="h-10 w-10 md:h-8 md:w-8 bg-white shadow-sm"
                 onClick={handleZoomIn}
-                disabled={position.zoom >= 50}
+                disabled={position.zoom >= MAP_ZOOM.MAX}
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -492,7 +478,7 @@ export function GlobalMap({
                 size="icon"
                 className="h-10 w-10 md:h-8 md:w-8 bg-white shadow-sm"
                 onClick={handleZoomOut}
-                disabled={position.zoom <= 1}
+                disabled={position.zoom <= MAP_ZOOM.MIN}
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -568,15 +554,20 @@ export function GlobalMap({
             </div>
           )}
 
+          <MapErrorBoundary
+            fallbackTitle="Map Visualization Error"
+            fallbackMessage="Unable to render the map. Please try refreshing the page."
+            onReset={handleBackToWorld}
+          >
           <ComposableMap
-            projection="geoEqualEarth"
+            projection={MAP_PROJECTION.TYPE}
             projectionConfig={{
-              rotate: [0, 0, 0],
-              center: [15, 15],
-              scale: 160,
+              rotate: MAP_PROJECTION.ROTATE,
+              center: MAP_PROJECTION.CENTER,
+              scale: MAP_PROJECTION.SCALE,
             }}
-            width={800}
-            height={400}
+            width={MAP_PROJECTION.WIDTH}
+            height={MAP_PROJECTION.HEIGHT}
             style={{
               width: '100%',
               height: '100%',
@@ -668,24 +659,24 @@ export function GlobalMap({
                             geography={geo}
                             style={{
                               default: {
-                                fill: viewMode === 'cities' ? '#e5e7eb' : fill,
+                                fill: viewMode === 'cities' ? COLOR_SCALE_THRESHOLDS.NO_DATA_COLOR : fill,
                                 outline: 'none',
                                 stroke: '#ffffff',
-                                strokeWidth: viewMode === 'cities' ? 0.3 : 0.5,
+                                strokeWidth: viewMode === 'cities' ? MAP_STROKES.COUNTRY_REGION_VIEW : MAP_STROKES.COUNTRY_DEFAULT,
                                 transition: 'fill 200ms ease',
                                 pointerEvents: isInteractive ? 'all' : 'none',
                               },
                               hover: {
                                 fill: isInteractive
                                   ? metricValue == null
-                                    ? '#d1d5db'
-                                    : '#4338ca'
+                                    ? COLOR_SCALE_THRESHOLDS.NO_DATA_HOVER_COLOR
+                                    : COLOR_SCALE_THRESHOLDS.HIGHLIGHT_COLOR
                                   : viewMode === 'cities'
-                                    ? '#e5e7eb'
+                                    ? COLOR_SCALE_THRESHOLDS.NO_DATA_COLOR
                                     : fill,
                                 outline: 'none',
                                 cursor: isInteractive && enableCityDrilldown && countryData ? 'pointer' : 'default',
-                                strokeWidth: isInteractive ? 1 : viewMode === 'cities' ? 0.3 : 0.5,
+                                strokeWidth: isInteractive ? MAP_STROKES.COUNTRY_HOVER : viewMode === 'cities' ? MAP_STROKES.COUNTRY_REGION_VIEW : MAP_STROKES.COUNTRY_DEFAULT,
                               },
                               pressed: { outline: 'none' },
                             }}
@@ -702,7 +693,7 @@ export function GlobalMap({
                   {({ geographies }) => {
                     // Set provincesLoading to false once geographies are loaded
                     if (geographies.length > 0 && provincesLoading) {
-                      setTimeout(() => setProvincesLoading(false), 100)
+                      setTimeout(() => setProvincesLoading(false), MAP_ANIMATION.PROVINCES_LOADING_DELAY_MS)
                     }
                     return geographies
                       .filter((geo) => {
@@ -752,16 +743,16 @@ export function GlobalMap({
                             }}
                             style={{
                               default: {
-                                fill: hasData ? '#c7d2fe' : '#f3f4f6', // indigo-200 for data, gray-100 for no data
-                                stroke: '#d1d5db', // gray-300 - lighter border
-                                strokeWidth: 0.15,
+                                fill: hasData ? REGION_COLORS.HAS_DATA : REGION_COLORS.NO_DATA,
+                                stroke: REGION_COLORS.STROKE,
+                                strokeWidth: MAP_STROKES.PROVINCE_DEFAULT,
                                 outline: 'none',
                                 transition: 'none', // Disable transition for better performance
                               },
                               hover: {
-                                fill: hasData ? '#a5b4fc' : '#e5e7eb', // indigo-300 or gray-200 on hover
-                                stroke: '#9ca3af', // gray-400 on hover
-                                strokeWidth: 0.25,
+                                fill: hasData ? REGION_COLORS.HAS_DATA_HOVER : REGION_COLORS.NO_DATA_HOVER,
+                                stroke: REGION_COLORS.STROKE_HOVER,
+                                strokeWidth: MAP_STROKES.PROVINCE_HOVER,
                                 cursor: 'pointer',
                                 outline: 'none',
                               },
@@ -775,6 +766,7 @@ export function GlobalMap({
               )}
             </ZoomableGroup>
           </ComposableMap>
+          </MapErrorBoundary>
 
           {/* Tooltip */}
           {tooltip.visible && (
@@ -800,14 +792,14 @@ export function GlobalMap({
                 <div className="flex items-center gap-2">
                   <div
                     className="w-4 h-3 rounded-sm"
-                    style={{ backgroundColor: '#f3f4f6', border: '1px solid #9ca3af' }}
+                    style={{ backgroundColor: REGION_COLORS.NO_DATA, border: `1px solid ${REGION_COLORS.STROKE_HOVER}` }}
                   ></div>
                   <span className="text-xs text-neutral-500">No data</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div
                     className="w-4 h-3 rounded-sm"
-                    style={{ backgroundColor: '#c7d2fe', border: '1px solid #9ca3af' }}
+                    style={{ backgroundColor: REGION_COLORS.HAS_DATA, border: `1px solid ${REGION_COLORS.STROKE_HOVER}` }}
                   ></div>
                   <span className="text-xs text-neutral-500">Has {selectedMetric}</span>
                 </div>

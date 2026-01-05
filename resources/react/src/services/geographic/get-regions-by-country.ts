@@ -1,6 +1,7 @@
 import { clientRequest } from '@lib/client-request'
 import { WordPress } from '@lib/wordpress'
 import { queryOptions } from '@tanstack/react-query'
+import { QUERY_CACHE } from '@/constants/map-constants'
 
 export interface GetRegionsByCountryParams {
   countryCode: string
@@ -53,10 +54,7 @@ export const getRegionsByCountryQueryOptions = ({
           group_by: ['region'],
           columns: ['region_name', 'region_code', 'country_code', 'country_name', ...sources],
           filters: {
-            country: {
-              operator: 'is',
-              value: countryCode,
-            },
+            country: countryCode,
           },
           per_page: 100,
           order_by: sources[0] || 'visitors',
@@ -70,7 +68,7 @@ export const getRegionsByCountryQueryOptions = ({
           },
         }
       ),
-    staleTime: 5 * 60 * 1000, // 5 minutes cache
+    staleTime: QUERY_CACHE.REGIONS_STALE_TIME_MS,
     enabled: !!countryCode, // Only fetch when countryCode is provided
   })
 }
