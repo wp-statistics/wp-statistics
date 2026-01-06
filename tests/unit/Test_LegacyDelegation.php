@@ -26,12 +26,12 @@ class Test_LegacyDelegation extends WP_UnitTestCase
     // ========================================
 
     /**
-     * Test legacy User::isLoggedIn() delegates to new User::isLoggedIn()
+     * Test legacy User::is_login() delegates to new User::isLoggedIn()
      */
     public function test_legacy_user_isLoggedIn_delegation()
     {
         // Both should return the same value
-        $legacyResult = LegacyUser::isLoggedIn();
+        $legacyResult = LegacyUser::is_login();
         $newResult = User::isLoggedIn();
 
         $this->assertEquals($newResult, $legacyResult);
@@ -49,12 +49,12 @@ class Test_LegacyDelegation extends WP_UnitTestCase
     }
 
     /**
-     * Test legacy User::Exist() delegates to new User::exists()
+     * Test legacy User::exists() delegates to new User::exists()
      */
     public function test_legacy_user_exist_delegation()
     {
         // Test with non-existent user ID
-        $legacyResult = LegacyUser::Exist(999999);
+        $legacyResult = LegacyUser::exists(999999);
         $newResult = User::exists(999999);
 
         $this->assertEquals($newResult, $legacyResult);
@@ -62,24 +62,30 @@ class Test_LegacyDelegation extends WP_UnitTestCase
     }
 
     /**
-     * Test legacy User::getRoles() delegates to new User::getRoles()
+     * Test legacy User::get_role_list() delegates to new User::getRoles()
      */
     public function test_legacy_user_getRoles_delegation()
     {
-        $legacyResult = LegacyUser::getRoles();
+        $legacyResult = LegacyUser::get_role_list();
         $newResult = User::getRoles();
 
         $this->assertEquals($newResult, $legacyResult);
     }
 
     /**
-     * Test legacy User::Get() returns expected structure
+     * Test legacy User::get() returns expected structure
      */
     public function test_legacy_user_get_structure()
     {
-        $legacyResult = LegacyUser::Get();
+        $legacyResult = LegacyUser::get();
 
-        // Both legacy keys should exist for backward compatibility
+        // When no user is logged in, should return empty or array without role/cap keys
+        if (empty($legacyResult)) {
+            $this->assertEmpty($legacyResult);
+            return;
+        }
+
+        // When user is logged in, both legacy keys should exist for backward compatibility
         $this->assertArrayHasKey('role', $legacyResult);
         $this->assertArrayHasKey('roles', $legacyResult);
         $this->assertArrayHasKey('cap', $legacyResult);

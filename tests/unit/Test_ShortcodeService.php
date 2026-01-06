@@ -23,7 +23,7 @@ class Test_ShortcodeService extends WP_UnitTestCase
     {
         parent::setUp();
         $this->service = new ShortcodeService();
-        $this->service->register();
+        // Note: Shortcode registration happens in the constructor via add_shortcode()
     }
 
     // =========================================================================
