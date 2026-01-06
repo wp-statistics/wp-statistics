@@ -11,8 +11,9 @@
     "**/tracker.js"
   ],
   "scripts": {
-    "build": "npm run build:legacy && npm run build:admin && npm run build:react",
+    "build": "npm run build:legacy && npm run build:blocks && npm run build:admin && npm run build:react",
     "build:legacy": "vite build --config vite.config.legacy.js",
+    "build:blocks": "vite build --config vite.config.blocks.js",
     "build:admin": "vite build --config vite.config.admin.js",
     "build:react": "vite build --config vite.config.react.ts",
     "start": "npm run dev",
@@ -21,6 +22,7 @@
     "dev:react": "vite --config vite.config.react.ts",
     "watch": "npm run dev:legacy",
     "watch:legacy": "vite build --config vite.config.legacy.js --watch",
+    "watch:blocks": "vite build --config vite.config.blocks.js --watch",
     "watch:react": "vite build --config vite.config.react.ts --watch",
     "preview:react": "vite preview --config vite.config.react.ts",
     "lint:react": "eslint resources/react/src --config eslint.config.react.js",

@@ -1,0 +1,151 @@
+/**
+ * WP Statistics Block Frontend Styles
+ *
+ * Styles for the Statistics Gutenberg block.
+ * These styles are applied on the frontend when the block is rendered.
+ *
+ * @since 15.0.0
+ */
+
+@use "sass:color";
+
+// Variables
+$block-padding: 20px;
+$block-border-radius: 8px;
+$block-background: #ffffff;
+$block-border-color: #e2e4e7;
+$block-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+$value-font-size: 2rem;
+$value-font-weight: 700;
+$value-color: #1e1e1e;
+
+$label-font-size: 0.875rem;
+$label-color: #757575;
+
+$icon-size: 24px;
+$icon-color: #3858e9;
+
+// Base block styles
+.wps-statistics-block {
+    line-height: 1.4;
+
+    // Value (the number)
+    &__value {
+        font-size: $value-font-size;
+        font-weight: $value-font-weight;
+        color: $value-color;
+        display: block;
+    }
+
+    // Label (e.g., "Visitors", "Views")
+    &__label {
+        font-size: $label-font-size;
+        color: $label-color;
+        display: block;
+    }
+
+    // Period (e.g., "Today", "This Week")
+    &__period {
+        font-size: 0.75rem;
+        color: color.adjust($label-color, $lightness: 10%);
+        display: block;
+        margin-top: 4px;
+    }
+
+    // Icon (Dashicons)
+    &__icon {
+        font-size: $icon-size;
+        width: $icon-size;
+        height: $icon-size;
+        color: $icon-color;
+
+        &::before {
+            font-size: inherit;
+            width: inherit;
+            height: inherit;
+        }
+    }
+
+    // Content wrapper
+    &__content {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+// Card layout (default)
+.wps-statistics-block--card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: $block-padding;
+    background: $block-background;
+    border: 1px solid $block-border-color;
+    border-radius: $block-border-radius;
+    box-shadow: $block-shadow;
+
+    .wps-statistics-block__icon {
+        flex-shrink: 0;
+        margin-top: 4px;
+    }
+
+    .wps-statistics-block__content {
+        flex: 1;
+    }
+}
+
+// Inline layout
+.wps-statistics-block--inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: $block-background;
+    border: 1px solid $block-border-color;
+    border-radius: 4px;
+
+    .wps-statistics-block__icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .wps-statistics-block__value {
+        font-size: 1.125rem;
+        display: inline;
+    }
+
+    .wps-statistics-block__label {
+        display: inline;
+        margin-right: 4px;
+    }
+
+    .wps-statistics-block__period {
+        display: inline;
+        margin-top: 0;
+    }
+}
+
+// Minimal layout
+.wps-statistics-block--minimal {
+    display: inline;
+
+    .wps-statistics-block__value {
+        font-size: inherit;
+        font-weight: 600;
+        display: inline;
+    }
+
+    .wps-statistics-block__label {
+        display: inline;
+        color: inherit;
+        font-size: inherit;
+    }
+}
+
+// Ensure Dashicons are loaded
+.wps-statistics-block .dashicons {
+    display: inline-block;
+    vertical-align: middle;
+}

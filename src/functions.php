@@ -74,7 +74,12 @@ if (!function_exists('WP_Statistics')) {
  *   - 'format'    (string) Output format: 'flat', 'table', 'chart' (default: 'flat')
  *   - 'cache'     (bool)   Enable caching (default: false for template functions)
  *
- * @return array|null Query result data, or null on error
+ * @param string $output Optional. Specific field to return from response.
+ *   Searches in order: top-level -> meta -> data.
+ *   Meta fields: 'total_rows', 'page', 'per_page', 'total_pages'
+ *   Data fields: 'rows', 'totals'
+ *
+ * @return array|int|null Query result data, specific field value, or null on error
  *
  * @since 15.0.0
  *
@@ -96,8 +101,16 @@ if (!function_exists('WP_Statistics')) {
  *     'date_to'   => '2024-01-31',
  *     'format'    => 'table',
  * ]);
+ *
+ * @example
+ * // Get total rows count directly
+ * $totalRows = wp_statistics_query([
+ *     'sources'   => ['visitors'],
+ *     'group_by'  => ['country'],
+ *     'format'    => 'table',
+ * ], 'total_rows');
  */
-function wp_statistics_query($args = [])
+function wp_statistics_query($args = [], $output = '')
 {
     $defaults = [
         'sources'   => [],
@@ -121,6 +134,21 @@ function wp_statistics_query($args = [])
             'filters'   => $args['filters'],
             'format'    => $args['format'],
         ]);
+
+        if (!empty($output)) {
+            // Check if output key exists at top level
+            if (isset($result[$output])) {
+                return $result[$output];
+            }
+            // Check if output key exists in meta (e.g., total_rows, page, per_page)
+            if (isset($result['meta'][$output])) {
+                return $result['meta'][$output];
+            }
+            // Check if output key exists in data (e.g., rows, totals)
+            if (isset($result['data'][$output])) {
+                return $result['data'][$output];
+            }
+        }
 
         return $result['data'] ?? null;
     } catch (Exception $e) {
@@ -248,7 +276,7 @@ function wp_statistics_get_user_location($ip = false)
  * @since 1.0.0
  * @since 15.0.0 Updated to use AnalyticsQuery system with sessions table.
  */
-function wp_statistics_useronline($options = array())
+function wp_statistics_useronline($options = array(), $output = '')
 {
     $defaults = array(
         'type'         => 'all',
@@ -303,6 +331,10 @@ function wp_statistics_useronline($options = array())
         $filters['resource_id'] = ['value' => (int) $arg['ID'], 'operator' => 'is'];
     }
 
+    if ($arg['return'] === 'count') {
+        $output = 'total_rows';
+    }
+
     // Use AnalyticsQuery for consistency with rest of v15 codebase
     $result = wp_statistics_query([
         'sources'   => ['visitors'],
@@ -312,11 +344,11 @@ function wp_statistics_useronline($options = array())
         'filters'   => $filters,
         'format'    => 'table',
         'cache'     => false,
-    ]);
+    ], $output);
 
     if ($arg['return'] === 'count') {
         // Return total count from meta
-        return (int) ($result['meta']['total_rows'] ?? 0);
+        return (int) $result;
     }
 
     // Return list of online users - transform to legacy format for backward compatibility
@@ -434,12 +466,13 @@ function wp_statistics_visit($time, $daily = null)
  * @param bool|null $daily If true, treats $time as a specific date
  * @param bool $count_only If true, returns count only; otherwise returns query result
  * @param array $options Additional filter options (type, ID, location, agent, platform)
+ * @param string $output Additional output value.
  * @return int|null|string Visitor count or query result
  *
  * @since 1.0.0
  * @since 15.0.0 Refactored to use AnalyticsQuery.
  */
-function wp_statistics_visitor($time, $daily = null, $count_only = false, $options = array())
+function wp_statistics_visitor($time, $daily = null, $count_only = false, $options = [], $output = '')
 {
     // Check Parameters
     $defaults = array(
@@ -504,7 +537,7 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
         'date_from' => $dateRange['from'],
         'date_to'   => $dateRange['to'],
         'filters'   => $filters,
-    ]);
+    ], $output);
 
     return (int) ($result['visitors'] ?? 0);
 }
@@ -973,7 +1006,7 @@ function wp_statistics_searchengine_query($search_engine = 'all')
  * @since 1.0.0
  * @since 15.0.0 Refactored to use AnalyticsQuery.
  */
-function wp_statistics_get_search_engine_query($search_engine = 'all', $time = 'total', $search_by = 'query', $range = [])
+function wp_statistics_get_search_engine_query($search_engine = 'all', $time = 'total', $search_by = 'query', $range = [], $ouput = '')
 {
     // Handle date range
     if (!empty($range) && isset($range['start'], $range['end'])) {
@@ -995,12 +1028,12 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
 
     // Build filters
     $filters = [
-        'source_channel' => 'search'
+        'referrer_channel' => 'search'
     ];
 
     // Filter by specific search engine
     if (strtolower($search_engine) !== 'all') {
-        $filters['source_name'] = $search_engine;
+        $filters['referrer_name'] = $search_engine;
     }
 
     $result = wp_statistics_query([
@@ -1008,7 +1041,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
         'date_from' => $dateRange['from'],
         'date_to'   => $dateRange['to'],
         'filters'   => $filters,
-    ]);
+    ], $ouput);
 
     return (int) ($result['searches'] ?? 0);
 }
@@ -1021,9 +1054,9 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
  * @param array $range
  * @return mixed
  */
-function wp_statistics_searchengine($search_engine = 'all', $time = 'total', $range = [])
+function wp_statistics_searchengine($search_engine = 'all', $time = 'total', $range = [], $output = '')
 {
-    return wp_statistics_get_search_engine_query($search_engine, $time, $search_by = 'query', $range);
+    return wp_statistics_get_search_engine_query($search_engine, $time, $search_by = 'query', $range, $output);
 }
 
 /**
@@ -1036,7 +1069,7 @@ function wp_statistics_searchengine($search_engine = 'all', $time = 'total', $ra
  * @since 1.0.0
  * @since 15.0.0 Refactored to use AnalyticsQuery.
  */
-function wp_statistics_referrer($time = null, $range = [])
+function wp_statistics_referrer($time = null, $range = [], $output = '')
 {
     // Handle date range
     if (!empty($range) && isset($range['start'], $range['end'])) {
@@ -1061,7 +1094,11 @@ function wp_statistics_referrer($time = null, $range = [])
         'date_to'   => $dateRange['to'],
         'group_by'  => ['referrer'],
         'format'    => 'table',
-    ]);
+    ], $output);
+
+    if ($output === 'totals') { 
+        return (int) ($result['visitors'] ?? 0);
+    }
 
     // Count unique external referrer domains
     $siteUrl = get_bloginfo('url');

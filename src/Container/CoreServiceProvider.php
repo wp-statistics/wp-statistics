@@ -6,7 +6,7 @@ use WP_Statistics\Service\HooksManager;
 use WP_Statistics\Service\Privacy\PrivacyManager;
 use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\CLI\CLIManager;
-use WP_Statistics\Service\Content\ShortcodeManager;
+use WP_Statistics\Service\Shortcode\ShortcodeService;
 use WP_Statistics\Service\Blocks\BlocksManager;
 use WP_Statistics\Service\Tracking\TrackerControllerFactory;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
@@ -53,7 +53,7 @@ class CoreServiceProvider implements ServiceProvider
 
         // Shortcodes - lazy loaded
         $container->register('shortcodes', function () {
-            return new ShortcodeManager();
+            return new ShortcodeService();
         });
 
         // Gutenberg Blocks - lazy loaded

@@ -38,8 +38,27 @@ class BlocksManager
      */
     public function __construct()
     {
+        add_action('init', [$this, 'registerBlockStyles'], 9);
         add_action('init', [$this, 'registerBlocks']);
         add_action('enqueue_block_editor_assets', [$this, 'enqueueEditorAssets']);
+    }
+
+    /**
+     * Register block styles.
+     *
+     * Styles must be registered before blocks are registered.
+     * WordPress will auto-enqueue these when blocks are rendered.
+     *
+     * @return void
+     */
+    public function registerBlockStyles()
+    {
+        wp_register_style(
+            'wp-statistics-block-statistics',
+            WP_STATISTICS_URL . 'public/blocks/statistics/style.css',
+            ['dashicons'],
+            WP_STATISTICS_VERSION
+        );
     }
 
     /**
@@ -83,6 +102,7 @@ class BlocksManager
             ],
             'attributes'      => $this->getStatisticsAttributes(),
             'render_callback' => [StatisticsBlock::class, 'render'],
+            'style'           => 'wp-statistics-block-statistics',
         ]);
 
         // Store class name for lazy loading - instance created only when needed
@@ -113,6 +133,10 @@ class BlocksManager
                     'commentcount',
                     'spamcount',
                     'usercount',
+                    'postaverage',
+                    'commentaverage',
+                    'useraverage',
+                    'lpd',
                 ],
             ],
             'time' => [
@@ -154,6 +178,21 @@ class BlocksManager
                     'minimal',
                 ],
             ],
+            'id' => [
+                'type' => 'integer',
+            ],
+            'provider' => [
+                'type'    => 'string',
+                'default' => 'all',
+                'enum'    => [
+                    'all',
+                    'google',
+                    'bing',
+                    'yahoo',
+                    'duckduckgo',
+                    'yandex',
+                ],
+            ],
         ];
     }
 
@@ -184,20 +223,28 @@ class BlocksManager
             true
         );
 
-        // Enqueue editor styles
+        // Enqueue editor styles (same as frontend + dashicons for icons)
         wp_enqueue_style(
             'wp-statistics-blocks-editor',
-            WP_STATISTICS_URL . 'public/blocks/statistics/statistics-editor.css',
-            [],
+            WP_STATISTICS_URL . 'public/blocks/statistics/style.css',
+            ['dashicons'],
             WP_STATISTICS_VERSION
         );
 
         // Pass data to the editor
         wp_localize_script('wp-statistics-blocks-editor', 'wpStatisticsBlockData', [
-            'pluginUrl' => WP_STATISTICS_URL,
-            'ajaxUrl'   => admin_url('admin-ajax.php'),
-            'nonce'     => wp_create_nonce('wp_rest'),
-            'stats'     => $this->getAvailableStats(),
+            'pluginUrl'      => WP_STATISTICS_URL,
+            'ajaxUrl'        => admin_url('admin-ajax.php'),
+            'nonce'          => wp_create_nonce('wp_rest'),
+            'stats'          => $this->getAvailableStats(),
+            'timeBasedStats' => [
+                'visits',
+                'visitors',
+                'pagevisits',
+                'pagevisitors',
+                'searches',
+                'referrer',
+            ],
         ]);
     }
 
@@ -236,7 +283,7 @@ class BlocksManager
             ],
             [
                 'value' => 'searches',
-                'label' => __('Search Queries', 'wp-statistics'),
+                'label' => __('Searches', 'wp-statistics'),
                 'icon'  => 'search',
             ],
             [
@@ -260,9 +307,34 @@ class BlocksManager
                 'icon'  => 'admin-comments',
             ],
             [
+                'value' => 'spamcount',
+                'label' => __('Spam Count', 'wp-statistics'),
+                'icon'  => 'warning',
+            ],
+            [
                 'value' => 'usercount',
                 'label' => __('User Count', 'wp-statistics'),
                 'icon'  => 'admin-users',
+            ],
+            [
+                'value' => 'postaverage',
+                'label' => __('Post Average', 'wp-statistics'),
+                'icon'  => 'chart-bar',
+            ],
+            [
+                'value' => 'commentaverage',
+                'label' => __('Comment Average', 'wp-statistics'),
+                'icon'  => 'format-chat',
+            ],
+            [
+                'value' => 'useraverage',
+                'label' => __('User Average', 'wp-statistics'),
+                'icon'  => 'chart-line',
+            ],
+            [
+                'value' => 'lpd',
+                'label' => __('Last Post Date', 'wp-statistics'),
+                'icon'  => 'calendar-alt',
             ],
         ];
     }

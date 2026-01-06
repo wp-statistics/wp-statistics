@@ -18,19 +18,13 @@ class Comment
      * Count comments for the given status.
      *
      * Accepts any key returned by {@see wp_count_comments()}, such as
-     * 'approved', 'spam', or 'moderated'. When the requested status is
-     * 'spam', Akismet’s stored counter is used (if available) and returned
-     * via {@see number_format_i18n()} for localisation.
+     * 'approved', 'spam', or 'moderated'.
      *
      * @param string $status Optional. Status key. Default 'approved'.
-     * @return int|string    Localised string for 'spam', otherwise raw count.
+     * @return int Comment count for the given status.
      */
     public static function countAll(string $status = 'approved')
     {
-        if ($status === 'spam') {
-            return number_format_i18n(get_option('akismet_spam_count'));
-        }
-
         $totals = wp_count_comments();
 
         return (is_object($totals) && isset($totals->{$status}))

@@ -3,7 +3,6 @@
 namespace WP_Statistics\Utils;
 
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Models\PostsModel;
 
 /**
  * Utility class for retrieving and analyzing post data.
@@ -24,19 +23,19 @@ class Post
      * @param string $orderBy Column to sort by. Default 'post_date'.
      * @param string $order Sort direction: 'ASC' or 'DESC'. Default 'DESC'.
      *
-     * @return object|null     The post object on success, or null if none found.
+     * @return object|null The post object on success, or null if none found.
      */
     public static function get($postType, $orderBy = 'post_date', $order = 'DESC')
     {
-        $postModel = new PostsModel();
-
-        $post = $postModel->getPost([
-            'post_type' => $postType,
-            'order_by'  => $orderBy,
-            'order'     => $order,
+        $posts = get_posts([
+            'post_type'      => $postType,
+            'post_status'    => 'publish',
+            'posts_per_page' => 1,
+            'orderby'        => $orderBy,
+            'order'          => $order,
         ]);
 
-        return $post;
+        return !empty($posts) ? $posts[0] : null;
     }
 
     /**
@@ -97,7 +96,7 @@ class Post
 
         $daysSpan = max(
             1,
-            (int)floor((time() - strtotime($firstPost->post_date)) / DAY_IN_SECONDS)
+            (int) floor((time() - strtotime($firstPost->post_date)) / DAY_IN_SECONDS)
         );
 
         return $daysBetween

@@ -2,15 +2,14 @@
 
 namespace WP_Statistics\Service\Blocks;
 
-use WP_STATISTICS\Helper;
-use WP_Statistics\Components\DateRange;
-use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
+use WP_Statistics\Service\Shortcode\ShortcodeService;
 
 /**
  * Statistics Block for WP Statistics v15.
  *
  * Server-side rendered block for displaying statistics.
- * Replaces the legacy sidebar widget with a modern Gutenberg block.
+ * Uses ShortcodeService for data retrieval to ensure consistency
+ * with the [wpstatistics] shortcode.
  *
  * @since 15.0.0
  */
@@ -29,6 +28,13 @@ class StatisticsBlock
      * @var array
      */
     private static $icons = [];
+
+    /**
+     * ShortcodeService instance.
+     *
+     * @var ShortcodeService|null
+     */
+    private static $shortcodeService = null;
 
     /**
      * Initialize labels and icons.
@@ -51,6 +57,10 @@ class StatisticsBlock
                 'commentcount'   => __('Comments', 'wp-statistics'),
                 'spamcount'      => __('Spam', 'wp-statistics'),
                 'usercount'      => __('Users', 'wp-statistics'),
+                'postaverage'    => __('Post Average', 'wp-statistics'),
+                'commentaverage' => __('Comment Average', 'wp-statistics'),
+                'useraverage'    => __('User Average', 'wp-statistics'),
+                'lpd'            => __('Last Post Date', 'wp-statistics'),
             ];
 
             self::$icons = [
@@ -66,8 +76,26 @@ class StatisticsBlock
                 'commentcount'   => 'dashicons-admin-comments',
                 'spamcount'      => 'dashicons-warning',
                 'usercount'      => 'dashicons-admin-users',
+                'postaverage'    => 'dashicons-chart-bar',
+                'commentaverage' => 'dashicons-format-chat',
+                'useraverage'    => 'dashicons-chart-line',
+                'lpd'            => 'dashicons-calendar-alt',
             ];
         }
+    }
+
+    /**
+     * Get the ShortcodeService instance.
+     *
+     * @return ShortcodeService
+     */
+    private static function getShortcodeService()
+    {
+        if (self::$shortcodeService === null) {
+            self::$shortcodeService = new ShortcodeService();
+        }
+
+        return self::$shortcodeService;
     }
 
     /**
@@ -88,12 +116,27 @@ class StatisticsBlock
             'showLabel' => true,
             'showIcon'  => true,
             'layout'    => 'card',
+            'provider'  => 'all',
         ];
 
         $attributes = wp_parse_args($attributes, $defaults);
 
-        // Get the statistic value
-        $value = self::getStatistic($attributes['stat'], $attributes['time']);
+        // Build attributes for ShortcodeService - matches shortcode attribute format
+        $atts = [
+            'stat'     => $attributes['stat'],
+            'time'     => $attributes['time'],
+            'provider' => $attributes['provider'],
+        ];
+
+        // Include ID if provided (for page-specific stats)
+        if (!empty($attributes['id'])) {
+            $atts['id'] = (int) $attributes['id'];
+        }
+
+        // Get the statistic value using ShortcodeService
+        // Uses getValue() which applies the same parsing and filters as shortcode
+        $shortcodeService = self::getShortcodeService();
+        $value = $shortcodeService->getValue($atts);
 
         // Format the value
         $formattedValue = self::formatValue($value, $attributes['format']);
@@ -238,121 +281,6 @@ class StatisticsBlock
     }
 
     /**
-     * Get the statistic value.
-     *
-     * @param string $stat Statistic type.
-     * @param string $time Time period.
-     * @return int|string Statistic value.
-     */
-    private static function getStatistic($stat, $time)
-    {
-        switch ($stat) {
-            case 'usersonline':
-                return wp_statistics_useronline();
-
-            case 'visits':
-                return self::getViewsCount($time);
-
-            case 'visitors':
-                return self::getVisitorsCount($time);
-
-            case 'pagevisits':
-                return self::getViewsCount($time);
-
-            case 'pagevisitors':
-                return self::getVisitorsCount($time);
-
-            case 'searches':
-                return wp_statistics_searchengine('all', $time);
-
-            case 'referrer':
-                return wp_statistics_referrer($time);
-
-            case 'postcount':
-                return Helper::getCountPosts();
-
-            case 'pagecount':
-                return Helper::getCountPages();
-
-            case 'commentcount':
-                return Helper::getCountComment();
-
-            case 'spamcount':
-                return Helper::getCountSpam();
-
-            case 'usercount':
-                return Helper::getCountUsers();
-
-            default:
-                return 0;
-        }
-    }
-
-    /**
-     * Get views count using AnalyticsQueryHandler.
-     *
-     * @param string $time Time period.
-     * @return int Views count.
-     */
-    private static function getViewsCount($time)
-    {
-        $dateRange    = self::getDateRange($time);
-        $queryHandler = new AnalyticsQueryHandler();
-
-        $result = $queryHandler->handle([
-            'sources'   => ['views'],
-            'date_from' => $dateRange['from'],
-            'date_to'   => $dateRange['to'],
-            'format'    => 'flat',
-        ]);
-
-        return $result['data']['views'] ?? 0;
-    }
-
-    /**
-     * Get visitors count using AnalyticsQueryHandler.
-     *
-     * @param string $time Time period.
-     * @return int Visitors count.
-     */
-    private static function getVisitorsCount($time)
-    {
-        $dateRange    = self::getDateRange($time);
-        $queryHandler = new AnalyticsQueryHandler();
-
-        $result = $queryHandler->handle([
-            'sources'   => ['visitors'],
-            'date_from' => $dateRange['from'],
-            'date_to'   => $dateRange['to'],
-            'format'    => 'flat',
-        ]);
-
-        return $result['data']['visitors'] ?? 0;
-    }
-
-    /**
-     * Get date range from time parameter.
-     *
-     * @param string $time Time parameter (today, yesterday, week, month, year, total).
-     * @return array Date range with 'from' and 'to' keys.
-     */
-    private static function getDateRange($time)
-    {
-        $periodMap = [
-            'today'     => 'today',
-            'yesterday' => 'yesterday',
-            'week'      => '7days',
-            'month'     => '30days',
-            'year'      => '12months',
-            'total'     => 'total',
-        ];
-
-        $period = $periodMap[$time] ?? '30days';
-
-        return DateRange::get($period);
-    }
-
-    /**
      * Format the value based on format setting.
      *
      * @param int|string $value  Value to format.
@@ -362,23 +290,43 @@ class StatisticsBlock
     private static function formatValue($value, $format)
     {
         if (!is_numeric($value)) {
-            return $value;
+            return (string) $value;
         }
+
+        // Determine decimal places for floating point values
+        $decimals = self::getDecimalPlaces($value);
 
         switch ($format) {
             case 'i18n':
-                return number_format_i18n($value);
+                return number_format_i18n($value, $decimals);
 
             case 'english':
-                return number_format($value);
+                return number_format((float) $value, $decimals);
 
             case 'abbreviated':
                 return self::formatAbbreviated($value);
 
             case 'none':
             default:
-                return $value;
+                return (string) $value;
         }
+    }
+
+    /**
+     * Get the number of decimal places for a value.
+     *
+     * @param int|float $value The value to check.
+     * @return int Number of decimal places (0 for integers, 2 for floats).
+     */
+    private static function getDecimalPlaces($value)
+    {
+        // If it's an integer or has no decimal part, use 0 decimals
+        if ((float) $value == (int) $value) {
+            return 0;
+        }
+
+        // For floating point values, use 2 decimal places
+        return 2;
     }
 
     /**
