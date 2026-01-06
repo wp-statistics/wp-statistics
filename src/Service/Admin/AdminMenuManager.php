@@ -192,7 +192,7 @@ class AdminMenuManager
      */
     public function renderApp()
     {
-        View::load(['pages/dashboard/index'], [
+        View::load(['pages/app/index'], [
             'title'    => '',
             'pageName' => self::MENU_SLUG,
         ]);

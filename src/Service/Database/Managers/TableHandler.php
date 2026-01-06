@@ -55,22 +55,11 @@ class TableHandler
         if (InstallManager::isFresh()) {
             Option::updateGroup('migrated', true, 'db');
             Option::updateGroup('version', WP_STATISTICS_VERSION, 'db');
-            Option::updateGroup('is_done', true, 'ajax_background_process');
             return;
         }
 
         Option::updateGroup('migrated', false, 'db');
         Option::updateGroup('migration_status_detail', null, 'db');
-        Option::updateGroup('is_done', null, 'ajax_background_process');
-        Option::updateGroup('status', null, 'ajax_background_process');
-
-        $dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
-
-        if (in_array('database_manual_migration_progress', $dismissedNotices, true)) {
-            $dismissedNotices = array_diff($dismissedNotices, ['database_manual_migration_progress']);
-
-            update_option('wp_statistics_dismissed_notices', $dismissedNotices);
-        }
     }
 
     /**

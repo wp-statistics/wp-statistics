@@ -2,7 +2,6 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\BackgroundProcess\AjaxBackgroundProcess\AjaxBackgroundProcessFactory;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
