@@ -39,6 +39,7 @@ const ToolsScheduledTasksLazyRouteImport = createFileRoute(
 const ToolsImportExportLazyRouteImport = createFileRoute(
   '/tools/import-export',
 )()
+const ToolsDiagnosticsLazyRouteImport = createFileRoute('/tools/diagnostics')()
 const ToolsBackupsLazyRouteImport = createFileRoute('/tools/backups')()
 const ToolsBackgroundJobsLazyRouteImport = createFileRoute(
   '/tools/background-jobs',
@@ -167,6 +168,13 @@ const ToolsImportExportLazyRoute = ToolsImportExportLazyRouteImport.update({
   getParentRoute: () => ToolsRouteRoute,
 } as any).lazy(() =>
   import('./routes/tools/import-export.lazy').then((d) => d.Route),
+)
+const ToolsDiagnosticsLazyRoute = ToolsDiagnosticsLazyRouteImport.update({
+  id: '/diagnostics',
+  path: '/diagnostics',
+  getParentRoute: () => ToolsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/tools/diagnostics.lazy').then((d) => d.Route),
 )
 const ToolsBackupsLazyRoute = ToolsBackupsLazyRouteImport.update({
   id: '/backups',
@@ -410,6 +418,7 @@ export interface FileRoutesByFullPath {
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
   '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
   '/tools/backups': typeof ToolsBackupsLazyRoute
+  '/tools/diagnostics': typeof ToolsDiagnosticsLazyRoute
   '/tools/import-export': typeof ToolsImportExportLazyRoute
   '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
@@ -448,6 +457,7 @@ export interface FileRoutesByTo {
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
   '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
   '/tools/backups': typeof ToolsBackupsLazyRoute
+  '/tools/diagnostics': typeof ToolsDiagnosticsLazyRoute
   '/tools/import-export': typeof ToolsImportExportLazyRoute
   '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
@@ -489,6 +499,7 @@ export interface FileRoutesById {
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
   '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
   '/tools/backups': typeof ToolsBackupsLazyRoute
+  '/tools/diagnostics': typeof ToolsDiagnosticsLazyRoute
   '/tools/import-export': typeof ToolsImportExportLazyRoute
   '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
@@ -531,6 +542,7 @@ export interface FileRouteTypes {
     | '/settings/privacy'
     | '/tools/background-jobs'
     | '/tools/backups'
+    | '/tools/diagnostics'
     | '/tools/import-export'
     | '/tools/scheduled-tasks'
     | '/tools/system-info'
@@ -569,6 +581,7 @@ export interface FileRouteTypes {
     | '/settings/privacy'
     | '/tools/background-jobs'
     | '/tools/backups'
+    | '/tools/diagnostics'
     | '/tools/import-export'
     | '/tools/scheduled-tasks'
     | '/tools/system-info'
@@ -609,6 +622,7 @@ export interface FileRouteTypes {
     | '/settings/privacy'
     | '/tools/background-jobs'
     | '/tools/backups'
+    | '/tools/diagnostics'
     | '/tools/import-export'
     | '/tools/scheduled-tasks'
     | '/tools/system-info'
@@ -747,6 +761,13 @@ declare module '@tanstack/react-router' {
       path: '/import-export'
       fullPath: '/tools/import-export'
       preLoaderRoute: typeof ToolsImportExportLazyRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/tools/diagnostics': {
+      id: '/tools/diagnostics'
+      path: '/diagnostics'
+      fullPath: '/tools/diagnostics'
+      preLoaderRoute: typeof ToolsDiagnosticsLazyRouteImport
       parentRoute: typeof ToolsRouteRoute
     }
     '/tools/backups': {
@@ -944,6 +965,7 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
 interface ToolsRouteRouteChildren {
   ToolsBackgroundJobsLazyRoute: typeof ToolsBackgroundJobsLazyRoute
   ToolsBackupsLazyRoute: typeof ToolsBackupsLazyRoute
+  ToolsDiagnosticsLazyRoute: typeof ToolsDiagnosticsLazyRoute
   ToolsImportExportLazyRoute: typeof ToolsImportExportLazyRoute
   ToolsScheduledTasksLazyRoute: typeof ToolsScheduledTasksLazyRoute
   ToolsSystemInfoLazyRoute: typeof ToolsSystemInfoLazyRoute
@@ -953,6 +975,7 @@ interface ToolsRouteRouteChildren {
 const ToolsRouteRouteChildren: ToolsRouteRouteChildren = {
   ToolsBackgroundJobsLazyRoute: ToolsBackgroundJobsLazyRoute,
   ToolsBackupsLazyRoute: ToolsBackupsLazyRoute,
+  ToolsDiagnosticsLazyRoute: ToolsDiagnosticsLazyRoute,
   ToolsImportExportLazyRoute: ToolsImportExportLazyRoute,
   ToolsScheduledTasksLazyRoute: ToolsScheduledTasksLazyRoute,
   ToolsSystemInfoLazyRoute: ToolsSystemInfoLazyRoute,

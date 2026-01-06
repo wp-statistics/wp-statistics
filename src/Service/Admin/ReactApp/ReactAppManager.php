@@ -15,6 +15,7 @@ use WP_Statistics\Service\Admin\ReactApp\Providers\LayoutDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\FiltersProvider;
 use WP_Statistics\Service\ImportExport\Providers\ImportExportDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\NetworkDataProvider;
+use WP_Statistics\Service\Admin\Notice\NoticeDataProvider;
 
 /**
  * React Application Manager for WP Statistics.
@@ -133,6 +134,7 @@ class ReactAppManager
             ->registerProviderClass(FiltersProvider::class)
             ->registerProviderClass(ImportExportDataProvider::class)
             ->registerProviderClass(NetworkDataProvider::class)
+            ->registerProviderClass(NoticeDataProvider::class)
             ->init();
     }
 

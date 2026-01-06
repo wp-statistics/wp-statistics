@@ -10,6 +10,7 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Database\DatabaseSchema;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\BackgroundProcess\BackgroundProcessMonitor;
+use WP_Statistics\Service\Admin\Diagnostic\DiagnosticManager;
 use Exception;
 
 /**
@@ -32,12 +33,16 @@ class ToolsEndpoints
      * @var array<string, string>
      */
     private $subActions = [
-        'system_info'      => 'getSystemInfo',
-        'scheduled_tasks'  => 'getScheduledTasks',
-        'run_task'         => 'runScheduledTask',
-        'schema_check'     => 'checkSchema',
-        'schema_repair'    => 'repairSchema',
-        'background_jobs'  => 'getBackgroundJobs',
+        'system_info'           => 'getSystemInfo',
+        'scheduled_tasks'       => 'getScheduledTasks',
+        'run_task'              => 'runScheduledTask',
+        'schema_check'          => 'checkSchema',
+        'schema_repair'         => 'repairSchema',
+        'background_jobs'       => 'getBackgroundJobs',
+        'options_transients'    => 'getOptionsAndTransients',
+        'diagnostics'           => 'getDiagnostics',
+        'diagnostics_run'       => 'runDiagnostics',
+        'diagnostics_run_check' => 'runDiagnosticCheck',
     ];
 
     /**
@@ -296,6 +301,224 @@ class ToolsEndpoints
         wp_send_json_success([
             'jobs' => $jobs,
         ]);
+    }
+
+    /**
+     * Get WordPress options and transients used by WP Statistics.
+     *
+     * @return void
+     */
+    private function getOptionsAndTransients(): void
+    {
+        global $wpdb;
+
+        // Get main plugin options
+        $mainOptions   = get_option('wp_statistics', []);
+        $optionsList   = [];
+
+        if (is_array($mainOptions)) {
+            foreach ($mainOptions as $key => $value) {
+                $optionsList[] = [
+                    'key'   => $key,
+                    'value' => $this->formatOptionValue($value),
+                    'group' => 'main',
+                ];
+            }
+        }
+
+        // Get grouped options
+        $groupedOptions = [
+            'wp_statistics_db'    => 'db',
+            'wp_statistics_jobs'  => 'jobs',
+            'wp_statistics_cache' => 'cache',
+        ];
+
+        foreach ($groupedOptions as $optionName => $group) {
+            $groupData = get_option($optionName, []);
+            if (is_array($groupData)) {
+                foreach ($groupData as $key => $value) {
+                    $optionsList[] = [
+                        'key'   => $key,
+                        'value' => $this->formatOptionValue($value),
+                        'group' => $group,
+                    ];
+                }
+            }
+        }
+
+        // Get version/installation options
+        $versionOptions = [
+            'wp_statistics_plugin_version'    => get_option('wp_statistics_plugin_version', '-'),
+            'wp_statistics_db_version'        => get_option('wp_statistics_db_version', '-'),
+            'wp_statistics_is_fresh'          => get_option('wp_statistics_is_fresh', '-'),
+            'wp_statistics_installation_time' => get_option('wp_statistics_installation_time', '-'),
+        ];
+
+        foreach ($versionOptions as $key => $value) {
+            $optionsList[] = [
+                'key'   => str_replace('wp_statistics_', '', $key),
+                'value' => $this->formatOptionValue($value),
+                'group' => 'version',
+            ];
+        }
+
+        // Get transients
+        $transients    = [];
+        $transientRows = $wpdb->get_results(
+            "SELECT option_name, option_value
+             FROM {$wpdb->options}
+             WHERE option_name LIKE '_transient_wp_statistics%'
+             OR option_name LIKE '_transient_wps_%'
+             LIMIT 100"
+        );
+
+        foreach ($transientRows as $row) {
+            $name = str_replace('_transient_', '', $row->option_name);
+            $transients[] = [
+                'name'  => $name,
+                'value' => $this->formatOptionValue(maybe_unserialize($row->option_value)),
+            ];
+        }
+
+        wp_send_json_success([
+            'options'    => $optionsList,
+            'transients' => $transients,
+        ]);
+    }
+
+    /**
+     * Get diagnostic check results.
+     *
+     * Returns cached results for lightweight checks and last results for heavy checks.
+     *
+     * @return void
+     */
+    private function getDiagnostics(): void
+    {
+        $manager = new DiagnosticManager();
+
+        $results       = $manager->getResults();
+        $lastFullCheck = $manager->getLastFullCheckTime();
+
+        $checks = [];
+        foreach ($results as $key => $result) {
+            $check = $manager->getCheck($key);
+            $checks[] = [
+                'key'         => $result->key,
+                'label'       => $result->label,
+                'description' => $check ? $check->getDescription() : '',
+                'status'      => $result->status,
+                'message'     => $result->message,
+                'details'     => $result->details,
+                'helpUrl'     => $result->helpUrl,
+                'timestamp'   => $result->timestamp,
+                'isLightweight' => $check ? $check->isLightweight() : false,
+            ];
+        }
+
+        wp_send_json_success([
+            'checks'        => $checks,
+            'lastFullCheck' => $lastFullCheck,
+            'hasIssues'     => $manager->hasIssues(),
+            'failCount'     => count($manager->getFailedChecks()),
+            'warningCount'  => count($manager->getWarningChecks()),
+        ]);
+    }
+
+    /**
+     * Run all diagnostic checks fresh.
+     *
+     * @return void
+     */
+    private function runDiagnostics(): void
+    {
+        $manager = new DiagnosticManager();
+        $results = $manager->runAll(true);
+
+        $checks = [];
+        foreach ($results as $key => $result) {
+            $check = $manager->getCheck($key);
+            $checks[] = [
+                'key'         => $result->key,
+                'label'       => $result->label,
+                'description' => $check ? $check->getDescription() : '',
+                'status'      => $result->status,
+                'message'     => $result->message,
+                'details'     => $result->details,
+                'helpUrl'     => $result->helpUrl,
+                'timestamp'   => $result->timestamp,
+                'isLightweight' => $check ? $check->isLightweight() : false,
+            ];
+        }
+
+        wp_send_json_success([
+            'checks'        => $checks,
+            'lastFullCheck' => time(),
+            'hasIssues'     => $manager->hasIssues(),
+            'failCount'     => count($manager->getFailedChecks()),
+            'warningCount'  => count($manager->getWarningChecks()),
+        ]);
+    }
+
+    /**
+     * Run a single diagnostic check.
+     *
+     * @return void
+     * @throws Exception If check key is invalid.
+     */
+    private function runDiagnosticCheck(): void
+    {
+        $key = sanitize_key(Request::get('check', ''));
+
+        if (empty($key)) {
+            throw new Exception(__('Check key is required.', 'wp-statistics'));
+        }
+
+        $manager = new DiagnosticManager();
+
+        if (!$manager->hasCheck($key)) {
+            throw new Exception(__('Invalid check key.', 'wp-statistics'));
+        }
+
+        $result = $manager->runCheck($key);
+        $check  = $manager->getCheck($key);
+
+        wp_send_json_success([
+            'check' => [
+                'key'         => $result->key,
+                'label'       => $result->label,
+                'description' => $check ? $check->getDescription() : '',
+                'status'      => $result->status,
+                'message'     => $result->message,
+                'details'     => $result->details,
+                'helpUrl'     => $result->helpUrl,
+                'timestamp'   => $result->timestamp,
+                'isLightweight' => $check ? $check->isLightweight() : false,
+            ],
+        ]);
+    }
+
+    /**
+     * Format option value for display.
+     *
+     * @param mixed $value The value to format.
+     * @return string Formatted value.
+     */
+    private function formatOptionValue($value): string
+    {
+        if (is_array($value) || is_object($value)) {
+            return wp_json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        }
+
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
+
+        if ($value === null || $value === '') {
+            return '-';
+        }
+
+        return (string) $value;
     }
 
     /**

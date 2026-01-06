@@ -15,6 +15,8 @@ use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
 use WP_Statistics\Service\Admin\Tools\Endpoints\ToolsEndpoints;
+use WP_Statistics\Service\Admin\Notice\NoticeManager;
+use WP_Statistics\Service\Admin\Notice\Notices\DiagnosticNotice;
 use WP_Statistics\Service\EmailReport\EmailReportManager;
 use WP_Statistics\Service\ImportExport\ImportExportManager;
 
@@ -116,6 +118,17 @@ class AdminServiceProvider implements ServiceProvider
         $container->register('network_menu', function () {
             return new NetworkMenuManager();
         });
+
+        // Global Notice Manager (admin notices for React and non-React pages)
+        $container->register('notice_manager', function () {
+            // Initialize the notice manager
+            NoticeManager::init();
+
+            // Register notice generators
+            NoticeManager::registerGenerator(new DiagnosticNotice());
+
+            return NoticeManager::class;
+        });
     }
 
     /**
@@ -145,6 +158,7 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('import_export');
             $container->get('tools_endpoints');
             $container->get('network_menu');
+            $container->get('notice_manager');
         }
     }
 }

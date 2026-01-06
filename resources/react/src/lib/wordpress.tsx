@@ -107,4 +107,20 @@ export class WordPress {
   public getNetworkSites(): NetworkSite[] {
     return this.data.network?.sites ?? []
   }
+
+  public getNotices(): NoticeData | undefined {
+    return this.data.notices
+  }
+
+  public getNoticeItems(): NoticeItem[] {
+    return this.data.notices?.items ?? []
+  }
+
+  public getNoticeDismissUrl(): string {
+    return this.data.notices?.dismissUrl ?? this.getAjaxUrl()
+  }
+
+  public getNoticeDismissNonce(): string {
+    return this.data.notices?.nonce ?? ''
+  }
 }

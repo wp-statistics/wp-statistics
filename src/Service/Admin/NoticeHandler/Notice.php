@@ -4,7 +4,15 @@ namespace WP_Statistics\Service\Admin\NoticeHandler;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Service\Admin\Notice\NoticeManager;
+use WP_Statistics\Service\Admin\Notice\NoticeItem;
 
+/**
+ * Legacy Notice Handler.
+ *
+ * @deprecated 15.0.0 Use NoticeManager instead.
+ * @see \WP_Statistics\Service\Admin\Notice\NoticeManager
+ */
 class Notice
 {
     private static $adminNotices = array();
@@ -18,8 +26,25 @@ class Notice
      */
     private static $dismissedNotices = [];
 
+    /**
+     * Add an admin notice.
+     *
+     * @deprecated 15.0.0 Use NoticeManager::add() instead.
+     *
+     * @param string $message       Notice message (supports HTML).
+     * @param string $id            Unique notice ID.
+     * @param string $class         Notice type: 'info', 'warning', 'error', 'success'.
+     * @param bool   $isDismissible Whether the notice can be dismissed.
+     * @return void
+     */
     public static function addNotice($message, $id, $class = 'info', $isDismissible = true)
     {
+        // Trigger deprecation notice in debug mode
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            _deprecated_function(__METHOD__, '15.0.0', 'NoticeManager::add()');
+        }
+
+        // Store in legacy array for backward compatibility with displayNotices()
         $notice = array(
             'message'        => $message,
             'id'             => $id,
@@ -28,16 +53,35 @@ class Notice
         );
 
         self::$adminNotices[$id] = $notice;
+
+        // Also register with the new NoticeManager for React pages
+        NoticeManager::add(new NoticeItem([
+            'id'          => $id,
+            'message'     => $message,
+            'type'        => $class,
+            'dismissible' => (bool)$isDismissible,
+        ]));
     }
 
     /**
-     * @param $message
-     * @param $class
-     * @param $isDismissible
+     * Add a temporary flash notice.
+     *
+     * Flash notices are displayed once and then automatically removed.
+     *
+     * @deprecated 15.0.0 Use NoticeManager::add() instead.
+     *
+     * @param string $message       Notice message.
+     * @param string $class         Notice type: 'info', 'warning', 'error', 'success'.
+     * @param bool   $isDismissible Whether the notice can be dismissed.
      * @return void
      */
     public static function addFlashNotice($message, $class = 'info', $isDismissible = true)
     {
+        // Trigger deprecation notice in debug mode
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            _deprecated_function(__METHOD__, '15.0.0', 'NoticeManager::add()');
+        }
+
         // Add flash notice using transient
         $flashNotices = get_transient('wp_statistics_flash_notices');
         if (!$flashNotices) {
@@ -53,6 +97,12 @@ class Notice
         set_transient('wp_statistics_flash_notices', $flashNotices, 3); // Keep for 3 second
     }
 
+    /**
+     * Display all registered notices.
+     *
+     * @deprecated 15.0.0 Use NoticeManager::renderWordPressNotices() instead.
+     * @return void
+     */
     public static function displayNotices()
     {
         $dismissedNotices = self::getDismissedNotices();
@@ -94,6 +144,18 @@ class Notice
         return '';
     }
 
+    /**
+     * Render a notice immediately.
+     *
+     * @deprecated 15.0.0 Use NoticeManager::add() instead.
+     *
+     * @param string $message       Notice message.
+     * @param string $id            Notice ID.
+     * @param string $class         Notice type.
+     * @param bool   $isDismissible Whether dismissible.
+     * @param string $type          Template type ('simple' or other).
+     * @return void
+     */
     public static function renderNotice($message, $id, $class = 'info', $isDismissible = false, $type = 'simple')
     {
         $notice = array(
@@ -155,6 +217,12 @@ class Notice
         $generalNotices->init();
     }
 
+    /**
+     * Get list of dismissed notice IDs.
+     *
+     * @deprecated 15.0.0 Use NoticeManager::getDismissedIds() instead.
+     * @return array Array of dismissed notice IDs.
+     */
     public static function getDismissedNotices()
     {
         if (empty(self::$dismissedNotices)) {
@@ -164,10 +232,18 @@ class Notice
         return self::$dismissedNotices;
     }
 
+    /**
+     * Check if a notice has been dismissed.
+     *
+     * @deprecated 15.0.0 Use NoticeManager::isDismissed() instead.
+     *
+     * @param string $noticeId Notice ID to check.
+     * @return bool|null True if dismissed, null if invalid.
+     */
     public static function isNoticeDismissed($noticeId)
     {
-        if (empty($noticeId) || empty(self::$dismissedNotices)) {
-            return;
+        if (empty($noticeId)) {
+            return null;
         }
 
         $dismissedNotices = self::getDismissedNotices();

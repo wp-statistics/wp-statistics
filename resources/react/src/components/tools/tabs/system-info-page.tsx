@@ -9,6 +9,8 @@ import {
   AlertTriangle,
   RefreshCw,
   Wrench,
+  Settings,
+  Clock,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -49,6 +51,17 @@ interface SchemaCheckResult {
   errors: string[]
 }
 
+interface OptionItem {
+  key: string
+  value: string
+  group: string
+}
+
+interface TransientItem {
+  name: string
+  value: string
+}
+
 // Helper to get config
 const getConfig = () => {
   const wpsReact = (window as any).wps_react
@@ -86,6 +99,9 @@ export function SystemInfoPage() {
     type: 'success' | 'error'
     message: string
   } | null>(null)
+  const [options, setOptions] = React.useState<OptionItem[]>([])
+  const [transients, setTransients] = React.useState<TransientItem[]>([])
+  const [isLoadingOptionsTransients, setIsLoadingOptionsTransients] = React.useState(false)
 
   // Fetch system info on mount
   React.useEffect(() => {
@@ -171,6 +187,43 @@ export function SystemInfoPage() {
   const getTotalRecords = () => {
     return tables.reduce((sum, table) => sum + (table.records || 0), 0)
   }
+
+  const fetchOptionsAndTransients = async () => {
+    setIsLoadingOptionsTransients(true)
+    try {
+      const data = await callToolsApi('options_transients')
+      if (data.success) {
+        setOptions(data.data.options || [])
+        setTransients(data.data.transients || [])
+      }
+    } catch (error) {
+      console.error('Failed to fetch options/transients:', error)
+    } finally {
+      setIsLoadingOptionsTransients(false)
+    }
+  }
+
+  const getGroupLabel = (group: string) => {
+    const labels: Record<string, string> = {
+      main: 'Main Settings',
+      db: 'Database',
+      jobs: 'Background Jobs',
+      cache: 'Cache',
+      version: 'Version Info',
+    }
+    return labels[group] || group
+  }
+
+  const groupedOptions = React.useMemo(() => {
+    const groups: Record<string, OptionItem[]> = {}
+    options.forEach((opt) => {
+      if (!groups[opt.group]) {
+        groups[opt.group] = []
+      }
+      groups[opt.group].push(opt)
+    })
+    return groups
+  }, [options])
 
   if (isLoading) {
     return (
@@ -403,6 +456,104 @@ export function SystemInfoPage() {
                 ))}
               </TableBody>
             </Table>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Options & Transients Card */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <Settings className="h-5 w-5" />
+              Options & Transients
+            </CardTitle>
+            <CardDescription>
+              WordPress options and transients used by WP Statistics.
+            </CardDescription>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={fetchOptionsAndTransients}
+            disabled={isLoadingOptionsTransients}
+          >
+            {isLoadingOptionsTransients ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCw className="mr-2 h-4 w-4" />
+            )}
+            Load Data
+          </Button>
+        </CardHeader>
+        <CardContent>
+          {options.length === 0 && transients.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              Click "Load Data" to view options and transients.
+            </p>
+          ) : (
+            <div className="space-y-6">
+              {/* Options Section */}
+              {options.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    Options ({options.length})
+                  </h4>
+                  <div className="space-y-4">
+                    {Object.entries(groupedOptions).map(([group, items]) => (
+                      <div key={group} className="rounded-md border">
+                        <div className="bg-muted/50 px-3 py-2 border-b">
+                          <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                            {getGroupLabel(group)}
+                          </span>
+                        </div>
+                        <div className="divide-y">
+                          {items.map((opt, idx) => (
+                            <div key={`${opt.key}-${idx}`} className="px-3 py-2 flex items-start gap-4">
+                              <code className="text-xs bg-muted px-1.5 py-0.5 rounded shrink-0">
+                                {opt.key}
+                              </code>
+                              <pre className="text-xs text-muted-foreground whitespace-pre-wrap break-all flex-1 max-h-24 overflow-auto">
+                                {opt.value}
+                              </pre>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Transients Section */}
+              {transients.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    Transients ({transients.length})
+                  </h4>
+                  <div className="rounded-md border divide-y">
+                    {transients.map((trans, idx) => (
+                      <div key={`${trans.name}-${idx}`} className="px-3 py-2 flex items-start gap-4">
+                        <code className="text-xs bg-muted px-1.5 py-0.5 rounded shrink-0">
+                          {trans.name}
+                        </code>
+                        <pre className="text-xs text-muted-foreground whitespace-pre-wrap break-all flex-1 max-h-24 overflow-auto">
+                          {trans.value}
+                        </pre>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {transients.length === 0 && options.length > 0 && (
+                <p className="text-sm text-muted-foreground">
+                  No transients found.
+                </p>
+              )}
+            </div>
           )}
         </CardContent>
       </Card>

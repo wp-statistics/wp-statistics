@@ -1,7 +1,8 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { Upload, Database, Info, Clock, Activity } from 'lucide-react'
+import { Upload, Database, Info, Clock, Activity, Stethoscope } from 'lucide-react'
 import * as React from 'react'
 
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { cn } from '@/lib/utils'
 
 interface ToolsTab {
@@ -13,6 +14,7 @@ interface ToolsTab {
 
 const tabs: ToolsTab[] = [
   { id: 'system-info', label: 'System Info', href: '/tools/system-info', icon: Info },
+  { id: 'diagnostics', label: 'Diagnostics', href: '/tools/diagnostics', icon: Stethoscope },
   { id: 'scheduled-tasks', label: 'Scheduled Tasks', href: '/tools/scheduled-tasks', icon: Clock },
   { id: 'background-jobs', label: 'Background Jobs', href: '/tools/background-jobs', icon: Activity },
   { id: 'import-export', label: 'Import / Export', href: '/tools/import-export', icon: Upload },
@@ -66,6 +68,8 @@ export function ToolsLayout({ children }: ToolsLayoutProps) {
 
       {/* Tab Content */}
       <div className="flex-1 overflow-auto p-6">
+        {/* Notices */}
+        <NoticeContainer className="mb-6" />
         {children}
       </div>
     </div>

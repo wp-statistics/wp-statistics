@@ -142,6 +142,25 @@ declare global {
     sites: NetworkSite[]
   }
 
+  // Notice item data
+  interface NoticeItem {
+    id: string
+    message: string
+    type: 'info' | 'warning' | 'error' | 'success'
+    dismissible: boolean
+    actionUrl?: string | null
+    actionLabel?: string | null
+    helpUrl?: string | null
+    priority: number
+  }
+
+  // Notice data configuration
+  interface NoticeData {
+    items: NoticeItem[]
+    dismissUrl: string
+    nonce: string
+  }
+
   interface wpsReact {
     layout: {
       sidebar: Record<
@@ -186,6 +205,7 @@ declare global {
     >
     filters: FiltersConfig
     network: NetworkData
+    notices?: NoticeData
   }
 }
 

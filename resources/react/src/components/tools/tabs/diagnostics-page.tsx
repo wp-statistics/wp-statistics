@@ -1,0 +1,364 @@
+import * as React from 'react'
+import {
+  Loader2,
+  Stethoscope,
+  RefreshCw,
+  CheckCircle2,
+  AlertTriangle,
+  XCircle,
+  ExternalLink,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+} from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { NoticeBanner } from '@/components/ui/notice-banner'
+import { cn } from '@/lib/utils'
+
+interface DiagnosticCheck {
+  key: string
+  label: string
+  description: string
+  status: 'pass' | 'warning' | 'fail'
+  message: string
+  details: Record<string, unknown>
+  helpUrl: string | null
+  timestamp: number
+  isLightweight: boolean
+}
+
+interface DiagnosticsResponse {
+  checks: DiagnosticCheck[]
+  lastFullCheck: number | null
+  hasIssues: boolean
+  failCount: number
+  warningCount: number
+}
+
+// Helper to get config
+const getConfig = () => {
+  const wpsReact = (window as any).wps_react
+  return {
+    ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
+    nonce: wpsReact?.globals?.nonce || '',
+  }
+}
+
+// Helper to call tools endpoint with sub_action
+const callToolsApi = async (subAction: string, params: Record<string, string> = {}) => {
+  const config = getConfig()
+  const formData = new FormData()
+  formData.append('wps_nonce', config.nonce)
+  formData.append('sub_action', subAction)
+  Object.entries(params).forEach(([key, value]) => {
+    formData.append(key, value)
+  })
+
+  const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_tools`, {
+    method: 'POST',
+    body: formData,
+  })
+  return response.json()
+}
+
+const statusConfig = {
+  pass: {
+    icon: CheckCircle2,
+    color: 'text-green-600 dark:text-green-400',
+    bgColor: 'bg-green-50 dark:bg-green-950/30',
+    borderColor: 'border-green-200 dark:border-green-800',
+    label: 'Passed',
+  },
+  warning: {
+    icon: AlertTriangle,
+    color: 'text-yellow-600 dark:text-yellow-400',
+    bgColor: 'bg-yellow-50 dark:bg-yellow-950/30',
+    borderColor: 'border-yellow-200 dark:border-yellow-800',
+    label: 'Warning',
+  },
+  fail: {
+    icon: XCircle,
+    color: 'text-red-600 dark:text-red-400',
+    bgColor: 'bg-red-50 dark:bg-red-950/30',
+    borderColor: 'border-red-200 dark:border-red-800',
+    label: 'Failed',
+  },
+}
+
+interface DiagnosticCheckItemProps {
+  check: DiagnosticCheck
+  isRunning: boolean
+  onRetest: () => void
+}
+
+function DiagnosticCheckItem({ check, isRunning, onRetest }: DiagnosticCheckItemProps) {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const config = statusConfig[check.status]
+  const StatusIcon = config.icon
+  const hasDetails = check.details && Object.keys(check.details).length > 0
+
+  return (
+    <div className={cn('rounded-lg border', config.borderColor, config.bgColor)}>
+      <div className="flex items-center gap-4 p-4">
+        <StatusIcon className={cn('h-5 w-5 shrink-0', config.color)} />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <h4 className="font-medium truncate">{check.label}</h4>
+            {!check.isLightweight && (
+              <Badge variant="outline" className="text-xs">
+                Manual
+              </Badge>
+            )}
+          </div>
+          <p className="text-sm text-muted-foreground">{check.message}</p>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          {check.helpUrl && (
+            <Button variant="ghost" size="sm" asChild className="h-8 px-2">
+              <a href={check.helpUrl} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </Button>
+          )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onRetest}
+            disabled={isRunning}
+            className="h-8"
+          >
+            {isRunning ? (
+              <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+            ) : (
+              <RefreshCw className="mr-1 h-3 w-3" />
+            )}
+            Re-test
+          </Button>
+          {hasDetails && (
+            <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 px-2">
+                  {isOpen ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
+                </Button>
+              </CollapsibleTrigger>
+            </Collapsible>
+          )}
+        </div>
+      </div>
+
+      {hasDetails && (
+        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+          <CollapsibleContent>
+            <div className="border-t px-4 py-3 bg-background/50">
+              <h5 className="text-xs font-medium text-muted-foreground uppercase mb-2">
+                Details
+              </h5>
+              <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-48">
+                {JSON.stringify(check.details, null, 2)}
+              </pre>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      )}
+    </div>
+  )
+}
+
+export function DiagnosticsPage() {
+  const [checks, setChecks] = React.useState<DiagnosticCheck[]>([])
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [isRunningAll, setIsRunningAll] = React.useState(false)
+  const [runningCheck, setRunningCheck] = React.useState<string | null>(null)
+  const [lastFullCheck, setLastFullCheck] = React.useState<number | null>(null)
+  const [failCount, setFailCount] = React.useState(0)
+  const [warningCount, setWarningCount] = React.useState(0)
+
+  // Fetch diagnostics on mount
+  React.useEffect(() => {
+    fetchDiagnostics()
+  }, [])
+
+  const fetchDiagnostics = async () => {
+    try {
+      const data = await callToolsApi('diagnostics')
+
+      if (data.success) {
+        const response = data.data as DiagnosticsResponse
+        setChecks(response.checks || [])
+        setLastFullCheck(response.lastFullCheck)
+        setFailCount(response.failCount)
+        setWarningCount(response.warningCount)
+      }
+    } catch (error) {
+      console.error('Failed to fetch diagnostics:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const runAllChecks = async () => {
+    setIsRunningAll(true)
+
+    try {
+      const data = await callToolsApi('diagnostics_run')
+
+      if (data.success) {
+        const response = data.data as DiagnosticsResponse
+        setChecks(response.checks || [])
+        setLastFullCheck(response.lastFullCheck)
+        setFailCount(response.failCount)
+        setWarningCount(response.warningCount)
+      }
+    } catch (error) {
+      console.error('Failed to run diagnostics:', error)
+    } finally {
+      setIsRunningAll(false)
+    }
+  }
+
+  const runSingleCheck = async (checkKey: string) => {
+    setRunningCheck(checkKey)
+
+    try {
+      const data = await callToolsApi('diagnostics_run_check', { check: checkKey })
+
+      if (data.success && data.data?.check) {
+        const updatedCheck = data.data.check as DiagnosticCheck
+        setChecks((prev) =>
+          prev.map((c) => (c.key === checkKey ? updatedCheck : c))
+        )
+        // Recalculate counts
+        const updated = checks.map((c) =>
+          c.key === checkKey ? updatedCheck : c
+        )
+        setFailCount(updated.filter((c) => c.status === 'fail').length)
+        setWarningCount(updated.filter((c) => c.status === 'warning').length)
+      }
+    } catch (error) {
+      console.error('Failed to run check:', error)
+    } finally {
+      setRunningCheck(null)
+    }
+  }
+
+  const formatLastCheck = (timestamp: number | null) => {
+    if (!timestamp) return 'Never'
+
+    const date = new Date(timestamp * 1000)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+
+    if (diffHours < 1) {
+      const diffMins = Math.floor(diffMs / (1000 * 60))
+      return diffMins <= 1 ? 'Just now' : `${diffMins} minutes ago`
+    } else if (diffHours < 24) {
+      return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
+    } else {
+      return date.toLocaleDateString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    }
+  }
+
+  const passCount = checks.filter((c) => c.status === 'pass').length
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="h-6 w-6 animate-spin" />
+        <span className="ml-2">Loading diagnostics...</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Info Box */}
+      <NoticeBanner
+        title="System Diagnostics"
+        message="These checks help identify potential issues that may affect WP Statistics functionality. Lightweight checks run automatically, while others require manual execution to avoid performance impact."
+        type="neutral"
+        icon={Stethoscope}
+        dismissible={false}
+      />
+
+      {/* Summary Card */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between pb-4">
+          <div className="space-y-1">
+            <CardTitle className="flex items-center gap-2">
+              <Stethoscope className="h-5 w-5" />
+              Diagnostic Results
+            </CardTitle>
+            <CardDescription className="flex items-center gap-4">
+              <span className="flex items-center gap-1">
+                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                {passCount} Passed
+              </span>
+              {warningCount > 0 && (
+                <span className="flex items-center gap-1">
+                  <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                  {warningCount} Warning{warningCount > 1 ? 's' : ''}
+                </span>
+              )}
+              {failCount > 0 && (
+                <span className="flex items-center gap-1">
+                  <XCircle className="h-4 w-4 text-red-500" />
+                  {failCount} Failed
+                </span>
+              )}
+            </CardDescription>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+              <Clock className="h-4 w-4" />
+              Last full check: {formatLastCheck(lastFullCheck)}
+            </div>
+            <Button onClick={runAllChecks} disabled={isRunningAll}>
+              {isRunningAll ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="mr-2 h-4 w-4" />
+              )}
+              Run All Checks
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {checks.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <Stethoscope className="h-12 w-12 text-muted-foreground/50 mb-4" />
+                <h3 className="text-lg font-medium mb-1">No diagnostic checks available</h3>
+                <p className="text-sm text-muted-foreground">
+                  Try running the diagnostics to see system health information.
+                </p>
+              </div>
+            ) : (
+              checks.map((check) => (
+                <DiagnosticCheckItem
+                  key={check.key}
+                  check={check}
+                  isRunning={runningCheck === check.key || isRunningAll}
+                  onRetest={() => runSingleCheck(check.key)}
+                />
+              ))
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
