@@ -33,16 +33,16 @@ class UserIdFilter extends AbstractFilter
     /**
      * UI input component type.
      *
-     * @var string Input type: number
+     * @var string Input type: searchable
      */
-    protected $inputType = 'number';
+    protected $inputType = 'searchable';
 
     /**
      * Allowed comparison operators.
      *
-     * @var array Operators: is, is_not, is_null
+     * @var array Operators: is, is_not, in, not_in
      */
-    protected $supportedOperators = ['is', 'is_not', 'is_null'];
+    protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
 
     /**
      * Pages where this filter is available.
@@ -56,6 +56,43 @@ class UserIdFilter extends AbstractFilter
      */
     public function getLabel(): string
     {
-        return esc_html__('User ID', 'wp-statistics');
+        return esc_html__('User', 'wp-statistics');
+    }
+
+    /**
+     * Search user options via AJAX.
+     *
+     * @param string $search Search term.
+     * @param int    $limit  Maximum results.
+     * @return array Array of options with 'value' (user ID) and 'label' (Display Name (username)).
+     */
+    public function searchOptions(string $search = '', int $limit = 20): array
+    {
+        $args = [
+            'number'  => $limit,
+            'orderby' => 'display_name',
+            'order'   => 'ASC',
+        ];
+
+        if (!empty($search)) {
+            $args['search']         = '*' . $search . '*';
+            $args['search_columns'] = ['ID', 'user_login', 'user_email', 'display_name'];
+        }
+
+        $users = get_users($args);
+
+        if (empty($users)) {
+            return [];
+        }
+
+        $options = [];
+        foreach ($users as $user) {
+            $options[] = [
+                'value' => $user->ID,
+                'label' => sprintf('%s (%s)', $user->display_name, $user->user_login),
+            ];
+        }
+
+        return $options;
     }
 }

@@ -49,6 +49,20 @@ class PageFilter extends AbstractFilter
     ];
 
     /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
+    protected $inputType = 'searchable';
+
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, in, not_in
+     */
+    protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
+
+    /**
      * Pages where this filter is available.
      *
      * @var array Groups: views
@@ -61,5 +75,56 @@ class PageFilter extends AbstractFilter
     public function getLabel(): string
     {
         return esc_html__('Page', 'wp-statistics');
+    }
+
+    /**
+     * Search page options via AJAX.
+     *
+     * @param string $search Search term.
+     * @param int    $limit  Maximum results.
+     * @return array Array of options with 'value' (URI) and 'label' (Title - /uri/).
+     */
+    public function searchOptions(string $search = '', int $limit = 20): array
+    {
+        global $wpdb;
+
+        $urisTable      = $wpdb->prefix . 'statistics_resource_uris';
+        $resourcesTable = $wpdb->prefix . 'statistics_resources';
+
+        $sql = "SELECT u.uri as value, r.cached_title
+                FROM {$urisTable} u
+                LEFT JOIN {$resourcesTable} r ON u.resource_id = r.ID";
+
+        if (!empty($search)) {
+            $searchLike = '%' . $wpdb->esc_like($search) . '%';
+            $sql       .= $wpdb->prepare(
+                " WHERE u.uri LIKE %s OR r.cached_title LIKE %s",
+                $searchLike,
+                $searchLike
+            );
+        }
+
+        $sql .= " ORDER BY u.uri ASC LIMIT %d";
+        $sql  = $wpdb->prepare($sql, $limit);
+
+        $results = $wpdb->get_results($sql, ARRAY_A);
+
+        if (empty($results)) {
+            return [];
+        }
+
+        $options = [];
+        foreach ($results as $row) {
+            $label = !empty($row['cached_title'])
+                ? sprintf('%s - %s', $row['cached_title'], $row['value'])
+                : $row['value'];
+
+            $options[] = [
+                'value' => $row['value'],
+                'label' => $label,
+            ];
+        }
+
+        return $options;
     }
 }

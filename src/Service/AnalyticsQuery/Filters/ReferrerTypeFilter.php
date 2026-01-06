@@ -42,6 +42,20 @@ class ReferrerTypeFilter extends AbstractFilter
     ];
 
     /**
+     * UI input component type.
+     *
+     * @var string Input type: dropdown
+     */
+    protected $inputType = 'dropdown';
+
+    /**
+     * Allowed comparison operators.
+     *
+     * @var array Operators: is, is_not, in, not_in
+     */
+    protected $supportedOperators = ['is', 'is_not', 'in', 'not_in'];
+
+    /**
      * Pages where this filter is available.
      *
      * @var array Groups: visitors, views
@@ -54,5 +68,20 @@ class ReferrerTypeFilter extends AbstractFilter
     public function getLabel(): string
     {
         return esc_html__('Referrer Type', 'wp-statistics');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions(): ?array
+    {
+        return [
+            ['value' => 'direct', 'label' => esc_html__('Direct', 'wp-statistics')],
+            ['value' => 'search', 'label' => esc_html__('Search', 'wp-statistics')],
+            ['value' => 'social', 'label' => esc_html__('Social', 'wp-statistics')],
+            ['value' => 'referral', 'label' => esc_html__('Referral', 'wp-statistics')],
+            ['value' => 'email', 'label' => esc_html__('Email', 'wp-statistics')],
+            ['value' => 'paid', 'label' => esc_html__('Paid', 'wp-statistics')],
+        ];
     }
 }
