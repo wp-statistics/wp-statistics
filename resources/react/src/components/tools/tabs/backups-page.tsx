@@ -46,18 +46,30 @@ interface Backup {
 // Helper to get config
 const getConfig = () => {
   const wpsReact = (window as any).wps_react
-  const defaultActions = {
-    backupsList: 'wp_statistics_backups_list',
-    backupDelete: 'wp_statistics_backup_delete',
-    backupDownload: 'wp_statistics_backup_download',
-    backupRestore: 'wp_statistics_backup_restore',
-    backupCreate: 'wp_statistics_backup_create',
-  }
   return {
     ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-    nonce: wpsReact?.importExport?.nonce || wpsReact?.globals?.nonce || '',
-    actions: { ...defaultActions, ...(wpsReact?.importExport?.actions || {}) },
+    nonce: wpsReact?.globals?.nonce || '',
   }
+}
+
+// Helper to call import/export endpoint with sub_action
+const callImportExportApi = async (
+  subAction: string,
+  params: Record<string, string> = {}
+) => {
+  const config = getConfig()
+  const formData = new FormData()
+  formData.append('wps_nonce', config.nonce)
+  formData.append('sub_action', subAction)
+  Object.entries(params).forEach(([key, value]) => {
+    formData.append(key, value)
+  })
+
+  const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_import_export`, {
+    method: 'POST',
+    body: formData,
+  })
+  return response.json()
 }
 
 export function BackupsPage() {
@@ -79,17 +91,7 @@ export function BackupsPage() {
 
   const fetchBackups = async () => {
     try {
-      const config = getConfig()
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.backupsList}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-        }
-      )
-      const data = await response.json()
+      const data = await callImportExportApi('list_backups')
 
       if (data.success && data.data?.backups) {
         setBackups(data.data.backups)
@@ -110,21 +112,7 @@ export function BackupsPage() {
     setStatusMessage(null)
 
     try {
-      const config = getConfig()
-      const formData = new FormData()
-      formData.append('_wpnonce', config.nonce)
-
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.backupCreate}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
-      const data = await response.json()
+      const data = await callImportExportApi('create_backup')
 
       if (data.success) {
         setStatusMessage({
@@ -150,7 +138,7 @@ export function BackupsPage() {
 
   const downloadBackup = (fileName: string) => {
     const config = getConfig()
-    window.location.href = `${config.ajaxUrl}?action=${config.actions.backupDownload}&file_name=${encodeURIComponent(fileName)}&_wpnonce=${config.nonce}`
+    window.location.href = `${config.ajaxUrl}?action=wp_statistics_import_export&sub_action=download_backup&file_name=${encodeURIComponent(fileName)}&wps_nonce=${config.nonce}`
   }
 
   const deleteBackup = async () => {
@@ -159,22 +147,7 @@ export function BackupsPage() {
     setStatusMessage(null)
 
     try {
-      const config = getConfig()
-      const formData = new FormData()
-      formData.append('file_name', deleteTarget)
-      formData.append('_wpnonce', config.nonce)
-
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.backupDelete}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
-      const data = await response.json()
+      const data = await callImportExportApi('delete_backup', { file_name: deleteTarget })
 
       if (data.success) {
         setStatusMessage({
@@ -205,22 +178,7 @@ export function BackupsPage() {
     setStatusMessage(null)
 
     try {
-      const config = getConfig()
-      const formData = new FormData()
-      formData.append('file_name', restoreTarget)
-      formData.append('_wpnonce', config.nonce)
-
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.backupRestore}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
-      const data = await response.json()
+      const data = await callImportExportApi('restore_backup', { file_name: restoreTarget })
 
       if (data.success) {
         setStatusMessage({

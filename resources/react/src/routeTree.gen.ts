@@ -40,6 +40,9 @@ const ToolsImportExportLazyRouteImport = createFileRoute(
   '/tools/import-export',
 )()
 const ToolsBackupsLazyRouteImport = createFileRoute('/tools/backups')()
+const ToolsBackgroundJobsLazyRouteImport = createFileRoute(
+  '/tools/background-jobs',
+)()
 const SettingsPrivacyLazyRouteImport = createFileRoute('/settings/privacy')()
 const SettingsNotificationsLazyRouteImport = createFileRoute(
   '/settings/notifications',
@@ -170,6 +173,13 @@ const ToolsBackupsLazyRoute = ToolsBackupsLazyRouteImport.update({
   path: '/backups',
   getParentRoute: () => ToolsRouteRoute,
 } as any).lazy(() => import('./routes/tools/backups.lazy').then((d) => d.Route))
+const ToolsBackgroundJobsLazyRoute = ToolsBackgroundJobsLazyRouteImport.update({
+  id: '/background-jobs',
+  path: '/background-jobs',
+  getParentRoute: () => ToolsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/tools/background-jobs.lazy').then((d) => d.Route),
+)
 const SettingsPrivacyLazyRoute = SettingsPrivacyLazyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -398,6 +408,7 @@ export interface FileRoutesByFullPath {
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
   '/tools/backups': typeof ToolsBackupsLazyRoute
   '/tools/import-export': typeof ToolsImportExportLazyRoute
   '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
@@ -435,6 +446,7 @@ export interface FileRoutesByTo {
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
   '/tools/backups': typeof ToolsBackupsLazyRoute
   '/tools/import-export': typeof ToolsImportExportLazyRoute
   '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
@@ -475,6 +487,7 @@ export interface FileRoutesById {
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
   '/tools/backups': typeof ToolsBackupsLazyRoute
   '/tools/import-export': typeof ToolsImportExportLazyRoute
   '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
@@ -516,6 +529,7 @@ export interface FileRouteTypes {
     | '/settings/general'
     | '/settings/notifications'
     | '/settings/privacy'
+    | '/tools/background-jobs'
     | '/tools/backups'
     | '/tools/import-export'
     | '/tools/scheduled-tasks'
@@ -553,6 +567,7 @@ export interface FileRouteTypes {
     | '/settings/general'
     | '/settings/notifications'
     | '/settings/privacy'
+    | '/tools/background-jobs'
     | '/tools/backups'
     | '/tools/import-export'
     | '/tools/scheduled-tasks'
@@ -592,6 +607,7 @@ export interface FileRouteTypes {
     | '/settings/general'
     | '/settings/notifications'
     | '/settings/privacy'
+    | '/tools/background-jobs'
     | '/tools/backups'
     | '/tools/import-export'
     | '/tools/scheduled-tasks'
@@ -738,6 +754,13 @@ declare module '@tanstack/react-router' {
       path: '/backups'
       fullPath: '/tools/backups'
       preLoaderRoute: typeof ToolsBackupsLazyRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/tools/background-jobs': {
+      id: '/tools/background-jobs'
+      path: '/background-jobs'
+      fullPath: '/tools/background-jobs'
+      preLoaderRoute: typeof ToolsBackgroundJobsLazyRouteImport
       parentRoute: typeof ToolsRouteRoute
     }
     '/settings/privacy': {
@@ -919,6 +942,7 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
 )
 
 interface ToolsRouteRouteChildren {
+  ToolsBackgroundJobsLazyRoute: typeof ToolsBackgroundJobsLazyRoute
   ToolsBackupsLazyRoute: typeof ToolsBackupsLazyRoute
   ToolsImportExportLazyRoute: typeof ToolsImportExportLazyRoute
   ToolsScheduledTasksLazyRoute: typeof ToolsScheduledTasksLazyRoute
@@ -927,6 +951,7 @@ interface ToolsRouteRouteChildren {
 }
 
 const ToolsRouteRouteChildren: ToolsRouteRouteChildren = {
+  ToolsBackgroundJobsLazyRoute: ToolsBackgroundJobsLazyRoute,
   ToolsBackupsLazyRoute: ToolsBackupsLazyRoute,
   ToolsImportExportLazyRoute: ToolsImportExportLazyRoute,
   ToolsScheduledTasksLazyRoute: ToolsScheduledTasksLazyRoute,

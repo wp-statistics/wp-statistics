@@ -12,8 +12,8 @@ const RootLayout = () => {
   const isToolsPage = routerState.location.pathname.startsWith('/tools')
   const isNetworkAdmin = WordPress.getInstance().isNetworkAdmin()
 
-  // Hide sidebar for settings and network admin pages
-  const showSidebar = !isSettingsPage && !isNetworkAdmin
+  // Hide sidebar for settings, tools, and network admin pages
+  const showSidebar = !isSettingsPage && !isToolsPage && !isNetworkAdmin
 
   return (
     <GlobalFiltersProvider>
@@ -21,7 +21,6 @@ const RootLayout = () => {
         <div className="flex flex-col h-[var(--wp-admin-menu-height)] w-full overflow-hidden">
           <Header />
           <div className="flex flex-1 relative overflow-hidden min-w-0">
-            {!isSettingsPage && !isToolsPage && <AppSidebar />}
             {showSidebar && <AppSidebar />}
             <SidebarInset className="overflow-auto w-full">
               <Outlet />

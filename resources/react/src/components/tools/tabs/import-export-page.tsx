@@ -53,21 +53,33 @@ interface ExportStatus {
 // Helper to get import/export config
 const getConfig = () => {
   const wpsReact = (window as any).wps_react
-  const defaultActions = {
-    adapters: 'wp_statistics_import_adapters',
-    upload: 'wp_statistics_import_upload',
-    preview: 'wp_statistics_import_preview',
-    start: 'wp_statistics_import_start',
-    status: 'wp_statistics_import_status',
-    cancel: 'wp_statistics_import_cancel',
-    exportStart: 'wp_statistics_export_start',
-    download: 'wp_statistics_export_download',
-  }
   return {
     ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-    nonce: wpsReact?.importExport?.nonce || wpsReact?.globals?.nonce || '',
-    actions: { ...defaultActions, ...(wpsReact?.importExport?.actions || {}) },
+    nonce: wpsReact?.globals?.nonce || '',
   }
+}
+
+// Helper to call import/export endpoint with sub_action
+const callImportExportApi = async (
+  subAction: string,
+  params: Record<string, string> = {},
+  formData?: FormData
+) => {
+  const config = getConfig()
+  const data = formData || new FormData()
+  data.append('wps_nonce', config.nonce)
+  data.append('sub_action', subAction)
+  Object.entries(params).forEach(([key, value]) => {
+    if (!data.has(key)) {
+      data.append(key, value)
+    }
+  })
+
+  const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_import_export`, {
+    method: 'POST',
+    body: data,
+  })
+  return response.json()
 }
 
 // V14 to V15 Migration Wizard Component
@@ -501,17 +513,7 @@ export function ImportExportPage() {
 
   const fetchAdapters = async () => {
     try {
-      const config = getConfig()
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.adapters}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-        }
-      )
-      const data = await response.json()
+      const data = await callImportExportApi('get_adapters')
 
       if (data.success && data.data?.adapters) {
         const adapterList = Object.values(data.data.adapters) as ImportAdapter[]
@@ -538,24 +540,11 @@ export function ImportExportPage() {
     })
 
     try {
-      const config = getConfig()
       const formData = new FormData()
       formData.append('file', file)
       formData.append('adapter', selectedAdapter)
-      formData.append('_wpnonce', config.nonce)
 
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.upload}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
-
-      const data = await response.json()
+      const data = await callImportExportApi('upload', {}, formData)
 
       if (data.success) {
         setImportStatus({
@@ -588,23 +577,7 @@ export function ImportExportPage() {
 
   const fetchPreview = async (importId: string) => {
     try {
-      const config = getConfig()
-      const formData = new FormData()
-      formData.append('import_id', importId)
-      formData.append('_wpnonce', config.nonce)
-
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.preview}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
-
-      const data = await response.json()
+      const data = await callImportExportApi('preview', { import_id: importId })
 
       if (data.success) {
         setImportStatus((prev) => ({
@@ -641,23 +614,7 @@ export function ImportExportPage() {
     }))
 
     try {
-      const config = getConfig()
-      const formData = new FormData()
-      formData.append('import_id', importStatus.importId)
-      formData.append('_wpnonce', config.nonce)
-
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.start}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
-
-      const data = await response.json()
+      const data = await callImportExportApi('start_import', { import_id: importStatus.importId })
 
       if (data.success) {
         setImportStatus({
@@ -685,18 +642,7 @@ export function ImportExportPage() {
     if (!importStatus.importId) return
 
     try {
-      const config = getConfig()
-      const formData = new FormData()
-      formData.append('import_id', importStatus.importId)
-      formData.append('_wpnonce', config.nonce)
-
-      await fetch(`${config.ajaxUrl}?action=${config.actions.cancel}`, {
-        method: 'POST',
-        headers: {
-          'X-WP-Nonce': config.nonce,
-        },
-        body: formData,
-      })
+      await callImportExportApi('cancel_import', { import_id: importStatus.importId })
     } catch (error) {
       // Ignore errors on cancel
     }
@@ -716,24 +662,10 @@ export function ImportExportPage() {
     })
 
     try {
-      const config = getConfig()
-      const formData = new FormData()
-      formData.append('date_from', exportDateFrom)
-      formData.append('date_to', exportDateTo)
-      formData.append('_wpnonce', config.nonce)
-
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.exportStart}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
-
-      const data = await response.json()
+      const data = await callImportExportApi('start_export', {
+        date_from: exportDateFrom,
+        date_to: exportDateTo,
+      })
 
       if (data.success) {
         setExportStatus({
@@ -762,7 +694,7 @@ export function ImportExportPage() {
     if (!exportStatus.exportId) return
 
     const config = getConfig()
-    window.location.href = `${config.ajaxUrl}?action=${config.actions.download}&export_id=${exportStatus.exportId}&_wpnonce=${config.nonce}`
+    window.location.href = `${config.ajaxUrl}?action=wp_statistics_import_export&sub_action=download&export_id=${exportStatus.exportId}&wps_nonce=${config.nonce}`
 
     setTimeout(() => {
       setExportStatus({

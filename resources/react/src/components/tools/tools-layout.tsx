@@ -1,5 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { Upload, Database, Info, Clock } from 'lucide-react'
+import { Upload, Database, Info, Clock, Activity } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -14,6 +14,7 @@ interface ToolsTab {
 const tabs: ToolsTab[] = [
   { id: 'system-info', label: 'System Info', href: '/tools/system-info', icon: Info },
   { id: 'scheduled-tasks', label: 'Scheduled Tasks', href: '/tools/scheduled-tasks', icon: Clock },
+  { id: 'background-jobs', label: 'Background Jobs', href: '/tools/background-jobs', icon: Activity },
   { id: 'import-export', label: 'Import / Export', href: '/tools/import-export', icon: Upload },
   { id: 'backups', label: 'Backups', href: '/tools/backups', icon: Database },
 ]
