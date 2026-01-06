@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\Jobs;
+namespace WP_Statistics\BackgroundProcess\Jobs;
 
 use WP_Statistics\BackgroundProcess\ExtendedBackgroundProcess;
 use WP_Statistics\Components\Option;
