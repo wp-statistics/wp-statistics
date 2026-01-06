@@ -37,8 +37,10 @@ const syncAdminMenu = () => {
   const isSettingsRoute = hash.startsWith('#/settings')
   const isToolsRoute = hash.startsWith('#/tools')
 
-  // Find WP Statistics submenu
-  const wpStatsMenu = document.querySelector('#toplevel_page_wp-statistics')
+  // Find WP Statistics submenu (works for both single site and network admin)
+  const wpStatsMenu =
+    document.querySelector('#toplevel_page_wp-statistics-network') ||
+    document.querySelector('#toplevel_page_wp-statistics')
   if (!wpStatsMenu) return
 
   const submenuItems = wpStatsMenu.querySelectorAll('.wp-submenu li')
@@ -79,7 +81,10 @@ const syncAdminMenu = () => {
  * Prevents full page reload when navigating between Dashboard and Settings
  */
 const setupSubmenuNavigation = () => {
-  const wpStatsMenu = document.querySelector('#toplevel_page_wp-statistics')
+  // Find WP Statistics submenu (works for both single site and network admin)
+  const wpStatsMenu =
+    document.querySelector('#toplevel_page_wp-statistics-network') ||
+    document.querySelector('#toplevel_page_wp-statistics')
   if (!wpStatsMenu) return
 
   const submenuLinks = wpStatsMenu.querySelectorAll('.wp-submenu a')

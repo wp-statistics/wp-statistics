@@ -64,7 +64,7 @@ class FrontendHandler extends BaseAssets
             $requestUrl = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
             $hitParams  = !empty($params['hitParams']) ? $params['hitParams'] : [];
 
-             $jsArgs = array(
+            $jsArgs = array(
                 'requestUrl'          => $requestUrl,
                 'ajaxUrl'             => admin_url('admin-ajax.php'),
                 'hitParams'           => $hitParams,

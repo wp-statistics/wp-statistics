@@ -38,6 +38,78 @@ class Option extends Singleton
     public static string $addonOptionPrefix = 'wpstatistics';
 
     /**
+     * Check if current context is network admin.
+     *
+     * @return bool
+     */
+    private static function isNetworkContext()
+    {
+        return is_multisite() && is_network_admin();
+    }
+
+    /**
+     * Get option value using context-appropriate function.
+     *
+     * Uses get_site_option() for network admin context,
+     * get_option() for everything else (works correctly in multisite
+     * because WordPress handles the table prefix automatically).
+     *
+     * @param string $optionName Option name.
+     * @param mixed  $default    Default value.
+     * @return mixed
+     */
+    private static function getOptionValue($optionName, $default = array())
+    {
+        if (self::isNetworkContext()) {
+            return get_site_option($optionName, $default);
+        }
+
+        return get_option($optionName, $default);
+    }
+
+    /**
+     * Update option value using context-appropriate function.
+     *
+     * Uses update_site_option() for network admin context,
+     * update_option() for everything else.
+     *
+     * @param string $optionName Option name.
+     * @param mixed  $value      Value to store.
+     * @return bool
+     */
+    private static function updateOptionValue($optionName, $value)
+    {
+        if (self::isNetworkContext()) {
+            return update_site_option($optionName, $value);
+        }
+
+        return update_option($optionName, $value);
+    }
+
+    /**
+     * Add option value using context-appropriate function.
+     *
+     * Uses add_site_option() for network admin context,
+     * add_option() for everything else.
+     *
+     * @param string $optionName Option name.
+     * @param mixed  $value      Value to store.
+     * @return bool
+     */
+    private static function addOptionValue($optionName, $value)
+    {
+        if (self::isNetworkContext()) {
+            return add_site_option($optionName, $value);
+        }
+
+        return add_option($optionName, $value);
+    }
+
+    // =========================================================================
+    // Default Options
+    // =========================================================================
+
+    /**
      * Get default options for WP Statistics.
      *
      * Returns an array of default plugin settings with predefined values.
@@ -105,27 +177,40 @@ class Option extends Singleton
     /**
      * Get all values stored in WP Statistics option.
      *
+     * Automatically uses appropriate WordPress function based on context:
+     * - Network admin: get_site_option()
+     * - Site admin: get_option()
+     * - Cross-site query: get_blog_option()
+     *
      * @return array Array of all option values.
      */
     public static function get()
     {
-        $options = get_option(self::$optionName, []);
+        $options = self::getOptionValue(self::$optionName, []);
+
         return (is_array($options)) ? $options : [];
     }
 
     /**
      * Update values to WP Statistics option.
      *
+     * Automatically uses appropriate WordPress function based on context:
+     * - Network admin: update_site_option()
+     * - Site admin: update_option()
+     * - Cross-site query: update_blog_option()
+     *
      * @param array $options Array of values to store in the option.
      * @return void
      */
     public static function update(array $options)
     {
-        update_option(self::$optionName, $options);
+        self::updateOptionValue(self::$optionName, $options);
     }
 
     /**
      * Get a single value from option.
+     *
+     * Automatically uses network options when in network admin context.
      *
      * @param string $optionKey The option key to retrieve.
      * @param mixed|null $default Optional. Default value if option not found.
@@ -135,7 +220,7 @@ class Option extends Singleton
     {
         $options = self::get();
         if (!array_key_exists($optionKey, $options)) {
-            return $default ?? false;
+            return $default !== null ? $default : false;
         }
         /**
          * Filters a For Return WP Statistics Option
@@ -150,6 +235,11 @@ class Option extends Singleton
     /**
      * Update a single value in option.
      *
+     * Automatically uses appropriate WordPress function based on context:
+     * - Network admin: update_site_option()
+     * - Site admin: update_option()
+     * - Cross-site query: update_blog_option()
+     *
      * @param string $optionKey The option key to update.
      * @param mixed $value The new value for the option.
      * @return void
@@ -161,7 +251,7 @@ class Option extends Singleton
             return; // No update needed
         }
         $options[$optionKey] = $value;
-        update_option(self::$optionName, $options);
+        self::updateOptionValue(self::$optionName, $options);
     }
 
     /**
@@ -258,13 +348,15 @@ class Option extends Singleton
     /**
      * Get all values stored in group option.
      *
+     * Automatically uses network options when in network admin context.
+     *
      * @param string $group The group name.
      * @return array Array of all values in the group option.
      */
     public static function getGroup(string $group)
     {
         $settingName = self::getGroupName($group);
-        $options     = get_option($settingName, []);
+        $options     = self::getOptionValue($settingName, []);
         $options     = is_array($options) ? $options : [];
 
         return apply_filters("wp_statistics_option_{$settingName}", $options);
@@ -272,6 +364,8 @@ class Option extends Singleton
 
     /**
      * Get a single value from group option.
+     *
+     * Automatically uses network options when in network admin context.
      *
      * @param string $group The group name.
      * @param string $optionKey The option key to retrieve.
@@ -281,7 +375,7 @@ class Option extends Singleton
     public static function getGroupValue(string $group, string $optionKey, $default = null)
     {
         $settingName = self::getGroupName($group);
-        $options     = get_option($settingName, []);
+        $options     = self::getOptionValue($settingName, []);
         $options     = is_array($options) ? $options : [];
 
         $result = isset($options[$optionKey]) ? $options[$optionKey] : ($default ?? false);
@@ -292,6 +386,8 @@ class Option extends Singleton
     /**
      * Update a single value to group option.
      *
+     * Automatically uses network options when in network admin context.
+     *
      * @param string $optionKey The option key to update.
      * @param mixed $value The new value for the option.
      * @param string $group The group name.
@@ -300,7 +396,7 @@ class Option extends Singleton
     public static function updateGroup(string $optionKey, $value, string $group)
     {
         $settingName = self::getGroupName($group);
-        $options     = get_option($settingName, []);
+        $options     = self::getOptionValue($settingName, []);
         $options     = is_array($options) ? $options : [];
 
         if (isset($options[$optionKey]) && $options[$optionKey] === $value) {
@@ -308,11 +404,13 @@ class Option extends Singleton
         }
 
         $options[$optionKey] = $value;
-        update_option($settingName, $options);
+        self::updateOptionValue($settingName, $options);
     }
 
     /**
      * Add a single value to new group option.
+     *
+     * Automatically uses network options when in network admin context.
      *
      * @param string $optionKey The option key to add.
      * @param mixed $value The value for the new option.
@@ -322,15 +420,17 @@ class Option extends Singleton
     public static function addGroup(string $optionKey, $value, string $group)
     {
         $settingName = self::getGroupName($group);
-        $options     = get_option($settingName, []);
+        $options     = self::getOptionValue($settingName, []);
         $options     = is_array($options) ? $options : [];
 
         $options[$optionKey] = $value;
-        add_option($settingName, $options);
+        self::addOptionValue($settingName, $options);
     }
 
     /**
      * Delete a single value from group option.
+     *
+     * Automatically uses network options when in network admin context.
      *
      * @param string $optionKey The option key to delete.
      * @param string $group The group name.
@@ -339,7 +439,7 @@ class Option extends Singleton
     public static function deleteGroup(string $optionKey, string $group)
     {
         $settingName = self::getGroupName($group);
-        $options     = get_option($settingName, []);
+        $options     = self::getOptionValue($settingName, []);
         $options     = is_array($options) ? $options : [];
 
         if (!isset($options[$optionKey])) {
@@ -347,6 +447,6 @@ class Option extends Singleton
         }
 
         unset($options[$optionKey]);
-        update_option($settingName, $options);
+        self::updateOptionValue($settingName, $options);
     }
 }

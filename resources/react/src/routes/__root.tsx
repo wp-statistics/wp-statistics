@@ -4,11 +4,16 @@ import { AppSidebar } from '@/components/app-sidebar'
 import { Header } from '@/components/header'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { GlobalFiltersProvider } from '@/contexts/global-filters-context'
+import { WordPress } from '@/lib/wordpress'
 
 const RootLayout = () => {
   const routerState = useRouterState()
   const isSettingsPage = routerState.location.pathname.startsWith('/settings')
   const isToolsPage = routerState.location.pathname.startsWith('/tools')
+  const isNetworkAdmin = WordPress.getInstance().isNetworkAdmin()
+
+  // Hide sidebar for settings and network admin pages
+  const showSidebar = !isSettingsPage && !isNetworkAdmin
 
   return (
     <GlobalFiltersProvider>
@@ -17,6 +22,7 @@ const RootLayout = () => {
           <Header />
           <div className="flex flex-1 relative overflow-hidden min-w-0">
             {!isSettingsPage && !isToolsPage && <AppSidebar />}
+            {showSidebar && <AppSidebar />}
             <SidebarInset className="overflow-auto w-full">
               <Outlet />
             </SidebarInset>

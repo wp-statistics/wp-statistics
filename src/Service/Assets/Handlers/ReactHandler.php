@@ -126,7 +126,8 @@ class ReactHandler extends BaseAssets
     private function getAllowedScreenIds(): array
     {
         $screenIds = [
-            'toplevel_page_wp-statistics', // Single React SPA entry point
+            'toplevel_page_wp-statistics',                 // Single site React SPA entry point
+            'toplevel_page_wp-statistics-network-network', // Network admin React SPA entry point
         ];
 
         /**

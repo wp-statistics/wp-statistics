@@ -127,6 +127,21 @@ declare global {
     globalFilters?: GlobalFiltersPreferences | null
   }
 
+  // Network site data
+  interface NetworkSite {
+    blogId: number
+    name: string
+    url: string
+    dashboardUrl: string
+  }
+
+  // Network data configuration
+  interface NetworkData {
+    isMultisite: boolean
+    isNetworkAdmin: boolean
+    sites: NetworkSite[]
+  }
+
   interface wpsReact {
     layout: {
       sidebar: Record<
@@ -170,6 +185,7 @@ declare global {
       }
     >
     filters: FiltersConfig
+    network: NetworkData
   }
 }
 

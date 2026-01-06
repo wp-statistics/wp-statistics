@@ -11,6 +11,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NetworkOverviewRouteImport } from './routes/network-overview'
 import { Route as ToolsRouteRouteImport } from './routes/tools/route'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -110,6 +111,13 @@ const AuthorAnalyticsLazyRoute = AuthorAnalyticsLazyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/author-analytics.lazy').then((d) => d.Route),
+)
+const NetworkOverviewRoute = NetworkOverviewRouteImport.update({
+  id: '/network-overview',
+  path: '/network-overview',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/network-overview.lazy').then((d) => d.Route),
 )
 const ToolsRouteRoute = ToolsRouteRouteImport.update({
   id: '/tools',
@@ -362,6 +370,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/settings': typeof SettingsRouteRouteWithChildren
   '/tools': typeof ToolsRouteRouteWithChildren
+  '/network-overview': typeof NetworkOverviewRoute
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
@@ -398,6 +407,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/network-overview': typeof NetworkOverviewRoute
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
@@ -437,6 +447,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/settings': typeof SettingsRouteRouteWithChildren
   '/tools': typeof ToolsRouteRouteWithChildren
+  '/network-overview': typeof NetworkOverviewRoute
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
@@ -477,6 +488,7 @@ export interface FileRouteTypes {
     | '/'
     | '/settings'
     | '/tools'
+    | '/network-overview'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
@@ -513,6 +525,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/network-overview'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
@@ -551,6 +564,7 @@ export interface FileRouteTypes {
     | '/'
     | '/settings'
     | '/tools'
+    | '/network-overview'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
@@ -590,6 +604,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
   ToolsRouteRoute: typeof ToolsRouteRouteWithChildren
+  NetworkOverviewRoute: typeof NetworkOverviewRoute
   AuthorAnalyticsLazyRoute: typeof AuthorAnalyticsLazyRoute
   CategoryAnalyticsLazyRoute: typeof CategoryAnalyticsLazyRoute
   DevicesLazyRoute: typeof DevicesLazyRoute
@@ -653,6 +668,13 @@ declare module '@tanstack/react-router' {
       path: '/author-analytics'
       fullPath: '/author-analytics'
       preLoaderRoute: typeof AuthorAnalyticsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/network-overview': {
+      id: '/network-overview'
+      path: '/network-overview'
+      fullPath: '/network-overview'
+      preLoaderRoute: typeof NetworkOverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools': {
@@ -920,6 +942,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
   ToolsRouteRoute: ToolsRouteRouteWithChildren,
+  NetworkOverviewRoute: NetworkOverviewRoute,
   AuthorAnalyticsLazyRoute: AuthorAnalyticsLazyRoute,
   CategoryAnalyticsLazyRoute: CategoryAnalyticsLazyRoute,
   DevicesLazyRoute: DevicesLazyRoute,

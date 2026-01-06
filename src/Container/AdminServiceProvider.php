@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\CommandPalette\CommandPaletteHandler;
 use WP_Statistics\Service\Admin\ReactApp\ReactAppManager;
 use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
-use WP_Statistics\Service\Admin\Network\NetworkManager;
+use WP_Statistics\Service\Admin\Network\NetworkMenuManager;
 use WP_Statistics\Service\Admin\Notification\NotificationManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
@@ -58,11 +58,6 @@ class AdminServiceProvider implements ServiceProvider
         // Email Report Manager
         $container->register('email_reports', function () {
             return new EmailReportManager();
-        });
-
-        // Network Manager (Multisite)
-        $container->register('network', function () {
-            return new NetworkManager();
         });
 
         // Command Palette (WordPress Cmd+K integration)
@@ -116,6 +111,11 @@ class AdminServiceProvider implements ServiceProvider
             $endpoints->register();
             return $endpoints;
         });
+        
+        // Network Menu Manager (multisite network admin menu)
+        $container->register('network_menu', function () {
+            return new NetworkMenuManager();
+        });
     }
 
     /**
@@ -134,7 +134,6 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('admin_menu');
             $container->get('react_app');
             $container->get('email_reports');
-            $container->get('network');
             $container->get('command_palette');
             $container->get('site_health_info');
             $container->get('site_health_tests');
@@ -145,6 +144,7 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('anonymized_data');
             $container->get('import_export');
             $container->get('tools_endpoints');
+            $container->get('network_menu');
         }
     }
 }

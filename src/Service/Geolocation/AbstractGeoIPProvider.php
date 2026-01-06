@@ -68,12 +68,23 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     /**
      * Construct the full path for a given file name in the uploads directory.
      *
+     * In multisite, uses the main site's uploads directory so the GeoIP database
+     * is shared across all sites (it's not site-specific data).
+     *
      * @param string $fileName
      * @return string
      */
     protected function getFilePath(string $fileName)
     {
-        $uploadDir = wp_upload_dir();
+        // In multisite, use the main site's uploads directory for shared GeoIP database
+        if (is_multisite()) {
+            switch_to_blog(get_main_site_id());
+            $uploadDir = wp_upload_dir();
+            restore_current_blog();
+        } else {
+            $uploadDir = wp_upload_dir();
+        }
+
         return $uploadDir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR . '/' . $fileName;
     }
 

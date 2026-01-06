@@ -91,4 +91,20 @@ export class WordPress {
   public getGlobalFiltersPreferences(): GlobalFiltersPreferences | null | undefined {
     return this.data.globals.userPreferences?.globalFilters
   }
+
+  public getNetworkData(): NetworkData {
+    return this.data.network
+  }
+
+  public isMultisite(): boolean {
+    return this.data.network?.isMultisite ?? false
+  }
+
+  public isNetworkAdmin(): boolean {
+    return this.data.network?.isNetworkAdmin ?? false
+  }
+
+  public getNetworkSites(): NetworkSite[] {
+    return this.data.network?.sites ?? []
+  }
 }

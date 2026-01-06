@@ -12,6 +12,7 @@ use WP_Statistics\Service\Admin\ReactApp\Providers\HeaderDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\LayoutDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\FiltersProvider;
 use WP_Statistics\Service\ImportExport\Providers\ImportExportDataProvider;
+use WP_Statistics\Service\Admin\ReactApp\Providers\NetworkDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Requests\AjaxManager;
 use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\SettingsEndpoints;
 
@@ -131,6 +132,7 @@ class ReactAppManager
             ->registerProviderClass(HeaderDataProvider::class)
             ->registerProviderClass(FiltersProvider::class)
             ->registerProviderClass(ImportExportDataProvider::class)
+            ->registerProviderClass(NetworkDataProvider::class)
             ->init();
     }
 
