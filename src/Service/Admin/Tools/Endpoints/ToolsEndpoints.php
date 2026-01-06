@@ -43,6 +43,7 @@ class ToolsEndpoints
         'diagnostics'           => 'getDiagnostics',
         'diagnostics_run'       => 'runDiagnostics',
         'diagnostics_run_check' => 'runDiagnosticCheck',
+        'diagnostics_repair'    => 'repairDiagnostic',
     ];
 
     /**
@@ -496,6 +497,37 @@ class ToolsEndpoints
                 'isLightweight' => $check ? $check->isLightweight() : false,
             ],
         ]);
+    }
+
+    /**
+     * Repair a diagnostic check.
+     *
+     * Currently supports:
+     * - schema: Repairs database schema issues
+     *
+     * @return void
+     * @throws Exception If check key is invalid or repair not supported.
+     */
+    private function repairDiagnostic(): void
+    {
+        $key = sanitize_key(Request::get('check', ''));
+
+        if (empty($key)) {
+            throw new Exception(__('Check key is required.', 'wp-statistics'));
+        }
+
+        // Map check keys to repair actions
+        $repairActions = [
+            'schema' => 'repairSchema',
+        ];
+
+        if (!isset($repairActions[$key])) {
+            throw new Exception(__('This check does not support repair.', 'wp-statistics'));
+        }
+
+        // Call the repair method
+        $method = $repairActions[$key];
+        $this->$method();
     }
 
     /**

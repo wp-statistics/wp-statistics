@@ -4,11 +4,7 @@ import {
   Database,
   Server,
   HardDrive,
-  CheckCircle2,
-  XCircle,
-  AlertTriangle,
   RefreshCw,
-  Wrench,
   Settings,
   Clock,
 } from 'lucide-react'
@@ -43,12 +39,6 @@ interface PluginInfo {
   php: string
   mysql: string
   wp: string
-}
-
-interface SchemaCheckResult {
-  status: 'success' | 'warning' | 'error' | 'unknown'
-  issues: string[]
-  errors: string[]
 }
 
 interface OptionItem {
@@ -92,9 +82,6 @@ export function SystemInfoPage() {
   const [tables, setTables] = React.useState<TableInfo[]>([])
   const [plugin, setPlugin] = React.useState<PluginInfo | null>(null)
   const [isLoading, setIsLoading] = React.useState(true)
-  const [schemaStatus, setSchemaStatus] = React.useState<SchemaCheckResult | null>(null)
-  const [isCheckingSchema, setIsCheckingSchema] = React.useState(false)
-  const [isRepairingSchema, setIsRepairingSchema] = React.useState(false)
   const [statusMessage, setStatusMessage] = React.useState<{
     type: 'success' | 'error'
     message: string
@@ -124,63 +111,6 @@ export function SystemInfoPage() {
       })
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const checkSchema = async () => {
-    setIsCheckingSchema(true)
-    setStatusMessage(null)
-
-    try {
-      const data = await callToolsApi('schema_check')
-
-      if (data.success) {
-        setSchemaStatus(data.data)
-      } else {
-        setStatusMessage({
-          type: 'error',
-          message: data.data?.message || 'Failed to check schema.',
-        })
-      }
-    } catch (error) {
-      setStatusMessage({
-        type: 'error',
-        message: 'Failed to check schema. Please try again.',
-      })
-    } finally {
-      setIsCheckingSchema(false)
-    }
-  }
-
-  const repairSchema = async () => {
-    setIsRepairingSchema(true)
-    setStatusMessage(null)
-
-    try {
-      const data = await callToolsApi('schema_repair')
-
-      if (data.success) {
-        setStatusMessage({
-          type: 'success',
-          message: data.data?.message || 'Schema repair completed.',
-        })
-        // Re-check schema after repair
-        await checkSchema()
-        // Refresh system info to get updated table info
-        await fetchSystemInfo()
-      } else {
-        setStatusMessage({
-          type: 'error',
-          message: data.data?.message || 'Failed to repair schema.',
-        })
-      }
-    } catch (error) {
-      setStatusMessage({
-        type: 'error',
-        message: 'Failed to repair schema. Please try again.',
-      })
-    } finally {
-      setIsRepairingSchema(false)
     }
   }
 
@@ -294,99 +224,6 @@ export function SystemInfoPage() {
           </CardContent>
         </Card>
       )}
-
-      {/* Schema Health Card */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <Wrench className="h-5 w-5" />
-              Schema Health
-            </CardTitle>
-            <CardDescription>
-              Check database schema for missing tables or columns.
-            </CardDescription>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={checkSchema}
-              disabled={isCheckingSchema}
-            >
-              {isCheckingSchema ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <RefreshCw className="mr-2 h-4 w-4" />
-              )}
-              Check Schema
-            </Button>
-            {schemaStatus && schemaStatus.status !== 'success' && (
-              <Button
-                size="sm"
-                onClick={repairSchema}
-                disabled={isRepairingSchema}
-              >
-                {isRepairingSchema ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Wrench className="mr-2 h-4 w-4" />
-                )}
-                Repair
-              </Button>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent>
-          {!schemaStatus ? (
-            <p className="text-sm text-muted-foreground">
-              Click "Check Schema" to verify your database structure.
-            </p>
-          ) : (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                {schemaStatus.status === 'success' && (
-                  <>
-                    <CheckCircle2 className="h-5 w-5 text-green-500" />
-                    <span className="font-medium text-green-700 dark:text-green-400">
-                      All tables and columns are present
-                    </span>
-                  </>
-                )}
-                {schemaStatus.status === 'warning' && (
-                  <>
-                    <AlertTriangle className="h-5 w-5 text-yellow-500" />
-                    <span className="font-medium text-yellow-700 dark:text-yellow-400">
-                      Some issues found
-                    </span>
-                  </>
-                )}
-                {schemaStatus.status === 'error' && (
-                  <>
-                    <XCircle className="h-5 w-5 text-destructive" />
-                    <span className="font-medium text-destructive">
-                      Schema errors detected
-                    </span>
-                  </>
-                )}
-              </div>
-              {schemaStatus.issues && schemaStatus.issues.length > 0 && (
-                <div className="rounded-md border p-3 bg-muted/50">
-                  <p className="text-sm font-medium mb-2">Issues found:</p>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    {schemaStatus.issues.map((issue, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-yellow-500 mt-0.5">*</span>
-                        {issue}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          )}
-        </CardContent>
-      </Card>
 
       {/* Database Tables Card */}
       <Card>

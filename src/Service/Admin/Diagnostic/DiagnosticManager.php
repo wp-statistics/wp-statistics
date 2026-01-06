@@ -10,6 +10,7 @@ use WP_Statistics\Service\Admin\Diagnostic\Checks\TrackingCheck;
 use WP_Statistics\Service\Admin\Diagnostic\Checks\ServerEnvironmentCheck;
 use WP_Statistics\Service\Admin\Diagnostic\Checks\CronCheck;
 use WP_Statistics\Service\Admin\Diagnostic\Checks\CachePluginCheck;
+use WP_Statistics\Service\Admin\Diagnostic\Checks\SchemaCheck;
 
 /**
  * Diagnostic Manager.
@@ -48,12 +49,13 @@ class DiagnosticManager
      * @var array<string, class-string<CheckInterface>>
      */
     private array $checkClasses = [
-        'loopback' => LoopbackCheck::class,
         'geoip'    => GeoIpCheck::class,
-        'tracking' => TrackingCheck::class,
         'server'   => ServerEnvironmentCheck::class,
         'cron'     => CronCheck::class,
         'cache'    => CachePluginCheck::class,
+        'loopback' => LoopbackCheck::class,
+        'tracking' => TrackingCheck::class,
+        'schema'   => SchemaCheck::class,
     ];
 
     /**

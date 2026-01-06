@@ -649,11 +649,11 @@ class Test_StatRegistry extends WP_UnitTestCase
 }
 
 /**
- * Test cases for NumberFormatter
+ * Test cases for NumberFormatter in Shortcodes context
  *
  * @group shortcodes
  */
-class Test_NumberFormatter extends WP_UnitTestCase
+class Test_ShortcodeNumberFormatter extends WP_UnitTestCase
 {
     /**
      * @var NumberFormatter

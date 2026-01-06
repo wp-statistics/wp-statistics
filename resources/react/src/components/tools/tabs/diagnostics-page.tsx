@@ -10,6 +10,7 @@ import {
   ChevronDown,
   ChevronUp,
   Clock,
+  Wrench,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -92,14 +93,17 @@ const statusConfig = {
 interface DiagnosticCheckItemProps {
   check: DiagnosticCheck
   isRunning: boolean
+  isRepairing: boolean
   onRetest: () => void
+  onRepair?: () => void
 }
 
-function DiagnosticCheckItem({ check, isRunning, onRetest }: DiagnosticCheckItemProps) {
+function DiagnosticCheckItem({ check, isRunning, isRepairing, onRetest, onRepair }: DiagnosticCheckItemProps) {
   const [isOpen, setIsOpen] = React.useState(false)
   const config = statusConfig[check.status]
   const StatusIcon = config.icon
   const hasDetails = check.details && Object.keys(check.details).length > 0
+  const canRepair = check.details?.canRepair === true && check.status !== 'pass'
 
   return (
     <div className={cn('rounded-lg border', config.borderColor, config.bgColor)}>
@@ -124,11 +128,27 @@ function DiagnosticCheckItem({ check, isRunning, onRetest }: DiagnosticCheckItem
               </a>
             </Button>
           )}
+          {canRepair && onRepair && (
+            <Button
+              variant="default"
+              size="sm"
+              onClick={onRepair}
+              disabled={isRepairing || isRunning}
+              className="h-8"
+            >
+              {isRepairing ? (
+                <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+              ) : (
+                <Wrench className="mr-1 h-3 w-3" />
+              )}
+              Repair
+            </Button>
+          )}
           <Button
             variant="outline"
             size="sm"
             onClick={onRetest}
-            disabled={isRunning}
+            disabled={isRunning || isRepairing}
             className="h-8"
           >
             {isRunning ? (
@@ -177,6 +197,7 @@ export function DiagnosticsPage() {
   const [isLoading, setIsLoading] = React.useState(true)
   const [isRunningAll, setIsRunningAll] = React.useState(false)
   const [runningCheck, setRunningCheck] = React.useState<string | null>(null)
+  const [repairingCheck, setRepairingCheck] = React.useState<string | null>(null)
   const [lastFullCheck, setLastFullCheck] = React.useState<number | null>(null)
   const [failCount, setFailCount] = React.useState(0)
   const [warningCount, setWarningCount] = React.useState(0)
@@ -246,6 +267,23 @@ export function DiagnosticsPage() {
       console.error('Failed to run check:', error)
     } finally {
       setRunningCheck(null)
+    }
+  }
+
+  const repairCheck = async (checkKey: string) => {
+    setRepairingCheck(checkKey)
+
+    try {
+      const data = await callToolsApi('diagnostics_repair', { check: checkKey })
+
+      if (data.success) {
+        // Re-run the check to get updated status
+        await runSingleCheck(checkKey)
+      }
+    } catch (error) {
+      console.error('Failed to repair:', error)
+    } finally {
+      setRepairingCheck(null)
     }
   }
 
@@ -352,7 +390,9 @@ export function DiagnosticsPage() {
                   key={check.key}
                   check={check}
                   isRunning={runningCheck === check.key || isRunningAll}
+                  isRepairing={repairingCheck === check.key}
                   onRetest={() => runSingleCheck(check.key)}
+                  onRepair={check.details?.canRepair ? () => repairCheck(check.key) : undefined}
                 />
               ))
             )}
