@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Geolocation\Provider;
 
 use Exception;
-use WP_Statistics;
 use WP_Error;
 use WP_Statistics\Components\RemoteRequest;
 use WP_Statistics\Components\Option;
@@ -57,7 +56,7 @@ class DbIpProvider extends AbstractGeoIPProvider
 
         } catch (Exception $e) {
             $errorMessage = "Failed to initialize GeoIP reader: " . $e->getMessage();
-            WP_Statistics::log($errorMessage); // Log the error for debugging
+            \WP_Statistics()->log($errorMessage); // Log the error for debugging
         }
     }
 
@@ -164,7 +163,7 @@ class DbIpProvider extends AbstractGeoIPProvider
         } catch (Exception $e) {
             $this->deleteFile($gzFilePath);
 
-            WP_Statistics::log($e->getMessage());
+            \WP_Statistics()->log($e->getMessage());
 
             return new WP_Error('error', $e->getMessage());
         }

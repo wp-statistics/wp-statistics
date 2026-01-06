@@ -1,8 +1,6 @@
 <?php
 namespace WP_Statistics\Components;
 
-use WP_Statistics;
-
 class Encryptor
 {
     private const NONCE_BYTES = SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
@@ -80,7 +78,7 @@ class Encryptor
         $token = base64_decode(strtr($token, '-_', '+/'));
 
         if ($token === false || strlen($token) < self::NONCE_BYTES) {
-            WP_Statistics::log(esc_html__('Malformed token', 'wp-statistics'), 'error');
+            \WP_Statistics()->log(esc_html__('Malformed token', 'wp-statistics'), 'error');
             return false;
         }
 
@@ -89,7 +87,7 @@ class Encryptor
         $plain  = sodium_crypto_secretbox_open($cipher, $nonce, self::key());
 
         if ($plain === false) {
-            WP_Statistics::log(esc_html__('Failed to decrypt token', 'wp-statistics'), 'error');
+            \WP_Statistics()->log(esc_html__('Failed to decrypt token', 'wp-statistics'), 'error');
             return false;
         }
 

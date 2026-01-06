@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
-use WP_Statistics;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginActions;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
@@ -80,7 +79,7 @@ class LicenseManagementManager
             $this->handledPlugins[] = $pluginSlug;
 
         } catch (Exception $e) {
-            WP_Statistics::log(sprintf('Failed to initialize PluginUpdater for %s: %s', $pluginSlug, $e->getMessage()));
+            \WP_Statistics()->log(sprintf('Failed to initialize PluginUpdater for %s: %s', $pluginSlug, $e->getMessage()));
         }
     }
 

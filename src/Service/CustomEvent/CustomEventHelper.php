@@ -22,7 +22,7 @@ class CustomEventHelper
         foreach ($customEvents as $event) {
             // Check if the event name is valid (not already defined or is reserved)
             if (!self::isEventNameValid($event['machine_name'])) {
-                \WP_Statistics::log(esc_html__("An event with `{$event['machine_name']}` machine name is not allowed.", 'wp-statistics'), 'error');
+                \WP_Statistics()->log(esc_html__("An event with `{$event['machine_name']}` machine name is not allowed.", 'wp-statistics'), 'error');
                 continue;
             }
 

@@ -5,7 +5,6 @@ namespace WP_Statistics\Service\Geolocation\Provider;
 use Exception;
 use PharData;
 use WP_Error;
-use WP_Statistics;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
@@ -96,7 +95,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 
         } catch (Exception $e) {
             $errorMessage = "Failed to initialize GeoIP reader: " . $e->getMessage();
-            WP_Statistics::log($errorMessage); // Log the error for debugging
+            \WP_Statistics()->log($errorMessage); // Log the error for debugging
         }
     }
 
@@ -164,7 +163,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         } catch (Exception $e) {
             $this->deleteFile($gzFilePath); // Ensure temporary file is deleted in case of an error
 
-            WP_Statistics::log($e->getMessage()); // Log the error for debugging
+            \WP_Statistics()->log($e->getMessage()); // Log the error for debugging
 
             return new WP_Error('error', $e->getMessage());
         }

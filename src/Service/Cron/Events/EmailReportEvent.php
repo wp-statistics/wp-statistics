@@ -7,7 +7,6 @@ use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Cron\CronSchedules;
 use WP_Statistics\Service\EmailReport\EmailReportManager;
 use WP_Statistics\Service\EmailReport\EmailReportLogger;
-use WP_STATISTICS\WP_Statistics;
 
 /**
  * Email Report Cron Event.
@@ -128,7 +127,7 @@ class EmailReportEvent extends AbstractCronEvent
             $this->log(false, $recipients, $e->getMessage());
 
             // Log to WP Statistics error log
-            WP_Statistics::log('Email Report Error: ' . $e->getMessage(), 'error');
+            \WP_Statistics()->log('Email Report Error: ' . $e->getMessage(), 'error');
         }
     }
 

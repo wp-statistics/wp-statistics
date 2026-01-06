@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Components;
 
-use WP_Statistics;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\FileSystem;
 
@@ -148,7 +147,7 @@ class AssetNameObfuscator
 
         // Copy and randomize the name of the input file
         if (!copy($this->inputFileDir, $this->getHashedFileDir())) {
-            WP_Statistics::log("Unable to copy hashed file to {$this->getHashedFileDir()}!", 'warning');
+            \WP_Statistics()->log("Unable to copy hashed file to {$this->getHashedFileDir()}!", 'warning');
             return;
         }
 

@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 use Exception;
 use stdClass;
-use WP_Statistics;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 
@@ -148,7 +147,7 @@ class PluginUpdater
             return $remote;
 
         } catch (Exception $e) {
-            WP_Statistics::log($e->getMessage(), 'error');
+            \WP_Statistics()->log($e->getMessage(), 'error');
             return false;
         }
     }

@@ -4,7 +4,6 @@ namespace WP_Statistics\Components;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Components\Option;
-use WP_Statistics;
 use ErrorException;
 use Exception;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
@@ -363,7 +362,7 @@ class Ip
                 }
 
             } catch (Exception $e) {
-                WP_Statistics::log($e->getMessage(), 'warning');
+                \WP_Statistics()->log($e->getMessage(), 'warning');
                 continue;
             }
         }

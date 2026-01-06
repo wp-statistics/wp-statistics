@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_Statistics;
 use WP_STATISTICS\DB;
 use WP_Statistics\Utils\PostType;
 use WP_Statistics\Utils\Query;
@@ -147,7 +146,7 @@ abstract class BaseRecord
         );
 
         if ($insert === false) {
-            WP_Statistics::log('Insert into ' . $this->fullTableName . ' failed: ' . $wpdb->last_error);
+            \WP_Statistics()->log('Insert into ' . $this->fullTableName . ' failed: ' . $wpdb->last_error);
             return;
         }
 
@@ -238,7 +237,7 @@ abstract class BaseRecord
 
         $deleted = $wpdb->delete($this->fullTableName, ['ID' => $this->record->ID]);
         if ($deleted === false) {
-            WP_Statistics::log('Failed to delete record from ' . $this->tableName . ' with ID ' . $this->record->ID . ': ' . $wpdb->last_error);
+            \WP_Statistics()->log('Failed to delete record from ' . $this->tableName . ' with ID ' . $this->record->ID . ': ' . $wpdb->last_error);
         }
     }
 

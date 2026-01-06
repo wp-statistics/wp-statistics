@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Database\Managers;
 
 use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Database\Schema\Manager;
-use WP_Statistics;
 
 /**
  * Class SchemaMaintainer
@@ -92,10 +91,10 @@ class SchemaMaintainer
                             'type'  => 'failed',
                             'table' => $tableName
                         ];
-                        WP_Statistics::log($e->getMessage());
+                        \WP_Statistics()->log($e->getMessage());
                         continue;
                     }
-                    WP_Statistics::log($e->getMessage());
+                    \WP_Statistics()->log($e->getMessage());
                 }
             }
 
@@ -111,7 +110,7 @@ class SchemaMaintainer
                 'type'    => 'system_error',
                 'message' => $e->getMessage()
             ];
-            WP_Statistics::log($e->getMessage());
+            \WP_Statistics()->log($e->getMessage());
         }
 
         return $results;
@@ -161,7 +160,7 @@ class SchemaMaintainer
                         'type'    => 'repair_failed',
                         'message' => $e->getMessage()
                     ];
-                    WP_Statistics::log($e->getMessage());
+                    \WP_Statistics()->log($e->getMessage());
                 }
             }
 
@@ -174,7 +173,7 @@ class SchemaMaintainer
                 'type'    => 'system_error',
                 'message' => $e->getMessage()
             ];
-            WP_Statistics::log($e->getMessage());
+            \WP_Statistics()->log($e->getMessage());
         }
 
         return $results;
