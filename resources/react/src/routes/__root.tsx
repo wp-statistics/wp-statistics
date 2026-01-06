@@ -8,6 +8,7 @@ import { GlobalFiltersProvider } from '@/contexts/global-filters-context'
 const RootLayout = () => {
   const routerState = useRouterState()
   const isSettingsPage = routerState.location.pathname.startsWith('/settings')
+  const isToolsPage = routerState.location.pathname.startsWith('/tools')
 
   return (
     <GlobalFiltersProvider>
@@ -15,7 +16,7 @@ const RootLayout = () => {
         <div className="flex flex-col h-[var(--wp-admin-menu-height)] w-full overflow-hidden">
           <Header />
           <div className="flex flex-1 relative overflow-hidden min-w-0">
-            {!isSettingsPage && <AppSidebar />}
+            {!isSettingsPage && !isToolsPage && <AppSidebar />}
             <SidebarInset className="overflow-auto w-full">
               <Outlet />
             </SidebarInset>

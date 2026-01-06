@@ -35,6 +35,7 @@ window.addEventListener('resize', setAdminLayoutVars)
 const syncAdminMenu = () => {
   const hash = window.location.hash
   const isSettingsRoute = hash.startsWith('#/settings')
+  const isToolsRoute = hash.startsWith('#/tools')
 
   // Find WP Statistics submenu
   const wpStatsMenu = document.querySelector('#toplevel_page_wp-statistics')
@@ -48,14 +49,20 @@ const syncAdminMenu = () => {
 
     const href = link.getAttribute('href') || ''
     const isSettingsLink = href.includes('#/settings')
-    const isDashboardLink = href.includes('page=wp-statistics') && !isSettingsLink
+    const isToolsLink = href.includes('#/tools')
+    const isDashboardLink = href.includes('page=wp-statistics') && !isSettingsLink && !isToolsLink
 
-    // Update current class
+    // Update current class based on current route
+    let shouldBeActive = false
     if (isSettingsRoute && isSettingsLink) {
-      item.classList.add('current')
-      link.classList.add('current')
-      link.setAttribute('aria-current', 'page')
-    } else if (!isSettingsRoute && isDashboardLink) {
+      shouldBeActive = true
+    } else if (isToolsRoute && isToolsLink) {
+      shouldBeActive = true
+    } else if (!isSettingsRoute && !isToolsRoute && isDashboardLink) {
+      shouldBeActive = true
+    }
+
+    if (shouldBeActive) {
       item.classList.add('current')
       link.classList.add('current')
       link.setAttribute('aria-current', 'page')

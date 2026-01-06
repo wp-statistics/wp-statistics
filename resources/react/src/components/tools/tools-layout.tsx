@@ -1,32 +1,28 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { Settings, Shield, Bell, Ban, Wrench, Monitor, Users, Database } from 'lucide-react'
+import { Upload, Database, Info, Clock } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
-interface SettingsTab {
+interface ToolsTab {
   id: string
   label: string
   href: string
   icon: React.ElementType
 }
 
-const tabs: SettingsTab[] = [
-  { id: 'general', label: 'General', href: '/settings/general', icon: Settings },
-  { id: 'display', label: 'Display', href: '/settings/display', icon: Monitor },
-  { id: 'privacy', label: 'Privacy', href: '/settings/privacy', icon: Shield },
-  { id: 'notifications', label: 'Notifications', href: '/settings/notifications', icon: Bell },
-  { id: 'exclusions', label: 'Exclusions', href: '/settings/exclusions', icon: Ban },
-  { id: 'access', label: 'Access', href: '/settings/access', icon: Users },
-  { id: 'data-management', label: 'Data', href: '/settings/data-management', icon: Database },
-  { id: 'advanced', label: 'Advanced', href: '/settings/advanced', icon: Wrench },
+const tabs: ToolsTab[] = [
+  { id: 'system-info', label: 'System Info', href: '/tools/system-info', icon: Info },
+  { id: 'scheduled-tasks', label: 'Scheduled Tasks', href: '/tools/scheduled-tasks', icon: Clock },
+  { id: 'import-export', label: 'Import / Export', href: '/tools/import-export', icon: Upload },
+  { id: 'backups', label: 'Backups', href: '/tools/backups', icon: Database },
 ]
 
-interface SettingsLayoutProps {
+interface ToolsLayoutProps {
   children: React.ReactNode
 }
 
-export function SettingsLayout({ children }: SettingsLayoutProps) {
+export function ToolsLayout({ children }: ToolsLayoutProps) {
   const location = useLocation()
   const currentPath = location.pathname
 
@@ -34,15 +30,15 @@ export function SettingsLayout({ children }: SettingsLayoutProps) {
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="border-b bg-background px-6 py-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Tools</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Manage your WP Statistics preferences and configuration.
+          Import, export, manage backups, and monitor system health.
         </p>
       </div>
 
       {/* Tab Navigation */}
       <div className="border-b bg-background">
-        <nav className="flex gap-1 px-6" aria-label="Settings tabs">
+        <nav className="flex gap-1 px-6" aria-label="Tools tabs">
           {tabs.map((tab) => {
             const isActive = currentPath === tab.href
             const Icon = tab.icon

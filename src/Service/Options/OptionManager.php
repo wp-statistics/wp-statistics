@@ -208,6 +208,8 @@ class OptionManager
             'exclude_feeds'                   => true,
             'schedule_dbmaint'                => true,
             'schedule_dbmaint_days'           => '180',
+            'data_retention_mode'             => 'forever',
+            'data_retention_days'             => '180',
             'charts_previous_period'          => true,
             'attribution_model'               => 'first-touch',
             'geoip_location_detection_method' => 'maxmind',

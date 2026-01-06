@@ -453,6 +453,14 @@ class SettingsEndpoints
                 'read_capability',
                 'manage_capability',
             ],
+            'data' => [
+                // Data Retention Settings
+                'data_retention_mode',
+                'data_retention_days',
+                // Legacy (for backward compatibility)
+                'schedule_dbmaint',
+                'schedule_dbmaint_days',
+            ],
         ];
 
         return $tabKeys[$tab] ?? [];

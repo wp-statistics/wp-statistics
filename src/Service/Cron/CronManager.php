@@ -196,24 +196,55 @@ class CronManager
     {
         $events = [];
         $hooks  = [
-            'wp_statistics_dbmaint_hook'          => __('Database Maintenance', 'wp-statistics'),
-            'wp_statistics_referrerspam_hook'     => __('Referrer Spam Update', 'wp-statistics'),
-            'wp_statistics_geoip_hook'            => __('GeoIP Database Update', 'wp-statistics'),
-            'wp_statistics_email_report'          => __('Email Report', 'wp-statistics'),
-            'wp_statistics_queue_daily_summary'   => __('Daily Summary', 'wp-statistics'),
-            'wp_statistics_licenses_hook'         => __('License Migration', 'wp-statistics'),
-            'wp_statistics_check_licenses_status' => __('License Status Check', 'wp-statistics'),
-            'wp_statistics_referrals_db_hook'     => __('Referrals Database', 'wp-statistics'),
-            'wp_statistics_daily_cron_hook'       => __('Daily Tasks', 'wp-statistics'),
+            'wp_statistics_dbmaint_hook' => [
+                'label'      => __('Database Maintenance', 'wp-statistics'),
+                'recurrence' => 'daily',
+            ],
+            'wp_statistics_referrerspam_hook' => [
+                'label'      => __('Referrer Spam Update', 'wp-statistics'),
+                'recurrence' => 'weekly',
+            ],
+            'wp_statistics_geoip_hook' => [
+                'label'      => __('GeoIP Database Update', 'wp-statistics'),
+                'recurrence' => 'monthly',
+            ],
+            'wp_statistics_email_report' => [
+                'label'      => __('Email Report', 'wp-statistics'),
+                'recurrence' => 'daily',
+            ],
+            'wp_statistics_queue_daily_summary' => [
+                'label'      => __('Daily Summary', 'wp-statistics'),
+                'recurrence' => 'daily',
+            ],
+            'wp_statistics_licenses_hook' => [
+                'label'      => __('License Migration', 'wp-statistics'),
+                'recurrence' => 'daily',
+            ],
+            'wp_statistics_check_licenses_status' => [
+                'label'      => __('License Status Check', 'wp-statistics'),
+                'recurrence' => 'twicedaily',
+            ],
+            'wp_statistics_referrals_db_hook' => [
+                'label'      => __('Referrals Database', 'wp-statistics'),
+                'recurrence' => 'weekly',
+            ],
+            'wp_statistics_daily_cron_hook' => [
+                'label'      => __('Daily Tasks', 'wp-statistics'),
+                'recurrence' => 'daily',
+            ],
         ];
 
-        foreach ($hooks as $hook => $label) {
-            $nextRun = wp_next_scheduled($hook);
+        foreach ($hooks as $hook => $info) {
+            $nextRun   = wp_next_scheduled($hook);
+            $scheduled = (bool) $nextRun;
+
             $events[$hook] = [
-                'label'    => $label,
-                'hook'     => $hook,
-                'next_run' => $nextRun ? date_i18n('Y-m-d H:i:s', $nextRun) : __('Not scheduled', 'wp-statistics'),
-                'scheduled' => (bool) $nextRun,
+                'label'      => $info['label'],
+                'hook'       => $hook,
+                'recurrence' => $info['recurrence'],
+                'next_run'   => $nextRun ? date_i18n('Y-m-d\TH:i:s', $nextRun) : null,
+                'scheduled'  => $scheduled,
+                'enabled'    => $scheduled, // Task is enabled if it's scheduled
             ];
         }
 

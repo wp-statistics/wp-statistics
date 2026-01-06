@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Loader2, AlertTriangle, RefreshCw, Globe, Server, Trash2, RotateCcw } from 'lucide-react'
+import { Loader2, AlertTriangle, RefreshCw, Globe, Server, RotateCcw } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -20,7 +20,6 @@ export function AdvancedSettings() {
   const [detectedIp, setDetectedIp] = React.useState<string>('Loading...')
   const [externalIp, setExternalIp] = React.useState<string>('Loading...')
   const [isResetting, setIsResetting] = React.useState(false)
-  const [isPurging, setIsPurging] = React.useState(false)
 
   // Fetch detected IP on mount
   React.useEffect(() => {
@@ -73,7 +72,6 @@ export function AdvancedSettings() {
   )
 
   // Database Settings
-  const [scheduleDays, setScheduleDays] = useSetting(settings, 'schedule_dbmaint_days', 180)
   const [deleteOnUninstall, setDeleteOnUninstall] = useSetting(
     settings,
     'delete_data_on_uninstall',
@@ -324,30 +322,6 @@ export function AdvancedSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Database Maintenance</CardTitle>
-          <CardDescription>Configure automatic data cleanup settings.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="data-retention">Data Retention Period (Days)</Label>
-            <Input
-              id="data-retention"
-              type="number"
-              min="30"
-              max="365"
-              value={scheduleDays as number}
-              onChange={(e) => setScheduleDays(parseInt(e.target.value) || 180)}
-              className="w-32"
-            />
-            <p className="text-xs text-muted-foreground">
-              Automatically aggregate data older than this many days. Set to 0 to keep data forever.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
           <CardTitle>Anonymous Data Sharing</CardTitle>
           <CardDescription>Help improve WP Statistics.</CardDescription>
         </CardHeader>
@@ -391,46 +365,7 @@ export function AdvancedSettings() {
             />
           </div>
 
-          <div className="border-t pt-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>Purge Old Data</Label>
-                <p className="text-sm text-muted-foreground">
-                  Immediately remove statistics data older than the retention period set above.
-                </p>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={async () => {
-                  if (confirm('Are you sure you want to purge old data? This cannot be undone.')) {
-                    setIsPurging(true)
-                    try {
-                      const response = await fetch(
-                        `${(window as any).wps_react?.ajaxUrl}?action=wps_purge_old_data&nonce=${(window as any).wps_react?.nonce}`,
-                        { method: 'POST' }
-                      )
-                      if (response.ok) {
-                        alert('Old data has been purged successfully.')
-                      }
-                    } catch (error) {
-                      alert('Failed to purge data. Please try again.')
-                    } finally {
-                      setIsPurging(false)
-                    }
-                  }
-                }}
-                disabled={isPurging}
-              >
-                {isPurging ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Trash2 className="mr-2 h-4 w-4" />
-                )}
-                Purge Now
-              </Button>
-            </div>
-
+          <div className="border-t pt-6">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Restore Default Settings</Label>

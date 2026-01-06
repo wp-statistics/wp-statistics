@@ -11,8 +11,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ToolsRouteRouteImport } from './routes/tools/route'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as visitorInsightsVisitorsOverviewRouteImport } from './routes/(visitor-insights)/visitors-overview'
 import { Route as visitorInsightsVisitorsRouteImport } from './routes/(visitor-insights)/visitors'
@@ -29,6 +31,14 @@ const CategoryAnalyticsLazyRouteImport = createFileRoute(
   '/category-analytics',
 )()
 const AuthorAnalyticsLazyRouteImport = createFileRoute('/author-analytics')()
+const ToolsSystemInfoLazyRouteImport = createFileRoute('/tools/system-info')()
+const ToolsScheduledTasksLazyRouteImport = createFileRoute(
+  '/tools/scheduled-tasks',
+)()
+const ToolsImportExportLazyRouteImport = createFileRoute(
+  '/tools/import-export',
+)()
+const ToolsBackupsLazyRouteImport = createFileRoute('/tools/backups')()
 const SettingsPrivacyLazyRouteImport = createFileRoute('/settings/privacy')()
 const SettingsNotificationsLazyRouteImport = createFileRoute(
   '/settings/notifications',
@@ -38,6 +48,9 @@ const SettingsExclusionsLazyRouteImport = createFileRoute(
   '/settings/exclusions',
 )()
 const SettingsDisplayLazyRouteImport = createFileRoute('/settings/display')()
+const SettingsDataManagementLazyRouteImport = createFileRoute(
+  '/settings/data-management',
+)()
 const SettingsAdvancedLazyRouteImport = createFileRoute('/settings/advanced')()
 const SettingsAccessLazyRouteImport = createFileRoute('/settings/access')()
 const visitorInsightsSearchTermsLazyRouteImport = createFileRoute(
@@ -98,6 +111,11 @@ const AuthorAnalyticsLazyRoute = AuthorAnalyticsLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/author-analytics.lazy').then((d) => d.Route),
 )
+const ToolsRouteRoute = ToolsRouteRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRouteRoute = SettingsRouteRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -108,11 +126,42 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ToolsRouteRoute,
+} as any)
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SettingsRouteRoute,
 } as any)
+const ToolsSystemInfoLazyRoute = ToolsSystemInfoLazyRouteImport.update({
+  id: '/system-info',
+  path: '/system-info',
+  getParentRoute: () => ToolsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/tools/system-info.lazy').then((d) => d.Route),
+)
+const ToolsScheduledTasksLazyRoute = ToolsScheduledTasksLazyRouteImport.update({
+  id: '/scheduled-tasks',
+  path: '/scheduled-tasks',
+  getParentRoute: () => ToolsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/tools/scheduled-tasks.lazy').then((d) => d.Route),
+)
+const ToolsImportExportLazyRoute = ToolsImportExportLazyRouteImport.update({
+  id: '/import-export',
+  path: '/import-export',
+  getParentRoute: () => ToolsRouteRoute,
+} as any).lazy(() =>
+  import('./routes/tools/import-export.lazy').then((d) => d.Route),
+)
+const ToolsBackupsLazyRoute = ToolsBackupsLazyRouteImport.update({
+  id: '/backups',
+  path: '/backups',
+  getParentRoute: () => ToolsRouteRoute,
+} as any).lazy(() => import('./routes/tools/backups.lazy').then((d) => d.Route))
 const SettingsPrivacyLazyRoute = SettingsPrivacyLazyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -149,6 +198,14 @@ const SettingsDisplayLazyRoute = SettingsDisplayLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/settings/display.lazy').then((d) => d.Route),
 )
+const SettingsDataManagementLazyRoute =
+  SettingsDataManagementLazyRouteImport.update({
+    id: '/data-management',
+    path: '/data-management',
+    getParentRoute: () => SettingsRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/data-management.lazy').then((d) => d.Route),
+  )
 const SettingsAdvancedLazyRoute = SettingsAdvancedLazyRouteImport.update({
   id: '/advanced',
   path: '/advanced',
@@ -304,6 +361,7 @@ const pageInsightsTopPagesRoute = pageInsightsTopPagesRouteImport
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/settings': typeof SettingsRouteRouteWithChildren
+  '/tools': typeof ToolsRouteRouteWithChildren
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
@@ -325,12 +383,18 @@ export interface FileRoutesByFullPath {
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
   '/settings/access': typeof SettingsAccessLazyRoute
   '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/data-management': typeof SettingsDataManagementLazyRoute
   '/settings/display': typeof SettingsDisplayLazyRoute
   '/settings/exclusions': typeof SettingsExclusionsLazyRoute
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/tools/backups': typeof ToolsBackupsLazyRoute
+  '/tools/import-export': typeof ToolsImportExportLazyRoute
+  '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
+  '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings/': typeof SettingsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -355,17 +419,24 @@ export interface FileRoutesByTo {
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
   '/settings/access': typeof SettingsAccessLazyRoute
   '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/data-management': typeof SettingsDataManagementLazyRoute
   '/settings/display': typeof SettingsDisplayLazyRoute
   '/settings/exclusions': typeof SettingsExclusionsLazyRoute
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/tools/backups': typeof ToolsBackupsLazyRoute
+  '/tools/import-export': typeof ToolsImportExportLazyRoute
+  '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
+  '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings': typeof SettingsIndexRoute
+  '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/settings': typeof SettingsRouteRouteWithChildren
+  '/tools': typeof ToolsRouteRouteWithChildren
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
@@ -387,18 +458,25 @@ export interface FileRoutesById {
   '/(visitor-insights)/search-terms': typeof visitorInsightsSearchTermsLazyRoute
   '/settings/access': typeof SettingsAccessLazyRoute
   '/settings/advanced': typeof SettingsAdvancedLazyRoute
+  '/settings/data-management': typeof SettingsDataManagementLazyRoute
   '/settings/display': typeof SettingsDisplayLazyRoute
   '/settings/exclusions': typeof SettingsExclusionsLazyRoute
   '/settings/general': typeof SettingsGeneralLazyRoute
   '/settings/notifications': typeof SettingsNotificationsLazyRoute
   '/settings/privacy': typeof SettingsPrivacyLazyRoute
+  '/tools/backups': typeof ToolsBackupsLazyRoute
+  '/tools/import-export': typeof ToolsImportExportLazyRoute
+  '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
+  '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings/': typeof SettingsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/settings'
+    | '/tools'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
@@ -420,12 +498,18 @@ export interface FileRouteTypes {
     | '/search-terms'
     | '/settings/access'
     | '/settings/advanced'
+    | '/settings/data-management'
     | '/settings/display'
     | '/settings/exclusions'
     | '/settings/general'
     | '/settings/notifications'
     | '/settings/privacy'
+    | '/tools/backups'
+    | '/tools/import-export'
+    | '/tools/scheduled-tasks'
+    | '/tools/system-info'
     | '/settings/'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -450,16 +534,23 @@ export interface FileRouteTypes {
     | '/search-terms'
     | '/settings/access'
     | '/settings/advanced'
+    | '/settings/data-management'
     | '/settings/display'
     | '/settings/exclusions'
     | '/settings/general'
     | '/settings/notifications'
     | '/settings/privacy'
+    | '/tools/backups'
+    | '/tools/import-export'
+    | '/tools/scheduled-tasks'
+    | '/tools/system-info'
     | '/settings'
+    | '/tools'
   id:
     | '__root__'
     | '/'
     | '/settings'
+    | '/tools'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
@@ -481,17 +572,24 @@ export interface FileRouteTypes {
     | '/(visitor-insights)/search-terms'
     | '/settings/access'
     | '/settings/advanced'
+    | '/settings/data-management'
     | '/settings/display'
     | '/settings/exclusions'
     | '/settings/general'
     | '/settings/notifications'
     | '/settings/privacy'
+    | '/tools/backups'
+    | '/tools/import-export'
+    | '/tools/scheduled-tasks'
+    | '/tools/system-info'
     | '/settings/'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
+  ToolsRouteRoute: typeof ToolsRouteRouteWithChildren
   AuthorAnalyticsLazyRoute: typeof AuthorAnalyticsLazyRoute
   CategoryAnalyticsLazyRoute: typeof CategoryAnalyticsLazyRoute
   DevicesLazyRoute: typeof DevicesLazyRoute
@@ -557,6 +655,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorAnalyticsLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -571,12 +676,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/': {
+      id: '/tools/'
+      path: '/'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
     '/settings/': {
       id: '/settings/'
       path: '/'
       fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof SettingsRouteRoute
+    }
+    '/tools/system-info': {
+      id: '/tools/system-info'
+      path: '/system-info'
+      fullPath: '/tools/system-info'
+      preLoaderRoute: typeof ToolsSystemInfoLazyRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/tools/scheduled-tasks': {
+      id: '/tools/scheduled-tasks'
+      path: '/scheduled-tasks'
+      fullPath: '/tools/scheduled-tasks'
+      preLoaderRoute: typeof ToolsScheduledTasksLazyRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/tools/import-export': {
+      id: '/tools/import-export'
+      path: '/import-export'
+      fullPath: '/tools/import-export'
+      preLoaderRoute: typeof ToolsImportExportLazyRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/tools/backups': {
+      id: '/tools/backups'
+      path: '/backups'
+      fullPath: '/tools/backups'
+      preLoaderRoute: typeof ToolsBackupsLazyRouteImport
+      parentRoute: typeof ToolsRouteRoute
     }
     '/settings/privacy': {
       id: '/settings/privacy'
@@ -611,6 +751,13 @@ declare module '@tanstack/react-router' {
       path: '/display'
       fullPath: '/settings/display'
       preLoaderRoute: typeof SettingsDisplayLazyRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/settings/data-management': {
+      id: '/settings/data-management'
+      path: '/data-management'
+      fullPath: '/settings/data-management'
+      preLoaderRoute: typeof SettingsDataManagementLazyRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
     '/settings/advanced': {
@@ -724,6 +871,7 @@ declare module '@tanstack/react-router' {
 interface SettingsRouteRouteChildren {
   SettingsAccessLazyRoute: typeof SettingsAccessLazyRoute
   SettingsAdvancedLazyRoute: typeof SettingsAdvancedLazyRoute
+  SettingsDataManagementLazyRoute: typeof SettingsDataManagementLazyRoute
   SettingsDisplayLazyRoute: typeof SettingsDisplayLazyRoute
   SettingsExclusionsLazyRoute: typeof SettingsExclusionsLazyRoute
   SettingsGeneralLazyRoute: typeof SettingsGeneralLazyRoute
@@ -735,6 +883,7 @@ interface SettingsRouteRouteChildren {
 const SettingsRouteRouteChildren: SettingsRouteRouteChildren = {
   SettingsAccessLazyRoute: SettingsAccessLazyRoute,
   SettingsAdvancedLazyRoute: SettingsAdvancedLazyRoute,
+  SettingsDataManagementLazyRoute: SettingsDataManagementLazyRoute,
   SettingsDisplayLazyRoute: SettingsDisplayLazyRoute,
   SettingsExclusionsLazyRoute: SettingsExclusionsLazyRoute,
   SettingsGeneralLazyRoute: SettingsGeneralLazyRoute,
@@ -747,9 +896,30 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
   SettingsRouteRouteChildren,
 )
 
+interface ToolsRouteRouteChildren {
+  ToolsBackupsLazyRoute: typeof ToolsBackupsLazyRoute
+  ToolsImportExportLazyRoute: typeof ToolsImportExportLazyRoute
+  ToolsScheduledTasksLazyRoute: typeof ToolsScheduledTasksLazyRoute
+  ToolsSystemInfoLazyRoute: typeof ToolsSystemInfoLazyRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
+}
+
+const ToolsRouteRouteChildren: ToolsRouteRouteChildren = {
+  ToolsBackupsLazyRoute: ToolsBackupsLazyRoute,
+  ToolsImportExportLazyRoute: ToolsImportExportLazyRoute,
+  ToolsScheduledTasksLazyRoute: ToolsScheduledTasksLazyRoute,
+  ToolsSystemInfoLazyRoute: ToolsSystemInfoLazyRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
+}
+
+const ToolsRouteRouteWithChildren = ToolsRouteRoute._addFileChildren(
+  ToolsRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
+  ToolsRouteRoute: ToolsRouteRouteWithChildren,
   AuthorAnalyticsLazyRoute: AuthorAnalyticsLazyRoute,
   CategoryAnalyticsLazyRoute: CategoryAnalyticsLazyRoute,
   DevicesLazyRoute: DevicesLazyRoute,

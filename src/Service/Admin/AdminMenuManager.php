@@ -76,7 +76,7 @@ class AdminMenuManager
             $readCapability,
             self::MENU_SLUG,
             [$this, 'renderApp'],
-            'dashicons-chart-pie',
+            $this->getMenuIcon(),
             3
         );
 
@@ -87,6 +87,16 @@ class AdminMenuManager
             __('Settings', 'wp-statistics'),
             $manageCapability,
             self::MENU_SLUG . '#/settings/general',
+            null // No callback - it's just a link
+        );
+
+        // Tools submenu - links to same page with hash route (no page reload)
+        add_submenu_page(
+            self::MENU_SLUG,
+            __('Tools', 'wp-statistics'),
+            __('Tools', 'wp-statistics'),
+            $manageCapability,
+            self::MENU_SLUG . '#/tools/system-info',
             null // No callback - it's just a link
         );
 
@@ -151,7 +161,25 @@ class AdminMenuManager
             if (strpos($item[2], '#/settings') !== false) {
                 $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/settings/general');
             }
+
+            // Fix Tools URL
+            if (strpos($item[2], '#/tools') !== false) {
+                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/tools/system-info');
+            }
         }
+    }
+
+    /**
+     * Get the menu icon for admin menu.
+     *
+     * Uses a WordPress dashicons icon for consistent styling
+     * with the admin menu's different states (inactive, hover, active).
+     *
+     * @return string Dashicons class name
+     */
+    private function getMenuIcon(): string
+    {
+        return 'dashicons-chart-pie';
     }
 
     /**
