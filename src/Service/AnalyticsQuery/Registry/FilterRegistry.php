@@ -5,10 +5,8 @@ namespace WP_Statistics\Service\AnalyticsQuery\Registry;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\FilterInterface;
 use WP_Statistics\Service\AnalyticsQuery\Filters\CountryFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\CityFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\ContinentFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\RegionFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\BrowserFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\BrowserVersionFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\OsFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\DeviceTypeFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerFilter;
@@ -35,9 +33,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\TotalSessionsFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\FirstSeenFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\LastSeenFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\BounceFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\EventNameFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\EventPageIdFilter;
-use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyTypeFilter;
 
 /**
  * Registry for analytics query filters.
@@ -114,13 +110,11 @@ class FilterRegistry
         $defaults = [
             // Geographic filters
             'country'          => CountryFilter::class,
-            'continent'        => ContinentFilter::class,
             'city'             => CityFilter::class,
             'region'           => RegionFilter::class,
 
             // Device filters
             'browser'          => BrowserFilter::class,
-            'browser_version'  => BrowserVersionFilter::class,
             'os'               => OsFilter::class,
             'device_type'      => DeviceTypeFilter::class,
             'resolution'       => ResolutionFilter::class,
@@ -135,7 +129,6 @@ class FilterRegistry
             // Content filters
             'post_type'        => PostTypeFilter::class,
             'author'           => AuthorFilter::class,
-            'taxonomy_type'    => TaxonomyTypeFilter::class,
             'page'             => PageFilter::class,
             'resource_id'      => ResourceIdFilter::class,
 
@@ -158,7 +151,6 @@ class FilterRegistry
             'timezone'         => TimezoneFilter::class,
 
             // Event filters
-            'event_name'       => EventNameFilter::class,
             'event_page_id'    => EventPageIdFilter::class,
         ];
 

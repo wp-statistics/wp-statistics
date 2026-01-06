@@ -72,11 +72,9 @@ function simulateEagerFilterRegistry(): array {
     $filters = [];
     $filterClasses = [
         \WP_Statistics\Service\AnalyticsQuery\Filters\CountryFilter::class,
-        \WP_Statistics\Service\AnalyticsQuery\Filters\ContinentFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\CityFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\RegionFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\BrowserFilter::class,
-        \WP_Statistics\Service\AnalyticsQuery\Filters\BrowserVersionFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\OsFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\DeviceTypeFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\ResolutionFilter::class,
@@ -87,7 +85,6 @@ function simulateEagerFilterRegistry(): array {
         \WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerNameFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\PostTypeFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\AuthorFilter::class,
-        \WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyTypeFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\PageFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\ResourceIdFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\UserIdFilter::class,
@@ -104,7 +101,6 @@ function simulateEagerFilterRegistry(): array {
         \WP_Statistics\Service\AnalyticsQuery\Filters\BounceFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\LanguageFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\TimezoneFilter::class,
-        \WP_Statistics\Service\AnalyticsQuery\Filters\EventNameFilter::class,
         \WP_Statistics\Service\AnalyticsQuery\Filters\EventPageIdFilter::class,
     ];
 

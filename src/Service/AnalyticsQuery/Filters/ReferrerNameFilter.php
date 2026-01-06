@@ -42,6 +42,13 @@ class ReferrerNameFilter extends AbstractFilter
     ];
 
     /**
+     * UI input component type.
+     *
+     * @var string Input type: searchable
+     */
+    protected $inputType = 'searchable';
+
+    /**
      * Allowed comparison operators.
      *
      * @var array Operators: is, is_not, in, not_in, contains, starts_with, ends_with
@@ -61,5 +68,30 @@ class ReferrerNameFilter extends AbstractFilter
     public function getLabel(): string
     {
         return esc_html__('Referrer Name', 'wp-statistics');
+    }
+
+    /**
+     * Search referrer name options via AJAX.
+     *
+     * @param string $search Search term.
+     * @param int    $limit  Maximum results.
+     * @return array Array of options with 'value' and 'label'.
+     */
+    public function searchOptions(string $search = '', int $limit = 20): array
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'statistics_referrers';
+
+        $sql = "SELECT DISTINCT name as value, name as label FROM {$table} WHERE name != ''";
+
+        if (!empty($search)) {
+            $sql .= $wpdb->prepare(" AND name LIKE %s", '%' . $wpdb->esc_like($search) . '%');
+        }
+
+        $sql .= " ORDER BY name ASC LIMIT %d";
+        $sql  = $wpdb->prepare($sql, $limit);
+
+        return $wpdb->get_results($sql, ARRAY_A) ?: [];
     }
 }

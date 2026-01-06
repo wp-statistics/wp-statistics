@@ -42,7 +42,7 @@ class SessionDurationFilter extends AbstractFilter
      *
      * @var array Operators: gt, lt, between
      */
-    protected $supportedOperators = ['gt', 'lt', 'between'];
+    protected $supportedOperators = ['gt', 'gte', 'lt', 'lte', 'between'];
 
     /**
      * Pages where this filter is available.
