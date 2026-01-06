@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\BackgroundProcessFactory;
 
 /**
  * Daily Summary Cron Event.

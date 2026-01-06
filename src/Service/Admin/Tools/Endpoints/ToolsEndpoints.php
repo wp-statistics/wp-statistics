@@ -3,11 +3,13 @@
 namespace WP_Statistics\Service\Admin\Tools\Endpoints;
 
 use WP_Statistics\Components\Ajax;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\User;
 use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Database\DatabaseSchema;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
+use WP_Statistics\BackgroundProcess\BackgroundProcessMonitor;
 use Exception;
 
 /**
@@ -35,6 +37,7 @@ class ToolsEndpoints
         'run_task'         => 'runScheduledTask',
         'schema_check'     => 'checkSchema',
         'schema_repair'    => 'repairSchema',
+        'background_jobs'  => 'getBackgroundJobs',
     ];
 
     /**
@@ -110,7 +113,7 @@ class ToolsEndpoints
                 'version'    => WP_STATISTICS_VERSION,
                 'db_version' => get_option('wp_statistics_db_version', '-'),
                 'php'        => PHP_VERSION,
-                'mysql'      => $this->getMysqlVersion(),
+                'mysql'      => $GLOBALS['wpdb']->db_version(),
                 'wp'         => get_bloginfo('version'),
             ],
         ]);
@@ -204,6 +207,95 @@ class ToolsEndpoints
     }
 
     /**
+     * Get background jobs status.
+     *
+     * Returns information about all registered background processes
+     * including their current status and progress.
+     *
+     * @return void
+     */
+    private function getBackgroundJobs(): void
+    {
+        // Define known background jobs with metadata
+        $jobDefinitions = [
+            'calculate_post_words_count' => [
+                'label'       => __('Post Word Count', 'wp-statistics'),
+                'description' => __('Calculates word count for posts without this meta.', 'wp-statistics'),
+                'optionKey'   => 'word_count_process_initiated',
+            ],
+            'update_unknown_visitor_geoip' => [
+                'label'       => __('Visitor GeoIP Update', 'wp-statistics'),
+                'description' => __('Updates location data for visitors with incomplete GeoIP info.', 'wp-statistics'),
+                'optionKey'   => 'update_geoip_process_initiated',
+            ],
+            'geolocation_database_download' => [
+                'label'       => __('GeoIP Database Download', 'wp-statistics'),
+                'description' => __('Downloads and updates the GeoIP database.', 'wp-statistics'),
+                'optionKey'   => null,
+            ],
+            'update_visitors_source_channel' => [
+                'label'       => __('Source Channel Update', 'wp-statistics'),
+                'description' => __('Updates source channel data for visitors.', 'wp-statistics'),
+                'optionKey'   => 'update_source_channel_process_initiated',
+            ],
+            'calculate_daily_summary' => [
+                'label'       => __('Daily Summary', 'wp-statistics'),
+                'description' => __('Calculates daily metrics summary for resources.', 'wp-statistics'),
+                'optionKey'   => 'calculate_daily_summary_initiated',
+            ],
+            'calculate_daily_summary_total' => [
+                'label'       => __('Daily Summary Totals', 'wp-statistics'),
+                'description' => __('Calculates site-wide daily summary totals.', 'wp-statistics'),
+                'optionKey'   => 'calculate_daily_summary_total_initiated',
+            ],
+            'update_resouce_cache_fields' => [
+                'label'       => __('Resource Cache Update', 'wp-statistics'),
+                'description' => __('Updates cache fields for all resources.', 'wp-statistics'),
+                'optionKey'   => 'update_resouce_cache_fields_initiated',
+            ],
+        ];
+
+        $jobs = [];
+
+        foreach ($jobDefinitions as $key => $definition) {
+            // Get progress from BackgroundProcessMonitor
+            $progress = BackgroundProcessMonitor::getStatus($key);
+
+            // Determine job status
+            $status = 'idle';
+            if ($progress['total'] > 0 && $progress['remain'] > 0) {
+                $status = 'running';
+            } elseif ($progress['total'] > 0 && $progress['remain'] === 0 && $progress['completed'] > 0) {
+                $status = 'idle'; // Completed
+            }
+
+            // Check if job was initiated via option
+            $isInitiated = false;
+            if (!empty($definition['optionKey'])) {
+                $isInitiated = Option::getGroupValue('jobs', $definition['optionKey'], false);
+            }
+
+            // Build job info
+            $jobs[] = [
+                'key'         => $key,
+                'label'       => $definition['label'],
+                'description' => $definition['description'],
+                'status'      => $status,
+                'progress'    => $status === 'running' ? [
+                    'total'      => $progress['total'],
+                    'completed'  => $progress['completed'],
+                    'remain'     => $progress['remain'],
+                    'percentage' => $progress['percentage'],
+                ] : null,
+            ];
+        }
+
+        wp_send_json_success([
+            'jobs' => $jobs,
+        ]);
+    }
+
+    /**
      * Verify the AJAX request.
      *
      * @throws Exception If verification fails.
@@ -222,19 +314,5 @@ class ToolsEndpoints
         if (!check_ajax_referer('wp_statistics_dashboard_nonce', 'wps_nonce', false)) {
             throw new Exception(__('Security check failed. Please refresh the page and try again.', 'wp-statistics'));
         }
-    }
-
-    /**
-     * Get MySQL version.
-     *
-     * @return string
-     */
-    private function getMysqlVersion(): string
-    {
-        global $wpdb;
-
-        $version = $wpdb->get_var('SELECT VERSION()');
-
-        return $version ?: '-';
     }
 }

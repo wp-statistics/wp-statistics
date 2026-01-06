@@ -8,15 +8,20 @@ use WP_Statistics\Service\Database\DatabaseSchema;
 use WP_Statistics\Service\ImportExport\ImportExportManager;
 use WP_Statistics\Service\Options\OptionManager;
 use WP_Statistics\Utils\FileSystem;
+use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\User;
+use Exception;
 
 /**
  * Import/Export AJAX Endpoints.
  *
- * Handles all AJAX requests for import/export functionality.
- * Uses Admin AJAX instead of REST API to avoid ad-blocker issues.
+ * Provides centralized endpoints with sub_action parameter for:
+ * - Import operations (adapters, upload, preview, start, status, cancel)
+ * - Export operations (start, download)
+ * - Backup operations (list, create, delete, download, restore)
+ * - Data management (purge)
  *
- * All endpoints are admin-only (false = no public access).
+ * Uses `wp_statistics_import_export` action with `sub_action` parameter.
  *
  * @since 15.0.0
  */
@@ -30,6 +35,32 @@ class ImportExportEndpoints
     private $manager;
 
     /**
+     * Available sub-actions and their handler methods.
+     *
+     * @var array<string, string>
+     */
+    private $subActions = [
+        // Import operations
+        'get_adapters'   => 'getAdapters',
+        'upload'         => 'uploadFile',
+        'preview'        => 'preview',
+        'start_import'   => 'startImport',
+        'get_status'     => 'getStatus',
+        'cancel_import'  => 'cancelImport',
+        // Export operations
+        'start_export'   => 'startExport',
+        'download'       => 'download',
+        // Backup operations
+        'list_backups'   => 'listBackups',
+        'create_backup'  => 'createBackup',
+        'delete_backup'  => 'deleteBackup',
+        'download_backup' => 'downloadBackup',
+        'restore_backup' => 'restoreBackup',
+        // Data management
+        'purge_data'     => 'purgeDataNow',
+    ];
+
+    /**
      * Constructor.
      *
      * @param ImportExportManager $manager The import/export manager
@@ -40,66 +71,67 @@ class ImportExportEndpoints
     }
 
     /**
-     * Register all AJAX endpoints.
+     * Register AJAX endpoint.
      *
      * @return void
      */
     public function register(): void
     {
-        // All endpoints are admin-only (false = no public access)
-        Ajax::register('import_adapters', [$this, 'getAdapters'], false);
-        Ajax::register('import_upload', [$this, 'uploadFile'], false);
-        Ajax::register('import_preview', [$this, 'preview'], false);
-        Ajax::register('import_start', [$this, 'startImport'], false);
-        Ajax::register('import_status', [$this, 'getStatus'], false);
-        Ajax::register('import_cancel', [$this, 'cancelImport'], false);
-        Ajax::register('export_start', [$this, 'startExport'], false);
-        Ajax::register('export_download', [$this, 'download'], false);
-        Ajax::register('backups_list', [$this, 'listBackups'], false);
-        Ajax::register('backup_delete', [$this, 'deleteBackup'], false);
-        Ajax::register('backup_download', [$this, 'downloadBackup'], false);
-        Ajax::register('backup_restore', [$this, 'restoreBackup'], false);
-        Ajax::register('backup_create', [$this, 'createBackup'], false);
-        Ajax::register('purge_data_now', [$this, 'purgeDataNow'], false);
+        // Single centralized endpoint with sub_action parameter
+        Ajax::register('import_export', [$this, 'handleRequest'], false);
     }
 
     /**
-     * Verify request security.
+     * Handle incoming requests and route to appropriate sub-action.
      *
-     * Accepts either the import_export nonce or the dashboard nonce
-     * for flexibility when called from different React contexts.
-     *
-     * @return bool|void Returns true if valid, sends error response otherwise
+     * @return void
      */
-    private function verifyRequest()
+    public function handleRequest(): void
     {
-        // Check nonce from header
-        $nonce = sanitize_text_field($_SERVER['HTTP_X_WP_NONCE'] ?? '');
+        try {
+            $this->verifyRequest();
 
-        if (empty($nonce)) {
-            // Fallback to POST/GET parameter
-            $nonce = sanitize_text_field($_REQUEST['_wpnonce'] ?? '');
-        }
+            $subAction = sanitize_key(Request::get('sub_action', ''));
 
-        // Accept either import_export nonce or dashboard nonce
-        $validNonce = wp_verify_nonce($nonce, 'wp_statistics_import_export_nonce')
-                   || wp_verify_nonce($nonce, 'wp_statistics_dashboard_nonce');
+            if (empty($subAction)) {
+                throw new Exception(__('Sub-action is required.', 'wp-statistics'));
+            }
 
-        if (!$validNonce) {
+            if (!isset($this->subActions[$subAction])) {
+                throw new Exception(
+                    sprintf(__('Invalid sub-action: %s', 'wp-statistics'), $subAction)
+                );
+            }
+
+            $method = $this->subActions[$subAction];
+            $this->$method();
+        } catch (Exception $e) {
             wp_send_json_error([
-                'code'    => 'bad_nonce',
-                'message' => __('Security check failed. Please refresh the page and try again.', 'wp-statistics')
-            ], 403);
+                'code'    => 'import_export_error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Verify the AJAX request.
+     *
+     * @throws Exception If verification fails.
+     * @return void
+     */
+    private function verifyRequest(): void
+    {
+        if (!Request::isFrom('ajax')) {
+            throw new Exception(__('Invalid request.', 'wp-statistics'));
         }
 
-        if (!User::hasAccess()) {
-            wp_send_json_error([
-                'code'    => 'forbidden',
-                'message' => __('You do not have permission to perform this action.', 'wp-statistics')
-            ], 403);
+        if (!User::hasAccess('manage')) {
+            throw new Exception(__('You do not have permission to perform this action.', 'wp-statistics'));
         }
 
-        return true;
+        if (!check_ajax_referer('wp_statistics_dashboard_nonce', 'wps_nonce', false)) {
+            throw new Exception(__('Security check failed. Please refresh the page and try again.', 'wp-statistics'));
+        }
     }
 
     /**
@@ -109,7 +141,6 @@ class ImportExportEndpoints
      */
     public function getAdapters(): void
     {
-        $this->verifyRequest();
 
         try {
             $adapters = $this->manager->getAdaptersMetadata();
@@ -132,7 +163,6 @@ class ImportExportEndpoints
      */
     public function uploadFile(): void
     {
-        $this->verifyRequest();
 
         try {
             if (empty($_FILES['file'])) {
@@ -207,7 +237,6 @@ class ImportExportEndpoints
      */
     public function preview(): void
     {
-        $this->verifyRequest();
 
         try {
             $importId = sanitize_text_field($_POST['import_id'] ?? '');
@@ -270,7 +299,6 @@ class ImportExportEndpoints
      */
     public function startImport(): void
     {
-        $this->verifyRequest();
 
         try {
             $importId     = sanitize_text_field($_POST['import_id'] ?? '');
@@ -298,8 +326,7 @@ class ImportExportEndpoints
 
             set_transient('wp_statistics_import_' . $importId, $importData, DAY_IN_SECONDS);
 
-            // Queue background processing
-            // TODO: Queue via AjaxBackgroundProcess
+            // TODO: Queue via BackgroundProcessFactory for large imports
 
             wp_send_json_success([
                 'import_id' => $importId,
@@ -321,7 +348,6 @@ class ImportExportEndpoints
      */
     public function getStatus(): void
     {
-        $this->verifyRequest();
 
         try {
             $importId = sanitize_text_field($_REQUEST['import_id'] ?? '');
@@ -360,7 +386,6 @@ class ImportExportEndpoints
      */
     public function cancelImport(): void
     {
-        $this->verifyRequest();
 
         try {
             $importId = sanitize_text_field($_POST['import_id'] ?? '');
@@ -398,7 +423,6 @@ class ImportExportEndpoints
      */
     public function startExport(): void
     {
-        $this->verifyRequest();
 
         try {
             $dateFrom = sanitize_text_field($_POST['date_from'] ?? '');
@@ -441,7 +465,6 @@ class ImportExportEndpoints
      */
     public function download(): void
     {
-        $this->verifyRequest();
 
         try {
             $exportId = sanitize_text_field($_REQUEST['export_id'] ?? '');
@@ -489,7 +512,6 @@ class ImportExportEndpoints
      */
     public function listBackups(): void
     {
-        $this->verifyRequest();
 
         try {
             $backupDir = FileSystem::getBackupsDir();
@@ -530,7 +552,6 @@ class ImportExportEndpoints
      */
     public function deleteBackup(): void
     {
-        $this->verifyRequest();
 
         try {
             $fileName = sanitize_file_name($_POST['file_name'] ?? '');
@@ -590,7 +611,6 @@ class ImportExportEndpoints
      */
     public function purgeDataNow(): void
     {
-        $this->verifyRequest();
 
         try {
             $mode = OptionManager::get('data_retention_mode', 'forever');
@@ -654,7 +674,6 @@ class ImportExportEndpoints
      */
     public function downloadBackup(): void
     {
-        $this->verifyRequest();
 
         try {
             $fileName = sanitize_file_name($_REQUEST['file_name'] ?? '');
@@ -693,7 +712,6 @@ class ImportExportEndpoints
      */
     public function restoreBackup(): void
     {
-        $this->verifyRequest();
 
         try {
             $fileName = sanitize_file_name($_POST['file_name'] ?? '');
@@ -776,7 +794,6 @@ class ImportExportEndpoints
      */
     public function createBackup(): void
     {
-        $this->verifyRequest();
 
         try {
             global $wpdb;

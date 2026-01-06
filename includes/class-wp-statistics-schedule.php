@@ -2,7 +2,7 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory;
+use WP_Statistics\BackgroundProcess\BackgroundProcessFactory;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Components\DateTime;
@@ -17,7 +17,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
  *
  * @deprecated 15.0.0 Use \WP_Statistics\Components\Event for scheduling instead.
  * @see \WP_Statistics\Components\Event
- * @see \WP_Statistics\BackgroundProcess\AsyncBackgroundProcess\BackgroundProcessFactory
+ * @see \WP_Statistics\BackgroundProcess\BackgroundProcessFactory
  *
  * This class is maintained for backward compatibility with add-ons.
  * New code should use the Event component for cron scheduling.
