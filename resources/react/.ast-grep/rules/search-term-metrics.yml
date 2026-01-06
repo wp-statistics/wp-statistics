@@ -1,0 +1,36 @@
+# Rule: Search Term Reports Should Use Searches Metric
+#
+# Context: When group_by is 'search_term', we're aggregating by search queries.
+# Using 'visitors' or 'views' may give misleading counts since the same visitor
+# can search multiple times, and views aren't directly related to searches.
+#
+# Use 'searches' metric instead for accurate search analytics.
+
+id: search-term-appropriate-metrics
+message: "Search term reports should use 'searches' metric"
+note: |
+  Using 'visitors' or 'views' for search terms may give misleading counts.
+  The same visitor can search multiple times (inflating/deflating counts).
+
+  Consider: Use 'searches' source for accurate search term analytics.
+severity: hint
+language: typescript
+rule:
+  all:
+    - inside:
+        kind: object
+        has:
+          kind: pair
+          all:
+            - has:
+                kind: property_identifier
+                regex: "group_by"
+            - has:
+                kind: array
+                has:
+                  kind: string
+                  regex: "'search_term'"
+    - kind: string
+      any:
+        - regex: "'visitors'"
+        - regex: "'views'"

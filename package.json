@@ -27,6 +27,7 @@
     "preview:react": "vite preview --config vite.config.react.ts",
     "lint:react": "eslint resources/react/src --config eslint.config.react.js",
     "lint:react:fix": "eslint resources/react/src --config eslint.config.react.js --fix",
+    "lint:analytics": "pnpm --package=@ast-grep/cli dlx sg scan resources/react/src --config resources/react/.ast-grep/sgconfig.yml",
     "format:react": "prettier --write \"resources/react/**/*.{ts,tsx,js,jsx,json,css,scss,md}\" --config .prettierrc",
     "format:react:check": "prettier --check \"resources/react/**/*.{ts,tsx,js,jsx,json,css,scss,md}\" --config .prettierrc",
     "storybook": "storybook dev -p 6006",

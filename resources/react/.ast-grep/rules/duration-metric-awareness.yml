@@ -1,0 +1,22 @@
+# Rule: General Duration Metric Awareness
+#
+# Purpose: A gentle reminder to verify the context when using avg_session_duration.
+# This helps developers consciously consider whether they need:
+#   - avg_session_duration: Total session time (visitor-level)
+#   - avg_time_on_page: Time on specific page (page-level)
+#
+# This is a hint-level rule to encourage mindful metric selection.
+
+id: duration-metric-awareness
+message: "Verify: avg_session_duration (visitor-level) vs avg_time_on_page (page-level)"
+note: |
+  Duration metrics have different meanings:
+  - avg_session_duration: Total time visitor spent in session (from sessions table)
+  - avg_time_on_page: Time spent on specific page (from views table)
+
+  Ensure you're using the correct metric for your report context.
+severity: hint
+language: typescript
+rule:
+  kind: string
+  regex: "'avg_session_duration'"
