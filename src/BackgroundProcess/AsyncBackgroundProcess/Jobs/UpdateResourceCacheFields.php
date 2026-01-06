@@ -42,7 +42,6 @@ class UpdateResourceCacheFields extends ExtendedBackgroundProcess
 
         $resources = Query::select('ID')
             ->from('resources')
-            ->where('resource_type', 'IN', PostType::getQueryableTypes())
             ->perPage($item['offset'], $item['limit'])
             ->getAll();
 

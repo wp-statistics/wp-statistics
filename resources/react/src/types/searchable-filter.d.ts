@@ -14,6 +14,7 @@ type SearchableFilterFieldName =
   | 'referrer_domain'
   | 'referrer_name'
   | 'resolution'
+  | 'resource_id'
 
 // Response types for filter options API
 interface FilterOptionItem {

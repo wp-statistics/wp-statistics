@@ -163,7 +163,7 @@ class ResourceSynchronizer
             return;
         }
 
-        $taxonomies = get_object_taxonomies($postType, 'WP_Statistics_names');
+        $taxonomies = get_object_taxonomies($postType, 'names');
 
         if (empty($taxonomies)) {
             return;

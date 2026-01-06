@@ -139,6 +139,9 @@ class ResourceDetector
             $this->setTitle();
             $this->setAuthorDetails();
             $this->setPostStatus();
+        } else {
+            // Set title for excluded types (taxonomies, special pages)
+            $this->setTitleForSpecialTypes();
         }
     }
 
@@ -359,6 +362,60 @@ class ResourceDetector
     }
 
     /**
+     * Sets title for special resource types (taxonomies, archives, special pages).
+     *
+     * @return void
+     */
+    private function setTitleForSpecialTypes()
+    {
+        // Taxonomy types - get term name
+        if (taxonomy_exists($this->resourceType) && !empty($this->resourceId)) {
+            $term = get_term((int) $this->resourceId, $this->resourceType);
+            if ($term && !is_wp_error($term)) {
+                $this->cachedTitle = $term->name;
+                return;
+            }
+        }
+
+        // Author archive - get author display name
+        if ($this->resourceType === 'author_archive' && !empty($this->resourceId)) {
+            $author = get_user_by('id', (int) $this->resourceId);
+            if ($author) {
+                $this->cachedTitle = $author->display_name;
+                return;
+            }
+        }
+
+        // Date archive - format the date
+        if ($this->resourceType === 'date_archive' && !empty($this->resourceId)) {
+            $this->cachedTitle = (string) $this->resourceId;
+            return;
+        }
+
+        // Post type archive - get post type label
+        if ($this->resourceType === 'post_type_archive' && !empty($this->resourceId)) {
+            $postType = get_post_type_object($this->resourceId);
+            if ($postType) {
+                $this->cachedTitle = $postType->labels->name;
+                return;
+            }
+        }
+
+        // Special pages fallbacks
+        $fallbacks = [
+            'home'    => __('Home', 'wp-statistics'),
+            'search'  => __('Search', 'wp-statistics'),
+            '404'     => __('404', 'wp-statistics'),
+            'feed'    => __('Feed', 'wp-statistics'),
+            'archive' => __('Archive', 'wp-statistics'),
+        ];
+
+        if (isset($fallbacks[$this->resourceType])) {
+            $this->cachedTitle = $fallbacks[$this->resourceType];
+        }
+    }
+
+    /**
      * Gathers taxonomies/terms for this post_type and encodes them as JSON.
      *
      * @return void
@@ -374,7 +431,7 @@ class ResourceDetector
             return;
         }
 
-        $taxonomies = get_object_taxonomies($postType, 'WP_Statistics_names');
+        $taxonomies = get_object_taxonomies($postType, 'names');
 
         if (empty($taxonomies)) {
             return;
