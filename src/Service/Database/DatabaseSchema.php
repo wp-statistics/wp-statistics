@@ -51,15 +51,23 @@ class DatabaseSchema
     ];
 
     /**
-     * Addon tables.
+     * Addon tables grouped by addon slug.
      *
-     * @var array
+     * @var array<string, array{name: string, tables: string[]}>
      */
     private static $addonTables = [
-        'events',      // Data Plus
-        'ar_outbox',   // Advanced Reporting
-        'campaigns',   // Marketing
-        'goals',       // Marketing
+        'data-plus' => [
+            'name'   => 'Data Plus',
+            'tables' => ['events'],
+        ],
+        'advanced-reporting' => [
+            'name'   => 'Advanced Reporting',
+            'tables' => ['ar_outbox'],
+        ],
+        'marketing' => [
+            'name'   => 'Marketing',
+            'tables' => ['campaigns', 'goals'],
+        ],
     ];
 
     /**
@@ -245,6 +253,40 @@ class DatabaseSchema
     }
 
     /**
+     * Check if a table is an add-on table.
+     *
+     * @param string $tableKey Table key.
+     * @return bool
+     */
+    public static function isAddonTable(string $tableKey): bool
+    {
+        foreach (self::$addonTables as $addon) {
+            if (in_array($tableKey, $addon['tables'], true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the add-on name for a table.
+     *
+     * @param string $tableKey Table key.
+     * @return string|null Add-on name or null if not an add-on table.
+     */
+    public static function getAddonName(string $tableKey): ?string
+    {
+        foreach (self::$addonTables as $addon) {
+            if (in_array($tableKey, $addon['tables'], true)) {
+                return $addon['name'];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get human-readable table description.
      *
      * @param string $tableKey Table key.
@@ -253,38 +295,38 @@ class DatabaseSchema
     public static function getTableDescription(string $tableKey): string
     {
         $descriptions = [
-            // Legacy tables (v14)
-            'useronline'            => __('Legacy: Real-time online tracking (v14).', 'wp-statistics'),
-            'visitor'               => __('Legacy: Old visitor records (v14).', 'wp-statistics'),
-            'pages'                 => __('Legacy: Page view counts (v14).', 'wp-statistics'),
-            'historical'            => __('Legacy: Historical traffic data (v14).', 'wp-statistics'),
-            'visitor_relationships' => __('Legacy: Visitor-content links (v14).', 'wp-statistics'),
-            // Core tables (v15)
-            'exclusions'            => __('Logs excluded views (bots, specific IPs, etc.).', 'wp-statistics'),
-            'resources'             => __('Content metadata (posts, pages, custom types).', 'wp-statistics'),
-            'resource_uris'         => __('URI paths for resources.', 'wp-statistics'),
-            'parameters'            => __('URL query parameters.', 'wp-statistics'),
-            'views'                 => __('Individual page view records.', 'wp-statistics'),
-            'visitors'              => __('Unique visitor records with fingerprints.', 'wp-statistics'),
-            'sessions'              => __('Visitor sessions with device and location.', 'wp-statistics'),
-            'countries'             => __('Country lookup table.', 'wp-statistics'),
-            'cities'                => __('City lookup table.', 'wp-statistics'),
-            'device_types'          => __('Device type lookup (desktop, mobile, tablet).', 'wp-statistics'),
-            'device_browsers'       => __('Browser name lookup table.', 'wp-statistics'),
+            // Legacy tables
+            'useronline'              => __('Real-time online tracking.', 'wp-statistics'),
+            'visitor'                 => __('Old visitor records.', 'wp-statistics'),
+            'pages'                   => __('Page view counts.', 'wp-statistics'),
+            'historical'              => __('Historical traffic data.', 'wp-statistics'),
+            'visitor_relationships'   => __('Visitor-content links.', 'wp-statistics'),
+            // Core tables
+            'exclusions'              => __('Logs excluded views (bots, specific IPs, etc.).', 'wp-statistics'),
+            'resources'               => __('Content metadata (posts, pages, custom types).', 'wp-statistics'),
+            'resource_uris'           => __('URI paths for resources.', 'wp-statistics'),
+            'parameters'              => __('URL query parameters.', 'wp-statistics'),
+            'views'                   => __('Individual page view records.', 'wp-statistics'),
+            'visitors'                => __('Unique visitor records with fingerprints.', 'wp-statistics'),
+            'sessions'                => __('Visitor sessions with device and location.', 'wp-statistics'),
+            'countries'               => __('Country lookup table.', 'wp-statistics'),
+            'cities'                  => __('City lookup table.', 'wp-statistics'),
+            'device_types'            => __('Device type lookup (desktop, mobile, tablet).', 'wp-statistics'),
+            'device_browsers'         => __('Browser name lookup table.', 'wp-statistics'),
             'device_browser_versions' => __('Browser version lookup table.', 'wp-statistics'),
-            'device_oss'            => __('Operating system lookup table.', 'wp-statistics'),
-            'resolutions'           => __('Screen resolution lookup table.', 'wp-statistics'),
-            'languages'             => __('Language preference lookup table.', 'wp-statistics'),
-            'timezones'             => __('Timezone lookup table.', 'wp-statistics'),
-            'referrers'             => __('Referrer URL lookup table.', 'wp-statistics'),
-            'reports'               => __('Generated analytics reports.', 'wp-statistics'),
-            'summary'               => __('Daily metrics summary per resource.', 'wp-statistics'),
-            'summary_totals'        => __('Site-wide daily summary totals.', 'wp-statistics'),
+            'device_oss'              => __('Operating system lookup table.', 'wp-statistics'),
+            'resolutions'             => __('Screen resolution lookup table.', 'wp-statistics'),
+            'languages'               => __('Language preference lookup table.', 'wp-statistics'),
+            'timezones'               => __('Timezone lookup table.', 'wp-statistics'),
+            'referrers'               => __('Referrer URL lookup table.', 'wp-statistics'),
+            'reports'                 => __('Generated analytics reports.', 'wp-statistics'),
+            'summary'                 => __('Daily metrics summary per resource.', 'wp-statistics'),
+            'summary_totals'          => __('Site-wide daily summary totals.', 'wp-statistics'),
             // Addon tables
-            'events'                => __('Custom events (Data Plus add-on).', 'wp-statistics'),
-            'ar_outbox'             => __('Report queue (Advanced Reporting add-on).', 'wp-statistics'),
-            'campaigns'             => __('Marketing campaigns (Marketing add-on).', 'wp-statistics'),
-            'goals'                 => __('Marketing goals (Marketing add-on).', 'wp-statistics'),
+            'events'                  => __('Custom events tracking.', 'wp-statistics'),
+            'ar_outbox'               => __('Scheduled report queue.', 'wp-statistics'),
+            'campaigns'               => __('Marketing campaigns.', 'wp-statistics'),
+            'goals'                   => __('Marketing goals.', 'wp-statistics'),
         ];
 
         return $descriptions[$tableKey] ?? '';
@@ -388,6 +430,20 @@ class DatabaseSchema
     }
 
     /**
+     * Get all addon table keys as a flat array.
+     *
+     * @return string[]
+     */
+    private static function getAddonTableKeys(): array
+    {
+        $keys = [];
+        foreach (self::$addonTables as $addon) {
+            $keys = array_merge($keys, $addon['tables']);
+        }
+        return $keys;
+    }
+
+    /**
      * Build the table name cache.
      *
      * @return void
@@ -396,7 +452,7 @@ class DatabaseSchema
     {
         self::$tableCache = [];
 
-        $allTables = array_merge(self::$coreTables, self::$addonTables);
+        $allTables = array_merge(self::$coreTables, self::getAddonTableKeys());
 
         foreach ($allTables as $tableKey) {
             self::$tableCache[$tableKey] = self::generateTableName($tableKey);

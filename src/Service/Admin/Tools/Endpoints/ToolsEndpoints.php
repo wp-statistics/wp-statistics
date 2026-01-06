@@ -105,6 +105,8 @@ class ToolsEndpoints
                     : '-',
                 'engine'      => $tableInfo['Engine'] ?? '-',
                 'isLegacy'    => DatabaseSchema::isLegacyTable($key),
+                'isAddon'     => DatabaseSchema::isAddonTable($key),
+                'addonName'   => DatabaseSchema::getAddonName($key),
             ];
         }
 

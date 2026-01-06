@@ -31,6 +31,8 @@ interface TableInfo {
   size: string
   engine: string
   isLegacy: boolean
+  isAddon: boolean
+  addonName: string | null
 }
 
 interface PluginInfo {
@@ -376,6 +378,11 @@ export function SystemInfoPage() {
                         {table.isLegacy && (
                           <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
                             Legacy
+                          </Badge>
+                        )}
+                        {table.isAddon && (
+                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400">
+                            {table.addonName || 'Add-on'}
                           </Badge>
                         )}
                       </div>
