@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints;
+namespace WP_Statistics\Service\Admin\Dashboard\Endpoints;
 
 use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Service\AnalyticsQuery\Registry\FilterRegistry;

@@ -3,9 +3,11 @@
 namespace WP_Statistics\Service\Admin\ReactApp;
 
 use WP_Statistics\Service\Assets\AssetsFactory;
-use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\AnalyticsQuery;
-use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\FilterOptions;
-use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\UserPreferences;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\AnalyticsQuery;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\FilterOptions;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\UserPreferences;
+use WP_Statistics\Service\Admin\Settings\Endpoints\SettingsEndpoints;
 use WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\ReactApp\Providers\GlobalDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\HeaderDataProvider;
@@ -13,8 +15,6 @@ use WP_Statistics\Service\Admin\ReactApp\Providers\LayoutDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\FiltersProvider;
 use WP_Statistics\Service\ImportExport\Providers\ImportExportDataProvider;
 use WP_Statistics\Service\Admin\ReactApp\Providers\NetworkDataProvider;
-use WP_Statistics\Service\Admin\ReactApp\Requests\AjaxManager;
-use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\SettingsEndpoints;
 
 /**
  * React Application Manager for WP Statistics.

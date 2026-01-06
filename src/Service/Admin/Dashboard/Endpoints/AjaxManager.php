@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\ReactApp\Requests;
+namespace WP_Statistics\Service\Admin\Dashboard\Endpoints;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;

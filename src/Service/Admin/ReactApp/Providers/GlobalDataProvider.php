@@ -4,9 +4,9 @@ namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
-use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\AnalyticsQuery;
-use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\FilterOptions;
-use WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\UserPreferences;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\AnalyticsQuery;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\FilterOptions;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 
