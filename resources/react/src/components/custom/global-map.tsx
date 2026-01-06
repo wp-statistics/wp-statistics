@@ -3,7 +3,7 @@ import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/pan
 import { Tabs, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { getCountryCenter, getCountryZoomLevel } from '@lib/country-centers'
 import { createRegionMatcher, type RegionData } from '@lib/region-matcher'
-import { cn, formatDecimal } from '@lib/utils'
+import { calcSharePercentage, cn, formatDecimal } from '@lib/utils'
 import { getRegionsByCountryQueryOptions } from '@services/geographic/get-regions-by-country'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft, Loader2, Minus, Plus } from 'lucide-react'
@@ -410,7 +410,7 @@ export function GlobalMap({
     region: { name: string; visitors: number; views: number } | null
   ) => {
     const value = region ? region[selectedMetric] : 0
-    const percentage = (value / totalRegionValue) * 100
+    const percentage = calcSharePercentage(value, totalRegionValue)
 
     return (
       <div>

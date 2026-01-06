@@ -69,3 +69,27 @@ export function decodeText(text: string | undefined | null): string | undefined 
     return text
   }
 }
+
+/**
+ * Calculate a share/proportion percentage, capped at 100%
+ *
+ * Use this for "part of whole" calculations where the result should never exceed 100%.
+ * For example: logged-in visitors as a share of total visitors, or device type distribution.
+ *
+ * This prevents display issues when data inconsistencies cause part > whole.
+ *
+ * @param part - The subset value (e.g., logged-in visitors)
+ * @param total - The total value (e.g., all visitors)
+ * @returns Percentage between 0 and 100
+ *
+ * @example
+ * calcSharePercentage(50, 100)  // 50
+ * calcSharePercentage(100, 100) // 100
+ * calcSharePercentage(101, 100) // 100 (capped)
+ * calcSharePercentage(0, 0)     // 0
+ */
+export function calcSharePercentage(part: number, total: number): number {
+  if (total <= 0 || part <= 0) return 0
+  const percentage = (part / total) * 100
+  return Math.min(percentage, 100)
+}

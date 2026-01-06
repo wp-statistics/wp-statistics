@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
-import { decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -276,11 +276,11 @@ function RouteComponent() {
     const topReferrerName = metricsTopReferrer?.items?.[0]?.referrer_name
     const topSearchTerm = decodeText(metricsTopSearch?.items?.[0]?.search_term)
 
-    // Calculate logged-in share percentage
+    // Calculate logged-in share percentage (capped at 100% to handle data inconsistencies)
     const loggedInVisitors = Number(metricsLoggedIn?.totals?.visitors?.current) || 0
     const prevLoggedInVisitors = Number(metricsLoggedIn?.totals?.visitors?.previous) || 0
-    const loggedInShare = visitors > 0 ? (loggedInVisitors / visitors) * 100 : 0
-    const prevLoggedInShare = prevVisitors > 0 ? (prevLoggedInVisitors / prevVisitors) * 100 : 0
+    const loggedInShare = calcSharePercentage(loggedInVisitors, visitors)
+    const prevLoggedInShare = calcSharePercentage(prevLoggedInVisitors, prevVisitors)
 
     return [
       // Row 1: Numeric metrics with comparison
@@ -437,7 +437,7 @@ function RouteComponent() {
                       label: displayName,
                       value: currentValue,
                       percentage,
-                      fillPercentage: (currentValue / totalVisitors) * 100,
+                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
                       isNegative,
                       tooltipTitle: displayName,
                       tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
@@ -472,7 +472,7 @@ function RouteComponent() {
                       label: item.country_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
                       percentage,
-                      fillPercentage: (currentValue / totalVisitors) * 100,
+                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
                       isNegative,
                       tooltipTitle: item.country_name || '',
                       tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
@@ -508,7 +508,7 @@ function RouteComponent() {
                       label: item.device_type_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
                       percentage,
-                      fillPercentage: (currentValue / totalVisitors) * 100,
+                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
                       isNegative,
                       tooltipTitle: item.device_type_name || '',
                       tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
@@ -544,7 +544,7 @@ function RouteComponent() {
                       label: item.os_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
                       percentage,
-                      fillPercentage: (currentValue / totalVisitors) * 100,
+                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
                       isNegative,
                       tooltipTitle: item.os_name || '',
                       tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,

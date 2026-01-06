@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { __ } from '@wordpress/i18n'
 
 import { calcPercentage } from '@/hooks/use-percentage-calc'
+import { calcSharePercentage } from '@/lib/utils'
 
 /**
  * HorizontalBarItem interface matching the HorizontalBarList component
@@ -60,7 +61,7 @@ export function createBarListItem(input: BarListItemInput): HorizontalBarItem {
     label: name,
     value: currentValue,
     percentage,
-    fillPercentage: totalValue > 0 ? (currentValue / totalValue) * 100 : 0,
+    fillPercentage: calcSharePercentage(currentValue, totalValue),
     isNegative,
     icon,
     tooltipTitle: name,
