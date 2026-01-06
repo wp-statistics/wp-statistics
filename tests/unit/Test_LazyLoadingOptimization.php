@@ -5,7 +5,7 @@ namespace WP_Statistics\Tests;
 use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Cron\ScheduledEventInterface;
 use WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager;
-use WP_Statistics\Service\Admin\ReactApp\Requests\AjaxManager;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Service\Blocks\BlocksManager;
@@ -21,7 +21,7 @@ use ReflectionClass;
  *
  * @covers \WP_Statistics\Service\Cron\CronManager
  * @covers \WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager
- * @covers \WP_Statistics\Service\Admin\ReactApp\Requests\AjaxManager
+ * @covers \WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager
  * @covers \WP_Statistics\Service\Blocks\BlocksManager
  * @covers \WP_Statistics\Service\Tracking\TrackerControllerFactory
  *

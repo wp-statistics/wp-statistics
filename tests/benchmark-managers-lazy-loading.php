@@ -18,7 +18,7 @@ if (file_exists($wp_load_path)) {
 
 use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager;
-use WP_Statistics\Service\Admin\ReactApp\Requests\AjaxManager;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager;
 use WP_Statistics\Service\Blocks\BlocksManager;
 use WP_Statistics\Service\Tracking\TrackerControllerFactory;
 
@@ -138,9 +138,9 @@ $ajaxManager = new AjaxManager();
 
 // Register endpoint classes (simulating ReactAppManager behavior)
 $ajaxManager
-    ->registerGlobalEndpointClass(\WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\AnalyticsQuery::class, 'analytics')
-    ->registerGlobalEndpointClass(\WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\FilterOptions::class, 'get_filter_options')
-    ->registerGlobalEndpointClass(\WP_Statistics\Service\Admin\ReactApp\Controllers\Endpoints\UserPreferences::class, 'user_preferences');
+    ->registerGlobalEndpointClass(\WP_Statistics\Service\Admin\Dashboard\Endpoints\AnalyticsQuery::class, 'analytics')
+    ->registerGlobalEndpointClass(\WP_Statistics\Service\Admin\Dashboard\Endpoints\FilterOptions::class, 'get_filter_options')
+    ->registerGlobalEndpointClass(\WP_Statistics\Service\Admin\Dashboard\Endpoints\UserPreferences::class, 'user_preferences');
 
 $timeAfter = microtime(true);
 $memAfter = get_memory_usage_kb();
