@@ -35,8 +35,25 @@ const getConfig = () => {
   const wpsReact = (window as any).wps_react
   return {
     ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-    nonce: wpsReact?.importExport?.nonce || wpsReact?.globals?.nonce || '',
+    nonce: wpsReact?.globals?.nonce || '',
   }
+}
+
+// Helper to call tools endpoint with sub_action
+const callToolsApi = async (subAction: string, params: Record<string, string> = {}) => {
+  const config = getConfig()
+  const formData = new FormData()
+  formData.append('wps_nonce', config.nonce)
+  formData.append('sub_action', subAction)
+  Object.entries(params).forEach(([key, value]) => {
+    formData.append(key, value)
+  })
+
+  const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_tools`, {
+    method: 'POST',
+    body: formData,
+  })
+  return response.json()
 }
 
 export function ScheduledTasksPage() {
@@ -55,17 +72,7 @@ export function ScheduledTasksPage() {
 
   const fetchTasks = async () => {
     try {
-      const config = getConfig()
-      const response = await fetch(
-        `${config.ajaxUrl}?action=wp_statistics_scheduled_tasks`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-        }
-      )
-      const data = await response.json()
+      const data = await callToolsApi('scheduled_tasks')
 
       if (data.success) {
         setTasks(data.data.tasks || [])
@@ -86,22 +93,7 @@ export function ScheduledTasksPage() {
     setStatusMessage(null)
 
     try {
-      const config = getConfig()
-      const formData = new FormData()
-      formData.append('hook', hook)
-      formData.append('_wpnonce', config.nonce)
-
-      const response = await fetch(
-        `${config.ajaxUrl}?action=wp_statistics_run_scheduled_task`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
-      const data = await response.json()
+      const data = await callToolsApi('run_task', { hook })
 
       if (data.success) {
         setStatusMessage({

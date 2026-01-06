@@ -51,8 +51,25 @@ const getConfig = () => {
   const wpsReact = (window as any).wps_react
   return {
     ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-    nonce: wpsReact?.importExport?.nonce || wpsReact?.globals?.nonce || '',
+    nonce: wpsReact?.globals?.nonce || '',
   }
+}
+
+// Helper to call tools endpoint with sub_action
+const callToolsApi = async (subAction: string, params: Record<string, string> = {}) => {
+  const config = getConfig()
+  const formData = new FormData()
+  formData.append('wps_nonce', config.nonce)
+  formData.append('sub_action', subAction)
+  Object.entries(params).forEach(([key, value]) => {
+    formData.append(key, value)
+  })
+
+  const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_tools`, {
+    method: 'POST',
+    body: formData,
+  })
+  return response.json()
 }
 
 export function SystemInfoPage() {
@@ -74,17 +91,7 @@ export function SystemInfoPage() {
 
   const fetchSystemInfo = async () => {
     try {
-      const config = getConfig()
-      const response = await fetch(
-        `${config.ajaxUrl}?action=wp_statistics_system_info`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-        }
-      )
-      const data = await response.json()
+      const data = await callToolsApi('system_info')
 
       if (data.success) {
         setTables(data.data.tables || [])
@@ -106,17 +113,7 @@ export function SystemInfoPage() {
     setStatusMessage(null)
 
     try {
-      const config = getConfig()
-      const response = await fetch(
-        `${config.ajaxUrl}?action=wp_statistics_schema_check`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-        }
-      )
-      const data = await response.json()
+      const data = await callToolsApi('schema_check')
 
       if (data.success) {
         setSchemaStatus(data.data)
@@ -141,17 +138,7 @@ export function SystemInfoPage() {
     setStatusMessage(null)
 
     try {
-      const config = getConfig()
-      const response = await fetch(
-        `${config.ajaxUrl}?action=wp_statistics_schema_repair`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-        }
-      )
-      const data = await response.json()
+      const data = await callToolsApi('schema_repair')
 
       if (data.success) {
         setStatusMessage({

@@ -3,10 +3,8 @@
 namespace WP_Statistics\Service\ImportExport\Endpoints;
 
 use WP_Statistics\Components\Ajax;
-use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Cron\Events\DatabaseMaintenanceEvent;
 use WP_Statistics\Service\Database\DatabaseSchema;
-use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\ImportExport\ImportExportManager;
 use WP_Statistics\Service\Options\OptionManager;
 use WP_Statistics\Utils\FileSystem;
@@ -63,13 +61,6 @@ class ImportExportEndpoints
         Ajax::register('backup_restore', [$this, 'restoreBackup'], false);
         Ajax::register('backup_create', [$this, 'createBackup'], false);
         Ajax::register('purge_data_now', [$this, 'purgeDataNow'], false);
-
-        // System Info & Scheduled Tasks
-        Ajax::register('system_info', [$this, 'getSystemInfo'], false);
-        Ajax::register('scheduled_tasks', [$this, 'getScheduledTasks'], false);
-        Ajax::register('run_scheduled_task', [$this, 'runScheduledTask'], false);
-        Ajax::register('schema_check', [$this, 'checkSchema'], false);
-        Ajax::register('schema_repair', [$this, 'repairSchema'], false);
     }
 
     /**
@@ -860,185 +851,6 @@ class ImportExportEndpoints
         } catch (\Exception $e) {
             wp_send_json_error([
                 'code'    => 'backup_error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-    }
-
-    /**
-     * Get system information including database tables.
-     *
-     * @return void
-     */
-    public function getSystemInfo(): void
-    {
-        $this->verifyRequest();
-
-        try {
-            $tables = [];
-
-            foreach (DatabaseSchema::getAllTables(true) as $key => $tableName) {
-                $tableInfo = DatabaseSchema::getTableInfo($key);
-
-                $tables[] = [
-                    'key'         => $key,
-                    'name'        => $tableName,
-                    'description' => DatabaseSchema::getTableDescription($key),
-                    'records'     => DatabaseSchema::getRowCount($key),
-                    'size'        => isset($tableInfo['Data_length']) ? size_format($tableInfo['Data_length'] + ($tableInfo['Index_length'] ?? 0)) : '-',
-                    'engine'      => $tableInfo['Engine'] ?? '-',
-                ];
-            }
-
-            wp_send_json_success([
-                'tables' => $tables,
-                'plugin' => [
-                    'version'    => WP_STATISTICS_VERSION,
-                    'db_version' => get_option('wp_statistics_db_version', '-'),
-                    'php'        => PHP_VERSION,
-                    'mysql'      => $this->getMysqlVersion(),
-                    'wp'         => get_bloginfo('version'),
-                ],
-            ]);
-        } catch (\Exception $e) {
-            wp_send_json_error([
-                'code'    => 'system_info_error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-    }
-
-    /**
-     * Get MySQL version.
-     *
-     * @return string
-     */
-    private function getMysqlVersion(): string
-    {
-        global $wpdb;
-
-        $version = $wpdb->get_var('SELECT VERSION()');
-
-        return $version ?: '-';
-    }
-
-    /**
-     * Get scheduled tasks information.
-     *
-     * @return void
-     */
-    public function getScheduledTasks(): void
-    {
-        $this->verifyRequest();
-
-        try {
-            $events = CronManager::getScheduledEvents();
-
-            $tasks = [];
-            foreach ($events as $hook => $event) {
-                $tasks[] = [
-                    'hook'        => $hook,
-                    'label'       => $event['label'] ?? $hook,
-                    'recurrence'  => $event['recurrence'] ?? '-',
-                    'scheduled'   => $event['scheduled'] ?? false,
-                    'enabled'     => $event['enabled'] ?? false,
-                    'next_run'    => $event['next_run'] ?? null,
-                ];
-            }
-
-            wp_send_json_success([
-                'tasks' => $tasks,
-            ]);
-        } catch (\Exception $e) {
-            wp_send_json_error([
-                'code'    => 'scheduled_tasks_error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-    }
-
-    /**
-     * Run a scheduled task manually.
-     *
-     * @return void
-     */
-    public function runScheduledTask(): void
-    {
-        $this->verifyRequest();
-
-        try {
-            $hook = sanitize_text_field($_POST['hook'] ?? '');
-
-            if (empty($hook)) {
-                throw new \RuntimeException(__('Task hook is required.', 'wp-statistics'));
-            }
-
-            // Validate hook exists in our registered events
-            $events = CronManager::getScheduledEvents();
-            if (!isset($events[$hook])) {
-                throw new \RuntimeException(__('Invalid task hook.', 'wp-statistics'));
-            }
-
-            // Execute the cron event
-            do_action($hook);
-
-            wp_send_json_success([
-                'message' => __('Task executed successfully.', 'wp-statistics'),
-            ]);
-        } catch (\Exception $e) {
-            wp_send_json_error([
-                'code'    => 'run_task_error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-    }
-
-    /**
-     * Check database schema for issues.
-     *
-     * @return void
-     */
-    public function checkSchema(): void
-    {
-        $this->verifyRequest();
-
-        try {
-            $results = SchemaMaintainer::check();
-
-            wp_send_json_success([
-                'status' => $results['status'] ?? 'unknown',
-                'issues' => $results['issues'] ?? [],
-                'errors' => $results['errors'] ?? [],
-            ]);
-        } catch (\Exception $e) {
-            wp_send_json_error([
-                'code'    => 'schema_check_error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-    }
-
-    /**
-     * Repair database schema issues.
-     *
-     * @return void
-     */
-    public function repairSchema(): void
-    {
-        $this->verifyRequest();
-
-        try {
-            $results = SchemaMaintainer::repair();
-
-            wp_send_json_success([
-                'status'  => $results['status'] ?? 'unknown',
-                'fixed'   => $results['fixed'] ?? [],
-                'failed'  => $results['failed'] ?? [],
-                'message' => __('Schema repair completed.', 'wp-statistics'),
-            ]);
-        } catch (\Exception $e) {
-            wp_send_json_error([
-                'code'    => 'schema_repair_error',
                 'message' => $e->getMessage(),
             ]);
         }

@@ -14,6 +14,7 @@ use WP_Statistics\Service\Admin\Notification\NotificationManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
+use WP_Statistics\Service\Admin\Tools\Endpoints\ToolsEndpoints;
 use WP_Statistics\Service\EmailReport\EmailReportManager;
 use WP_Statistics\Service\ImportExport\ImportExportManager;
 
@@ -108,6 +109,13 @@ class AdminServiceProvider implements ServiceProvider
         $container->register('import_export', function () {
             return new ImportExportManager();
         });
+
+        // Tools Endpoints (system info, scheduled tasks, schema)
+        $container->register('tools_endpoints', function () {
+            $endpoints = new ToolsEndpoints();
+            $endpoints->register();
+            return $endpoints;
+        });
     }
 
     /**
@@ -136,6 +144,7 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('notifications');
             $container->get('anonymized_data');
             $container->get('import_export');
+            $container->get('tools_endpoints');
         }
     }
 }
