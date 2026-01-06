@@ -10,7 +10,7 @@ namespace WP_Statistics\Service\AnalyticsQuery\Sources;
 class AvgTimeOnPageSource extends AbstractSource
 {
     protected $name       = 'avg_time_on_page';
-    protected $expression = 'ROUND(AVG(views.duration), 0)';
+    protected $expression = 'ROUND(AVG(views.duration) / 1000, 0)';
     protected $table      = 'views';
     protected $type       = 'integer';
     protected $format     = 'duration';

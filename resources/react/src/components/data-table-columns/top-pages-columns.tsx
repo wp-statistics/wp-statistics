@@ -37,7 +37,7 @@ export const TOP_PAGES_COLUMN_CONFIG: ColumnConfig = {
     views: ['views'],
     viewsPerVisitor: ['visitors', 'views'],
     bounceRate: ['bounce_rate'],
-    sessionDuration: ['avg_session_duration'],
+    sessionDuration: ['avg_time_on_page'],
     viewPage: ['page_uri'],
   },
   context: TOP_PAGES_CONTEXT,
@@ -74,7 +74,7 @@ export function transformTopPageData(record: TopPageRecord): TopPage {
     visitors: Number(record.visitors) || 0,
     views: Number(record.views) || 0,
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
-    sessionDuration: Math.round(Number(record.avg_session_duration) || 0),
+    sessionDuration: Math.round(Number(record.avg_time_on_page) || 0),
   }
 }
 
@@ -151,12 +151,12 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'sessionDuration',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Avg. Duration" className="text-right" />,
+      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Avg. Time on Page" className="text-right" />,
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
       meta: {
         priority: 'secondary',
-        mobileLabel: 'Duration',
+        mobileLabel: 'Time on Page',
       },
     },
     {
