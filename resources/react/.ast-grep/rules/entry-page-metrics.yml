@@ -1,0 +1,34 @@
+# Rule: Entry Page Reports Should Only Use Visitor Count
+#
+# Context: When group_by is 'entry_page', we're aggregating by the first page
+# visitors landed on. Session-level metrics like avg_session_duration are
+# visitor-level, not entry-page-level, which may lead to misleading aggregations.
+#
+# Entry page reports typically only need 'visitors' count.
+
+id: entry-page-appropriate-metrics
+message: "Entry page reports should use 'visitors', not session duration metrics"
+note: |
+  Session metrics like avg_session_duration are visitor-level.
+  For entry page grouping, 'visitors' count is typically more appropriate.
+
+  Consider: Is this metric meaningful when grouped by entry page?
+severity: warning
+language: typescript
+rule:
+  all:
+    - inside:
+        kind: object
+        has:
+          kind: pair
+          all:
+            - has:
+                kind: property_identifier
+                regex: "group_by"
+            - has:
+                kind: array
+                has:
+                  kind: string
+                  regex: "'entry_page'"
+    - kind: string
+      regex: "'avg_session_duration'"

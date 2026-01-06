@@ -1,0 +1,34 @@
+# Rule: Page Reports Must NOT Use Session Duration
+#
+# Context: When group_by is 'page', we're aggregating by individual pages.
+# Using avg_session_duration (which is session-level) would show the same
+# duration for all pages in the same session, which is incorrect.
+#
+# Use avg_time_on_page instead for page-level reports.
+
+id: no-session-duration-in-page-reports
+message: "Page reports should use 'avg_time_on_page', not 'avg_session_duration'"
+note: |
+  avg_session_duration shows total session time (visitor-level metric).
+  All pages in the same session would show identical duration values.
+
+  Fix: Replace 'avg_session_duration' with 'avg_time_on_page' for page reports.
+severity: error
+language: typescript
+rule:
+  all:
+    - inside:
+        kind: object
+        has:
+          kind: pair
+          all:
+            - has:
+                kind: property_identifier
+                regex: "group_by"
+            - has:
+                kind: array
+                has:
+                  kind: string
+                  regex: "'page'"
+    - kind: string
+      regex: "'avg_session_duration'"
