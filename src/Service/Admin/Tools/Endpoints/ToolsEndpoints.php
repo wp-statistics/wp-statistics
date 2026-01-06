@@ -104,6 +104,7 @@ class ToolsEndpoints
                     ? size_format($tableInfo['Data_length'] + ($tableInfo['Index_length'] ?? 0))
                     : '-',
                 'engine'      => $tableInfo['Engine'] ?? '-',
+                'isLegacy'    => DatabaseSchema::isLegacyTable($key),
             ];
         }
 

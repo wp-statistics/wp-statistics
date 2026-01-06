@@ -30,6 +30,7 @@ interface TableInfo {
   records: number
   size: string
   engine: string
+  isLegacy: boolean
 }
 
 interface PluginInfo {
@@ -365,13 +366,18 @@ export function SystemInfoPage() {
               </TableHeader>
               <TableBody>
                 {tables.map((table) => (
-                  <TableRow key={table.key}>
+                  <TableRow key={table.key} className={table.isLegacy ? 'opacity-60' : ''}>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <HardDrive className="h-4 w-4 text-muted-foreground" />
                         <code className="text-xs bg-muted px-1.5 py-0.5 rounded">
                           {table.key}
                         </code>
+                        {table.isLegacy && (
+                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                            Legacy
+                          </Badge>
+                        )}
                       </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground">

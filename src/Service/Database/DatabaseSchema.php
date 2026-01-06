@@ -63,6 +63,19 @@ class DatabaseSchema
     ];
 
     /**
+     * Legacy tables (v14 schema, deprecated in v15).
+     *
+     * @var array
+     */
+    private static $legacyTables = [
+        'useronline',            // Replaced by real-time online visitors system
+        'visitor',               // Replaced by 'visitors' (normalized v15 schema)
+        'pages',                 // Replaced by 'views' table
+        'historical',            // Replaced by 'summary' and 'summary_totals'
+        'visitor_relationships', // Legacy visitor-content linking
+    ];
+
+    /**
      * Cached table WP_Statistics_names.
      *
      * @var array|null
@@ -221,6 +234,17 @@ class DatabaseSchema
     }
 
     /**
+     * Check if a table is a legacy table (deprecated in v15).
+     *
+     * @param string $tableKey Table key.
+     * @return bool
+     */
+    public static function isLegacyTable(string $tableKey): bool
+    {
+        return in_array($tableKey, self::$legacyTables, true);
+    }
+
+    /**
      * Get human-readable table description.
      *
      * @param string $tableKey Table key.
@@ -229,15 +253,36 @@ class DatabaseSchema
     public static function getTableDescription(string $tableKey): string
     {
         $descriptions = [
-            'useronline'            => __('Tracks users currently online on your website.', 'wp-statistics'),
-            'visitor'               => __('Records individual visitors and their activities.', 'wp-statistics'),
+            // Legacy tables (v14)
+            'useronline'            => __('Legacy: Real-time online tracking (v14).', 'wp-statistics'),
+            'visitor'               => __('Legacy: Old visitor records (v14).', 'wp-statistics'),
+            'pages'                 => __('Legacy: Page view counts (v14).', 'wp-statistics'),
+            'historical'            => __('Legacy: Historical traffic data (v14).', 'wp-statistics'),
+            'visitor_relationships' => __('Legacy: Visitor-content links (v14).', 'wp-statistics'),
+            // Core tables (v15)
             'exclusions'            => __('Logs excluded views (bots, specific IPs, etc.).', 'wp-statistics'),
-            'pages'                 => __('Stores page view counts.', 'wp-statistics'),
-            'historical'            => __('Contains historical traffic data.', 'wp-statistics'),
-            'visitor_relationships' => __('Links visitors to content interactions.', 'wp-statistics'),
-            'views'                 => __('Raw view/hit data.', 'wp-statistics'),
+            'resources'             => __('Content metadata (posts, pages, custom types).', 'wp-statistics'),
+            'resource_uris'         => __('URI paths for resources.', 'wp-statistics'),
+            'parameters'            => __('URL query parameters.', 'wp-statistics'),
+            'views'                 => __('Individual page view records.', 'wp-statistics'),
+            'visitors'              => __('Unique visitor records with fingerprints.', 'wp-statistics'),
+            'sessions'              => __('Visitor sessions with device and location.', 'wp-statistics'),
+            'countries'             => __('Country lookup table.', 'wp-statistics'),
+            'cities'                => __('City lookup table.', 'wp-statistics'),
+            'device_types'          => __('Device type lookup (desktop, mobile, tablet).', 'wp-statistics'),
+            'device_browsers'       => __('Browser name lookup table.', 'wp-statistics'),
+            'device_browser_versions' => __('Browser version lookup table.', 'wp-statistics'),
+            'device_oss'            => __('Operating system lookup table.', 'wp-statistics'),
+            'resolutions'           => __('Screen resolution lookup table.', 'wp-statistics'),
+            'languages'             => __('Language preference lookup table.', 'wp-statistics'),
+            'timezones'             => __('Timezone lookup table.', 'wp-statistics'),
+            'referrers'             => __('Referrer URL lookup table.', 'wp-statistics'),
+            'reports'               => __('Generated analytics reports.', 'wp-statistics'),
+            'summary'               => __('Daily metrics summary per resource.', 'wp-statistics'),
+            'summary_totals'        => __('Site-wide daily summary totals.', 'wp-statistics'),
+            // Addon tables
             'events'                => __('Custom events (Data Plus add-on).', 'wp-statistics'),
-            'ar_outbox'             => __('Report messages (Advanced Reporting add-on).', 'wp-statistics'),
+            'ar_outbox'             => __('Report queue (Advanced Reporting add-on).', 'wp-statistics'),
             'campaigns'             => __('Marketing campaigns (Marketing add-on).', 'wp-statistics'),
             'goals'                 => __('Marketing goals (Marketing add-on).', 'wp-statistics'),
         ];
