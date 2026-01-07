@@ -19,8 +19,7 @@ interface JourneyCellProps {
 export const JourneyCell = memo(function JourneyCell({ data, maxLength = 20 }: JourneyCellProps) {
   const { entryPage, exitPage, isBounce } = data
 
-  const truncate = (text: string) =>
-    text.length > maxLength ? `${text.substring(0, maxLength - 3)}...` : text
+  const truncate = (text: string) => (text.length > maxLength ? `${text.substring(0, maxLength - 3)}...` : text)
 
   // Bounce: show single page with bounce indicator
   if (isBounce) {

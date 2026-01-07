@@ -128,9 +128,7 @@ describe('region-matcher', () => {
       })
 
       it('should handle regions with zero values', () => {
-        const regionsWithZero: RegionItem[] = [
-          { region_name: 'Empty', visitors: 0, views: 0 },
-        ]
+        const regionsWithZero: RegionItem[] = [{ region_name: 'Empty', visitors: 0, views: 0 }]
 
         const matcher = createRegionMatcher(regionsWithZero)
 

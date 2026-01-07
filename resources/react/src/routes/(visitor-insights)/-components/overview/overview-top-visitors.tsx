@@ -135,7 +135,11 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
                 city: visitorInfo.country.city,
               },
               os: { icon: visitorInfo.os.icon, name: visitorInfo.os.name },
-              browser: { icon: visitorInfo.browser.icon, name: visitorInfo.browser.name, version: visitorInfo.browser.version },
+              browser: {
+                icon: visitorInfo.browser.icon,
+                name: visitorInfo.browser.name,
+                version: visitorInfo.browser.version,
+              },
               user: visitorInfo.user
                 ? {
                     id: visitorInfo.user.id,

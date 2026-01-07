@@ -150,7 +150,6 @@ function RouteComponent() {
   const topReferrersTotals = batchResponse?.data?.items?.top_referrers?.data?.totals
   const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
 
-
   // Transform chart format response to data points for LineChart component
   // Chart format: { labels: string[], datasets: [{ key, data, comparison? }] }
   // Previous data comes as separate datasets with key like "visitors_previous" and comparison: true
@@ -341,7 +340,11 @@ function RouteComponent() {
         <h1 className="text-xl font-semibold text-neutral-800">{__('Visitor Insights', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
+            <FilterButton
+              fields={filterFields}
+              appliedFilters={appliedFilters || []}
+              onApplyFilters={handleApplyFilters}
+            />
           )}
           <DateRangePicker
             initialDateFrom={dateFrom}
@@ -429,13 +432,17 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
                   return topReferrersData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
                     const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const displayName =
-                      item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics')
+                      item.referrer_name ||
+                      item.referrer_domain ||
+                      item.referrer_channel ||
+                      __('Direct', 'wp-statistics')
 
                     return {
                       label: displayName,
@@ -459,7 +466,8 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
                   return topCountriesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -530,7 +538,8 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Operating Systems', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1
                   return operatingSystemsData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0

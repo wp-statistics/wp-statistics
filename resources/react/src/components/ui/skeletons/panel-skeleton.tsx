@@ -31,12 +31,7 @@ export interface PanelSkeletonProps {
  *   <MetricsSkeleton count={8} columns={4} />
  * </PanelSkeleton>
  */
-export function PanelSkeleton({
-  showTitle = true,
-  titleWidth = 'w-28',
-  children,
-  className,
-}: PanelSkeletonProps) {
+export function PanelSkeleton({ showTitle = true, titleWidth = 'w-28', children, className }: PanelSkeletonProps) {
   return (
     <Panel className={className}>
       {showTitle && (

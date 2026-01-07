@@ -8,16 +8,11 @@ import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
-import { type MetricItem,Metrics } from '@/components/custom/metrics'
+import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
-import {
-  BarListSkeleton,
-  ChartSkeleton,
-  MetricsSkeleton,
-  PanelSkeleton,
-} from '@/components/ui/skeletons'
+import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -272,24 +267,26 @@ function ContentOverviewView() {
       label: __('Visitors', 'wp-statistics'),
       color: 'var(--chart-1)',
       enabled: true,
-      value: chartTotals.visitors >= 1000
-        ? `${formatDecimal(chartTotals.visitors / 1000)}k`
-        : formatDecimal(chartTotals.visitors),
-      previousValue: chartTotals.visitorsPrevious >= 1000
-        ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-        : formatDecimal(chartTotals.visitorsPrevious),
+      value:
+        chartTotals.visitors >= 1000
+          ? `${formatDecimal(chartTotals.visitors / 1000)}k`
+          : formatDecimal(chartTotals.visitors),
+      previousValue:
+        chartTotals.visitorsPrevious >= 1000
+          ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
+          : formatDecimal(chartTotals.visitorsPrevious),
     },
     {
       key: 'views',
       label: __('Views', 'wp-statistics'),
       color: 'var(--chart-2)',
       enabled: true,
-      value: chartTotals.views >= 1000
-        ? `${formatDecimal(chartTotals.views / 1000)}k`
-        : formatDecimal(chartTotals.views),
-      previousValue: chartTotals.viewsPrevious >= 1000
-        ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-        : formatDecimal(chartTotals.viewsPrevious),
+      value:
+        chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
+      previousValue:
+        chartTotals.viewsPrevious >= 1000
+          ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
+          : formatDecimal(chartTotals.viewsPrevious),
     },
   ]
 
@@ -407,7 +404,7 @@ function ContentOverviewView() {
           id: String(item.resource_id),
           title: item.page_title || item.page_uri,
           subtitle: `${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
-          thumbnail: item.thumbnail_url || undefined,
+          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
           href: `?resource_id=${item.resource_id}`,
         })),
         link: {
@@ -422,7 +419,7 @@ function ContentOverviewView() {
           id: String(item.resource_id),
           title: item.page_title || item.page_uri,
           subtitle: `${formatCompactNumber(Number(item.comments || 0))} ${__('comments', 'wp-statistics')} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
-          thumbnail: item.thumbnail_url || undefined,
+          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
           href: `?resource_id=${item.resource_id}`,
         })),
         // No link for Most Commented per spec
@@ -434,7 +431,7 @@ function ContentOverviewView() {
           id: String(item.resource_id),
           title: item.page_title || item.page_uri,
           subtitle: `${item.published_date || ''} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
-          thumbnail: item.thumbnail_url || undefined,
+          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
           href: `?resource_id=${item.resource_id}`,
         })),
         link: {
@@ -443,7 +440,7 @@ function ContentOverviewView() {
         },
       },
     ]
-  }, [batchResponse, apiDateParams, filtersForApi, postTypeLabel])
+  }, [batchResponse, apiDateParams, filtersForApi, postTypeLabel, pluginUrl])
 
   return (
     <div className="min-w-0">
@@ -452,7 +449,11 @@ function ContentOverviewView() {
         <h1 className="text-xl font-semibold text-neutral-800">{__('Content', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
-            <FilterButton fields={filterFields} appliedFilters={filtersForDisplay} onApplyFilters={handleContentApplyFilters} />
+            <FilterButton
+              fields={filterFields}
+              appliedFilters={filtersForDisplay}
+              onApplyFilters={handleContentApplyFilters}
+            />
           )}
           <DateRangePicker
             initialDateFrom={dateFrom}
@@ -483,7 +484,6 @@ function ContentOverviewView() {
             className="mb-2"
           />
         )}
-
 
         {showSkeleton || showFullPageLoading ? (
           <div className="grid gap-2 grid-cols-12">

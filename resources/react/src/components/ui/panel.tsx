@@ -69,32 +69,16 @@ function PanelTitle({ className, ...props }: React.ComponentProps<'h3'>) {
 }
 
 function PanelActions({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="panel-actions"
-      className={cn('flex items-center gap-2', className)}
-      {...props}
-    />
-  )
+  return <div data-slot="panel-actions" className={cn('flex items-center gap-2', className)} {...props} />
 }
 
 function PanelContent({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="panel-content"
-      className={cn('px-4 pb-4', className)}
-      {...props}
-    />
-  )
+  return <div data-slot="panel-content" className={cn('px-4 pb-4', className)} {...props} />
 }
 
 function PanelFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <div
-      data-slot="panel-footer"
-      className={cn('flex items-center justify-end px-4 py-3', className)}
-      {...props}
-    />
+    <div data-slot="panel-footer" className={cn('flex items-center justify-end px-4 py-3', className)} {...props} />
   )
 }
 
@@ -123,4 +107,4 @@ function PanelAction({ children, className, ...props }: React.ComponentProps<'bu
   )
 }
 
-export { Panel, PanelAction,PanelActions, PanelContent, PanelFooter, PanelHeader, PanelTitle }
+export { Panel, PanelAction, PanelActions, PanelContent, PanelFooter, PanelHeader, PanelTitle }

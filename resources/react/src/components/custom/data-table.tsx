@@ -137,9 +137,15 @@ export function DataTable<TData, TValue>({
       hasAppliedInitialVisibility.current = true
     }
     // Handle reset: if visibility changes after being initially applied (e.g., reset to defaults)
-    else if (hasAppliedInitialVisibility.current && currentKeys > 0 && prevKeys > 0 && initialColumnVisibility !== prevInitialVisibilityRef.current) {
+    else if (
+      hasAppliedInitialVisibility.current &&
+      currentKeys > 0 &&
+      prevKeys > 0 &&
+      initialColumnVisibility !== prevInitialVisibilityRef.current
+    ) {
       // Check if this is a reset (visibility changed significantly)
-      const visibilityChanged = JSON.stringify(initialColumnVisibility) !== JSON.stringify(prevInitialVisibilityRef.current)
+      const visibilityChanged =
+        JSON.stringify(initialColumnVisibility) !== JSON.stringify(prevInitialVisibilityRef.current)
       if (visibilityChanged) {
         setColumnVisibility(initialColumnVisibility!)
       }
@@ -163,7 +169,12 @@ export function DataTable<TData, TValue>({
       hasAppliedInitialColumnOrder.current = true
     }
     // Handle reset: if columnOrder prop becomes empty/undefined after being set
-    else if (hasAppliedInitialColumnOrder.current && (!columnOrder || columnOrder.length === 0) && prevColumnOrderRef.current && prevColumnOrderRef.current.length > 0) {
+    else if (
+      hasAppliedInitialColumnOrder.current &&
+      (!columnOrder || columnOrder.length === 0) &&
+      prevColumnOrderRef.current &&
+      prevColumnOrderRef.current.length > 0
+    ) {
       setInternalColumnOrder([])
       internalColumnOrderRef.current = []
       hasAppliedInitialColumnOrder.current = false
@@ -192,7 +203,8 @@ export function DataTable<TData, TValue>({
   // Handle column order changes from the table
   const handleColumnOrderChange = React.useCallback(
     (updaterOrValue: string[] | ((old: string[]) => string[])) => {
-      const newValue = typeof updaterOrValue === 'function' ? updaterOrValue(internalColumnOrderRef.current) : updaterOrValue
+      const newValue =
+        typeof updaterOrValue === 'function' ? updaterOrValue(internalColumnOrderRef.current) : updaterOrValue
       setInternalColumnOrder(newValue)
       internalColumnOrderRef.current = newValue
       if (onColumnOrderChange) {
@@ -309,9 +321,7 @@ export function DataTable<TData, TValue>({
           emptyStateMessage={emptyStateMessage}
           isFetching={isFetching}
         />
-        {showPagination && (
-          <DataTableMobilePagination table={table} totalRows={totalRows} />
-        )}
+        {showPagination && <DataTableMobilePagination table={table} totalRows={totalRows} />}
       </Panel>
     )
   }
@@ -346,7 +356,11 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className={cn('h-8 bg-white', index === 0 ? 'pl-4' : '', index === headerGroup.headers.length - 1 ? 'pr-4' : '')}
+                      className={cn(
+                        'h-8 bg-white',
+                        index === 0 ? 'pl-4' : '',
+                        index === headerGroup.headers.length - 1 ? 'pr-4' : ''
+                      )}
                       style={size ? { width: size, minWidth: size, maxWidth: size } : undefined}
                     >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -382,10 +396,7 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow className="border-0">
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center text-sm text-neutral-500 pl-4"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center text-sm text-neutral-500 pl-4">
                   {isFetching ? null : emptyStateMessage}
                 </TableCell>
               </TableRow>

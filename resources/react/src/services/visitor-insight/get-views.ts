@@ -162,7 +162,20 @@ export const getViewsQueryOptions = ({
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['views', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context, apiColumns],
+    queryKey: [
+      'views',
+      page,
+      per_page,
+      apiOrderBy,
+      order,
+      date_from,
+      date_to,
+      previous_date_from,
+      previous_date_to,
+      apiFilters,
+      context,
+      apiColumns,
+    ],
     queryFn: () =>
       clientRequest.post<GetViewsResponse>(
         '',

@@ -60,12 +60,7 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
       className={`flex items-center gap-2 px-2 py-1.5 hover:bg-accent rounded-sm ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       onClick={handleRowClick}
     >
-      <div
-        data-drag-handle
-        {...attributes}
-        {...listeners}
-        className="cursor-grab active:cursor-grabbing"
-      >
+      <div data-drag-handle {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
         <GripVertical className="h-3.5 w-3.5 text-muted-foreground" />
       </div>
       <Checkbox
@@ -75,11 +70,7 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
         onClick={(e) => e.stopPropagation()}
         className="h-3.5 w-3.5"
       />
-      <span
-        className={`flex-1 text-xs font-normal select-none ${disabled ? 'opacity-50' : ''}`}
-      >
-        {item.label}
-      </span>
+      <span className={`flex-1 text-xs font-normal select-none ${disabled ? 'opacity-50' : ''}`}>{item.label}</span>
     </div>
   )
 }
@@ -106,9 +97,7 @@ function HiddenItem({ item, onToggle }: HiddenItemProps) {
         onClick={(e) => e.stopPropagation()}
         className="h-3.5 w-3.5"
       />
-      <span className="flex-1 text-xs font-normal select-none text-muted-foreground">
-        {item.label}
-      </span>
+      <span className="flex-1 text-xs font-normal select-none text-muted-foreground">{item.label}</span>
     </div>
   )
 }
@@ -136,10 +125,13 @@ export function DataTableColumnToggle<TData>({
   const [isOpen, setIsOpen] = React.useState(false)
 
   // Helper to get display label from column
-  const getColumnLabel = React.useCallback((column: { id: string; columnDef: { meta?: { mobileLabel?: string } } }): string => {
-    const meta = column.columnDef.meta as { mobileLabel?: string } | undefined
-    return meta?.mobileLabel || column.id
-  }, [])
+  const getColumnLabel = React.useCallback(
+    (column: { id: string; columnDef: { meta?: { mobileLabel?: string } } }): string => {
+      const meta = column.columnDef.meta as { mobileLabel?: string } | undefined
+      return meta?.mobileLabel || column.id
+    },
+    []
+  )
 
   // Build column list when popover opens
   const handleOpenChange = React.useCallback(
@@ -295,12 +287,7 @@ export function DataTableColumnToggle<TData>({
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={visibleColumns.map((item) => item.id)} strategy={verticalListSortingStrategy}>
               {visibleColumns.map((item) => (
-                <SortableItem
-                  key={item.id}
-                  item={item}
-                  onToggle={handleToggle}
-                  disabled={visibleCount === 1}
-                />
+                <SortableItem key={item.id} item={item} onToggle={handleToggle} disabled={visibleCount === 1} />
               ))}
             </SortableContext>
           </DndContext>

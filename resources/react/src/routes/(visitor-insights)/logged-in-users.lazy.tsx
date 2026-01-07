@@ -108,9 +108,12 @@ function RouteComponent() {
   }, [wp])
 
   // Handle date range updates from DateRangePicker
-  const handleDateRangeUpdate = useCallback((values: { range: DateRange; rangeCompare?: DateRange }) => {
-    setDateRange(values.range, values.rangeCompare)
-  }, [setDateRange])
+  const handleDateRangeUpdate = useCallback(
+    (values: { range: DateRange; rangeCompare?: DateRange }) => {
+      setDateRange(values.range, values.rangeCompare)
+    },
+    [setDateRange]
+  )
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
@@ -212,7 +215,6 @@ function RouteComponent() {
     computedColumnOrderRef.current = newOrder
 
     return visibility
-     
   }, [usersResponse, allColumnIds])
 
   // Sync column order when preferences are computed (only once on initial load)
@@ -251,7 +253,12 @@ function RouteComponent() {
       // Update API columns for optimized queries (include sort column)
       // Use functional update to avoid unnecessary refetches when columns haven't changed
       const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, LOGGED_IN_USERS_COLUMN_CONFIG, currentSortColumn)
+      const newApiColumns = computeApiColumns(
+        visibility,
+        allColumnIds,
+        LOGGED_IN_USERS_COLUMN_CONFIG,
+        currentSortColumn
+      )
       setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
     },
     [columnOrder, sorting, allColumnIds, arraysEqual]
@@ -280,7 +287,9 @@ function RouteComponent() {
     computedVisibilityRef.current = defaultVisibility
     currentVisibilityRef.current = defaultVisibility
     // Reset API columns to default (use functional update to avoid unnecessary refetch)
-    setApiColumns((prev) => (arraysEqual(prev, LOGGED_IN_USERS_DEFAULT_API_COLUMNS) ? prev : LOGGED_IN_USERS_DEFAULT_API_COLUMNS))
+    setApiColumns((prev) =>
+      arraysEqual(prev, LOGGED_IN_USERS_DEFAULT_API_COLUMNS) ? prev : LOGGED_IN_USERS_DEFAULT_API_COLUMNS
+    )
     resetUserPreferences({ context: LOGGED_IN_USERS_CONTEXT })
     // Clear localStorage cache
     clearCachedColumns(LOGGED_IN_USERS_CONTEXT)
@@ -367,15 +376,21 @@ function RouteComponent() {
   ]
 
   // Handle sorting changes
-  const handleSortingChange = useCallback((newSorting: SortingState) => {
-    setSorting(newSorting)
-    setPage(1) // Reset to first page when sorting changes
-  }, [setPage])
+  const handleSortingChange = useCallback(
+    (newSorting: SortingState) => {
+      setSorting(newSorting)
+      setPage(1) // Reset to first page when sorting changes
+    },
+    [setPage]
+  )
 
   // Handle page changes
-  const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage)
-  }, [setPage])
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setPage(newPage)
+    },
+    [setPage]
+  )
 
   const isChartLoading = isBatchFetching
 
@@ -386,7 +401,11 @@ function RouteComponent() {
         <h1 className="text-xl font-semibold text-neutral-800">{__('Logged-in Users', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
+            <FilterButton
+              fields={filterFields}
+              appliedFilters={appliedFilters || []}
+              onApplyFilters={handleApplyFilters}
+            />
           )}
           <DateRangePicker
             initialDateFrom={dateFrom}

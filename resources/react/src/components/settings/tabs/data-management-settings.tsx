@@ -1,13 +1,5 @@
 import * as React from 'react'
-import {
-  Loader2,
-  Trash2,
-  AlertTriangle,
-  Infinity,
-  Clock,
-  Archive,
-  Info,
-} from 'lucide-react'
+import { Loader2, Trash2, AlertTriangle, Infinity, Clock, Archive, Info } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui/button'
@@ -66,11 +58,7 @@ export function DataManagementSettings() {
   const [isPurging, setIsPurging] = React.useState(false)
 
   // Data retention settings
-  const [retentionMode, setRetentionMode] = useSetting(
-    settings,
-    'data_retention_mode',
-    'forever'
-  )
+  const [retentionMode, setRetentionMode] = useSetting(settings, 'data_retention_mode', 'forever')
   const [retentionDays, setRetentionDays] = useSetting(settings, 'data_retention_days', 180)
 
   const applyRetentionNow = async () => {
@@ -94,16 +82,13 @@ export function DataManagementSettings() {
       const formData = new FormData()
       formData.append('_wpnonce', config.nonce)
 
-      const response = await fetch(
-        `${config.ajaxUrl}?action=${config.actions.purgeDataNow}`,
-        {
-          method: 'POST',
-          headers: {
-            'X-WP-Nonce': config.nonce,
-          },
-          body: formData,
-        }
-      )
+      const response = await fetch(`${config.ajaxUrl}?action=${config.actions.purgeDataNow}`, {
+        method: 'POST',
+        headers: {
+          'X-WP-Nonce': config.nonce,
+        },
+        body: formData,
+      })
 
       const data = await response.json()
 
@@ -145,8 +130,7 @@ export function DataManagementSettings() {
             Data Retention
           </CardTitle>
           <CardDescription>
-            Choose how to manage old statistics data. This affects database size and query
-            performance.
+            Choose how to manage old statistics data. This affects database size and query performance.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -158,9 +142,7 @@ export function DataManagementSettings() {
                 onClick={() => setRetentionMode(option.value)}
                 className={cn(
                   'flex items-start gap-4 rounded-lg border p-4 text-left transition-colors',
-                  retentionMode === option.value
-                    ? 'border-primary bg-primary/5'
-                    : 'border-border hover:bg-muted/50'
+                  retentionMode === option.value ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'
                 )}
               >
                 <div
@@ -175,12 +157,7 @@ export function DataManagementSettings() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span
-                      className={cn(
-                        'font-medium',
-                        retentionMode === option.value && 'text-primary'
-                      )}
-                    >
+                    <span className={cn('font-medium', retentionMode === option.value && 'text-primary')}>
                       {option.title}
                     </span>
                     {option.value === 'archive' && (
@@ -194,9 +171,7 @@ export function DataManagementSettings() {
                 <div
                   className={cn(
                     'mt-1 h-4 w-4 rounded-full border-2',
-                    retentionMode === option.value
-                      ? 'border-primary bg-primary'
-                      : 'border-muted-foreground/50'
+                    retentionMode === option.value ? 'border-primary bg-primary' : 'border-muted-foreground/50'
                   )}
                 >
                   {retentionMode === option.value && (
@@ -237,8 +212,8 @@ export function DataManagementSettings() {
               <div className="flex gap-3">
                 <Info className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-muted-foreground">
-                  When using Archive mode, automatic backups are created before data is deleted.
-                  You can manage these backups in{' '}
+                  When using Archive mode, automatic backups are created before data is deleted. You can manage these
+                  backups in{' '}
                   <Link to="/tools/backups" className="font-medium underline underline-offset-4">
                     Tools &rarr; Backups
                   </Link>
@@ -257,9 +232,7 @@ export function DataManagementSettings() {
             <AlertTriangle className="h-5 w-5" />
             Danger Zone
           </CardTitle>
-          <CardDescription>
-            These actions are irreversible. Please proceed with caution.
-          </CardDescription>
+          <CardDescription>These actions are irreversible. Please proceed with caution.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
@@ -278,25 +251,14 @@ export function DataManagementSettings() {
               onClick={applyRetentionNow}
               disabled={isPurging || retentionMode === 'forever'}
             >
-              {isPurging ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="mr-2 h-4 w-4" />
-              )}
+              {isPurging ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
               Apply Now
             </Button>
           </div>
         </CardContent>
       </Card>
 
-      {settings.error && (
-        <NoticeBanner
-          id="settings-error"
-          message={settings.error}
-          type="error"
-          dismissible={false}
-        />
-      )}
+      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>

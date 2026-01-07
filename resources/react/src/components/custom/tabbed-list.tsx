@@ -51,10 +51,10 @@ export function TabbedList({
       <PanelHeader className="flex-wrap gap-2">
         <PanelTitle>{title}</PanelTitle>
         {tabs.length > 1 && (
-          <Tabs value={activeTab} onValueChange={onTabChange} className="ml-auto">
-            <TabsList className="h-8">
+          <Tabs value={activeTab} onValueChange={onTabChange} className="w-full sm:w-auto sm:ml-auto">
+            <TabsList className="h-8 w-full sm:w-auto">
               {tabs.map((tab) => (
-                <TabsTrigger key={tab.id} value={tab.id} className="text-xs px-3 h-7">
+                <TabsTrigger key={tab.id} value={tab.id} className="text-xs px-3 h-7 flex-1 sm:flex-initial">
                   {tab.label}
                 </TabsTrigger>
               ))}
@@ -85,10 +85,7 @@ export function TabbedList({
 
       {currentTab?.link && items.length > 0 && (
         <PanelFooter>
-          <PanelAction
-            onClick={currentTab.link.action}
-            href={currentTab.link.href}
-          >
+          <PanelAction onClick={currentTab.link.action} href={currentTab.link.href}>
             {currentTab.link.title}
           </PanelAction>
         </PanelFooter>
@@ -118,20 +115,13 @@ function TabbedListItemRow({ item }: TabbedListItemRowProps) {
             }}
           />
         ) : null}
-        <FileText
-          className={cn(
-            'w-5 h-5 text-muted-foreground',
-            item.thumbnail ? 'hidden' : ''
-          )}
-        />
+        <FileText className={cn('w-5 h-5 text-muted-foreground', item.thumbnail ? 'hidden' : '')} />
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-neutral-800 truncate">{item.title}</p>
-        {item.subtitle && (
-          <p className="text-xs text-muted-foreground truncate">{item.subtitle}</p>
-        )}
+        {item.subtitle && <p className="text-xs text-muted-foreground truncate">{item.subtitle}</p>}
       </div>
     </div>
   )

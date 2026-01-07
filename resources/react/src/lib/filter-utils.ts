@@ -41,10 +41,7 @@ export const extractFilterField = (filterId: string): string => {
  * Convert URL filter format to Filter type for display
  * Used when reading filters from URL search params
  */
-export const urlFiltersToFilters = (
-  urlFilters: UrlFilter[] | undefined,
-  filterFields: FilterField[]
-): Filter[] => {
+export const urlFiltersToFilters = (urlFilters: UrlFilter[] | undefined, filterFields: FilterField[]): Filter[] => {
   if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
 
   return urlFilters.map((urlFilter, index) => {
@@ -65,14 +62,16 @@ export const urlFiltersToFilters = (
     else if (field?.options) {
       const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
       resolvedValueLabels = {}
-      const labels = values.map((v) => {
-        const option = field.options?.find((o) => String(o.value) === v)
-        if (option) {
-          resolvedValueLabels![v] = option.label
-          return option.label
-        }
-        return v
-      }).join(', ')
+      const labels = values
+        .map((v) => {
+          const option = field.options?.find((o) => String(o.value) === v)
+          if (option) {
+            resolvedValueLabels![v] = option.label
+            return option.label
+          }
+          return v
+        })
+        .join(', ')
       displayValue = labels
       // Only keep resolvedValueLabels if we found any
       if (Object.keys(resolvedValueLabels).length === 0) {

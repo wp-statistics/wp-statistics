@@ -33,28 +33,12 @@ export function ExclusionSettings() {
   const [excludeAdmin, setExcludeAdmin] = useSetting(settings, 'exclude_administrator', false)
   const [excludeEditor, setExcludeEditor] = useSetting(settings, 'exclude_editor', false)
   const [excludeAuthor, setExcludeAuthor] = useSetting(settings, 'exclude_author', false)
-  const [excludeContributor, setExcludeContributor] = useSetting(
-    settings,
-    'exclude_contributor',
-    false
-  )
-  const [excludeSubscriber, setExcludeSubscriber] = useSetting(
-    settings,
-    'exclude_subscriber',
-    false
-  )
-  const [excludeAnonymous, setExcludeAnonymous] = useSetting(
-    settings,
-    'exclude_anonymous_users',
-    false
-  )
+  const [excludeContributor, setExcludeContributor] = useSetting(settings, 'exclude_contributor', false)
+  const [excludeSubscriber, setExcludeSubscriber] = useSetting(settings, 'exclude_subscriber', false)
+  const [excludeAnonymous, setExcludeAnonymous] = useSetting(settings, 'exclude_anonymous_users', false)
 
   // Query Parameters
-  const [queryParamsAllowList, setQueryParamsAllowList] = useSetting(
-    settings,
-    'query_params_allow_list',
-    ''
-  )
+  const [queryParamsAllowList, setQueryParamsAllowList] = useSetting(settings, 'query_params_allow_list', '')
 
   const handleSave = async () => {
     const success = await settings.save()
@@ -77,51 +61,31 @@ export function ExclusionSettings() {
       <Card>
         <CardHeader>
           <CardTitle>Page Exclusions</CardTitle>
-          <CardDescription>
-            Exclude specific pages or paths from being tracked.
-          </CardDescription>
+          <CardDescription>Exclude specific pages or paths from being tracked.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="exclude-loginpage">Exclude Login Page</Label>
-              <p className="text-sm text-muted-foreground">
-                Don't track WordPress login page visits.
-              </p>
+              <p className="text-sm text-muted-foreground">Don't track WordPress login page visits.</p>
             </div>
-            <Switch
-              id="exclude-loginpage"
-              checked={!!excludeLoginpage}
-              onCheckedChange={setExcludeLoginpage}
-            />
+            <Switch id="exclude-loginpage" checked={!!excludeLoginpage} onCheckedChange={setExcludeLoginpage} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="exclude-feeds">Exclude RSS Feeds</Label>
-              <p className="text-sm text-muted-foreground">
-                Don't count RSS feed requests in statistics.
-              </p>
+              <p className="text-sm text-muted-foreground">Don't count RSS feed requests in statistics.</p>
             </div>
-            <Switch
-              id="exclude-feeds"
-              checked={!!excludeFeeds}
-              onCheckedChange={setExcludeFeeds}
-            />
+            <Switch id="exclude-feeds" checked={!!excludeFeeds} onCheckedChange={setExcludeFeeds} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="exclude-404s">Exclude 404 Pages</Label>
-              <p className="text-sm text-muted-foreground">
-                Don't track visits to pages that return 404 errors.
-              </p>
+              <p className="text-sm text-muted-foreground">Don't track visits to pages that return 404 errors.</p>
             </div>
-            <Switch
-              id="exclude-404s"
-              checked={!!exclude404s}
-              onCheckedChange={setExclude404s}
-            />
+            <Switch id="exclude-404s" checked={!!exclude404s} onCheckedChange={setExclude404s} />
           </div>
 
           <div className="space-y-2">
@@ -155,9 +119,7 @@ export function ExclusionSettings() {
               onChange={(e) => setExcludeIp(e.target.value)}
               rows={4}
             />
-            <p className="text-xs text-muted-foreground">
-              Enter IP addresses or CIDR ranges, one per line.
-            </p>
+            <p className="text-xs text-muted-foreground">Enter IP addresses or CIDR ranges, one per line.</p>
           </div>
         </CardContent>
       </Card>
@@ -177,9 +139,7 @@ export function ExclusionSettings() {
               onChange={(e) => setExcludedCountries(e.target.value)}
               rows={3}
             />
-            <p className="text-xs text-muted-foreground">
-              Enter 2-letter country codes to exclude, one per line.
-            </p>
+            <p className="text-xs text-muted-foreground">Enter 2-letter country codes to exclude, one per line.</p>
           </div>
 
           <div className="space-y-2">
@@ -191,9 +151,7 @@ export function ExclusionSettings() {
               onChange={(e) => setIncludedCountries(e.target.value)}
               rows={3}
             />
-            <p className="text-xs text-muted-foreground">
-              If specified, only track visitors from these countries.
-            </p>
+            <p className="text-xs text-muted-foreground">If specified, only track visitors from these countries.</p>
           </div>
         </CardContent>
       </Card>
@@ -201,9 +159,7 @@ export function ExclusionSettings() {
       <Card>
         <CardHeader>
           <CardTitle>URL Query Parameters</CardTitle>
-          <CardDescription>
-            Control which URL query parameters are retained in your statistics.
-          </CardDescription>
+          <CardDescription>Control which URL query parameters are retained in your statistics.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -216,8 +172,8 @@ export function ExclusionSettings() {
               rows={5}
             />
             <p className="text-xs text-muted-foreground">
-              Enter parameter names to retain, one per line. Default: ref, source, utm_source,
-              utm_medium, utm_campaign, utm_content, utm_term, utm_id, s, p.
+              Enter parameter names to retain, one per line. Default: ref, source, utm_source, utm_medium, utm_campaign,
+              utm_content, utm_term, utm_id, s, p.
             </p>
           </div>
         </CardContent>
@@ -238,9 +194,7 @@ export function ExclusionSettings() {
               onChange={(e) => setRobotlist(e.target.value)}
               rows={5}
             />
-            <p className="text-xs text-muted-foreground">
-              Enter bot user agent names to exclude, one per line.
-            </p>
+            <p className="text-xs text-muted-foreground">Enter bot user agent names to exclude, one per line.</p>
           </div>
 
           <div className="space-y-2">
@@ -261,15 +215,9 @@ export function ExclusionSettings() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="record-exclusions">Record Exclusions</Label>
-              <p className="text-sm text-muted-foreground">
-                Log excluded visitors for debugging purposes.
-              </p>
+              <p className="text-sm text-muted-foreground">Log excluded visitors for debugging purposes.</p>
             </div>
-            <Switch
-              id="record-exclusions"
-              checked={!!recordExclusions}
-              onCheckedChange={setRecordExclusions}
-            />
+            <Switch id="record-exclusions" checked={!!recordExclusions} onCheckedChange={setRecordExclusions} />
           </div>
         </CardContent>
       </Card>
@@ -283,9 +231,7 @@ export function ExclusionSettings() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Administrators</Label>
-              <p className="text-sm text-muted-foreground">
-                Exclude users with administrator role.
-              </p>
+              <p className="text-sm text-muted-foreground">Exclude users with administrator role.</p>
             </div>
             <Switch checked={!!excludeAdmin} onCheckedChange={setExcludeAdmin} />
           </div>
@@ -325,23 +271,14 @@ export function ExclusionSettings() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Anonymous Users</Label>
-              <p className="text-sm text-muted-foreground">
-                Exclude users who are not logged in.
-              </p>
+              <p className="text-sm text-muted-foreground">Exclude users who are not logged in.</p>
             </div>
             <Switch checked={!!excludeAnonymous} onCheckedChange={setExcludeAnonymous} />
           </div>
         </CardContent>
       </Card>
 
-      {settings.error && (
-        <NoticeBanner
-          id="settings-error"
-          message={settings.error}
-          type="error"
-          dismissible={false}
-        />
-      )}
+      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>

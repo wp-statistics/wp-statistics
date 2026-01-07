@@ -25,6 +25,8 @@ import { Route as visitorInsightsLoggedInUsersRouteImport } from './routes/(visi
 import { Route as referralsReferralsOverviewRouteImport } from './routes/(referrals)/referrals-overview'
 import { Route as pageInsightsTopPagesRouteImport } from './routes/(page-insights)/top-pages'
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
+import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
+import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
 
 const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
@@ -415,6 +417,24 @@ const contentAnalyticsContentRoute = contentAnalyticsContentRouteImport
   .lazy(() =>
     import('./routes/(content-analytics)/content.lazy').then((d) => d.Route),
   )
+const contentAnalyticsCategoriesRoute = contentAnalyticsCategoriesRouteImport
+  .update({
+    id: '/(content-analytics)/categories',
+    path: '/categories',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(content-analytics)/categories.lazy').then((d) => d.Route),
+  )
+const contentAnalyticsAuthorsRoute = contentAnalyticsAuthorsRouteImport
+  .update({
+    id: '/(content-analytics)/authors',
+    path: '/authors',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(content-analytics)/authors.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -427,6 +447,8 @@ export interface FileRoutesByFullPath {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/authors': typeof contentAnalyticsAuthorsRoute
+  '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
   '/referrals-overview': typeof referralsReferralsOverviewRoute
@@ -469,6 +491,8 @@ export interface FileRoutesByTo {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/authors': typeof contentAnalyticsAuthorsRoute
+  '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
   '/referrals-overview': typeof referralsReferralsOverviewRoute
@@ -514,6 +538,8 @@ export interface FileRoutesById {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/(content-analytics)/authors': typeof contentAnalyticsAuthorsRoute
+  '/(content-analytics)/categories': typeof contentAnalyticsCategoriesRoute
   '/(content-analytics)/content': typeof contentAnalyticsContentRoute
   '/(page-insights)/top-pages': typeof pageInsightsTopPagesRoute
   '/(referrals)/referrals-overview': typeof referralsReferralsOverviewRoute
@@ -560,6 +586,8 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/authors'
+    | '/categories'
     | '/content'
     | '/top-pages'
     | '/referrals-overview'
@@ -602,6 +630,8 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/authors'
+    | '/categories'
     | '/content'
     | '/top-pages'
     | '/referrals-overview'
@@ -646,6 +676,8 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/(content-analytics)/authors'
+    | '/(content-analytics)/categories'
     | '/(content-analytics)/content'
     | '/(page-insights)/top-pages'
     | '/(referrals)/referrals-overview'
@@ -691,6 +723,8 @@ export interface RootRouteChildren {
   GeographicLazyRoute: typeof GeographicLazyRoute
   OverviewLazyRoute: typeof OverviewLazyRoute
   PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
+  contentAnalyticsAuthorsRoute: typeof contentAnalyticsAuthorsRoute
+  contentAnalyticsCategoriesRoute: typeof contentAnalyticsCategoriesRoute
   contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
   pageInsightsTopPagesRoute: typeof pageInsightsTopPagesRoute
   referralsReferralsOverviewRoute: typeof referralsReferralsOverviewRoute
@@ -1005,6 +1039,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof contentAnalyticsContentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(content-analytics)/categories': {
+      id: '/(content-analytics)/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof contentAnalyticsCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/authors': {
+      id: '/(content-analytics)/authors'
+      path: '/authors'
+      fullPath: '/authors'
+      preLoaderRoute: typeof contentAnalyticsAuthorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1071,6 +1119,8 @@ const rootRouteChildren: RootRouteChildren = {
   GeographicLazyRoute: GeographicLazyRoute,
   OverviewLazyRoute: OverviewLazyRoute,
   PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
+  contentAnalyticsAuthorsRoute: contentAnalyticsAuthorsRoute,
+  contentAnalyticsCategoriesRoute: contentAnalyticsCategoriesRoute,
   contentAnalyticsContentRoute: contentAnalyticsContentRoute,
   pageInsightsTopPagesRoute: pageInsightsTopPagesRoute,
   referralsReferralsOverviewRoute: referralsReferralsOverviewRoute,

@@ -25,11 +25,7 @@ export function NotificationSettings() {
   const [contentReport, setContentReport] = useSetting(settings, 'content_report', '')
   const [emailHeader, setEmailHeader] = useSetting(settings, 'email_free_content_header', '')
   const [emailFooter, setEmailFooter] = useSetting(settings, 'email_free_content_footer', '')
-  const [showPrivacyIssues, setShowPrivacyIssues] = useSetting(
-    settings,
-    'show_privacy_issues_in_report',
-    false
-  )
+  const [showPrivacyIssues, setShowPrivacyIssues] = useSetting(settings, 'show_privacy_issues_in_report', false)
 
   const handleSave = async () => {
     const success = await settings.save()
@@ -48,13 +44,10 @@ export function NotificationSettings() {
       formData.append('action', 'wp_statistics_email_preview')
       formData.append('wps_nonce', (window as any).wps_react?.globals?.restNonce || '')
 
-      const response = await fetch(
-        (window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      )
+      const response = await fetch((window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        body: formData,
+      })
 
       const data = await response.json()
       if (data.success && data.data.html) {
@@ -89,13 +82,10 @@ export function NotificationSettings() {
       formData.append('action', 'wp_statistics_email_send_test')
       formData.append('wps_nonce', (window as any).wps_react?.globals?.restNonce || '')
 
-      const response = await fetch(
-        (window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      )
+      const response = await fetch((window as any).wps_react?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        body: formData,
+      })
 
       const data = await response.json()
       if (data.success) {
@@ -135,9 +125,7 @@ export function NotificationSettings() {
       <Card>
         <CardHeader>
           <CardTitle>Email Reports</CardTitle>
-          <CardDescription>
-            Configure automated email reports with your site statistics.
-          </CardDescription>
+          <CardDescription>Configure automated email reports with your site statistics.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -180,23 +168,15 @@ export function NotificationSettings() {
               value={emailList as string}
               onChange={(e) => setEmailList(e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
-              Enter comma-separated email addresses to receive reports.
-            </p>
+            <p className="text-xs text-muted-foreground">Enter comma-separated email addresses to receive reports.</p>
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="privacy-issues">Show Privacy Issues in Report</Label>
-              <p className="text-sm text-muted-foreground">
-                Include privacy audit results in email reports.
-              </p>
+              <p className="text-sm text-muted-foreground">Include privacy audit results in email reports.</p>
             </div>
-            <Switch
-              id="privacy-issues"
-              checked={!!showPrivacyIssues}
-              onCheckedChange={setShowPrivacyIssues}
-            />
+            <Switch id="privacy-issues" checked={!!showPrivacyIssues} onCheckedChange={setShowPrivacyIssues} />
           </div>
 
           <div className="rounded-lg border bg-muted/50 p-4">
@@ -234,9 +214,7 @@ export function NotificationSettings() {
               onChange={(e) => setEmailHeader(e.target.value)}
               rows={3}
             />
-            <p className="text-xs text-muted-foreground">
-              This text will appear at the top of your email reports.
-            </p>
+            <p className="text-xs text-muted-foreground">This text will appear at the top of your email reports.</p>
           </div>
 
           <div className="space-y-2">
@@ -262,27 +240,15 @@ export function NotificationSettings() {
               onChange={(e) => setEmailFooter(e.target.value)}
               rows={3}
             />
-            <p className="text-xs text-muted-foreground">
-              This text will appear at the bottom of your email reports.
-            </p>
+            <p className="text-xs text-muted-foreground">This text will appear at the bottom of your email reports.</p>
           </div>
 
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={handlePreviewEmail}
-              disabled={isPreviewLoading}
-            >
+            <Button variant="outline" className="flex-1" onClick={handlePreviewEmail} disabled={isPreviewLoading}>
               {isPreviewLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Preview Email
             </Button>
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={handleSendTestEmail}
-              disabled={isSendingTest}
-            >
+            <Button variant="outline" className="flex-1" onClick={handleSendTestEmail} disabled={isSendingTest}>
               {isSendingTest && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Send Test Email
             </Button>
@@ -290,14 +256,7 @@ export function NotificationSettings() {
         </CardContent>
       </Card>
 
-      {settings.error && (
-        <NoticeBanner
-          id="settings-error"
-          message={settings.error}
-          type="error"
-          dismissible={false}
-        />
-      )}
+      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>

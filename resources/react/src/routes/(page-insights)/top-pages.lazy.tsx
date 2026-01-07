@@ -73,9 +73,7 @@ function RouteComponent() {
   const CONTENT_FILTERS = ['page', 'resource_id', 'post_type', 'author']
 
   const filterFields = useMemo<FilterField[]>(() => {
-    return wp
-      .getFilterFieldsByGroup('views')
-      .filter((field) => CONTENT_FILTERS.includes(field.name)) as FilterField[]
+    return wp.getFilterFieldsByGroup('views').filter((field) => CONTENT_FILTERS.includes(field.name)) as FilterField[]
   }, [wp])
 
   // Handle date range updates from DateRangePicker
@@ -269,7 +267,11 @@ function RouteComponent() {
         <h1 className="text-xl font-semibold text-neutral-800">{__('Top Pages', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
+            <FilterButton
+              fields={filterFields}
+              appliedFilters={appliedFilters || []}
+              onApplyFilters={handleApplyFilters}
+            />
           )}
           <DateRangePicker
             initialDateFrom={dateFrom}

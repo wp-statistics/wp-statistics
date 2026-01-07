@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  createSearchValidator,
-  searchValidators,
-  type UrlFilter,
-  type BaseSearchParams,
-} from './route-validation'
+import { createSearchValidator, searchValidators, type UrlFilter, type BaseSearchParams } from './route-validation'
 
 describe('route-validation', () => {
   describe('createSearchValidator', () => {
@@ -23,9 +18,7 @@ describe('route-validation', () => {
 
       it('should parse valid filters from JSON string', () => {
         const validator = createSearchValidator()
-        const filters: UrlFilter[] = [
-          { field: 'country', operator: 'eq', value: 'US' },
-        ]
+        const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
 
         const result = validator({ filters: JSON.stringify(filters) })
 
@@ -34,9 +27,7 @@ describe('route-validation', () => {
 
       it('should handle WordPress query param interference', () => {
         const validator = createSearchValidator()
-        const filters: UrlFilter[] = [
-          { field: 'country', operator: 'eq', value: 'US' },
-        ]
+        const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
         // Simulates WordPress appending ?page=wp-statistics to the JSON
         const malformedString = JSON.stringify(filters) + '?page=wp-statistics'
 
@@ -47,9 +38,7 @@ describe('route-validation', () => {
 
       it('should handle filters with displayValue', () => {
         const validator = createSearchValidator()
-        const filters: UrlFilter[] = [
-          { field: 'country', operator: 'eq', value: '5', displayValue: 'Iran' },
-        ]
+        const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: '5', displayValue: 'Iran' }]
 
         const result = validator({ filters })
 
@@ -58,9 +47,7 @@ describe('route-validation', () => {
 
       it('should handle filters with array values', () => {
         const validator = createSearchValidator()
-        const filters: UrlFilter[] = [
-          { field: 'browser', operator: 'in', value: ['Chrome', 'Firefox'] },
-        ]
+        const filters: UrlFilter[] = [{ field: 'browser', operator: 'in', value: ['Chrome', 'Firefox'] }]
 
         const result = validator({ filters })
 
@@ -154,9 +141,7 @@ describe('route-validation', () => {
     describe('combined parsing', () => {
       it('should parse both filters and page', () => {
         const validator = createSearchValidator()
-        const filters: UrlFilter[] = [
-          { field: 'country', operator: 'eq', value: 'US' },
-        ]
+        const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
 
         const result = validator({ filters, page: 3 })
 

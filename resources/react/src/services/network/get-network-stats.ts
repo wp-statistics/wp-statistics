@@ -58,9 +58,7 @@ export const getNetworkStatsQueryOptions = ({
           network: true,
           date_from,
           date_to,
-          ...(previous_date_from && previous_date_to
-            ? { previous_date_from, previous_date_to }
-            : {}),
+          ...(previous_date_from && previous_date_to ? { previous_date_from, previous_date_to } : {}),
         },
         {
           params: {

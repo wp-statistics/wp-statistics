@@ -122,9 +122,7 @@ export const DateRangePicker = ({
   useEffect(() => {
     if (initialCompareFrom) {
       const newCompareFrom = new Date(new Date(initialCompareFrom).setHours(0, 0, 0, 0))
-      const newCompareTo = initialCompareTo
-        ? new Date(new Date(initialCompareTo).setHours(0, 0, 0, 0))
-        : newCompareFrom
+      const newCompareTo = initialCompareTo ? new Date(new Date(initialCompareTo).setHours(0, 0, 0, 0)) : newCompareFrom
 
       if (
         !rangeCompare ||

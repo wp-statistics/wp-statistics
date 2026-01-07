@@ -1,10 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import {
-  type BaseSearchParams,
-  searchValidators,
-  type UrlFilter,
-} from '@/lib/route-validation'
+import { type BaseSearchParams, searchValidators, type UrlFilter } from '@/lib/route-validation'
 
 // Re-export types for backward compatibility
 export type { UrlFilter }
@@ -27,11 +23,12 @@ const validateSearch = (search: Record<string, unknown>): ContentSearchParams =>
 
   return {
     ...baseParams,
-    resource_id: typeof search.resource_id === 'number'
-      ? search.resource_id
-      : typeof search.resource_id === 'string'
-        ? parseInt(search.resource_id, 10) || undefined
-        : undefined,
+    resource_id:
+      typeof search.resource_id === 'number'
+        ? search.resource_id
+        : typeof search.resource_id === 'string'
+          ? parseInt(search.resource_id, 10) || undefined
+          : undefined,
     post_type: typeof search.post_type === 'string' ? search.post_type : undefined,
   }
 }

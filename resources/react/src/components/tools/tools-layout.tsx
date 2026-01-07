@@ -34,9 +34,7 @@ export function ToolsLayout({ children }: ToolsLayoutProps) {
       {/* Header */}
       <div className="border-b bg-background px-6 py-4">
         <h1 className="text-2xl font-semibold tracking-tight">Tools</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Import, export, manage backups, and monitor system health.
-        </p>
+        <p className="text-sm text-muted-foreground mt-1">Import, export, manage backups, and monitor system health.</p>
       </div>
 
       {/* Tab Navigation */}

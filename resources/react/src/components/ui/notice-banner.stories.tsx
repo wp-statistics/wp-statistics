@@ -89,7 +89,8 @@ export const Info: Story = {
 export const Neutral: Story = {
   args: {
     title: 'System Diagnostics',
-    message: 'These checks help identify potential issues that may affect WP Statistics functionality. Lightweight checks run automatically, while others require manual execution to avoid performance impact.',
+    message:
+      'These checks help identify potential issues that may affect WP Statistics functionality. Lightweight checks run automatically, while others require manual execution to avoid performance impact.',
     type: 'neutral',
     icon: Stethoscope,
     dismissible: false,

@@ -118,7 +118,12 @@ export function HorizontalBar({
                     <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
                   )}
                 </span>
-                <span className={cn('tabular-nums', isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight)}>
+                <span
+                  className={cn(
+                    'tabular-nums',
+                    isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight
+                  )}
+                >
                   {displayPercentage}%
                 </span>
               </div>

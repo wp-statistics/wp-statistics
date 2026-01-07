@@ -16,14 +16,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import {
   Dialog,
   DialogContent,
@@ -52,10 +45,7 @@ const getConfig = () => {
 }
 
 // Helper to call import/export endpoint with sub_action
-const callImportExportApi = async (
-  subAction: string,
-  params: Record<string, string> = {}
-) => {
+const callImportExportApi = async (subAction: string, params: Record<string, string> = {}) => {
   const config = getConfig()
   const formData = new FormData()
   formData.append('wps_nonce', config.nonce)
@@ -230,7 +220,7 @@ export function BackupsPage() {
       {/* Info Box */}
       <NoticeBanner
         title="About Backups"
-        message="Backups are automatically created when using the &quot;Archive after X days&quot; data retention mode. You can also create manual backups at any time. Backups contain your raw statistics data and can be restored or downloaded for safekeeping."
+        message='Backups are automatically created when using the "Archive after X days" data retention mode. You can also create manual backups at any time. Backups contain your raw statistics data and can be restored or downloaded for safekeeping.'
         type="neutral"
         icon={Info}
         dismissible={false}
@@ -260,11 +250,7 @@ export function BackupsPage() {
             </CardDescription>
           </div>
           <Button onClick={createBackup} disabled={isCreating}>
-            {isCreating ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Plus className="mr-2 h-4 w-4" />
-            )}
+            {isCreating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
             Create Backup
           </Button>
         </CardHeader>
@@ -277,11 +263,7 @@ export function BackupsPage() {
                 Create your first backup to preserve your statistics data.
               </p>
               <Button onClick={createBackup} disabled={isCreating}>
-                {isCreating ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Plus className="mr-2 h-4 w-4" />
-                )}
+                {isCreating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
                 Create Backup
               </Button>
             </div>
@@ -384,10 +366,7 @@ export function BackupsPage() {
             <Button variant="outline" onClick={() => setDeleteTarget(null)}>
               Cancel
             </Button>
-            <Button
-              variant="destructive"
-              onClick={deleteBackup}
-            >
+            <Button variant="destructive" onClick={deleteBackup}>
               Delete
             </Button>
           </DialogFooter>
@@ -412,9 +391,7 @@ export function BackupsPage() {
             <Button variant="outline" onClick={() => setRestoreTarget(null)}>
               Cancel
             </Button>
-            <Button onClick={restoreBackup}>
-              Restore
-            </Button>
+            <Button onClick={restoreBackup}>Restore</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

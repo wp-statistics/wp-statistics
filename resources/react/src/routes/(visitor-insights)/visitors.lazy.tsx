@@ -84,9 +84,12 @@ function RouteComponent() {
   }, [wp])
 
   // Handle date range updates from DateRangePicker
-  const handleDateRangeUpdate = useCallback((values: { range: DateRange; rangeCompare?: DateRange }) => {
-    setDateRange(values.range, values.rangeCompare)
-  }, [setDateRange])
+  const handleDateRangeUpdate = useCallback(
+    (values: { range: DateRange; rangeCompare?: DateRange }) => {
+      setDateRange(values.range, values.rangeCompare)
+    },
+    [setDateRange]
+  )
 
   // Determine sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
@@ -187,7 +190,6 @@ function RouteComponent() {
     computedColumnOrderRef.current = newOrder
 
     return visibility
-     
   }, [response?.data, allColumnIds])
 
   // Sync column order when preferences are computed (only once on initial load)
@@ -271,15 +273,21 @@ function RouteComponent() {
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
 
   // Handle sorting changes
-  const handleSortingChange = useCallback((newSorting: SortingState) => {
-    setSorting(newSorting)
-    setPage(1) // Reset to first page when sorting changes
-  }, [setPage])
+  const handleSortingChange = useCallback(
+    (newSorting: SortingState) => {
+      setSorting(newSorting)
+      setPage(1) // Reset to first page when sorting changes
+    },
+    [setPage]
+  )
 
   // Handle page changes
-  const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage)
-  }, [setPage])
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setPage(newPage)
+    },
+    [setPage]
+  )
 
   return (
     <div className="min-w-0">
@@ -288,7 +296,11 @@ function RouteComponent() {
         <h1 className="text-xl font-semibold text-neutral-800">{__('Visitors', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
+            <FilterButton
+              fields={filterFields}
+              appliedFilters={appliedFilters || []}
+              onApplyFilters={handleApplyFilters}
+            />
           )}
           <DateRangePicker
             initialDateFrom={dateFrom}

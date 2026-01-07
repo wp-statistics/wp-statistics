@@ -47,7 +47,7 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
 
   // Get a value from settings
   const getValue = React.useCallback(
-    <T,>(key: string, defaultValue?: T): T => {
+    <T>(key: string, defaultValue?: T): T => {
       const value = settings[key]
       if (value === undefined || value === null) {
         return defaultValue as T
@@ -100,11 +100,7 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
 /**
  * Hook to manage a single setting value with auto-save
  */
-export function useSetting<T>(
-  settings: UseSettingsReturn,
-  key: string,
-  defaultValue: T
-): [T, (value: T) => void] {
+export function useSetting<T>(settings: UseSettingsReturn, key: string, defaultValue: T): [T, (value: T) => void] {
   const value = settings.getValue(key, defaultValue)
 
   const setValue = React.useCallback(

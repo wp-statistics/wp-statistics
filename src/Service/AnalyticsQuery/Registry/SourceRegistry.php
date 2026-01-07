@@ -19,6 +19,8 @@ use WP_Statistics\Service\AnalyticsQuery\Sources\ExclusionsSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\OnlineVisitorsSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\PublishedContentSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\CommentsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ActiveAuthorsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ActiveTermsSource;
 
 /**
  * Registry for analytics sources.
@@ -108,6 +110,8 @@ class SourceRegistry implements RegistryInterface
             'online_visitors'      => OnlineVisitorsSource::class,
             'published_content'    => PublishedContentSource::class,
             'comments'             => CommentsSource::class,
+            'active_authors'       => ActiveAuthorsSource::class,
+            'active_terms'         => ActiveTermsSource::class,
         ];
 
         $this->defaultsRegistered = true;

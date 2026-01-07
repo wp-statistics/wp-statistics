@@ -1,25 +1,10 @@
 import * as React from 'react'
-import {
-  Loader2,
-  Database,
-  Server,
-  HardDrive,
-  RefreshCw,
-  Settings,
-  Clock,
-} from 'lucide-react'
+import { Loader2, Database, Server, HardDrive, RefreshCw, Settings, Clock } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 
 interface TableInfo {
@@ -186,9 +171,7 @@ export function SystemInfoPage() {
               <Server className="h-5 w-5" />
               Plugin Information
             </CardTitle>
-            <CardDescription>
-              Current versions and environment details.
-            </CardDescription>
+            <CardDescription>Current versions and environment details.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -233,9 +216,7 @@ export function SystemInfoPage() {
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Database className="h-12 w-12 text-muted-foreground/50 mb-4" />
               <h3 className="text-lg font-medium mb-1">No tables found</h3>
-              <p className="text-sm text-muted-foreground">
-                Database tables have not been created yet.
-              </p>
+              <p className="text-sm text-muted-foreground">Database tables have not been created yet.</p>
             </div>
           ) : (
             <Table>
@@ -254,30 +235,28 @@ export function SystemInfoPage() {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <HardDrive className="h-4 w-4 text-muted-foreground" />
-                        <code className="text-xs bg-muted px-1.5 py-0.5 rounded">
-                          {table.key}
-                        </code>
+                        <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{table.key}</code>
                         {table.isLegacy && (
-                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                          <Badge
+                            variant="secondary"
+                            className="text-[10px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                          >
                             Legacy
                           </Badge>
                         )}
                         {table.isAddon && (
-                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400">
+                          <Badge
+                            variant="secondary"
+                            className="text-[10px] px-1.5 py-0 h-4 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                          >
                             {table.addonName || 'Add-on'}
                           </Badge>
                         )}
                       </div>
                     </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {table.description || '-'}
-                    </TableCell>
-                    <TableCell className="text-right font-mono">
-                      {table.records.toLocaleString()}
-                    </TableCell>
-                    <TableCell className="text-right text-muted-foreground">
-                      {table.size}
-                    </TableCell>
+                    <TableCell className="text-muted-foreground">{table.description || '-'}</TableCell>
+                    <TableCell className="text-right font-mono">{table.records.toLocaleString()}</TableCell>
+                    <TableCell className="text-right text-muted-foreground">{table.size}</TableCell>
                     <TableCell>
                       <Badge variant="outline">{table.engine}</Badge>
                     </TableCell>
@@ -297,16 +276,9 @@ export function SystemInfoPage() {
               <Settings className="h-5 w-5" />
               Options & Transients
             </CardTitle>
-            <CardDescription>
-              WordPress options and transients used by WP Statistics.
-            </CardDescription>
+            <CardDescription>WordPress options and transients used by WP Statistics.</CardDescription>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={fetchOptionsAndTransients}
-            disabled={isLoadingOptionsTransients}
-          >
+          <Button variant="outline" size="sm" onClick={fetchOptionsAndTransients} disabled={isLoadingOptionsTransients}>
             {isLoadingOptionsTransients ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
@@ -317,9 +289,7 @@ export function SystemInfoPage() {
         </CardHeader>
         <CardContent>
           {options.length === 0 && transients.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              Click "Load Data" to view options and transients.
-            </p>
+            <p className="text-sm text-muted-foreground">Click "Load Data" to view options and transients.</p>
           ) : (
             <div className="space-y-6">
               {/* Options Section */}
@@ -340,9 +310,7 @@ export function SystemInfoPage() {
                         <div className="divide-y">
                           {items.map((opt, idx) => (
                             <div key={`${opt.key}-${idx}`} className="px-3 py-2 flex items-start gap-4">
-                              <code className="text-xs bg-muted px-1.5 py-0.5 rounded shrink-0">
-                                {opt.key}
-                              </code>
+                              <code className="text-xs bg-muted px-1.5 py-0.5 rounded shrink-0">{opt.key}</code>
                               <pre className="text-xs text-muted-foreground whitespace-pre-wrap break-all flex-1 max-h-24 overflow-auto">
                                 {opt.value}
                               </pre>
@@ -365,9 +333,7 @@ export function SystemInfoPage() {
                   <div className="rounded-md border divide-y">
                     {transients.map((trans, idx) => (
                       <div key={`${trans.name}-${idx}`} className="px-3 py-2 flex items-start gap-4">
-                        <code className="text-xs bg-muted px-1.5 py-0.5 rounded shrink-0">
-                          {trans.name}
-                        </code>
+                        <code className="text-xs bg-muted px-1.5 py-0.5 rounded shrink-0">{trans.name}</code>
                         <pre className="text-xs text-muted-foreground whitespace-pre-wrap break-all flex-1 max-h-24 overflow-auto">
                           {trans.value}
                         </pre>
@@ -378,9 +344,7 @@ export function SystemInfoPage() {
               )}
 
               {transients.length === 0 && options.length > 0 && (
-                <p className="text-sm text-muted-foreground">
-                  No transients found.
-                </p>
+                <p className="text-sm text-muted-foreground">No transients found.</p>
               )}
             </div>
           )}

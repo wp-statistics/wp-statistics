@@ -32,7 +32,12 @@ export function DataTableCard<TData>({ row, columns, isExpanded, onToggleExpand 
   // Use fallback if no meta configured
   const displayHeaderColumns = headerColumns.length > 0 ? headerColumns : fallbackHeaderColumns
   const displayBodyColumns = bodyColumns.length > 0 ? bodyColumns : fallbackBodyColumns
-  const displaySecondaryColumns = secondaryColumns.length > 0 ? secondaryColumns : (hasMeta ? columns.filter((col) => !col.meta?.priority) : fallbackSecondaryColumns)
+  const displaySecondaryColumns =
+    secondaryColumns.length > 0
+      ? secondaryColumns
+      : hasMeta
+        ? columns.filter((col) => !col.meta?.priority)
+        : fallbackSecondaryColumns
 
   // Get cell content for a column - use getAllCells to include hidden columns for mobile card view
   const getCellContent = (column: ColumnDef<TData, unknown>) => {

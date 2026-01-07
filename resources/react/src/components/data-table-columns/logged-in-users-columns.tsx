@@ -158,9 +158,7 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
     {
       accessorKey: 'visitorInfo',
       header: 'Visitor Info',
-      cell: ({ row }) => (
-        <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />
-      ),
+      cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
     },
     {
       accessorKey: 'lastVisit',
@@ -170,12 +168,7 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
     {
       accessorKey: 'page',
       header: 'Page',
-      cell: ({ row }) => (
-        <PageCell
-          data={{ title: row.original.pageTitle, url: row.original.page }}
-          maxLength={35}
-        />
-      ),
+      cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
     },
     {
       accessorKey: 'referrer',
@@ -210,9 +203,7 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
-      ),
+      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     },

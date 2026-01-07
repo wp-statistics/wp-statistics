@@ -6,13 +6,7 @@ import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { useSettings, useSetting } from '@/hooks/use-settings'
 
@@ -41,24 +35,12 @@ export function AdvancedSettings() {
 
   // IP Detection Settings
   const [ipMethod, setIpMethod] = useSetting(settings, 'ip_method', 'sequential')
-  const [customHeaderIpMethod, setCustomHeaderIpMethod] = useSetting(
-    settings,
-    'user_custom_header_ip_method',
-    ''
-  )
+  const [customHeaderIpMethod, setCustomHeaderIpMethod] = useSetting(settings, 'user_custom_header_ip_method', '')
 
   // GeoIP Settings
-  const [geoipLicenseType, setGeoipLicenseType] = useSetting(
-    settings,
-    'geoip_license_type',
-    'js-deliver'
-  )
+  const [geoipLicenseType, setGeoipLicenseType] = useSetting(settings, 'geoip_license_type', 'js-deliver')
   const [geoipLicenseKey, setGeoipLicenseKey] = useSetting(settings, 'geoip_license_key', '')
-  const [geoipDbipLicenseKey, setGeoipDbipLicenseKey] = useSetting(
-    settings,
-    'geoip_dbip_license_key_option',
-    ''
-  )
+  const [geoipDbipLicenseKey, setGeoipDbipLicenseKey] = useSetting(settings, 'geoip_dbip_license_key_option', '')
   const [geoipDetectionMethod, setGeoipDetectionMethod] = useSetting(
     settings,
     'geoip_location_detection_method',
@@ -66,32 +48,16 @@ export function AdvancedSettings() {
   )
   const [scheduleGeoip, setScheduleGeoip] = useSetting(settings, 'schedule_geoip', false)
   const [autoPop, setAutoPop] = useSetting(settings, 'auto_pop', false)
-  const [privateCountryCode, setPrivateCountryCode] = useSetting(
-    settings,
-    'private_country_code',
-    '000'
-  )
+  const [privateCountryCode, setPrivateCountryCode] = useSetting(settings, 'private_country_code', '000')
 
   // Database Settings
-  const [deleteOnUninstall, setDeleteOnUninstall] = useSetting(
-    settings,
-    'delete_data_on_uninstall',
-    false
-  )
+  const [deleteOnUninstall, setDeleteOnUninstall] = useSetting(settings, 'delete_data_on_uninstall', false)
 
   // Content Analytics Settings
-  const [wordCountAnalytics, setWordCountAnalytics] = useSetting(
-    settings,
-    'word_count_analytics',
-    false
-  )
+  const [wordCountAnalytics, setWordCountAnalytics] = useSetting(settings, 'word_count_analytics', false)
 
   // Other Settings
-  const [shareAnonymousData, setShareAnonymousData] = useSetting(
-    settings,
-    'share_anonymous_data',
-    false
-  )
+  const [shareAnonymousData, setShareAnonymousData] = useSetting(settings, 'share_anonymous_data', false)
 
   const handleSave = async () => {
     const success = await settings.save()
@@ -114,9 +80,7 @@ export function AdvancedSettings() {
       <Card>
         <CardHeader>
           <CardTitle>IP Detection</CardTitle>
-          <CardDescription>
-            Configure how visitor IP addresses are detected.
-          </CardDescription>
+          <CardDescription>Configure how visitor IP addresses are detected.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
@@ -139,8 +103,8 @@ export function AdvancedSettings() {
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">
-              Select how visitor IP addresses should be detected. Use 'Sequential' to check all
-              headers automatically, or specify a specific header for your server configuration.
+              Select how visitor IP addresses should be detected. Use 'Sequential' to check all headers automatically,
+              or specify a specific header for your server configuration.
             </p>
           </div>
 
@@ -193,18 +157,13 @@ export function AdvancedSettings() {
       <Card>
         <CardHeader>
           <CardTitle>GeoIP Settings</CardTitle>
-          <CardDescription>
-            Configure how visitor locations are detected and displayed.
-          </CardDescription>
+          <CardDescription>Configure how visitor locations are detected and displayed.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="geoip-detection">Location Detection Method</Label>
-              <Select
-                value={geoipDetectionMethod as string}
-                onValueChange={setGeoipDetectionMethod}
-              >
+              <Select value={geoipDetectionMethod as string} onValueChange={setGeoipDetectionMethod}>
                 <SelectTrigger id="geoip-detection">
                   <SelectValue placeholder="Select method" />
                 </SelectTrigger>
@@ -259,15 +218,9 @@ export function AdvancedSettings() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="schedule-geoip">Auto-Update GeoIP Database</Label>
-              <p className="text-sm text-muted-foreground">
-                Automatically download the latest GeoIP database weekly.
-              </p>
+              <p className="text-sm text-muted-foreground">Automatically download the latest GeoIP database weekly.</p>
             </div>
-            <Switch
-              id="schedule-geoip"
-              checked={!!scheduleGeoip}
-              onCheckedChange={setScheduleGeoip}
-            />
+            <Switch id="schedule-geoip" checked={!!scheduleGeoip} onCheckedChange={setScheduleGeoip} />
           </div>
 
           <div className="flex items-center justify-between">
@@ -291,9 +244,7 @@ export function AdvancedSettings() {
               onChange={(e) => setPrivateCountryCode(e.target.value)}
               className="w-24"
             />
-            <p className="text-xs text-muted-foreground">
-              Country code to use for private/local IP addresses.
-            </p>
+            <p className="text-xs text-muted-foreground">Country code to use for private/local IP addresses.</p>
           </div>
         </CardContent>
       </Card>
@@ -308,15 +259,10 @@ export function AdvancedSettings() {
             <div className="space-y-0.5">
               <Label htmlFor="word-count-analytics">Word Count Analytics</Label>
               <p className="text-sm text-muted-foreground">
-                Calculate and store word count for posts to enable reading time estimates and content
-                length analytics.
+                Calculate and store word count for posts to enable reading time estimates and content length analytics.
               </p>
             </div>
-            <Switch
-              id="word-count-analytics"
-              checked={!!wordCountAnalytics}
-              onCheckedChange={setWordCountAnalytics}
-            />
+            <Switch id="word-count-analytics" checked={!!wordCountAnalytics} onCheckedChange={setWordCountAnalytics} />
           </div>
         </CardContent>
       </Card>
@@ -334,11 +280,7 @@ export function AdvancedSettings() {
                 Help us improve WP Statistics by sharing anonymous usage data.
               </p>
             </div>
-            <Switch
-              id="share-anonymous"
-              checked={!!shareAnonymousData}
-              onCheckedChange={setShareAnonymousData}
-            />
+            <Switch id="share-anonymous" checked={!!shareAnonymousData} onCheckedChange={setShareAnonymousData} />
           </div>
         </CardContent>
       </Card>
@@ -346,24 +288,18 @@ export function AdvancedSettings() {
       <Card className="border-destructive/50">
         <CardHeader>
           <CardTitle className="text-destructive">Danger Zone</CardTitle>
-          <CardDescription>
-            These actions are irreversible. Please proceed with caution.
-          </CardDescription>
+          <CardDescription>These actions are irreversible. Please proceed with caution.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="delete-on-uninstall">Delete All Data on Uninstall</Label>
               <p className="text-sm text-muted-foreground">
-                Remove all WP Statistics data from the database when the plugin is uninstalled. This
-                action cannot be undone.
+                Remove all WP Statistics data from the database when the plugin is uninstalled. This action cannot be
+                undone.
               </p>
             </div>
-            <Switch
-              id="delete-on-uninstall"
-              checked={!!deleteOnUninstall}
-              onCheckedChange={setDeleteOnUninstall}
-            />
+            <Switch id="delete-on-uninstall" checked={!!deleteOnUninstall} onCheckedChange={setDeleteOnUninstall} />
           </div>
 
           <div className="border-t pt-6">
@@ -371,19 +307,14 @@ export function AdvancedSettings() {
               <div className="space-y-0.5">
                 <Label>Restore Default Settings</Label>
                 <p className="text-sm text-muted-foreground">
-                  Reset all WP Statistics settings to their default values. Your statistics data will
-                  not be affected.
+                  Reset all WP Statistics settings to their default values. Your statistics data will not be affected.
                 </p>
               </div>
               <Button
                 variant="destructive"
                 size="sm"
                 onClick={async () => {
-                  if (
-                    confirm(
-                      'Are you sure you want to restore all settings to defaults? This cannot be undone.'
-                    )
-                  ) {
+                  if (confirm('Are you sure you want to restore all settings to defaults? This cannot be undone.')) {
                     setIsResetting(true)
                     try {
                       const response = await fetch(
@@ -415,14 +346,7 @@ export function AdvancedSettings() {
         </CardContent>
       </Card>
 
-      {settings.error && (
-        <NoticeBanner
-          id="settings-error"
-          message={settings.error}
-          type="error"
-          dismissible={false}
-        />
-      )}
+      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>

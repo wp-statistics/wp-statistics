@@ -81,10 +81,9 @@ export const getVisibleColumnsForSave = (
  * Get default API columns (all columns visible)
  */
 export const getDefaultApiColumns = (config: ColumnConfig): string[] => {
-  return [
-    ...config.baseColumns,
-    ...Object.values(config.columnDependencies).flat(),
-  ].filter((col, index, arr) => arr.indexOf(col) === index)
+  return [...config.baseColumns, ...Object.values(config.columnDependencies).flat()].filter(
+    (col, index, arr) => arr.indexOf(col) === index
+  )
 }
 
 /**
@@ -97,10 +96,7 @@ export const getCacheKey = (context: string): string => {
 /**
  * Get cached API columns from localStorage
  */
-export const getCachedApiColumns = (
-  allColumnIds: string[],
-  config: ColumnConfig
-): string[] | null => {
+export const getCachedApiColumns = (allColumnIds: string[], config: ColumnConfig): string[] | null => {
   try {
     const cacheKey = getCacheKey(config.context)
     const cached = localStorage.getItem(cacheKey)
@@ -164,10 +160,7 @@ export const getCachedVisibleColumns = (context: string): string[] | null => {
  * Get cached visibility state for TanStack Table
  * Returns a Record where visible columns are true and hidden columns are false
  */
-export const getCachedVisibility = (
-  context: string,
-  allColumnIds: string[]
-): Record<string, boolean> | null => {
+export const getCachedVisibility = (context: string, allColumnIds: string[]): Record<string, boolean> | null => {
   const cachedColumns = getCachedVisibleColumns(context)
   if (!cachedColumns) return null
 

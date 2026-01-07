@@ -367,10 +367,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       if (!urlDateFrom || !urlDateTo) return
 
       // Use ref for comparison (avoids effect re-registration)
-      if (
-        hashParams.date_from === currentDatesRef.current.from &&
-        hashParams.date_to === currentDatesRef.current.to
-      ) {
+      if (hashParams.date_from === currentDatesRef.current.from && hashParams.date_to === currentDatesRef.current.to) {
         // Dates match, no update needed
         return
       }
@@ -456,85 +453,97 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
   }, [state, navigate])
 
   // Set date range (manual action)
-  const setDateRange = useCallback((range: DateRange, compare?: DateRange) => {
-    setState((prev) => {
-      const newState = {
-        ...prev,
-        dateFrom: range.from,
-        dateTo: range.to || range.from,
-        compareDateFrom: compare?.from,
-        compareDateTo: compare?.to,
-        page: 1, // Reset to first page when dates change
-        source: 'manual' as FilterSource,
-      }
+  const setDateRange = useCallback(
+    (range: DateRange, compare?: DateRange) => {
+      setState((prev) => {
+        const newState = {
+          ...prev,
+          dateFrom: range.from,
+          dateTo: range.to || range.from,
+          compareDateFrom: compare?.from,
+          compareDateTo: compare?.to,
+          page: 1, // Reset to first page when dates change
+          source: 'manual' as FilterSource,
+        }
 
-      // Save to preferences (debounced to batch rapid changes)
-      const urlFilters = filtersToUrlFilters(prev.filters)
-      debouncedSavePrefs({
-        date_from: formatDateForAPI(newState.dateFrom),
-        date_to: formatDateForAPI(newState.dateTo),
-        previous_date_from: newState.compareDateFrom ? formatDateForAPI(newState.compareDateFrom) : undefined,
-        previous_date_to: newState.compareDateTo ? formatDateForAPI(newState.compareDateTo) : undefined,
-        filters: urlFilters.length > 0 ? urlFilters : undefined,
+        // Save to preferences (debounced to batch rapid changes)
+        const urlFilters = filtersToUrlFilters(prev.filters)
+        debouncedSavePrefs({
+          date_from: formatDateForAPI(newState.dateFrom),
+          date_to: formatDateForAPI(newState.dateTo),
+          previous_date_from: newState.compareDateFrom ? formatDateForAPI(newState.compareDateFrom) : undefined,
+          previous_date_to: newState.compareDateTo ? formatDateForAPI(newState.compareDateTo) : undefined,
+          filters: urlFilters.length > 0 ? urlFilters : undefined,
+        })
+
+        return newState
       })
-
-      return newState
-    })
-  }, [debouncedSavePrefs])
+    },
+    [debouncedSavePrefs]
+  )
 
   // Set filters (manual action)
-  const setFilters = useCallback((filters: Filter[]) => {
-    setState((prev) => {
-      const newState = {
-        ...prev,
-        filters,
-        page: 1, // Reset to first page when filters change
-        source: 'manual' as FilterSource,
-      }
+  const setFilters = useCallback(
+    (filters: Filter[]) => {
+      setState((prev) => {
+        const newState = {
+          ...prev,
+          filters,
+          page: 1, // Reset to first page when filters change
+          source: 'manual' as FilterSource,
+        }
 
-      // Save to preferences (debounced to batch rapid changes)
-      const urlFilters = filtersToUrlFilters(filters)
-      debouncedSavePrefs({
-        date_from: formatDateForAPI(prev.dateFrom),
-        date_to: formatDateForAPI(prev.dateTo),
-        previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
-        previous_date_to: prev.compareDateTo ? formatDateForAPI(prev.compareDateTo) : undefined,
-        filters: urlFilters.length > 0 ? urlFilters : undefined,
+        // Save to preferences (debounced to batch rapid changes)
+        const urlFilters = filtersToUrlFilters(filters)
+        debouncedSavePrefs({
+          date_from: formatDateForAPI(prev.dateFrom),
+          date_to: formatDateForAPI(prev.dateTo),
+          previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
+          previous_date_to: prev.compareDateTo ? formatDateForAPI(prev.compareDateTo) : undefined,
+          filters: urlFilters.length > 0 ? urlFilters : undefined,
+        })
+
+        return newState
       })
-
-      return newState
-    })
-  }, [debouncedSavePrefs])
+    },
+    [debouncedSavePrefs]
+  )
 
   // Apply filters (same as setFilters, for API consistency)
-  const applyFilters = useCallback((filters: Filter[]) => {
-    setFilters(filters)
-  }, [setFilters])
+  const applyFilters = useCallback(
+    (filters: Filter[]) => {
+      setFilters(filters)
+    },
+    [setFilters]
+  )
 
   // Remove a single filter
-  const removeFilter = useCallback((filterId: string) => {
-    setState((prev) => {
-      const newFilters = prev.filters.filter((f) => f.id !== filterId)
-      const newState = {
-        ...prev,
-        filters: newFilters,
-        page: 1,
-        source: 'manual' as FilterSource,
-      }
+  const removeFilter = useCallback(
+    (filterId: string) => {
+      setState((prev) => {
+        const newFilters = prev.filters.filter((f) => f.id !== filterId)
+        const newState = {
+          ...prev,
+          filters: newFilters,
+          page: 1,
+          source: 'manual' as FilterSource,
+        }
 
-      // Save to preferences (debounced to batch rapid changes)
-      const urlFilters = filtersToUrlFilters(newFilters)
-      debouncedSavePrefs({
-        date_from: formatDateForAPI(prev.dateFrom),
-        date_to: formatDateForAPI(prev.dateTo),
-        previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
-        previous_date_to: prev.compareDateTo ? formatDateForAPI(prev.compareDateTo) : undefined,
-        filters: urlFilters.length > 0 ? urlFilters : undefined,
+        // Save to preferences (debounced to batch rapid changes)
+        const urlFilters = filtersToUrlFilters(newFilters)
+        debouncedSavePrefs({
+          date_from: formatDateForAPI(prev.dateFrom),
+          date_to: formatDateForAPI(prev.dateTo),
+          previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
+          previous_date_to: prev.compareDateTo ? formatDateForAPI(prev.compareDateTo) : undefined,
+          filters: urlFilters.length > 0 ? urlFilters : undefined,
+        })
+
+        return newState
       })
-
-      return newState
-    })
-  }, [debouncedSavePrefs])
+    },
+    [debouncedSavePrefs]
+  )
 
   // Set page (does not change source, does not save to preferences)
   const setPage = useCallback((page: number) => {
@@ -555,7 +564,10 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     navigate({
       search: (prev) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { date_from, date_to, previous_date_from, previous_date_to, filters, page, ...rest } = prev as Record<string, unknown>
+        const { date_from, date_to, previous_date_from, previous_date_to, filters, page, ...rest } = prev as Record<
+          string,
+          unknown
+        >
         return rest
       },
       replace: true,

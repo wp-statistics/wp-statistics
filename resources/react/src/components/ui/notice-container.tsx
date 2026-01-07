@@ -56,9 +56,7 @@ export function NoticeContainer({ className }: NoticeContainerProps) {
   )
 
   // Filter out dismissed notices
-  const activeNotices = initialNotices.filter(
-    (notice) => !dismissed.includes(notice.id)
-  )
+  const activeNotices = initialNotices.filter((notice) => !dismissed.includes(notice.id))
 
   if (!activeNotices.length) {
     return null

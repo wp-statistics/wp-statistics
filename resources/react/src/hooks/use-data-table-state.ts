@@ -70,14 +70,7 @@ export interface UseDataTableStateReturn {
 }
 
 export function useDataTableState(options: UseDataTableStateOptions): UseDataTableStateReturn {
-  const {
-    columnConfig,
-    defaultSort,
-    defaultHiddenColumns,
-    allColumnIds,
-    columnPreferences,
-    hasData,
-  } = options
+  const { columnConfig, defaultSort, defaultHiddenColumns, allColumnIds, columnPreferences, hasData } = options
 
   const context = columnConfig.context
 
@@ -144,7 +137,6 @@ export function useDataTableState(options: UseDataTableStateOptions): UseDataTab
     computedColumnOrderRef.current = newOrder
 
     return visibility
-     
   }, [hasData, columnPreferences, allColumnIds, defaultHiddenColumns])
 
   // Sync column order when preferences are computed (only once on initial load)

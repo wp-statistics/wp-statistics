@@ -1,23 +1,10 @@
 import * as React from 'react'
-import {
-  Loader2,
-  Clock,
-  Play,
-  Calendar,
-  RefreshCw,
-} from 'lucide-react'
+import { Loader2, Clock, Play, Calendar, RefreshCw } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 
 interface ScheduledTask {
@@ -139,11 +126,7 @@ export function ScheduledTasksPage() {
       weekly: 'secondary',
       monthly: 'outline',
     }
-    return (
-      <Badge variant={variants[recurrence] || 'outline'}>
-        {recurrence}
-      </Badge>
-    )
+    return <Badge variant={variants[recurrence] || 'outline'}>{recurrence}</Badge>
   }
 
   if (isLoading) {
@@ -164,9 +147,8 @@ export function ScheduledTasksPage() {
           <div>
             <h4 className="font-medium mb-1">About Scheduled Tasks</h4>
             <p className="text-sm text-muted-foreground">
-              These tasks run automatically via WordPress cron. Some tasks may be disabled
-              based on your plugin settings. You can manually trigger any task using the
-              "Run Now" button.
+              These tasks run automatically via WordPress cron. Some tasks may be disabled based on your plugin
+              settings. You can manually trigger any task using the "Run Now" button.
             </p>
           </div>
         </div>
@@ -192,15 +174,10 @@ export function ScheduledTasksPage() {
               Scheduled Tasks
             </CardTitle>
             <CardDescription>
-              {tasks.filter(t => t.enabled).length} of {tasks.length} tasks are currently enabled.
+              {tasks.filter((t) => t.enabled).length} of {tasks.length} tasks are currently enabled.
             </CardDescription>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={fetchTasks}
-            disabled={isLoading}
-          >
+          <Button variant="outline" size="sm" onClick={fetchTasks} disabled={isLoading}>
             <RefreshCw className="mr-2 h-4 w-4" />
             Refresh
           </Button>
@@ -210,9 +187,7 @@ export function ScheduledTasksPage() {
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Clock className="h-12 w-12 text-muted-foreground/50 mb-4" />
               <h3 className="text-lg font-medium mb-1">No scheduled tasks</h3>
-              <p className="text-sm text-muted-foreground">
-                No cron jobs have been registered.
-              </p>
+              <p className="text-sm text-muted-foreground">No cron jobs have been registered.</p>
             </div>
           ) : (
             <Table>
@@ -231,23 +206,17 @@ export function ScheduledTasksPage() {
                     <TableCell>
                       <div>
                         <p className="font-medium">{task.label}</p>
-                        <code className="text-xs text-muted-foreground">
-                          {task.hook}
-                        </code>
+                        <code className="text-xs text-muted-foreground">{task.hook}</code>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      {getRecurrenceBadge(task.recurrence)}
-                    </TableCell>
+                    <TableCell>{getRecurrenceBadge(task.recurrence)}</TableCell>
                     <TableCell>
                       {task.enabled ? (
                         <Badge variant="default" className="bg-green-500 hover:bg-green-600">
                           Enabled
                         </Badge>
                       ) : (
-                        <Badge variant="secondary">
-                          Disabled
-                        </Badge>
+                        <Badge variant="secondary">Disabled</Badge>
                       )}
                     </TableCell>
                     <TableCell>

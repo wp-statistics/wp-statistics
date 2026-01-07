@@ -164,9 +164,7 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
       accessorKey: 'visitorInfo',
       header: () => 'Visitor Info',
       size: COLUMN_SIZES.visitorInfo,
-      cell: ({ row }) => (
-        <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />
-      ),
+      cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
       meta: {
         priority: 'primary',
         cardPosition: 'header',
@@ -267,7 +265,9 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     // Hidden by default columns
     {
       accessorKey: 'viewsPerSession',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />,
+      header: ({ column }) => (
+        <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />
+      ),
       size: COLUMN_SIZES.viewsPerSession,
       enableHiding: true,
       cell: ({ row }) => <NumericCell value={row.original.viewsPerSession} decimals={1} />,
@@ -292,9 +292,7 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
       header: () => 'Status',
       size: COLUMN_SIZES.status,
       enableHiding: true,
-      cell: ({ row }) => (
-        <StatusCell status={row.original.visitorStatus} firstVisit={row.original.firstVisit} />
-      ),
+      cell: ({ row }) => <StatusCell status={row.original.visitorStatus} firstVisit={row.original.firstVisit} />,
       meta: {
         priority: 'secondary',
         mobileLabel: 'Status',

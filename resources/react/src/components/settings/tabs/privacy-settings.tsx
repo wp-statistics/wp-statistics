@@ -4,13 +4,7 @@ import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { useSettings, useSetting } from '@/hooks/use-settings'
 import { Loader2 } from 'lucide-react'
@@ -23,16 +17,8 @@ export function PrivacySettings() {
   const [hashIps, setHashIps] = useSetting(settings, 'hash_ips', true)
   const [doNotTrack, setDoNotTrack] = useSetting(settings, 'do_not_track', false)
   const [anonymousTracking, setAnonymousTracking] = useSetting(settings, 'anonymous_tracking', false)
-  const [consentIntegration, setConsentIntegration] = useSetting(
-    settings,
-    'consent_integration',
-    'none'
-  )
-  const [consentLevel, setConsentLevel] = useSetting(
-    settings,
-    'consent_level_integration',
-    'functional'
-  )
+  const [consentIntegration, setConsentIntegration] = useSetting(settings, 'consent_integration', 'none')
+  const [consentLevel, setConsentLevel] = useSetting(settings, 'consent_level_integration', 'functional')
   const [privacyAudit, setPrivacyAudit] = useSetting(settings, 'privacy_audit', true)
 
   const handleSave = async () => {
@@ -56,9 +42,7 @@ export function PrivacySettings() {
       <Card>
         <CardHeader>
           <CardTitle>Data Protection</CardTitle>
-          <CardDescription>
-            Configure how visitor IP addresses are stored and processed.
-          </CardDescription>
+          <CardDescription>Configure how visitor IP addresses are stored and processed.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
@@ -68,11 +52,7 @@ export function PrivacySettings() {
                 Masks the last segment of IP addresses for privacy compliance.
               </p>
             </div>
-            <Switch
-              id="anonymize-ips"
-              checked={!!anonymizeIps}
-              onCheckedChange={setAnonymizeIps}
-            />
+            <Switch id="anonymize-ips" checked={!!anonymizeIps} onCheckedChange={setAnonymizeIps} />
           </div>
 
           <div className="flex items-center justify-between">
@@ -90,22 +70,15 @@ export function PrivacySettings() {
       <Card>
         <CardHeader>
           <CardTitle>User Preferences</CardTitle>
-          <CardDescription>
-            Configure consent integration and respect user privacy preferences.
-          </CardDescription>
+          <CardDescription>Configure consent integration and respect user privacy preferences.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="consent-integration">Consent Plugin Integration</Label>
-              <p className="text-sm text-muted-foreground">
-                Integrate with supported consent management plugins.
-              </p>
+              <p className="text-sm text-muted-foreground">Integrate with supported consent management plugins.</p>
             </div>
-            <Select
-              value={consentIntegration as string}
-              onValueChange={setConsentIntegration}
-            >
+            <Select value={consentIntegration as string} onValueChange={setConsentIntegration}>
               <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Select plugin" />
               </SelectTrigger>
@@ -124,9 +97,7 @@ export function PrivacySettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label htmlFor="consent-level">Consent Category</Label>
-                <p className="text-sm text-muted-foreground">
-                  Select the consent category WP Statistics should track.
-                </p>
+                <p className="text-sm text-muted-foreground">Select the consent category WP Statistics should track.</p>
               </div>
               <Select value={consentLevel as string} onValueChange={setConsentLevel}>
                 <SelectTrigger className="w-[200px]">
@@ -146,15 +117,9 @@ export function PrivacySettings() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label htmlFor="anonymous-tracking">Anonymous Tracking</Label>
-                <p className="text-sm text-muted-foreground">
-                  Track all users anonymously without PII by default.
-                </p>
+                <p className="text-sm text-muted-foreground">Track all users anonymously without PII by default.</p>
               </div>
-              <Switch
-                id="anonymous-tracking"
-                checked={!!anonymousTracking}
-                onCheckedChange={setAnonymousTracking}
-              />
+              <Switch id="anonymous-tracking" checked={!!anonymousTracking} onCheckedChange={setAnonymousTracking} />
             </div>
           )}
 
@@ -183,23 +148,12 @@ export function PrivacySettings() {
                 Show privacy indicators on settings that affect user privacy.
               </p>
             </div>
-            <Switch
-              id="privacy-audit"
-              checked={!!privacyAudit}
-              onCheckedChange={setPrivacyAudit}
-            />
+            <Switch id="privacy-audit" checked={!!privacyAudit} onCheckedChange={setPrivacyAudit} />
           </div>
         </CardContent>
       </Card>
 
-      {settings.error && (
-        <NoticeBanner
-          id="settings-error"
-          message={settings.error}
-          type="error"
-          dismissible={false}
-        />
-      )}
+      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>

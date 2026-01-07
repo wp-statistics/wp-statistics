@@ -5,13 +5,7 @@ import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useSettings, useSetting } from '@/hooks/use-settings'
 
 // Common WordPress capabilities that can be used for access control
@@ -28,16 +22,8 @@ export function AccessSettings() {
   const settings = useSettings({ tab: 'access' })
 
   // Access Level Settings
-  const [readCapability, setReadCapability] = useSetting(
-    settings,
-    'read_capability',
-    'manage_options'
-  )
-  const [manageCapability, setManageCapability] = useSetting(
-    settings,
-    'manage_capability',
-    'manage_options'
-  )
+  const [readCapability, setReadCapability] = useSetting(settings, 'read_capability', 'manage_options')
+  const [manageCapability, setManageCapability] = useSetting(settings, 'manage_capability', 'manage_options')
 
   const handleSave = async () => {
     const success = await settings.save()
@@ -60,9 +46,7 @@ export function AccessSettings() {
       <Card>
         <CardHeader>
           <CardTitle>Roles & Permissions</CardTitle>
-          <CardDescription>
-            Control which users can view statistics and manage plugin settings.
-          </CardDescription>
+          <CardDescription>Control which users can view statistics and manage plugin settings.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
@@ -80,8 +64,8 @@ export function AccessSettings() {
               </SelectContent>
             </Select>
             <p className="text-sm text-muted-foreground">
-              Select the least privileged user role allowed to view WP Statistics. Higher roles will
-              also have this permission.
+              Select the least privileged user role allowed to view WP Statistics. Higher roles will also have this
+              permission.
             </p>
           </div>
 
@@ -100,8 +84,8 @@ export function AccessSettings() {
               </SelectContent>
             </Select>
             <p className="text-sm text-muted-foreground">
-              Select the least privileged user role allowed to change WP Statistics settings. This
-              should typically be reserved for trusted roles.
+              Select the least privileged user role allowed to change WP Statistics settings. This should typically be
+              reserved for trusted roles.
             </p>
           </div>
 
@@ -131,14 +115,7 @@ export function AccessSettings() {
         </CardContent>
       </Card>
 
-      {settings.error && (
-        <NoticeBanner
-          id="settings-error"
-          message={settings.error}
-          type="error"
-          dismissible={false}
-        />
-      )}
+      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>

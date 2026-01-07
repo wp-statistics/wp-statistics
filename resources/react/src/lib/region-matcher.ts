@@ -134,9 +134,7 @@ export function createRegionMatcher(regionItems: RegionItem[]): {
  * Hook-friendly wrapper that returns a stable matcher instance
  * when regionItems reference changes
  */
-export function buildRegionDataMap(
-  regionItems: RegionItem[]
-): Map<string, RegionData> {
+export function buildRegionDataMap(regionItems: RegionItem[]): Map<string, RegionData> {
   const map = new Map<string, RegionData>()
 
   for (const region of regionItems) {

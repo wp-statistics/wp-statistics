@@ -220,7 +220,15 @@ export const WithSubMenu: Story = {
 }
 
 // Badge component for menu items (same as used in nav-main.tsx)
-const MenuBadge = ({ count, live = false, isActive = false }: { count: number; live?: boolean; isActive?: boolean }) => {
+const MenuBadge = ({
+  count,
+  live = false,
+  isActive = false,
+}: {
+  count: number
+  live?: boolean
+  isActive?: boolean
+}) => {
   if (count <= 0) return null
 
   // Format large numbers with commas
@@ -318,7 +326,10 @@ export const WithBadges: Story = {
       </Sidebar>
       <SidebarInset>
         <main className="p-4">
-          <p>Sidebar with count badges on menu items. Badges show blue rounded pills with counts, displaying "99+" for large numbers.</p>
+          <p>
+            Sidebar with count badges on menu items. Badges show blue rounded pills with counts, displaying "99+" for
+            large numbers.
+          </p>
         </main>
       </SidebarInset>
     </SidebarProvider>

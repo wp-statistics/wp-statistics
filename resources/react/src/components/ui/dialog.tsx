@@ -35,11 +35,7 @@ function DialogOverlay({ className, ...props }: React.ComponentProps<typeof Dial
   )
 }
 
-function DialogContent({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+function DialogContent({ className, children, ...props }: React.ComponentProps<typeof DialogPrimitive.Content>) {
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -91,10 +87,7 @@ function DialogTitle({ className, ...props }: React.ComponentProps<typeof Dialog
   )
 }
 
-function DialogDescription({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Description>) {
+function DialogDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>) {
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"

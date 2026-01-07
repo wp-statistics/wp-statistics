@@ -179,14 +179,15 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
             },
             os: { icon: visitor.os, name: visitor.osName },
             browser: { icon: visitor.browser, name: visitor.browserName, version: visitor.browserVersion },
-            user: visitor.userId && visitor.username
-              ? {
-                  id: Number(visitor.userId),
-                  username: visitor.username,
-                  email: visitor.email,
-                  role: visitor.userRole,
-                }
-              : undefined,
+            user:
+              visitor.userId && visitor.username
+                ? {
+                    id: Number(visitor.userId),
+                    username: visitor.username,
+                    email: visitor.email,
+                    role: visitor.userRole,
+                  }
+                : undefined,
             identifier: visitor.hash || visitor.ipAddress,
           }}
           config={config}
@@ -213,12 +214,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   {
     accessorKey: 'page',
     header: 'Page',
-    cell: ({ row }) => (
-      <PageCell
-        data={{ title: row.original.pageTitle, url: row.original.page }}
-        maxLength={35}
-      />
-    ),
+    cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
     meta: {
       priority: 'primary',
       cardPosition: 'header',
@@ -227,9 +223,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'totalViews',
-    header: ({ column }) => (
-      <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
-    ),
+    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
     size: COLUMN_SIZES.views,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     meta: {
@@ -401,7 +395,6 @@ function RouteComponent() {
     computedColumnOrderRef.current = newOrder
 
     return visibility
-     
   }, [response?.data, allColumnIds])
 
   // Sync column order when preferences are computed (only once on initial load)
@@ -478,15 +471,21 @@ function RouteComponent() {
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(total / PER_PAGE) || 1
 
   // Handle sorting change
-  const handleSortingChange = useCallback((newSorting: SortingState) => {
-    setSorting(newSorting)
-    setPage(1) // Reset to first page when sorting changes
-  }, [setPage])
+  const handleSortingChange = useCallback(
+    (newSorting: SortingState) => {
+      setSorting(newSorting)
+      setPage(1) // Reset to first page when sorting changes
+    },
+    [setPage]
+  )
 
   // Handle page change
-  const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage)
-  }, [setPage])
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setPage(newPage)
+    },
+    [setPage]
+  )
 
   return (
     <div className="min-w-0">

@@ -1,24 +1,10 @@
 import * as React from 'react'
-import {
-  Loader2,
-  Activity,
-  Clock,
-  RefreshCw,
-  PlayCircle,
-  PauseCircle,
-} from 'lucide-react'
+import { Loader2, Activity, Clock, RefreshCw, PlayCircle, PauseCircle } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 
@@ -186,17 +172,8 @@ export function BackgroundJobsPage() {
                 : 'No active background jobs.'}
             </CardDescription>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => fetchJobs()}
-            disabled={isRefreshing}
-          >
-            {isRefreshing ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <RefreshCw className="mr-2 h-4 w-4" />
-            )}
+          <Button variant="outline" size="sm" onClick={() => fetchJobs()} disabled={isRefreshing}>
+            {isRefreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
             Refresh
           </Button>
         </CardHeader>
@@ -205,9 +182,7 @@ export function BackgroundJobsPage() {
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Activity className="h-12 w-12 text-muted-foreground/50 mb-4" />
               <h3 className="text-lg font-medium mb-1">No background jobs</h3>
-              <p className="text-sm text-muted-foreground">
-                Background jobs will appear here when they are running.
-              </p>
+              <p className="text-sm text-muted-foreground">Background jobs will appear here when they are running.</p>
             </div>
           ) : (
             <Table>
@@ -233,8 +208,8 @@ export function BackgroundJobsPage() {
                         <div className="space-y-2">
                           <Progress value={job.progress.percentage} className="h-2" />
                           <div className="text-xs text-muted-foreground">
-                            {job.progress.completed.toLocaleString()} / {job.progress.total.toLocaleString()}
-                            {' '}({job.progress.percentage}%)
+                            {job.progress.completed.toLocaleString()} / {job.progress.total.toLocaleString()} (
+                            {job.progress.percentage}%)
                           </div>
                         </div>
                       ) : job.status === 'queued' ? (
@@ -258,12 +233,12 @@ export function BackgroundJobsPage() {
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground space-y-2">
           <p>
-            Background jobs process large datasets without blocking your browser. They run
-            automatically via WordPress cron and continue even if you close this page.
+            Background jobs process large datasets without blocking your browser. They run automatically via WordPress
+            cron and continue even if you close this page.
           </p>
           <p>
-            Jobs include: GeoIP database updates, visitor location updates, source channel
-            processing, daily summary calculations, and resource cache updates.
+            Jobs include: GeoIP database updates, visitor location updates, source channel processing, daily summary
+            calculations, and resource cache updates.
           </p>
         </CardContent>
       </Card>

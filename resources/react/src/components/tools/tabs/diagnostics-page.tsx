@@ -129,44 +129,20 @@ function DiagnosticCheckItem({ check, isRunning, isRepairing, onRetest, onRepair
             </Button>
           )}
           {canRepair && onRepair && (
-            <Button
-              variant="default"
-              size="sm"
-              onClick={onRepair}
-              disabled={isRepairing || isRunning}
-              className="h-8"
-            >
-              {isRepairing ? (
-                <Loader2 className="mr-1 h-3 w-3 animate-spin" />
-              ) : (
-                <Wrench className="mr-1 h-3 w-3" />
-              )}
+            <Button variant="default" size="sm" onClick={onRepair} disabled={isRepairing || isRunning} className="h-8">
+              {isRepairing ? <Loader2 className="mr-1 h-3 w-3 animate-spin" /> : <Wrench className="mr-1 h-3 w-3" />}
               Repair
             </Button>
           )}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onRetest}
-            disabled={isRunning || isRepairing}
-            className="h-8"
-          >
-            {isRunning ? (
-              <Loader2 className="mr-1 h-3 w-3 animate-spin" />
-            ) : (
-              <RefreshCw className="mr-1 h-3 w-3" />
-            )}
+          <Button variant="outline" size="sm" onClick={onRetest} disabled={isRunning || isRepairing} className="h-8">
+            {isRunning ? <Loader2 className="mr-1 h-3 w-3 animate-spin" /> : <RefreshCw className="mr-1 h-3 w-3" />}
             Re-test
           </Button>
           {hasDetails && (
             <Collapsible open={isOpen} onOpenChange={setIsOpen}>
               <CollapsibleTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-8 px-2">
-                  {isOpen ? (
-                    <ChevronUp className="h-4 w-4" />
-                  ) : (
-                    <ChevronDown className="h-4 w-4" />
-                  )}
+                  {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                 </Button>
               </CollapsibleTrigger>
             </Collapsible>
@@ -178,9 +154,7 @@ function DiagnosticCheckItem({ check, isRunning, isRepairing, onRetest, onRepair
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <CollapsibleContent>
             <div className="border-t px-4 py-3 bg-background/50">
-              <h5 className="text-xs font-medium text-muted-foreground uppercase mb-2">
-                Details
-              </h5>
+              <h5 className="text-xs font-medium text-muted-foreground uppercase mb-2">Details</h5>
               <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-48">
                 {JSON.stringify(check.details, null, 2)}
               </pre>
@@ -253,13 +227,9 @@ export function DiagnosticsPage() {
 
       if (data.success && data.data?.check) {
         const updatedCheck = data.data.check as DiagnosticCheck
-        setChecks((prev) =>
-          prev.map((c) => (c.key === checkKey ? updatedCheck : c))
-        )
+        setChecks((prev) => prev.map((c) => (c.key === checkKey ? updatedCheck : c)))
         // Recalculate counts
-        const updated = checks.map((c) =>
-          c.key === checkKey ? updatedCheck : c
-        )
+        const updated = checks.map((c) => (c.key === checkKey ? updatedCheck : c))
         setFailCount(updated.filter((c) => c.status === 'fail').length)
         setWarningCount(updated.filter((c) => c.status === 'warning').length)
       }

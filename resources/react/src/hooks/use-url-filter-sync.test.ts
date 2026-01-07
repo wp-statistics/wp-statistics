@@ -49,9 +49,7 @@ describe('useUrlFilterSync', () => {
     })
 
     it('should parse filters from URL on mount', () => {
-      const urlFilters: UrlFilter[] = [
-        { field: 'country', operator: 'eq', value: 'US' },
-      ]
+      const urlFilters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
 
       const { result } = renderHook(() =>
         useUrlFilterSync({
@@ -105,9 +103,7 @@ describe('useUrlFilterSync', () => {
     })
 
     it('should not apply default filters when URL has filters', () => {
-      const urlFilters: UrlFilter[] = [
-        { field: 'browser', operator: 'eq', value: 'Chrome' },
-      ]
+      const urlFilters: UrlFilter[] = [{ field: 'browser', operator: 'eq', value: 'Chrome' }]
       const defaultFilters: Filter[] = [
         {
           id: 'country-filter-1',
@@ -211,9 +207,7 @@ describe('useUrlFilterSync', () => {
       )
 
       act(() => {
-        result.current.handleApplyFilters([
-          { id: 'test', label: 'Test', operator: 'eq', value: 'test' },
-        ])
+        result.current.handleApplyFilters([{ id: 'test', label: 'Test', operator: 'eq', value: 'test' }])
       })
 
       expect(result.current.page).toBe(1)
@@ -314,9 +308,7 @@ describe('useUrlFilterSync', () => {
         })
       )
 
-      const newFilters: Filter[] = [
-        { id: 'test', label: 'Test', operator: 'eq', value: 'value' },
-      ]
+      const newFilters: Filter[] = [{ id: 'test', label: 'Test', operator: 'eq', value: 'value' }]
 
       act(() => {
         result.current.setAppliedFilters(newFilters)

@@ -4,13 +4,7 @@ import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { useSettings, useSetting } from '@/hooks/use-settings'
 import { Loader2 } from 'lucide-react'
@@ -46,32 +40,24 @@ export function GeneralSettings() {
       <Card>
         <CardHeader>
           <CardTitle>Tracking Options</CardTitle>
-          <CardDescription>
-            Configure what data WP Statistics collects from your visitors.
-          </CardDescription>
+          <CardDescription>Configure what data WP Statistics collects from your visitors.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="visitors-log">Track Logged-In User Activity</Label>
               <p className="text-sm text-muted-foreground">
-                Tracks activities of logged-in users with their WordPress User IDs. If disabled,
-                logged-in users are tracked anonymously.
+                Tracks activities of logged-in users with their WordPress User IDs. If disabled, logged-in users are
+                tracked anonymously.
               </p>
             </div>
-            <Switch
-              id="visitors-log"
-              checked={!!visitorsLog}
-              onCheckedChange={setVisitorsLog}
-            />
+            <Switch id="visitors-log" checked={!!visitorsLog} onCheckedChange={setVisitorsLog} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="store-ua">Store Entire User Agent String</Label>
-              <p className="text-sm text-muted-foreground">
-                Records full details of visitors for diagnostic purposes.
-              </p>
+              <p className="text-sm text-muted-foreground">Records full details of visitors for diagnostic purposes.</p>
             </div>
             <Switch id="store-ua" checked={!!storeUa} onCheckedChange={setStoreUa} />
           </div>
@@ -80,8 +66,8 @@ export function GeneralSettings() {
             <div className="space-y-0.5">
               <Label htmlFor="attribution-model">Attribution Model</Label>
               <p className="text-sm text-muted-foreground">
-                Select how conversions are attributed: First-Touch credits the first interaction,
-                Last-Touch credits the most recent.
+                Select how conversions are attributed: First-Touch credits the first interaction, Last-Touch credits the
+                most recent.
               </p>
             </div>
             <Select value={attributionModel as string} onValueChange={setAttributionModel}>
@@ -107,14 +93,10 @@ export function GeneralSettings() {
             <div className="space-y-0.5">
               <Label htmlFor="use-cache-plugin">Tracking Method</Label>
               <p className="text-sm text-muted-foreground">
-                Client Side Tracking uses the visitor's browser for better accuracy and caching
-                compatibility.
+                Client Side Tracking uses the visitor's browser for better accuracy and caching compatibility.
               </p>
             </div>
-            <Select
-              value={useCachePlugin ? '1' : '0'}
-              onValueChange={(v) => setUseCachePlugin(v === '1')}
-            >
+            <Select value={useCachePlugin ? '1' : '0'} onValueChange={(v) => setUseCachePlugin(v === '1')}>
               <SelectTrigger className="w-[280px]">
                 <SelectValue placeholder="Select method" />
               </SelectTrigger>
@@ -130,28 +112,16 @@ export function GeneralSettings() {
               <div className="space-y-0.5">
                 <Label htmlFor="bypass-ad-blockers">Bypass Ad Blockers</Label>
                 <p className="text-sm text-muted-foreground">
-                  Dynamically load the tracking script with a unique name and address to bypass ad
-                  blockers.
+                  Dynamically load the tracking script with a unique name and address to bypass ad blockers.
                 </p>
               </div>
-              <Switch
-                id="bypass-ad-blockers"
-                checked={!!bypassAdBlockers}
-                onCheckedChange={setBypassAdBlockers}
-              />
+              <Switch id="bypass-ad-blockers" checked={!!bypassAdBlockers} onCheckedChange={setBypassAdBlockers} />
             </div>
           )}
         </CardContent>
       </Card>
 
-      {settings.error && (
-        <NoticeBanner
-          id="settings-error"
-          message={settings.error}
-          type="error"
-          dismissible={false}
-        />
-      )}
+      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>

@@ -86,20 +86,20 @@ export function createBarListItem(input: BarListItemInput): HorizontalBarItem {
  *   (item) => <DeviceIcon type={item.device_type_name} />
  * )
  */
-export function createBarListItems<T extends {
-  name: string
-  visitors: number
-  previous?: { visitors?: number }
-}>(
-  items: T[],
-  totalValue: number,
-  getIcon?: (item: T) => ReactNode
-): HorizontalBarItem[] {
-  return items.map(item => createBarListItem({
-    name: item.name,
-    currentValue: Number(item.visitors) || 0,
-    previousValue: Number(item.previous?.visitors) || 0,
-    totalValue,
-    icon: getIcon?.(item),
-  }))
+export function createBarListItems<
+  T extends {
+    name: string
+    visitors: number
+    previous?: { visitors?: number }
+  },
+>(items: T[], totalValue: number, getIcon?: (item: T) => ReactNode): HorizontalBarItem[] {
+  return items.map((item) =>
+    createBarListItem({
+      name: item.name,
+      currentValue: Number(item.visitors) || 0,
+      previousValue: Number(item.previous?.visitors) || 0,
+      totalValue,
+      icon: getIcon?.(item),
+    })
+  )
 }

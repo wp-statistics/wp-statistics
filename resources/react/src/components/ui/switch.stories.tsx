@@ -93,9 +93,7 @@ export const Controlled: Story = {
           <Switch id="controlled" checked={checked} onCheckedChange={setChecked} />
           <Label htmlFor="controlled">Dark Mode</Label>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Status: {checked ? 'Enabled' : 'Disabled'}
-        </p>
+        <p className="text-sm text-muted-foreground">Status: {checked ? 'Enabled' : 'Disabled'}</p>
       </div>
     )
   },

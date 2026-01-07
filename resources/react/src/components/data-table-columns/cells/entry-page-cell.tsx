@@ -27,13 +27,9 @@ export const EntryPageCell = memo(function EntryPageCell({ data, maxLength = 28 
             {hasQueryString && <Info className="h-3.5 w-3.5 text-neutral-400 shrink-0" />}
           </div>
         </TooltipTrigger>
-        <TooltipContent>
-          {hasQueryString && queryString ? queryString : url}
-        </TooltipContent>
+        <TooltipContent>{hasQueryString && queryString ? queryString : url}</TooltipContent>
       </Tooltip>
-      {utmCampaign && (
-        <span className="text-xs text-neutral-500 block mt-0.5">{utmCampaign}</span>
-      )}
+      {utmCampaign && <span className="text-xs text-neutral-500 block mt-0.5">{utmCampaign}</span>}
     </div>
   )
 })

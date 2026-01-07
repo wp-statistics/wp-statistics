@@ -40,13 +40,7 @@ export interface ApiErrorProps {
  * }
  * ```
  */
-export function ApiError({
-  title,
-  error,
-  onRetry,
-  className,
-  size = 'md',
-}: ApiErrorProps) {
+export function ApiError({ title, error, onRetry, className, size = 'md' }: ApiErrorProps) {
   const errorMessage = error instanceof Error ? error.message : error
 
   const sizeClasses = {
@@ -68,31 +62,16 @@ export function ApiError({
   }
 
   return (
-    <div
-      className={cn(
-        'flex flex-col items-center justify-center text-center',
-        sizeClasses[size],
-        className
-      )}
-    >
+    <div className={cn('flex flex-col items-center justify-center text-center', sizeClasses[size], className)}>
       <AlertCircle className={cn('text-destructive', iconSizes[size])} />
       <div className="flex flex-col gap-1">
         <p className={cn('font-medium text-destructive', textSizes[size])}>
           {title || __('Failed to load data', 'wp-statistics')}
         </p>
-        {errorMessage && (
-          <p className={cn('text-muted-foreground', textSizes[size])}>
-            {errorMessage}
-          </p>
-        )}
+        {errorMessage && <p className={cn('text-muted-foreground', textSizes[size])}>{errorMessage}</p>}
       </div>
       {onRetry && (
-        <Button
-          variant="outline"
-          size={size === 'lg' ? 'default' : 'sm'}
-          onClick={onRetry}
-          className="mt-2"
-        >
+        <Button variant="outline" size={size === 'lg' ? 'default' : 'sm'} onClick={onRetry} className="mt-2">
           <RefreshCw className="mr-2 h-4 w-4" />
           {__('Try again', 'wp-statistics')}
         </Button>
@@ -104,11 +83,7 @@ export function ApiError({
 /**
  * Inline API error for use within components
  */
-export function ApiErrorInline({
-  error,
-  onRetry,
-  className,
-}: Omit<ApiErrorProps, 'title' | 'size'>) {
+export function ApiErrorInline({ error, onRetry, className }: Omit<ApiErrorProps, 'title' | 'size'>) {
   const errorMessage = error instanceof Error ? error.message : error
 
   return (

@@ -103,9 +103,7 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, on
     <div className="w-full min-w-[520px]">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-100 bg-neutral-50/50">
-        <span className="text-sm font-semibold text-neutral-700 tracking-tight">
-          {__('Filters', 'wp-statistics')}
-        </span>
+        <span className="text-sm font-semibold text-neutral-700 tracking-tight">{__('Filters', 'wp-statistics')}</span>
         {filters.length > 0 && (
           <button
             type="button"

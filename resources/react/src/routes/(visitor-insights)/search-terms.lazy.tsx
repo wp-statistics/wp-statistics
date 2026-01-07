@@ -98,9 +98,12 @@ function RouteComponent() {
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(total / PER_PAGE) || 1
 
   // Handle page change
-  const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage)
-  }, [setPage])
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setPage(newPage)
+    },
+    [setPage]
+  )
 
   return (
     <div className="min-w-0">

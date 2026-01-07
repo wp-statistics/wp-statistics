@@ -352,9 +352,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
           )}
 
           {/* Loading indicator */}
-          {isSearching && (
-            <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground shrink-0" />
-          )}
+          {isSearching && <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground shrink-0" />}
         </div>
 
         {/* Search results dropdown */}
@@ -478,7 +476,13 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
                   }}
                 >
                   <SelectTrigger className="h-6 text-xs border-0 bg-transparent shadow-none min-w-[80px] flex-1 focus:ring-0">
-                    <SelectValue placeholder={currentValues.length > 0 ? __('Add more...', 'wp-statistics') : __('Select values', 'wp-statistics')} />
+                    <SelectValue
+                      placeholder={
+                        currentValues.length > 0
+                          ? __('Add more...', 'wp-statistics')
+                          : __('Select values', 'wp-statistics')
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent className="max-h-[200px] overflow-y-auto">
                     {selectedField.options?.map((option) => (

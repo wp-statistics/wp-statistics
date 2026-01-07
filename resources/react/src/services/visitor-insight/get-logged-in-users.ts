@@ -127,7 +127,20 @@ export const getLoggedInUsersQueryOptions = ({
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context, apiColumns],
+    queryKey: [
+      'logged-in-users',
+      page,
+      per_page,
+      order_by,
+      order,
+      date_from,
+      date_to,
+      previous_date_from,
+      previous_date_to,
+      apiFilters,
+      context,
+      apiColumns,
+    ],
     queryFn: () =>
       clientRequest.post<GetLoggedInUsersResponse>(
         '',

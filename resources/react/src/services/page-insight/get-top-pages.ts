@@ -91,15 +91,7 @@ const columnMapping: Record<string, string> = {
 }
 
 // Default columns when no specific columns are provided
-const DEFAULT_COLUMNS = [
-  'page_uri',
-  'page_title',
-  'page_wp_id',
-  'visitors',
-  'views',
-  'bounce_rate',
-  'avg_time_on_page',
-]
+const DEFAULT_COLUMNS = ['page_uri', 'page_title', 'page_wp_id', 'visitors', 'views', 'bounce_rate', 'avg_time_on_page']
 
 export const getTopPagesQueryOptions = ({
   page,
@@ -124,7 +116,20 @@ export const getTopPagesQueryOptions = ({
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['top-pages', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context, apiColumns],
+    queryKey: [
+      'top-pages',
+      page,
+      per_page,
+      apiOrderBy,
+      order,
+      date_from,
+      date_to,
+      previous_date_from,
+      previous_date_to,
+      apiFilters,
+      context,
+      apiColumns,
+    ],
     queryFn: () =>
       clientRequest.post<GetTopPagesResponse>(
         '',

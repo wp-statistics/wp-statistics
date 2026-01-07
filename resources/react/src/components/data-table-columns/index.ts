@@ -6,12 +6,7 @@
  */
 
 // Types
-export type {
-  PageData,
-  ReferrerData,
-  VisitorInfoConfig,
-  VisitorInfoData,
-} from './types'
+export type { PageData, ReferrerData, VisitorInfoConfig, VisitorInfoData } from './types'
 
 // Cell Components
 export { DurationCell } from './cells/duration-cell'

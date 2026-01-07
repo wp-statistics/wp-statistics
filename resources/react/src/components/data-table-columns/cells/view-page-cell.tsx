@@ -18,9 +18,7 @@ export const ViewPageCell = memo(function ViewPageCell({ url }: ViewPageCellProp
 
   // Case-insensitive protocol check and normalize slashes when joining
   const isAbsoluteUrl = url.toLowerCase().startsWith('http')
-  const fullUrl = isAbsoluteUrl
-    ? url
-    : `${siteUrl.replace(/\/+$/, '')}/${url.replace(/^\/+/, '')}`
+  const fullUrl = isAbsoluteUrl ? url : `${siteUrl.replace(/\/+$/, '')}/${url.replace(/^\/+/, '')}`
 
   return (
     <div className="flex justify-center">

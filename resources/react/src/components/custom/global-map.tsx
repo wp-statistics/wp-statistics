@@ -208,7 +208,7 @@ export function GlobalMap({
   const maxValue = useMemo(() => {
     let max = 0
     data.countries?.forEach((c) => {
-      const value = selectedMetric === 'views' ? (c.views || 0) : c.visitors
+      const value = selectedMetric === 'views' ? c.views || 0 : c.visitors
       if (value > max) max = value
     })
     return max
@@ -254,7 +254,7 @@ export function GlobalMap({
     }
 
     const metricLabel = selectedMetric === 'visitors' ? 'Visitors' : 'Views'
-    const metricValue = selectedMetric === 'views' ? (countryData.views || 0) : countryData.visitors
+    const metricValue = selectedMetric === 'views' ? countryData.views || 0 : countryData.visitors
 
     return (
       <div>
@@ -323,7 +323,7 @@ export function GlobalMap({
           maxLat = Math.max(maxLat, coords[1] as number)
         } else {
           // This is an array of coordinates, recurse
-          (coords as GeoJSONCoordinates[]).forEach(processCoordinates)
+          ;(coords as GeoJSONCoordinates[]).forEach(processCoordinates)
         }
       }
 
@@ -392,10 +392,7 @@ export function GlobalMap({
   }, [regionItems])
 
   // Total values for percentage calculation - now uses matcher's total function
-  const totalRegionValue = useMemo(
-    () => regionMatcher.total(selectedMetric),
-    [regionMatcher, selectedMetric]
-  )
+  const totalRegionValue = useMemo(() => regionMatcher.total(selectedMetric), [regionMatcher, selectedMetric])
 
   // Helper to match province name from GeoJSON to our region data - O(1) average
   const getRegionMatch = useCallback(
@@ -503,7 +500,12 @@ export function GlobalMap({
           {/* Back Button with Country Flag */}
           {viewMode === 'cities' && selectedCountry && (
             <div className="absolute left-2 md:left-4 bottom-2 md:bottom-4 z-10">
-              <Button variant="outline" size="sm" className="bg-white shadow-sm gap-2 text-xs h-10 md:h-8 px-3 md:px-2" onClick={handleBackToWorld}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-white shadow-sm gap-2 text-xs h-10 md:h-8 px-3 md:px-2"
+                onClick={handleBackToWorld}
+              >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <img
                   src={
@@ -559,167 +561,75 @@ export function GlobalMap({
             fallbackMessage="Unable to render the map. Please try refreshing the page."
             onReset={handleBackToWorld}
           >
-          <ComposableMap
-            projection={MAP_PROJECTION.TYPE}
-            projectionConfig={{
-              rotate: MAP_PROJECTION.ROTATE,
-              center: MAP_PROJECTION.CENTER,
-              scale: MAP_PROJECTION.SCALE,
-            }}
-            width={MAP_PROJECTION.WIDTH}
-            height={MAP_PROJECTION.HEIGHT}
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-          >
-            <ZoomableGroup
-              zoom={position.zoom}
-              center={position.coordinates as [number, number]}
-              onMoveEnd={handleMoveEnd}
-              translateExtent={[
-                [-Infinity, -Infinity],
-                [Infinity, Infinity],
-              ]}
-              filterZoomEvent={(evt) => evt.ctrlKey || evt.metaKey}
+            <ComposableMap
+              projection={MAP_PROJECTION.TYPE}
+              projectionConfig={{
+                rotate: MAP_PROJECTION.ROTATE,
+                center: MAP_PROJECTION.CENTER,
+                scale: MAP_PROJECTION.SCALE,
+              }}
+              width={MAP_PROJECTION.WIDTH}
+              height={MAP_PROJECTION.HEIGHT}
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
             >
-              <Geographies geography={MAP_URLS.countries}>
-                {({ geographies }) =>
-                  geographies
-                    .filter((geo) => {
-                      const iso = (
-                        geo.properties.ISO_A3 ||
-                        geo.properties.ADM0_A3 ||
-                        geo.properties.iso_a3 ||
-                        geo.id ||
-                        ''
-                      ).toUpperCase()
-                      const name = (geo.properties.NAME || geo.properties.name || '').toLowerCase()
-
-                      // Filter out Antarctica
-                      if (iso === 'ATA' || name.includes('antarctica')) return false
-
-                      // When in cities view, only show the selected country
-                      if (viewMode === 'cities' && selectedCountry) {
-                        const { data: countryData } = getCountryMatch(geo)
-                        return countryData?.code.toUpperCase() === selectedCountry.code.toUpperCase()
-                      }
-
-                      return true
-                    })
-                    .map((geo) => {
-                      const { data: countryData } = getCountryMatch(geo)
-                      const metricValue = countryData
-                        ? selectedMetric === 'views'
-                          ? countryData.views ?? null
-                          : countryData.visitors ?? null
-                        : null
-                      const fill = getColorForValue(metricValue)
-                      const name = geo.properties.NAME || geo.properties.name || 'Unknown'
-                      const key = geo.rsmKey
-
-                      // Disable interactions when in cities view or during animation
-                      const isInteractive = viewMode === 'countries' && !isAnimating
-
-                      return (
-                        <g
-                          key={key}
-                          onMouseEnter={(e: React.MouseEvent) => {
-                            if (!isInteractive || !containerRef.current) return
-                            const rect = containerRef.current.getBoundingClientRect()
-                            const content = makeTooltipContent(countryData, name)
-                            setTooltip({
-                              visible: true,
-                              x: e.clientX - rect.left,
-                              y: e.clientY - rect.top,
-                              content,
-                            })
-                          }}
-                          onMouseMove={(e: React.MouseEvent) => {
-                            if (!isInteractive || !containerRef.current || !tooltip.visible) return
-                            const rect = containerRef.current.getBoundingClientRect()
-                            setTooltip((t) => ({
-                              ...t,
-                              x: e.clientX - rect.left,
-                              y: e.clientY - rect.top,
-                            }))
-                          }}
-                          onMouseLeave={() => {
-                            if (isInteractive) {
-                              setTooltip({ visible: false, x: 0, y: 0, content: '' })
-                            }
-                          }}
-                          onClick={() => {
-                            if (isInteractive && countryData && enableCityDrilldown) {
-                              handleCountryClick(countryData.code, countryData.name, geo)
-                            }
-                          }}
-                        >
-                          <Geography
-                            geography={geo}
-                            style={{
-                              default: {
-                                fill: viewMode === 'cities' ? COLOR_SCALE_THRESHOLDS.NO_DATA_COLOR : fill,
-                                outline: 'none',
-                                stroke: '#ffffff',
-                                strokeWidth: viewMode === 'cities' ? MAP_STROKES.COUNTRY_REGION_VIEW : MAP_STROKES.COUNTRY_DEFAULT,
-                                transition: 'fill 200ms ease',
-                                pointerEvents: isInteractive ? 'all' : 'none',
-                              },
-                              hover: {
-                                fill: isInteractive
-                                  ? metricValue == null
-                                    ? COLOR_SCALE_THRESHOLDS.NO_DATA_HOVER_COLOR
-                                    : COLOR_SCALE_THRESHOLDS.HIGHLIGHT_COLOR
-                                  : viewMode === 'cities'
-                                    ? COLOR_SCALE_THRESHOLDS.NO_DATA_COLOR
-                                    : fill,
-                                outline: 'none',
-                                cursor: isInteractive && enableCityDrilldown && countryData ? 'pointer' : 'default',
-                                strokeWidth: isInteractive ? MAP_STROKES.COUNTRY_HOVER : viewMode === 'cities' ? MAP_STROKES.COUNTRY_REGION_VIEW : MAP_STROKES.COUNTRY_DEFAULT,
-                              },
-                              pressed: { outline: 'none' },
-                            }}
-                          />
-                        </g>
-                      )
-                    })
-                }
-              </Geographies>
-
-              {/* Province/Region Boundaries - shown when viewing a country */}
-              {viewMode === 'cities' && selectedCountry && !regionsLoading && !isAnimating && (
-                <Geographies geography={MAP_URLS.provinces}>
-                  {({ geographies }) => {
-                    // Set provincesLoading to false once geographies are loaded
-                    if (geographies.length > 0 && provincesLoading) {
-                      setTimeout(() => setProvincesLoading(false), MAP_ANIMATION.PROVINCES_LOADING_DELAY_MS)
-                    }
-                    return geographies
+              <ZoomableGroup
+                zoom={position.zoom}
+                center={position.coordinates as [number, number]}
+                onMoveEnd={handleMoveEnd}
+                translateExtent={[
+                  [-Infinity, -Infinity],
+                  [Infinity, Infinity],
+                ]}
+                filterZoomEvent={(evt) => evt.ctrlKey || evt.metaKey}
+              >
+                <Geographies geography={MAP_URLS.countries}>
+                  {({ geographies }) =>
+                    geographies
                       .filter((geo) => {
-                        // Filter to only show provinces of the selected country
-                        const isoA2 = (geo.properties.iso_a2 || geo.properties.ISO_A2 || '').toUpperCase()
-                        const adm0A3 = (geo.properties.adm0_a3 || geo.properties.ADM0_A3 || '').toUpperCase()
-                        const selectedCode = selectedCountry.code.toUpperCase()
-                        return (
-                          isoA2 === selectedCode ||
-                          adm0A3 === selectedCode ||
-                          (selectedCode === 'IR' && (isoA2 === 'IR' || adm0A3 === 'IRN'))
-                        )
+                        const iso = (
+                          geo.properties.ISO_A3 ||
+                          geo.properties.ADM0_A3 ||
+                          geo.properties.iso_a3 ||
+                          geo.id ||
+                          ''
+                        ).toUpperCase()
+                        const name = (geo.properties.NAME || geo.properties.name || '').toLowerCase()
+
+                        // Filter out Antarctica
+                        if (iso === 'ATA' || name.includes('antarctica')) return false
+
+                        // When in cities view, only show the selected country
+                        if (viewMode === 'cities' && selectedCountry) {
+                          const { data: countryData } = getCountryMatch(geo)
+                          return countryData?.code.toUpperCase() === selectedCountry.code.toUpperCase()
+                        }
+
+                        return true
                       })
                       .map((geo) => {
-                        const provinceName = geo.properties.name || geo.properties.NAME || 'Unknown'
-                        const region = getRegionMatch(provinceName)
-                        const hasData = region && region[selectedMetric] > 0
+                        const { data: countryData } = getCountryMatch(geo)
+                        const metricValue = countryData
+                          ? selectedMetric === 'views'
+                            ? (countryData.views ?? null)
+                            : (countryData.visitors ?? null)
+                          : null
+                        const fill = getColorForValue(metricValue)
+                        const name = geo.properties.NAME || geo.properties.name || 'Unknown'
+                        const key = geo.rsmKey
+
+                        // Disable interactions when in cities view or during animation
+                        const isInteractive = viewMode === 'countries' && !isAnimating
 
                         return (
-                          <Geography
-                            key={geo.rsmKey}
-                            geography={geo}
+                          <g
+                            key={key}
                             onMouseEnter={(e: React.MouseEvent) => {
-                              if (!containerRef.current || isAnimating) return
+                              if (!isInteractive || !containerRef.current) return
                               const rect = containerRef.current.getBoundingClientRect()
-                              const content = makeRegionTooltip(provinceName, region)
+                              const content = makeTooltipContent(countryData, name)
                               setTooltip({
                                 visible: true,
                                 x: e.clientX - rect.left,
@@ -728,7 +638,7 @@ export function GlobalMap({
                               })
                             }}
                             onMouseMove={(e: React.MouseEvent) => {
-                              if (!containerRef.current || !tooltip.visible || isAnimating) return
+                              if (!isInteractive || !containerRef.current || !tooltip.visible) return
                               const rect = containerRef.current.getBoundingClientRect()
                               setTooltip((t) => ({
                                 ...t,
@@ -737,35 +647,134 @@ export function GlobalMap({
                               }))
                             }}
                             onMouseLeave={() => {
-                              if (!isAnimating) {
+                              if (isInteractive) {
                                 setTooltip({ visible: false, x: 0, y: 0, content: '' })
                               }
                             }}
-                            style={{
-                              default: {
-                                fill: hasData ? REGION_COLORS.HAS_DATA : REGION_COLORS.NO_DATA,
-                                stroke: REGION_COLORS.STROKE,
-                                strokeWidth: MAP_STROKES.PROVINCE_DEFAULT,
-                                outline: 'none',
-                                transition: 'none', // Disable transition for better performance
-                              },
-                              hover: {
-                                fill: hasData ? REGION_COLORS.HAS_DATA_HOVER : REGION_COLORS.NO_DATA_HOVER,
-                                stroke: REGION_COLORS.STROKE_HOVER,
-                                strokeWidth: MAP_STROKES.PROVINCE_HOVER,
-                                cursor: 'pointer',
-                                outline: 'none',
-                              },
-                              pressed: { outline: 'none' },
+                            onClick={() => {
+                              if (isInteractive && countryData && enableCityDrilldown) {
+                                handleCountryClick(countryData.code, countryData.name, geo)
+                              }
                             }}
-                          />
+                          >
+                            <Geography
+                              geography={geo}
+                              style={{
+                                default: {
+                                  fill: viewMode === 'cities' ? COLOR_SCALE_THRESHOLDS.NO_DATA_COLOR : fill,
+                                  outline: 'none',
+                                  stroke: '#ffffff',
+                                  strokeWidth:
+                                    viewMode === 'cities'
+                                      ? MAP_STROKES.COUNTRY_REGION_VIEW
+                                      : MAP_STROKES.COUNTRY_DEFAULT,
+                                  transition: 'fill 200ms ease',
+                                  pointerEvents: isInteractive ? 'all' : 'none',
+                                },
+                                hover: {
+                                  fill: isInteractive
+                                    ? metricValue == null
+                                      ? COLOR_SCALE_THRESHOLDS.NO_DATA_HOVER_COLOR
+                                      : COLOR_SCALE_THRESHOLDS.HIGHLIGHT_COLOR
+                                    : viewMode === 'cities'
+                                      ? COLOR_SCALE_THRESHOLDS.NO_DATA_COLOR
+                                      : fill,
+                                  outline: 'none',
+                                  cursor: isInteractive && enableCityDrilldown && countryData ? 'pointer' : 'default',
+                                  strokeWidth: isInteractive
+                                    ? MAP_STROKES.COUNTRY_HOVER
+                                    : viewMode === 'cities'
+                                      ? MAP_STROKES.COUNTRY_REGION_VIEW
+                                      : MAP_STROKES.COUNTRY_DEFAULT,
+                                },
+                                pressed: { outline: 'none' },
+                              }}
+                            />
+                          </g>
                         )
                       })
-                  }}
+                  }
                 </Geographies>
-              )}
-            </ZoomableGroup>
-          </ComposableMap>
+
+                {/* Province/Region Boundaries - shown when viewing a country */}
+                {viewMode === 'cities' && selectedCountry && !regionsLoading && !isAnimating && (
+                  <Geographies geography={MAP_URLS.provinces}>
+                    {({ geographies }) => {
+                      // Set provincesLoading to false once geographies are loaded
+                      if (geographies.length > 0 && provincesLoading) {
+                        setTimeout(() => setProvincesLoading(false), MAP_ANIMATION.PROVINCES_LOADING_DELAY_MS)
+                      }
+                      return geographies
+                        .filter((geo) => {
+                          // Filter to only show provinces of the selected country
+                          const isoA2 = (geo.properties.iso_a2 || geo.properties.ISO_A2 || '').toUpperCase()
+                          const adm0A3 = (geo.properties.adm0_a3 || geo.properties.ADM0_A3 || '').toUpperCase()
+                          const selectedCode = selectedCountry.code.toUpperCase()
+                          return (
+                            isoA2 === selectedCode ||
+                            adm0A3 === selectedCode ||
+                            (selectedCode === 'IR' && (isoA2 === 'IR' || adm0A3 === 'IRN'))
+                          )
+                        })
+                        .map((geo) => {
+                          const provinceName = geo.properties.name || geo.properties.NAME || 'Unknown'
+                          const region = getRegionMatch(provinceName)
+                          const hasData = region && region[selectedMetric] > 0
+
+                          return (
+                            <Geography
+                              key={geo.rsmKey}
+                              geography={geo}
+                              onMouseEnter={(e: React.MouseEvent) => {
+                                if (!containerRef.current || isAnimating) return
+                                const rect = containerRef.current.getBoundingClientRect()
+                                const content = makeRegionTooltip(provinceName, region)
+                                setTooltip({
+                                  visible: true,
+                                  x: e.clientX - rect.left,
+                                  y: e.clientY - rect.top,
+                                  content,
+                                })
+                              }}
+                              onMouseMove={(e: React.MouseEvent) => {
+                                if (!containerRef.current || !tooltip.visible || isAnimating) return
+                                const rect = containerRef.current.getBoundingClientRect()
+                                setTooltip((t) => ({
+                                  ...t,
+                                  x: e.clientX - rect.left,
+                                  y: e.clientY - rect.top,
+                                }))
+                              }}
+                              onMouseLeave={() => {
+                                if (!isAnimating) {
+                                  setTooltip({ visible: false, x: 0, y: 0, content: '' })
+                                }
+                              }}
+                              style={{
+                                default: {
+                                  fill: hasData ? REGION_COLORS.HAS_DATA : REGION_COLORS.NO_DATA,
+                                  stroke: REGION_COLORS.STROKE,
+                                  strokeWidth: MAP_STROKES.PROVINCE_DEFAULT,
+                                  outline: 'none',
+                                  transition: 'none', // Disable transition for better performance
+                                },
+                                hover: {
+                                  fill: hasData ? REGION_COLORS.HAS_DATA_HOVER : REGION_COLORS.NO_DATA_HOVER,
+                                  stroke: REGION_COLORS.STROKE_HOVER,
+                                  strokeWidth: MAP_STROKES.PROVINCE_HOVER,
+                                  cursor: 'pointer',
+                                  outline: 'none',
+                                },
+                                pressed: { outline: 'none' },
+                              }}
+                            />
+                          )
+                        })
+                    }}
+                  </Geographies>
+                )}
+              </ZoomableGroup>
+            </ComposableMap>
           </MapErrorBoundary>
 
           {/* Tooltip */}
@@ -792,14 +801,20 @@ export function GlobalMap({
                 <div className="flex items-center gap-2">
                   <div
                     className="w-4 h-3 rounded-sm"
-                    style={{ backgroundColor: REGION_COLORS.NO_DATA, border: `1px solid ${REGION_COLORS.STROKE_HOVER}` }}
+                    style={{
+                      backgroundColor: REGION_COLORS.NO_DATA,
+                      border: `1px solid ${REGION_COLORS.STROKE_HOVER}`,
+                    }}
                   ></div>
                   <span className="text-xs text-neutral-500">No data</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div
                     className="w-4 h-3 rounded-sm"
-                    style={{ backgroundColor: REGION_COLORS.HAS_DATA, border: `1px solid ${REGION_COLORS.STROKE_HOVER}` }}
+                    style={{
+                      backgroundColor: REGION_COLORS.HAS_DATA,
+                      border: `1px solid ${REGION_COLORS.STROKE_HOVER}`,
+                    }}
                   ></div>
                   <span className="text-xs text-neutral-500">Has {selectedMetric}</span>
                 </div>

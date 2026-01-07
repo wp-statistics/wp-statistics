@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
-import { type ApiFilters,transformFiltersToApi } from '@/lib/api-filter-transform'
+import { type ApiFilters, transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
 
@@ -200,8 +200,17 @@ export const getContentOverviewQueryOptions = ({
   const hasCompare = !!(compareDateFrom && compareDateTo)
 
   return queryOptions({
-     
-    queryKey: ['content-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, timeframe, apiFilters, hasCompare, dateGroupBy],
+    queryKey: [
+      'content-overview',
+      dateFrom,
+      dateTo,
+      compareDateFrom,
+      compareDateTo,
+      timeframe,
+      apiFilters,
+      hasCompare,
+      dateGroupBy,
+    ],
     queryFn: () =>
       clientRequest.post<ContentOverviewResponse>(
         '',
@@ -238,7 +247,18 @@ export const getContentOverviewQueryOptions = ({
               id: 'top_content_popular',
               sources: ['views', 'visitors'],
               group_by: ['page'],
-              columns: ['resource_id', 'page_title', 'page_uri', 'page_type', 'page_wp_id', 'views', 'visitors', 'published_date', 'thumbnail_url', 'comments'],
+              columns: [
+                'resource_id',
+                'page_title',
+                'page_uri',
+                'page_type',
+                'page_wp_id',
+                'views',
+                'visitors',
+                'published_date',
+                'thumbnail_url',
+                'comments',
+              ],
               per_page: 5,
               order_by: 'views',
               order: 'DESC',
@@ -252,7 +272,18 @@ export const getContentOverviewQueryOptions = ({
               id: 'top_content_commented',
               sources: ['views', 'visitors'],
               group_by: ['page'],
-              columns: ['resource_id', 'page_title', 'page_uri', 'page_type', 'page_wp_id', 'views', 'visitors', 'published_date', 'thumbnail_url', 'comments'],
+              columns: [
+                'resource_id',
+                'page_title',
+                'page_uri',
+                'page_type',
+                'page_wp_id',
+                'views',
+                'visitors',
+                'published_date',
+                'thumbnail_url',
+                'comments',
+              ],
               per_page: 5,
               order_by: 'comments',
               order: 'DESC',
@@ -265,7 +296,18 @@ export const getContentOverviewQueryOptions = ({
               id: 'top_content_recent',
               sources: ['views', 'visitors'],
               group_by: ['page'],
-              columns: ['resource_id', 'page_title', 'page_uri', 'page_type', 'page_wp_id', 'views', 'visitors', 'published_date', 'thumbnail_url', 'comments'],
+              columns: [
+                'resource_id',
+                'page_title',
+                'page_uri',
+                'page_type',
+                'page_wp_id',
+                'views',
+                'visitors',
+                'published_date',
+                'thumbnail_url',
+                'comments',
+              ],
               per_page: 5,
               order_by: 'published_date',
               order: 'DESC',

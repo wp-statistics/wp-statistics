@@ -5,13 +5,7 @@ import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { useSettings, useSetting } from '@/hooks/use-settings'
 
@@ -23,26 +17,14 @@ export function DisplaySettings() {
   const [disableColumn, setDisableColumn] = useSetting(settings, 'disable_column', false)
   const [enableUserColumn, setEnableUserColumn] = useSetting(settings, 'enable_user_column', false)
   const [menuBar, setMenuBar] = useSetting(settings, 'menu_bar', false)
-  const [chartsPreviousPeriod, setChartsPreviousPeriod] = useSetting(
-    settings,
-    'charts_previous_period',
-    true
-  )
+  const [chartsPreviousPeriod, setChartsPreviousPeriod] = useSetting(settings, 'charts_previous_period', true)
   const [disableDashboard, setDisableDashboard] = useSetting(settings, 'disable_dashboard', false)
-  const [displayNotifications, setDisplayNotifications] = useSetting(
-    settings,
-    'display_notifications',
-    true
-  )
+  const [displayNotifications, setDisplayNotifications] = useSetting(settings, 'display_notifications', true)
   const [hideNotices, setHideNotices] = useSetting(settings, 'hide_notices', false)
 
   // Frontend Display Settings
   const [showHits, setShowHits] = useSetting(settings, 'show_hits', false)
-  const [displayHitsPosition, setDisplayHitsPosition] = useSetting(
-    settings,
-    'display_hits_position',
-    'none'
-  )
+  const [displayHitsPosition, setDisplayHitsPosition] = useSetting(settings, 'display_hits_position', 'none')
 
   const handleSave = async () => {
     const success = await settings.save()
@@ -65,9 +47,7 @@ export function DisplaySettings() {
       <Card>
         <CardHeader>
           <CardTitle>Admin Interface</CardTitle>
-          <CardDescription>
-            Configure how WP Statistics appears in the WordPress admin area.
-          </CardDescription>
+          <CardDescription>Configure how WP Statistics appears in the WordPress admin area.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
@@ -102,15 +82,11 @@ export function DisplaySettings() {
             <div className="space-y-0.5">
               <Label htmlFor="enable-user-column">Views Column in User List</Label>
               <p className="text-sm text-muted-foreground">
-                Display the "Views" column in the admin user list. Requires "Track Logged-In User
-                Activity" to be enabled.
+                Display the "Views" column in the admin user list. Requires "Track Logged-In User Activity" to be
+                enabled.
               </p>
             </div>
-            <Switch
-              id="enable-user-column"
-              checked={!!enableUserColumn}
-              onCheckedChange={setEnableUserColumn}
-            />
+            <Switch id="enable-user-column" checked={!!enableUserColumn} onCheckedChange={setEnableUserColumn} />
           </div>
 
           <div className="flex items-center justify-between">
@@ -140,9 +116,7 @@ export function DisplaySettings() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="disable-dashboard">WP Statistics Widgets in Dashboard</Label>
-              <p className="text-sm text-muted-foreground">
-                View WP Statistics widgets in the WordPress dashboard.
-              </p>
+              <p className="text-sm text-muted-foreground">View WP Statistics widgets in the WordPress dashboard.</p>
             </div>
             <Switch
               id="disable-dashboard"
@@ -155,8 +129,7 @@ export function DisplaySettings() {
             <div className="space-y-0.5">
               <Label htmlFor="display-notifications">WP Statistics Notifications</Label>
               <p className="text-sm text-muted-foreground">
-                Display important notifications such as new version releases, feature updates, and
-                news.
+                Display important notifications such as new version releases, feature updates, and news.
               </p>
             </div>
             <Switch
@@ -197,10 +170,7 @@ export function DisplaySettings() {
           {showHits && (
             <div className="space-y-2">
               <Label htmlFor="display-hits-position">Display Position</Label>
-              <Select
-                value={displayHitsPosition as string}
-                onValueChange={setDisplayHitsPosition}
-              >
+              <Select value={displayHitsPosition as string} onValueChange={setDisplayHitsPosition}>
                 <SelectTrigger id="display-hits-position" className="w-[200px]">
                   <SelectValue placeholder="Select position" />
                 </SelectTrigger>
@@ -210,22 +180,13 @@ export function DisplaySettings() {
                   <SelectItem value="after_content">After Content</SelectItem>
                 </SelectContent>
               </Select>
-              <p className="text-xs text-muted-foreground">
-                Choose the position to show views on your content pages.
-              </p>
+              <p className="text-xs text-muted-foreground">Choose the position to show views on your content pages.</p>
             </div>
           )}
         </CardContent>
       </Card>
 
-      {settings.error && (
-        <NoticeBanner
-          id="settings-error"
-          message={settings.error}
-          type="error"
-          dismissible={false}
-        />
-      )}
+      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>

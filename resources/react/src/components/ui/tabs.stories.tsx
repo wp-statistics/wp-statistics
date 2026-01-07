@@ -65,25 +65,19 @@ export const ThreeTabs: Story = {
       <TabsContent value="overview">
         <div className="rounded-lg border p-4">
           <h3 className="font-medium">Overview</h3>
-          <p className="text-sm text-muted-foreground mt-2">
-            View a summary of your website statistics.
-          </p>
+          <p className="text-sm text-muted-foreground mt-2">View a summary of your website statistics.</p>
         </div>
       </TabsContent>
       <TabsContent value="analytics">
         <div className="rounded-lg border p-4">
           <h3 className="font-medium">Analytics</h3>
-          <p className="text-sm text-muted-foreground mt-2">
-            Detailed analytics and visitor insights.
-          </p>
+          <p className="text-sm text-muted-foreground mt-2">Detailed analytics and visitor insights.</p>
         </div>
       </TabsContent>
       <TabsContent value="reports">
         <div className="rounded-lg border p-4">
           <h3 className="font-medium">Reports</h3>
-          <p className="text-sm text-muted-foreground mt-2">
-            Generate and download custom reports.
-          </p>
+          <p className="text-sm text-muted-foreground mt-2">Generate and download custom reports.</p>
         </div>
       </TabsContent>
     </Tabs>
@@ -158,25 +152,19 @@ export const VerticalLayout: Story = {
         <TabsContent value="general" className="mt-0">
           <div className="rounded-lg border p-4">
             <h3 className="font-medium">General Settings</h3>
-            <p className="text-sm text-muted-foreground mt-2">
-              Configure your general preferences.
-            </p>
+            <p className="text-sm text-muted-foreground mt-2">Configure your general preferences.</p>
           </div>
         </TabsContent>
         <TabsContent value="privacy" className="mt-0">
           <div className="rounded-lg border p-4">
             <h3 className="font-medium">Privacy Settings</h3>
-            <p className="text-sm text-muted-foreground mt-2">
-              Manage your privacy and data settings.
-            </p>
+            <p className="text-sm text-muted-foreground mt-2">Manage your privacy and data settings.</p>
           </div>
         </TabsContent>
         <TabsContent value="notifications" className="mt-0">
           <div className="rounded-lg border p-4">
             <h3 className="font-medium">Notification Settings</h3>
-            <p className="text-sm text-muted-foreground mt-2">
-              Control your notification preferences.
-            </p>
+            <p className="text-sm text-muted-foreground mt-2">Control your notification preferences.</p>
           </div>
         </TabsContent>
       </div>

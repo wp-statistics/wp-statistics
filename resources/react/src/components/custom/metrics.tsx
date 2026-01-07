@@ -50,10 +50,7 @@ export function Metrics({ metrics, columns = 3, className }: MetricsProps) {
     const isFirstRow = row === 0
     const isLastCol = col === responsiveColumns - 1
 
-    return cn(
-      !isFirstRow && 'border-t border-neutral-100',
-      !isLastCol && 'border-r border-neutral-100'
-    )
+    return cn(!isFirstRow && 'border-t border-neutral-100', !isLastCol && 'border-r border-neutral-100')
   }
 
   return (
@@ -89,9 +86,7 @@ function MetricCard({
   const percentageNum = typeof percentage === 'string' ? parseFloat(percentage) : percentage
   const isZero = percentageNum === 0
   // Don't show decimals when percentage >= 100
-  const displayPercentage = percentageNum !== undefined && percentageNum >= 100
-    ? Math.round(percentageNum)
-    : percentage
+  const displayPercentage = percentageNum !== undefined && percentageNum >= 100 ? Math.round(percentageNum) : percentage
 
   return (
     <div
@@ -164,11 +159,12 @@ function MetricCard({
                   : semanticColors.trendPositive
             )}
           >
-            {!isZero && (
-              isNegative
-                ? <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
-                : <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
-            )}
+            {!isZero &&
+              (isNegative ? (
+                <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
+              ) : (
+                <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
+              ))}
             {displayPercentage}%
           </span>
         )}

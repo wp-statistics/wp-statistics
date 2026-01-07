@@ -82,11 +82,11 @@
   --secondary-foreground: oklch(0.208 0.04 265.755);
   --muted-foreground: oklch(0.554 0.041 257.417);
 
-  --chart-1: #4F46E5; /* Primary - Indigo */
+  --chart-1: #4f46e5; /* Primary - Indigo */
   --chart-2: #059669; /* Secondary - Green */
-  --chart-3: #D97706; /* Tertiary - Amber */
-  --chart-4: #DC2626; /* Quaternary - Red */
-  --chart-5: #2563EB; /* Quinary - Blue */
+  --chart-3: #d97706; /* Tertiary - Amber */
+  --chart-4: #dc2626; /* Quaternary - Red */
+  --chart-5: #2563eb; /* Quinary - Blue */
 
   --sidebar: oklch(0.314 0.122 276.809);
   --sidebar-foreground: oklch(1 0 0 / 0.8);
@@ -127,11 +127,11 @@
   --secondary-foreground: oklch(0.984 0.003 247.858);
   --muted-foreground: oklch(0.711 0.035 256.788);
 
-  --chart-1: #6366F1; /* Primary - Indigo (lighter for dark mode) */
-  --chart-2: #10B981; /* Secondary - Green (lighter for dark mode) */
-  --chart-3: #F59E0B; /* Tertiary - Amber (lighter for dark mode) */
-  --chart-4: #EF4444; /* Quaternary - Red (lighter for dark mode) */
-  --chart-5: #3B82F6; /* Quinary - Blue (lighter for dark mode) */
+  --chart-1: #6366f1; /* Primary - Indigo (lighter for dark mode) */
+  --chart-2: #10b981; /* Secondary - Green (lighter for dark mode) */
+  --chart-3: #f59e0b; /* Tertiary - Amber (lighter for dark mode) */
+  --chart-4: #ef4444; /* Quaternary - Red (lighter for dark mode) */
+  --chart-5: #3b82f6; /* Quinary - Blue (lighter for dark mode) */
 
   --sidebar: oklch(0.314 0.122 276.809);
   --sidebar-foreground: oklch(1 0 0 / 0.8);
@@ -236,20 +236,20 @@
 }
 
 /* Sidebar scrollbar styling */
-[data-slot="sidebar-content"]::-webkit-scrollbar {
+[data-slot='sidebar-content']::-webkit-scrollbar {
   width: 4px;
 }
 
-[data-slot="sidebar-content"]::-webkit-scrollbar-track {
+[data-slot='sidebar-content']::-webkit-scrollbar-track {
   background: transparent;
 }
 
-[data-slot="sidebar-content"]::-webkit-scrollbar-thumb {
+[data-slot='sidebar-content']::-webkit-scrollbar-thumb {
   background: oklch(1 0 0 / 0.15);
   border-radius: 4px;
 }
 
-[data-slot="sidebar-content"]::-webkit-scrollbar-thumb:hover {
+[data-slot='sidebar-content']::-webkit-scrollbar-thumb:hover {
   background: oklch(1 0 0 / 0.25);
 }
 

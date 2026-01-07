@@ -35,9 +35,7 @@ export function SettingsLayout({ children }: SettingsLayoutProps) {
       {/* Header */}
       <div className="border-b bg-background px-6 py-4">
         <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Manage your WP Statistics preferences and configuration.
-        </p>
+        <p className="text-sm text-muted-foreground mt-1">Manage your WP Statistics preferences and configuration.</p>
       </div>
 
       {/* Tab Navigation */}
@@ -68,9 +66,7 @@ export function SettingsLayout({ children }: SettingsLayoutProps) {
       </div>
 
       {/* Tab Content */}
-      <div className="flex-1 overflow-auto p-6">
-        {children}
-      </div>
+      <div className="flex-1 overflow-auto p-6">{children}</div>
     </div>
   )
 }

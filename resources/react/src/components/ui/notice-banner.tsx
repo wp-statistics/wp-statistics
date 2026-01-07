@@ -141,20 +141,14 @@ export function NoticeBanner({
 
   return (
     <div
-      className={cn(
-        'rounded-lg border px-4 py-2.5',
-        styles.container,
-        className
-      )}
+      className={cn('rounded-lg border px-4 py-2.5', styles.container, className)}
       role={dismissible ? 'alert' : 'note'}
       {...props}
     >
       <div className="flex items-center gap-3">
         <Icon className={cn('h-5 w-5 shrink-0', styles.icon)} />
         <div className="flex-1 min-w-0 flex items-center gap-2">
-          {title && (
-            <span className={cn('font-medium', styles.text)}>{title}</span>
-          )}
+          {title && <span className={cn('font-medium', styles.text)}>{title}</span>}
           <p className={cn('text-sm', title ? 'text-muted-foreground' : styles.text)}>{message}</p>
         </div>
         {(actionUrl || helpUrl) && (

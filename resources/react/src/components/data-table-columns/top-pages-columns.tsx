@@ -6,12 +6,7 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
-import {
-  DurationCell,
-  NumericCell,
-  PageCell,
-  ViewPageCell,
-} from '@/components/data-table-columns'
+import { DurationCell, NumericCell, PageCell, ViewPageCell } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import type { TopPageRecord } from '@/services/page-insight/get-top-pages'
@@ -126,12 +121,12 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'viewsPerVisitor',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views/Visitor" className="text-right" />,
+      header: ({ column }) => (
+        <DataTableColumnHeaderSortable column={column} title="Views/Visitor" className="text-right" />
+      ),
       size: 90,
       cell: ({ row }) => {
-        const vpv = row.original.visitors > 0
-          ? row.original.views / row.original.visitors
-          : 0
+        const vpv = row.original.visitors > 0 ? row.original.views / row.original.visitors : 0
         return <NumericCell value={vpv} decimals={1} />
       },
       meta: {
@@ -141,7 +136,9 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce Rate" className="text-right" />,
+      header: ({ column }) => (
+        <DataTableColumnHeaderSortable column={column} title="Bounce Rate" className="text-right" />
+      ),
       size: COLUMN_SIZES.bounceRate,
       cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
       meta: {
@@ -151,7 +148,9 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'sessionDuration',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Avg. Time on Page" className="text-right" />,
+      header: ({ column }) => (
+        <DataTableColumnHeaderSortable column={column} title="Avg. Time on Page" className="text-right" />
+      ),
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
       meta: {

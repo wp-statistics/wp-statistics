@@ -120,14 +120,15 @@ export function transformViewData(record: ViewRecord): ViewData {
         name: record.browser_name || 'Unknown',
         version: record.browser_version || '',
       },
-      user: record.user_id && record.user_login
-        ? {
-            username: record.user_login,
-            id: record.user_id,
-            email: record.user_email || '',
-            role: record.user_role || '',
-          }
-        : undefined,
+      user:
+        record.user_id && record.user_login
+          ? {
+              username: record.user_login,
+              id: record.user_id,
+              email: record.user_email || '',
+              role: record.user_role || '',
+            }
+          : undefined,
       ipAddress: record.ip_address || undefined,
       hash: record.visitor_hash || undefined,
     },
@@ -183,7 +184,11 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
                 city: visitorInfo.country.city,
               },
               os: { icon: visitorInfo.os.icon, name: visitorInfo.os.name },
-              browser: { icon: visitorInfo.browser.icon, name: visitorInfo.browser.name, version: visitorInfo.browser.version },
+              browser: {
+                icon: visitorInfo.browser.icon,
+                name: visitorInfo.browser.name,
+                version: visitorInfo.browser.version,
+              },
               user: visitorInfo.user
                 ? {
                     id: visitorInfo.user.id,

@@ -25,10 +25,7 @@ function formatHashDisplay(value: string): string {
 /**
  * Get identifier display based on hash settings
  */
-function getIdentifierDisplay(
-  identifier: string | undefined,
-  hashEnabled: boolean
-): string | undefined {
+function getIdentifierDisplay(identifier: string | undefined, hashEnabled: boolean): string | undefined {
   if (!identifier) return undefined
 
   if (hashEnabled) {
@@ -61,7 +58,10 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
         {/* Country Flag */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <button className="flex items-center opacity-70 grayscale-[30%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150" aria-label={`Country: ${country.name}`}>
+            <button
+              className="flex items-center opacity-70 grayscale-[30%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150"
+              aria-label={`Country: ${country.name}`}
+            >
               <img
                 src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
                 alt={country.name}
@@ -75,7 +75,10 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
         {/* OS Icon */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <button className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150" aria-label={`Operating system: ${os.name}`}>
+            <button
+              className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150"
+              aria-label={`Operating system: ${os.name}`}
+            >
               <img
                 src={`${pluginUrl}public/images/operating-system/${os.icon}.svg`}
                 alt={os.name}
@@ -89,7 +92,10 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
         {/* Browser Icon */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <button className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150" aria-label={`Browser: ${browser.name} ${browser.version}`}>
+            <button
+              className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150"
+              aria-label={`Browser: ${browser.name} ${browser.version}`}
+            >
               <img
                 src={`${pluginUrl}public/images/browser/${browser.icon}.svg`}
                 alt={browser.name}

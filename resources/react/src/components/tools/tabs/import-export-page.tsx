@@ -1,13 +1,5 @@
 import * as React from 'react'
-import {
-  Loader2,
-  Upload,
-  Download,
-  RefreshCw,
-  CheckCircle2,
-  XCircle,
-  AlertTriangle,
-} from 'lucide-react'
+import { Loader2, Upload, Download, RefreshCw, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -60,11 +52,7 @@ const getConfig = () => {
 }
 
 // Helper to call import/export endpoint with sub_action
-const callImportExportApi = async (
-  subAction: string,
-  params: Record<string, string> = {},
-  formData?: FormData
-) => {
+const callImportExportApi = async (subAction: string, params: Record<string, string> = {}, formData?: FormData) => {
   const config = getConfig()
   const data = formData || new FormData()
   data.append('wps_nonce', config.nonce)
@@ -113,11 +101,7 @@ const TIME_PERIOD_OPTIONS = [
 
 function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizardProps) {
   const [migrationMode, setMigrationMode] = React.useState<MigrationMode>('all')
-  const [selectedTables, setSelectedTables] = React.useState<string[]>([
-    'visitors',
-    'visits',
-    'pages',
-  ])
+  const [selectedTables, setSelectedTables] = React.useState<string[]>(['visitors', 'visits', 'pages'])
   const [timePeriod, setTimePeriod] = React.useState<string>('all')
   const [dataStats, setDataStats] = React.useState<V14DataStats>({
     visitors: 0,
@@ -140,13 +124,10 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
   const fetchV14Stats = async () => {
     try {
       const config = getConfig()
-      const response = await fetch(
-        `${config.ajaxUrl}?action=wp_statistics_v14_stats`,
-        {
-          method: 'POST',
-          headers: { 'X-WP-Nonce': config.nonce },
-        }
-      )
+      const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_v14_stats`, {
+        method: 'POST',
+        headers: { 'X-WP-Nonce': config.nonce },
+      })
       const data = await response.json()
       if (data.success && data.data) {
         setDataStats({
@@ -163,9 +144,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
   }
 
   const handleTableToggle = (table: string) => {
-    setSelectedTables((prev) =>
-      prev.includes(table) ? prev.filter((t) => t !== table) : [...prev, table]
-    )
+    setSelectedTables((prev) => (prev.includes(table) ? prev.filter((t) => t !== table) : [...prev, table]))
   }
 
   const startMigration = async () => {
@@ -176,9 +155,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
     setImportStatus({
       status: 'importing',
       progress: 0,
-      message: migrationMode === 'fresh'
-        ? 'Creating fresh v15 schema...'
-        : 'Starting migration...',
+      message: migrationMode === 'fresh' ? 'Creating fresh v15 schema...' : 'Starting migration...',
     })
 
     try {
@@ -191,14 +168,11 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
       }
       formData.append('_wpnonce', config.nonce)
 
-      const response = await fetch(
-        `${config.ajaxUrl}?action=wp_statistics_v14_migrate`,
-        {
-          method: 'POST',
-          headers: { 'X-WP-Nonce': config.nonce },
-          body: formData,
-        }
-      )
+      const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_v14_migrate`, {
+        method: 'POST',
+        headers: { 'X-WP-Nonce': config.nonce },
+        body: formData,
+      })
 
       const data = await response.json()
 
@@ -250,12 +224,10 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5" />
             <div>
-              <h4 className="text-sm font-medium text-blue-900 dark:text-blue-100">
-                Existing V14 Data Detected
-              </h4>
+              <h4 className="text-sm font-medium text-blue-900 dark:text-blue-100">Existing V14 Data Detected</h4>
               <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                Found <strong>{dataStats.total.toLocaleString()}</strong> total records in your v14 database.
-                Choose how you'd like to proceed with the upgrade.
+                Found <strong>{dataStats.total.toLocaleString()}</strong> total records in your v14 database. Choose how
+                you'd like to proceed with the upgrade.
               </p>
             </div>
           </div>
@@ -270,9 +242,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
           <label
             className={cn(
               'relative flex items-start gap-4 rounded-lg border-2 p-4 cursor-pointer transition-all',
-              migrationMode === 'all'
-                ? 'border-primary bg-primary/5'
-                : 'border-muted hover:border-muted-foreground/30'
+              migrationMode === 'all' ? 'border-primary bg-primary/5' : 'border-muted hover:border-muted-foreground/30'
             )}
           >
             <input
@@ -292,13 +262,11 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
                 <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">Recommended</span>
               </div>
               <p className="text-sm text-muted-foreground mt-1">
-                Transfer all your existing statistics to the new v15 schema.
-                Your historical data will be preserved and converted.
+                Transfer all your existing statistics to the new v15 schema. Your historical data will be preserved and
+                converted.
               </p>
             </div>
-            {migrationMode === 'all' && (
-              <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />
-            )}
+            {migrationMode === 'all' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
           </label>
 
           {/* Option: Selective Migration */}
@@ -327,9 +295,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
                 Choose which data types to migrate. Useful if you only want specific data or have limited storage.
               </p>
             </div>
-            {migrationMode === 'selective' && (
-              <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />
-            )}
+            {migrationMode === 'selective' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
           </label>
 
           {/* Option: Fresh Start */}
@@ -358,12 +324,11 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
             <div className="flex-1">
               <span className="font-medium">Fresh Start</span>
               <p className="text-sm text-muted-foreground mt-1">
-                Start with a clean database. Old v14 tables will be archived (not deleted) and can be restored later if needed.
+                Start with a clean database. Old v14 tables will be archived (not deleted) and can be restored later if
+                needed.
               </p>
             </div>
-            {migrationMode === 'fresh' && (
-              <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />
-            )}
+            {migrationMode === 'fresh' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
           </label>
         </div>
       </div>
@@ -392,9 +357,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
                   />
                   <div className="flex-1">
                     <span className="text-sm font-medium">{table.label}</span>
-                    <span className="text-xs text-muted-foreground ml-2">
-                      ({table.count.toLocaleString()})
-                    </span>
+                    <span className="text-xs text-muted-foreground ml-2">({table.count.toLocaleString()})</span>
                   </div>
                 </label>
               ))}
@@ -403,9 +366,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
 
           <div className="border-t pt-4 space-y-3">
             <Label htmlFor="migration-time-period">Time Period</Label>
-            <p className="text-xs text-muted-foreground">
-              Choose how much historical data to migrate.
-            </p>
+            <p className="text-xs text-muted-foreground">Choose how much historical data to migrate.</p>
             <select
               id="migration-time-period"
               value={timePeriod}
@@ -428,12 +389,10 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
             <div>
-              <h4 className="text-sm font-medium text-amber-900 dark:text-amber-100">
-                Are you sure?
-              </h4>
+              <h4 className="text-sm font-medium text-amber-900 dark:text-amber-100">Are you sure?</h4>
               <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                This will archive your existing v14 data and create fresh v15 tables.
-                Your old data won't be deleted but won't be accessible in the new dashboard.
+                This will archive your existing v14 data and create fresh v15 tables. Your old data won't be deleted but
+                won't be accessible in the new dashboard.
               </p>
             </div>
           </div>
@@ -444,9 +403,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
               onChange={(e) => setConfirmFreshStart(e.target.checked)}
               className="rounded border-amber-300"
             />
-            <span className="text-sm text-amber-800 dark:text-amber-200">
-              I understand and want to start fresh
-            </span>
+            <span className="text-sm text-amber-800 dark:text-amber-200">I understand and want to start fresh</span>
           </label>
         </div>
       )}
@@ -455,11 +412,21 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
       <div className="rounded-lg border bg-gradient-to-r from-primary/5 to-transparent p-4">
         <h4 className="text-sm font-medium mb-2">✨ What's New in V15</h4>
         <ul className="text-sm text-muted-foreground space-y-1">
-          <li>• <strong>10x faster queries</strong> with optimized database schema</li>
-          <li>• <strong>Session-based tracking</strong> for better visitor journey insights</li>
-          <li>• <strong>Enhanced privacy</strong> with improved GDPR compliance</li>
-          <li>• <strong>Real-time dashboard</strong> with modern React UI</li>
-          <li>• <strong>Better aggregations</strong> for faster reporting</li>
+          <li>
+            • <strong>10x faster queries</strong> with optimized database schema
+          </li>
+          <li>
+            • <strong>Session-based tracking</strong> for better visitor journey insights
+          </li>
+          <li>
+            • <strong>Enhanced privacy</strong> with improved GDPR compliance
+          </li>
+          <li>
+            • <strong>Real-time dashboard</strong> with modern React UI
+          </li>
+          <li>
+            • <strong>Better aggregations</strong> for faster reporting
+          </li>
         </ul>
       </div>
 
@@ -719,13 +686,7 @@ export function ImportExportPage() {
 
     const logoFile = logoMap[adapterKey] || 'wp-statistics.svg'
 
-    return (
-      <img
-        src={`${pluginUrl}public/images/logos/${logoFile}`}
-        alt=""
-        className={size}
-      />
-    )
+    return <img src={`${pluginUrl}public/images/logos/${logoFile}`} alt="" className={size} />
   }
 
   return (
@@ -738,7 +699,8 @@ export function ImportExportPage() {
             Import Data
           </CardTitle>
           <CardDescription>
-            Import analytics data from external sources like Google Analytics 4, Plausible, or restore from a backup file.
+            Import analytics data from external sources like Google Analytics 4, Plausible, or restore from a backup
+            file.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -771,9 +733,7 @@ export function ImportExportPage() {
                         className="sr-only"
                       />
                       {getAdapterLogo(adapter.key, 'h-10 w-10')}
-                      <span className="text-xs font-medium text-center leading-tight">
-                        {adapter.label}
-                      </span>
+                      <span className="text-xs font-medium text-center leading-tight">{adapter.label}</span>
                       {selectedAdapter === adapter.key && (
                         <CheckCircle2 className="absolute top-2 right-2 h-4 w-4 text-primary" />
                       )}
@@ -784,9 +744,7 @@ export function ImportExportPage() {
                   <p className="text-xs text-muted-foreground">
                     Supported formats: {selectedAdapterInfo.extensions.join(', ').toUpperCase() || 'Database migration'}
                     {selectedAdapterInfo.is_aggregate_import && (
-                      <span className="ml-2 text-amber-600">
-                        (Imports to summary tables)
-                      </span>
+                      <span className="ml-2 text-amber-600">(Imports to summary tables)</span>
                     )}
                   </p>
                 )}
@@ -807,10 +765,7 @@ export function ImportExportPage() {
               )}
 
               {selectedAdapter === 'legacy_v14' && (
-                <V14MigrationWizard
-                  importStatus={importStatus}
-                  setImportStatus={setImportStatus}
-                />
+                <V14MigrationWizard importStatus={importStatus} setImportStatus={setImportStatus} />
               )}
 
               {/* Import Status */}
@@ -862,9 +817,7 @@ export function ImportExportPage() {
                       ) : (
                         <div className="flex items-center gap-2 text-destructive">
                           <XCircle className="h-4 w-4" />
-                          <span className="text-sm">
-                            File format is invalid. Please check the file and try again.
-                          </span>
+                          <span className="text-sm">File format is invalid. Please check the file and try again.</span>
                         </div>
                       )}
                     </div>
@@ -874,9 +827,7 @@ export function ImportExportPage() {
                   {(importStatus.status === 'success' || importStatus.status === 'error') && (
                     <Button
                       variant="outline"
-                      onClick={() =>
-                        setImportStatus({ status: 'idle', progress: 0, message: '' })
-                      }
+                      onClick={() => setImportStatus({ status: 'idle', progress: 0, message: '' })}
                     >
                       Import Another File
                     </Button>
@@ -950,10 +901,7 @@ export function ImportExportPage() {
                 Download Export
               </Button>
             ) : (
-              <Button
-                onClick={startExport}
-                disabled={exportStatus.status === 'exporting'}
-              >
+              <Button onClick={startExport} disabled={exportStatus.status === 'exporting'}>
                 {exportStatus.status === 'exporting' ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
