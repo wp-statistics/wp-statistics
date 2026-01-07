@@ -36,8 +36,17 @@
     }
   },
   "scripts": {
-    "test": [
-      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH phpunit --testdox"
+    "test": "phpunit --testdox",
+    "test:unit": "phpunit --testdox --testsuite unit",
+    "test:integration": "phpunit --testdox --testsuite integration",
+    "test:coverage": "phpunit --coverage-html tests/coverage",
+    "lint": "pnpm lint:react",
+    "lint:fix": "pnpm lint:react:fix",
+    "format:check": "pnpm format:react:check",
+    "check": [
+      "@test",
+      "@lint",
+      "@format:check"
     ],
     "post-install-cmd": [
       "PATH=$(composer global config bin-dir --absolute --quiet):$PATH mozart compose",
