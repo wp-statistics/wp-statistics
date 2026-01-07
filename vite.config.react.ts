@@ -80,15 +80,17 @@ export default defineConfig(({ mode }) => {
   // Load environment variables from .env and .env.react files
   const env = loadReactEnv(mode)
 
-  // Get dev server URL from env
+  // Get dev server URL from env (only required for development mode)
   const devServerUrl = env.VITE_DEV_SERVER_URL
 
-  if (!devServerUrl) {
+  // Only require VITE_DEV_SERVER_URL in development mode
+  // Production builds don't use the dev server
+  if (!devServerUrl && mode === 'development') {
     throw new Error('VITE_DEV_SERVER_URL is not configured. Please set it in .env or .env.local')
   }
 
-  // Extract port from URL
-  const urlMatch = devServerUrl.match(/:(\d+)/)
+  // Extract port from URL (default to 5173 for production builds)
+  const urlMatch = devServerUrl?.match(/:(\d+)/)
   const port = urlMatch ? parseInt(urlMatch[1]) : 5173
 
   return {
@@ -99,7 +101,7 @@ export default defineConfig(({ mode }) => {
       port: port,
       strictPort: true,
       cors: true,
-      origin: devServerUrl,
+      origin: devServerUrl || `http://localhost:${port}`,
     },
     plugins: [
       tanstackRouter({
