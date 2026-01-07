@@ -68,7 +68,6 @@ export function ToolsLayout({ children }: ToolsLayoutProps) {
 
       {/* Tab Content */}
       <div className="flex-1 overflow-auto p-6">
-        {/* Notices */}
         <NoticeContainer className="mb-6" />
         {children}
       </div>

@@ -22,6 +22,7 @@ import { Route as visitorInsightsVisitorsRouteImport } from './routes/(visitor-i
 import { Route as visitorInsightsViewsRouteImport } from './routes/(visitor-insights)/views'
 import { Route as visitorInsightsTopVisitorsRouteImport } from './routes/(visitor-insights)/top-visitors'
 import { Route as visitorInsightsLoggedInUsersRouteImport } from './routes/(visitor-insights)/logged-in-users'
+import { Route as referralsReferralsOverviewRouteImport } from './routes/(referrals)/referrals-overview'
 import { Route as pageInsightsTopPagesRouteImport } from './routes/(page-insights)/top-pages'
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
 
@@ -79,6 +80,9 @@ const referralsReferrersLazyRouteImport = createFileRoute(
 )()
 const referralsReferredVisitorsLazyRouteImport = createFileRoute(
   '/(referrals)/referred-visitors',
+)()
+const referralsCampaignsLazyRouteImport = createFileRoute(
+  '/(referrals)/campaigns',
 )()
 
 const PageAnalyticsLazyRoute = PageAnalyticsLazyRouteImport.update({
@@ -322,6 +326,15 @@ const referralsReferredVisitorsLazyRoute =
         (d) => d.Route,
       ),
     )
+const referralsCampaignsLazyRoute = referralsCampaignsLazyRouteImport
+  .update({
+    id: '/(referrals)/campaigns',
+    path: '/campaigns',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/campaigns.lazy').then((d) => d.Route),
+  )
 const visitorInsightsVisitorsOverviewRoute =
   visitorInsightsVisitorsOverviewRouteImport
     .update({
@@ -375,6 +388,15 @@ const visitorInsightsLoggedInUsersRoute =
         (d) => d.Route,
       ),
     )
+const referralsReferralsOverviewRoute = referralsReferralsOverviewRouteImport
+  .update({
+    id: '/(referrals)/referrals-overview',
+    path: '/referrals-overview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/referrals-overview.lazy').then((d) => d.Route),
+  )
 const pageInsightsTopPagesRoute = pageInsightsTopPagesRouteImport
   .update({
     id: '/(page-insights)/top-pages',
@@ -407,11 +429,13 @@ export interface FileRoutesByFullPath {
   '/page-analytics': typeof PageAnalyticsLazyRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
+  '/referrals-overview': typeof referralsReferralsOverviewRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
   '/views': typeof visitorInsightsViewsRoute
   '/visitors': typeof visitorInsightsVisitorsRoute
   '/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
+  '/campaigns': typeof referralsCampaignsLazyRoute
   '/referred-visitors': typeof referralsReferredVisitorsLazyRoute
   '/referrers': typeof referralsReferrersLazyRoute
   '/search-engines': typeof referralsSearchEnginesLazyRoute
@@ -447,11 +471,13 @@ export interface FileRoutesByTo {
   '/page-analytics': typeof PageAnalyticsLazyRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
+  '/referrals-overview': typeof referralsReferralsOverviewRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
   '/views': typeof visitorInsightsViewsRoute
   '/visitors': typeof visitorInsightsVisitorsRoute
   '/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
+  '/campaigns': typeof referralsCampaignsLazyRoute
   '/referred-visitors': typeof referralsReferredVisitorsLazyRoute
   '/referrers': typeof referralsReferrersLazyRoute
   '/search-engines': typeof referralsSearchEnginesLazyRoute
@@ -490,11 +516,13 @@ export interface FileRoutesById {
   '/page-analytics': typeof PageAnalyticsLazyRoute
   '/(content-analytics)/content': typeof contentAnalyticsContentRoute
   '/(page-insights)/top-pages': typeof pageInsightsTopPagesRoute
+  '/(referrals)/referrals-overview': typeof referralsReferralsOverviewRoute
   '/(visitor-insights)/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/(visitor-insights)/top-visitors': typeof visitorInsightsTopVisitorsRoute
   '/(visitor-insights)/views': typeof visitorInsightsViewsRoute
   '/(visitor-insights)/visitors': typeof visitorInsightsVisitorsRoute
   '/(visitor-insights)/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
+  '/(referrals)/campaigns': typeof referralsCampaignsLazyRoute
   '/(referrals)/referred-visitors': typeof referralsReferredVisitorsLazyRoute
   '/(referrals)/referrers': typeof referralsReferrersLazyRoute
   '/(referrals)/search-engines': typeof referralsSearchEnginesLazyRoute
@@ -534,11 +562,13 @@ export interface FileRouteTypes {
     | '/page-analytics'
     | '/content'
     | '/top-pages'
+    | '/referrals-overview'
     | '/logged-in-users'
     | '/top-visitors'
     | '/views'
     | '/visitors'
     | '/visitors-overview'
+    | '/campaigns'
     | '/referred-visitors'
     | '/referrers'
     | '/search-engines'
@@ -574,11 +604,13 @@ export interface FileRouteTypes {
     | '/page-analytics'
     | '/content'
     | '/top-pages'
+    | '/referrals-overview'
     | '/logged-in-users'
     | '/top-visitors'
     | '/views'
     | '/visitors'
     | '/visitors-overview'
+    | '/campaigns'
     | '/referred-visitors'
     | '/referrers'
     | '/search-engines'
@@ -616,11 +648,13 @@ export interface FileRouteTypes {
     | '/page-analytics'
     | '/(content-analytics)/content'
     | '/(page-insights)/top-pages'
+    | '/(referrals)/referrals-overview'
     | '/(visitor-insights)/logged-in-users'
     | '/(visitor-insights)/top-visitors'
     | '/(visitor-insights)/views'
     | '/(visitor-insights)/visitors'
     | '/(visitor-insights)/visitors-overview'
+    | '/(referrals)/campaigns'
     | '/(referrals)/referred-visitors'
     | '/(referrals)/referrers'
     | '/(referrals)/search-engines'
@@ -659,11 +693,13 @@ export interface RootRouteChildren {
   PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
   contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
   pageInsightsTopPagesRoute: typeof pageInsightsTopPagesRoute
+  referralsReferralsOverviewRoute: typeof referralsReferralsOverviewRoute
   visitorInsightsLoggedInUsersRoute: typeof visitorInsightsLoggedInUsersRoute
   visitorInsightsTopVisitorsRoute: typeof visitorInsightsTopVisitorsRoute
   visitorInsightsViewsRoute: typeof visitorInsightsViewsRoute
   visitorInsightsVisitorsRoute: typeof visitorInsightsVisitorsRoute
   visitorInsightsVisitorsOverviewRoute: typeof visitorInsightsVisitorsOverviewRoute
+  referralsCampaignsLazyRoute: typeof referralsCampaignsLazyRoute
   referralsReferredVisitorsLazyRoute: typeof referralsReferredVisitorsLazyRoute
   referralsReferrersLazyRoute: typeof referralsReferrersLazyRoute
   referralsSearchEnginesLazyRoute: typeof referralsSearchEnginesLazyRoute
@@ -906,6 +942,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof referralsReferredVisitorsLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(referrals)/campaigns': {
+      id: '/(referrals)/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof referralsCampaignsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(visitor-insights)/visitors-overview': {
       id: '/(visitor-insights)/visitors-overview'
       path: '/visitors-overview'
@@ -939,6 +982,13 @@ declare module '@tanstack/react-router' {
       path: '/logged-in-users'
       fullPath: '/logged-in-users'
       preLoaderRoute: typeof visitorInsightsLoggedInUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/referrals-overview': {
+      id: '/(referrals)/referrals-overview'
+      path: '/referrals-overview'
+      fullPath: '/referrals-overview'
+      preLoaderRoute: typeof referralsReferralsOverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(page-insights)/top-pages': {
@@ -1023,11 +1073,13 @@ const rootRouteChildren: RootRouteChildren = {
   PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
   contentAnalyticsContentRoute: contentAnalyticsContentRoute,
   pageInsightsTopPagesRoute: pageInsightsTopPagesRoute,
+  referralsReferralsOverviewRoute: referralsReferralsOverviewRoute,
   visitorInsightsLoggedInUsersRoute: visitorInsightsLoggedInUsersRoute,
   visitorInsightsTopVisitorsRoute: visitorInsightsTopVisitorsRoute,
   visitorInsightsViewsRoute: visitorInsightsViewsRoute,
   visitorInsightsVisitorsRoute: visitorInsightsVisitorsRoute,
   visitorInsightsVisitorsOverviewRoute: visitorInsightsVisitorsOverviewRoute,
+  referralsCampaignsLazyRoute: referralsCampaignsLazyRoute,
   referralsReferredVisitorsLazyRoute: referralsReferredVisitorsLazyRoute,
   referralsReferrersLazyRoute: referralsReferrersLazyRoute,
   referralsSearchEnginesLazyRoute: referralsSearchEnginesLazyRoute,

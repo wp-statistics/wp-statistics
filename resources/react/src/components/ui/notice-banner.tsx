@@ -142,43 +142,43 @@ export function NoticeBanner({
   return (
     <div
       className={cn(
-        'rounded-lg border p-4',
+        'rounded-lg border px-4 py-2.5',
         styles.container,
         className
       )}
       role={dismissible ? 'alert' : 'note'}
       {...props}
     >
-      <div className="flex gap-3">
-        <Icon className={cn('h-5 w-5 shrink-0 mt-0.5', styles.icon)} />
-        <div className="flex-1 min-w-0">
+      <div className="flex items-center gap-3">
+        <Icon className={cn('h-5 w-5 shrink-0', styles.icon)} />
+        <div className="flex-1 min-w-0 flex items-center gap-2">
           {title && (
-            <h4 className={cn('font-medium mb-1', styles.text)}>{title}</h4>
+            <span className={cn('font-medium', styles.text)}>{title}</span>
           )}
           <p className={cn('text-sm', title ? 'text-muted-foreground' : styles.text)}>{message}</p>
-          {(actionUrl || helpUrl) && (
-            <div className="flex items-center gap-4 mt-2">
-              {actionUrl && (
-                <a
-                  href={actionUrl}
-                  className={cn('text-sm font-medium hover:underline', styles.text)}
-                >
-                  {actionLabel || __('View', 'wp-statistics')}
-                </a>
-              )}
-              {helpUrl && (
-                <a
-                  href={helpUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground"
-                >
-                  {__('Learn more', 'wp-statistics')}
-                </a>
-              )}
-            </div>
-          )}
         </div>
+        {(actionUrl || helpUrl) && (
+          <div className="flex items-center gap-3 shrink-0">
+            {actionUrl && (
+              <a
+                href={actionUrl}
+                className={cn('text-sm font-medium hover:underline whitespace-nowrap', styles.text)}
+              >
+                {actionLabel || __('View', 'wp-statistics')}
+              </a>
+            )}
+            {helpUrl && (
+              <a
+                href={helpUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground whitespace-nowrap"
+              >
+                {__('Learn more', 'wp-statistics')}
+              </a>
+            )}
+          </div>
+        )}
         {dismissible && id && (
           <Button
             variant="ghost"

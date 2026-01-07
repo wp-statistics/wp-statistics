@@ -222,7 +222,7 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn('h-8 text-xs', { 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
+          className={cn('h-8 text-xs border-neutral-200 hover:bg-neutral-50', { 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
           size="sm"
         >
           <Filter className="h-3.5 w-3.5" />
