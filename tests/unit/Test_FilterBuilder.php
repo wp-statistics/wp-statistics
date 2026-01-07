@@ -29,7 +29,7 @@ class Test_FilterBuilder extends WP_UnitTestCase
      */
     public function test_build_simple_equality_filter()
     {
-        $filters = ['country' => 1]; // v15 uses country IDs instead of codes
+        $filters = ['country' => 'US'];
 
         $result = FilterBuilder::build($filters);
 
@@ -39,8 +39,8 @@ class Test_FilterBuilder extends WP_UnitTestCase
         $this->assertArrayHasKey('joins', $result);
 
         $this->assertCount(1, $result['conditions']);
-        $this->assertStringContainsString('countries.ID = %s', $result['conditions'][0]);
-        $this->assertContains(1, $result['params']);
+        $this->assertStringContainsString('countries.code = %s', $result['conditions'][0]);
+        $this->assertContains('US', $result['params']);
     }
 
     /**
@@ -48,14 +48,14 @@ class Test_FilterBuilder extends WP_UnitTestCase
      */
     public function test_build_filter_with_array_values()
     {
-        $filters = ['country' => [1, 2, 3]]; // v15 uses country IDs
+        $filters = ['country' => ['US', 'GB', 'CA']];
 
         $result = FilterBuilder::build($filters);
 
         $this->assertCount(1, $result['conditions']);
         $this->assertStringContainsString('IN', $result['conditions'][0]);
         $this->assertStringContainsString('%s,%s,%s', $result['conditions'][0]);
-        $this->assertEquals([1, 2, 3], $result['params']);
+        $this->assertEquals(['US', 'GB', 'CA'], $result['params']);
     }
 
     /**
@@ -63,13 +63,13 @@ class Test_FilterBuilder extends WP_UnitTestCase
      */
     public function test_build_filter_with_is_operator()
     {
-        $filters = ['country' => ['is' => 1]]; // v15 uses country IDs
+        $filters = ['country' => ['is' => 'US']];
 
         $result = FilterBuilder::build($filters);
 
         $this->assertCount(1, $result['conditions']);
-        $this->assertStringContainsString('countries.ID = %s', $result['conditions'][0]);
-        $this->assertContains(1, $result['params']);
+        $this->assertStringContainsString('countries.code = %s', $result['conditions'][0]);
+        $this->assertContains('US', $result['params']);
     }
 
     /**
@@ -77,13 +77,13 @@ class Test_FilterBuilder extends WP_UnitTestCase
      */
     public function test_build_filter_with_is_not_operator()
     {
-        $filters = ['country' => ['is_not' => 1]]; // v15 uses country IDs
+        $filters = ['country' => ['is_not' => 'US']];
 
         $result = FilterBuilder::build($filters);
 
         $this->assertCount(1, $result['conditions']);
-        $this->assertStringContainsString('countries.ID != %s', $result['conditions'][0]);
-        $this->assertContains(1, $result['params']);
+        $this->assertStringContainsString('countries.code != %s', $result['conditions'][0]);
+        $this->assertContains('US', $result['params']);
     }
 
     /**
@@ -91,13 +91,13 @@ class Test_FilterBuilder extends WP_UnitTestCase
      */
     public function test_build_filter_with_in_operator()
     {
-        $filters = ['country' => ['in' => [1, 2]]]; // v15 uses country IDs
+        $filters = ['country' => ['in' => ['US', 'GB']]];
 
         $result = FilterBuilder::build($filters);
 
         $this->assertCount(1, $result['conditions']);
         $this->assertStringContainsString('IN', $result['conditions'][0]);
-        $this->assertEquals([1, 2], $result['params']);
+        $this->assertEquals(['US', 'GB'], $result['params']);
     }
 
     /**
@@ -105,13 +105,13 @@ class Test_FilterBuilder extends WP_UnitTestCase
      */
     public function test_build_filter_with_not_in_operator()
     {
-        $filters = ['country' => ['not_in' => [1, 2]]]; // v15 uses country IDs
+        $filters = ['country' => ['not_in' => ['US', 'GB']]];
 
         $result = FilterBuilder::build($filters);
 
         $this->assertCount(1, $result['conditions']);
         $this->assertStringContainsString('NOT IN', $result['conditions'][0]);
-        $this->assertEquals([1, 2], $result['params']);
+        $this->assertEquals(['US', 'GB'], $result['params']);
     }
 
     /**
@@ -376,13 +376,13 @@ class Test_FilterBuilder extends WP_UnitTestCase
      */
     public function test_in_operator_with_single_value()
     {
-        $filters = ['country' => ['in' => 1]]; // v15 uses country IDs
+        $filters = ['country' => ['in' => 'US']];
 
         $result = FilterBuilder::build($filters);
 
         $this->assertCount(1, $result['conditions']);
         $this->assertStringContainsString('IN', $result['conditions'][0]);
-        $this->assertEquals([1], $result['params']);
+        $this->assertEquals(['US'], $result['params']);
     }
 
     /**
@@ -390,12 +390,12 @@ class Test_FilterBuilder extends WP_UnitTestCase
      */
     public function test_not_in_operator_with_single_value()
     {
-        $filters = ['country' => ['not_in' => 1]]; // v15 uses country IDs
+        $filters = ['country' => ['not_in' => 'US']];
 
         $result = FilterBuilder::build($filters);
 
         $this->assertCount(1, $result['conditions']);
         $this->assertStringContainsString('NOT IN', $result['conditions'][0]);
-        $this->assertEquals([1], $result['params']);
+        $this->assertEquals(['US'], $result['params']);
     }
 }

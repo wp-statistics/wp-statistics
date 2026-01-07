@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Testing\Simulator;
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 
 /**
  * SettingsConfigurator - Auto-configure required WP Statistics settings for simulation

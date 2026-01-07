@@ -93,7 +93,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      *
      * @return string
      */
-    protected function getDatabasePath()
+    public function getDatabasePath()
     {
         return $this->getFilePath($this->databaseFileName);
     }

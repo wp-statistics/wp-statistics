@@ -34,15 +34,15 @@ class Test_CountryFilter extends WP_UnitTestCase
      */
     public function test_filter_column()
     {
-        $this->assertEquals('countries.ID', $this->filter->getColumn());
+        $this->assertEquals('countries.code', $this->filter->getColumn());
     }
 
     /**
-     * Test filter type is integer (uses ID).
+     * Test filter type is string (uses country code).
      */
     public function test_filter_type()
     {
-        $this->assertEquals('integer', $this->filter->getType());
+        $this->assertEquals('string', $this->filter->getType());
     }
 
     /**

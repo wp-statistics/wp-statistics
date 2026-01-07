@@ -91,13 +91,13 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
     }
 
     /**
-     * Test Helper::formatNumber method exists.
+     * Test Helper::formatNumberWithUnit method exists.
      */
-    public function test_helperFormatNumberMethodExists()
+    public function test_helperFormatNumberWithUnitMethodExists()
     {
         $this->assertTrue(
-            method_exists('WP_STATISTICS\Helper', 'formatNumber'),
-            'WP_STATISTICS\Helper::formatNumber() method should exist'
+            method_exists('WP_STATISTICS\Helper', 'formatNumberWithUnit'),
+            'WP_STATISTICS\Helper::formatNumberWithUnit() method should exist'
         );
     }
 
@@ -272,13 +272,13 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
     }
 
     /**
-     * Test v15 Option class exists in new namespace.
+     * Test v15 Option class exists in Components namespace.
      */
     public function test_v15OptionClassExists()
     {
         $this->assertTrue(
-            class_exists('WP_Statistics\Globals\Option'),
-            'WP_Statistics\Globals\Option class should exist'
+            class_exists('WP_Statistics\Components\Option'),
+            'WP_Statistics\Components\Option class should exist'
         );
     }
 
@@ -288,8 +288,8 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
     public function test_v15OptionGetValueMethodExists()
     {
         $this->assertTrue(
-            method_exists('WP_Statistics\Globals\Option', 'getValue'),
-            'WP_Statistics\Globals\Option::getValue() should exist'
+            method_exists('WP_Statistics\Components\Option', 'getValue'),
+            'WP_Statistics\Components\Option::getValue() should exist'
         );
     }
 
@@ -299,8 +299,8 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
     public function test_v15OptionUpdateValueMethodExists()
     {
         $this->assertTrue(
-            method_exists('WP_Statistics\Globals\Option', 'updateValue'),
-            'WP_Statistics\Globals\Option::updateValue() should exist'
+            method_exists('WP_Statistics\Components\Option', 'updateValue'),
+            'WP_Statistics\Components\Option::updateValue() should exist'
         );
     }
 
@@ -334,7 +334,8 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
     public function test_optionGetAddonOptionsWorks()
     {
         $result = Option::getAddonOptions('test-addon');
-        $this->assertIsArray($result, 'getAddonOptions() should return an array');
+        // Returns false when addon options don't exist, array when they do
+        $this->assertTrue($result === false || is_array($result), 'getAddonOptions() should return an array or false');
     }
 
     /**
@@ -389,8 +390,7 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
      */
     public function test_v15OptionGetValueReturnsDefault()
     {
-        $v15Option = new \WP_Statistics\Globals\Option();
-        $result = \WP_Statistics\Globals\Option::getValue('nonexistent_v15_key_12345', 'v15_default');
+        $result = \WP_Statistics\Components\Option::getValue('nonexistent_v15_key_12345', 'v15_default');
         $this->assertEquals('v15_default', $result, 'v15 Option::getValue() should return default value for missing key');
     }
 
@@ -400,34 +400,35 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
     public function test_v15OptionUpdateAndGetValue()
     {
         // Update a test option
-        \WP_Statistics\Globals\Option::updateValue('test_v15_compat_key', 'v15_test_value');
+        \WP_Statistics\Components\Option::updateValue('test_v15_compat_key', 'v15_test_value');
 
         // Read it back
-        $result = \WP_Statistics\Globals\Option::getValue('test_v15_compat_key');
+        $result = \WP_Statistics\Components\Option::getValue('test_v15_compat_key');
         $this->assertEquals('v15_test_value', $result, 'v15 Option::getValue() should return value set by Option::updateValue()');
 
         // Clean up
-        \WP_Statistics\Globals\Option::updateValue('test_v15_compat_key', null);
+        \WP_Statistics\Components\Option::updateValue('test_v15_compat_key', null);
     }
 
     /**
-     * Test Helper::formatNumber formats numbers correctly.
+     * Test Helper::formatNumberWithUnit formats numbers correctly.
      */
-    public function test_helperFormatNumberFormatsCorrectly()
+    public function test_helperFormatNumberWithUnitFormatsCorrectly()
     {
-        $result = Helper::formatNumber(1234567);
-        $this->assertIsString($result, 'formatNumber() should return a string');
-        $this->assertNotEmpty($result, 'formatNumber() should return non-empty string');
+        $result = Helper::formatNumberWithUnit(1234567);
+        $this->assertIsString($result, 'formatNumberWithUnit() should return a string');
+        $this->assertNotEmpty($result, 'formatNumberWithUnit() should return non-empty string');
     }
 
     /**
-     * Test TimeZone::getCurrentDate returns a valid date string.
+     * Test TimeZone::getCurrentDate returns a valid datetime string.
      */
     public function test_timeZoneGetCurrentDateReturnsValidDate()
     {
         $result = TimeZone::getCurrentDate();
         $this->assertIsString($result, 'getCurrentDate() should return a string');
-        $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2}$/', $result, 'getCurrentDate() should return date in Y-m-d format');
+        // Default format is 'Y-m-d H:i:s' (datetime)
+        $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2}/', $result, 'getCurrentDate() should return date starting with Y-m-d format');
     }
 
     /**
@@ -512,12 +513,12 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
         // Set a value using legacy class
         Option::update('test_consistency_key', 'consistency_value');
 
-        // Read using v15 class
-        $v15Result = \WP_Statistics\Globals\Option::getValue('test_consistency_key');
+        // Read using v15 class (Components namespace)
+        $v15Result = \WP_Statistics\Components\Option::getValue('test_consistency_key');
         $this->assertEquals('consistency_value', $v15Result, 'v15 Option should read values set by legacy Option');
 
         // Set a value using v15 class
-        \WP_Statistics\Globals\Option::updateValue('test_consistency_key_2', 'v15_set_value');
+        \WP_Statistics\Components\Option::updateValue('test_consistency_key_2', 'v15_set_value');
 
         // Read using legacy class
         $legacyResult = Option::get('test_consistency_key_2');

@@ -105,6 +105,75 @@ class Option extends Singleton
         return add_option($optionName, $value);
     }
 
+    /**
+     * Delete option value using context-appropriate function.
+     *
+     * Uses delete_site_option() for network admin context,
+     * delete_option() for everything else.
+     *
+     * @param string $optionName Option name.
+     * @return bool
+     */
+    private static function deleteOptionValue($optionName)
+    {
+        if (self::isNetworkContext()) {
+            return delete_site_option($optionName);
+        }
+
+        return delete_option($optionName);
+    }
+
+    // =========================================================================
+    // Standalone Options (prefixed, independent from main wp_statistics option)
+    // =========================================================================
+
+    /**
+     * Get a standalone prefixed option value.
+     *
+     * Use this for storing separate options that aren't part of the main
+     * wp_statistics option array.
+     *
+     * @param string $key     Option key (without prefix).
+     * @param mixed  $default Default value.
+     * @return mixed
+     */
+    public static function getOption(string $key, $default = null)
+    {
+        $optionName = self::getName($key);
+        return self::getOptionValue($optionName, $default);
+    }
+
+    /**
+     * Update a standalone prefixed option value.
+     *
+     * Use this for storing separate options that aren't part of the main
+     * wp_statistics option array.
+     *
+     * @param string $key   Option key (without prefix).
+     * @param mixed  $value Value to store.
+     * @return bool
+     */
+    public static function updateOption(string $key, $value): bool
+    {
+        $optionName = self::getName($key);
+        return self::updateOptionValue($optionName, $value);
+    }
+
+    /**
+     * Delete a standalone prefixed option.
+     *
+     * Use this for deleting separate options that aren't part of the main
+     * wp_statistics option array.
+     *
+     * @param string $key Option key (without prefix).
+     * @return bool
+     */
+    public static function deleteOption(string $key): bool
+    {
+        $optionName = self::getName($key);
+        return self::deleteOptionValue($optionName);
+    }
+
     // =========================================================================
     // Default Options
     // =========================================================================

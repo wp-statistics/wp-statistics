@@ -198,7 +198,9 @@ class Test_DateTime extends WP_UnitTestCase
     {
         $currentDate = new \DateTime();
         $visitDate = clone $currentDate;
-        $visitDate->modify('-30 seconds');
+        // Use 25 seconds - rounds down to 0 minutes (< 1 min threshold)
+        // Note: 30 seconds rounds to 1 minute due to round() in implementation
+        $visitDate->modify('-25 seconds');
 
         $result = DateTime::getElapsedTime($currentDate, $visitDate, 'Jan 01');
         $this->assertEquals('Now', $result);

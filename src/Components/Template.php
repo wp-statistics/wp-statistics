@@ -64,7 +64,7 @@ class Template
     {
         $file = self::getPath($template, $base);
 
-        if (!empty($file)) {
+        if (empty($file)) {
             return;
         }
 

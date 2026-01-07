@@ -21,6 +21,26 @@ class GeoIpCheck extends AbstractCheck
     private const MAX_AGE_DAYS = 30;
 
     /**
+     * GeoIP provider instance.
+     *
+     * @var MaxMindGeoIPProvider|null
+     */
+    private $provider = null;
+
+    /**
+     * Get the GeoIP provider instance.
+     *
+     * @return MaxMindGeoIPProvider
+     */
+    private function getProvider(): MaxMindGeoIPProvider
+    {
+        if ($this->provider === null) {
+            $this->provider = new MaxMindGeoIPProvider();
+        }
+        return $this->provider;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getKey(): string
@@ -82,15 +102,16 @@ class GeoIpCheck extends AbstractCheck
         }
 
         // Check if database file exists
-        if (!MaxMindGeoIPProvider::isDatabaseExist()) {
+        $provider = $this->getProvider();
+        if (!$provider->isDatabaseExist()) {
             return $this->fail(
                 __('GeoIP database not found. Location detection will not work.', 'wp-statistics'),
-                ['database_path' => MaxMindGeoIPProvider::getDatabasePath()]
+                ['database_path' => $provider->getDatabasePath()]
             );
         }
 
         // Check database age
-        $lastUpdated = MaxMindGeoIPProvider::getLastDatabaseFileUpdated();
+        $lastUpdated = $provider->getLastDatabaseFileUpdated();
 
         if ($lastUpdated) {
             $ageInDays = (time() - strtotime($lastUpdated)) / DAY_IN_SECONDS;
@@ -123,7 +144,7 @@ class GeoIpCheck extends AbstractCheck
         // Database exists but can't determine age
         return $this->pass(
             __('Database exists.', 'wp-statistics'),
-            ['database_path' => MaxMindGeoIPProvider::getDatabasePath()]
+            ['database_path' => $provider->getDatabasePath()]
         );
     }
 }

@@ -54,7 +54,7 @@ class EmailReportLogger
         // Keep only last N entries
         $log = array_slice($log, 0, self::MAX_ENTRIES);
 
-        Option::update(self::OPTION_KEY, $log);
+        Option::updateOption(self::OPTION_KEY, $log);
     }
 
     /**
@@ -64,7 +64,7 @@ class EmailReportLogger
      */
     public function getLog(): array
     {
-        $log = Option::get(self::OPTION_KEY);
+        $log = Option::getOption(self::OPTION_KEY);
 
         if (!is_array($log)) {
             return [];
@@ -193,7 +193,7 @@ class EmailReportLogger
      */
     public function clear(): void
     {
-        Option::delete(self::OPTION_KEY);
+        Option::deleteOption(self::OPTION_KEY);
     }
 
     /**
