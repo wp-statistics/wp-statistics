@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { AppSidebar } from '@/components/app-sidebar'
 import type { FilterField } from '@/components/custom/filter-button'
 import { Header } from '@/components/header'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { GlobalFiltersProvider } from '@/contexts/global-filters-context'
 import { WordPress } from '@/lib/wordpress'
@@ -32,6 +33,7 @@ const RootLayout = () => {
           <div className="flex flex-1 relative overflow-hidden min-w-0">
             {showSidebar && <AppSidebar />}
             <SidebarInset className="overflow-auto w-full">
+              <NoticeContainer className="m-2 mb-0" />
               <Outlet />
             </SidebarInset>
           </div>

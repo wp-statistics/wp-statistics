@@ -8,7 +8,6 @@ import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
-import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -365,8 +364,6 @@ function AuthorsOverviewView() {
       </div>
 
       <div className="p-2">
-        <NoticeContainer className="mb-2" />
-
         {filtersForDisplay.length > 0 && (
           <FilterBar
             filters={filtersForDisplay}

@@ -9,7 +9,6 @@ import { FilterButton, type FilterField } from '@/components/custom/filter-butto
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
-import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import {
   BarListSkeleton,
@@ -290,8 +289,6 @@ function RouteComponent() {
       </div>
 
       <div className="p-2">
-        <NoticeContainer className="mb-2" />
-
         {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
         )}

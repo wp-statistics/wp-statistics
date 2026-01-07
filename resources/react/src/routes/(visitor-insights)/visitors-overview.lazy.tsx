@@ -11,7 +11,6 @@ import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
-import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import {
   BarListSkeleton,
@@ -359,8 +358,6 @@ function RouteComponent() {
       </div>
 
       <div className="p-2">
-        {/* Notices */}
-        <NoticeContainer className="mb-2" />
 
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (

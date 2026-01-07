@@ -2,7 +2,6 @@ import { Link, useLocation } from '@tanstack/react-router'
 import { Upload, Database, Info, Clock, Activity, Stethoscope } from 'lucide-react'
 import * as React from 'react'
 
-import { NoticeContainer } from '@/components/ui/notice-container'
 import { cn } from '@/lib/utils'
 
 interface ToolsTab {
@@ -66,7 +65,6 @@ export function ToolsLayout({ children }: ToolsLayoutProps) {
 
       {/* Tab Content */}
       <div className="flex-1 overflow-auto p-6">
-        <NoticeContainer className="mb-6" />
         {children}
       </div>
     </div>

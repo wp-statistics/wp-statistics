@@ -10,7 +10,6 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
-import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -468,8 +467,6 @@ function ContentOverviewView() {
       </div>
 
       <div className="p-2">
-        <NoticeContainer className="mb-2" />
-
         {filtersForDisplay.length > 0 && (
           <FilterBar
             filters={filtersForDisplay}
