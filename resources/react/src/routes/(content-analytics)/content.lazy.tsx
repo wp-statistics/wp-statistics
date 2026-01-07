@@ -11,6 +11,7 @@ import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { Panel } from '@/components/ui/panel'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -467,6 +468,7 @@ function ContentOverviewView() {
       </div>
 
       <div className="p-2">
+        <NoticeContainer className="mb-2" currentRoute="content" />
         {filtersForDisplay.length > 0 && (
           <FilterBar
             filters={filtersForDisplay}

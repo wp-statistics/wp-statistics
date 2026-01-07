@@ -8,6 +8,7 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createViewsColumns,
@@ -316,6 +317,7 @@ function RouteComponent() {
       </div>
 
       <div className="p-2">
+        <NoticeContainer className="mb-2" currentRoute="views" />
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />

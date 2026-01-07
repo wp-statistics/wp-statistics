@@ -11,6 +11,7 @@ import { LineChart, type LineChartDataPoint } from '@/components/custom/line-cha
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { Panel } from '@/components/ui/panel'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -481,6 +482,7 @@ function CategoriesOverviewView() {
       </div>
 
       <div className="p-2">
+        <NoticeContainer className="mb-2" currentRoute="categories" />
         {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
         )}

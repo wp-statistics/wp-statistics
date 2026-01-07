@@ -8,6 +8,7 @@ import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -146,6 +147,7 @@ function RouteComponent() {
       </div>
 
       <div className="p-2">
+        <NoticeContainer className="mb-2" currentRoute="geographic" />
         {showSkeleton ? (
           <div className="grid gap-2 grid-cols-12">
             {/* Metrics skeleton */}

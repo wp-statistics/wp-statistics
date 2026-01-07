@@ -152,6 +152,7 @@ declare global {
     actionLabel?: string | null
     helpUrl?: string | null
     priority: number
+    pages?: string[] // Routes where notice should appear (empty = all pages)
   }
 
   // Notice data configuration

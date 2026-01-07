@@ -12,6 +12,7 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import {
   BarListSkeleton,
   ChartSkeleton,
@@ -358,6 +359,7 @@ function RouteComponent() {
       </div>
 
       <div className="p-2">
+        <NoticeContainer className="mb-2" currentRoute="visitors-overview" />
 
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (

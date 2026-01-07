@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { ErrorMessage } from '@/components/custom/error-message'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   DurationCell,
@@ -499,6 +500,7 @@ function RouteComponent() {
       </div>
 
       <div className="p-2">
+        <NoticeContainer className="mb-2" currentRoute="online-visitors" />
         {isError ? (
           <div className="p-2 text-center">
             <ErrorMessage message={__('Failed to load online visitors', 'wp-statistics')} />

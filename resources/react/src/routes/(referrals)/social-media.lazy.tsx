@@ -11,6 +11,7 @@ import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -361,6 +362,7 @@ function RouteComponent() {
       </div>
 
       <div className="p-2 space-y-4">
+        <NoticeContainer currentRoute="social-media" />
         {/* Applied filters row */}
         {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />

@@ -10,6 +10,7 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createLoggedInUsersColumns,
@@ -425,6 +426,7 @@ function RouteComponent() {
       </div>
 
       <div className="p-2 grid gap-2">
+        <NoticeContainer currentRoute="logged-in-users" />
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />

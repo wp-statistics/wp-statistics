@@ -10,6 +10,7 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import type { Filter } from '@/components/custom/filter-bar'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createVisitorsColumns,
@@ -296,6 +297,7 @@ function RouteComponent() {
       </div>
 
       <div className="p-2">
+        <NoticeContainer className="mb-2" currentRoute="referred-visitors" />
         {/* Applied filters row (shows user-added filters, not the base referrer filter) */}
         {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />

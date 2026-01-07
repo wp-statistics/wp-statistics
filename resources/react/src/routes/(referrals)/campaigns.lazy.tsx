@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n'
 import { Megaphone } from 'lucide-react'
 
 import { AddonPromo } from '@/components/custom/addon-promo'
+import { NoticeContainer } from '@/components/ui/notice-container'
 
 export const Route = createLazyFileRoute('/(referrals)/campaigns')({
   component: RouteComponent,
@@ -17,6 +18,7 @@ function RouteComponent() {
       </div>
 
       <div className="p-2">
+        <NoticeContainer className="mb-2" currentRoute="campaigns" />
         <AddonPromo
           title={__('Marketing Campaigns', 'wp-statistics')}
           description={__(
