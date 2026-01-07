@@ -1,0 +1,193 @@
+name: Playground Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      multisite:
+        description: 'Test as multisite'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build:
+    name: Build Plugin
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-url: ${{ steps.upload.outputs.artifact-url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Create plugin ZIP
+        run: |
+          mkdir -p dist
+          zip -r dist/wp-statistics.zip . \
+            -x "*.git*" \
+            -x "node_modules/*" \
+            -x "tests/*" \
+            -x "bin/*" \
+            -x "blueprints/*" \
+            -x ".github/*" \
+            -x "*.md" \
+            -x "composer.json" \
+            -x "composer.lock" \
+            -x "package.json" \
+            -x "package-lock.json" \
+            -x "phpunit.xml*" \
+            -x "phpcs.xml*" \
+            -x ".eslint*" \
+            -x ".prettier*" \
+            -x "webpack.config.js" \
+            -x "dist/*"
+
+      - name: Upload plugin artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp-statistics-${{ github.sha }}
+          path: dist/wp-statistics.zip
+          retention-days: 7
+
+  playground-single:
+    name: Playground (Single Site)
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download plugin artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: wp-statistics-${{ github.sha }}
+          path: dist
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
+        run: npx playwright install chromium
+
+      - name: Run Playground smoke test
+        run: |
+          npx @wp-now/wp-now start --path=dist/wp-statistics.zip &
+          sleep 10
+          curl -f http://localhost:8881/wp-admin/ || exit 1
+          echo "✅ Playground single site test passed"
+
+  playground-multisite:
+    name: Playground (Multisite)
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download plugin artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: wp-statistics-${{ github.sha }}
+          path: dist
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Playground multisite smoke test
+        run: |
+          echo "🔄 Testing multisite configuration..."
+          # Multisite testing would require additional setup
+          # For now, validate the blueprint is valid JSON
+          node -e "require('./blueprints/multisite.json')"
+          echo "✅ Multisite blueprint is valid"
+
+  comment-preview:
+    name: Comment Preview Link
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate Preview URLs
+        id: preview
+        run: |
+          # Base Playground URL
+          BASE_URL="https://playground.wordpress.net"
+
+          # Single site preview with plugin from WordPress.org (for demo)
+          SINGLE_SITE_URL="${BASE_URL}/?blueprint-url=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/blueprint.json"
+
+          # Multisite preview
+          MULTISITE_URL="${BASE_URL}/?blueprint-url=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/blueprints/multisite.json"
+
+          echo "single-site-url=${SINGLE_SITE_URL}" >> $GITHUB_OUTPUT
+          echo "multisite-url=${MULTISITE_URL}" >> $GITHUB_OUTPUT
+
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- wp-statistics-playground-preview -->'
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            <!-- wp-statistics-playground-preview -->
+            ## 🎮 WordPress Playground Preview
+
+            Test this PR directly in your browser using WordPress Playground:
+
+            | Environment | Preview Link |
+            |-------------|--------------|
+            | 🔹 **Single Site** | [Open in Playground](${{ steps.preview.outputs.single-site-url }}) |
+            | 🔸 **Multisite** | [Open in Playground](${{ steps.preview.outputs.multisite-url }}) |
+
+            ### Quick Test Instructions
+            1. Click a preview link above
+            2. Wait for WordPress to load (may take 30-60 seconds)
+            3. You'll be logged in as `admin` automatically
+            4. Navigate to **Statistics** menu to test the plugin
+
+            > **Note:** These previews use the latest release. For PR-specific builds, download the artifact from the workflow run.
+
+            ---
+            <sub>🤖 Generated by WordPress Playground Preview Action • Commit: ${{ github.sha }}</sub>
