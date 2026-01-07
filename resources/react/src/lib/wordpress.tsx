@@ -80,8 +80,9 @@ export class WordPress {
   }
 
   public getFilterFieldsByGroup(group: FilterGroup): FilterFields[keyof FilterFields][] {
-    const fields = this.data.filters.fields
-    return Object.values(fields).filter((field) => field.groups.includes(group))
+    const fields = this.data?.filters?.fields
+    if (!fields) return []
+    return Object.values(fields).filter((field) => field.groups?.includes(group))
   }
 
   public getUserPreferences(): UserPreferences | undefined {

@@ -50,7 +50,7 @@ function RouteComponent() {
 
   // Get filter fields for 'views' group from localized data
   const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('views') as FilterField[]
+    return (wp.getFilterFieldsByGroup('views') || []) as FilterField[]
   }, [wp])
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
@@ -138,43 +138,46 @@ function RouteComponent() {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
+    const viewsPerc = calcPercentage(Number(totals.views?.current) || 0, Number(totals.views?.previous) || 0)
+    const visitorsPerc = calcPercentage(Number(totals.visitors?.current) || 0, Number(totals.visitors?.previous) || 0)
+    const avgTimePerc = calcPercentage(Number(totals.avg_time_on_page?.current) || 0, Number(totals.avg_time_on_page?.previous) || 0)
+    const bouncePerc = calcPercentage(Number(totals.bounce_rate?.current) || 0, Number(totals.bounce_rate?.previous) || 0)
+    const pagesPerSessionPerc = calcPercentage(Number(totals.pages_per_session?.current) || 0, Number(totals.pages_per_session?.previous) || 0)
+
     return [
       {
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(Number(totals.views?.current) || 0),
-        previousValue: formatCompactNumber(Number(totals.views?.previous) || 0),
-        percentage: calcPercentage(Number(totals.views?.current), Number(totals.views?.previous)),
+        percentage: viewsPerc.percentage,
+        isNegative: viewsPerc.isNegative,
       },
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(Number(totals.visitors?.current) || 0),
-        previousValue: formatCompactNumber(Number(totals.visitors?.previous) || 0),
-        percentage: calcPercentage(Number(totals.visitors?.current), Number(totals.visitors?.previous)),
+        percentage: visitorsPerc.percentage,
+        isNegative: visitorsPerc.isNegative,
       },
       {
         label: __('Avg. Time on Page', 'wp-statistics'),
         value: formatDuration(Number(totals.avg_time_on_page?.current) || 0),
-        previousValue: formatDuration(Number(totals.avg_time_on_page?.previous) || 0),
-        percentage: calcPercentage(Number(totals.avg_time_on_page?.current), Number(totals.avg_time_on_page?.previous)),
+        percentage: avgTimePerc.percentage,
+        isNegative: avgTimePerc.isNegative,
       },
       {
         label: __('Bounce Rate', 'wp-statistics'),
         value: `${formatDecimal(Number(totals.bounce_rate?.current) || 0)}%`,
-        previousValue: `${formatDecimal(Number(totals.bounce_rate?.previous) || 0)}%`,
-        percentage: calcPercentage(Number(totals.bounce_rate?.current), Number(totals.bounce_rate?.previous)),
-        invertTrend: true,
+        percentage: bouncePerc.percentage,
+        isNegative: !bouncePerc.isNegative, // Invert for bounce rate (lower is better)
       },
       {
         label: __('Pages/Session', 'wp-statistics'),
         value: formatDecimal(Number(totals.pages_per_session?.current) || 0),
-        previousValue: formatDecimal(Number(totals.pages_per_session?.previous) || 0),
-        percentage: calcPercentage(Number(totals.pages_per_session?.current), Number(totals.pages_per_session?.previous)),
+        percentage: pagesPerSessionPerc.percentage,
+        isNegative: pagesPerSessionPerc.isNegative,
       },
       {
         label: __('Top Content Type', 'wp-statistics'),
         value: metricsTopPostType?.items?.[0]?.page_type || '-',
-        previousValue: undefined,
-        percentage: undefined,
       },
     ]
   }, [metricsResponse, metricsTopPostType, calcPercentage])
@@ -323,7 +326,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
         <h1 className="text-xl font-semibold text-neutral-800">{__('Page Insights', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
-          {filterFields.length > 0 && isInitialized && (
+          {filterFields && filterFields.length > 0 && isInitialized && (
             <FilterButton
               fields={filterFields}
               appliedFilters={appliedFilters || []}
