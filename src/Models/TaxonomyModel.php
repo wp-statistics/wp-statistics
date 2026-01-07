@@ -6,6 +6,12 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 
+/**
+ * Model class for taxonomy analytics.
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with taxonomy groupBy instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ */
 class TaxonomyModel extends BaseModel
 {
     public function countTerms($args = [])

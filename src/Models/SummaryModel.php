@@ -11,6 +11,8 @@ use WP_Statistics\Utils\Query;
  *
  * Provides methods to query and aggregate data from the summary table.
  *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with page groupBy instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  * @since 15.0.0
  */
 class SummaryModel extends BaseModel

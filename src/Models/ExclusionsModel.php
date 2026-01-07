@@ -5,6 +5,13 @@ namespace WP_Statistics\Models;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Utils\Query;
 
+/**
+ * Model class for exclusion analytics.
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with exclusions source instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ * @since 15.0.0
+ */
 class ExclusionsModel extends BaseModel
 {
     public function countExclusions($args = [])

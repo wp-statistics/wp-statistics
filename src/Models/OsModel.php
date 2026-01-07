@@ -10,6 +10,8 @@ use WP_Statistics\Utils\Query;
  *
  * Provides methods to query and aggregate metrics by operating system.
  *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with os groupBy instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  * @since 15.0.0
  */
 class OsModel extends BaseModel

@@ -7,6 +7,12 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Query;
 
+/**
+ * Model class for author analytics.
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with author groupBy instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ */
 class AuthorsModel extends BaseModel
 {
     /**

@@ -11,6 +11,8 @@ use WP_Statistics\Utils\Query;
  *
  * Provides methods to query and aggregate views and visitors from the summary_totals table.
  *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with views/visitors sources instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  * @since 15.0.0
  */
 class SummaryTotalModel extends BaseModel

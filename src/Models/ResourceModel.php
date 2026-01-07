@@ -11,7 +11,9 @@ use WP_Statistics\Utils\Query;
  *
  * Provides convenience methods that query the `resources`
  * table and its related data (views, comments, meta, taxonomy, …).
- * 
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with page groupBy instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  * @since 15.0.0
  */
 class ResourceModel extends BaseModel

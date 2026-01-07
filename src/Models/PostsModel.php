@@ -5,12 +5,19 @@ namespace WP_Statistics\Models;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Utils\Query;
 
 /**
  * Posts data model.
  *
- * @deprecated 15.0.0 Use AnalyticsQueryHandler with page/post grouping instead.
+ * Contains both WordPress content queries (countPosts, countDailyPosts, etc.)
+ * and analytics queries that delegate to AnalyticsQueryHandler.
+ *
+ * @deprecated 15.0.0 Analytics methods delegate to AnalyticsQueryHandler.
+ *                    WordPress content methods (countPosts, countDailyPosts, countWords,
+ *                    countComments, getPost, getPostsWordsData, getPostsCommentsData,
+ *                    getInitialPostDate) remain for content operations.
  * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  */
 class PostsModel extends BaseModel
@@ -252,6 +259,14 @@ class PostsModel extends BaseModel
         return $result;
     }
 
+    /**
+     * Get posts with view counts.
+     *
+     * Delegates to AnalyticsQueryHandler for analytics data.
+     *
+     * @param array $args Query parameters.
+     * @return array List of posts with views.
+     */
     public function getPostsViewsData($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -267,6 +282,75 @@ class PostsModel extends BaseModel
             'show_no_views' => false
         ]);
 
+        $handler = new AnalyticsQueryHandler();
+
+        $request = [
+            'sources'  => ['views'],
+            'group_by' => ['page'],
+            'page'     => (int) $args['page'],
+            'per_page' => (int) $args['per_page'],
+            'format'   => 'flat',
+        ];
+
+        // Build filters
+        $filters = [];
+        if (!empty($args['post_type'])) {
+            $postTypes = is_array($args['post_type']) ? $args['post_type'] : [$args['post_type']];
+            $filters['post_type'] = ['in' => $postTypes];
+        }
+        if (!empty($args['author_id'])) {
+            $filters['author'] = $args['author_id'];
+        }
+        if (!empty($filters)) {
+            $request['filters'] = $filters;
+        }
+
+        // Handle date range
+        if (!empty($args['date'])) {
+            if (is_array($args['date'])) {
+                $request['date_from'] = $args['date']['from'] ?? null;
+                $request['date_to']   = $args['date']['to'] ?? null;
+            } else {
+                $request['date_from'] = $args['date'];
+                $request['date_to']   = $args['date'];
+            }
+        }
+
+        $response = $handler->handle($request);
+
+        // Transform response to match legacy format
+        $result = [];
+        if (!empty($response['data']['rows'])) {
+            foreach ($response['data']['rows'] as $row) {
+                $result[] = (object) [
+                    'ID'          => $row['page_wp_id'] ?? 0,
+                    'post_author' => 0, // Not available from analytics query
+                    'post_title'  => $row['page_title'] ?? '',
+                    'post_date'   => '', // Not available from analytics query
+                    'views'       => $row['views'] ?? 0,
+                ];
+            }
+        }
+
+        // If show_no_views is true and we need taxonomy filtering,
+        // fall back to the legacy query for full WordPress data
+        if ($args['show_no_views'] || !empty($args['taxonomy']) || !empty($args['term'])) {
+            return $this->getPostsViewsDataLegacy($args);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Legacy implementation of getPostsViewsData for complex queries.
+     *
+     * Used when show_no_views is true or taxonomy/term filtering is needed.
+     *
+     * @param array $args Query parameters.
+     * @return array List of posts with views.
+     */
+    private function getPostsViewsDataLegacy($args)
+    {
         // Get posts with zero views or not
         $joinType = $args['show_no_views'] ? 'LEFT' : 'INNER';
 
@@ -305,11 +389,17 @@ class PostsModel extends BaseModel
                 ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
         }
 
-        $result = $query->getAll();
-
-        return $result;
+        return $query->getAll();
     }
 
+    /**
+     * Get posts with visitor counts.
+     *
+     * Delegates to AnalyticsQueryHandler for analytics data.
+     *
+     * @param array $args Query parameters.
+     * @return array List of posts with visitors.
+     */
     public function getPostsVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -325,6 +415,72 @@ class PostsModel extends BaseModel
             'post_ids'      => []
         ]);
 
+        // For complex queries with event_name or post_ids, use legacy implementation
+        if (!empty($args['event_name']) || !empty($args['post_ids'])) {
+            return $this->getPostsVisitorsDataLegacy($args);
+        }
+
+        $handler = new AnalyticsQueryHandler();
+
+        $request = [
+            'sources'  => ['visitors'],
+            'group_by' => ['page'],
+            'page'     => (int) $args['page'],
+            'per_page' => (int) $args['per_page'],
+            'format'   => 'flat',
+        ];
+
+        // Build filters
+        $filters = [];
+        if (!empty($args['post_type'])) {
+            $postTypes = is_array($args['post_type']) ? $args['post_type'] : [$args['post_type']];
+            $filters['post_type'] = ['in' => $postTypes];
+        }
+        if (!empty($args['author_id'])) {
+            $filters['author'] = $args['author_id'];
+        }
+        if (!empty($filters)) {
+            $request['filters'] = $filters;
+        }
+
+        // Handle date range
+        if (!empty($args['date'])) {
+            if (is_array($args['date'])) {
+                $request['date_from'] = $args['date']['from'] ?? null;
+                $request['date_to']   = $args['date']['to'] ?? null;
+            } else {
+                $request['date_from'] = $args['date'];
+                $request['date_to']   = $args['date'];
+            }
+        }
+
+        $response = $handler->handle($request);
+
+        // Transform response to match legacy format
+        $result = [];
+        if (!empty($response['data']['rows'])) {
+            foreach ($response['data']['rows'] as $row) {
+                $result[] = (object) [
+                    'post_id'  => $row['page_wp_id'] ?? 0,
+                    'title'    => $row['page_title'] ?? '',
+                    'visitors' => $row['visitors'] ?? 0,
+                ];
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Legacy implementation of getPostsVisitorsData for complex queries.
+     *
+     * Used when event_name or post_ids filtering is needed.
+     *
+     * @param array $args Query parameters.
+     * @return array List of posts with visitors.
+     */
+    private function getPostsVisitorsDataLegacy($args)
+    {
         $visitorsQuery = Query::select(['pages.id as post_id', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
             ->from('visitor_relationships')
             ->join('pages', ['pages.page_id', 'visitor_relationships.page_id'])
@@ -454,43 +610,100 @@ class PostsModel extends BaseModel
         return $result;
     }
 
+    /**
+     * Get 404 page data with view counts.
+     *
+     * Delegates to AnalyticsQueryHandler for consistent analytics access.
+     *
+     * @param array $args Query parameters.
+     * @return array List of 404 pages with views.
+     */
     public function get404Data($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'order_by'      => 'views',
-            'order'         => 'DESC',
-            'page'          => 1,
-            'per_page'      => 10,
+            'date'     => '',
+            'order_by' => 'views',
+            'order'    => 'DESC',
+            'page'     => 1,
+            'per_page' => 10,
         ]);
 
-        $result = Query::select(['uri', 'SUM(count) AS views'])
-            ->from('pages')
-            ->where('type', '=', '404')
-            ->whereDate('pages.date', $args['date'])
-            ->groupBy('uri')
-            ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->getAll();
+        $handler = new AnalyticsQueryHandler();
+
+        $request = [
+            'sources'  => ['views'],
+            'group_by' => ['page'],
+            'filters'  => ['post_type' => '404'],
+            'page'     => (int) $args['page'],
+            'per_page' => (int) $args['per_page'],
+            'format'   => 'flat',
+        ];
+
+        // Handle date range
+        if (!empty($args['date'])) {
+            if (is_array($args['date'])) {
+                $request['date_from'] = $args['date']['from'] ?? null;
+                $request['date_to']   = $args['date']['to'] ?? null;
+            } else {
+                $request['date_from'] = $args['date'];
+                $request['date_to']   = $args['date'];
+            }
+        }
+
+        $response = $handler->handle($request);
+
+        // Transform response to match legacy format
+        $result = [];
+        if (!empty($response['data']['rows'])) {
+            foreach ($response['data']['rows'] as $row) {
+                $result[] = (object) [
+                    'uri'   => $row['page_uri'] ?? '',
+                    'views' => $row['views'] ?? 0,
+                ];
+            }
+        }
 
         return $result;
     }
 
+    /**
+     * Count distinct 404 URIs.
+     *
+     * Delegates to AnalyticsQueryHandler for consistent analytics access.
+     *
+     * @param array $args Query parameters.
+     * @return int Count of distinct 404 pages.
+     */
     public function count404Data($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'page'          => 1,
-            'per_page'      => 10,
+            'date' => '',
         ]);
 
-        $result = Query::select(['COUNT(DISTINCT uri)'])
-            ->from('pages')
-            ->where('type', '=', '404')
-            ->whereDate('pages.date', $args['date'])
-            ->getVar();
+        $handler = new AnalyticsQueryHandler();
 
-        return $result;
+        $request = [
+            'sources'  => ['views'],
+            'group_by' => ['page'],
+            'filters'  => ['post_type' => '404'],
+            'per_page' => 1000, // Fetch enough to count
+            'format'   => 'flat',
+        ];
+
+        // Handle date range
+        if (!empty($args['date'])) {
+            if (is_array($args['date'])) {
+                $request['date_from'] = $args['date']['from'] ?? null;
+                $request['date_to']   = $args['date']['to'] ?? null;
+            } else {
+                $request['date_from'] = $args['date'];
+                $request['date_to']   = $args['date'];
+            }
+        }
+
+        $response = $handler->handle($request);
+
+        return $response['data']['total'] ?? 0;
     }
 
     /**
