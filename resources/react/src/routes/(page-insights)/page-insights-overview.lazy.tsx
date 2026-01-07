@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, Link } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -30,6 +30,8 @@ export const Route = createLazyFileRoute('/(page-insights)/page-insights-overvie
 })
 
 function RouteComponent() {
+  const navigate = useNavigate()
+
   // Use global filters context for date range and filters
   const {
     dateFrom,
@@ -256,44 +258,63 @@ function RouteComponent() {
 
   // Transform top pages data
   const topPagesListData = useMemo(() => {
-    const totalViews = Number(topPagesTotals?.views) || topPagesData.reduce((sum, row) => sum + Number(row.views), 0)
+    const totalViews = Number(topPagesTotals?.views) || topPagesData.reduce((sum, row) => sum + Number(row.views), 0) || 1
 
-    return topPagesData.map((row) => ({
-      label: decodeText(row.page_title) || row.page_uri,
-      value: formatCompactNumber(Number(row.views)),
-      previousValue: row.previous ? formatCompactNumber(Number(row.previous.views)) : undefined,
-      percentage: calcPercentage(Number(row.views), row.previous ? Number(row.previous.views) : undefined),
-      fillPercentage: calcSharePercentage(Number(row.views), totalViews),
-      link: row.page_uri,
-    }))
+    return topPagesData.map((row) => {
+      const hasPrevious = row.previous !== undefined
+      const percentageResult = hasPrevious
+        ? calcPercentage(Number(row.views), Number(row.previous?.views) || 0)
+        : { percentage: '0', isNegative: false }
+
+      return {
+        label: decodeText(row.page_title) || row.page_uri,
+        value: formatCompactNumber(Number(row.views)),
+        percentage: percentageResult.percentage,
+        isNegative: percentageResult.isNegative,
+        fillPercentage: calcSharePercentage(Number(row.views), totalViews),
+      }
+    })
   }, [topPagesData, topPagesTotals, calcPercentage])
 
   // Transform entry pages data
   const entryPagesListData = useMemo(() => {
     const totalSessions =
-      Number(entryPagesTotals?.sessions) || entryPagesData.reduce((sum, row) => sum + Number(row.sessions), 0)
+      Number(entryPagesTotals?.sessions) || entryPagesData.reduce((sum, row) => sum + Number(row.sessions), 0) || 1
 
-    return entryPagesData.map((row) => ({
-      label: decodeText(row.page_title) || row.page_uri,
-      value: formatCompactNumber(Number(row.sessions)),
-      previousValue: row.previous ? formatCompactNumber(Number(row.previous.sessions)) : undefined,
-      percentage: calcPercentage(Number(row.sessions), row.previous ? Number(row.previous.sessions) : undefined),
-      fillPercentage: calcSharePercentage(Number(row.sessions), totalSessions),
-      link: row.page_uri,
-    }))
+    return entryPagesData.map((row) => {
+      const hasPrevious = row.previous !== undefined
+      const percentageResult = hasPrevious
+        ? calcPercentage(Number(row.sessions), Number(row.previous?.sessions) || 0)
+        : { percentage: '0', isNegative: false }
+
+      return {
+        label: decodeText(row.page_title) || row.page_uri,
+        value: formatCompactNumber(Number(row.sessions)),
+        percentage: percentageResult.percentage,
+        isNegative: percentageResult.isNegative,
+        fillPercentage: calcSharePercentage(Number(row.sessions), totalSessions),
+      }
+    })
   }, [entryPagesData, entryPagesTotals, calcPercentage])
 
   // Transform 404 pages data
   const pages404ListData = useMemo(() => {
-    const totalViews = pages404Data.reduce((sum, row) => sum + Number(row.views), 0)
+    const totalViews = pages404Data.reduce((sum, row) => sum + Number(row.views), 0) || 1
 
-    return pages404Data.map((row) => ({
-      label: row.page_uri,
-      value: formatCompactNumber(Number(row.views)),
-      previousValue: row.previous ? formatCompactNumber(Number(row.previous.views)) : undefined,
-      percentage: calcPercentage(Number(row.views), row.previous ? Number(row.previous.views) : undefined),
-      fillPercentage: calcSharePercentage(Number(row.views), totalViews),
-    }))
+    return pages404Data.map((row) => {
+      const hasPrevious = row.previous !== undefined
+      const percentageResult = hasPrevious
+        ? calcPercentage(Number(row.views), Number(row.previous?.views) || 0)
+        : { percentage: '0', isNegative: false }
+
+      return {
+        label: row.page_uri,
+        value: formatCompactNumber(Number(row.views)),
+        percentage: percentageResult.percentage,
+        isNegative: percentageResult.isNegative,
+        fillPercentage: calcSharePercentage(Number(row.views), totalViews),
+      }
+    })
   }, [pages404Data, calcPercentage])
 
   return (
@@ -393,11 +414,11 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Pages', 'wp-statistics')}
-                data={topPagesListData}
-                valueLabel={__('Views', 'wp-statistics')}
-                emptyStateMessage={__('No page data available', 'wp-statistics')}
-                viewMoreLink="/top-pages"
-                viewMoreLabel={__('View All Pages', 'wp-statistics')}
+                items={topPagesListData}
+                link={{
+                  title: __('View All Pages', 'wp-statistics'),
+                  action: () => navigate({ to: '/top-pages' }),
+                }}
               />
             </div>
 
@@ -405,11 +426,11 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Entry Pages', 'wp-statistics')}
-                data={entryPagesListData}
-                valueLabel={__('Sessions', 'wp-statistics')}
-                emptyStateMessage={__('No entry page data available', 'wp-statistics')}
-                viewMoreLink="/entry-pages"
-                viewMoreLabel={__('View All Entry Pages', 'wp-statistics')}
+                items={entryPagesListData}
+                link={{
+                  title: __('View All Entry Pages', 'wp-statistics'),
+                  action: () => navigate({ to: '/entry-pages' }),
+                }}
               />
             </div>
 
@@ -417,11 +438,11 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('404 Pages', 'wp-statistics')}
-                data={pages404ListData}
-                valueLabel={__('Views', 'wp-statistics')}
-                emptyStateMessage={__('No 404 errors found', 'wp-statistics')}
-                viewMoreLink="/404-pages"
-                viewMoreLabel={__('View All 404 Pages', 'wp-statistics')}
+                items={pages404ListData}
+                link={{
+                  title: __('View All 404 Pages', 'wp-statistics'),
+                  action: () => navigate({ to: '/404-pages' }),
+                }}
               />
             </div>
           </div>
