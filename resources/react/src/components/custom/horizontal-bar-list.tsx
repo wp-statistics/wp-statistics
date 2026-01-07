@@ -27,6 +27,9 @@ interface HorizontalBarListProps {
 }
 
 export function HorizontalBarList({ title, items, link, loading = false }: HorizontalBarListProps) {
+  // Ensure items is always an array
+  const safeItems = items || []
+
   return (
     <Panel className="h-full flex flex-col">
       <PanelHeader>
@@ -38,13 +41,13 @@ export function HorizontalBarList({ title, items, link, loading = false }: Horiz
           <div className="flex h-32 flex-1 flex-col items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
-        ) : items.length === 0 ? (
+        ) : safeItems.length === 0 ? (
           <div className="flex h-full flex-1 flex-col items-center justify-center text-center">
             <p className="text-sm text-neutral-500">No data available for the selected period</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            {items.map((item, index) => (
+            {safeItems.map((item, index) => (
               <HorizontalBar
                 key={index}
                 icon={item.icon}
@@ -62,7 +65,7 @@ export function HorizontalBarList({ title, items, link, loading = false }: Horiz
         )}
       </PanelContent>
 
-      {link && items.length !== 0 && (
+      {link && safeItems.length !== 0 && (
         <PanelFooter>
           <PanelAction onClick={link.action}>{link.title || __('View All', 'wp-statistics')}</PanelAction>
         </PanelFooter>
