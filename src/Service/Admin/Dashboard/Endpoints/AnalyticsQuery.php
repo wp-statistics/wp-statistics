@@ -118,7 +118,11 @@ class AnalyticsQuery extends AbstractAnalyticsPage
         $dateFrom = isset($data['date_from']) ? sanitize_text_field($data['date_from']) : date('Y-m-d', strtotime('-30 days'));
         $dateTo   = isset($data['date_to']) ? sanitize_text_field($data['date_to']) : date('Y-m-d');
 
+        // Previous period dates for comparison
+        $previousDateFrom = isset($data['previous_date_from']) ? sanitize_text_field($data['previous_date_from']) : '';
+        $previousDateTo   = isset($data['previous_date_to']) ? sanitize_text_field($data['previous_date_to']) : '';
+
         $networkService = new NetworkStatsService();
-        return $networkService->getNetworkStats($dateFrom, $dateTo);
+        return $networkService->getNetworkStats($dateFrom, $dateTo, $previousDateFrom, $previousDateTo);
     }
 }

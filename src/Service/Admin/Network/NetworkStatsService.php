@@ -23,13 +23,15 @@ class NetworkStatsService
      * Get aggregated network statistics.
      *
      * Returns total visitors, views, and sessions across all sites,
-     * plus per-site breakdown.
+     * plus per-site breakdown. Optionally includes previous period data for comparison.
      *
-     * @param string $dateFrom Start date (Y-m-d format).
-     * @param string $dateTo   End date (Y-m-d format).
+     * @param string $dateFrom         Start date (Y-m-d format).
+     * @param string $dateTo           End date (Y-m-d format).
+     * @param string $previousDateFrom Optional previous period start date.
+     * @param string $previousDateTo   Optional previous period end date.
      * @return array Network statistics data.
      */
-    public function getNetworkStats($dateFrom, $dateTo)
+    public function getNetworkStats($dateFrom, $dateTo, $previousDateFrom = '', $previousDateTo = '')
     {
         if (!is_multisite() || !is_super_admin()) {
             return [
@@ -37,6 +39,8 @@ class NetworkStatsService
                 'error'   => __('Network statistics require multisite and super admin access.', 'wp-statistics'),
             ];
         }
+
+        $hasPreviousPeriod = !empty($previousDateFrom) && !empty($previousDateTo);
 
         $sites = get_sites([
             'number'   => 100,
@@ -47,6 +51,12 @@ class NetworkStatsService
         ]);
 
         $networkTotals = [
+            'visitors' => 0,
+            'views'    => 0,
+            'sessions' => 0,
+        ];
+
+        $networkPreviousTotals = [
             'visitors' => 0,
             'views'    => 0,
             'sessions' => 0,
@@ -65,6 +75,7 @@ class NetworkStatsService
 
             try {
                 $siteStats = $this->getSiteStats($dateFrom, $dateTo);
+                $previousStats = $hasPreviousPeriod ? $this->getSiteStats($previousDateFrom, $previousDateTo) : null;
 
                 $sitesData[] = [
                     'blog_id'  => $blogId,
@@ -80,6 +91,13 @@ class NetworkStatsService
                 $networkTotals['visitors'] += $siteStats['visitors'];
                 $networkTotals['views']    += $siteStats['views'];
                 $networkTotals['sessions'] += $siteStats['sessions'];
+
+                // Aggregate previous period totals
+                if ($previousStats) {
+                    $networkPreviousTotals['visitors'] += $previousStats['visitors'];
+                    $networkPreviousTotals['views']    += $previousStats['views'];
+                    $networkPreviousTotals['sessions'] += $previousStats['sessions'];
+                }
             } catch (\Exception $e) {
                 // Log error but continue with other sites
                 $sitesData[] = [
@@ -101,7 +119,7 @@ class NetworkStatsService
             DatabaseSchema::clearCache();
         }
 
-        return [
+        $response = [
             'success' => true,
             'totals'  => $networkTotals,
             'sites'   => $sitesData,
@@ -110,6 +128,16 @@ class NetworkStatsService
                 'to'   => $dateTo,
             ],
         ];
+
+        if ($hasPreviousPeriod) {
+            $response['previous_totals'] = $networkPreviousTotals;
+            $response['previous_period'] = [
+                'from' => $previousDateFrom,
+                'to'   => $previousDateTo,
+            ];
+        }
+
+        return $response;
     }
 
     /**

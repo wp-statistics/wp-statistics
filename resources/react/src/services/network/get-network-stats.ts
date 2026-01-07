@@ -23,8 +23,13 @@ export interface NetworkTotals {
 export interface NetworkStatsResponse {
   success: boolean
   totals?: NetworkTotals
+  previous_totals?: NetworkTotals
   sites?: NetworkSiteStats[]
   period?: {
+    from: string
+    to: string
+  }
+  previous_period?: {
     from: string
     to: string
   }
@@ -34,11 +39,18 @@ export interface NetworkStatsResponse {
 export interface GetNetworkStatsParams {
   date_from: string
   date_to: string
+  previous_date_from?: string
+  previous_date_to?: string
 }
 
-export const getNetworkStatsQueryOptions = ({ date_from, date_to }: GetNetworkStatsParams) => {
+export const getNetworkStatsQueryOptions = ({
+  date_from,
+  date_to,
+  previous_date_from,
+  previous_date_to,
+}: GetNetworkStatsParams) => {
   return queryOptions({
-    queryKey: ['network-stats', date_from, date_to],
+    queryKey: ['network-stats', date_from, date_to, previous_date_from, previous_date_to],
     queryFn: () =>
       clientRequest.post<NetworkStatsResponse>(
         '',
@@ -46,6 +58,9 @@ export const getNetworkStatsQueryOptions = ({ date_from, date_to }: GetNetworkSt
           network: true,
           date_from,
           date_to,
+          ...(previous_date_from && previous_date_to
+            ? { previous_date_from, previous_date_to }
+            : {}),
         },
         {
           params: {

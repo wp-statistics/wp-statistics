@@ -14,6 +14,7 @@ import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MetricsSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getNetworkStatsQueryOptions, type NetworkSiteStats } from '@/services/network/get-network-stats'
@@ -108,11 +109,18 @@ function NetworkOverviewComponent() {
   }
 
   // Use global filters context for date range (syncs with URL)
-  const { dateFrom, dateTo, setDateRange, isInitialized } = useGlobalFilters()
+  const {
+    dateFrom,
+    dateTo,
+    compareDateFrom,
+    compareDateTo,
+    setDateRange,
+    isInitialized,
+    apiDateParams,
+  } = useGlobalFilters()
 
-  // Convert Date objects to string format for API
-  const dateFromStr = dateFrom?.toISOString().split('T')[0] ?? ''
-  const dateToStr = dateTo?.toISOString().split('T')[0] ?? ''
+  // Use percentage calculation hook
+  const calcPercentage = usePercentageCalc()
 
   // Handle date range updates
   const handleDateRangeUpdate = useCallback(
@@ -130,10 +138,12 @@ function NetworkOverviewComponent() {
     error,
   } = useQuery({
     ...getNetworkStatsQueryOptions({
-      date_from: dateFromStr,
-      date_to: dateToStr,
+      date_from: apiDateParams.date_from,
+      date_to: apiDateParams.date_to,
+      previous_date_from: apiDateParams.previous_date_from,
+      previous_date_to: apiDateParams.previous_date_to,
     }),
-    enabled: isInitialized && !!dateFromStr && !!dateToStr,
+    enabled: isInitialized && !!apiDateParams.date_from && !!apiDateParams.date_to,
   })
 
   const networkData = response?.data
@@ -148,6 +158,13 @@ function NetworkOverviewComponent() {
 
   // Metrics data for summary
   const summaryMetrics = useMemo(() => {
+    const visitors = networkData?.totals?.visitors ?? 0
+    const views = networkData?.totals?.views ?? 0
+    const sessions = networkData?.totals?.sessions ?? 0
+    const prevVisitors = networkData?.previous_totals?.visitors ?? 0
+    const prevViews = networkData?.previous_totals?.views ?? 0
+    const prevSessions = networkData?.previous_totals?.sessions ?? 0
+
     return [
       {
         label: __('Total Sites', 'wp-statistics'),
@@ -155,18 +172,21 @@ function NetworkOverviewComponent() {
       },
       {
         label: __('Total Visitors', 'wp-statistics'),
-        value: formatCompactNumber(networkData?.totals?.visitors ?? 0),
+        value: formatCompactNumber(visitors),
+        ...calcPercentage(visitors, prevVisitors),
       },
       {
         label: __('Total Views', 'wp-statistics'),
-        value: formatCompactNumber(networkData?.totals?.views ?? 0),
+        value: formatCompactNumber(views),
+        ...calcPercentage(views, prevViews),
       },
       {
         label: __('Total Sessions', 'wp-statistics'),
-        value: formatCompactNumber(networkData?.totals?.sessions ?? 0),
+        value: formatCompactNumber(sessions),
+        ...calcPercentage(sessions, prevSessions),
       },
     ]
-  }, [sitesData.length, networkData?.totals])
+  }, [sitesData.length, networkData?.totals, networkData?.previous_totals, calcPercentage])
 
   // Show loading state while initializing
   if (!isInitialized) {
@@ -194,9 +214,11 @@ function NetworkOverviewComponent() {
           {__('Network Overview', 'wp-statistics')}
         </h1>
         <DateRangePicker
-          initialDateFrom={dateFromStr}
-          initialDateTo={dateToStr}
-          showCompare={false}
+          initialDateFrom={dateFrom}
+          initialDateTo={dateTo}
+          initialCompareFrom={compareDateFrom}
+          initialCompareTo={compareDateTo}
+          showCompare={true}
           onUpdate={handleDateRangeUpdate}
           align="end"
         />
