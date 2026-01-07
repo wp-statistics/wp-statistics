@@ -19,7 +19,9 @@ jobs:
       fail-fast: false
       matrix:
         # Test with latest WordPress - v15 React UI targets modern WP versions
-        php: ['8.5', '8.4', '8.3', '8.2', '8.1', '8.0', '7.4']
+        # Note: PHP 8.4/8.5 excluded - wp-now WASM doesn't support them yet
+        # PHPUnit tests cover these PHP versions with native PHP
+        php: ['8.3', '8.2', '8.1', '8.0', '7.4']
         wp: ['latest']
     steps:
       - name: Checkout
