@@ -72,10 +72,11 @@ class PostTypeFilter extends AbstractFilter
     /**
      * Pages where this filter is available.
      *
-     * @var array Groups: views
+     * @var array Groups: views, content
      */
     protected $groups = [
         'views',
+        'content',
     ];
 
     /**
@@ -83,7 +84,7 @@ class PostTypeFilter extends AbstractFilter
      */
     public function getLabel(): string
     {
-        return esc_html__('Post Type', 'wp-statistics');
+        return \esc_html__('Post Type', 'wp-statistics');
     }
 
     /**
@@ -93,7 +94,7 @@ class PostTypeFilter extends AbstractFilter
      */
     public function getOptions(): array
     {
-        $postTypes = get_post_types(['public' => true], 'objects');
+        $postTypes = \get_post_types(['public' => true], 'objects');
         $options   = [];
 
         foreach ($postTypes as $postType) {

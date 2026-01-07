@@ -19,7 +19,7 @@ interface HorizontalBarItem {
 interface HorizontalBarListProps {
   title: string
   items: HorizontalBarItem[]
-  link: {
+  link?: {
     title?: string
     action(): void
   }
@@ -62,10 +62,10 @@ export function HorizontalBarList({ title, items, link, loading = false }: Horiz
         )}
       </PanelContent>
 
-      {items.length !== 0 && (
+      {link && items.length !== 0 && (
         <PanelFooter>
           <PanelAction onClick={link.action}>
-            {link.title || __('View Entry Pages', 'wp-statistics')}
+            {link.title || __('View All', 'wp-statistics')}
           </PanelAction>
         </PanelFooter>
       )}

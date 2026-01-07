@@ -658,7 +658,7 @@ class AnalyticsQueryHandler
      */
     private function validateColumns(array $columns, array $sources, array $groupBy): void
     {
-        // Build list of valid column WP_Statistics_names (sources + group_by aliases + extra column aliases)
+        // Build list of valid column WP_Statistics_names (sources + group_by aliases + extra column aliases + post-processed columns)
         $validColumns = $sources;
 
         foreach ($groupBy as $groupByName) {
@@ -667,6 +667,8 @@ class AnalyticsQueryHandler
                 $validColumns[] = $groupByObj->getAlias();
                 // Also include extra column aliases (e.g., country_code from country group_by)
                 $validColumns = array_merge($validColumns, $groupByObj->getExtraColumnAliases());
+                // Include post-processed columns (e.g., comments, thumbnail_url from page group_by)
+                $validColumns = array_merge($validColumns, $groupByObj->getPostProcessedColumns());
             } else {
                 $validColumns[] = $groupByName;
             }

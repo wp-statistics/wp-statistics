@@ -23,6 +23,7 @@ import { Route as visitorInsightsViewsRouteImport } from './routes/(visitor-insi
 import { Route as visitorInsightsTopVisitorsRouteImport } from './routes/(visitor-insights)/top-visitors'
 import { Route as visitorInsightsLoggedInUsersRouteImport } from './routes/(visitor-insights)/logged-in-users'
 import { Route as pageInsightsTopPagesRouteImport } from './routes/(page-insights)/top-pages'
+import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
 
 const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
@@ -383,6 +384,15 @@ const pageInsightsTopPagesRoute = pageInsightsTopPagesRouteImport
   .lazy(() =>
     import('./routes/(page-insights)/top-pages.lazy').then((d) => d.Route),
   )
+const contentAnalyticsContentRoute = contentAnalyticsContentRouteImport
+  .update({
+    id: '/(content-analytics)/content',
+    path: '/content',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(content-analytics)/content.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -395,6 +405,7 @@ export interface FileRoutesByFullPath {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/content': typeof contentAnalyticsContentRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
@@ -434,6 +445,7 @@ export interface FileRoutesByTo {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/content': typeof contentAnalyticsContentRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
@@ -476,6 +488,7 @@ export interface FileRoutesById {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/(content-analytics)/content': typeof contentAnalyticsContentRoute
   '/(page-insights)/top-pages': typeof pageInsightsTopPagesRoute
   '/(visitor-insights)/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/(visitor-insights)/top-visitors': typeof visitorInsightsTopVisitorsRoute
@@ -519,6 +532,7 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/content'
     | '/top-pages'
     | '/logged-in-users'
     | '/top-visitors'
@@ -558,6 +572,7 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/content'
     | '/top-pages'
     | '/logged-in-users'
     | '/top-visitors'
@@ -599,6 +614,7 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/(content-analytics)/content'
     | '/(page-insights)/top-pages'
     | '/(visitor-insights)/logged-in-users'
     | '/(visitor-insights)/top-visitors'
@@ -641,6 +657,7 @@ export interface RootRouteChildren {
   GeographicLazyRoute: typeof GeographicLazyRoute
   OverviewLazyRoute: typeof OverviewLazyRoute
   PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
+  contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
   pageInsightsTopPagesRoute: typeof pageInsightsTopPagesRoute
   visitorInsightsLoggedInUsersRoute: typeof visitorInsightsLoggedInUsersRoute
   visitorInsightsTopVisitorsRoute: typeof visitorInsightsTopVisitorsRoute
@@ -931,6 +948,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pageInsightsTopPagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(content-analytics)/content': {
+      id: '/(content-analytics)/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof contentAnalyticsContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -997,6 +1021,7 @@ const rootRouteChildren: RootRouteChildren = {
   GeographicLazyRoute: GeographicLazyRoute,
   OverviewLazyRoute: OverviewLazyRoute,
   PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
+  contentAnalyticsContentRoute: contentAnalyticsContentRoute,
   pageInsightsTopPagesRoute: pageInsightsTopPagesRoute,
   visitorInsightsLoggedInUsersRoute: visitorInsightsLoggedInUsersRoute,
   visitorInsightsTopVisitorsRoute: visitorInsightsTopVisitorsRoute,

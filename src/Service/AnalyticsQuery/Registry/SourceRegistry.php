@@ -17,6 +17,8 @@ use WP_Statistics\Service\AnalyticsQuery\Sources\SearchesSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\EventsSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\ExclusionsSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\OnlineVisitorsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\PublishedContentSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\CommentsSource;
 
 /**
  * Registry for analytics sources.
@@ -104,6 +106,8 @@ class SourceRegistry implements RegistryInterface
             'events'               => EventsSource::class,
             'exclusions'           => ExclusionsSource::class,
             'online_visitors'      => OnlineVisitorsSource::class,
+            'published_content'    => PublishedContentSource::class,
+            'comments'             => CommentsSource::class,
         ];
 
         $this->defaultsRegistered = true;

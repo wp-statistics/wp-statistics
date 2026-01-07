@@ -75,6 +75,13 @@ abstract class AbstractGroupBy implements GroupByInterface
     protected $requirement = null;
 
     /**
+     * Columns added by postProcess (not in SQL, but valid for column selection).
+     *
+     * @var array
+     */
+    protected $postProcessedColumns = [];
+
+    /**
      * {@inheritdoc}
      */
     public function getName(): string
@@ -189,6 +196,16 @@ abstract class AbstractGroupBy implements GroupByInterface
     public function getRequirement(): ?string
     {
         return $this->requirement;
+    }
+
+    /**
+     * Get columns that are added by postProcess (not in SQL).
+     *
+     * @return array Array of post-processed column names.
+     */
+    public function getPostProcessedColumns(): array
+    {
+        return $this->postProcessedColumns;
     }
 
     /**

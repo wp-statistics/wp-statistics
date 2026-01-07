@@ -1,6 +1,8 @@
 import { createRootRouteWithContext, Outlet, useRouterState } from '@tanstack/react-router'
+import { useMemo } from 'react'
 
 import { AppSidebar } from '@/components/app-sidebar'
+import type { FilterField } from '@/components/custom/filter-button'
 import { Header } from '@/components/header'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { GlobalFiltersProvider } from '@/contexts/global-filters-context'
@@ -15,8 +17,15 @@ const RootLayout = () => {
   // Hide sidebar for settings, tools, and network admin pages
   const showSidebar = !isSettingsPage && !isToolsPage && !isNetworkAdmin
 
+  // Get all filter fields so GlobalFiltersProvider can resolve labels from URL params
+  const wp = WordPress.getInstance()
+  const allFilterFields = useMemo<FilterField[]>(() => {
+    const fields = wp.getFilterFields()
+    return Object.values(fields) as FilterField[]
+  }, [wp])
+
   return (
-    <GlobalFiltersProvider>
+    <GlobalFiltersProvider filterFields={allFilterFields}>
       <SidebarProvider>
         <div className="flex flex-col h-[var(--wp-admin-menu-height)] w-full overflow-hidden">
           <Header />

@@ -418,6 +418,85 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
     // Handle based on input type
     switch (selectedField.inputType) {
       case 'dropdown': {
+        // Check if operator type is multiple (in, not_in)
+        if (operatorType === 'multiple') {
+          const currentValues = getArrayValue(filter.value)
+          const valueLabels = filter.valueLabels || {}
+
+          const handleMultiDropdownSelect = (value: string, label: string) => {
+            const currentLabels = filter.valueLabels || {}
+            if (currentValues.includes(value)) {
+              // Remove value and its label
+              const newLabels = { ...currentLabels }
+              delete newLabels[value]
+              onUpdate({
+                ...filter,
+                value: currentValues.filter((v) => v !== value),
+                valueLabels: Object.keys(newLabels).length > 0 ? newLabels : undefined,
+              })
+            } else {
+              // Add value and its label
+              onUpdate({
+                ...filter,
+                value: [...currentValues, value],
+                valueLabels: { ...currentLabels, [value]: label },
+              })
+            }
+          }
+
+          // Render multi-select dropdown with tags
+          return (
+            <div className="relative flex-1">
+              <div className="flex flex-wrap items-center gap-1 min-h-[32px] px-2 py-1 bg-white rounded-md shadow-sm">
+                {/* Selected tags */}
+                {currentValues.map((val) => (
+                  <span
+                    key={val}
+                    className="inline-flex items-center gap-0.5 rounded bg-primary/10 px-1.5 py-0.5 text-[11px] font-medium text-primary"
+                  >
+                    {valueLabels[val] || selectedField.options?.find((o) => String(o.value) === val)?.label || val}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const option = selectedField.options?.find((o) => String(o.value) === val)
+                        handleMultiDropdownSelect(val, option?.label || val)
+                      }}
+                      aria-label={`Remove ${valueLabels[val] || val} from filter`}
+                      className="hover:text-destructive cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+
+                {/* Dropdown to add more values */}
+                <Select
+                  value=""
+                  onValueChange={(value) => {
+                    const option = selectedField.options?.find((o) => String(o.value) === value)
+                    handleMultiDropdownSelect(value, option?.label || value)
+                  }}
+                >
+                  <SelectTrigger className="h-6 text-xs border-0 bg-transparent shadow-none min-w-[80px] flex-1 focus:ring-0">
+                    <SelectValue placeholder={currentValues.length > 0 ? __('Add more...', 'wp-statistics') : __('Select values', 'wp-statistics')} />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[200px] overflow-y-auto">
+                    {selectedField.options?.map((option) => (
+                      <SelectItem key={String(option.value)} value={String(option.value)}>
+                        <span className="flex items-center gap-2">
+                          <span>{currentValues.includes(String(option.value)) ? '✓' : '○'}</span>
+                          {option.label}
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )
+        }
+
+        // Single select dropdown
         const handleDropdownChange = (value: string) => {
           const option = selectedField.options?.find((o) => String(o.value) === value)
           handleSingleValueChange(value, option?.label)

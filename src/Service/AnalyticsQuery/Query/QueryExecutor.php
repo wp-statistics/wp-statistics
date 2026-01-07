@@ -108,6 +108,13 @@ class QueryExecutor implements QueryExecutorInterface
         // Apply groupBy post-processing
         $rows = $this->applyGroupByPostProcessing($query, $rows ?: []);
 
+        // Normalize rows for week/month groupBy to add 'date' column
+        // This ensures ChartFormatter can find the date labels
+        $groupByNames = $query->getGroupBy();
+        if (!empty($groupByNames) && in_array($groupByNames[0], ['week', 'month'], true)) {
+            $rows = $this->normalizeRawTableRows($rows, $groupByNames[0]);
+        }
+
         return [
             'rows'  => $rows,
             'total' => $total,
