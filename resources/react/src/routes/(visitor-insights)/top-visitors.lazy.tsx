@@ -9,6 +9,7 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createTopVisitorsColumns,
   transformTopVisitorData,
@@ -126,6 +127,7 @@ function RouteComponent() {
   // Fetch data from API
   const {
     data: response,
+    isLoading,
     isFetching,
     isError,
     error,
@@ -289,6 +291,9 @@ function RouteComponent() {
     [setPage]
   )
 
+  // Loading states
+  const showSkeleton = isLoading && !response
+
   return (
     <div className="min-w-0">
       {/* Header row with title and filter button */}
@@ -325,6 +330,10 @@ function RouteComponent() {
             <ErrorMessage message={__('Failed to load top visitors', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
+        ) : showSkeleton ? (
+          <PanelSkeleton titleWidth="w-28">
+            <TableSkeleton rows={10} columns={8} />
+          </PanelSkeleton>
         ) : (
           <DataTable
             columns={columns}

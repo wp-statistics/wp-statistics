@@ -8,6 +8,7 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createViewsColumns,
   transformViewData,
@@ -125,6 +126,7 @@ function RouteComponent() {
   // Fetch data from API (only when filters are initialized)
   const {
     data: response,
+    isLoading,
     isFetching,
     isError,
   } = useQuery({
@@ -285,6 +287,9 @@ function RouteComponent() {
     [setPage]
   )
 
+  // Loading states
+  const showSkeleton = isLoading && !response
+
   return (
     <div className="min-w-0">
       {/* Header row with title and filter button */}
@@ -320,6 +325,10 @@ function RouteComponent() {
           <div className="p-2 text-center text-destructive">
             {__('Failed to load views data. Please try again.', 'wp-statistics')}
           </div>
+        ) : showSkeleton ? (
+          <PanelSkeleton titleWidth="w-20">
+            <TableSkeleton rows={10} columns={8} />
+          </PanelSkeleton>
         ) : (
           <DataTable
             columns={columns}

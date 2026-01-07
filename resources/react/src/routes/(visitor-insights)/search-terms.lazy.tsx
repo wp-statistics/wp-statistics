@@ -1,6 +1,7 @@
 import { DataTable } from '@components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
@@ -76,6 +77,7 @@ function RouteComponent() {
 
   const {
     data: response,
+    isLoading,
     isFetching,
     isError,
     error,
@@ -96,6 +98,9 @@ function RouteComponent() {
   const searchTerms = response?.data?.data?.rows?.map(transformSearchTermData) || []
   const total = response?.data?.meta?.total_rows ?? 0
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(total / PER_PAGE) || 1
+
+  // Loading states
+  const showSkeleton = isLoading && !response
 
   // Handle page change
   const handlePageChange = useCallback(
@@ -126,6 +131,10 @@ function RouteComponent() {
             <ErrorMessage message={__('Failed to load search terms', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
+        ) : showSkeleton ? (
+          <PanelSkeleton titleWidth="w-28">
+            <TableSkeleton rows={10} columns={2} />
+          </PanelSkeleton>
         ) : (
           <DataTable
             columns={columns}

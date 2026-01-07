@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
 import { ErrorMessage } from '@/components/custom/error-message'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   DurationCell,
   EntryPageCell,
@@ -337,6 +338,7 @@ function RouteComponent() {
 
   const {
     data: response,
+    isLoading,
     isError,
     error,
     isFetching,
@@ -487,6 +489,9 @@ function RouteComponent() {
     [setPage]
   )
 
+  // Loading states
+  const showSkeleton = isLoading && !response
+
   return (
     <div className="min-w-0">
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
@@ -499,6 +504,10 @@ function RouteComponent() {
             <ErrorMessage message={__('Failed to load online visitors', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
+        ) : showSkeleton ? (
+          <PanelSkeleton titleWidth="w-32">
+            <TableSkeleton rows={10} columns={7} />
+          </PanelSkeleton>
         ) : (
           <DataTable
             columns={columns}

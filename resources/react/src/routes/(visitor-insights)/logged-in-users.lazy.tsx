@@ -10,6 +10,7 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
+import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createLoggedInUsersColumns,
   LOGGED_IN_USERS_COLUMN_CONFIG,
@@ -133,6 +134,7 @@ function RouteComponent() {
   // Fetch all data in a single batch request (only when filters are initialized)
   const {
     data: batchResponse,
+    isLoading: isBatchLoading,
     isFetching: isBatchFetching,
     isError: isBatchError,
     error: batchError,
@@ -394,6 +396,9 @@ function RouteComponent() {
 
   const isChartLoading = isBatchFetching
 
+  // Loading states
+  const showSkeleton = isBatchLoading && !batchResponse
+
   return (
     <div className="min-w-0">
       {/* Header row with title and filter button */}
@@ -425,23 +430,33 @@ function RouteComponent() {
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />
         )}
 
-        <LineChart
-          title={__('Traffic Trends', 'wp-statistics')}
-          data={trafficTrendsData}
-          metrics={trafficTrendsMetrics}
-          showPreviousPeriod={true}
-          timeframe={timeframe}
-          onTimeframeChange={setTimeframe}
-          isLoading={isChartLoading}
-        />
-
         {isBatchError ? (
           <div className="p-4 text-center">
             <ErrorMessage message={__('Failed to load logged-in users', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{batchError?.message}</p>
           </div>
+        ) : showSkeleton ? (
+          <div className="space-y-4">
+            <PanelSkeleton titleWidth="w-32">
+              <ChartSkeleton height={256} showTitle={false} />
+            </PanelSkeleton>
+            <PanelSkeleton titleWidth="w-28">
+              <TableSkeleton rows={10} columns={8} />
+            </PanelSkeleton>
+          </div>
         ) : (
-          <DataTable
+          <>
+            <LineChart
+              title={__('Traffic Trends', 'wp-statistics')}
+              data={trafficTrendsData}
+              metrics={trafficTrendsMetrics}
+              showPreviousPeriod={true}
+              timeframe={timeframe}
+              onTimeframeChange={setTimeframe}
+              isLoading={isChartLoading}
+            />
+
+            <DataTable
             title={__('Latest Views', 'wp-statistics')}
             columns={columns}
             data={tableData}
@@ -466,6 +481,7 @@ function RouteComponent() {
             emptyStateMessage={__('No logged-in users found for the selected period', 'wp-statistics')}
             stickyHeader={true}
           />
+          </>
         )}
       </div>
     </div>
