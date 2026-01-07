@@ -42,15 +42,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install dependencies
         run: |
           composer install --no-dev --optimize-autoloader
-          npm ci
+          pnpm install --frozen-lockfile
 
       - name: Build assets
-        run: npm run build
+        run: pnpm build
 
       - name: Install Playwright
         run: npx playwright install chromium --with-deps
@@ -117,15 +121,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install dependencies
         run: |
           composer install --no-dev --optimize-autoloader
-          npm ci
+          pnpm install --frozen-lockfile
 
       - name: Build assets
-        run: npm run build
+        run: pnpm build
 
       - name: Setup WordPress Multisite
         run: |
