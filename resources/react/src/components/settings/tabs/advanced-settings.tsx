@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Loader2, AlertTriangle, RefreshCw, Globe, Server, RotateCcw } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -415,9 +416,12 @@ export function AdvancedSettings() {
       </Card>
 
       {settings.error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {settings.error}
-        </div>
+        <NoticeBanner
+          id="settings-error"
+          message={settings.error}
+          type="error"
+          dismissible={false}
+        />
       )}
 
       <div className="flex justify-end">

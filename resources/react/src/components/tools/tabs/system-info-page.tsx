@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -168,22 +169,13 @@ export function SystemInfoPage() {
     <div className="space-y-6">
       {/* Status Message */}
       {statusMessage && (
-        <div
-          className={`rounded-lg border p-4 ${
-            statusMessage.type === 'error'
-              ? 'border-destructive/50 bg-destructive/10 text-destructive'
-              : 'border-green-500/50 bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400'
-          }`}
-        >
-          <div className="flex gap-2 items-center">
-            {statusMessage.type === 'success' ? (
-              <CheckCircle2 className="h-4 w-4" />
-            ) : (
-              <XCircle className="h-4 w-4" />
-            )}
-            <span>{statusMessage.message}</span>
-          </div>
-        </div>
+        <NoticeBanner
+          id="system-info-status"
+          message={statusMessage.message}
+          type={statusMessage.type}
+          dismissible
+          onDismiss={() => setStatusMessage(null)}
+        />
       )}
 
       {/* Plugin Info Card */}

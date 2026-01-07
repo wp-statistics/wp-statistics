@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import {
@@ -192,9 +193,12 @@ export function PrivacySettings() {
       </Card>
 
       {settings.error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {settings.error}
-        </div>
+        <NoticeBanner
+          id="settings-error"
+          message={settings.error}
+          type="error"
+          dismissible={false}
+        />
       )}
 
       <div className="flex justify-end">
