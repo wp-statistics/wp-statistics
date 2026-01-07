@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Diagnostic\Checks;
 
+use WP_Statistics\Components\Ajax;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticResult;
 
 /**
@@ -21,9 +22,9 @@ use WP_Statistics\Service\Admin\Diagnostic\DiagnosticResult;
 class LoopbackCheck extends AbstractCheck
 {
     /**
-     * Test action name for loopback verification.
+     * Test action name for loopback verification (without wp_statistics_ prefix).
      */
-    private const TEST_ACTION = 'wp_statistics_loopback_test';
+    private const TEST_ACTION = 'loopback_test';
 
     /**
      * Expected response for successful loopback.
@@ -80,11 +81,13 @@ class LoopbackCheck extends AbstractCheck
      */
     public function run(): DiagnosticResult
     {
-        // Register temporary handler for the test action
-        add_action('wp_ajax_' . self::TEST_ACTION, [$this, 'handleTestRequest']);
-        add_action('wp_ajax_nopriv_' . self::TEST_ACTION, [$this, 'handleTestRequest']);
+        // Register temporary handler for the test action (public for loopback)
+        Ajax::register(self::TEST_ACTION, [$this, 'handleTestRequest'], true);
 
         $url = admin_url('admin-ajax.php');
+
+        // Full action name with prefix for the request
+        $fullAction = 'wp_statistics_' . self::TEST_ACTION;
 
         $startTime = microtime(true);
 
@@ -93,8 +96,8 @@ class LoopbackCheck extends AbstractCheck
             'blocking'  => true,
             'sslverify' => apply_filters('https_local_ssl_verify', false),
             'body'      => [
-                'action' => self::TEST_ACTION,
-                'nonce'  => wp_create_nonce(self::TEST_ACTION),
+                'action' => $fullAction,
+                'nonce'  => wp_create_nonce($fullAction),
             ],
         ]);
 
@@ -172,8 +175,9 @@ class LoopbackCheck extends AbstractCheck
      */
     public function handleTestRequest(): void
     {
-        // Verify nonce
-        if (!wp_verify_nonce($_POST['nonce'] ?? '', self::TEST_ACTION)) {
+        // Verify nonce (use full action name with prefix)
+        $fullAction = 'wp_statistics_' . self::TEST_ACTION;
+        if (!wp_verify_nonce($_POST['nonce'] ?? '', $fullAction)) {
             wp_die('invalid_nonce');
         }
 

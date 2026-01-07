@@ -18,8 +18,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.2', '8.0']
+        php: ['8.5', '8.4', '8.3', '8.2', '8.1', '8.0', '7.4']
         wp: ['latest', '6.4']
+        exclude:
+          # Reduce matrix size - test latest WP with all PHP versions, older WP with key versions
+          - php: '8.4'
+            wp: '6.4'
+          - php: '8.3'
+            wp: '6.4'
+          - php: '8.1'
+            wp: '6.4'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,13 +60,14 @@ jobs:
           mkdir -p /tmp/wp-statistics
           rsync -av --exclude='.git' --exclude='node_modules' --exclude='tests' . /tmp/wp-statistics/
 
-      - name: Run E2E tests with wp-now
+      - name: Start wp-now server
         run: |
           npm install -g @wp-now/wp-now
 
           # Start wp-now in background
           wp-now start --path=/tmp/wp-statistics --php=${{ matrix.php }} --wp=${{ matrix.wp }} &
           WP_NOW_PID=$!
+          echo "WP_NOW_PID=$WP_NOW_PID" >> $GITHUB_ENV
 
           # Wait for server to be ready
           for i in {1..30}; do
@@ -70,19 +79,16 @@ jobs:
             sleep 2
           done
 
-          # Run basic smoke tests
-          echo "🧪 Running smoke tests..."
+      - name: Run Playwright E2E tests
+        run: |
+          echo "🧪 Running E2E tests..."
+          npx playwright test --project=chromium tests/e2e/smoke.spec.ts
+        env:
+          WP_BASE_URL: http://localhost:8881
 
-          # Test admin access
-          curl -sf http://localhost:8881/wp-admin/ > /dev/null && echo "✅ Admin accessible"
-
-          # Test plugin is active (check for WP Statistics menu)
-          curl -sf http://localhost:8881/wp-admin/admin.php?page=wp-statistics > /dev/null && echo "✅ WP Statistics page loads"
-
-          # Cleanup
-          kill $WP_NOW_PID 2>/dev/null || true
-
-          echo "🎉 All E2E tests passed!"
+      - name: Cleanup
+        if: always()
+        run: kill $WP_NOW_PID 2>/dev/null || true
 
       - name: Upload test artifacts
         if: failure()

@@ -37,7 +37,12 @@
     "test:storybook:ci": "test-storybook --ci",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:report": "playwright show-report tests/e2e/reports"
   },
   "dependencies": {
     "@babel/core": "^7.24.7",
@@ -111,6 +116,7 @@
     "jsdom": "^27.4.0",
     "lightningcss": "^1.28.3",
     "msw": "^2.12.4",
+    "@playwright/test": "^1.57.0",
     "playwright": "^1.57.0",
     "postcss": "^8.5.6",
     "postcss-loader": "^8.1.1",

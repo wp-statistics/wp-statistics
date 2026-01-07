@@ -32,9 +32,12 @@ Temporary Items
 node_modules
 package-lock.json
 
-# Environment files
+# Environment files (keep .env.example)
+.env
+.env.local
+.env.*.local
 .env.react
-.env*.local
+.env.react.local
 
 # Build Folders
 public/*
@@ -46,7 +49,13 @@ storybook-static/
 
 # Unit Test
 .phpunit.result.cache
-tests/logs
+tests/logs/
+
+# E2E Test Artifacts
+tests/e2e/reports/
+tests/e2e/screenshots/
+tests/test-results/
+playwright-report/
 
 # AI / Claude Code
 .claude/

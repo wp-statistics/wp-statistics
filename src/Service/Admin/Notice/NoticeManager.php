@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Notice;
 
+use WP_Statistics\Components\Ajax;
 use WP_Statistics\Service\Admin\Notice\Notices\NoticeInterface;
 
 /**
@@ -60,8 +61,8 @@ class NoticeManager
             return;
         }
 
-        // Register AJAX handler for dismissing notices
-        add_action('wp_ajax_wp_statistics_dismiss_notice', [__CLASS__, 'handleDismissAjax']);
+        // Register AJAX handler for dismissing notices (admin-only)
+        Ajax::register('dismiss_notice', [__CLASS__, 'handleDismissAjax'], false);
 
         // Register admin notices for non-React pages
         add_action('admin_notices', [__CLASS__, 'renderWordPressNotices'], 20);

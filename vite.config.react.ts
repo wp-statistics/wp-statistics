@@ -13,13 +13,18 @@ import postcssImportantPlugin from './postcss-important-plugin.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// Function to load custom .env.react file
+// Function to load environment files
+// Supports both unified .env and legacy .env.react files
 function loadReactEnv(mode: string): Record<string, string> {
   // Files are loaded in order, later files override earlier ones
   const envFiles = [
-    `.env.react`,              // Lowest priority (committed to git)
-    `.env.react.${mode}`,      // Mode-specific
-    `.env.react.local`,        // Local overrides (gitignored)
+    `.env`,                    // Base env (lowest priority)
+    `.env.${mode}`,            // Mode-specific
+    `.env.local`,              // Local overrides
+    `.env.${mode}.local`,      // Mode-specific local
+    `.env.react`,              // Legacy: React-specific (for backward compatibility)
+    `.env.react.${mode}`,      // Legacy: Mode-specific
+    `.env.react.local`,        // Legacy: Local overrides (gitignored)
     `.env.react.${mode}.local` // Highest priority (mode-specific local)
   ]
 
@@ -72,14 +77,14 @@ function copyImagesPlugin(): Plugin {
 export default defineConfig(({ mode }) => {
   const reactRoot = resolve(__dirname, 'resources/react')
 
-  // Load environment variables from .env.react files
+  // Load environment variables from .env and .env.react files
   const env = loadReactEnv(mode)
 
-  // Get dev server URL from env (configured in .env.react or .env.react.local)
+  // Get dev server URL from env
   const devServerUrl = env.VITE_DEV_SERVER_URL
 
   if (!devServerUrl) {
-    throw new Error('VITE_DEV_SERVER_URL is not configured. Please set it in .env.react or .env.react.local')
+    throw new Error('VITE_DEV_SERVER_URL is not configured. Please set it in .env or .env.local')
   }
 
   // Extract port from URL
