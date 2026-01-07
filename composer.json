@@ -40,11 +40,26 @@
     "test:unit": "phpunit --testdox --testsuite unit",
     "test:integration": "phpunit --testdox --testsuite integration",
     "test:coverage": "phpunit --coverage-html tests/coverage",
+    "test:react": "pnpm test:run",
+    "test:react:watch": "pnpm test",
+    "test:react:coverage": "pnpm test:coverage",
+    "test:e2e": "pnpm test:e2e",
+    "test:storybook": "pnpm test:storybook",
     "lint": "pnpm lint:react",
     "lint:fix": "pnpm lint:react:fix",
+    "format": "pnpm format:react",
     "format:check": "pnpm format:react:check",
+    "build": "pnpm build",
+    "dev": "pnpm dev",
+    "storybook": "pnpm storybook",
     "check": [
       "@test",
+      "@lint",
+      "@format:check"
+    ],
+    "check:all": [
+      "@test",
+      "@test:react",
       "@lint",
       "@format:check"
     ],
