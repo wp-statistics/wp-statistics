@@ -42,7 +42,7 @@ jobs:
           version: 9
 
       - name: Install PHP dependencies
-        run: composer install --no-dev --optimize-autoloader --no-interaction
+        run: composer install --no-dev --no-scripts --optimize-autoloader --no-interaction
 
       - name: Install Node dependencies
         run: pnpm install --frozen-lockfile

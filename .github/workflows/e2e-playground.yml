@@ -50,7 +50,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer install --no-dev --optimize-autoloader
+          composer install --no-dev --no-scripts --optimize-autoloader
           pnpm install --frozen-lockfile
 
       - name: Build assets
@@ -129,7 +129,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer install --no-dev --optimize-autoloader
+          composer install --no-dev --no-scripts --optimize-autoloader
           pnpm install --frozen-lockfile
 
       - name: Build assets
