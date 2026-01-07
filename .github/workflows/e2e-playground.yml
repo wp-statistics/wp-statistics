@@ -68,8 +68,8 @@ jobs:
         run: |
           npm install -g @wp-now/wp-now
 
-          # Start wp-now in background
-          wp-now start --path=/tmp/wp-statistics --php=${{ matrix.php }} --wp=${{ matrix.wp }} &
+          # Start wp-now in background (--skip-browser for headless CI)
+          wp-now start --path=/tmp/wp-statistics --php=${{ matrix.php }} --wp=${{ matrix.wp }} --skip-browser &
           WP_NOW_PID=$!
           echo "WP_NOW_PID=$WP_NOW_PID" >> $GITHUB_ENV
 

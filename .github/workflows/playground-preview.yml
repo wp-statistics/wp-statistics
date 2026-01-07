@@ -102,10 +102,15 @@ jobs:
       - name: Install Playwright
         run: npx playwright install chromium
 
+      - name: Extract plugin
+        run: |
+          mkdir -p dist/wp-statistics
+          unzip dist/wp-statistics.zip -d dist/wp-statistics
+
       - name: Run Playground smoke test
         run: |
-          npx @wp-now/wp-now start --path=dist/wp-statistics.zip &
-          sleep 10
+          npx @wp-now/wp-now start --path=dist/wp-statistics --skip-browser &
+          sleep 15
           curl -f http://localhost:8881/wp-admin/ || exit 1
           echo "✅ Playground single site test passed"
 
