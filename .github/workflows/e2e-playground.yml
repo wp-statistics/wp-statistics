@@ -77,7 +77,7 @@ jobs:
           curl -sf http://localhost:8881/wp-admin/ > /dev/null && echo "✅ Admin accessible"
 
           # Test plugin is active (check for WP Statistics menu)
-          curl -sf http://localhost:8881/wp-admin/admin.php?page=wps_overview_page > /dev/null && echo "✅ WP Statistics page loads"
+          curl -sf http://localhost:8881/wp-admin/admin.php?page=wp-statistics > /dev/null && echo "✅ WP Statistics page loads"
 
           # Cleanup
           kill $WP_NOW_PID 2>/dev/null || true
