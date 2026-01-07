@@ -27,6 +27,9 @@ export function HorizontalBar({
   tooltipSubtitle,
   isFirst = false,
 }: HorizontalBarProps) {
+  // Ensure label is always a string
+  const safeLabel = label || ''
+
   // Use fillPercentage for bar width (proportion of total), default to 0 if not provided
   const barWidth = fillPercentage !== undefined ? Math.min(Math.max(fillPercentage, 0), 100) : 0
 
@@ -40,8 +43,8 @@ export function HorizontalBar({
 
   // Truncate long labels
   const maxLabelLength = 25
-  const needsTruncation = label.length > maxLabelLength
-  const truncatedLabel = needsTruncation ? `${label.substring(0, maxLabelLength - 1)}…` : label
+  const needsTruncation = safeLabel.length > maxLabelLength
+  const truncatedLabel = needsTruncation ? `${safeLabel.substring(0, maxLabelLength - 1)}…` : safeLabel
 
   const content = (
     <div
@@ -63,10 +66,10 @@ export function HorizontalBar({
                   {truncatedLabel}
                 </span>
               </TooltipTrigger>
-              <TooltipContent side="top">{label}</TooltipContent>
+              <TooltipContent side="top">{safeLabel}</TooltipContent>
             </Tooltip>
           ) : (
-            <span className="text-xs font-medium text-neutral-700 truncate">{label}</span>
+            <span className="text-xs font-medium text-neutral-700 truncate">{safeLabel}</span>
           )}
         </div>
 
@@ -106,7 +109,7 @@ export function HorizontalBar({
             <div className="font-medium text-neutral-100">{tooltipTitle}</div>
             <div className="flex items-center gap-1.5">
               <span className="text-sm leading-none">{icon}</span>
-              <span className="text-neutral-300">{label}</span>
+              <span className="text-neutral-300">{safeLabel}</span>
             </div>
             <div className="flex items-center gap-4 justify-between border-t border-neutral-700 pt-1.5 mt-0.5">
               <span className="text-neutral-400">{tooltipSubtitle}</span>
