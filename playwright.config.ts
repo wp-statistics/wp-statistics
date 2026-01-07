@@ -91,11 +91,10 @@ export default defineConfig({
     },
   ],
 
-  /* Run wp-now server before starting the tests */
-  webServer: process.env.CI ? {
-    command: 'wp-now start --path=. --php=8.2 --wp=latest',
-    url: 'http://localhost:8881',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  } : undefined,
+  /*
+   * Run wp-now server before starting the tests
+   * In CI: The workflow starts wp-now before running tests, so we disable webServer
+   * Locally: No automatic server - use wp-now or your preferred local setup
+   */
+  webServer: undefined,
 })
