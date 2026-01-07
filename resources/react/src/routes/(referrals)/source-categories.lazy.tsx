@@ -10,6 +10,7 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
+import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -67,6 +68,7 @@ function RouteComponent() {
   // Fetch data
   const {
     data: response,
+    isLoading,
     isFetching,
     isError,
     error,
@@ -289,6 +291,9 @@ function RouteComponent() {
     setTimeframe(newTimeframe)
   }, [])
 
+  // Loading states
+  const showSkeleton = isLoading && !response
+
   return (
     <div className="min-w-0">
       {/* Header row */}
@@ -324,6 +329,15 @@ function RouteComponent() {
           <div className="p-2 text-center">
             <ErrorMessage message={__('Failed to load source categories', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
+          </div>
+        ) : showSkeleton ? (
+          <div className="space-y-4">
+            <PanelSkeleton titleWidth="w-36">
+              <ChartSkeleton height={256} showTitle={false} />
+            </PanelSkeleton>
+            <PanelSkeleton titleWidth="w-32">
+              <TableSkeleton rows={10} columns={6} />
+            </PanelSkeleton>
           </div>
         ) : (
           <>

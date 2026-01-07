@@ -10,6 +10,7 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import type { Filter } from '@/components/custom/filter-bar'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createVisitorsColumns,
   transformVisitorData,
@@ -130,6 +131,7 @@ function RouteComponent() {
   // Fetch data
   const {
     data: response,
+    isLoading,
     isFetching,
     isError,
     error,
@@ -265,6 +267,9 @@ function RouteComponent() {
     [setPage]
   )
 
+  // Loading states
+  const showSkeleton = isLoading && !response
+
   return (
     <div className="min-w-0">
       {/* Header row */}
@@ -301,6 +306,10 @@ function RouteComponent() {
             <ErrorMessage message={__('Failed to load referred visitors', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
+        ) : showSkeleton ? (
+          <PanelSkeleton titleWidth="w-32">
+            <TableSkeleton rows={10} columns={8} />
+          </PanelSkeleton>
         ) : (
           <DataTable
             columns={columns}

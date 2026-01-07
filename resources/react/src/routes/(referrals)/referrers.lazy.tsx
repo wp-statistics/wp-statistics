@@ -9,6 +9,7 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -62,6 +63,7 @@ function RouteComponent() {
   // Fetch referrers data
   const {
     data: response,
+    isLoading,
     isFetching,
     isError,
     error,
@@ -235,6 +237,9 @@ function RouteComponent() {
     [setPage]
   )
 
+  // Loading states
+  const showSkeleton = isLoading && !response
+
   return (
     <div className="min-w-0">
       {/* Header row */}
@@ -271,6 +276,10 @@ function RouteComponent() {
             <ErrorMessage message={__('Failed to load referrers', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
+        ) : showSkeleton ? (
+          <PanelSkeleton titleWidth="w-24">
+            <TableSkeleton rows={10} columns={6} />
+          </PanelSkeleton>
         ) : (
           <DataTable
             columns={columns}
