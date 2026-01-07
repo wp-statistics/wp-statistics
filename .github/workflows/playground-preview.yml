@@ -111,8 +111,14 @@ jobs:
         run: |
           npx @wp-now/wp-now start --path=dist/wp-statistics --skip-browser &
           sleep 15
-          curl -f http://localhost:8881/wp-admin/ || exit 1
-          echo "✅ Playground single site test passed"
+          # Check if server responds with 200 OK
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8881/wp-admin/)
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "✅ Playground single site test passed (HTTP $HTTP_STATUS)"
+          else
+            echo "❌ Server returned HTTP $HTTP_STATUS"
+            exit 1
+          fi
 
   playground-multisite:
     name: Playground (Multisite)
