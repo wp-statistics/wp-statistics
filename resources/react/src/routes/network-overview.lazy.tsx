@@ -169,20 +169,24 @@ function NetworkOverviewComponent() {
       {
         label: __('Total Sites', 'wp-statistics'),
         value: formatCompactNumber(sitesData.length),
+        tooltipContent: __('Sites in your network.', 'wp-statistics'),
       },
       {
         label: __('Total Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
+        tooltipContent: __('Unique visitors across all sites.', 'wp-statistics'),
         ...calcPercentage(visitors, prevVisitors),
       },
       {
         label: __('Total Views', 'wp-statistics'),
         value: formatCompactNumber(views),
+        tooltipContent: __('Page views across all sites.', 'wp-statistics'),
         ...calcPercentage(views, prevViews),
       },
       {
         label: __('Total Sessions', 'wp-statistics'),
         value: formatCompactNumber(sessions),
+        tooltipContent: __('Sessions across all sites.', 'wp-statistics'),
         ...calcPercentage(sessions, prevSessions),
       },
     ]
