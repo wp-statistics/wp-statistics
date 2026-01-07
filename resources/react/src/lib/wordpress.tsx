@@ -123,4 +123,12 @@ export class WordPress {
   public getNoticeDismissNonce(): string {
     return this.data.notices?.nonce ?? ''
   }
+
+  public getUserCountry(): string | undefined {
+    return this.data.globals.userCountry
+  }
+
+  public getUserCountryName(): string | undefined {
+    return this.data.globals.userCountryName
+  }
 }

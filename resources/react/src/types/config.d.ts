@@ -192,6 +192,8 @@ declare global {
       hashIps: boolean
       userPreferences?: UserPreferences
       currentPage: string
+      userCountry?: string
+      userCountryName?: string
     }
     header: Record<
       string,
