@@ -18,16 +18,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Test with latest WordPress - v15 React UI targets modern WP versions
         php: ['8.5', '8.4', '8.3', '8.2', '8.1', '8.0', '7.4']
-        wp: ['latest', '6.4']
-        exclude:
-          # Reduce matrix size - test latest WP with all PHP versions, older WP with key versions
-          - php: '8.4'
-            wp: '6.4'
-          - php: '8.3'
-            wp: '6.4'
-          - php: '8.1'
-            wp: '6.4'
+        wp: ['latest']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
