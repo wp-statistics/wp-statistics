@@ -1,0 +1,118 @@
+import { queryOptions } from '@tanstack/react-query'
+
+import type { Filter } from '@/components/custom/filter-bar'
+import { transformFiltersToApi, type ApiFilters } from '@/lib/api-filter-transform'
+import { clientRequest } from '@/lib/client-request'
+import { WordPress } from '@/lib/wordpress'
+
+export type { ApiFilters }
+
+export interface CategoryPageRecord {
+  page_uri: string
+  page_uri_id: number
+  resource_id: number | null
+  page_title: string
+  page_wp_id: number | null
+  views: number
+  visitors: number
+}
+
+export interface GetCategoryPagesResponse {
+  success: boolean
+  data: {
+    rows: CategoryPageRecord[]
+    total: number
+    totals?: {
+      views: number
+      visitors: number
+    }
+  }
+  meta?: {
+    date_from: string
+    date_to: string
+    page: number
+    per_page: number
+    total_pages: number
+    total_rows: number
+  }
+}
+
+export interface GetCategoryPagesParams {
+  page: number
+  per_page: number
+  order_by: string
+  order: 'asc' | 'desc'
+  date_from: string
+  date_to: string
+  previous_date_from?: string
+  previous_date_to?: string
+  filters?: Filter[]
+}
+
+export const getCategoryPagesQueryOptions = ({
+  page,
+  per_page,
+  order_by,
+  order,
+  date_from,
+  date_to,
+  previous_date_from,
+  previous_date_to,
+  filters = [],
+}: GetCategoryPagesParams) => {
+  const apiFilters = transformFiltersToApi(filters)
+  const hasCompare = !!(previous_date_from && previous_date_to)
+
+  return queryOptions({
+    queryKey: [
+      'category-pages',
+      page,
+      per_page,
+      order_by,
+      order,
+      date_from,
+      date_to,
+      previous_date_from,
+      previous_date_to,
+      apiFilters,
+    ],
+    queryFn: () =>
+      clientRequest.post<GetCategoryPagesResponse>(
+        '',
+        {
+          sources: ['views', 'visitors'],
+          group_by: ['page'],
+          columns: ['page_uri', 'page_uri_id', 'resource_id', 'page_title', 'page_wp_id', 'views', 'visitors'],
+          filters: [
+            {
+              key: 'post_type',
+              operator: 'is',
+              value: 'category',
+            },
+            ...Object.entries(apiFilters).map(([key, val]) => ({
+              key,
+              ...val,
+            })),
+          ],
+          date_from,
+          date_to,
+          compare: hasCompare,
+          ...(hasCompare && {
+            previous_date_from,
+            previous_date_to,
+          }),
+          page,
+          per_page,
+          order_by,
+          order: order.toUpperCase(),
+          format: 'table',
+          show_totals: false,
+        },
+        {
+          params: {
+            action: WordPress.getInstance().getAnalyticsAction(),
+          },
+        }
+      ),
+  })
+}

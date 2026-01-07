@@ -372,7 +372,7 @@ function RouteComponent() {
             {/* Metrics Panel */}
             <div className="col-span-12">
               <Panel>
-                <Metrics items={metricsData} columns={6} />
+                <Metrics metrics={metricsData} columns={6} />
               </Panel>
             </div>
 
