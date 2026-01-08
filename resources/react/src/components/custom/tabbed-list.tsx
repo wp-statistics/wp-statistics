@@ -6,6 +6,28 @@ import { Panel, PanelAction, PanelContent, PanelFooter, PanelHeader, PanelTitle 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 
+/**
+ * Parses an href string into path and search params for TanStack Router.
+ * This ensures search params are properly handled with hash history,
+ * avoiding WordPress query param interference on page reload.
+ */
+function parseHref(href: string): { path: string; search?: Record<string, string> } {
+  const questionMarkIndex = href.indexOf('?')
+  if (questionMarkIndex === -1) {
+    return { path: href }
+  }
+
+  const path = href.substring(0, questionMarkIndex)
+  const queryString = href.substring(questionMarkIndex + 1)
+  const search: Record<string, string> = {}
+
+  new URLSearchParams(queryString).forEach((value, key) => {
+    search[key] = value
+  })
+
+  return Object.keys(search).length > 0 ? { path, search } : { path }
+}
+
 export interface TabbedListItem {
   id: string
   title: string
@@ -128,8 +150,9 @@ function TabbedListItemRow({ item }: TabbedListItemRowProps) {
   )
 
   if (item.href) {
+    const { path, search } = parseHref(item.href)
     return (
-      <Link to={item.href} className="block no-underline">
+      <Link to={path} search={search} className="block no-underline">
         {content}
       </Link>
     )

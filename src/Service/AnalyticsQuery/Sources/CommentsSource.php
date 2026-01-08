@@ -59,11 +59,16 @@ class CommentsSource extends AbstractSource
      * PageGroupBy post-processing which is more reliable.
      *
      * For aggregate queries, this expression uses a correlated subquery that
-     * respects the outer query's author filter by correlating on cached_author_id.
-     * This ensures that only the filtered author's content comments are counted.
+     * supports both taxonomy and author filtering:
+     *
+     * 1. Taxonomy-filtered queries (individual-category): Correlates on shared
+     *    taxonomy terms via cached_terms to sum comments for all posts in the term.
+     *
+     * 2. Author-filtered queries (individual-author): Correlates on cached_author_id
+     *    to sum comments for the filtered author's posts.
      *
      * Note: This requires the resources table to be joined via filters like
-     * author filter, post_type filter, or group_by like 'page'.
+     * taxonomy filter, author filter, post_type filter, or group_by like 'page'.
      */
     public function getExpression(): string
     {
@@ -72,23 +77,36 @@ class CommentsSource extends AbstractSource
         $resourcesTable = $wpdb->prefix . 'statistics_resources';
         $postsTable     = $wpdb->posts;
 
-        // Sum comments for posts that match the filtered author.
-        // This correlated subquery references resources.cached_author_id from
-        // the outer query (joined via author filter) to ensure we only count
-        // comments for the filtered author's tracked content.
+        // Sum comments for posts in the filtered result set.
         //
-        // When author filter is applied, resources table is joined and filtered,
-        // so resources.cached_author_id contains the filtered author's ID.
+        // Uses dual correlation strategy:
+        // 1. Term-based: When resources.cached_terms is set, correlates on shared terms
+        //    to find all posts that share a term with the filtered resources.
+        // 2. Author-based: When resources.cached_author_id is set, correlates on author
+        //    to find all posts by the same author.
         //
-        // Limitation: This sums ALL comments for the author's tracked content,
-        // not filtered by date range. For date-filtered totals, use per-page
-        // results with PageGroupBy post-processing.
+        // For taxonomy-filtered queries (individual-category), all resources share
+        // the filtered term, so term correlation correctly sums comments for all
+        // posts in that term.
+        //
+        // For author-filtered queries (individual-author), author correlation ensures
+        // we only count the filtered author's posts.
+        //
+        // Limitation: This sums ALL comments for matching content, not filtered by
+        // date range. For date-filtered totals, use per-page results with PageGroupBy
+        // post-processing.
         return "COALESCE((
             SELECT SUM(p.comment_count)
             FROM {$postsTable} p
             INNER JOIN {$resourcesTable} r ON p.ID = r.resource_id
-            WHERE r.cached_author_id = resources.cached_author_id
-            AND r.resource_type IN ('post', 'page')
+            WHERE r.resource_type IN ('post', 'page')
+            AND (
+                (resources.cached_terms IS NOT NULL AND resources.cached_terms != '' AND
+                 FIND_IN_SET(TRIM(SUBSTRING_INDEX(resources.cached_terms, ',', 1)), REPLACE(r.cached_terms, ' ', '')) > 0)
+                OR
+                ((resources.cached_terms IS NULL OR resources.cached_terms = '') AND
+                 resources.cached_author_id IS NOT NULL AND r.cached_author_id = resources.cached_author_id)
+            )
         ), 0)";
     }
 

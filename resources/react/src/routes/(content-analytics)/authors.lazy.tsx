@@ -237,9 +237,6 @@ function AuthorsOverviewView() {
     const topAuthorsViewsPerContent = batchResponse?.data?.items?.top_authors_views_per_content?.data?.rows || []
     const topAuthorsCommentsPerContent = batchResponse?.data?.items?.top_authors_comments_per_content?.data?.rows || []
 
-    // Build "See all" link with date range preserved
-    const dateParams = `date_from=${apiDateParams.date_from}&date_to=${apiDateParams.date_to}`
-
     const tabs: TabbedListTab[] = [
       {
         id: 'views',
@@ -253,7 +250,7 @@ function AuthorsOverviewView() {
         })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: `/authors?${dateParams}&order_by=views&order=desc`,
+          href: '/top-authors',
         },
       },
       {
@@ -268,7 +265,7 @@ function AuthorsOverviewView() {
         })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: `/authors?${dateParams}&order_by=published_content&order=desc`,
+          href: '/top-authors',
         },
       },
       {
@@ -291,7 +288,7 @@ function AuthorsOverviewView() {
           })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: `/authors?${dateParams}&order_by=views&order=desc`,
+          href: '/top-authors',
         },
       },
     ]
@@ -318,13 +315,13 @@ function AuthorsOverviewView() {
           })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: `/authors?${dateParams}&order_by=comments&order=desc`,
+          href: '/top-authors',
         },
       })
     }
 
     return tabs
-  }, [batchResponse, apiDateParams, postTypeLabel, pluginUrl])
+  }, [batchResponse, postTypeLabel, pluginUrl])
 
   return (
     <div className="min-w-0">

@@ -371,10 +371,33 @@ function CategoriesOverviewView() {
     [chartTotals]
   )
 
+  // Get current taxonomy type for "See all" links
+  const currentTaxonomyType = useMemo(() => {
+    const taxonomyFilter = filtersForApi.find((f) => f.id.startsWith('taxonomy_type'))
+    return (taxonomyFilter?.rawValue as string) || 'category'
+  }, [filtersForApi])
+
+  // Get taxonomy label for "See all" link text (plural form)
+  const seeAllTaxonomyLabel = useMemo(() => {
+    const taxonomyFilter = filtersForApi.find((f) => f.id.startsWith('taxonomy_type'))
+    if (taxonomyFilter?.value) {
+      // Make sure it's plural (add 's' if needed, or use the label as-is if already plural)
+      const label = String(taxonomyFilter.value).toLowerCase()
+      return label.endsWith('y') ? label.slice(0, -1) + 'ies' : label.endsWith('s') ? label : label + 's'
+    }
+    return 'categories'
+  }, [filtersForApi])
+
   // Build tabbed list tabs for top terms
   const topTermsTabs: TabbedListTab[] = useMemo(() => {
     const topTermsViews = batchResponse?.data?.items?.top_terms_views?.data?.rows || []
     const topTermsPublishing = batchResponse?.data?.items?.top_terms_publishing?.data?.rows || []
+
+    // Build "See all" link with current taxonomy
+    const seeAllLink = {
+      title: __('See all %s', 'wp-statistics').replace('%s', seeAllTaxonomyLabel),
+      href: `/top-categories?taxonomy=${currentTaxonomyType}`,
+    }
 
     const tabs: TabbedListTab[] = [
       {
@@ -387,8 +410,7 @@ function CategoriesOverviewView() {
           thumbnail: `${pluginUrl}public/images/placeholder.png`,
           href: `/individual-category?term_id=${item.term_id}`,
         })),
-        // TODO: Add proper "See all" link when taxonomy report page is implemented
-        link: undefined,
+        link: seeAllLink,
       },
       {
         id: 'publishing',
@@ -400,13 +422,12 @@ function CategoriesOverviewView() {
           thumbnail: `${pluginUrl}public/images/placeholder.png`,
           href: `/individual-category?term_id=${item.term_id}`,
         })),
-        // TODO: Add proper "See all" link when taxonomy report page is implemented
-        link: undefined,
+        link: seeAllLink,
       },
     ]
 
     return tabs
-  }, [batchResponse, pluginUrl])
+  }, [batchResponse, pluginUrl, currentTaxonomyType, seeAllTaxonomyLabel])
 
   // Build tabbed list tabs for top content
   const topContentTabs: TabbedListTab[] = useMemo(() => {
@@ -423,7 +444,7 @@ function CategoriesOverviewView() {
           title: item.page_title || __('Unknown Page', 'wp-statistics'),
           subtitle: `${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: item.page_uri,
+          href: `/individual-content?resource_id=${item.resource_id}`,
         })),
       },
       {
@@ -434,7 +455,7 @@ function CategoriesOverviewView() {
           title: item.page_title || __('Unknown Page', 'wp-statistics'),
           subtitle: `${formatCompactNumber(Number(item.comments))} ${__('comments', 'wp-statistics')} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: item.page_uri,
+          href: `/individual-content?resource_id=${item.resource_id}`,
         })),
       },
       {
@@ -445,7 +466,7 @@ function CategoriesOverviewView() {
           title: item.page_title || __('Unknown Page', 'wp-statistics'),
           subtitle: `${item.published_date || ''} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: item.page_uri,
+          href: `/individual-content?resource_id=${item.resource_id}`,
         })),
       },
     ]
@@ -471,7 +492,7 @@ function CategoriesOverviewView() {
         })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: '/authors',
+          href: '/top-authors',
         },
       },
       {
@@ -486,7 +507,7 @@ function CategoriesOverviewView() {
         })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: '/authors',
+          href: '/top-authors',
         },
       },
     ]

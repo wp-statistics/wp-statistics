@@ -91,11 +91,42 @@ interface PanelActionProps {
 }
 
 /**
+ * Parses an href string into path and search params for TanStack Router.
+ * This ensures search params are properly handled with hash history,
+ * avoiding WordPress query param interference on page reload.
+ *
+ * @example
+ * parseHref('/top-categories?taxonomy=post_tag')
+ * // { path: '/top-categories', search: { taxonomy: 'post_tag' } }
+ */
+function parseHref(href: string): { path: string; search?: Record<string, string> } {
+  const questionMarkIndex = href.indexOf('?')
+  if (questionMarkIndex === -1) {
+    return { path: href }
+  }
+
+  const path = href.substring(0, questionMarkIndex)
+  const queryString = href.substring(questionMarkIndex + 1)
+  const search: Record<string, string> = {}
+
+  // Parse query string into object
+  new URLSearchParams(queryString).forEach((value, key) => {
+    search[key] = value
+  })
+
+  return Object.keys(search).length > 0 ? { path, search } : { path }
+}
+
+/**
  * PanelAction - Standardized action link for widget footers
  *
  * Provides consistent styling for "View all", "View full report" type links.
  * Automatically includes a chevron icon.
  * Supports both href (renders as Link) and onClick (renders as button).
+ *
+ * When href contains query params (e.g., "/path?key=value"), they are parsed
+ * and passed to TanStack Router's Link using the `search` prop. This ensures
+ * proper handling with hash history and avoids WordPress query param interference.
  */
 function PanelAction({ children, className, href, onClick }: PanelActionProps) {
   const sharedClassName = cn(
@@ -112,10 +143,11 @@ function PanelAction({ children, className, href, onClick }: PanelActionProps) {
     </>
   )
 
-  // If href is provided, render as Link
+  // If href is provided, render as Link with properly parsed search params
   if (href) {
+    const { path, search } = parseHref(href)
     return (
-      <Link to={href} data-slot="panel-action" className={sharedClassName}>
+      <Link to={path} search={search} data-slot="panel-action" className={sharedClassName}>
         {content}
       </Link>
     )

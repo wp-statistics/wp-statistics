@@ -943,28 +943,50 @@ class AnalyticsQueryHandler
         }
 
         // Recalculate derived metrics from totals
+        // For aggregate queries (single row), use the row's calculated value directly
+        // since it's already correct from the SQL AVG/etc function.
+        $isSingleRow = count($rows) === 1;
+
         if (in_array('pages_per_session', $sources, true)) {
-            $views = $totals['views'] ?? 0;
-            $sessions = $totals['sessions'] ?? 0;
-            $totals['pages_per_session'] = $sessions > 0 ? round($views / $sessions, 2) : 0;
+            if ($isSingleRow && isset($rows[0]['pages_per_session'])) {
+                $totals['pages_per_session'] = (float) $rows[0]['pages_per_session'];
+            } else {
+                $views = $totals['views'] ?? 0;
+                $sessions = $totals['sessions'] ?? 0;
+                $totals['pages_per_session'] = $sessions > 0 ? round($views / $sessions, 2) : 0;
+            }
         }
 
         if (in_array('avg_time_on_page', $sources, true)) {
-            $views = $totals['views'] ?? 0;
-            $totalDuration = $totals['total_duration'] ?? 0;
-            $totals['avg_time_on_page'] = $views > 0 ? round($totalDuration / $views, 2) : 0;
+            if ($isSingleRow && isset($rows[0]['avg_time_on_page'])) {
+                // For aggregate queries, use the SQL AVG result directly
+                $totals['avg_time_on_page'] = (float) $rows[0]['avg_time_on_page'];
+            } else {
+                // For multi-row queries, recalculate from total_duration if available
+                $views = $totals['views'] ?? 0;
+                $totalDuration = $totals['total_duration'] ?? 0;
+                $totals['avg_time_on_page'] = $views > 0 ? round($totalDuration / $views, 2) : 0;
+            }
         }
 
         if (in_array('avg_session_duration', $sources, true)) {
-            $sessions = $totals['sessions'] ?? 0;
-            $totalDuration = $totals['total_duration'] ?? 0;
-            $totals['avg_session_duration'] = $sessions > 0 ? round($totalDuration / $sessions, 2) : 0;
+            if ($isSingleRow && isset($rows[0]['avg_session_duration'])) {
+                $totals['avg_session_duration'] = (float) $rows[0]['avg_session_duration'];
+            } else {
+                $sessions = $totals['sessions'] ?? 0;
+                $totalDuration = $totals['total_duration'] ?? 0;
+                $totals['avg_session_duration'] = $sessions > 0 ? round($totalDuration / $sessions, 2) : 0;
+            }
         }
 
         if (in_array('bounce_rate', $sources, true)) {
-            $sessions = $totals['sessions'] ?? 0;
-            $bounces = $totals['bounces'] ?? 0;
-            $totals['bounce_rate'] = $sessions > 0 ? round(($bounces / $sessions) * 100, 1) : 0;
+            if ($isSingleRow && isset($rows[0]['bounce_rate'])) {
+                $totals['bounce_rate'] = (float) $rows[0]['bounce_rate'];
+            } else {
+                $sessions = $totals['sessions'] ?? 0;
+                $bounces = $totals['bounces'] ?? 0;
+                $totals['bounce_rate'] = $sessions > 0 ? round(($bounces / $sessions) * 100, 1) : 0;
+            }
         }
 
         // Round totals to appropriate precision
