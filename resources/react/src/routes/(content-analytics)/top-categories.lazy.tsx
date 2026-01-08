@@ -96,24 +96,29 @@ function RouteComponent() {
   // Check if user has applied a taxonomy_type filter (overriding default)
   const hasUserTaxonomyFilter = normalizedFilters.some((f) => f.id.startsWith('taxonomy_type'))
 
-  // Build default taxonomy_type filter
-  const taxonomyField = filterFields.find((f) => f.name === 'taxonomy_type')
-  const defaultTaxonomyType = taxonomy || 'category'
-  const taxonomyOption = taxonomyField?.options?.find((o) => o.value === defaultTaxonomyType)
-  const defaultTaxonomyFilter = {
-    id: 'taxonomy_type-top-categories-default',
-    label: taxonomyField?.label || __('Taxonomy Type', 'wp-statistics'),
-    operator: '=',
-    rawOperator: 'is',
-    value: taxonomyOption?.label || defaultTaxonomyType,
-    rawValue: defaultTaxonomyType,
-  }
+  // Build default taxonomy_type filter (memoized to prevent unnecessary re-renders)
+  const defaultTaxonomyFilter = useMemo(() => {
+    const taxonomyField = filterFields.find((f) => f.name === 'taxonomy_type')
+    const defaultTaxonomyType = taxonomy || 'category'
+    const taxonomyOption = taxonomyField?.options?.find((o) => o.value === defaultTaxonomyType)
+    return {
+      id: 'taxonomy_type-top-categories-default',
+      label: taxonomyField?.label || __('Taxonomy Type', 'wp-statistics'),
+      operator: '=',
+      rawOperator: 'is',
+      value: taxonomyOption?.label || defaultTaxonomyType,
+      rawValue: defaultTaxonomyType,
+    }
+  }, [filterFields, taxonomy])
 
   // Determine if we should show the default filter
   const showDefaultFilter = !hasUserTaxonomyFilter && !defaultFilterRemoved
 
-  // Filters to use for API requests and display
-  const filtersForApi = showDefaultFilter ? [...normalizedFilters, defaultTaxonomyFilter] : normalizedFilters
+  // Filters to use for API requests and display (memoized to ensure stable reference for React Query)
+  const filtersForApi = useMemo(() => {
+    return showDefaultFilter ? [...normalizedFilters, defaultTaxonomyFilter] : normalizedFilters
+  }, [showDefaultFilter, normalizedFilters, defaultTaxonomyFilter])
+
   const filtersForDisplay = filtersForApi
 
   // Handle filter removal - detect when taxonomy_type filter is intentionally removed
@@ -137,8 +142,9 @@ function RouteComponent() {
         setDefaultFilterRemoved(false)
       }
       setLocalFilters(newFilters)
+      setPage(1) // Reset to first page when filters change
     },
-    []
+    [setPage]
   )
 
   // Handle date range updates from DateRangePicker
@@ -180,8 +186,8 @@ function RouteComponent() {
   // Get the current taxonomy type for API request
   const currentTaxonomyType = useMemo(() => {
     const userTaxonomyFilter = filtersForApi.find((f) => f.id.startsWith('taxonomy_type'))
-    return (userTaxonomyFilter?.rawValue as string) || defaultTaxonomyType
-  }, [filtersForApi, defaultTaxonomyType])
+    return (userTaxonomyFilter?.rawValue as string) || (defaultTaxonomyFilter.rawValue as string)
+  }, [filtersForApi, defaultTaxonomyFilter])
 
   // Fetch data from API
   const {

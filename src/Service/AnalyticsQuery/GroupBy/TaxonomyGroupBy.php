@@ -6,11 +6,12 @@ namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
  * Taxonomy group by - groups by taxonomy term (category, tag, custom taxonomy).
  *
  * Uses cached_terms field from resources table which stores comma-separated term IDs.
- * Joins with WordPress term tables to get term names and filter by taxonomy type.
+ * Joins with WordPress term tables to get term names.
  *
  * Usage:
  * - group_by: ['taxonomy']
- * - filters: ['taxonomy_type' => 'category'] or ['taxonomy_type' => 'post_tag']
+ * - Use with taxonomy_type filter to restrict to specific taxonomy:
+ *   filters: ['taxonomy_type' => ['is' => 'category']] or ['taxonomy_type' => ['is' => 'post_tag']]
  *
  * @since 15.0.0
  */
@@ -54,13 +55,6 @@ class TaxonomyGroupBy extends AbstractGroupBy
     protected $requirement  = 'views';
 
     /**
-     * Default taxonomy type to filter by.
-     *
-     * @var string
-     */
-    protected $taxonomyType = 'category';
-
-    /**
      * Get JOINs including WordPress term tables.
      *
      * @return array
@@ -90,32 +84,6 @@ class TaxonomyGroupBy extends AbstractGroupBy
         ];
 
         return $joins;
-    }
-
-    /**
-     * Get filter including taxonomy type restriction.
-     *
-     * @return string|null
-     */
-    public function getFilter(): ?string
-    {
-        $baseFilter = parent::getFilter();
-
-        // Add taxonomy type filter (default: category)
-        // This can be overridden via request filters['taxonomy_type']
-        return $baseFilter . " AND term_taxonomy.taxonomy = '{$this->taxonomyType}'";
-    }
-
-    /**
-     * Set taxonomy type to filter by.
-     *
-     * @param string $taxonomyType Taxonomy name (e.g., 'category', 'post_tag').
-     * @return self
-     */
-    public function setTaxonomyType(string $taxonomyType): self
-    {
-        $this->taxonomyType = $taxonomyType;
-        return $this;
     }
 
     /**

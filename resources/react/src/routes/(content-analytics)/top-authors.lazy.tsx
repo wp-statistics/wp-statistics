@@ -94,24 +94,29 @@ function RouteComponent() {
   // Check if user has applied a post_type filter (overriding default)
   const hasUserPostTypeFilter = normalizedFilters.some((f) => f.id.startsWith('post_type'))
 
-  // Build default post_type filter
-  const postTypeField = filterFields.find((f) => f.name === 'post_type')
-  const defaultPostType = post_type || 'post'
-  const postTypeOption = postTypeField?.options?.find((o) => o.value === defaultPostType)
-  const defaultPostTypeFilter = {
-    id: 'post_type-top-authors-default',
-    label: postTypeField?.label || __('Post Type', 'wp-statistics'),
-    operator: '=',
-    rawOperator: 'is',
-    value: postTypeOption?.label || defaultPostType,
-    rawValue: defaultPostType,
-  }
+  // Build default post_type filter (memoized to prevent unnecessary re-renders)
+  const defaultPostTypeFilter = useMemo(() => {
+    const postTypeField = filterFields.find((f) => f.name === 'post_type')
+    const defaultPostType = post_type || 'post'
+    const postTypeOption = postTypeField?.options?.find((o) => o.value === defaultPostType)
+    return {
+      id: 'post_type-top-authors-default',
+      label: postTypeField?.label || __('Post Type', 'wp-statistics'),
+      operator: '=',
+      rawOperator: 'is',
+      value: postTypeOption?.label || defaultPostType,
+      rawValue: defaultPostType,
+    }
+  }, [filterFields, post_type])
 
   // Determine if we should show the default filter
   const showDefaultFilter = !hasUserPostTypeFilter && !defaultFilterRemoved
 
-  // Filters to use for API requests and display
-  const filtersForApi = showDefaultFilter ? [...normalizedFilters, defaultPostTypeFilter] : normalizedFilters
+  // Filters to use for API requests and display (memoized to ensure stable reference for React Query)
+  const filtersForApi = useMemo(() => {
+    return showDefaultFilter ? [...normalizedFilters, defaultPostTypeFilter] : normalizedFilters
+  }, [showDefaultFilter, normalizedFilters, defaultPostTypeFilter])
+
   const filtersForDisplay = filtersForApi
 
   // Handle filter removal - detect when post_type filter is intentionally removed
@@ -135,8 +140,9 @@ function RouteComponent() {
         setDefaultFilterRemoved(false)
       }
       setLocalFilters(newFilters)
+      setPage(1) // Reset to first page when filters change
     },
-    []
+    [setPage]
   )
 
   // Handle date range updates from DateRangePicker
