@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, Navigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useState } from 'react'
 
@@ -30,17 +30,13 @@ export const Route = createLazyFileRoute('/(content-analytics)/categories')({
 })
 
 function RouteComponent() {
-  const { term, taxonomy, view } = Route.useSearch()
+  const { term } = Route.useSearch()
 
-  // If term and taxonomy are provided, show individual category view
-  if (term && taxonomy) {
-    return <IndividualCategoryView termId={term} taxonomy={taxonomy} />
+  // If term is provided, redirect to the individual category page
+  if (term) {
+    return <Navigate to="/individual-category" search={{ term_id: term }} replace />
   }
 
-  // If view is 'table', show the top categories table view
-  if (view === 'table') {
-    return <TopCategoriesTableView />
-  }
 
   // Otherwise show the overview
   return <CategoriesOverviewView />
@@ -380,8 +376,6 @@ function CategoriesOverviewView() {
     const topTermsViews = batchResponse?.data?.items?.top_terms_views?.data?.rows || []
     const topTermsPublishing = batchResponse?.data?.items?.top_terms_publishing?.data?.rows || []
 
-    const dateParams = `date_from=${apiDateParams.date_from}&date_to=${apiDateParams.date_to}`
-
     const tabs: TabbedListTab[] = [
       {
         id: 'views',
@@ -391,12 +385,10 @@ function CategoriesOverviewView() {
           title: item.term_name || __('Unknown Term', 'wp-statistics'),
           subtitle: `${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: `${pluginUrl}public/images/placeholder.png`,
-          href: `?term=${item.term_id}&taxonomy=${item.taxonomy_type}`,
+          href: `/individual-category?term_id=${item.term_id}`,
         })),
-        link: {
-          title: `${__('See all', 'wp-statistics')} ${taxonomyLabel.toLowerCase()}`,
-          href: `?view=table&taxonomy=${selectedTaxonomy}&${dateParams}&order_by=views&order=desc`,
-        },
+        // TODO: Add proper "See all" link when taxonomy report page is implemented
+        link: undefined,
       },
       {
         id: 'publishing',
@@ -406,17 +398,15 @@ function CategoriesOverviewView() {
           title: item.term_name || __('Unknown Term', 'wp-statistics'),
           subtitle: `${formatCompactNumber(Number(item.published_content))} ${__('contents', 'wp-statistics')}`,
           thumbnail: `${pluginUrl}public/images/placeholder.png`,
-          href: `?term=${item.term_id}&taxonomy=${item.taxonomy_type}`,
+          href: `/individual-category?term_id=${item.term_id}`,
         })),
-        link: {
-          title: `${__('See all', 'wp-statistics')} ${taxonomyLabel.toLowerCase()}`,
-          href: `?view=table&taxonomy=${selectedTaxonomy}&${dateParams}&order_by=published_content&order=desc`,
-        },
+        // TODO: Add proper "See all" link when taxonomy report page is implemented
+        link: undefined,
       },
     ]
 
     return tabs
-  }, [batchResponse, apiDateParams, taxonomyLabel, selectedTaxonomy, pluginUrl])
+  }, [batchResponse, pluginUrl])
 
   // Build tabbed list tabs for top content
   const topContentTabs: TabbedListTab[] = useMemo(() => {
@@ -820,44 +810,4 @@ function CategoriesOverviewView() {
   )
 }
 
-/**
- * Individual Category View - Detailed view for a single taxonomy term
- * TODO: Implement this view in a future phase
- */
-function IndividualCategoryView({ termId, taxonomy }: { termId: number; taxonomy: string }) {
-  return (
-    <div className="min-w-0 p-6">
-      <div className="text-center">
-        <h1 className="text-xl font-semibold text-neutral-800 mb-2">
-          {__('Individual Category View', 'wp-statistics')}
-        </h1>
-        <p className="text-muted-foreground">
-          {__('Term ID:', 'wp-statistics')} {termId}
-        </p>
-        <p className="text-muted-foreground">
-          {__('Taxonomy:', 'wp-statistics')} {taxonomy}
-        </p>
-        <p className="text-muted-foreground mt-2">
-          {__('This view will be implemented in a future phase.', 'wp-statistics')}
-        </p>
-      </div>
-    </div>
-  )
-}
 
-/**
- * Top Categories Table View - Table view showing all taxonomy terms
- * TODO: Implement this view in a future phase
- */
-function TopCategoriesTableView() {
-  return (
-    <div className="min-w-0 p-6">
-      <div className="text-center">
-        <h1 className="text-xl font-semibold text-neutral-800 mb-2">{__('Top Categories Table', 'wp-statistics')}</h1>
-        <p className="text-muted-foreground mt-2">
-          {__('This view will be implemented in a future phase.', 'wp-statistics')}
-        </p>
-      </div>
-    </div>
-  )
-}

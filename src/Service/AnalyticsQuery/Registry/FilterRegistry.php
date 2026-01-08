@@ -35,6 +35,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\LastSeenFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\BounceFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\EventPageIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyTypeFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyFilter;
 
 /**
  * Registry for analytics query filters.
@@ -133,6 +134,7 @@ class FilterRegistry
             'page'             => PageFilter::class,
             'resource_id'      => ResourceIdFilter::class,
             'taxonomy_type'    => TaxonomyTypeFilter::class,
+            'taxonomy'         => TaxonomyFilter::class,
 
             // Visitor/session filters
             'user_id'          => UserIdFilter::class,

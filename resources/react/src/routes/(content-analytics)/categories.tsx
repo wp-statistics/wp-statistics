@@ -7,14 +7,12 @@ export type { UrlFilter }
 
 /**
  * Categories page search params
- * - term: When provided with taxonomy, shows individual category view
+ * - term: When provided, redirects to individual-category page
  * - taxonomy: Taxonomy type (category, post_tag, custom) - defaults to 'category'
- * - view: When 'table', shows the Top Categories Table view
  */
 export interface CategoriesSearchParams extends Omit<BaseSearchParams, 'page'> {
   term?: number
   taxonomy?: string
-  view?: 'table'
 }
 
 /**
@@ -32,7 +30,6 @@ const validateSearch = (search: Record<string, unknown>): CategoriesSearchParams
           ? parseInt(search.term, 10) || undefined
           : undefined,
     taxonomy: typeof search.taxonomy === 'string' ? search.taxonomy : undefined,
-    view: search.view === 'table' ? 'table' : undefined,
   }
 }
 

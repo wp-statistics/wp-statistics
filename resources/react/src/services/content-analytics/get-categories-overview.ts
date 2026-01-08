@@ -344,7 +344,7 @@ export const getCategoriesOverviewQueryOptions = ({
             // Top Content - Most Commented (by comments)
             {
               id: 'top_content_commented',
-              sources: ['views', 'visitors'],
+              sources: ['views', 'visitors', 'comments'],
               group_by: ['page'],
               columns: [
                 'resource_id',

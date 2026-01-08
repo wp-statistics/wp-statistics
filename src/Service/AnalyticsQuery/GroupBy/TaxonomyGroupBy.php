@@ -24,6 +24,18 @@ class TaxonomyGroupBy extends AbstractGroupBy
         'terms.slug AS term_slug',
         'term_taxonomy.taxonomy AS taxonomy_type',
     ];
+
+    /**
+     * Columns added by postProcess (not in SQL, but valid for column selection).
+     *
+     * @var array
+     */
+    protected $postProcessedColumns = [
+        'taxonomy_label',
+        'term_link',
+        'term_description',
+        'term_count',
+    ];
     protected $joins        = [
         [
             'table' => 'resource_uris',
@@ -107,7 +119,7 @@ class TaxonomyGroupBy extends AbstractGroupBy
     }
 
     /**
-     * Post-process rows to add term link and count.
+     * Post-process rows to add term link, count, and taxonomy label.
      *
      * @param array $rows Query result rows.
      * @param \wpdb $wpdb WordPress database object.
@@ -117,9 +129,25 @@ class TaxonomyGroupBy extends AbstractGroupBy
     {
         foreach ($rows as &$row) {
             if (!empty($row['term_id']) && !empty($row['taxonomy_type'])) {
+                // Add term link
                 $row['term_link'] = get_term_link((int) $row['term_id'], $row['taxonomy_type']);
                 if (is_wp_error($row['term_link'])) {
                     $row['term_link'] = '';
+                }
+
+                // Add taxonomy label (human-readable name)
+                $taxonomyObject = get_taxonomy($row['taxonomy_type']);
+                if ($taxonomyObject) {
+                    $row['taxonomy_label'] = $taxonomyObject->labels->singular_name;
+                } else {
+                    $row['taxonomy_label'] = $row['taxonomy_type'];
+                }
+
+                // Add term description and count
+                $term = get_term((int) $row['term_id'], $row['taxonomy_type']);
+                if ($term && !is_wp_error($term)) {
+                    $row['term_description'] = $term->description;
+                    $row['term_count']       = $term->count;
                 }
             }
         }
