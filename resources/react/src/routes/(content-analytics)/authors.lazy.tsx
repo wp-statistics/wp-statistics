@@ -8,8 +8,8 @@ import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
-import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
+import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -18,7 +18,7 @@ import { WordPress } from '@/lib/wordpress'
 import { getAuthorsOverviewQueryOptions } from '@/services/content-analytics/get-authors-overview'
 
 export const Route = createLazyFileRoute('/(content-analytics)/authors')({
-  component: RouteComponent,
+  component: AuthorsOverviewView,
   errorComponent: ({ error }) => (
     <div className="p-6 text-center">
       <h2 className="text-xl font-semibold text-destructive mb-2">{__('Error Loading Page', 'wp-statistics')}</h2>
@@ -26,18 +26,6 @@ export const Route = createLazyFileRoute('/(content-analytics)/authors')({
     </div>
   ),
 })
-
-function RouteComponent() {
-  const { author } = Route.useSearch()
-
-  // If author is provided, show individual author view
-  if (author) {
-    return <IndividualAuthorView authorId={author} />
-  }
-
-  // Otherwise show the overview
-  return <AuthorsOverviewView />
-}
 
 /**
  * Authors Overview View - Main authors analytics page
@@ -250,7 +238,6 @@ function AuthorsOverviewView() {
     const topAuthorsCommentsPerContent = batchResponse?.data?.items?.top_authors_comments_per_content?.data?.rows || []
 
     // Build "See all" link with date range preserved
-    // TODO: Update this to point to proper authors list page when available
     const dateParams = `date_from=${apiDateParams.date_from}&date_to=${apiDateParams.date_to}`
 
     const tabs: TabbedListTab[] = [
@@ -262,11 +249,11 @@ function AuthorsOverviewView() {
           title: item.author_name || __('Unknown Author', 'wp-statistics'),
           subtitle: `${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: item.author_avatar || `${pluginUrl}public/images/placeholder.png`,
-          href: `?author=${item.author_id}`,
+          href: `/individual-author?author_id=${item.author_id}`,
         })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: `?${dateParams}&order_by=views&order=desc`,
+          href: `/authors?${dateParams}&order_by=views&order=desc`,
         },
       },
       {
@@ -277,11 +264,11 @@ function AuthorsOverviewView() {
           title: item.author_name || __('Unknown Author', 'wp-statistics'),
           subtitle: `${formatCompactNumber(Number(item.published_content))} ${postTypeLabel.toLowerCase()}`,
           thumbnail: item.author_avatar || `${pluginUrl}public/images/placeholder.png`,
-          href: `?author=${item.author_id}`,
+          href: `/individual-author?author_id=${item.author_id}`,
         })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: `?${dateParams}&order_by=published_content&order=desc`,
+          href: `/authors?${dateParams}&order_by=published_content&order=desc`,
         },
       },
       {
@@ -300,11 +287,11 @@ function AuthorsOverviewView() {
             title: item.author_name || __('Unknown Author', 'wp-statistics'),
             subtitle: `${formatDecimal(item.viewsPerContent)} ${__('views', 'wp-statistics')}/${postTypeLabel.toLowerCase()}`,
             thumbnail: item.author_avatar || `${pluginUrl}public/images/placeholder.png`,
-            href: `?author=${item.author_id}`,
+            href: `/individual-author?author_id=${item.author_id}`,
           })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: `?${dateParams}&order_by=views&order=desc`,
+          href: `/authors?${dateParams}&order_by=views&order=desc`,
         },
       },
     ]
@@ -327,11 +314,11 @@ function AuthorsOverviewView() {
             title: item.author_name || __('Unknown Author', 'wp-statistics'),
             subtitle: `${formatDecimal(item.commentsPerContent)} ${__('comments', 'wp-statistics')}/${postTypeLabel.toLowerCase()}`,
             thumbnail: item.author_avatar || `${pluginUrl}public/images/placeholder.png`,
-            href: `?author=${item.author_id}`,
+            href: `/individual-author?author_id=${item.author_id}`,
           })),
         link: {
           title: __('See all authors', 'wp-statistics'),
-          href: `?${dateParams}&order_by=comments&order=desc`,
+          href: `/authors?${dateParams}&order_by=comments&order=desc`,
         },
       })
     }
@@ -415,26 +402,6 @@ function AuthorsOverviewView() {
             </div>
           </div>
         )}
-      </div>
-    </div>
-  )
-}
-
-/**
- * Individual Author View - Detailed view for a single author
- * TODO: Implement this view in a future phase
- */
-function IndividualAuthorView({ authorId }: { authorId: number }) {
-  return (
-    <div className="min-w-0 p-6">
-      <div className="text-center">
-        <h1 className="text-xl font-semibold text-neutral-800 mb-2">{__('Individual Author View', 'wp-statistics')}</h1>
-        <p className="text-muted-foreground">
-          {__('Author ID:', 'wp-statistics')} {authorId}
-        </p>
-        <p className="text-muted-foreground mt-2">
-          {__('This view will be implemented in a future phase.', 'wp-statistics')}
-        </p>
       </div>
     </div>
   )

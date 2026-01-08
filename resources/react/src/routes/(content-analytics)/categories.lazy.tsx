@@ -10,8 +10,8 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart, type LineChartDataPoint } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
-import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
+import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -477,7 +477,7 @@ function CategoriesOverviewView() {
           title: item.author_name || __('Unknown Author', 'wp-statistics'),
           subtitle: `${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: item.author_avatar || `${pluginUrl}public/images/placeholder.png`,
-          href: `/authors?author=${item.author_id}`,
+          href: `/individual-author?author_id=${item.author_id}`,
         })),
         link: {
           title: __('See all authors', 'wp-statistics'),
@@ -492,7 +492,7 @@ function CategoriesOverviewView() {
           title: item.author_name || __('Unknown Author', 'wp-statistics'),
           subtitle: `${formatCompactNumber(Number(item.published_content))} ${__('contents', 'wp-statistics')}`,
           thumbnail: item.author_avatar || `${pluginUrl}public/images/placeholder.png`,
-          href: `/authors?author=${item.author_id}`,
+          href: `/individual-author?author_id=${item.author_id}`,
         })),
         link: {
           title: __('See all authors', 'wp-statistics'),

@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -42,16 +42,18 @@ export const Route = createLazyFileRoute('/(content-analytics)/content')({
 
 function RouteComponent() {
   const { resource_id } = Route.useSearch()
+  const navigate = useNavigate()
 
   // If resource_id is provided, redirect to individual-content route
   useEffect(() => {
     if (resource_id) {
-      // Use window.location for cross-route navigation
-      const currentUrl = new URL(window.location.href)
-      currentUrl.hash = `#/individual-content?resource_id=${resource_id}`
-      window.location.replace(currentUrl.toString())
+      navigate({
+        to: '/individual-content',
+        search: { resource_id },
+        replace: true,
+      })
     }
-  }, [resource_id])
+  }, [resource_id, navigate])
 
   // Show loading while redirecting
   if (resource_id) {
@@ -415,7 +417,7 @@ function ContentOverviewView() {
           title: item.page_title || item.page_uri,
           subtitle: `${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: `#/individual-content?resource_id=${item.resource_id}`,
+          href: `/individual-content?resource_id=${item.resource_id}`,
         })),
         link: {
           title: `${__('See all', 'wp-statistics')} ${postTypeLabel}`,
@@ -430,7 +432,7 @@ function ContentOverviewView() {
           title: item.page_title || item.page_uri,
           subtitle: `${formatCompactNumber(Number(item.comments || 0))} ${__('comments', 'wp-statistics')} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: `#/individual-content?resource_id=${item.resource_id}`,
+          href: `/individual-content?resource_id=${item.resource_id}`,
         })),
         // No link for Most Commented per spec
       },
@@ -442,7 +444,7 @@ function ContentOverviewView() {
           title: item.page_title || item.page_uri,
           subtitle: `${item.published_date || ''} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
           thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: `#/individual-content?resource_id=${item.resource_id}`,
+          href: `/individual-content?resource_id=${item.resource_id}`,
         })),
         link: {
           title: `${__('See all', 'wp-statistics')} ${postTypeLabel}`,

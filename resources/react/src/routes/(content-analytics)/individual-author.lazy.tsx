@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -11,6 +11,7 @@ import { FilterButton, type FilterField } from '@/components/custom/filter-butto
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
+import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
@@ -19,9 +20,40 @@ import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
-  getIndividualContentQueryOptions,
+  getIndividualAuthorQueryOptions,
   type TrafficSummaryPeriodResponse,
-} from '@/services/content-analytics/get-individual-content'
+} from '@/services/content-analytics/get-individual-author'
+
+export const Route = createLazyFileRoute('/(content-analytics)/individual-author')({
+  component: RouteComponent,
+  errorComponent: ({ error }) => (
+    <div className="p-6 text-center">
+      <h2 className="text-xl font-semibold text-destructive mb-2">{__('Error Loading Page', 'wp-statistics')}</h2>
+      <p className="text-muted-foreground">{error.message}</p>
+    </div>
+  ),
+})
+
+function RouteComponent() {
+  const { author_id } = Route.useSearch()
+
+  // If no author_id, show error
+  if (!author_id) {
+    return (
+      <div className="min-w-0 p-6">
+        <div className="text-center">
+          <h1 className="text-xl font-semibold text-neutral-800 mb-2">{__('Author Not Found', 'wp-statistics')}</h1>
+          <p className="text-muted-foreground mb-4">{__('No author ID was provided.', 'wp-statistics')}</p>
+          <Link to="/authors" className="text-primary hover:underline">
+            {__('Go to Authors Overview', 'wp-statistics')}
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  return <IndividualAuthorView authorId={author_id} />
+}
 
 // Helper to extract total value from API response (handles both flat and { current, previous } formats)
 function getTotalValue(total: unknown): number {
@@ -34,49 +66,14 @@ function getTotalValue(total: unknown): number {
   return 0
 }
 
-export const Route = createLazyFileRoute('/(content-analytics)/individual-content')({
-  component: RouteComponent,
-  errorComponent: ({ error }) => (
-    <div className="p-6 text-center">
-      <h2 className="text-xl font-semibold text-destructive mb-2">{__('Error Loading Page', 'wp-statistics')}</h2>
-      <p className="text-muted-foreground">{error.message}</p>
-    </div>
-  ),
-})
-
-function RouteComponent() {
-  const { resource_id } = Route.useSearch()
-
-  // If no resource_id, show error
-  if (!resource_id) {
-    return (
-      <div className="min-w-0 p-6">
-        <div className="text-center">
-          <h1 className="text-xl font-semibold text-neutral-800 mb-2">
-            {__('Content Not Found', 'wp-statistics')}
-          </h1>
-          <p className="text-muted-foreground mb-4">
-            {__('No content ID was provided.', 'wp-statistics')}
-          </p>
-          <Link to="/content" className="text-primary hover:underline">
-            {__('Go to Content Overview', 'wp-statistics')}
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
-  return <IndividualContentView resourceId={resource_id} />
-}
-
 // Traffic summary row type
-type TrafficSummaryPeriod = 'today' | 'yesterday' | 'last7days' | 'last28days'
+type TrafficSummaryPeriod = 'today' | 'yesterday' | 'last7days' | 'last28days' | 'total'
 interface TrafficSummaryRowData {
   period: TrafficSummaryPeriod
   visitors: number
-  visitorsPrev: number
+  visitorsPrev: number | null // null for Total row (no comparison)
   views: number
-  viewsPrev: number
+  viewsPrev: number | null // null for Total row (no comparison)
 }
 
 // Traffic Summary Table Props
@@ -86,29 +83,26 @@ interface TrafficSummaryTableProps {
     yesterday?: TrafficSummaryPeriodResponse
     last7days?: TrafficSummaryPeriodResponse
     last28days?: TrafficSummaryPeriodResponse
+    total?: TrafficSummaryPeriodResponse
   }
 }
 
 /**
  * Traffic Summary Table - Shows traffic data across different time periods
- * Displays: Today, Yesterday, Last 7 Days, Last 28 Days
- * Per doc: Column Management Mode: "none" (static display), No pagination, No sorting
  */
 function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
   const calcPercentage = usePercentageCalc()
 
-  const periodLabels: Record<TrafficSummaryPeriod, string> = {
-    today: __('Today', 'wp-statistics'),
-    yesterday: __('Yesterday', 'wp-statistics'),
-    last7days: __('Last 7 Days', 'wp-statistics'),
-    last28days: __('Last 28 Days', 'wp-statistics'),
-  }
-
   // Transform data from batch response into table rows
   const summaryData = useMemo((): TrafficSummaryRowData[] => {
-    const periods: TrafficSummaryPeriod[] = ['today', 'yesterday', 'last7days', 'last28days']
+    const periodsWithComparison: Exclude<TrafficSummaryPeriod, 'total'>[] = [
+      'today',
+      'yesterday',
+      'last7days',
+      'last28days',
+    ]
 
-    return periods.map((period) => {
+    const rows: TrafficSummaryRowData[] = periodsWithComparison.map((period) => {
       const periodData = data[period]
       const totals = periodData?.totals
 
@@ -120,18 +114,38 @@ function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
         viewsPrev: Number(totals?.views?.previous) || 0,
       }
     })
+
+    // Add Total row (no comparison)
+    if (data.total) {
+      const totalTotals = data.total?.totals
+      rows.push({
+        period: 'total',
+        visitors: Number(totalTotals?.visitors?.current) || 0,
+        visitorsPrev: null,
+        views: Number(totalTotals?.views?.current) || 0,
+        viewsPrev: null,
+      })
+    }
+
+    return rows
   }, [data])
 
   // Define columns for DataTable
-  const columns = useMemo<ColumnDef<TrafficSummaryRowData>[]>(
-    () => [
+  const columns = useMemo<ColumnDef<TrafficSummaryRowData>[]>(() => {
+    const periodLabels: Record<TrafficSummaryPeriod, string> = {
+      today: __('Today', 'wp-statistics'),
+      yesterday: __('Yesterday', 'wp-statistics'),
+      last7days: __('Last 7 Days', 'wp-statistics'),
+      last28days: __('Last 28 Days', 'wp-statistics'),
+      total: __('Total', 'wp-statistics'),
+    }
+
+    return [
       {
         accessorKey: 'period',
         header: __('Time Period', 'wp-statistics'),
         enableSorting: false,
-        cell: ({ row }) => (
-          <span className="font-medium">{periodLabels[row.original.period]}</span>
-        ),
+        cell: ({ row }) => <span className="font-medium">{periodLabels[row.original.period]}</span>,
       },
       {
         accessorKey: 'visitors',
@@ -139,6 +153,12 @@ function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
         enableSorting: false,
         cell: ({ row }) => {
           const { visitors, visitorsPrev } = row.original
+
+          // No comparison for Total row
+          if (visitorsPrev === null) {
+            return <div className="text-right">{visitors.toLocaleString()}</div>
+          }
+
           const change = calcPercentage(visitors, visitorsPrev)
 
           return (
@@ -159,6 +179,12 @@ function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
         enableSorting: false,
         cell: ({ row }) => {
           const { views, viewsPrev } = row.original
+
+          // No comparison for Total row
+          if (viewsPrev === null) {
+            return <div className="text-right">{views.toLocaleString()}</div>
+          }
+
           const change = calcPercentage(views, viewsPrev)
 
           return (
@@ -173,9 +199,8 @@ function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
           )
         },
       },
-    ],
-    [calcPercentage, periodLabels]
-  )
+    ]
+  }, [calcPercentage])
 
   return (
     <DataTable
@@ -191,9 +216,9 @@ function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
 }
 
 /**
- * Individual Content View - Detailed view for an individual content item
+ * Individual Author View - Detailed view for a single author
  */
-function IndividualContentView({ resourceId }: { resourceId: number }) {
+function IndividualAuthorView({ authorId }: { authorId: number }) {
   const {
     dateFrom,
     dateTo,
@@ -209,14 +234,22 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-  const navigate = useNavigate()
 
-  // Get filter fields for individual content
+  // Get filter fields: individual-content group + post_type from content group
   const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('individual-content') as FilterField[]
+    const individualContentFilters = wp.getFilterFieldsByGroup('individual-content') as FilterField[]
+    const contentFilters = wp.getFilterFieldsByGroup('content') as FilterField[]
+    // Get post_type filter from content group
+    const postTypeFilter = contentFilters.find((f) => f.name === 'post_type')
+    // Combine: individual-content filters + post_type
+    return postTypeFilter
+      ? [...individualContentFilters, postTypeFilter]
+      : individualContentFilters
   }, [wp])
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
+  const [activeContentTab, setActiveContentTab] = useState<string>('popular')
+  const [defaultFilterRemoved, setDefaultFilterRemoved] = useState(false)
 
   // Track if only timeframe changed
   const [isTimeframeOnlyChange, setIsTimeframeOnlyChange] = useState(false)
@@ -246,6 +279,21 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
     [setDateRange]
   )
 
+  // Build default post_type filter for Individual Author page (page-specific, not global)
+  const defaultPostTypeFilter = useMemo(() => {
+    const postTypeField = filterFields.find((f) => f.name === 'post_type')
+    const postTypeOption = postTypeField?.options?.find((o) => o.value === 'post')
+
+    return {
+      id: 'post_type-individual-author-default',
+      name: 'post_type',
+      operator: 'is',
+      value: postTypeOption?.label || __('Posts', 'wp-statistics'),
+      rawValue: 'post',
+      label: postTypeField?.label || __('Post Type', 'wp-statistics'),
+    }
+  }, [filterFields])
+
   // Get valid filter names for this page (based on filter groups)
   const validFilterNames = useMemo(() => {
     return new Set(filterFields.map((f) => f.name))
@@ -253,30 +301,100 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
 
   // Filter applied filters to only include those valid for this page
   // This prevents filters from other pages from being applied here
-  // Also filter out post_type since we're filtering by specific resource_id
-  const filtersWithoutPostType = useMemo(() => {
+  const normalizedFilters = useMemo(() => {
     return (appliedFilters || []).filter((f) => {
       // Extract filter name from filter id (e.g., "author-author-filter-123" -> "author")
       const filterName = f.id.split('-')[0]
-      // Must be valid for this page AND not be post_type
-      return validFilterNames.has(filterName) && !f.id.startsWith('post_type')
+      return validFilterNames.has(filterName)
     })
   }, [appliedFilters, validFilterNames])
 
-  // Batch query for all individual content data
+  // Check if user has applied a post_type filter (overriding default)
+  const hasUserPostTypeFilter = useMemo(() => {
+    return normalizedFilters.some((f) => f.id.startsWith('post_type'))
+  }, [normalizedFilters])
+
+  // Reset defaultFilterRemoved when user applies a post_type filter
+  useEffect(() => {
+    if (hasUserPostTypeFilter) {
+      setDefaultFilterRemoved(false)
+    }
+  }, [hasUserPostTypeFilter])
+
+  // Filters to use for API requests (includes default if no user filter and not removed)
+  const filtersForApi = useMemo(() => {
+    if (hasUserPostTypeFilter) {
+      return normalizedFilters
+    }
+    if (defaultFilterRemoved) {
+      return normalizedFilters
+    }
+    return [...normalizedFilters, defaultPostTypeFilter]
+  }, [normalizedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
+
+  // Filters to display in FilterBar (includes default if no user filter and not removed)
+  const filtersForDisplay = useMemo(() => {
+    if (hasUserPostTypeFilter) {
+      return normalizedFilters
+    }
+    if (defaultFilterRemoved) {
+      return normalizedFilters
+    }
+    return [...normalizedFilters, defaultPostTypeFilter]
+  }, [normalizedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
+
+  // Wrap handleApplyFilters to detect when post_type filter is intentionally removed
+  const handleAuthorApplyFilters = useCallback(
+    (newFilters: typeof appliedFilters) => {
+      // Check if post_type filter existed before but not in new filters
+      const hadPostTypeFilter = filtersForDisplay.some((f) => f.id.startsWith('post_type'))
+      const hasNewPostTypeFilter = newFilters?.some((f) => f.id.startsWith('post_type')) ?? false
+
+      if (hadPostTypeFilter && !hasNewPostTypeFilter) {
+        // User intentionally removed the post_type filter
+        setDefaultFilterRemoved(true)
+      }
+
+      handleApplyFilters(newFilters)
+    },
+    [filtersForDisplay, handleApplyFilters]
+  )
+
+  // Get post_type from filters for API (includes default)
+  const postType = useMemo(() => {
+    const postTypeFilter = filtersForApi.find((f) => f.id.startsWith('post_type'))
+    return postTypeFilter?.rawValue as string | undefined
+  }, [filtersForApi])
+
+  // Get post type label for display (includes default)
+  const postTypeLabel = useMemo(() => {
+    const postTypeFilter = filtersForApi.find((f) => f.id.startsWith('post_type'))
+    if (postTypeFilter?.value) {
+      return String(postTypeFilter.value)
+    }
+    return __('Content', 'wp-statistics')
+  }, [filtersForApi])
+
+  // Filters for API query (excludes author and post_type since they're handled separately)
+  const filtersForApiQuery = useMemo(() => {
+    return filtersForApi.filter((f) => !f.id.startsWith('post_type'))
+  }, [filtersForApi])
+
+  // Batch query for all individual author data
   const {
     data: batchResponse,
     isLoading,
     isFetching,
   } = useQuery({
-    ...getIndividualContentQueryOptions({
-      resourceId,
+    ...getIndividualAuthorQueryOptions({
+      authorId,
       dateFrom: apiDateParams.date_from,
       dateTo: apiDateParams.date_to,
       compareDateFrom: apiDateParams.previous_date_from,
       compareDateTo: apiDateParams.previous_date_to,
       timeframe,
-      filters: filtersWithoutPostType,
+      postType,
+      filters: filtersForApiQuery,
     }),
     retry: false,
     placeholderData: keepPreviousData,
@@ -288,9 +406,9 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
   const isChartRefetching = isFetching && !isLoading && isTimeframeOnlyChange
 
   // Extract data from batch response
-  const contentMetadata = batchResponse?.data?.items?.content_metadata?.data?.rows?.[0]
-  const metricsResponse = batchResponse?.data?.items?.content_metrics
-  const trafficTrendsResponse = batchResponse?.data?.items?.traffic_trends
+  const authorMetadata = batchResponse?.data?.items?.author_metadata?.data?.rows?.[0]
+  const metricsResponse = batchResponse?.data?.items?.author_metrics
+  const contentPerformanceResponse = batchResponse?.data?.items?.content_performance
   const topReferrersData = batchResponse?.data?.items?.top_referrers?.data?.rows || []
   const topReferrersTotals = batchResponse?.data?.items?.top_referrers?.data?.totals
   const topSearchEnginesData = batchResponse?.data?.items?.top_search_engines?.data?.rows || []
@@ -318,10 +436,10 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
 
   // Transform chart data
   const chartData = useMemo(() => {
-    if (!trafficTrendsResponse?.labels || !trafficTrendsResponse?.datasets) return []
+    if (!contentPerformanceResponse?.labels || !contentPerformanceResponse?.datasets) return []
 
-    const labels = trafficTrendsResponse.labels
-    const datasets = trafficTrendsResponse.datasets
+    const labels = contentPerformanceResponse.labels
+    const datasets = contentPerformanceResponse.datasets
     const currentDatasets = datasets.filter((d) => !d.comparison)
     const previousDatasets = datasets.filter((d) => d.comparison)
 
@@ -339,15 +457,15 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
 
       return point
     })
-  }, [trafficTrendsResponse])
+  }, [contentPerformanceResponse])
 
   // Calculate chart totals
   const chartTotals = useMemo(() => {
-    if (!trafficTrendsResponse?.datasets) {
+    if (!contentPerformanceResponse?.datasets) {
       return { visitors: 0, visitorsPrevious: 0, views: 0, viewsPrevious: 0 }
     }
 
-    const datasets = trafficTrendsResponse.datasets
+    const datasets = contentPerformanceResponse.datasets
     const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
     const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
     const viewsDataset = datasets.find((d) => d.key === 'views' && !d.comparison)
@@ -359,7 +477,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
       views: viewsDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
       viewsPrevious: viewsPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
     }
-  }, [trafficTrendsResponse])
+  }, [contentPerformanceResponse])
 
   const chartMetrics = [
     {
@@ -392,35 +510,41 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
 
   const calcPercentage = usePercentageCalc()
 
-  // Build metrics - 8 metrics per documentation
-  const contentMetrics = useMemo(() => {
+  // Build metrics - per documentation
+  const authorMetrics = useMemo(() => {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
+    const publishedContent = Number(totals.published_content?.current) || 0
     const visitors = Number(totals.visitors?.current) || 0
     const views = Number(totals.views?.current) || 0
-    const avgTimeOnPage = Number(totals.avg_time_on_page?.current) || 0
     const bounceRate = Number(totals.bounce_rate?.current) || 0
-    const entryPage = Number(totals.entry_page?.current) || 0
-    const exitPage = Number(totals.exit_page?.current) || 0
-    const exitRate = Number(totals.exit_rate?.current) || 0
+    const avgTimeOnPage = Number(totals.avg_time_on_page?.current) || 0
     const comments = Number(totals.comments?.current) || 0
 
+    const prevPublishedContent = Number(totals.published_content?.previous) || 0
     const prevVisitors = Number(totals.visitors?.previous) || 0
     const prevViews = Number(totals.views?.previous) || 0
-    const prevAvgTimeOnPage = Number(totals.avg_time_on_page?.previous) || 0
     const prevBounceRate = Number(totals.bounce_rate?.previous) || 0
-    const prevEntryPage = Number(totals.entry_page?.previous) || 0
-    const prevExitPage = Number(totals.exit_page?.previous) || 0
-    const prevExitRate = Number(totals.exit_rate?.previous) || 0
+    const prevAvgTimeOnPage = Number(totals.avg_time_on_page?.previous) || 0
     const prevComments = Number(totals.comments?.previous) || 0
 
+    // Calculate avg comments per content
+    const avgCommentsPerContent = publishedContent > 0 ? comments / publishedContent : 0
+    const prevAvgCommentsPerContent = prevPublishedContent > 0 ? prevComments / prevPublishedContent : 0
+
     const metrics: MetricItem[] = [
+      {
+        label: `${__('Published', 'wp-statistics')} ${postTypeLabel}`,
+        value: formatCompactNumber(publishedContent),
+        ...calcPercentage(publishedContent, prevPublishedContent),
+        tooltipContent: __('Number of published content items by this author', 'wp-statistics'),
+      },
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
         ...calcPercentage(visitors, prevVisitors),
-        tooltipContent: __('Unique visitors to this content', 'wp-statistics'),
+        tooltipContent: __("Unique visitors to this author's content", 'wp-statistics'),
       },
       {
         label: __('Views', 'wp-statistics'),
@@ -429,45 +553,92 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
         tooltipContent: __('Total page views', 'wp-statistics'),
       },
       {
-        label: __('Avg. Time on Page', 'wp-statistics'),
-        value: formatDuration(avgTimeOnPage),
-        ...calcPercentage(avgTimeOnPage, prevAvgTimeOnPage),
-        tooltipContent: __('Average time spent on this content', 'wp-statistics'),
-      },
-      {
         label: __('Bounce Rate', 'wp-statistics'),
         value: `${formatDecimal(bounceRate)}%`,
         ...calcPercentage(bounceRate, prevBounceRate),
         tooltipContent: __('Percentage of single-page sessions', 'wp-statistics'),
       },
       {
-        label: __('Entry Page', 'wp-statistics'),
-        value: formatCompactNumber(entryPage),
-        ...calcPercentage(entryPage, prevEntryPage),
-        tooltipContent: __('Times this page was the first page visited', 'wp-statistics'),
-      },
-      {
-        label: __('Exit Page', 'wp-statistics'),
-        value: formatCompactNumber(exitPage),
-        ...calcPercentage(exitPage, prevExitPage),
-        tooltipContent: __('Times this page was the last page visited', 'wp-statistics'),
-      },
-      {
-        label: __('Exit Rate', 'wp-statistics'),
-        value: `${formatDecimal(exitRate)}%`,
-        ...calcPercentage(exitRate, prevExitRate),
-        tooltipContent: __('Percentage of views that were the last page visited', 'wp-statistics'),
+        label: __('Avg. Time on Page', 'wp-statistics'),
+        value: formatDuration(avgTimeOnPage),
+        ...calcPercentage(avgTimeOnPage, prevAvgTimeOnPage),
+        tooltipContent: __('Average time spent on pages', 'wp-statistics'),
       },
       {
         label: __('Comments', 'wp-statistics'),
         value: formatCompactNumber(comments),
         ...calcPercentage(comments, prevComments),
-        tooltipContent: __('Total comments on this content', 'wp-statistics'),
+        tooltipContent: __("Total comments on this author's content", 'wp-statistics'),
+      },
+      {
+        label: `${__('Avg. Comments per', 'wp-statistics')} ${postTypeLabel}`,
+        value: formatDecimal(avgCommentsPerContent),
+        ...calcPercentage(avgCommentsPerContent, prevAvgCommentsPerContent),
+        tooltipContent: __('Average comments per content item', 'wp-statistics'),
       },
     ]
 
     return metrics
-  }, [metricsResponse, calcPercentage])
+  }, [metricsResponse, calcPercentage, postTypeLabel])
+
+  // Build top content tabs
+  const topContentTabs: TabbedListTab[] = useMemo(() => {
+    const topContentPopular = batchResponse?.data?.items?.top_content_popular?.data?.rows || []
+    const topContentRecent = batchResponse?.data?.items?.top_content_recent?.data?.rows || []
+    const topContentCommented = batchResponse?.data?.items?.top_content_commented?.data?.rows || []
+
+    // Build base URL params for "See all" links
+    const dateParams = `date_from=${apiDateParams.date_from}&date_to=${apiDateParams.date_to}`
+    const authorParam = `author=${authorId}`
+    const postTypeParam = postType ? `&post_type=${postType}` : ''
+
+    const tabs: TabbedListTab[] = [
+      {
+        id: 'popular',
+        label: __('Most Popular', 'wp-statistics'),
+        items: topContentPopular.map((item) => ({
+          id: String(item.resource_id),
+          title: item.page_title || __('Unknown Page', 'wp-statistics'),
+          subtitle: `${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
+          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
+          href: `/individual-content?resource_id=${item.resource_id}`,
+        })),
+        link: {
+          title: `${__('See all', 'wp-statistics')} ${postTypeLabel}`,
+          href: `/pages?${dateParams}&${authorParam}${postTypeParam}&order_by=views&order=desc`,
+        },
+      },
+      {
+        id: 'commented',
+        label: __('Most Commented', 'wp-statistics'),
+        items: topContentCommented.map((item) => ({
+          id: String(item.resource_id),
+          title: item.page_title || __('Unknown Page', 'wp-statistics'),
+          subtitle: `${formatCompactNumber(Number(item.comments))} ${__('comments', 'wp-statistics')} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
+          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
+          href: `/individual-content?resource_id=${item.resource_id}`,
+        })),
+        // No link for Most Commented per spec
+      },
+      {
+        id: 'recent',
+        label: __('Most Recent', 'wp-statistics'),
+        items: topContentRecent.map((item) => ({
+          id: String(item.resource_id),
+          title: item.page_title || __('Unknown Page', 'wp-statistics'),
+          subtitle: `${item.published_date || ''} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
+          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
+          href: `/individual-content?resource_id=${item.resource_id}`,
+        })),
+        link: {
+          title: `${__('See all', 'wp-statistics')} ${postTypeLabel}`,
+          href: `/pages?${dateParams}&${authorParam}${postTypeParam}&order_by=date&order=desc`,
+        },
+      },
+    ]
+
+    return tabs
+  }, [batchResponse, pluginUrl, apiDateParams, authorId, postType, postTypeLabel])
 
   // Format date for display
   const formatDate = (dateStr: string | null | undefined): string => {
@@ -476,58 +647,72 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
     return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
   }
 
-  // Check if modified date is different from published date
-  const showModifiedDate = useMemo(() => {
-    if (!contentMetadata?.published_date || !contentMetadata?.modified_date) return false
-    const published = contentMetadata.published_date.split(' ')[0] // Get date part only
-    const modified = contentMetadata.modified_date.split(' ')[0]
-    return published !== modified
-  }, [contentMetadata])
-
   return (
     <div className="min-w-0">
       {/* Header */}
       <div className="px-4 py-3 bg-white border-b border-input">
         {/* Title row with filter and date picker */}
         <div className="flex items-center justify-between gap-4 mb-2">
-          {/* Content Title with View/Edit icons */}
-          <div className="flex items-center gap-2 min-w-0 flex-1">
-            <h1 className="text-lg font-semibold text-neutral-800 truncate">
-              {contentMetadata?.page_title || __('Untitled', 'wp-statistics')}
-            </h1>
-            {contentMetadata?.permalink && (
-              <a
-                href={contentMetadata.permalink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground flex-shrink-0"
-                title={__('View content', 'wp-statistics')}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
+          {/* Author Name with action icons */}
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            {/* Author Avatar */}
+            {authorMetadata?.author_avatar && (
+              <img
+                src={authorMetadata.author_avatar}
+                alt={authorMetadata.author_name || ''}
+                className="w-10 h-10 rounded-full flex-shrink-0"
+              />
             )}
-            {contentMetadata?.edit_url && (
-              <a
-                href={contentMetadata.edit_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground flex-shrink-0"
-                title={__('Edit content', 'wp-statistics')}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </a>
-            )}
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg font-semibold text-neutral-800 truncate">
+                  {authorMetadata?.author_name || __('Unknown Author', 'wp-statistics')}
+                </h1>
+                {authorMetadata?.author_profile_url && (
+                  <a
+                    href={authorMetadata.author_profile_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground flex-shrink-0"
+                    title={__('View profile', 'wp-statistics')}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                )}
+                {authorMetadata?.author_posts_url && (
+                  <a
+                    href={authorMetadata.author_posts_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground flex-shrink-0"
+                    title={__('View author posts', 'wp-statistics')}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
             {filterFields.length > 0 && isInitialized && (
               <FilterButton
                 fields={filterFields}
-                appliedFilters={filtersWithoutPostType}
-                onApplyFilters={handleApplyFilters}
+                appliedFilters={filtersForDisplay}
+                onApplyFilters={handleAuthorApplyFilters}
               />
             )}
             <DateRangePicker
@@ -542,78 +727,46 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
           </div>
         </div>
 
-        {/* Content Meta */}
-        {contentMetadata && (
-          <>
-            {/* Content Meta (Line 1) */}
-            <div className="flex items-center gap-3 text-sm text-muted-foreground">
-              {/* Post Type */}
-              {contentMetadata.post_type_label && (
-                <Link
-                  to="/content"
-                  search={{ post_type: contentMetadata.page_type }}
-                  className="hover:text-foreground hover:underline"
-                >
-                  {contentMetadata.post_type_label}
-                </Link>
-              )}
+        {/* Author Meta */}
+        {authorMetadata && (
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            {/* Email */}
+            {authorMetadata.author_email && <span>{authorMetadata.author_email}</span>}
 
-              {/* Published Date */}
-              {contentMetadata.published_date && (
-                <>
-                  <span className="text-muted-foreground/50">•</span>
-                  <span>{__('Published:', 'wp-statistics')} {formatDate(contentMetadata.published_date)}</span>
-                </>
-              )}
-
-              {/* Last Updated (only if different from published) */}
-              {showModifiedDate && (
-                <>
-                  <span className="text-muted-foreground/50">•</span>
-                  <span>{__('Updated:', 'wp-statistics')} {formatDate(contentMetadata.modified_date)}</span>
-                </>
-              )}
-
-              {/* Author */}
-              {contentMetadata.author_name && contentMetadata.author_id && (
-                <>
-                  <span className="text-muted-foreground/50">•</span>
-                  <Link
-                    to="/individual-author"
-                    search={{ author_id: contentMetadata.author_id }}
-                    className="hover:text-foreground hover:underline"
-                  >
-                    {contentMetadata.author_name}
-                  </Link>
-                </>
-              )}
-            </div>
-
-            {/* Content Terms (Line 2) */}
-            {contentMetadata.cached_terms && contentMetadata.cached_terms.length > 0 && (
-              <div className="flex items-center gap-2 mt-1.5 text-sm text-muted-foreground flex-wrap">
-                {contentMetadata.cached_terms.map((term) => (
-                  <Link
-                    key={term.term_id}
-                    to="/categories"
-                    search={{ term: term.term_id, taxonomy: term.taxonomy }}
-                    className="inline-flex items-center px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 hover:bg-neutral-200 hover:text-neutral-900 transition-colors text-xs"
-                  >
-                    {term.name}
-                  </Link>
-                ))}
-              </div>
+            {/* Role */}
+            {authorMetadata.author_role && (
+              <>
+                {authorMetadata.author_email && <span className="text-muted-foreground/50">•</span>}
+                <span className="capitalize">{authorMetadata.author_role}</span>
+              </>
             )}
-          </>
+
+            {/* Registration Date */}
+            {authorMetadata.author_registered && (
+              <>
+                <span className="text-muted-foreground/50">•</span>
+                <span>
+                  {__('Registered:', 'wp-statistics')} {formatDate(authorMetadata.author_registered)}
+                </span>
+              </>
+            )}
+          </div>
         )}
       </div>
 
       <div className="p-2">
-        <NoticeContainer className="mb-2" currentRoute="individual-content" />
-        {filtersWithoutPostType.length > 0 && (
+        <NoticeContainer className="mb-2" currentRoute="individual-author" />
+        {filtersForDisplay.length > 0 && (
           <FilterBar
-            filters={filtersWithoutPostType}
-            onRemoveFilter={handleRemoveFilter}
+            filters={filtersForDisplay}
+            onRemoveFilter={(filterId) => {
+              // If removing the default post_type filter, clear it by setting a flag
+              if (filterId === 'post_type-individual-author-default') {
+                setDefaultFilterRemoved(true)
+                return
+              }
+              handleRemoveFilter(filterId)
+            }}
             className="mb-2"
           />
         )}
@@ -622,13 +775,13 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
           <div className="grid gap-2 grid-cols-12">
             <div className="col-span-12">
               <PanelSkeleton showTitle={false}>
-                <MetricsSkeleton count={8} columns={4} />
+                <MetricsSkeleton count={7} columns={4} />
               </PanelSkeleton>
             </div>
             <div className="col-span-12 lg:col-span-4">
               <PanelSkeleton>
                 <div className="space-y-2">
-                  {[1, 2, 3, 4, 5].map((i) => (
+                  {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="h-8 bg-neutral-100 rounded animate-pulse" />
                   ))}
                 </div>
@@ -637,6 +790,11 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
             <div className="col-span-12 lg:col-span-8">
               <PanelSkeleton titleWidth="w-32">
                 <ChartSkeleton height={256} showTitle={false} />
+              </PanelSkeleton>
+            </div>
+            <div className="col-span-12">
+              <PanelSkeleton>
+                <BarListSkeleton items={5} showIcon />
               </PanelSkeleton>
             </div>
             {[1, 2, 3].map((i) => (
@@ -656,20 +814,20 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
           </div>
         ) : (
           <div className="grid gap-2 grid-cols-12">
-            {/* Row 1: Individual Content Metrics */}
+            {/* Row 1: Individual Author Metrics */}
             <div className="col-span-12">
               <Panel>
-                <Metrics metrics={contentMetrics} columns={4} />
+                <Metrics metrics={authorMetrics} columns={4} />
               </Panel>
             </div>
 
-            {/* Row 2: Traffic Summary (1/3) + Traffic Trends (2/3) */}
+            {/* Row 2: Traffic Summary (1/3) + Content Performance (2/3) */}
             <div className="col-span-12 lg:col-span-4">
               <TrafficSummaryTable data={trafficSummaryData} />
             </div>
             <div className="col-span-12 lg:col-span-8">
               <LineChart
-                title={__('Traffic Trends', 'wp-statistics')}
+                title={__('Content Performance', 'wp-statistics')}
                 data={chartData}
                 metrics={chartMetrics}
                 showPreviousPeriod={true}
@@ -679,7 +837,18 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               />
             </div>
 
-            {/* Row 3: Traffic Sources (3 columns) - With links to full reports */}
+            {/* Row 3: Top Content */}
+            <div className="col-span-12">
+              <TabbedList
+                title={__('Top Content', 'wp-statistics')}
+                tabs={topContentTabs}
+                activeTab={activeContentTab}
+                onTabChange={setActiveContentTab}
+                emptyMessage={__('No content available for the selected period', 'wp-statistics')}
+              />
+            </div>
+
+            {/* Row 4: Traffic Sources (3 columns) */}
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
@@ -702,10 +871,6 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                     }
                   })
                 })()}
-                link={{
-                  title: __('View All Referrers', 'wp-statistics'),
-                  action: () => navigate({ to: '/referrers' }),
-                }}
               />
             </div>
 
@@ -731,10 +896,6 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                     }
                   })
                 })()}
-                link={{
-                  title: __('View All Search Engines', 'wp-statistics'),
-                  action: () => navigate({ to: '/search-engines' }),
-                }}
               />
             </div>
 
@@ -766,14 +927,10 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                     }
                   })
                 })()}
-                link={{
-                  title: __('View All Countries', 'wp-statistics'),
-                  action: () => navigate({ to: '/geographic' }),
-                }}
               />
             </div>
 
-            {/* Row 4: Device Analytics (3 columns) - No "See all" links per spec */}
+            {/* Row 5: Device Analytics (3 columns) */}
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Browsers', 'wp-statistics')}

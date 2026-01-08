@@ -7,11 +7,9 @@ export type { UrlFilter }
 
 /**
  * Authors page search params
- * - author: When provided, shows individual author view
  * - post_type: Filter by post type (default: 'post')
  */
 export interface AuthorsSearchParams extends Omit<BaseSearchParams, 'page'> {
-  author?: number
   post_type?: string
 }
 
@@ -23,12 +21,6 @@ const validateSearch = (search: Record<string, unknown>): AuthorsSearchParams =>
 
   return {
     ...baseParams,
-    author:
-      typeof search.author === 'number'
-        ? search.author
-        : typeof search.author === 'string'
-          ? parseInt(search.author, 10) || undefined
-          : undefined,
     post_type: typeof search.post_type === 'string' ? search.post_type : undefined,
   }
 }

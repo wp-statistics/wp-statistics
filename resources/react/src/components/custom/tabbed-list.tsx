@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { FileText, Loader2 } from 'lucide-react'
 
@@ -128,9 +129,9 @@ function TabbedListItemRow({ item }: TabbedListItemRowProps) {
 
   if (item.href) {
     return (
-      <a href={item.href} className="block no-underline">
+      <Link to={item.href} className="block no-underline">
         {content}
-      </a>
+      </Link>
     )
   }
 

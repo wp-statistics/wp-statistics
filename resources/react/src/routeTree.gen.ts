@@ -31,6 +31,7 @@ import { Route as pageInsightsCategoryPagesRouteImport } from './routes/(page-in
 import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insights)/author-pages'
 import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
 import { Route as contentAnalyticsIndividualContentRouteImport } from './routes/(content-analytics)/individual-content'
+import { Route as contentAnalyticsIndividualAuthorRouteImport } from './routes/(content-analytics)/individual-author'
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
 import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
 import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
@@ -484,6 +485,18 @@ const contentAnalyticsIndividualContentRoute =
         (d) => d.Route,
       ),
     )
+const contentAnalyticsIndividualAuthorRoute =
+  contentAnalyticsIndividualAuthorRouteImport
+    .update({
+      id: '/(content-analytics)/individual-author',
+      path: '/individual-author',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/individual-author.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 const contentAnalyticsContentRoute = contentAnalyticsContentRouteImport
   .update({
     id: '/(content-analytics)/content',
@@ -526,6 +539,7 @@ export interface FileRoutesByFullPath {
   '/authors': typeof contentAnalyticsAuthorsRoute
   '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
+  '/individual-author': typeof contentAnalyticsIndividualAuthorRoute
   '/individual-content': typeof contentAnalyticsIndividualContentRoute
   '/404-pages': typeof pageInsights404PagesRoute
   '/author-pages': typeof pageInsightsAuthorPagesRoute
@@ -577,6 +591,7 @@ export interface FileRoutesByTo {
   '/authors': typeof contentAnalyticsAuthorsRoute
   '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
+  '/individual-author': typeof contentAnalyticsIndividualAuthorRoute
   '/individual-content': typeof contentAnalyticsIndividualContentRoute
   '/404-pages': typeof pageInsights404PagesRoute
   '/author-pages': typeof pageInsightsAuthorPagesRoute
@@ -631,6 +646,7 @@ export interface FileRoutesById {
   '/(content-analytics)/authors': typeof contentAnalyticsAuthorsRoute
   '/(content-analytics)/categories': typeof contentAnalyticsCategoriesRoute
   '/(content-analytics)/content': typeof contentAnalyticsContentRoute
+  '/(content-analytics)/individual-author': typeof contentAnalyticsIndividualAuthorRoute
   '/(content-analytics)/individual-content': typeof contentAnalyticsIndividualContentRoute
   '/(page-insights)/404-pages': typeof pageInsights404PagesRoute
   '/(page-insights)/author-pages': typeof pageInsightsAuthorPagesRoute
@@ -686,6 +702,7 @@ export interface FileRouteTypes {
     | '/authors'
     | '/categories'
     | '/content'
+    | '/individual-author'
     | '/individual-content'
     | '/404-pages'
     | '/author-pages'
@@ -737,6 +754,7 @@ export interface FileRouteTypes {
     | '/authors'
     | '/categories'
     | '/content'
+    | '/individual-author'
     | '/individual-content'
     | '/404-pages'
     | '/author-pages'
@@ -790,6 +808,7 @@ export interface FileRouteTypes {
     | '/(content-analytics)/authors'
     | '/(content-analytics)/categories'
     | '/(content-analytics)/content'
+    | '/(content-analytics)/individual-author'
     | '/(content-analytics)/individual-content'
     | '/(page-insights)/404-pages'
     | '/(page-insights)/author-pages'
@@ -844,6 +863,7 @@ export interface RootRouteChildren {
   contentAnalyticsAuthorsRoute: typeof contentAnalyticsAuthorsRoute
   contentAnalyticsCategoriesRoute: typeof contentAnalyticsCategoriesRoute
   contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
+  contentAnalyticsIndividualAuthorRoute: typeof contentAnalyticsIndividualAuthorRoute
   contentAnalyticsIndividualContentRoute: typeof contentAnalyticsIndividualContentRoute
   pageInsights404PagesRoute: typeof pageInsights404PagesRoute
   pageInsightsAuthorPagesRoute: typeof pageInsightsAuthorPagesRoute
@@ -1206,6 +1226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof contentAnalyticsIndividualContentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(content-analytics)/individual-author': {
+      id: '/(content-analytics)/individual-author'
+      path: '/individual-author'
+      fullPath: '/individual-author'
+      preLoaderRoute: typeof contentAnalyticsIndividualAuthorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(content-analytics)/content': {
       id: '/(content-analytics)/content'
       path: '/content'
@@ -1296,6 +1323,7 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsAuthorsRoute: contentAnalyticsAuthorsRoute,
   contentAnalyticsCategoriesRoute: contentAnalyticsCategoriesRoute,
   contentAnalyticsContentRoute: contentAnalyticsContentRoute,
+  contentAnalyticsIndividualAuthorRoute: contentAnalyticsIndividualAuthorRoute,
   contentAnalyticsIndividualContentRoute:
     contentAnalyticsIndividualContentRoute,
   pageInsights404PagesRoute: pageInsights404PagesRoute,

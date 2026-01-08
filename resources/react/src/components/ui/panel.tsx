@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { ChevronRight } from 'lucide-react'
 import * as React from 'react'
 
@@ -82,27 +83,53 @@ function PanelFooter({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
+interface PanelActionProps {
+  children: React.ReactNode
+  className?: string
+  href?: string
+  onClick?: () => void
+}
+
 /**
  * PanelAction - Standardized action link for widget footers
  *
  * Provides consistent styling for "View all", "View full report" type links.
  * Automatically includes a chevron icon.
+ * Supports both href (renders as Link) and onClick (renders as button).
  */
-function PanelAction({ children, className, ...props }: React.ComponentProps<'button'>) {
+function PanelAction({ children, className, href, onClick }: PanelActionProps) {
+  const sharedClassName = cn(
+    'inline-flex items-center gap-1.5 cursor-pointer',
+    'text-xs font-medium text-neutral-500',
+    'hover:text-neutral-700 transition-colors',
+    className
+  )
+
+  const content = (
+    <>
+      {children}
+      <ChevronRight className="h-3.5 w-3.5" />
+    </>
+  )
+
+  // If href is provided, render as Link
+  if (href) {
+    return (
+      <Link to={href} data-slot="panel-action" className={sharedClassName}>
+        {content}
+      </Link>
+    )
+  }
+
+  // Otherwise render as button
   return (
     <button
       data-slot="panel-action"
       aria-label={typeof children === 'string' ? children : 'Panel action'}
-      className={cn(
-        'inline-flex items-center gap-1.5 cursor-pointer',
-        'text-xs font-medium text-neutral-500',
-        'hover:text-neutral-700 transition-colors',
-        className
-      )}
-      {...props}
+      className={sharedClassName}
+      onClick={onClick}
     >
-      {children}
-      <ChevronRight className="h-3.5 w-3.5" />
+      {content}
     </button>
   )
 }

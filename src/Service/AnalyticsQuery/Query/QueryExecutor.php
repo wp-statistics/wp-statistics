@@ -669,6 +669,11 @@ class QueryExecutor implements QueryExecutorInterface
             $joins = $this->addSessionJoinForViews($joins);
         }
 
+        // Add resources join if needed for views table (for comments source, etc.)
+        if ($primaryTable === 'views' && $this->needsResourcesJoin($sources, $groupByNames)) {
+            $joins = $this->addResourcesJoinForViews($joins);
+        }
+
         // Add group by columns and joins (pass requested columns for optimization)
         foreach ($groupByNames as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
@@ -764,6 +769,11 @@ class QueryExecutor implements QueryExecutorInterface
         // Only add if sources or filters actually need session data
         if ($primaryTable === 'views' && $this->needsSessionJoin($sources, [], $filters)) {
             $joins = $this->addSessionJoinForViews($joins);
+        }
+
+        // Add resources join if needed for views table (for comments source, etc.)
+        if ($primaryTable === 'views' && $this->needsResourcesJoin($sources, [])) {
+            $joins = $this->addResourcesJoinForViews($joins);
         }
 
         // Add date range filter
@@ -1084,6 +1094,67 @@ class QueryExecutor implements QueryExecutorInterface
                 'type'  => 'INNER',
             ];
         }
+        return $joins;
+    }
+
+    /**
+     * Check if resources join is needed for views query.
+     *
+     * The resources join is needed when:
+     * - The 'comments' source is used (requires resources.cached_author_id for filtering)
+     * - Any groupBy or filter that references the resources table
+     *
+     * @param array $sources      Source names.
+     * @param array $groupByNames Group by names.
+     * @return bool
+     */
+    private function needsResourcesJoin(array $sources, array $groupByNames): bool
+    {
+        // Check if comments source is used - it needs resources table for author correlation
+        if (in_array('comments', $sources, true)) {
+            return true;
+        }
+
+        // Check if any groupBy needs resources table
+        $resourcesDependentGroupBy = ['page', 'author', 'post_type'];
+        foreach ($groupByNames as $groupByName) {
+            if (in_array($groupByName, $resourcesDependentGroupBy, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Add resources join for views table.
+     *
+     * Adds the necessary joins to access the resources table:
+     * views -> resource_uris -> resources
+     *
+     * @param array $joins Existing joins.
+     * @return array
+     */
+    private function addResourcesJoinForViews(array $joins): array
+    {
+        if (!isset($joins['resource_uris'])) {
+            $joins['resource_uris'] = [
+                'table' => $this->getFullTableName('resource_uris'),
+                'alias' => 'resource_uris',
+                'on'    => 'views.resource_uri_id = resource_uris.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        if (!isset($joins['resources'])) {
+            $joins['resources'] = [
+                'table' => $this->getFullTableName('resources'),
+                'alias' => 'resources',
+                'on'    => 'resource_uris.resource_id = resources.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
         return $joins;
     }
 

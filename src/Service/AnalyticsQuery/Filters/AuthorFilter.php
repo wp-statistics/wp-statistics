@@ -56,7 +56,7 @@ class AuthorFilter extends AbstractFilter
      *
      * @var array Groups: views
      */
-    protected $groups = ['views'];
+    protected $groups = ['views', 'individual-content', 'individual-author'];
 
     /**
      * Required JOINs to access the column.

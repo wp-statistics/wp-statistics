@@ -56,12 +56,14 @@ class CommentsSource extends AbstractSource
      * Returns a SUM expression for comment_count.
      *
      * For per-page queries (with group_by: ['page']), comments are added via
-     * PageGroupBy post-processing. For aggregate queries, this expression
-     * provides a placeholder that will be calculated via the joins added
-     * by the page group_by or post_type filter.
+     * PageGroupBy post-processing which is more reliable.
      *
-     * Note: For best results with aggregate comment totals, use with
-     * group_by: ['page'] or ensure joins to resources table are present.
+     * For aggregate queries, this expression uses a correlated subquery that
+     * respects the outer query's author filter by correlating on cached_author_id.
+     * This ensures that only the filtered author's content comments are counted.
+     *
+     * Note: This requires the resources table to be joined via filters like
+     * author filter, post_type filter, or group_by like 'page'.
      */
     public function getExpression(): string
     {
@@ -70,21 +72,23 @@ class CommentsSource extends AbstractSource
         $resourcesTable = $wpdb->prefix . 'statistics_resources';
         $postsTable     = $wpdb->posts;
 
-        // Sum comments for all unique posts tracked by WP Statistics.
-        // This is a self-contained subquery that doesn't depend on outer query
-        // correlation, making it work for aggregate queries without GROUP BY.
+        // Sum comments for posts that match the filtered author.
+        // This correlated subquery references resources.cached_author_id from
+        // the outer query (joined via author filter) to ensure we only count
+        // comments for the filtered author's tracked content.
         //
-        // Limitation: This sums ALL comments for tracked content, not filtered
-        // by date range. For date-filtered totals, the frontend can calculate
-        // from per-page results which use PageGroupBy post-processing.
+        // When author filter is applied, resources table is joined and filtered,
+        // so resources.cached_author_id contains the filtered author's ID.
+        //
+        // Limitation: This sums ALL comments for the author's tracked content,
+        // not filtered by date range. For date-filtered totals, use per-page
+        // results with PageGroupBy post-processing.
         return "COALESCE((
             SELECT SUM(p.comment_count)
             FROM {$postsTable} p
-            WHERE p.ID IN (
-                SELECT DISTINCT r.resource_id
-                FROM {$resourcesTable} r
-                WHERE r.resource_type IN ('post', 'page')
-            )
+            INNER JOIN {$resourcesTable} r ON p.ID = r.resource_id
+            WHERE r.cached_author_id = resources.cached_author_id
+            AND r.resource_type IN ('post', 'page')
         ), 0)";
     }
 
