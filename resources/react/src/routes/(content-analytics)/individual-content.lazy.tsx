@@ -1,23 +1,28 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import type { ColumnDef } from '@tanstack/react-table'
+
+import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
-import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
-import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
+import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import { getContentOverviewQueryOptions } from '@/services/content-analytics/get-content-overview'
+import {
+  getIndividualContentQueryOptions,
+  type TrafficSummaryPeriodResponse,
+} from '@/services/content-analytics/get-individual-content'
 
 // Helper to extract total value from API response (handles both flat and { current, previous } formats)
 function getTotalValue(total: unknown): number {
@@ -30,7 +35,7 @@ function getTotalValue(total: unknown): number {
   return 0
 }
 
-export const Route = createLazyFileRoute('/(content-analytics)/content')({
+export const Route = createLazyFileRoute('/(content-analytics)/individual-content')({
   component: RouteComponent,
   errorComponent: ({ error }) => (
     <div className="p-6 text-center">
@@ -43,29 +48,153 @@ export const Route = createLazyFileRoute('/(content-analytics)/content')({
 function RouteComponent() {
   const { resource_id } = Route.useSearch()
 
-  // If resource_id is provided, redirect to individual-content route
-  useEffect(() => {
-    if (resource_id) {
-      // Use window.location for cross-route navigation
-      const currentUrl = new URL(window.location.href)
-      currentUrl.hash = `#/individual-content?resource_id=${resource_id}`
-      window.location.replace(currentUrl.toString())
-    }
-  }, [resource_id])
-
-  // Show loading while redirecting
-  if (resource_id) {
-    return null
+  // If no resource_id, show error
+  if (!resource_id) {
+    return (
+      <div className="min-w-0 p-6">
+        <div className="text-center">
+          <h1 className="text-xl font-semibold text-neutral-800 mb-2">
+            {__('Content Not Found', 'wp-statistics')}
+          </h1>
+          <p className="text-muted-foreground mb-4">
+            {__('No content ID was provided.', 'wp-statistics')}
+          </p>
+          <Link to="/content" className="text-primary hover:underline">
+            {__('Go to Content Overview', 'wp-statistics')}
+          </Link>
+        </div>
+      </div>
+    )
   }
 
-  // Otherwise show the overview
-  return <ContentOverviewView />
+  return <IndividualContentView resourceId={resource_id} />
+}
+
+// Traffic summary row type
+type TrafficSummaryPeriod = 'today' | 'yesterday' | 'last7days' | 'last28days'
+interface TrafficSummaryRowData {
+  period: TrafficSummaryPeriod
+  visitors: number
+  visitorsPrev: number
+  views: number
+  viewsPrev: number
+}
+
+// Traffic Summary Table Props
+interface TrafficSummaryTableProps {
+  data: {
+    today?: TrafficSummaryPeriodResponse
+    yesterday?: TrafficSummaryPeriodResponse
+    last7days?: TrafficSummaryPeriodResponse
+    last28days?: TrafficSummaryPeriodResponse
+  }
 }
 
 /**
- * Content Overview View - Main content analytics page
+ * Traffic Summary Table - Shows traffic data across different time periods
+ * Displays: Today, Yesterday, Last 7 Days, Last 28 Days
+ * Per doc: Column Management Mode: "none" (static display), No pagination, No sorting
  */
-function ContentOverviewView() {
+function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
+  const calcPercentage = usePercentageCalc()
+
+  const periodLabels: Record<TrafficSummaryPeriod, string> = {
+    today: __('Today', 'wp-statistics'),
+    yesterday: __('Yesterday', 'wp-statistics'),
+    last7days: __('Last 7 Days', 'wp-statistics'),
+    last28days: __('Last 28 Days', 'wp-statistics'),
+  }
+
+  // Transform data from batch response into table rows
+  const summaryData = useMemo((): TrafficSummaryRowData[] => {
+    const periods: TrafficSummaryPeriod[] = ['today', 'yesterday', 'last7days', 'last28days']
+
+    return periods.map((period) => {
+      const periodData = data[period]
+      const totals = periodData?.totals
+
+      return {
+        period,
+        visitors: Number(totals?.visitors?.current) || 0,
+        visitorsPrev: Number(totals?.visitors?.previous) || 0,
+        views: Number(totals?.views?.current) || 0,
+        viewsPrev: Number(totals?.views?.previous) || 0,
+      }
+    })
+  }, [data])
+
+  // Define columns for DataTable
+  const columns = useMemo<ColumnDef<TrafficSummaryRowData>[]>(
+    () => [
+      {
+        accessorKey: 'period',
+        header: __('Time Period', 'wp-statistics'),
+        enableSorting: false,
+        cell: ({ row }) => (
+          <span className="font-medium">{periodLabels[row.original.period]}</span>
+        ),
+      },
+      {
+        accessorKey: 'visitors',
+        header: () => <div className="text-right">{__('Visitors', 'wp-statistics')}</div>,
+        enableSorting: false,
+        cell: ({ row }) => {
+          const { visitors, visitorsPrev } = row.original
+          const change = calcPercentage(visitors, visitorsPrev)
+
+          return (
+            <div className="text-right">
+              <span>{visitors.toLocaleString()}</span>
+              {change.percentage !== '0%' && (
+                <span className={`ml-1.5 text-xs ${change.isNegative ? 'text-red-600' : 'text-green-600'}`}>
+                  {change.isNegative ? '↓' : '↑'} {change.percentage}
+                </span>
+              )}
+            </div>
+          )
+        },
+      },
+      {
+        accessorKey: 'views',
+        header: () => <div className="text-right">{__('Views', 'wp-statistics')}</div>,
+        enableSorting: false,
+        cell: ({ row }) => {
+          const { views, viewsPrev } = row.original
+          const change = calcPercentage(views, viewsPrev)
+
+          return (
+            <div className="text-right">
+              <span>{views.toLocaleString()}</span>
+              {change.percentage !== '0%' && (
+                <span className={`ml-1.5 text-xs ${change.isNegative ? 'text-red-600' : 'text-green-600'}`}>
+                  {change.isNegative ? '↓' : '↑'} {change.percentage}
+                </span>
+              )}
+            </div>
+          )
+        },
+      },
+    ],
+    [calcPercentage, periodLabels]
+  )
+
+  return (
+    <DataTable
+      columns={columns}
+      data={summaryData}
+      title={__('Traffic Summary', 'wp-statistics')}
+      showColumnManagement={false}
+      showPagination={false}
+      mobileCardEnabled={false}
+      emptyStateMessage={__('No traffic data available', 'wp-statistics')}
+    />
+  )
+}
+
+/**
+ * Individual Content View - Detailed view for an individual content item
+ */
+function IndividualContentView({ resourceId }: { resourceId: number }) {
   const {
     dateFrom,
     dateTo,
@@ -81,83 +210,14 @@ function ContentOverviewView() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+  const navigate = useNavigate()
 
-  // Get filter fields for content analytics
+  // Get filter fields for individual content
   const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('content') as FilterField[]
+    return wp.getFilterFieldsByGroup('individual-content') as FilterField[]
   }, [wp])
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
-  const [activeTab, setActiveTab] = useState<string>('popular')
-  const [defaultFilterRemoved, setDefaultFilterRemoved] = useState(false)
-
-  // Build default post_type filter for Content page (page-specific, not global)
-  const defaultPostTypeFilter = useMemo(() => {
-    const postTypeField = filterFields.find((f) => f.name === 'post_type')
-    const postTypeOption = postTypeField?.options?.find((o) => o.value === 'post')
-
-    return {
-      id: 'post_type-content-default',
-      label: postTypeField?.label || __('Post Type', 'wp-statistics'),
-      operator: '=',
-      rawOperator: 'is',
-      value: postTypeOption?.label || __('Post', 'wp-statistics'),
-      rawValue: 'post',
-    }
-  }, [filterFields])
-
-  // Check if user has applied a post_type filter (overriding default)
-  const hasUserPostTypeFilter = useMemo(() => {
-    return appliedFilters?.some((f) => f.id.startsWith('post_type')) ?? false
-  }, [appliedFilters])
-
-  // Reset defaultFilterRemoved when user applies a post_type filter
-  useEffect(() => {
-    if (hasUserPostTypeFilter) {
-      setDefaultFilterRemoved(false)
-    }
-  }, [hasUserPostTypeFilter])
-
-  // Filters to use for API requests (includes default if no user filter and not removed)
-  const filtersForApi = useMemo(() => {
-    if (hasUserPostTypeFilter) {
-      return appliedFilters || []
-    }
-    if (defaultFilterRemoved) {
-      return appliedFilters || []
-    }
-    return [...(appliedFilters || []), defaultPostTypeFilter]
-  }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
-
-  // Filters to display in FilterBar (includes default if no user filter and not removed)
-  const filtersForDisplay = useMemo(() => {
-    if (hasUserPostTypeFilter) {
-      return appliedFilters || []
-    }
-    if (defaultFilterRemoved) {
-      return appliedFilters || []
-    }
-    return [...(appliedFilters || []), defaultPostTypeFilter]
-  }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
-
-  // Wrap handleApplyFilters to detect when post_type filter is intentionally removed
-  const handleContentApplyFilters = useCallback(
-    (newFilters: typeof appliedFilters) => {
-      // Check if post_type filter existed before but not in new filters
-      const hadPostTypeFilter = filtersForDisplay.some((f) => f.id.startsWith('post_type'))
-      const hasNewPostTypeFilter = newFilters?.some((f) => f.id.startsWith('post_type')) ?? false
-
-      if (hadPostTypeFilter && !hasNewPostTypeFilter) {
-        // User intentionally removed the post_type filter
-        setDefaultFilterRemoved(true)
-      }
-
-      // Apply only the non-default filters to global state
-      const globalFilters = newFilters?.filter((f) => f.id !== 'post_type-content-default') ?? []
-      handleApplyFilters(globalFilters)
-    },
-    [filtersForDisplay, handleApplyFilters]
-  )
 
   // Track if only timeframe changed
   const [isTimeframeOnlyChange, setIsTimeframeOnlyChange] = useState(false)
@@ -187,19 +247,25 @@ function ContentOverviewView() {
     [setDateRange]
   )
 
-  // Batch query for all overview data
+  // Filter out post_type filters since we're filtering by specific resource_id
+  const filtersWithoutPostType = useMemo(() => {
+    return (appliedFilters || []).filter((f) => !f.id.startsWith('post_type'))
+  }, [appliedFilters])
+
+  // Batch query for all individual content data
   const {
     data: batchResponse,
     isLoading,
     isFetching,
   } = useQuery({
-    ...getContentOverviewQueryOptions({
+    ...getIndividualContentQueryOptions({
+      resourceId,
       dateFrom: apiDateParams.date_from,
       dateTo: apiDateParams.date_to,
       compareDateFrom: apiDateParams.previous_date_from,
       compareDateTo: apiDateParams.previous_date_to,
       timeframe,
-      filters: filtersForApi,
+      filters: filtersWithoutPostType,
     }),
     retry: false,
     placeholderData: keepPreviousData,
@@ -211,8 +277,9 @@ function ContentOverviewView() {
   const isChartRefetching = isFetching && !isLoading && isTimeframeOnlyChange
 
   // Extract data from batch response
+  const contentMetadata = batchResponse?.data?.items?.content_metadata?.data?.rows?.[0]
   const metricsResponse = batchResponse?.data?.items?.content_metrics
-  const performanceResponse = batchResponse?.data?.items?.content_performance
+  const trafficTrendsResponse = batchResponse?.data?.items?.traffic_trends
   const topReferrersData = batchResponse?.data?.items?.top_referrers?.data?.rows || []
   const topReferrersTotals = batchResponse?.data?.items?.top_referrers?.data?.totals
   const topSearchEnginesData = batchResponse?.data?.items?.top_search_engines?.data?.rows || []
@@ -226,12 +293,24 @@ function ContentOverviewView() {
   const topDevicesData = batchResponse?.data?.items?.top_devices?.data?.rows || []
   const topDevicesTotals = batchResponse?.data?.items?.top_devices?.data?.totals
 
+  // Extract traffic summary data from batch response
+  const trafficSummaryData = useMemo(
+    () => ({
+      today: batchResponse?.data?.items?.traffic_summary_today,
+      yesterday: batchResponse?.data?.items?.traffic_summary_yesterday,
+      last7days: batchResponse?.data?.items?.traffic_summary_last7days,
+      last28days: batchResponse?.data?.items?.traffic_summary_last28days,
+      total: batchResponse?.data?.items?.traffic_summary_total,
+    }),
+    [batchResponse]
+  )
+
   // Transform chart data
   const chartData = useMemo(() => {
-    if (!performanceResponse?.labels || !performanceResponse?.datasets) return []
+    if (!trafficTrendsResponse?.labels || !trafficTrendsResponse?.datasets) return []
 
-    const labels = performanceResponse.labels
-    const datasets = performanceResponse.datasets
+    const labels = trafficTrendsResponse.labels
+    const datasets = trafficTrendsResponse.datasets
     const currentDatasets = datasets.filter((d) => !d.comparison)
     const previousDatasets = datasets.filter((d) => d.comparison)
 
@@ -249,15 +328,15 @@ function ContentOverviewView() {
 
       return point
     })
-  }, [performanceResponse])
+  }, [trafficTrendsResponse])
 
   // Calculate chart totals
   const chartTotals = useMemo(() => {
-    if (!performanceResponse?.datasets) {
+    if (!trafficTrendsResponse?.datasets) {
       return { visitors: 0, visitorsPrevious: 0, views: 0, viewsPrevious: 0 }
     }
 
-    const datasets = performanceResponse.datasets
+    const datasets = trafficTrendsResponse.datasets
     const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
     const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
     const viewsDataset = datasets.find((d) => d.key === 'views' && !d.comparison)
@@ -269,7 +348,7 @@ function ContentOverviewView() {
       views: viewsDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
       viewsPrevious: viewsPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
     }
-  }, [performanceResponse])
+  }, [trafficTrendsResponse])
 
   const chartMetrics = [
     {
@@ -302,54 +381,35 @@ function ContentOverviewView() {
 
   const calcPercentage = usePercentageCalc()
 
-  // Get post type label from filters (includes page-specific default)
-  const postTypeLabel = useMemo(() => {
-    // Look for post_type filter in filters for API (includes default)
-    const postTypeFilter = filtersForApi.find((f) => f.id.startsWith('post_type'))
-    if (postTypeFilter?.value) {
-      // Return the display value which is the label
-      return String(postTypeFilter.value)
-    }
-    return __('Content', 'wp-statistics')
-  }, [filtersForApi])
-
-  // Build metrics
+  // Build metrics - 8 metrics per documentation
   const contentMetrics = useMemo(() => {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
-    const publishedContent = Number(totals.published_content?.current) || 0
     const visitors = Number(totals.visitors?.current) || 0
     const views = Number(totals.views?.current) || 0
-    const bounceRate = Number(totals.bounce_rate?.current) || 0
     const avgTimeOnPage = Number(totals.avg_time_on_page?.current) || 0
+    const bounceRate = Number(totals.bounce_rate?.current) || 0
+    const entryPage = Number(totals.entry_page?.current) || 0
+    const exitPage = Number(totals.exit_page?.current) || 0
+    const exitRate = Number(totals.exit_rate?.current) || 0
     const comments = Number(totals.comments?.current) || 0
 
-    const prevPublishedContent = Number(totals.published_content?.previous) || 0
     const prevVisitors = Number(totals.visitors?.previous) || 0
     const prevViews = Number(totals.views?.previous) || 0
-    const prevBounceRate = Number(totals.bounce_rate?.previous) || 0
     const prevAvgTimeOnPage = Number(totals.avg_time_on_page?.previous) || 0
+    const prevBounceRate = Number(totals.bounce_rate?.previous) || 0
+    const prevEntryPage = Number(totals.entry_page?.previous) || 0
+    const prevExitPage = Number(totals.exit_page?.previous) || 0
+    const prevExitRate = Number(totals.exit_rate?.previous) || 0
     const prevComments = Number(totals.comments?.previous) || 0
 
-    const viewsPerPost = publishedContent > 0 ? views / publishedContent : 0
-    const prevViewsPerPost = prevPublishedContent > 0 ? prevViews / prevPublishedContent : 0
-
-    const avgCommentsPerPost = publishedContent > 0 ? comments / publishedContent : 0
-    const prevAvgCommentsPerPost = prevPublishedContent > 0 ? prevComments / prevPublishedContent : 0
-
     const metrics: MetricItem[] = [
-      {
-        label: `${__('Published', 'wp-statistics')} ${postTypeLabel}`,
-        value: formatCompactNumber(publishedContent),
-        ...calcPercentage(publishedContent, prevPublishedContent),
-        tooltipContent: __('Number of published content items', 'wp-statistics'),
-      },
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
         ...calcPercentage(visitors, prevVisitors),
-        tooltipContent: __('Unique visitors to content', 'wp-statistics'),
+        tooltipContent: __('Unique visitors to this content', 'wp-statistics'),
       },
       {
         label: __('Views', 'wp-statistics'),
@@ -358,10 +418,10 @@ function ContentOverviewView() {
         tooltipContent: __('Total page views', 'wp-statistics'),
       },
       {
-        label: `${__('Views per', 'wp-statistics')} ${postTypeLabel}`,
-        value: formatDecimal(viewsPerPost),
-        ...calcPercentage(viewsPerPost, prevViewsPerPost),
-        tooltipContent: __('Average views per content item', 'wp-statistics'),
+        label: __('Avg. Time on Page', 'wp-statistics'),
+        value: formatDuration(avgTimeOnPage),
+        ...calcPercentage(avgTimeOnPage, prevAvgTimeOnPage),
+        tooltipContent: __('Average time spent on this content', 'wp-statistics'),
       },
       {
         label: __('Bounce Rate', 'wp-statistics'),
@@ -370,126 +430,179 @@ function ContentOverviewView() {
         tooltipContent: __('Percentage of single-page sessions', 'wp-statistics'),
       },
       {
-        label: __('Time on Page', 'wp-statistics'),
-        value: formatDuration(avgTimeOnPage),
-        ...calcPercentage(avgTimeOnPage, prevAvgTimeOnPage),
-        tooltipContent: __('Average time spent on content', 'wp-statistics'),
+        label: __('Entry Page', 'wp-statistics'),
+        value: formatCompactNumber(entryPage),
+        ...calcPercentage(entryPage, prevEntryPage),
+        tooltipContent: __('Times this page was the first page visited', 'wp-statistics'),
+      },
+      {
+        label: __('Exit Page', 'wp-statistics'),
+        value: formatCompactNumber(exitPage),
+        ...calcPercentage(exitPage, prevExitPage),
+        tooltipContent: __('Times this page was the last page visited', 'wp-statistics'),
+      },
+      {
+        label: __('Exit Rate', 'wp-statistics'),
+        value: `${formatDecimal(exitRate)}%`,
+        ...calcPercentage(exitRate, prevExitRate),
+        tooltipContent: __('Percentage of views that were the last page visited', 'wp-statistics'),
       },
       {
         label: __('Comments', 'wp-statistics'),
         value: formatCompactNumber(comments),
         ...calcPercentage(comments, prevComments),
-        tooltipContent: __('Total comments on content', 'wp-statistics'),
-      },
-      {
-        label: `${__('Avg. Comments per', 'wp-statistics')} ${postTypeLabel}`,
-        value: formatDecimal(avgCommentsPerPost),
-        ...calcPercentage(avgCommentsPerPost, prevAvgCommentsPerPost),
-        tooltipContent: __('Average comments per content item', 'wp-statistics'),
+        tooltipContent: __('Total comments on this content', 'wp-statistics'),
       },
     ]
 
     return metrics
-  }, [metricsResponse, postTypeLabel, calcPercentage])
+  }, [metricsResponse, calcPercentage])
 
-  // Build tabbed list tabs for top content
-  const topContentTabs: TabbedListTab[] = useMemo(() => {
-    const topContentPopular = batchResponse?.data?.items?.top_content_popular?.data?.rows || []
-    const topContentCommented = batchResponse?.data?.items?.top_content_commented?.data?.rows || []
-    const topContentRecent = batchResponse?.data?.items?.top_content_recent?.data?.rows || []
+  // Format date for display
+  const formatDate = (dateStr: string | null | undefined): string => {
+    if (!dateStr) return ''
+    const date = new Date(dateStr)
+    return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+  }
 
-    // Build "See all" link with date range preserved
-    const topPagesBaseUrl = '/pages'
-    const dateParams = `date_from=${apiDateParams.date_from}&date_to=${apiDateParams.date_to}`
-    // Extract post_type from filters (includes page-specific default)
-    const postTypeFilter = filtersForApi.find((f) => f.id.startsWith('post_type'))
-    const postTypeValue = postTypeFilter?.rawValue || 'post'
-    const postTypeParam = `post_type=${postTypeValue}`
-
-    return [
-      {
-        id: 'popular',
-        label: __('Most Popular', 'wp-statistics'),
-        items: topContentPopular.map((item) => ({
-          id: String(item.resource_id),
-          title: item.page_title || item.page_uri,
-          subtitle: `${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
-          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: `#/individual-content?resource_id=${item.resource_id}`,
-        })),
-        link: {
-          title: `${__('See all', 'wp-statistics')} ${postTypeLabel}`,
-          href: `${topPagesBaseUrl}?${dateParams}&${postTypeParam}&order_by=views&order=desc`,
-        },
-      },
-      {
-        id: 'commented',
-        label: __('Most Commented', 'wp-statistics'),
-        items: topContentCommented.map((item) => ({
-          id: String(item.resource_id),
-          title: item.page_title || item.page_uri,
-          subtitle: `${formatCompactNumber(Number(item.comments || 0))} ${__('comments', 'wp-statistics')} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
-          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: `#/individual-content?resource_id=${item.resource_id}`,
-        })),
-        // No link for Most Commented per spec
-      },
-      {
-        id: 'recent',
-        label: __('Most Recent', 'wp-statistics'),
-        items: topContentRecent.map((item) => ({
-          id: String(item.resource_id),
-          title: item.page_title || item.page_uri,
-          subtitle: `${item.published_date || ''} · ${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`,
-          thumbnail: item.thumbnail_url || `${pluginUrl}public/images/placeholder.png`,
-          href: `#/individual-content?resource_id=${item.resource_id}`,
-        })),
-        link: {
-          title: `${__('See all', 'wp-statistics')} ${postTypeLabel}`,
-          href: `${topPagesBaseUrl}?${dateParams}&${postTypeParam}&order_by=date&order=desc`,
-        },
-      },
-    ]
-  }, [batchResponse, apiDateParams, filtersForApi, postTypeLabel, pluginUrl])
+  // Check if modified date is different from published date
+  const showModifiedDate = useMemo(() => {
+    if (!contentMetadata?.published_date || !contentMetadata?.modified_date) return false
+    const published = contentMetadata.published_date.split(' ')[0] // Get date part only
+    const modified = contentMetadata.modified_date.split(' ')[0]
+    return published !== modified
+  }, [contentMetadata])
 
   return (
     <div className="min-w-0">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Content', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          {filterFields.length > 0 && isInitialized && (
-            <FilterButton
-              fields={filterFields}
-              appliedFilters={filtersForDisplay}
-              onApplyFilters={handleContentApplyFilters}
+      <div className="px-4 py-3 bg-white border-b border-input">
+        {/* Title row with filter and date picker */}
+        <div className="flex items-center justify-between gap-4 mb-2">
+          {/* Content Title with View/Edit icons */}
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <h1 className="text-lg font-semibold text-neutral-800 truncate">
+              {contentMetadata?.page_title || __('Untitled', 'wp-statistics')}
+            </h1>
+            {contentMetadata?.permalink && (
+              <a
+                href={contentMetadata.permalink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground flex-shrink-0"
+                title={__('View content', 'wp-statistics')}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            )}
+            {contentMetadata?.edit_url && (
+              <a
+                href={contentMetadata.edit_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground flex-shrink-0"
+                title={__('Edit content', 'wp-statistics')}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </a>
+            )}
+          </div>
+          <div className="flex items-center gap-3 flex-shrink-0">
+            {filterFields.length > 0 && isInitialized && (
+              <FilterButton
+                fields={filterFields}
+                appliedFilters={filtersWithoutPostType}
+                onApplyFilters={handleApplyFilters}
+              />
+            )}
+            <DateRangePicker
+              initialDateFrom={dateFrom}
+              initialDateTo={dateTo}
+              initialCompareFrom={compareDateFrom}
+              initialCompareTo={compareDateTo}
+              showCompare={true}
+              onUpdate={handleDateRangeUpdate}
+              align="end"
             />
-          )}
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            showCompare={true}
-            onUpdate={handleDateRangeUpdate}
-            align="end"
-          />
+          </div>
         </div>
+
+        {/* Content Meta */}
+        {contentMetadata && (
+          <>
+            {/* Content Meta (Line 1) */}
+            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+              {/* Post Type */}
+              {contentMetadata.post_type_label && (
+                <Link
+                  to="/content"
+                  search={{ post_type: contentMetadata.page_type }}
+                  className="hover:text-foreground hover:underline"
+                >
+                  {contentMetadata.post_type_label}
+                </Link>
+              )}
+
+              {/* Published Date */}
+              {contentMetadata.published_date && (
+                <>
+                  <span className="text-muted-foreground/50">•</span>
+                  <span>{__('Published:', 'wp-statistics')} {formatDate(contentMetadata.published_date)}</span>
+                </>
+              )}
+
+              {/* Last Updated (only if different from published) */}
+              {showModifiedDate && (
+                <>
+                  <span className="text-muted-foreground/50">•</span>
+                  <span>{__('Updated:', 'wp-statistics')} {formatDate(contentMetadata.modified_date)}</span>
+                </>
+              )}
+
+              {/* Author */}
+              {contentMetadata.author_name && contentMetadata.author_id && (
+                <>
+                  <span className="text-muted-foreground/50">•</span>
+                  <Link
+                    to="/authors"
+                    search={{ author: contentMetadata.author_id }}
+                    className="hover:text-foreground hover:underline"
+                  >
+                    {contentMetadata.author_name}
+                  </Link>
+                </>
+              )}
+            </div>
+
+            {/* Content Terms (Line 2) */}
+            {contentMetadata.cached_terms && contentMetadata.cached_terms.length > 0 && (
+              <div className="flex items-center gap-2 mt-1.5 text-sm text-muted-foreground flex-wrap">
+                {contentMetadata.cached_terms.map((term) => (
+                  <Link
+                    key={term.term_id}
+                    to="/categories"
+                    search={{ term: term.term_id, taxonomy: term.taxonomy }}
+                    className="inline-flex items-center px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 hover:bg-neutral-200 hover:text-neutral-900 transition-colors text-xs"
+                  >
+                    {term.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </div>
 
       <div className="p-2">
-        <NoticeContainer className="mb-2" currentRoute="content" />
-        {filtersForDisplay.length > 0 && (
+        <NoticeContainer className="mb-2" currentRoute="individual-content" />
+        {filtersWithoutPostType.length > 0 && (
           <FilterBar
-            filters={filtersForDisplay}
-            onRemoveFilter={(filterId) => {
-              // If removing the default post_type filter, clear it by setting a flag
-              if (filterId === 'post_type-content-default') {
-                setDefaultFilterRemoved(true)
-                return
-              }
-              handleRemoveFilter(filterId)
-            }}
+            filters={filtersWithoutPostType}
+            onRemoveFilter={handleRemoveFilter}
             className="mb-2"
           />
         )}
@@ -501,14 +614,18 @@ function ContentOverviewView() {
                 <MetricsSkeleton count={8} columns={4} />
               </PanelSkeleton>
             </div>
-            <div className="col-span-12">
-              <PanelSkeleton titleWidth="w-32">
-                <ChartSkeleton height={256} showTitle={false} />
+            <div className="col-span-12 lg:col-span-4">
+              <PanelSkeleton>
+                <div className="space-y-2">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="h-8 bg-neutral-100 rounded animate-pulse" />
+                  ))}
+                </div>
               </PanelSkeleton>
             </div>
-            <div className="col-span-12">
-              <PanelSkeleton>
-                <BarListSkeleton items={5} showIcon />
+            <div className="col-span-12 lg:col-span-8">
+              <PanelSkeleton titleWidth="w-32">
+                <ChartSkeleton height={256} showTitle={false} />
               </PanelSkeleton>
             </div>
             {[1, 2, 3].map((i) => (
@@ -528,17 +645,20 @@ function ContentOverviewView() {
           </div>
         ) : (
           <div className="grid gap-2 grid-cols-12">
-            {/* Row 1: Content Metrics */}
+            {/* Row 1: Individual Content Metrics */}
             <div className="col-span-12">
               <Panel>
                 <Metrics metrics={contentMetrics} columns={4} />
               </Panel>
             </div>
 
-            {/* Row 2: Content Performance Chart */}
-            <div className="col-span-12">
+            {/* Row 2: Traffic Summary (1/3) + Traffic Trends (2/3) */}
+            <div className="col-span-12 lg:col-span-4">
+              <TrafficSummaryTable data={trafficSummaryData} />
+            </div>
+            <div className="col-span-12 lg:col-span-8">
               <LineChart
-                title={__('Content Performance', 'wp-statistics')}
+                title={__('Traffic Trends', 'wp-statistics')}
                 data={chartData}
                 metrics={chartMetrics}
                 showPreviousPeriod={true}
@@ -548,18 +668,7 @@ function ContentOverviewView() {
               />
             </div>
 
-            {/* Row 3: Top Content Tabbed List */}
-            <div className="col-span-12">
-              <TabbedList
-                title={__('Top Content', 'wp-statistics')}
-                tabs={topContentTabs}
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-                emptyMessage={__('No content available for the selected period', 'wp-statistics')}
-              />
-            </div>
-
-            {/* Row 4: Traffic Sources (3 columns) */}
+            {/* Row 3: Traffic Sources (3 columns) - With links to full reports */}
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
@@ -582,6 +691,10 @@ function ContentOverviewView() {
                     }
                   })
                 })()}
+                link={{
+                  title: __('View All Referrers', 'wp-statistics'),
+                  action: () => navigate({ to: '/referrers' }),
+                }}
               />
             </div>
 
@@ -607,6 +720,10 @@ function ContentOverviewView() {
                     }
                   })
                 })()}
+                link={{
+                  title: __('View All Search Engines', 'wp-statistics'),
+                  action: () => navigate({ to: '/search-engines' }),
+                }}
               />
             </div>
 
@@ -638,10 +755,14 @@ function ContentOverviewView() {
                     }
                   })
                 })()}
+                link={{
+                  title: __('View All Countries', 'wp-statistics'),
+                  action: () => navigate({ to: '/geographic' }),
+                }}
               />
             </div>
 
-            {/* Row 5: Device Analytics (3 columns) */}
+            {/* Row 4: Device Analytics (3 columns) - No "See all" links per spec */}
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Browsers', 'wp-statistics')}
@@ -743,4 +864,3 @@ function ContentOverviewView() {
     </div>
   )
 }
-

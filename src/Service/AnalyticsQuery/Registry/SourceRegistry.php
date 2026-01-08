@@ -21,6 +21,9 @@ use WP_Statistics\Service\AnalyticsQuery\Sources\PublishedContentSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\CommentsSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\ActiveAuthorsSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\ActiveTermsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\EntryPageSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ExitPageSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ExitRateSource;
 
 /**
  * Registry for analytics sources.
@@ -112,6 +115,9 @@ class SourceRegistry implements RegistryInterface
             'comments'             => CommentsSource::class,
             'active_authors'       => ActiveAuthorsSource::class,
             'active_terms'         => ActiveTermsSource::class,
+            'entry_page'           => EntryPageSource::class,
+            'exit_page'            => ExitPageSource::class,
+            'exit_rate'            => ExitRateSource::class,
         ];
 
         $this->defaultsRegistered = true;

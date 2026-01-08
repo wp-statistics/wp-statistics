@@ -66,12 +66,60 @@ function CategoriesOverviewView() {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
 
-  // Get filter fields for content analytics
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('content') as FilterField[]
-  }, [wp])
+  // Get filter fields for categories page
+  const filterFields = wp.getFilterFieldsByGroup('categories') as FilterField[]
 
   const [activeTermsTab, setActiveTermsTab] = useState<string>('views')
+  const [defaultFilterRemoved, setDefaultFilterRemoved] = useState(false)
+
+  // Filter out post_type filters since categories page doesn't use post_type
+  const filtersWithoutPostType = (appliedFilters || []).filter((f) => !f.id.startsWith('post_type'))
+
+  // Check if user has applied a taxonomy_type filter (overriding default)
+  const hasUserTaxonomyFilter = filtersWithoutPostType.some((f) => f.id.startsWith('taxonomy_type'))
+
+  // Build default taxonomy_type filter for Categories page
+  const taxonomyField = filterFields.find((f) => f.name === 'taxonomy_type')
+  const categoryOption = taxonomyField?.options?.find((o) => o.value === 'category')
+  const defaultTaxonomyFilter = {
+    id: 'taxonomy_type-categories-default',
+    label: taxonomyField?.label || __('Taxonomy Type', 'wp-statistics'),
+    operator: '=',
+    rawOperator: 'is',
+    value: categoryOption?.label || __('Category', 'wp-statistics'),
+    rawValue: 'category',
+  }
+
+  // Determine if we should show the default filter
+  const showDefaultFilter = !hasUserTaxonomyFilter && !defaultFilterRemoved
+
+  // Filters to use for API requests and display
+  const filtersForApi = showDefaultFilter
+    ? [...filtersWithoutPostType, defaultTaxonomyFilter]
+    : filtersWithoutPostType
+
+  const filtersForDisplay = filtersForApi
+
+  // Handle filter removal - detect when taxonomy_type filter is intentionally removed
+  const handleCategoriesApplyFilters = (newFilters: typeof appliedFilters) => {
+    const hasNewTaxonomyFilter = newFilters?.some((f) => f.id.startsWith('taxonomy_type')) ?? false
+
+    // If we had default filter showing and new filters don't have taxonomy, user removed it
+    if (showDefaultFilter && !hasNewTaxonomyFilter) {
+      setDefaultFilterRemoved(true)
+    }
+    // If user adds a taxonomy filter, reset the removed flag
+    if (hasNewTaxonomyFilter) {
+      setDefaultFilterRemoved(false)
+    }
+
+    // Apply only the non-default filters to global state (also filter out post_type)
+    const globalFilters = newFilters?.filter((f) =>
+      f.id !== 'taxonomy_type-categories-default' && !f.id.startsWith('post_type')
+    ) ?? []
+    handleApplyFilters(globalFilters)
+  }
+
   const [activeContentTab, setActiveContentTab] = useState<string>('popular')
   const [activeAuthorsTab, setActiveAuthorsTab] = useState<string>('views')
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
@@ -122,7 +170,7 @@ function CategoriesOverviewView() {
       compareDateTo: apiDateParams.previous_date_to,
       timeframe,
       taxonomy: selectedTaxonomy,
-      filters: appliedFilters || [],
+      filters: filtersForApi,
     }),
     retry: false,
     placeholderData: keepPreviousData,
@@ -465,8 +513,8 @@ function CategoriesOverviewView() {
           {filterFields.length > 0 && isInitialized && (
             <FilterButton
               fields={filterFields}
-              appliedFilters={appliedFilters || []}
-              onApplyFilters={handleApplyFilters}
+              appliedFilters={filtersForDisplay}
+              onApplyFilters={handleCategoriesApplyFilters}
             />
           )}
           <DateRangePicker
@@ -483,8 +531,19 @@ function CategoriesOverviewView() {
 
       <div className="p-2">
         <NoticeContainer className="mb-2" currentRoute="categories" />
-        {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
+        {filtersForDisplay.length > 0 && (
+          <FilterBar
+            filters={filtersForDisplay}
+            onRemoveFilter={(filterId) => {
+              // If removing the default taxonomy_type filter, clear it by setting a flag
+              if (filterId === 'taxonomy_type-categories-default') {
+                setDefaultFilterRemoved(true)
+                return
+              }
+              handleRemoveFilter(filterId)
+            }}
+            className="mb-2"
+          />
         )}
 
         {showSkeleton || showFullPageLoading ? (

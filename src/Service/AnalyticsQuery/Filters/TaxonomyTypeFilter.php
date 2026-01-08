@@ -76,10 +76,11 @@ class TaxonomyTypeFilter extends AbstractFilter
     /**
      * Pages where this filter is available.
      *
-     * @var array Groups: content
+     * @var array Groups: individual content, categories
      */
     protected $groups = [
-        'content',
+        'individual-content',
+        'categories',
     ];
 
     /**
