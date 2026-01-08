@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\ReactApp\Abstracts;
 
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidSourceException;
@@ -64,6 +65,53 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
     }
 
     /**
+     * Resolve period identifier to actual dates.
+     *
+     * If a period identifier (like 'last_month', '30days') is provided,
+     * resolves it to actual date_from and date_to values using DateRange component.
+     * This ensures dates are always current relative to today, not stored dates.
+     *
+     * @param array $data Request data that may contain 'period' key.
+     * @return array Data with resolved date_from and date_to.
+     */
+    protected function resolvePeriodDates(array $data): array
+    {
+        // If no period specified, return data as-is
+        if (empty($data['period'])) {
+            return $data;
+        }
+
+        $period = sanitize_text_field($data['period']);
+
+        // 'custom' means use the provided date_from/date_to
+        if ($period === 'custom') {
+            return $data;
+        }
+
+        // Validate period exists in predefined periods
+        $periods = DateRange::getPeriods();
+        if (!isset($periods[$period])) {
+            return $data;
+        }
+
+        // Resolve period to current dates
+        $resolved = DateRange::get($period);
+        if (!empty($resolved['from']) && !empty($resolved['to'])) {
+            $data['date_from'] = $resolved['from'];
+            $data['date_to']   = $resolved['to'];
+        }
+
+        // Also resolve previous period for comparison
+        $prevResolved = DateRange::getPrevPeriod($period);
+        if (!empty($prevResolved['from']) && !empty($prevResolved['to'])) {
+            $data['previous_date_from'] = $prevResolved['from'];
+            $data['previous_date_to']   = $prevResolved['to'];
+        }
+
+        return $data;
+    }
+
+    /**
      * Execute a query from the request.
      *
      * @return array Query result data
@@ -82,11 +130,14 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
             ];
         }
 
+        // Resolve period identifier to actual dates (e.g., 'last_month' -> actual dates)
+        $query = $this->resolvePeriodDates($query);
+
         try {
             // Check if this is a batch request with queries
             $batchQueries = $query['queries'] ?? null;
             if (is_array($batchQueries) && !empty($batchQueries)) {
-                // Extract root-level parameters
+                // Extract root-level parameters (already resolved by resolvePeriodDates)
                 $dateFrom             = $query['date_from'] ?? null;
                 $dateTo               = $query['date_to'] ?? null;
                 $globalFilters        = $query['filters'] ?? [];
@@ -184,6 +235,7 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
                     'sources'            => isset($data['sources']) ? (array) $data['sources'] : [],
                     'group_by'           => isset($data['group_by']) ? (array) $data['group_by'] : [],
                     'filters'            => isset($data['filters']) ? (array) $data['filters'] : [],
+                    'period'             => isset($data['period']) ? sanitize_text_field($data['period']) : null,
                     'date_from'          => isset($data['date_from']) ? sanitize_text_field($data['date_from']) : null,
                     'date_to'            => isset($data['date_to']) ? sanitize_text_field($data['date_to']) : null,
                     'compare'            => isset($data['compare']) && $data['compare'] === 'true',
