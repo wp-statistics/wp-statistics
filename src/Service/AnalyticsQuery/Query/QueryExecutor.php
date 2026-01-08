@@ -243,9 +243,23 @@ class QueryExecutor implements QueryExecutorInterface
 
         $rows = $this->wpdb->get_results($preparedSql, ARRAY_A);
 
+        // Check if result is empty or contains only NULL values
+        // SUM() returns a single row with NULL when no matching rows exist
+        $hasRealData = false;
+        if (!empty($rows)) {
+            foreach ($rows as $row) {
+                foreach ($row as $value) {
+                    if ($value !== null && $value !== '') {
+                        $hasRealData = true;
+                        break 2;
+                    }
+                }
+            }
+        }
+
         // Fallback to raw tables if summary table has no data for this period
         // This handles cases where summary table hasn't been populated yet
-        if (empty($rows)) {
+        if (!$hasRealData) {
             return $this->executeFromRawTables($query);
         }
 
@@ -296,8 +310,22 @@ class QueryExecutor implements QueryExecutorInterface
 
             $historicalRows = $this->wpdb->get_results($preparedSql, ARRAY_A);
 
+            // Check if result is empty or contains only NULL values
+            // SUM() returns a single row with NULL when no matching rows exist
+            $hasRealData = false;
+            if (!empty($historicalRows)) {
+                foreach ($historicalRows as $row) {
+                    foreach ($row as $value) {
+                        if ($value !== null && $value !== '') {
+                            $hasRealData = true;
+                            break 2;
+                        }
+                    }
+                }
+            }
+
             // Fallback to raw tables if summary table has no data for this period
-            if (empty($historicalRows)) {
+            if (!$hasRealData) {
                 $historicalResult = $this->executeFromRawTables($historicalQuery);
                 $historicalRows   = $historicalResult['rows'];
             }
@@ -622,6 +650,7 @@ class QueryExecutor implements QueryExecutorInterface
         $filters      = $query->getFilters();
         $dateFrom     = $query->getDateFrom();
         $dateTo       = $query->getDateTo();
+
         $order        = $query->getOrder();
         $page         = $query->getPage();
         $perPage      = $query->getPerPage();

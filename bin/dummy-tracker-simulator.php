@@ -21,11 +21,11 @@ define('WP_USE_THEMES', false);
 require_once(__DIR__ . '/../../../../wp-load.php');
 
 // Ensure WP Statistics is loaded
-if (!class_exists('WP_Statistics')) {
+if (!class_exists('WP_Statistics\Bootstrap')) {
     die("Error: WP Statistics plugin not found.\n");
 }
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\Signature;
 

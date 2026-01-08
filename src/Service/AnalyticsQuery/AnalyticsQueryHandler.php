@@ -590,15 +590,18 @@ class AnalyticsQueryHandler
     /**
      * Normalize filters from frontend array format to backend key-value format.
      *
-     * Converts [{key, operator, value}] to {key: value} or {key: {operator: value}}.
+     * Supports multiple input formats:
+     * 1. [{key, operator, value}] - array of filter objects
+     * 2. {filterKey: {operator: value}} - already normalized format
+     * 3. {filterKey: {value: X, operator: Y}} - alternative object format
+     * 4. {filterKey: value} - simple equality
      *
      * @param array $filters Filters in frontend or backend format.
      * @return array Filters in backend key-value format.
      */
     private function normalizeFilters(array $filters): array
     {
-        // If empty or already in key-value format, return as-is
-        if (empty($filters) || !isset($filters[0])) {
+        if (empty($filters)) {
             return $filters;
         }
 
@@ -622,27 +625,64 @@ class AnalyticsQueryHandler
             'gte'                    => 'gte',
             'lt'                     => 'lt',
             'lte'                    => 'lte',
+            'is_not_empty'           => 'is_not_empty',
+            'is_empty'               => 'is_empty',
         ];
 
+        // Check if this is an indexed array of filter objects: [{key, operator, value}]
+        if (isset($filters[0])) {
+            $normalized = [];
+
+            foreach ($filters as $filter) {
+                $key      = $filter['key'] ?? null;
+                $operator = $filter['operator'] ?? 'equal';
+                $value    = $filter['value'] ?? null;
+
+                if ($key === null) {
+                    continue;
+                }
+
+                $mappedOperator = $operatorMap[$operator] ?? $operator;
+
+                // Simple equality can be stored directly as value
+                if ($mappedOperator === 'is') {
+                    $normalized[$key] = $value;
+                } else {
+                    $normalized[$key] = [$mappedOperator => $value];
+                }
+            }
+
+            return $normalized;
+        }
+
+        // Handle associative array format: {filterKey: value} or {filterKey: {operator: value}}
+        // Also handle {filterKey: {value: X, operator: Y}} format
         $normalized = [];
 
-        foreach ($filters as $filter) {
-            $key      = $filter['key'] ?? null;
-            $operator = $filter['operator'] ?? 'equal';
-            $value    = $filter['value'] ?? null;
-
-            if ($key === null) {
+        foreach ($filters as $filterKey => $filterValue) {
+            // If value is not an array, it's a simple equality
+            if (!is_array($filterValue)) {
+                $normalized[$filterKey] = $filterValue;
                 continue;
             }
 
-            $mappedOperator = $operatorMap[$operator] ?? $operator;
+            // Check for {value: X, operator: Y} format
+            if (isset($filterValue['operator']) && array_key_exists('value', $filterValue)) {
+                $operator = $filterValue['operator'];
+                $value    = $filterValue['value'];
 
-            // Simple equality can be stored directly as value
-            if ($mappedOperator === 'is') {
-                $normalized[$key] = $value;
-            } else {
-                $normalized[$key] = [$mappedOperator => $value];
+                $mappedOperator = $operatorMap[$operator] ?? $operator;
+
+                if ($mappedOperator === 'is') {
+                    $normalized[$filterKey] = $value;
+                } else {
+                    $normalized[$filterKey] = [$mappedOperator => $value];
+                }
+                continue;
             }
+
+            // Already in {operator: value} format, pass through
+            $normalized[$filterKey] = $filterValue;
         }
 
         return $normalized;
@@ -882,22 +922,56 @@ class AnalyticsQueryHandler
     {
         $totals = [];
 
+        // Calculated metrics that should be derived from base values, not summed
+        $calculatedMetrics = ['pages_per_session', 'avg_time_on_page', 'avg_session_duration', 'bounce_rate'];
+
         // Initialize totals
         foreach ($sources as $source) {
             $totals[$source] = 0;
         }
 
-        // Sum up values from all rows
+        // Sum up values from all rows (skip calculated metrics for now)
         foreach ($rows as $row) {
             foreach ($sources as $source) {
+                if (in_array($source, $calculatedMetrics, true)) {
+                    continue; // Skip calculated metrics during summing
+                }
                 if (isset($row[$source])) {
                     $totals[$source] += (float) $row[$source];
                 }
             }
         }
 
+        // Recalculate derived metrics from totals
+        if (in_array('pages_per_session', $sources, true)) {
+            $views = $totals['views'] ?? 0;
+            $sessions = $totals['sessions'] ?? 0;
+            $totals['pages_per_session'] = $sessions > 0 ? round($views / $sessions, 2) : 0;
+        }
+
+        if (in_array('avg_time_on_page', $sources, true)) {
+            $views = $totals['views'] ?? 0;
+            $totalDuration = $totals['total_duration'] ?? 0;
+            $totals['avg_time_on_page'] = $views > 0 ? round($totalDuration / $views, 2) : 0;
+        }
+
+        if (in_array('avg_session_duration', $sources, true)) {
+            $sessions = $totals['sessions'] ?? 0;
+            $totalDuration = $totals['total_duration'] ?? 0;
+            $totals['avg_session_duration'] = $sessions > 0 ? round($totalDuration / $sessions, 2) : 0;
+        }
+
+        if (in_array('bounce_rate', $sources, true)) {
+            $sessions = $totals['sessions'] ?? 0;
+            $bounces = $totals['bounces'] ?? 0;
+            $totals['bounce_rate'] = $sessions > 0 ? round(($bounces / $sessions) * 100, 1) : 0;
+        }
+
         // Round totals to appropriate precision
         foreach ($sources as $source) {
+            if (in_array($source, $calculatedMetrics, true)) {
+                continue; // Already handled above
+            }
             $sourceObj = $this->sourceRegistry->get($source);
             if ($sourceObj && $sourceObj->getType() === 'integer') {
                 $totals[$source] = (int) round($totals[$source]);

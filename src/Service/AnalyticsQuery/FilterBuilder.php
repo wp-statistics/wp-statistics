@@ -209,6 +209,18 @@ class FilterBuilder
                     ],
                 ];
 
+            case 'is_not_empty':
+                return [
+                    'condition' => "($column IS NOT NULL AND $column != '')",
+                    'params'    => null,
+                ];
+
+            case 'is_empty':
+                return [
+                    'condition' => "($column IS NULL OR $column = '')",
+                    'params'    => null,
+                ];
+
             default:
                 throw new InvalidOperatorException($operator);
         }
