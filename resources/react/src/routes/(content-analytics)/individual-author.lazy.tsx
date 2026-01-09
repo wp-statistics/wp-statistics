@@ -224,6 +224,7 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
     dateTo,
     compareDateFrom,
     compareDateTo,
+    period,
     filters: appliedFilters,
     setDateRange,
     applyFilters: handleApplyFilters,
@@ -273,8 +274,8 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
   }, [])
 
   const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range, values.rangeCompare)
+    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
+      setDateRange(values.range, values.rangeCompare, values.period)
     },
     [setDateRange]
   )
@@ -720,6 +721,7 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
               initialDateTo={dateTo}
               initialCompareFrom={compareDateFrom}
               initialCompareTo={compareDateTo}
+              initialPeriod={period}
               showCompare={true}
               onUpdate={handleDateRangeUpdate}
               align="end"

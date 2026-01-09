@@ -18,7 +18,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router'
 import { createContext, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 
 import type { Filter } from '@/components/custom/filter-bar'
-import type { DateRange } from '@/components/custom/date-range-picker'
+import { getPresetRange, isValidPreset, type DateRange } from '@/components/custom/date-range-picker'
 import type { FilterField } from '@/components/custom/filter-row'
 import { filtersToUrlFilters, urlFiltersToFilters, type UrlFilter } from '@/lib/filter-utils'
 import { formatDateForAPI } from '@/lib/utils'
@@ -61,6 +61,8 @@ export interface GlobalFiltersState {
   dateTo: Date
   compareDateFrom?: Date
   compareDateTo?: Date
+  /** Period preset name (e.g., 'yesterday', 'last30') for dynamic date resolution */
+  period?: string
   filters: Filter[]
   page: number
   source: FilterSource
@@ -69,7 +71,7 @@ export interface GlobalFiltersState {
 
 export interface GlobalFiltersContextValue extends GlobalFiltersState {
   // Actions
-  setDateRange: (range: DateRange, compare?: DateRange) => void
+  setDateRange: (range: DateRange, compare?: DateRange, period?: string) => void
   setFilters: (filters: Filter[]) => void
   setPage: (page: number) => void
   removeFilter: (filterId: string) => void
@@ -195,11 +197,13 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       if (urlDateFrom && urlDateTo) {
         const urlCompareFrom = parseDate(hashParams.previous_date_from)
         const urlCompareTo = parseDate(hashParams.previous_date_to)
+        // URL params don't include period - it's a custom date range shared via URL
         return {
           dateFrom: urlDateFrom,
           dateTo: urlDateTo,
           compareDateFrom: urlCompareFrom,
           compareDateTo: urlCompareTo,
+          period: undefined,
           filters: [], // Filters loaded in effect (need filterFields prop)
           page: parseInt(hashParams.page, 10) || 1,
           source: 'url',
@@ -213,9 +217,23 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       const wp = WordPress.getInstance()
       const prefs = wp.getGlobalFiltersPreferences()
 
-      if (prefs && prefs.date_from) {
-        const prefDateFrom = parseDate(prefs.date_from)
-        const prefDateTo = parseDate(prefs.date_to)
+      if (prefs && (prefs.period || prefs.date_from)) {
+        let prefDateFrom: Date | undefined
+        let prefDateTo: Date | undefined
+        let period: string | undefined
+
+        // If a period is saved, resolve it to current dates
+        if (prefs.period && isValidPreset(prefs.period)) {
+          period = prefs.period
+          const resolved = getPresetRange(period)
+          prefDateFrom = resolved.from
+          prefDateTo = resolved.to ?? resolved.from
+        } else {
+          // Fall back to saved dates
+          prefDateFrom = parseDate(prefs.date_from)
+          prefDateTo = parseDate(prefs.date_to)
+        }
+
         const prefCompareFrom = parseDate(prefs.previous_date_from)
         const prefCompareTo = parseDate(prefs.previous_date_to)
 
@@ -224,6 +242,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           dateTo: prefDateTo || defaults.to,
           compareDateFrom: prefCompareFrom,
           compareDateTo: prefCompareTo,
+          period,
           filters: [], // Filters loaded in effect (need filterFields prop)
           page: 1,
           source: 'preferences',
@@ -239,6 +258,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       dateTo: defaults.to,
       compareDateFrom: undefined,
       compareDateTo: undefined,
+      period: undefined,
       filters: [],
       page: 1,
       source: 'defaults',
@@ -279,6 +299,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         dateTo: urlDateTo,
         compareDateFrom: urlCompareFrom,
         compareDateTo: urlCompareTo,
+        period: undefined, // URL params don't include period
         filters: urlFilters,
         page: effectivePage,
         source: 'url',
@@ -299,9 +320,23 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     }
 
     // Check preferences (medium priority)
-    if (prefs && (prefs.date_from || prefs.filters?.length)) {
-      const prefDateFrom = parseDate(prefs.date_from)
-      const prefDateTo = parseDate(prefs.date_to)
+    if (prefs && (prefs.period || prefs.date_from || prefs.filters?.length)) {
+      let prefDateFrom: Date | undefined
+      let prefDateTo: Date | undefined
+      let period: string | undefined
+
+      // If a period is saved, resolve it to current dates
+      if (prefs.period && isValidPreset(prefs.period)) {
+        period = prefs.period
+        const resolved = getPresetRange(period)
+        prefDateFrom = resolved.from
+        prefDateTo = resolved.to ?? resolved.from
+      } else {
+        // Fall back to saved dates
+        prefDateFrom = parseDate(prefs.date_from)
+        prefDateTo = parseDate(prefs.date_to)
+      }
+
       const prefCompareFrom = parseDate(prefs.previous_date_from)
       const prefCompareTo = parseDate(prefs.previous_date_to)
       const prefFilters = urlFiltersToFilters(prefs.filters, filterFields)
@@ -313,6 +348,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         dateTo: prefDateTo || defaults.to,
         compareDateFrom: prefCompareFrom,
         compareDateTo: prefCompareTo,
+        period,
         filters: prefFilters,
         page: 1,
         source: 'preferences',
@@ -330,6 +366,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       dateTo: defaults.to,
       compareDateFrom: undefined,
       compareDateTo: undefined,
+      period: undefined,
       filters: [],
       page: 1,
       source: 'defaults',
@@ -384,6 +421,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         dateTo: urlDateTo,
         compareDateFrom: urlCompareFrom,
         compareDateTo: urlCompareTo,
+        period: undefined, // URL navigation clears period (explicit dates in URL)
         filters: urlFilters,
         page: effectivePage,
         source: 'url',
@@ -454,7 +492,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
   // Set date range (manual action)
   const setDateRange = useCallback(
-    (range: DateRange, compare?: DateRange) => {
+    (range: DateRange, compare?: DateRange, period?: string) => {
       setState((prev) => {
         const newState = {
           ...prev,
@@ -462,17 +500,21 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           dateTo: range.to || range.from,
           compareDateFrom: compare?.from,
           compareDateTo: compare?.to,
+          period: period && isValidPreset(period) ? period : undefined,
           page: 1, // Reset to first page when dates change
           source: 'manual' as FilterSource,
         }
 
         // Save to preferences (debounced to batch rapid changes)
+        // If a period preset is selected, save the period name for dynamic resolution
+        // Otherwise, save the actual dates
         const urlFilters = filtersToUrlFilters(prev.filters)
         debouncedSavePrefs({
           date_from: formatDateForAPI(newState.dateFrom),
           date_to: formatDateForAPI(newState.dateTo),
           previous_date_from: newState.compareDateFrom ? formatDateForAPI(newState.compareDateFrom) : undefined,
           previous_date_to: newState.compareDateTo ? formatDateForAPI(newState.compareDateTo) : undefined,
+          period: newState.period, // Save period name for dynamic date resolution
           filters: urlFilters.length > 0 ? urlFilters : undefined,
         })
 
@@ -500,6 +542,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           date_to: formatDateForAPI(prev.dateTo),
           previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
           previous_date_to: prev.compareDateTo ? formatDateForAPI(prev.compareDateTo) : undefined,
+          period: prev.period, // Preserve period when changing filters
           filters: urlFilters.length > 0 ? urlFilters : undefined,
         })
 
@@ -536,6 +579,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           date_to: formatDateForAPI(prev.dateTo),
           previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
           previous_date_to: prev.compareDateTo ? formatDateForAPI(prev.compareDateTo) : undefined,
+          period: prev.period, // Preserve period when removing filters
           filters: urlFilters.length > 0 ? urlFilters : undefined,
         })
 
@@ -579,6 +623,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       dateTo: defaults.to,
       compareDateFrom: undefined,
       compareDateTo: undefined,
+      period: undefined,
       filters: [],
       page: 1,
       source: 'defaults',

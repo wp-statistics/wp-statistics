@@ -118,6 +118,8 @@ declare global {
     date_to?: string
     previous_date_from?: string
     previous_date_to?: string
+    /** Period preset name (e.g., 'yesterday', 'last30') for dynamic date resolution */
+    period?: string
     filters?: PersistedUrlFilter[]
     updated_at?: string
   }

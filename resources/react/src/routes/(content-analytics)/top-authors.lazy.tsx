@@ -58,6 +58,7 @@ function RouteComponent() {
     dateTo,
     compareDateFrom,
     compareDateTo,
+    period,
     filters: appliedFilters,
     page,
     setPage,
@@ -147,8 +148,8 @@ function RouteComponent() {
 
   // Handle date range updates from DateRangePicker
   const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range, values.rangeCompare)
+    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
+      setDateRange(values.range, values.rangeCompare, values.period)
     },
     [setDateRange]
   )
@@ -350,6 +351,7 @@ function RouteComponent() {
             initialDateTo={dateTo}
             initialCompareFrom={compareDateFrom}
             initialCompareTo={compareDateTo}
+            initialPeriod={period}
             onUpdate={handleDateRangeUpdate}
             showCompare={true}
             align="end"

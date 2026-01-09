@@ -73,6 +73,7 @@ function ContentOverviewView() {
     dateTo,
     compareDateFrom,
     compareDateTo,
+    period,
     filters: appliedFilters,
     setDateRange,
     applyFilters: handleApplyFilters,
@@ -183,8 +184,8 @@ function ContentOverviewView() {
   }, [])
 
   const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range, values.rangeCompare)
+    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
+      setDateRange(values.range, values.rangeCompare, values.period)
     },
     [setDateRange]
   )
@@ -472,6 +473,7 @@ function ContentOverviewView() {
             initialDateTo={dateTo}
             initialCompareFrom={compareDateFrom}
             initialCompareTo={compareDateTo}
+            initialPeriod={period}
             showCompare={true}
             onUpdate={handleDateRangeUpdate}
             align="end"

@@ -32,6 +32,7 @@ function RouteComponent() {
     dateTo,
     compareDateFrom,
     compareDateTo,
+    period,
     setDateRange,
     isInitialized,
     apiDateParams,
@@ -43,8 +44,8 @@ function RouteComponent() {
   const userCountryName = wp.getUserCountryName() || 'United States'
 
   const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range, values.rangeCompare)
+    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
+      setDateRange(values.range, values.rangeCompare, values.period)
     },
     [setDateRange]
   )
@@ -140,6 +141,7 @@ function RouteComponent() {
           initialDateTo={dateTo}
           initialCompareFrom={compareDateFrom}
           initialCompareTo={compareDateTo}
+          initialPeriod={period}
           showCompare={true}
           onUpdate={handleDateRangeUpdate}
           align="end"

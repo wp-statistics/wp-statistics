@@ -109,7 +109,7 @@ function NetworkOverviewComponent() {
   }
 
   // Use global filters context for date range (syncs with URL)
-  const { dateFrom, dateTo, compareDateFrom, compareDateTo, setDateRange, isInitialized, apiDateParams } =
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams } =
     useGlobalFilters()
 
   // Use percentage calculation hook
@@ -117,8 +117,8 @@ function NetworkOverviewComponent() {
 
   // Handle date range updates
   const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range, values.rangeCompare)
+    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
+      setDateRange(values.range, values.rangeCompare, values.period)
     },
     [setDateRange]
   )
@@ -213,6 +213,7 @@ function NetworkOverviewComponent() {
           initialDateTo={dateTo}
           initialCompareFrom={compareDateFrom}
           initialCompareTo={compareDateTo}
+          initialPeriod={period}
           showCompare={true}
           onUpdate={handleDateRangeUpdate}
           align="end"

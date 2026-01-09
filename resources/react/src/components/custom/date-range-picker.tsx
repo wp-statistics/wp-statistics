@@ -19,7 +19,7 @@ export interface DateRange {
 
 export interface DateRangePickerProps {
   /** Click handler for applying the updates from DateRangePicker. */
-  onUpdate?: (values: { range: DateRange; rangeCompare?: DateRange }) => void
+  onUpdate?: (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => void
   /** Initial value for start date */
   initialDateFrom?: Date | string
   /** Initial value for end date */
@@ -34,6 +34,8 @@ export interface DateRangePickerProps {
   locale?: string
   /** Option for showing compare feature */
   showCompare?: boolean
+  /** Initial period preset name (e.g., 'yesterday', 'last30') */
+  initialPeriod?: string
 }
 
 const formatDate = (date: Date, locale: string = 'en-us'): string => {
@@ -54,12 +56,12 @@ const getDateAdjustedForTimezone = (dateInput: Date | string): Date => {
   }
 }
 
-interface Preset {
+export interface Preset {
   name: string
   label: string
 }
 
-const PRESETS: Preset[] = [
+export const PRESETS: Preset[] = [
   { name: 'today', label: 'Today' },
   { name: 'yesterday', label: 'Yesterday' },
   { name: 'lastWeek', label: 'Last Week' },
@@ -71,6 +73,78 @@ const PRESETS: Preset[] = [
   { name: 'lastYear', label: 'Last Year' },
 ]
 
+/**
+ * Get dates for a preset period.
+ * Exported so it can be used by GlobalFiltersContext to resolve saved periods.
+ */
+export const getPresetRange = (presetName: string): DateRange => {
+  const preset = PRESETS.find(({ name }) => name === presetName)
+  if (!preset) throw new Error(`Unknown date range preset: ${presetName}`)
+  const from = new Date()
+  const to = new Date()
+
+  switch (preset.name) {
+    case 'today':
+      from.setHours(0, 0, 0, 0)
+      to.setHours(23, 59, 59, 999)
+      break
+    case 'yesterday':
+      from.setDate(from.getDate() - 1)
+      from.setHours(0, 0, 0, 0)
+      to.setDate(to.getDate() - 1)
+      to.setHours(23, 59, 59, 999)
+      break
+    case 'lastWeek':
+      from.setDate(from.getDate() - 7 - from.getDay())
+      to.setDate(to.getDate() - to.getDay() - 1)
+      from.setHours(0, 0, 0, 0)
+      to.setHours(23, 59, 59, 999)
+      break
+    case 'last14':
+      from.setDate(from.getDate() - 13)
+      from.setHours(0, 0, 0, 0)
+      to.setHours(23, 59, 59, 999)
+      break
+    case 'last30':
+      from.setDate(from.getDate() - 29)
+      from.setHours(0, 0, 0, 0)
+      to.setHours(23, 59, 59, 999)
+      break
+    case 'lastMonth':
+      from.setMonth(from.getMonth() - 1)
+      from.setDate(1)
+      from.setHours(0, 0, 0, 0)
+      to.setDate(0)
+      to.setHours(23, 59, 59, 999)
+      break
+    case 'last3months':
+      from.setMonth(from.getMonth() - 3)
+      from.setHours(0, 0, 0, 0)
+      to.setHours(23, 59, 59, 999)
+      break
+    case 'last6months':
+      from.setMonth(from.getMonth() - 6)
+      from.setHours(0, 0, 0, 0)
+      to.setHours(23, 59, 59, 999)
+      break
+    case 'lastYear':
+      from.setFullYear(from.getFullYear() - 1)
+      from.setHours(0, 0, 0, 0)
+      to.setHours(23, 59, 59, 999)
+      break
+  }
+
+  return { from, to }
+}
+
+/**
+ * Check if a preset name is valid.
+ */
+export const isValidPreset = (presetName: string | undefined): boolean => {
+  if (!presetName) return false
+  return PRESETS.some((preset) => preset.name === presetName)
+}
+
 /** The DateRangePicker component allows a user to select a range of dates */
 export const DateRangePicker = ({
   initialDateFrom = new Date(new Date().setHours(0, 0, 0, 0)),
@@ -81,6 +155,7 @@ export const DateRangePicker = ({
   align = 'end',
   locale = 'en-US',
   showCompare = true,
+  initialPeriod,
 }: DateRangePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -103,7 +178,9 @@ export const DateRangePicker = ({
   const openedRangeRef = useRef<DateRange | undefined>()
   const openedRangeCompareRef = useRef<DateRange | undefined>()
 
-  const [selectedPreset, setSelectedPreset] = useState<string | undefined>(undefined)
+  const [selectedPreset, setSelectedPreset] = useState<string | undefined>(
+    initialPeriod && isValidPreset(initialPeriod) ? initialPeriod : undefined
+  )
 
   const [isSmallScreen, setIsSmallScreen] = useState(typeof window !== 'undefined' ? window.innerWidth < 960 : false)
 
@@ -137,6 +214,13 @@ export const DateRangePicker = ({
     }
   }, [initialCompareFrom, initialCompareTo])
 
+  // Sync selectedPreset when initialPeriod changes
+  useEffect(() => {
+    if (initialPeriod && isValidPreset(initialPeriod)) {
+      setSelectedPreset(initialPeriod)
+    }
+  }, [initialPeriod])
+
   useEffect(() => {
     const handleResize = (): void => {
       setIsSmallScreen(window.innerWidth < 960)
@@ -147,66 +231,6 @@ export const DateRangePicker = ({
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-
-  const getPresetRange = (presetName: string): DateRange => {
-    const preset = PRESETS.find(({ name }) => name === presetName)
-    if (!preset) throw new Error(`Unknown date range preset: ${presetName}`)
-    const from = new Date()
-    const to = new Date()
-
-    switch (preset.name) {
-      case 'today':
-        from.setHours(0, 0, 0, 0)
-        to.setHours(23, 59, 59, 999)
-        break
-      case 'yesterday':
-        from.setDate(from.getDate() - 1)
-        from.setHours(0, 0, 0, 0)
-        to.setDate(to.getDate() - 1)
-        to.setHours(23, 59, 59, 999)
-        break
-      case 'lastWeek':
-        from.setDate(from.getDate() - 7 - from.getDay())
-        to.setDate(to.getDate() - to.getDay() - 1)
-        from.setHours(0, 0, 0, 0)
-        to.setHours(23, 59, 59, 999)
-        break
-      case 'last14':
-        from.setDate(from.getDate() - 13)
-        from.setHours(0, 0, 0, 0)
-        to.setHours(23, 59, 59, 999)
-        break
-      case 'last30':
-        from.setDate(from.getDate() - 29)
-        from.setHours(0, 0, 0, 0)
-        to.setHours(23, 59, 59, 999)
-        break
-      case 'lastMonth':
-        from.setMonth(from.getMonth() - 1)
-        from.setDate(1)
-        from.setHours(0, 0, 0, 0)
-        to.setDate(0)
-        to.setHours(23, 59, 59, 999)
-        break
-      case 'last3months':
-        from.setMonth(from.getMonth() - 3)
-        from.setHours(0, 0, 0, 0)
-        to.setHours(23, 59, 59, 999)
-        break
-      case 'last6months':
-        from.setMonth(from.getMonth() - 6)
-        from.setHours(0, 0, 0, 0)
-        to.setHours(23, 59, 59, 999)
-        break
-      case 'lastYear':
-        from.setFullYear(from.getFullYear() - 1)
-        from.setHours(0, 0, 0, 0)
-        to.setHours(23, 59, 59, 999)
-        break
-    }
-
-    return { from, to }
-  }
 
   const setPreset = (preset: string): void => {
     const newRange = getPresetRange(preset)
@@ -531,7 +555,7 @@ export const DateRangePicker = ({
                 !areRangesEqual(range, openedRangeRef.current) ||
                 !areRangesEqual(rangeCompare, openedRangeCompareRef.current)
               ) {
-                onUpdate?.({ range, rangeCompare })
+                onUpdate?.({ range, rangeCompare, period: selectedPreset })
               }
             }}
           >
