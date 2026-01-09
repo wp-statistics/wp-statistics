@@ -6,10 +6,12 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
+use WP_Statistics\Service\Charts\Traits\SimpleBarChartDataTrait;
 
 class OsChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
+    use SimpleBarChartDataTrait;
 
     /**
      * @var AnalyticsQueryHandler
@@ -22,7 +24,6 @@ class OsChartDataProvider extends AbstractChartDataProvider
 
         $this->queryHandler = new AnalyticsQueryHandler();
     }
-
 
     public function getData()
     {
@@ -37,62 +38,16 @@ class OsChartDataProvider extends AbstractChartDataProvider
             'per_page'  => 1000,
         ]);
 
-        $data = $this->parseData($result['data']['rows'] ?? []);
+        $data = $this->parseBarChartData(
+            $result['data']['rows'] ?? [],
+            'os',
+            [DeviceHelper::class, 'getPlatformLogo']
+        );
 
         $this->setChartLabels($data['labels']);
         $this->setChartData($data['visitors']);
         $this->setChartIcons($data['icons']);
 
         return $this->getChartData();
-    }
-
-    protected function parseData($data)
-    {
-        $parsedData = [];
-
-        if (!empty($data)) {
-            foreach ($data as $row) {
-                $platform = $row['os'] ?? '';
-                $visitors = intval($row['visitors'] ?? 0);
-
-                if (!empty($platform)) {
-                    $parsedData[] = [
-                        'label'    => $platform,
-                        'icon'     => DeviceHelper::getPlatformLogo($platform),
-                        'visitors' => $visitors
-                    ];
-                }
-            }
-
-            // Sort data by visitors
-            usort($parsedData, function ($a, $b) {
-                return $b['visitors'] - $a['visitors'];
-            });
-
-            if (count($parsedData) > 4) {
-                // Get top 4 results, and others
-                $topData    = array_slice($parsedData, 0, 4);
-                $otherData  = array_slice($parsedData, 4);
-
-                // Show the rest of the results as others, and sum up the visitors
-                $otherItem    = [
-                    'label'    => esc_html__('Other', 'wp-statistics'),
-                    'icon'     => '',
-                    'visitors' => array_sum(array_column($otherData, 'visitors')),
-                ];
-
-                $parsedData = array_merge($topData, [$otherItem]);
-            }
-        }
-
-        $labels     = wp_list_pluck($parsedData, 'label');
-        $visitors   = wp_list_pluck($parsedData, 'visitors');
-        $icons      = wp_list_pluck($parsedData, 'icon');
-
-        return [
-            'labels'    => $labels,
-            'visitors'  => $visitors,
-            'icons'     => $icons,
-        ];
     }
 }

@@ -6,7 +6,6 @@ use WP_Statistics\Components\Ip;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\DateTime;
-use WP_STATISTICS\TimeZone;
 
 class VisitorDecorator
 {
