@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createSearchValidator, searchValidators, type UrlFilter, type BaseSearchParams } from './route-validation'
+import { createSearchValidator, searchValidators, type UrlFilter, type BaseSearchParams } from '@lib/route-validation'
 
 describe('route-validation', () => {
   describe('createSearchValidator', () => {

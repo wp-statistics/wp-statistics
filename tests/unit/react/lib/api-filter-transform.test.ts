@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extractFilterKey, transformFiltersToApi, type ApiFilters } from './api-filter-transform'
+import { extractFilterKey, transformFiltersToApi, type ApiFilters } from '@lib/api-filter-transform'
 import type { Filter } from '@/components/custom/filter-bar'
 
 describe('api-filter-transform', () => {

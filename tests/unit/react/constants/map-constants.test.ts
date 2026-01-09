@@ -6,7 +6,7 @@ import {
   MAP_ZOOM,
   COUNTRY_SIZE_ZOOM_MAP,
   COLOR_SCALE_THRESHOLDS,
-} from './map-constants'
+} from '@/constants/map-constants'
 
 describe('map-constants', () => {
   describe('calculateZoomFromDimension', () => {

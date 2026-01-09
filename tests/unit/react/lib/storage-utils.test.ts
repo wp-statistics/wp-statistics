@@ -8,7 +8,7 @@ import {
   safeRemoveItem,
   safeSetItem,
   safeSetJSON,
-} from './storage-utils'
+} from '@lib/storage-utils'
 
 describe('storage-utils', () => {
   // Mock localStorage for testing

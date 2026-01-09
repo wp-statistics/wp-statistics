@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createRegionMatcher, buildRegionDataMap, type RegionItem } from './region-matcher'
+import { createRegionMatcher, buildRegionDataMap, type RegionItem } from '@lib/region-matcher'
 
 describe('region-matcher', () => {
   // Sample region data for testing

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
-import { useUrlFilterSync } from './use-url-filter-sync'
+import { useUrlFilterSync } from '@hooks/use-url-filter-sync'
 import type { Filter } from '@/components/custom/filter-bar'
 import type { FilterField } from '@/components/custom/filter-row'
 import type { UrlFilter } from '@/lib/filter-utils'
