@@ -136,10 +136,10 @@ function MetricCard({
       </div>
 
       {/* Value row with percentage badge */}
-      <div className="flex items-baseline gap-2 mt-1.5">
+      <div className="flex items-baseline gap-2 mt-2">
         <span
           className={cn(
-            'font-medium text-neutral-800 leading-none tabular-nums',
+            'font-semibold text-neutral-900 leading-none tabular-nums',
             // Responsive text size
             'text-lg md:text-xl'
           )}

@@ -122,7 +122,7 @@ function Calendar({
           month_caption: 'flex h-[--cell-size] w-full items-center justify-center px-[--cell-size]',
           dropdowns: 'flex h-[--cell-size] w-full items-center justify-center gap-1.5 text-xs font-medium',
           dropdown_root:
-            'has-focus:border-ring border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] relative rounded-md border',
+            'has-focus:border-ring border-input has-focus:ring-ring/50 has-focus:ring-2 relative rounded-md border',
           dropdown: 'bg-popover absolute inset-0 opacity-0',
           caption_label: cn(
             'select-none font-medium',

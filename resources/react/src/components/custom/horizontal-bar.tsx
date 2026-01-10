@@ -49,12 +49,12 @@ export function HorizontalBar({
   const content = (
     <div
       className={cn(
-        'relative bg-white rounded-sm overflow-hidden w-full',
+        'relative bg-background rounded-sm overflow-hidden w-full',
         // Responsive padding
         'p-3 md:p-2'
       )}
     >
-      <div className="absolute inset-0 transition-all bg-[#F2F0FF]" style={{ width: `${barWidth}%` }} />
+      <div className="absolute inset-0 transition-all bg-primary/10" style={{ width: `${barWidth}%` }} />
 
       <div className="relative flex items-center justify-between gap-3 md:gap-4">
         <div className="flex items-center gap-2 leading-0 min-w-0">

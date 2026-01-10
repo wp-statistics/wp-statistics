@@ -16,7 +16,7 @@ import {
 // Active indicator component
 const ActiveIndicator = React.memo(function ActiveIndicator() {
   return (
-    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-primary shadow-[0_0_8px_rgba(79,70,229,0.3)]" />
+    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-primary" />
   )
 })
 

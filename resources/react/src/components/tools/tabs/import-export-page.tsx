@@ -409,7 +409,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
       )}
 
       {/* V15 Benefits */}
-      <div className="rounded-lg border bg-gradient-to-r from-primary/5 to-transparent p-4">
+      <div className="rounded-lg border bg-primary/5 p-4">
         <h4 className="text-sm font-medium mb-2">✨ What's New in V15</h4>
         <ul className="text-sm text-muted-foreground space-y-1">
           <li>

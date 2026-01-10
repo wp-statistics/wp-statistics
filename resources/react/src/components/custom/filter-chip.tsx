@@ -14,7 +14,7 @@ function FilterChip({ label, operator, value, onRemove, className }: FilterChipP
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-sm bg-chip px-2.5 py-2 text-xs text-secondary-foreground font-normal border border-input hover:bg-chip/80',
+        'inline-flex items-center gap-1.5 rounded-md bg-chip px-2.5 py-2 text-xs text-secondary-foreground font-normal border border-input hover:bg-chip/80',
         className
       )}
     >
