@@ -245,7 +245,7 @@ function RouteComponent() {
   return (
     <div className="min-w-0">
       {/* Header row */}
-      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
+      <div className="flex items-center justify-between px-4 py-3 ">
         <h1 className="text-2xl font-semibold text-neutral-800">{__('Referrers', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (

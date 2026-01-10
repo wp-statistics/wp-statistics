@@ -651,7 +651,7 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
   return (
     <div className="min-w-0">
       {/* Header */}
-      <div className="px-4 py-3 bg-white border-b border-input">
+      <div className="px-4 py-3 ">
         {/* Title row with filter and date picker */}
         <div className="flex items-center justify-between gap-4 mb-2">
           {/* Author Name with action icons */}

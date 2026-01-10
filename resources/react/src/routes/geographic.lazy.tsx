@@ -134,7 +134,7 @@ function RouteComponent() {
 
   return (
     <div className="min-w-0">
-      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
+      <div className="flex items-center justify-between px-4 py-3 ">
         <h1 className="text-2xl font-semibold text-neutral-800">{__('Geographic', 'wp-statistics')}</h1>
         <DateRangePicker
           initialDateFrom={dateFrom}

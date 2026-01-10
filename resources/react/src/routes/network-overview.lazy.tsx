@@ -189,7 +189,7 @@ function NetworkOverviewComponent() {
   if (!isInitialized) {
     return (
       <div className="min-w-0">
-        <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
+        <div className="flex items-center justify-between px-4 py-3 ">
           <Skeleton className="h-7 w-40" />
           <Skeleton className="h-9 w-64" />
         </div>
@@ -206,7 +206,7 @@ function NetworkOverviewComponent() {
   return (
     <div className="min-w-0">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
+      <div className="flex items-center justify-between px-4 py-3 ">
         <h1 className="text-2xl font-semibold text-neutral-800">{__('Network Overview', 'wp-statistics')}</h1>
         <DateRangePicker
           initialDateFrom={dateFrom}
