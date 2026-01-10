@@ -354,13 +354,16 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id} className="border-0 bg-white hover:bg-white">
                 {headerGroup.headers.map((header, index) => {
                   const size = header.column.columnDef.size
+                  const align = (header.column.columnDef.meta as { align?: 'left' | 'right' | 'center' } | undefined)?.align
                   return (
                     <TableHead
                       key={header.id}
                       className={cn(
                         'h-8 bg-white',
                         index === 0 ? 'pl-4' : '',
-                        index === headerGroup.headers.length - 1 ? 'pr-4' : ''
+                        index === headerGroup.headers.length - 1 ? 'pr-4' : '',
+                        align === 'right' && 'text-right',
+                        align === 'center' && 'text-center'
                       )}
                       style={size ? { width: size, minWidth: size, maxWidth: size } : undefined}
                     >

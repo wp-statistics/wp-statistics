@@ -159,6 +159,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
       accessorKey: 'totalViews',
       header: 'Total Views',
       size: COLUMN_SIZES.totalViews,
+      meta: { align: 'right' },
       cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
     },
     {

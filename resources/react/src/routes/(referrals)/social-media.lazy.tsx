@@ -125,7 +125,7 @@ function RouteComponent() {
                 loading="lazy"
               />
               <div className="min-w-0">
-                <div className="font-medium truncate">{name}</div>
+                <div className="text-xs font-medium text-neutral-700 truncate">{name}</div>
                 <div className="text-xs text-muted-foreground truncate capitalize">
                   {channel?.replace('-', ' ')}
                 </div>
@@ -149,7 +149,7 @@ function RouteComponent() {
 
           return (
             <div className="text-right">
-              <span className="font-medium">{formatCompactNumber(current)}</span>
+              <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(current)}</span>
               {previous !== undefined && (
                 <span className={`ml-2 text-xs ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
                   {isNegative ? '↓' : '↑'}{percentage}%
@@ -174,7 +174,7 @@ function RouteComponent() {
 
           return (
             <div className="text-right">
-              <span className="font-medium">{formatCompactNumber(current)}</span>
+              <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(current)}</span>
               {previous !== undefined && (
                 <span className={`ml-2 text-xs ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
                   {isNegative ? '↓' : '↑'}{percentage}%
@@ -193,7 +193,7 @@ function RouteComponent() {
           const current = Number(row.original.avg_session_duration)
           return (
             <div className="text-right">
-              <span className="font-medium">{formatDuration(current)}</span>
+              <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatDuration(current)}</span>
             </div>
           )
         },
@@ -207,7 +207,7 @@ function RouteComponent() {
           const current = Number(row.original.bounce_rate)
           return (
             <div className="text-right">
-              <span className="font-medium">{formatDecimal(current)}%</span>
+              <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatDecimal(current)}%</span>
             </div>
           )
         },
@@ -221,7 +221,7 @@ function RouteComponent() {
           const current = Number(row.original.pages_per_session)
           return (
             <div className="text-right">
-              <span className="font-medium">{formatDecimal(current)}</span>
+              <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatDecimal(current)}</span>
             </div>
           )
         },

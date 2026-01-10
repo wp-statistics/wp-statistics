@@ -90,7 +90,7 @@ function RouteComponent() {
           const uri = row.original.page_uri
           return (
             <div className="flex flex-col gap-0.5">
-              <span className="font-medium text-neutral-800 line-clamp-2 break-all">{uri}</span>
+              <span className="text-xs font-medium text-neutral-700 line-clamp-2 break-all">{uri}</span>
             </div>
           )
         },
@@ -102,7 +102,7 @@ function RouteComponent() {
         meta: { align: 'right' },
         cell: ({ row }) => (
           <div className="text-right">
-            <span className="font-medium">{formatCompactNumber(Number(row.original.views))}</span>
+            <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(Number(row.original.views))}</span>
           </div>
         ),
       },

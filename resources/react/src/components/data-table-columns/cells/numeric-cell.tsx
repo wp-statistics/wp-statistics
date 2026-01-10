@@ -23,7 +23,7 @@ export const NumericCell = memo(function NumericCell({ value, suffix, decimals }
 
   return (
     <div className="text-right">
-      <span className="tabular-nums font-medium text-neutral-700">
+      <span className="text-xs tabular-nums font-medium text-neutral-700">
         {displayValue}
         {suffix}
       </span>

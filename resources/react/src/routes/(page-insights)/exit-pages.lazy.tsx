@@ -91,7 +91,7 @@ function RouteComponent() {
           const uri = row.original.page_uri
           return (
             <div className="flex flex-col gap-0.5">
-              <span className="font-medium text-neutral-800 line-clamp-1">{title}</span>
+              <span className="text-xs font-medium text-neutral-700 line-clamp-1">{title}</span>
               <span className="text-xs text-muted-foreground line-clamp-1">{uri}</span>
             </div>
           )
@@ -112,7 +112,7 @@ function RouteComponent() {
         meta: { align: 'right' },
         cell: ({ row }) => (
           <div className="text-right">
-            <span className="font-medium">{formatCompactNumber(Number(row.original.sessions))}</span>
+            <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(Number(row.original.sessions))}</span>
           </div>
         ),
       },

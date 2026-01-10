@@ -1,6 +1,6 @@
 /**
- * ReferrerCell - Displays referrer domain with link and category badge
- * Always shows category badge, with optional domain link above it
+ * ReferrerCell - Displays referrer domain with category
+ * Shows domain link with category below, or just category for direct traffic
  */
 
 import { memo } from 'react'
@@ -25,27 +25,44 @@ function truncateDomain(domain: string, maxLength: number = 22): string {
   return `${domain.substring(0, maxPrefixLength)}…${suffix}`
 }
 
+/**
+ * Convert string to title case (handles UPPERCASE and lowercase)
+ */
+function toTitleCase(str: string): string {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
 export const ReferrerCell = memo(function ReferrerCell({ data, maxLength = 22 }: ReferrerCellProps) {
   const { domain, category } = data
+  const formattedCategory = toTitleCase(category)
+
+  // Direct traffic - no domain, show category as muted text
+  if (!domain) {
+    return (
+      <span className="text-xs text-neutral-500">{formattedCategory}</span>
+    )
+  }
 
   return (
     <div className="flex flex-col">
-      {domain && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <a
-              href={`https://${domain}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline truncate text-xs text-neutral-700"
-            >
-              {truncateDomain(domain, maxLength)}
-            </a>
-          </TooltipTrigger>
-          <TooltipContent>{domain}</TooltipContent>
-        </Tooltip>
-      )}
-      <span className="text-[11px] text-neutral-400">{category}</span>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <a
+            href={`https://${domain}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-medium text-neutral-700 truncate hover:underline"
+          >
+            {truncateDomain(domain, maxLength)}
+          </a>
+        </TooltipTrigger>
+        <TooltipContent>{domain}</TooltipContent>
+      </Tooltip>
+      <span className="text-xs text-neutral-500">{formattedCategory}</span>
     </div>
   )
 })

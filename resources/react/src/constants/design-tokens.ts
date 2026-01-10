@@ -119,7 +119,8 @@ export const typography = {
 
   // Tables - sentence case headers
   tableHeader: 'text-xs font-medium text-neutral-500',
-  tableCell: 'text-sm text-neutral-700',
+  tableCell: 'text-xs font-medium text-neutral-700',
+  tableCellNumeric: 'text-xs font-medium text-neutral-700 tabular-nums',
   tableCellSecondary: 'text-xs text-neutral-500',
 
   // Interactive elements
