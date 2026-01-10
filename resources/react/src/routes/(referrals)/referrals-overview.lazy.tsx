@@ -273,7 +273,7 @@ function RouteComponent() {
     <div className="min-w-0">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Referrals Overview', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Referrals Overview', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
             <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
@@ -291,14 +291,14 @@ function RouteComponent() {
         </div>
       </div>
 
-      <div className="p-2">
+      <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="referrals-overview" />
         {appliedFilters && appliedFilters.length > 0 && (
           <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
         )}
 
         {showSkeleton || showFullPageLoading ? (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             <div className="col-span-12">
               <PanelSkeleton showTitle={false}>
                 <MetricsSkeleton count={7} columns={4} />
@@ -332,7 +332,7 @@ function RouteComponent() {
             ))}
           </div>
         ) : (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             {/* Row 1: Overview Metrics */}
             <div className="col-span-12">
               <Panel>

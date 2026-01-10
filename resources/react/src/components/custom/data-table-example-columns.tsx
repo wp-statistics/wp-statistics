@@ -54,7 +54,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
       return (
         <div>
           <div>{referrer.domain}</div>
-          <div className="text-[10px] text-neutral-500 uppercase">{referrer.traffic}</div>
+          <div className="text-xs text-neutral-500">{referrer.traffic}</div>
         </div>
       )
     },

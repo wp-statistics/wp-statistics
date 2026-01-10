@@ -84,7 +84,60 @@ export function getTrendColorClass(value: number, isNegative = false): string {
 }
 
 /**
+ * Typography tokens - Semantic classes for consistent text styling
+ *
+ * Standards:
+ * - Minimum font size: 11px (text-[11px] or text-xs)
+ * - NO uppercase text anywhere - use sentence case for better i18n
+ * - Use these tokens instead of inline Tailwind classes
+ *
+ * Usage:
+ * import { typography } from '@/constants/design-tokens'
+ * <h1 className={typography.h1}>Page Title</h1>
+ * <p className={typography.body}>Body text</p>
+ */
+export const typography = {
+  // Headings - sentence case, no uppercase
+  h1: 'text-2xl font-semibold leading-tight text-neutral-900',
+  h2: 'text-xl font-semibold leading-tight text-neutral-800',
+  h3: 'text-base font-semibold leading-snug text-neutral-800',
+  h4: 'text-sm font-semibold leading-snug text-neutral-700',
+
+  // Body text
+  bodyLarge: 'text-base leading-normal text-neutral-700',
+  body: 'text-sm leading-normal text-neutral-600',
+  bodySmall: 'text-xs leading-normal text-neutral-500',
+
+  // Labels - sentence case (no uppercase for better i18n)
+  label: 'text-xs font-medium text-neutral-500',
+  labelTiny: 'text-[11px] font-medium text-neutral-400',
+
+  // Metrics
+  metricValue: 'text-xl font-medium tabular-nums leading-none text-neutral-800',
+  metricValueSmall: 'text-lg font-medium tabular-nums leading-none text-neutral-800',
+  metricLabel: 'text-xs font-medium text-neutral-400',
+
+  // Tables - sentence case headers
+  tableHeader: 'text-xs font-medium text-neutral-500',
+  tableCell: 'text-sm text-neutral-700',
+  tableCellSecondary: 'text-xs text-neutral-500',
+
+  // Interactive elements
+  button: 'text-sm font-medium',
+  buttonSmall: 'text-xs font-medium',
+  link: 'text-sm font-medium',
+
+  // Badges and pills
+  badge: 'text-xs font-semibold',
+  badgeSmall: 'text-[11px] font-medium',
+
+  // Tooltips
+  tooltip: 'text-xs leading-snug',
+} as const
+
+/**
  * Type exports for TypeScript usage
  */
 export type SemanticColor = keyof typeof semanticColors
 export type ChartColor = keyof typeof chartColors
+export type TypographyToken = keyof typeof typography

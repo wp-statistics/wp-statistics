@@ -14,10 +14,10 @@ function RouteComponent() {
     <div className="min-w-0">
       {/* Header row */}
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Campaigns', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Campaigns', 'wp-statistics')}</h1>
       </div>
 
-      <div className="p-2">
+      <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="campaigns" />
         <AddonPromo
           title={__('Marketing Campaigns', 'wp-statistics')}

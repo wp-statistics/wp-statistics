@@ -123,7 +123,7 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, on
             <div key={filter.id} className="relative">
               {/* Row connector "and" label for multiple filters */}
               {index > 0 && (
-                <div className="absolute -top-1.5 left-3 text-[10px] font-medium text-neutral-400 uppercase tracking-wider bg-white px-1">
+                <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-400 bg-white px-1">
                   {__('and', 'wp-statistics')}
                 </div>
               )}

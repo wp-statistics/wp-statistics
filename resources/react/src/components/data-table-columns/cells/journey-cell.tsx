@@ -40,7 +40,7 @@ export const JourneyCell = memo(function JourneyCell({ data, maxLength = 20 }: J
           </TooltipContent>
         </Tooltip>
         {entryPage.utmCampaign && (
-          <span className="text-[10px] text-neutral-400 truncate pl-4">{entryPage.utmCampaign}</span>
+          <span className="text-[11px] text-neutral-400 truncate pl-4">{entryPage.utmCampaign}</span>
         )}
       </div>
     )
@@ -78,7 +78,7 @@ export const JourneyCell = memo(function JourneyCell({ data, maxLength = 20 }: J
 
       {/* UTM Campaign */}
       {entryPage.utmCampaign && (
-        <span className="text-[10px] text-neutral-400 truncate pl-4 mt-0.5">{entryPage.utmCampaign}</span>
+        <span className="text-[11px] text-neutral-400 truncate pl-4 mt-0.5">{entryPage.utmCampaign}</span>
       )}
     </div>
   )

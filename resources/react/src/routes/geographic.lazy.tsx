@@ -135,7 +135,7 @@ function RouteComponent() {
   return (
     <div className="min-w-0">
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Geographic', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Geographic', 'wp-statistics')}</h1>
         <DateRangePicker
           initialDateFrom={dateFrom}
           initialDateTo={dateTo}
@@ -148,10 +148,10 @@ function RouteComponent() {
         />
       </div>
 
-      <div className="p-2">
+      <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="geographic" />
         {showSkeleton ? (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             {/* Metrics skeleton */}
             <div className="col-span-12">
               <PanelSkeleton showTitle={false}>
@@ -182,7 +182,7 @@ function RouteComponent() {
             ))}
           </div>
         ) : (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             {/* Row 1: Geographic Metrics */}
             <div className="col-span-12">
               <Panel>

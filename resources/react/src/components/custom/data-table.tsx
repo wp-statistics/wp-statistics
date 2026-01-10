@@ -18,6 +18,7 @@ import * as React from 'react'
 
 import { useIsMobile } from '@/hooks/use-mobile'
 
+import { EmptyState } from '../ui/empty-state'
 import { Panel, PanelAction, PanelFooter, PanelHeader, PanelTitle } from '../ui/panel'
 import { DataTableCardList } from './data-table-card-list'
 import { DataTableColumnToggle } from './data-table-column-toggle'
@@ -395,9 +396,9 @@ export function DataTable<TData, TValue>({
                 </TableRow>
               ))
             ) : (
-              <TableRow className="border-0">
-                <TableCell colSpan={columns.length} className="h-24 text-center text-sm text-neutral-500 pl-4">
-                  {isFetching ? null : emptyStateMessage}
+              <TableRow className="border-0 hover:bg-transparent">
+                <TableCell colSpan={columns.length} className="p-0">
+                  {isFetching ? null : <EmptyState title={emptyStateMessage} className="py-8" />}
                 </TableCell>
               </TableRow>
             )}

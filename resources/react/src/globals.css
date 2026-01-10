@@ -88,20 +88,20 @@
   --chart-4: #dc2626; /* Quaternary - Red */
   --chart-5: #2563eb; /* Quinary - Blue */
 
-  --sidebar: oklch(0.314 0.122 276.809);
-  --sidebar-foreground: oklch(1 0 0 / 0.8);
-  --sidebar-primary: oklch(1 0 0);
-  --sidebar-primary-foreground: oklch(0.314 0.122 276.809);
-  --sidebar-accent: oklch(1 0 0 / 0.9);
-  --sidebar-accent-foreground: oklch(0.314 0.122 276.809);
-  --sidebar-border: oklch(1 0 0 / 0.1);
-  --sidebar-ring: oklch(0.711 0.035 256.788);
-  --sidebar-hover: oklch(0.38 0.12 276.809);
-  --sidebar-active: oklch(0.42 0.14 276.809);
+  --sidebar: oklch(0.97 0.003 250);
+  --sidebar-foreground: oklch(0.25 0.015 260);
+  --sidebar-primary: oklch(0.45 0.2 265);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.92 0.005 250);
+  --sidebar-accent-foreground: oklch(0.15 0.02 260);
+  --sidebar-border: oklch(0.88 0.008 250);
+  --sidebar-ring: oklch(0.55 0.15 265);
+  --sidebar-hover: oklch(0.93 0.005 250);
+  --sidebar-active: oklch(0.90 0.008 260);
 
-  --font-sans: Roboto, sans-serif;
-  --font-mono: Roboto Mono, monospace;
-  --header: oklch(0.32 0.02 250);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --font-mono: Menlo, Consolas, monaco, monospace;
+  --header: oklch(0.98 0.002 250);
   --header-premium: oklch(0.2 0.1 282);
 
   --chip: rgba(226, 232, 240, 1);
@@ -133,18 +133,18 @@
   --chart-4: #ef4444; /* Quaternary - Red (lighter for dark mode) */
   --chart-5: #3b82f6; /* Quinary - Blue (lighter for dark mode) */
 
-  --sidebar: oklch(0.314 0.122 276.809);
-  --sidebar-foreground: oklch(1 0 0 / 0.8);
-  --sidebar-primary: oklch(1 0 0);
-  --sidebar-primary-foreground: oklch(0.314 0.122 276.809);
-  --sidebar-accent: oklch(1 0 0 / 0.9);
-  --sidebar-accent-foreground: oklch(0.314 0.122 276.809);
-  --sidebar-border: oklch(1 0 0 / 0.1);
-  --sidebar-ring: oklch(0.446 0.037 257.281);
-  --sidebar-hover: oklch(0.38 0.12 276.809);
-  --sidebar-active: oklch(0.42 0.14 276.809);
+  --sidebar: oklch(0.97 0.003 250);
+  --sidebar-foreground: oklch(0.25 0.015 260);
+  --sidebar-primary: oklch(0.45 0.2 265);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.92 0.005 250);
+  --sidebar-accent-foreground: oklch(0.15 0.02 260);
+  --sidebar-border: oklch(0.88 0.008 250);
+  --sidebar-ring: oklch(0.55 0.15 265);
+  --sidebar-hover: oklch(0.93 0.005 250);
+  --sidebar-active: oklch(0.90 0.008 260);
 
-  --header: oklch(0.32 0.02 250);
+  --header: oklch(0.98 0.002 250);
   --header-premium: oklch(0.2 0.1 282);
 
   --chip: rgba(226, 232, 240, 1);
@@ -245,12 +245,12 @@
 }
 
 [data-slot='sidebar-content']::-webkit-scrollbar-thumb {
-  background: oklch(1 0 0 / 0.15);
+  background: oklch(0 0 0 / 0.15);
   border-radius: 4px;
 }
 
 [data-slot='sidebar-content']::-webkit-scrollbar-thumb:hover {
-  background: oklch(1 0 0 / 0.25);
+  background: oklch(0 0 0 / 0.25);
 }
 
 /* Live indicator pulse animation - red dot that pulses outward */

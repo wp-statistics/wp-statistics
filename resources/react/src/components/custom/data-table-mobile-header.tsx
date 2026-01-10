@@ -66,7 +66,7 @@ export function DataTableMobileHeader({
                 <span>{col.label}</span>
                 {currentSort?.id === col.id && (
                   <div className="flex items-center gap-1">
-                    <span className="text-[10px] text-neutral-500">
+                    <span className="text-[11px] text-neutral-500">
                       {currentSort.desc ? __('High→Low', 'wp-statistics') : __('Low→High', 'wp-statistics')}
                     </span>
                     <Check className="h-3.5 w-3.5" />

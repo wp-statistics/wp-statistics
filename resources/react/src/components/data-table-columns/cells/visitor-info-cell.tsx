@@ -113,7 +113,7 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
       {showUserBadge ? (
         <Tooltip>
           <TooltipTrigger asChild>
-            <Badge variant="secondary" className="text-[10px] font-normal py-0 px-1 h-4 w-fit">
+            <Badge variant="secondary" className="text-[11px] font-normal py-0 px-1 h-4 w-fit">
               {user!.username} #{user!.id}
             </Badge>
           </TooltipTrigger>
@@ -124,7 +124,7 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
         </Tooltip>
       ) : (
         identifierDisplay && (
-          <span className="text-[10px] text-neutral-400 font-mono tracking-wide">{identifierDisplay}</span>
+          <span className="text-[11px] text-neutral-400 font-mono tracking-wide">{identifierDisplay}</span>
         )
       )}
     </div>

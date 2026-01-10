@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 
+import { EmptyState } from '@/components/ui/empty-state'
 import { Panel, PanelAction, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
 
 import { HorizontalBar } from './horizontal-bar'
@@ -42,9 +43,7 @@ export function HorizontalBarList({ title, items, link, loading = false }: Horiz
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         ) : safeItems.length === 0 ? (
-          <div className="flex h-full flex-1 flex-col items-center justify-center text-center">
-            <p className="text-sm text-neutral-500">No data available for the selected period</p>
-          </div>
+          <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
         ) : (
           <div className="flex flex-col gap-3">
             {safeItems.map((item, index) => (

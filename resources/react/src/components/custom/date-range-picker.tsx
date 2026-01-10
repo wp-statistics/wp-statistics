@@ -355,7 +355,7 @@ export const DateRangePicker = ({
               : `${formatDate(range.from, locale)}${range.to ? ` – ${formatDate(range.to, locale)}` : ''}`}
           </span>
           {rangeCompare && (
-            <span className="ml-2 px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[10px] font-medium">vs</span>
+            <span className="ml-2 px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[11px] font-medium">vs</span>
           )}
           <ChevronDown className="h-3.5 w-3.5 ml-2 text-neutral-400" />
         </Button>
@@ -421,7 +421,7 @@ export const DateRangePicker = ({
                 <>
                   <div className="flex items-center gap-1.5 my-2">
                     <div className="h-px flex-1 bg-neutral-200" />
-                    <span className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider">vs</span>
+                    <span className="text-xs font-medium text-neutral-400">vs</span>
                     <div className="h-px flex-1 bg-neutral-200" />
                   </div>
                   <div className="flex items-center gap-2">
@@ -506,7 +506,7 @@ export const DateRangePicker = ({
           {/* Presets sidebar */}
           {!isSmallScreen && (
             <div className="w-[140px] p-3 border-l border-neutral-100 bg-neutral-50/30">
-              <span className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider mb-2 block">
+              <span className="text-xs font-medium text-neutral-400 mb-2 block">
                 Quick Select
               </span>
               <div className="flex flex-col gap-0.5">

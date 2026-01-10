@@ -228,7 +228,7 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
           <Filter className="h-3.5 w-3.5" />
           {__('Filters', 'wp-statistics')}
           {filterCount > 0 && (
-            <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-primary-foreground">
+            <span className="rounded-full bg-primary px-1.5 py-0.5 text-[11px] text-primary-foreground">
               {filterCount}
             </span>
           )}

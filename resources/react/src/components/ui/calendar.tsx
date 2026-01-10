@@ -133,10 +133,10 @@ function Calendar({
           table: 'w-full border-collapse',
           weekdays: 'flex w-full',
           weekday:
-            'text-muted-foreground size-[--cell-size] flex items-center justify-center select-none text-[11px] font-medium',
+            'text-muted-foreground size-[--cell-size] flex items-center justify-center select-none text-xs font-medium',
           week: 'mt-1.5 flex w-full',
           week_number_header: 'size-[--cell-size] select-none',
-          week_number: 'text-muted-foreground select-none text-[11px]',
+          week_number: 'text-muted-foreground select-none text-xs',
           day: 'group/day relative size-[--cell-size] select-none p-0 text-center',
           range_start: 'bg-accent rounded-l-md',
           range_middle: 'rounded-none',

@@ -45,7 +45,7 @@ export const ReferrerCell = memo(function ReferrerCell({ data, maxLength = 22 }:
           <TooltipContent>{domain}</TooltipContent>
         </Tooltip>
       )}
-      <span className="text-[10px] text-neutral-400 uppercase">{category}</span>
+      <span className="text-[11px] text-neutral-400">{category}</span>
     </div>
   )
 })

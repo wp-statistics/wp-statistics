@@ -269,7 +269,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
         </div>
-        {rangeError && <span className="text-[10px] text-destructive">{rangeError}</span>}
+        {rangeError && <span className="text-[11px] text-destructive">{rangeError}</span>}
       </div>
     )
   }

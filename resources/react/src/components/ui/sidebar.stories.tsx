@@ -241,7 +241,7 @@ const MenuBadge = ({
           <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 animate-live-pulse" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
         </span>
-        <span className={`text-[12px] font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-white/70'}`}>
+        <span className={`text-xs font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-white/70'}`}>
           {formattedCount}
         </span>
       </span>

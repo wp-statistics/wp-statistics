@@ -331,7 +331,7 @@ function RouteComponent() {
     <div className="min-w-0">
       {/* Header row */}
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Search Engines', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Search Engines', 'wp-statistics')}</h1>
         <div className="flex items-center gap-2">
           <Select value={searchType} onValueChange={handleSearchTypeChange}>
             <SelectTrigger className="h-8 w-auto text-xs gap-1 px-3 border-neutral-200 hover:bg-neutral-50">

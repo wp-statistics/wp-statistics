@@ -16,7 +16,7 @@ import {
 // Active indicator component
 const ActiveIndicator = React.memo(function ActiveIndicator() {
   return (
-    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-primary shadow-[0_0_8px_rgba(79,70,229,0.3)]" />
   )
 })
 
@@ -42,7 +42,7 @@ const MenuBadge = React.memo(function MenuBadge({
           <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 animate-live-pulse" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
         </span>
-        <span className={`text-[12px] font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-white/70'}`}>
+        <span className={`text-xs font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-sidebar-foreground/70'}`}>
           {formattedCount}
         </span>
       </span>
@@ -69,8 +69,8 @@ const SubMenuItem = React.memo(function SubMenuItem({
       <SidebarMenuSubButton
         asChild
         isActive={isActive}
-        className={`cursor-pointer text-[13px] bg-transparent hover:bg-transparent focus:ring-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/30 overflow-visible ${
-          isActive ? 'text-white font-medium' : 'text-sidebar-foreground/70 hover:text-white'
+        className={`cursor-pointer text-sm bg-transparent hover:bg-transparent focus:ring-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 overflow-visible ${
+          isActive ? 'text-sidebar-accent-foreground font-medium' : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'
         }`}
       >
         <Link to={subItem.url as any} className="overflow-visible">
@@ -125,15 +125,15 @@ const NavMenuItem = React.memo(function NavMenuItem({
   }, [item.items, onNavigate])
 
   // Stable class strings
-  const menuButtonClasses = `relative cursor-pointer pe-8 bg-transparent hover:bg-sidebar-hover hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 ${
-    isSubmenuActive ? 'text-white [&_svg]:opacity-100' : 'text-sidebar-foreground'
+  const menuButtonClasses = `relative cursor-pointer pe-8 bg-transparent hover:bg-sidebar-hover hover:text-sidebar-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 ${
+    isSubmenuActive ? 'text-sidebar-accent-foreground [&_svg]:opacity-100' : 'text-sidebar-foreground'
   }`
 
   const chevronButtonClasses = `cursor-pointer absolute end-2 top-1/2 -translate-y-1/2 p-1 rounded z-10 group-data-[collapsible=icon]:hidden ${
-    isSubmenuActive ? 'text-white' : 'text-sidebar-foreground hover:text-white'
+    isSubmenuActive ? 'text-sidebar-accent-foreground' : 'text-sidebar-foreground hover:text-sidebar-foreground'
   }`
 
-  const singleItemClasses = `relative cursor-pointer bg-transparent hover:bg-sidebar-hover hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 text-sidebar-foreground data-[active=true]:bg-sidebar-active data-[active=true]:text-white data-[active=true]:[&_svg]:opacity-100`
+  const singleItemClasses = `relative cursor-pointer bg-transparent hover:bg-sidebar-hover hover:text-sidebar-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 text-sidebar-foreground data-[active=true]:bg-sidebar-active data-[active=true]:text-sidebar-accent-foreground data-[active=true]:[&_svg]:opacity-100`
 
   return (
     <Collapsible asChild open={isOpen} onOpenChange={setIsOpen}>

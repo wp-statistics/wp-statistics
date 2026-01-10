@@ -15,14 +15,14 @@ export function DataTableColumnHeaderSortable<TData, TValue>({
   const isRightAlign = className?.includes('text-right')
 
   if (!column.getCanSort()) {
-    return <span className={cn('uppercase', className)}>{title}</span>
+    return <span className={cn('', className)}>{title}</span>
   }
 
   return (
     <button
       type="button"
       className={cn(
-        'inline-flex items-center gap-1 uppercase hover:text-foreground transition-colors',
+        'inline-flex items-center gap-1  hover:text-foreground transition-colors',
         isRightAlign && 'w-full justify-end',
         className
       )}

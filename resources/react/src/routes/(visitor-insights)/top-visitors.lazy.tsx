@@ -300,7 +300,7 @@ function RouteComponent() {
     <div className="min-w-0">
       {/* Header row with title and filter button */}
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Top Visitors', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Top Visitors', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
             <FilterButton
@@ -322,7 +322,7 @@ function RouteComponent() {
         </div>
       </div>
 
-      <div className="p-2">
+      <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-visitors" />
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (

@@ -154,7 +154,7 @@ function DiagnosticCheckItem({ check, isRunning, isRepairing, onRetest, onRepair
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <CollapsibleContent>
             <div className="border-t px-4 py-3 bg-background/50">
-              <h5 className="text-xs font-medium text-muted-foreground uppercase mb-2">Details</h5>
+              <h5 className="text-xs font-medium text-muted-foreground mb-2">Details</h5>
               <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-48">
                 {JSON.stringify(check.details, null, 2)}
               </pre>

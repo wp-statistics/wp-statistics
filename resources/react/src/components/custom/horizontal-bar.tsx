@@ -84,7 +84,7 @@ export function HorizontalBar({
           </span>
           <span
             className={cn(
-              'inline-flex items-center gap-0.5 text-[10px] md:text-[11px] font-medium tabular-nums',
+              'inline-flex items-center gap-0.5 text-[11px] md:text-xs font-medium tabular-nums',
               isNegative ? semanticColors.trendNegative : semanticColors.trendPositive
             )}
           >

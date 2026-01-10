@@ -281,7 +281,7 @@ export function DataTableColumnToggle<TData>({
 
         {/* Visible Section */}
         <div className="p-2">
-          <span className="block px-2 pb-1.5 text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+          <span className="block px-2 pb-1.5 text-xs font-medium text-muted-foreground">
             {__('Visible', 'wp-statistics')} ({visibleCount})
           </span>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -296,7 +296,7 @@ export function DataTableColumnToggle<TData>({
         {/* Hidden Section */}
         {hiddenCount > 0 && (
           <div className="p-2 border-t border-neutral-100 bg-neutral-50/30">
-            <span className="block px-2 pb-1.5 text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+            <span className="block px-2 pb-1.5 text-xs font-medium text-muted-foreground">
               {__('Hidden', 'wp-statistics')} ({hiddenCount})
             </span>
             {hiddenColumns.map((item) => (

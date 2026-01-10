@@ -325,7 +325,7 @@ function RouteComponent() {
     <div className="min-w-0">
       {/* Header row */}
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Page Insights', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Page Insights', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields && filterFields.length > 0 && isInitialized && (
             <FilterButton
@@ -347,7 +347,7 @@ function RouteComponent() {
         </div>
       </div>
 
-      <div className="p-2">
+      <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="page-insights-overview" />
 
         {/* Applied filters row */}
@@ -361,7 +361,7 @@ function RouteComponent() {
             <p className="text-sm text-muted-foreground mt-2">{error?.message}</p>
           </div>
         ) : showSkeleton ? (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             {/* Metrics skeleton */}
             <div className="col-span-12">
               <PanelSkeleton showTitle={false}>
@@ -394,7 +394,7 @@ function RouteComponent() {
             </div>
           </div>
         ) : (
-          <div className={`grid gap-2 grid-cols-12 ${showFullPageLoading ? 'opacity-60 pointer-events-none' : ''}`}>
+          <div className={`grid gap-3 grid-cols-12 ${showFullPageLoading ? 'opacity-60 pointer-events-none' : ''}`}>
             {/* Metrics Panel */}
             <div className="col-span-12">
               <Panel>

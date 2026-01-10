@@ -92,7 +92,7 @@ export function DataTableCard<TData>({ row, columns, isExpanded, onToggleExpand 
         >
           {displayBodyColumns.map((col) => (
             <div key={col.id || (col as { accessorKey?: string }).accessorKey} className="text-center">
-              <div className="text-[10px] text-neutral-500 uppercase tracking-wide mb-0.5">{getColumnHeader(col)}</div>
+              <div className="text-xs text-neutral-500 mb-0.5">{getColumnHeader(col)}</div>
               <div className="text-sm font-medium">{getCellContent(col)}</div>
             </div>
           ))}

@@ -239,7 +239,7 @@ export function SystemInfoPage() {
                         {table.isLegacy && (
                           <Badge
                             variant="secondary"
-                            className="text-[10px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                            className="text-[11px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
                           >
                             Legacy
                           </Badge>
@@ -247,7 +247,7 @@ export function SystemInfoPage() {
                         {table.isAddon && (
                           <Badge
                             variant="secondary"
-                            className="text-[10px] px-1.5 py-0 h-4 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                            className="text-[11px] px-1.5 py-0 h-4 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
                           >
                             {table.addonName || 'Add-on'}
                           </Badge>
@@ -303,7 +303,7 @@ export function SystemInfoPage() {
                     {Object.entries(groupedOptions).map(([group, items]) => (
                       <div key={group} className="rounded-md border">
                         <div className="bg-muted/50 px-3 py-2 border-b">
-                          <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                          <span className="text-xs font-medium text-muted-foreground">
                             {getGroupLabel(group)}
                           </span>
                         </div>

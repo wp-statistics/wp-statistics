@@ -338,7 +338,7 @@ function RouteComponent() {
     <div className="min-w-0">
       {/* Header row with title, date picker, and filter button */}
       <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Visitor Insights', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Visitor Insights', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
             <FilterButton
@@ -360,16 +360,16 @@ function RouteComponent() {
         </div>
       </div>
 
-      <div className="p-2">
-        <NoticeContainer className="mb-2" currentRoute="visitors-overview" />
+      <div className="p-3">
+        <NoticeContainer className="mb-3" currentRoute="visitors-overview" />
 
         {/* Applied filters row (separate from button) */}
         {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
+          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-3" />
         )}
 
         {showSkeleton || showFullPageLoading ? (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             {/* Metrics skeleton */}
             <div className="col-span-12">
               <PanelSkeleton showTitle={false}>
@@ -410,7 +410,7 @@ function RouteComponent() {
             </div>
           </div>
         ) : (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             <div className="col-span-12">
               <Panel>
                 <Metrics metrics={overviewMetrics} columns={4} />

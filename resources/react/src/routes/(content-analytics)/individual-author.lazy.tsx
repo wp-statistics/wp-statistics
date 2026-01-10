@@ -42,7 +42,7 @@ function RouteComponent() {
     return (
       <div className="min-w-0 p-6">
         <div className="text-center">
-          <h1 className="text-xl font-semibold text-neutral-800 mb-2">{__('Author Not Found', 'wp-statistics')}</h1>
+          <h1 className="text-2xl font-semibold text-neutral-800 mb-2">{__('Author Not Found', 'wp-statistics')}</h1>
           <p className="text-muted-foreground mb-4">{__('No author ID was provided.', 'wp-statistics')}</p>
           <Link to="/authors" className="text-primary hover:underline">
             {__('Go to Authors Overview', 'wp-statistics')}
@@ -756,7 +756,7 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
         )}
       </div>
 
-      <div className="p-2">
+      <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="individual-author" />
         {filtersForDisplay.length > 0 && (
           <FilterBar
@@ -774,7 +774,7 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
         )}
 
         {showSkeleton || showFullPageLoading ? (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             <div className="col-span-12">
               <PanelSkeleton showTitle={false}>
                 <MetricsSkeleton count={7} columns={4} />
@@ -815,7 +815,7 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
             ))}
           </div>
         ) : (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             {/* Row 1: Individual Author Metrics */}
             <div className="col-span-12">
               <Panel>

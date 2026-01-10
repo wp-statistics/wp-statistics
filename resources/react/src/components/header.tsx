@@ -10,13 +10,13 @@ export function Header() {
   const { toggleSidebar } = useSidebar()
 
   return (
-    <header className="bg-header h-[var(--header-height)] px-3 lg:px-4 flex items-center gap-3 shrink-0">
+    <header className="bg-header h-[var(--header-height)] px-3 lg:px-4 flex items-center gap-3 shrink-0 border-b border-sidebar-border">
       {/* Mobile/Tablet menu trigger */}
       {isMobileOrTablet && (
         <Button
           variant="ghost"
           size="icon"
-          className="text-white hover:bg-white/10 shrink-0 h-11 w-11"
+          className="text-sidebar-foreground hover:bg-sidebar-hover shrink-0 h-11 w-11"
           onClick={toggleSidebar}
           aria-label="Toggle navigation menu"
         >
@@ -25,7 +25,7 @@ export function Header() {
       )}
 
       {/* Logo */}
-      <div className="flex gap-1 items-center text-white font-medium italic text-xl">
+      <div className="flex gap-1 items-center text-sidebar-foreground font-medium italic text-xl">
         <Logo />
       </div>
     </header>

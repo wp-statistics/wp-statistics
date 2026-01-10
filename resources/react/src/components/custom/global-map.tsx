@@ -415,7 +415,7 @@ export function GlobalMap({
         <div className="font-medium text-neutral-100 mb-1.5">{region?.name || provinceName}</div>
         <div className="border-t border-neutral-700 pt-1.5 space-y-0.5">
           <div className="flex justify-between gap-4">
-            <span className="text-neutral-400 uppercase">{selectedMetric}</span>
+            <span className="text-neutral-400">{selectedMetric}</span>
             <span className="font-medium text-neutral-100 tabular-nums">{(value || 0).toLocaleString()}</span>
           </div>
           <div className="text-neutral-400 tabular-nums">{formatDecimal(percentage)}% of total</div>

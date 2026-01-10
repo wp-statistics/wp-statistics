@@ -34,7 +34,7 @@ function TooltipContent({
         data-slot="tooltip-content"
         sideOffset={sideOffset}
         className={cn(
-          'bg-neutral-800 text-neutral-100 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 z-50 w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) rounded px-2 py-1 text-[11px] leading-tight shadow-md',
+          'bg-neutral-800 text-neutral-100 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 z-50 w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) rounded px-2 py-1 text-xs leading-snug shadow-md',
           className
         )}
         {...props}

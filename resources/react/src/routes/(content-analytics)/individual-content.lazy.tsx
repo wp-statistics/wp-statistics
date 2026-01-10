@@ -52,7 +52,7 @@ function RouteComponent() {
     return (
       <div className="min-w-0 p-6">
         <div className="text-center">
-          <h1 className="text-xl font-semibold text-neutral-800 mb-2">
+          <h1 className="text-2xl font-semibold text-neutral-800 mb-2">
             {__('Content Not Found', 'wp-statistics')}
           </h1>
           <p className="text-muted-foreground mb-4">
@@ -610,7 +610,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
         )}
       </div>
 
-      <div className="p-2">
+      <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="individual-content" />
         {filtersWithoutPostType.length > 0 && (
           <FilterBar
@@ -621,7 +621,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
         )}
 
         {showSkeleton || showFullPageLoading ? (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             <div className="col-span-12">
               <PanelSkeleton showTitle={false}>
                 <MetricsSkeleton count={8} columns={4} />
@@ -657,7 +657,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
             ))}
           </div>
         ) : (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             {/* Row 1: Individual Content Metrics */}
             <div className="col-span-12">
               <Panel>

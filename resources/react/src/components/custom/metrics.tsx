@@ -105,9 +105,9 @@ function MetricCard({
       <div className="flex items-center gap-1">
         <span
           className={cn(
-            'font-medium text-neutral-400 uppercase tracking-[0.04em] leading-none',
+            'font-medium text-neutral-400 leading-none',
             // Responsive text size
-            'text-[10px] md:text-[11px]'
+            'text-xs'
           )}
         >
           {label}
@@ -151,7 +151,7 @@ function MetricCard({
             className={cn(
               'inline-flex items-center gap-0.5 font-medium tabular-nums leading-none',
               // Responsive text size
-              'text-[10px] md:text-[11px]',
+              'text-[11px] md:text-xs',
               isZero
                 ? semanticColors.trendNeutral
                 : isNegative
