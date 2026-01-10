@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Loader2, Database, Server, HardDrive, RefreshCw, Settings, Clock } from 'lucide-react'
+import { Loader2, Database, Server, HardDrive, RefreshCw, Settings, Clock, User } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
@@ -38,6 +38,13 @@ interface TransientItem {
   value: string
 }
 
+interface UserMetaItem {
+  key: string
+  value: string
+  exists: boolean
+  isLegacy: boolean
+}
+
 // Helper to get config
 const getConfig = () => {
   const wpsReact = (window as any).wps_react
@@ -74,6 +81,7 @@ export function SystemInfoPage() {
   } | null>(null)
   const [options, setOptions] = React.useState<OptionItem[]>([])
   const [transients, setTransients] = React.useState<TransientItem[]>([])
+  const [userMeta, setUserMeta] = React.useState<UserMetaItem[]>([])
   const [isLoadingOptionsTransients, setIsLoadingOptionsTransients] = React.useState(false)
 
   // Fetch system info on mount
@@ -111,6 +119,7 @@ export function SystemInfoPage() {
       if (data.success) {
         setOptions(data.data.options || [])
         setTransients(data.data.transients || [])
+        setUserMeta(data.data.user_meta || [])
       }
     } catch (error) {
       console.error('Failed to fetch options/transients:', error)
@@ -276,7 +285,7 @@ export function SystemInfoPage() {
               <Settings className="h-5 w-5" />
               Options & Transients
             </CardTitle>
-            <CardDescription>WordPress options and transients used by WP Statistics.</CardDescription>
+            <CardDescription>WordPress options, transients, and user meta used by WP Statistics.</CardDescription>
           </div>
           <Button variant="outline" size="sm" onClick={fetchOptionsAndTransients} disabled={isLoadingOptionsTransients}>
             {isLoadingOptionsTransients ? (
@@ -288,8 +297,8 @@ export function SystemInfoPage() {
           </Button>
         </CardHeader>
         <CardContent>
-          {options.length === 0 && transients.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Click "Load Data" to view options and transients.</p>
+          {options.length === 0 && transients.length === 0 && userMeta.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Click "Load Data" to view options, transients, and user meta.</p>
           ) : (
             <div className="space-y-6">
               {/* Options Section */}
@@ -345,6 +354,43 @@ export function SystemInfoPage() {
 
               {transients.length === 0 && options.length > 0 && (
                 <p className="text-sm text-muted-foreground">No transients found.</p>
+              )}
+
+              {/* User Meta Section */}
+              {userMeta.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    User Meta ({userMeta.filter((m) => m.exists).length} stored)
+                  </h4>
+                  <div className="rounded-md border divide-y">
+                    {userMeta.map((meta, idx) => (
+                      <div
+                        key={`${meta.key}-${idx}`}
+                        className={`px-3 py-2 flex items-start gap-4 ${meta.isLegacy ? 'opacity-60' : ''}`}
+                      >
+                        <div className="flex items-center gap-2 shrink-0">
+                          <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{meta.key}</code>
+                          {meta.isLegacy && (
+                            <Badge
+                              variant="secondary"
+                              className="text-[10px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                            >
+                              Legacy
+                            </Badge>
+                          )}
+                        </div>
+                        {meta.exists ? (
+                          <pre className="text-xs text-muted-foreground whitespace-pre-wrap break-all flex-1 max-h-24 overflow-auto">
+                            {meta.value}
+                          </pre>
+                        ) : (
+                          <span className="text-xs text-muted-foreground italic">Not set</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
           )}

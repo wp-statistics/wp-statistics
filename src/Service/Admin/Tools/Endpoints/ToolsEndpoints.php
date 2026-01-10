@@ -384,7 +384,44 @@ class ToolsEndpoints
         wp_send_json_success([
             'options'    => $optionsList,
             'transients' => $transients,
+            'user_meta'  => $this->getUserMetaOptions(),
         ]);
+    }
+
+    /**
+     * Get user meta options for current user.
+     *
+     * Returns all WP Statistics related user meta keys with their values.
+     * Legacy keys are marked with isLegacy flag.
+     *
+     * @return array
+     */
+    private function getUserMetaOptions(): array
+    {
+        $userId = get_current_user_id();
+
+        // Define user meta keys (isLegacy = true for deprecated keys)
+        $metaKeys = [
+            // Modern preferences (v15+) - date_filter is now stored inside this
+            'wp_statistics_dashboard_preferences' => false,
+            // Legacy (deprecated in v15)
+            'wp_statistics'                       => true,
+            'wp_statistics_metabox_date_filter'   => true,
+            'wp_statistics_user_date_filter'      => true, // Migrated to dashboard_preferences
+        ];
+
+        $userMeta = [];
+        foreach ($metaKeys as $key => $isLegacy) {
+            $value = get_user_meta($userId, $key, true);
+            $userMeta[] = [
+                'key'      => $key,
+                'value'    => $this->formatOptionValue($value),
+                'exists'   => !empty($value),
+                'isLegacy' => $isLegacy,
+            ];
+        }
+
+        return $userMeta;
     }
 
     /**
