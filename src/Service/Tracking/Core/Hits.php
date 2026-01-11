@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Tracking\Core;
 
+use Exception;
 use WP_Statistics\Abstracts\BaseTracking;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Entity\EntityFactory;
@@ -94,9 +95,11 @@ class Hits extends BaseTracking
         $exclusion      = $this->checkAndThrowIfExcluded($visitorProfile);
 
         $resourceUriId = Request::get('resourceUriId', 0);
-        $resourceId    = Request::get('resource_id', 0);
+        $resourceId    = Request::get('resource_id', null);
 
-        if (empty($resourceUriId) || empty($resourceId)) {
+        // resourceUriId must be positive (auto-increment ID)
+        // resource_id can be 0 for special pages like 404, search, home
+        if (empty($resourceUriId) || $resourceId === null) {
             throw new Exception(esc_html__('Missing or invalid resource identifiers: resourceId and/or resourceUriId.', 'wp-statistics'), 200);
             return;
         }

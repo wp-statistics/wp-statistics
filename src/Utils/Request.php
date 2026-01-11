@@ -17,7 +17,10 @@ class Request
      */
     public static function get($param, $default = false, $return = 'string')
     {
-        if (empty($_REQUEST[$param])) return $default;
+        // Use isset + strict empty check to allow numeric 0 and string "0"
+        if (!isset($_REQUEST[$param]) || ($_REQUEST[$param] === '' && $return !== 'string')) {
+            return $default;
+        }
 
         $value = $_REQUEST[$param];
 
