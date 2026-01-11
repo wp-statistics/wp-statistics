@@ -89,7 +89,7 @@ class Geo extends BaseEntity
         $cityId = (int)RecordFactory::city()->insert([
             'country_id'  => $countryId,
             'region_code' => $regionCode,
-            'region_name' => $regionName,
+            'region_name' => $regionName ?? '',
             'city_name'   => $cityName,
         ]);
 
