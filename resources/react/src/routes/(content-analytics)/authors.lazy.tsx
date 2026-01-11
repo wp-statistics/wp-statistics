@@ -4,7 +4,6 @@ import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
@@ -40,7 +39,6 @@ function AuthorsOverviewView() {
     filters: appliedFilters,
     setDateRange,
     applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
     isInitialized,
     apiDateParams,
   } = useGlobalFilters()
@@ -94,7 +92,7 @@ function AuthorsOverviewView() {
     return [...(appliedFilters || []), defaultPostTypeFilter]
   }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
 
-  // Filters to display in FilterBar (includes default if no user filter and not removed)
+  // Filters to display (includes default if no user filter and not removed)
   const filtersForDisplay = useMemo(() => {
     if (hasUserPostTypeFilter) {
       return appliedFilters || []
@@ -353,20 +351,6 @@ function AuthorsOverviewView() {
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="authors" />
-        {filtersForDisplay.length > 0 && (
-          <FilterBar
-            filters={filtersForDisplay}
-            onRemoveFilter={(filterId) => {
-              // If removing the default post_type filter, clear it by setting a flag
-              if (filterId === 'post_type-authors-default') {
-                setDefaultFilterRemoved(true)
-                return
-              }
-              handleRemoveFilter(filterId)
-            }}
-            className="mb-2"
-          />
-        )}
 
         {showSkeleton || showFullPageLoading ? (
           <div className="grid gap-3 grid-cols-12">

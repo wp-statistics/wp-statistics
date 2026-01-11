@@ -7,7 +7,6 @@ import { useCallback, useMemo, useState } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -367,9 +366,6 @@ function RouteComponent() {
       <div className="p-2 space-y-4">
         <NoticeContainer currentRoute="search-engines" />
         {/* Applied filters row */}
-        {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} />
-        )}
 
         {isError ? (
           <div className="p-2 text-center">

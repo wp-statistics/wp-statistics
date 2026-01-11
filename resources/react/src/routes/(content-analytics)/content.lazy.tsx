@@ -4,7 +4,6 @@ import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
@@ -77,7 +76,6 @@ function ContentOverviewView() {
     filters: appliedFilters,
     setDateRange,
     applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
     isInitialized,
     apiDateParams,
   } = useGlobalFilters()
@@ -132,7 +130,7 @@ function ContentOverviewView() {
     return [...(appliedFilters || []), defaultPostTypeFilter]
   }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
 
-  // Filters to display in FilterBar (includes default if no user filter and not removed)
+  // Filters to display (includes default if no user filter and not removed)
   const filtersForDisplay = useMemo(() => {
     if (hasUserPostTypeFilter) {
       return appliedFilters || []
@@ -484,20 +482,6 @@ function ContentOverviewView() {
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="content" />
-        {filtersForDisplay.length > 0 && (
-          <FilterBar
-            filters={filtersForDisplay}
-            onRemoveFilter={(filterId) => {
-              // If removing the default post_type filter, clear it by setting a flag
-              if (filterId === 'post_type-content-default') {
-                setDefaultFilterRemoved(true)
-                return
-              }
-              handleRemoveFilter(filterId)
-            }}
-            className="mb-2"
-          />
-        )}
 
         {showSkeleton || showFullPageLoading ? (
           <div className="grid gap-3 grid-cols-12">

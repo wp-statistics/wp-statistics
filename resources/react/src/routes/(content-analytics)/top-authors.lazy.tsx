@@ -7,7 +7,6 @@ import { useCallback, useMemo, useState } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
@@ -98,18 +97,6 @@ function RouteComponent() {
   }, [showDefaultFilter, normalizedFilters, defaultPostTypeFilter])
 
   const filtersForDisplay = filtersForApi
-
-  // Handle filter removal
-  const handleTopAuthorsRemoveFilter = useCallback(
-    (filterId: string) => {
-      if (filterId === 'post_type-top-authors-default') {
-        setDefaultFilterRemoved(true)
-      } else {
-        setLocalFilters((prev) => (prev || []).filter((f) => f.id !== filterId))
-      }
-    },
-    []
-  )
 
   // Handle filter application
   const handleTopAuthorsApplyFilters = useCallback(
@@ -232,9 +219,6 @@ function RouteComponent() {
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-authors" />
-        {filtersForDisplay.length > 0 && (
-          <FilterBar filters={filtersForDisplay} onRemoveFilter={handleTopAuthorsRemoveFilter} className="mb-2" />
-        )}
 
         {isError ? (
           <div className="p-2 text-center">

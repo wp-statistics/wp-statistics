@@ -7,7 +7,6 @@ import { useCallback, useMemo, useState } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
@@ -173,9 +172,6 @@ function RouteComponent() {
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-visitors" />
-        {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
-        )}
 
         {isError ? (
           <div className="p-2 text-center">

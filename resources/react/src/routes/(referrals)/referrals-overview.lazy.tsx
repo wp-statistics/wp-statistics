@@ -4,7 +4,6 @@ import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
@@ -293,9 +292,6 @@ function RouteComponent() {
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="referrals-overview" />
-        {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
-        )}
 
         {showSkeleton || showFullPageLoading ? (
           <div className="grid gap-3 grid-cols-12">

@@ -7,7 +7,6 @@ import { useCallback, useMemo, useState } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
@@ -99,18 +98,6 @@ function RouteComponent() {
   }, [showDefaultFilter, normalizedFilters, defaultTaxonomyFilter])
 
   const filtersForDisplay = filtersForApi
-
-  // Handle filter removal
-  const handleTopCategoriesRemoveFilter = useCallback(
-    (filterId: string) => {
-      if (filterId === 'taxonomy_type-top-categories-default') {
-        setDefaultFilterRemoved(true)
-      } else {
-        setLocalFilters((prev) => (prev || []).filter((f) => f.id !== filterId))
-      }
-    },
-    []
-  )
 
   // Handle filter application
   const handleTopCategoriesApplyFilters = useCallback(
@@ -249,9 +236,6 @@ function RouteComponent() {
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-categories" />
-        {filtersForDisplay.length > 0 && (
-          <FilterBar filters={filtersForDisplay} onRemoveFilter={handleTopCategoriesRemoveFilter} className="mb-2" />
-        )}
 
         {isError ? (
           <div className="p-2 text-center">

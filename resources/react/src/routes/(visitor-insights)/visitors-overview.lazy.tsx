@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
@@ -365,9 +364,6 @@ function RouteComponent() {
         <NoticeContainer className="mb-3" currentRoute="visitors-overview" />
 
         {/* Applied filters row (separate from button) */}
-        {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-3" />
-        )}
 
         {showSkeleton || showFullPageLoading ? (
           <div className="grid gap-3 grid-cols-12">

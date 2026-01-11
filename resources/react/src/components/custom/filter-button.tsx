@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { ChevronRight, Filter } from 'lucide-react'
+import { Filter, X } from 'lucide-react'
 import { useState } from 'react'
 
 import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'
@@ -218,22 +218,41 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className, filte
 
   const filterCount = appliedFilters.length
 
+  const handleClearClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onApplyFilters([])
+  }
+
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn('h-8 text-xs border-neutral-200 hover:bg-neutral-50', { 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
+          className={cn(
+            'h-8 text-xs border-neutral-200 hover:bg-neutral-50',
+            { 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount },
+            className
+          )}
           size="sm"
         >
           <Filter className="h-3.5 w-3.5" />
-          {__('Filters', 'wp-statistics')}
-          {filterCount > 0 && (
-            <span className="rounded-full bg-primary px-1.5 py-0.5 text-[11px] text-primary-foreground">
-              {filterCount}
-            </span>
+          {filterCount > 0 ? (
+            <>
+              {__('Filters:', 'wp-statistics')} {filterCount}
+              <span
+                role="button"
+                tabIndex={0}
+                onClick={handleClearClick}
+                onKeyDown={(e) => e.key === 'Enter' && handleClearClick(e as unknown as React.MouseEvent)}
+                className="ml-1 p-0.5 rounded-full hover:bg-primary/20 transition-colors"
+                aria-label={__('Clear all filters', 'wp-statistics')}
+              >
+                <X className="h-3 w-3" />
+              </span>
+            </>
+          ) : (
+            __('Filters', 'wp-statistics')
           )}
-          <ChevronRight className="h-3.5 w-3.5" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

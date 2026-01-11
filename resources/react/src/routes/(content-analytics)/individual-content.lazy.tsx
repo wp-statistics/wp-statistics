@@ -6,7 +6,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
-import { FilterBar } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
@@ -203,7 +202,6 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
     filters: appliedFilters,
     setDateRange,
     applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
     isInitialized,
     apiDateParams,
   } = useGlobalFilters()
@@ -613,13 +611,6 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="individual-content" />
-        {filtersWithoutPostType.length > 0 && (
-          <FilterBar
-            filters={filtersWithoutPostType}
-            onRemoveFilter={handleRemoveFilter}
-            className="mb-2"
-          />
-        )}
 
         {showSkeleton || showFullPageLoading ? (
           <div className="grid gap-3 grid-cols-12">
