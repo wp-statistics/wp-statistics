@@ -231,6 +231,7 @@ function RouteComponent() {
               fields={filterFields}
               appliedFilters={filtersForDisplay}
               onApplyFilters={handleTopCategoriesApplyFilters}
+              filterGroup="categories"
             />
           )}
           <DateRangePicker

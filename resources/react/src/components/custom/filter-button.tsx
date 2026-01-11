@@ -26,6 +26,7 @@ export interface FilterButtonProps {
   appliedFilters: AppliedFilter[]
   onApplyFilters: (filters: AppliedFilter[]) => void
   className?: string
+  filterGroup?: string
 }
 
 // Get display string for operator from WordPress localized data
@@ -92,7 +93,7 @@ const hasValidValue = (value: FilterValue, operator: FilterOperator): boolean =>
   return getSingleValue(value) !== ''
 }
 
-function FilterButton({ fields, appliedFilters, onApplyFilters, className }: FilterButtonProps) {
+function FilterButton({ fields, appliedFilters, onApplyFilters, className, filterGroup }: FilterButtonProps) {
   const [open, setOpen] = useState(false)
   const [pendingFilters, setPendingFilters] = useState<FilterRowData[]>([])
 
@@ -242,6 +243,7 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
           onFiltersChange={setPendingFilters}
           onApply={handleApply}
           onClearAll={handleClearAll}
+          filterGroup={filterGroup}
         />
       </PopoverContent>
     </Popover>

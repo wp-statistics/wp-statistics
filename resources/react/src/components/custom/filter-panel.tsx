@@ -1,6 +1,5 @@
 import { __ } from '@wordpress/i18n'
 import { Plus } from 'lucide-react'
-import { useEffect } from 'react'
 
 import {
   type FilterField,
@@ -10,7 +9,10 @@ import {
   getOperatorType,
   hasFilterErrors,
 } from '@/components/custom/filter-row'
+import { QuickFilters } from '@/components/custom/quick-filters'
 import { Button } from '@/components/ui/button'
+import { type QuickFilterDefinition, getQuickFiltersForGroup } from '@/config/quick-filter-definitions'
+import { cn } from '@/lib/utils'
 
 export interface FilterPanelProps {
   filters: FilterRowData[]
@@ -19,6 +21,7 @@ export interface FilterPanelProps {
   onApply: () => void
   onClearAll?: () => void
   onCancel?: () => void
+  filterGroup?: string
 }
 
 function generateFilterId(): string {
@@ -37,7 +40,10 @@ function getInitialValue(operator: FilterOperator): FilterValue {
   return ''
 }
 
-function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, onCancel }: FilterPanelProps) {
+function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, onCancel, filterGroup }: FilterPanelProps) {
+  // Get quick filter definitions for this group
+  const quickFilterDefinitions = filterGroup ? getQuickFiltersForGroup(filterGroup) : []
+
   // Check if any filters have validation errors
   const hasErrors = hasFilterErrors(filters, fields)
 
@@ -46,21 +52,6 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, on
 
   // Get available fields (not yet used in any filter)
   const availableFields = fields.filter((field) => !usedFieldNames.includes(field.name))
-
-  // Add default empty filter when panel opens with no filters
-  useEffect(() => {
-    if (filters.length === 0 && fields.length > 0) {
-      const defaultField = fields[0]
-      const defaultOperator = defaultField.supportedOperators[0] || 'is'
-      const newFilter: FilterRowData = {
-        id: generateFilterId(),
-        fieldName: defaultField.name,
-        operator: defaultOperator,
-        value: getInitialValue(defaultOperator),
-      }
-      onFiltersChange([newFilter])
-    }
-  }, []) // Only on mount
 
   const handleAddFilter = () => {
     // Don't add filter if no available fields
@@ -99,8 +90,33 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, on
     }
   }
 
+  const handleQuickFilterToggle = (definition: QuickFilterDefinition) => {
+    // Check if this quick filter is already active
+    const existingIndex = filters.findIndex(
+      (filter) =>
+        filter.fieldName === definition.fieldName &&
+        filter.operator === definition.operator &&
+        String(filter.value) === definition.value
+    )
+
+    if (existingIndex >= 0) {
+      // Remove the filter if it's already active
+      onFiltersChange(filters.filter((_, index) => index !== existingIndex))
+    } else {
+      // Add the filter
+      const newFilter: FilterRowData = {
+        id: generateFilterId(),
+        fieldName: definition.fieldName,
+        operator: definition.operator,
+        value: definition.value,
+        valueLabels: definition.valueLabel ? { [definition.value]: definition.valueLabel } : undefined,
+      }
+      onFiltersChange([...filters, newFilter])
+    }
+  }
+
   return (
-    <div className="w-full min-w-[520px]">
+    <div className="w-full min-w-[460px]">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-100 bg-neutral-50/50">
         <span className="text-sm font-semibold text-neutral-700 tracking-tight">{__('Filters', 'wp-statistics')}</span>
@@ -116,8 +132,22 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, on
         )}
       </div>
 
+      {/* Quick Filters */}
+      {quickFilterDefinitions.length > 0 && (
+        <div className="px-4 pt-3 pb-2">
+          <span className="text-xs font-medium text-neutral-500 mb-2 block">
+            {__('Quick filters', 'wp-statistics')}
+          </span>
+          <QuickFilters
+            definitions={quickFilterDefinitions}
+            activeFilters={filters}
+            onToggle={handleQuickFilterToggle}
+          />
+        </div>
+      )}
+
       {/* Filter Rows */}
-      <div className="px-4 py-3">
+      <div className={cn('px-4 pb-3', quickFilterDefinitions.length > 0 ? 'pt-2' : 'pt-3')}>
         <div className="space-y-2">
           {filters.map((filter, index) => (
             <div key={filter.id} className="relative">
@@ -140,18 +170,18 @@ function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, on
           ))}
         </div>
 
-        {/* Add condition - only show if there are unused fields available */}
+        {/* Add filter - only show if there are unused fields available */}
         {availableFields.length > 0 && (
           <button
             type="button"
             onClick={handleAddFilter}
-            aria-label={__('Add filter condition', 'wp-statistics')}
+            aria-label={__('Add filter', 'wp-statistics')}
             className="flex items-center gap-1.5 mt-3 py-1.5 text-xs font-medium text-neutral-500 hover:text-primary transition-colors group cursor-pointer"
           >
             <span className="flex items-center justify-center w-4 h-4 rounded-full border border-dashed border-neutral-300 group-hover:border-primary group-hover:bg-primary/5 transition-all">
               <Plus className="h-2.5 w-2.5" />
             </span>
-            {__('Add condition', 'wp-statistics')}
+            {__('Add filter', 'wp-statistics')}
           </button>
         )}
       </div>

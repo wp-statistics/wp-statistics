@@ -714,6 +714,7 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
                 fields={filterFields}
                 appliedFilters={filtersForDisplay}
                 onApplyFilters={handleAuthorApplyFilters}
+                filterGroup="individual-content"
               />
             )}
             <DateRangePicker

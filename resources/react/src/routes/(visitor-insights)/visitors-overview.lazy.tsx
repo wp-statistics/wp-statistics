@@ -345,6 +345,7 @@ function RouteComponent() {
               fields={filterFields}
               appliedFilters={appliedFilters || []}
               onApplyFilters={handleApplyFilters}
+              filterGroup="visitors"
             />
           )}
           <DateRangePicker

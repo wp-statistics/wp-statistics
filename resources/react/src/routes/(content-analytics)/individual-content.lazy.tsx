@@ -529,6 +529,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                 fields={filterFields}
                 appliedFilters={filtersWithoutPostType}
                 onApplyFilters={handleApplyFilters}
+                filterGroup="individual-content"
               />
             )}
             <DateRangePicker

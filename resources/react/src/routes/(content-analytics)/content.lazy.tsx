@@ -466,6 +466,7 @@ function ContentOverviewView() {
               fields={filterFields}
               appliedFilters={filtersForDisplay}
               onApplyFilters={handleContentApplyFilters}
+              filterGroup="content"
             />
           )}
           <DateRangePicker

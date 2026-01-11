@@ -335,6 +335,7 @@ function AuthorsOverviewView() {
               fields={filterFields}
               appliedFilters={filtersForDisplay}
               onApplyFilters={handleAuthorsApplyFilters}
+              filterGroup="content"
             />
           )}
           <DateRangePicker

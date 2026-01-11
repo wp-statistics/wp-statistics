@@ -171,6 +171,7 @@ function RouteComponent() {
               fields={filterFields}
               appliedFilters={appliedFilters || []}
               onApplyFilters={handleApplyFilters}
+              filterGroup="referrals"
             />
           )}
           <DateRangePicker

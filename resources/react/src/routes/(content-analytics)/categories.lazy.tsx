@@ -527,6 +527,7 @@ function CategoriesOverviewView() {
               fields={filterFields}
               appliedFilters={filtersForDisplay}
               onApplyFilters={handleCategoriesApplyFilters}
+              filterGroup="categories"
             />
           )}
           <DateRangePicker
