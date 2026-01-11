@@ -169,6 +169,19 @@ class TrackerSimulator
             echo "Attempting anyway...\n\n";
         }
 
+        // Ensure IP method reads X-Forwarded-For header (simulator sends IPs this way)
+        $currentIpMethod = Option::getValue('ip_method', 'REMOTE_ADDR');
+        if ($currentIpMethod !== 'HTTP_X_FORWARDED_FOR') {
+            Option::updateValue('ip_method', 'HTTP_X_FORWARDED_FOR');
+            echo "Auto-configured: ip_method set to HTTP_X_FORWARDED_FOR for geo lookup.\n";
+        }
+
+        // Ensure GeoIP is enabled
+        if (!Option::getValue('geoip_enable')) {
+            Option::updateValue('geoip_enable', true);
+            echo "Auto-configured: GeoIP enabled.\n";
+        }
+
         // Check if the site is reachable (skip in dry-run mode)
         if (!$this->config['dry_run']) {
             $ch = curl_init();
