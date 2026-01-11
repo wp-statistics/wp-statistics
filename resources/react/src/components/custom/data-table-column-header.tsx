@@ -1,6 +1,6 @@
 import type { Column, Header, Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, ChevronDown, ChevronUp, EyeOff } from 'lucide-react'
+import { ArrowDownWideNarrow, ArrowLeft, ArrowRight, ArrowUpNarrowWide, ChevronDown, ChevronUp, EyeOff, MoveHorizontal } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -141,50 +141,46 @@ export function DataTableColumnHeader<TData, TValue>({
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align={isRTL ? 'end' : 'start'} className="w-48">
+          {/* Move column options - only if table is available */}
+          {table && canMove && (
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="gap-2">
+                <MoveHorizontal className="h-3.5 w-3.5" />
+                {__('Move column', 'wp-statistics')}
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem
+                  onClick={handleMoveLeft}
+                  disabled={isRTL ? isLast : isFirst}
+                  className="gap-2"
+                >
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                  {__('Move left', 'wp-statistics')}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleMoveRight}
+                  disabled={isRTL ? isFirst : isLast}
+                  className="gap-2"
+                >
+                  <ArrowRight className="h-3.5 w-3.5" />
+                  {__('Move right', 'wp-statistics')}
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          )}
+
           {/* Sort options */}
           {canSort && (
             <>
+              {table && canMove && <DropdownMenuSeparator />}
               <DropdownMenuItem onClick={handleSortAsc} className="gap-2">
-                <ArrowUp className="h-4 w-4" />
+                <ArrowUpNarrowWide className="h-3.5 w-3.5" />
                 {__('Sort ascending', 'wp-statistics')}
-                {isSorted === 'asc' && <span className="ml-auto text-primary">✓</span>}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleSortDesc} className="gap-2">
-                <ArrowDown className="h-4 w-4" />
+                <ArrowDownWideNarrow className="h-3.5 w-3.5" />
                 {__('Sort descending', 'wp-statistics')}
-                {isSorted === 'desc' && <span className="ml-auto text-primary">✓</span>}
               </DropdownMenuItem>
-            </>
-          )}
-
-          {/* Move column options - only if table is available */}
-          {table && canMove && (
-            <>
-              {canSort && <DropdownMenuSeparator />}
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger className="gap-2">
-                  {isRTL ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
-                  {__('Move column', 'wp-statistics')}
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
-                  <DropdownMenuItem
-                    onClick={handleMoveLeft}
-                    disabled={isRTL ? isLast : isFirst}
-                    className="gap-2"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    {__('Move left', 'wp-statistics')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={handleMoveRight}
-                    disabled={isRTL ? isFirst : isLast}
-                    className="gap-2"
-                  >
-                    <ArrowRight className="h-4 w-4" />
-                    {__('Move right', 'wp-statistics')}
-                  </DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
             </>
           )}
 
@@ -193,7 +189,7 @@ export function DataTableColumnHeader<TData, TValue>({
             <>
               {(canSort || (table && canMove)) && <DropdownMenuSeparator />}
               <DropdownMenuItem onClick={handleHide} className="gap-2">
-                <EyeOff className="h-4 w-4" />
+                <EyeOff className="h-3.5 w-3.5" />
                 {__('Hide column', 'wp-statistics')}
               </DropdownMenuItem>
             </>
