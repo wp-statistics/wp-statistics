@@ -115,7 +115,7 @@ export const typography = {
   // Metrics
   metricValue: 'text-xl font-medium tabular-nums leading-none text-neutral-800',
   metricValueSmall: 'text-lg font-medium tabular-nums leading-none text-neutral-800',
-  metricLabel: 'text-xs font-medium text-neutral-400',
+  metricLabel: 'text-xs font-medium text-neutral-500',
 
   // Tables - sentence case headers
   tableHeader: 'text-xs font-medium text-neutral-500',

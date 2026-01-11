@@ -105,7 +105,7 @@ function MetricCard({
       <div className="flex items-center gap-1">
         <span
           className={cn(
-            'font-medium text-neutral-400 leading-none',
+            'font-medium text-neutral-500 leading-none',
             // Responsive text size
             'text-xs'
           )}
@@ -139,7 +139,7 @@ function MetricCard({
       <div className="flex items-baseline gap-2 mt-2">
         <span
           className={cn(
-            'font-semibold text-neutral-900 leading-none tabular-nums',
+            'font-medium text-neutral-800 leading-none tabular-nums',
             // Responsive text size
             'text-lg md:text-xl'
           )}
