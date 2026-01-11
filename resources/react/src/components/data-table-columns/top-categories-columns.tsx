@@ -23,7 +23,7 @@ export const TOP_CATEGORIES_CONTEXT = 'top_categories_data_table'
 /**
  * Columns hidden by default (can be shown via column management)
  */
-export const TOP_CATEGORIES_DEFAULT_HIDDEN_COLUMNS: string[] = ['bounceRate', 'timeOnPage']
+export const TOP_CATEGORIES_DEFAULT_HIDDEN_COLUMNS: string[] = ['viewsPerContent', 'bounceRate', 'timeOnPage']
 
 /**
  * Column configuration for API column optimization

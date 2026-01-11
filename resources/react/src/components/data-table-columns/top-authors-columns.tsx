@@ -24,7 +24,7 @@ export const TOP_AUTHORS_CONTEXT = 'top_authors_data_table'
 /**
  * Columns hidden by default (can be shown via column management)
  */
-export const TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS: string[] = ['bounceRate', 'timeOnPage']
+export const TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS: string[] = ['viewsPerContent', 'bounceRate', 'timeOnPage']
 
 /**
  * Column configuration for API column optimization

@@ -121,7 +121,6 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(() =>
     hiddenColumns.reduce((acc, col) => ({ ...acc, [col]: false }), {})
   )
-  const [rowSelection, setRowSelection] = React.useState({})
   const [internalColumnOrder, setInternalColumnOrder] = React.useState<string[]>([])
   const internalColumnOrderRef = React.useRef<string[]>([])
 
@@ -226,7 +225,6 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onColumnOrderChange: handleColumnOrderChange,
-    onRowSelectionChange: setRowSelection,
     manualSorting,
     manualPagination,
     pageCount: manualPagination ? externalPageCount : undefined,
@@ -240,7 +238,6 @@ export function DataTable<TData, TValue>({
       columnFilters,
       columnVisibility,
       columnOrder: internalColumnOrder.length > 0 ? internalColumnOrder : undefined,
-      rowSelection,
       pagination: {
         pageIndex,
         pageSize: rowLimit,
@@ -322,7 +319,7 @@ export function DataTable<TData, TValue>({
           emptyStateMessage={emptyStateMessage}
           isFetching={isFetching}
         />
-        {showPagination && totalRows > 0 && <DataTableMobilePagination table={table} totalRows={totalRows} />}
+        {showPagination && totalRows && totalRows > 0 && <DataTableMobilePagination table={table} totalRows={totalRows} />}
       </Panel>
     )
   }
@@ -379,7 +376,6 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row, rowIndex) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
                   className={cn(
                     'border-0 transition-colors',
                     rowIndex % 2 === 0 ? 'bg-white hover:bg-neutral-50' : 'bg-neutral-50/50 hover:bg-neutral-100/70'
@@ -426,7 +422,7 @@ export function DataTable<TData, TValue>({
 
           {/* Center: Pagination */}
           <div className="justify-self-center">
-            {showPagination && totalRows > 0 && (
+            {showPagination && totalRows && totalRows > 0 && (
               <div className="flex items-center gap-0.5">
                 <Button
                   variant="ghost"

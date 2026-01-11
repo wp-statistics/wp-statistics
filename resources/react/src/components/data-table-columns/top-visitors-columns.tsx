@@ -33,7 +33,7 @@ export const TOP_VISITORS_CONTEXT = 'top_visitors_data_table'
 /**
  * Columns hidden by default
  */
-export const TOP_VISITORS_DEFAULT_HIDDEN_COLUMNS = ['viewsPerSession', 'bounceRate', 'visitorStatus']
+export const TOP_VISITORS_DEFAULT_HIDDEN_COLUMNS = ['referrer', 'entryPage', 'exitPage', 'viewsPerSession', 'bounceRate', 'visitorStatus']
 
 /**
  * Column configuration for API column optimization

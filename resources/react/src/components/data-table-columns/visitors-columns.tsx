@@ -31,7 +31,7 @@ export const VISITORS_CONTEXT = 'visitors_data_table'
 /**
  * Columns hidden by default (can be shown via column management)
  */
-export const VISITORS_DEFAULT_HIDDEN_COLUMNS = ['viewsPerSession', 'bounceRate', 'visitorStatus']
+export const VISITORS_DEFAULT_HIDDEN_COLUMNS = ['totalSessions', 'journey', 'viewsPerSession', 'bounceRate', 'visitorStatus']
 
 /**
  * Column configuration for API column optimization

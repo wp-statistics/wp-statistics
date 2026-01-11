@@ -70,34 +70,11 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
         onClick={(e) => e.stopPropagation()}
         className="h-3.5 w-3.5"
       />
-      <span className={`flex-1 text-xs font-normal select-none ${disabled ? 'opacity-50' : ''}`}>{item.label}</span>
-    </div>
-  )
-}
-
-interface HiddenItemProps {
-  item: ColumnItem
-  onToggle: (id: string, checked: boolean) => void
-}
-
-function HiddenItem({ item, onToggle }: HiddenItemProps) {
-  const handleRowClick = () => {
-    onToggle(item.id, true)
-  }
-
-  return (
-    <div
-      className="flex items-center gap-2 px-2 py-1.5 hover:bg-accent rounded-sm cursor-pointer"
-      onClick={handleRowClick}
-    >
-      <div className="w-3.5" /> {/* Spacer to align with visible items */}
-      <Checkbox
-        checked={false}
-        onCheckedChange={() => onToggle(item.id, true)}
-        onClick={(e) => e.stopPropagation()}
-        className="h-3.5 w-3.5"
-      />
-      <span className="flex-1 text-xs font-normal select-none text-muted-foreground">{item.label}</span>
+      <span
+        className={`flex-1 text-xs font-normal select-none ${disabled ? 'opacity-50' : ''} ${!item.isVisible ? 'text-muted-foreground' : ''}`}
+      >
+        {item.label}
+      </span>
     </div>
   )
 }
@@ -187,14 +164,10 @@ export function DataTableColumnToggle<TData>({
 
     if (over && active.id !== over.id) {
       setColumnOrder((items) => {
-        const visibleItems = items.filter((item) => item.isVisible)
-        const hiddenItems = items.filter((item) => !item.isVisible)
+        const oldIndex = items.findIndex((item) => item.id === active.id)
+        const newIndex = items.findIndex((item) => item.id === over.id)
 
-        const oldIndex = visibleItems.findIndex((item) => item.id === active.id)
-        const newIndex = visibleItems.findIndex((item) => item.id === over.id)
-
-        const newVisibleOrder = arrayMove(visibleItems, oldIndex, newIndex)
-        const newOrder = [...newVisibleOrder, ...hiddenItems]
+        const newOrder = arrayMove(items, oldIndex, newIndex)
         const newOrderIds = newOrder.map((item) => item.id)
 
         table.setColumnOrder(newOrderIds)
@@ -250,11 +223,7 @@ export function DataTableColumnToggle<TData>({
     }
   }
 
-  // Separate visible and hidden columns
-  const visibleColumns = columnOrder.filter((item) => item.isVisible)
-  const hiddenColumns = columnOrder.filter((item) => !item.isVisible)
-  const visibleCount = visibleColumns.length
-  const hiddenCount = hiddenColumns.length
+  const visibleCount = columnOrder.filter((item) => item.isVisible).length
 
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
@@ -264,7 +233,7 @@ export function DataTableColumnToggle<TData>({
           {__('Columns', 'wp-statistics')}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align={isRTL ? 'end' : 'start'} className="w-[260px] p-0">
+      <PopoverContent align={isRTL ? 'end' : 'start'} className="w-[220px] p-0">
         {/* Header */}
         <div className="flex items-center justify-between px-3 py-2 border-b border-neutral-100 bg-neutral-50/50">
           <span className="text-sm font-medium text-neutral-700">{__('Columns', 'wp-statistics')}</span>
@@ -279,31 +248,16 @@ export function DataTableColumnToggle<TData>({
           </Button>
         </div>
 
-        {/* Visible Section */}
-        <div className="p-2">
-          <span className="block px-2 pb-1.5 text-xs font-medium text-muted-foreground">
-            {__('Visible', 'wp-statistics')} ({visibleCount})
-          </span>
+        {/* Single unified list */}
+        <div className="p-2 max-h-[300px] overflow-y-auto">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-            <SortableContext items={visibleColumns.map((item) => item.id)} strategy={verticalListSortingStrategy}>
-              {visibleColumns.map((item) => (
-                <SortableItem key={item.id} item={item} onToggle={handleToggle} disabled={visibleCount === 1} />
+            <SortableContext items={columnOrder.map((item) => item.id)} strategy={verticalListSortingStrategy}>
+              {columnOrder.map((item) => (
+                <SortableItem key={item.id} item={item} onToggle={handleToggle} disabled={visibleCount === 1 && item.isVisible} />
               ))}
             </SortableContext>
           </DndContext>
         </div>
-
-        {/* Hidden Section */}
-        {hiddenCount > 0 && (
-          <div className="p-2 border-t border-neutral-100 bg-neutral-50/30">
-            <span className="block px-2 pb-1.5 text-xs font-medium text-muted-foreground">
-              {__('Hidden', 'wp-statistics')} ({hiddenCount})
-            </span>
-            {hiddenColumns.map((item) => (
-              <HiddenItem key={item.id} item={item} onToggle={handleToggle} />
-            ))}
-          </div>
-        )}
       </PopoverContent>
     </Popover>
   )
