@@ -25,6 +25,7 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\LanguageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ResolutionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\SearchTermGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\EntryPageGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExitPageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\AuthorGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\TaxonomyGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionReasonGroupBy;
@@ -121,6 +122,7 @@ class GroupByRegistry implements RegistryInterface
             'resolution'       => ResolutionGroupBy::class,
             'search_term'      => SearchTermGroupBy::class,
             'entry_page'       => EntryPageGroupBy::class,
+            'exit_page'        => ExitPageGroupBy::class,
             'author'           => AuthorGroupBy::class,
             'taxonomy'         => TaxonomyGroupBy::class,
             'exclusion_reason' => ExclusionReasonGroupBy::class,
