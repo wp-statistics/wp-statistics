@@ -319,7 +319,7 @@ export function DataTable<TData, TValue>({
           emptyStateMessage={emptyStateMessage}
           isFetching={isFetching}
         />
-        {showPagination && totalRows && totalRows > 0 && <DataTableMobilePagination table={table} totalRows={totalRows} />}
+        {showPagination && (totalRows ?? 0) > 0 && <DataTableMobilePagination table={table} totalRows={totalRows!} />}
       </Panel>
     )
   }
@@ -422,7 +422,7 @@ export function DataTable<TData, TValue>({
 
           {/* Center: Pagination */}
           <div className="justify-self-center">
-            {showPagination && totalRows && totalRows > 0 && (
+            {showPagination && (totalRows ?? 0) > 0 && (
               <div className="flex items-center gap-0.5">
                 <Button
                   variant="ghost"
