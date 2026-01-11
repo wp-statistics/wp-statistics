@@ -1,8 +1,8 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef, SortingState, VisibilityState } from '@tanstack/react-table'
+import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
@@ -19,27 +19,12 @@ import {
   VisitorInfoCell,
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
+import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
-import {
-  clearCachedColumns,
-  type ColumnConfig,
-  computeApiColumns,
-  getCachedApiColumns,
-  getCachedVisibility,
-  getCachedVisibleColumns,
-  getDefaultApiColumns,
-  getVisibleColumnsForSave,
-  setCachedColumns,
-} from '@/lib/column-utils'
+import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
 import { WordPress } from '@/lib/wordpress'
-import {
-  computeFullVisibility,
-  parseColumnPreferences,
-  resetUserPreferences,
-  saveUserPreferences,
-} from '@/services/user-preferences'
 import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
 import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
 
@@ -77,11 +62,6 @@ const COLUMN_CONFIG: ColumnConfig = {
 // Default columns when no preferences are set (all columns visible)
 const DEFAULT_API_COLUMNS = getDefaultApiColumns(COLUMN_CONFIG)
 
-// Get cached column order from localStorage (same as visible columns order)
-const getCachedColumnOrder = (): string[] => {
-  return getCachedVisibleColumns(CONTEXT) || []
-}
-
 export const Route = createLazyFileRoute('/(visitor-insights)/online-visitors')({
   component: RouteComponent,
 })
@@ -92,10 +72,10 @@ interface OnlineVisitor {
   countryCode: string
   region: string
   city: string
-  os: string // lowercase with underscores for icon path
-  osName: string // original name for tooltip
-  browser: string // lowercase for icon path
-  browserName: string // original name for tooltip
+  os: string
+  osName: string
+  browser: string
+  browserName: string
   browserVersion: string
   userId?: string
   username?: string
@@ -103,7 +83,7 @@ interface OnlineVisitor {
   userRole?: string
   ipAddress?: string
   hash?: string
-  onlineFor: number // in seconds
+  onlineFor: number
   page: string
   pageTitle: string
   totalViews: number
@@ -119,13 +99,9 @@ interface OnlineVisitor {
 // Transform API response to component interface
 const transformVisitorData = (apiVisitor: APIOnlineVisitor): OnlineVisitor => {
   const lastVisitDate = new Date(apiVisitor.last_visit)
-  // Calculate online duration based on total_sessions (approximate)
-  const onlineForSeconds = Math.max(0, apiVisitor.total_sessions * 60) // Rough estimate
-
-  // Parse entry page data using shared utility
+  const onlineForSeconds = Math.max(0, apiVisitor.total_sessions * 60)
   const entryPageData = parseEntryPage(apiVisitor.entry_page)
 
-  // Extract page title from entry page path
   const getPageTitle = (path: string): string => {
     if (!path || path === '/') return 'Home'
     const segments = path.split('/').filter(Boolean)
@@ -299,44 +275,13 @@ function RouteComponent() {
     [pluginUrl, wp]
   )
 
-  // Pagination state
   const [page, setPage] = useState(1)
-
-  // Sorting state
   const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
 
-  // Extract sort parameters from sorting state
   const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
   const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
 
-  // Get all hideable column IDs from the columns definition
-  const allColumnIds = useMemo(() => {
-    return columns.filter((col) => col.enableHiding !== false).map((col) => col.accessorKey as string)
-  }, [columns])
-
-  // Track column order state
-  const [columnOrder, setColumnOrder] = useState<string[]>(() => getCachedColumnOrder())
-
-  // Track API columns for query optimization (state so changes trigger refetch)
-  // Initialize from cache if available, otherwise use all columns
-  const [apiColumns, setApiColumns] = useState<string[]>(() => {
-    return getCachedApiColumns(allColumnIds, COLUMN_CONFIG) || DEFAULT_API_COLUMNS
-  })
-
-  // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
-  const hasAppliedPrefs = useRef(false)
-  const computedVisibilityRef = useRef<VisibilityState | null>(null)
-  const computedColumnOrderRef = useRef<string[] | null>(null)
-
-  // Track current visibility for save operations (updated via callback)
-  const currentVisibilityRef = useRef<VisibilityState>({})
-
-  // Track if initial preference sync has been done (to prevent unnecessary refetches)
-  const hasInitialPrefSync = useRef(false)
-
-  // Stable empty visibility state to avoid creating new objects on each render
-  const emptyVisibilityRef = useRef<VisibilityState>({})
-
+  // Fetch data from API
   const {
     data: response,
     isLoading,
@@ -350,139 +295,43 @@ function RouteComponent() {
       order_by: orderBy,
       order: order as 'asc' | 'desc',
       context: CONTEXT,
-      columns: apiColumns,
+      columns: DEFAULT_API_COLUMNS,
     }),
     placeholderData: keepPreviousData,
   })
 
-  // Compute initial visibility only once when API returns preferences
-  const initialColumnVisibility = useMemo(() => {
-    // If we've already computed visibility, return the cached value
-    if (hasAppliedPrefs.current && computedVisibilityRef.current) {
-      return computedVisibilityRef.current
-    }
-
-    // Wait for API response before computing visibility
-    // Use cached visibility from localStorage while waiting
-    if (!response?.data) {
-      const cachedVisibility = getCachedVisibility(CONTEXT, allColumnIds)
-      if (cachedVisibility) {
-        return cachedVisibility
-      }
-      return emptyVisibilityRef.current
-    }
-
-    const prefs = response.data.meta?.preferences?.columns
-
-    // If no preferences in API response (new user or reset), use defaults
-    if (!prefs || prefs.length === 0) {
-      const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
-        (acc, col) => ({ ...acc, [col]: false }),
-        {} as VisibilityState
-      )
-      hasAppliedPrefs.current = true
-      computedVisibilityRef.current = defaultVisibility
-      currentVisibilityRef.current = defaultVisibility
-      computedColumnOrderRef.current = []
-      return defaultVisibility
-    }
-
-    // Parse preferences and compute full visibility
-    const { visibleColumnsSet, columnOrder: newOrder } = parseColumnPreferences(prefs)
-    const visibility = computeFullVisibility(visibleColumnsSet, allColumnIds)
-
-    // Mark as applied and cache the result
-    hasAppliedPrefs.current = true
-    computedVisibilityRef.current = visibility
-    currentVisibilityRef.current = visibility
-    computedColumnOrderRef.current = newOrder
-
-    return visibility
-  }, [response?.data, allColumnIds])
-
-  // Sync column order when preferences are computed (only once on initial load)
-  useEffect(() => {
-    if (hasAppliedPrefs.current && computedVisibilityRef.current && !hasInitialPrefSync.current) {
-      hasInitialPrefSync.current = true
-      // Sync column order from preferences
-      if (computedColumnOrderRef.current && computedColumnOrderRef.current.length > 0) {
-        setColumnOrder(computedColumnOrderRef.current)
-      }
-      // Note: We don't update apiColumns here on initial load because:
-      // 1. DEFAULT_API_COLUMNS already includes all columns
-      // 2. The initial query already fetched with all columns
-      // 3. API column optimization only happens when user changes visibility
-    }
-  }, [initialColumnVisibility])
-
-  // Helper to compare two arrays for equality (same elements, same order)
-  const arraysEqual = useCallback((a: string[], b: string[]): boolean => {
-    if (a.length !== b.length) return false
-    return a.every((val, idx) => val === b[idx])
-  }, [])
-
-  // Handle column visibility changes (for persistence and query optimization)
-  const handleColumnVisibilityChange = useCallback(
-    (visibility: VisibilityState) => {
-      currentVisibilityRef.current = visibility
-      // Use local function that properly handles all visible columns
-      const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
-      saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
-      // Cache visible columns in localStorage for next page load
-      setCachedColumns(CONTEXT, visibleColumns)
-      // Update API columns for optimized queries (include sort column)
-      // Use functional update to avoid unnecessary refetches when columns haven't changed
-      const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, COLUMN_CONFIG, currentSortColumn)
-      setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
-    },
-    [columnOrder, sorting, allColumnIds, arraysEqual]
-  )
-
-  // Handle column order changes
-  const handleColumnOrderChange = useCallback(
-    (order: string[]) => {
-      setColumnOrder(order)
-      // Use local function that properly handles all visible columns
-      const visibleColumns = getVisibleColumnsForSave(currentVisibilityRef.current, order, allColumnIds)
-      saveUserPreferences({ context: CONTEXT, columns: visibleColumns })
-      // Cache visible columns in localStorage for next page load
-      setCachedColumns(CONTEXT, visibleColumns)
-    },
-    [allColumnIds]
-  )
-
-  // Handle reset to default
-  const handleColumnPreferencesReset = useCallback(() => {
-    setColumnOrder([])
-    const defaultVisibility = DEFAULT_HIDDEN_COLUMNS.reduce(
-      (acc, col) => ({ ...acc, [col]: false }),
-      {} as VisibilityState
-    )
-    computedVisibilityRef.current = defaultVisibility
-    currentVisibilityRef.current = defaultVisibility
-    // Reset to default API columns (use functional update to avoid unnecessary refetch)
-    setApiColumns((prev) => (arraysEqual(prev, DEFAULT_API_COLUMNS) ? prev : DEFAULT_API_COLUMNS))
-    resetUserPreferences({ context: CONTEXT })
-    // Clear localStorage cache
-    clearCachedColumns(CONTEXT)
-  }, [arraysEqual])
+  // Use the preferences hook for column management
+  const {
+    columnOrder,
+    initialColumnVisibility,
+    handleColumnVisibilityChange,
+    handleColumnOrderChange,
+    handleColumnPreferencesReset,
+  } = useDataTablePreferences({
+    context: CONTEXT,
+    columns,
+    defaultHiddenColumns: DEFAULT_HIDDEN_COLUMNS,
+    defaultApiColumns: DEFAULT_API_COLUMNS,
+    columnConfig: COLUMN_CONFIG,
+    sorting,
+    defaultSortColumn: 'lastVisit',
+    preferencesFromApi: response?.data?.meta?.preferences?.columns,
+    hasApiResponse: !!response?.data,
+  })
 
   // Transform API data to component format
   const visitors = response?.data?.data?.rows?.map(transformVisitorData) || []
   const total = response?.data?.meta?.total_rows ?? 0
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(total / PER_PAGE) || 1
 
-  // Handle sorting change
   const handleSortingChange = useCallback(
     (newSorting: SortingState) => {
       setSorting(newSorting)
-      setPage(1) // Reset to first page when sorting changes
+      setPage(1)
     },
     [setPage]
   )
 
-  // Handle page change
   const handlePageChange = useCallback(
     (newPage: number) => {
       setPage(newPage)
@@ -490,7 +339,6 @@ function RouteComponent() {
     [setPage]
   )
 
-  // Loading states
   const showSkeleton = isLoading && !response
 
   return (

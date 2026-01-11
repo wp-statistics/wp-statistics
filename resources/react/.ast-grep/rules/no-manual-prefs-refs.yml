@@ -1,0 +1,43 @@
+# Rule: Detect manual preference tracking refs
+# The old pattern used multiple refs to track preference state.
+# Use the useDataTablePreferences hook instead.
+
+id: no-manual-prefs-refs
+language: typescript
+severity: warning
+message: "Manual preference tracking detected. Use useDataTablePreferences hook instead."
+note: |
+  The useDataTablePreferences hook handles all preference state internally.
+  You don't need refs like hasAppliedPrefs, computedVisibilityRef, etc.
+
+  Example usage:
+    const {
+      columnOrder,
+      initialColumnVisibility,
+      handleColumnVisibilityChange,
+      handleColumnOrderChange,
+      handleColumnPreferencesReset,
+    } = useDataTablePreferences({
+      context: YOUR_CONTEXT,
+      columns,
+      defaultHiddenColumns: YOUR_DEFAULT_HIDDEN_COLUMNS,
+      defaultApiColumns: YOUR_DEFAULT_API_COLUMNS,
+      columnConfig: YOUR_COLUMN_CONFIG,
+      sorting,
+      defaultSortColumn: 'views',
+      preferencesFromApi: response?.data?.meta?.preferences?.columns,
+      hasApiResponse: !!response?.data,
+    })
+
+# Only apply to route files (exclude hooks folder which is the implementation)
+files:
+  - "src/routes/**/*.tsx"
+
+rule:
+  any:
+    # Detect hasAppliedPrefs ref (signature of old pattern)
+    - pattern: const hasAppliedPrefs = useRef($$$)
+    # Detect computedVisibilityRef (signature of old pattern)
+    - pattern: const computedVisibilityRef = useRef($$$)
+    # Detect computedColumnOrderRef (signature of old pattern)
+    - pattern: const computedColumnOrderRef = useRef($$$)
