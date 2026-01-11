@@ -150,7 +150,7 @@ class Bootstrap
      */
     public static function loadTextdomain()
     {
-        load_plugin_textdomain('wp-statistics', false, WP_STATISTICS_DIR . 'languages');
+        load_plugin_textdomain('wp-statistics', false, WP_STATISTICS_DIR . 'resources/languages');
     }
 
     /**

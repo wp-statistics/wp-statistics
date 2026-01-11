@@ -11,10 +11,9 @@
     "**/tracker.js"
   ],
   "scripts": {
-    "build": "npm run build:legacy && npm run build:blocks && npm run build:admin && npm run build:react",
+    "build": "npm run build:legacy && npm run build:blocks && npm run build:react",
     "build:legacy": "vite build --config vite.config.legacy.js",
     "build:blocks": "vite build --config vite.config.blocks.js",
-    "build:admin": "vite build --config vite.config.admin.js",
     "build:react": "vite build --config vite.config.react.ts",
     "start": "npm run dev",
     "dev": "npm run dev:react",

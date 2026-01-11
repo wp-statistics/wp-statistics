@@ -10,7 +10,7 @@ import { ArrowLeft, Loader2, Minus, Plus } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
-import { COLOR_SCALE, MAP_URLS } from '@/constants/map-data'
+import { COLOR_SCALE, getMapUrl } from '@/constants/map-data'
 import {
   calculateZoomFromDimension,
   COLOR_SCALE_THRESHOLDS,
@@ -110,6 +110,7 @@ export function GlobalMap({
   const [selectedCountry, setSelectedCountry] = useState<{ code: string; name: string } | null>(null)
   const [selectedMetric, setSelectedMetric] = useState<'visitors' | 'views'>('visitors')
   const [provincesLoading, setProvincesLoading] = useState(false)
+  const [provincesGeoLoaded, setProvincesGeoLoaded] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
 
   // Smooth zoom animation
@@ -177,6 +178,23 @@ export function GlobalMap({
       }
     }
   }, [])
+
+  // Handle provincesLoading state change when GeoJSON has loaded
+  useEffect(() => {
+    if (provincesGeoLoaded && provincesLoading) {
+      const timer = setTimeout(() => {
+        setProvincesLoading(false)
+      }, MAP_ANIMATION.PROVINCES_LOADING_DELAY_MS)
+      return () => clearTimeout(timer)
+    }
+  }, [provincesGeoLoaded, provincesLoading])
+
+  // Reset provincesGeoLoaded when switching to a new country
+  useEffect(() => {
+    if (viewMode === 'cities' && selectedCountry) {
+      setProvincesGeoLoaded(false)
+    }
+  }, [viewMode, selectedCountry?.code])
 
   // Fetch regions data when a country is selected and animation is complete
   const shouldFetchRegions = !!selectedCountry && enableCityDrilldown && !isAnimating && !!dateFrom && !!dateTo
@@ -585,7 +603,7 @@ export function GlobalMap({
                 ]}
                 filterZoomEvent={(evt) => evt.ctrlKey || evt.metaKey}
               >
-                <Geographies geography={MAP_URLS.countries}>
+                <Geographies geography={getMapUrl(pluginUrl, 'countries')}>
                   {({ geographies }) =>
                     geographies
                       .filter((geo) => {
@@ -698,11 +716,11 @@ export function GlobalMap({
 
                 {/* Province/Region Boundaries - shown when viewing a country */}
                 {viewMode === 'cities' && selectedCountry && !regionsLoading && !isAnimating && (
-                  <Geographies geography={MAP_URLS.provinces}>
+                  <Geographies geography={getMapUrl(pluginUrl, 'provinces')}>
                     {({ geographies }) => {
-                      // Set provincesLoading to false once geographies are loaded
-                      if (geographies.length > 0 && provincesLoading) {
-                        setTimeout(() => setProvincesLoading(false), MAP_ANIMATION.PROVINCES_LOADING_DELAY_MS)
+                      // Signal that provinces GeoJSON has loaded (handled by useEffect)
+                      if (geographies.length > 0 && !provincesGeoLoaded) {
+                        queueMicrotask(() => setProvincesGeoLoaded(true))
                       }
                       return geographies
                         .filter((geo) => {

@@ -1,6 +1,6 @@
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { cpSync, rmSync, readFileSync, existsSync } from 'node:fs'
+import { cpSync, rmSync, readFileSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs'
 
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
@@ -73,6 +73,40 @@ function copyImagesPlugin(): Plugin {
   }
 }
 
+/**
+ * Vite plugin to copy and minify GeoJSON files from resources to public
+ * GeoJSON files are minified by parsing and re-stringifying without whitespace
+ */
+function copyGeoJsonPlugin(): Plugin {
+  return {
+    name: 'copy-geojson',
+    writeBundle() {
+      const src = resolve(__dirname, 'resources/json/geojson')
+      const dest = resolve(__dirname, 'public/geojson')
+
+      // Skip if source directory doesn't exist
+      if (!existsSync(src)) {
+        return
+      }
+
+      // Clean and recreate destination
+      rmSync(dest, { recursive: true, force: true })
+      mkdirSync(dest, { recursive: true })
+
+      // Copy and minify each GeoJSON file
+      const files = readdirSync(src).filter(f => f.endsWith('.geojson'))
+      for (const file of files) {
+        const content = readFileSync(resolve(src, file), 'utf-8')
+        // Minify by parsing and stringifying without whitespace
+        const minified = JSON.stringify(JSON.parse(content))
+        // Output with .min.geojson extension
+        const outName = file.replace('.geojson', '.min.geojson')
+        writeFileSync(resolve(dest, outName), minified)
+      }
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const reactRoot = resolve(__dirname, 'resources/react')
@@ -112,6 +146,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       wpI18n({ textDomain: 'wp-statistics' }),
       copyImagesPlugin(),
+      copyGeoJsonPlugin(),
     ],
     css: {
       postcss: {

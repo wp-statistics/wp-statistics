@@ -501,6 +501,9 @@ export default defineConfig({
         // Mini chart (minified)
         'js/mini-chart.min': resolve(__dirname, 'resources/legacy/entries/mini-chart.js'),
 
+        // Command palette (WordPress Cmd+K integration)
+        'js/command-palette.min': resolve(__dirname, 'resources/legacy/entries/command-palette.js'),
+
         // Note: chart-matrix.min.js and Chart.js library files are copied from resources/legacy/vendor/chartjs/ as-is
 
         // Styles

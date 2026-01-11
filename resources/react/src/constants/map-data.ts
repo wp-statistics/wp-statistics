@@ -13,14 +13,20 @@
  *
  * ✅ HARDCODED (Permanent - OK to keep):
  *    - COLOR_SCALE: UI configuration, doesn't change
- *    - MAP_URLS: External GeoJSON/TopoJSON sources (Natural Earth Vector)
+ *    - MAP_PATHS: Local GeoJSON paths (built from resources/geojson during Vite build)
  *    - These are frontend-only configuration, not data
  *
  * MAP IMPLEMENTATION:
  * ===================
  * - World view: Shows countries colored by visitor/view count
- * - Country drilldown: Shows province/region boundaries from TopoJSON
- * - Region data is fetched from API and matched to province names in TopoJSON
+ * - Country drilldown: Shows province/region boundaries from GeoJSON
+ * - Region data is fetched from API and matched to province names in GeoJSON
+ *
+ * GeoJSON SOURCE:
+ * ===============
+ * - Original data from Natural Earth Vector (https://github.com/nvkelso/natural-earth-vector)
+ * - Files stored in resources/geojson/ and minified to public/geojson/ during build
+ * - Served locally for faster load times (vs GitHub raw CDN)
  */
 
 /**
@@ -39,16 +45,32 @@ export const COLOR_SCALE = [
 ]
 
 /**
- * GeoJSON URLs for map rendering (Natural Earth Vector data)
+ * Local GeoJSON paths (relative to plugin URL)
+ * Files are minified during Vite build from resources/geojson to public/geojson
  *
- * ✅ OK to keep hardcoded - External data sources don't change often
+ * ✅ OK to keep hardcoded - Static asset paths, built from source
  */
-export const MAP_URLS = {
-  /** World country boundaries (low resolution for performance) */
-  countries:
-    'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson',
+export const MAP_PATHS = {
+  /** World country boundaries (110m resolution - low detail for performance) */
+  countries: 'public/geojson/countries.min.geojson',
 
-  /** Province/state boundaries (high resolution for country zoom) */
-  provinces:
-    'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_1_states_provinces.geojson',
+  /** Province/state boundaries (50m resolution - medium detail for country zoom) */
+  provinces: 'public/geojson/provinces.min.geojson',
+}
+
+/**
+ * Helper function to get full URL for a map GeoJSON file
+ * Combines the WordPress plugin URL with the relative path
+ *
+ * @param pluginUrl - The base URL of the WP Statistics plugin (from wpStatistics.pluginUrl)
+ * @param mapType - The type of map to load ('countries' or 'provinces')
+ * @returns Full URL to the GeoJSON file
+ */
+export const getMapUrl = (
+  pluginUrl: string,
+  mapType: keyof typeof MAP_PATHS
+): string => {
+  // Ensure pluginUrl ends with a slash
+  const baseUrl = pluginUrl.endsWith('/') ? pluginUrl : `${pluginUrl}/`
+  return `${baseUrl}${MAP_PATHS[mapType]}`
 }

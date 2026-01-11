@@ -8,7 +8,7 @@
  * Author: VeronaLabs
  * Author URI: https://veronalabs.com/
  * Text Domain: wp-statistics
- * Domain Path: /languages
+ * Domain Path: /resources/languages
  * Requires at least: 5.3
  * Requires PHP: 7.4
  * License: GPL-2.0+
