@@ -50,9 +50,9 @@ class DbIpProvider extends AbstractGeoIPProvider
             }
 
             /**
-             * Initialize the GeoIP reader.
+             * Initialize the GeoIP reader with English locale for name properties.
              */
-            $this->reader = new Reader($this->getDatabasePath());
+            $this->reader = new Reader($this->getDatabasePath(), ['en']);
 
         } catch (Exception $e) {
             $errorMessage = "Failed to initialize GeoIP reader: " . $e->getMessage();
