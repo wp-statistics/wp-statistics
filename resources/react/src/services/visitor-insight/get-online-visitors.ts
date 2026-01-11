@@ -99,6 +99,11 @@ const DEFAULT_COLUMNS = [
   'entry_page',
 ]
 
+// Format dates to ISO string (YYYY-MM-DDTHH:mm:ss)
+const formatDate = (date: Date) => {
+  return date.toISOString().slice(0, 19)
+}
+
 export const getOnlineVisitorsQueryOptions = ({
   page = 1,
   per_page = 50,
@@ -108,16 +113,6 @@ export const getOnlineVisitorsQueryOptions = ({
   context,
   columns,
 }: GetOnlineVisitorsParams = {}) => {
-  // Calculate date range for "online" visitors (last N minutes)
-  const now = new Date()
-  const dateFrom = new Date(now.getTime() - timeRangeMinutes * 60 * 1000)
-  const dateTo = now
-
-  // Format dates to ISO string (YYYY-MM-DDTHH:mm:ss)
-  const formatDate = (date: Date) => {
-    return date.toISOString().slice(0, 19)
-  }
-
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
   // Use provided columns or default to all columns
@@ -125,8 +120,14 @@ export const getOnlineVisitorsQueryOptions = ({
 
   return queryOptions({
     queryKey: ['online-visitors', page, per_page, order_by, order, timeRangeMinutes, context, apiColumns],
-    queryFn: () =>
-      clientRequest.post<GetOnlineVisitorsResponse>(
+    queryFn: () => {
+      // Calculate date range INSIDE queryFn so it's fresh on each actual fetch
+      // This prevents StrictMode double-mount from creating different request bodies
+      const now = new Date()
+      const dateFrom = new Date(now.getTime() - timeRangeMinutes * 60 * 1000)
+      const dateTo = now
+
+      return clientRequest.post<GetOnlineVisitorsResponse>(
         '',
         {
           sources: ['visitors'],
@@ -146,7 +147,8 @@ export const getOnlineVisitorsQueryOptions = ({
             action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
-      ),
+      )
+    },
     staleTime: 15 * 1000, // 15 seconds
     refetchOnWindowFocus: true,
     refetchInterval: 30 * 1000,
