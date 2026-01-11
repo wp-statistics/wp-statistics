@@ -13,7 +13,7 @@ use WP_Statistics\Dependencies\GeoIp2\Util;
  *     any sort of anonymous network.
  * @property-read bool $isAnonymousVpn This is true if the IP address is
  *     registered to an anonymous VPN provider. If a VPN provider does not
- *     register subnets under WP_Statistics_names associated with them, we will likely only
+ *     register subnets under names associated with them, we will likely only
  *     flag their IP ranges using the isHostingProvider property.
  * @property-read bool $isHostingProvider This is true if the IP address belongs
  *     to a hosting or VPN provider (see description of isAnonymousVpn property).
