@@ -5,7 +5,7 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import {
   createVisitorInfoData,
   DurationCell,
@@ -162,8 +162,9 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     // Primary columns
     {
       accessorKey: 'visitorInfo',
-      header: () => 'Visitor Info',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
       size: COLUMN_SIZES.visitorInfo,
+      enableSorting: false,
       cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
       meta: {
         priority: 'primary',
@@ -173,7 +174,7 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     },
     {
       accessorKey: 'lastVisit',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
       size: COLUMN_SIZES.lastVisit,
       cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
       meta: {
@@ -184,7 +185,7 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
       meta: {
@@ -195,7 +196,7 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     },
     {
       accessorKey: 'totalSessions',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Sessions" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Sessions" className="text-right" />,
       size: COLUMN_SIZES.sessions,
       cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
       meta: {
@@ -206,7 +207,7 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     },
     {
       accessorKey: 'sessionDuration',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Duration" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Duration" className="text-right" />,
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
       meta: {
@@ -218,8 +219,9 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     // Secondary columns
     {
       accessorKey: 'referrer',
-      header: () => 'Referrer',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
       size: COLUMN_SIZES.referrer,
+      enableSorting: false,
       cell: ({ row }) => (
         <ReferrerCell
           data={{
@@ -235,8 +237,9 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     },
     {
       accessorKey: 'journey',
-      header: () => 'Journey',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Journey" />,
       size: COLUMN_SIZES.journey,
+      enableSorting: false,
       cell: ({ row }) => {
         const visitor = row.original
         const isBounce = visitor.entryPage === visitor.exitPage
@@ -265,8 +268,8 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     // Hidden by default columns
     {
       accessorKey: 'viewsPerSession',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Per Session" className="text-right" />
       ),
       size: COLUMN_SIZES.viewsPerSession,
       enableHiding: true,
@@ -278,7 +281,7 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Bounce" className="text-right" />,
       size: COLUMN_SIZES.bounceRate,
       enableHiding: true,
       cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
@@ -289,9 +292,10 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     },
     {
       accessorKey: 'visitorStatus',
-      header: () => 'Status',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Status" />,
       size: COLUMN_SIZES.status,
       enableHiding: true,
+      enableSorting: false,
       cell: ({ row }) => <StatusCell status={row.original.visitorStatus} firstVisit={row.original.firstVisit} />,
       meta: {
         priority: 'secondary',

@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
@@ -143,7 +143,8 @@ const transformVisitorData = (apiVisitor: APIOnlineVisitor): OnlineVisitor => {
 const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] => [
   {
     accessorKey: 'visitorInfo',
-    header: 'Visitor Info',
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
+    enableSorting: false,
     cell: ({ row }) => {
       const visitor = row.original
       return (
@@ -180,7 +181,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'onlineFor',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Online" className="text-right" />,
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Online" className="text-right" />,
     size: COLUMN_SIZES.onlineFor,
     cell: ({ row }) => <DurationCell seconds={row.original.onlineFor} />,
     meta: {
@@ -191,7 +192,8 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'page',
-    header: 'Page',
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
+    enableSorting: false,
     cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
     meta: {
       priority: 'primary',
@@ -201,7 +203,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'totalViews',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
     size: COLUMN_SIZES.views,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     meta: {
@@ -212,7 +214,8 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'entryPage',
-    header: 'Entry Page',
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
+    enableSorting: false,
     cell: ({ row }) => {
       const visitor = row.original
       return (
@@ -234,7 +237,8 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'referrer',
-    header: 'Referrer',
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
+    enableSorting: false,
     cell: ({ row }) => (
       <ReferrerCell
         data={{
@@ -251,7 +255,7 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'lastVisit',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
     cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
     meta: {
       priority: 'secondary',

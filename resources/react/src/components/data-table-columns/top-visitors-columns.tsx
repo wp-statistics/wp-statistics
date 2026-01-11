@@ -5,7 +5,7 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { type Filter, getOperatorDisplay } from '@/components/custom/filter-button'
 import {
   createVisitorInfoData,
@@ -177,7 +177,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
   return [
     {
       accessorKey: 'lastVisit',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
       cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
       meta: {
         priority: 'primary',
@@ -187,8 +187,9 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'visitorInfo',
-      header: 'Visitor Info',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
       cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
+      enableSorting: false,
       meta: {
         priority: 'primary',
         cardPosition: 'header',
@@ -197,7 +198,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'referrer',
-      header: 'Referrer',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
       cell: ({ row }) => (
         <ReferrerCell
           data={{
@@ -206,6 +207,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
           }}
         />
       ),
+      enableSorting: false,
       meta: {
         priority: 'secondary',
         mobileLabel: 'Referrer',
@@ -213,7 +215,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'entryPage',
-      header: 'Entry Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
       cell: ({ row }) => {
         const visitor = row.original
         return (
@@ -228,6 +230,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
           />
         )
       },
+      enableSorting: false,
       meta: {
         priority: 'secondary',
         mobileLabel: 'Entry',
@@ -235,7 +238,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'exitPage',
-      header: 'Exit Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Exit Page" />,
       cell: ({ row }) => (
         <PageCell
           data={{
@@ -244,6 +247,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
           }}
         />
       ),
+      enableSorting: false,
       meta: {
         priority: 'secondary',
         mobileLabel: 'Exit',
@@ -251,7 +255,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
       meta: {
@@ -262,7 +266,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'totalSessions',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Sessions" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Sessions" className="text-right" />,
       size: COLUMN_SIZES.sessions,
       cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
       meta: {
@@ -273,7 +277,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'sessionDuration',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Duration" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Duration" className="text-right" />,
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
       meta: {
@@ -284,8 +288,8 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'viewsPerSession',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Per Session" className="text-right" />
       ),
       size: COLUMN_SIZES.viewsPerSession,
       enableHiding: true,
@@ -297,7 +301,7 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Bounce" className="text-right" />,
       size: COLUMN_SIZES.bounceRate,
       enableHiding: true,
       cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
@@ -308,8 +312,9 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'visitorStatus',
-      header: 'Status',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Status" />,
       enableHiding: true,
+      enableSorting: false,
       cell: ({ row }) => <StatusCell status={row.original.visitorStatus} firstVisit={row.original.firstVisit} />,
       meta: {
         priority: 'secondary',

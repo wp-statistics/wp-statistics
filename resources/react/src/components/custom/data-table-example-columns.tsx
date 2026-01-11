@@ -2,7 +2,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@compo
 import type { ColumnDef } from '@tanstack/react-table'
 import { Info } from 'lucide-react'
 
-import { DataTableColumnHeaderSortable } from './data-table-column-header-sortable'
+import { DataTableColumnHeader } from './data-table-column-header'
 
 // Example visitor data type based on the screenshot
 export type VisitorData = {
@@ -22,7 +22,7 @@ export type VisitorData = {
 export const exampleColumns: ColumnDef<VisitorData>[] = [
   {
     accessorKey: 'totalViews',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Total Views" />,
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Total Views" />,
     cell: ({ row }) => {
       return <div>{row.getValue('totalViews')}</div>
     },

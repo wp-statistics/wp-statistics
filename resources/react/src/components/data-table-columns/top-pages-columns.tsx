@@ -5,7 +5,7 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { DurationCell, NumericCell, PageCell, ViewPageCell } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
@@ -80,7 +80,7 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
   return [
     {
       accessorKey: 'page',
-      header: 'Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
       cell: ({ row }) => (
         <PageCell
           data={{
@@ -91,6 +91,7 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
         />
       ),
       enableHiding: false,
+      enableSorting: false,
       meta: {
         priority: 'primary',
         cardPosition: 'header',
@@ -99,7 +100,7 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'visitors',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Visitors" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitors" className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.visitors} />,
       meta: {
@@ -110,7 +111,7 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'views',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
       meta: {
@@ -121,8 +122,8 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'viewsPerVisitor',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title="Views/Visitor" className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Views/Visitor" className="text-right" />
       ),
       size: 90,
       cell: ({ row }) => {
@@ -136,8 +137,8 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title="Bounce Rate" className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Bounce Rate" className="text-right" />
       ),
       size: COLUMN_SIZES.bounceRate,
       cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
@@ -148,8 +149,8 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'sessionDuration',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title="Avg. Time on Page" className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Avg. Time on Page" className="text-right" />
       ),
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,

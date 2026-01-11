@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n'
 import { ExternalLink, User } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { DurationCell, NumericCell } from '@/components/data-table-columns'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -137,7 +137,7 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
   return [
     {
       accessorKey: 'authorName',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title={__('Author', 'wp-statistics')} />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title={__('Author', 'wp-statistics')} />,
       cell: ({ row }) => (
         <AuthorNameCell
           authorId={row.original.authorId}
@@ -154,8 +154,8 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     },
     {
       accessorKey: 'visitors',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title={__('Visitors', 'wp-statistics')} className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('Visitors', 'wp-statistics')} className="text-right" />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.visitors} />,
@@ -167,8 +167,8 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     },
     {
       accessorKey: 'views',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title={__('Views', 'wp-statistics')} className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('Views', 'wp-statistics')} className="text-right" />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
@@ -180,8 +180,8 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     },
     {
       accessorKey: 'published',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title={__('Published', 'wp-statistics')} className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('Published', 'wp-statistics')} className="text-right" />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.published} />,
@@ -193,9 +193,10 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     },
     {
       accessorKey: 'viewsPerContent',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable
+      header: ({ column, table }) => (
+        <DataTableColumnHeader
           column={column}
+          table={table}
           title={__('Views/Content', 'wp-statistics')}
           className="text-right"
         />
@@ -213,9 +214,10 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable
+      header: ({ column, table }) => (
+        <DataTableColumnHeader
           column={column}
+          table={table}
           title={__('Bounce Rate', 'wp-statistics')}
           className="text-right"
         />
@@ -229,9 +231,10 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     },
     {
       accessorKey: 'timeOnPage',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable
+      header: ({ column, table }) => (
+        <DataTableColumnHeader
           column={column}
+          table={table}
           title={__('Time on Page', 'wp-statistics')}
           className="text-right"
         />

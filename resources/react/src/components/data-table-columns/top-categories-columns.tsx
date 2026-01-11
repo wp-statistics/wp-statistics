@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n'
 import { ExternalLink } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { DurationCell, NumericCell, ViewPageCell } from '@/components/data-table-columns'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
@@ -124,7 +124,7 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
   return [
     {
       accessorKey: 'termName',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title={__('Term Name', 'wp-statistics')} />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title={__('Term Name', 'wp-statistics')} />,
       cell: ({ row }) => <TermNameCell termId={row.original.termId} termName={row.original.termName} />,
       enableHiding: false,
       meta: {
@@ -135,8 +135,8 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     },
     {
       accessorKey: 'visitors',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title={__('Visitors', 'wp-statistics')} className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('Visitors', 'wp-statistics')} className="text-right" />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.visitors} />,
@@ -148,8 +148,8 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     },
     {
       accessorKey: 'views',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title={__('Views', 'wp-statistics')} className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('Views', 'wp-statistics')} className="text-right" />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
@@ -161,8 +161,8 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     },
     {
       accessorKey: 'published',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title={__('Published', 'wp-statistics')} className="text-right" />
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('Published', 'wp-statistics')} className="text-right" />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.published} />,
@@ -174,9 +174,10 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     },
     {
       accessorKey: 'viewsPerContent',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable
+      header: ({ column, table }) => (
+        <DataTableColumnHeader
           column={column}
+          table={table}
           title={__('Views/Content', 'wp-statistics')}
           className="text-right"
         />
@@ -194,9 +195,10 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable
+      header: ({ column, table }) => (
+        <DataTableColumnHeader
           column={column}
+          table={table}
           title={__('Bounce Rate', 'wp-statistics')}
           className="text-right"
         />
@@ -210,9 +212,10 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     },
     {
       accessorKey: 'timeOnPage',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable
+      header: ({ column, table }) => (
+        <DataTableColumnHeader
           column={column}
+          table={table}
           title={__('Time on Page', 'wp-statistics')}
           className="text-right"
         />

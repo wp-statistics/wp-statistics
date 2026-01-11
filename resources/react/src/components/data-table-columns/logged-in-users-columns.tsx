@@ -5,7 +5,7 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { type Filter, getOperatorDisplay, type FilterField } from '@/components/custom/filter-button'
 import {
   createVisitorInfoData,
@@ -157,22 +157,25 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
   return [
     {
       accessorKey: 'visitorInfo',
-      header: 'Visitor Info',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
+      enableSorting: false,
       cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
     },
     {
       accessorKey: 'lastVisit',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
       cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
     },
     {
       accessorKey: 'page',
-      header: 'Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
+      enableSorting: false,
       cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
     },
     {
       accessorKey: 'referrer',
-      header: 'Referrer',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
+      enableSorting: false,
       cell: ({ row }) => (
         <ReferrerCell
           data={{
@@ -185,7 +188,8 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
     },
     {
       accessorKey: 'entryPage',
-      header: () => 'Entry Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
+      enableSorting: false,
       cell: ({ row }) => {
         const user = row.original
         return (
@@ -203,7 +207,7 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     },

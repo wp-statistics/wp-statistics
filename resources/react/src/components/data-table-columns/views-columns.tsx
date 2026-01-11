@@ -5,7 +5,7 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import {
   EntryPageCell,
   LastVisitCell,
@@ -159,7 +159,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
   return [
     {
       accessorKey: 'lastVisit',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
       size: COLUMN_SIZES.lastVisit,
       cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
       meta: {
@@ -170,8 +170,9 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
     },
     {
       accessorKey: 'visitorInfo',
-      header: 'Visitor Info',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
       size: COLUMN_SIZES.visitorInfo,
+      enableSorting: false,
       cell: ({ row }) => {
         const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
         return (
@@ -211,8 +212,9 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
     },
     {
       accessorKey: 'page',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Page" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
       size: COLUMN_SIZES.page,
+      enableSorting: false,
       cell: ({ row }) => {
         const page = row.getValue('page') as ViewData['page']
         return <PageCell data={{ title: page.title, url: page.url }} maxLength={35} />
@@ -225,8 +227,9 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
     },
     {
       accessorKey: 'referrer',
-      header: 'Referrer',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
       size: COLUMN_SIZES.referrer,
+      enableSorting: false,
       cell: ({ row }) => {
         const referrer = row.getValue('referrer') as ViewData['referrer']
         return (
@@ -246,8 +249,9 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
     },
     {
       accessorKey: 'entryPage',
-      header: 'Entry Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
       size: COLUMN_SIZES.entryPage,
+      enableSorting: false,
       cell: ({ row }) => {
         const entryPage = row.getValue('entryPage') as ViewData['entryPage']
         return (
@@ -270,7 +274,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
       meta: {
