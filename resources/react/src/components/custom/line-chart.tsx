@@ -165,7 +165,7 @@ export function LineChart({
                 <div key={metric.key} className="flex flex-col gap-1">
                   <span className="text-xs font-medium text-neutral-500 leading-none">{metric.label}</span>
                   <div className="flex items-baseline gap-2">
-                    {metric.value && (
+                    {metric.value != null && (
                       <button
                         onClick={() => toggleMetric(metric.key)}
                         aria-label={`Toggle ${metric.label} visibility`}
@@ -190,7 +190,7 @@ export function LineChart({
                         </span>
                       </button>
                     )}
-                    {metric.previousValue && (
+                    {metric.previousValue != null && (
                       <button
                         onClick={() => toggleMetric(`${metric.key}Previous`)}
                         aria-label={`Toggle ${metric.label} previous period visibility`}
