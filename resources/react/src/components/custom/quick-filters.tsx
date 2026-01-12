@@ -46,7 +46,7 @@ function QuickFilters({ definitions, activeFilters, onToggle }: QuickFiltersProp
             type="button"
             onClick={() => onToggle(definition)}
             className={cn(
-              'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border transition-all cursor-pointer',
+              'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border transition-all cursor-pointer',
               isActive
                 ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
                 : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300'
