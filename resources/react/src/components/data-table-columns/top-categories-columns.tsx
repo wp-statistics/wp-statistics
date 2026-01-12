@@ -128,7 +128,6 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
         <DataTableColumnHeader column={column} table={table} title={__('Term Name', 'wp-statistics')} />
       ),
       cell: ({ row }) => <TermNameCell termId={row.original.termId} termName={row.original.termName} />,
-      enableHiding: false,
       meta: {
         priority: 'primary',
         cardPosition: 'header',
@@ -246,9 +245,10 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     },
     {
       accessorKey: 'viewPage',
-      header: '',
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('View Page', 'wp-statistics')} className="sr-only" />
+      ),
       size: 50,
-      enableHiding: false,
       enableSorting: false,
       cell: ({ row }) =>
         row.original.termLink ? (
@@ -264,6 +264,7 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
         ) : null,
       meta: {
         priority: 'primary',
+        mobileLabel: __('View Page', 'wp-statistics'),
       },
     },
   ]

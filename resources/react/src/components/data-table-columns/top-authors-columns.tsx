@@ -147,7 +147,6 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
           authorAvatar={row.original.authorAvatar}
         />
       ),
-      enableHiding: false,
       meta: {
         priority: 'primary',
         cardPosition: 'header',
@@ -265,9 +264,10 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     },
     {
       accessorKey: 'viewPage',
-      header: '',
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('View Page', 'wp-statistics')} className="sr-only" />
+      ),
       size: 50,
-      enableHiding: false,
       enableSorting: false,
       cell: ({ row }) =>
         row.original.authorPostsUrl ? (
@@ -283,6 +283,7 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
         ) : null,
       meta: {
         priority: 'primary',
+        mobileLabel: __('View Page', 'wp-statistics'),
       },
     },
   ]

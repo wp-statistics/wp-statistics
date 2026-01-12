@@ -90,7 +90,6 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
           maxLength={40}
         />
       ),
-      enableHiding: false,
       enableSorting: false,
       meta: {
         priority: 'primary',
@@ -165,13 +164,15 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'viewPage',
-      header: '',
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="View Page" className="sr-only" />
+      ),
       size: 50,
-      enableHiding: false,
       enableSorting: false,
       cell: ({ row }) => <ViewPageCell url={row.original.pageUri} />,
       meta: {
         priority: 'primary',
+        mobileLabel: 'View Page',
       },
     },
   ]
