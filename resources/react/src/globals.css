@@ -268,3 +268,8 @@
 .animate-live-pulse {
   animation: live-pulse 1.5s ease-out infinite;
 }
+
+/* Slower pulse animation for smoother effect */
+.animate-pulse {
+  animation-duration: 3s;
+}
