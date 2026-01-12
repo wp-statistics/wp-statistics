@@ -53,24 +53,6 @@ const formatDate = (date: Date, locale: string = 'en-us'): string => {
   })
 }
 
-/**
- * Format a date range with year shown only once at the end (like GA4).
- * e.g., "Nov 17 - Dec 14, 2025" instead of "Nov 17, 2025 - Dec 14, 2025"
- */
-const formatDateRangeCompact = (from: Date, to: Date | undefined, locale: string = 'en-us'): string => {
-  const toDate = to || from
-  const fromWithoutYear = from.toLocaleDateString(locale, {
-    month: 'short',
-    day: 'numeric',
-  })
-  const toWithYear = toDate.toLocaleDateString(locale, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
-  return `${fromWithoutYear} - ${toWithYear}`
-}
-
 const getDateAdjustedForTimezone = (dateInput: Date | string): Date => {
   if (typeof dateInput === 'string') {
     const parts = dateInput.split('-').map((part) => parseInt(part, 10))
@@ -493,10 +475,7 @@ export const DateRangePicker = ({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn(
-            'text-xs font-medium border-neutral-200 hover:bg-neutral-50',
-            rangeCompare ? 'h-auto py-1.5 px-3' : 'h-8 px-3'
-          )}
+          className="h-8 px-3 text-xs font-medium border-neutral-200 hover:bg-neutral-50"
         >
           <div className="flex items-center gap-2">
             {/* Preset badge */}
@@ -506,22 +485,19 @@ export const DateRangePicker = ({
               </span>
             )}
 
-            {/* Dates column (main date + compare below) */}
-            <div className="flex flex-col items-start">
-              <div className="flex items-center gap-1.5">
-                <span className="text-neutral-700 font-medium">
-                  {formatDate(range.from, locale)} - {range.to ? formatDate(range.to, locale) : formatDate(range.from, locale)}
-                </span>
-                <ChevronDown className="h-3.5 w-3.5 text-neutral-400" />
-              </div>
+            {/* Main date range */}
+            <span className="text-neutral-700 font-medium">
+              {formatDate(range.from, locale)} - {range.to ? formatDate(range.to, locale) : formatDate(range.from, locale)}
+            </span>
 
-              {/* Compare row (if enabled) - aligned under dates */}
-              {rangeCompare && (
-                <span className="text-[11px] text-neutral-400 font-normal">
-                  Compare: {formatDateRangeCompact(rangeCompare.from, rangeCompare.to, locale)}
-                </span>
-              )}
-            </div>
+            {/* Comparison indicator badge */}
+            {rangeCompare && (
+              <span className="text-[10px] text-primary font-medium px-1.5 py-0.5 rounded bg-primary/10">
+                vs
+              </span>
+            )}
+
+            <ChevronDown className="h-3.5 w-3.5 text-neutral-400" />
           </div>
         </Button>
       </PopoverTrigger>
