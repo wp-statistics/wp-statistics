@@ -430,6 +430,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-6">
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
@@ -466,6 +467,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-6">
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
@@ -504,6 +506,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-6">
               <HorizontalBarList
                 title={__('Device Type', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors = Number(deviceTypeTotals?.visitors?.current ?? deviceTypeTotals?.visitors) || 1
                   return deviceTypeData.map((item) => {
@@ -542,6 +545,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-6">
               <HorizontalBarList
                 title={__('Operating Systems', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1

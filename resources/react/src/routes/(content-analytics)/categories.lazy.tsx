@@ -624,6 +624,7 @@ function CategoriesOverviewView() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
@@ -657,6 +658,7 @@ function CategoriesOverviewView() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Search Engines', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topSearchEnginesTotals?.visitors?.current ?? topSearchEnginesTotals?.visitors) || 1
@@ -686,6 +688,7 @@ function CategoriesOverviewView() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
@@ -722,6 +725,7 @@ function CategoriesOverviewView() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Browsers', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors = Number(topBrowsersTotals?.visitors?.current ?? topBrowsersTotals?.visitors) || 1
                   return topBrowsersData.map((item) => {
@@ -757,6 +761,7 @@ function CategoriesOverviewView() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Operating Systems', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors = Number(topOsTotals?.visitors?.current ?? topOsTotals?.visitors) || 1
                   return topOsData.map((item) => {
@@ -792,6 +797,7 @@ function CategoriesOverviewView() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Device Categories', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors = Number(topDevicesTotals?.visitors?.current ?? topDevicesTotals?.visitors) || 1
                   return topDevicesData.map((item) => {

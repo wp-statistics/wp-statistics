@@ -182,6 +182,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-6">
               <HorizontalBarList
                 title={__('Top Browsers', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors = Number(topBrowsersTotals?.visitors?.current ?? topBrowsersTotals?.visitors) || 1
                   return topBrowsersData.map((item) => {
@@ -220,6 +221,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-6">
               <HorizontalBarList
                 title={__('Top Operating Systems', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topOperatingSystemsTotals?.visitors?.current ?? topOperatingSystemsTotals?.visitors) || 1
@@ -260,6 +262,7 @@ function RouteComponent() {
             <div className={`col-span-12 ${isPremium ? 'lg:col-span-6' : ''}`}>
               <HorizontalBarList
                 title={__('Top Device Categories', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topDeviceCategoriesTotals?.visitors?.current ?? topDeviceCategoriesTotals?.visitors) || 1
@@ -300,6 +303,7 @@ function RouteComponent() {
               <div className="col-span-12 lg:col-span-6">
                 <HorizontalBarList
                   title={__('Top Screen Resolutions', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
                   items={(() => {
                     const totalVisitors =
                       Number(topScreenResolutionsTotals?.visitors?.current ?? topScreenResolutionsTotals?.visitors) || 1

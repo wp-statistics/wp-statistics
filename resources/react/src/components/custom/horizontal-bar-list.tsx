@@ -10,7 +10,7 @@ interface HorizontalBarItem {
   icon?: React.ReactNode
   label: string
   value: string | number
-  percentage: string | number
+  percentage?: string | number
   fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
   tooltipSubtitle?: string
@@ -24,9 +24,10 @@ interface HorizontalBarListProps {
     action(): void
   }
   loading?: boolean
+  showComparison?: boolean // Whether to show percentage change indicators
 }
 
-export function HorizontalBarList({ title, items, link, loading = false }: HorizontalBarListProps) {
+export function HorizontalBarList({ title, items, link, loading = false, showComparison = true }: HorizontalBarListProps) {
   // Ensure items is always an array
   const safeItems = items || []
 
@@ -56,6 +57,7 @@ export function HorizontalBarList({ title, items, link, loading = false }: Horiz
                 isNegative={item.isNegative}
                 tooltipSubtitle={item.tooltipSubtitle}
                 isFirst={index === 0}
+                showComparison={showComparison}
               />
             ))}
           </div>

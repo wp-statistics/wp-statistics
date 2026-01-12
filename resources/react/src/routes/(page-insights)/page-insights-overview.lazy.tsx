@@ -422,6 +422,7 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Pages', 'wp-statistics')}
                 items={topPagesListData}
+                showComparison={isCompareEnabled}
                 link={{
                   action: () => navigate({ to: '/top-pages' }),
                 }}
@@ -433,6 +434,7 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Entry Pages', 'wp-statistics')}
                 items={entryPagesListData}
+                showComparison={isCompareEnabled}
                 link={{
                   action: () => navigate({ to: '/entry-pages' }),
                 }}
@@ -444,6 +446,7 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('404 Pages', 'wp-statistics')}
                 items={pages404ListData}
+                showComparison={isCompareEnabled}
                 link={{
                   action: () => navigate({ to: '/404-pages' }),
                 }}

@@ -207,6 +207,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
@@ -245,6 +246,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top Cities', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors = Number(topCitiesTotals?.visitors?.current ?? topCitiesTotals?.visitors) || 1
                   return topCitiesData.map((item) => {
@@ -275,6 +277,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Top European Countries', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(topEuropeanCountriesTotals?.visitors?.current ?? topEuropeanCountriesTotals?.visitors) || 1
@@ -316,6 +319,7 @@ function RouteComponent() {
               <div className="col-span-12 lg:col-span-4">
                 <HorizontalBarList
                   title={`${__('Top Regions of', 'wp-statistics')} ${userCountryName}`}
+                  showComparison={isCompareEnabled}
                   items={(() => {
                     const totalVisitors = Number(topRegionsTotals?.visitors?.current ?? topRegionsTotals?.visitors) || 1
                     return topRegionsData.map((item) => {
@@ -347,6 +351,7 @@ function RouteComponent() {
             <div className={`col-span-12 lg:col-span-4 ${userCountry === 'US' ? 'lg:col-start-1' : ''}`}>
               <HorizontalBarList
                 title={__('Top US States', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors = Number(topUsStatesTotals?.visitors?.current ?? topUsStatesTotals?.visitors) || 1
                   return topUsStatesData.map((item) => {
@@ -377,6 +382,7 @@ function RouteComponent() {
             <div className="col-span-12 lg:col-span-4">
               <HorizontalBarList
                 title={__('Visitors by Continent', 'wp-statistics')}
+                showComparison={isCompareEnabled}
                 items={(() => {
                   const totalVisitors =
                     Number(visitorsByContinentTotals?.visitors?.current ?? visitorsByContinentTotals?.visitors) || 1

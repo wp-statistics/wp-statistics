@@ -8,11 +8,12 @@ export interface HorizontalBarProps {
   icon?: React.ReactNode
   label: string
   value: string | number
-  percentage: string | number
+  percentage?: string | number
   fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
   tooltipSubtitle?: string
   isFirst?: boolean
+  showComparison?: boolean // Whether to show the percentage change indicator
 }
 
 export function HorizontalBar({
@@ -24,6 +25,7 @@ export function HorizontalBar({
   isNegative = false,
   tooltipSubtitle,
   isFirst = false,
+  showComparison = true,
 }: HorizontalBarProps) {
   // Ensure label is always a string
   const safeLabel = label || ''
@@ -78,19 +80,21 @@ export function HorizontalBar({
           >
             {displayValue}
           </span>
-          <span
-            className={cn(
-              'inline-flex items-center gap-0.5 text-[11px] md:text-xs font-medium tabular-nums',
-              isNegative ? semanticColors.trendNegative : semanticColors.trendPositive
-            )}
-          >
-            {isNegative ? (
-              <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
-            ) : (
-              <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
-            )}
-            {displayPercentage}%
-          </span>
+          {showComparison && percentage !== undefined && (
+            <span
+              className={cn(
+                'inline-flex items-center gap-0.5 text-[11px] md:text-xs font-medium tabular-nums',
+                isNegative ? semanticColors.trendNegative : semanticColors.trendPositive
+              )}
+            >
+              {isNegative ? (
+                <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
+              ) : (
+                <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
+              )}
+              {displayPercentage}%
+            </span>
+          )}
         </div>
       </div>
       {/* Bottom bar indicator - GA4 style */}
@@ -110,23 +114,25 @@ export function HorizontalBar({
         <TooltipContent side="top" className="px-2.5 py-1.5">
           <div className="flex items-center gap-4 justify-between">
             <span className="text-neutral-100">{tooltipSubtitle}</span>
-            <div className="flex items-center font-medium">
-              <span className={isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight}>
-                {isNegative ? (
-                  <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
-                ) : (
-                  <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
-                )}
-              </span>
-              <span
-                className={cn(
-                  'tabular-nums',
-                  isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight
-                )}
-              >
-                {displayPercentage}%
-              </span>
-            </div>
+            {showComparison && percentage !== undefined && (
+              <div className="flex items-center font-medium">
+                <span className={isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight}>
+                  {isNegative ? (
+                    <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  ) : (
+                    <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  )}
+                </span>
+                <span
+                  className={cn(
+                    'tabular-nums',
+                    isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight
+                  )}
+                >
+                  {displayPercentage}%
+                </span>
+              </div>
+            )}
           </div>
         </TooltipContent>
       </Tooltip>
