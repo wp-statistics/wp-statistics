@@ -262,6 +262,13 @@ export const DateRangePicker = ({
     isValidComparisonMode(initialComparisonMode) ? initialComparisonMode : 'previous_period'
   )
 
+  // Track which range is being edited (for focus-based calendar selection)
+  type ActiveRangeTarget = 'main' | 'compare'
+  const [activeRangeTarget, setActiveRangeTarget] = useState<ActiveRangeTarget>('main')
+
+  // Track compare range selection state (true = waiting for end date after selecting start)
+  const [awaitingCompareEndDate, setAwaitingCompareEndDate] = useState(false)
+
   const openedRangeRef = useRef<DateRange | undefined>()
   const openedRangeCompareRef = useRef<DateRange | undefined>()
   const openedComparisonModeRef = useRef<ComparisonMode | undefined>()
@@ -315,6 +322,21 @@ export const DateRangePicker = ({
       setComparisonMode(initialComparisonMode)
     }
   }, [initialComparisonMode])
+
+  // Reset activeRangeTarget to 'main' if comparison is disabled
+  useEffect(() => {
+    if (!rangeCompare && activeRangeTarget === 'compare') {
+      setActiveRangeTarget('main')
+      setAwaitingCompareEndDate(false)
+    }
+  }, [rangeCompare, activeRangeTarget])
+
+  // Reset compare selection state when switching to main mode
+  useEffect(() => {
+    if (activeRangeTarget === 'main') {
+      setAwaitingCompareEndDate(false)
+    }
+  }, [activeRangeTarget])
 
   useEffect(() => {
     const handleResize = (): void => {
@@ -468,6 +490,10 @@ export const DateRangePicker = ({
       onOpenChange={(open: boolean) => {
         if (!open) {
           resetValues()
+        } else {
+          // Reset to main range when opening
+          setActiveRangeTarget('main')
+          setAwaitingCompareEndDate(false)
         }
         setIsOpen(open)
       }}
@@ -570,7 +596,11 @@ export const DateRangePicker = ({
                   setRange(newRange)
                   autoUpdateComparisonRange(newRange)
                 }}
-                className="h-9 text-sm flex-1"
+                onFocus={() => setActiveRangeTarget('main')}
+                className={cn(
+                  'h-9 text-sm flex-1 transition-shadow',
+                  activeRangeTarget === 'main' && 'ring-2 ring-primary/30'
+                )}
               />
               <span className="text-neutral-400">→</span>
               <DateInput
@@ -581,7 +611,11 @@ export const DateRangePicker = ({
                   setRange(newRange)
                   autoUpdateComparisonRange(newRange)
                 }}
-                className="h-9 text-sm flex-1"
+                onFocus={() => setActiveRangeTarget('main')}
+                className={cn(
+                  'h-9 text-sm flex-1 transition-shadow',
+                  activeRangeTarget === 'main' && 'ring-2 ring-primary/30'
+                )}
               />
             </div>
 
@@ -639,7 +673,11 @@ export const DateRangePicker = ({
                           })
                         }
                       }}
-                      className="h-8 text-xs flex-1"
+                      onFocus={() => setActiveRangeTarget('compare')}
+                      className={cn(
+                        'h-8 text-xs flex-1 transition-shadow',
+                        activeRangeTarget === 'compare' && 'ring-2 ring-amber-500/30'
+                      )}
                     />
                     <span className="text-neutral-400 text-xs">→</span>
                     <DateInput
@@ -655,10 +693,24 @@ export const DateRangePicker = ({
                           })
                         }
                       }}
-                      className="h-8 text-xs flex-1"
+                      onFocus={() => setActiveRangeTarget('compare')}
+                      className={cn(
+                        'h-8 text-xs flex-1 transition-shadow',
+                        activeRangeTarget === 'compare' && 'ring-2 ring-amber-500/30'
+                      )}
                     />
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Compare selection indicator */}
+            {activeRangeTarget === 'compare' && rangeCompare && (
+              <div className="mb-2 px-1 flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                <span className="text-xs text-amber-600 font-medium">
+                  {awaitingCompareEndDate ? 'Select end date for comparison' : 'Select start date for comparison'}
+                </span>
               </div>
             )}
 
@@ -666,12 +718,36 @@ export const DateRangePicker = ({
             <Calendar
               mode="range"
               onSelect={(value: { from?: Date; to?: Date } | undefined) => {
-                if (value?.from != null) {
+                // Only handle main range selection via onSelect
+                if (activeRangeTarget === 'main' && value?.from != null) {
                   const newRange = { from: value.from, to: value.to }
                   setRange(newRange)
                   // Auto-update comparison when selection is complete (both from and to)
                   if (newRange.to) {
                     autoUpdateComparisonRange(newRange as DateRange)
+                  }
+                }
+              }}
+              onDayClick={(day: Date) => {
+                // Handle compare range selection via direct day clicks
+                if (activeRangeTarget === 'compare') {
+                  handleCompareDateChange() // Switch to custom mode
+
+                  if (!awaitingCompareEndDate) {
+                    // First click - set start date
+                    setRangeCompare({ from: day, to: day })
+                    setAwaitingCompareEndDate(true)
+                  } else {
+                    // Second click - set end date
+                    const currentFrom = rangeCompare?.from ?? day
+                    if (day >= currentFrom) {
+                      // Clicked date is after or same as start - use as end
+                      setRangeCompare({ from: currentFrom, to: day })
+                    } else {
+                      // Clicked date is before start - swap them
+                      setRangeCompare({ from: day, to: currentFrom })
+                    }
+                    setAwaitingCompareEndDate(false)
                   }
                 }
               }}
@@ -681,6 +757,7 @@ export const DateRangePicker = ({
               cellSize="1.875rem"
               className="p-0"
               compareRange={rangeCompare}
+              selectionMode={activeRangeTarget}
               showOutsideDays={false}
             />
           </div>

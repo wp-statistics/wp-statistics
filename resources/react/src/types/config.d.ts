@@ -197,6 +197,7 @@ declare global {
       currentPage: string
       userCountry?: string
       userCountryName?: string
+      dateFormat: string
     }
     header: Record<
       string,

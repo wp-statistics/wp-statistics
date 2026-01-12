@@ -84,7 +84,25 @@ const calendarResetStyles = `
     box-sizing: border-box;
     cursor: pointer;
   }
+  /* When in compare mode, dim the main range slightly to show it's not being edited */
+  #wps-calendar[data-selection-mode="compare"] button[data-selected-single="true"],
+  #wps-calendar[data-selection-mode="compare"] button[data-range-start="true"],
+  #wps-calendar[data-selection-mode="compare"] button[data-range-end="true"] {
+    opacity: 0.6;
+  }
+  #wps-calendar[data-selection-mode="compare"] button[data-range-middle="true"] {
+    opacity: 0.5;
+  }
+  /* Ensure compare range is fully visible when editing */
+  #wps-calendar[data-selection-mode="compare"] button[data-compare-start="true"],
+  #wps-calendar[data-selection-mode="compare"] button[data-compare-end="true"],
+  #wps-calendar[data-selection-mode="compare"] button[data-compare-middle="true"],
+  #wps-calendar[data-selection-mode="compare"] button[data-compare-single="true"] {
+    opacity: 1;
+  }
 `
+
+export type SelectionMode = 'main' | 'compare'
 
 function Calendar({
   className,
@@ -96,12 +114,14 @@ function Calendar({
   components,
   cellSize = '2.25rem',
   compareRange,
+  selectionMode = 'main',
   modifiers: externalModifiers,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
   cellSize?: string
   compareRange?: CompareRange
+  selectionMode?: SelectionMode
 }) {
   // Generate comparison range modifiers using functions for precise date matching
   const compareModifiers = React.useMemo(() => {
@@ -141,7 +161,7 @@ function Calendar({
     }
   }, [compareRange])
   return (
-    <div id="wps-calendar" style={{ '--cell-size': cellSize } as React.CSSProperties}>
+    <div id="wps-calendar" data-selection-mode={selectionMode} style={{ '--cell-size': cellSize } as React.CSSProperties}>
       <style dangerouslySetInnerHTML={{ __html: calendarResetStyles }} />
       <DayPicker
         showOutsideDays={showOutsideDays}

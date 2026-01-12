@@ -43,6 +43,7 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
                 'globalFilters' => $this->getGlobalFiltersPreferences(),
             ],
             'currentPage'           => isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '',
+            'dateFormat'            => get_option('date_format', 'Y-m-d'),
         ];
 
         /**

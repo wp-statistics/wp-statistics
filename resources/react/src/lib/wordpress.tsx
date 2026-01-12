@@ -132,4 +132,8 @@ export class WordPress {
   public getUserCountryName(): string | undefined {
     return this.data.globals.userCountryName
   }
+
+  public getDateFormat(): string {
+    return this.data.globals.dateFormat || 'Y-m-d'
+  }
 }
