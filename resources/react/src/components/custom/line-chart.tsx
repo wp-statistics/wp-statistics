@@ -92,21 +92,6 @@ export function LineChart({
     }))
   }
 
-  const toggleAllPreviousPeriod = () => {
-    setVisibleMetrics((prev) => {
-      const newState = { ...prev }
-      const anyPreviousVisible = metrics.some((metric) => prev[`${metric.key}Previous`])
-
-      metrics.forEach((metric) => {
-        newState[`${metric.key}Previous`] = !anyPreviousVisible
-      })
-
-      return newState
-    })
-  }
-
-  const isAnyPreviousVisible = metrics.some((metric) => visibleMetrics[`${metric.key}Previous`])
-
   // Memoize current period lines to prevent unnecessary re-renders
   const currentLines = React.useMemo(
     () =>
@@ -230,23 +215,6 @@ export function LineChart({
             })}
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            {showPreviousPeriod && (
-              <button
-                onClick={toggleAllPreviousPeriod}
-                aria-label={isAnyPreviousVisible ? 'Hide all previous period data' : 'Show all previous period data'}
-                aria-pressed={isAnyPreviousVisible}
-                className={cn(
-                  'flex items-center gap-1.5 text-xs text-neutral-500 transition-colors cursor-pointer',
-                  'min-h-[44px] md:min-h-0 py-2 md:py-0',
-                  !isAnyPreviousVisible && 'opacity-50'
-                )}
-              >
-                <svg width="12" height="3" className="shrink-0 opacity-50">
-                  <line x1="0" y1="1.5" x2="12" y2="1.5" stroke="currentColor" strokeWidth="3" strokeDasharray="3 2" />
-                </svg>
-                <span className={!isAnyPreviousVisible ? 'line-through' : ''}>Previous period</span>
-              </button>
-            )}
             {onTimeframeChange && (
               <Select value={timeframe} onValueChange={onTimeframeChange}>
                 <SelectTrigger className="w-[90px] md:w-[100px] h-10 md:h-8 text-xs font-medium">
