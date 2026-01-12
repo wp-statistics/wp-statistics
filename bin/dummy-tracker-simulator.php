@@ -44,6 +44,7 @@ class TrackerSimulator
         'verbose' => false,
         'dry_run' => false,
         'url' => null,
+        'workers' => 10,
     ];
 
     /** @var string WordPress admin-ajax.php URL */
@@ -1037,6 +1038,107 @@ class TrackerSimulator
     }
 
     /**
+     * Create a cURL handle for batch processing
+     */
+    private function createCurlHandle($params, $profile)
+    {
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $this->ajaxUrl,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($params),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 3,
+            CURLOPT_POSTREDIR => CURL_REDIR_POST_ALL,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/x-www-form-urlencoded',
+                'User-Agent: ' . $profile['user_agent'],
+                'X-Forwarded-For: ' . $profile['ip'],
+                'Referer: ' . ($profile['referrer'] ?: $this->siteUrl . '/'),
+            ],
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+        ]);
+        return $ch;
+    }
+
+    /**
+     * Send batch HTTP requests in parallel using curl_multi
+     */
+    private function sendBatchRequests($requests)
+    {
+        if (empty($requests)) {
+            return;
+        }
+
+        $multiHandle = curl_multi_init();
+        curl_multi_setopt($multiHandle, CURLMOPT_MAXCONNECTS, $this->config['workers']);
+
+        $handles = [];
+        $pending = $requests;
+
+        // Process requests in parallel batches
+        while (!empty($pending) || !empty($handles)) {
+            // Fill up to max workers
+            while (count($handles) < $this->config['workers'] && !empty($pending)) {
+                $req = array_shift($pending);
+                $ch = $this->createCurlHandle($req['params'], $req['profile']);
+                $id = (int)$ch;
+                curl_multi_add_handle($multiHandle, $ch);
+                $handles[$id] = $ch;
+            }
+
+            // Execute all handles
+            do {
+                $status = curl_multi_exec($multiHandle, $running);
+            } while ($status === CURLM_CALL_MULTI_PERFORM);
+
+            // Wait for activity (non-blocking)
+            if ($running > 0) {
+                curl_multi_select($multiHandle, 0.1);
+            }
+
+            // Check for completed requests
+            while ($info = curl_multi_info_read($multiHandle)) {
+                $ch = $info['handle'];
+                $id = (int)$ch;
+
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $response = curl_multi_getcontent($ch);
+
+                $this->stats['requests_sent']++;
+
+                if ($httpCode === 200) {
+                    $result = json_decode($response, true);
+                    if (isset($result['status']) && $result['status'] === true) {
+                        $this->stats['requests_successful']++;
+                    } else {
+                        $this->stats['requests_failed']++;
+                        $errorMsg = $result['data'] ?? 'Unknown error';
+                        if (!in_array($errorMsg, $this->stats['errors'])) {
+                            $this->stats['errors'][] = "HTTP $httpCode: $errorMsg";
+                        }
+                    }
+                } else {
+                    $this->stats['requests_failed']++;
+                    $error = curl_error($ch);
+                    if ($error && !in_array($error, $this->stats['errors'])) {
+                        $this->stats['errors'][] = "CURL Error: $error";
+                    }
+                }
+
+                curl_multi_remove_handle($multiHandle, $ch);
+                curl_close($ch);
+                unset($handles[$id]);
+            }
+        }
+
+        curl_multi_close($multiHandle);
+    }
+
+    /**
      * Weighted random selection
      */
     private function weightedRandom($weights)
@@ -1106,9 +1208,26 @@ class TrackerSimulator
         foreach ($newSessionIds as $id) {
             $hour = $this->weightedRandom($hourDistribution);
             $datetime = $targetDate . ' ' . sprintf('%02d:%02d:%02d', $hour, rand(0, 59), rand(0, 59));
+
+            // 88% guests (user_id=0), 12% logged-in (user_id=1-10)
+            $isLoggedIn = rand(1, 100) <= 12;
+            $userId = $isLoggedIn ? rand(1, 10) : 0;
+
+            // Calculate session duration: bounces 5-30s, engaged 60-600s
+            // Match the 45% bounce rate from getSessionPageCount()
+            $isBounce = rand(1, 100) <= 45;
+            $duration = $isBounce ? rand(5, 30) : rand(60, 600);
+
+            $endedAt = date('Y-m-d H:i:s', strtotime($datetime) + $duration);
+
             $wpdb->update(
                 $wpdb->prefix . 'statistics_sessions',
-                ['started_at' => $datetime, 'ended_at' => $datetime],
+                [
+                    'started_at' => $datetime,
+                    'ended_at' => $endedAt,
+                    'duration' => $duration,
+                    'user_id' => $userId,
+                ],
                 ['ID' => $id]
             );
         }
@@ -1161,21 +1280,33 @@ class TrackerSimulator
     }
 
     /**
+     * Get number of pages a visitor views in their session
+     * 45% bounce (1 page), 55% engaged (2-6 pages)
+     */
+    private function getSessionPageCount()
+    {
+        if (rand(1, 100) <= 45) {
+            return 1;
+        }
+        return rand(2, 6);
+    }
+
+    /**
      * Main execution loop
      */
     public function run()
     {
         $this->printHeader();
 
-        $currentDate = new DateTime($this->config['from']);
-        $endDate = new DateTime($this->config['to']);
-        $totalDays = $currentDate->diff($endDate)->days + 1;
+        // Reverse order: start from newest date, go backwards to oldest
+        $currentDate = new DateTime($this->config['to']);
+        $startDate = new DateTime($this->config['from']);
+        $totalDays = $currentDate->diff($startDate)->days + 1;
         $dayNum = 0;
 
         $hourDistribution = $this->getHourDistribution();
-        $totalHourWeight = array_sum($hourDistribution);
 
-        while ($currentDate <= $endDate) {
+        while ($currentDate >= $startDate) {
             $date = $currentDate->format('Y-m-d');
             $dayNum++;
 
@@ -1189,41 +1320,41 @@ class TrackerSimulator
             // Capture current max IDs before this day's batch
             $maxIdsBefore = $this->config['dry_run'] ? null : $this->getMaxIds();
 
-            // Distribute visitors across hours
+            // Build requests for all visitors with multi-page sessions
+            $requests = [];
             for ($i = 0; $i < $visitorsToday; $i++) {
-                // Select hour based on distribution
-                $hour = $this->weightedRandom($hourDistribution);
-
-                // Generate visitor profile
+                // Generate visitor profile (same profile for all pages in session)
                 $profile = $this->generateVisitorProfile();
 
-                // Generate request data
-                $params = $this->generateRequestData($profile);
+                // Each visitor views 1-6 pages (45% bounce, 55% engaged)
+                $pageCount = $this->getSessionPageCount();
 
-                // Send request
-                $success = $this->sendTrackingRequest($params, $profile);
-
-                if ($this->config['verbose']) {
-                    $status = $success ? 'OK' : 'FAIL';
-                    $resource = $this->findResourceByUriId($params['resourceUriId']);
-                    $uri = $resource ? $resource['uri'] : 'unknown';
-                    echo "\n  [{$status}] {$profile['ip']} - {$profile['browser']}/{$profile['os']} - {$uri}";
+                for ($p = 0; $p < $pageCount; $p++) {
+                    // Generate request data (different page each time)
+                    $params = $this->generateRequestData($profile);
+                    $requests[] = ['params' => $params, 'profile' => $profile];
                 }
+            }
 
-                // Delay between requests
-                if ($this->config['delay_ms'] > 0 && !$this->config['dry_run']) {
-                    usleep($this->config['delay_ms'] * 1000);
-                }
+            $totalPageViews = count($requests);
+            echo " ({$totalPageViews} page views)";
+
+            // Send all requests in parallel using curl_multi
+            if (!$this->config['dry_run']) {
+                $this->sendBatchRequests($requests);
+            } else {
+                $this->stats['requests_sent'] += $totalPageViews;
+                $this->stats['requests_successful'] += $totalPageViews;
             }
 
             // Backdate records created during this day's batch
             if (!$this->config['dry_run'] && $maxIdsBefore !== null) {
                 $backdated = $this->backdateRecords($maxIdsBefore, $date, $hourDistribution);
-                echo " → backdated {$backdated['views']} views";
+                echo " → backdated {$backdated['sessions']} sessions";
             }
 
             echo "\n";
-            $currentDate->modify('+1 day');
+            $currentDate->modify('-1 day');  // Go backwards
         }
 
         $this->printSummary();
@@ -1235,8 +1366,9 @@ class TrackerSimulator
     private function printHeader()
     {
         echo "=== WP Statistics Tracker.js Simulator ===\n\n";
-        echo "Date Range: {$this->config['from']} to {$this->config['to']}\n";
+        echo "Date Range: {$this->config['to']} → {$this->config['from']} (newest to oldest)\n";
         echo "Visitors/Day: {$this->config['visitors_per_day']}\n";
+        echo "Parallel Workers: {$this->config['workers']}\n";
         echo "AJAX URL: {$this->ajaxUrl}\n";
         if ($this->config['dry_run']) {
             echo "Mode: DRY RUN (no actual requests)\n";
@@ -1294,6 +1426,7 @@ $options = getopt('', [
     'to:',
     'visitors-per-day:',
     'delay:',
+    'workers:',
     'url:',
     'verbose',
     'dry-run',
@@ -1305,16 +1438,24 @@ if (isset($options['help'])) {
     echo "Simulates Tracker.js requests to admin-ajax.php for realistic test data.\n\n";
     echo "Options:\n";
     echo "  --days=<number>           Days to generate (default: 7)\n";
-    echo "  --from=<YYYY-MM-DD>       Start date\n";
-    echo "  --to=<YYYY-MM-DD>         End date (default: today)\n";
+    echo "  --from=<YYYY-MM-DD>       Start date (oldest date)\n";
+    echo "  --to=<YYYY-MM-DD>         End date (default: today, newest date)\n";
     echo "  --visitors-per-day=<num>  Average visitors per day (default: 50)\n";
-    echo "  --delay=<ms>              Delay between requests in ms (default: 50)\n";
+    echo "  --workers=<num>           Parallel HTTP workers (default: 10)\n";
+    echo "  --delay=<ms>              Delay between requests in ms (default: 50, unused with workers)\n";
     echo "  --url=<url>               Custom site URL (e.g., https://wordpress.test)\n";
     echo "  --verbose                 Show detailed request output\n";
     echo "  --dry-run                 Generate data without sending requests\n";
     echo "  --help                    Show this help\n\n";
+    echo "Features:\n";
+    echo "  - Imports from newest to oldest date for better UX\n";
+    echo "  - Multi-page sessions (45% bounce, 55% engaged with 2-6 pages)\n";
+    echo "  - Parallel HTTP requests for ~10x faster processing\n";
+    echo "  - Realistic user distribution (88% guest, 12% logged-in)\n";
+    echo "  - Session duration tracking\n\n";
     echo "Examples:\n";
     echo "  php bin/dummy-tracker-simulator.php --days=7 --visitors-per-day=50\n";
+    echo "  php bin/dummy-tracker-simulator.php --days=180 --visitors-per-day=100 --workers=20\n";
     echo "  php bin/dummy-tracker-simulator.php --url=https://localhost:8080 --days=1\n";
     echo "  php bin/dummy-tracker-simulator.php --from=2024-12-01 --to=2024-12-31 --verbose\n";
     echo "  php bin/dummy-tracker-simulator.php --days=1 --visitors-per-day=10 --dry-run\n\n";
@@ -1329,6 +1470,7 @@ $config = [
     'days' => (int)($options['days'] ?? 7),
     'visitors_per_day' => (int)($options['visitors-per-day'] ?? 50),
     'delay_ms' => (int)($options['delay'] ?? 50),
+    'workers' => (int)($options['workers'] ?? 10),
     'verbose' => isset($options['verbose']),
     'dry_run' => isset($options['dry-run']),
 ];
