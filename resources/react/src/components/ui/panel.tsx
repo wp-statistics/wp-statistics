@@ -87,7 +87,7 @@ function PanelContent({ className, ...props }: React.ComponentProps<'div'>) {
 
 function PanelFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <div data-slot="panel-footer" className={cn('flex items-center justify-end px-4 py-3', className)} {...props} />
+    <div data-slot="panel-footer" className={cn('flex items-center justify-end px-4 py-3 border-t border-neutral-200', className)} {...props} />
   )
 }
 
