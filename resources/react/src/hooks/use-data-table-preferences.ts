@@ -119,12 +119,21 @@ export function useDataTablePreferences<TData>({
       return computedVisibilityRef.current
     }
 
-    // Use cached visibility from localStorage while waiting for API response
+    // Always prefer localStorage cache - it's updated immediately on changes
+    // This prevents race conditions where API returns stale data
+    const cachedVisibility = getCachedVisibility(context, allColumnIds)
+    if (cachedVisibility) {
+      hasAppliedPrefs.current = true
+      computedVisibilityRef.current = cachedVisibility
+      currentVisibilityRef.current = cachedVisibility
+      // Also restore column order from cache
+      const cachedColumns = getCachedVisibleColumns(context)
+      computedColumnOrderRef.current = cachedColumns || []
+      return cachedVisibility
+    }
+
+    // No localStorage cache - wait for API or use defaults
     if (!hasApiResponse) {
-      const cachedVisibility = getCachedVisibility(context, allColumnIds)
-      if (cachedVisibility) {
-        return cachedVisibility
-      }
       return emptyVisibilityRef.current
     }
 
@@ -169,6 +178,7 @@ export function useDataTablePreferences<TData>({
   const handleColumnVisibilityChange = useCallback(
     (visibility: VisibilityState) => {
       currentVisibilityRef.current = visibility
+      computedVisibilityRef.current = visibility
       const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
       saveUserPreferences({ context, columns: visibleColumns })
       setCachedColumns(context, visibleColumns)
