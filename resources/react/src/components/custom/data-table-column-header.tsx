@@ -1,6 +1,6 @@
 import type { Column, Header, Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { ArrowDownWideNarrow, ArrowLeft, ArrowRight, ArrowUpNarrowWide, ChevronDown, ChevronUp, EyeOff, MoveHorizontal } from 'lucide-react'
+import { ArrowDownWideNarrow, ArrowLeft, ArrowRight, ArrowUpNarrowWide, ChevronDown, EyeOff, MoveHorizontal } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -100,9 +100,9 @@ export function DataTableColumnHeader<TData, TValue>({
     if (!canSort || !isSorted) return null
 
     if (isSorted === 'desc') {
-      return <ChevronDown className="h-3 w-3" />
+      return <ArrowDownWideNarrow className="h-3 w-3" />
     } else if (isSorted === 'asc') {
-      return <ChevronUp className="h-3 w-3" />
+      return <ArrowUpNarrowWide className="h-3 w-3" />
     }
     return null
   }
