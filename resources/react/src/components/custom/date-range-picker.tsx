@@ -1,6 +1,6 @@
 'use client'
 
-import { Calendar as CalendarIcon, Check, ChevronDown } from 'lucide-react'
+import { Check, ChevronDown } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -51,6 +51,24 @@ const formatDate = (date: Date, locale: string = 'en-us'): string => {
     day: 'numeric',
     year: 'numeric',
   })
+}
+
+/**
+ * Format a date range with year shown only once at the end (like GA4).
+ * e.g., "Nov 17 - Dec 14, 2025" instead of "Nov 17, 2025 - Dec 14, 2025"
+ */
+const formatDateRangeCompact = (from: Date, to: Date | undefined, locale: string = 'en-us'): string => {
+  const toDate = to || from
+  const fromWithoutYear = from.toLocaleDateString(locale, {
+    month: 'short',
+    day: 'numeric',
+  })
+  const toWithYear = toDate.toLocaleDateString(locale, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+  return `${fromWithoutYear} - ${toWithYear}`
 }
 
 const getDateAdjustedForTimezone = (dateInput: Date | string): Date => {
@@ -451,17 +469,38 @@ export const DateRangePicker = ({
       }}
     >
       <PopoverTrigger asChild>
-        <Button variant="outline" className="h-8 text-xs font-medium border-neutral-200 hover:bg-neutral-50">
-          <CalendarIcon className="h-3.5 w-3.5 mr-2 text-neutral-500" />
-          <span className="text-neutral-700">
-            {selectedPreset
-              ? PRESETS.find((p) => p.name === selectedPreset)?.label
-              : `${formatDate(range.from, locale)}${range.to ? ` – ${formatDate(range.to, locale)}` : ''}`}
-          </span>
-          {rangeCompare && (
-            <span className="ml-2 px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[11px] font-medium">vs</span>
+        <Button
+          variant="outline"
+          className={cn(
+            'text-xs font-medium border-neutral-200 hover:bg-neutral-50',
+            rangeCompare ? 'h-auto py-1.5 px-3' : 'h-8 px-3'
           )}
-          <ChevronDown className="h-3.5 w-3.5 ml-2 text-neutral-400" />
+        >
+          <div className="flex items-center gap-2">
+            {/* Preset badge */}
+            {selectedPreset && (
+              <span className="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-600 font-medium text-[11px]">
+                {PRESETS.find((p) => p.name === selectedPreset)?.label}
+              </span>
+            )}
+
+            {/* Dates column (main date + compare below) */}
+            <div className="flex flex-col items-start">
+              <div className="flex items-center gap-1.5">
+                <span className="text-neutral-700 font-medium">
+                  {formatDate(range.from, locale)} - {range.to ? formatDate(range.to, locale) : formatDate(range.from, locale)}
+                </span>
+                <ChevronDown className="h-3.5 w-3.5 text-neutral-400" />
+              </div>
+
+              {/* Compare row (if enabled) - aligned under dates */}
+              {rangeCompare && (
+                <span className="text-[11px] text-neutral-400 font-normal">
+                  Compare: {formatDateRangeCompact(rangeCompare.from, rangeCompare.to, locale)}
+                </span>
+              )}
+            </div>
+          </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent
