@@ -78,6 +78,7 @@ function ContentOverviewView() {
     applyFilters: handleApplyFilters,
     isInitialized,
     apiDateParams,
+    isCompareEnabled,
   } = useGlobalFilters()
 
   const wp = WordPress.getInstance()
@@ -272,34 +273,45 @@ function ContentOverviewView() {
     }
   }, [performanceResponse])
 
-  const chartMetrics = [
-    {
-      key: 'visitors',
-      label: __('Visitors', 'wp-statistics'),
-      color: 'var(--chart-1)',
-      enabled: true,
-      value:
-        chartTotals.visitors >= 1000
-          ? `${formatDecimal(chartTotals.visitors / 1000)}k`
-          : formatDecimal(chartTotals.visitors),
-      previousValue:
-        chartTotals.visitorsPrevious >= 1000
-          ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-          : formatDecimal(chartTotals.visitorsPrevious),
-    },
-    {
-      key: 'views',
-      label: __('Views', 'wp-statistics'),
-      color: 'var(--chart-2)',
-      enabled: true,
-      value:
-        chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
-      previousValue:
-        chartTotals.viewsPrevious >= 1000
-          ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-          : formatDecimal(chartTotals.viewsPrevious),
-    },
-  ]
+  const chartMetrics = useMemo(
+    () => [
+      {
+        key: 'visitors',
+        label: __('Visitors', 'wp-statistics'),
+        color: 'var(--chart-1)',
+        enabled: true,
+        value:
+          chartTotals.visitors >= 1000
+            ? `${formatDecimal(chartTotals.visitors / 1000)}k`
+            : formatDecimal(chartTotals.visitors),
+        ...(isCompareEnabled
+          ? {
+              previousValue:
+                chartTotals.visitorsPrevious >= 1000
+                  ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
+                  : formatDecimal(chartTotals.visitorsPrevious),
+            }
+          : {}),
+      },
+      {
+        key: 'views',
+        label: __('Views', 'wp-statistics'),
+        color: 'var(--chart-2)',
+        enabled: true,
+        value:
+          chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
+        ...(isCompareEnabled
+          ? {
+              previousValue:
+                chartTotals.viewsPrevious >= 1000
+                  ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
+                  : formatDecimal(chartTotals.viewsPrevious),
+            }
+          : {}),
+      },
+    ],
+    [chartTotals, isCompareEnabled]
+  )
 
   const calcPercentage = usePercentageCalc()
 
@@ -343,55 +355,55 @@ function ContentOverviewView() {
       {
         label: `${__('Published', 'wp-statistics')} ${postTypeLabel}`,
         value: formatCompactNumber(publishedContent),
-        ...calcPercentage(publishedContent, prevPublishedContent),
+        ...(isCompareEnabled ? calcPercentage(publishedContent, prevPublishedContent) : {}),
         tooltipContent: __('Number of published content items', 'wp-statistics'),
       },
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
-        ...calcPercentage(visitors, prevVisitors),
+        ...(isCompareEnabled ? calcPercentage(visitors, prevVisitors) : {}),
         tooltipContent: __('Unique visitors to content', 'wp-statistics'),
       },
       {
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(views),
-        ...calcPercentage(views, prevViews),
+        ...(isCompareEnabled ? calcPercentage(views, prevViews) : {}),
         tooltipContent: __('Total page views', 'wp-statistics'),
       },
       {
         label: `${__('Views per', 'wp-statistics')} ${postTypeLabel}`,
         value: formatDecimal(viewsPerPost),
-        ...calcPercentage(viewsPerPost, prevViewsPerPost),
+        ...(isCompareEnabled ? calcPercentage(viewsPerPost, prevViewsPerPost) : {}),
         tooltipContent: __('Average views per content item', 'wp-statistics'),
       },
       {
         label: __('Bounce Rate', 'wp-statistics'),
         value: `${formatDecimal(bounceRate)}%`,
-        ...calcPercentage(bounceRate, prevBounceRate),
+        ...(isCompareEnabled ? calcPercentage(bounceRate, prevBounceRate) : {}),
         tooltipContent: __('Percentage of single-page sessions', 'wp-statistics'),
       },
       {
         label: __('Time on Page', 'wp-statistics'),
         value: formatDuration(avgTimeOnPage),
-        ...calcPercentage(avgTimeOnPage, prevAvgTimeOnPage),
+        ...(isCompareEnabled ? calcPercentage(avgTimeOnPage, prevAvgTimeOnPage) : {}),
         tooltipContent: __('Average time spent on content', 'wp-statistics'),
       },
       {
         label: __('Comments', 'wp-statistics'),
         value: formatCompactNumber(comments),
-        ...calcPercentage(comments, prevComments),
+        ...(isCompareEnabled ? calcPercentage(comments, prevComments) : {}),
         tooltipContent: __('Total comments on content', 'wp-statistics'),
       },
       {
         label: `${__('Avg. Comments per', 'wp-statistics')} ${postTypeLabel}`,
         value: formatDecimal(avgCommentsPerPost),
-        ...calcPercentage(avgCommentsPerPost, prevAvgCommentsPerPost),
+        ...(isCompareEnabled ? calcPercentage(avgCommentsPerPost, prevAvgCommentsPerPost) : {}),
         tooltipContent: __('Average comments per content item', 'wp-statistics'),
       },
     ]
 
     return metrics
-  }, [metricsResponse, postTypeLabel, calcPercentage])
+  }, [metricsResponse, postTypeLabel, calcPercentage, isCompareEnabled])
 
   // Build tabbed list tabs for top content
   const topContentTabs: TabbedListTab[] = useMemo(() => {
@@ -530,7 +542,7 @@ function ContentOverviewView() {
                 title={__('Content Performance', 'wp-statistics')}
                 data={chartData}
                 metrics={chartMetrics}
-                showPreviousPeriod={true}
+                showPreviousPeriod={isCompareEnabled}
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
@@ -557,17 +569,20 @@ function ContentOverviewView() {
                   return topReferrersData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const displayName = item.referrer_name || item.referrer_domain || __('Direct', 'wp-statistics')
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       label: displayName,
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: displayName,
-                      tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -582,17 +597,20 @@ function ContentOverviewView() {
                   return topSearchEnginesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const displayName = item.referrer_name || item.referrer_domain || __('Unknown', 'wp-statistics')
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       label: displayName,
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: displayName,
-                      tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -607,7 +625,12 @@ function ContentOverviewView() {
                   return topCountriesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -619,11 +642,9 @@ function ContentOverviewView() {
                       ),
                       label: item.country_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.country_name || '',
-                      tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -639,8 +660,13 @@ function ContentOverviewView() {
                   return topBrowsersData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const iconName = (item.browser_name || 'unknown').toLowerCase()
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -652,11 +678,9 @@ function ContentOverviewView() {
                       ),
                       label: item.browser_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.browser_name || '',
-                      tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -671,8 +695,13 @@ function ContentOverviewView() {
                   return topOSData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -684,11 +713,9 @@ function ContentOverviewView() {
                       ),
                       label: item.os_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.os_name || '',
-                      tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -703,8 +730,13 @@ function ContentOverviewView() {
                   return topDevicesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const iconName = (item.device_type_name || 'desktop').toLowerCase()
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -716,11 +748,9 @@ function ContentOverviewView() {
                       ),
                       label: item.device_type_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.device_type_name || '',
-                      tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}

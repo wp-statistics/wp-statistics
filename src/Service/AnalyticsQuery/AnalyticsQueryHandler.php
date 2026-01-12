@@ -1018,17 +1018,19 @@ class AnalyticsQueryHandler
         $groupBy    = $query->getGroupBy();
         $showTotals = $query->showTotals();
 
-        // Use custom previous period if provided, otherwise calculate automatically
+        // Use custom previous period if provided, otherwise calculate based on comparison mode
         if ($query->hasCustomPreviousPeriod()) {
             $previousPeriod = [
                 'from' => $query->getPreviousDateFrom(),
                 'to'   => $query->getPreviousDateTo(),
             ];
         } else {
-            // Calculate previous period automatically
-            $previousPeriod = $this->comparisonHandler->calculatePreviousPeriod(
+            // Calculate previous period based on comparison mode (defaults to 'previous_period')
+            $comparisonMode = $query->getComparisonMode() ?? ComparisonHandler::MODE_PREVIOUS_PERIOD;
+            $previousPeriod = $this->comparisonHandler->calculateComparisonPeriod(
                 $query->getDateFrom(),
-                $query->getDateTo()
+                $query->getDateTo(),
+                $comparisonMode
             );
         }
 

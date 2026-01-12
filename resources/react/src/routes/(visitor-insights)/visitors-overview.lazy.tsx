@@ -50,6 +50,7 @@ function RouteComponent() {
     applyFilters: handleApplyFilters,
     removeFilter: handleRemoveFilter,
     isInitialized,
+    isCompareEnabled,
     apiDateParams,
   } = useGlobalFilters()
 
@@ -214,10 +215,14 @@ function RouteComponent() {
         chartTotals.visitors >= 1000
           ? `${formatDecimal(chartTotals.visitors / 1000)}k`
           : formatDecimal(chartTotals.visitors),
-      previousValue:
-        chartTotals.visitorsPrevious >= 1000
-          ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-          : formatDecimal(chartTotals.visitorsPrevious),
+      ...(isCompareEnabled
+        ? {
+            previousValue:
+              chartTotals.visitorsPrevious >= 1000
+                ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
+                : formatDecimal(chartTotals.visitorsPrevious),
+          }
+        : {}),
     },
     {
       key: 'views',
@@ -226,10 +231,14 @@ function RouteComponent() {
       enabled: true,
       value:
         chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
-      previousValue:
-        chartTotals.viewsPrevious >= 1000
-          ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-          : formatDecimal(chartTotals.viewsPrevious),
+      ...(isCompareEnabled
+        ? {
+            previousValue:
+              chartTotals.viewsPrevious >= 1000
+                ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
+                : formatDecimal(chartTotals.viewsPrevious),
+          }
+        : {}),
     },
   ]
 
@@ -287,22 +296,22 @@ function RouteComponent() {
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
-        ...calcPercentage(visitors, prevVisitors),
+        ...(isCompareEnabled ? calcPercentage(visitors, prevVisitors) : {}),
       },
       {
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(views),
-        ...calcPercentage(views, prevViews),
+        ...(isCompareEnabled ? calcPercentage(views, prevViews) : {}),
       },
       {
         label: __('Session Duration', 'wp-statistics'),
         value: formatDuration(avgSessionDuration),
-        ...calcPercentage(avgSessionDuration, prevAvgSessionDuration),
+        ...(isCompareEnabled ? calcPercentage(avgSessionDuration, prevAvgSessionDuration) : {}),
       },
       {
         label: __('Views/Session', 'wp-statistics'),
         value: formatDecimal(pagesPerSession),
-        ...calcPercentage(pagesPerSession, prevPagesPerSession),
+        ...(isCompareEnabled ? calcPercentage(pagesPerSession, prevPagesPerSession) : {}),
       },
       // Row 2: Context metrics (strings use '-' when empty)
       {
@@ -320,10 +329,10 @@ function RouteComponent() {
       {
         label: __('Logged-in Share', 'wp-statistics'),
         value: `${formatDecimal(loggedInShare)}%`,
-        ...calcPercentage(loggedInShare, prevLoggedInShare),
+        ...(isCompareEnabled ? calcPercentage(loggedInShare, prevLoggedInShare) : {}),
       },
     ]
-  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn])
+  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn, isCompareEnabled])
 
   return (
     <div className="min-w-0">
@@ -411,7 +420,7 @@ function RouteComponent() {
                 title="Traffic Trends"
                 data={chartData}
                 metrics={trafficTrendsMetrics}
-                showPreviousPeriod={true}
+                showPreviousPeriod={isCompareEnabled}
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
@@ -427,21 +436,24 @@ function RouteComponent() {
                   return topReferrersData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const displayName =
                       item.referrer_name ||
                       item.referrer_domain ||
                       item.referrer_channel ||
                       __('Direct', 'wp-statistics')
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       label: displayName,
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: displayName,
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -460,7 +472,12 @@ function RouteComponent() {
                   return topCountriesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -472,11 +489,9 @@ function RouteComponent() {
                       ),
                       label: item.country_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.country_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -494,8 +509,13 @@ function RouteComponent() {
                   return deviceTypeData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const iconName = (item.device_type_name || 'desktop').toLowerCase()
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -507,11 +527,9 @@ function RouteComponent() {
                       ),
                       label: item.device_type_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.device_type_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -530,8 +548,13 @@ function RouteComponent() {
                   return operatingSystemsData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -543,11 +566,9 @@ function RouteComponent() {
                       ),
                       label: item.os_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.os_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}

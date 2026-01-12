@@ -37,6 +37,7 @@ function RouteComponent() {
     removeFilter: handleRemoveFilter,
     isInitialized,
     apiDateParams,
+    isCompareEnabled,
   } = useGlobalFilters()
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'visitors', desc: true }])
@@ -130,7 +131,7 @@ function RouteComponent() {
           return (
             <div className="text-right">
               <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(current)}</span>
-              {previous !== undefined && (
+              {isCompareEnabled && previous !== undefined && (
                 <span className={`ml-2 text-xs ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
                   {isNegative ? '↓' : '↑'}
                   {percentage}%
@@ -155,7 +156,7 @@ function RouteComponent() {
           return (
             <div className="text-right">
               <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(current)}</span>
-              {previous !== undefined && (
+              {isCompareEnabled && previous !== undefined && (
                 <span className={`ml-2 text-xs ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
                   {isNegative ? '↓' : '↑'}
                   {percentage}%
@@ -208,7 +209,7 @@ function RouteComponent() {
         },
       },
     ],
-    [calcPercentage]
+    [calcPercentage, isCompareEnabled]
   )
 
   // Transform data

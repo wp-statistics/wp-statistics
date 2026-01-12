@@ -43,6 +43,7 @@ function RouteComponent() {
     removeFilter: handleRemoveFilter,
     isInitialized,
     apiDateParams,
+    isCompareEnabled,
   } = useGlobalFilters()
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
@@ -146,7 +147,7 @@ function RouteComponent() {
           return (
             <div className="text-right">
               <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(current)}</span>
-              {previous !== undefined && (
+              {isCompareEnabled && previous !== undefined && (
                 <span className={`ml-2 text-xs ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
                   {isNegative ? '↓' : '↑'}
                   {percentage}%
@@ -171,7 +172,7 @@ function RouteComponent() {
           return (
             <div className="text-right">
               <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(current)}</span>
-              {previous !== undefined && (
+              {isCompareEnabled && previous !== undefined && (
                 <span className={`ml-2 text-xs ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
                   {isNegative ? '↓' : '↑'}
                   {percentage}%
@@ -224,7 +225,7 @@ function RouteComponent() {
         },
       },
     ],
-    [calcPercentage]
+    [calcPercentage, isCompareEnabled]
   )
 
   // Transform chart data from API format to LineChart format
@@ -276,6 +277,11 @@ function RouteComponent() {
 
   // Define chart metrics
   const chartMetrics = useMemo(() => {
+    const previousValue =
+      chartTotals.visitorsPrevious >= 1000
+        ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
+        : formatDecimal(chartTotals.visitorsPrevious)
+
     return [
       {
         key: 'visitors',
@@ -286,13 +292,10 @@ function RouteComponent() {
           chartTotals.visitors >= 1000
             ? `${formatDecimal(chartTotals.visitors / 1000)}k`
             : formatDecimal(chartTotals.visitors),
-        previousValue:
-          chartTotals.visitorsPrevious >= 1000
-            ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-            : formatDecimal(chartTotals.visitorsPrevious),
+        ...(isCompareEnabled ? { previousValue } : {}),
       },
     ]
-  }, [chartTotals])
+  }, [chartTotals, isCompareEnabled])
 
   // Extract table data
   const tableData = useMemo(() => {
@@ -388,7 +391,7 @@ function RouteComponent() {
               title={__('Top Search Engines Trend', 'wp-statistics')}
               data={chartData}
               metrics={chartMetrics}
-              showPreviousPeriod={!!(compareDateFrom && compareDateTo)}
+              showPreviousPeriod={isCompareEnabled}
               timeframe={timeframe}
               onTimeframeChange={handleTimeframeChange}
               loading={isFetching && chartData.length === 0}

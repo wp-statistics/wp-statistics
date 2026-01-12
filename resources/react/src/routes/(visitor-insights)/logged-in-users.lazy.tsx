@@ -67,6 +67,7 @@ function RouteComponent() {
     removeFilter: handleRemoveFilter,
     isInitialized,
     apiDateParams,
+    isCompareEnabled,
   } = useGlobalFilters()
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
@@ -194,17 +195,19 @@ function RouteComponent() {
     0
   )
 
-  const trafficTrendsMetrics = [
+  const trafficTrendsMetrics = useMemo(() => [
     {
       key: 'userVisitors',
       label: __('User Visitors', 'wp-statistics'),
       color: 'var(--chart-1)',
       enabled: true,
       value: totalUserVisitors >= 1000 ? `${formatDecimal(totalUserVisitors / 1000)}k` : totalUserVisitors.toString(),
-      previousValue:
-        totalUserVisitorsPrevious >= 1000
-          ? `${formatDecimal(totalUserVisitorsPrevious / 1000)}k`
-          : totalUserVisitorsPrevious.toString(),
+      ...(isCompareEnabled ? {
+        previousValue:
+          totalUserVisitorsPrevious >= 1000
+            ? `${formatDecimal(totalUserVisitorsPrevious / 1000)}k`
+            : totalUserVisitorsPrevious.toString(),
+      } : {}),
     },
     {
       key: 'anonymousVisitors',
@@ -215,12 +218,14 @@ function RouteComponent() {
         totalAnonymousVisitors >= 1000
           ? `${formatDecimal(totalAnonymousVisitors / 1000)}k`
           : totalAnonymousVisitors.toString(),
-      previousValue:
-        totalAnonymousVisitorsPrevious >= 1000
-          ? `${formatDecimal(totalAnonymousVisitorsPrevious / 1000)}k`
-          : totalAnonymousVisitorsPrevious.toString(),
+      ...(isCompareEnabled ? {
+        previousValue:
+          totalAnonymousVisitorsPrevious >= 1000
+            ? `${formatDecimal(totalAnonymousVisitorsPrevious / 1000)}k`
+            : totalAnonymousVisitorsPrevious.toString(),
+      } : {}),
     },
-  ]
+  ], [totalUserVisitors, totalUserVisitorsPrevious, totalAnonymousVisitors, totalAnonymousVisitorsPrevious, isCompareEnabled])
 
   const handleSortingChange = useCallback(
     (newSorting: SortingState) => {
@@ -289,7 +294,7 @@ function RouteComponent() {
               title={__('Traffic Trends', 'wp-statistics')}
               data={trafficTrendsData}
               metrics={trafficTrendsMetrics}
-              showPreviousPeriod={true}
+              showPreviousPeriod={isCompareEnabled}
               timeframe={timeframe}
               onTimeframeChange={setTimeframe}
               isLoading={isChartLoading}

@@ -41,6 +41,7 @@ function AuthorsOverviewView() {
     applyFilters: handleApplyFilters,
     isInitialized,
     apiDateParams,
+    isCompareEnabled,
   } = useGlobalFilters()
 
   const wp = WordPress.getInstance()
@@ -191,43 +192,43 @@ function AuthorsOverviewView() {
       {
         label: `${__('Published', 'wp-statistics')} ${postTypeLabel}`,
         value: formatCompactNumber(publishedContent),
-        ...calcPercentage(publishedContent, prevPublishedContent),
+        ...(isCompareEnabled ? calcPercentage(publishedContent, prevPublishedContent) : {}),
         tooltipContent: __('Number of published content items', 'wp-statistics'),
       },
       {
         label: __('Active Authors', 'wp-statistics'),
         value: formatCompactNumber(activeAuthors),
-        ...calcPercentage(activeAuthors, prevActiveAuthors),
+        ...(isCompareEnabled ? calcPercentage(activeAuthors, prevActiveAuthors) : {}),
         tooltipContent: __('Authors who published content in this period', 'wp-statistics'),
       },
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
-        ...calcPercentage(visitors, prevVisitors),
+        ...(isCompareEnabled ? calcPercentage(visitors, prevVisitors) : {}),
         tooltipContent: __('Unique visitors to author content', 'wp-statistics'),
       },
       {
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(views),
-        ...calcPercentage(views, prevViews),
+        ...(isCompareEnabled ? calcPercentage(views, prevViews) : {}),
         tooltipContent: __('Total page views', 'wp-statistics'),
       },
       {
         label: __('Views per Author', 'wp-statistics'),
         value: formatDecimal(viewsPerAuthor),
-        ...calcPercentage(viewsPerAuthor, prevViewsPerAuthor),
+        ...(isCompareEnabled ? calcPercentage(viewsPerAuthor, prevViewsPerAuthor) : {}),
         tooltipContent: __('Average views per author', 'wp-statistics'),
       },
       {
         label: `${__('Avg.', 'wp-statistics')} ${postTypeLabel} ${__('per Author', 'wp-statistics')}`,
         value: formatDecimal(avgContentPerAuthor),
-        ...calcPercentage(avgContentPerAuthor, prevAvgContentPerAuthor),
+        ...(isCompareEnabled ? calcPercentage(avgContentPerAuthor, prevAvgContentPerAuthor) : {}),
         tooltipContent: __('Average content items per author', 'wp-statistics'),
       },
     ]
 
     return metrics
-  }, [metricsResponse, postTypeLabel, calcPercentage])
+  }, [metricsResponse, postTypeLabel, calcPercentage, isCompareEnabled])
 
   // Build tabbed list tabs for top authors
   const topAuthorsTabs: TabbedListTab[] = useMemo(() => {

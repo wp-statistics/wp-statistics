@@ -15,6 +15,26 @@ use WP_Statistics\Service\AnalyticsQuery\Registry\GroupByRegistry;
 class ComparisonHandler
 {
     /**
+     * Comparison mode constants.
+     */
+    const MODE_PREVIOUS_PERIOD = 'previous_period';
+    const MODE_PREVIOUS_PERIOD_DOW = 'previous_period_dow';
+    const MODE_SAME_PERIOD_LAST_YEAR = 'same_period_last_year';
+    const MODE_CUSTOM = 'custom';
+
+    /**
+     * Valid comparison modes.
+     *
+     * @var array
+     */
+    public static $validModes = [
+        self::MODE_PREVIOUS_PERIOD,
+        self::MODE_PREVIOUS_PERIOD_DOW,
+        self::MODE_SAME_PERIOD_LAST_YEAR,
+        self::MODE_CUSTOM,
+    ];
+
+    /**
      * Sources being compared.
      *
      * @var array
@@ -38,6 +58,40 @@ class ComparisonHandler
     {
         $this->sources    = $sources;
         $this->groupBy = $groupBy;
+    }
+
+    /**
+     * Check if a comparison mode is valid.
+     *
+     * @param string|null $mode Comparison mode to validate.
+     * @return bool
+     */
+    public static function isValidMode(?string $mode): bool
+    {
+        return $mode !== null && in_array($mode, self::$validModes, true);
+    }
+
+    /**
+     * Calculate comparison period based on mode.
+     *
+     * @param string $dateFrom Current period start date.
+     * @param string $dateTo   Current period end date.
+     * @param string $mode     Comparison mode (default: previous_period).
+     * @return array ['from' => string, 'to' => string]
+     */
+    public function calculateComparisonPeriod(string $dateFrom, string $dateTo, string $mode = self::MODE_PREVIOUS_PERIOD): array
+    {
+        switch ($mode) {
+            case self::MODE_PREVIOUS_PERIOD_DOW:
+                return $this->calculatePreviousPeriodDOW($dateFrom, $dateTo);
+
+            case self::MODE_SAME_PERIOD_LAST_YEAR:
+                return $this->calculateSamePeriodLastYear($dateFrom, $dateTo);
+
+            case self::MODE_PREVIOUS_PERIOD:
+            default:
+                return $this->calculatePreviousPeriod($dateFrom, $dateTo);
+        }
     }
 
     /**
@@ -94,6 +148,93 @@ class ComparisonHandler
         }
 
         // Return in appropriate format
+        $format = $hasTime ? 'Y-m-d H:i:s' : 'Y-m-d';
+
+        return [
+            'from' => $prevFrom->format($format),
+            'to'   => $prevTo->format($format),
+        ];
+    }
+
+    /**
+     * Calculate previous period with day-of-week alignment.
+     *
+     * Shifts by full weeks (7, 14, 21 days, etc.) to maintain the same weekdays.
+     * This is useful for comparing traffic patterns that vary by day of week.
+     *
+     * @param string $dateFrom Current period start date.
+     * @param string $dateTo   Current period end date.
+     * @return array ['from' => string, 'to' => string]
+     */
+    public function calculatePreviousPeriodDOW(string $dateFrom, string $dateTo): array
+    {
+        // Normalize ISO 8601 format (replace T with space)
+        $dateFrom = str_replace('T', ' ', $dateFrom);
+        $dateTo   = str_replace('T', ' ', $dateTo);
+
+        // Check if times are included
+        $hasTime = strlen($dateFrom) > 10 || strlen($dateTo) > 10;
+
+        $from = new \DateTime(substr($dateFrom, 0, 10));
+        $to   = new \DateTime(substr($dateTo, 0, 10));
+
+        // Calculate the number of days in current period
+        $daysDiff = $from->diff($to)->days + 1;
+
+        // Calculate weeks to shift (must be full weeks to preserve day-of-week)
+        $weeksToShift = (int) ceil($daysDiff / 7);
+        $daysToShift = $weeksToShift * 7;
+
+        // Create previous period with same day-of-week
+        $prevFrom = (clone $from)->modify("-{$daysToShift} days");
+        $prevTo = (clone $to)->modify("-{$daysToShift} days");
+
+        // Preserve time if included
+        if ($hasTime && strlen($dateFrom) > 10) {
+            $fromTime = substr($dateFrom, 11);
+            list($hours, $minutes, $seconds) = explode(':', $fromTime);
+            $prevFrom->setTime((int)$hours, (int)$minutes, (int)$seconds);
+        }
+
+        if ($hasTime && strlen($dateTo) > 10) {
+            $toTime = substr($dateTo, 11);
+            list($hours, $minutes, $seconds) = explode(':', $toTime);
+            $prevTo->setTime((int)$hours, (int)$minutes, (int)$seconds);
+        }
+
+        $format = $hasTime ? 'Y-m-d H:i:s' : 'Y-m-d';
+
+        return [
+            'from' => $prevFrom->format($format),
+            'to'   => $prevTo->format($format),
+        ];
+    }
+
+    /**
+     * Calculate same period last year (exact dates).
+     *
+     * Subtracts one year from both dates for year-over-year comparison.
+     *
+     * @param string $dateFrom Current period start date.
+     * @param string $dateTo   Current period end date.
+     * @return array ['from' => string, 'to' => string]
+     */
+    public function calculateSamePeriodLastYear(string $dateFrom, string $dateTo): array
+    {
+        // Normalize ISO 8601 format (replace T with space)
+        $dateFrom = str_replace('T', ' ', $dateFrom);
+        $dateTo   = str_replace('T', ' ', $dateTo);
+
+        // Check if times are included
+        $hasTime = strlen($dateFrom) > 10 || strlen($dateTo) > 10;
+
+        $from = new \DateTime($dateFrom);
+        $to   = new \DateTime($dateTo);
+
+        // Subtract one year
+        $prevFrom = (clone $from)->modify('-1 year');
+        $prevTo = (clone $to)->modify('-1 year');
+
         $format = $hasTime ? 'Y-m-d H:i:s' : 'Y-m-d';
 
         return [

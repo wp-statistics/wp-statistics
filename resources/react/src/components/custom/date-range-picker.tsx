@@ -19,7 +19,12 @@ export interface DateRange {
 
 export interface DateRangePickerProps {
   /** Click handler for applying the updates from DateRangePicker. */
-  onUpdate?: (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => void
+  onUpdate?: (values: {
+    range: DateRange
+    rangeCompare?: DateRange
+    period?: string
+    comparisonMode?: ComparisonMode
+  }) => void
   /** Initial value for start date */
   initialDateFrom?: Date | string
   /** Initial value for end date */
@@ -36,6 +41,8 @@ export interface DateRangePickerProps {
   showCompare?: boolean
   /** Initial period preset name (e.g., 'yesterday', 'last30') */
   initialPeriod?: string
+  /** Initial comparison mode (e.g., 'previous_period', 'same_period_last_year') */
+  initialComparisonMode?: ComparisonMode
 }
 
 const formatDate = (date: Date, locale: string = 'en-us'): string => {
@@ -72,6 +79,78 @@ export const PRESETS: Preset[] = [
   { name: 'last6months', label: 'Last 6 Months' },
   { name: 'lastYear', label: 'Last Year' },
 ]
+
+/**
+ * Comparison mode types for period-over-period comparison.
+ */
+export type ComparisonMode = 'previous_period' | 'previous_period_dow' | 'same_period_last_year' | 'custom'
+
+export interface ComparisonModeOption {
+  name: ComparisonMode
+  label: string
+}
+
+export const COMPARISON_MODES: ComparisonModeOption[] = [
+  { name: 'previous_period', label: 'Previous period' },
+  { name: 'previous_period_dow', label: 'Previous period (match day of week)' },
+  { name: 'same_period_last_year', label: 'Same period last year' },
+  { name: 'custom', label: 'Custom' },
+]
+
+/**
+ * Check if a comparison mode is valid.
+ */
+export const isValidComparisonMode = (mode: string | undefined): mode is ComparisonMode => {
+  if (!mode) return false
+  return COMPARISON_MODES.some((m) => m.name === mode)
+}
+
+/**
+ * Calculate the comparison date range based on the selected mode.
+ */
+export const calculateComparisonRange = (range: DateRange, mode: ComparisonMode): DateRange | undefined => {
+  if (!range.from || !range.to) return undefined
+
+  const from = new Date(range.from)
+  const to = new Date(range.to)
+  const daysDiff = Math.ceil((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24))
+
+  switch (mode) {
+    case 'previous_period': {
+      // Same duration, immediately before current period
+      const prevTo = new Date(from)
+      prevTo.setDate(prevTo.getDate() - 1)
+      const prevFrom = new Date(prevTo)
+      prevFrom.setDate(prevFrom.getDate() - daysDiff)
+      return { from: prevFrom, to: prevTo }
+    }
+
+    case 'previous_period_dow': {
+      // Shift by full weeks to preserve weekday alignment
+      const weeksToShift = Math.ceil((daysDiff + 1) / 7)
+      const daysToShift = weeksToShift * 7
+      const prevFrom = new Date(from)
+      prevFrom.setDate(prevFrom.getDate() - daysToShift)
+      const prevTo = new Date(to)
+      prevTo.setDate(prevTo.getDate() - daysToShift)
+      return { from: prevFrom, to: prevTo }
+    }
+
+    case 'same_period_last_year': {
+      // Exact dates last year
+      const prevFrom = new Date(from)
+      prevFrom.setFullYear(prevFrom.getFullYear() - 1)
+      const prevTo = new Date(to)
+      prevTo.setFullYear(prevTo.getFullYear() - 1)
+      return { from: prevFrom, to: prevTo }
+    }
+
+    case 'custom':
+    default:
+      // Don't auto-calculate for custom mode
+      return undefined
+  }
+}
 
 /**
  * Get dates for a preset period.
@@ -156,6 +235,7 @@ export const DateRangePicker = ({
   locale = 'en-US',
   showCompare = true,
   initialPeriod,
+  initialComparisonMode = 'previous_period',
 }: DateRangePickerProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -175,8 +255,13 @@ export const DateRangePicker = ({
       : undefined
   )
 
+  const [comparisonMode, setComparisonMode] = useState<ComparisonMode>(
+    isValidComparisonMode(initialComparisonMode) ? initialComparisonMode : 'previous_period'
+  )
+
   const openedRangeRef = useRef<DateRange | undefined>()
   const openedRangeCompareRef = useRef<DateRange | undefined>()
+  const openedComparisonModeRef = useRef<ComparisonMode | undefined>()
 
   const [selectedPreset, setSelectedPreset] = useState<string | undefined>(
     initialPeriod && isValidPreset(initialPeriod) ? initialPeriod : undefined
@@ -221,6 +306,13 @@ export const DateRangePicker = ({
     }
   }, [initialPeriod])
 
+  // Sync comparisonMode when initialComparisonMode changes
+  useEffect(() => {
+    if (initialComparisonMode && isValidComparisonMode(initialComparisonMode)) {
+      setComparisonMode(initialComparisonMode)
+    }
+  }, [initialComparisonMode])
+
   useEffect(() => {
     const handleResize = (): void => {
       setIsSmallScreen(window.innerWidth < 960)
@@ -235,14 +327,11 @@ export const DateRangePicker = ({
   const setPreset = (preset: string): void => {
     const newRange = getPresetRange(preset)
     setRange(newRange)
-    if (rangeCompare) {
-      const newRangeCompare = {
-        from: new Date(newRange.from.getFullYear() - 1, newRange.from.getMonth(), newRange.from.getDate()),
-        to: newRange.to
-          ? new Date(newRange.to.getFullYear() - 1, newRange.to.getMonth(), newRange.to.getDate())
-          : undefined,
+    if (rangeCompare && comparisonMode !== 'custom') {
+      const newRangeCompare = calculateComparisonRange(newRange, comparisonMode)
+      if (newRangeCompare) {
+        setRangeCompare(newRangeCompare)
       }
-      setRangeCompare(newRangeCompare)
     }
   }
 
@@ -298,6 +387,7 @@ export const DateRangePicker = ({
           }
         : undefined
     )
+    setComparisonMode(isValidComparisonMode(initialComparisonMode) ? initialComparisonMode : 'previous_period')
   }
 
   useEffect(() => {
@@ -313,25 +403,39 @@ export const DateRangePicker = ({
     if (isOpen) {
       openedRangeRef.current = range
       openedRangeCompareRef.current = rangeCompare
+      openedComparisonModeRef.current = comparisonMode
     }
   }, [isOpen])
 
   const handleCompareToggle = (checked: boolean) => {
     if (checked) {
+      const rangeWithTo = !range.to ? { from: range.from, to: range.from } : range
       if (!range.to) {
-        setRange({
-          from: range.from,
-          to: range.from,
-        })
+        setRange(rangeWithTo)
       }
-      setRangeCompare({
-        from: new Date(range.from.getFullYear(), range.from.getMonth(), range.from.getDate() - 365),
-        to: range.to
-          ? new Date(range.to.getFullYear() - 1, range.to.getMonth(), range.to.getDate())
-          : new Date(range.from.getFullYear() - 1, range.from.getMonth(), range.from.getDate()),
-      })
+      const newRangeCompare = calculateComparisonRange(rangeWithTo, comparisonMode)
+      if (newRangeCompare) {
+        setRangeCompare(newRangeCompare)
+      }
     } else {
       setRangeCompare(undefined)
+    }
+  }
+
+  const handleComparisonModeChange = (mode: ComparisonMode) => {
+    setComparisonMode(mode)
+    if (mode !== 'custom' && range.from && range.to) {
+      const newRangeCompare = calculateComparisonRange(range, mode)
+      if (newRangeCompare) {
+        setRangeCompare(newRangeCompare)
+      }
+    }
+  }
+
+  const handleCompareDateChange = () => {
+    // When user manually edits compare dates, switch to custom mode
+    if (comparisonMode !== 'custom') {
+      setComparisonMode('custom')
     }
   }
 
@@ -424,10 +528,24 @@ export const DateRangePicker = ({
                     <span className="text-xs font-medium text-neutral-400">vs</span>
                     <div className="h-px flex-1 bg-neutral-200" />
                   </div>
+                  {/* Comparison mode selector */}
+                  <Select value={comparisonMode} onValueChange={handleComparisonModeChange}>
+                    <SelectTrigger className="h-8 text-xs border-0 bg-white shadow-sm mb-2">
+                      <SelectValue placeholder="Select comparison..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COMPARISON_MODES.map((mode) => (
+                        <SelectItem key={mode.name} value={mode.name} className="text-xs">
+                          {mode.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <div className="flex items-center gap-2">
                     <DateInput
                       value={rangeCompare?.from}
                       onChange={(date) => {
+                        handleCompareDateChange()
                         if (rangeCompare) {
                           const compareToDate =
                             rangeCompare.to == null || date > rangeCompare.to ? date : rangeCompare.to
@@ -453,6 +571,7 @@ export const DateRangePicker = ({
                     <DateInput
                       value={rangeCompare?.to}
                       onChange={(date) => {
+                        handleCompareDateChange()
                         if (rangeCompare && rangeCompare.from) {
                           const compareFromDate = date < rangeCompare.from ? date : rangeCompare.from
                           setRangeCompare({
@@ -553,7 +672,7 @@ export const DateRangePicker = ({
                 !areRangesEqual(range, openedRangeRef.current) ||
                 !areRangesEqual(rangeCompare, openedRangeCompareRef.current)
               ) {
-                onUpdate?.({ range, rangeCompare, period: selectedPreset })
+                onUpdate?.({ range, rangeCompare, period: selectedPreset, comparisonMode })
               }
             }}
           >

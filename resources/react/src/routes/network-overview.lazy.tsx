@@ -109,7 +109,7 @@ function NetworkOverviewComponent() {
   }
 
   // Use global filters context for date range (syncs with URL)
-  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams } =
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams, isCompareEnabled } =
     useGlobalFilters()
 
   // Use percentage calculation hook
@@ -168,22 +168,22 @@ function NetworkOverviewComponent() {
         label: __('Total Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
         tooltipContent: __('Unique visitors across all sites.', 'wp-statistics'),
-        ...calcPercentage(visitors, prevVisitors),
+        ...(isCompareEnabled ? calcPercentage(visitors, prevVisitors) : {}),
       },
       {
         label: __('Total Views', 'wp-statistics'),
         value: formatCompactNumber(views),
         tooltipContent: __('Page views across all sites.', 'wp-statistics'),
-        ...calcPercentage(views, prevViews),
+        ...(isCompareEnabled ? calcPercentage(views, prevViews) : {}),
       },
       {
         label: __('Total Sessions', 'wp-statistics'),
         value: formatCompactNumber(sessions),
         tooltipContent: __('Sessions across all sites.', 'wp-statistics'),
-        ...calcPercentage(sessions, prevSessions),
+        ...(isCompareEnabled ? calcPercentage(sessions, prevSessions) : {}),
       },
     ]
-  }, [sitesData.length, networkData?.totals, networkData?.previous_totals, calcPercentage])
+  }, [sitesData.length, networkData?.totals, networkData?.previous_totals, calcPercentage, isCompareEnabled])
 
   // Show loading state while initializing
   if (!isInitialized) {

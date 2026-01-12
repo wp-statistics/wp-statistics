@@ -43,6 +43,7 @@ function RouteComponent() {
     applyFilters: handleApplyFilters,
     isInitialized,
     apiDateParams,
+    isCompareEnabled,
   } = useGlobalFilters()
 
   const wp = WordPress.getInstance()
@@ -137,58 +138,41 @@ function RouteComponent() {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
-    const viewsPerc = calcPercentage(Number(totals.views?.current) || 0, Number(totals.views?.previous) || 0)
-    const visitorsPerc = calcPercentage(Number(totals.visitors?.current) || 0, Number(totals.visitors?.previous) || 0)
-    const avgTimePerc = calcPercentage(
-      Number(totals.avg_time_on_page?.current) || 0,
-      Number(totals.avg_time_on_page?.previous) || 0
-    )
-    const bouncePerc = calcPercentage(
-      Number(totals.bounce_rate?.current) || 0,
-      Number(totals.bounce_rate?.previous) || 0
-    )
-    const pagesPerSessionPerc = calcPercentage(
-      Number(totals.pages_per_session?.current) || 0,
-      Number(totals.pages_per_session?.previous) || 0
-    )
-
     return [
       {
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(Number(totals.views?.current) || 0),
-        percentage: viewsPerc.percentage,
-        isNegative: viewsPerc.isNegative,
+        ...(isCompareEnabled ? calcPercentage(Number(totals.views?.current) || 0, Number(totals.views?.previous) || 0) : {}),
       },
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(Number(totals.visitors?.current) || 0),
-        percentage: visitorsPerc.percentage,
-        isNegative: visitorsPerc.isNegative,
+        ...(isCompareEnabled ? calcPercentage(Number(totals.visitors?.current) || 0, Number(totals.visitors?.previous) || 0) : {}),
       },
       {
         label: __('Avg. Time on Page', 'wp-statistics'),
         value: formatDuration(Number(totals.avg_time_on_page?.current) || 0),
-        percentage: avgTimePerc.percentage,
-        isNegative: avgTimePerc.isNegative,
+        ...(isCompareEnabled ? calcPercentage(Number(totals.avg_time_on_page?.current) || 0, Number(totals.avg_time_on_page?.previous) || 0) : {}),
       },
       {
         label: __('Bounce Rate', 'wp-statistics'),
         value: `${formatDecimal(Number(totals.bounce_rate?.current) || 0)}%`,
-        percentage: bouncePerc.percentage,
-        isNegative: !bouncePerc.isNegative, // Invert for bounce rate (lower is better)
+        ...(isCompareEnabled ? {
+          ...calcPercentage(Number(totals.bounce_rate?.current) || 0, Number(totals.bounce_rate?.previous) || 0),
+          isNegative: !calcPercentage(Number(totals.bounce_rate?.current) || 0, Number(totals.bounce_rate?.previous) || 0).isNegative, // Invert for bounce rate (lower is better)
+        } : {}),
       },
       {
         label: __('Pages/Session', 'wp-statistics'),
         value: formatDecimal(Number(totals.pages_per_session?.current) || 0),
-        percentage: pagesPerSessionPerc.percentage,
-        isNegative: pagesPerSessionPerc.isNegative,
+        ...(isCompareEnabled ? calcPercentage(Number(totals.pages_per_session?.current) || 0, Number(totals.pages_per_session?.previous) || 0) : {}),
       },
       {
         label: __('Top Content Type', 'wp-statistics'),
         value: metricsTopPostType?.items?.[0]?.page_type || '-',
       },
     ]
-  }, [metricsResponse, metricsTopPostType, calcPercentage])
+  }, [metricsResponse, metricsTopPostType, calcPercentage, isCompareEnabled])
 
   // Transform page views trends chart data
   const pageViewsTrendsData = useMemo(() => {
@@ -246,10 +230,12 @@ function RouteComponent() {
         enabled: true,
         value:
           chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
-        previousValue:
-          chartTotals.viewsPrevious >= 1000
-            ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-            : formatDecimal(chartTotals.viewsPrevious),
+        ...(isCompareEnabled ? {
+          previousValue:
+            chartTotals.viewsPrevious >= 1000
+              ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
+              : formatDecimal(chartTotals.viewsPrevious),
+        } : {}),
       },
       {
         key: 'visitors',
@@ -260,13 +246,15 @@ function RouteComponent() {
           chartTotals.visitors >= 1000
             ? `${formatDecimal(chartTotals.visitors / 1000)}k`
             : formatDecimal(chartTotals.visitors),
-        previousValue:
-          chartTotals.visitorsPrevious >= 1000
-            ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-            : formatDecimal(chartTotals.visitorsPrevious),
+        ...(isCompareEnabled ? {
+          previousValue:
+            chartTotals.visitorsPrevious >= 1000
+              ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
+              : formatDecimal(chartTotals.visitorsPrevious),
+        } : {}),
       },
     ]
-  }, [chartTotals])
+  }, [chartTotals, isCompareEnabled])
 
   // Transform top pages data
   const topPagesListData = useMemo(() => {
@@ -274,20 +262,23 @@ function RouteComponent() {
       Number(topPagesTotals?.views) || topPagesData.reduce((sum, row) => sum + Number(row.views), 0) || 1
 
     return topPagesData.map((row) => {
-      const hasPrevious = row.previous !== undefined
-      const percentageResult = hasPrevious
-        ? calcPercentage(Number(row.views), Number(row.previous?.views) || 0)
-        : { percentage: '0', isNegative: false }
+      const currentValue = Number(row.views) || 0
+      const previousValue = Number(row.previous?.views) || 0
+      const comparisonProps = isCompareEnabled
+        ? {
+            ...calcPercentage(currentValue, previousValue),
+            tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+          }
+        : {}
 
       return {
         label: decodeText(row.page_title) || row.page_uri,
-        value: formatCompactNumber(Number(row.views)),
-        percentage: percentageResult.percentage,
-        isNegative: percentageResult.isNegative,
-        fillPercentage: calcSharePercentage(Number(row.views), totalViews),
+        value: formatCompactNumber(currentValue),
+        fillPercentage: calcSharePercentage(currentValue, totalViews),
+        ...comparisonProps,
       }
     })
-  }, [topPagesData, topPagesTotals, calcPercentage])
+  }, [topPagesData, topPagesTotals, calcPercentage, isCompareEnabled])
 
   // Transform entry pages data
   const entryPagesListData = useMemo(() => {
@@ -295,40 +286,46 @@ function RouteComponent() {
       Number(entryPagesTotals?.sessions) || entryPagesData.reduce((sum, row) => sum + Number(row.sessions), 0) || 1
 
     return entryPagesData.map((row) => {
-      const hasPrevious = row.previous !== undefined
-      const percentageResult = hasPrevious
-        ? calcPercentage(Number(row.sessions), Number(row.previous?.sessions) || 0)
-        : { percentage: '0', isNegative: false }
+      const currentValue = Number(row.sessions) || 0
+      const previousValue = Number(row.previous?.sessions) || 0
+      const comparisonProps = isCompareEnabled
+        ? {
+            ...calcPercentage(currentValue, previousValue),
+            tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+          }
+        : {}
 
       return {
         label: decodeText(row.page_title) || row.page_uri,
-        value: formatCompactNumber(Number(row.sessions)),
-        percentage: percentageResult.percentage,
-        isNegative: percentageResult.isNegative,
-        fillPercentage: calcSharePercentage(Number(row.sessions), totalSessions),
+        value: formatCompactNumber(currentValue),
+        fillPercentage: calcSharePercentage(currentValue, totalSessions),
+        ...comparisonProps,
       }
     })
-  }, [entryPagesData, entryPagesTotals, calcPercentage])
+  }, [entryPagesData, entryPagesTotals, calcPercentage, isCompareEnabled])
 
   // Transform 404 pages data
   const pages404ListData = useMemo(() => {
     const totalViews = pages404Data.reduce((sum, row) => sum + Number(row.views), 0) || 1
 
     return pages404Data.map((row) => {
-      const hasPrevious = row.previous !== undefined
-      const percentageResult = hasPrevious
-        ? calcPercentage(Number(row.views), Number(row.previous?.views) || 0)
-        : { percentage: '0', isNegative: false }
+      const currentValue = Number(row.views) || 0
+      const previousValue = Number(row.previous?.views) || 0
+      const comparisonProps = isCompareEnabled
+        ? {
+            ...calcPercentage(currentValue, previousValue),
+            tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+          }
+        : {}
 
       return {
         label: row.page_uri,
-        value: formatCompactNumber(Number(row.views)),
-        percentage: percentageResult.percentage,
-        isNegative: percentageResult.isNegative,
-        fillPercentage: calcSharePercentage(Number(row.views), totalViews),
+        value: formatCompactNumber(currentValue),
+        fillPercentage: calcSharePercentage(currentValue, totalViews),
+        ...comparisonProps,
       }
     })
-  }, [pages404Data, calcPercentage])
+  }, [pages404Data, calcPercentage, isCompareEnabled])
 
   return (
     <div className="min-w-0">
@@ -413,7 +410,7 @@ function RouteComponent() {
                 title={__('Page Views Trends', 'wp-statistics')}
                 data={pageViewsTrendsData}
                 metrics={chartMetrics}
-                showPreviousPeriod={!!(compareDateFrom && compareDateTo)}
+                showPreviousPeriod={isCompareEnabled}
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}

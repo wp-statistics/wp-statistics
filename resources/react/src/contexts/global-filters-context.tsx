@@ -18,7 +18,13 @@ import { useNavigate, useSearch } from '@tanstack/react-router'
 import { createContext, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 
 import type { Filter } from '@/components/custom/filter-bar'
-import { getPresetRange, isValidPreset, type DateRange } from '@/components/custom/date-range-picker'
+import {
+  getPresetRange,
+  isValidPreset,
+  isValidComparisonMode,
+  type DateRange,
+  type ComparisonMode,
+} from '@/components/custom/date-range-picker'
 import type { FilterField } from '@/components/custom/filter-row'
 import { filtersToUrlFilters, urlFiltersToFilters, type UrlFilter } from '@/lib/filter-utils'
 import { formatDateForAPI } from '@/lib/utils'
@@ -63,6 +69,8 @@ export interface GlobalFiltersState {
   compareDateTo?: Date
   /** Period preset name (e.g., 'yesterday', 'last30') for dynamic date resolution */
   period?: string
+  /** Comparison mode for previous period calculation */
+  comparisonMode?: ComparisonMode
   filters: Filter[]
   page: number
   source: FilterSource
@@ -71,12 +79,16 @@ export interface GlobalFiltersState {
 
 export interface GlobalFiltersContextValue extends GlobalFiltersState {
   // Actions
-  setDateRange: (range: DateRange, compare?: DateRange, period?: string) => void
+  setDateRange: (range: DateRange, compare?: DateRange, period?: string, comparisonMode?: ComparisonMode) => void
   setFilters: (filters: Filter[]) => void
   setPage: (page: number) => void
   removeFilter: (filterId: string) => void
   applyFilters: (filters: Filter[]) => void
   resetAll: () => void
+
+  // Computed values
+  /** Whether comparison/previous period is enabled (both compare dates are set) */
+  isCompareEnabled: boolean
 
   // Computed values for API requests
   apiDateParams: {
@@ -84,6 +96,7 @@ export interface GlobalFiltersContextValue extends GlobalFiltersState {
     date_to: string
     previous_date_from?: string
     previous_date_to?: string
+    comparison_mode?: ComparisonMode
   }
 }
 
@@ -198,12 +211,14 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         const urlCompareFrom = parseDate(hashParams.previous_date_from)
         const urlCompareTo = parseDate(hashParams.previous_date_to)
         // URL params don't include period - it's a custom date range shared via URL
+        const urlComparisonMode = hashParams.comparison_mode as ComparisonMode | undefined
         return {
           dateFrom: urlDateFrom,
           dateTo: urlDateTo,
           compareDateFrom: urlCompareFrom,
           compareDateTo: urlCompareTo,
           period: undefined,
+          comparisonMode: isValidComparisonMode(urlComparisonMode) ? urlComparisonMode : undefined,
           filters: [], // Filters loaded in effect (need filterFields prop)
           page: parseInt(hashParams.page, 10) || 1,
           source: 'url',
@@ -236,6 +251,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
         const prefCompareFrom = parseDate(prefs.previous_date_from)
         const prefCompareTo = parseDate(prefs.previous_date_to)
+        const prefComparisonMode = prefs.comparison_mode as ComparisonMode | undefined
 
         return {
           dateFrom: prefDateFrom || defaults.from,
@@ -243,6 +259,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           compareDateFrom: prefCompareFrom,
           compareDateTo: prefCompareTo,
           period,
+          comparisonMode: isValidComparisonMode(prefComparisonMode) ? prefComparisonMode : undefined,
           filters: [], // Filters loaded in effect (need filterFields prop)
           page: 1,
           source: 'preferences',
@@ -259,6 +276,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       compareDateFrom: undefined,
       compareDateTo: undefined,
       period: undefined,
+      comparisonMode: undefined,
       filters: [],
       page: 1,
       source: 'defaults',
@@ -293,6 +311,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       const urlCompareFrom = parseDate(effectiveCompareFrom)
       const urlCompareTo = parseDate(effectiveCompareTo)
       const urlFilters = urlFiltersToFilters(urlParams.filters, filterFields)
+      const effectiveComparisonMode = hashParams.comparison_mode as ComparisonMode | undefined
 
       setState({
         dateFrom: urlDateFrom,
@@ -300,6 +319,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         compareDateFrom: urlCompareFrom,
         compareDateTo: urlCompareTo,
         period: undefined, // URL params don't include period
+        comparisonMode: isValidComparisonMode(effectiveComparisonMode) ? effectiveComparisonMode : undefined,
         filters: urlFilters,
         page: effectivePage,
         source: 'url',
@@ -311,6 +331,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         date_to: effectiveDateTo,
         previous_date_from: effectiveCompareFrom,
         previous_date_to: effectiveCompareTo,
+        comparison_mode: effectiveComparisonMode,
         filters: urlParams.filters,
         page: effectivePage,
       })
@@ -340,6 +361,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       const prefCompareFrom = parseDate(prefs.previous_date_from)
       const prefCompareTo = parseDate(prefs.previous_date_to)
       const prefFilters = urlFiltersToFilters(prefs.filters, filterFields)
+      const prefComparisonMode = prefs.comparison_mode as ComparisonMode | undefined
 
       const defaults = getDefaultDateRange()
 
@@ -349,6 +371,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         compareDateFrom: prefCompareFrom,
         compareDateTo: prefCompareTo,
         period,
+        comparisonMode: isValidComparisonMode(prefComparisonMode) ? prefComparisonMode : undefined,
         filters: prefFilters,
         page: 1,
         source: 'preferences',
@@ -367,6 +390,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       compareDateFrom: undefined,
       compareDateTo: undefined,
       period: undefined,
+      comparisonMode: undefined,
       filters: [],
       page: 1,
       source: 'defaults',
@@ -415,6 +439,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       // Use refs for filterFields and urlParams.filters
       const urlFilters = urlFiltersToFilters(urlParamsFiltersRef.current, filterFieldsRef.current)
       const effectivePage = parseInt(hashParams.page, 10) || 1
+      const urlComparisonMode = hashParams.comparison_mode as ComparisonMode | undefined
 
       setState({
         dateFrom: urlDateFrom,
@@ -422,6 +447,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         compareDateFrom: urlCompareFrom,
         compareDateTo: urlCompareTo,
         period: undefined, // URL navigation clears period (explicit dates in URL)
+        comparisonMode: isValidComparisonMode(urlComparisonMode) ? urlComparisonMode : undefined,
         filters: urlFilters,
         page: effectivePage,
         source: 'url',
@@ -433,6 +459,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         date_to: hashParams.date_to,
         previous_date_from: hashParams.previous_date_from,
         previous_date_to: hashParams.previous_date_to,
+        comparison_mode: urlComparisonMode,
         filters: urlParamsFiltersRef.current,
         page: effectivePage,
       })
@@ -467,6 +494,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       date_to: formatDateForAPI(state.dateTo),
       previous_date_from: state.compareDateFrom ? formatDateForAPI(state.compareDateFrom) : undefined,
       previous_date_to: state.compareDateTo ? formatDateForAPI(state.compareDateTo) : undefined,
+      comparison_mode: state.comparisonMode,
       filters: urlFilterData.length > 0 ? urlFilterData : undefined,
       page: state.page > 1 ? state.page : undefined,
     })
@@ -483,6 +511,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         date_to: formatDateForAPI(state.dateTo),
         previous_date_from: state.compareDateFrom ? formatDateForAPI(state.compareDateFrom) : undefined,
         previous_date_to: state.compareDateTo ? formatDateForAPI(state.compareDateTo) : undefined,
+        comparison_mode: state.comparisonMode,
         filters: urlFilterData.length > 0 ? urlFilterData : undefined,
         page: state.page > 1 ? state.page : undefined,
       }),
@@ -492,7 +521,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
   // Set date range (manual action)
   const setDateRange = useCallback(
-    (range: DateRange, compare?: DateRange, period?: string) => {
+    (range: DateRange, compare?: DateRange, period?: string, comparisonMode?: ComparisonMode) => {
       setState((prev) => {
         const newState = {
           ...prev,
@@ -501,6 +530,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           compareDateFrom: compare?.from,
           compareDateTo: compare?.to,
           period: period && isValidPreset(period) ? period : undefined,
+          comparisonMode: isValidComparisonMode(comparisonMode) ? comparisonMode : prev.comparisonMode,
           page: 1, // Reset to first page when dates change
           source: 'manual' as FilterSource,
         }
@@ -515,6 +545,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           previous_date_from: newState.compareDateFrom ? formatDateForAPI(newState.compareDateFrom) : undefined,
           previous_date_to: newState.compareDateTo ? formatDateForAPI(newState.compareDateTo) : undefined,
           period: newState.period, // Save period name for dynamic date resolution
+          comparison_mode: newState.comparisonMode,
           filters: urlFilters.length > 0 ? urlFilters : undefined,
         })
 
@@ -543,6 +574,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
           previous_date_to: prev.compareDateTo ? formatDateForAPI(prev.compareDateTo) : undefined,
           period: prev.period, // Preserve period when changing filters
+          comparison_mode: prev.comparisonMode, // Preserve comparison mode when changing filters
           filters: urlFilters.length > 0 ? urlFilters : undefined,
         })
 
@@ -580,6 +612,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
           previous_date_from: prev.compareDateFrom ? formatDateForAPI(prev.compareDateFrom) : undefined,
           previous_date_to: prev.compareDateTo ? formatDateForAPI(prev.compareDateTo) : undefined,
           period: prev.period, // Preserve period when removing filters
+          comparison_mode: prev.comparisonMode, // Preserve comparison mode when removing filters
           filters: urlFilters.length > 0 ? urlFilters : undefined,
         })
 
@@ -608,10 +641,8 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     navigate({
       search: (prev) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { date_from, date_to, previous_date_from, previous_date_to, filters, page, ...rest } = prev as Record<
-          string,
-          unknown
-        >
+        const { date_from, date_to, previous_date_from, previous_date_to, comparison_mode, filters, page, ...rest } =
+          prev as Record<string, unknown>
         return rest
       },
       replace: true,
@@ -624,6 +655,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       compareDateFrom: undefined,
       compareDateTo: undefined,
       period: undefined,
+      comparisonMode: undefined,
       filters: [],
       page: 1,
       source: 'defaults',
@@ -633,6 +665,12 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     lastSyncedRef.current = null
   }, [navigate])
 
+  // Computed: whether comparison/previous period is enabled
+  const isCompareEnabled = useMemo(
+    () => !!(state.compareDateFrom && state.compareDateTo),
+    [state.compareDateFrom, state.compareDateTo]
+  )
+
   // Computed API date params
   const apiDateParams = useMemo(
     () => ({
@@ -640,8 +678,9 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       date_to: formatDateForAPI(state.dateTo),
       previous_date_from: state.compareDateFrom ? formatDateForAPI(state.compareDateFrom) : undefined,
       previous_date_to: state.compareDateTo ? formatDateForAPI(state.compareDateTo) : undefined,
+      comparison_mode: state.comparisonMode,
     }),
-    [state.dateFrom, state.dateTo, state.compareDateFrom, state.compareDateTo]
+    [state.dateFrom, state.dateTo, state.compareDateFrom, state.compareDateTo, state.comparisonMode]
   )
 
   const value: GlobalFiltersContextValue = useMemo(
@@ -653,9 +692,10 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       removeFilter,
       applyFilters,
       resetAll,
+      isCompareEnabled,
       apiDateParams,
     }),
-    [state, setDateRange, setFilters, setPage, removeFilter, applyFilters, resetAll, apiDateParams]
+    [state, setDateRange, setFilters, setPage, removeFilter, applyFilters, resetAll, isCompareEnabled, apiDateParams]
   )
 
   return <GlobalFiltersContext.Provider value={value}>{children}</GlobalFiltersContext.Provider>

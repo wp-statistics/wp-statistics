@@ -27,7 +27,7 @@ export const Route = createLazyFileRoute('/devices')({
 })
 
 function RouteComponent() {
-  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams } =
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams, isCompareEnabled } =
     useGlobalFilters()
 
   const wp = WordPress.getInstance()
@@ -187,8 +187,13 @@ function RouteComponent() {
                   return topBrowsersData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const iconName = (item.browser_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -200,11 +205,9 @@ function RouteComponent() {
                       ),
                       label: item.browser_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.browser_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -223,8 +226,13 @@ function RouteComponent() {
                   return topOperatingSystemsData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -236,11 +244,9 @@ function RouteComponent() {
                       ),
                       label: item.os_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.os_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -260,8 +266,13 @@ function RouteComponent() {
                   return topDeviceCategoriesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
                     const iconName = (item.device_type_name || 'desktop').toLowerCase()
+                    const comparisonProps = isCompareEnabled
+                      ? {
+                          ...calcPercentage(currentValue, previousValue),
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        }
+                      : {}
 
                     return {
                       icon: (
@@ -273,11 +284,9 @@ function RouteComponent() {
                       ),
                       label: item.device_type_name || __('Unknown', 'wp-statistics'),
                       value: currentValue,
-                      percentage,
                       fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
                       tooltipTitle: item.device_type_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                      ...comparisonProps,
                     }
                   })
                 })()}
@@ -297,16 +306,19 @@ function RouteComponent() {
                     return topScreenResolutionsData.map((item) => {
                       const currentValue = Number(item.visitors) || 0
                       const previousValue = Number(item.previous?.visitors) || 0
-                      const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+                      const comparisonProps = isCompareEnabled
+                        ? {
+                            ...calcPercentage(currentValue, previousValue),
+                            tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          }
+                        : {}
 
                       return {
                         label: item.screen_resolution || __('Unknown', 'wp-statistics'),
                         value: currentValue,
-                        percentage,
                         fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                        isNegative,
                         tooltipTitle: item.screen_resolution || '',
-                        tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                        ...comparisonProps,
                       }
                     })
                   })()}

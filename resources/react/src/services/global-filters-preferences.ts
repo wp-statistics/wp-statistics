@@ -6,6 +6,7 @@
  */
 
 import { clientRequest } from '@/lib/client-request'
+import type { ComparisonMode } from '@/components/custom/date-range-picker'
 
 const CONTEXT = 'global_filters'
 
@@ -16,6 +17,8 @@ export interface GlobalFiltersPreferencesData {
   previous_date_to?: string
   /** Period preset name (e.g., 'yesterday', 'last30') for dynamic date resolution */
   period?: string
+  /** Comparison mode for previous period calculation */
+  comparison_mode?: ComparisonMode
   filters?: PersistedUrlFilter[]
 }
 
