@@ -97,7 +97,7 @@ function MetricCard({
         // Responsive min-height
         'min-h-[68px] md:min-h-[72px] lg:min-h-[76px]',
         'transition-colors duration-150',
-        'hover:bg-neutral-50/50',
+        'hover:bg-neutral-100/60',
         positionClasses
       )}
     >
