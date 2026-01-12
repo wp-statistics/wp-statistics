@@ -320,7 +320,7 @@ function RouteComponent() {
               onColumnPreferencesReset={handleColumnPreferencesReset}
               emptyStateMessage={__('No logged-in users found for the selected period', 'wp-statistics')}
               stickyHeader={true}
-            borderless
+              borderless
             />
           </>
         )}

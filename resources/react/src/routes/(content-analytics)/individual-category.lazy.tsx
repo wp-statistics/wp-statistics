@@ -217,16 +217,8 @@ function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
  * Individual Category View - Detailed view for a single category/tag/taxonomy term
  */
 function IndividualCategoryView({ termId }: { termId: number }) {
-  const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
-    setDateRange,
-    isInitialized,
-    apiDateParams,
-  } = useGlobalFilters()
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams } =
+    useGlobalFilters()
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()

@@ -11,13 +11,7 @@ interface EmptyStateProps {
   className?: string
 }
 
-export function EmptyState({
-  icon,
-  title = 'No data available',
-  description,
-  action,
-  className,
-}: EmptyStateProps) {
+export function EmptyState({ icon, title = 'No data available', description, action, className }: EmptyStateProps) {
   return (
     <div className={cn('flex flex-col items-center justify-center py-12 px-4 text-center', className)}>
       <div className="text-neutral-300 mb-4">{icon || <Database className="h-12 w-12" />}</div>

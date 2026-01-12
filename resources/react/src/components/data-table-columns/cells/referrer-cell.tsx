@@ -42,9 +42,7 @@ export const ReferrerCell = memo(function ReferrerCell({ data, maxLength = 22 }:
 
   // Direct traffic - no domain, show category as muted text
   if (!domain) {
-    return (
-      <span className="text-xs text-neutral-500">{formattedCategory}</span>
-    )
+    return <span className="text-xs text-neutral-500">{formattedCategory}</span>
   }
 
   return (

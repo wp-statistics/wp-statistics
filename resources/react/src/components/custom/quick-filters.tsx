@@ -52,11 +52,7 @@ function QuickFilters({ definitions, activeFilters, onToggle }: QuickFiltersProp
                 : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300'
             )}
           >
-            {isActive ? (
-              <Check className="h-3 w-3" />
-            ) : (
-              <Icon className="h-3 w-3" />
-            )}
+            {isActive ? <Check className="h-3 w-3" /> : <Icon className="h-3 w-3" />}
             {definition.label}
           </button>
         )

@@ -248,7 +248,6 @@ function AuthorsOverviewView() {
           href: `/individual-author?author_id=${item.author_id}`,
         })),
         link: {
-          title: __('See all authors', 'wp-statistics'),
           href: '/top-authors',
         },
       },
@@ -263,7 +262,6 @@ function AuthorsOverviewView() {
           href: `/individual-author?author_id=${item.author_id}`,
         })),
         link: {
-          title: __('See all authors', 'wp-statistics'),
           href: '/top-authors',
         },
       },
@@ -286,7 +284,6 @@ function AuthorsOverviewView() {
             href: `/individual-author?author_id=${item.author_id}`,
           })),
         link: {
-          title: __('See all authors', 'wp-statistics'),
           href: '/top-authors',
         },
       },
@@ -313,7 +310,6 @@ function AuthorsOverviewView() {
             href: `/individual-author?author_id=${item.author_id}`,
           })),
         link: {
-          title: __('See all authors', 'wp-statistics'),
           href: '/top-authors',
         },
       })

@@ -298,7 +298,9 @@ export function SystemInfoPage() {
         </CardHeader>
         <CardContent>
           {options.length === 0 && transients.length === 0 && userMeta.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Click "Load Data" to view options, transients, and user meta.</p>
+            <p className="text-sm text-muted-foreground">
+              Click "Load Data" to view options, transients, and user meta.
+            </p>
           ) : (
             <div className="space-y-6">
               {/* Options Section */}
@@ -312,9 +314,7 @@ export function SystemInfoPage() {
                     {Object.entries(groupedOptions).map(([group, items]) => (
                       <div key={group} className="rounded-md border">
                         <div className="bg-muted/50 px-3 py-2 border-b">
-                          <span className="text-xs font-medium text-muted-foreground">
-                            {getGroupLabel(group)}
-                          </span>
+                          <span className="text-xs font-medium text-muted-foreground">{getGroupLabel(group)}</span>
                         </div>
                         <div className="divide-y">
                           {items.map((opt, idx) => (

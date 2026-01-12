@@ -56,7 +56,9 @@ function RouteComponent() {
   const AVAILABLE_FILTERS = ['post_type']
 
   const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('content').filter((field) => AVAILABLE_FILTERS.includes(field.name)) as FilterField[]
+    return wp
+      .getFilterFieldsByGroup('content')
+      .filter((field) => AVAILABLE_FILTERS.includes(field.name)) as FilterField[]
   }, [wp])
 
   // Don't inherit filters from global state - this page starts fresh

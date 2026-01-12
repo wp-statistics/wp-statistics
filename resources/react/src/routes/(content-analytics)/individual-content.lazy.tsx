@@ -51,12 +51,8 @@ function RouteComponent() {
     return (
       <div className="min-w-0 p-6">
         <div className="text-center">
-          <h1 className="text-2xl font-semibold text-neutral-800 mb-2">
-            {__('Content Not Found', 'wp-statistics')}
-          </h1>
-          <p className="text-muted-foreground mb-4">
-            {__('No content ID was provided.', 'wp-statistics')}
-          </p>
+          <h1 className="text-2xl font-semibold text-neutral-800 mb-2">{__('Content Not Found', 'wp-statistics')}</h1>
+          <p className="text-muted-foreground mb-4">{__('No content ID was provided.', 'wp-statistics')}</p>
           <Link to="/content" className="text-primary hover:underline">
             {__('Go to Content Overview', 'wp-statistics')}
           </Link>
@@ -128,9 +124,7 @@ function TrafficSummaryTable({ data }: TrafficSummaryTableProps) {
         accessorKey: 'period',
         header: __('Time Period', 'wp-statistics'),
         enableSorting: false,
-        cell: ({ row }) => (
-          <span className="font-medium">{periodLabels[row.original.period]}</span>
-        ),
+        cell: ({ row }) => <span className="font-medium">{periodLabels[row.original.period]}</span>,
       },
       {
         accessorKey: 'visitors',
@@ -503,7 +497,12 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                 title={__('View content', 'wp-statistics')}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
                 </svg>
               </a>
             )}
@@ -516,7 +515,12 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                 title={__('Edit content', 'wp-statistics')}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
                 </svg>
               </a>
             )}
@@ -563,7 +567,9 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               {contentMetadata.published_date && (
                 <>
                   <span className="text-muted-foreground/50">•</span>
-                  <span>{__('Published:', 'wp-statistics')} {formatDate(contentMetadata.published_date)}</span>
+                  <span>
+                    {__('Published:', 'wp-statistics')} {formatDate(contentMetadata.published_date)}
+                  </span>
                 </>
               )}
 
@@ -571,7 +577,9 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               {showModifiedDate && (
                 <>
                   <span className="text-muted-foreground/50">•</span>
-                  <span>{__('Updated:', 'wp-statistics')} {formatDate(contentMetadata.modified_date)}</span>
+                  <span>
+                    {__('Updated:', 'wp-statistics')} {formatDate(contentMetadata.modified_date)}
+                  </span>
                 </>
               )}
 
@@ -697,7 +705,6 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                   })
                 })()}
                 link={{
-                  title: __('See all referrers', 'wp-statistics'),
                   action: () => navigate({ to: '/referrers' }),
                 }}
               />
@@ -726,7 +733,6 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                   })
                 })()}
                 link={{
-                  title: __('See all search engines', 'wp-statistics'),
                   action: () => navigate({ to: '/search-engines' }),
                 }}
               />
@@ -761,7 +767,6 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                   })
                 })()}
                 link={{
-                  title: __('See all countries', 'wp-statistics'),
                   action: () => navigate({ to: '/geographic' }),
                 }}
               />

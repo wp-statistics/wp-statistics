@@ -15,9 +15,7 @@ import {
 
 // Active indicator component
 const ActiveIndicator = React.memo(function ActiveIndicator() {
-  return (
-    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-primary" />
-  )
+  return <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-primary" />
 })
 
 // Badge component for menu items
@@ -42,7 +40,9 @@ const MenuBadge = React.memo(function MenuBadge({
           <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 animate-live-pulse" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
         </span>
-        <span className={`text-xs font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-sidebar-foreground/70'}`}>
+        <span
+          className={`text-xs font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-sidebar-foreground/70'}`}
+        >
           {formattedCount}
         </span>
       </span>
@@ -70,7 +70,9 @@ const SubMenuItem = React.memo(function SubMenuItem({
         asChild
         isActive={isActive}
         className={`cursor-pointer text-sm bg-transparent hover:bg-transparent focus:ring-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 overflow-visible ${
-          isActive ? 'text-sidebar-accent-foreground font-medium' : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'
+          isActive
+            ? 'text-sidebar-accent-foreground font-medium'
+            : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'
         }`}
       >
         <Link to={subItem.url as any} className="overflow-visible">

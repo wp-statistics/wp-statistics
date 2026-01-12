@@ -27,16 +27,8 @@ export const Route = createLazyFileRoute('/devices')({
 })
 
 function RouteComponent() {
-  const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
-    setDateRange,
-    isInitialized,
-    apiDateParams,
-  } = useGlobalFilters()
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams } =
+    useGlobalFilters()
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -110,7 +102,11 @@ function RouteComponent() {
         label: __('Top Operating System', 'wp-statistics'),
         value: topOsName || '-',
         icon: topOsName ? (
-          <img src={`${pluginUrl}public/images/operating-system/${osIconName}.svg`} alt={topOsName} className="w-5 h-5" />
+          <img
+            src={`${pluginUrl}public/images/operating-system/${osIconName}.svg`}
+            alt={topOsName}
+            className="w-5 h-5"
+          />
         ) : undefined,
         tooltipContent: __('Operating system with the most visitors', 'wp-statistics'),
       },
@@ -187,8 +183,7 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Browsers', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors =
-                    Number(topBrowsersTotals?.visitors?.current ?? topBrowsersTotals?.visitors) || 1
+                  const totalVisitors = Number(topBrowsersTotals?.visitors?.current ?? topBrowsersTotals?.visitors) || 1
                   return topBrowsersData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -214,7 +209,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all browsers', 'wp-statistics'),
                   href: '#/browsers',
                 }}
               />
@@ -251,7 +245,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all operating systems', 'wp-statistics'),
                   href: '#/operating-systems',
                 }}
               />
@@ -289,7 +282,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all device categories', 'wp-statistics'),
                   href: '#/device-categories',
                 }}
               />
@@ -319,7 +311,6 @@ function RouteComponent() {
                     })
                   })()}
                   link={{
-                    title: __('See all screen resolutions', 'wp-statistics'),
                     href: '#/screen-resolutions',
                   }}
                 />

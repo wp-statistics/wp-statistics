@@ -181,7 +181,9 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'onlineFor',
-    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Online" className="text-right" />,
+    header: ({ column, table }) => (
+      <DataTableColumnHeader column={column} table={table} title="Online" className="text-right" />
+    ),
     size: COLUMN_SIZES.onlineFor,
     cell: ({ row }) => <DurationCell seconds={row.original.onlineFor} />,
     meta: {
@@ -203,7 +205,9 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
   },
   {
     accessorKey: 'totalViews',
-    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
+    header: ({ column, table }) => (
+      <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
+    ),
     size: COLUMN_SIZES.views,
     cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     meta: {

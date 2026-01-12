@@ -33,7 +33,14 @@ export const TOP_VISITORS_CONTEXT = 'top_visitors_data_table'
 /**
  * Columns hidden by default
  */
-export const TOP_VISITORS_DEFAULT_HIDDEN_COLUMNS = ['referrer', 'entryPage', 'exitPage', 'viewsPerSession', 'bounceRate', 'visitorStatus']
+export const TOP_VISITORS_DEFAULT_HIDDEN_COLUMNS = [
+  'referrer',
+  'entryPage',
+  'exitPage',
+  'viewsPerSession',
+  'bounceRate',
+  'visitorStatus',
+]
 
 /**
  * Column configuration for API column optimization
@@ -255,7 +262,9 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
+      ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
       meta: {
@@ -266,7 +275,9 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'totalSessions',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Sessions" className="text-right" />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Sessions" className="text-right" />
+      ),
       size: COLUMN_SIZES.sessions,
       cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
       meta: {
@@ -277,7 +288,9 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'sessionDuration',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Duration" className="text-right" />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Duration" className="text-right" />
+      ),
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
       meta: {
@@ -301,7 +314,9 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Bounce" className="text-right" />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Bounce" className="text-right" />
+      ),
       size: COLUMN_SIZES.bounceRate,
       enableHiding: true,
       cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,

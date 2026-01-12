@@ -506,9 +506,7 @@ export const DateRangePicker = ({
           {/* Presets sidebar */}
           {!isSmallScreen && (
             <div className="w-[140px] p-3 border-l border-neutral-100 bg-neutral-50/30">
-              <span className="text-xs font-medium text-neutral-400 mb-2 block">
-                Quick Select
-              </span>
+              <span className="text-xs font-medium text-neutral-400 mb-2 block">Quick Select</span>
               <div className="flex flex-col gap-0.5">
                 {PRESETS.map((preset) => (
                   <button

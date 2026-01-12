@@ -207,7 +207,9 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
+      ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     },

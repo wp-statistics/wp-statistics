@@ -454,7 +454,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all referrers', 'wp-statistics'),
                   action: () => console.log('View all referrers'),
                 }}
               />
@@ -490,7 +489,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all countries', 'wp-statistics'),
                   action: () => console.log('View all countries'),
                 }}
               />
@@ -526,7 +524,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all device types', 'wp-statistics'),
                   action: () => console.log('View all device types'),
                 }}
               />
@@ -563,7 +560,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all operating systems', 'wp-statistics'),
                   action: () => console.log('View all operating systems'),
                 }}
               />

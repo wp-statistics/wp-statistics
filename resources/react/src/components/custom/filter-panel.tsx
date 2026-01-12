@@ -40,7 +40,15 @@ function getInitialValue(operator: FilterOperator): FilterValue {
   return ''
 }
 
-function FilterPanel({ filters, fields, onFiltersChange, onApply, onClearAll, onCancel, filterGroup }: FilterPanelProps) {
+function FilterPanel({
+  filters,
+  fields,
+  onFiltersChange,
+  onApply,
+  onClearAll,
+  onCancel,
+  filterGroup,
+}: FilterPanelProps) {
   // Get quick filter definitions for this group
   const quickFilterDefinitions = filterGroup ? getQuickFiltersForGroup(filterGroup) : []
 

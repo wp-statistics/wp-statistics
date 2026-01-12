@@ -36,7 +36,6 @@ function RouteComponent() {
     return <Navigate to="/individual-category" search={{ term_id: term }} replace />
   }
 
-
   // Otherwise show the overview
   return <CategoriesOverviewView />
 }
@@ -89,9 +88,7 @@ function CategoriesOverviewView() {
   const showDefaultFilter = !hasUserTaxonomyFilter && !defaultFilterRemoved
 
   // Filters to use for API requests and display
-  const filtersForApi = showDefaultFilter
-    ? [...filtersWithoutPostType, defaultTaxonomyFilter]
-    : filtersWithoutPostType
+  const filtersForApi = showDefaultFilter ? [...filtersWithoutPostType, defaultTaxonomyFilter] : filtersWithoutPostType
 
   const filtersForDisplay = filtersForApi
 
@@ -109,9 +106,8 @@ function CategoriesOverviewView() {
     }
 
     // Apply only the non-default filters to global state (also filter out post_type)
-    const globalFilters = newFilters?.filter((f) =>
-      f.id !== 'taxonomy_type-categories-default' && !f.id.startsWith('post_type')
-    ) ?? []
+    const globalFilters =
+      newFilters?.filter((f) => f.id !== 'taxonomy_type-categories-default' && !f.id.startsWith('post_type')) ?? []
     handleApplyFilters(globalFilters)
   }
 
@@ -394,7 +390,6 @@ function CategoriesOverviewView() {
 
     // Build "See all" link with current taxonomy
     const seeAllLink = {
-      title: __('See all %s', 'wp-statistics').replace('%s', seeAllTaxonomyLabel),
       href: `/top-categories?taxonomy=${currentTaxonomyType}`,
     }
 
@@ -490,7 +485,6 @@ function CategoriesOverviewView() {
           href: `/individual-author?author_id=${item.author_id}`,
         })),
         link: {
-          title: __('See all authors', 'wp-statistics'),
           href: '/top-authors',
         },
       },
@@ -505,7 +499,6 @@ function CategoriesOverviewView() {
           href: `/individual-author?author_id=${item.author_id}`,
         })),
         link: {
-          title: __('See all authors', 'wp-statistics'),
           href: '/top-authors',
         },
       },
@@ -817,5 +810,3 @@ function CategoriesOverviewView() {
     </div>
   )
 }
-
-

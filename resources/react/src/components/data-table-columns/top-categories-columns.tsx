@@ -124,7 +124,9 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
   return [
     {
       accessorKey: 'termName',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title={__('Term Name', 'wp-statistics')} />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('Term Name', 'wp-statistics')} />
+      ),
       cell: ({ row }) => <TermNameCell termId={row.original.termId} termName={row.original.termName} />,
       enableHiding: false,
       meta: {
@@ -136,7 +138,12 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     {
       accessorKey: 'visitors',
       header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('Visitors', 'wp-statistics')} className="text-right" />
+        <DataTableColumnHeader
+          column={column}
+          table={table}
+          title={__('Visitors', 'wp-statistics')}
+          className="text-right"
+        />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.visitors} />,
@@ -149,7 +156,12 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     {
       accessorKey: 'views',
       header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('Views', 'wp-statistics')} className="text-right" />
+        <DataTableColumnHeader
+          column={column}
+          table={table}
+          title={__('Views', 'wp-statistics')}
+          className="text-right"
+        />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
@@ -162,7 +174,12 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
     {
       accessorKey: 'published',
       header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('Published', 'wp-statistics')} className="text-right" />
+        <DataTableColumnHeader
+          column={column}
+          table={table}
+          title={__('Published', 'wp-statistics')}
+          className="text-right"
+        />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.published} />,

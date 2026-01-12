@@ -154,10 +154,7 @@ export function NoticeBanner({
         {(actionUrl || helpUrl) && (
           <div className="flex items-center gap-3 shrink-0">
             {actionUrl && (
-              <a
-                href={actionUrl}
-                className={cn('text-sm font-medium hover:underline whitespace-nowrap', styles.text)}
-              >
+              <a href={actionUrl} className={cn('text-sm font-medium hover:underline whitespace-nowrap', styles.text)}>
                 {actionLabel || __('View', 'wp-statistics')}
               </a>
             )}

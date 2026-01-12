@@ -100,7 +100,9 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'visitors',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitors" className="text-right" />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Visitors" className="text-right" />
+      ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.visitors} />,
       meta: {
@@ -111,7 +113,9 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
     },
     {
       accessorKey: 'views',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
+      ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
       meta: {

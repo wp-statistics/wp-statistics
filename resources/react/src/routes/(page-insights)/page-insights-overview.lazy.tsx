@@ -139,9 +139,18 @@ function RouteComponent() {
 
     const viewsPerc = calcPercentage(Number(totals.views?.current) || 0, Number(totals.views?.previous) || 0)
     const visitorsPerc = calcPercentage(Number(totals.visitors?.current) || 0, Number(totals.visitors?.previous) || 0)
-    const avgTimePerc = calcPercentage(Number(totals.avg_time_on_page?.current) || 0, Number(totals.avg_time_on_page?.previous) || 0)
-    const bouncePerc = calcPercentage(Number(totals.bounce_rate?.current) || 0, Number(totals.bounce_rate?.previous) || 0)
-    const pagesPerSessionPerc = calcPercentage(Number(totals.pages_per_session?.current) || 0, Number(totals.pages_per_session?.previous) || 0)
+    const avgTimePerc = calcPercentage(
+      Number(totals.avg_time_on_page?.current) || 0,
+      Number(totals.avg_time_on_page?.previous) || 0
+    )
+    const bouncePerc = calcPercentage(
+      Number(totals.bounce_rate?.current) || 0,
+      Number(totals.bounce_rate?.previous) || 0
+    )
+    const pagesPerSessionPerc = calcPercentage(
+      Number(totals.pages_per_session?.current) || 0,
+      Number(totals.pages_per_session?.previous) || 0
+    )
 
     return [
       {
@@ -235,7 +244,8 @@ function RouteComponent() {
         label: __('Views', 'wp-statistics'),
         color: 'var(--chart-1)',
         enabled: true,
-        value: chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
+        value:
+          chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
         previousValue:
           chartTotals.viewsPrevious >= 1000
             ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
@@ -260,7 +270,8 @@ function RouteComponent() {
 
   // Transform top pages data
   const topPagesListData = useMemo(() => {
-    const totalViews = Number(topPagesTotals?.views) || topPagesData.reduce((sum, row) => sum + Number(row.views), 0) || 1
+    const totalViews =
+      Number(topPagesTotals?.views) || topPagesData.reduce((sum, row) => sum + Number(row.views), 0) || 1
 
     return topPagesData.map((row) => {
       const hasPrevious = row.previous !== undefined
@@ -415,7 +426,6 @@ function RouteComponent() {
                 title={__('Top Pages', 'wp-statistics')}
                 items={topPagesListData}
                 link={{
-                  title: __('See all pages', 'wp-statistics'),
                   action: () => navigate({ to: '/top-pages' }),
                 }}
               />
@@ -427,7 +437,6 @@ function RouteComponent() {
                 title={__('Entry Pages', 'wp-statistics')}
                 items={entryPagesListData}
                 link={{
-                  title: __('See all entry pages', 'wp-statistics'),
                   action: () => navigate({ to: '/entry-pages' }),
                 }}
               />
@@ -439,7 +448,6 @@ function RouteComponent() {
                 title={__('404 Pages', 'wp-statistics')}
                 items={pages404ListData}
                 link={{
-                  title: __('See all 404 pages', 'wp-statistics'),
                   action: () => navigate({ to: '/404-pages' }),
                 }}
               />

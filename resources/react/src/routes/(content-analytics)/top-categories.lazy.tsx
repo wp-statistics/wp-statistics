@@ -57,7 +57,9 @@ function RouteComponent() {
   const ALL_VALID_FILTERS = [...ADVANCED_FILTERS, 'taxonomy_type']
 
   const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('categories').filter((field) => ALL_VALID_FILTERS.includes(field.name)) as FilterField[]
+    return wp
+      .getFilterFieldsByGroup('categories')
+      .filter((field) => ALL_VALID_FILTERS.includes(field.name)) as FilterField[]
   }, [wp])
 
   // Don't inherit filters from global state - this page starts fresh

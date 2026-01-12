@@ -241,9 +241,7 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
     // Get post_type filter from content group
     const postTypeFilter = contentFilters.find((f) => f.name === 'post_type')
     // Combine: individual-content filters + post_type
-    return postTypeFilter
-      ? [...individualContentFilters, postTypeFilter]
-      : individualContentFilters
+    return postTypeFilter ? [...individualContentFilters, postTypeFilter] : individualContentFilters
   }, [wp])
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')

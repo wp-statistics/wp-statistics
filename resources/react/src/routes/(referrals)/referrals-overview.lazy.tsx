@@ -10,12 +10,7 @@ import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
-import {
-  BarListSkeleton,
-  ChartSkeleton,
-  MetricsSkeleton,
-  PanelSkeleton,
-} from '@/components/ui/skeletons'
+import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, formatCompactNumber, formatDecimal } from '@/lib/utils'
@@ -266,7 +261,16 @@ function RouteComponent() {
         tooltipContent: __('Most visited landing page from referrals', 'wp-statistics'),
       },
     ]
-  }, [metricsResponse, metricsTopReferrer, metricsTopCountry, metricsTopBrowser, metricsTopSearchEngine, metricsTopSocial, metricsTopEntryPage, calcPercentage])
+  }, [
+    metricsResponse,
+    metricsTopReferrer,
+    metricsTopCountry,
+    metricsTopBrowser,
+    metricsTopSearchEngine,
+    metricsTopSocial,
+    metricsTopEntryPage,
+    calcPercentage,
+  ])
 
   return (
     <div className="min-w-0">
@@ -275,7 +279,12 @@ function RouteComponent() {
         <h1 className="text-2xl font-semibold text-neutral-800">{__('Referrals Overview', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
           {filterFields.length > 0 && isInitialized && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} filterGroup="referrals" />
+            <FilterButton
+              fields={filterFields}
+              appliedFilters={appliedFilters || []}
+              onApplyFilters={handleApplyFilters}
+              filterGroup="referrals"
+            />
           )}
           <DateRangePicker
             initialDateFrom={dateFrom}
@@ -354,7 +363,8 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Entry Pages', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(topEntryPagesTotals?.visitors?.current ?? topEntryPagesTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(topEntryPagesTotals?.visitors?.current ?? topEntryPagesTotals?.visitors) || 1
                   return topEntryPagesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -372,7 +382,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all entry pages', 'wp-statistics'),
                   action: () => console.log('View entry pages'),
                 }}
               />
@@ -381,7 +390,8 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
                   return topReferrersData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -400,7 +410,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all referrers', 'wp-statistics'),
                   action: () => console.log('View referrers'),
                 }}
               />
@@ -411,7 +420,8 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
                   return topCountriesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -436,7 +446,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all countries', 'wp-statistics'),
                   action: () => console.log('View countries'),
                 }}
               />
@@ -471,7 +480,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all operating systems', 'wp-statistics'),
                   action: () => console.log('View OS'),
                 }}
               />
@@ -506,7 +514,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all device types', 'wp-statistics'),
                   action: () => console.log('View devices'),
                 }}
               />
@@ -517,7 +524,8 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Source Categories', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(topSourceCategoriesTotals?.visitors?.current ?? topSourceCategoriesTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(topSourceCategoriesTotals?.visitors?.current ?? topSourceCategoriesTotals?.visitors) || 1
                   return topSourceCategoriesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -535,7 +543,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all source categories', 'wp-statistics'),
                   action: () => console.log('View source categories'),
                 }}
               />
@@ -544,7 +551,8 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Search Engines', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(topSearchEnginesTotals?.visitors?.current ?? topSearchEnginesTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(topSearchEnginesTotals?.visitors?.current ?? topSearchEnginesTotals?.visitors) || 1
                   return topSearchEnginesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -563,7 +571,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all search engines', 'wp-statistics'),
                   action: () => console.log('View search engines'),
                 }}
               />
@@ -572,7 +579,8 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Social Media', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors = Number(topSocialMediaTotals?.visitors?.current ?? topSocialMediaTotals?.visitors) || 1
+                  const totalVisitors =
+                    Number(topSocialMediaTotals?.visitors?.current ?? topSocialMediaTotals?.visitors) || 1
                   return topSocialMediaData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -591,7 +599,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all social media', 'wp-statistics'),
                   action: () => console.log('View social media'),
                 }}
               />

@@ -122,18 +122,18 @@ function RouteComponent() {
         meta: { align: 'right' },
         cell: ({ row }) => {
           const current = Number(row.original.visitors)
-          const previous = row.original.previous?.visitors
-            ? Number(row.original.previous.visitors)
-            : undefined
+          const previous = row.original.previous?.visitors ? Number(row.original.previous.visitors) : undefined
 
-          const { percentage, isNegative } = previous !== undefined ? calcPercentage(current, previous) : { percentage: '', isNegative: false }
+          const { percentage, isNegative } =
+            previous !== undefined ? calcPercentage(current, previous) : { percentage: '', isNegative: false }
 
           return (
             <div className="text-right">
               <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(current)}</span>
               {previous !== undefined && (
                 <span className={`ml-2 text-xs ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
-                  {isNegative ? '↓' : '↑'}{percentage}%
+                  {isNegative ? '↓' : '↑'}
+                  {percentage}%
                 </span>
               )}
             </div>
@@ -147,18 +147,18 @@ function RouteComponent() {
         meta: { align: 'right' },
         cell: ({ row }) => {
           const current = Number(row.original.views)
-          const previous = row.original.previous?.views
-            ? Number(row.original.previous.views)
-            : undefined
+          const previous = row.original.previous?.views ? Number(row.original.previous.views) : undefined
 
-          const { percentage, isNegative } = previous !== undefined ? calcPercentage(current, previous) : { percentage: '', isNegative: false }
+          const { percentage, isNegative } =
+            previous !== undefined ? calcPercentage(current, previous) : { percentage: '', isNegative: false }
 
           return (
             <div className="text-right">
               <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(current)}</span>
               {previous !== undefined && (
                 <span className={`ml-2 text-xs ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
-                  {isNegative ? '↓' : '↑'}{percentage}%
+                  {isNegative ? '↓' : '↑'}
+                  {percentage}%
                 </span>
               )}
             </div>

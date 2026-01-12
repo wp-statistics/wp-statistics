@@ -70,7 +70,8 @@ export const AdvancedReporting: Story = {
 export const CustomIcon: Story = {
   args: {
     title: 'Security Analytics',
-    description: 'Monitor security events and detect suspicious activity on your website with advanced threat detection.',
+    description:
+      'Monitor security events and detect suspicious activity on your website with advanced threat detection.',
     addonName: 'Security',
     learnMoreUrl: 'https://wp-statistics.com/',
     icon: Shield,
@@ -80,7 +81,8 @@ export const CustomIcon: Story = {
 export const DefaultIcon: Story = {
   args: {
     title: 'Premium Feature',
-    description: 'This is a premium feature that requires an addon. The default Megaphone icon is used when no icon is specified.',
+    description:
+      'This is a premium feature that requires an addon. The default Megaphone icon is used when no icon is specified.',
     addonName: 'Premium',
     learnMoreUrl: 'https://wp-statistics.com/',
   },

@@ -110,7 +110,9 @@ function RouteComponent() {
         meta: { align: 'right' },
         cell: ({ row }) => (
           <div className="text-right">
-            <span className="text-xs font-medium text-neutral-700 tabular-nums">{formatCompactNumber(Number(row.original.sessions))}</span>
+            <span className="text-xs font-medium text-neutral-700 tabular-nums">
+              {formatCompactNumber(Number(row.original.sessions))}
+            </span>
           </div>
         ),
       },

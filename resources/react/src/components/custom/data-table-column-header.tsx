@@ -1,6 +1,14 @@
 import type { Column, Header, Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { ArrowDownWideNarrow, ArrowLeft, ArrowRight, ArrowUpNarrowWide, ChevronDown, EyeOff, MoveHorizontal } from 'lucide-react'
+import {
+  ArrowDownWideNarrow,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpNarrowWide,
+  ChevronDown,
+  EyeOff,
+  MoveHorizontal,
+} from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -149,19 +157,11 @@ export function DataTableColumnHeader<TData, TValue>({
                 {__('Move column', 'wp-statistics')}
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
-                <DropdownMenuItem
-                  onClick={handleMoveLeft}
-                  disabled={isRTL ? isLast : isFirst}
-                  className="gap-2"
-                >
+                <DropdownMenuItem onClick={handleMoveLeft} disabled={isRTL ? isLast : isFirst} className="gap-2">
                   <ArrowLeft className="h-3.5 w-3.5" />
                   {__('Move left', 'wp-statistics')}
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={handleMoveRight}
-                  disabled={isRTL ? isFirst : isLast}
-                  className="gap-2"
-                >
+                <DropdownMenuItem onClick={handleMoveRight} disabled={isRTL ? isFirst : isLast} className="gap-2">
                   <ArrowRight className="h-3.5 w-3.5" />
                   {__('Move right', 'wp-statistics')}
                 </DropdownMenuItem>

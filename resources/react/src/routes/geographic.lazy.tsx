@@ -27,16 +27,8 @@ export const Route = createLazyFileRoute('/geographic')({
 })
 
 function RouteComponent() {
-  const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
-    setDateRange,
-    isInitialized,
-    apiDateParams,
-  } = useGlobalFilters()
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams } =
+    useGlobalFilters()
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -242,7 +234,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all countries', 'wp-statistics'),
                   href: '#/countries',
                 }}
               />
@@ -270,7 +261,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all cities', 'wp-statistics'),
                   href: '#/cities',
                 }}
               />
@@ -306,7 +296,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all European countries', 'wp-statistics'),
                   href: '#/countries?filter_country=EU',
                 }}
               />
@@ -319,8 +308,7 @@ function RouteComponent() {
                 <HorizontalBarList
                   title={`${__('Top Regions of', 'wp-statistics')} ${userCountryName}`}
                   items={(() => {
-                    const totalVisitors =
-                      Number(topRegionsTotals?.visitors?.current ?? topRegionsTotals?.visitors) || 1
+                    const totalVisitors = Number(topRegionsTotals?.visitors?.current ?? topRegionsTotals?.visitors) || 1
                     return topRegionsData.map((item) => {
                       const currentValue = Number(item.visitors) || 0
                       const previousValue = Number(item.previous?.visitors) || 0
@@ -338,7 +326,6 @@ function RouteComponent() {
                     })
                   })()}
                   link={{
-                    title: __('See all regions', 'wp-statistics'),
                     href: `#/regions?filter_country=${userCountry}`,
                   }}
                 />
@@ -349,8 +336,7 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top US States', 'wp-statistics')}
                 items={(() => {
-                  const totalVisitors =
-                    Number(topUsStatesTotals?.visitors?.current ?? topUsStatesTotals?.visitors) || 1
+                  const totalVisitors = Number(topUsStatesTotals?.visitors?.current ?? topUsStatesTotals?.visitors) || 1
                   return topUsStatesData.map((item) => {
                     const currentValue = Number(item.visitors) || 0
                     const previousValue = Number(item.previous?.visitors) || 0
@@ -368,7 +354,6 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('See all US states', 'wp-statistics'),
                   href: '#/regions?filter_country=US',
                 }}
               />

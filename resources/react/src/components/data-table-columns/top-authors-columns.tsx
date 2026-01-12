@@ -137,7 +137,9 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
   return [
     {
       accessorKey: 'authorName',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title={__('Author', 'wp-statistics')} />,
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title={__('Author', 'wp-statistics')} />
+      ),
       cell: ({ row }) => (
         <AuthorNameCell
           authorId={row.original.authorId}
@@ -155,7 +157,12 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     {
       accessorKey: 'visitors',
       header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('Visitors', 'wp-statistics')} className="text-right" />
+        <DataTableColumnHeader
+          column={column}
+          table={table}
+          title={__('Visitors', 'wp-statistics')}
+          className="text-right"
+        />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.visitors} />,
@@ -168,7 +175,12 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     {
       accessorKey: 'views',
       header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('Views', 'wp-statistics')} className="text-right" />
+        <DataTableColumnHeader
+          column={column}
+          table={table}
+          title={__('Views', 'wp-statistics')}
+          className="text-right"
+        />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
@@ -181,7 +193,12 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     {
       accessorKey: 'published',
       header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('Published', 'wp-statistics')} className="text-right" />
+        <DataTableColumnHeader
+          column={column}
+          table={table}
+          title={__('Published', 'wp-statistics')}
+          className="text-right"
+        />
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.published} />,

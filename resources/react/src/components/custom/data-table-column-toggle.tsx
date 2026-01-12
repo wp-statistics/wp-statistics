@@ -253,7 +253,12 @@ export function DataTableColumnToggle<TData>({
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={columnOrder.map((item) => item.id)} strategy={verticalListSortingStrategy}>
               {columnOrder.map((item) => (
-                <SortableItem key={item.id} item={item} onToggle={handleToggle} disabled={visibleCount === 1 && item.isVisible} />
+                <SortableItem
+                  key={item.id}
+                  item={item}
+                  onToggle={handleToggle}
+                  disabled={visibleCount === 1 && item.isVisible}
+                />
               ))}
             </SortableContext>
           </DndContext>
