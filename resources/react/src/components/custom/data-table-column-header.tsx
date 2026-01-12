@@ -108,9 +108,9 @@ export function DataTableColumnHeader<TData, TValue>({
     if (!canSort || !isSorted) return null
 
     if (isSorted === 'desc') {
-      return <ArrowDownWideNarrow className="h-3 w-3" />
+      return <ArrowDownWideNarrow className="size-3.5" />
     } else if (isSorted === 'asc') {
-      return <ArrowUpNarrowWide className="h-3 w-3" />
+      return <ArrowUpNarrowWide className="size-3.5" />
     }
     return null
   }
@@ -121,7 +121,7 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn('group flex items-center gap-0.5', isRightAlign && 'justify-end', className)}>
+    <div className={cn('group/header relative flex items-center', isRightAlign && 'justify-end', className)}>
       {/* Clickable title for inline sorting */}
       {canSort ? (
         <button
@@ -137,32 +137,35 @@ export function DataTableColumnHeader<TData, TValue>({
         <span>{title}</span>
       )}
 
-      {/* Dropdown menu trigger - visible on hover */}
+      {/* Dropdown menu trigger - visible on hover or when menu is open */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 hover:bg-neutral-100 rounded"
+            className={cn(
+              'absolute top-1/2 -translate-y-1/2 opacity-0 group-hover/header:opacity-100 data-[state=open]:opacity-100 transition-opacity p-1 hover:bg-accent rounded',
+              isRightAlign ? '-left-1' : '-right-1'
+            )}
             aria-label={__('Column options', 'wp-statistics')}
           >
-            <ChevronDown className="h-3 w-3" />
+            <ChevronDown className="size-4" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align={isRTL ? 'end' : 'start'} className="w-48">
+        <DropdownMenuContent align={isRightAlign ? 'start' : isRTL ? 'end' : 'start'} className="w-48">
           {/* Move column options - only if table is available */}
           {table && canMove && (
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="gap-2">
-                <MoveHorizontal className="h-3.5 w-3.5" />
+                <MoveHorizontal className="size-3.5" />
                 {__('Move column', 'wp-statistics')}
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
                 <DropdownMenuItem onClick={handleMoveLeft} disabled={isRTL ? isLast : isFirst} className="gap-2">
-                  <ArrowLeft className="h-3.5 w-3.5" />
+                  <ArrowLeft className="size-3.5" />
                   {__('Move left', 'wp-statistics')}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleMoveRight} disabled={isRTL ? isFirst : isLast} className="gap-2">
-                  <ArrowRight className="h-3.5 w-3.5" />
+                  <ArrowRight className="size-3.5" />
                   {__('Move right', 'wp-statistics')}
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
@@ -174,11 +177,11 @@ export function DataTableColumnHeader<TData, TValue>({
             <>
               {table && canMove && <DropdownMenuSeparator />}
               <DropdownMenuItem onClick={handleSortAsc} className="gap-2">
-                <ArrowUpNarrowWide className="h-3.5 w-3.5" />
+                <ArrowUpNarrowWide className="size-3.5" />
                 {__('Sort ascending', 'wp-statistics')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleSortDesc} className="gap-2">
-                <ArrowDownWideNarrow className="h-3.5 w-3.5" />
+                <ArrowDownWideNarrow className="size-3.5" />
                 {__('Sort descending', 'wp-statistics')}
               </DropdownMenuItem>
             </>
@@ -189,7 +192,7 @@ export function DataTableColumnHeader<TData, TValue>({
             <>
               {(canSort || (table && canMove)) && <DropdownMenuSeparator />}
               <DropdownMenuItem onClick={handleHide} className="gap-2">
-                <EyeOff className="h-3.5 w-3.5" />
+                <EyeOff className="size-3.5" />
                 {__('Hide column', 'wp-statistics')}
               </DropdownMenuItem>
             </>
