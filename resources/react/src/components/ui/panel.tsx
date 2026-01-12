@@ -35,7 +35,7 @@ import { cn } from '@/lib/utils'
  *     <BarList items={items} />
  *   </PanelContent>
  *   <PanelFooter>
- *     <PanelAction onClick={handleClick}>View all countries</PanelAction>
+ *     <PanelAction onClick={handleClick}>See all countries</PanelAction>
  *   </PanelFooter>
  * </Panel>
  */
@@ -128,7 +128,7 @@ function parseHref(href: string): { path: string; search?: Record<string, string
 /**
  * PanelAction - Standardized action link for widget footers
  *
- * Provides consistent styling for "View all", "View full report" type links.
+ * Provides consistent styling for "See all" type links.
  * Automatically includes a chevron icon.
  * Supports both href (renders as Link) and onClick (renders as button).
  *

@@ -64,7 +64,7 @@ export function HorizontalBarList({ title, items, link, loading = false }: Horiz
 
       {link && safeItems.length !== 0 && (
         <PanelFooter>
-          <PanelAction onClick={link.action}>{link.title || __('View All', 'wp-statistics')}</PanelAction>
+          <PanelAction onClick={link.action}>{link.title || __('See all', 'wp-statistics')}</PanelAction>
         </PanelFooter>
       )}
     </Panel>

@@ -472,7 +472,7 @@ export function DataTable<TData, TValue>({
           <div className="justify-self-end">
             {fullReportLink && (
               <PanelAction onClick={fullReportLink.action}>
-                {fullReportLink.text || __('View Full Report', 'wp-statistics')}
+                {fullReportLink.text || __('See all', 'wp-statistics')}
               </PanelAction>
             )}
           </div>

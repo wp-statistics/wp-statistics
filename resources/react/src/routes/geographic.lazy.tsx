@@ -242,7 +242,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Countries', 'wp-statistics'),
+                  title: __('See all countries', 'wp-statistics'),
                   href: '#/countries',
                 }}
               />
@@ -270,7 +270,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Cities', 'wp-statistics'),
+                  title: __('See all cities', 'wp-statistics'),
                   href: '#/cities',
                 }}
               />
@@ -306,7 +306,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View European Countries', 'wp-statistics'),
+                  title: __('See all European countries', 'wp-statistics'),
                   href: '#/countries?filter_country=EU',
                 }}
               />
@@ -338,7 +338,7 @@ function RouteComponent() {
                     })
                   })()}
                   link={{
-                    title: __('View Regions', 'wp-statistics'),
+                    title: __('See all regions', 'wp-statistics'),
                     href: `#/regions?filter_country=${userCountry}`,
                   }}
                 />
@@ -368,7 +368,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View US States', 'wp-statistics'),
+                  title: __('See all US states', 'wp-statistics'),
                   href: '#/regions?filter_country=US',
                 }}
               />

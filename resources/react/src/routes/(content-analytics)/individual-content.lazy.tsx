@@ -697,7 +697,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                   })
                 })()}
                 link={{
-                  title: __('View All Referrers', 'wp-statistics'),
+                  title: __('See all referrers', 'wp-statistics'),
                   action: () => navigate({ to: '/referrers' }),
                 }}
               />
@@ -726,7 +726,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                   })
                 })()}
                 link={{
-                  title: __('View All Search Engines', 'wp-statistics'),
+                  title: __('See all search engines', 'wp-statistics'),
                   action: () => navigate({ to: '/search-engines' }),
                 }}
               />
@@ -761,7 +761,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                   })
                 })()}
                 link={{
-                  title: __('View All Countries', 'wp-statistics'),
+                  title: __('See all countries', 'wp-statistics'),
                   action: () => navigate({ to: '/geographic' }),
                 }}
               />

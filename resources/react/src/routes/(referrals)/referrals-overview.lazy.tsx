@@ -372,7 +372,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Entry Pages', 'wp-statistics'),
+                  title: __('See all entry pages', 'wp-statistics'),
                   action: () => console.log('View entry pages'),
                 }}
               />
@@ -400,7 +400,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Referrers', 'wp-statistics'),
+                  title: __('See all referrers', 'wp-statistics'),
                   action: () => console.log('View referrers'),
                 }}
               />
@@ -436,7 +436,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Countries', 'wp-statistics'),
+                  title: __('See all countries', 'wp-statistics'),
                   action: () => console.log('View countries'),
                 }}
               />
@@ -471,7 +471,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Operating Systems', 'wp-statistics'),
+                  title: __('See all operating systems', 'wp-statistics'),
                   action: () => console.log('View OS'),
                 }}
               />
@@ -506,7 +506,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Device Types', 'wp-statistics'),
+                  title: __('See all device types', 'wp-statistics'),
                   action: () => console.log('View devices'),
                 }}
               />
@@ -535,7 +535,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Source Categories', 'wp-statistics'),
+                  title: __('See all source categories', 'wp-statistics'),
                   action: () => console.log('View source categories'),
                 }}
               />
@@ -563,7 +563,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Search Engines', 'wp-statistics'),
+                  title: __('See all search engines', 'wp-statistics'),
                   action: () => console.log('View search engines'),
                 }}
               />
@@ -591,7 +591,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Social Media', 'wp-statistics'),
+                  title: __('See all social media', 'wp-statistics'),
                   action: () => console.log('View social media'),
                 }}
               />

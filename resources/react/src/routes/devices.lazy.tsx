@@ -214,7 +214,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Browsers', 'wp-statistics'),
+                  title: __('See all browsers', 'wp-statistics'),
                   href: '#/browsers',
                 }}
               />
@@ -251,7 +251,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Operating Systems', 'wp-statistics'),
+                  title: __('See all operating systems', 'wp-statistics'),
                   href: '#/operating-systems',
                 }}
               />
@@ -289,7 +289,7 @@ function RouteComponent() {
                   })
                 })()}
                 link={{
-                  title: __('View Device Categories', 'wp-statistics'),
+                  title: __('See all device categories', 'wp-statistics'),
                   href: '#/device-categories',
                 }}
               />
@@ -319,7 +319,7 @@ function RouteComponent() {
                     })
                   })()}
                   link={{
-                    title: __('View Screen Resolutions', 'wp-statistics'),
+                    title: __('See all screen resolutions', 'wp-statistics'),
                     href: '#/screen-resolutions',
                   }}
                 />

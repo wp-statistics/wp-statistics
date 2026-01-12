@@ -219,7 +219,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
       showPagination={false}
       showColumnManagement={false}
       fullReportLink={{
-        text: __('View All Top Visitors'),
+        text: __('See all top visitors', 'wp-statistics'),
         action: () => {
           router.navigate({
             from: '/visitors-overview',

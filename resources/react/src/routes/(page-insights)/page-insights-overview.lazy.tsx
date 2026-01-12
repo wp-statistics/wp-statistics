@@ -415,7 +415,7 @@ function RouteComponent() {
                 title={__('Top Pages', 'wp-statistics')}
                 items={topPagesListData}
                 link={{
-                  title: __('View All Pages', 'wp-statistics'),
+                  title: __('See all pages', 'wp-statistics'),
                   action: () => navigate({ to: '/top-pages' }),
                 }}
               />
@@ -427,7 +427,7 @@ function RouteComponent() {
                 title={__('Entry Pages', 'wp-statistics')}
                 items={entryPagesListData}
                 link={{
-                  title: __('View All Entry Pages', 'wp-statistics'),
+                  title: __('See all entry pages', 'wp-statistics'),
                   action: () => navigate({ to: '/entry-pages' }),
                 }}
               />
@@ -439,7 +439,7 @@ function RouteComponent() {
                 title={__('404 Pages', 'wp-statistics')}
                 items={pages404ListData}
                 link={{
-                  title: __('View All 404 Pages', 'wp-statistics'),
+                  title: __('See all 404 pages', 'wp-statistics'),
                   action: () => navigate({ to: '/404-pages' }),
                 }}
               />
