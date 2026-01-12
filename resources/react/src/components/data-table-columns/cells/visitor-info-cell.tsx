@@ -47,67 +47,32 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
   const locationParts = [country.city, country.name].filter(Boolean)
   const locationText = locationParts.join(', ') || country.name
 
+  // Build full tooltip content
+  const browserInfo = browser.version ? `${browser.name} ${browser.version}` : browser.name
+  const tooltipContent = [locationText, browserInfo, os.name].filter(Boolean).join(' · ')
+
   // Determine what to show
   const showUserBadge = trackLoggedInEnabled && user
   const identifierDisplay = getIdentifierDisplay(identifier, hashEnabled)
 
   return (
-    <div className="flex flex-col gap-0.5 group/visitor">
-      {/* Row 1: Icons - muted by default, reveal on hover */}
-      <div className="flex items-center gap-1">
-        {/* Country Flag */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              className="flex items-center opacity-70 grayscale-[30%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150"
-              aria-label={`Country: ${country.name}`}
-            >
-              <img
-                src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
-                alt={country.name}
-                className="w-3.5 h-3.5 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>{locationText}</TooltipContent>
-        </Tooltip>
-
-        {/* OS Icon */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150"
-              aria-label={`Operating system: ${os.name}`}
-            >
-              <img
-                src={`${pluginUrl}public/images/operating-system/${os.icon}.svg`}
-                alt={os.name}
-                className="w-3 h-3 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>{os.name}</TooltipContent>
-        </Tooltip>
-
-        {/* Browser Icon */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150"
-              aria-label={`Browser: ${browser.name} ${browser.version}`}
-            >
-              <img
-                src={`${pluginUrl}public/images/browser/${browser.icon}.svg`}
-                alt={browser.name}
-                className="w-3 h-3 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>
-            {browser.name} {browser.version}
-          </TooltipContent>
-        </Tooltip>
-      </div>
+    <div className="flex flex-col gap-0.5">
+      {/* Row 1: Flag + Browser/OS text with single tooltip */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="flex items-center gap-1.5 cursor-default">
+            <img
+              src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
+              alt={country.name}
+              className="w-3.5 h-3.5 object-contain shrink-0"
+            />
+            <span className="text-xs text-muted-foreground truncate">
+              {browser.name} · {os.name}
+            </span>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>{tooltipContent}</TooltipContent>
+      </Tooltip>
 
       {/* Row 2: User Badge or Identifier */}
       {showUserBadge ? (
