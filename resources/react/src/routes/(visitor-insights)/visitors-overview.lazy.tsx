@@ -288,47 +288,39 @@ function RouteComponent() {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
         ...calcPercentage(visitors, prevVisitors),
-        tooltipContent: __('Total number of unique visitors', 'wp-statistics'),
       },
       {
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(views),
         ...calcPercentage(views, prevViews),
-        tooltipContent: __('Total page views', 'wp-statistics'),
       },
       {
         label: __('Session Duration', 'wp-statistics'),
         value: formatDuration(avgSessionDuration),
         ...calcPercentage(avgSessionDuration, prevAvgSessionDuration),
-        tooltipContent: __('Average duration of a user session', 'wp-statistics'),
       },
       {
         label: __('Views/Session', 'wp-statistics'),
         value: formatDecimal(pagesPerSession),
         ...calcPercentage(pagesPerSession, prevPagesPerSession),
-        tooltipContent: __('Average pages viewed per session', 'wp-statistics'),
       },
       // Row 2: Context metrics (strings use '-' when empty)
       {
         label: __('Top Country', 'wp-statistics'),
         value: topCountryName || '-',
-        tooltipContent: __('Country with the most visitors', 'wp-statistics'),
       },
       {
         label: __('Top Referrer', 'wp-statistics'),
         value: topReferrerName || '-',
-        tooltipContent: __('Top traffic source', 'wp-statistics'),
       },
       {
         label: __('Top Search Term', 'wp-statistics'),
         value: topSearchTerm || '-',
-        tooltipContent: __('Most popular search term', 'wp-statistics'),
       },
       {
         label: __('Logged-in Share', 'wp-statistics'),
         value: `${formatDecimal(loggedInShare)}%`,
         ...calcPercentage(loggedInShare, prevLoggedInShare),
-        tooltipContent: __('Percentage of logged-in visitors', 'wp-statistics'),
       },
     ]
   }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn])
