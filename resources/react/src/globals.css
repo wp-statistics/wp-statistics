@@ -88,6 +88,12 @@
   --chart-4: #dc2626; /* Quaternary - Red */
   --chart-5: #2563eb; /* Quinary - Blue */
 
+  /* Comparison range colors (amber) for date picker calendar */
+  --compare-range: #fef3c7; /* Amber 100 - light background */
+  --compare-range-foreground: #92400e; /* Amber 800 - text */
+  --compare-range-start-end: #f59e0b; /* Amber 500 - start/end */
+  --compare-range-start-end-foreground: #ffffff;
+
   --sidebar: #f9f8f8;
   --sidebar-foreground: #1e1f21;
   --sidebar-primary: oklch(0.45 0.2 265);
@@ -132,6 +138,12 @@
   --chart-3: #f59e0b; /* Tertiary - Amber (lighter for dark mode) */
   --chart-4: #ef4444; /* Quaternary - Red (lighter for dark mode) */
   --chart-5: #3b82f6; /* Quinary - Blue (lighter for dark mode) */
+
+  /* Comparison range colors (amber) for date picker calendar - dark mode */
+  --compare-range: #451a03; /* Amber 950 - dark background */
+  --compare-range-foreground: #fcd34d; /* Amber 300 - text */
+  --compare-range-start-end: #d97706; /* Amber 600 - start/end */
+  --compare-range-start-end-foreground: #ffffff;
 
   --sidebar: oklch(0.18 0.015 260);
   --sidebar-foreground: oklch(0.90 0.005 250);

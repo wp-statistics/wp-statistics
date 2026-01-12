@@ -1,15 +1,15 @@
 'use client'
 
-import { Check, ChevronDown } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
+import { Checkbox } from '@/components/ui/checkbox'
 import { DateInput } from '@/components/ui/date-input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
 import { cn } from '@/lib/utils'
 
 export interface DateRange {
@@ -129,9 +129,12 @@ export const isValidComparisonMode = (mode: string | undefined): mode is Compari
 export const calculateComparisonRange = (range: DateRange, mode: ComparisonMode): DateRange | undefined => {
   if (!range.from || !range.to) return undefined
 
+  // Normalize dates to midnight to avoid time-based calculation errors
   const from = new Date(range.from)
+  from.setHours(0, 0, 0, 0)
   const to = new Date(range.to)
-  const daysDiff = Math.ceil((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24))
+  to.setHours(0, 0, 0, 0)
+  const daysDiff = Math.round((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24))
 
   switch (mode) {
     case 'previous_period': {
@@ -457,6 +460,25 @@ export const DateRangePicker = ({
     }
   }
 
+  /**
+   * Auto-update comparison range when main range changes.
+   * Only updates if:
+   * - Comparison is enabled (rangeCompare exists)
+   * - Mode is not "custom" (user hasn't manually set dates)
+   * - The new range has both from and to dates (selection is complete)
+   */
+  const autoUpdateComparisonRange = (newRange: DateRange) => {
+    if (!rangeCompare || comparisonMode === 'custom') return
+
+    // Only recalculate when we have a complete range (both from and to)
+    if (!newRange.from || !newRange.to) return
+
+    const newRangeCompare = calculateComparisonRange(newRange, comparisonMode)
+    if (newRangeCompare) {
+      setRangeCompare(newRangeCompare)
+    }
+  }
+
   return (
     <Popover
       modal={true}
@@ -507,80 +529,117 @@ export const DateRangePicker = ({
         align={align}
         className="w-auto max-h-[var(--radix-popover-content-available-height,calc(100vh-2rem))] overflow-auto p-0"
       >
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-100 bg-neutral-50/50">
-          <span className="text-sm font-semibold text-neutral-700 tracking-tight">Select Date Range</span>
-          {showCompare && (
-            <div className="flex items-center gap-2">
-              <Switch
-                checked={Boolean(rangeCompare)}
-                onCheckedChange={handleCompareToggle}
-                id="compare-mode"
-                className="scale-90"
-              />
-              <Label htmlFor="compare-mode" className="text-xs text-neutral-600 cursor-pointer">
-                Compare
-              </Label>
-            </div>
-          )}
-        </div>
-
         {/* Body */}
         <div className="flex">
-          {/* Main content */}
-          <div className="p-4">
-            {/* Date inputs card */}
-            <div className="p-3 rounded-lg bg-neutral-50/70 border border-neutral-100 mb-4">
-              <div className="flex items-center gap-2">
-                <DateInput
-                  value={range.from}
-                  onChange={(date) => {
-                    const toDate = range.to == null || date > range.to ? date : range.to
-                    setRange((prevRange) => ({
-                      ...prevRange,
-                      from: date,
-                      to: toDate,
-                    }))
-                  }}
-                  className="h-8 text-xs border-0 bg-white shadow-sm flex-1"
-                />
-                <span className="text-xs text-neutral-400">to</span>
-                <DateInput
-                  value={range.to}
-                  onChange={(date) => {
-                    const fromDate = date < range.from ? date : range.from
-                    setRange((prevRange) => ({
-                      ...prevRange,
-                      from: fromDate,
-                      to: date,
-                    }))
-                  }}
-                  className="h-8 text-xs border-0 bg-white shadow-sm flex-1"
-                />
+          {/* Presets sidebar - LEFT side */}
+          {!isSmallScreen && (
+            <div className="w-[150px] p-3 border-r border-neutral-100 bg-neutral-50/50">
+              <div className="flex flex-col gap-0.5">
+                {PRESETS.map((preset) => (
+                  <button
+                    key={preset.name}
+                    type="button"
+                    onClick={() => setPreset(preset.name)}
+                    aria-label={`Select date range: ${preset.label}`}
+                    aria-pressed={selectedPreset === preset.name}
+                    className={cn(
+                      'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors cursor-pointer',
+                      selectedPreset === preset.name
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'text-neutral-600 hover:bg-neutral-100'
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        'w-2 h-2 rounded-full border-2 transition-colors shrink-0',
+                        selectedPreset === preset.name
+                          ? 'border-primary bg-primary'
+                          : 'border-neutral-300 bg-transparent'
+                      )}
+                    />
+                    {preset.label}
+                  </button>
+                ))}
               </div>
+            </div>
+          )}
 
-              {/* Compare dates */}
-              {rangeCompare != null && (
-                <>
-                  <div className="flex items-center gap-1.5 my-2">
-                    <div className="h-px flex-1 bg-neutral-200" />
-                    <span className="text-xs font-medium text-neutral-400">vs</span>
-                    <div className="h-px flex-1 bg-neutral-200" />
-                  </div>
-                  {/* Comparison mode selector */}
-                  <Select value={comparisonMode} onValueChange={handleComparisonModeChange}>
-                    <SelectTrigger className="h-8 text-xs border-0 bg-white shadow-sm mb-2">
-                      <SelectValue placeholder="Select comparison..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {COMPARISON_MODES.map((mode) => (
-                        <SelectItem key={mode.name} value={mode.name} className="text-xs">
-                          {mode.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <div className="flex items-center gap-2">
+          {/* Main content - RIGHT side */}
+          <div className="flex-1 p-4">
+            {/* Mobile preset select */}
+            {isSmallScreen && (
+              <div className="mb-4">
+                <Select defaultValue={selectedPreset} onValueChange={(value) => setPreset(value)}>
+                  <SelectTrigger className="h-9 text-xs">
+                    <SelectValue placeholder="Quick select..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PRESETS.map((preset) => (
+                      <SelectItem key={preset.name} value={preset.name} className="text-xs">
+                        {preset.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Date inputs */}
+            <div className="flex items-center gap-3 mb-4">
+              <DateInput
+                value={range.from}
+                onChange={(date) => {
+                  const toDate = range.to == null || date > range.to ? date : range.to
+                  const newRange = { from: date, to: toDate }
+                  setRange(newRange)
+                  autoUpdateComparisonRange(newRange)
+                }}
+                className="h-9 text-sm flex-1"
+              />
+              <span className="text-neutral-400">→</span>
+              <DateInput
+                value={range.to}
+                onChange={(date) => {
+                  const fromDate = date < range.from ? date : range.from
+                  const newRange = { from: fromDate, to: date }
+                  setRange(newRange)
+                  autoUpdateComparisonRange(newRange)
+                }}
+                className="h-9 text-sm flex-1"
+              />
+            </div>
+
+            {/* Compare section */}
+            {showCompare && (
+              <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100 mb-4">
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={Boolean(rangeCompare)}
+                    onCheckedChange={handleCompareToggle}
+                    id="compare-checkbox"
+                  />
+                  <Label
+                    htmlFor="compare-checkbox"
+                    className="text-xs font-medium text-neutral-600 cursor-pointer"
+                  >
+                    Compare to
+                  </Label>
+                </div>
+
+                {rangeCompare != null && (
+                  <div className="flex items-center gap-2 mt-3">
+                    <Select value={comparisonMode} onValueChange={handleComparisonModeChange}>
+                      <SelectTrigger className="h-8 text-xs w-[130px] shrink-0">
+                        <SelectValue placeholder="Select..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {COMPARISON_MODES.map((mode) => (
+                          <SelectItem key={mode.name} value={mode.name} className="text-xs">
+                            {mode.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <DateInput
                       value={rangeCompare?.from}
                       onChange={(date) => {
@@ -604,9 +663,9 @@ export const DateRangePicker = ({
                           })
                         }
                       }}
-                      className="h-8 text-xs border-0 bg-white shadow-sm flex-1"
+                      className="h-8 text-xs flex-1"
                     />
-                    <span className="text-xs text-neutral-400">to</span>
+                    <span className="text-neutral-400 text-xs">→</span>
                     <DateInput
                       value={rangeCompare?.to}
                       onChange={(date) => {
@@ -620,28 +679,10 @@ export const DateRangePicker = ({
                           })
                         }
                       }}
-                      className="h-8 text-xs border-0 bg-white shadow-sm flex-1"
+                      className="h-8 text-xs flex-1"
                     />
                   </div>
-                </>
-              )}
-            </div>
-
-            {/* Mobile preset select */}
-            {isSmallScreen && (
-              <div className="mb-4">
-                <Select defaultValue={selectedPreset} onValueChange={(value) => setPreset(value)}>
-                  <SelectTrigger className="h-8 text-xs border-0 bg-neutral-50 shadow-sm">
-                    <SelectValue placeholder="Quick select..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {PRESETS.map((preset) => (
-                      <SelectItem key={preset.name} value={preset.name} className="text-xs">
-                        {preset.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                )}
               </div>
             )}
 
@@ -650,47 +691,27 @@ export const DateRangePicker = ({
               mode="range"
               onSelect={(value: { from?: Date; to?: Date } | undefined) => {
                 if (value?.from != null) {
-                  setRange({ from: value.from, to: value?.to })
+                  const newRange = { from: value.from, to: value.to }
+                  setRange(newRange)
+                  // Auto-update comparison when selection is complete (both from and to)
+                  if (newRange.to) {
+                    autoUpdateComparisonRange(newRange as DateRange)
+                  }
                 }
               }}
               selected={range}
               numberOfMonths={isSmallScreen ? 1 : 2}
               defaultMonth={new Date(new Date().setMonth(new Date().getMonth() - (isSmallScreen ? 0 : 1)))}
               cellSize="1.875rem"
-              className="p-2"
+              className="p-0"
+              compareRange={rangeCompare}
+              showOutsideDays={false}
             />
           </div>
-
-          {/* Presets sidebar */}
-          {!isSmallScreen && (
-            <div className="w-[140px] p-3 border-l border-neutral-100 bg-neutral-50/30">
-              <span className="text-xs font-medium text-neutral-400 mb-2 block">Quick Select</span>
-              <div className="flex flex-col gap-0.5">
-                {PRESETS.map((preset) => (
-                  <button
-                    key={preset.name}
-                    type="button"
-                    onClick={() => setPreset(preset.name)}
-                    aria-label={`Select date range: ${preset.label}`}
-                    aria-pressed={selectedPreset === preset.name}
-                    className={cn(
-                      'px-2.5 py-1.5 text-xs text-left rounded-md transition-colors cursor-pointer',
-                      selectedPreset === preset.name
-                        ? 'bg-primary/10 text-primary font-medium'
-                        : 'text-neutral-600 hover:bg-neutral-100'
-                    )}
-                  >
-                    {selectedPreset === preset.name && <Check className="inline-block h-3 w-3 mr-1.5" />}
-                    {preset.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-2 px-4 py-2 border-t border-neutral-100 bg-neutral-50/30 sticky bottom-0">
+        <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-neutral-100">
           <Button
             variant="ghost"
             size="sm"

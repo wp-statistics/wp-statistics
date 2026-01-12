@@ -5,6 +5,11 @@ import { DayButton, DayPicker } from 'react-day-picker'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
+export interface CompareRange {
+  from: Date
+  to?: Date
+}
+
 const calendarResetStyles = `
   #wps-calendar {
     --rdp-cell-size: var(--cell-size, 2.25rem);
@@ -90,11 +95,51 @@ function Calendar({
   formatters,
   components,
   cellSize = '2.25rem',
+  compareRange,
+  modifiers: externalModifiers,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
   cellSize?: string
+  compareRange?: CompareRange
 }) {
+  // Generate comparison range modifiers using functions for precise date matching
+  const compareModifiers = React.useMemo(() => {
+    if (!compareRange?.from) return {}
+
+    const from = new Date(compareRange.from)
+    from.setHours(0, 0, 0, 0)
+    const to = compareRange.to ? new Date(compareRange.to) : new Date(from)
+    to.setHours(0, 0, 0, 0)
+
+    const fromTime = from.getTime()
+    const toTime = to.getTime()
+
+    // Check if dates are on the same day
+    const isSameDay = fromTime === toTime
+
+    // Helper to normalize a date to midnight
+    const normalizeDate = (date: Date): number => {
+      const d = new Date(date)
+      d.setHours(0, 0, 0, 0)
+      return d.getTime()
+    }
+
+    if (isSameDay) {
+      return {
+        compare_range_single: (date: Date) => normalizeDate(date) === fromTime,
+      }
+    }
+
+    return {
+      compare_range_start: (date: Date) => normalizeDate(date) === fromTime,
+      compare_range_end: (date: Date) => normalizeDate(date) === toTime,
+      compare_range_middle: (date: Date) => {
+        const dateTime = normalizeDate(date)
+        return dateTime > fromTime && dateTime < toTime
+      },
+    }
+  }, [compareRange])
   return (
     <div id="wps-calendar" style={{ '--cell-size': cellSize } as React.CSSProperties}>
       <style dangerouslySetInnerHTML={{ __html: calendarResetStyles }} />
@@ -102,6 +147,10 @@ function Calendar({
         showOutsideDays={showOutsideDays}
         className={cn('bg-background group/calendar p-3', className)}
         captionLayout={captionLayout}
+        modifiers={{
+          ...externalModifiers,
+          ...compareModifiers,
+        }}
         formatters={{
           formatMonthDropdown: (date) => date.toLocaleString('default', { month: 'short' }),
           ...formatters,
@@ -184,6 +233,12 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
     if (modifiers.focused) ref.current?.focus()
   }, [modifiers.focused])
 
+  // Comparison range modifiers
+  const isCompareStart = modifiers.compare_range_start
+  const isCompareEnd = modifiers.compare_range_end
+  const isCompareMiddle = modifiers.compare_range_middle
+  const isCompareSingle = modifiers.compare_range_single
+
   return (
     <Button
       ref={ref}
@@ -196,8 +251,23 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
       data-range-start={modifiers.range_start}
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
+      data-compare-start={isCompareStart}
+      data-compare-end={isCompareEnd}
+      data-compare-middle={isCompareMiddle}
+      data-compare-single={isCompareSingle}
       className={cn(
-        'size-[--cell-size] data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground flex items-center justify-center font-normal leading-none data-[range-end=true]:rounded-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md',
+        'size-[--cell-size] flex items-center justify-center font-normal leading-none',
+        // Main range styles (primary/indigo)
+        'data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground',
+        'data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground',
+        'data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground',
+        'data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground',
+        'data-[range-end=true]:rounded-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md',
+        // Comparison range styles (amber)
+        'data-[compare-start=true]:bg-[var(--compare-range-start-end)] data-[compare-start=true]:text-[var(--compare-range-start-end-foreground)] data-[compare-start=true]:rounded-md',
+        'data-[compare-end=true]:bg-[var(--compare-range-start-end)] data-[compare-end=true]:text-[var(--compare-range-start-end-foreground)] data-[compare-end=true]:rounded-md',
+        'data-[compare-middle=true]:bg-[var(--compare-range)] data-[compare-middle=true]:text-[var(--compare-range-foreground)] data-[compare-middle=true]:rounded-none',
+        'data-[compare-single=true]:bg-[var(--compare-range-start-end)] data-[compare-single=true]:text-[var(--compare-range-start-end-foreground)] data-[compare-single=true]:rounded-md',
         className
       )}
       {...props}
