@@ -39,11 +39,19 @@ import { cn } from '@/lib/utils'
  *   </PanelFooter>
  * </Panel>
  */
-function Panel({ className, ...props }: React.ComponentProps<'div'>) {
+interface PanelProps extends React.ComponentProps<'div'> {
+  variant?: 'default' | 'borderless'
+}
+
+function Panel({ className, variant = 'default', ...props }: PanelProps) {
   return (
     <div
       data-slot="panel"
-      className={cn('bg-card text-card-foreground rounded-lg border overflow-hidden', className)}
+      className={cn(
+        'bg-card text-card-foreground rounded-lg overflow-hidden',
+        variant === 'default' && 'border',
+        className
+      )}
       {...props}
     />
   )

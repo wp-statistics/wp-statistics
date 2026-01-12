@@ -222,6 +222,7 @@ function RouteComponent() {
             onColumnPreferencesReset={handleColumnPreferencesReset}
             emptyStateMessage={__('No referred visitors found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>

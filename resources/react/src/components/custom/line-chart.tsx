@@ -32,6 +32,7 @@ export interface LineChartProps {
   onTimeframeChange?: (timeframe: 'daily' | 'weekly' | 'monthly') => void
   className?: string
   loading?: boolean
+  borderless?: boolean
 }
 
 // Type for chart tooltip payload entries
@@ -51,6 +52,7 @@ export function LineChart({
   onTimeframeChange,
   className,
   loading = false,
+  borderless = false,
 }: LineChartProps) {
   const { isMobile } = useBreakpoint()
   const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
@@ -140,7 +142,7 @@ export function LineChart({
   )
 
   return (
-    <Panel className={className}>
+    <Panel variant={borderless ? 'borderless' : 'default'} className={className}>
       <PanelHeader className="flex-col items-start gap-3 md:gap-4">
         {title && <PanelTitle>{title}</PanelTitle>}
         <div

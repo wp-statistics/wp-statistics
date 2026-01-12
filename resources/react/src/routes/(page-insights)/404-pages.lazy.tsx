@@ -190,6 +190,7 @@ function RouteComponent() {
             isFetching={isFetching}
             emptyStateMessage={__('No 404 pages found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>

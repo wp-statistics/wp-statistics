@@ -386,6 +386,7 @@ function RouteComponent() {
             onColumnPreferencesReset={handleColumnPreferencesReset}
             emptyStateMessage={__('No visitors are currently online', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>

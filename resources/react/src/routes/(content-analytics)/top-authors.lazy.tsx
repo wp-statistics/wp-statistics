@@ -253,6 +253,7 @@ function RouteComponent() {
             onColumnPreferencesReset={handleColumnPreferencesReset}
             emptyStateMessage={__('No authors found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>

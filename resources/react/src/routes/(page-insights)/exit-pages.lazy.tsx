@@ -200,6 +200,7 @@ function RouteComponent() {
             isFetching={isFetching}
             emptyStateMessage={__('No exit pages found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>

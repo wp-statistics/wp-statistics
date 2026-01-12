@@ -203,6 +203,7 @@ function RouteComponent() {
             isFetching={isFetching}
             emptyStateMessage={__('No author pages found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>

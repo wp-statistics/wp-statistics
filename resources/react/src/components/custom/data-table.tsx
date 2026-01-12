@@ -63,6 +63,8 @@ interface DataTableProps<TData, TValue> {
   mobileCardEnabled?: boolean
   // Sticky header for scrollable tables
   stickyHeader?: boolean
+  // Borderless panel variant for single-widget report pages
+  borderless?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -98,6 +100,8 @@ export function DataTable<TData, TValue>({
   mobileCardEnabled = true,
   // Sticky header
   stickyHeader = false,
+  // Borderless panel
+  borderless = false,
 }: DataTableProps<TData, TValue>) {
   const isMobile = useIsMobile()
 
@@ -305,7 +309,7 @@ export function DataTable<TData, TValue>({
   // Mobile card view
   if (isMobile && mobileCardEnabled) {
     return (
-      <Panel className="overflow-hidden min-w-0">
+      <Panel variant={borderless ? 'borderless' : 'default'} className="overflow-hidden min-w-0">
         <DataTableMobileHeader
           title={title}
           sorting={sorting}
@@ -326,7 +330,7 @@ export function DataTable<TData, TValue>({
 
   // Desktop/tablet table view
   return (
-    <Panel className="min-w-0 overflow-hidden">
+    <Panel variant={borderless ? 'borderless' : 'default'} className="min-w-0 overflow-hidden">
       {title && (
         <PanelHeader className="pb-0">
           <PanelTitle>{title}</PanelTitle>

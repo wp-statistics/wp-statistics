@@ -203,6 +203,7 @@ function RouteComponent() {
             isFetching={isFetching}
             emptyStateMessage={__('No category pages found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>

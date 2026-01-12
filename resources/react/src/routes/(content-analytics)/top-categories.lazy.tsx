@@ -270,6 +270,7 @@ function RouteComponent() {
             onColumnPreferencesReset={handleColumnPreferencesReset}
             emptyStateMessage={__('No terms found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>

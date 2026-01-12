@@ -299,6 +299,7 @@ function RouteComponent() {
             isFetching={isFetching}
             emptyStateMessage={__('No referrers found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
           />
         )}
       </div>
