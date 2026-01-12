@@ -11,7 +11,6 @@ export interface HorizontalBarProps {
   percentage: string | number
   fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
-  tooltipTitle?: string
   tooltipSubtitle?: string
   isFirst?: boolean
 }
@@ -23,7 +22,6 @@ export function HorizontalBar({
   percentage,
   fillPercentage,
   isNegative = false,
-  tooltipTitle,
   tooltipSubtitle,
   isFirst = false,
 }: HorizontalBarProps) {
@@ -100,36 +98,29 @@ export function HorizontalBar({
     </div>
   )
 
-  if (tooltipTitle || tooltipSubtitle) {
+  if (tooltipSubtitle) {
     return (
       <Tooltip>
         <TooltipTrigger asChild>{content}</TooltipTrigger>
-        <TooltipContent side="top" className="p-2.5">
-          <div className="flex flex-col gap-1.5">
-            <div className="font-medium text-neutral-100">{tooltipTitle}</div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm leading-none">{icon}</span>
-              <span className="text-neutral-300">{safeLabel}</span>
-            </div>
-            <div className="flex items-center gap-4 justify-between border-t border-neutral-700 pt-1.5 mt-0.5">
-              <span className="text-neutral-400">{tooltipSubtitle}</span>
-              <div className="flex items-center font-medium">
-                <span className={isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight}>
-                  {isNegative ? (
-                    <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  ) : (
-                    <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  )}
-                </span>
-                <span
-                  className={cn(
-                    'tabular-nums',
-                    isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight
-                  )}
-                >
-                  {displayPercentage}%
-                </span>
-              </div>
+        <TooltipContent side="top" className="px-2.5 py-1.5">
+          <div className="flex items-center gap-4 justify-between">
+            <span className="text-neutral-100">{tooltipSubtitle}</span>
+            <div className="flex items-center font-medium">
+              <span className={isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight}>
+                {isNegative ? (
+                  <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
+                ) : (
+                  <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
+                )}
+              </span>
+              <span
+                className={cn(
+                  'tabular-nums',
+                  isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight
+                )}
+              >
+                {displayPercentage}%
+              </span>
             </div>
           </div>
         </TooltipContent>

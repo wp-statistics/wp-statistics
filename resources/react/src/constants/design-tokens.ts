@@ -75,6 +75,24 @@ export const chartColors = {
 } as const
 
 /**
+ * Tooltip style tokens for consistent dark-themed tooltips
+ *
+ * All tooltips use a dark theme (neutral-800 background) for consistency.
+ * Use these tokens to maintain visual harmony across tooltip implementations.
+ */
+export const tooltipStyles = {
+  // Unified tooltip styles - all tooltips should use these values
+  container: 'rounded bg-neutral-800 shadow-md', // Border radius: rounded (4px)
+  padding: {
+    simple: 'px-2 py-1', // Simple one-line tooltips
+    compact: 'px-2.5 py-1.5', // Compact multi-element tooltips
+    spacious: 'px-2.5 py-2', // Multi-row tooltips (charts)
+  },
+  text: 'text-neutral-100', // All tooltip text should be white
+  font: 'text-xs', // Base font size
+} as const
+
+/**
  * Helper to get trend color class based on value
  */
 export function getTrendColorClass(value: number, isNegative = false): string {

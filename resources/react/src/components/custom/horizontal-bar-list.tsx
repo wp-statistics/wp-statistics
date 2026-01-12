@@ -13,7 +13,6 @@ interface HorizontalBarItem {
   percentage: string | number
   fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
-  tooltipTitle?: string
   tooltipSubtitle?: string
 }
 
@@ -55,7 +54,6 @@ export function HorizontalBarList({ title, items, link, loading = false }: Horiz
                 percentage={item.percentage}
                 fillPercentage={item.fillPercentage}
                 isNegative={item.isNegative}
-                tooltipTitle={item.tooltipTitle}
                 tooltipSubtitle={item.tooltipSubtitle}
                 isFirst={index === 0}
               />

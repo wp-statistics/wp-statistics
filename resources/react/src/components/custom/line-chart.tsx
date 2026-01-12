@@ -458,11 +458,11 @@ export function LineChart({
                   }
 
                   return (
-                    <div className="rounded-lg border bg-background p-3 shadow-md">
-                      <div className="mb-3 text-sm leading-normal font-medium text-neutral-700">
+                    <div className="rounded bg-neutral-800 px-2.5 py-2 shadow-md">
+                      <div className="mb-2 text-xs font-medium text-neutral-100">
                         {dayOfWeek ? `${formattedDate} (${dayOfWeek})` : formattedDate}
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {groupedData.map((entry) => {
                           const isPrevious = entry.dataKey.includes('Previous')
                           const baseKey = entry.dataKey.replace('Previous', '')
@@ -478,8 +478,8 @@ export function LineChart({
                             : baseMetric.label
 
                           return (
-                            <div key={entry.dataKey} className="flex items-center justify-between gap-6">
-                              <div className="flex items-center gap-2 text-sm">
+                            <div key={entry.dataKey} className="flex items-center justify-between gap-4">
+                              <div className="flex items-center gap-2 text-xs">
                                 <svg width="12" height="3" className={isPrevious ? 'shrink-0 opacity-50' : 'shrink-0'}>
                                   <line
                                     x1="0"
@@ -491,9 +491,9 @@ export function LineChart({
                                     strokeDasharray={isPrevious ? '3 2' : '0'}
                                   />
                                 </svg>
-                                <span className="text-neutral-500">{displayLabel}</span>
+                                <span className="text-neutral-100">{displayLabel}</span>
                               </div>
-                              <span className="font-semibold text-neutral-900 tabular-nums">{entry.value}</span>
+                              <span className="font-medium text-neutral-100 tabular-nums">{entry.value}</span>
                             </div>
                           )
                         })}
