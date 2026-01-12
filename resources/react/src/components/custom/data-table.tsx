@@ -332,7 +332,7 @@ export function DataTable<TData, TValue>({
   return (
     <Panel variant={borderless ? 'borderless' : 'default'} className="min-w-0 overflow-hidden">
       {title && (
-        <PanelHeader className="pb-0">
+        <PanelHeader>
           <PanelTitle>{title}</PanelTitle>
           {isFetching && <Loader2 className="h-4 w-4 animate-spin text-neutral-400" />}
         </PanelHeader>
@@ -352,7 +352,7 @@ export function DataTable<TData, TValue>({
         <Table className="min-w-max">
           <TableHeader className={cn(stickyHeader && 'sticky top-0 z-10')}>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-0 bg-white hover:bg-white">
+              <TableRow key={headerGroup.id} className="border-t border-neutral-200 border-b-0 bg-white hover:bg-white">
                 {headerGroup.headers.map((header, index) => {
                   const size = header.column.columnDef.size
                   const align = (header.column.columnDef.meta as { align?: 'left' | 'right' | 'center' } | undefined)?.align
