@@ -8,6 +8,7 @@ import { useCallback, useMemo } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
+import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
 import { Metrics } from '@/components/custom/metrics'
 import { Button } from '@/components/ui/button'
 import { Panel } from '@/components/ui/panel'
@@ -48,7 +49,11 @@ const createSitesColumns = (): ColumnDef<NetworkSiteStats>[] => [
   },
   {
     accessorKey: 'visitors',
-    header: () => <div className="text-center w-full">{__('Visitors', 'wp-statistics')}</div>,
+    header: () => (
+      <div className="text-center w-full flex justify-center">
+        <StaticSortIndicator title={__('Visitors', 'wp-statistics')} direction="desc" />
+      </div>
+    ),
     cell: ({ row }) => {
       const site = row.original
       if (site.error) {

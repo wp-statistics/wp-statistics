@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n'
 import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
+import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
 import {
   EntryPageCell,
   NumericCell,
@@ -157,7 +158,11 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
     },
     {
       accessorKey: 'totalViews',
-      header: 'Total Views',
+      header: () => (
+        <div className="text-right">
+          <StaticSortIndicator title={__('Total Views', 'wp-statistics')} direction="desc" />
+        </div>
+      ),
       size: COLUMN_SIZES.totalViews,
       meta: { align: 'right' },
       cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
