@@ -47,14 +47,12 @@ export function HorizontalBar({
   const content = (
     <div
       className={cn(
-        'relative bg-background rounded-sm overflow-hidden w-full',
+        'relative bg-background w-full',
         // Responsive padding
-        'p-3 md:p-2'
+        'px-0 pt-3 pb-2 md:pt-2 md:pb-1.5'
       )}
     >
-      <div className="absolute inset-0 transition-all bg-primary/10" style={{ width: `${barWidth}%` }} />
-
-      <div className="relative flex items-center justify-between gap-3 md:gap-4">
+      <div className="flex items-center justify-between gap-3 md:gap-4">
         <div className="flex items-center gap-2 leading-0 min-w-0">
           {icon && <span className="text-lg md:text-xl leading-none shrink-0">{icon}</span>}
           {needsTruncation ? (
@@ -94,6 +92,13 @@ export function HorizontalBar({
             {displayPercentage}%
           </span>
         </div>
+      </div>
+      {/* Bottom bar indicator - GA4 style */}
+      <div className="mt-1.5 h-0.5 bg-neutral-100 rounded-full overflow-hidden">
+        <div
+          className="h-full rounded-full transition-all opacity-50"
+          style={{ width: `${barWidth}%`, backgroundColor: 'var(--chart-5)' }}
+        />
       </div>
     </div>
   )
