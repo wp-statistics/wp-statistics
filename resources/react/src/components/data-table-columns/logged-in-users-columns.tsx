@@ -29,9 +29,10 @@ import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insi
 export const LOGGED_IN_USERS_CONTEXT = 'logged_in_users_data_table'
 
 /**
- * Columns hidden by default (none for logged-in users)
+ * Columns hidden by default
+ * entryPage is hidden as it's redundant with the page column
  */
-export const LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS: string[] = []
+export const LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS: string[] = ['entryPage']
 
 /**
  * Column configuration for API column optimization
@@ -152,9 +153,11 @@ export function getLoggedInUsersDefaultFilters(filterFields: FilterField[]): Fil
 
 /**
  * Create column definitions for the Logged-in Users table
+ * Order: visitorInfo → lastVisit → page → totalViews → referrer → entryPage (hidden)
  */
 export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef<LoggedInUser>[] {
   return [
+    // Primary columns - visible by default
     {
       accessorKey: 'visitorInfo',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
@@ -173,6 +176,14 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
     },
     {
+      accessorKey: 'totalViews',
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
+      ),
+      size: COLUMN_SIZES.views,
+      cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
+    },
+    {
       accessorKey: 'referrer',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
       enableSorting: false,
@@ -186,6 +197,7 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
         />
       ),
     },
+    // Hidden by default
     {
       accessorKey: 'entryPage',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
@@ -204,14 +216,6 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
           />
         )
       },
-    },
-    {
-      accessorKey: 'totalViews',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
-      ),
-      size: COLUMN_SIZES.views,
-      cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
     },
   ]
 }

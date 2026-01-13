@@ -26,9 +26,10 @@ import type { ViewRecord } from '@/services/visitor-insight/get-views'
 export const VIEWS_CONTEXT = 'views_data_table'
 
 /**
- * Columns hidden by default (none for views)
+ * Columns hidden by default
+ * entryPage is hidden as it's redundant with the page column
  */
-export const VIEWS_DEFAULT_HIDDEN_COLUMNS: string[] = []
+export const VIEWS_DEFAULT_HIDDEN_COLUMNS: string[] = ['entryPage']
 
 /**
  * Column configuration for API column optimization
@@ -154,20 +155,11 @@ export function transformViewData(record: ViewRecord): ViewData {
 
 /**
  * Create column definitions for the Views table
+ * Order: visitorInfo → page → lastVisit → totalViews → referrer → entryPage (hidden)
  */
 export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewData>[] {
   return [
-    {
-      accessorKey: 'lastVisit',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
-      size: COLUMN_SIZES.lastVisit,
-      cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
-      meta: {
-        priority: 'primary',
-        cardPosition: 'header',
-        mobileLabel: 'Last Visit',
-      },
-    },
+    // Primary columns - visible by default
     {
       accessorKey: 'visitorInfo',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
@@ -226,6 +218,30 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
       },
     },
     {
+      accessorKey: 'lastVisit',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
+      size: COLUMN_SIZES.lastVisit,
+      cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
+      meta: {
+        priority: 'primary',
+        cardPosition: 'header',
+        mobileLabel: 'Last Visit',
+      },
+    },
+    {
+      accessorKey: 'totalViews',
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
+      ),
+      size: COLUMN_SIZES.views,
+      cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
+      meta: {
+        priority: 'primary',
+        cardPosition: 'body',
+        mobileLabel: 'Views',
+      },
+    },
+    {
       accessorKey: 'referrer',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
       size: COLUMN_SIZES.referrer,
@@ -247,6 +263,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         mobileLabel: 'Referrer',
       },
     },
+    // Hidden by default
     {
       accessorKey: 'entryPage',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
@@ -270,19 +287,6 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
       meta: {
         priority: 'secondary',
         mobileLabel: 'Entry',
-      },
-    },
-    {
-      accessorKey: 'totalViews',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
-      ),
-      size: COLUMN_SIZES.views,
-      cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
-      meta: {
-        priority: 'primary',
-        cardPosition: 'body',
-        mobileLabel: 'Views',
       },
     },
   ]

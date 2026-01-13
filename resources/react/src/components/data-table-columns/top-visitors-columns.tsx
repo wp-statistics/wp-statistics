@@ -179,19 +179,11 @@ export function transformTopVisitorData(record: TopVisitorRecord): TopVisitor {
 
 /**
  * Create column definitions for the Top Visitors table
+ * Order: visitorInfo → totalViews → totalSessions → sessionDuration → lastVisit → (hidden columns)
  */
 export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<TopVisitor>[] {
   return [
-    {
-      accessorKey: 'lastVisit',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
-      cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
-      meta: {
-        priority: 'primary',
-        cardPosition: 'header',
-        mobileLabel: 'Last Visit',
-      },
-    },
+    // Primary columns - visible by default
     {
       accessorKey: 'visitorInfo',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
@@ -203,6 +195,56 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
         mobileLabel: 'Visitor',
       },
     },
+    {
+      accessorKey: 'totalViews',
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
+      ),
+      size: COLUMN_SIZES.views,
+      cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
+      meta: {
+        priority: 'primary',
+        cardPosition: 'body',
+        mobileLabel: 'Views',
+      },
+    },
+    {
+      accessorKey: 'totalSessions',
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Sessions" className="text-right" />
+      ),
+      size: COLUMN_SIZES.sessions,
+      cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
+      meta: {
+        priority: 'primary',
+        cardPosition: 'body',
+        mobileLabel: 'Sessions',
+      },
+    },
+    {
+      accessorKey: 'sessionDuration',
+      header: ({ column, table }) => (
+        <DataTableColumnHeader column={column} table={table} title="Duration" className="text-right" />
+      ),
+      size: COLUMN_SIZES.duration,
+      cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
+      meta: {
+        priority: 'primary',
+        cardPosition: 'body',
+        mobileLabel: 'Duration',
+      },
+    },
+    {
+      accessorKey: 'lastVisit',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
+      cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
+      meta: {
+        priority: 'primary',
+        cardPosition: 'header',
+        mobileLabel: 'Last Visit',
+      },
+    },
+    // Hidden by default columns
     {
       accessorKey: 'referrer',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
@@ -258,45 +300,6 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
       meta: {
         priority: 'secondary',
         mobileLabel: 'Exit',
-      },
-    },
-    {
-      accessorKey: 'totalViews',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
-      ),
-      size: COLUMN_SIZES.views,
-      cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
-      meta: {
-        priority: 'primary',
-        cardPosition: 'body',
-        mobileLabel: 'Views',
-      },
-    },
-    {
-      accessorKey: 'totalSessions',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Sessions" className="text-right" />
-      ),
-      size: COLUMN_SIZES.sessions,
-      cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
-      meta: {
-        priority: 'primary',
-        cardPosition: 'body',
-        mobileLabel: 'Sessions',
-      },
-    },
-    {
-      accessorKey: 'sessionDuration',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Duration" className="text-right" />
-      ),
-      size: COLUMN_SIZES.duration,
-      cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
-      meta: {
-        priority: 'primary',
-        cardPosition: 'body',
-        mobileLabel: 'Duration',
       },
     },
     {
