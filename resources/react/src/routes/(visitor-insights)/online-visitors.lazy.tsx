@@ -29,7 +29,7 @@ import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insig
 import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
 
 const CONTEXT = 'online_visitors_data_table'
-const DEFAULT_HIDDEN_COLUMNS: string[] = []
+const DEFAULT_HIDDEN_COLUMNS: string[] = ['entryPage', 'lastVisit']
 
 // Column configuration for this page
 const COLUMN_CONFIG: ColumnConfig = {
@@ -180,6 +180,17 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
     },
   },
   {
+    accessorKey: 'page',
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
+    enableSorting: false,
+    cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
+    meta: {
+      priority: 'primary',
+      cardPosition: 'header',
+      mobileLabel: 'Page',
+    },
+  },
+  {
     accessorKey: 'onlineFor',
     header: ({ column, table }) => (
       <DataTableColumnHeader column={column} table={table} title="Online" className="text-right" />
@@ -190,17 +201,6 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
       priority: 'primary',
       cardPosition: 'body',
       mobileLabel: 'Online',
-    },
-  },
-  {
-    accessorKey: 'page',
-    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
-    enableSorting: false,
-    cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
-    meta: {
-      priority: 'primary',
-      cardPosition: 'header',
-      mobileLabel: 'Page',
     },
   },
   {
@@ -216,6 +216,25 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
       mobileLabel: 'Views',
     },
   },
+  {
+    accessorKey: 'referrer',
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
+    enableSorting: false,
+    cell: ({ row }) => (
+      <ReferrerCell
+        data={{
+          domain: row.original.referrerDomain,
+          category: row.original.referrerCategory,
+        }}
+        maxLength={25}
+      />
+    ),
+    meta: {
+      priority: 'secondary',
+      mobileLabel: 'Referrer',
+    },
+  },
+  // Hidden by default
   {
     accessorKey: 'entryPage',
     header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
@@ -237,24 +256,6 @@ const createColumns = (config: VisitorInfoConfig): ColumnDef<OnlineVisitor>[] =>
     meta: {
       priority: 'secondary',
       mobileLabel: 'Entry',
-    },
-  },
-  {
-    accessorKey: 'referrer',
-    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
-    enableSorting: false,
-    cell: ({ row }) => (
-      <ReferrerCell
-        data={{
-          domain: row.original.referrerDomain,
-          category: row.original.referrerCategory,
-        }}
-        maxLength={25}
-      />
-    ),
-    meta: {
-      priority: 'secondary',
-      mobileLabel: 'Referrer',
     },
   },
   {
