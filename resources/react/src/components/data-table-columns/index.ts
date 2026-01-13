@@ -7,6 +7,7 @@
 
 // Types
 export type { PageData, ReferrerData, VisitorInfoConfig, VisitorInfoData } from './types'
+export type { LocationData } from './cells/location-cell'
 
 // Cell Components
 export { DurationCell } from './cells/duration-cell'
@@ -18,6 +19,7 @@ export { PageCell } from './cells/page-cell'
 export { ReferrerCell } from './cells/referrer-cell'
 export { StatusCell } from './cells/status-cell'
 export { VisitorInfoCell } from './cells/visitor-info-cell'
+export { LocationCell } from './cells/location-cell'
 
 // Helpers
-export { createVisitorInfoData, type BaseVisitorFields } from './helpers'
+export { createVisitorInfoData, createLocationData, type BaseVisitorFields } from './helpers'

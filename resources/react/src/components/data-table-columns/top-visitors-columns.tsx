@@ -8,10 +8,12 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { type Filter, getOperatorDisplay } from '@/components/custom/filter-button'
 import {
+  createLocationData,
   createVisitorInfoData,
   DurationCell,
   EntryPageCell,
   LastVisitCell,
+  LocationCell,
   NumericCell,
   PageCell,
   ReferrerCell,
@@ -34,6 +36,7 @@ export const TOP_VISITORS_CONTEXT = 'top_visitors_data_table'
  * Columns hidden by default
  */
 export const TOP_VISITORS_DEFAULT_HIDDEN_COLUMNS = [
+  'location',
   'referrer',
   'entryPage',
   'exitPage',
@@ -72,6 +75,7 @@ export const TOP_VISITORS_COLUMN_CONFIG: ColumnConfig = {
     viewsPerSession: ['pages_per_session'],
     bounceRate: ['bounce_rate'],
     visitorStatus: ['visitor_status', 'first_visit'],
+    location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
   context: TOP_VISITORS_CONTEXT,
 }
@@ -193,6 +197,18 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
         priority: 'primary',
         cardPosition: 'header',
         mobileLabel: 'Visitor',
+      },
+    },
+    {
+      accessorKey: 'location',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Location" />,
+      size: COLUMN_SIZES.location,
+      enableSorting: false,
+      enableHiding: true,
+      cell: ({ row }) => <LocationCell data={createLocationData(row.original)} pluginUrl={config.pluginUrl} />,
+      meta: {
+        priority: 'secondary',
+        mobileLabel: 'Location',
       },
     },
     {

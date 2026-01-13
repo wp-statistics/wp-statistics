@@ -9,10 +9,12 @@ import { DataTableColumnHeader } from '@/components/custom/data-table-column-hea
 import {
   EntryPageCell,
   LastVisitCell,
+  LocationCell,
   NumericCell,
   PageCell,
   ReferrerCell,
   VisitorInfoCell,
+  type LocationData,
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
@@ -29,7 +31,7 @@ export const VIEWS_CONTEXT = 'views_data_table'
  * Columns hidden by default
  * entryPage is hidden as it's redundant with the page column
  */
-export const VIEWS_DEFAULT_HIDDEN_COLUMNS: string[] = ['entryPage']
+export const VIEWS_DEFAULT_HIDDEN_COLUMNS: string[] = ['location', 'entryPage']
 
 /**
  * Column configuration for API column optimization
@@ -56,6 +58,7 @@ export const VIEWS_COLUMN_CONFIG: ColumnConfig = {
     referrer: ['referrer_domain', 'referrer_channel'],
     entryPage: ['entry_page', 'entry_page_title'],
     totalViews: ['total_views'],
+    location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
   context: VIEWS_CONTEXT,
 }
@@ -200,6 +203,27 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         priority: 'primary',
         cardPosition: 'header',
         mobileLabel: 'Visitor',
+      },
+    },
+    {
+      accessorKey: 'location',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Location" />,
+      size: COLUMN_SIZES.location,
+      enableSorting: false,
+      enableHiding: true,
+      cell: ({ row }) => {
+        const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
+        const locationData: LocationData = {
+          countryCode: visitorInfo.country.code,
+          countryName: visitorInfo.country.name,
+          regionName: visitorInfo.country.region || undefined,
+          cityName: visitorInfo.country.city || undefined,
+        }
+        return <LocationCell data={locationData} pluginUrl={config.pluginUrl} />
+      },
+      meta: {
+        priority: 'secondary',
+        mobileLabel: 'Location',
       },
     },
     {

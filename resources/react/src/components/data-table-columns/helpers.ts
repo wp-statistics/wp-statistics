@@ -3,6 +3,7 @@
  * Reduces duplication in column files by providing common data transformations.
  */
 
+import type { LocationData } from './cells/location-cell'
 import type { VisitorInfoData } from './types'
 
 /**
@@ -74,5 +75,18 @@ export function createVisitorInfoData(visitor: BaseVisitorFields): VisitorInfoDa
           }
         : undefined,
     identifier: visitor.hash || visitor.ipAddress,
+  }
+}
+
+/**
+ * Creates the data object for LocationCell from visitor fields.
+ * Uses smart fallback: city > region > country only.
+ */
+export function createLocationData(visitor: BaseVisitorFields): LocationData {
+  return {
+    countryCode: visitor.countryCode,
+    countryName: visitor.country,
+    regionName: visitor.region || undefined,
+    cityName: visitor.city || undefined,
   }
 }

@@ -8,9 +8,11 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { type Filter, getOperatorDisplay, type FilterField } from '@/components/custom/filter-button'
 import {
+  createLocationData,
   createVisitorInfoData,
   EntryPageCell,
   LastVisitCell,
+  LocationCell,
   NumericCell,
   PageCell,
   ReferrerCell,
@@ -32,7 +34,7 @@ export const LOGGED_IN_USERS_CONTEXT = 'logged_in_users_data_table'
  * Columns hidden by default
  * entryPage is hidden as it's redundant with the page column
  */
-export const LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS: string[] = ['entryPage']
+export const LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS: string[] = ['location', 'entryPage']
 
 /**
  * Column configuration for API column optimization
@@ -59,6 +61,7 @@ export const LOGGED_IN_USERS_COLUMN_CONFIG: ColumnConfig = {
     referrer: ['referrer_domain', 'referrer_channel'],
     entryPage: ['entry_page', 'entry_page_title'],
     totalViews: ['total_views'],
+    location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
   context: LOGGED_IN_USERS_CONTEXT,
 }
@@ -163,6 +166,18 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
       enableSorting: false,
       cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
+    },
+    {
+      accessorKey: 'location',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Location" />,
+      size: COLUMN_SIZES.location,
+      enableSorting: false,
+      enableHiding: true,
+      cell: ({ row }) => <LocationCell data={createLocationData(row.original)} pluginUrl={config.pluginUrl} />,
+      meta: {
+        priority: 'secondary',
+        mobileLabel: 'Location',
+      },
     },
     {
       accessorKey: 'lastVisit',
