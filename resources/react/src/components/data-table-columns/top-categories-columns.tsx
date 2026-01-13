@@ -9,7 +9,7 @@ import { ExternalLink } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
-import { DurationCell, NumericCell, ViewPageCell } from '@/components/data-table-columns'
+import { DurationCell, NumericCell } from '@/components/data-table-columns'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
@@ -29,16 +29,15 @@ export const TOP_CATEGORIES_DEFAULT_HIDDEN_COLUMNS: string[] = ['viewsPerContent
  * Column configuration for API column optimization
  */
 export const TOP_CATEGORIES_COLUMN_CONFIG: ColumnConfig = {
-  baseColumns: ['term_id', 'term_name', 'term_slug', 'taxonomy_type'],
+  baseColumns: ['term_id', 'term_name', 'term_slug', 'taxonomy_type', 'term_link'],
   columnDependencies: {
-    termName: ['term_id', 'term_name', 'term_slug', 'taxonomy_type', 'taxonomy_label'],
+    termName: ['term_id', 'term_name', 'term_slug', 'taxonomy_type', 'taxonomy_label', 'term_link'],
     visitors: ['visitors'],
     views: ['views'],
     published: ['published_content'],
     viewsPerContent: ['views', 'published_content'],
     bounceRate: ['bounce_rate'],
     timeOnPage: ['avg_time_on_page'],
-    viewPage: ['term_link'],
   },
   context: TOP_CATEGORIES_CONTEXT,
 }
@@ -87,9 +86,19 @@ export function transformTopCategoryData(record: TopCategoryRecord): TopCategory
 }
 
 /**
- * Term Name Cell - Links to Individual Category page
+ * Term Name Cell - Links to Individual Category page with optional external link on hover
  */
-function TermNameCell({ termId, termName, maxLength = 35 }: { termId: number; termName: string; maxLength?: number }) {
+function TermNameCell({
+  termId,
+  termName,
+  termLink,
+  maxLength = 35,
+}: {
+  termId: number
+  termName: string
+  termLink?: string
+  maxLength?: number
+}) {
   const truncatedName = termName.length > maxLength ? `${termName.substring(0, maxLength - 3)}...` : termName
   const needsTruncation = termName.length > maxLength
 
@@ -103,18 +112,36 @@ function TermNameCell({ termId, termName, maxLength = 35 }: { termId: number; te
     </Link>
   )
 
-  if (needsTruncation) {
-    return (
-      <div className="max-w-[200px]">
+  const content = (
+    <div className="group flex items-center gap-2">
+      {needsTruncation ? (
         <Tooltip>
           <TooltipTrigger asChild>{linkContent}</TooltipTrigger>
           <TooltipContent>{termName}</TooltipContent>
         </Tooltip>
-      </div>
-    )
-  }
+      ) : (
+        linkContent
+      )}
+      {termLink && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <a
+              href={termLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-neutral-400 hover:text-neutral-600"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          </TooltipTrigger>
+          <TooltipContent>{__('View term archive', 'wp-statistics')}</TooltipContent>
+        </Tooltip>
+      )}
+    </div>
+  )
 
-  return <div className="max-w-[200px]">{linkContent}</div>
+  return <div className="max-w-[200px]">{content}</div>
 }
 
 /**
@@ -127,7 +154,9 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
       header: ({ column, table }) => (
         <DataTableColumnHeader column={column} table={table} title={__('Term Name', 'wp-statistics')} />
       ),
-      cell: ({ row }) => <TermNameCell termId={row.original.termId} termName={row.original.termName} />,
+      cell: ({ row }) => (
+        <TermNameCell termId={row.original.termId} termName={row.original.termName} termLink={row.original.termLink} />
+      ),
       meta: {
         priority: 'primary',
         cardPosition: 'header',
@@ -241,30 +270,6 @@ export function createTopCategoriesColumns(): ColumnDef<TopCategory>[] {
       meta: {
         priority: 'secondary',
         mobileLabel: __('Time', 'wp-statistics'),
-      },
-    },
-    {
-      accessorKey: 'viewPage',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('View Page', 'wp-statistics')} className="sr-only" />
-      ),
-      size: 50,
-      enableSorting: false,
-      cell: ({ row }) =>
-        row.original.termLink ? (
-          <a
-            href={row.original.termLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center text-muted-foreground hover:text-foreground"
-            title={__('View term archive', 'wp-statistics')}
-          >
-            <ExternalLink className="h-4 w-4" />
-          </a>
-        ) : null,
-      meta: {
-        priority: 'primary',
-        mobileLabel: __('View Page', 'wp-statistics'),
       },
     },
   ]

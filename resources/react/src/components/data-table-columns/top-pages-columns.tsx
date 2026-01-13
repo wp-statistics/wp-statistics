@@ -6,7 +6,7 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
-import { DurationCell, NumericCell, PageCell, ViewPageCell } from '@/components/data-table-columns'
+import { DurationCell, NumericCell, PageCell } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import type { TopPageRecord } from '@/services/page-insight/get-top-pages'
@@ -33,7 +33,6 @@ export const TOP_PAGES_COLUMN_CONFIG: ColumnConfig = {
     viewsPerVisitor: ['visitors', 'views'],
     bounceRate: ['bounce_rate'],
     sessionDuration: ['avg_time_on_page'],
-    viewPage: ['page_uri'],
   },
   context: TOP_PAGES_CONTEXT,
 }
@@ -88,6 +87,7 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
             url: row.original.pageUri,
           }}
           maxLength={40}
+          externalUrl={row.original.pageUri}
         />
       ),
       enableSorting: false,
@@ -160,19 +160,6 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
       meta: {
         priority: 'secondary',
         mobileLabel: 'Time on Page',
-      },
-    },
-    {
-      accessorKey: 'viewPage',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="View Page" className="sr-only" />
-      ),
-      size: 50,
-      enableSorting: false,
-      cell: ({ row }) => <ViewPageCell url={row.original.pageUri} />,
-      meta: {
-        priority: 'primary',
-        mobileLabel: 'View Page',
       },
     },
   ]

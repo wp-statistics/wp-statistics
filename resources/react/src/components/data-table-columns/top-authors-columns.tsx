@@ -30,16 +30,15 @@ export const TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS: string[] = ['viewsPerContent', 
  * Column configuration for API column optimization
  */
 export const TOP_AUTHORS_COLUMN_CONFIG: ColumnConfig = {
-  baseColumns: ['author_id', 'author_name'],
+  baseColumns: ['author_id', 'author_name', 'author_posts_url'],
   columnDependencies: {
-    authorName: ['author_id', 'author_name', 'author_avatar'],
+    authorName: ['author_id', 'author_name', 'author_avatar', 'author_posts_url'],
     visitors: ['visitors'],
     views: ['views'],
     published: ['published_content'],
     viewsPerContent: ['views', 'published_content'],
     bounceRate: ['bounce_rate'],
     timeOnPage: ['avg_time_on_page'],
-    viewPage: ['author_posts_url'],
   },
   context: TOP_AUTHORS_CONTEXT,
 }
@@ -84,27 +83,29 @@ export function transformTopAuthorData(record: TopAuthorRecord): TopAuthor {
 }
 
 /**
- * Author Name Cell - Shows avatar and links to Individual Author page
+ * Author Name Cell - Shows avatar and links to Individual Author page with optional external link on hover
  */
 function AuthorNameCell({
   authorId,
   authorName,
   authorAvatar,
+  authorPostsUrl,
   maxLength = 35,
 }: {
   authorId: number
   authorName: string
   authorAvatar: string
+  authorPostsUrl?: string
   maxLength?: number
 }) {
   const truncatedName = authorName.length > maxLength ? `${authorName.substring(0, maxLength - 3)}...` : authorName
   const needsTruncation = authorName.length > maxLength
 
-  const content = (
+  const linkContent = (
     <Link
       to="/individual-author"
       search={{ author_id: authorId }}
-      className="flex items-center gap-2 text-xs text-neutral-700 hover:text-primary no-underline group"
+      className="flex items-center gap-2 text-xs text-neutral-700 hover:text-primary no-underline"
     >
       <Avatar className="h-8 w-8 flex-shrink-0">
         <AvatarImage src={authorAvatar} alt={authorName} />
@@ -112,20 +113,38 @@ function AuthorNameCell({
           <User className="h-4 w-4" />
         </AvatarFallback>
       </Avatar>
-      <span className="truncate group-hover:underline">{truncatedName}</span>
+      <span className="truncate hover:underline">{truncatedName}</span>
     </Link>
   )
 
-  if (needsTruncation) {
-    return (
-      <div className="max-w-[200px]">
+  const content = (
+    <div className="group flex items-center gap-2">
+      {needsTruncation ? (
         <Tooltip>
-          <TooltipTrigger asChild>{content}</TooltipTrigger>
+          <TooltipTrigger asChild>{linkContent}</TooltipTrigger>
           <TooltipContent>{authorName}</TooltipContent>
         </Tooltip>
-      </div>
-    )
-  }
+      ) : (
+        linkContent
+      )}
+      {authorPostsUrl && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <a
+              href={authorPostsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-neutral-400 hover:text-neutral-600"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          </TooltipTrigger>
+          <TooltipContent>{__('View author posts', 'wp-statistics')}</TooltipContent>
+        </Tooltip>
+      )}
+    </div>
+  )
 
   return <div className="max-w-[200px]">{content}</div>
 }
@@ -145,6 +164,7 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
           authorId={row.original.authorId}
           authorName={row.original.authorName}
           authorAvatar={row.original.authorAvatar}
+          authorPostsUrl={row.original.authorPostsUrl}
         />
       ),
       meta: {
@@ -260,30 +280,6 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
       meta: {
         priority: 'secondary',
         mobileLabel: __('Time', 'wp-statistics'),
-      },
-    },
-    {
-      accessorKey: 'viewPage',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('View Page', 'wp-statistics')} className="sr-only" />
-      ),
-      size: 50,
-      enableSorting: false,
-      cell: ({ row }) =>
-        row.original.authorPostsUrl ? (
-          <a
-            href={row.original.authorPostsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center text-muted-foreground hover:text-foreground"
-            title={__('View author posts', 'wp-statistics')}
-          >
-            <ExternalLink className="h-4 w-4" />
-          </a>
-        ) : null,
-      meta: {
-        priority: 'primary',
-        mobileLabel: __('View Page', 'wp-statistics'),
       },
     },
   ]
