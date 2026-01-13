@@ -103,9 +103,9 @@ export function DataTableColumnToggle<TData>({
 
   // Helper to get display label from column
   const getColumnLabel = React.useCallback(
-    (column: { id: string; columnDef: { meta?: { mobileLabel?: string } } }): string => {
-      const meta = column.columnDef.meta as { mobileLabel?: string } | undefined
-      return meta?.mobileLabel || column.id
+    (column: { id: string; columnDef: { meta?: { title?: string; mobileLabel?: string } } }): string => {
+      const meta = column.columnDef.meta as { title?: string; mobileLabel?: string } | undefined
+      return meta?.title || meta?.mobileLabel || column.id
     },
     []
   )

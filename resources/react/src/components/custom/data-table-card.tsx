@@ -50,6 +50,7 @@ export function DataTableCard<TData>({ row, columns, isExpanded, onToggleExpand 
   // Get column header text
   const getColumnHeader = (column: ColumnDef<TData, unknown>): string => {
     if (column.meta?.mobileLabel) return column.meta.mobileLabel
+    if (column.meta?.title) return column.meta.title
     if (typeof column.header === 'string') return column.header
     return (column as { accessorKey?: string }).accessorKey || ''
   }

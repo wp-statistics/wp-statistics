@@ -114,7 +114,7 @@ export function DataTable<TData, TValue>({
         label:
           typeof col.header === 'string'
             ? col.header
-            : col.meta?.mobileLabel || (col as { accessorKey?: string }).accessorKey || col.id || '',
+            : col.meta?.title || col.meta?.mobileLabel || (col as { accessorKey?: string }).accessorKey || col.id || '',
       }))
       .filter((col) => col.id)
   }, [columns])

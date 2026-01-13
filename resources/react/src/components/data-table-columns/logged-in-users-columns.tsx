@@ -163,44 +163,54 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
     // Primary columns - visible by default
     {
       accessorKey: 'visitorInfo',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       enableSorting: false,
       cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
+      meta: {
+        title: 'Visitor Info',
+      },
     },
     {
       accessorKey: 'location',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Location" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.location,
       enableSorting: false,
       enableHiding: true,
       cell: ({ row }) => <LocationCell data={createLocationData(row.original)} pluginUrl={config.pluginUrl} />,
       meta: {
+        title: 'Location',
         priority: 'secondary',
-        mobileLabel: 'Location',
       },
     },
     {
       accessorKey: 'lastVisit',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
+      meta: {
+        title: 'Last Visit',
+      },
     },
     {
       accessorKey: 'page',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       enableSorting: false,
       cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
+      meta: {
+        title: 'Page',
+      },
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
+      meta: {
+        title: 'Views',
+      },
     },
     {
       accessorKey: 'referrer',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       enableSorting: false,
       cell: ({ row }) => (
         <ReferrerCell
@@ -211,11 +221,14 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
           maxLength={25}
         />
       ),
+      meta: {
+        title: 'Referrer',
+      },
     },
     // Hidden by default
     {
       accessorKey: 'entryPage',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       enableSorting: false,
       cell: ({ row }) => {
         const user = row.original
@@ -230,6 +243,9 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
             maxLength={35}
           />
         )
+      },
+      meta: {
+        title: 'Entry Page',
       },
     },
   ]

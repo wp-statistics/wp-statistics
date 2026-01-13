@@ -165,7 +165,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
     // Primary columns - visible by default
     {
       accessorKey: 'visitorInfo',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Visitor Info" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.visitorInfo,
       enableSorting: false,
       cell: ({ row }) => {
@@ -200,6 +200,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         )
       },
       meta: {
+        title: 'Visitor Info',
         priority: 'primary',
         cardPosition: 'header',
         mobileLabel: 'Visitor',
@@ -207,7 +208,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
     },
     {
       accessorKey: 'location',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Location" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.location,
       enableSorting: false,
       enableHiding: true,
@@ -222,13 +223,13 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         return <LocationCell data={locationData} pluginUrl={config.pluginUrl} />
       },
       meta: {
+        title: 'Location',
         priority: 'secondary',
-        mobileLabel: 'Location',
       },
     },
     {
       accessorKey: 'page',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.page,
       enableSorting: false,
       cell: ({ row }) => {
@@ -236,38 +237,36 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         return <PageCell data={{ title: page.title, url: page.url }} maxLength={35} />
       },
       meta: {
+        title: 'Page',
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: 'Page',
       },
     },
     {
       accessorKey: 'lastVisit',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Last Visit" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.lastVisit,
       cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
       meta: {
+        title: 'Last Visit',
         priority: 'primary',
         cardPosition: 'header',
-        mobileLabel: 'Last Visit',
       },
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
       meta: {
+        title: 'Views',
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: 'Views',
       },
     },
     {
       accessorKey: 'referrer',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Referrer" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.referrer,
       enableSorting: false,
       cell: ({ row }) => {
@@ -283,14 +282,14 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         )
       },
       meta: {
+        title: 'Referrer',
         priority: 'secondary',
-        mobileLabel: 'Referrer',
       },
     },
     // Hidden by default
     {
       accessorKey: 'entryPage',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Entry Page" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.entryPage,
       enableSorting: false,
       cell: ({ row }) => {
@@ -309,6 +308,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         )
       },
       meta: {
+        title: 'Entry Page',
         priority: 'secondary',
         mobileLabel: 'Entry',
       },
