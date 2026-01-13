@@ -25,7 +25,7 @@ import { formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getLoggedInUsersBatchQueryOptions } from '@/services/visitor-insight/get-logged-in-users-batch'
 
-const PER_PAGE = 50
+const PER_PAGE = 25
 
 // Determine group_by based on timeframe
 const getGroupBy = (timeframe: 'daily' | 'weekly' | 'monthly'): 'date' | 'week' | 'month' => {
