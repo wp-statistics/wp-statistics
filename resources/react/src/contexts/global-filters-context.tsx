@@ -530,6 +530,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     lastSyncedRef.current = currentState
 
     navigate({
+      to: '.', // Stay on current route
       search: (prev) => {
         // Remove old filter keys (both bracket notation and legacy JSON format)
         const cleaned = Object.fromEntries(
@@ -689,6 +690,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
     // Clear URL params (including bracket notation filter keys)
     navigate({
+      to: '.', // Stay on current route
       search: (prev) => {
         // Remove date params, legacy filters, page, and all bracket notation filter keys
         return Object.fromEntries(

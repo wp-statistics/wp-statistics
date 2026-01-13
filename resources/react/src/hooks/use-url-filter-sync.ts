@@ -149,6 +149,7 @@ export function useUrlFilterSync({
     lastSyncedFiltersRef.current = serialized
 
     navigate({
+      to: '.', // Stay on current route
       search: (prev) => {
         // Remove old filter keys (both bracket notation and legacy JSON format)
         const cleaned = Object.fromEntries(
