@@ -136,4 +136,8 @@ export class WordPress {
   public getDateFormat(): string {
     return this.data.globals.dateFormat || 'Y-m-d'
   }
+
+  public getStartOfWeek(): number {
+    return this.data.globals.startOfWeek ?? 0
+  }
 }

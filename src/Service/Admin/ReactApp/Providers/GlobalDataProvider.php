@@ -44,6 +44,7 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             ],
             'currentPage'           => isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '',
             'dateFormat'            => get_option('date_format', 'Y-m-d'),
+            'startOfWeek'           => (int) get_option('start_of_week', 0),
         ];
 
         /**

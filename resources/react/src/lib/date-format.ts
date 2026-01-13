@@ -83,8 +83,8 @@ export interface DateFieldConfig {
 }
 
 export function getFieldConfigs(order: DateFieldOrder): DateFieldConfig[] {
-  const dayConfig: DateFieldConfig = { field: 'day', maxLength: 2, placeholder: 'D', width: 'w-7' }
-  const monthConfig: DateFieldConfig = { field: 'month', maxLength: 2, placeholder: 'M', width: 'w-6' }
+  const dayConfig: DateFieldConfig = { field: 'day', maxLength: 2, placeholder: 'D', width: 'w-8' }
+  const monthConfig: DateFieldConfig = { field: 'month', maxLength: 2, placeholder: 'M', width: 'w-7' }
   const yearConfig: DateFieldConfig = { field: 'year', maxLength: 4, placeholder: 'YYYY', width: 'w-12' }
 
   switch (order) {

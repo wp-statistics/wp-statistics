@@ -198,6 +198,7 @@ declare global {
       userCountry?: string
       userCountryName?: string
       dateFormat: string
+      startOfWeek: number // 0 = Sunday, 1 = Monday, etc.
     }
     header: Record<
       string,

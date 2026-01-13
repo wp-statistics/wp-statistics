@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
 
 export interface DateRange {
   from: Date
@@ -71,19 +72,22 @@ export interface Preset {
 export const PRESETS: Preset[] = [
   { name: 'today', label: 'Today' },
   { name: 'yesterday', label: 'Yesterday' },
-  { name: 'lastWeek', label: 'Last Week' },
-  { name: 'last14', label: 'Last 14 days' },
+  { name: 'thisWeek', label: 'This week' },
+  { name: 'last7', label: 'Last 7 days' },
+  { name: 'lastWeek', label: 'Last week' },
+  { name: 'last28', label: 'Last 28 days' },
   { name: 'last30', label: 'Last 30 days' },
-  { name: 'lastMonth', label: 'Last Month' },
-  { name: 'last3months', label: 'Last 3 Months' },
-  { name: 'last6months', label: 'Last 6 Months' },
-  { name: 'lastYear', label: 'Last Year' },
+  { name: 'thisMonth', label: 'This month' },
+  { name: 'lastMonth', label: 'Last month' },
+  { name: 'last90', label: 'Last 90 days' },
+  { name: 'quarterToDate', label: 'Quarter to date' },
+  { name: 'thisYear', label: 'This year' },
 ]
 
 /**
  * Comparison mode types for period-over-period comparison.
  */
-export type ComparisonMode = 'previous_period' | 'previous_period_dow' | 'same_period_last_year' | 'custom'
+export type ComparisonMode = 'previous_period' | 'previous_period_dow' | 'same_period_last_month' | 'custom'
 
 export interface ComparisonModeOption {
   name: ComparisonMode
@@ -93,7 +97,7 @@ export interface ComparisonModeOption {
 export const COMPARISON_MODES: ComparisonModeOption[] = [
   { name: 'previous_period', label: 'Previous period' },
   { name: 'previous_period_dow', label: 'Previous period (match day of week)' },
-  { name: 'same_period_last_year', label: 'Same period last year' },
+  { name: 'same_period_last_month', label: 'Same period last month' },
   { name: 'custom', label: 'Custom' },
 ]
 
@@ -139,12 +143,12 @@ export const calculateComparisonRange = (range: DateRange, mode: ComparisonMode)
       return { from: prevFrom, to: prevTo }
     }
 
-    case 'same_period_last_year': {
-      // Exact dates last year
+    case 'same_period_last_month': {
+      // Exact dates one month ago
       const prevFrom = new Date(from)
-      prevFrom.setFullYear(prevFrom.getFullYear() - 1)
+      prevFrom.setMonth(prevFrom.getMonth() - 1)
       const prevTo = new Date(to)
-      prevTo.setFullYear(prevTo.getFullYear() - 1)
+      prevTo.setMonth(prevTo.getMonth() - 1)
       return { from: prevFrom, to: prevTo }
     }
 
@@ -162,61 +166,117 @@ export const calculateComparisonRange = (range: DateRange, mode: ComparisonMode)
 export const getPresetRange = (presetName: string): DateRange => {
   const preset = PRESETS.find(({ name }) => name === presetName)
   if (!preset) throw new Error(`Unknown date range preset: ${presetName}`)
+
+  const startOfWeek = WordPress.getInstance().getStartOfWeek()
   const from = new Date()
   const to = new Date()
 
   switch (preset.name) {
     case 'today':
-      from.setHours(0, 0, 0, 0)
-      to.setHours(23, 59, 59, 999)
+      // Today only
       break
+
     case 'yesterday':
       from.setDate(from.getDate() - 1)
-      from.setHours(0, 0, 0, 0)
       to.setDate(to.getDate() - 1)
-      to.setHours(23, 59, 59, 999)
       break
-    case 'lastWeek':
-      from.setDate(from.getDate() - 7 - from.getDay())
-      to.setDate(to.getDate() - to.getDay() - 1)
-      from.setHours(0, 0, 0, 0)
-      to.setHours(23, 59, 59, 999)
+
+    case 'thisWeek': {
+      // From start of current week to today
+      const daysSinceWeekStart = (from.getDay() - startOfWeek + 7) % 7
+      from.setDate(from.getDate() - daysSinceWeekStart)
       break
-    case 'last14':
-      from.setDate(from.getDate() - 13)
-      from.setHours(0, 0, 0, 0)
-      to.setHours(23, 59, 59, 999)
+    }
+
+    case 'last7':
+      // Last 7 days including today
+      from.setDate(from.getDate() - 6)
       break
+
+    case 'lastWeek': {
+      // Full previous week (start to end based on startOfWeek)
+      const currentDayOfWeek = to.getDay()
+      const daysToLastWeekEnd = (currentDayOfWeek - startOfWeek + 7) % 7 + 1
+      to.setDate(to.getDate() - daysToLastWeekEnd)
+      from.setDate(to.getDate() - 6)
+      break
+    }
+
+    case 'last28':
+      // Last 28 days including today
+      from.setDate(from.getDate() - 27)
+      break
+
     case 'last30':
+      // Last 30 days including today
       from.setDate(from.getDate() - 29)
-      from.setHours(0, 0, 0, 0)
-      to.setHours(23, 59, 59, 999)
       break
+
+    case 'thisMonth':
+      // First day of current month to today
+      from.setDate(1)
+      break
+
     case 'lastMonth':
+      // Full previous month
       from.setMonth(from.getMonth() - 1)
       from.setDate(1)
-      from.setHours(0, 0, 0, 0)
-      to.setDate(0)
-      to.setHours(23, 59, 59, 999)
+      to.setDate(0) // Last day of previous month
       break
-    case 'last3months':
-      from.setMonth(from.getMonth() - 3)
-      from.setHours(0, 0, 0, 0)
-      to.setHours(23, 59, 59, 999)
+
+    case 'last90':
+      // Last 90 days including today
+      from.setDate(from.getDate() - 89)
       break
-    case 'last6months':
-      from.setMonth(from.getMonth() - 6)
-      from.setHours(0, 0, 0, 0)
-      to.setHours(23, 59, 59, 999)
+
+    case 'quarterToDate': {
+      // First day of current quarter to today
+      const quarter = Math.floor(from.getMonth() / 3)
+      from.setMonth(quarter * 3, 1)
       break
-    case 'lastYear':
-      from.setFullYear(from.getFullYear() - 1)
-      from.setHours(0, 0, 0, 0)
-      to.setHours(23, 59, 59, 999)
+    }
+
+    case 'thisYear':
+      // Jan 1 of current year to today
+      from.setMonth(0, 1)
       break
   }
 
+  from.setHours(0, 0, 0, 0)
+  to.setHours(23, 59, 59, 999)
   return { from, to }
+}
+
+/**
+ * Get day name abbreviation from day index (0 = Sunday, 1 = Monday, etc.)
+ */
+const getDayName = (dayIndex: number): string => {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  return days[dayIndex]
+}
+
+/**
+ * Get dynamic label for a preset (shows day names based on WordPress start of week setting).
+ */
+export const getPresetLabel = (presetName: string): string => {
+  const preset = PRESETS.find(({ name }) => name === presetName)
+  if (!preset) return ''
+
+  const startOfWeek = WordPress.getInstance().getStartOfWeek()
+  const endOfWeek = (startOfWeek + 6) % 7
+  const startDay = getDayName(startOfWeek)
+  const endDay = getDayName(endOfWeek)
+
+  switch (preset.name) {
+    case 'thisWeek':
+      return `This week (${startDay}-Today)`
+    case 'lastWeek':
+      return `Last week (${startDay}-${endDay})`
+    case 'thisYear':
+      return 'This year (Jan - Today)'
+    default:
+      return preset.label
+  }
 }
 
 /**
@@ -507,7 +567,7 @@ export const DateRangePicker = ({
             {/* Preset badge */}
             {selectedPreset && (
               <span className="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-600 font-medium text-[11px]">
-                {PRESETS.find((p) => p.name === selectedPreset)?.label}
+                {getPresetLabel(selectedPreset)}
               </span>
             )}
 
@@ -535,14 +595,14 @@ export const DateRangePicker = ({
         <div className="flex">
           {/* Presets sidebar - LEFT side */}
           {!isSmallScreen && (
-            <div className="w-[150px] p-3 border-r border-neutral-100 bg-neutral-50/50">
+            <div className="w-[185px] p-3 border-r border-neutral-100 bg-neutral-50/50">
               <div className="flex flex-col gap-0.5">
                 {PRESETS.map((preset) => (
                   <button
                     key={preset.name}
                     type="button"
                     onClick={() => setPreset(preset.name)}
-                    aria-label={`Select date range: ${preset.label}`}
+                    aria-label={`Select date range: ${getPresetLabel(preset.name)}`}
                     aria-pressed={selectedPreset === preset.name}
                     className={cn(
                       'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors cursor-pointer',
@@ -559,7 +619,7 @@ export const DateRangePicker = ({
                           : 'border-neutral-300 bg-transparent'
                       )}
                     />
-                    {preset.label}
+                    {getPresetLabel(preset.name)}
                   </button>
                 ))}
               </div>
@@ -578,7 +638,7 @@ export const DateRangePicker = ({
                   <SelectContent>
                     {PRESETS.map((preset) => (
                       <SelectItem key={preset.name} value={preset.name} className="text-xs">
-                        {preset.label}
+                        {getPresetLabel(preset.name)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -598,7 +658,7 @@ export const DateRangePicker = ({
                 }}
                 onFocus={() => setActiveRangeTarget('main')}
                 className={cn(
-                  'h-9 text-sm flex-1 transition-shadow',
+                  'h-9 text-sm transition-shadow',
                   activeRangeTarget === 'main' && 'ring-2 ring-primary/30'
                 )}
               />
@@ -613,7 +673,7 @@ export const DateRangePicker = ({
                 }}
                 onFocus={() => setActiveRangeTarget('main')}
                 className={cn(
-                  'h-9 text-sm flex-1 transition-shadow',
+                  'h-9 text-sm transition-shadow',
                   activeRangeTarget === 'main' && 'ring-2 ring-primary/30'
                 )}
               />
@@ -675,7 +735,7 @@ export const DateRangePicker = ({
                       }}
                       onFocus={() => setActiveRangeTarget('compare')}
                       className={cn(
-                        'h-8 text-xs flex-1 transition-shadow',
+                        'h-8 text-xs transition-shadow',
                         activeRangeTarget === 'compare' && 'ring-2 ring-amber-500/30'
                       )}
                     />
@@ -695,7 +755,7 @@ export const DateRangePicker = ({
                       }}
                       onFocus={() => setActiveRangeTarget('compare')}
                       className={cn(
-                        'h-8 text-xs flex-1 transition-shadow',
+                        'h-8 text-xs transition-shadow',
                         activeRangeTarget === 'compare' && 'ring-2 ring-amber-500/30'
                       )}
                     />
