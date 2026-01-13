@@ -349,10 +349,10 @@ export function DataTable<TData, TValue>({
             <Loader2 className="h-5 w-5 animate-spin text-neutral-400" />
           </div>
         )}
-        <Table className="min-w-max">
+        <Table className={cn('min-w-max', stickyHeader && 'border-separate border-spacing-0')}>
           <TableHeader className={cn(stickyHeader && 'sticky top-0 z-10')}>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-t border-neutral-200 border-b-0 bg-white hover:bg-white">
+              <TableRow key={headerGroup.id} className="border-b-0 bg-white hover:bg-white">
                 {headerGroup.headers.map((header, index) => {
                   const size = header.column.columnDef.size
                   const align = (header.column.columnDef.meta as { align?: 'left' | 'right' | 'center' } | undefined)
@@ -361,9 +361,9 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       className={cn(
-                        'h-8 bg-white',
-                        index === 0 ? 'pl-4' : '',
-                        index === headerGroup.headers.length - 1 ? 'pr-4' : '',
+                        'h-8 bg-white border-t border-b border-neutral-200',
+                        index === 0 ? 'pl-4 border-l-0' : '',
+                        index === headerGroup.headers.length - 1 ? 'pr-4 border-r-0' : '',
                         align === 'right' && 'text-right',
                         align === 'center' && 'text-center'
                       )}
