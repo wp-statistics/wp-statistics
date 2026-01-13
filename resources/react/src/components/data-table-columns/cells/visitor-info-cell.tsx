@@ -51,8 +51,8 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
   const browserInfo = browser.version ? `${browser.name} ${browser.version}` : browser.name
   const tooltipContent = [locationText, browserInfo, os.name].filter(Boolean).join(' · ')
 
-  // Determine what to show
-  const showUserBadge = trackLoggedInEnabled && user
+  // Determine what to show - always show user badge if user exists (has user_id)
+  const showUserBadge = !!user
   const identifierDisplay = getIdentifierDisplay(identifier, hashEnabled)
 
   return (
