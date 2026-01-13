@@ -27,16 +27,20 @@ interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes
   column: Column<TData, TValue>
   header?: Header<TData, TValue>
   table?: Table<TData>
-  title: string
+  title?: string
 }
 
 export function DataTableColumnHeader<TData, TValue>({
   column,
   header: _header,
   table,
-  title,
+  title: titleProp,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
+  // Get title from meta.title (preferred) or fall back to prop
+  const meta = column.columnDef.meta as { title?: string } | undefined
+  const title = meta?.title || titleProp || column.id
+
   const isRTL = typeof document !== 'undefined' && (document.dir === 'rtl' || document.documentElement.dir === 'rtl')
   const isRightAlign = className?.includes('text-right')
   const canSort = column.getCanSort()

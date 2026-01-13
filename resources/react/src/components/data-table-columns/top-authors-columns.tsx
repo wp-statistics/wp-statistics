@@ -156,9 +156,7 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
   return [
     {
       accessorKey: 'authorName',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title={__('Author', 'wp-statistics')} />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       cell: ({ row }) => (
         <AuthorNameCell
           authorId={row.original.authorId}
@@ -168,81 +166,54 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
         />
       ),
       meta: {
+        title: __('Author', 'wp-statistics'),
         priority: 'primary',
         cardPosition: 'header',
-        mobileLabel: __('Author', 'wp-statistics'),
       },
     },
     {
       accessorKey: 'visitors',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader
-          column={column}
-          table={table}
-          title={__('Visitors', 'wp-statistics')}
-          className="text-right"
-        />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.visitors} />,
       meta: {
+        title: __('Visitors', 'wp-statistics'),
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: __('Visitors', 'wp-statistics'),
       },
     },
     {
       accessorKey: 'views',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader
-          column={column}
-          table={table}
-          title={__('Views', 'wp-statistics')}
-          className="text-right"
-        />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
       meta: {
+        title: __('Views', 'wp-statistics'),
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: __('Views', 'wp-statistics'),
       },
     },
     {
       accessorKey: 'published',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader
-          column={column}
-          table={table}
-          title={__('Published', 'wp-statistics')}
-          className="text-right"
-        />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.published} />,
       meta: {
+        title: __('Published', 'wp-statistics'),
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: __('Published', 'wp-statistics'),
       },
     },
     {
       accessorKey: 'viewsPerContent',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader
-          column={column}
-          table={table}
-          title={__('Views/Content', 'wp-statistics')}
-          className="text-right"
-        />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: 100,
       cell: ({ row }) => {
         const vpc = row.original.published > 0 ? row.original.views / row.original.published : 0
         return <NumericCell value={vpc} decimals={1} />
       },
       meta: {
+        title: __('Views/Content', 'wp-statistics'),
         priority: 'primary',
         cardPosition: 'body',
         mobileLabel: __('V/Content', 'wp-statistics'),
@@ -250,34 +221,22 @@ export function createTopAuthorsColumns(): ColumnDef<TopAuthor>[] {
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader
-          column={column}
-          table={table}
-          title={__('Bounce Rate', 'wp-statistics')}
-          className="text-right"
-        />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.bounceRate,
       cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
       meta: {
+        title: __('Bounce Rate', 'wp-statistics'),
         priority: 'secondary',
         mobileLabel: __('Bounce', 'wp-statistics'),
       },
     },
     {
       accessorKey: 'timeOnPage',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader
-          column={column}
-          table={table}
-          title={__('Time on Page', 'wp-statistics')}
-          className="text-right"
-        />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.timeOnPage} />,
       meta: {
+        title: __('Time on Page', 'wp-statistics'),
         priority: 'secondary',
         mobileLabel: __('Time', 'wp-statistics'),
       },

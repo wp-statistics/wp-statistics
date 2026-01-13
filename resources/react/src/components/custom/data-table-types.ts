@@ -3,8 +3,9 @@ export type ColumnPriority = 'primary' | 'secondary' | 'hidden'
 
 // Extended column meta for mobile display
 export interface DataTableColumnMeta {
+  title?: string // Column display title (single source of truth)
   priority?: ColumnPriority // Default: 'secondary'
-  mobileLabel?: string // Optional shorter label for mobile
+  mobileLabel?: string // Optional shorter label for mobile card display
   cardPosition?: 'header' | 'body' | 'footer' // Where to place in card
 }
 

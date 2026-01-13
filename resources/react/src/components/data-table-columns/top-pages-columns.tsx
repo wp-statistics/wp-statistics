@@ -79,7 +79,7 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
   return [
     {
       accessorKey: 'page',
-      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       cell: ({ row }) => (
         <PageCell
           data={{
@@ -92,72 +92,65 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
       ),
       enableSorting: false,
       meta: {
+        title: 'Page',
         priority: 'primary',
         cardPosition: 'header',
-        mobileLabel: 'Page',
       },
     },
     {
       accessorKey: 'visitors',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Visitors" className="text-right" />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.visitors} />,
       meta: {
+        title: 'Visitors',
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: 'Visitors',
       },
     },
     {
       accessorKey: 'views',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Views" className="text-right" />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
       meta: {
+        title: 'Views',
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: 'Views',
       },
     },
     {
       accessorKey: 'viewsPerVisitor',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Views/Visitor" className="text-right" />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: 90,
       cell: ({ row }) => {
         const vpv = row.original.visitors > 0 ? row.original.views / row.original.visitors : 0
         return <NumericCell value={vpv} decimals={1} />
       },
       meta: {
+        title: 'Views/Visitor',
         priority: 'secondary',
         mobileLabel: 'V/Visitor',
       },
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Bounce Rate" className="text-right" />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.bounceRate,
       cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
       meta: {
+        title: 'Bounce Rate',
         priority: 'secondary',
         mobileLabel: 'Bounce',
       },
     },
     {
       accessorKey: 'sessionDuration',
-      header: ({ column, table }) => (
-        <DataTableColumnHeader column={column} table={table} title="Avg. Time on Page" className="text-right" />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
       meta: {
+        title: 'Avg. Time on Page',
         priority: 'secondary',
         mobileLabel: 'Time on Page',
       },
