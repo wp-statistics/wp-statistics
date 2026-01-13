@@ -52,6 +52,13 @@ class VisitorGroupBy extends AbstractGroupBy
     ];
 
     /**
+     * Datetime fields that need UTC to site timezone conversion.
+     *
+     * @var array
+     */
+    protected $datetimeFields = ['first_visit', 'last_visit'];
+
+    /**
      * Get SELECT columns with attribution support.
      *
      * Returns base columns + attributed_session_id. The QueryExecutor will
@@ -179,7 +186,7 @@ class VisitorGroupBy extends AbstractGroupBy
     public function postProcess(array $rows, \wpdb $wpdb): array
     {
         if (empty($rows) || !isset($rows[0]['attributed_session_id'])) {
-            return $rows;
+            return $this->convertDatetimeFields($rows);
         }
 
         $sessionIds = array_filter(array_column($rows, 'attributed_session_id'));
@@ -194,7 +201,7 @@ class VisitorGroupBy extends AbstractGroupBy
             unset($row['attributed_session_id']);
         }
 
-        return $rows;
+        return $this->convertDatetimeFields($rows);
     }
 
     /**

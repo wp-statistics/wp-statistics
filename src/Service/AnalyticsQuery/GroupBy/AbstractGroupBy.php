@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
 
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\GroupByInterface;
 
 /**
@@ -80,6 +81,13 @@ abstract class AbstractGroupBy implements GroupByInterface
      * @var array
      */
     protected $postProcessedColumns = [];
+
+    /**
+     * Datetime fields that need UTC to site timezone conversion.
+     *
+     * @var array
+     */
+    protected $datetimeFields = [];
 
     /**
      * {@inheritdoc}
@@ -213,6 +221,29 @@ abstract class AbstractGroupBy implements GroupByInterface
      */
     public function postProcess(array $rows, \wpdb $wpdb): array
     {
+        return $this->convertDatetimeFields($rows);
+    }
+
+    /**
+     * Convert UTC datetime fields to site timezone.
+     *
+     * @param array $rows Query result rows.
+     * @return array Rows with converted datetime fields.
+     */
+    protected function convertDatetimeFields(array $rows): array
+    {
+        if (empty($this->datetimeFields) || empty($rows)) {
+            return $rows;
+        }
+
+        foreach ($rows as &$row) {
+            foreach ($this->datetimeFields as $field) {
+                if (!empty($row[$field])) {
+                    $row[$field] = DateTime::convertUtc($row[$field], false);
+                }
+            }
+        }
+
         return $rows;
     }
 }
