@@ -135,43 +135,6 @@ export const parseBracketFiltersFromParams = (
 }
 
 /**
- * Check if a string looks like legacy JSON filter format
- */
-export const isLegacyJsonFilterFormat = (value: unknown): boolean => {
-  if (typeof value !== 'string') return false
-  const trimmed = value.trim()
-  return trimmed.startsWith('[') && trimmed.includes('"field"')
-}
-
-/**
- * Parse legacy JSON filter format for backward compatibility
- */
-export const parseLegacyJsonFilters = (jsonString: string): UrlFilter[] => {
-  try {
-    let cleanString = jsonString
-    // Handle WordPress query param interference
-    const lastBracketIndex = cleanString.lastIndexOf(']')
-    if (lastBracketIndex !== -1 && lastBracketIndex < cleanString.length - 1) {
-      cleanString = cleanString.substring(0, lastBracketIndex + 1)
-    }
-
-    const parsed = JSON.parse(cleanString)
-    if (!Array.isArray(parsed)) return []
-
-    return parsed.filter(
-      (f): f is UrlFilter =>
-        typeof f === 'object' &&
-        f !== null &&
-        typeof f.field === 'string' &&
-        typeof f.operator === 'string' &&
-        f.value !== undefined
-    )
-  } catch {
-    return []
-  }
-}
-
-/**
  * Format referrer channel for display
  * Converts API channel values to user-friendly display text
  */

@@ -2,16 +2,9 @@
  * Shared route validation utilities for parsing URL search parameters.
  * Consolidates duplicated validation logic from route files.
  *
- * Supports two URL formats for filters:
- *
- * 1. Bracket notation (preferred):
- *    filter[country]=in:JP,CN&filter[browser]=eq:Chrome
- *
- * 2. Legacy JSON format (for backward compatibility):
- *    filters=[{"field":"country","operator":"in","value":["JP","CN"]}]
+ * Filter URL format (bracket notation):
+ *   filter[country]=in:JP,CN&filter[browser]=eq:Chrome
  */
-
-import { parseBracketFilter, parseLegacyJsonFilters } from './filter-utils'
 
 /**
  * Represents a single filter in URL search params
@@ -50,74 +43,6 @@ export interface SearchValidatorOptions {
    * @default true
    */
   includePage?: boolean
-}
-
-/**
- * Type guard to check if a value is a valid UrlFilter
- */
-const isUrlFilter = (f: unknown): f is UrlFilter =>
-  typeof f === 'object' &&
-  f !== null &&
-  typeof (f as UrlFilter).field === 'string' &&
-  typeof (f as UrlFilter).operator === 'string' &&
-  (f as UrlFilter).value !== undefined
-
-/**
- * Parse bracket notation filters from search params object
- * e.g., { "filter[country]": "in:JP,CN", "filter[browser]": "eq:Chrome" }
- */
-const parseBracketFilters = (search: Record<string, unknown>): UrlFilter[] => {
-  const filters: UrlFilter[] = []
-
-  for (const [key, value] of Object.entries(search)) {
-    if (key.startsWith('filter[') && typeof value === 'string') {
-      const filter = parseBracketFilter(key, value)
-      if (filter) {
-        filters.push(filter)
-      }
-    }
-  }
-
-  return filters
-}
-
-/**
- * Parses legacy JSON filter string from URL, handling WordPress query param interference.
- * WordPress's "?page=wp-statistics" can get mixed with hash router params,
- * causing malformed JSON. This function cleans the string before parsing.
- */
-const parseLegacyFilterString = (filterString: string): UrlFilter[] => {
-  return parseLegacyJsonFilters(filterString)
-}
-
-/**
- * Parses filters from search params
- * Supports both bracket notation and legacy JSON format
- */
-const parseFilters = (search: Record<string, unknown>): UrlFilter[] | undefined => {
-  // First, try bracket notation (preferred format)
-  const bracketFilters = parseBracketFilters(search)
-  if (bracketFilters.length > 0) {
-    return bracketFilters
-  }
-
-  // Fall back to legacy JSON format
-  const legacyFilters = search.filters
-  if (legacyFilters) {
-    let filtersArray: UrlFilter[] = []
-
-    if (Array.isArray(legacyFilters)) {
-      // Already an array (from router parsing)
-      filtersArray = legacyFilters.filter(isUrlFilter)
-    } else if (typeof legacyFilters === 'string') {
-      // JSON string
-      filtersArray = parseLegacyFilterString(legacyFilters)
-    }
-
-    return filtersArray.length > 0 ? filtersArray : undefined
-  }
-
-  return undefined
 }
 
 /**
@@ -175,18 +100,6 @@ export function createSearchValidator<T extends BaseSearchParams = BaseSearchPar
     for (const [key, value] of Object.entries(search)) {
       if (key.startsWith('filter[') && typeof value === 'string') {
         result[key] = value
-      }
-    }
-
-    // Handle legacy JSON 'filters' param - convert to bracket notation
-    // This ensures backward compatibility while preventing re-serialization
-    if (search.filters && !Object.keys(result).some(k => k.startsWith('filter['))) {
-      const legacyFilters = parseFilters(search)
-      if (legacyFilters) {
-        for (const filter of legacyFilters) {
-          const values = Array.isArray(filter.value) ? filter.value : [filter.value]
-          result[`filter[${filter.field}]`] = `${filter.operator}:${values.join(',')}`
-        }
       }
     }
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createSearchValidator, searchValidators, type UrlFilter, type BaseSearchParams } from '@lib/route-validation'
+import { createSearchValidator, searchValidators, type BaseSearchParams } from '@lib/route-validation'
 
 describe('route-validation', () => {
   describe('createSearchValidator', () => {
@@ -74,96 +74,6 @@ describe('route-validation', () => {
         // Bracket notation should take precedence, legacy 'filters' is ignored
         expect(result['filter[country]']).toBe('eq:JP')
         expect(result).not.toHaveProperty('filters')
-      })
-    })
-
-    describe('legacy JSON filter conversion (backward compatibility)', () => {
-      it('should convert legacy JSON filters to bracket notation', () => {
-        const validator = createSearchValidator()
-        const filters: UrlFilter[] = [
-          { field: 'country', operator: 'eq', value: 'US' },
-          { field: 'browser', operator: 'contains', value: 'Chrome' },
-        ]
-
-        const result = validator({ filters })
-
-        // Legacy filters are converted to bracket notation
-        expect(result['filter[country]']).toBe('eq:US')
-        expect(result['filter[browser]']).toBe('contains:Chrome')
-        expect(result).not.toHaveProperty('filters')
-      })
-
-      it('should convert legacy JSON string filters to bracket notation', () => {
-        const validator = createSearchValidator()
-        const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
-
-        const result = validator({ filters: JSON.stringify(filters) })
-
-        expect(result['filter[country]']).toBe('eq:US')
-        expect(result).not.toHaveProperty('filters')
-      })
-
-      it('should handle WordPress query param interference in legacy JSON', () => {
-        const validator = createSearchValidator()
-        const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
-        // Simulates WordPress appending ?page=wp-statistics to the JSON
-        const malformedString = JSON.stringify(filters) + '?page=wp-statistics'
-
-        const result = validator({ filters: malformedString })
-
-        expect(result['filter[country]']).toBe('eq:US')
-      })
-
-      it('should convert legacy filters with array values', () => {
-        const validator = createSearchValidator()
-        const filters: UrlFilter[] = [{ field: 'browser', operator: 'in', value: ['Chrome', 'Firefox'] }]
-
-        const result = validator({ filters })
-
-        expect(result['filter[browser]']).toBe('in:Chrome,Firefox')
-      })
-
-      it('should ignore invalid legacy filter objects', () => {
-        const validator = createSearchValidator()
-        const mixedFilters = [
-          { field: 'country', operator: 'eq', value: 'US' },
-          { field: 'browser' }, // missing operator and value
-          { operator: 'eq', value: 'test' }, // missing field
-          null,
-          'invalid',
-          { field: 'city', operator: 'eq', value: 'NYC' },
-        ]
-
-        const result = validator({ filters: mixedFilters })
-
-        // Only valid filters are converted
-        expect(result['filter[country]']).toBe('eq:US')
-        expect(result['filter[city]']).toBe('eq:NYC')
-        expect(result['filter[browser]']).toBeUndefined()
-      })
-
-      it('should return empty object for empty legacy filters array', () => {
-        const validator = createSearchValidator()
-
-        const result = validator({ filters: [] })
-
-        expect(Object.keys(result).filter(k => k.startsWith('filter['))).toHaveLength(0)
-      })
-
-      it('should return empty object for invalid legacy JSON string', () => {
-        const validator = createSearchValidator()
-
-        const result = validator({ filters: 'not-valid-json' })
-
-        expect(Object.keys(result).filter(k => k.startsWith('filter['))).toHaveLength(0)
-      })
-
-      it('should return empty object when filters is not provided', () => {
-        const validator = createSearchValidator()
-
-        const result = validator({})
-
-        expect(Object.keys(result).filter(k => k.startsWith('filter['))).toHaveLength(0)
       })
     })
 

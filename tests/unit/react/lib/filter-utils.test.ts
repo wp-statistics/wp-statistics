@@ -4,8 +4,6 @@ import {
   parseBracketFilter,
   serializeFiltersToBracketParams,
   parseBracketFiltersFromParams,
-  isLegacyJsonFilterFormat,
-  parseLegacyJsonFilters,
   filtersToUrlFilters,
   urlFiltersToFilters,
   extractFilterField,
@@ -204,72 +202,6 @@ describe('filter-utils', () => {
         params.set('page', '1')
 
         expect(parseBracketFiltersFromParams(params)).toEqual([])
-      })
-    })
-  })
-
-  describe('Legacy JSON Format', () => {
-    describe('isLegacyJsonFilterFormat', () => {
-      it('should detect legacy JSON format', () => {
-        const legacy = '[{"field":"country","operator":"eq","value":"US"}]'
-        expect(isLegacyJsonFilterFormat(legacy)).toBe(true)
-      })
-
-      it('should not detect non-JSON strings', () => {
-        expect(isLegacyJsonFilterFormat('filter[country]=eq:US')).toBe(false)
-        expect(isLegacyJsonFilterFormat('random string')).toBe(false)
-        expect(isLegacyJsonFilterFormat('')).toBe(false)
-      })
-
-      it('should not detect non-string values', () => {
-        expect(isLegacyJsonFilterFormat(123)).toBe(false)
-        expect(isLegacyJsonFilterFormat(null)).toBe(false)
-        expect(isLegacyJsonFilterFormat(undefined)).toBe(false)
-        expect(isLegacyJsonFilterFormat([])).toBe(false)
-      })
-    })
-
-    describe('parseLegacyJsonFilters', () => {
-      it('should parse valid legacy JSON', () => {
-        const json = '[{"field":"country","operator":"eq","value":"US"}]'
-        const result = parseLegacyJsonFilters(json)
-
-        expect(result).toHaveLength(1)
-        expect(result[0]).toEqual({
-          field: 'country',
-          operator: 'eq',
-          value: 'US',
-        })
-      })
-
-      it('should handle WordPress query param interference', () => {
-        const malformedJson = '[{"field":"country","operator":"eq","value":"US"}]?page=wp-statistics'
-        const result = parseLegacyJsonFilters(malformedJson)
-
-        expect(result).toHaveLength(1)
-        expect(result[0].field).toBe('country')
-      })
-
-      it('should parse filters with array values', () => {
-        const json = '[{"field":"browser","operator":"in","value":["Chrome","Firefox"]}]'
-        const result = parseLegacyJsonFilters(json)
-
-        expect(result).toHaveLength(1)
-        expect(result[0].value).toEqual(['Chrome', 'Firefox'])
-      })
-
-      it('should filter out invalid filter objects', () => {
-        const json = '[{"field":"country","operator":"eq","value":"US"},{"invalid":"data"},null]'
-        const result = parseLegacyJsonFilters(json)
-
-        expect(result).toHaveLength(1)
-        expect(result[0].field).toBe('country')
-      })
-
-      it('should return empty array for invalid JSON', () => {
-        expect(parseLegacyJsonFilters('not valid json')).toEqual([])
-        expect(parseLegacyJsonFilters('{}')).toEqual([])
-        expect(parseLegacyJsonFilters('')).toEqual([])
       })
     })
   })
