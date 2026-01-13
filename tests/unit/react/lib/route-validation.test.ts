@@ -3,8 +3,82 @@ import { createSearchValidator, searchValidators, type UrlFilter, type BaseSearc
 
 describe('route-validation', () => {
   describe('createSearchValidator', () => {
-    describe('filter parsing', () => {
-      it('should parse valid filters from array', () => {
+    describe('bracket notation filter pass-through', () => {
+      it('should pass through single filter with bracket notation', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          'filter[country]': 'eq:US',
+        })
+
+        // Bracket notation params are passed through as strings
+        expect(result['filter[country]']).toBe('eq:US')
+        // Should NOT have 'filters' array (prevents TanStack Router JSON serialization)
+        expect(result).not.toHaveProperty('filters')
+      })
+
+      it('should pass through multiple filters with bracket notation', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          'filter[country]': 'in:JP,CN',
+          'filter[browser]': 'eq:Chrome',
+        })
+
+        expect(result['filter[country]']).toBe('in:JP,CN')
+        expect(result['filter[browser]']).toBe('eq:Chrome')
+        expect(result).not.toHaveProperty('filters')
+      })
+
+      it('should pass through multi-value filters with bracket notation', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          'filter[country]': 'in:US,JP,CN',
+        })
+
+        expect(result['filter[country]']).toBe('in:US,JP,CN')
+      })
+
+      it('should pass through bracket notation with special characters in value', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          'filter[referrer]': 'eq:https://example.com/path?query=1',
+        })
+
+        expect(result['filter[referrer]']).toBe('eq:https://example.com/path?query=1')
+      })
+
+      it('should ignore invalid bracket notation values', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          'filter[country]': 'invalid', // missing colon - but still passed through
+          'filter[browser]': 'eq:Chrome',
+        })
+
+        // Invalid values are still passed through (parsing happens in context)
+        expect(result['filter[country]']).toBe('invalid')
+        expect(result['filter[browser]']).toBe('eq:Chrome')
+      })
+
+      it('should prefer bracket notation over legacy JSON', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          'filter[country]': 'eq:JP',
+          filters: JSON.stringify([{ field: 'country', operator: 'eq', value: 'US' }]),
+        })
+
+        // Bracket notation should take precedence, legacy 'filters' is ignored
+        expect(result['filter[country]']).toBe('eq:JP')
+        expect(result).not.toHaveProperty('filters')
+      })
+    })
+
+    describe('legacy JSON filter conversion (backward compatibility)', () => {
+      it('should convert legacy JSON filters to bracket notation', () => {
         const validator = createSearchValidator()
         const filters: UrlFilter[] = [
           { field: 'country', operator: 'eq', value: 'US' },
@@ -13,19 +87,23 @@ describe('route-validation', () => {
 
         const result = validator({ filters })
 
-        expect(result.filters).toEqual(filters)
+        // Legacy filters are converted to bracket notation
+        expect(result['filter[country]']).toBe('eq:US')
+        expect(result['filter[browser]']).toBe('contains:Chrome')
+        expect(result).not.toHaveProperty('filters')
       })
 
-      it('should parse valid filters from JSON string', () => {
+      it('should convert legacy JSON string filters to bracket notation', () => {
         const validator = createSearchValidator()
         const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
 
         const result = validator({ filters: JSON.stringify(filters) })
 
-        expect(result.filters).toEqual(filters)
+        expect(result['filter[country]']).toBe('eq:US')
+        expect(result).not.toHaveProperty('filters')
       })
 
-      it('should handle WordPress query param interference', () => {
+      it('should handle WordPress query param interference in legacy JSON', () => {
         const validator = createSearchValidator()
         const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
         // Simulates WordPress appending ?page=wp-statistics to the JSON
@@ -33,28 +111,19 @@ describe('route-validation', () => {
 
         const result = validator({ filters: malformedString })
 
-        expect(result.filters).toEqual(filters)
+        expect(result['filter[country]']).toBe('eq:US')
       })
 
-      it('should handle filters with displayValue', () => {
-        const validator = createSearchValidator()
-        const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: '5', displayValue: 'Iran' }]
-
-        const result = validator({ filters })
-
-        expect(result.filters).toEqual(filters)
-      })
-
-      it('should handle filters with array values', () => {
+      it('should convert legacy filters with array values', () => {
         const validator = createSearchValidator()
         const filters: UrlFilter[] = [{ field: 'browser', operator: 'in', value: ['Chrome', 'Firefox'] }]
 
         const result = validator({ filters })
 
-        expect(result.filters).toEqual(filters)
+        expect(result['filter[browser]']).toBe('in:Chrome,Firefox')
       })
 
-      it('should filter out invalid filter objects', () => {
+      it('should ignore invalid legacy filter objects', () => {
         const validator = createSearchValidator()
         const mixedFilters = [
           { field: 'country', operator: 'eq', value: 'US' },
@@ -67,33 +136,34 @@ describe('route-validation', () => {
 
         const result = validator({ filters: mixedFilters })
 
-        expect(result.filters).toHaveLength(2)
-        expect(result.filters?.[0].field).toBe('country')
-        expect(result.filters?.[1].field).toBe('city')
+        // Only valid filters are converted
+        expect(result['filter[country]']).toBe('eq:US')
+        expect(result['filter[city]']).toBe('eq:NYC')
+        expect(result['filter[browser]']).toBeUndefined()
       })
 
-      it('should return undefined for empty filters array', () => {
+      it('should return empty object for empty legacy filters array', () => {
         const validator = createSearchValidator()
 
         const result = validator({ filters: [] })
 
-        expect(result.filters).toBeUndefined()
+        expect(Object.keys(result).filter(k => k.startsWith('filter['))).toHaveLength(0)
       })
 
-      it('should return undefined for invalid JSON string', () => {
+      it('should return empty object for invalid legacy JSON string', () => {
         const validator = createSearchValidator()
 
         const result = validator({ filters: 'not-valid-json' })
 
-        expect(result.filters).toBeUndefined()
+        expect(Object.keys(result).filter(k => k.startsWith('filter['))).toHaveLength(0)
       })
 
-      it('should return undefined when filters is not provided', () => {
+      it('should return empty object when filters is not provided', () => {
         const validator = createSearchValidator()
 
         const result = validator({})
 
-        expect(result.filters).toBeUndefined()
+        expect(Object.keys(result).filter(k => k.startsWith('filter['))).toHaveLength(0)
       })
     })
 
@@ -141,11 +211,13 @@ describe('route-validation', () => {
     describe('combined parsing', () => {
       it('should parse both filters and page', () => {
         const validator = createSearchValidator()
-        const filters: UrlFilter[] = [{ field: 'country', operator: 'eq', value: 'US' }]
 
-        const result = validator({ filters, page: 3 })
+        const result = validator({
+          'filter[country]': 'eq:US',
+          page: 3,
+        })
 
-        expect(result.filters).toEqual(filters)
+        expect(result['filter[country]']).toBe('eq:US')
         expect(result.page).toBe(3)
       })
 
@@ -176,7 +248,6 @@ describe('route-validation', () => {
   describe('type safety', () => {
     it('should work with custom search params type', () => {
       interface CustomSearchParams extends BaseSearchParams {
-        filters?: UrlFilter[]
         page?: number
       }
 

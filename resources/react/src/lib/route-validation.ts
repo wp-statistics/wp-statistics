@@ -1,7 +1,17 @@
 /**
  * Shared route validation utilities for parsing URL search parameters.
  * Consolidates duplicated validation logic from route files.
+ *
+ * Supports two URL formats for filters:
+ *
+ * 1. Bracket notation (preferred):
+ *    filter[country]=in:JP,CN&filter[browser]=eq:Chrome
+ *
+ * 2. Legacy JSON format (for backward compatibility):
+ *    filters=[{"field":"country","operator":"in","value":["JP","CN"]}]
  */
+
+import { parseBracketFilter, parseLegacyJsonFilters } from './filter-utils'
 
 /**
  * Represents a single filter in URL search params
@@ -14,16 +24,21 @@ export interface UrlFilter {
 }
 
 /**
- * Base search params that all routes can extend
+ * Base search params that all routes can extend.
+ * Note: 'filters' is NOT included here to prevent TanStack Router from serializing
+ * it as JSON. Filters are stored as bracket notation params (filter[field]=op:value)
+ * and parsed by global-filters-context.tsx.
  */
 export interface BaseSearchParams {
-  filters?: UrlFilter[]
   page?: number
   // Global date params for hybrid URL + preferences approach
   date_from?: string
   date_to?: string
   previous_date_from?: string
   previous_date_to?: string
+  // Bracket notation filter params are passed through as strings
+  // e.g., 'filter[country]': 'eq:US'
+  [key: `filter[${string}]`]: string
 }
 
 /**
@@ -48,45 +63,58 @@ const isUrlFilter = (f: unknown): f is UrlFilter =>
   (f as UrlFilter).value !== undefined
 
 /**
- * Parses filter string from URL, handling WordPress query param interference.
- * WordPress's "?page=wp-statistics" can get mixed with hash router params,
- * causing malformed JSON. This function cleans the string before parsing.
+ * Parse bracket notation filters from search params object
+ * e.g., { "filter[country]": "in:JP,CN", "filter[browser]": "eq:Chrome" }
  */
-const parseFilterString = (filterString: string): unknown[] | undefined => {
-  try {
-    let cleanString = filterString
-    // Find the last ] that closes the JSON array, then remove anything after it
-    const lastBracketIndex = cleanString.lastIndexOf(']')
-    if (lastBracketIndex !== -1 && lastBracketIndex < cleanString.length - 1) {
-      cleanString = cleanString.substring(0, lastBracketIndex + 1)
+const parseBracketFilters = (search: Record<string, unknown>): UrlFilter[] => {
+  const filters: UrlFilter[] = []
+
+  for (const [key, value] of Object.entries(search)) {
+    if (key.startsWith('filter[') && typeof value === 'string') {
+      const filter = parseBracketFilter(key, value)
+      if (filter) {
+        filters.push(filter)
+      }
     }
-    const parsed = JSON.parse(cleanString)
-    if (Array.isArray(parsed)) {
-      return parsed
-    }
-  } catch {
-    // Invalid JSON, ignore
   }
-  return undefined
+
+  return filters
 }
 
 /**
- * Parses filters from search params (handles both array and JSON string)
+ * Parses legacy JSON filter string from URL, handling WordPress query param interference.
+ * WordPress's "?page=wp-statistics" can get mixed with hash router params,
+ * causing malformed JSON. This function cleans the string before parsing.
  */
-const parseFilters = (searchFilters: unknown): UrlFilter[] | undefined => {
-  let filtersArray: unknown[] | undefined
+const parseLegacyFilterString = (filterString: string): UrlFilter[] => {
+  return parseLegacyJsonFilters(filterString)
+}
 
-  if (searchFilters) {
-    if (Array.isArray(searchFilters)) {
-      filtersArray = searchFilters
-    } else if (typeof searchFilters === 'string') {
-      filtersArray = parseFilterString(searchFilters)
-    }
+/**
+ * Parses filters from search params
+ * Supports both bracket notation and legacy JSON format
+ */
+const parseFilters = (search: Record<string, unknown>): UrlFilter[] | undefined => {
+  // First, try bracket notation (preferred format)
+  const bracketFilters = parseBracketFilters(search)
+  if (bracketFilters.length > 0) {
+    return bracketFilters
   }
 
-  if (filtersArray) {
-    const validFilters = filtersArray.filter(isUrlFilter)
-    return validFilters.length > 0 ? validFilters : undefined
+  // Fall back to legacy JSON format
+  const legacyFilters = search.filters
+  if (legacyFilters) {
+    let filtersArray: UrlFilter[] = []
+
+    if (Array.isArray(legacyFilters)) {
+      // Already an array (from router parsing)
+      filtersArray = legacyFilters.filter(isUrlFilter)
+    } else if (typeof legacyFilters === 'string') {
+      // JSON string
+      filtersArray = parseLegacyFilterString(legacyFilters)
+    }
+
+    return filtersArray.length > 0 ? filtersArray : undefined
   }
 
   return undefined
@@ -139,11 +167,27 @@ export function createSearchValidator<T extends BaseSearchParams = BaseSearchPar
   const { includePage = true } = options
 
   return (search: Record<string, unknown>): T => {
-    const result: BaseSearchParams = {}
+    const result: Record<string, unknown> = {}
 
-    const filters = parseFilters(search.filters)
-    if (filters) {
-      result.filters = filters
+    // Pass through bracket notation filter params as-is (they're strings)
+    // These will be parsed by global-filters-context.tsx
+    // DO NOT parse filters here and add as 'filters' array - TanStack Router would serialize it as JSON
+    for (const [key, value] of Object.entries(search)) {
+      if (key.startsWith('filter[') && typeof value === 'string') {
+        result[key] = value
+      }
+    }
+
+    // Handle legacy JSON 'filters' param - convert to bracket notation
+    // This ensures backward compatibility while preventing re-serialization
+    if (search.filters && !Object.keys(result).some(k => k.startsWith('filter['))) {
+      const legacyFilters = parseFilters(search)
+      if (legacyFilters) {
+        for (const filter of legacyFilters) {
+          const values = Array.isArray(filter.value) ? filter.value : [filter.value]
+          result[`filter[${filter.field}]`] = `${filter.operator}:${values.join(',')}`
+        }
+      }
     }
 
     if (includePage) {

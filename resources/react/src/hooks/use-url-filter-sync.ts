@@ -8,7 +8,12 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { Filter } from '@/components/custom/filter-bar'
 import type { FilterField } from '@/components/custom/filter-row'
-import { filtersToUrlFilters, urlFiltersToFilters, type UrlFilter } from '@/lib/filter-utils'
+import {
+  filtersToUrlFilters,
+  urlFiltersToFilters,
+  serializeFiltersToBracketParams,
+  type UrlFilter,
+} from '@/lib/filter-utils'
 
 export interface UseUrlFilterSyncOptions {
   /**
@@ -135,6 +140,7 @@ export function useUrlFilterSync({
     if (lastSyncedFiltersRef.current === null || appliedFilters === null) return
 
     const urlFilterData = filtersToUrlFilters(appliedFilters)
+    const bracketParams = serializeFiltersToBracketParams(urlFilterData)
     const serialized = JSON.stringify(urlFilterData)
 
     // Only sync if actually changed
@@ -143,11 +149,30 @@ export function useUrlFilterSync({
     lastSyncedFiltersRef.current = serialized
 
     navigate({
-      search: (prev) => ({
-        ...prev,
-        filters: urlFilterData.length > 0 ? urlFilterData : undefined,
-        page: page > 1 ? page : undefined,
-      }),
+      search: (prev) => {
+        // Remove old filter keys (both bracket notation and legacy JSON format)
+        const cleaned = Object.fromEntries(
+          Object.entries(prev as Record<string, unknown>).filter(
+            ([key]) => !key.startsWith('filter[') && key !== 'filters'
+          )
+        )
+
+        // Build result object without 'filters' key - TanStack Router may serialize undefined values
+        const result: Record<string, unknown> = {
+          ...cleaned,
+          ...bracketParams,
+        }
+
+        // Only add page if > 1
+        if (page > 1) {
+          result.page = page
+        }
+
+        // Ensure legacy 'filters' key is removed (in case it was in prev)
+        delete result.filters
+
+        return result
+      },
       replace: true,
     })
   }, [appliedFilters, page, navigate, urlPage])

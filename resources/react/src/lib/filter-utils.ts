@@ -2,14 +2,173 @@ import type { Filter } from '@/components/custom/filter-bar'
 import type { FilterField } from '@/components/custom/filter-row'
 
 /**
- * URL filter format used in route search params
+ * URL filter format used in route search params (internal representation)
  */
 export interface UrlFilter {
   field: string
   operator: string
   value: string | string[]
-  /** Maps raw values to display labels (for searchable filters) */
+  /** Maps raw values to display labels (for searchable filters) - NOT stored in URL */
   valueLabels?: Record<string, string>
+}
+
+/**
+ * Bracket notation URL format for filters.
+ *
+ * Format: filter[field]=operator:value
+ *
+ * Examples:
+ * - Single value: filter[country]=eq:US
+ * - Multiple values: filter[country]=in:JP,CN
+ * - Contains operator: filter[browser]=contains:Chrome
+ * - Not equal: filter[os]=neq:Windows
+ *
+ * Special characters in values are URL-encoded automatically.
+ */
+
+/**
+ * Separator used between operator and value in bracket notation
+ */
+const OPERATOR_VALUE_SEPARATOR = ':'
+
+/**
+ * Separator used between multiple values in bracket notation
+ */
+const VALUE_SEPARATOR = ','
+
+/**
+ * Prefix for filter parameters in bracket notation
+ */
+const FILTER_PARAM_PREFIX = 'filter['
+
+/**
+ * Serialize a single filter to bracket notation format
+ * @param filter The filter to serialize
+ * @returns Object with key (e.g., "filter[country]") and value (e.g., "in:JP,CN")
+ */
+export const serializeFilterToBracket = (filter: UrlFilter): { key: string; value: string } => {
+  const values = Array.isArray(filter.value) ? filter.value : [filter.value]
+  const valueString = values.join(VALUE_SEPARATOR)
+
+  return {
+    key: `filter[${filter.field}]`,
+    value: `${filter.operator}${OPERATOR_VALUE_SEPARATOR}${valueString}`,
+  }
+}
+
+/**
+ * Parse a bracket notation filter parameter
+ * @param key The parameter key (e.g., "filter[country]")
+ * @param value The parameter value (e.g., "in:JP,CN")
+ * @returns UrlFilter object or null if invalid
+ */
+export const parseBracketFilter = (key: string, value: string): UrlFilter | null => {
+  // Check if key matches filter[fieldName] pattern
+  const keyMatch = key.match(/^filter\[([^\]]+)\]$/)
+  if (!keyMatch) return null
+
+  const field = keyMatch[1]
+
+  // Split value into operator and value(s) at first colon
+  const separatorIndex = value.indexOf(OPERATOR_VALUE_SEPARATOR)
+  if (separatorIndex === -1) return null
+
+  const operator = value.substring(0, separatorIndex)
+  const rawValue = value.substring(separatorIndex + 1)
+
+  if (!operator || rawValue === '') return null
+
+  // Parse value - check if it's a multi-value (contains commas)
+  // For 'in' and 'not_in' operators, always split by comma
+  const isMultiValueOperator = ['in', 'not_in', 'nin'].includes(operator)
+  const parsedValue = isMultiValueOperator && rawValue.includes(VALUE_SEPARATOR)
+    ? rawValue.split(VALUE_SEPARATOR)
+    : rawValue
+
+  return {
+    field,
+    operator,
+    value: parsedValue,
+  }
+}
+
+/**
+ * Serialize multiple filters to bracket notation URL parameters
+ * @param filters Array of UrlFilter objects
+ * @returns Record of URL parameters (e.g., { "filter[country]": "in:JP,CN" })
+ */
+export const serializeFiltersToBracketParams = (filters: UrlFilter[]): Record<string, string> => {
+  const params: Record<string, string> = {}
+
+  for (const filter of filters) {
+    const { key, value } = serializeFilterToBracket(filter)
+    params[key] = value
+  }
+
+  return params
+}
+
+/**
+ * Parse bracket notation filters from URLSearchParams or hash params
+ * @param params URLSearchParams or Record of params
+ * @returns Array of UrlFilter objects
+ */
+export const parseBracketFiltersFromParams = (
+  params: URLSearchParams | Record<string, string>
+): UrlFilter[] => {
+  const filters: UrlFilter[] = []
+
+  const entries = params instanceof URLSearchParams
+    ? Array.from(params.entries())
+    : Object.entries(params)
+
+  for (const [key, value] of entries) {
+    if (key.startsWith(FILTER_PARAM_PREFIX)) {
+      const filter = parseBracketFilter(key, value)
+      if (filter) {
+        filters.push(filter)
+      }
+    }
+  }
+
+  return filters
+}
+
+/**
+ * Check if a string looks like legacy JSON filter format
+ */
+export const isLegacyJsonFilterFormat = (value: unknown): boolean => {
+  if (typeof value !== 'string') return false
+  const trimmed = value.trim()
+  return trimmed.startsWith('[') && trimmed.includes('"field"')
+}
+
+/**
+ * Parse legacy JSON filter format for backward compatibility
+ */
+export const parseLegacyJsonFilters = (jsonString: string): UrlFilter[] => {
+  try {
+    let cleanString = jsonString
+    // Handle WordPress query param interference
+    const lastBracketIndex = cleanString.lastIndexOf(']')
+    if (lastBracketIndex !== -1 && lastBracketIndex < cleanString.length - 1) {
+      cleanString = cleanString.substring(0, lastBracketIndex + 1)
+    }
+
+    const parsed = JSON.parse(cleanString)
+    if (!Array.isArray(parsed)) return []
+
+    return parsed.filter(
+      (f): f is UrlFilter =>
+        typeof f === 'object' &&
+        f !== null &&
+        typeof f.field === 'string' &&
+        typeof f.operator === 'string' &&
+        f.value !== undefined
+    )
+  } catch {
+    return []
+  }
 }
 
 /**
@@ -39,7 +198,7 @@ export const extractFilterField = (filterId: string): string => {
 
 /**
  * Convert URL filter format to Filter type for display
- * Used when reading filters from URL search params
+ * Used when reading filters from URL search params (both bracket notation and legacy JSON)
  */
 export const urlFiltersToFilters = (urlFilters: UrlFilter[] | undefined, filterFields: FilterField[]): Filter[] => {
   if (!urlFilters || !Array.isArray(urlFilters) || urlFilters.length === 0) return []
@@ -48,25 +207,19 @@ export const urlFiltersToFilters = (urlFilters: UrlFilter[] | undefined, filterF
     const field = filterFields.find((f) => f.name === urlFilter.field)
     const label = field?.label || urlFilter.field
 
-    // Get display value - priority: stored valueLabels > field options > raw value
+    // Get display value from field options or use raw value
     let displayValue = Array.isArray(urlFilter.value) ? urlFilter.value.join(', ') : String(urlFilter.value)
-    let resolvedValueLabels: Record<string, string> | undefined = urlFilter.valueLabels
+    let resolvedValueLabels: Record<string, string> | undefined
 
-    // Try to resolve labels from stored valueLabels first (for searchable filters)
-    if (urlFilter.valueLabels && Object.keys(urlFilter.valueLabels).length > 0) {
-      const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
-      const labels = values.map((v) => urlFilter.valueLabels?.[v] || v).join(', ')
-      displayValue = labels
-    }
-    // Fall back to field options (for dropdown filters)
-    else if (field?.options) {
+    // Resolve labels from field options (for dropdown filters)
+    if (field?.options) {
       const values = Array.isArray(urlFilter.value) ? urlFilter.value : [urlFilter.value]
       resolvedValueLabels = {}
       const labels = values
         .map((v) => {
-          const option = field.options?.find((o) => String(o.value) === v)
+          const option = field.options?.find((o) => String(o.value) === String(v))
           if (option) {
-            resolvedValueLabels![v] = option.label
+            resolvedValueLabels![String(v)] = option.label
             return option.label
           }
           return v
@@ -110,18 +263,14 @@ export const urlFiltersToFiltersWithDefaults = (
 /**
  * Convert Filter type to URL filter format for serialization
  * Used when syncing filters to URL search params
+ *
+ * Note: valueLabels are NOT included in URL - they are resolved from
+ * filter field options when parsing the URL back to filters.
  */
 export const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
-  return filters.map((filter) => {
-    const urlFilter: UrlFilter = {
-      field: extractFilterField(filter.id),
-      operator: filter.rawOperator || filter.operator,
-      value: filter.rawValue || filter.value,
-    }
-    // Preserve valueLabels for searchable filters (so labels can be restored)
-    if (filter.valueLabels && Object.keys(filter.valueLabels).length > 0) {
-      urlFilter.valueLabels = filter.valueLabels
-    }
-    return urlFilter
-  })
+  return filters.map((filter) => ({
+    field: extractFilterField(filter.id),
+    operator: filter.rawOperator || filter.operator,
+    value: filter.rawValue || filter.value,
+  }))
 }

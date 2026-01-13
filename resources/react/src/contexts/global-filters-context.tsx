@@ -26,7 +26,13 @@ import {
   type ComparisonMode,
 } from '@/components/custom/date-range-picker'
 import type { FilterField } from '@/components/custom/filter-row'
-import { filtersToUrlFilters, urlFiltersToFilters, type UrlFilter } from '@/lib/filter-utils'
+import {
+  filtersToUrlFilters,
+  urlFiltersToFilters,
+  parseBracketFiltersFromParams,
+  serializeFiltersToBracketParams,
+  type UrlFilter,
+} from '@/lib/filter-utils'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { saveGlobalFiltersPreferences, resetGlobalFiltersPreferences } from '@/services/global-filters-preferences'
@@ -122,16 +128,26 @@ const parseDate = (dateString: string | undefined): Date | undefined => {
 
 // Parse hash params directly (before router is ready)
 // This is needed because hash router may not have parsed URL params on first render
-const parseHashParams = (): Record<string, string> => {
+// Returns both regular params and parsed bracket notation filters
+const parseHashParams = (): Record<string, string> & { _bracketFilters?: UrlFilter[] } => {
   const hash = window.location.hash
   const queryStart = hash.indexOf('?')
   if (queryStart === -1) return {}
 
   const queryString = hash.substring(queryStart + 1)
-  const params: Record<string, string> = {}
-  new URLSearchParams(queryString).forEach((value, key) => {
+  const urlParams = new URLSearchParams(queryString)
+  const params: Record<string, string> & { _bracketFilters?: UrlFilter[] } = {}
+
+  urlParams.forEach((value, key) => {
     params[key] = value
   })
+
+  // Parse bracket notation filters
+  const bracketFilters = parseBracketFiltersFromParams(urlParams)
+  if (bracketFilters.length > 0) {
+    params._bracketFilters = bracketFilters
+  }
+
   return params
 }
 
@@ -148,13 +164,14 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
 
   // Get URL search params (this works at the router level)
   // We use a try-catch because useSearch might fail outside of a route context
+  // Note: filters are stored as bracket notation params (filter[field]=op:value), not as 'filters' array
   let urlParams: {
     date_from?: string
     date_to?: string
     previous_date_from?: string
     previous_date_to?: string
-    filters?: UrlFilter[]
     page?: number
+    [key: `filter[${string}]`]: string
   } = {}
 
   try {
@@ -172,16 +189,11 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
   // This prevents re-registering the event listener on every state change
   const currentDatesRef = useRef({ from: '', to: '' })
   const filterFieldsRef = useRef(filterFields)
-  const urlParamsFiltersRef = useRef(urlParams.filters)
 
   // Keep refs in sync with current values
   useEffect(() => {
     filterFieldsRef.current = filterFields
   }, [filterFields])
-
-  useEffect(() => {
-    urlParamsFiltersRef.current = urlParams.filters
-  }, [urlParams.filters])
 
   // Debounced preference saving (300ms delay to batch rapid changes)
   const debouncedSavePrefs = useRef(
@@ -310,8 +322,15 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       // Initialize from URL
       const urlCompareFrom = parseDate(effectiveCompareFrom)
       const urlCompareTo = parseDate(effectiveCompareTo)
-      const urlFilters = urlFiltersToFilters(urlParams.filters, filterFields)
+
+      // Parse filters from bracket notation params (hashParams has priority)
+      // urlParams now contains bracket notation params directly (e.g., 'filter[country]': 'eq:US')
+      const effectiveUrlFilters = hashParams._bracketFilters || parseBracketFiltersFromParams(urlParams)
+      const urlFilters = urlFiltersToFilters(effectiveUrlFilters, filterFields)
       const effectiveComparisonMode = hashParams.comparison_mode as ComparisonMode | undefined
+
+      // Serialize bracket params for lastSyncedRef comparison
+      const bracketParams = serializeFiltersToBracketParams(filtersToUrlFilters(urlFilters))
 
       setState({
         dateFrom: urlDateFrom,
@@ -332,7 +351,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         previous_date_from: effectiveCompareFrom,
         previous_date_to: effectiveCompareTo,
         comparison_mode: effectiveComparisonMode,
-        filters: urlParams.filters,
+        ...bracketParams,
         page: effectivePage,
       })
 
@@ -436,10 +455,15 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       // URL has different dates - update state
       const urlCompareFrom = parseDate(hashParams.previous_date_from)
       const urlCompareTo = parseDate(hashParams.previous_date_to)
-      // Use refs for filterFields and urlParams.filters
-      const urlFilters = urlFiltersToFilters(urlParamsFiltersRef.current, filterFieldsRef.current)
+
+      // Parse filters from bracket notation in hash params
+      const effectiveUrlFilters = hashParams._bracketFilters || []
+      const urlFilters = urlFiltersToFilters(effectiveUrlFilters, filterFieldsRef.current)
       const effectivePage = parseInt(hashParams.page, 10) || 1
       const urlComparisonMode = hashParams.comparison_mode as ComparisonMode | undefined
+
+      // Serialize bracket params for lastSyncedRef comparison
+      const bracketParams = serializeFiltersToBracketParams(filtersToUrlFilters(urlFilters))
 
       setState({
         dateFrom: urlDateFrom,
@@ -460,7 +484,7 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         previous_date_from: hashParams.previous_date_from,
         previous_date_to: hashParams.previous_date_to,
         comparison_mode: urlComparisonMode,
-        filters: urlParamsFiltersRef.current,
+        ...bracketParams,
         page: effectivePage,
       })
     }
@@ -489,13 +513,14 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     }
 
     const urlFilterData = filtersToUrlFilters(state.filters)
+    const bracketParams = serializeFiltersToBracketParams(urlFilterData)
     const currentState = JSON.stringify({
       date_from: formatDateForAPI(state.dateFrom),
       date_to: formatDateForAPI(state.dateTo),
       previous_date_from: state.compareDateFrom ? formatDateForAPI(state.compareDateFrom) : undefined,
       previous_date_to: state.compareDateTo ? formatDateForAPI(state.compareDateTo) : undefined,
       comparison_mode: state.comparisonMode,
-      filters: urlFilterData.length > 0 ? urlFilterData : undefined,
+      ...bracketParams,
       page: state.page > 1 ? state.page : undefined,
     })
 
@@ -505,16 +530,41 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     lastSyncedRef.current = currentState
 
     navigate({
-      search: (prev) => ({
-        ...prev,
-        date_from: formatDateForAPI(state.dateFrom),
-        date_to: formatDateForAPI(state.dateTo),
-        previous_date_from: state.compareDateFrom ? formatDateForAPI(state.compareDateFrom) : undefined,
-        previous_date_to: state.compareDateTo ? formatDateForAPI(state.compareDateTo) : undefined,
-        comparison_mode: state.comparisonMode,
-        filters: urlFilterData.length > 0 ? urlFilterData : undefined,
-        page: state.page > 1 ? state.page : undefined,
-      }),
+      search: (prev) => {
+        // Remove old filter keys (both bracket notation and legacy JSON format)
+        const cleaned = Object.fromEntries(
+          Object.entries(prev as Record<string, unknown>).filter(
+            ([key]) => !key.startsWith('filter[') && key !== 'filters'
+          )
+        )
+
+        // Build result object without 'filters' key - TanStack Router may serialize undefined values
+        const result: Record<string, unknown> = {
+          ...cleaned,
+          date_from: formatDateForAPI(state.dateFrom),
+          date_to: formatDateForAPI(state.dateTo),
+          ...bracketParams,
+        }
+
+        // Only add optional params if they have values
+        if (state.compareDateFrom) {
+          result.previous_date_from = formatDateForAPI(state.compareDateFrom)
+        }
+        if (state.compareDateTo) {
+          result.previous_date_to = formatDateForAPI(state.compareDateTo)
+        }
+        if (state.comparisonMode) {
+          result.comparison_mode = state.comparisonMode
+        }
+        if (state.page > 1) {
+          result.page = state.page
+        }
+
+        // Ensure legacy 'filters' key is removed (in case it was in prev)
+        delete result.filters
+
+        return result
+      },
       replace: true,
     })
   }, [state, navigate])
@@ -637,13 +687,17 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     // Reset preferences in DB
     resetGlobalFiltersPreferences()
 
-    // Clear URL params
+    // Clear URL params (including bracket notation filter keys)
     navigate({
       search: (prev) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { date_from, date_to, previous_date_from, previous_date_to, comparison_mode, filters, page, ...rest } =
-          prev as Record<string, unknown>
-        return rest
+        // Remove date params, legacy filters, page, and all bracket notation filter keys
+        return Object.fromEntries(
+          Object.entries(prev as Record<string, unknown>).filter(
+            ([key]) =>
+              !['date_from', 'date_to', 'previous_date_from', 'previous_date_to', 'comparison_mode', 'filters', 'page'].includes(key) &&
+              !key.startsWith('filter[')
+          )
+        )
       },
       replace: true,
     })
