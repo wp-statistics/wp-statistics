@@ -19,12 +19,37 @@ use WP_UnitTestCase;
 class Test_Geolocation extends WP_UnitTestCase
 {
     /**
+     * Check if any GeoIP database is available for testing.
+     *
+     * @return bool
+     */
+    private function isGeoIpDatabaseAvailable(): bool
+    {
+        $maxmind = new MaxmindGeoIPProvider();
+        $dbip    = new DbIpProvider();
+
+        return $maxmind->isDatabaseExist() || $dbip->isDatabaseExist();
+    }
+
+    /**
+     * Skip test if no GeoIP database is available.
+     */
+    private function skipIfNoDatabaseAvailable(): void
+    {
+        if (!$this->isGeoIpDatabaseAvailable()) {
+            $this->markTestSkipped('No GeoIP database available for testing');
+        }
+    }
+
+    /**
      * Test that GeolocationFactory returns location data with country code.
      *
      * @dataProvider publicIpProvider
      */
     public function test_getLocation_returns_country_code($ip, $expectedCountryCode)
     {
+        $this->skipIfNoDatabaseAvailable();
+
         $location = GeolocationFactory::getLocation($ip);
 
         $this->assertIsArray($location);
@@ -41,6 +66,8 @@ class Test_Geolocation extends WP_UnitTestCase
      */
     public function test_getLocation_returns_country_name($ip, $expectedCountryName)
     {
+        $this->skipIfNoDatabaseAvailable();
+
         $location = GeolocationFactory::getLocation($ip);
 
         $this->assertIsArray($location);
@@ -59,6 +86,8 @@ class Test_Geolocation extends WP_UnitTestCase
      */
     public function test_getLocation_returns_city_when_available($ip, $expectedCity)
     {
+        $this->skipIfNoDatabaseAvailable();
+
         $location = GeolocationFactory::getLocation($ip);
 
         $this->assertIsArray($location);
@@ -76,6 +105,8 @@ class Test_Geolocation extends WP_UnitTestCase
      */
     public function test_getLocation_returns_region_when_available($ip, $expectedRegion)
     {
+        $this->skipIfNoDatabaseAvailable();
+
         $location = GeolocationFactory::getLocation($ip);
 
         $this->assertIsArray($location);
@@ -124,6 +155,8 @@ class Test_Geolocation extends WP_UnitTestCase
      */
     public function test_getLocation_returns_complete_structure()
     {
+        $this->skipIfNoDatabaseAvailable();
+
         $location = GeolocationFactory::getLocation('8.8.8.8');
 
         $expectedKeys = [
@@ -149,6 +182,8 @@ class Test_Geolocation extends WP_UnitTestCase
      */
     public function test_getLocation_returns_valid_coordinates()
     {
+        $this->skipIfNoDatabaseAvailable();
+
         $location = GeolocationFactory::getLocation('8.8.8.8');
 
         $this->assertArrayHasKey('latitude', $location);
@@ -172,6 +207,8 @@ class Test_Geolocation extends WP_UnitTestCase
      */
     public function test_getLocation_returns_valid_continent_code()
     {
+        $this->skipIfNoDatabaseAvailable();
+
         $location = GeolocationFactory::getLocation('8.8.8.8');
 
         $this->assertArrayHasKey('continent_code', $location);
