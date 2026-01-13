@@ -7,7 +7,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { FilterButton, type FilterField, type LockedFilter } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
@@ -89,6 +89,19 @@ function RouteComponent() {
   const filterFields = useMemo<FilterField[]>(() => {
     return wp.getFilterFieldsByGroup('visitors') as FilterField[]
   }, [wp])
+
+  // Define locked filter for this report (logged-in users only)
+  const lockedFilters = useMemo<LockedFilter[]>(
+    () => [
+      {
+        id: 'logged_in-locked',
+        label: __('User Type', 'wp-statistics'),
+        operator: __('is', 'wp-statistics'),
+        value: __('Logged-in', 'wp-statistics'),
+      },
+    ],
+    []
+  )
 
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
@@ -256,6 +269,7 @@ function RouteComponent() {
               appliedFilters={appliedFilters || []}
               onApplyFilters={handleApplyFilters}
               filterGroup="visitors"
+              lockedFilters={lockedFilters}
             />
           )}
           <DateRangePicker

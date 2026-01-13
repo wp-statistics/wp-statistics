@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { Plus } from 'lucide-react'
+import { Lock, Plus } from 'lucide-react'
 
 import {
   type FilterField,
@@ -14,6 +14,14 @@ import { Button } from '@/components/ui/button'
 import { type QuickFilterDefinition, getQuickFiltersForGroup } from '@/config/quick-filter-definitions'
 import { cn } from '@/lib/utils'
 
+/** Locked filter that is displayed as read-only in the panel */
+export interface LockedFilter {
+  id: string
+  label: string
+  operator: string
+  value: string | number
+}
+
 export interface FilterPanelProps {
   filters: FilterRowData[]
   fields: FilterField[]
@@ -22,6 +30,8 @@ export interface FilterPanelProps {
   onClearAll?: () => void
   onCancel?: () => void
   filterGroup?: string
+  /** Locked filters displayed as read-only rows at the top */
+  lockedFilters?: LockedFilter[]
 }
 
 function generateFilterId(): string {
@@ -48,6 +58,7 @@ function FilterPanel({
   onClearAll,
   onCancel,
   filterGroup,
+  lockedFilters = [],
 }: FilterPanelProps) {
   // Get quick filter definitions for this group
   const quickFilterDefinitions = filterGroup ? getQuickFiltersForGroup(filterGroup) : []
@@ -150,6 +161,7 @@ function FilterPanel({
             definitions={quickFilterDefinitions}
             activeFilters={filters}
             onToggle={handleQuickFilterToggle}
+            lockedFilters={lockedFilters}
           />
         </div>
       )}
@@ -157,15 +169,46 @@ function FilterPanel({
       {/* Filter Rows */}
       <div className={cn('px-4 pb-3', quickFilterDefinitions.length > 0 ? 'pt-2' : 'pt-3')}>
         <div className="space-y-2">
+          {/* Locked Filters - Read-only rows displayed first */}
+          {lockedFilters.map((lockedFilter, index) => (
+              <div key={lockedFilter.id} className="relative">
+                {index > 0 && (
+                  <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-400 bg-white px-1">
+                    {__('and', 'wp-statistics')}
+                  </div>
+                )}
+                <div className={index > 0 ? 'pt-2' : ''}>
+                  <div className="flex items-center gap-1.5 p-2 rounded-lg bg-neutral-100 border border-neutral-200">
+                    <div className="h-8 px-3 text-xs font-medium bg-white/60 shadow-sm shrink-0 flex items-center rounded-md text-neutral-600">
+                      {lockedFilter.label}
+                    </div>
+                    <div className="h-8 px-3 text-xs bg-white/60 shadow-sm shrink-0 flex items-center rounded-md text-neutral-500">
+                      {lockedFilter.operator}
+                    </div>
+                    <div className="h-8 px-3 text-xs bg-white/60 shadow-sm flex-1 flex items-center rounded-md text-neutral-600 font-medium">
+                      {lockedFilter.value}
+                    </div>
+                    <div
+                      className="h-7 w-7 flex items-center justify-center text-neutral-400 shrink-0"
+                      title={__('This filter is always applied to this report', 'wp-statistics')}
+                    >
+                      <Lock className="h-3.5 w-3.5" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+          {/* Editable Filters */}
           {filters.map((filter, index) => (
             <div key={filter.id} className="relative">
               {/* Row connector "and" label for multiple filters */}
-              {index > 0 && (
+              {(index > 0 || lockedFilters.length > 0) && (
                 <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-400 bg-white px-1">
                   {__('and', 'wp-statistics')}
                 </div>
               )}
-              <div className={index > 0 ? 'pt-2' : ''}>
+              <div className={index > 0 || lockedFilters.length > 0 ? 'pt-2' : ''}>
                 <FilterRow
                   filter={filter}
                   fields={fields}
@@ -210,3 +253,4 @@ function FilterPanel({
 }
 
 export { FilterPanel, generateFilterId }
+export type { LockedFilter }
