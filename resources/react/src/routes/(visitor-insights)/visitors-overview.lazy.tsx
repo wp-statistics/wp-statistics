@@ -152,13 +152,15 @@ function RouteComponent() {
   const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
 
   // Transform chart format response to data points for LineChart component
-  // Chart format: { labels: string[], datasets: [{ key, data, comparison? }] }
+  // Chart format: { labels: string[], previousLabels?: string[], datasets: [{ key, data, comparison? }] }
   // Previous data comes as separate datasets with key like "visitors_previous" and comparison: true
   // Note: API may return values as strings, so we parse them to numbers
+  // Index-based alignment: When PP has different length, we align by position (Day 1 vs Day 1)
   const chartData = useMemo(() => {
     if (!trafficTrendsResponse?.labels || !trafficTrendsResponse?.datasets) return []
 
     const labels = trafficTrendsResponse.labels
+    const previousLabels = trafficTrendsResponse.previousLabels || []
     const datasets = trafficTrendsResponse.datasets
 
     // Separate current and previous datasets
@@ -166,18 +168,27 @@ function RouteComponent() {
     const previousDatasets = datasets.filter((d) => d.comparison)
 
     return labels.map((label, index) => {
-      const point: Record<string, string | number> = { date: label }
+      const point: Record<string, string | number | null> = {
+        date: label,
+        // Include previous period date for tooltip (null if PP is shorter than main period)
+        previousDate: previousLabels[index] || null,
+      }
 
-      // Add current period data
+      // Add current period data (always present)
       currentDatasets.forEach((dataset) => {
         point[dataset.key] = Number(dataset.data[index]) || 0
       })
 
-      // Add previous period data (datasets have keys like "visitors_previous")
+      // Add previous period data (may be null if PP is shorter than main period)
+      // Use previousLabels.length as the indicator of how many days have actual PP data
+      // (backend fills remaining days with zeros, but we want to show gaps)
+      const hasPreviousData = index < previousLabels.length
       previousDatasets.forEach((dataset) => {
         // Convert "visitors_previous" to "visitorsPrevious"
         const baseKey = dataset.key.replace('_previous', '')
-        point[`${baseKey}Previous`] = Number(dataset.data[index]) || 0
+        // Use null if PP is shorter (no data for this index) - this creates gaps in the line
+        const value = hasPreviousData ? Number(dataset.data[index]) || 0 : null
+        point[`${baseKey}Previous`] = value
       })
 
       return point
@@ -424,6 +435,7 @@ function RouteComponent() {
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
+                compareDateTo={apiDateParams.previous_date_to}
               />
             </div>
 

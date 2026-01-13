@@ -120,10 +120,20 @@ class ChartFormatter extends AbstractFormatter
             'meta'     => $this->buildBaseMeta($query),
         ];
 
-        // Add comparison info if present
+        // Add comparison info and previousLabels if present
         if (isset($result['compare_from'])) {
             $response['meta']['compare_from'] = $result['compare_from'];
             $response['meta']['compare_to']   = $result['compare_to'];
+
+            // Generate previousLabels for time-series charts
+            // Uses ISO format (Y-m-d) for JavaScript Date parsing compatibility
+            if (in_array($primaryGroupBy, self::$timeSeriesGroupBy, true)) {
+                $response['previousLabels'] = $this->generatePreviousLabels(
+                    $result['compare_from'],
+                    $result['compare_to'],
+                    $primaryGroupBy
+                );
+            }
         }
 
         return $response;
@@ -240,6 +250,65 @@ class ChartFormatter extends AbstractFormatter
                 $interval = new \DateInterval('P1M');
                 while ($start <= $end) {
                     $labels[] = $start->format('Y-m');
+                    $start->add($interval);
+                }
+                break;
+        }
+
+        return $labels;
+    }
+
+    /**
+     * Generate previous period labels in ISO format for JavaScript Date parsing.
+     *
+     * Unlike generateDateLabels which matches database format, this always returns
+     * Y-m-d format that JavaScript can reliably parse with new Date().
+     *
+     * @param string $dateFrom    Start date (YYYY-MM-DD or with time).
+     * @param string $dateTo      End date (YYYY-MM-DD or with time).
+     * @param string $groupByType Type of grouping (date, week, month).
+     * @return array Array of ISO date labels (Y-m-d format).
+     */
+    private function generatePreviousLabels(string $dateFrom, string $dateTo, string $groupByType): array
+    {
+        // Extract just the date part
+        $startDate = substr($dateFrom, 0, 10);
+        $endDate   = substr($dateTo, 0, 10);
+
+        $start = new \DateTime($startDate);
+        $end   = new \DateTime($endDate);
+
+        $labels = [];
+
+        switch ($groupByType) {
+            case 'date':
+                // Daily: Generate each day
+                $interval = new \DateInterval('P1D');
+                $period   = new \DatePeriod($start, $interval, $end->modify('+1 day'));
+                foreach ($period as $date) {
+                    $labels[] = $date->format('Y-m-d');
+                }
+                break;
+
+            case 'week':
+                // Weekly: Generate week start dates (Monday)
+                $dayOfWeek = (int) $start->format('N');
+                if ($dayOfWeek !== 1) {
+                    $start->modify('monday this week');
+                }
+                $interval = new \DateInterval('P1W');
+                while ($start <= $end) {
+                    $labels[] = $start->format('Y-m-d');
+                    $start->add($interval);
+                }
+                break;
+
+            case 'month':
+                // Monthly: Generate first day of each month (always Y-m-d for JS parsing)
+                $start->modify('first day of this month');
+                $interval = new \DateInterval('P1M');
+                while ($start <= $end) {
+                    $labels[] = $start->format('Y-m-d');
                     $start->add($interval);
                 }
                 break;

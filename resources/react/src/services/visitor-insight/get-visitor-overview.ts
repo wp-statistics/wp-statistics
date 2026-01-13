@@ -41,11 +41,12 @@ export interface MetricsResponse {
 }
 
 // Chart format response (for traffic trends)
-// Chart format: { success, labels: [...], datasets: [{key, label, data, comparison?}], meta: {...} }
+// Chart format: { success, labels: [...], previousLabels?: [...], datasets: [{key, label, data, comparison?}], meta: {...} }
 // Note: Previous period data comes as separate datasets with key like "visitors_previous" and comparison: true
 export interface TrafficTrendsChartResponse {
   success: boolean
   labels: string[]
+  previousLabels?: string[] // Previous period date labels (for index-based alignment when periods differ in length)
   datasets: Array<{
     key: string
     label: string

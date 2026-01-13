@@ -11,7 +11,8 @@ import { cn, formatCompactNumber } from '@/lib/utils'
 
 export interface LineChartDataPoint {
   date: string
-  [key: string]: string | number
+  previousDate?: string | null // For tooltip display when comparing periods of different lengths
+  [key: string]: string | number | null | undefined
 }
 
 export interface LineChartMetric {
@@ -33,6 +34,8 @@ export interface LineChartProps {
   className?: string
   loading?: boolean
   borderless?: boolean
+  /** Actual previous period end date - used to cap tooltip display for partial periods */
+  compareDateTo?: string
 }
 
 // Type for chart tooltip payload entries
@@ -53,6 +56,7 @@ export function LineChart({
   className,
   loading = false,
   borderless = false,
+  compareDateTo,
 }: LineChartProps) {
   const { isMobile } = useBreakpoint()
   const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
@@ -120,6 +124,7 @@ export function LineChart({
             strokeDasharray="5 5"
             dot={false}
             opacity={0.5}
+            connectNulls={false}
           />
         )
       }),
@@ -246,7 +251,55 @@ export function LineChart({
                 tickMargin={8}
                 minTickGap={32}
                 interval={data.length <= 8 ? 0 : Math.ceil(data.length / 8) - 1}
-                tick={{ fill: '#9ca3af', fontSize: 12 }}
+                tick={({ x, y, payload, index, visibleTicksCount }) => {
+                  // Determine text anchor based on position
+                  // First tick: start (left-aligned), Last tick: end (right-aligned), Middle: middle
+                  const isFirst = index === 0
+                  const isLast = visibleTicksCount ? index === visibleTicksCount - 1 : false
+                  const textAnchor = isFirst ? 'start' : isLast ? 'end' : 'middle'
+
+                  // Format the label (same logic as tickFormatter)
+                  const value = payload.value
+                  let formattedLabel: string
+
+                  // Handle week format "YYYYWW" (e.g., "202539" = week 39 of 2025)
+                  if (timeframe === 'weekly' && /^\d{6}$/.test(value)) {
+                    const year = parseInt(value.substring(0, 4), 10)
+                    const week = parseInt(value.substring(4, 6), 10)
+                    const firstDayOfYear = new Date(year, 0, 1)
+                    const dayOfWeek = firstDayOfYear.getDay()
+                    const daysToMonday = dayOfWeek === 0 ? 1 : dayOfWeek === 1 ? 0 : 8 - dayOfWeek
+                    const firstMonday = new Date(year, 0, 1 + daysToMonday)
+                    const startDate = new Date(firstMonday)
+                    startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
+                    const endDate = new Date(startDate)
+                    endDate.setDate(startDate.getDate() + 6)
+                    formattedLabel = `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+                  } else if (timeframe === 'monthly' && /^\d{6}$/.test(value)) {
+                    // Handle month format "YYYYMM"
+                    const year = parseInt(value.substring(0, 4), 10)
+                    const month = parseInt(value.substring(4, 6), 10) - 1
+                    const date = new Date(year, month, 1)
+                    formattedLabel = date.toLocaleDateString('en-US', { month: 'long' })
+                  } else {
+                    const date = new Date(value)
+                    if (timeframe === 'monthly') {
+                      formattedLabel = date.toLocaleDateString('en-US', { month: 'long' })
+                    } else if (timeframe === 'weekly') {
+                      const endDate = new Date(date)
+                      endDate.setDate(endDate.getDate() + 6)
+                      formattedLabel = `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+                    } else {
+                      formattedLabel = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                    }
+                  }
+
+                  return (
+                    <text x={x} y={y + 8} fill="#9ca3af" fontSize={12} textAnchor={textAnchor}>
+                      {formattedLabel}
+                    </text>
+                  )
+                }}
                 tickFormatter={(value) => {
                   // Handle week format "YYYYWW" (e.g., "202539" = week 39 of 2025)
                   if (timeframe === 'weekly' && /^\d{6}$/.test(value)) {
@@ -381,48 +434,58 @@ export function LineChart({
                     }
                   })
 
-                  // Calculate previous period date
-                  const currentDate = new Date(label)
-                  const previousDate = new Date(currentDate)
-                  let prevFormatted: string
-                  let prevDayOfWeek: string
+                  // Get previous period date from data (index-based alignment)
+                  // When comparing periods of different lengths, previousDate may be null
+                  const dataPoint = data.find((d) => d.date === label)
+                  const previousDateStr = dataPoint?.previousDate as string | null | undefined
+                  let prevFormatted: string | null = null
+                  let prevDayOfWeek: string = ''
 
-                  if (timeframe === 'monthly') {
-                    previousDate.setMonth(previousDate.getMonth() - 1)
-                    prevFormatted = previousDate.toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                    })
-                    const prevEndDate = new Date(previousDate)
-                    prevEndDate.setMonth(prevEndDate.getMonth() + 1)
-                    prevEndDate.setDate(0)
-                    const prevEndFormatted = prevEndDate.toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                    })
-                    prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
-                    prevDayOfWeek = ''
-                  } else if (timeframe === 'weekly') {
-                    previousDate.setDate(previousDate.getDate() - 35) // Go back 5 weeks
-                    prevFormatted = previousDate.toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                    })
-                    const prevEndDate = new Date(previousDate)
-                    prevEndDate.setDate(prevEndDate.getDate() + 6)
-                    const prevEndFormatted = prevEndDate.toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                    })
-                    prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
-                    prevDayOfWeek = ''
-                  } else {
-                    previousDate.setDate(previousDate.getDate() - 30)
-                    prevFormatted = previousDate.toLocaleDateString('en-US', {
-                      day: 'numeric',
-                      month: 'short',
-                    })
-                    prevDayOfWeek = previousDate.toLocaleDateString('en-US', { weekday: 'short' })
+                  if (previousDateStr) {
+                    const previousDate = new Date(previousDateStr)
+                    // Cap end date to actual PP end date (compareDateTo) to handle partial periods
+                    const actualPpEndDate = compareDateTo ? new Date(compareDateTo) : null
+
+                    if (timeframe === 'monthly') {
+                      prevFormatted = previousDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })
+                      let prevEndDate = new Date(previousDate)
+                      prevEndDate.setMonth(prevEndDate.getMonth() + 1)
+                      prevEndDate.setDate(0) // Last day of month
+                      // Cap to actual PP end date if it's earlier
+                      if (actualPpEndDate && actualPpEndDate < prevEndDate) {
+                        prevEndDate = actualPpEndDate
+                      }
+                      const prevEndFormatted = prevEndDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })
+                      prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
+                    } else if (timeframe === 'weekly') {
+                      prevFormatted = previousDate.toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                      let prevEndDate = new Date(previousDate)
+                      prevEndDate.setDate(prevEndDate.getDate() + 6) // End of week
+                      // Cap to actual PP end date if it's earlier
+                      if (actualPpEndDate && actualPpEndDate < prevEndDate) {
+                        prevEndDate = actualPpEndDate
+                      }
+                      const prevEndFormatted = prevEndDate.toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                      prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
+                    } else {
+                      prevFormatted = previousDate.toLocaleDateString('en-US', {
+                        day: 'numeric',
+                        month: 'short',
+                      })
+                      prevDayOfWeek = previousDate.toLocaleDateString('en-US', { weekday: 'short' })
+                    }
                   }
 
                   return (
@@ -437,6 +500,10 @@ export function LineChart({
                           const baseMetric = metrics.find((m) => m.key === baseKey)
 
                           if (!baseMetric) return null
+
+                          // Skip rendering previous period row if no data for this index
+                          // (happens when PP is shorter than main period)
+                          if (isPrevious && !prevFormatted) return null
 
                           const color = baseMetric.color || entry.color
                           const displayLabel = isPrevious
