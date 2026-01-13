@@ -105,61 +105,75 @@ export function LineChart({
     return isToday(dateTo)
   }, [dateTo, data.length])
 
-  // Data segments for incomplete period handling
-  const { completeData, incompleteSegmentData } = React.useMemo(() => {
-    if (!hasIncompleteData) {
-      return { completeData: data, incompleteSegmentData: null }
-    }
-    // Complete data: all points except the last one
-    // Incomplete segment: last two points (to draw the connecting dotted line)
-    return {
-      completeData: data.slice(0, -1),
-      incompleteSegmentData: data.slice(-2),
-    }
-  }, [data, hasIncompleteData])
+  // Transform data to add _solid and _dotted keys for incomplete data handling
+  // This avoids using custom `data` props on Line components which causes x-axis duplication
+  const chartData = React.useMemo(() => {
+    if (!hasIncompleteData) return data
 
-  // Memoize current period lines to prevent unnecessary re-renders
+    return data.map((point, idx) => {
+      const isLastPoint = idx === data.length - 1
+      const isSecondToLast = idx === data.length - 2
+      const newPoint: LineChartDataPoint = { ...point }
+
+      // For each current period metric, create _solid and _dotted versions
+      metrics.forEach((metric) => {
+        const value = point[metric.key]
+        // _solid: value for all points except last (so solid line stops before last point)
+        newPoint[`${metric.key}_solid`] = isLastPoint ? null : value
+        // _dotted: value only for last two points (so dotted line only shows last segment)
+        newPoint[`${metric.key}_dotted`] = isSecondToLast || isLastPoint ? value : null
+      })
+
+      return newPoint
+    })
+  }, [data, hasIncompleteData, metrics])
+
+  // Memoize current period lines
   const currentLines = React.useMemo(
     () =>
       metrics.flatMap((metric, index) => {
         if (!visibleMetrics[metric.key]) return []
         const color = metric.color || defaultColors[index % defaultColors.length]
 
-        const lines: React.ReactNode[] = []
+        if (!hasIncompleteData) {
+          // No incomplete data - single solid line using original key
+          return [
+            <Line key={metric.key} type="monotone" dataKey={metric.key} stroke={color} strokeWidth={2} dot={false} />,
+          ]
+        }
 
-        // Main line (solid) - uses completeData when incomplete, full data otherwise
-        lines.push(
+        // Incomplete data - solid line + dotted segment overlay using transformed keys
+        // Use synchronized animation parameters to ensure both lines animate together
+        return [
           <Line
-            key={metric.key}
+            key={`${metric.key}-solid`}
             type="monotone"
-            dataKey={metric.key}
+            dataKey={`${metric.key}_solid`}
             stroke={color}
             strokeWidth={2}
             dot={false}
-            data={hasIncompleteData ? completeData : undefined}
-          />
-        )
-
-        // Incomplete segment line (dotted) - only when period ends today
-        if (hasIncompleteData && incompleteSegmentData) {
-          lines.push(
-            <Line
-              key={`${metric.key}-incomplete`}
-              type="monotone"
-              dataKey={metric.key}
-              stroke={color}
-              strokeWidth={2}
-              strokeDasharray="3 3"
-              dot={false}
-              data={incompleteSegmentData}
-              legendType="none"
-            />
-          )
-        }
-
-        return lines
+            connectNulls={false}
+            animationBegin={0}
+            animationDuration={1500}
+            animationEasing="ease"
+          />,
+          <Line
+            key={`${metric.key}-dotted`}
+            type="monotone"
+            dataKey={`${metric.key}_dotted`}
+            stroke={color}
+            strokeWidth={2}
+            strokeDasharray="3 3"
+            dot={false}
+            connectNulls={false}
+            legendType="none"
+            animationBegin={0}
+            animationDuration={1500}
+            animationEasing="ease"
+          />,
+        ]
       }),
-    [metrics, visibleMetrics, defaultColors, hasIncompleteData, completeData, incompleteSegmentData]
+    [metrics, visibleMetrics, defaultColors, hasIncompleteData]
   )
 
   // Memoize previous period lines to prevent unnecessary re-renders
@@ -297,7 +311,7 @@ export function LineChart({
           </div>
         ) : (
           <ChartContainer config={chartConfig} className="h-[180px] md:h-[220px] lg:h-[250px] w-full">
-            <RechartsLineChart data={data} margin={{ left: 24 }}>
+            <RechartsLineChart data={chartData} margin={{ left: 24 }}>
               <CartesianGrid vertical={false} horizontal={true} stroke="#e5e7eb" strokeDasharray="0" />
               <XAxis
                 dataKey="date"
@@ -474,9 +488,25 @@ export function LineChart({
                   // Group payload by metric (current + previous together)
                   const groupedData: TooltipPayloadEntry[] = []
                   metrics.forEach((metric) => {
-                    const currentEntry = payload.find((p) => (p as TooltipPayloadEntry).dataKey === metric.key) as
+                    // Find current entry - check original key first, then _solid/_dotted variants
+                    let currentEntry = payload.find((p) => (p as TooltipPayloadEntry).dataKey === metric.key) as
                       | TooltipPayloadEntry
                       | undefined
+                    if (!currentEntry) {
+                      // When hasIncompleteData is true, check _solid and _dotted keys
+                      const solidEntry = payload.find(
+                        (p) => (p as TooltipPayloadEntry).dataKey === `${metric.key}_solid`
+                      ) as TooltipPayloadEntry | undefined
+                      const dottedEntry = payload.find(
+                        (p) => (p as TooltipPayloadEntry).dataKey === `${metric.key}_dotted`
+                      ) as TooltipPayloadEntry | undefined
+                      // Use whichever has a non-null value
+                      if (solidEntry && solidEntry.value != null) {
+                        currentEntry = { ...solidEntry, dataKey: metric.key }
+                      } else if (dottedEntry && dottedEntry.value != null) {
+                        currentEntry = { ...dottedEntry, dataKey: metric.key }
+                      }
+                    }
                     const previousEntry = payload.find(
                       (p) => (p as TooltipPayloadEntry).dataKey === `${metric.key}Previous`
                     ) as TooltipPayloadEntry | undefined
