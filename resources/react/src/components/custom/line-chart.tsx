@@ -7,7 +7,7 @@ import * as React from 'react'
 import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from 'recharts'
 
 import { useBreakpoint } from '@/hooks/use-breakpoint'
-import { cn, formatCompactNumber } from '@/lib/utils'
+import { cn, formatCompactNumber, isToday } from '@/lib/utils'
 
 export interface LineChartDataPoint {
   date: string
@@ -36,6 +36,8 @@ export interface LineChartProps {
   borderless?: boolean
   /** Actual previous period end date - used to cap tooltip display for partial periods */
   compareDateTo?: string
+  /** End date of the current period - used to detect incomplete data (shows dotted line when ending today) */
+  dateTo?: string
 }
 
 // Type for chart tooltip payload entries
@@ -57,6 +59,7 @@ export function LineChart({
   loading = false,
   borderless = false,
   compareDateTo,
+  dateTo,
 }: LineChartProps) {
   const { isMobile } = useBreakpoint()
   const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
@@ -96,15 +99,67 @@ export function LineChart({
     }))
   }
 
+  // Detect if the current period is incomplete (ends on today)
+  const hasIncompleteData = React.useMemo(() => {
+    if (!dateTo || data.length < 2) return false
+    return isToday(dateTo)
+  }, [dateTo, data.length])
+
+  // Data segments for incomplete period handling
+  const { completeData, incompleteSegmentData } = React.useMemo(() => {
+    if (!hasIncompleteData) {
+      return { completeData: data, incompleteSegmentData: null }
+    }
+    // Complete data: all points except the last one
+    // Incomplete segment: last two points (to draw the connecting dotted line)
+    return {
+      completeData: data.slice(0, -1),
+      incompleteSegmentData: data.slice(-2),
+    }
+  }, [data, hasIncompleteData])
+
   // Memoize current period lines to prevent unnecessary re-renders
   const currentLines = React.useMemo(
     () =>
-      metrics.map((metric, index) => {
-        if (!visibleMetrics[metric.key]) return null
+      metrics.flatMap((metric, index) => {
+        if (!visibleMetrics[metric.key]) return []
         const color = metric.color || defaultColors[index % defaultColors.length]
-        return <Line key={metric.key} type="monotone" dataKey={metric.key} stroke={color} strokeWidth={2} dot={false} />
+
+        const lines: React.ReactNode[] = []
+
+        // Main line (solid) - uses completeData when incomplete, full data otherwise
+        lines.push(
+          <Line
+            key={metric.key}
+            type="monotone"
+            dataKey={metric.key}
+            stroke={color}
+            strokeWidth={2}
+            dot={false}
+            data={hasIncompleteData ? completeData : undefined}
+          />
+        )
+
+        // Incomplete segment line (dotted) - only when period ends today
+        if (hasIncompleteData && incompleteSegmentData) {
+          lines.push(
+            <Line
+              key={`${metric.key}-incomplete`}
+              type="monotone"
+              dataKey={metric.key}
+              stroke={color}
+              strokeWidth={2}
+              strokeDasharray="3 3"
+              dot={false}
+              data={incompleteSegmentData}
+              legendType="none"
+            />
+          )
+        }
+
+        return lines
       }),
-    [metrics, visibleMetrics, defaultColors]
+    [metrics, visibleMetrics, defaultColors, hasIncompleteData, completeData, incompleteSegmentData]
   )
 
   // Memoize previous period lines to prevent unnecessary re-renders

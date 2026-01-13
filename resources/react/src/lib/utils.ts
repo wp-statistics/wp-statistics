@@ -10,6 +10,17 @@ export const getToday = (): string => {
   return today.toISOString().split('T')[0]
 }
 
+/**
+ * Check if a date string represents today's date
+ */
+export function isToday(dateString: string): boolean {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const checkDate = new Date(dateString)
+  checkDate.setHours(0, 0, 0, 0)
+  return today.getTime() === checkDate.getTime()
+}
+
 export const formatDateForAPI = (date: Date): string => {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
