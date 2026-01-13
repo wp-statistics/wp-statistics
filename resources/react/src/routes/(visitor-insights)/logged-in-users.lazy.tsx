@@ -313,6 +313,7 @@ function RouteComponent() {
               onTimeframeChange={setTimeframe}
               isLoading={isChartLoading}
               borderless
+              dateTo={apiDateParams.date_to}
             />
 
             <DataTable

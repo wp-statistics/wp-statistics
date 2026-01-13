@@ -13,6 +13,7 @@ import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -390,6 +391,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
   }, [chartTotals, isCompareEnabled])
 
   const calcPercentage = usePercentageCalc()
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Build metrics - 8 metrics per documentation
   const contentMetrics = useMemo(() => {
@@ -684,6 +686,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
+                dateTo={apiDateParams.date_to}
               />
             </div>
 
@@ -702,6 +705,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -734,6 +738,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -765,6 +770,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -805,6 +811,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -841,6 +848,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -877,6 +885,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 

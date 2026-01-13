@@ -1,6 +1,8 @@
+import { __ } from '@wordpress/i18n'
 import { ChevronDown, ChevronUp, Info } from 'lucide-react'
 import * as React from 'react'
 
+import { ComparisonTooltipHeader } from '@/components/custom/comparison-tooltip-header'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { semanticColors } from '@/constants/design-tokens'
 import { useBreakpoint } from '@/hooks/use-breakpoint'
@@ -13,6 +15,10 @@ export interface MetricItem {
   isNegative?: boolean
   icon?: React.ReactNode
   tooltipContent?: string
+  /** Date range comparison header for tooltip on percentage badge */
+  comparisonDateLabel?: string
+  /** Previous period value for tooltip display */
+  previousValue?: string | number
 }
 
 export interface MetricsProps {
@@ -79,6 +85,8 @@ function MetricCard({
   isNegative = false,
   icon,
   tooltipContent,
+  comparisonDateLabel,
+  previousValue,
   positionClasses,
   isMobile,
 }: MetricCardProps) {
@@ -147,28 +155,97 @@ function MetricCard({
           {value}
         </span>
         {hasPercentage && (
-          <span
-            className={cn(
-              'inline-flex items-center gap-0.5 font-medium tabular-nums leading-none',
-              // Responsive text size
-              'text-[11px] md:text-xs',
-              isZero
-                ? semanticColors.trendNeutral
-                : isNegative
-                  ? semanticColors.trendNegative
-                  : semanticColors.trendPositive
-            )}
-          >
-            {!isZero &&
-              (isNegative ? (
-                <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
-              ) : (
-                <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
-              ))}
-            {displayPercentage}%
-          </span>
+          <PercentageBadge
+            displayPercentage={displayPercentage}
+            isNegative={isNegative}
+            isZero={isZero}
+            comparisonDateLabel={comparisonDateLabel}
+            previousValue={previousValue}
+          />
         )}
       </div>
     </div>
   )
+}
+
+interface PercentageBadgeProps {
+  displayPercentage: string | number | undefined
+  isNegative: boolean
+  isZero: boolean
+  comparisonDateLabel?: string
+  previousValue?: string | number
+}
+
+function PercentageBadge({
+  displayPercentage,
+  isNegative,
+  isZero,
+  comparisonDateLabel,
+  previousValue,
+}: PercentageBadgeProps) {
+  const badgeContent = (
+    <span
+      className={cn(
+        'inline-flex items-center gap-0.5 font-medium tabular-nums leading-none',
+        // Responsive text size
+        'text-[11px] md:text-xs',
+        isZero
+          ? semanticColors.trendNeutral
+          : isNegative
+            ? semanticColors.trendNegative
+            : semanticColors.trendPositive,
+        // Show cursor hint when tooltip is available
+        comparisonDateLabel && 'cursor-help'
+      )}
+    >
+      {!isZero &&
+        (isNegative ? (
+          <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
+        ) : (
+          <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
+        ))}
+      {displayPercentage}%
+    </span>
+  )
+
+  // Only wrap in tooltip if comparison date label is provided
+  if (comparisonDateLabel) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{badgeContent}</TooltipTrigger>
+        <TooltipContent side="top" className="px-2.5 py-1.5">
+          <ComparisonTooltipHeader label={comparisonDateLabel} />
+          <div className="flex items-center gap-4 justify-between">
+            <span className="text-neutral-100">
+              {__('Previous:', 'wp-statistics')} {previousValue ?? '-'}
+            </span>
+            <div className="flex items-center font-medium">
+              <span className={isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight}>
+                {!isZero &&
+                  (isNegative ? (
+                    <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  ) : (
+                    <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  ))}
+              </span>
+              <span
+                className={cn(
+                  'tabular-nums',
+                  isZero
+                    ? 'text-neutral-300'
+                    : isNegative
+                      ? semanticColors.trendNegativeLight
+                      : semanticColors.trendPositiveLight
+                )}
+              >
+                {displayPercentage}%
+              </span>
+            </div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    )
+  }
+
+  return badgeContent
 }

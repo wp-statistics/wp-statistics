@@ -12,6 +12,7 @@ import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -193,6 +194,7 @@ function CategoriesOverviewView() {
   const topDevicesTotals = batchResponse?.data?.items?.top_devices?.data?.totals
 
   const calcPercentage = usePercentageCalc()
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Build metrics (8 metrics in 2 rows of 4)
   const categoriesMetrics = useMemo(() => {
@@ -584,6 +586,7 @@ function CategoriesOverviewView() {
                 showPreviousPeriod={isCompareEnabled}
                 timeframe={timeframe}
                 onTimeframeChange={setTimeframe}
+                dateTo={apiDateParams.date_to}
               />
             </div>
 
@@ -640,6 +643,7 @@ function CategoriesOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -670,6 +674,7 @@ function CategoriesOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -699,6 +704,7 @@ function CategoriesOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -736,6 +742,7 @@ function CategoriesOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -772,6 +779,7 @@ function CategoriesOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -808,6 +816,7 @@ function CategoriesOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 

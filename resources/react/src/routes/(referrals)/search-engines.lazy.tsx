@@ -395,6 +395,7 @@ function RouteComponent() {
               timeframe={timeframe}
               onTimeframeChange={handleTimeframeChange}
               loading={isFetching && chartData.length === 0}
+              dateTo={apiDateParams.date_to}
             />
 
             {/* Table */}

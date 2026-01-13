@@ -1,5 +1,6 @@
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
+import { ComparisonTooltipHeader } from '@/components/custom/comparison-tooltip-header'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { semanticColors } from '@/constants/design-tokens'
 import { cn, formatCompactNumber } from '@/lib/utils'
@@ -12,6 +13,8 @@ export interface HorizontalBarProps {
   fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
   tooltipSubtitle?: string
+  /** Date range comparison header for tooltip (e.g., "Dec 16 - Jan 12 vs. Nov 18 - Dec 15") */
+  comparisonDateLabel?: string
   isFirst?: boolean
   showComparison?: boolean // Whether to show the percentage change indicator
 }
@@ -24,6 +27,7 @@ export function HorizontalBar({
   fillPercentage,
   isNegative = false,
   tooltipSubtitle,
+  comparisonDateLabel,
   isFirst = false,
   showComparison = true,
 }: HorizontalBarProps) {
@@ -112,6 +116,7 @@ export function HorizontalBar({
       <Tooltip>
         <TooltipTrigger asChild>{content}</TooltipTrigger>
         <TooltipContent side="top" className="px-2.5 py-1.5">
+          <ComparisonTooltipHeader label={comparisonDateLabel} />
           <div className="flex items-center gap-4 justify-between">
             <span className="text-neutral-100">{tooltipSubtitle}</span>
             {showComparison && percentage !== undefined && (

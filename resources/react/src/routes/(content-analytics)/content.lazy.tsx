@@ -12,6 +12,7 @@ import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -314,6 +315,7 @@ function ContentOverviewView() {
   )
 
   const calcPercentage = usePercentageCalc()
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Get post type label from filters (includes page-specific default)
   const postTypeLabel = useMemo(() => {
@@ -546,6 +548,7 @@ function ContentOverviewView() {
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
+                dateTo={apiDateParams.date_to}
               />
             </div>
 
@@ -575,6 +578,7 @@ function ContentOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -604,6 +608,7 @@ function ContentOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -632,6 +637,7 @@ function ContentOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -669,6 +675,7 @@ function ContentOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -705,6 +712,7 @@ function ContentOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -741,6 +749,7 @@ function ContentOverviewView() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 

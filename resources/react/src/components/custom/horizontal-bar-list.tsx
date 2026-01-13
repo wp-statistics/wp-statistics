@@ -14,6 +14,8 @@ interface HorizontalBarItem {
   fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
   tooltipSubtitle?: string
+  /** Date range comparison header for tooltip */
+  comparisonDateLabel?: string
 }
 
 interface HorizontalBarListProps {
@@ -56,6 +58,7 @@ export function HorizontalBarList({ title, items, link, loading = false, showCom
                 fillPercentage={item.fillPercentage}
                 isNegative={item.isNegative}
                 tooltipSubtitle={item.tooltipSubtitle}
+                comparisonDateLabel={item.comparisonDateLabel}
                 isFirst={index === 0}
                 showComparison={showComparison}
               />

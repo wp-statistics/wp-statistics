@@ -19,6 +19,7 @@ import {
   PanelSkeleton,
   TableSkeleton,
 } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -270,6 +271,8 @@ function RouteComponent() {
 
   // Use the shared percentage calculation hook
   const calcPercentage = usePercentageCalc()
+  // Get comparison date label for tooltips
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Build metrics from batch response (flat format - totals at top level)
   // Layout: 4 columns, 2 rows
@@ -307,22 +310,46 @@ function RouteComponent() {
       {
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
-        ...(isCompareEnabled ? calcPercentage(visitors, prevVisitors) : {}),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(visitors, prevVisitors),
+              comparisonDateLabel,
+              previousValue: formatCompactNumber(prevVisitors),
+            }
+          : {}),
       },
       {
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(views),
-        ...(isCompareEnabled ? calcPercentage(views, prevViews) : {}),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(views, prevViews),
+              comparisonDateLabel,
+              previousValue: formatCompactNumber(prevViews),
+            }
+          : {}),
       },
       {
         label: __('Session Duration', 'wp-statistics'),
         value: formatDuration(avgSessionDuration),
-        ...(isCompareEnabled ? calcPercentage(avgSessionDuration, prevAvgSessionDuration) : {}),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(avgSessionDuration, prevAvgSessionDuration),
+              comparisonDateLabel,
+              previousValue: formatDuration(prevAvgSessionDuration),
+            }
+          : {}),
       },
       {
         label: __('Views/Session', 'wp-statistics'),
         value: formatDecimal(pagesPerSession),
-        ...(isCompareEnabled ? calcPercentage(pagesPerSession, prevPagesPerSession) : {}),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(pagesPerSession, prevPagesPerSession),
+              comparisonDateLabel,
+              previousValue: formatDecimal(prevPagesPerSession),
+            }
+          : {}),
       },
       // Row 2: Context metrics (strings use '-' when empty)
       {
@@ -340,10 +367,16 @@ function RouteComponent() {
       {
         label: __('Logged-in Share', 'wp-statistics'),
         value: `${formatDecimal(loggedInShare)}%`,
-        ...(isCompareEnabled ? calcPercentage(loggedInShare, prevLoggedInShare) : {}),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(loggedInShare, prevLoggedInShare),
+              comparisonDateLabel,
+              previousValue: `${formatDecimal(prevLoggedInShare)}%`,
+            }
+          : {}),
       },
     ]
-  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn, isCompareEnabled])
+  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn, isCompareEnabled, comparisonDateLabel])
 
   return (
     <div className="min-w-0">
@@ -436,6 +469,7 @@ function RouteComponent() {
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
                 compareDateTo={apiDateParams.previous_date_to}
+                dateTo={apiDateParams.date_to}
               />
             </div>
 
@@ -457,7 +491,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -489,7 +524,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -528,7 +564,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -568,7 +605,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 

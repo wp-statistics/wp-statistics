@@ -11,6 +11,7 @@ import { FilterButton, type FilterField } from '@/components/custom/filter-butto
 import { LineChart } from '@/components/custom/line-chart'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -46,6 +47,7 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const calcPercentage = usePercentageCalc()
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Get filter fields for 'referrals' group
   const filterFields = useMemo<FilterField[]>(() => {
@@ -353,6 +355,7 @@ function RouteComponent() {
               timeframe={timeframe}
               onTimeframeChange={handleTimeframeChange}
               loading={isFetching && chartData.length === 0}
+              dateTo={apiDateParams.date_to}
             />
 
             {/* Table */}

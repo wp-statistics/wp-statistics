@@ -11,6 +11,7 @@ import { Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, formatCompactNumber, formatDecimal } from '@/lib/utils'
@@ -214,6 +215,7 @@ function RouteComponent() {
   }, [chartTotals, isCompareEnabled])
 
   const calcPercentage = usePercentageCalc()
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Build overview metrics
   const overviewMetrics = useMemo(() => {
@@ -364,6 +366,7 @@ function RouteComponent() {
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
+                dateTo={apiDateParams.date_to}
               />
             </div>
 
@@ -381,7 +384,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -413,7 +417,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -446,7 +451,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -484,7 +490,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -522,7 +529,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -562,7 +570,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -594,7 +603,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -626,7 +636,8 @@ function RouteComponent() {
                     const comparisonProps = isCompareEnabled
                       ? {
                           ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 

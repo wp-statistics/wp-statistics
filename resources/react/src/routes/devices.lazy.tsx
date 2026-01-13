@@ -10,6 +10,7 @@ import { AddonPromo } from '@/components/custom/addon-promo'
 import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage } from '@/lib/utils'
@@ -70,6 +71,7 @@ function RouteComponent() {
   const topScreenResolutionsTotals = batchResponse?.data?.items?.top_screen_resolutions?.data?.totals
 
   const calcPercentage = usePercentageCalc()
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Build metrics for the top row
   const deviceMetrics = useMemo(() => {
@@ -193,6 +195,7 @@ function RouteComponent() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -233,6 +236,7 @@ function RouteComponent() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -274,6 +278,7 @@ function RouteComponent() {
                       ? {
                           ...calcPercentage(currentValue, previousValue),
                           tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                          comparisonDateLabel,
                         }
                       : {}
 
@@ -314,6 +319,7 @@ function RouteComponent() {
                         ? {
                             ...calcPercentage(currentValue, previousValue),
                             tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+                            comparisonDateLabel,
                           }
                         : {}
 

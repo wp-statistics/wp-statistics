@@ -17,6 +17,8 @@ export interface HorizontalBarItem {
   isNegative?: boolean
   tooltipTitle?: string
   tooltipSubtitle?: string
+  /** Date range comparison header for tooltip */
+  comparisonDateLabel?: string
 }
 
 /**
@@ -33,6 +35,8 @@ export interface BarListItemInput {
   totalValue: number
   /** Optional icon element */
   icon?: ReactNode
+  /** Optional comparison date label for tooltip header */
+  comparisonDateLabel?: string
 }
 
 /**
@@ -54,7 +58,7 @@ export interface BarListItemInput {
  * }))
  */
 export function createBarListItem(input: BarListItemInput): HorizontalBarItem {
-  const { name, currentValue, previousValue, totalValue, icon } = input
+  const { name, currentValue, previousValue, totalValue, icon, comparisonDateLabel } = input
   const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
 
   return {
@@ -66,6 +70,7 @@ export function createBarListItem(input: BarListItemInput): HorizontalBarItem {
     icon,
     tooltipTitle: name,
     tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+    comparisonDateLabel,
   }
 }
 
@@ -77,6 +82,7 @@ export function createBarListItem(input: BarListItemInput): HorizontalBarItem {
  * @param items - Array of items with required fields
  * @param totalValue - Total value for calculating fill percentages
  * @param getIcon - Optional function to generate icon for each item
+ * @param comparisonDateLabel - Optional comparison date label for tooltip headers
  * @returns Array of HorizontalBarItems
  *
  * @example
@@ -92,7 +98,7 @@ export function createBarListItems<
     visitors: number
     previous?: { visitors?: number }
   },
->(items: T[], totalValue: number, getIcon?: (item: T) => ReactNode): HorizontalBarItem[] {
+>(items: T[], totalValue: number, getIcon?: (item: T) => ReactNode, comparisonDateLabel?: string): HorizontalBarItem[] {
   return items.map((item) =>
     createBarListItem({
       name: item.name,
@@ -100,6 +106,7 @@ export function createBarListItems<
       previousValue: Number(item.previous?.visitors) || 0,
       totalValue,
       icon: getIcon?.(item),
+      comparisonDateLabel,
     })
   )
 }

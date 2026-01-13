@@ -12,6 +12,7 @@ import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -132,6 +133,7 @@ function RouteComponent() {
   const pages404Data = batchResponse?.data?.items?.pages_404?.data?.rows || []
 
   const calcPercentage = usePercentageCalc()
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Transform metrics to component format
   const metricsData = useMemo<MetricItem[]>(() => {
@@ -268,6 +270,7 @@ function RouteComponent() {
         ? {
             ...calcPercentage(currentValue, previousValue),
             tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+            comparisonDateLabel,
           }
         : {}
 
@@ -292,6 +295,7 @@ function RouteComponent() {
         ? {
             ...calcPercentage(currentValue, previousValue),
             tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+            comparisonDateLabel,
           }
         : {}
 
@@ -315,6 +319,7 @@ function RouteComponent() {
         ? {
             ...calcPercentage(currentValue, previousValue),
             tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+            comparisonDateLabel,
           }
         : {}
 
@@ -414,6 +419,7 @@ function RouteComponent() {
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
+                dateTo={apiDateParams.date_to}
               />
             </div>
 
