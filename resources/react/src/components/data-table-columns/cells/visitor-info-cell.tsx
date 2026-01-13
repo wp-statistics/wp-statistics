@@ -71,22 +71,19 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
             </span>
           </div>
         </TooltipTrigger>
-        <TooltipContent>{tooltipContent}</TooltipContent>
+        <TooltipContent>
+          <div className="flex flex-col">
+            <span>{tooltipContent}</span>
+            {user?.role && <span>{user.role}</span>}
+          </div>
+        </TooltipContent>
       </Tooltip>
 
       {/* Row 2: User Badge or Identifier */}
       {showUserBadge ? (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Badge variant="secondary" className="text-[11px] font-normal py-0 px-1 h-4 w-fit">
-              {user!.username} #{user!.id}
-            </Badge>
-          </TooltipTrigger>
-          <TooltipContent>
-            {user!.email}
-            {user!.role && ` · ${user!.role}`}
-          </TooltipContent>
-        </Tooltip>
+        <Badge variant="secondary" className="text-[11px] font-normal py-0 px-1 h-4 w-fit">
+          {user!.username} #{user!.id}
+        </Badge>
       ) : (
         identifierDisplay && (
           <span className="text-[11px] text-neutral-400 font-mono tracking-wide">{identifierDisplay}</span>
