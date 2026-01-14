@@ -4,21 +4,19 @@
  */
 
 export type DateFieldOrder = 'MDY' | 'DMY' | 'YMD'
-export type DateSeparator = '/' | '-' | '.' | ' '
 
 export interface ParsedDateFormat {
   order: DateFieldOrder
-  separator: DateSeparator
 }
 
 /**
- * Parse a PHP date format string and extract field order and separator.
+ * Parse a PHP date format string and extract field order.
  *
  * Common WordPress formats:
- * - 'Y-m-d' -> YMD with '-'
- * - 'd/m/Y' -> DMY with '/'
- * - 'm/d/Y' -> MDY with '/'
- * - 'd.m.Y' -> DMY with '.'
+ * - 'Y-m-d' -> YMD
+ * - 'd/m/Y' -> DMY
+ * - 'm/d/Y' -> MDY
+ * - 'd.m.Y' -> DMY
  * - 'F j, Y' -> MDY (month name formats)
  * - 'j F Y' -> DMY (day first with month name)
  *
@@ -28,9 +26,7 @@ export interface ParsedDateFormat {
  * - Year: Y (2024), y (24)
  */
 export function parseDateFormat(phpFormat: string): ParsedDateFormat {
-  // Default values
   let order: DateFieldOrder = 'YMD'
-  let separator: DateSeparator = '-'
 
   // Find positions of day, month, and year patterns
   const dayPattern = /[djDl]/
@@ -60,16 +56,7 @@ export function parseDateFormat(phpFormat: string): ParsedDateFormat {
     }
   }
 
-  // Extract separator - look for common separators between format characters
-  const separatorMatch = phpFormat.match(/[djDlmnFMYy]([/\-. ])[djDlmnFMYy]/)
-  if (separatorMatch && separatorMatch[1]) {
-    const matchedSep = separatorMatch[1]
-    if (matchedSep === '/' || matchedSep === '-' || matchedSep === '.' || matchedSep === ' ') {
-      separator = matchedSep
-    }
-  }
-
-  return { order, separator }
+  return { order }
 }
 
 /**
