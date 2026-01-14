@@ -33,7 +33,7 @@ class Device extends BaseEntity
             return $this;
         }
 
-        $deviceType = $this->userAgent->getDevice();
+        $deviceType = ucwords($this->userAgent->getDevice());
         $record     = RecordFactory::deviceType()->get(['name' => $deviceType]);
 
         $id = !empty($record) && isset($record->ID)
