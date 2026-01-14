@@ -11,6 +11,8 @@ import { FilterButton, type FilterField, type LockedFilter } from '@/components/
 import { LineChart } from '@/components/custom/line-chart'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
+import { mergeChartResponses } from '@/lib/chart-utils'
 import {
   createLoggedInUsersColumns,
   LOGGED_IN_USERS_COLUMN_CONFIG,
@@ -21,7 +23,6 @@ import {
 } from '@/components/data-table-columns/logged-in-users-columns'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
-import { formatDecimal } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getLoggedInUsersBatchQueryOptions } from '@/services/visitor-insight/get-logged-in-users-batch'
 
@@ -42,15 +43,6 @@ const getGroupBy = (timeframe: 'daily' | 'weekly' | 'monthly'): 'date' | 'week' 
 export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')({
   component: RouteComponent,
 })
-
-interface TrafficTrendItem {
-  date: string
-  userVisitors: number
-  userVisitorsPrevious: number
-  anonymousVisitors: number
-  anonymousVisitorsPrevious: number
-  [key: string]: string | number
-}
 
 function RouteComponent() {
   const {
@@ -173,72 +165,25 @@ function RouteComponent() {
   const totalRows = usersResponse?.meta?.total_pages ? usersResponse.meta.total_pages * PER_PAGE : tableData.length
   const totalPages = usersResponse?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
 
-  // Combine traffic trends data from chart format responses
-  const trafficTrendsData = useMemo<TrafficTrendItem[]>(() => {
-    const loggedInLabels = loggedInTrendsResponse?.labels || []
-    const loggedInDatasets = loggedInTrendsResponse?.datasets || []
-    const anonymousLabels = anonymousTrendsResponse?.labels || []
-    const anonymousDatasets = anonymousTrendsResponse?.datasets || []
-
-    const getDataset = (datasets: typeof loggedInDatasets, key: string) =>
-      datasets.find((d) => d.key === key)?.data || []
-
-    const loggedInVisitors = getDataset(loggedInDatasets, 'visitors')
-    const loggedInVisitorsPrevious = getDataset(loggedInDatasets, 'visitors_previous')
-    const anonymousVisitors = getDataset(anonymousDatasets, 'visitors')
-    const anonymousVisitorsPrevious = getDataset(anonymousDatasets, 'visitors_previous')
-
-    const labels = loggedInLabels.length > 0 ? loggedInLabels : anonymousLabels
-
-    return labels.map((date, index) => ({
-      date,
-      userVisitors: Number(loggedInVisitors[index]) || 0,
-      userVisitorsPrevious: Number(loggedInVisitorsPrevious[index]) || 0,
-      anonymousVisitors: Number(anonymousVisitors[index]) || 0,
-      anonymousVisitorsPrevious: Number(anonymousVisitorsPrevious[index]) || 0,
-    }))
-  }, [loggedInTrendsResponse, anonymousTrendsResponse])
-
-  // Calculate totals for metrics
-  const totalUserVisitors = trafficTrendsData.reduce((sum, item) => sum + item.userVisitors, 0)
-  const totalUserVisitorsPrevious = trafficTrendsData.reduce((sum, item) => sum + item.userVisitorsPrevious, 0)
-  const totalAnonymousVisitors = trafficTrendsData.reduce((sum, item) => sum + item.anonymousVisitors, 0)
-  const totalAnonymousVisitorsPrevious = trafficTrendsData.reduce(
-    (sum, item) => sum + item.anonymousVisitorsPrevious,
-    0
+  // Merge logged-in and anonymous trends into single chart response
+  const mergedChartResponse = useMemo(
+    () =>
+      mergeChartResponses(
+        [loggedInTrendsResponse, anonymousTrendsResponse],
+        [{ visitors: 'userVisitors' }, { visitors: 'anonymousVisitors' }]
+      ),
+    [loggedInTrendsResponse, anonymousTrendsResponse]
   )
 
-  const trafficTrendsMetrics = useMemo(() => [
-    {
-      key: 'userVisitors',
-      label: __('User Visitors', 'wp-statistics'),
-      color: 'var(--chart-1)',
-      enabled: true,
-      value: totalUserVisitors >= 1000 ? `${formatDecimal(totalUserVisitors / 1000)}k` : totalUserVisitors.toString(),
-      ...(isCompareEnabled ? {
-        previousValue:
-          totalUserVisitorsPrevious >= 1000
-            ? `${formatDecimal(totalUserVisitorsPrevious / 1000)}k`
-            : totalUserVisitorsPrevious.toString(),
-      } : {}),
-    },
-    {
-      key: 'anonymousVisitors',
-      label: __('Anonymous Visitors', 'wp-statistics'),
-      color: 'var(--chart-2)',
-      enabled: true,
-      value:
-        totalAnonymousVisitors >= 1000
-          ? `${formatDecimal(totalAnonymousVisitors / 1000)}k`
-          : totalAnonymousVisitors.toString(),
-      ...(isCompareEnabled ? {
-        previousValue:
-          totalAnonymousVisitorsPrevious >= 1000
-            ? `${formatDecimal(totalAnonymousVisitorsPrevious / 1000)}k`
-            : totalAnonymousVisitorsPrevious.toString(),
-      } : {}),
-    },
-  ], [totalUserVisitors, totalUserVisitorsPrevious, totalAnonymousVisitors, totalAnonymousVisitorsPrevious, isCompareEnabled])
+  // Transform chart data using shared hook
+  const { data: trafficTrendsData, metrics: trafficTrendsMetrics } = useChartData(mergedChartResponse, {
+    metrics: [
+      { key: 'userVisitors', label: __('User Visitors', 'wp-statistics'), color: 'var(--chart-1)' },
+      { key: 'anonymousVisitors', label: __('Anonymous Visitors', 'wp-statistics'), color: 'var(--chart-2)' },
+    ],
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
 
   const handleSortingChange = useCallback(
     (newSorting: SortingState) => {
@@ -313,6 +258,7 @@ function RouteComponent() {
               onTimeframeChange={setTimeframe}
               isLoading={isChartLoading}
               borderless
+              compareDateTo={apiDateParams.previous_date_to}
               dateTo={apiDateParams.date_to}
             />
 

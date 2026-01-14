@@ -26,6 +26,44 @@ const stringifySearch = (search: Record<string, unknown>): string => {
     .replace(/%2C/g, ',')
 }
 
+/**
+ * Custom search param parser that handles hash-based routing correctly.
+ *
+ * When using hash history with a main URL like:
+ * http://example.com/admin.php?page=wp-statistics#/views?date_from=2024-01-01
+ *
+ * The browser's location.search contains "?page=wp-statistics" (main URL params)
+ * The hash contains "#/views?date_from=2024-01-01" (hash route params)
+ *
+ * Without this parser, the main URL's query params can incorrectly get appended
+ * to the hash route on page reload. This parser filters out WordPress admin params
+ * that don't belong in the hash route's search params.
+ */
+const WORDPRESS_ADMIN_PARAMS = new Set(['page', 'post_type', 'taxonomy'])
+
+const parseSearch = (searchString: string): Record<string, string> => {
+  // Remove leading '?' if present
+  const cleanSearch = searchString.startsWith('?') ? searchString.slice(1) : searchString
+
+  // Early return for empty search
+  if (!cleanSearch) return {}
+
+  const params = new URLSearchParams(cleanSearch)
+  const result: Record<string, string> = {}
+
+  params.forEach((value, key) => {
+    // Exclude WordPress admin params that belong to the main URL, not the hash route.
+    // These can get incorrectly appended due to TanStack Router hash history quirks.
+    // See: top-categories.tsx and top-authors.tsx for similar workarounds.
+    if (WORDPRESS_ADMIN_PARAMS.has(key)) {
+      return // Skip - this param is from the main WordPress admin URL
+    }
+    result[key] = value
+  })
+
+  return result
+}
+
 export const createAppRouter = (queryClient: QueryClient) => {
   const hashHistory = createHashHistory()
 
@@ -37,6 +75,7 @@ export const createAppRouter = (queryClient: QueryClient) => {
     defaultPreloadStaleTime: 0,
     scrollRestoration: true,
     stringifySearch,
+    parseSearch,
   })
 }
 

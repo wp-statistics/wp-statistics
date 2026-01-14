@@ -1041,10 +1041,12 @@ class AnalyticsQueryHandler
         // Execute previous period query
         $prevResult = $this->executeQuery($prevQuery);
 
-        // Set up comparison handler
+        // Set up comparison handler with date ranges for filling missing dates
         $this->comparisonHandler
             ->setSources($sources)
-            ->setGroupBy($groupBy);
+            ->setGroupBy($groupBy)
+            ->setCurrentPeriodRange($query->getDateFrom(), $query->getDateTo())
+            ->setPreviousPeriodRange($previousPeriod['from'], $previousPeriod['to']);
 
         // Merge comparison into rows
         if (!empty($groupBy)) {

@@ -48,8 +48,8 @@ function Panel({ className, variant = 'default', ...props }: PanelProps) {
     <div
       data-slot="panel"
       className={cn(
-        'bg-card text-card-foreground rounded-lg overflow-hidden',
-        variant === 'default' && 'border',
+        'bg-card text-card-foreground overflow-hidden',
+        variant === 'default' && 'border rounded-lg',
         className
       )}
       {...props}

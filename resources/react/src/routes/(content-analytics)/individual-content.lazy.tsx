@@ -13,10 +13,12 @@ import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
-import { calcSharePercentage, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { transformToBarList } from '@/lib/bar-list-helpers'
+import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
   getIndividualContentQueryOptions,
@@ -311,84 +313,15 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
     [batchResponse]
   )
 
-  // Transform chart data
-  const chartData = useMemo(() => {
-    if (!trafficTrendsResponse?.labels || !trafficTrendsResponse?.datasets) return []
-
-    const labels = trafficTrendsResponse.labels
-    const datasets = trafficTrendsResponse.datasets
-    const currentDatasets = datasets.filter((d) => !d.comparison)
-    const previousDatasets = datasets.filter((d) => d.comparison)
-
-    return labels.map((label, index) => {
-      const point: { date: string; [key: string]: string | number } = { date: label }
-
-      currentDatasets.forEach((dataset) => {
-        point[dataset.key] = Number(dataset.data[index]) || 0
-      })
-
-      previousDatasets.forEach((dataset) => {
-        const baseKey = dataset.key.replace('_previous', '')
-        point[`${baseKey}Previous`] = Number(dataset.data[index]) || 0
-      })
-
-      return point
-    })
-  }, [trafficTrendsResponse])
-
-  // Calculate chart totals
-  const chartTotals = useMemo(() => {
-    if (!trafficTrendsResponse?.datasets) {
-      return { visitors: 0, visitorsPrevious: 0, views: 0, viewsPrevious: 0 }
-    }
-
-    const datasets = trafficTrendsResponse.datasets
-    const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
-    const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
-    const viewsDataset = datasets.find((d) => d.key === 'views' && !d.comparison)
-    const viewsPrevDataset = datasets.find((d) => d.key === 'views_previous' && d.comparison)
-
-    return {
-      visitors: visitorsDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      visitorsPrevious: visitorsPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      views: viewsDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      viewsPrevious: viewsPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-    }
-  }, [trafficTrendsResponse])
-
-  const chartMetrics = useMemo(() => {
-    const visitorsPreviousValue =
-      chartTotals.visitorsPrevious >= 1000
-        ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-        : formatDecimal(chartTotals.visitorsPrevious)
-    const viewsPreviousValue =
-      chartTotals.viewsPrevious >= 1000
-        ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-        : formatDecimal(chartTotals.viewsPrevious)
-
-    return [
-      {
-        key: 'visitors',
-        label: __('Visitors', 'wp-statistics'),
-        color: 'var(--chart-1)',
-        enabled: true,
-        value:
-          chartTotals.visitors >= 1000
-            ? `${formatDecimal(chartTotals.visitors / 1000)}k`
-            : formatDecimal(chartTotals.visitors),
-        ...(isCompareEnabled ? { previousValue: visitorsPreviousValue } : {}),
-      },
-      {
-        key: 'views',
-        label: __('Views', 'wp-statistics'),
-        color: 'var(--chart-2)',
-        enabled: true,
-        value:
-          chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
-        ...(isCompareEnabled ? { previousValue: viewsPreviousValue } : {}),
-      },
-    ]
-  }, [chartTotals, isCompareEnabled])
+  // Transform chart data using shared hook
+  const { data: chartData, metrics: chartMetrics } = useChartData(trafficTrendsResponse, {
+    metrics: [
+      { key: 'visitors', label: __('Visitors', 'wp-statistics'), color: 'var(--chart-1)' },
+      { key: 'views', label: __('Views', 'wp-statistics'), color: 'var(--chart-2)' },
+    ],
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
 
   const calcPercentage = usePercentageCalc()
   const { label: comparisonDateLabel } = useComparisonDateLabel()
@@ -686,6 +619,7 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
+                compareDateTo={apiDateParams.previous_date_to}
                 dateTo={apiDateParams.date_to}
               />
             </div>
@@ -695,29 +629,14 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = getTotalValue(topReferrersTotals?.visitors) || 1
-                  return topReferrersData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const displayName = item.referrer_name || item.referrer_domain || __('Direct', 'wp-statistics')
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      label: displayName,
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: displayName,
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topReferrersData, {
+                  label: (item) => item.referrer_name || item.referrer_domain || __('Direct', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: getTotalValue(topReferrersTotals?.visitors) || 1,
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   action: () => navigate({ to: '/referrers' }),
                 }}
@@ -728,29 +647,14 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               <HorizontalBarList
                 title={__('Top Search Engines', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = getTotalValue(topSearchEnginesTotals?.visitors) || 1
-                  return topSearchEnginesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const displayName = item.referrer_name || item.referrer_domain || __('Unknown', 'wp-statistics')
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      label: displayName,
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: displayName,
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topSearchEnginesData, {
+                  label: (item) => item.referrer_name || item.referrer_domain || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: getTotalValue(topSearchEnginesTotals?.visitors) || 1,
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   action: () => navigate({ to: '/search-engines' }),
                 }}
@@ -761,35 +665,21 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = getTotalValue(topCountriesTotals?.visitors) || 1
-                  return topCountriesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
-                          alt={item.country_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.country_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.country_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topCountriesData, {
+                  label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: getTotalValue(topCountriesTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
+                      alt={item.country_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   action: () => navigate({ to: '/geographic' }),
                 }}
@@ -801,36 +691,21 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               <HorizontalBarList
                 title={__('Top Browsers', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = getTotalValue(topBrowsersTotals?.visitors) || 1
-                  return topBrowsersData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const iconName = (item.browser_name || 'unknown').toLowerCase()
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/browser/${iconName}.svg`}
-                          alt={item.browser_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.browser_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.browser_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topBrowsersData, {
+                  label: (item) => item.browser_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: getTotalValue(topBrowsersTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/browser/${(item.browser_name || 'unknown').toLowerCase()}.svg`}
+                      alt={item.browser_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
               />
             </div>
 
@@ -838,36 +713,21 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               <HorizontalBarList
                 title={__('Top Operating Systems', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = getTotalValue(topOSTotals?.visitors) || 1
-                  return topOSData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/operating-system/${iconName}.svg`}
-                          alt={item.os_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.os_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.os_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topOSData, {
+                  label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: getTotalValue(topOSTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+                      alt={item.os_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
               />
             </div>
 
@@ -875,36 +735,21 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               <HorizontalBarList
                 title={__('Top Device Categories', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = getTotalValue(topDevicesTotals?.visitors) || 1
-                  return topDevicesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const iconName = (item.device_type_name || 'desktop').toLowerCase()
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/device/${iconName}.svg`}
-                          alt={item.device_type_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.device_type_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.device_type_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topDevicesData, {
+                  label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: getTotalValue(topDevicesTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/device/${(item.device_type_name || 'desktop').toLowerCase()}.svg`}
+                      alt={item.device_type_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
               />
             </div>
           </div>

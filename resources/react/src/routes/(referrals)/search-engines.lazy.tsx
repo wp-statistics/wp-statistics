@@ -12,6 +12,7 @@ import { LineChart } from '@/components/custom/line-chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
@@ -228,74 +229,12 @@ function RouteComponent() {
     [calcPercentage, isCompareEnabled]
   )
 
-  // Transform chart data from API format to LineChart format
-  const chartData = useMemo(() => {
-    const chart = response?.data?.items?.chart
-    if (!chart?.labels || !chart?.datasets) return []
-
-    const labels = chart.labels
-    const datasets = chart.datasets
-
-    // Separate current and previous datasets
-    const currentDatasets = datasets.filter((d) => !d.comparison)
-    const previousDatasets = datasets.filter((d) => d.comparison)
-
-    return labels.map((label, index) => {
-      const point: Record<string, string | number> = { date: label }
-
-      // Add current period data
-      currentDatasets.forEach((dataset) => {
-        point[dataset.key] = Number(dataset.data[index]) || 0
-      })
-
-      // Add previous period data
-      previousDatasets.forEach((dataset) => {
-        const baseKey = dataset.key.replace('_previous', '')
-        point[`${baseKey}Previous`] = Number(dataset.data[index]) || 0
-      })
-
-      return point
-    })
-  }, [response])
-
-  // Calculate totals for chart metrics
-  const chartTotals = useMemo(() => {
-    const chart = response?.data?.items?.chart
-    if (!chart?.datasets) {
-      return { visitors: 0, visitorsPrevious: 0 }
-    }
-
-    const datasets = chart.datasets
-    const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
-    const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
-
-    return {
-      visitors: visitorsDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      visitorsPrevious: visitorsPrevDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-    }
-  }, [response])
-
-  // Define chart metrics
-  const chartMetrics = useMemo(() => {
-    const previousValue =
-      chartTotals.visitorsPrevious >= 1000
-        ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-        : formatDecimal(chartTotals.visitorsPrevious)
-
-    return [
-      {
-        key: 'visitors',
-        label: __('Visitors', 'wp-statistics'),
-        color: 'var(--chart-1)',
-        enabled: true,
-        value:
-          chartTotals.visitors >= 1000
-            ? `${formatDecimal(chartTotals.visitors / 1000)}k`
-            : formatDecimal(chartTotals.visitors),
-        ...(isCompareEnabled ? { previousValue } : {}),
-      },
-    ]
-  }, [chartTotals, isCompareEnabled])
+  // Transform chart data using shared hook
+  const { data: chartData, metrics: chartMetrics } = useChartData(response?.data?.items?.chart, {
+    metrics: [{ key: 'visitors', label: __('Visitors', 'wp-statistics'), color: 'var(--chart-1)' }],
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
 
   // Extract table data
   const tableData = useMemo(() => {
@@ -395,6 +334,7 @@ function RouteComponent() {
               timeframe={timeframe}
               onTimeframeChange={handleTimeframeChange}
               loading={isFetching && chartData.length === 0}
+              compareDateTo={apiDateParams.previous_date_to}
               dateTo={apiDateParams.date_to}
             />
 
