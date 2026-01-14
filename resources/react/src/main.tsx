@@ -1,4 +1,5 @@
 import './globals.css'
+import './exports' // Expose hooks/components for premium plugin
 
 import React from 'react'
 import { createRoot } from 'react-dom/client'

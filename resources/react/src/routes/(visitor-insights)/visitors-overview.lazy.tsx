@@ -10,6 +10,16 @@ import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
+import {
+  OptionsDrawer,
+  OptionsDrawerTrigger,
+  WidgetsMenuEntry,
+  WidgetsDetailView,
+  MetricsMenuEntry,
+  MetricsDetailView,
+  FiltersMenuEntry,
+  FiltersDetailView,
+} from '@/components/custom/options-drawer'
 import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import {
@@ -19,9 +29,11 @@ import {
   PanelSkeleton,
   TableSkeleton,
 } from '@/components/ui/skeletons'
+import { PageOptionsProvider, type WidgetConfig, type MetricConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
@@ -29,6 +41,30 @@ import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
 import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
+
+// Widget configuration for this page
+const WIDGET_CONFIGS: WidgetConfig[] = [
+  { id: 'metrics', label: __('Metrics Overview', 'wp-statistics'), defaultVisible: true },
+  { id: 'traffic-trends', label: __('Traffic Trends', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-referrers', label: __('Top Referrers', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-countries', label: __('Top Countries', 'wp-statistics'), defaultVisible: true },
+  { id: 'device-type', label: __('Device Type', 'wp-statistics'), defaultVisible: true },
+  { id: 'operating-systems', label: __('Operating Systems', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-visitors', label: __('Top Visitors', 'wp-statistics'), defaultVisible: true },
+  { id: 'global-map', label: __('Global Visitor Distribution', 'wp-statistics'), defaultVisible: true },
+]
+
+// Metric configuration for this page
+const METRIC_CONFIGS: MetricConfig[] = [
+  { id: 'visitors', label: __('Visitors', 'wp-statistics'), defaultVisible: true },
+  { id: 'views', label: __('Views', 'wp-statistics'), defaultVisible: true },
+  { id: 'session-duration', label: __('Session Duration', 'wp-statistics'), defaultVisible: true },
+  { id: 'views-per-session', label: __('Views/Session', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-country', label: __('Top Country', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-referrer', label: __('Top Referrer', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-search-term', label: __('Top Search Term', 'wp-statistics'), defaultVisible: true },
+  { id: 'logged-in-share', label: __('Logged-in Share', 'wp-statistics'), defaultVisible: true },
+]
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,
@@ -41,6 +77,18 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
 })
 
 function RouteComponent() {
+  return (
+    <PageOptionsProvider
+      pageId="visitors-overview"
+      widgetConfigs={WIDGET_CONFIGS}
+      metricConfigs={METRIC_CONFIGS}
+    >
+      <VisitorsOverviewContent />
+    </PageOptionsProvider>
+  )
+}
+
+function VisitorsOverviewContent() {
   // Use global filters context for date range and filters (hybrid URL + preferences)
   const {
     dateFrom,
@@ -56,6 +104,18 @@ function RouteComponent() {
     isCompareEnabled,
     apiDateParams,
   } = useGlobalFilters()
+
+  // Page options for widget/metric visibility
+  const {
+    isWidgetVisible,
+    isMetricVisible,
+    getHiddenWidgetCount,
+    getHiddenMetricCount,
+    resetToDefaults,
+  } = usePageOptions()
+
+  // Options drawer state
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false)
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -215,9 +275,11 @@ function RouteComponent() {
     const loggedInShare = calcSharePercentage(loggedInVisitors, visitors)
     const prevLoggedInShare = calcSharePercentage(prevLoggedInVisitors, prevVisitors)
 
-    return [
+    // Build all metrics with IDs for filtering
+    const allMetrics = [
       // Row 1: Numeric metrics with comparison
       {
+        id: 'visitors',
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
         ...(isCompareEnabled
@@ -229,6 +291,7 @@ function RouteComponent() {
           : {}),
       },
       {
+        id: 'views',
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(views),
         ...(isCompareEnabled
@@ -240,6 +303,7 @@ function RouteComponent() {
           : {}),
       },
       {
+        id: 'session-duration',
         label: __('Session Duration', 'wp-statistics'),
         value: formatDuration(avgSessionDuration),
         ...(isCompareEnabled
@@ -251,6 +315,7 @@ function RouteComponent() {
           : {}),
       },
       {
+        id: 'views-per-session',
         label: __('Views/Session', 'wp-statistics'),
         value: formatDecimal(pagesPerSession),
         ...(isCompareEnabled
@@ -263,18 +328,22 @@ function RouteComponent() {
       },
       // Row 2: Context metrics (strings use '-' when empty)
       {
+        id: 'top-country',
         label: __('Top Country', 'wp-statistics'),
         value: topCountryName || '-',
       },
       {
+        id: 'top-referrer',
         label: __('Top Referrer', 'wp-statistics'),
         value: topReferrerName || '-',
       },
       {
+        id: 'top-search-term',
         label: __('Top Search Term', 'wp-statistics'),
         value: topSearchTerm || '-',
       },
       {
+        id: 'logged-in-share',
         label: __('Logged-in Share', 'wp-statistics'),
         value: `${formatDecimal(loggedInShare)}%`,
         ...(isCompareEnabled
@@ -286,7 +355,10 @@ function RouteComponent() {
           : {}),
       },
     ]
-  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn, isCompareEnabled, comparisonDateLabel])
+
+    // Filter metrics based on visibility
+    return allMetrics.filter((metric) => isMetricVisible(metric.id))
+  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn, isCompareEnabled, comparisonDateLabel, isMetricVisible])
 
   return (
     <div className="min-w-0">
@@ -312,8 +384,29 @@ function RouteComponent() {
             onUpdate={handleDateRangeUpdate}
             align="end"
           />
+          <OptionsDrawerTrigger
+            onClick={() => setIsOptionsOpen(true)}
+            isActive={getHiddenWidgetCount() > 0 || getHiddenMetricCount() > 0}
+          />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <OptionsDrawer
+        open={isOptionsOpen}
+        onOpenChange={setIsOptionsOpen}
+        onReset={resetToDefaults}
+      >
+        {/* Main menu entries */}
+        <FiltersMenuEntry filterGroup="visitors" />
+        <WidgetsMenuEntry />
+        <MetricsMenuEntry />
+
+        {/* Detail views */}
+        <FiltersDetailView filterGroup="visitors" />
+        <WidgetsDetailView />
+        <MetricsDetailView />
+      </OptionsDrawer>
 
       <div className="p-3">
         <NoticeContainer className="mb-3" currentRoute="visitors-overview" />
@@ -363,143 +456,159 @@ function RouteComponent() {
           </div>
         ) : (
           <div className="grid gap-3 grid-cols-12">
-            <div className="col-span-12">
-              <Panel>
-                <Metrics metrics={overviewMetrics} columns={4} />
-              </Panel>
-            </div>
+            {isWidgetVisible('metrics') && overviewMetrics.length > 0 && (
+              <div className="col-span-12">
+                <Panel>
+                  <Metrics metrics={overviewMetrics} />
+                </Panel>
+              </div>
+            )}
 
-            <div className="col-span-12">
-              <LineChart
-                title="Traffic Trends"
-                data={chartData}
-                metrics={trafficTrendsMetrics}
-                showPreviousPeriod={isCompareEnabled}
-                timeframe={timeframe}
-                onTimeframeChange={handleTimeframeChange}
-                loading={isChartRefetching}
-                compareDateTo={apiDateParams.previous_date_to}
-                dateTo={apiDateParams.date_to}
-              />
-            </div>
+            {isWidgetVisible('traffic-trends') && (
+              <div className="col-span-12">
+                <LineChart
+                  title="Traffic Trends"
+                  data={chartData}
+                  metrics={trafficTrendsMetrics}
+                  showPreviousPeriod={isCompareEnabled}
+                  timeframe={timeframe}
+                  onTimeframeChange={handleTimeframeChange}
+                  loading={isChartRefetching}
+                  compareDateTo={apiDateParams.previous_date_to}
+                  dateTo={apiDateParams.date_to}
+                />
+              </div>
+            )}
 
-            <div className="col-span-12 lg:col-span-6">
-              <HorizontalBarList
-                title={__('Top Referrers', 'wp-statistics')}
-                showComparison={isCompareEnabled}
-                items={transformToBarList(topReferrersData, {
-                  label: (item) =>
-                    item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics'),
-                  value: (item) => Number(item.visitors) || 0,
-                  previousValue: (item) => Number(item.previous?.visitors) || 0,
-                  total: Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1,
-                  isCompareEnabled,
-                  comparisonDateLabel,
-                })}
-                link={{
-                  action: () => console.log('View all referrers'),
-                }}
-              />
-            </div>
+            {isWidgetVisible('top-referrers') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Referrers', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  items={transformToBarList(topReferrersData, {
+                    label: (item) =>
+                      item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    action: () => console.log('View all referrers'),
+                  }}
+                />
+              </div>
+            )}
 
-            <div className="col-span-12 lg:col-span-6">
-              <HorizontalBarList
-                title={__('Top Countries', 'wp-statistics')}
-                showComparison={isCompareEnabled}
-                items={transformToBarList(topCountriesData, {
-                  label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
-                  value: (item) => Number(item.visitors) || 0,
-                  previousValue: (item) => Number(item.previous?.visitors) || 0,
-                  total: Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1,
-                  icon: (item) => (
-                    <img
-                      src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
-                      alt={item.country_name || ''}
-                      className="w-4 h-3"
-                    />
-                  ),
-                  isCompareEnabled,
-                  comparisonDateLabel,
-                })}
-                link={{
-                  action: () => console.log('View all countries'),
-                }}
-              />
-            </div>
+            {isWidgetVisible('top-countries') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Countries', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  items={transformToBarList(topCountriesData, {
+                    label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
+                        alt={item.country_name || ''}
+                        className="w-4 h-3"
+                      />
+                    ),
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    action: () => console.log('View all countries'),
+                  }}
+                />
+              </div>
+            )}
 
-            <div className="col-span-12 lg:col-span-6">
-              <HorizontalBarList
-                title={__('Device Type', 'wp-statistics')}
-                showComparison={isCompareEnabled}
-                items={transformToBarList(deviceTypeData, {
-                  label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
-                  value: (item) => Number(item.visitors) || 0,
-                  previousValue: (item) => Number(item.previous?.visitors) || 0,
-                  total: Number(deviceTypeTotals?.visitors?.current ?? deviceTypeTotals?.visitors) || 1,
-                  icon: (item) => (
-                    <img
-                      src={`${pluginUrl}public/images/device/${(item.device_type_name || 'desktop').toLowerCase()}.svg`}
-                      alt={item.device_type_name || ''}
-                      className="w-4 h-3"
-                    />
-                  ),
-                  isCompareEnabled,
-                  comparisonDateLabel,
-                })}
-                link={{
-                  action: () => console.log('View all device types'),
-                }}
-              />
-            </div>
+            {isWidgetVisible('device-type') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Device Type', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  items={transformToBarList(deviceTypeData, {
+                    label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(deviceTypeTotals?.visitors?.current ?? deviceTypeTotals?.visitors) || 1,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/device/${(item.device_type_name || 'desktop').toLowerCase()}.svg`}
+                        alt={item.device_type_name || ''}
+                        className="w-4 h-3"
+                      />
+                    ),
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    action: () => console.log('View all device types'),
+                  }}
+                />
+              </div>
+            )}
 
-            <div className="col-span-12 lg:col-span-6">
-              <HorizontalBarList
-                title={__('Operating Systems', 'wp-statistics')}
-                showComparison={isCompareEnabled}
-                items={transformToBarList(operatingSystemsData, {
-                  label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
-                  value: (item) => Number(item.visitors) || 0,
-                  previousValue: (item) => Number(item.previous?.visitors) || 0,
-                  total: Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1,
-                  icon: (item) => (
-                    <img
-                      src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
-                      alt={item.os_name || ''}
-                      className="w-4 h-3"
-                    />
-                  ),
-                  isCompareEnabled,
-                  comparisonDateLabel,
-                })}
-                link={{
-                  action: () => console.log('View all operating systems'),
-                }}
-              />
-            </div>
+            {isWidgetVisible('operating-systems') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Operating Systems', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  items={transformToBarList(operatingSystemsData, {
+                    label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+                        alt={item.os_name || ''}
+                        className="w-4 h-3"
+                      />
+                    ),
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    action: () => console.log('View all operating systems'),
+                  }}
+                />
+              </div>
+            )}
 
-            <div className="col-span-12">
-              <OverviewTopVisitors data={batchResponse?.data?.items?.top_visitors?.data?.rows} />
-            </div>
+            {isWidgetVisible('top-visitors') && (
+              <div className="col-span-12">
+                <OverviewTopVisitors data={batchResponse?.data?.items?.top_visitors?.data?.rows} />
+              </div>
+            )}
 
-            <div className="col-span-12">
-              <GlobalMap
-                data={globalMapData}
-                isLoading={isLoading}
-                dateFrom={apiDateParams.date_from}
-                dateTo={apiDateParams.date_to}
-                metric="Visitors"
-                showZoomControls={true}
-                showLegend={true}
-                pluginUrl={pluginUrl}
-                title={__('Global Visitor Distribution', 'wp-statistics')}
-                enableCityDrilldown={true}
-                enableMetricToggle={true}
-                availableMetrics={[
-                  { value: 'visitors', label: 'Visitors' },
-                  { value: 'views', label: 'Views' },
-                ]}
-              />
-            </div>
+            {isWidgetVisible('global-map') && (
+              <div className="col-span-12">
+                <GlobalMap
+                  data={globalMapData}
+                  isLoading={isLoading}
+                  dateFrom={apiDateParams.date_from}
+                  dateTo={apiDateParams.date_to}
+                  metric="Visitors"
+                  showZoomControls={true}
+                  showLegend={true}
+                  pluginUrl={pluginUrl}
+                  title={__('Global Visitor Distribution', 'wp-statistics')}
+                  enableCityDrilldown={true}
+                  enableMetricToggle={true}
+                  availableMetrics={[
+                    { value: 'visitors', label: 'Visitors' },
+                    { value: 'views', label: 'Views' },
+                  ]}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

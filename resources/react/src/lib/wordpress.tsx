@@ -140,4 +140,12 @@ export class WordPress {
   public getStartOfWeek(): number {
     return this.data.globals.startOfWeek ?? 0
   }
+
+  /**
+   * Get arbitrary data from the localized data object.
+   * Used by premium plugin to access premium-specific data.
+   */
+  public getData<T = unknown>(key: string): T | undefined {
+    return (this.data as Record<string, unknown>)[key] as T | undefined
+  }
 }

@@ -23,51 +23,83 @@ export interface MetricItem {
 
 export interface MetricsProps {
   metrics: MetricItem[]
-  columns?: 1 | 2 | 3 | 4 | 6 | 12
+  /** Number of columns. Use 'auto' to calculate based on metrics count. */
+  columns?: 1 | 2 | 3 | 4 | 6 | 12 | 'auto'
   className?: string
 }
 
-export function Metrics({ metrics, columns = 3, className }: MetricsProps) {
+// Calculate optimal columns based on metrics count
+function getOptimalColumns(count: number): 1 | 2 | 3 | 4 | 6 | 12 {
+  if (count <= 1) return 1
+  if (count === 2) return 2
+  if (count === 3) return 3
+  if (count === 5 || count === 6) return 3 // 5 metrics: 3+2, 6 metrics: 3+3
+  return 4 // 4, 7, 8+ metrics: use 4 columns
+}
+
+export function Metrics({ metrics, columns = 'auto', className }: MetricsProps) {
   const { isMobile, isTablet } = useBreakpoint()
   const displayMetrics = metrics.slice(0, 12)
 
-  // Auto-scale columns based on breakpoint
-  // Desktop: columns prop value
-  // Tablet: min(columns, 3)
-  // Mobile: min(columns, 2)
-  const responsiveColumns = React.useMemo(() => {
-    if (isMobile) return Math.min(columns, 2) as 1 | 2
-    if (isTablet) return Math.min(columns, 3) as 1 | 2 | 3
+  // Calculate effective columns (resolve 'auto' to actual number)
+  const effectiveColumns = React.useMemo(() => {
+    if (columns === 'auto') {
+      return getOptimalColumns(displayMetrics.length)
+    }
     return columns
-  }, [isMobile, isTablet, columns])
+  }, [columns, displayMetrics.length])
 
-  const gridColsClass = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-2',
-    3: 'grid-cols-3',
-    4: 'grid-cols-4',
-    6: 'grid-cols-6',
-    12: 'grid-cols-12',
-  }[responsiveColumns]
+  // Auto-scale columns based on breakpoint
+  // Desktop: effectiveColumns value
+  // Tablet: min(effectiveColumns, 3)
+  // Mobile: min(effectiveColumns, 2)
+  const responsiveColumns = React.useMemo(() => {
+    if (isMobile) return Math.min(effectiveColumns, 2) as 1 | 2
+    if (isTablet) return Math.min(effectiveColumns, 3) as 1 | 2 | 3
+    return effectiveColumns
+  }, [isMobile, isTablet, effectiveColumns])
 
+  // Calculate how many items are in each row
+  const totalItems = displayMetrics.length
+  const totalRows = Math.ceil(totalItems / responsiveColumns)
+  const lastRowItemCount = totalItems % responsiveColumns || responsiveColumns
+
+  // Get width for an item based on its row
+  const getItemWidth = (index: number) => {
+    const row = Math.floor(index / responsiveColumns)
+    const isLastRow = row === totalRows - 1
+    // Last row items expand to fill width
+    const itemsInRow = isLastRow ? lastRowItemCount : responsiveColumns
+    return `${100 / itemsInRow}%`
+  }
+
+  // Calculate border classes based on position
   const getPositionClasses = (index: number) => {
     const row = Math.floor(index / responsiveColumns)
-    const col = index % responsiveColumns
     const isFirstRow = row === 0
-    const isLastCol = col === responsiveColumns - 1
+    const isLastRow = row === totalRows - 1
 
-    return cn(!isFirstRow && 'border-t border-neutral-100', !isLastCol && 'border-r border-neutral-100')
+    // Check if this is the last item in its row
+    const col = index % responsiveColumns
+    const itemsInThisRow = isLastRow ? lastRowItemCount : responsiveColumns
+    const isLastInRow = isLastRow ? (col === lastRowItemCount - 1) : (col === responsiveColumns - 1)
+
+    return cn(
+      !isFirstRow && 'border-t border-neutral-100',
+      !isLastInRow && 'border-r border-neutral-100'
+    )
   }
 
   return (
-    <div className={cn('grid gap-0 w-full overflow-hidden', gridColsClass, className)}>
+    <div className={cn('flex flex-wrap w-full overflow-hidden', className)}>
       {displayMetrics.map((metric, index) => (
-        <MetricCard
-          key={`${metric.label}-${index}`}
-          {...metric}
-          positionClasses={getPositionClasses(index)}
-          isMobile={isMobile}
-        />
+        <div key={`${metric.label}-${index}`} style={{ width: getItemWidth(index) }}>
+          <MetricCard
+            {...metric}
+            positionClasses={getPositionClasses(index)}
+            isMobile={isMobile}
+          />
+        </div>
       ))}
     </div>
   )
