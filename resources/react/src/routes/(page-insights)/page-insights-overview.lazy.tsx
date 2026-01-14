@@ -15,6 +15,7 @@ import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
+import { useChartData } from '@/hooks/use-chart-data'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getPageInsightsOverviewQueryOptions } from '@/services/page-insight/get-page-insights-overview'
@@ -176,87 +177,15 @@ function RouteComponent() {
     ]
   }, [metricsResponse, metricsTopPostType, calcPercentage, isCompareEnabled])
 
-  // Transform page views trends chart data
-  const pageViewsTrendsData = useMemo(() => {
-    if (!pageViewsTrendsResponse?.labels || !pageViewsTrendsResponse?.datasets) return []
-
-    const labels = pageViewsTrendsResponse.labels
-    const datasets = pageViewsTrendsResponse.datasets
-
-    const currentDatasets = datasets.filter((d) => !d.comparison)
-    const previousDatasets = datasets.filter((d) => d.comparison)
-
-    return labels.map((label, index) => {
-      const point: Record<string, string | number> = { date: label }
-
-      currentDatasets.forEach((dataset) => {
-        point[dataset.key] = Number(dataset.data[index]) || 0
-      })
-
-      previousDatasets.forEach((dataset) => {
-        const baseKey = dataset.key.replace('_previous', '')
-        point[`${baseKey}Previous`] = Number(dataset.data[index]) || 0
-      })
-
-      return point
-    })
-  }, [pageViewsTrendsResponse])
-
-  // Calculate totals for chart metrics
-  const chartTotals = useMemo(() => {
-    if (!pageViewsTrendsResponse?.datasets) {
-      return { views: 0, viewsPrevious: 0, visitors: 0, visitorsPrevious: 0 }
-    }
-
-    const datasets = pageViewsTrendsResponse.datasets
-    const viewsDataset = datasets.find((d) => d.key === 'views' && !d.comparison)
-    const viewsPrevDataset = datasets.find((d) => d.key === 'views_previous' && d.comparison)
-    const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
-    const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
-
-    return {
-      views: viewsDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      viewsPrevious: viewsPrevDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      visitors: visitorsDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      visitorsPrevious: visitorsPrevDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-    }
-  }, [pageViewsTrendsResponse])
-
-  // Define chart metrics
-  const chartMetrics = useMemo(() => {
-    return [
-      {
-        key: 'views',
-        label: __('Views', 'wp-statistics'),
-        color: 'var(--chart-1)',
-        enabled: true,
-        value:
-          chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
-        ...(isCompareEnabled ? {
-          previousValue:
-            chartTotals.viewsPrevious >= 1000
-              ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-              : formatDecimal(chartTotals.viewsPrevious),
-        } : {}),
-      },
-      {
-        key: 'visitors',
-        label: __('Visitors', 'wp-statistics'),
-        color: 'var(--chart-2)',
-        enabled: true,
-        value:
-          chartTotals.visitors >= 1000
-            ? `${formatDecimal(chartTotals.visitors / 1000)}k`
-            : formatDecimal(chartTotals.visitors),
-        ...(isCompareEnabled ? {
-          previousValue:
-            chartTotals.visitorsPrevious >= 1000
-              ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-              : formatDecimal(chartTotals.visitorsPrevious),
-        } : {}),
-      },
-    ]
-  }, [chartTotals, isCompareEnabled])
+  // Transform chart data using shared hook
+  const { data: pageViewsTrendsData, metrics: chartMetrics } = useChartData(pageViewsTrendsResponse, {
+    metrics: [
+      { key: 'views', label: __('Views', 'wp-statistics'), color: 'var(--chart-1)' },
+      { key: 'visitors', label: __('Visitors', 'wp-statistics'), color: 'var(--chart-2)' },
+    ],
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
 
   // Transform top pages data
   const topPagesListData = useMemo(() => {
@@ -420,6 +349,7 @@ function RouteComponent() {
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
                 dateTo={apiDateParams.date_to}
+                compareDateTo={apiDateParams.previous_date_to}
               />
             </div>
 

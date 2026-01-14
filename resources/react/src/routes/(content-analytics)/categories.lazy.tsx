@@ -6,12 +6,13 @@ import { useCallback, useMemo, useState } from 'react'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
-import { LineChart, type LineChartDataPoint } from '@/components/custom/line-chart'
+import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -275,99 +276,16 @@ function CategoriesOverviewView() {
     return metrics
   }, [metricsResponse, calcPercentage, isCompareEnabled])
 
-  // Transform chart format response to data points for LineChart component
-  // Chart format: { labels: string[], datasets: [{ key, data, comparison? }] }
-  // Previous data comes as separate datasets with key like "visitors_previous" and comparison: true
-  const chartData = useMemo((): LineChartDataPoint[] => {
-    if (!performanceResponse?.labels || !performanceResponse?.datasets) return []
-
-    const labels = performanceResponse.labels
-    const datasets = performanceResponse.datasets
-
-    // Separate current and previous datasets
-    const currentDatasets = datasets.filter((d) => !d.comparison)
-    const previousDatasets = datasets.filter((d) => d.comparison)
-
-    return labels.map((label, index) => {
-      const point: LineChartDataPoint = { date: label }
-
-      // Add current period data
-      currentDatasets.forEach((dataset) => {
-        point[dataset.key] = Number(dataset.data[index]) || 0
-      })
-
-      // Add previous period data (datasets have keys like "visitors_previous")
-      previousDatasets.forEach((dataset) => {
-        // Convert "visitors_previous" to "visitorsPrevious"
-        const baseKey = dataset.key.replace('_previous', '')
-        point[`${baseKey}Previous`] = Number(dataset.data[index]) || 0
-      })
-
-      return point
-    })
-  }, [performanceResponse])
-
-  // Calculate totals from chart datasets
-  const chartTotals = useMemo(() => {
-    if (!performanceResponse?.datasets) {
-      return {
-        visitors: 0,
-        visitorsPrevious: 0,
-        views: 0,
-        viewsPrevious: 0,
-        published_content: 0,
-        published_contentPrevious: 0,
-      }
-    }
-
-    const datasets = performanceResponse.datasets
-    const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
-    const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
-    const viewsDataset = datasets.find((d) => d.key === 'views' && !d.comparison)
-    const viewsPrevDataset = datasets.find((d) => d.key === 'views_previous' && d.comparison)
-    const contentDataset = datasets.find((d) => d.key === 'published_content' && !d.comparison)
-    const contentPrevDataset = datasets.find((d) => d.key === 'published_content_previous' && d.comparison)
-
-    return {
-      visitors: visitorsDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      visitorsPrevious: visitorsPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      views: viewsDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      viewsPrevious: viewsPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      published_content: contentDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      published_contentPrevious: contentPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-    }
-  }, [performanceResponse])
-
-  // Build chart metrics for LineChart legend
-  const chartMetrics = useMemo(
-    () => [
-      {
-        key: 'visitors',
-        label: __('Visitors', 'wp-statistics'),
-        color: 'var(--chart-1)',
-        enabled: true,
-        value: formatCompactNumber(chartTotals.visitors),
-        ...(isCompareEnabled ? { previousValue: formatCompactNumber(chartTotals.visitorsPrevious) } : {}),
-      },
-      {
-        key: 'views',
-        label: __('Views', 'wp-statistics'),
-        color: 'var(--chart-2)',
-        enabled: true,
-        value: formatCompactNumber(chartTotals.views),
-        ...(isCompareEnabled ? { previousValue: formatCompactNumber(chartTotals.viewsPrevious) } : {}),
-      },
-      {
-        key: 'published_content',
-        label: __('Content', 'wp-statistics'),
-        color: 'var(--chart-3)',
-        enabled: true,
-        value: formatCompactNumber(chartTotals.published_content),
-        ...(isCompareEnabled ? { previousValue: formatCompactNumber(chartTotals.published_contentPrevious) } : {}),
-      },
+  // Transform chart data using shared hook
+  const { data: chartData, metrics: chartMetrics } = useChartData(performanceResponse, {
+    metrics: [
+      { key: 'visitors', label: __('Visitors', 'wp-statistics'), color: 'var(--chart-1)' },
+      { key: 'views', label: __('Views', 'wp-statistics'), color: 'var(--chart-2)' },
+      { key: 'published_content', label: __('Content', 'wp-statistics'), color: 'var(--chart-3)' },
     ],
-    [chartTotals, isCompareEnabled]
-  )
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
 
   // Get current taxonomy type for "See all" links
   const currentTaxonomyType = useMemo(() => {
@@ -586,6 +504,7 @@ function CategoriesOverviewView() {
                 showPreviousPeriod={isCompareEnabled}
                 timeframe={timeframe}
                 onTimeframeChange={setTimeframe}
+                compareDateTo={apiDateParams.previous_date_to}
                 dateTo={apiDateParams.date_to}
               />
             </div>

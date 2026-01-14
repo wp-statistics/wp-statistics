@@ -19,6 +19,7 @@ import {
   PanelSkeleton,
   TableSkeleton,
 } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -152,104 +153,15 @@ function RouteComponent() {
   const topReferrersTotals = batchResponse?.data?.items?.top_referrers?.data?.totals
   const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
 
-  // Transform chart format response to data points for LineChart component
-  // Chart format: { labels: string[], previousLabels?: string[], datasets: [{ key, data, comparison? }] }
-  // Previous data comes as separate datasets with key like "visitors_previous" and comparison: true
-  // Note: API may return values as strings, so we parse them to numbers
-  // Index-based alignment: When PP has different length, we align by position (Day 1 vs Day 1)
-  const chartData = useMemo(() => {
-    if (!trafficTrendsResponse?.labels || !trafficTrendsResponse?.datasets) return []
-
-    const labels = trafficTrendsResponse.labels
-    const previousLabels = trafficTrendsResponse.previousLabels || []
-    const datasets = trafficTrendsResponse.datasets
-
-    // Separate current and previous datasets
-    const currentDatasets = datasets.filter((d) => !d.comparison)
-    const previousDatasets = datasets.filter((d) => d.comparison)
-
-    return labels.map((label, index) => {
-      const point: Record<string, string | number | null> = {
-        date: label,
-        // Include previous period date for tooltip (null if PP is shorter than main period)
-        previousDate: previousLabels[index] || null,
-      }
-
-      // Add current period data (always present)
-      currentDatasets.forEach((dataset) => {
-        point[dataset.key] = Number(dataset.data[index]) || 0
-      })
-
-      // Add previous period data (backend returns null for missing dates)
-      previousDatasets.forEach((dataset) => {
-        // Convert "visitors_previous" to "visitorsPrevious"
-        const baseKey = dataset.key.replace('_previous', '')
-        const rawValue = dataset.data[index]
-        // Backend returns null for missing previous data, which creates gaps in the line
-        point[`${baseKey}Previous`] = rawValue !== null ? Number(rawValue) || 0 : null
-      })
-
-      return point
-    })
-  }, [trafficTrendsResponse])
-
-  // Calculate totals from chart datasets
-  // Note: API may return values as strings, so we parse them to numbers
-  const chartTotals = useMemo(() => {
-    if (!trafficTrendsResponse?.datasets) {
-      return { visitors: 0, visitorsPrevious: 0, views: 0, viewsPrevious: 0 }
-    }
-
-    const datasets = trafficTrendsResponse.datasets
-    const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
-    const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
-    const viewsDataset = datasets.find((d) => d.key === 'views' && !d.comparison)
-    const viewsPrevDataset = datasets.find((d) => d.key === 'views_previous' && d.comparison)
-
-    return {
-      visitors: visitorsDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      visitorsPrevious: visitorsPrevDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      views: viewsDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      viewsPrevious: viewsPrevDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-    }
-  }, [trafficTrendsResponse])
-
-  const trafficTrendsMetrics = [
-    {
-      key: 'visitors',
-      label: 'Visitors',
-      color: 'var(--chart-1)',
-      enabled: true,
-      value:
-        chartTotals.visitors >= 1000
-          ? `${formatDecimal(chartTotals.visitors / 1000)}k`
-          : formatDecimal(chartTotals.visitors),
-      ...(isCompareEnabled
-        ? {
-            previousValue:
-              chartTotals.visitorsPrevious >= 1000
-                ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-                : formatDecimal(chartTotals.visitorsPrevious),
-          }
-        : {}),
-    },
-    {
-      key: 'views',
-      label: 'Views',
-      color: 'var(--chart-2)',
-      enabled: true,
-      value:
-        chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
-      ...(isCompareEnabled
-        ? {
-            previousValue:
-              chartTotals.viewsPrevious >= 1000
-                ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-                : formatDecimal(chartTotals.viewsPrevious),
-          }
-        : {}),
-    },
-  ]
+  // Transform chart data using shared hook
+  const { data: chartData, metrics: trafficTrendsMetrics } = useChartData(trafficTrendsResponse, {
+    metrics: [
+      { key: 'visitors', label: __('Visitors', 'wp-statistics'), color: 'var(--chart-1)' },
+      { key: 'views', label: __('Views', 'wp-statistics'), color: 'var(--chart-2)' },
+    ],
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
 
   // Transform countries map data for GlobalMap component
   const globalMapData = useMemo(

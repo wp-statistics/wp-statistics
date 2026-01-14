@@ -12,6 +12,7 @@ import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -229,90 +230,15 @@ function ContentOverviewView() {
   const topDevicesData = batchResponse?.data?.items?.top_devices?.data?.rows || []
   const topDevicesTotals = batchResponse?.data?.items?.top_devices?.data?.totals
 
-  // Transform chart data
-  const chartData = useMemo(() => {
-    if (!performanceResponse?.labels || !performanceResponse?.datasets) return []
-
-    const labels = performanceResponse.labels
-    const datasets = performanceResponse.datasets
-    const currentDatasets = datasets.filter((d) => !d.comparison)
-    const previousDatasets = datasets.filter((d) => d.comparison)
-
-    return labels.map((label, index) => {
-      const point: { date: string; [key: string]: string | number } = { date: label }
-
-      currentDatasets.forEach((dataset) => {
-        point[dataset.key] = Number(dataset.data[index]) || 0
-      })
-
-      previousDatasets.forEach((dataset) => {
-        const baseKey = dataset.key.replace('_previous', '')
-        point[`${baseKey}Previous`] = Number(dataset.data[index]) || 0
-      })
-
-      return point
-    })
-  }, [performanceResponse])
-
-  // Calculate chart totals
-  const chartTotals = useMemo(() => {
-    if (!performanceResponse?.datasets) {
-      return { visitors: 0, visitorsPrevious: 0, views: 0, viewsPrevious: 0 }
-    }
-
-    const datasets = performanceResponse.datasets
-    const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
-    const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
-    const viewsDataset = datasets.find((d) => d.key === 'views' && !d.comparison)
-    const viewsPrevDataset = datasets.find((d) => d.key === 'views_previous' && d.comparison)
-
-    return {
-      visitors: visitorsDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      visitorsPrevious: visitorsPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      views: viewsDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-      viewsPrevious: viewsPrevDataset?.data?.reduce((sum: number, v) => sum + Number(v), 0) || 0,
-    }
-  }, [performanceResponse])
-
-  const chartMetrics = useMemo(
-    () => [
-      {
-        key: 'visitors',
-        label: __('Visitors', 'wp-statistics'),
-        color: 'var(--chart-1)',
-        enabled: true,
-        value:
-          chartTotals.visitors >= 1000
-            ? `${formatDecimal(chartTotals.visitors / 1000)}k`
-            : formatDecimal(chartTotals.visitors),
-        ...(isCompareEnabled
-          ? {
-              previousValue:
-                chartTotals.visitorsPrevious >= 1000
-                  ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-                  : formatDecimal(chartTotals.visitorsPrevious),
-            }
-          : {}),
-      },
-      {
-        key: 'views',
-        label: __('Views', 'wp-statistics'),
-        color: 'var(--chart-2)',
-        enabled: true,
-        value:
-          chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
-        ...(isCompareEnabled
-          ? {
-              previousValue:
-                chartTotals.viewsPrevious >= 1000
-                  ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-                  : formatDecimal(chartTotals.viewsPrevious),
-            }
-          : {}),
-      },
+  // Transform chart data using shared hook
+  const { data: chartData, metrics: chartMetrics } = useChartData(performanceResponse, {
+    metrics: [
+      { key: 'visitors', label: __('Visitors', 'wp-statistics'), color: 'var(--chart-1)' },
+      { key: 'views', label: __('Views', 'wp-statistics'), color: 'var(--chart-2)' },
     ],
-    [chartTotals, isCompareEnabled]
-  )
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
 
   const calcPercentage = usePercentageCalc()
   const { label: comparisonDateLabel } = useComparisonDateLabel()
@@ -548,6 +474,7 @@ function ContentOverviewView() {
                 timeframe={timeframe}
                 onTimeframeChange={handleTimeframeChange}
                 loading={isChartRefetching}
+                compareDateTo={apiDateParams.previous_date_to}
                 dateTo={apiDateParams.date_to}
               />
             </div>

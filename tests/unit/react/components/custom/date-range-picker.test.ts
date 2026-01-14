@@ -1,8 +1,21 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { getPresetRange, isValidPreset, PRESETS } from '@components/custom/date-range-picker'
 
+// Mock WordPress singleton for getPresetRange tests
+vi.mock('@/lib/wordpress', () => ({
+  WordPress: {
+    getInstance: () => ({
+      getStartOfWeek: () => 1, // Monday = 1
+    }),
+  },
+}))
+
 describe('date-range-picker utilities', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   afterEach(() => {
     vi.useRealTimers()
   })
@@ -12,13 +25,16 @@ describe('date-range-picker utilities', () => {
       const presetNames = PRESETS.map((p) => p.name)
       expect(presetNames).toContain('today')
       expect(presetNames).toContain('yesterday')
+      expect(presetNames).toContain('thisWeek')
+      expect(presetNames).toContain('last7')
       expect(presetNames).toContain('lastWeek')
-      expect(presetNames).toContain('last14')
+      expect(presetNames).toContain('last28')
       expect(presetNames).toContain('last30')
+      expect(presetNames).toContain('thisMonth')
       expect(presetNames).toContain('lastMonth')
-      expect(presetNames).toContain('last3months')
-      expect(presetNames).toContain('last6months')
-      expect(presetNames).toContain('lastYear')
+      expect(presetNames).toContain('last90')
+      expect(presetNames).toContain('quarterToDate')
+      expect(presetNames).toContain('thisYear')
     })
 
     it('should have labels for all presets', () => {
@@ -27,19 +43,26 @@ describe('date-range-picker utilities', () => {
         expect(preset.label.length).toBeGreaterThan(0)
       })
     })
+
+    it('should have exactly 12 presets', () => {
+      expect(PRESETS).toHaveLength(12)
+    })
   })
 
   describe('isValidPreset', () => {
     it('should return true for valid preset names', () => {
       expect(isValidPreset('today')).toBe(true)
       expect(isValidPreset('yesterday')).toBe(true)
+      expect(isValidPreset('thisWeek')).toBe(true)
+      expect(isValidPreset('last7')).toBe(true)
       expect(isValidPreset('lastWeek')).toBe(true)
-      expect(isValidPreset('last14')).toBe(true)
+      expect(isValidPreset('last28')).toBe(true)
       expect(isValidPreset('last30')).toBe(true)
+      expect(isValidPreset('thisMonth')).toBe(true)
       expect(isValidPreset('lastMonth')).toBe(true)
-      expect(isValidPreset('last3months')).toBe(true)
-      expect(isValidPreset('last6months')).toBe(true)
-      expect(isValidPreset('lastYear')).toBe(true)
+      expect(isValidPreset('last90')).toBe(true)
+      expect(isValidPreset('quarterToDate')).toBe(true)
+      expect(isValidPreset('thisYear')).toBe(true)
     })
 
     it('should return false for invalid preset names', () => {
@@ -48,6 +71,11 @@ describe('date-range-picker utilities', () => {
       expect(isValidPreset('last_month')).toBe(false)
       expect(isValidPreset('YESTERDAY')).toBe(false)
       expect(isValidPreset('')).toBe(false)
+      // These presets no longer exist
+      expect(isValidPreset('last14')).toBe(false)
+      expect(isValidPreset('last3months')).toBe(false)
+      expect(isValidPreset('last6months')).toBe(false)
+      expect(isValidPreset('lastYear')).toBe(false)
     })
 
     it('should return false for undefined', () => {
@@ -57,7 +85,7 @@ describe('date-range-picker utilities', () => {
 
   describe('getPresetRange', () => {
     describe('today preset', () => {
-      it('should return today\'s date for both from and to', () => {
+      it("should return today's date for both from and to", () => {
         const now = new Date()
         const result = getPresetRange('today')
 
@@ -71,7 +99,7 @@ describe('date-range-picker utilities', () => {
     })
 
     describe('yesterday preset', () => {
-      it('should return yesterday\'s date for both from and to', () => {
+      it("should return yesterday's date for both from and to", () => {
         const now = new Date()
         const yesterday = new Date(now)
         yesterday.setDate(yesterday.getDate() - 1)
@@ -87,13 +115,13 @@ describe('date-range-picker utilities', () => {
       })
     })
 
-    describe('last14 preset', () => {
-      it('should return 14 day range ending today', () => {
+    describe('last7 preset', () => {
+      it('should return 7 day range ending today', () => {
         const now = new Date()
         const expectedFrom = new Date(now)
-        expectedFrom.setDate(now.getDate() - 13)
+        expectedFrom.setDate(now.getDate() - 6)
 
-        const result = getPresetRange('last14')
+        const result = getPresetRange('last7')
 
         expect(result.from.getFullYear()).toBe(expectedFrom.getFullYear())
         expect(result.from.getMonth()).toBe(expectedFrom.getMonth())
@@ -117,6 +145,21 @@ describe('date-range-picker utilities', () => {
       })
     })
 
+    describe('last90 preset', () => {
+      it('should return 90 day range ending today', () => {
+        const now = new Date()
+        const expectedFrom = new Date(now)
+        expectedFrom.setDate(now.getDate() - 89)
+
+        const result = getPresetRange('last90')
+
+        expect(result.from.getFullYear()).toBe(expectedFrom.getFullYear())
+        expect(result.from.getMonth()).toBe(expectedFrom.getMonth())
+        expect(result.from.getDate()).toBe(expectedFrom.getDate())
+        expect(result.to?.getDate()).toBe(now.getDate())
+      })
+    })
+
     describe('lastMonth preset', () => {
       it('should return the entire previous month', () => {
         const now = new Date()
@@ -131,12 +174,17 @@ describe('date-range-picker utilities', () => {
       })
     })
 
-    describe('lastYear preset', () => {
-      it('should return dates from one year ago', () => {
+    describe('thisYear preset', () => {
+      it('should return from Jan 1 of current year to today', () => {
         const now = new Date()
-        const result = getPresetRange('lastYear')
+        const result = getPresetRange('thisYear')
 
-        expect(result.from.getFullYear()).toBe(now.getFullYear() - 1)
+        expect(result.from.getFullYear()).toBe(now.getFullYear())
+        expect(result.from.getMonth()).toBe(0) // January
+        expect(result.from.getDate()).toBe(1)
+        expect(result.to?.getFullYear()).toBe(now.getFullYear())
+        expect(result.to?.getMonth()).toBe(now.getMonth())
+        expect(result.to?.getDate()).toBe(now.getDate())
       })
     })
 
