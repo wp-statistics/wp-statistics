@@ -16,7 +16,7 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { useChartData } from '@/hooks/use-chart-data'
-import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getPageInsightsOverviewQueryOptions } from '@/services/page-insight/get-page-insights-overview'
 
@@ -141,34 +141,45 @@ function RouteComponent() {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
+    const views = getTotalValue(totals.views)
+    const prevViews = getTotalValue(totals.views?.previous)
+    const visitors = getTotalValue(totals.visitors)
+    const prevVisitors = getTotalValue(totals.visitors?.previous)
+    const avgTimeOnPage = getTotalValue(totals.avg_time_on_page)
+    const prevAvgTimeOnPage = getTotalValue(totals.avg_time_on_page?.previous)
+    const bounceRate = getTotalValue(totals.bounce_rate)
+    const prevBounceRate = getTotalValue(totals.bounce_rate?.previous)
+    const pagesPerSession = getTotalValue(totals.pages_per_session)
+    const prevPagesPerSession = getTotalValue(totals.pages_per_session?.previous)
+
     return [
       {
         label: __('Views', 'wp-statistics'),
-        value: formatCompactNumber(Number(totals.views?.current) || 0),
-        ...(isCompareEnabled ? calcPercentage(Number(totals.views?.current) || 0, Number(totals.views?.previous) || 0) : {}),
+        value: formatCompactNumber(views),
+        ...(isCompareEnabled ? calcPercentage(views, prevViews) : {}),
       },
       {
         label: __('Visitors', 'wp-statistics'),
-        value: formatCompactNumber(Number(totals.visitors?.current) || 0),
-        ...(isCompareEnabled ? calcPercentage(Number(totals.visitors?.current) || 0, Number(totals.visitors?.previous) || 0) : {}),
+        value: formatCompactNumber(visitors),
+        ...(isCompareEnabled ? calcPercentage(visitors, prevVisitors) : {}),
       },
       {
         label: __('Avg. Time on Page', 'wp-statistics'),
-        value: formatDuration(Number(totals.avg_time_on_page?.current) || 0),
-        ...(isCompareEnabled ? calcPercentage(Number(totals.avg_time_on_page?.current) || 0, Number(totals.avg_time_on_page?.previous) || 0) : {}),
+        value: formatDuration(avgTimeOnPage),
+        ...(isCompareEnabled ? calcPercentage(avgTimeOnPage, prevAvgTimeOnPage) : {}),
       },
       {
         label: __('Bounce Rate', 'wp-statistics'),
-        value: `${formatDecimal(Number(totals.bounce_rate?.current) || 0)}%`,
+        value: `${formatDecimal(bounceRate)}%`,
         ...(isCompareEnabled ? {
-          ...calcPercentage(Number(totals.bounce_rate?.current) || 0, Number(totals.bounce_rate?.previous) || 0),
-          isNegative: !calcPercentage(Number(totals.bounce_rate?.current) || 0, Number(totals.bounce_rate?.previous) || 0).isNegative, // Invert for bounce rate (lower is better)
+          ...calcPercentage(bounceRate, prevBounceRate),
+          isNegative: !calcPercentage(bounceRate, prevBounceRate).isNegative, // Invert for bounce rate (lower is better)
         } : {}),
       },
       {
         label: __('Pages/Session', 'wp-statistics'),
-        value: formatDecimal(Number(totals.pages_per_session?.current) || 0),
-        ...(isCompareEnabled ? calcPercentage(Number(totals.pages_per_session?.current) || 0, Number(totals.pages_per_session?.previous) || 0) : {}),
+        value: formatDecimal(pagesPerSession),
+        ...(isCompareEnabled ? calcPercentage(pagesPerSession, prevPagesPerSession) : {}),
       },
       {
         label: __('Top Content Type', 'wp-statistics'),

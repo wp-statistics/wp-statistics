@@ -24,7 +24,7 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
-import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
@@ -194,15 +194,15 @@ function RouteComponent() {
     if (!totals) return []
 
     // Extract current and previous values from { current, previous } structure
-    const visitors = Number(totals.visitors?.current) || 0
-    const views = Number(totals.views?.current) || 0
-    const avgSessionDuration = Number(totals.avg_session_duration?.current) || 0
-    const pagesPerSession = Number(totals.pages_per_session?.current) || 0
+    const visitors = getTotalValue(totals.visitors)
+    const views = getTotalValue(totals.views)
+    const avgSessionDuration = getTotalValue(totals.avg_session_duration)
+    const pagesPerSession = getTotalValue(totals.pages_per_session)
 
-    const prevVisitors = Number(totals.visitors?.previous) || 0
-    const prevViews = Number(totals.views?.previous) || 0
-    const prevAvgSessionDuration = Number(totals.avg_session_duration?.previous) || 0
-    const prevPagesPerSession = Number(totals.pages_per_session?.previous) || 0
+    const prevVisitors = getTotalValue(totals.visitors?.previous)
+    const prevViews = getTotalValue(totals.views?.previous)
+    const prevAvgSessionDuration = getTotalValue(totals.avg_session_duration?.previous)
+    const prevPagesPerSession = getTotalValue(totals.pages_per_session?.previous)
 
     // Context metrics (second row)
     const topCountryName = metricsTopCountry?.items?.[0]?.country_name

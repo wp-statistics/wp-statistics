@@ -28,9 +28,9 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, className, onFoc
     }
   })
 
-  // Get date format from WordPress settings
+  // Get date format from WordPress settings (only order, separator is always '-')
   const dateFormat = WordPress.getInstance().getDateFormat()
-  const { order, separator } = useMemo(() => parseDateFormat(dateFormat), [dateFormat])
+  const { order } = useMemo(() => parseDateFormat(dateFormat), [dateFormat])
   const fieldConfigs = useMemo(() => getFieldConfigs(order), [order])
 
   // Create refs for all three fields
@@ -154,7 +154,7 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, className, onFoc
 
   const renderField = (config: DateFieldConfig, index: number) => (
     <React.Fragment key={config.field}>
-      {index > 0 && <span className="-mx-px opacity-20">{separator}</span>}
+      {index > 0 && <span className="-mx-px opacity-20">-</span>}
       <input
         type="text"
         ref={(el) => {

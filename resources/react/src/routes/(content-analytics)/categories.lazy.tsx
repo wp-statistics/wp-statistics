@@ -17,7 +17,7 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
-import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getCategoriesOverviewQueryOptions } from '@/services/content-analytics/get-categories-overview'
 
@@ -203,19 +203,19 @@ function CategoriesOverviewView() {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
-    const activeTerms = Number(totals.active_terms?.current) || 0
-    const publishedContent = Number(totals.published_content?.current) || 0
-    const visitors = Number(totals.visitors?.current) || 0
-    const views = Number(totals.views?.current) || 0
-    const bounceRate = Number(totals.bounce_rate?.current) || 0
-    const avgTimeOnPage = Number(totals.avg_time_on_page?.current) || 0
+    const activeTerms = getTotalValue(totals.active_terms)
+    const publishedContent = getTotalValue(totals.published_content)
+    const visitors = getTotalValue(totals.visitors)
+    const views = getTotalValue(totals.views)
+    const bounceRate = getTotalValue(totals.bounce_rate)
+    const avgTimeOnPage = getTotalValue(totals.avg_time_on_page)
 
-    const prevActiveTerms = Number(totals.active_terms?.previous) || 0
-    const prevPublishedContent = Number(totals.published_content?.previous) || 0
-    const prevVisitors = Number(totals.visitors?.previous) || 0
-    const prevViews = Number(totals.views?.previous) || 0
-    const prevBounceRate = Number(totals.bounce_rate?.previous) || 0
-    const prevAvgTimeOnPage = Number(totals.avg_time_on_page?.previous) || 0
+    const prevActiveTerms = getTotalValue(totals.active_terms?.previous)
+    const prevPublishedContent = getTotalValue(totals.published_content?.previous)
+    const prevVisitors = getTotalValue(totals.visitors?.previous)
+    const prevViews = getTotalValue(totals.views?.previous)
+    const prevBounceRate = getTotalValue(totals.bounce_rate?.previous)
+    const prevAvgTimeOnPage = getTotalValue(totals.avg_time_on_page?.previous)
 
     const viewsPerTerm = activeTerms > 0 ? views / activeTerms : 0
     const prevViewsPerTerm = prevActiveTerms > 0 ? prevViews / prevActiveTerms : 0
