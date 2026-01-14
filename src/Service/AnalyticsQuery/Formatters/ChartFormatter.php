@@ -97,7 +97,7 @@ class ChartFormatter extends AbstractFormatter
             if ($hasCompare) {
                 $prevData = [];
                 foreach ($rows as $row) {
-                    $prevData[] = isset($row['previous'][$source]) ? (float) $row['previous'][$source] : 0;
+                    $prevData[] = isset($row['previous'][$source]) ? (float) $row['previous'][$source] : null;
                 }
 
                 $datasets[] = [
@@ -187,13 +187,8 @@ class ChartFormatter extends AbstractFormatter
                 foreach ($sources as $source) {
                     $emptyRow[$source] = 0;
                 }
-                // Add empty previous data if comparison was enabled
-                if (!empty($rows) && isset($rows[0]['previous'])) {
-                    $emptyRow['previous'] = [];
-                    foreach ($sources as $source) {
-                        $emptyRow['previous'][$source] = 0;
-                    }
-                }
+                // Don't add previous data for filled dates - let them be null
+                // This ensures missing previous period dates show as gaps, not zeros
                 $filledRows[] = $emptyRow;
             }
         }

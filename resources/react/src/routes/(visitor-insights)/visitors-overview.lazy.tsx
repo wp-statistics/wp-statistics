@@ -180,16 +180,13 @@ function RouteComponent() {
         point[dataset.key] = Number(dataset.data[index]) || 0
       })
 
-      // Add previous period data (may be null if PP is shorter than main period)
-      // Use previousLabels.length as the indicator of how many days have actual PP data
-      // (backend fills remaining days with zeros, but we want to show gaps)
-      const hasPreviousData = index < previousLabels.length
+      // Add previous period data (backend returns null for missing dates)
       previousDatasets.forEach((dataset) => {
         // Convert "visitors_previous" to "visitorsPrevious"
         const baseKey = dataset.key.replace('_previous', '')
-        // Use null if PP is shorter (no data for this index) - this creates gaps in the line
-        const value = hasPreviousData ? Number(dataset.data[index]) || 0 : null
-        point[`${baseKey}Previous`] = value
+        const rawValue = dataset.data[index]
+        // Backend returns null for missing previous data, which creates gaps in the line
+        point[`${baseKey}Previous`] = rawValue !== null ? Number(rawValue) || 0 : null
       })
 
       return point

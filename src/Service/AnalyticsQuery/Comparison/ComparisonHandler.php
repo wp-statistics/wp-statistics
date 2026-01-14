@@ -49,6 +49,20 @@ class ComparisonHandler
     private $groupBy = [];
 
     /**
+     * Previous period date range for filling missing dates.
+     *
+     * @var array|null ['from' => string, 'to' => string]
+     */
+    private $previousPeriodRange = null;
+
+    /**
+     * Current period date range for filling missing dates.
+     *
+     * @var array|null ['from' => string, 'to' => string]
+     */
+    private $currentPeriodRange = null;
+
+    /**
      * Constructor.
      *
      * @param array $sources    List of source WP_Statistics_names.
@@ -302,23 +316,153 @@ class ComparisonHandler
         // Re-index arrays to ensure numeric keys for positional matching
         $current  = array_values($current);
         $previous = array_values($previous);
+
+        // Sort BOTH arrays by date to ensure correct positional alignment
+        // The queries might not return rows sorted by date
+        $sortByDate = function($a, $b) {
+            $dateA = $a['date'] ?? '';
+            $dateB = $b['date'] ?? '';
+            return strcmp($dateA, $dateB);
+        };
+
+        usort($current, $sortByDate);
+        usort($previous, $sortByDate);
+
+        // Fill missing dates in BOTH arrays BEFORE merging
+        // Aggregate queries may skip rows with 0 values, causing misalignment
+        // Must fill current first so PP aligns to full date range, not just returned rows
+        $current = $this->fillMissingDatesForCurrent($current);
+        $previous = $this->fillMissingDatesForPrevious($current, $previous);
+
         $previousCount = count($previous);
 
         foreach ($current as $index => &$row) {
-            $prevRow = ($index < $previousCount) ? $previous[$index] : null;
+            // Only add previous data if this index has corresponding previous period data
+            if ($index < $previousCount) {
+                $prevRow = $previous[$index];
+                $row['previous'] = [];
 
-            $row['previous'] = [];
-
-            foreach ($this->sources as $source) {
-                if ($prevRow && isset($prevRow[$source])) {
-                    $row['previous'][$source] = (float) $prevRow[$source];
-                } else {
-                    $row['previous'][$source] = 0;
+                foreach ($this->sources as $source) {
+                    $row['previous'][$source] = isset($prevRow[$source]) ? (float) $prevRow[$source] : 0;
                 }
             }
+            // Don't add 'previous' key for indices beyond the previous period
+            // This allows charts to show gaps instead of zeros
         }
 
         return $current;
+    }
+
+    /**
+     * Fill missing dates in current period data.
+     *
+     * Aggregate queries may skip rows with 0 values, causing misalignment.
+     * This ensures all dates in the current period range have rows.
+     *
+     * @param array $current Current period rows (sorted by date).
+     * @return array Current period rows with missing dates filled.
+     */
+    private function fillMissingDatesForCurrent(array $current): array
+    {
+        // Need current date range to fill missing dates
+        if ($this->currentPeriodRange === null) {
+            return $current;
+        }
+
+        // Index existing current rows by date (normalize to Y-m-d format)
+        $currentIndex = [];
+        foreach ($current as $row) {
+            $date = $row['date'] ?? '';
+            if ($date !== '') {
+                $dateKey = substr($date, 0, 10);
+                $currentIndex[$dateKey] = $row;
+            }
+        }
+
+        // Use the actual current date range to generate all expected dates
+        $startDate = new \DateTime($this->currentPeriodRange['from']);
+        $endDate = new \DateTime($this->currentPeriodRange['to']);
+
+        // Generate all dates in current range
+        $filledCurrent = [];
+        $interval = new \DateInterval('P1D');
+        $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
+
+        foreach ($period as $date) {
+            $dateStr = $date->format('Y-m-d');
+            if (isset($currentIndex[$dateStr])) {
+                // Use existing row but normalize date format
+                $row = $currentIndex[$dateStr];
+                $row['date'] = $dateStr;
+                $filledCurrent[] = $row;
+            } else {
+                // Create row with 0 values for missing date
+                $emptyRow = ['date' => $dateStr];
+                foreach ($this->sources as $source) {
+                    $emptyRow[$source] = 0;
+                }
+                $filledCurrent[] = $emptyRow;
+            }
+        }
+
+        return $filledCurrent;
+    }
+
+    /**
+     * Fill missing dates in previous period data.
+     *
+     * Aggregate queries may skip rows with 0 values, causing misalignment.
+     * This ensures all dates in the PP range have rows with proper values.
+     *
+     * @param array $current  Current period rows (sorted by date).
+     * @param array $previous Previous period rows (sorted by date).
+     * @return array Previous period rows with missing dates filled.
+     */
+    private function fillMissingDatesForPrevious(array $current, array $previous): array
+    {
+        // Need PP date range to fill missing dates
+        if ($this->previousPeriodRange === null) {
+            return $previous;
+        }
+
+        // Index existing previous rows by date (normalize to Y-m-d format)
+        $previousIndex = [];
+        foreach ($previous as $row) {
+            $date = $row['date'] ?? '';
+            if ($date !== '') {
+                // Extract just the date part (handle both "Y-m-d" and "Y-m-d H:i:s" formats)
+                $dateKey = substr($date, 0, 10);
+                $previousIndex[$dateKey] = $row;
+            }
+        }
+
+        // Use the actual PP date range to generate all expected dates
+        $startDate = new \DateTime($this->previousPeriodRange['from']);
+        $endDate = new \DateTime($this->previousPeriodRange['to']);
+
+        // Generate all dates in PP range
+        $filledPrevious = [];
+        $interval = new \DateInterval('P1D');
+        $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
+
+        foreach ($period as $date) {
+            $dateStr = $date->format('Y-m-d');
+            if (isset($previousIndex[$dateStr])) {
+                // Use existing row but normalize date format
+                $row = $previousIndex[$dateStr];
+                $row['date'] = $dateStr; // Ensure consistent date format
+                $filledPrevious[] = $row;
+            } else {
+                // Create row with 0 values for missing date
+                $emptyRow = ['date' => $dateStr];
+                foreach ($this->sources as $source) {
+                    $emptyRow[$source] = 0;
+                }
+                $filledPrevious[] = $emptyRow;
+            }
+        }
+
+        return $filledPrevious;
     }
 
     /**
@@ -420,6 +564,38 @@ class ComparisonHandler
     public function setGroupBy(array $groupBy): self
     {
         $this->groupBy = $groupBy;
+        return $this;
+    }
+
+    /**
+     * Set previous period date range for filling missing dates.
+     *
+     * @param string $from Start date.
+     * @param string $to   End date.
+     * @return self
+     */
+    public function setPreviousPeriodRange(string $from, string $to): self
+    {
+        $this->previousPeriodRange = [
+            'from' => substr($from, 0, 10), // Extract date part only
+            'to'   => substr($to, 0, 10),
+        ];
+        return $this;
+    }
+
+    /**
+     * Set current period date range for filling missing dates.
+     *
+     * @param string $from Start date.
+     * @param string $to   End date.
+     * @return self
+     */
+    public function setCurrentPeriodRange(string $from, string $to): self
+    {
+        $this->currentPeriodRange = [
+            'from' => substr($from, 0, 10), // Extract date part only
+            'to'   => substr($to, 0, 10),
+        ];
         return $this;
     }
 }

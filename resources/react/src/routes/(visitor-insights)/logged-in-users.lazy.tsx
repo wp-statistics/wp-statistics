@@ -45,11 +45,12 @@ export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')(
 
 interface TrafficTrendItem {
   date: string
+  previousDate?: string | null
   userVisitors: number
-  userVisitorsPrevious: number
+  userVisitorsPrevious: number | null
   anonymousVisitors: number
-  anonymousVisitorsPrevious: number
-  [key: string]: string | number
+  anonymousVisitorsPrevious: number | null
+  [key: string]: string | number | null | undefined
 }
 
 function RouteComponent() {
@@ -179,6 +180,8 @@ function RouteComponent() {
     const loggedInDatasets = loggedInTrendsResponse?.datasets || []
     const anonymousLabels = anonymousTrendsResponse?.labels || []
     const anonymousDatasets = anonymousTrendsResponse?.datasets || []
+    // Get previousLabels for tooltip display (from either response)
+    const previousLabels = loggedInTrendsResponse?.previousLabels || anonymousTrendsResponse?.previousLabels || []
 
     const getDataset = (datasets: typeof loggedInDatasets, key: string) =>
       datasets.find((d) => d.key === key)?.data || []
@@ -190,21 +193,34 @@ function RouteComponent() {
 
     const labels = loggedInLabels.length > 0 ? loggedInLabels : anonymousLabels
 
-    return labels.map((date, index) => ({
-      date,
-      userVisitors: Number(loggedInVisitors[index]) || 0,
-      userVisitorsPrevious: Number(loggedInVisitorsPrevious[index]) || 0,
-      anonymousVisitors: Number(anonymousVisitors[index]) || 0,
-      anonymousVisitorsPrevious: Number(anonymousVisitorsPrevious[index]) || 0,
-    }))
+    return labels.map((date, index) => {
+      // Backend returns null for missing previous period data
+      // We preserve null (not convert to 0) so charts show gaps instead of zeros
+      const loggedInPrevRaw = loggedInVisitorsPrevious[index]
+      const anonymousPrevRaw = anonymousVisitorsPrevious[index]
+
+      return {
+        date,
+        // Include previous period date for tooltip (null if PP is shorter than main period)
+        previousDate: previousLabels[index] || null,
+        userVisitors: Number(loggedInVisitors[index]) || 0,
+        // Only convert to number if value exists and is not null
+        userVisitorsPrevious: loggedInPrevRaw != null ? Number(loggedInPrevRaw) || 0 : null,
+        anonymousVisitors: Number(anonymousVisitors[index]) || 0,
+        anonymousVisitorsPrevious: anonymousPrevRaw != null ? Number(anonymousPrevRaw) || 0 : null,
+      }
+    })
   }, [loggedInTrendsResponse, anonymousTrendsResponse])
 
-  // Calculate totals for metrics
+  // Calculate totals for metrics (null values are skipped in sum)
   const totalUserVisitors = trafficTrendsData.reduce((sum, item) => sum + item.userVisitors, 0)
-  const totalUserVisitorsPrevious = trafficTrendsData.reduce((sum, item) => sum + item.userVisitorsPrevious, 0)
+  const totalUserVisitorsPrevious = trafficTrendsData.reduce(
+    (sum, item) => sum + (item.userVisitorsPrevious ?? 0),
+    0
+  )
   const totalAnonymousVisitors = trafficTrendsData.reduce((sum, item) => sum + item.anonymousVisitors, 0)
   const totalAnonymousVisitorsPrevious = trafficTrendsData.reduce(
-    (sum, item) => sum + item.anonymousVisitorsPrevious,
+    (sum, item) => sum + (item.anonymousVisitorsPrevious ?? 0),
     0
   )
 
