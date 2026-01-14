@@ -54,12 +54,19 @@ export interface TopPage {
   views: number
   bounceRate: number
   sessionDuration: number
+  // Previous period values for comparison
+  previousVisitors?: number
+  previousViews?: number
+  previousBounceRate?: number
+  previousSessionDuration?: number
 }
 
 /**
  * Transform API response to TopPage interface
  */
 export function transformTopPageData(record: TopPageRecord): TopPage {
+  const previous = record.previous
+
   return {
     id: `page-${record.page_uri}`,
     pageUri: record.page_uri || '/',
@@ -69,13 +76,31 @@ export function transformTopPageData(record: TopPageRecord): TopPage {
     views: Number(record.views) || 0,
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
     sessionDuration: Math.round(Number(record.avg_time_on_page) || 0),
+    // Previous period values (only set if comparison data exists)
+    ...(previous && {
+      previousVisitors: previous.visitors !== undefined ? Number(previous.visitors) : undefined,
+      previousViews: previous.views !== undefined ? Number(previous.views) : undefined,
+      previousBounceRate: previous.bounce_rate !== undefined ? Math.round(Number(previous.bounce_rate)) : undefined,
+      previousSessionDuration:
+        previous.avg_time_on_page !== undefined ? Math.round(Number(previous.avg_time_on_page)) : undefined,
+    }),
   }
+}
+
+/**
+ * Options for creating Top Pages columns
+ */
+export interface TopPagesColumnsOptions {
+  /** Date range comparison label for tooltip (from useComparisonDateLabel) */
+  comparisonLabel?: string
 }
 
 /**
  * Create column definitions for the Top Pages table
  */
-export function createTopPagesColumns(): ColumnDef<TopPage>[] {
+export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): ColumnDef<TopPage>[] {
+  const { comparisonLabel } = options
+
   return [
     {
       accessorKey: 'page',
@@ -101,7 +126,13 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
       accessorKey: 'visitors',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
-      cell: ({ row }) => <NumericCell value={row.original.visitors} />,
+      cell: ({ row }) => (
+        <NumericCell
+          value={row.original.visitors}
+          previousValue={row.original.previousVisitors}
+          comparisonLabel={comparisonLabel}
+        />
+      ),
       meta: {
         title: 'Visitors',
         priority: 'primary',
@@ -112,7 +143,13 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
       accessorKey: 'views',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
-      cell: ({ row }) => <NumericCell value={row.original.views} />,
+      cell: ({ row }) => (
+        <NumericCell
+          value={row.original.views}
+          previousValue={row.original.previousViews}
+          comparisonLabel={comparisonLabel}
+        />
+      ),
       meta: {
         title: 'Views',
         priority: 'primary',
@@ -125,7 +162,21 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
       size: 90,
       cell: ({ row }) => {
         const vpv = row.original.visitors > 0 ? row.original.views / row.original.visitors : 0
-        return <NumericCell value={vpv} decimals={1} />
+        // Calculate previous views per visitor if both previous values exist
+        const previousVpv =
+          row.original.previousVisitors !== undefined &&
+          row.original.previousViews !== undefined &&
+          row.original.previousVisitors > 0
+            ? row.original.previousViews / row.original.previousVisitors
+            : undefined
+        return (
+          <NumericCell
+            value={vpv}
+            decimals={1}
+            previousValue={previousVpv}
+            comparisonLabel={comparisonLabel}
+          />
+        )
       },
       meta: {
         title: 'Views/Visitor',
@@ -137,7 +188,14 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
       accessorKey: 'bounceRate',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.bounceRate,
-      cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
+      cell: ({ row }) => (
+        <NumericCell
+          value={row.original.bounceRate}
+          suffix="%"
+          previousValue={row.original.previousBounceRate}
+          comparisonLabel={comparisonLabel}
+        />
+      ),
       meta: {
         title: 'Bounce Rate',
         priority: 'secondary',
@@ -148,7 +206,13 @@ export function createTopPagesColumns(): ColumnDef<TopPage>[] {
       accessorKey: 'sessionDuration',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.duration,
-      cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
+      cell: ({ row }) => (
+        <DurationCell
+          seconds={row.original.sessionDuration}
+          previousSeconds={row.original.previousSessionDuration}
+          comparisonLabel={comparisonLabel}
+        />
+      ),
       meta: {
         title: 'Avg. Time on Page',
         priority: 'secondary',

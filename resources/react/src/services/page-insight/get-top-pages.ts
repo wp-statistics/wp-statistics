@@ -12,6 +12,12 @@ export interface TopPageRecord {
   views: number
   bounce_rate: number | null
   avg_time_on_page: number | null
+  previous?: {
+    visitors?: number
+    views?: number
+    bounce_rate?: number
+    avg_time_on_page?: number
+  }
 }
 
 export interface GetTopPagesResponse {

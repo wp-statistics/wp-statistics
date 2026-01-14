@@ -238,7 +238,7 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
                     'period'             => isset($data['period']) ? sanitize_text_field($data['period']) : null,
                     'date_from'          => isset($data['date_from']) ? sanitize_text_field($data['date_from']) : null,
                     'date_to'            => isset($data['date_to']) ? sanitize_text_field($data['date_to']) : null,
-                    'compare'            => isset($data['compare']) && $data['compare'] === 'true',
+                    'compare'            => !empty($data['compare']) && filter_var($data['compare'], FILTER_VALIDATE_BOOLEAN),
                     'previous_date_from' => isset($data['previous_date_from']) ? sanitize_text_field($data['previous_date_from']) : null,
                     'previous_date_to'   => isset($data['previous_date_to']) ? sanitize_text_field($data['previous_date_to']) : null,
                     'page'               => isset($data['page']) ? (int) $data['page'] : 1,

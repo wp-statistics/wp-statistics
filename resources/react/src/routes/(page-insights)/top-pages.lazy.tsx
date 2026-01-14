@@ -17,6 +17,7 @@ import {
   TOP_PAGES_DEFAULT_API_COLUMNS,
   TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
 } from '@/components/data-table-columns/top-pages-columns'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
@@ -50,8 +51,11 @@ function RouteComponent() {
     onPageReset: () => setPage(1),
   })
 
+  // Get comparison date label for tooltip display
+  const { label: comparisonLabel } = useComparisonDateLabel()
+
   const wp = WordPress.getInstance()
-  const columns = useMemo(() => createTopPagesColumns(), [])
+  const columns = useMemo(() => createTopPagesColumns({ comparisonLabel }), [comparisonLabel])
 
   // Content-specific filters only
   const CONTENT_FILTERS = ['page', 'resource_id', 'post_type', 'author']
@@ -61,8 +65,8 @@ function RouteComponent() {
   }, [wp])
 
   const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
+    (values: { range: DateRange; rangeCompare?: DateRange; period?: string; comparisonMode?: string }) => {
+      setDateRange(values.range, values.rangeCompare, values.period, values.comparisonMode as any)
     },
     [setDateRange]
   )
