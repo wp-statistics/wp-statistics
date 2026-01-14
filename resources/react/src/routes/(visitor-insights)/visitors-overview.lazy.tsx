@@ -23,6 +23,7 @@ import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
+import { transformToBarList } from '@/lib/bar-list-helpers'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
@@ -386,34 +387,15 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors =
-                    Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
-                  return topReferrersData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const displayName =
-                      item.referrer_name ||
-                      item.referrer_domain ||
-                      item.referrer_channel ||
-                      __('Direct', 'wp-statistics')
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      label: displayName,
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: displayName,
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topReferrersData, {
+                  label: (item) =>
+                    item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1,
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   action: () => console.log('View all referrers'),
                 }}
@@ -424,36 +406,21 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors =
-                    Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
-                  return topCountriesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
-                          alt={item.country_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.country_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.country_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topCountriesData, {
+                  label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
+                      alt={item.country_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   action: () => console.log('View all countries'),
                 }}
@@ -464,36 +431,21 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Device Type', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = Number(deviceTypeTotals?.visitors?.current ?? deviceTypeTotals?.visitors) || 1
-                  return deviceTypeData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const iconName = (item.device_type_name || 'desktop').toLowerCase()
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/device/${iconName}.svg`}
-                          alt={item.device_type_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.device_type_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.device_type_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(deviceTypeData, {
+                  label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(deviceTypeTotals?.visitors?.current ?? deviceTypeTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/device/${(item.device_type_name || 'desktop').toLowerCase()}.svg`}
+                      alt={item.device_type_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   action: () => console.log('View all device types'),
                 }}
@@ -504,37 +456,21 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Operating Systems', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors =
-                    Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1
-                  return operatingSystemsData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/operating-system/${iconName}.svg`}
-                          alt={item.os_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.os_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.os_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(operatingSystemsData, {
+                  label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+                      alt={item.os_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   action: () => console.log('View all operating systems'),
                 }}

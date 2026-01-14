@@ -12,8 +12,7 @@ import { NoticeContainer } from '@/components/ui/notice-container'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
-import { usePercentageCalc } from '@/hooks/use-percentage-calc'
-import { calcSharePercentage } from '@/lib/utils'
+import { transformToBarList } from '@/lib/bar-list-helpers'
 import { WordPress } from '@/lib/wordpress'
 import { getGeographicOverviewQueryOptions } from '@/services/geographic/get-geographic-overview'
 
@@ -90,7 +89,6 @@ function RouteComponent() {
     [countriesMapData]
   )
 
-  const calcPercentage = usePercentageCalc()
   const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Build metrics for the top row
@@ -210,36 +208,21 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors =
-                    Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
-                  return topCountriesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
-                          alt={item.country_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.country_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.country_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topCountriesData, {
+                  label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
+                      alt={item.country_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   href: '#/countries',
                 }}
@@ -250,28 +233,16 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Cities', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = Number(topCitiesTotals?.visitors?.current ?? topCitiesTotals?.visitors) || 1
-                  return topCitiesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${item.country_name || ''} • ${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      label: item.city_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.city_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topCitiesData, {
+                  label: (item) => item.city_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(topCitiesTotals?.visitors?.current ?? topCitiesTotals?.visitors) || 1,
+                  tooltipSubtitle: (item, prev) =>
+                    `${item.country_name || ''} • ${__('Previous:', 'wp-statistics')} ${prev.toLocaleString()}`,
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   href: '#/cities',
                 }}
@@ -282,36 +253,21 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top European Countries', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors =
-                    Number(topEuropeanCountriesTotals?.visitors?.current ?? topEuropeanCountriesTotals?.visitors) || 1
-                  return topEuropeanCountriesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
-                          alt={item.country_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.country_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.country_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topEuropeanCountriesData, {
+                  label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(topEuropeanCountriesTotals?.visitors?.current ?? topEuropeanCountriesTotals?.visitors) || 1,
+                  icon: (item) => (
+                    <img
+                      src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
+                      alt={item.country_name || ''}
+                      className="w-4 h-3"
+                    />
+                  ),
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   href: '#/countries?filter_country=EU',
                 }}
@@ -325,27 +281,13 @@ function RouteComponent() {
                 <HorizontalBarList
                   title={`${__('Top Regions of', 'wp-statistics')} ${userCountryName}`}
                   showComparison={isCompareEnabled}
-                  items={(() => {
-                    const totalVisitors = Number(topRegionsTotals?.visitors?.current ?? topRegionsTotals?.visitors) || 1
-                    return topRegionsData.map((item) => {
-                      const currentValue = Number(item.visitors) || 0
-                      const previousValue = Number(item.previous?.visitors) || 0
-                      const comparisonProps = isCompareEnabled
-                        ? {
-                            ...calcPercentage(currentValue, previousValue),
-                            tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          }
-                        : {}
-
-                      return {
-                        label: item.region_name || __('Unknown', 'wp-statistics'),
-                        value: currentValue,
-                        fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                        tooltipTitle: item.region_name || '',
-                        ...comparisonProps,
-                      }
-                    })
-                  })()}
+                  items={transformToBarList(topRegionsData, {
+                    label: (item) => item.region_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topRegionsTotals?.visitors?.current ?? topRegionsTotals?.visitors) || 1,
+                    isCompareEnabled,
+                  })}
                   link={{
                     href: `#/regions?filter_country=${userCountry}`,
                   }}
@@ -357,28 +299,14 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top US States', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors = Number(topUsStatesTotals?.visitors?.current ?? topUsStatesTotals?.visitors) || 1
-                  return topUsStatesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      label: item.region_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.region_name || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(topUsStatesData, {
+                  label: (item) => item.region_name || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(topUsStatesTotals?.visitors?.current ?? topUsStatesTotals?.visitors) || 1,
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
                 link={{
                   href: '#/regions?filter_country=US',
                 }}
@@ -389,29 +317,14 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Visitors by Continent', 'wp-statistics')}
                 showComparison={isCompareEnabled}
-                items={(() => {
-                  const totalVisitors =
-                    Number(visitorsByContinentTotals?.visitors?.current ?? visitorsByContinentTotals?.visitors) || 1
-                  return visitorsByContinentData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const comparisonProps = isCompareEnabled
-                      ? {
-                          ...calcPercentage(currentValue, previousValue),
-                          tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                          comparisonDateLabel,
-                        }
-                      : {}
-
-                    return {
-                      label: item.continent_name || item.continent || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      tooltipTitle: item.continent_name || item.continent || '',
-                      ...comparisonProps,
-                    }
-                  })
-                })()}
+                items={transformToBarList(visitorsByContinentData, {
+                  label: (item) => item.continent_name || item.continent || __('Unknown', 'wp-statistics'),
+                  value: (item) => Number(item.visitors) || 0,
+                  previousValue: (item) => Number(item.previous?.visitors) || 0,
+                  total: Number(visitorsByContinentTotals?.visitors?.current ?? visitorsByContinentTotals?.visitors) || 1,
+                  isCompareEnabled,
+                  comparisonDateLabel,
+                })}
               />
             </div>
           </div>
