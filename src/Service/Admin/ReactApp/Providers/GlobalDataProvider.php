@@ -9,6 +9,7 @@ use WP_Statistics\Service\Admin\Dashboard\Endpoints\FilterOptions;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
+use WP_Statistics\Utils\Taxonomy;
 
 /**
  * Provider for global application data.
@@ -45,6 +46,7 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'currentPage'           => isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '',
             'dateFormat'            => get_option('date_format', 'Y-m-d'),
             'startOfWeek'           => (int) get_option('start_of_week', 0),
+            'taxonomies'            => $this->getTaxonomyList(),
         ];
 
         /**
@@ -77,6 +79,26 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
     {
         $manager = new UserPreferencesManager();
         return $manager->get('global_filters');
+    }
+
+    /**
+     * Get list of public taxonomies for the frontend.
+     *
+     * @return array Array of taxonomy objects with value and label
+     */
+    private function getTaxonomyList()
+    {
+        $taxonomies = Taxonomy::getAll();
+        $result     = [];
+
+        foreach ($taxonomies as $slug => $label) {
+            $result[] = [
+                'value' => $slug,
+                'label' => $label,
+            ];
+        }
+
+        return $result;
     }
 }
 

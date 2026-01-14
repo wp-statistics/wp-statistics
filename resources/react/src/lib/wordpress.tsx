@@ -142,10 +142,23 @@ export class WordPress {
   }
 
   /**
+   * Get list of available taxonomies.
+   * Used for taxonomy filter dropdowns.
+   */
+  public getTaxonomies(): TaxonomyItem[] {
+    return this.data.globals.taxonomies ?? [{ value: 'category', label: 'Category' }]
+  }
+
+  /**
    * Get arbitrary data from the localized data object.
    * Used by premium plugin to access premium-specific data.
    */
   public getData<T = unknown>(key: string): T | undefined {
     return (this.data as Record<string, unknown>)[key] as T | undefined
   }
+}
+
+export interface TaxonomyItem {
+  value: string
+  label: string
 }
