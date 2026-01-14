@@ -55,7 +55,16 @@ class UserPreferencesManager
         // Sanitize the data
         $sanitizedData = $this->sanitizeData($data);
 
-        // Add timestamp
+        // Check if data has actually changed (excluding timestamp)
+        $existingData = $allPreferences[$context] ?? [];
+        unset($existingData['updated_at']);
+
+        if ($existingData === $sanitizedData) {
+            // Data unchanged, return success without saving
+            return true;
+        }
+
+        // Add timestamp only when data changes
         $sanitizedData['updated_at'] = current_time('mysql');
 
         // Update the specific context
@@ -192,7 +201,7 @@ class UserPreferencesManager
     /**
      * Validate context name.
      *
-     * Context WP_Statistics_names must be alphanumeric with underscores only.
+     * Context names must be alphanumeric with underscores and hyphens only.
      *
      * @param string $context Context name to validate.
      * @return bool True if valid.
@@ -203,8 +212,8 @@ class UserPreferencesManager
             return false;
         }
 
-        // Only allow alphanumeric characters and underscores
-        return (bool) preg_match('/^[a-zA-Z0-9_]+$/', $context);
+        // Only allow alphanumeric characters, underscores, and hyphens
+        return (bool) preg_match('/^[a-zA-Z0-9_-]+$/', $context);
     }
 
     /**
