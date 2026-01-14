@@ -53,10 +53,22 @@ const WORDPRESS_ADMIN_PARAMS = new Set(['page', 'post_type', 'taxonomy'])
 
 const parseSearch = (searchString: string): Record<string, string> => {
   // Remove leading '?' if present
-  const cleanSearch = searchString.startsWith('?') ? searchString.slice(1) : searchString
+  let cleanSearch = searchString.startsWith('?') ? searchString.slice(1) : searchString
 
   // Early return for empty search
   if (!cleanSearch) return {}
+
+  // Fix for TanStack Router hash history quirk:
+  // When navigating to a URL like: admin.php?page=wp-statistics#/visitors?order=asc
+  // The hash search string can incorrectly get the main URL's query string appended:
+  // "order_by=lastVisit&order=asc?page=wp-statistics" instead of "order_by=lastVisit&order=asc"
+  // This happens because the browser's location includes both query strings.
+  // We detect this by finding a '?' in the middle of the search string (after removing the leading '?')
+  // and strip everything from that point.
+  const extraQueryIndex = cleanSearch.indexOf('?')
+  if (extraQueryIndex > 0) {
+    cleanSearch = cleanSearch.substring(0, extraQueryIndex)
+  }
 
   const params = new URLSearchParams(cleanSearch)
   const result: Record<string, string> = {}

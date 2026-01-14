@@ -1,6 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useState } from 'react'
 
@@ -23,6 +22,7 @@ import {
 } from '@/components/data-table-columns/logged-in-users-columns'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { WordPress } from '@/lib/wordpress'
 import { getLoggedInUsersBatchQueryOptions } from '@/services/visitor-insight/get-logged-in-users-batch'
 
@@ -62,7 +62,10 @@ function RouteComponent() {
     isCompareEnabled,
   } = useGlobalFilters()
 
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
+  const { sorting, handleSortingChange, orderBy, order } = useUrlSortSync({
+    defaultSort: [{ id: 'lastVisit', desc: true }],
+    onPageReset: () => setPage(1),
+  })
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
   const wp = WordPress.getInstance()
@@ -101,9 +104,6 @@ function RouteComponent() {
     },
     [setDateRange]
   )
-
-  const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-  const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
 
   // Fetch all data in a single batch request
   const {
@@ -184,14 +184,6 @@ function RouteComponent() {
     showPreviousValues: isCompareEnabled,
     preserveNull: true,
   })
-
-  const handleSortingChange = useCallback(
-    (newSorting: SortingState) => {
-      setSorting(newSorting)
-      setPage(1)
-    },
-    [setPage]
-  )
 
   const handlePageChange = useCallback(
     (newPage: number) => {

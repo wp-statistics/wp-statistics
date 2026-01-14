@@ -29,6 +29,9 @@ export interface BaseSearchParams {
   date_to?: string
   previous_date_from?: string
   previous_date_to?: string
+  // Sorting params for data tables
+  order_by?: string
+  order?: 'asc' | 'desc'
   // Bracket notation filter params are passed through as strings
   // e.g., 'filter[country]': 'eq:US'
   [key: `filter[${string}]`]: string
@@ -69,6 +72,25 @@ const parseDate = (searchDate: unknown): string | undefined => {
   // Validate YYYY-MM-DD format
   if (!/^\d{4}-\d{2}-\d{2}$/.test(searchDate)) return undefined
   return searchDate
+}
+
+/**
+ * Parses order_by column name from search params
+ * Only allows alphanumeric and underscore characters for security
+ */
+const parseOrderBy = (orderBy: unknown): string | undefined => {
+  if (typeof orderBy !== 'string') return undefined
+  // Only allow alphanumeric and underscore (valid column names)
+  if (!/^[a-zA-Z][a-zA-Z0-9_]*$/.test(orderBy)) return undefined
+  return orderBy
+}
+
+/**
+ * Parses order direction from search params
+ */
+const parseOrder = (order: unknown): 'asc' | 'desc' | undefined => {
+  if (order === 'asc' || order === 'desc') return order
+  return undefined
 }
 
 /**
@@ -125,6 +147,15 @@ export function createSearchValidator<T extends BaseSearchParams = BaseSearchPar
         result.previous_date_from = previousDateFrom
         result.previous_date_to = previousDateTo
       }
+    }
+
+    // Parse sorting params
+    const orderBy = parseOrderBy(search.order_by)
+    const order = parseOrder(search.order)
+    if (orderBy) {
+      result.order_by = orderBy
+      // Only include order if order_by is present, default to 'desc' if not specified
+      result.order = order || 'desc'
     }
 
     return result as T

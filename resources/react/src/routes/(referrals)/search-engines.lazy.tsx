@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef, SortingState } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useState } from 'react'
 
@@ -15,6 +15,7 @@ import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/ske
 import { useChartData } from '@/hooks/use-chart-data'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
+import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
@@ -49,7 +50,11 @@ function RouteComponent() {
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
   const [searchType, setSearchType] = useState<SearchType>('all')
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'visitors', desc: true }])
+
+  const { sorting, handleSortingChange, orderBy, order } = useUrlSortSync({
+    defaultSort: [{ id: 'visitors', desc: true }],
+    onPageReset: () => setPage(1),
+  })
 
   const wp = WordPress.getInstance()
   const calcPercentage = usePercentageCalc()
@@ -76,10 +81,6 @@ function RouteComponent() {
     [setPage]
   )
 
-  // Determine sort parameters
-  const orderBy = sorting.length > 0 ? sorting[0].id : 'visitors'
-  const order = sorting.length > 0 && sorting[0].desc ? 'DESC' : 'ASC'
-
   // Fetch data
   const {
     data: response,
@@ -98,7 +99,7 @@ function RouteComponent() {
       page,
       perPage: PER_PAGE,
       orderBy,
-      order: order as 'ASC' | 'DESC',
+      order: order.toUpperCase() as 'ASC' | 'DESC',
       filters: appliedFilters || [],
     }),
     placeholderData: keepPreviousData,
@@ -245,14 +246,6 @@ function RouteComponent() {
   // Pagination info
   const totalRows = response?.data?.items?.table?.meta?.total_rows ?? 0
   const totalPages = response?.data?.items?.table?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
-
-  const handleSortingChange = useCallback(
-    (newSorting: SortingState) => {
-      setSorting(newSorting)
-      setPage(1)
-    },
-    [setPage]
-  )
 
   const handlePageChange = useCallback(
     (newPage: number) => {

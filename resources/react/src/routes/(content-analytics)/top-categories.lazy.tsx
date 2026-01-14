@@ -1,6 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { SortingState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useState } from 'react'
 
@@ -20,6 +19,7 @@ import {
 } from '@/components/data-table-columns/top-categories-columns'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { WordPress } from '@/lib/wordpress'
 import { getTopCategoriesQueryOptions } from '@/services/content-analytics/get-top-categories'
 
@@ -46,7 +46,10 @@ function RouteComponent() {
     apiDateParams,
   } = useGlobalFilters()
 
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'views', desc: true }])
+  const { sorting, handleSortingChange, orderBy, order } = useUrlSortSync({
+    defaultSort: [{ id: 'views', desc: true }],
+    onPageReset: () => setPage(1),
+  })
   const [defaultFilterRemoved, setDefaultFilterRemoved] = useState(false)
 
   const wp = WordPress.getInstance()
@@ -121,9 +124,6 @@ function RouteComponent() {
     [setDateRange]
   )
 
-  const orderBy = sorting.length > 0 ? sorting[0].id : 'views'
-  const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
-
   // Get the current taxonomy type for API request
   const currentTaxonomyType = useMemo(() => {
     const userTaxonomyFilter = filtersForApi.find((f) => f.id.startsWith('taxonomy_type'))
@@ -183,14 +183,6 @@ function RouteComponent() {
 
   const totalRows = response?.data?.meta?.total_rows ?? 0
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
-
-  const handleSortingChange = useCallback(
-    (newSorting: SortingState) => {
-      setSorting(newSorting)
-      setPage(1)
-    },
-    [setPage]
-  )
 
   const handlePageChange = useCallback(
     (newPage: number) => {

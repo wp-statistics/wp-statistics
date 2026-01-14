@@ -139,6 +139,102 @@ describe('route-validation', () => {
         expect(result).toEqual({})
       })
     })
+
+    describe('sorting params parsing', () => {
+      it('should parse order_by and order params', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          order_by: 'lastVisit',
+          order: 'desc',
+        })
+
+        expect(result.order_by).toBe('lastVisit')
+        expect(result.order).toBe('desc')
+      })
+
+      it('should parse order_by with asc order', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          order_by: 'views',
+          order: 'asc',
+        })
+
+        expect(result.order_by).toBe('views')
+        expect(result.order).toBe('asc')
+      })
+
+      it('should default order to desc when order_by present but order missing', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          order_by: 'lastVisit',
+        })
+
+        expect(result.order_by).toBe('lastVisit')
+        expect(result.order).toBe('desc')
+      })
+
+      it('should not include order when order_by is missing', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          order: 'asc',
+        })
+
+        expect(result.order_by).toBeUndefined()
+        expect(result.order).toBeUndefined()
+      })
+
+      it('should ignore invalid order_by values', () => {
+        const validator = createSearchValidator()
+
+        // Invalid: starts with number
+        expect(validator({ order_by: '123column' }).order_by).toBeUndefined()
+        // Invalid: contains special chars
+        expect(validator({ order_by: 'column-name' }).order_by).toBeUndefined()
+        // Invalid: empty string
+        expect(validator({ order_by: '' }).order_by).toBeUndefined()
+      })
+
+      it('should accept valid order_by column names', () => {
+        const validator = createSearchValidator()
+
+        // Valid: alphanumeric with underscore
+        expect(validator({ order_by: 'last_visit' }).order_by).toBe('last_visit')
+        expect(validator({ order_by: 'views' }).order_by).toBe('views')
+        expect(validator({ order_by: 'pageViews2' }).order_by).toBe('pageViews2')
+      })
+
+      it('should ignore invalid order values', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          order_by: 'lastVisit',
+          order: 'invalid',
+        })
+
+        expect(result.order_by).toBe('lastVisit')
+        expect(result.order).toBe('desc') // defaults to desc
+      })
+
+      it('should parse sorting params with filters and page', () => {
+        const validator = createSearchValidator()
+
+        const result = validator({
+          'filter[country]': 'eq:US',
+          page: 2,
+          order_by: 'visitors',
+          order: 'asc',
+        })
+
+        expect(result['filter[country]']).toBe('eq:US')
+        expect(result.page).toBe(2)
+        expect(result.order_by).toBe('visitors')
+        expect(result.order).toBe('asc')
+      })
+    })
   })
 
   describe('searchValidators', () => {

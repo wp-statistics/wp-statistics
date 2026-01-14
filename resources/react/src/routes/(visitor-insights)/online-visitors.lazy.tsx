@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef, SortingState } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useState } from 'react'
 
@@ -20,6 +20,7 @@ import {
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
+import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
@@ -285,10 +286,11 @@ function RouteComponent() {
   )
 
   const [page, setPage] = useState(1)
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'lastVisit', desc: true }])
 
-  const orderBy = sorting.length > 0 ? sorting[0].id : 'lastVisit'
-  const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
+  const { sorting, handleSortingChange, orderBy, order } = useUrlSortSync({
+    defaultSort: [{ id: 'lastVisit', desc: true }],
+    onPageReset: () => setPage(1),
+  })
 
   // Fetch data from API
   const {
@@ -332,14 +334,6 @@ function RouteComponent() {
   const visitors = response?.data?.data?.rows?.map(transformVisitorData) || []
   const total = response?.data?.meta?.total_rows ?? 0
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(total / PER_PAGE) || 1
-
-  const handleSortingChange = useCallback(
-    (newSorting: SortingState) => {
-      setSorting(newSorting)
-      setPage(1)
-    },
-    [setPage]
-  )
 
   const handlePageChange = useCallback(
     (newPage: number) => {

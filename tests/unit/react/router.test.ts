@@ -37,10 +37,20 @@ const WORDPRESS_ADMIN_PARAMS = new Set(['page', 'post_type', 'taxonomy'])
 
 const parseSearch = (searchString: string): Record<string, string> => {
   // Remove leading '?' if present
-  const cleanSearch = searchString.startsWith('?') ? searchString.slice(1) : searchString
+  let cleanSearch = searchString.startsWith('?') ? searchString.slice(1) : searchString
 
   // Early return for empty search
   if (!cleanSearch) return {}
+
+  // Fix for TanStack Router hash history quirk:
+  // When navigating to a URL like: admin.php?page=wp-statistics#/visitors?order=asc
+  // The hash search string can incorrectly get the main URL's query string appended:
+  // "order_by=lastVisit&order=asc?page=wp-statistics" instead of "order_by=lastVisit&order=asc"
+  // We detect this by finding a '?' in the middle of the search string and strip everything from that point.
+  const extraQueryIndex = cleanSearch.indexOf('?')
+  if (extraQueryIndex > 0) {
+    cleanSearch = cleanSearch.substring(0, extraQueryIndex)
+  }
 
   const params = new URLSearchParams(cleanSearch)
   const result: Record<string, string> = {}
@@ -211,6 +221,81 @@ describe('router parseSearch', () => {
       expect(result).toEqual({
         'filter[country]': 'eq:US',
         'filter[browser]': 'eq:Chrome',
+      })
+    })
+  })
+
+  describe('concatenated query string fix', () => {
+    it('should strip WordPress admin query string appended to hash params', () => {
+      // This is the TanStack Router hash history bug where the main URL query
+      // gets appended to the last hash param value
+      const result = parseSearch('order_by=lastVisit&order=asc?page=wp-statistics')
+      expect(result).toEqual({
+        order_by: 'lastVisit',
+        order: 'asc',
+      })
+    })
+
+    it('should handle multiple admin params appended', () => {
+      const result = parseSearch('order_by=views&order=desc?page=wp-statistics&post_type=post')
+      expect(result).toEqual({
+        order_by: 'views',
+        order: 'desc',
+      })
+    })
+
+    it('should handle sorting params with filters when admin params appended', () => {
+      const result = parseSearch('filter[country]=eq:US&order_by=visitors&order=asc?page=wp-statistics')
+      expect(result).toEqual({
+        'filter[country]': 'eq:US',
+        order_by: 'visitors',
+        order: 'asc',
+      })
+    })
+
+    it('should not strip question mark from valid filter values', () => {
+      // Filter values can legitimately contain question marks (e.g., URLs)
+      // But those should be URL-encoded, so this case should still work
+      const result = parseSearch('filter[referrer]=eq:https://example.com')
+      expect(result).toEqual({
+        'filter[referrer]': 'eq:https://example.com',
+      })
+    })
+
+    it('should handle normal params without concatenated query string', () => {
+      // Normal case - no bug, no extra ? in string
+      const result = parseSearch('order_by=lastVisit&order=asc')
+      expect(result).toEqual({
+        order_by: 'lastVisit',
+        order: 'asc',
+      })
+    })
+  })
+
+  describe('sorting params parsing', () => {
+    it('should parse order_by and order params', () => {
+      const result = parseSearch('?order_by=lastVisit&order=desc')
+      expect(result).toEqual({
+        order_by: 'lastVisit',
+        order: 'desc',
+      })
+    })
+
+    it('should parse order_by with asc', () => {
+      const result = parseSearch('?order_by=views&order=asc')
+      expect(result).toEqual({
+        order_by: 'views',
+        order: 'asc',
+      })
+    })
+
+    it('should parse sorting with date params', () => {
+      const result = parseSearch('?date_from=2026-01-01&date_to=2026-01-14&order_by=lastVisit&order=desc')
+      expect(result).toEqual({
+        date_from: '2026-01-01',
+        date_to: '2026-01-14',
+        order_by: 'lastVisit',
+        order: 'desc',
       })
     })
   })

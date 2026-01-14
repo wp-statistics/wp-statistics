@@ -1,8 +1,8 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef, SortingState } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
@@ -12,6 +12,7 @@ import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
+import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getReferrersQueryOptions, type ReferrerRow } from '@/services/referral/get-referrers'
@@ -40,7 +41,10 @@ function RouteComponent() {
     isCompareEnabled,
   } = useGlobalFilters()
 
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'visitors', desc: true }])
+  const { sorting, handleSortingChange, orderBy, order } = useUrlSortSync({
+    defaultSort: [{ id: 'visitors', desc: true }],
+    onPageReset: () => setPage(1),
+  })
 
   const wp = WordPress.getInstance()
   const calcPercentage = usePercentageCalc()
@@ -58,10 +62,6 @@ function RouteComponent() {
     [setDateRange]
   )
 
-  // Determine sort parameters from sorting state
-  const orderBy = sorting.length > 0 ? sorting[0].id : 'visitors'
-  const order = sorting.length > 0 && sorting[0].desc ? 'DESC' : 'ASC'
-
   // Fetch referrers data
   const {
     data: response,
@@ -78,7 +78,7 @@ function RouteComponent() {
       page,
       perPage: PER_PAGE,
       orderBy,
-      order: order as 'ASC' | 'DESC',
+      order: order.toUpperCase() as 'ASC' | 'DESC',
       filters: appliedFilters || [],
     }),
     placeholderData: keepPreviousData,
@@ -221,15 +221,6 @@ function RouteComponent() {
   // Get pagination info
   const totalRows = response?.data?.meta?.total_rows ?? 0
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
-
-  // Handle sorting changes
-  const handleSortingChange = useCallback(
-    (newSorting: SortingState) => {
-      setSorting(newSorting)
-      setPage(1)
-    },
-    [setPage]
-  )
 
   // Handle page changes
   const handlePageChange = useCallback(
