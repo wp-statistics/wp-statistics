@@ -7,6 +7,10 @@ import { routeTree } from './routeTree.gen'
  * Custom search param stringifier that keeps brackets and colons unencoded
  * for more readable URLs like: filter[country]=in:JP,CN
  * instead of: filter%5Bcountry%5D=in%3AJP%2CCN
+ *
+ * Note: With hash history, we need to include the '?' prefix because the router
+ * doesn't add it when constructing hash URLs. This is a workaround for a
+ * TanStack Router hash history quirk.
  */
 const stringifySearch = (search: Record<string, unknown>): string => {
   const params = new URLSearchParams()
@@ -17,9 +21,15 @@ const stringifySearch = (search: Record<string, unknown>): string => {
     }
   }
 
+  const searchString = params.toString()
+
+  // Return empty string if no params
+  if (!searchString) return ''
+
   // Convert to string and decode brackets, colons, and commas for readability
-  return params
-    .toString()
+  // Include '?' prefix for hash history compatibility - TanStack Router's hash history
+  // builds URLs by concatenating pathname + searchStr, so we need to include the '?'
+  return '?' + searchString
     .replace(/%5B/g, '[')
     .replace(/%5D/g, ']')
     .replace(/%3A/g, ':')
