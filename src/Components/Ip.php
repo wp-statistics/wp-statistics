@@ -226,7 +226,7 @@ class Ip
         $userAgent = UserAgent::getHttpUserAgent();
 
         $hash          = hash('sha256', $salt . $ip . $userAgent);
-        $truncatedHash = substr($hash, 0, 40);
+        $truncatedHash = substr($hash, 0, 20);
 
 
         /**

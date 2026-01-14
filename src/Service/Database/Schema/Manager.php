@@ -190,7 +190,7 @@ class Manager
         'visitors'                => [
             'columns'     => [
                 'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'hash'       => 'varchar(128)',
+                'hash'       => 'varchar(20)',
                 'created_at' => 'datetime NOT NULL',
             ],
             'constraints' => [

@@ -27,7 +27,7 @@ class VisitorGroupBy extends AbstractGroupBy
      * @var array
      */
     protected $baseExtraColumns = [
-        'visitors.hash AS visitor_hash',
+        'LEFT(visitors.hash, 6) AS visitor_hash',
         'MIN(sessions.started_at) AS first_visit',
         'MAX(sessions.started_at) AS last_visit',
         'COUNT(DISTINCT sessions.ID) AS total_sessions',
@@ -94,9 +94,9 @@ class VisitorGroupBy extends AbstractGroupBy
         $includeAll = empty($requestedColumns);
         $columns = [];
 
-        // visitor_hash
+        // visitor_hash (truncated to 6 chars for display)
         if ($includeAll || in_array('visitor_hash', $requestedColumns, true)) {
-            $columns[] = 'visitors.hash AS visitor_hash';
+            $columns[] = 'LEFT(visitors.hash, 6) AS visitor_hash';
         }
 
         // first_visit
