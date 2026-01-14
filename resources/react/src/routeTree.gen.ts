@@ -24,6 +24,8 @@ import { Route as visitorInsightsTopVisitorsRouteImport } from './routes/(visito
 import { Route as visitorInsightsLoggedInUsersRouteImport } from './routes/(visitor-insights)/logged-in-users'
 import { Route as referralsReferralsOverviewRouteImport } from './routes/(referrals)/referrals-overview'
 import { Route as pageInsightsTopPagesRouteImport } from './routes/(page-insights)/top-pages'
+import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insights)/author-pages'
+import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
 import { Route as contentAnalyticsTopCategoriesRouteImport } from './routes/(content-analytics)/top-categories'
 import { Route as contentAnalyticsTopAuthorsRouteImport } from './routes/(content-analytics)/top-authors'
 import { Route as contentAnalyticsIndividualContentRouteImport } from './routes/(content-analytics)/individual-content'
@@ -413,6 +415,24 @@ const pageInsightsTopPagesRoute = pageInsightsTopPagesRouteImport
   .lazy(() =>
     import('./routes/(page-insights)/top-pages.lazy').then((d) => d.Route),
   )
+const pageInsightsAuthorPagesRoute = pageInsightsAuthorPagesRouteImport
+  .update({
+    id: '/(page-insights)/author-pages',
+    path: '/author-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/author-pages.lazy').then((d) => d.Route),
+  )
+const pageInsights404PagesRoute = pageInsights404PagesRouteImport
+  .update({
+    id: '/(page-insights)/404-pages',
+    path: '/404-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/404-pages.lazy').then((d) => d.Route),
+  )
 const contentAnalyticsTopCategoriesRoute =
   contentAnalyticsTopCategoriesRouteImport
     .update({
@@ -519,6 +539,8 @@ export interface FileRoutesByFullPath {
   '/individual-content': typeof contentAnalyticsIndividualContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/404-pages': typeof pageInsights404PagesRoute
+  '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
   '/referrals-overview': typeof referralsReferralsOverviewRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
@@ -568,6 +590,8 @@ export interface FileRoutesByTo {
   '/individual-content': typeof contentAnalyticsIndividualContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/404-pages': typeof pageInsights404PagesRoute
+  '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
   '/referrals-overview': typeof referralsReferralsOverviewRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
@@ -620,6 +644,8 @@ export interface FileRoutesById {
   '/(content-analytics)/individual-content': typeof contentAnalyticsIndividualContentRoute
   '/(content-analytics)/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/(content-analytics)/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/(page-insights)/404-pages': typeof pageInsights404PagesRoute
+  '/(page-insights)/author-pages': typeof pageInsightsAuthorPagesRoute
   '/(page-insights)/top-pages': typeof pageInsightsTopPagesRoute
   '/(referrals)/referrals-overview': typeof referralsReferralsOverviewRoute
   '/(visitor-insights)/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
@@ -673,6 +699,8 @@ export interface FileRouteTypes {
     | '/individual-content'
     | '/top-authors'
     | '/top-categories'
+    | '/404-pages'
+    | '/author-pages'
     | '/top-pages'
     | '/referrals-overview'
     | '/logged-in-users'
@@ -722,6 +750,8 @@ export interface FileRouteTypes {
     | '/individual-content'
     | '/top-authors'
     | '/top-categories'
+    | '/404-pages'
+    | '/author-pages'
     | '/top-pages'
     | '/referrals-overview'
     | '/logged-in-users'
@@ -773,6 +803,8 @@ export interface FileRouteTypes {
     | '/(content-analytics)/individual-content'
     | '/(content-analytics)/top-authors'
     | '/(content-analytics)/top-categories'
+    | '/(page-insights)/404-pages'
+    | '/(page-insights)/author-pages'
     | '/(page-insights)/top-pages'
     | '/(referrals)/referrals-overview'
     | '/(visitor-insights)/logged-in-users'
@@ -825,6 +857,8 @@ export interface RootRouteChildren {
   contentAnalyticsIndividualContentRoute: typeof contentAnalyticsIndividualContentRoute
   contentAnalyticsTopAuthorsRoute: typeof contentAnalyticsTopAuthorsRoute
   contentAnalyticsTopCategoriesRoute: typeof contentAnalyticsTopCategoriesRoute
+  pageInsights404PagesRoute: typeof pageInsights404PagesRoute
+  pageInsightsAuthorPagesRoute: typeof pageInsightsAuthorPagesRoute
   pageInsightsTopPagesRoute: typeof pageInsightsTopPagesRoute
   referralsReferralsOverviewRoute: typeof referralsReferralsOverviewRoute
   visitorInsightsLoggedInUsersRoute: typeof visitorInsightsLoggedInUsersRoute
@@ -1131,6 +1165,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pageInsightsTopPagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(page-insights)/author-pages': {
+      id: '/(page-insights)/author-pages'
+      path: '/author-pages'
+      fullPath: '/author-pages'
+      preLoaderRoute: typeof pageInsightsAuthorPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(page-insights)/404-pages': {
+      id: '/(page-insights)/404-pages'
+      path: '/404-pages'
+      fullPath: '/404-pages'
+      preLoaderRoute: typeof pageInsights404PagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(content-analytics)/top-categories': {
       id: '/(content-analytics)/top-categories'
       path: '/top-categories'
@@ -1263,6 +1311,8 @@ const rootRouteChildren: RootRouteChildren = {
     contentAnalyticsIndividualContentRoute,
   contentAnalyticsTopAuthorsRoute: contentAnalyticsTopAuthorsRoute,
   contentAnalyticsTopCategoriesRoute: contentAnalyticsTopCategoriesRoute,
+  pageInsights404PagesRoute: pageInsights404PagesRoute,
+  pageInsightsAuthorPagesRoute: pageInsightsAuthorPagesRoute,
   pageInsightsTopPagesRoute: pageInsightsTopPagesRoute,
   referralsReferralsOverviewRoute: referralsReferralsOverviewRoute,
   visitorInsightsLoggedInUsersRoute: visitorInsightsLoggedInUsersRoute,
