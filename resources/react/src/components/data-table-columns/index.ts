@@ -18,6 +18,7 @@ export { NumericCell } from './cells/numeric-cell'
 export { PageCell } from './cells/page-cell'
 export { ReferrerCell } from './cells/referrer-cell'
 export { StatusCell } from './cells/status-cell'
+export { UriCell } from './cells/uri-cell'
 export { VisitorInfoCell } from './cells/visitor-info-cell'
 export { LocationCell } from './cells/location-cell'
 
