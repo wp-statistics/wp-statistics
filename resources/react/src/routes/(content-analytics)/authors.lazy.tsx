@@ -12,7 +12,7 @@ import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
-import { formatCompactNumber, formatDecimal } from '@/lib/utils'
+import { formatCompactNumber, formatDecimal, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getAuthorsOverviewQueryOptions } from '@/services/content-analytics/get-authors-overview'
 
@@ -172,15 +172,15 @@ function AuthorsOverviewView() {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
-    const publishedContent = Number(totals.published_content?.current) || 0
-    const activeAuthors = Number(totals.active_authors?.current) || 0
-    const visitors = Number(totals.visitors?.current) || 0
-    const views = Number(totals.views?.current) || 0
+    const publishedContent = getTotalValue(totals.published_content)
+    const activeAuthors = getTotalValue(totals.active_authors)
+    const visitors = getTotalValue(totals.visitors)
+    const views = getTotalValue(totals.views)
 
-    const prevPublishedContent = Number(totals.published_content?.previous) || 0
-    const prevActiveAuthors = Number(totals.active_authors?.previous) || 0
-    const prevVisitors = Number(totals.visitors?.previous) || 0
-    const prevViews = Number(totals.views?.previous) || 0
+    const prevPublishedContent = getTotalValue(totals.published_content?.previous)
+    const prevActiveAuthors = getTotalValue(totals.active_authors?.previous)
+    const prevVisitors = getTotalValue(totals.visitors?.previous)
+    const prevViews = getTotalValue(totals.views?.previous)
 
     const viewsPerAuthor = activeAuthors > 0 ? views / activeAuthors : 0
     const prevViewsPerAuthor = prevActiveAuthors > 0 ? prevViews / prevActiveAuthors : 0

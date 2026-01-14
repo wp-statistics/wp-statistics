@@ -104,3 +104,23 @@ export function calcSharePercentage(part: number, total: number): number {
   const percentage = (part / total) * 100
   return Math.min(percentage, 100)
 }
+
+/**
+ * Extract total value from API response
+ * Handles both flat values and { current, previous } structure
+ *
+ * @example
+ * getTotalValue(100)                    // 100
+ * getTotalValue("100")                  // 100
+ * getTotalValue({ current: 100 })       // 100
+ * getTotalValue({ current: "100" })     // 100
+ * getTotalValue(null)                   // 0
+ */
+export function getTotalValue(total: unknown): number {
+  if (typeof total === 'number') return total
+  if (typeof total === 'string') return Number(total) || 0
+  if (total && typeof total === 'object') {
+    return Number((total as { current?: number | string }).current) || 0
+  }
+  return 0
+}

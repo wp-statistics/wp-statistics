@@ -17,20 +17,9 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
-import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getContentOverviewQueryOptions } from '@/services/content-analytics/get-content-overview'
-
-// Helper to extract total value from API response (handles both flat and { current, previous } formats)
-function getTotalValue(total: unknown): number {
-  if (typeof total === 'number') return total
-  if (typeof total === 'string') return Number(total) || 0
-  if (typeof total === 'object' && total !== null) {
-    const obj = total as { current?: number | string }
-    return Number(obj.current) || 0
-  }
-  return 0
-}
 
 export const Route = createLazyFileRoute('/(content-analytics)/content')({
   component: RouteComponent,
@@ -260,19 +249,19 @@ function ContentOverviewView() {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
-    const publishedContent = Number(totals.published_content?.current) || 0
-    const visitors = Number(totals.visitors?.current) || 0
-    const views = Number(totals.views?.current) || 0
-    const bounceRate = Number(totals.bounce_rate?.current) || 0
-    const avgTimeOnPage = Number(totals.avg_time_on_page?.current) || 0
-    const comments = Number(totals.comments?.current) || 0
+    const publishedContent = getTotalValue(totals.published_content)
+    const visitors = getTotalValue(totals.visitors)
+    const views = getTotalValue(totals.views)
+    const bounceRate = getTotalValue(totals.bounce_rate)
+    const avgTimeOnPage = getTotalValue(totals.avg_time_on_page)
+    const comments = getTotalValue(totals.comments)
 
-    const prevPublishedContent = Number(totals.published_content?.previous) || 0
-    const prevVisitors = Number(totals.visitors?.previous) || 0
-    const prevViews = Number(totals.views?.previous) || 0
-    const prevBounceRate = Number(totals.bounce_rate?.previous) || 0
-    const prevAvgTimeOnPage = Number(totals.avg_time_on_page?.previous) || 0
-    const prevComments = Number(totals.comments?.previous) || 0
+    const prevPublishedContent = getTotalValue(totals.published_content?.previous)
+    const prevVisitors = getTotalValue(totals.visitors?.previous)
+    const prevViews = getTotalValue(totals.views?.previous)
+    const prevBounceRate = getTotalValue(totals.bounce_rate?.previous)
+    const prevAvgTimeOnPage = getTotalValue(totals.avg_time_on_page?.previous)
+    const prevComments = getTotalValue(totals.comments?.previous)
 
     const viewsPerPost = publishedContent > 0 ? views / publishedContent : 0
     const prevViewsPerPost = prevPublishedContent > 0 ? prevViews / prevPublishedContent : 0

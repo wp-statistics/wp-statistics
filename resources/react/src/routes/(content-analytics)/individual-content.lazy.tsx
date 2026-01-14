@@ -18,23 +18,12 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
-import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
   getIndividualContentQueryOptions,
   type TrafficSummaryPeriodResponse,
 } from '@/services/content-analytics/get-individual-content'
-
-// Helper to extract total value from API response (handles both flat and { current, previous } formats)
-function getTotalValue(total: unknown): number {
-  if (typeof total === 'number') return total
-  if (typeof total === 'string') return Number(total) || 0
-  if (typeof total === 'object' && total !== null) {
-    const obj = total as { current?: number | string }
-    return Number(obj.current) || 0
-  }
-  return 0
-}
 
 export const Route = createLazyFileRoute('/(content-analytics)/individual-content')({
   component: RouteComponent,
@@ -331,23 +320,23 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
     const totals = metricsResponse?.totals
     if (!totals) return []
 
-    const visitors = Number(totals.visitors?.current) || 0
-    const views = Number(totals.views?.current) || 0
-    const avgTimeOnPage = Number(totals.avg_time_on_page?.current) || 0
-    const bounceRate = Number(totals.bounce_rate?.current) || 0
-    const entryPage = Number(totals.entry_page?.current) || 0
-    const exitPage = Number(totals.exit_page?.current) || 0
-    const exitRate = Number(totals.exit_rate?.current) || 0
-    const comments = Number(totals.comments?.current) || 0
+    const visitors = getTotalValue(totals.visitors)
+    const views = getTotalValue(totals.views)
+    const avgTimeOnPage = getTotalValue(totals.avg_time_on_page)
+    const bounceRate = getTotalValue(totals.bounce_rate)
+    const entryPage = getTotalValue(totals.entry_page)
+    const exitPage = getTotalValue(totals.exit_page)
+    const exitRate = getTotalValue(totals.exit_rate)
+    const comments = getTotalValue(totals.comments)
 
-    const prevVisitors = Number(totals.visitors?.previous) || 0
-    const prevViews = Number(totals.views?.previous) || 0
-    const prevAvgTimeOnPage = Number(totals.avg_time_on_page?.previous) || 0
-    const prevBounceRate = Number(totals.bounce_rate?.previous) || 0
-    const prevEntryPage = Number(totals.entry_page?.previous) || 0
-    const prevExitPage = Number(totals.exit_page?.previous) || 0
-    const prevExitRate = Number(totals.exit_rate?.previous) || 0
-    const prevComments = Number(totals.comments?.previous) || 0
+    const prevVisitors = getTotalValue(totals.visitors?.previous)
+    const prevViews = getTotalValue(totals.views?.previous)
+    const prevAvgTimeOnPage = getTotalValue(totals.avg_time_on_page?.previous)
+    const prevBounceRate = getTotalValue(totals.bounce_rate?.previous)
+    const prevEntryPage = getTotalValue(totals.entry_page?.previous)
+    const prevExitPage = getTotalValue(totals.exit_page?.previous)
+    const prevExitRate = getTotalValue(totals.exit_rate?.previous)
+    const prevComments = getTotalValue(totals.comments?.previous)
 
     const metrics: MetricItem[] = [
       {
