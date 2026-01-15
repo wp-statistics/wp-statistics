@@ -25,10 +25,10 @@ class UserPreferences implements PageActionInterface
     private const PREFIX = 'wp_statistics';
 
     /**
-     * Contexts allowed in free plugin.
-     * Premium can extend this via 'wp_statistics_user_preferences_allowed_contexts' filter.
+     * Context patterns that require premium.
+     * Premium can unlock these via 'wp_statistics_user_preferences_allowed_contexts' filter.
      */
-    private const FREE_ALLOWED_CONTEXTS = ['columns'];
+    private const PREMIUM_CONTEXT_PATTERNS = ['page_options_*'];
 
     /**
      * Preferences manager instance.
@@ -48,31 +48,57 @@ class UserPreferences implements PageActionInterface
     /**
      * Check if a context is allowed for preferences operations.
      *
-     * Free plugin allows only specific contexts (e.g., 'columns').
-     * Premium can add more contexts via the filter.
+     * Most contexts are allowed by default. Only specific premium patterns
+     * (like 'page_options_*' for widget/metric customization) require premium.
+     * Premium can unlock these via the filter.
      *
      * @param string $context The context to check.
      * @return bool True if context is allowed.
      */
     private function isContextAllowed(string $context): bool
     {
+        // Check if this context matches any premium-only pattern
+        foreach (self::PREMIUM_CONTEXT_PATTERNS as $pattern) {
+            // Wildcard pattern match (e.g., 'page_options_*' matches 'page_options_visitors-overview')
+            if (str_ends_with($pattern, '*') && str_starts_with($context, rtrim($pattern, '*'))) {
+                // This is a premium context, check if premium has unlocked it
+                return $this->isPremiumContextUnlocked($context);
+            }
+            // Exact match
+            if ($context === $pattern) {
+                return $this->isPremiumContextUnlocked($context);
+            }
+        }
+
+        // Not a premium pattern, allow by default
+        return true;
+    }
+
+    /**
+     * Check if a premium context has been unlocked via filter.
+     *
+     * @param string $context The context to check.
+     * @return bool True if unlocked by premium.
+     */
+    private function isPremiumContextUnlocked(string $context): bool
+    {
         /**
-         * Filter the allowed contexts for user preferences.
+         * Filter to allow additional contexts for user preferences.
          *
-         * Premium plugin can hook into this to allow additional contexts.
+         * Premium plugin hooks into this to unlock premium contexts.
          * Supports exact match and wildcard patterns (e.g., 'page_options_*').
          *
          * @since 15.0.0
          * @param array $contexts Array of allowed context patterns.
          */
-        $allowed = apply_filters('wp_statistics_user_preferences_allowed_contexts', self::FREE_ALLOWED_CONTEXTS);
+        $allowed = apply_filters('wp_statistics_user_preferences_allowed_contexts', []);
 
         foreach ($allowed as $pattern) {
             // Exact match
             if ($context === $pattern) {
                 return true;
             }
-            // Wildcard pattern match (e.g., 'page_options_*' matches 'page_options_visitors-overview')
+            // Wildcard pattern match
             if (str_ends_with($pattern, '*') && str_starts_with($context, rtrim($pattern, '*'))) {
                 return true;
             }
