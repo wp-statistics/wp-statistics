@@ -173,7 +173,7 @@ function FilterPanel({
           {lockedFilters.map((lockedFilter, index) => (
               <div key={lockedFilter.id} className="relative">
                 {index > 0 && (
-                  <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-400 bg-white px-1">
+                  <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-500 bg-white px-1">
                     {__('and', 'wp-statistics')}
                   </div>
                 )}
@@ -204,7 +204,7 @@ function FilterPanel({
             <div key={filter.id} className="relative">
               {/* Row connector "and" label for multiple filters */}
               {(index > 0 || lockedFilters.length > 0) && (
-                <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-400 bg-white px-1">
+                <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-500 bg-white px-1">
                   {__('and', 'wp-statistics')}
                 </div>
               )}

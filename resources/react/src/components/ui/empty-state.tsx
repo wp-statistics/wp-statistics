@@ -16,7 +16,7 @@ export function EmptyState({ icon, title = 'No data available', description, act
     <div className={cn('flex flex-col items-center justify-center py-12 px-4 text-center', className)}>
       <div className="text-neutral-300 mb-4">{icon || <Database className="h-12 w-12" />}</div>
       <h3 className="text-sm font-medium text-neutral-600 mb-1">{title}</h3>
-      {description && <p className="text-xs text-neutral-400 max-w-[200px]">{description}</p>}
+      {description && <p className="text-xs text-neutral-500 max-w-[200px]">{description}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>
   )

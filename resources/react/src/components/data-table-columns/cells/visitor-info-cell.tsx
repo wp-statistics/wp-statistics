@@ -86,7 +86,7 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: V
         </Badge>
       ) : (
         identifierDisplay && (
-          <span className="text-[11px] text-neutral-400 font-mono tracking-wide">{identifierDisplay}</span>
+          <span className="text-[11px] text-neutral-500 font-mono tracking-wide">{identifierDisplay}</span>
         )
       )}
     </div>

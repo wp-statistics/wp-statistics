@@ -223,7 +223,7 @@ export function OptionsMenuItem({ icon, title, summary, onClick, className }: Op
       </div>
       <div className="flex items-center gap-2">
         {summary && (
-          <span className="text-xs text-neutral-400 bg-neutral-100 px-2 py-0.5 rounded-full">
+          <span className="text-xs text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">
             {summary}
           </span>
         )}

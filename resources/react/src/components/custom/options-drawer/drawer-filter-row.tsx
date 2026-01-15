@@ -173,7 +173,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
             placeholder={__('Min', 'wp-statistics')}
             className="h-9 text-sm flex-1 bg-white border-neutral-200"
           />
-          <span className="text-xs text-neutral-400 shrink-0">{__('to', 'wp-statistics')}</span>
+          <span className="text-xs text-neutral-500 shrink-0">{__('to', 'wp-statistics')}</span>
           <Input
             type={inputType}
             value={rangeValue.max}

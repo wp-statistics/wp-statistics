@@ -261,7 +261,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             aria-label={__('Minimum value', 'wp-statistics')}
             className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
-          <span className="text-xs text-neutral-400">{__('to', 'wp-statistics')}</span>
+          <span className="text-xs text-neutral-500">{__('to', 'wp-statistics')}</span>
           <Input
             type={inputType}
             value={rangeValue.max}

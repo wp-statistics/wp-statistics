@@ -335,9 +335,9 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
               className="flex items-center gap-2 p-2.5 rounded-lg bg-neutral-100 border border-neutral-200 text-sm"
             >
               <span className="text-neutral-600 font-medium">{lockedFilter.label}</span>
-              <span className="text-neutral-400">{lockedFilter.operator}</span>
+              <span className="text-neutral-500">{lockedFilter.operator}</span>
               <span className="text-neutral-600">{lockedFilter.value}</span>
-              <span className="ml-auto text-neutral-400 text-xs">{__('Locked', 'wp-statistics')}</span>
+              <span className="ml-auto text-neutral-500 text-xs">{__('Locked', 'wp-statistics')}</span>
             </div>
           ))}
 
@@ -345,7 +345,7 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
           {pendingFilters.map((filter, index) => (
             <div key={filter.id} className="relative">
               {(index > 0 || lockedFilters.length > 0) && (
-                <div className="text-xs font-medium text-neutral-400 mb-1.5 ml-1">
+                <div className="text-xs font-medium text-neutral-500 mb-1.5 ml-1">
                   {__('and', 'wp-statistics')}
                 </div>
               )}
