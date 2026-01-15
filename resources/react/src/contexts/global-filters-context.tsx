@@ -26,6 +26,7 @@ import {
   type ComparisonMode,
 } from '@/components/custom/date-range-picker'
 import type { FilterField } from '@/components/custom/filter-row'
+import { debounce } from '@/lib/debounce'
 import {
   filtersToUrlFilters,
   urlFiltersToFilters,
@@ -36,28 +37,6 @@ import {
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { saveGlobalFiltersPreferences, resetGlobalFiltersPreferences } from '@/services/global-filters-preferences'
-
-// Debounce helper for performance optimization
-function debounce<T extends (...args: Parameters<T>) => void>(fn: T, delay: number): T & { cancel: () => void } {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null
-
-  const debounced = ((...args: Parameters<T>) => {
-    if (timeoutId) clearTimeout(timeoutId)
-    timeoutId = setTimeout(() => {
-      fn(...args)
-      timeoutId = null
-    }, delay)
-  }) as T & { cancel: () => void }
-
-  debounced.cancel = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId)
-      timeoutId = null
-    }
-  }
-
-  return debounced
-}
 
 /**
  * Source of the current filter/date values

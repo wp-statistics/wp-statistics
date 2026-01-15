@@ -1,8 +1,13 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
+import { transformFiltersToApi, type ApiFilters } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
+import { queryKeys, createListParams } from '@/lib/query-keys'
 import { WordPress } from '@/lib/wordpress'
+
+// Re-export ApiFilters for backward compatibility
+export type { ApiFilters }
 
 export interface TopPageRecord {
   page_uri: string
@@ -43,9 +48,6 @@ export interface GetTopPagesResponse {
   }
 }
 
-// API filter format: { filter_key: { operator: value } }
-export type ApiFilters = Record<string, Record<string, string | string[]>>
-
 export interface GetTopPagesParams {
   page: number
   per_page: number
@@ -58,33 +60,6 @@ export interface GetTopPagesParams {
   filters?: Filter[]
   context?: string
   columns?: string[]
-}
-
-// Extract the field name from filter ID
-const extractFilterKey = (filterId: string): string => {
-  return filterId.split('-')[0]
-}
-
-// Transform UI filters to API format
-const transformFiltersToApi = (filters: Filter[]): ApiFilters => {
-  const apiFilters: ApiFilters = {}
-
-  for (const filter of filters) {
-    const filterKey = extractFilterKey(filter.id)
-    const operator = filter.rawOperator || filter.operator
-    const rawValue = filter.rawValue ?? filter.value
-    const value: string | string[] = Array.isArray(rawValue)
-      ? rawValue
-      : typeof rawValue === 'number'
-        ? String(rawValue)
-        : rawValue
-
-    apiFilters[filterKey] = {
-      [operator]: value,
-    }
-  }
-
-  return apiFilters
 }
 
 // Map frontend column names to API column names
@@ -122,20 +97,15 @@ export const getTopPagesQueryOptions = ({
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: [
-      'top-pages',
-      page,
-      per_page,
-      apiOrderBy,
-      order,
-      date_from,
-      date_to,
-      previous_date_from,
-      previous_date_to,
-      apiFilters,
-      context,
-      apiColumns,
-    ],
+    queryKey: queryKeys.pageInsights.topPages(
+      createListParams(date_from, date_to, page, per_page, apiOrderBy, order, {
+        compareDateFrom: previous_date_from,
+        compareDateTo: previous_date_to,
+        filters: apiFilters,
+        context,
+        columns: apiColumns,
+      })
+    ),
     queryFn: () =>
       clientRequest.post<GetTopPagesResponse>(
         '',

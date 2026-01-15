@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { clientRequest } from '@/lib/client-request'
+import { queryKeys, createDateParams } from '@/lib/query-keys'
 import { WordPress } from '@/lib/wordpress'
 
 export interface NetworkSiteStats {
@@ -50,7 +51,7 @@ export const getNetworkStatsQueryOptions = ({
   previous_date_to,
 }: GetNetworkStatsParams) => {
   return queryOptions({
-    queryKey: ['network-stats', date_from, date_to, previous_date_from, previous_date_to],
+    queryKey: queryKeys.network.stats(createDateParams(date_from, date_to, previous_date_from, previous_date_to)),
     queryFn: () =>
       clientRequest.post<NetworkStatsResponse>(
         '',
