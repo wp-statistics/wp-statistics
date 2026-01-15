@@ -1,0 +1,416 @@
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { __ } from '@wordpress/i18n'
+import { useCallback, useMemo, useState } from 'react'
+
+import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import { Metrics } from '@/components/custom/metrics'
+import {
+  OptionsDrawer,
+  OptionsDrawerTrigger,
+  WidgetsMenuEntry,
+  WidgetsDetailView,
+  MetricsMenuEntry,
+  MetricsDetailView,
+  FiltersMenuEntry,
+  FiltersDetailView,
+} from '@/components/custom/options-drawer'
+import { Panel } from '@/components/ui/panel'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import {
+  BarListSkeleton,
+  MetricsSkeleton,
+  PanelSkeleton,
+} from '@/components/ui/skeletons'
+import { PageOptionsProvider, type WidgetConfig, type MetricConfig } from '@/contexts/page-options-context'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
+import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { usePageOptions } from '@/hooks/use-page-options'
+import { usePercentageCalc } from '@/hooks/use-percentage-calc'
+import { transformToBarList } from '@/lib/bar-list-helpers'
+import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
+import { getPageInsightsOverviewQueryOptions } from '@/services/page-insight/get-page-insights-overview'
+
+// Widget configuration for this page
+const WIDGET_CONFIGS: WidgetConfig[] = [
+  { id: 'metrics', label: __('Metrics Overview', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-pages', label: __('Top Pages', 'wp-statistics'), defaultVisible: true },
+  { id: '404-pages', label: __('404 Pages', 'wp-statistics'), defaultVisible: true },
+  { id: 'by-category', label: __('Category Pages', 'wp-statistics'), defaultVisible: true },
+  { id: 'by-author', label: __('Author Pages', 'wp-statistics'), defaultVisible: true },
+]
+
+// Metric configuration for this page
+const METRIC_CONFIGS: MetricConfig[] = [
+  { id: 'total-views', label: __('Total Views', 'wp-statistics'), defaultVisible: true },
+  { id: 'bounce-rate', label: __('Bounce Rate', 'wp-statistics'), defaultVisible: true },
+  { id: 'avg-time-on-page', label: __('Avg Time on Page', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-page', label: __('Top Page', 'wp-statistics'), defaultVisible: true },
+]
+
+export const Route = createLazyFileRoute('/(page-insights)/page-insights-overview')({
+  component: RouteComponent,
+  errorComponent: ({ error }) => (
+    <div className="p-6 text-center">
+      <h2 className="text-xl font-semibold text-destructive mb-2">Error Loading Page</h2>
+      <p className="text-muted-foreground">{error.message}</p>
+    </div>
+  ),
+})
+
+function RouteComponent() {
+  return (
+    <PageOptionsProvider
+      pageId="page-insights-overview"
+      widgetConfigs={WIDGET_CONFIGS}
+      metricConfigs={METRIC_CONFIGS}
+    >
+      <PageInsightsOverviewContent />
+    </PageOptionsProvider>
+  )
+}
+
+function PageInsightsOverviewContent() {
+  const navigate = useNavigate()
+
+  // Use global filters context for date range and filters (hybrid URL + preferences)
+  const {
+    dateFrom,
+    dateTo,
+    compareDateFrom,
+    compareDateTo,
+    period,
+    filters: appliedFilters,
+    setDateRange,
+    applyFilters: handleApplyFilters,
+    isInitialized,
+    isCompareEnabled,
+    apiDateParams,
+  } = useGlobalFilters()
+
+  // Page options for widget/metric visibility
+  const {
+    isWidgetVisible,
+    isMetricVisible,
+    getHiddenWidgetCount,
+    getHiddenMetricCount,
+    resetToDefaults,
+  } = usePageOptions()
+
+  // Options drawer state
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false)
+
+  const wp = WordPress.getInstance()
+
+  // Get filter fields for 'views' group from localized data
+  const filterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('views') as FilterField[]
+  }, [wp])
+
+  // Handle date range updates from DateRangePicker
+  const handleDateRangeUpdate = useCallback(
+    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
+      setDateRange(values.range, values.rangeCompare, values.period)
+    },
+    [setDateRange]
+  )
+
+  // Batch query for all overview data (only when filters are initialized)
+  const {
+    data: batchResponse,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    ...getPageInsightsOverviewQueryOptions({
+      dateFrom: apiDateParams.date_from,
+      dateTo: apiDateParams.date_to,
+      compareDateFrom: apiDateParams.previous_date_from,
+      compareDateTo: apiDateParams.previous_date_to,
+      filters: appliedFilters || [],
+    }),
+    retry: false,
+    placeholderData: keepPreviousData,
+    enabled: isInitialized,
+  })
+
+  // Only show skeleton on initial load (no data yet), not on refetches
+  const showSkeleton = isLoading && !batchResponse
+  // Show full page loading when filters/dates change
+  const showFullPageLoading = isFetching && !isLoading
+
+  // Extract data from batch response
+  const metricsResponse = batchResponse?.data?.items?.metrics
+  const metricsTopPage = batchResponse?.data?.items?.metrics_top_page
+  const topPagesData = batchResponse?.data?.items?.top_pages?.data?.rows || []
+  const topPagesTotals = batchResponse?.data?.items?.top_pages?.data?.totals
+  const pages404Data = batchResponse?.data?.items?.pages_404?.data?.rows || []
+  const pages404Totals = batchResponse?.data?.items?.pages_404?.data?.totals
+  const byCategoryData = batchResponse?.data?.items?.by_category?.data?.rows || []
+  const byCategoryTotals = batchResponse?.data?.items?.by_category?.data?.totals
+  const byAuthorData = batchResponse?.data?.items?.by_author?.data?.rows || []
+  const byAuthorTotals = batchResponse?.data?.items?.by_author?.data?.totals
+
+  // Helper to safely extract total value (handles both direct values and {current, previous} objects)
+  const getTotalFromResponse = (totals: Record<string, unknown> | undefined, key: string): number => {
+    const value = totals?.[key]
+    if (typeof value === 'number') return value
+    if (typeof value === 'string') return Number(value) || 0
+    if (value && typeof value === 'object' && 'current' in value) {
+      return Number((value as { current: unknown }).current) || 0
+    }
+    return 0
+  }
+
+  // Use the shared percentage calculation hook
+  const calcPercentage = usePercentageCalc()
+  // Get comparison date label for tooltips
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
+
+  // Build metrics from batch response
+  const overviewMetrics = useMemo(() => {
+    const totals = metricsResponse?.totals
+
+    if (!totals) return []
+
+    // Extract current and previous values
+    const views = getTotalValue(totals.views)
+    const bounceRate = getTotalValue(totals.bounce_rate)
+    const avgTimeOnPage = getTotalValue(totals.avg_time_on_page)
+
+    const prevViews = getTotalValue(totals.views?.previous)
+    const prevBounceRate = getTotalValue(totals.bounce_rate?.previous)
+    const prevAvgTimeOnPage = getTotalValue(totals.avg_time_on_page?.previous)
+
+    // Context metric
+    const topPageName = metricsTopPage?.items?.[0]?.page_title
+
+    // Build all metrics with IDs for filtering
+    const allMetrics = [
+      {
+        id: 'total-views',
+        label: __('Total Views', 'wp-statistics'),
+        value: formatCompactNumber(views),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(views, prevViews),
+              comparisonDateLabel,
+              previousValue: formatCompactNumber(prevViews),
+            }
+          : {}),
+      },
+      {
+        id: 'bounce-rate',
+        label: __('Bounce Rate', 'wp-statistics'),
+        value: `${formatDecimal(bounceRate)}%`,
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(bounceRate, prevBounceRate),
+              comparisonDateLabel,
+              previousValue: `${formatDecimal(prevBounceRate)}%`,
+            }
+          : {}),
+      },
+      {
+        id: 'avg-time-on-page',
+        label: __('Avg Time on Page', 'wp-statistics'),
+        value: formatDuration(avgTimeOnPage),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(avgTimeOnPage, prevAvgTimeOnPage),
+              comparisonDateLabel,
+              previousValue: formatDuration(prevAvgTimeOnPage),
+            }
+          : {}),
+      },
+      {
+        id: 'top-page',
+        label: __('Top Page', 'wp-statistics'),
+        value: topPageName || '-',
+      },
+    ]
+
+    // Filter metrics based on visibility
+    return allMetrics.filter((metric) => isMetricVisible(metric.id))
+  }, [metricsResponse, metricsTopPage, isCompareEnabled, comparisonDateLabel, isMetricVisible, calcPercentage])
+
+  return (
+    <div className="min-w-0">
+      {/* Header row with title, date picker, and filter button */}
+      <div className="flex items-center justify-between px-4 py-3 ">
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Page Insights', 'wp-statistics')}</h1>
+        <div className="flex items-center gap-3">
+          {filterFields.length > 0 && isInitialized && (
+            <FilterButton
+              fields={filterFields}
+              appliedFilters={appliedFilters || []}
+              onApplyFilters={handleApplyFilters}
+              filterGroup="views"
+            />
+          )}
+          <DateRangePicker
+            initialDateFrom={dateFrom}
+            initialDateTo={dateTo}
+            initialCompareFrom={compareDateFrom}
+            initialCompareTo={compareDateTo}
+            initialPeriod={period}
+            showCompare={true}
+            onUpdate={handleDateRangeUpdate}
+            align="end"
+          />
+          <OptionsDrawerTrigger
+            onClick={() => setIsOptionsOpen(true)}
+            isActive={getHiddenWidgetCount() > 0 || getHiddenMetricCount() > 0}
+          />
+        </div>
+      </div>
+
+      {/* Options Drawer */}
+      <OptionsDrawer
+        open={isOptionsOpen}
+        onOpenChange={setIsOptionsOpen}
+        onReset={resetToDefaults}
+      >
+        {/* Main menu entries */}
+        <FiltersMenuEntry filterGroup="views" />
+        <WidgetsMenuEntry />
+        <MetricsMenuEntry />
+
+        {/* Detail views */}
+        <FiltersDetailView filterGroup="views" />
+        <WidgetsDetailView />
+        <MetricsDetailView />
+      </OptionsDrawer>
+
+      <div className="p-3">
+        <NoticeContainer className="mb-3" currentRoute="page-insights-overview" />
+
+        {showSkeleton || showFullPageLoading ? (
+          <div className="grid gap-3 grid-cols-12">
+            {/* Metrics skeleton */}
+            <div className="col-span-12">
+              <PanelSkeleton showTitle={false}>
+                <MetricsSkeleton count={4} columns={4} />
+              </PanelSkeleton>
+            </div>
+            {/* Two column bar lists skeleton (Top Pages + 404 Pages) */}
+            <div className="col-span-12 lg:col-span-6">
+              <PanelSkeleton>
+                <BarListSkeleton items={5} />
+              </PanelSkeleton>
+            </div>
+            <div className="col-span-12 lg:col-span-6">
+              <PanelSkeleton>
+                <BarListSkeleton items={5} />
+              </PanelSkeleton>
+            </div>
+            {/* Two column lists skeleton (By Category + By Author) */}
+            {[1, 2].map((i) => (
+              <div key={i} className="col-span-12 lg:col-span-6">
+                <PanelSkeleton>
+                  <BarListSkeleton items={5} />
+                </PanelSkeleton>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid gap-3 grid-cols-12">
+            {isWidgetVisible('metrics') && overviewMetrics.length > 0 && (
+              <div className="col-span-12">
+                <Panel>
+                  <Metrics metrics={overviewMetrics} />
+                </Panel>
+              </div>
+            )}
+
+            {isWidgetVisible('top-pages') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Pages', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  items={transformToBarList(topPagesData, {
+                    label: (item) => item.page_title || item.page_uri || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.views) || 0,
+                    previousValue: (item) => Number(item.previous?.views) || 0,
+                    total: getTotalFromResponse(topPagesTotals, 'views') || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    title: __('See all', 'wp-statistics'),
+                    action: () => navigate({ to: '/top-pages' }),
+                  }}
+                />
+              </div>
+            )}
+
+            {isWidgetVisible('404-pages') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('404 Pages', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  items={transformToBarList(pages404Data, {
+                    label: (item) => item.page_uri || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.views) || 0,
+                    previousValue: (item) => Number(item.previous?.views) || 0,
+                    total: getTotalFromResponse(pages404Totals, 'views') || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    title: __('See all', 'wp-statistics'),
+                    action: () => navigate({ to: '/404-pages' }),
+                  }}
+                />
+              </div>
+            )}
+
+            {isWidgetVisible('by-category') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Category Pages', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  items={transformToBarList(byCategoryData, {
+                    label: (item) => item.page_title || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.views) || 0,
+                    previousValue: (item) => Number(item.previous?.views) || 0,
+                    total: getTotalFromResponse(byCategoryTotals, 'views') || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    title: __('See all', 'wp-statistics'),
+                    action: () => navigate({ to: '/category-pages' }),
+                  }}
+                />
+              </div>
+            )}
+
+            {isWidgetVisible('by-author') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Author Pages', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  items={transformToBarList(byAuthorData, {
+                    label: (item) => item.author_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.views) || 0,
+                    previousValue: (item) => Number(item.previous?.views) || 0,
+                    total: getTotalFromResponse(byAuthorTotals, 'views') || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    title: __('See all', 'wp-statistics'),
+                    action: () => navigate({ to: '/author-pages' }),
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
