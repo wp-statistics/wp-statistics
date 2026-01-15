@@ -23,7 +23,7 @@ export const UriCell = memo(function UriCell({ uri, maxLength = 50 }: UriCellPro
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="text-sm font-mono text-neutral-700 cursor-default">{truncatedUri}</span>
+          <span className="text-xs font-mono text-neutral-700 cursor-default">{truncatedUri}</span>
         </TooltipTrigger>
         <TooltipContent side="top" className="max-w-md break-all">
           {displayUri}
@@ -32,5 +32,5 @@ export const UriCell = memo(function UriCell({ uri, maxLength = 50 }: UriCellPro
     )
   }
 
-  return <span className="text-sm font-mono text-neutral-700">{displayUri}</span>
+  return <span className="text-xs font-mono text-neutral-700">{displayUri}</span>
 })
