@@ -22,6 +22,23 @@ export const TOP_PAGES_CONTEXT = 'top_pages_data_table'
 export const TOP_PAGES_DEFAULT_HIDDEN_COLUMNS: string[] = ['viewsPerVisitor', 'bounceRate']
 
 /**
+ * Columns that show PP comparison by default (to reduce visual clutter)
+ * Users can enable/disable comparison per column via column config
+ */
+export const TOP_PAGES_DEFAULT_COMPARISON_COLUMNS: string[] = ['visitors']
+
+/**
+ * Columns that support PP comparison display
+ */
+export const TOP_PAGES_COMPARABLE_COLUMNS: string[] = [
+  'visitors',
+  'views',
+  'viewsPerVisitor',
+  'bounceRate',
+  'sessionDuration',
+]
+
+/**
  * Column configuration for API column optimization
  */
 export const TOP_PAGES_COLUMN_CONFIG: ColumnConfig = {
@@ -93,13 +110,18 @@ export function transformTopPageData(record: TopPageRecord): TopPage {
 export interface TopPagesColumnsOptions {
   /** Date range comparison label for tooltip (from useComparisonDateLabel) */
   comparisonLabel?: string
+  /** Columns that should display PP comparison (defaults to TOP_PAGES_DEFAULT_COMPARISON_COLUMNS) */
+  comparisonColumns?: string[]
 }
 
 /**
  * Create column definitions for the Top Pages table
  */
 export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): ColumnDef<TopPage>[] {
-  const { comparisonLabel } = options
+  const { comparisonLabel, comparisonColumns = TOP_PAGES_DEFAULT_COMPARISON_COLUMNS } = options
+
+  // Helper to check if a column should show comparison
+  const showComparison = (columnId: string) => comparisonColumns.includes(columnId)
 
   return [
     {
@@ -129,7 +151,7 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
       cell: ({ row }) => (
         <NumericCell
           value={row.original.visitors}
-          previousValue={row.original.previousVisitors}
+          previousValue={showComparison('visitors') ? row.original.previousVisitors : undefined}
           comparisonLabel={comparisonLabel}
         />
       ),
@@ -137,6 +159,8 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
         title: 'Visitors',
         priority: 'primary',
         cardPosition: 'body',
+        isComparable: true,
+        showComparison: showComparison('visitors'),
       },
     },
     {
@@ -146,7 +170,7 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
       cell: ({ row }) => (
         <NumericCell
           value={row.original.views}
-          previousValue={row.original.previousViews}
+          previousValue={showComparison('views') ? row.original.previousViews : undefined}
           comparisonLabel={comparisonLabel}
         />
       ),
@@ -154,6 +178,8 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
         title: 'Views',
         priority: 'primary',
         cardPosition: 'body',
+        isComparable: true,
+        showComparison: showComparison('views'),
       },
     },
     {
@@ -162,8 +188,9 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
       size: 90,
       cell: ({ row }) => {
         const vpv = row.original.visitors > 0 ? row.original.views / row.original.visitors : 0
-        // Calculate previous views per visitor if both previous values exist
+        // Calculate previous views per visitor if both previous values exist and comparison is enabled
         const previousVpv =
+          showComparison('viewsPerVisitor') &&
           row.original.previousVisitors !== undefined &&
           row.original.previousViews !== undefined &&
           row.original.previousVisitors > 0
@@ -182,6 +209,8 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
         title: 'Views/Visitor',
         priority: 'secondary',
         mobileLabel: 'V/Visitor',
+        isComparable: true,
+        showComparison: showComparison('viewsPerVisitor'),
       },
     },
     {
@@ -192,7 +221,7 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
         <NumericCell
           value={row.original.bounceRate}
           suffix="%"
-          previousValue={row.original.previousBounceRate}
+          previousValue={showComparison('bounceRate') ? row.original.previousBounceRate : undefined}
           comparisonLabel={comparisonLabel}
         />
       ),
@@ -200,6 +229,8 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
         title: 'Bounce Rate',
         priority: 'secondary',
         mobileLabel: 'Bounce',
+        isComparable: true,
+        showComparison: showComparison('bounceRate'),
       },
     },
     {
@@ -209,7 +240,7 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
       cell: ({ row }) => (
         <DurationCell
           seconds={row.original.sessionDuration}
-          previousSeconds={row.original.previousSessionDuration}
+          previousSeconds={showComparison('sessionDuration') ? row.original.previousSessionDuration : undefined}
           comparisonLabel={comparisonLabel}
         />
       ),
@@ -217,6 +248,8 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
         title: 'Avg. Time on Page',
         priority: 'secondary',
         mobileLabel: 'Time on Page',
+        isComparable: true,
+        showComparison: showComparison('sessionDuration'),
       },
     },
   ]

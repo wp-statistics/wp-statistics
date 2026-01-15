@@ -16,6 +16,8 @@ import {
   TOP_PAGES_CONTEXT,
   TOP_PAGES_DEFAULT_API_COLUMNS,
   TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
+  TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
+  TOP_PAGES_COMPARABLE_COLUMNS,
 } from '@/components/data-table-columns/top-pages-columns'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
@@ -55,7 +57,8 @@ function RouteComponent() {
   const { label: comparisonLabel } = useComparisonDateLabel()
 
   const wp = WordPress.getInstance()
-  const columns = useMemo(() => createTopPagesColumns({ comparisonLabel }), [comparisonLabel])
+  // Base columns for preferences hook (stable definition for column IDs)
+  const baseColumns = useMemo(() => createTopPagesColumns({ comparisonLabel }), [comparisonLabel])
 
   // Content-specific filters only
   const CONTENT_FILTERS = ['page', 'resource_id', 'post_type', 'author']
@@ -100,12 +103,14 @@ function RouteComponent() {
   const {
     columnOrder,
     initialColumnVisibility,
+    comparisonColumns,
     handleColumnVisibilityChange,
     handleColumnOrderChange,
+    handleComparisonColumnsChange,
     handleColumnPreferencesReset,
   } = useDataTablePreferences({
     context: TOP_PAGES_CONTEXT,
-    columns,
+    columns: baseColumns,
     defaultHiddenColumns: TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
     defaultApiColumns: TOP_PAGES_DEFAULT_API_COLUMNS,
     columnConfig: TOP_PAGES_COLUMN_CONFIG,
@@ -113,7 +118,15 @@ function RouteComponent() {
     defaultSortColumn: 'views',
     preferencesFromApi: response?.data?.meta?.preferences?.columns,
     hasApiResponse: !!response?.data,
+    defaultComparisonColumns: TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
+    comparisonColumnsFromApi: (response?.data?.meta?.preferences as { comparison_columns?: string[] } | undefined)?.comparison_columns,
   })
+
+  // Final columns with comparison settings applied
+  const columns = useMemo(
+    () => createTopPagesColumns({ comparisonLabel, comparisonColumns }),
+    [comparisonLabel, comparisonColumns]
+  )
 
   // Transform API data to component interface
   const tableData = useMemo(() => {
@@ -193,6 +206,10 @@ function RouteComponent() {
             onColumnVisibilityChange={handleColumnVisibilityChange}
             onColumnOrderChange={handleColumnOrderChange}
             onColumnPreferencesReset={handleColumnPreferencesReset}
+            comparableColumns={TOP_PAGES_COMPARABLE_COLUMNS}
+            comparisonColumns={comparisonColumns}
+            defaultComparisonColumns={TOP_PAGES_DEFAULT_COMPARISON_COLUMNS}
+            onComparisonColumnsChange={handleComparisonColumnsChange}
             emptyStateMessage={__('No pages found for the selected period', 'wp-statistics')}
             stickyHeader={true}
             borderless

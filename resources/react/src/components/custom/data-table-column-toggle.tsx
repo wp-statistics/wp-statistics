@@ -27,15 +27,18 @@ interface ColumnItem {
   id: string
   label: string
   isVisible: boolean
+  showComparison?: boolean
+  isComparable?: boolean
 }
 
 interface SortableItemProps {
   item: ColumnItem
   onToggle: (id: string, checked: boolean) => void
+  onComparisonToggle?: (id: string, checked: boolean) => void
   disabled?: boolean
 }
 
-function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
+function SortableItem({ item, onToggle, onComparisonToggle, disabled }: SortableItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: item.id,
   })
@@ -49,16 +52,28 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
   const handleRowClick = (e: React.MouseEvent) => {
     if (disabled) return
     const target = e.target as HTMLElement
-    if (target.closest('[data-drag-handle]')) return
+    if (target.closest('[data-drag-handle]') || target.closest('[data-comparison-toggle]')) return
     onToggle(item.id, !item.isVisible)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onToggle(item.id, !item.isVisible)
+    }
   }
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-2 px-2 py-1.5 hover:bg-accent rounded-sm ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+      role="button"
+      tabIndex={disabled ? -1 : 0}
+      aria-label={`${item.label}, ${item.isVisible ? __('visible', 'wp-statistics') : __('hidden', 'wp-statistics')}`}
+      className={`flex items-center gap-2 px-2 py-1.5 hover:bg-accent rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       onClick={handleRowClick}
+      onKeyDown={handleKeyDown}
     >
       <div data-drag-handle {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
         <GripVertical className="h-3.5 w-3.5 text-muted-foreground" />
@@ -83,8 +98,15 @@ interface DataTableColumnToggleProps<TData> {
   table: Table<TData>
   initialColumnOrder?: string[]
   defaultHiddenColumns?: string[]
+  /** Columns that support comparison display */
+  comparableColumns?: string[]
+  /** Currently active comparison columns */
+  comparisonColumns?: string[]
+  /** Default comparison columns (used on reset) */
+  defaultComparisonColumns?: string[]
   onColumnVisibilityChange?: (visibility: VisibilityState) => void
   onColumnOrderChange?: (order: string[]) => void
+  onComparisonColumnsChange?: (columns: string[]) => void
   onReset?: () => void
 }
 
@@ -92,8 +114,12 @@ export function DataTableColumnToggle<TData>({
   table,
   initialColumnOrder,
   defaultHiddenColumns = [],
+  comparableColumns = [],
+  comparisonColumns = [],
+  defaultComparisonColumns = [],
   onColumnVisibilityChange,
   onColumnOrderChange,
+  onComparisonColumnsChange,
   onReset,
 }: DataTableColumnToggleProps<TData>) {
   const isRTL = document.dir === 'rtl' || document.documentElement.dir === 'rtl'
@@ -127,6 +153,8 @@ export function DataTableColumnToggle<TData>({
                 id: column.id,
                 label: getColumnLabel(column),
                 isVisible: column.getIsVisible(),
+                isComparable: comparableColumns.includes(column.id),
+                showComparison: comparisonColumns.includes(column.id),
               })
             }
           })
@@ -136,6 +164,8 @@ export function DataTableColumnToggle<TData>({
                 id: column.id,
                 label: getColumnLabel(column),
                 isVisible: column.getIsVisible(),
+                isComparable: comparableColumns.includes(column.id),
+                showComparison: comparisonColumns.includes(column.id),
               })
             }
           })
@@ -144,12 +174,14 @@ export function DataTableColumnToggle<TData>({
             id: column.id,
             label: getColumnLabel(column),
             isVisible: column.getIsVisible(),
+            isComparable: comparableColumns.includes(column.id),
+            showComparison: comparisonColumns.includes(column.id),
           }))
         }
         setColumnOrder(items)
       }
     },
-    [table, initialColumnOrder, getColumnLabel]
+    [table, initialColumnOrder, getColumnLabel, comparableColumns, comparisonColumns]
   )
 
   const sensors = useSensors(
@@ -201,6 +233,23 @@ export function DataTableColumnToggle<TData>({
     }
   }
 
+  const handleComparisonToggle = (id: string, checked: boolean) => {
+    setColumnOrder((items) => {
+      const updatedItems = items.map((item) =>
+        item.id === id ? { ...item, showComparison: checked } : item
+      )
+
+      if (onComparisonColumnsChange) {
+        const newComparisonColumns = updatedItems
+          .filter((item) => item.showComparison)
+          .map((item) => item.id)
+        onComparisonColumnsChange(newComparisonColumns)
+      }
+
+      return updatedItems
+    })
+  }
+
   const handleReset = () => {
     const columns = table.getAllColumns().filter((column) => column.getCanHide())
 
@@ -208,6 +257,8 @@ export function DataTableColumnToggle<TData>({
       id: column.id,
       label: getColumnLabel(column),
       isVisible: !defaultHiddenColumns.includes(column.id),
+      isComparable: comparableColumns.includes(column.id),
+      showComparison: defaultComparisonColumns.includes(column.id),
     }))
     setColumnOrder(defaultOrder)
 
@@ -217,6 +268,11 @@ export function DataTableColumnToggle<TData>({
       const shouldBeVisible = !defaultHiddenColumns.includes(column.id)
       column.toggleVisibility(shouldBeVisible)
     })
+
+    // Reset comparison columns to default
+    if (onComparisonColumnsChange) {
+      onComparisonColumnsChange(defaultComparisonColumns)
+    }
 
     if (onReset) {
       onReset()
@@ -257,6 +313,7 @@ export function DataTableColumnToggle<TData>({
                   key={item.id}
                   item={item}
                   onToggle={handleToggle}
+                  onComparisonToggle={comparableColumns.length > 0 ? handleComparisonToggle : undefined}
                   disabled={visibleCount === 1 && item.isVisible}
                 />
               ))}

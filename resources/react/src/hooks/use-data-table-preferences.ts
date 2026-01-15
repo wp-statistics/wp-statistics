@@ -8,13 +8,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   clearCachedColumns,
+  clearCachedComparisonColumns,
   computeApiColumns,
   type ColumnConfig,
   getCachedApiColumns,
+  getCachedComparisonColumns,
   getCachedVisibility,
   getCachedVisibleColumns,
   getVisibleColumnsForSave,
   setCachedColumns,
+  setCachedComparisonColumns,
 } from '@/lib/column-utils'
 import {
   computeFullVisibility,
@@ -42,6 +45,10 @@ interface UseDataTablePreferencesOptions<TData> {
   preferencesFromApi?: string[]
   /** Whether the API response is available */
   hasApiResponse: boolean
+  /** Default comparison columns (shown by default) */
+  defaultComparisonColumns?: string[]
+  /** API response containing comparison preferences */
+  comparisonColumnsFromApi?: string[]
 }
 
 interface UseDataTablePreferencesReturn {
@@ -51,10 +58,14 @@ interface UseDataTablePreferencesReturn {
   apiColumns: string[]
   /** Initial column visibility state for DataTable */
   initialColumnVisibility: VisibilityState
+  /** Current comparison columns */
+  comparisonColumns: string[]
   /** Handler for column visibility changes */
   handleColumnVisibilityChange: (visibility: VisibilityState) => void
   /** Handler for column order changes */
   handleColumnOrderChange: (order: string[]) => void
+  /** Handler for comparison columns changes */
+  handleComparisonColumnsChange: (columns: string[]) => void
   /** Handler for resetting preferences to defaults */
   handleColumnPreferencesReset: () => void
 }
@@ -73,6 +84,8 @@ export function useDataTablePreferences<TData>({
   defaultSortColumn,
   preferencesFromApi,
   hasApiResponse,
+  defaultComparisonColumns = [],
+  comparisonColumnsFromApi,
 }: UseDataTablePreferencesOptions<TData>): UseDataTablePreferencesReturn {
   // Get all hideable column IDs from the columns definition
   const allColumnIds = useMemo(() => {
@@ -90,6 +103,15 @@ export function useDataTablePreferences<TData>({
   // Track API columns for query optimization (state so changes trigger refetch)
   const [apiColumns, setApiColumns] = useState<string[]>(() => {
     return getCachedApiColumns(allColumnIds, columnConfig) || defaultApiColumns
+  })
+
+  // Track comparison columns state
+  const [comparisonColumns, setComparisonColumns] = useState<string[]>(() => {
+    // Try to get from localStorage cache first
+    const cached = getCachedComparisonColumns(context)
+    if (cached !== null) return cached
+    // Fall back to API or defaults
+    return comparisonColumnsFromApi || defaultComparisonColumns
   })
 
   // Track if preferences have been applied (to prevent re-computation on subsequent API responses)
@@ -201,6 +223,21 @@ export function useDataTablePreferences<TData>({
     [allColumnIds, context]
   )
 
+  // Handle comparison columns changes
+  const handleComparisonColumnsChange = useCallback(
+    (columns: string[]) => {
+      setComparisonColumns(columns)
+      setCachedComparisonColumns(context, columns)
+      // Also persist to backend
+      saveUserPreferences({
+        context,
+        columns: getVisibleColumnsForSave(currentVisibilityRef.current, columnOrder, allColumnIds),
+        comparisonColumns: columns,
+      })
+    },
+    [context, columnOrder, allColumnIds]
+  )
+
   // Handle reset to default
   const handleColumnPreferencesReset = useCallback(() => {
     setColumnOrder([])
@@ -213,18 +250,23 @@ export function useDataTablePreferences<TData>({
     currentVisibilityRef.current = defaultVisibility
     // Reset API columns to default
     setApiColumns((prev) => (arraysEqual(prev, defaultApiColumns) ? prev : defaultApiColumns))
+    // Reset comparison columns to default
+    setComparisonColumns(defaultComparisonColumns)
     // Reset preferences on backend
     resetUserPreferences({ context })
-    // Clear localStorage cache
+    // Clear localStorage caches
     clearCachedColumns(context)
-  }, [context, defaultHiddenColumns, defaultApiColumns, arraysEqual])
+    clearCachedComparisonColumns(context)
+  }, [context, defaultHiddenColumns, defaultApiColumns, defaultComparisonColumns, arraysEqual])
 
   return {
     columnOrder,
     apiColumns,
     initialColumnVisibility,
+    comparisonColumns,
     handleColumnVisibilityChange,
     handleColumnOrderChange,
+    handleComparisonColumnsChange,
     handleColumnPreferencesReset,
   }
 }

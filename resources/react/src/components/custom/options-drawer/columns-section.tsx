@@ -28,15 +28,18 @@ interface ColumnItem {
   id: string
   label: string
   isVisible: boolean
+  showComparison?: boolean
+  isComparable?: boolean
 }
 
 interface SortableItemProps {
   item: ColumnItem
   onToggle: (id: string, checked: boolean) => void
+  onComparisonToggle?: (id: string, checked: boolean) => void
   disabled?: boolean
 }
 
-function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
+function SortableItem({ item, onToggle, onComparisonToggle, disabled }: SortableItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: item.id,
   })
@@ -50,21 +53,34 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
   const handleRowClick = (e: React.MouseEvent) => {
     if (disabled) return
     const target = e.target as HTMLElement
-    if (target.closest('[data-drag-handle]')) return
+    if (target.closest('[data-drag-handle]') || target.closest('[data-comparison-toggle]')) return
     onToggle(item.id, !item.isVisible)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onToggle(item.id, !item.isVisible)
+    }
   }
 
   return (
     <div
       ref={setNodeRef}
       style={style}
+      role="button"
+      tabIndex={disabled ? -1 : 0}
+      aria-label={`${item.label}, ${item.isVisible ? __('visible', 'wp-statistics') : __('hidden', 'wp-statistics')}`}
       className={cn(
         'flex items-center gap-3 px-3 py-2.5',
         'hover:bg-neutral-50 rounded-md transition-colors',
         'border-b border-neutral-100 last:border-b-0',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
         disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
       )}
       onClick={handleRowClick}
+      onKeyDown={handleKeyDown}
     >
       <div
         data-drag-handle
@@ -75,12 +91,15 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
         <GripVertical className="h-4 w-4" />
       </div>
 
-      {/* Custom checkbox */}
+      {/* Visibility checkbox */}
       <div
         role="checkbox"
         aria-checked={item.isVisible}
+        aria-label={`${__('Toggle visibility for', 'wp-statistics')} ${item.label}`}
+        tabIndex={disabled ? -1 : 0}
         className={cn(
           'w-4 h-4 rounded border-2 flex items-center justify-center transition-colors shrink-0 cursor-pointer',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
           item.isVisible
             ? 'bg-primary border-primary'
             : 'bg-white border-neutral-300'
@@ -88,6 +107,13 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
         onClick={(e) => {
           e.stopPropagation()
           if (!disabled) onToggle(item.id, !item.isVisible)
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            e.stopPropagation()
+            if (!disabled) onToggle(item.id, !item.isVisible)
+          }
         }}
       >
         {item.isVisible && (
@@ -119,8 +145,15 @@ interface ColumnsSectionProps<TData> {
   table: Table<TData>
   initialColumnOrder?: string[]
   defaultHiddenColumns?: string[]
+  /** Columns that support comparison display */
+  comparableColumns?: string[]
+  /** Currently active comparison columns */
+  comparisonColumns?: string[]
+  /** Default comparison columns (used on reset) */
+  defaultComparisonColumns?: string[]
   onColumnVisibilityChange?: (visibility: VisibilityState) => void
   onColumnOrderChange?: (order: string[]) => void
+  onComparisonColumnsChange?: (columns: string[]) => void
   onReset?: () => void
 }
 
@@ -158,8 +191,12 @@ export function ColumnsDetailView<TData>({
   table,
   initialColumnOrder,
   defaultHiddenColumns = [],
+  comparableColumns = [],
+  comparisonColumns = [],
+  defaultComparisonColumns = [],
   onColumnVisibilityChange,
   onColumnOrderChange,
+  onComparisonColumnsChange,
   onReset,
 }: ColumnsSectionProps<TData>) {
   const { currentView } = useOptionsDrawer()
@@ -179,6 +216,8 @@ export function ColumnsDetailView<TData>({
             id: column.id,
             label: getColumnLabel(column),
             isVisible: column.getIsVisible(),
+            isComparable: comparableColumns.includes(column.id),
+            showComparison: comparisonColumns.includes(column.id),
           })
         }
       })
@@ -188,6 +227,8 @@ export function ColumnsDetailView<TData>({
             id: column.id,
             label: getColumnLabel(column),
             isVisible: column.getIsVisible(),
+            isComparable: comparableColumns.includes(column.id),
+            showComparison: comparisonColumns.includes(column.id),
           })
         }
       })
@@ -196,10 +237,12 @@ export function ColumnsDetailView<TData>({
         id: column.id,
         label: getColumnLabel(column),
         isVisible: column.getIsVisible(),
+        isComparable: comparableColumns.includes(column.id),
+        showComparison: comparisonColumns.includes(column.id),
       }))
     }
     setColumnOrder(items)
-  }, [table, initialColumnOrder])
+  }, [table, initialColumnOrder, comparableColumns, comparisonColumns])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -250,6 +293,23 @@ export function ColumnsDetailView<TData>({
     }
   }
 
+  const handleComparisonToggle = (id: string, checked: boolean) => {
+    setColumnOrder((items) => {
+      const updatedItems = items.map((item) =>
+        item.id === id ? { ...item, showComparison: checked } : item
+      )
+
+      if (onComparisonColumnsChange) {
+        const newComparisonColumns = updatedItems
+          .filter((item) => item.showComparison)
+          .map((item) => item.id)
+        onComparisonColumnsChange(newComparisonColumns)
+      }
+
+      return updatedItems
+    })
+  }
+
   const handleReset = () => {
     const columns = table.getAllColumns().filter((column) => column.getCanHide())
 
@@ -257,6 +317,8 @@ export function ColumnsDetailView<TData>({
       id: column.id,
       label: getColumnLabel(column),
       isVisible: !defaultHiddenColumns.includes(column.id),
+      isComparable: comparableColumns.includes(column.id),
+      showComparison: defaultComparisonColumns.includes(column.id),
     }))
     setColumnOrder(defaultOrder)
 
@@ -266,6 +328,11 @@ export function ColumnsDetailView<TData>({
       const shouldBeVisible = !defaultHiddenColumns.includes(column.id)
       column.toggleVisibility(shouldBeVisible)
     })
+
+    // Reset comparison columns to default
+    if (onComparisonColumnsChange) {
+      onComparisonColumnsChange(defaultComparisonColumns)
+    }
 
     if (onReset) {
       onReset()
@@ -294,6 +361,7 @@ export function ColumnsDetailView<TData>({
                 key={item.id}
                 item={item}
                 onToggle={handleToggle}
+                onComparisonToggle={comparableColumns.length > 0 ? handleComparisonToggle : undefined}
                 disabled={visibleCount === 1 && item.isVisible}
               />
             ))}

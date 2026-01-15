@@ -7,6 +7,7 @@ import {
   ArrowUpNarrowWide,
   ChevronDown,
   EyeOff,
+  GitCompareArrows,
   MoveHorizontal,
 } from 'lucide-react'
 
@@ -37,9 +38,11 @@ export function DataTableColumnHeader<TData, TValue>({
   title: titleProp,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
-  // Get title from meta.title (preferred) or fall back to prop
-  const meta = column.columnDef.meta as { title?: string } | undefined
+  // Get title and comparison settings from meta
+  const meta = column.columnDef.meta as { title?: string; isComparable?: boolean; showComparison?: boolean } | undefined
   const title = meta?.title || titleProp || column.id
+  const isComparable = meta?.isComparable ?? false
+  const showComparison = meta?.showComparison ?? false
 
   const isRTL = typeof document !== 'undefined' && (document.dir === 'rtl' || document.documentElement.dir === 'rtl')
   const isRightAlign = className?.includes('text-right')
@@ -104,8 +107,19 @@ export function DataTableColumnHeader<TData, TValue>({
     column.toggleVisibility(false)
   }
 
+  // Toggle comparison handler
+  const handleToggleComparison = () => {
+    const tableMeta = table?.options.meta as { toggleComparison?: (columnId: string) => void } | undefined
+    if (tableMeta?.toggleComparison) {
+      tableMeta.toggleComparison(column.id)
+    }
+  }
+
+  // Check if comparison toggle is available
+  const canToggleComparison = isComparable && table?.options.meta?.toggleComparison
+
   // Determine if we should show the dropdown (only if there are actions available)
-  const hasActions = canSort || canHideColumn || (table && canMove)
+  const hasActions = canSort || canHideColumn || (table && canMove) || canToggleComparison
 
   // Render sort indicator - only show when actively sorted
   const renderSortIndicator = () => {
@@ -191,10 +205,23 @@ export function DataTableColumnHeader<TData, TValue>({
             </>
           )}
 
+          {/* Comparison toggle option - for comparable columns */}
+          {canToggleComparison && (
+            <>
+              {(canSort || (table && canMove)) && <DropdownMenuSeparator />}
+              <DropdownMenuItem onClick={handleToggleComparison} className="gap-2">
+                <GitCompareArrows className="size-3.5" />
+                {showComparison
+                  ? __('Hide comparison', 'wp-statistics')
+                  : __('Show comparison', 'wp-statistics')}
+              </DropdownMenuItem>
+            </>
+          )}
+
           {/* Hide column option */}
           {canHideColumn && (
             <>
-              {(canSort || (table && canMove)) && <DropdownMenuSeparator />}
+              {(canSort || (table && canMove) || canToggleComparison) && <DropdownMenuSeparator />}
               <DropdownMenuItem onClick={handleHide} className="gap-2">
                 <EyeOff className="size-3.5" />
                 {__('Hide column', 'wp-statistics')}

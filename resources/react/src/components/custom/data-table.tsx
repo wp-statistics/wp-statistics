@@ -59,6 +59,11 @@ interface DataTableProps<TData, TValue> {
   onColumnVisibilityChange?: (visibility: VisibilityState) => void
   onColumnOrderChange?: (order: string[]) => void
   onColumnPreferencesReset?: () => void
+  // Comparison column preferences
+  comparableColumns?: string[]
+  comparisonColumns?: string[]
+  defaultComparisonColumns?: string[]
+  onComparisonColumnsChange?: (columns: string[]) => void
   // Mobile card view
   mobileCardEnabled?: boolean
   // Sticky header for scrollable tables
@@ -96,6 +101,11 @@ export function DataTable<TData, TValue>({
   onColumnVisibilityChange,
   onColumnOrderChange,
   onColumnPreferencesReset,
+  // Comparison column preferences
+  comparableColumns,
+  comparisonColumns,
+  defaultComparisonColumns,
+  onComparisonColumnsChange,
   // Mobile card view
   mobileCardEnabled = true,
   // Sticky header
@@ -218,6 +228,19 @@ export function DataTable<TData, TValue>({
     [onColumnOrderChange]
   )
 
+  // Handler for toggling comparison on a column from the header dropdown
+  const handleToggleComparison = React.useCallback(
+    (columnId: string) => {
+      if (!onComparisonColumnsChange || !comparisonColumns) return
+      const isCurrentlyEnabled = comparisonColumns.includes(columnId)
+      const newComparisonColumns = isCurrentlyEnabled
+        ? comparisonColumns.filter((id) => id !== columnId)
+        : [...comparisonColumns, columnId]
+      onComparisonColumnsChange(newComparisonColumns)
+    },
+    [comparisonColumns, onComparisonColumnsChange]
+  )
+
   const table = useReactTable({
     data,
     columns,
@@ -232,6 +255,9 @@ export function DataTable<TData, TValue>({
     manualSorting,
     manualPagination,
     pageCount: manualPagination ? externalPageCount : undefined,
+    meta: {
+      toggleComparison: handleToggleComparison,
+    },
     initialState: {
       pagination: {
         pageSize: rowLimit,
@@ -418,8 +444,12 @@ export function DataTable<TData, TValue>({
                 table={table}
                 initialColumnOrder={columnOrder}
                 defaultHiddenColumns={hiddenColumns}
+                comparableColumns={comparableColumns}
+                comparisonColumns={comparisonColumns}
+                defaultComparisonColumns={defaultComparisonColumns}
                 onColumnVisibilityChange={onColumnVisibilityChange}
                 onColumnOrderChange={onColumnOrderChange}
+                onComparisonColumnsChange={onComparisonColumnsChange}
                 onReset={onColumnPreferencesReset}
               />
             )}

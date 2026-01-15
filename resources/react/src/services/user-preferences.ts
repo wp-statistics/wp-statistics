@@ -3,6 +3,7 @@ import { clientRequest } from '@/lib/client-request'
 export interface SaveUserPreferencesParams {
   context: string
   columns: string[] // Array of visible column IDs in their display order
+  comparisonColumns?: string[] // Array of column IDs that should show PP comparison
 }
 
 export interface SaveUserPreferencesResponse {
@@ -51,7 +52,7 @@ export const saveUserPreferences = async (params: SaveUserPreferencesParams): Pr
         return
       }
 
-      const { context, columns } = pendingPreferences
+      const { context, columns, comparisonColumns } = pendingPreferences
       pendingPreferences = null
 
       try {
@@ -62,6 +63,7 @@ export const saveUserPreferences = async (params: SaveUserPreferencesParams): Pr
             context,
             data: {
               columns,
+              ...(comparisonColumns !== undefined && { comparison_columns: comparisonColumns }),
             },
           },
           {

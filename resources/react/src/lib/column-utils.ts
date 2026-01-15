@@ -94,6 +94,13 @@ export const getCacheKey = (context: string): string => {
 }
 
 /**
+ * Get cache key for comparison columns in localStorage
+ */
+export const getComparisonCacheKey = (context: string): string => {
+  return `wp_statistics_comparison_${context}`
+}
+
+/**
  * Get cached API columns from localStorage
  */
 export const getCachedApiColumns = (allColumnIds: string[], config: ColumnConfig): string[] | null => {
@@ -170,4 +177,44 @@ export const getCachedVisibility = (context: string, allColumnIds: string[]): Re
     visibility[col] = cachedColumns.includes(col)
   })
   return visibility
+}
+
+/**
+ * Get cached comparison columns from localStorage
+ */
+export const getCachedComparisonColumns = (context: string): string[] | null => {
+  try {
+    const cacheKey = getComparisonCacheKey(context)
+    const cached = localStorage.getItem(cacheKey)
+    if (!cached) return null
+    const comparisonColumns = JSON.parse(cached) as string[]
+    if (!Array.isArray(comparisonColumns)) return null
+    return comparisonColumns
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Save comparison columns to localStorage cache
+ */
+export const setCachedComparisonColumns = (context: string, comparisonColumns: string[]): void => {
+  try {
+    const cacheKey = getComparisonCacheKey(context)
+    localStorage.setItem(cacheKey, JSON.stringify(comparisonColumns))
+  } catch {
+    // Ignore storage errors
+  }
+}
+
+/**
+ * Clear cached comparison columns from localStorage
+ */
+export const clearCachedComparisonColumns = (context: string): void => {
+  try {
+    const cacheKey = getComparisonCacheKey(context)
+    localStorage.removeItem(cacheKey)
+  } catch {
+    // Ignore storage errors
+  }
 }
