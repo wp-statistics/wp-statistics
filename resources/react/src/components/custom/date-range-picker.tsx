@@ -578,7 +578,7 @@ export const DateRangePicker = ({
 
             {/* Comparison indicator badge */}
             {rangeCompare && (
-              <span className="text-[10px] text-primary font-medium px-1.5 py-0.5 rounded bg-primary/10">
+              <span className="text-[11px] text-primary font-medium px-1.5 py-0.5 rounded bg-primary/10">
                 vs
               </span>
             )}

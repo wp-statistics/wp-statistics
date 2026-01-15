@@ -340,6 +340,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
             <Label>Select Data to Migrate</Label>
             <div className="grid grid-cols-2 gap-2">
               {tables.map((table) => (
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 <label
                   key={table.key}
                   className={cn(

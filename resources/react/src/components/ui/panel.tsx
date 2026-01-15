@@ -67,13 +67,15 @@ function PanelHeader({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function PanelTitle({ className, ...props }: React.ComponentProps<'h3'>) {
+function PanelTitle({ className, children, ...props }: React.ComponentProps<'h3'>) {
   return (
     <h3
       data-slot="panel-title"
       className={cn('text-sm font-semibold text-neutral-800 leading-none', className)}
       {...props}
-    />
+    >
+      {children}
+    </h3>
   )
 }
 

@@ -77,7 +77,7 @@ function ComparisonBadge({ percentage, isNegative, isZero, comparisonLabel, prev
   const badgeContent = (
     <span
       className={cn(
-        'inline-flex items-center gap-0.5 font-medium tabular-nums leading-none text-[10px]',
+        'inline-flex items-center gap-0.5 font-medium tabular-nums leading-none text-[11px]',
         isZero
           ? semanticColors.trendNeutral
           : isNegative

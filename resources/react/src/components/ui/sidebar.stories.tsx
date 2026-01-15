@@ -51,11 +51,11 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const menuItems = [
-  { title: 'Home', icon: Home, url: '#' },
-  { title: 'Inbox', icon: Inbox, url: '#' },
-  { title: 'Calendar', icon: Calendar, url: '#' },
-  { title: 'Search', icon: Search, url: '#' },
-  { title: 'Settings', icon: Settings, url: '#' },
+  { title: 'Home', icon: Home, url: '/home' },
+  { title: 'Inbox', icon: Inbox, url: '/inbox' },
+  { title: 'Calendar', icon: Calendar, url: '/calendar' },
+  { title: 'Search', icon: Search, url: '/search' },
+  { title: 'Settings', icon: Settings, url: '/settings' },
 ]
 
 export const Default: Story = {
@@ -176,17 +176,17 @@ export const WithSubMenu: Story = {
                       <SidebarMenuSub>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#">Overview</a>
+                            <a href="/dashboard/overview">Overview</a>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#">Analytics</a>
+                            <a href="/dashboard/analytics">Analytics</a>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#">Reports</a>
+                            <a href="/dashboard/reports">Reports</a>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       </SidebarMenuSub>
@@ -277,14 +277,14 @@ export const WithBadges: Story = {
                       <SidebarMenuSub>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#" className="flex items-center justify-between">
+                            <a href="/visitors/all" className="flex items-center justify-between">
                               <span>All Visitors</span>
                             </a>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild className="overflow-visible">
-                            <a href="#" className="overflow-visible">
+                            <a href="/visitors/online" className="overflow-visible">
                               <span>Online Visitors</span>
                               <MenuBadge count={24793} live />
                             </a>
@@ -292,7 +292,7 @@ export const WithBadges: Story = {
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#" className="flex items-center justify-between">
+                            <a href="/visitors/top" className="flex items-center justify-between">
                               <span>Top Visitors</span>
                             </a>
                           </SidebarMenuSubButton>

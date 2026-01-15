@@ -127,6 +127,7 @@ function TabbedListItemRow({ item }: TabbedListItemRowProps) {
       {/* Thumbnail */}
       <div className="flex-shrink-0 w-12 h-12 rounded-md overflow-hidden bg-muted flex items-center justify-center">
         {item.thumbnail ? (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
           <img
             src={item.thumbnail}
             alt={item.title}

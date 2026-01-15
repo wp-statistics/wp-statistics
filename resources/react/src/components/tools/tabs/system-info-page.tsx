@@ -374,7 +374,7 @@ export function SystemInfoPage() {
                           {meta.isLegacy && (
                             <Badge
                               variant="secondary"
-                              className="text-[10px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                              className="text-[11px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
                             >
                               Legacy
                             </Badge>
