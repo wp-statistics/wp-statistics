@@ -249,6 +249,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
     // Use wider inputs for date type to show full date (YYYY-MM-DD)
     const inputClassName = inputType === 'date' ? 'w-32' : 'w-16'
     const errorClassName = rangeError ? 'border-destructive focus-visible:ring-destructive' : ''
+    const errorId = rangeError ? `range-error-${filter.id}` : undefined
 
     return (
       <div className="flex flex-col gap-1">
@@ -259,6 +260,8 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             onChange={(e) => handleRangeValueChange('min', e.target.value)}
             placeholder={__('Min', 'wp-statistics')}
             aria-label={__('Minimum value', 'wp-statistics')}
+            aria-describedby={errorId}
+            aria-invalid={!!rangeError}
             className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
           <span className="text-xs text-neutral-500">{__('to', 'wp-statistics')}</span>
@@ -268,10 +271,12 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             onChange={(e) => handleRangeValueChange('max', e.target.value)}
             placeholder={__('Max', 'wp-statistics')}
             aria-label={__('Maximum value', 'wp-statistics')}
+            aria-describedby={errorId}
+            aria-invalid={!!rangeError}
             className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
         </div>
-        {rangeError && <span className="text-[11px] text-destructive">{rangeError}</span>}
+        {rangeError && <span id={errorId} role="alert" className="text-[11px] text-destructive">{rangeError}</span>}
       </div>
     )
   }

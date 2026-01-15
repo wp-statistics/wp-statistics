@@ -113,12 +113,8 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
           isAnimating ? 'opacity-100' : 'opacity-0'
         )}
         onClick={handleOverlayClick}
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') handleClose()
-        }}
-        role="button"
-        tabIndex={-1}
-        aria-label={__('Close options', 'wp-statistics')}
+        role="presentation"
+        aria-hidden="true"
       />
 
       {/* Drawer panel - positioned under WP admin bar + plugin header */}

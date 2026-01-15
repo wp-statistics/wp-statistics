@@ -250,7 +250,7 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className, filte
                   role="button"
                   tabIndex={0}
                   onClick={handleClearClick}
-                  onKeyDown={(e) => e.key === 'Enter' && handleClearClick(e as unknown as React.MouseEvent)}
+                  onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleClearClick(e as unknown as React.MouseEvent)}
                   className="ml-1 p-0.5 rounded-full hover:bg-primary/20 transition-colors"
                   aria-label={__('Clear all filters', 'wp-statistics')}
                 >

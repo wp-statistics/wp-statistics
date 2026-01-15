@@ -230,50 +230,50 @@ export function ExclusionSettings() {
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Administrators</Label>
+              <Label htmlFor="exclude-admin">Administrators</Label>
               <p className="text-sm text-muted-foreground">Exclude users with administrator role.</p>
             </div>
-            <Switch checked={!!excludeAdmin} onCheckedChange={setExcludeAdmin} />
+            <Switch id="exclude-admin" checked={!!excludeAdmin} onCheckedChange={setExcludeAdmin} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Editors</Label>
+              <Label htmlFor="exclude-editor">Editors</Label>
               <p className="text-sm text-muted-foreground">Exclude users with editor role.</p>
             </div>
-            <Switch checked={!!excludeEditor} onCheckedChange={setExcludeEditor} />
+            <Switch id="exclude-editor" checked={!!excludeEditor} onCheckedChange={setExcludeEditor} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Authors</Label>
+              <Label htmlFor="exclude-author">Authors</Label>
               <p className="text-sm text-muted-foreground">Exclude users with author role.</p>
             </div>
-            <Switch checked={!!excludeAuthor} onCheckedChange={setExcludeAuthor} />
+            <Switch id="exclude-author" checked={!!excludeAuthor} onCheckedChange={setExcludeAuthor} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Contributors</Label>
+              <Label htmlFor="exclude-contributor">Contributors</Label>
               <p className="text-sm text-muted-foreground">Exclude users with contributor role.</p>
             </div>
-            <Switch checked={!!excludeContributor} onCheckedChange={setExcludeContributor} />
+            <Switch id="exclude-contributor" checked={!!excludeContributor} onCheckedChange={setExcludeContributor} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Subscribers</Label>
+              <Label htmlFor="exclude-subscriber">Subscribers</Label>
               <p className="text-sm text-muted-foreground">Exclude users with subscriber role.</p>
             </div>
-            <Switch checked={!!excludeSubscriber} onCheckedChange={setExcludeSubscriber} />
+            <Switch id="exclude-subscriber" checked={!!excludeSubscriber} onCheckedChange={setExcludeSubscriber} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Anonymous Users</Label>
+              <Label htmlFor="exclude-anonymous">Anonymous Users</Label>
               <p className="text-sm text-muted-foreground">Exclude users who are not logged in.</p>
             </div>
-            <Switch checked={!!excludeAnonymous} onCheckedChange={setExcludeAnonymous} />
+            <Switch id="exclude-anonymous" checked={!!excludeAnonymous} onCheckedChange={setExcludeAnonymous} />
           </div>
         </CardContent>
       </Card>

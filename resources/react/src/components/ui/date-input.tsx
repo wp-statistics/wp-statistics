@@ -166,8 +166,9 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, className, onFoc
         onKeyDown={handleKeyDown(config.field)}
         onBlur={handleBlur(config.field)}
         onFocus={handleContainerFocus}
-        className={cn(config.width, 'border-none bg-transparent p-0 text-center outline-none')}
+        className={cn(config.width, 'border-none bg-transparent p-0 text-center outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-sm')}
         placeholder={config.placeholder}
+        aria-label={config.field}
       />
     </React.Fragment>
   )

@@ -236,6 +236,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder={hasValues ? '' : __('Search...', 'wp-statistics')}
+                aria-label={__('Search filter values', 'wp-statistics')}
                 className="flex-1 min-w-[80px] h-6 text-sm bg-transparent border-0 outline-none"
               />
             )}
