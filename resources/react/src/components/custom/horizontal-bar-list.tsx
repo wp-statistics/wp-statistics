@@ -50,7 +50,7 @@ export function HorizontalBarList({ title, items, link, loading = false, showCom
           <div className="flex flex-col gap-3">
             {safeItems.map((item, index) => (
               <HorizontalBar
-                key={index}
+                key={`${item.label}-${index}`}
                 icon={item.icon}
                 label={item.label}
                 value={item.value}

@@ -92,12 +92,12 @@ export function LineChart({
     }
   }, {} as ChartConfig)
 
-  const toggleMetric = (metricKey: string) => {
+  const toggleMetric = React.useCallback((metricKey: string) => {
     setVisibleMetrics((prev) => ({
       ...prev,
       [metricKey]: !prev[metricKey],
     }))
-  }
+  }, [])
 
   // Detect if the current period is incomplete (ends on today)
   const hasIncompleteData = React.useMemo(() => {

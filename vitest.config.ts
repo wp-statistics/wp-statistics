@@ -31,8 +31,20 @@ export default defineConfig({
     projects: [
       // Unit tests (this config)
       {
+        resolve: {
+          alias: {
+            '@': resolve(reactRoot, 'src'),
+            '@components': resolve(reactRoot, 'src/components'),
+            '@hooks': resolve(reactRoot, 'src/hooks'),
+            '@lib': resolve(reactRoot, 'src/lib'),
+            '@services': resolve(reactRoot, 'src/services'),
+            '@types': resolve(reactRoot, 'src/types'),
+          },
+        },
         test: {
           name: 'unit',
+          environment: 'jsdom',
+          setupFiles: ['./vitest.setup.ts'],
           include: ['tests/unit/react/**/*.{test,spec}.{js,ts,jsx,tsx}'],
         },
       },
