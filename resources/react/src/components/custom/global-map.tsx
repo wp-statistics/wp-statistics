@@ -10,7 +10,7 @@ import { ArrowLeft, Loader2, Minus, Plus } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
-import { COLOR_SCALE, getMapUrl } from '@/constants/map-data'
+import { MapErrorBoundary } from '@/components/custom/map-error-boundary'
 import {
   calculateZoomFromDimension,
   COLOR_SCALE_THRESHOLDS,
@@ -22,7 +22,7 @@ import {
   REGION_COLORS,
   WORLD_CENTER,
 } from '@/constants/map-constants'
-import { MapErrorBoundary } from '@/components/custom/map-error-boundary'
+import { COLOR_SCALE, getMapUrl } from '@/constants/map-data'
 import type { MapViewMode, MetricOption } from '@/types/geographic'
 
 // GeoJSON geometry coordinate types

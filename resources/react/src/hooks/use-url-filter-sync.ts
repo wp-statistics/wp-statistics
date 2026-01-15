@@ -10,9 +10,9 @@ import type { Filter } from '@/components/custom/filter-bar'
 import type { FilterField } from '@/components/custom/filter-row'
 import {
   filtersToUrlFilters,
-  urlFiltersToFilters,
   serializeFiltersToBracketParams,
   type UrlFilter,
+  urlFiltersToFilters,
 } from '@/lib/filter-utils'
 
 export interface UseUrlFilterSyncOptions {

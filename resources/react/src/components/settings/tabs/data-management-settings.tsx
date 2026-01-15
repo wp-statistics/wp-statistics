@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { Loader2, Trash2, AlertTriangle, Infinity, Clock, Archive, Info } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import { AlertTriangle, Archive, Clock, Infinity, Info,Loader2, Trash2 } from 'lucide-react'
+import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
-import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useSettings, useSetting } from '@/hooks/use-settings'
+import { NoticeBanner } from '@/components/ui/notice-banner'
+import { useSetting,useSettings } from '@/hooks/use-settings'
 import { cn } from '@/lib/utils'
 
 type RetentionMode = 'forever' | 'delete' | 'archive'

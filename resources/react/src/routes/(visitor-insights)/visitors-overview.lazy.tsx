@@ -11,17 +11,17 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import {
+  FiltersDetailView,
+  FiltersMenuEntry,
+  MetricsDetailView,
+  MetricsMenuEntry,
   OptionsDrawer,
   OptionsDrawerTrigger,
-  WidgetsMenuEntry,
   WidgetsDetailView,
-  MetricsMenuEntry,
-  MetricsDetailView,
-  FiltersMenuEntry,
-  FiltersDetailView,
+  WidgetsMenuEntry,
 } from '@/components/custom/options-drawer'
-import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
+import { Panel } from '@/components/ui/panel'
 import {
   BarListSkeleton,
   ChartSkeleton,
@@ -29,7 +29,7 @@ import {
   PanelSkeleton,
   TableSkeleton,
 } from '@/components/ui/skeletons'
-import { PageOptionsProvider, type WidgetConfig, type MetricConfig } from '@/contexts/page-options-context'
+import { type MetricConfig,PageOptionsProvider, type WidgetConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'

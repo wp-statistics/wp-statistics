@@ -11,7 +11,7 @@ import {
 } from '@/components/custom/filter-row'
 import { QuickFilters } from '@/components/custom/quick-filters'
 import { Button } from '@/components/ui/button'
-import { type QuickFilterDefinition, getQuickFiltersForGroup } from '@/config/quick-filter-definitions'
+import { getQuickFiltersForGroup,type QuickFilterDefinition } from '@/config/quick-filter-definitions'
 import { cn } from '@/lib/utils'
 
 /** Locked filter that is displayed as read-only in the panel */

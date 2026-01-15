@@ -3,10 +3,10 @@
  * Taxonomy-based analytics grouped by term.
  */
 
+import { Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { ExternalLink } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { DurationCell, NumericCell } from '@/components/data-table-columns'

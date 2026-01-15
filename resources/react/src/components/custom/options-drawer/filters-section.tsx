@@ -1,6 +1,6 @@
-import { FilterIcon, Plus, Trash2Icon } from 'lucide-react'
 import { __ } from '@wordpress/i18n'
-import { useMemo, useState, useEffect } from 'react'
+import { FilterIcon, Plus, Trash2Icon } from 'lucide-react'
+import { useEffect,useMemo, useState } from 'react'
 
 import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'
 import {
@@ -21,11 +21,11 @@ import { QuickFilters } from '@/components/custom/quick-filters'
 import { Button } from '@/components/ui/button'
 import { getQuickFiltersForGroup, type QuickFilterDefinition } from '@/config/quick-filter-definitions'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
-import { WordPress } from '@/lib/wordpress'
 import { cn } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
 
-import { useOptionsDrawer, OptionsMenuItem } from './options-drawer'
 import { DrawerFilterRow } from './drawer-filter-row'
+import { OptionsMenuItem,useOptionsDrawer } from './options-drawer'
 
 interface FiltersSectionProps {
   filterGroup?: string

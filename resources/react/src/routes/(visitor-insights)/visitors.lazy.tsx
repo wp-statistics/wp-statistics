@@ -7,8 +7,6 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createVisitorsColumns,
   transformVisitorData,
@@ -17,6 +15,8 @@ import {
   VISITORS_DEFAULT_API_COLUMNS,
   VISITORS_DEFAULT_HIDDEN_COLUMNS,
 } from '@/components/data-table-columns/visitors-columns'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'

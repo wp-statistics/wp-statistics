@@ -472,7 +472,7 @@ export function DataTable<TData, TValue>({
                   const currentPage = currentPageIndex + 1
                   return typeof page === 'number' ? (
                     <Button
-                      key={index}
+                      key={`page-${page}`}
                       variant={currentPage === page ? 'default' : 'ghost'}
                       size="icon"
                       onClick={() => handleSetPageIndex(page - 1)}
@@ -481,7 +481,7 @@ export function DataTable<TData, TValue>({
                       {page}
                     </Button>
                   ) : (
-                    <span key={index} className="px-1 text-neutral-400 text-xs">
+                    <span key={`ellipsis-${index}`} className="px-1 text-neutral-400 text-xs">
                       {page}
                     </span>
                   )

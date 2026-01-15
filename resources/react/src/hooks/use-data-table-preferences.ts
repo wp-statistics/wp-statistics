@@ -9,8 +9,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   clearCachedColumns,
   clearCachedComparisonColumns,
-  computeApiColumns,
   type ColumnConfig,
+  computeApiColumns,
   getCachedApiColumns,
   getCachedComparisonColumns,
   getCachedVisibility,

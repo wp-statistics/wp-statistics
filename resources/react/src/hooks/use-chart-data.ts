@@ -10,6 +10,12 @@
 
 import { useMemo } from 'react'
 
+import {
+  buildChartMetrics,
+  calculateChartTotals,
+  hasPreviousPeriodData,
+  transformChartResponse,
+} from '@/lib/chart-utils'
 import type {
   ChartApiResponse,
   ChartTotals,
@@ -18,13 +24,6 @@ import type {
   UseChartDataOptions,
   UseChartDataResult,
 } from '@/types/chart'
-
-import {
-  buildChartMetrics,
-  calculateChartTotals,
-  hasPreviousPeriodData,
-  transformChartResponse,
-} from '@/lib/chart-utils'
 
 /**
  * Transform ChartFormatter API response to LineChart-ready format.

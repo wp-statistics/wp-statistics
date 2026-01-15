@@ -36,7 +36,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
             {visitorInfo.flags.map((flag, index) => (
-              <span key={index} className="inline-flex items-center h-3 text-xs leading-3">
+              <span key={`${flag}-${index}`} className="inline-flex items-center h-3 text-xs leading-3">
                 {flag}
               </span>
             ))}

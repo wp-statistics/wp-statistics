@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { searchValidators, type BaseSearchParams } from '@/lib/route-validation'
+import { type BaseSearchParams,searchValidators } from '@/lib/route-validation'
 
 export type NotFoundPagesSearchParams = BaseSearchParams
 

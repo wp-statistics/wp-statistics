@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { useState, useCallback } from 'react'
+import { useCallback,useState } from 'react'
 
 import { NoticeBanner } from '@/components/ui/notice-banner'
-import { WordPress } from '@/lib/wordpress'
 import { cn } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
 
 export interface NoticeContainerProps {
   /**

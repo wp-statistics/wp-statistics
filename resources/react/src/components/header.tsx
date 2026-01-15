@@ -1,4 +1,4 @@
-import { Menu, ShieldCheck, Bell } from 'lucide-react'
+import { Bell,Menu, ShieldCheck } from 'lucide-react'
 
 import { Logo } from '@/components/ui/logo'
 import { useSidebar } from '@/components/ui/sidebar'

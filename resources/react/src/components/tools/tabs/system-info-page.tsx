@@ -1,11 +1,11 @@
+import { Clock, Database, HardDrive, Loader2, RefreshCw, Server, Settings, User } from 'lucide-react'
 import * as React from 'react'
-import { Loader2, Database, Server, HardDrive, RefreshCw, Settings, Clock, User } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import { NoticeBanner } from '@/components/ui/notice-banner'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { NoticeBanner } from '@/components/ui/notice-banner'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 interface TableInfo {
   key: string

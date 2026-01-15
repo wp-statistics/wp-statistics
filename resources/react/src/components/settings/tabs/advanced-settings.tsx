@@ -1,14 +1,14 @@
+import { AlertTriangle, Globe, Loader2, RefreshCw, RotateCcw,Server } from 'lucide-react'
 import * as React from 'react'
-import { Loader2, AlertTriangle, RefreshCw, Globe, Server, RotateCcw } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { useSettings, useSetting } from '@/hooks/use-settings'
+import { useSetting,useSettings } from '@/hooks/use-settings'
 
 export function AdvancedSettings() {
   const settings = useSettings({ tab: 'advanced' })

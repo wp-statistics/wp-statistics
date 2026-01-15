@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from 'storybook/test'
 
-import { VisitorInfoCell } from './visitor-info-cell'
 import type { VisitorInfoConfig, VisitorInfoData } from '../types'
+import { VisitorInfoCell } from './visitor-info-cell'
 
 const defaultConfig: VisitorInfoConfig = {
   pluginUrl: '/public/images/',

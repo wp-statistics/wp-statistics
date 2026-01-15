@@ -2,8 +2,8 @@
  * PageCell - Displays page title with tooltip for full URL and optional external link on hover
  */
 
-import { memo } from 'react'
 import { ExternalLink } from 'lucide-react'
+import { memo } from 'react'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { WordPress } from '@/lib/wordpress'

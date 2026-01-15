@@ -1,9 +1,9 @@
 import { __ } from '@wordpress/i18n'
 import { Check, Lock } from 'lucide-react'
 
-import type { QuickFilterDefinition } from '@/config/quick-filter-definitions'
-import type { FilterRowData } from '@/components/custom/filter-row'
 import type { LockedFilter } from '@/components/custom/filter-panel'
+import type { FilterRowData } from '@/components/custom/filter-row'
+import type { QuickFilterDefinition } from '@/config/quick-filter-definitions'
 import { cn } from '@/lib/utils'
 
 export interface QuickFiltersProps {
@@ -92,4 +92,4 @@ function QuickFilters({ definitions, activeFilters, onToggle, lockedFilters = []
   )
 }
 
-export { QuickFilters, isQuickFilterActive }
+export { isQuickFilterActive,QuickFilters }

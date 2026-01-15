@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { expect, fn, userEvent, within } from 'storybook/test'
-import { useState } from 'react'
 import { ColumnsIcon, FilterIcon, GaugeIcon, LayoutGridIcon } from 'lucide-react'
+import { useState } from 'react'
+import { expect, fn, userEvent, within } from 'storybook/test'
 
 import {
+  LockedMenuItem,
+  OptionsDetailView,
   OptionsDrawer,
   OptionsMenuItem,
-  OptionsDetailView,
   OptionsToggleItem,
-  LockedMenuItem,
 } from './options-drawer'
 import { OptionsDrawerTrigger } from './options-drawer-trigger'
 

@@ -8,10 +8,6 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField, type LockedFilter } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
-import { NoticeContainer } from '@/components/ui/notice-container'
-import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
-import { useChartData } from '@/hooks/use-chart-data'
-import { mergeChartResponses } from '@/lib/chart-utils'
 import {
   createLoggedInUsersColumns,
   LOGGED_IN_USERS_COLUMN_CONFIG,
@@ -20,9 +16,13 @@ import {
   LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
   transformLoggedInUserData,
 } from '@/components/data-table-columns/logged-in-users-columns'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
+import { mergeChartResponses } from '@/lib/chart-utils'
 import { WordPress } from '@/lib/wordpress'
 import { getLoggedInUsersBatchQueryOptions } from '@/services/visitor-insight/get-logged-in-users-batch'
 

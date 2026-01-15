@@ -8,22 +8,21 @@
  * @package WP_Statistics
  */
 
+import type { ComponentType, ReactNode } from 'react'
 import React from 'react'
 import * as ReactDOM from 'react-dom'
-import type { ComponentType, ReactNode } from 'react'
-
-// Hooks
-import { usePageOptions } from '@/hooks/use-page-options'
-import { useGlobalFilters } from '@/hooks/use-global-filters'
 
 // Options Drawer components
 import {
-  useOptionsDrawer,
-  OptionsMenuItem,
   OptionsDetailView,
+  OptionsMenuItem,
   OptionsToggleItem,
   type OptionsView,
+  useOptionsDrawer,
 } from '@/components/custom/options-drawer/options-drawer'
+import { useGlobalFilters } from '@/hooks/use-global-filters'
+// Hooks
+import { usePageOptions } from '@/hooks/use-page-options'
 
 // Expose React globally for premium plugin to use as external
 // @ts-expect-error - Setting global React

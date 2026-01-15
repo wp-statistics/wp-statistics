@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { expect, within } from 'storybook/test'
 import { BarChart3, FileSearch, Users } from 'lucide-react'
+import { expect, within } from 'storybook/test'
 
-import { EmptyState } from './empty-state'
 import { Button } from './button'
+import { EmptyState } from './empty-state'
 
 const meta = {
   title: 'UI/EmptyState',

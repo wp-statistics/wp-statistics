@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { PanelSkeleton } from './panel-skeleton'
-import { MetricsSkeleton } from './metrics-skeleton'
-import { ChartSkeleton } from './chart-skeleton'
-import { TableSkeleton } from './table-skeleton'
 import { BarListSkeleton } from './bar-list-skeleton'
+import { ChartSkeleton } from './chart-skeleton'
+import { MetricsSkeleton } from './metrics-skeleton'
+import { PanelSkeleton } from './panel-skeleton'
+import { TableSkeleton } from './table-skeleton'
 
 const meta = {
   title: 'UI/Skeletons/PanelSkeleton',

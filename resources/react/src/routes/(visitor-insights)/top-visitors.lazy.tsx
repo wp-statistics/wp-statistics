@@ -7,16 +7,16 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createTopVisitorsColumns,
-  transformTopVisitorData,
   TOP_VISITORS_COLUMN_CONFIG,
   TOP_VISITORS_CONTEXT,
   TOP_VISITORS_DEFAULT_API_COLUMNS,
   TOP_VISITORS_DEFAULT_HIDDEN_COLUMNS,
+  transformTopVisitorData,
 } from '@/components/data-table-columns/top-visitors-columns'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'

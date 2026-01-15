@@ -1,5 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { Settings, Shield, Bell, Ban, Wrench, Monitor, Users, Database } from 'lucide-react'
+import { Ban, Bell, Database,Monitor, Settings, Shield, Users, Wrench } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { type DateFieldConfig,getFieldConfigs, getNavigationFields, parseDateFormat } from '@/lib/date-format'
 import { cn } from '@/lib/utils'
-import { parseDateFormat, getFieldConfigs, getNavigationFields, type DateFieldConfig } from '@/lib/date-format'
 import { WordPress } from '@/lib/wordpress'
 
 interface DateInputProps {

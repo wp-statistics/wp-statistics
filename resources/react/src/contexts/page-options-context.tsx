@@ -5,38 +5,17 @@
  * Preferences are persisted per page to localStorage and backend.
  */
 
-import { createContext, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { createContext, type ReactNode,useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { debounce } from '@/lib/debounce'
 import {
-  savePageOptionsPreferences,
-  resetPageOptionsPreferences,
   cancelPendingSave,
-  getCachedPageOptions,
-  setCachedPageOptions,
   clearCachedPageOptions,
+  getCachedPageOptions,
+  resetPageOptionsPreferences,
+  savePageOptionsPreferences,
+  setCachedPageOptions,
 } from '@/services/page-options-preferences'
-
-// Debounce helper
-function debounce<T extends (...args: Parameters<T>) => void>(fn: T, delay: number): T & { cancel: () => void } {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null
-
-  const debounced = ((...args: Parameters<T>) => {
-    if (timeoutId) clearTimeout(timeoutId)
-    timeoutId = setTimeout(() => {
-      fn(...args)
-      timeoutId = null
-    }, delay)
-  }) as T & { cancel: () => void }
-
-  debounced.cancel = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId)
-      timeoutId = null
-    }
-  }
-
-  return debounced
-}
 
 export interface WidgetConfig {
   id: string

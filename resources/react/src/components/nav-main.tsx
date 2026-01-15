@@ -1,3 +1,4 @@
+import type { LinkProps } from '@tanstack/react-router'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { ChevronRight, type LucideIcon } from 'lucide-react'
 import * as React from 'react'
@@ -12,6 +13,12 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar'
+
+/**
+ * Type for navigation URLs that come from dynamic configuration.
+ * Uses LinkProps['to'] to ensure compatibility with TanStack Router.
+ */
+type NavigationPath = LinkProps['to']
 
 // Active indicator component
 const ActiveIndicator = React.memo(function ActiveIndicator() {
@@ -75,7 +82,7 @@ const SubMenuItem = React.memo(function SubMenuItem({
             : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'
         }`}
       >
-        <Link to={subItem.url as any} className="overflow-visible">
+        <Link to={subItem.url as NavigationPath} className="overflow-visible">
           <span>{subItem.title}</span>
           {subItem.badge !== undefined && (
             <MenuBadge count={subItem.badge} live={subItem.badgeLive} isActive={isActive} />
@@ -164,7 +171,7 @@ const NavMenuItem = React.memo(function NavMenuItem({
           </>
         ) : (
           <SidebarMenuButton asChild isActive={isSingleItemActive} tooltip={item.title} className={singleItemClasses}>
-            <Link to={item.url as any} className="outline-none focus:outline-none">
+            <Link to={item.url as NavigationPath} className="outline-none focus:outline-none">
               {isSingleItemActive && <ActiveIndicator />}
               <item.icon />
               <span>{item.title}</span>
@@ -195,7 +202,7 @@ export function NavMain({
   const navigate = useNavigate()
 
   // Memoize the navigate callback
-  const handleNavigate = React.useCallback((url: string) => navigate({ to: url as any }), [navigate])
+  const handleNavigate = React.useCallback((url: string) => navigate({ to: url as NavigationPath }), [navigate])
 
   return (
     <SidebarGroup>

@@ -1,6 +1,5 @@
-import { useMemo } from 'react'
-
 import { __ } from '@wordpress/i18n'
+import { useMemo } from 'react'
 
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 

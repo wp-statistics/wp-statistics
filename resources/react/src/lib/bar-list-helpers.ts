@@ -1,6 +1,5 @@
-import type { ReactNode } from 'react'
-
 import { __ } from '@wordpress/i18n'
+import type { ReactNode } from 'react'
 
 import { calcPercentage } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage } from '@/lib/utils'

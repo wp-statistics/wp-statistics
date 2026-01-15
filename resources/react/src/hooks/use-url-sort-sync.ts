@@ -4,8 +4,8 @@
  */
 
 import { useNavigate, useSearch } from '@tanstack/react-router'
-import { useCallback, useEffect, useRef, useState } from 'react'
 import type { SortingState } from '@tanstack/react-table'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export interface UseUrlSortSyncOptions {
   /**

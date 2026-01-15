@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Stethoscope, Zap, Shield, Bell } from 'lucide-react'
+import { Bell,Shield, Stethoscope, Zap } from 'lucide-react'
 
 import { NoticeBanner } from './notice-banner'
 

@@ -6,8 +6,6 @@ import { useCallback, useMemo } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createViewsColumns,
   transformViewData,
@@ -16,6 +14,8 @@ import {
   VIEWS_DEFAULT_API_COLUMNS,
   VIEWS_DEFAULT_HIDDEN_COLUMNS,
 } from '@/components/data-table-columns/views-columns'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'

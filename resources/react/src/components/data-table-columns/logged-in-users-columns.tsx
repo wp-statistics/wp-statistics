@@ -6,7 +6,7 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
-import { type Filter, getOperatorDisplay, type FilterField } from '@/components/custom/filter-button'
+import { type Filter, type FilterField,getOperatorDisplay } from '@/components/custom/filter-button'
 import {
   createLocationData,
   createVisitorInfoData,

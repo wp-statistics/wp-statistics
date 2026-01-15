@@ -1,15 +1,15 @@
-import * as React from 'react'
 import { Loader2 } from 'lucide-react'
+import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
-import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { useSettings, useSetting } from '@/hooks/use-settings'
+import { useSetting,useSettings } from '@/hooks/use-settings'
 import { useToast } from '@/hooks/use-toast'
 
 export function NotificationSettings() {

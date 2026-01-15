@@ -1,8 +1,12 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
+import { type ApiFilters,transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
+
+// Re-export ApiFilters for backward compatibility
+export type { ApiFilters }
 
 export interface TopVisitorRecord {
   visitor_id: number
@@ -58,9 +62,6 @@ export interface GetTopVisitorsResponse {
   }
 }
 
-// API filter format: { filter_key: { operator: value } }
-export type ApiFilters = Record<string, Record<string, string | string[]>>
-
 export interface GetTopVisitorsParams {
   page: number
   per_page: number
@@ -73,41 +74,6 @@ export interface GetTopVisitorsParams {
   filters?: Filter[]
   context?: string
   columns?: string[]
-}
-
-// Extract the field name from filter ID
-// Filter IDs are in format: "os-os-filter-1766484171552-9509610" where the first segment is the field name
-const extractFilterKey = (filterId: string): string => {
-  // Split by hyphen and take the first segment (the actual field name)
-  return filterId.split('-')[0]
-}
-
-// Transform UI filters to API format
-// UI: { id, label, operator, rawOperator, value, rawValue }
-// API: { filter_key: { operator: value } }
-const transformFiltersToApi = (filters: Filter[]): ApiFilters => {
-  const apiFilters: ApiFilters = {}
-
-  for (const filter of filters) {
-    // Extract the field name from the filter id (e.g., 'os' from 'os-os-filter-...')
-    const filterKey = extractFilterKey(filter.id)
-    // Use rawOperator if available, otherwise fall back to operator
-    const operator = filter.rawOperator || filter.operator
-    // Use rawValue if available, otherwise fall back to value
-    // Convert number to string since API expects string | string[]
-    const rawValue = filter.rawValue ?? filter.value
-    const value: string | string[] = Array.isArray(rawValue)
-      ? rawValue
-      : typeof rawValue === 'number'
-        ? String(rawValue)
-        : rawValue
-
-    apiFilters[filterKey] = {
-      [operator]: value,
-    }
-  }
-
-  return apiFilters
 }
 
 // Map frontend column names to API column names

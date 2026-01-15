@@ -6,12 +6,12 @@ import { useCallback, useMemo } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createPageViewsColumns,
   createPageViewsTransform,
 } from '@/components/data-table-columns/page-views-columns'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { getAuthorPagesQueryOptions } from '@/services/page-insight/get-author-pages'
 

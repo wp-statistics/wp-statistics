@@ -1,22 +1,21 @@
-import * as React from 'react'
 import {
-  Loader2,
+  AlertTriangle,
+  Calendar,
   Database,
   Download,
-  Trash2,
-  RotateCcw,
-  Plus,
   FileJson,
-  Calendar,
   HardDrive,
-  AlertTriangle,
   Info,
+  Loader2,
+  Plus,
+  RotateCcw,
+  Trash2,
 } from 'lucide-react'
+import * as React from 'react'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import {
   Dialog,
   DialogContent,
@@ -25,7 +24,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Badge } from '@/components/ui/badge'
+import { NoticeBanner } from '@/components/ui/notice-banner'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 interface Backup {
   name: string

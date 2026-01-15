@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { AlertCircle, AlertTriangle, CheckCircle, Info, X, type LucideIcon } from 'lucide-react'
+import { AlertCircle, AlertTriangle, CheckCircle, Info, type LucideIcon,X } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'

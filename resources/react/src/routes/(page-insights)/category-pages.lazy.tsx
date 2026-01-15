@@ -7,12 +7,12 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { TaxonomySelect } from '@/components/custom/taxonomy-select'
-import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createPageViewsColumns,
   createPageViewsTransform,
 } from '@/components/data-table-columns/page-views-columns'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { getCategoryPagesQueryOptions } from '@/services/page-insight/get-category-pages'
 

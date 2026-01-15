@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n'
-import { Globe, Link, Search, Share2, UserCheck, UserPlus, Users } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { Globe, Link, Search, Share2, UserCheck, UserPlus, Users } from 'lucide-react'
 
 export interface QuickFilterDefinition {
   id: string

@@ -1,15 +1,15 @@
-import { GaugeIcon } from 'lucide-react'
 import { __ } from '@wordpress/i18n'
+import { GaugeIcon } from 'lucide-react'
 
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePremiumFeature } from '@/hooks/use-premium-feature'
 
 import {
-  useOptionsDrawer,
-  OptionsMenuItem,
-  OptionsDetailView,
-  OptionsToggleItem,
   LockedMenuItem,
+  OptionsDetailView,
+  OptionsMenuItem,
+  OptionsToggleItem,
+  useOptionsDrawer,
 } from './options-drawer'
 
 export function MetricsMenuEntry() {

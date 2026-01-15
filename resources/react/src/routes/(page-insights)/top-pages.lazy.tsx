@@ -7,18 +7,18 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import {
   createTopPagesColumns,
-  transformTopPageData,
   TOP_PAGES_COLUMN_CONFIG,
+  TOP_PAGES_COMPARABLE_COLUMNS,
   TOP_PAGES_CONTEXT,
   TOP_PAGES_DEFAULT_API_COLUMNS,
-  TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
   TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
-  TOP_PAGES_COMPARABLE_COLUMNS,
+  TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
+  transformTopPageData,
 } from '@/components/data-table-columns/top-pages-columns'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'

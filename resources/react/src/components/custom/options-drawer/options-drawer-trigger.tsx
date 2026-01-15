@@ -1,5 +1,5 @@
-import { SlidersHorizontalIcon } from 'lucide-react'
 import { __ } from '@wordpress/i18n'
+import { SlidersHorizontalIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'

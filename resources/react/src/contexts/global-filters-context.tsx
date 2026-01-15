@@ -15,28 +15,28 @@
  */
 
 import { useNavigate, useSearch } from '@tanstack/react-router'
-import { createContext, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { createContext, type ReactNode,useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import type { Filter } from '@/components/custom/filter-bar'
 import {
-  getPresetRange,
-  isValidPreset,
-  isValidComparisonMode,
-  type DateRange,
   type ComparisonMode,
+  type DateRange,
+  getPresetRange,
+  isValidComparisonMode,
+  isValidPreset,
 } from '@/components/custom/date-range-picker'
+import type { Filter } from '@/components/custom/filter-bar'
 import type { FilterField } from '@/components/custom/filter-row'
 import { debounce } from '@/lib/debounce'
 import {
   filtersToUrlFilters,
-  urlFiltersToFilters,
   parseBracketFiltersFromParams,
   serializeFiltersToBracketParams,
   type UrlFilter,
+  urlFiltersToFilters,
 } from '@/lib/filter-utils'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import { saveGlobalFiltersPreferences, resetGlobalFiltersPreferences } from '@/services/global-filters-preferences'
+import { resetGlobalFiltersPreferences,saveGlobalFiltersPreferences } from '@/services/global-filters-preferences'
 
 /**
  * Source of the current filter/date values

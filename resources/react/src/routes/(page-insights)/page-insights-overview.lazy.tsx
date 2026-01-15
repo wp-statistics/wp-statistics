@@ -8,23 +8,23 @@ import { FilterButton, type FilterField } from '@/components/custom/filter-butto
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { Metrics } from '@/components/custom/metrics'
 import {
+  FiltersDetailView,
+  FiltersMenuEntry,
+  MetricsDetailView,
+  MetricsMenuEntry,
   OptionsDrawer,
   OptionsDrawerTrigger,
-  WidgetsMenuEntry,
   WidgetsDetailView,
-  MetricsMenuEntry,
-  MetricsDetailView,
-  FiltersMenuEntry,
-  FiltersDetailView,
+  WidgetsMenuEntry,
 } from '@/components/custom/options-drawer'
-import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
+import { Panel } from '@/components/ui/panel'
 import {
   BarListSkeleton,
   MetricsSkeleton,
   PanelSkeleton,
 } from '@/components/ui/skeletons'
-import { PageOptionsProvider, type WidgetConfig, type MetricConfig } from '@/contexts/page-options-context'
+import { type MetricConfig,PageOptionsProvider, type WidgetConfig } from '@/contexts/page-options-context'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'

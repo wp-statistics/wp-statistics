@@ -5,8 +5,8 @@
  * Uses debouncing to avoid excessive API calls when user rapidly changes filters.
  */
 
-import { clientRequest } from '@/lib/client-request'
 import type { ComparisonMode } from '@/components/custom/date-range-picker'
+import { clientRequest } from '@/lib/client-request'
 
 const CONTEXT = 'global_filters'
 

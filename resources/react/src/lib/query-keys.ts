@@ -21,8 +21,9 @@
  * queryClient.invalidateQueries({ queryKey: queryKeys.topPages.list({ page: 1, ... }) })
  */
 
-import type { ApiFilters } from './api-filter-transform'
 import type { ComparisonMode } from '@/components/custom/date-range-picker'
+
+import type { ApiFilters } from './api-filter-transform'
 
 // ============================================================================
 // Parameter Types

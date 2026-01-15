@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, within } from 'storybook/test'
 
-import { EntryPageCell } from './entry-page-cell'
 import type { PageData } from '../types'
+import { EntryPageCell } from './entry-page-cell'
 
 const meta = {
   title: 'DataTable/Cells/EntryPageCell',

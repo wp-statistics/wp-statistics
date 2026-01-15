@@ -10,11 +10,11 @@ import {
   EntryPageCell,
   LastVisitCell,
   LocationCell,
+  type LocationData,
   NumericCell,
   PageCell,
   ReferrerCell,
   VisitorInfoCell,
-  type LocationData,
   type VisitorInfoConfig,
 } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'

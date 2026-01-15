@@ -1,13 +1,13 @@
+import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
-import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { useSettings, useSetting } from '@/hooks/use-settings'
-import { Loader2 } from 'lucide-react'
+import { useSetting,useSettings } from '@/hooks/use-settings'
 
 export function GeneralSettings() {
   const settings = useSettings({ tab: 'general' })
