@@ -5,10 +5,9 @@ import { WordPress } from '@/lib/wordpress'
 /**
  * Hook to check if a premium feature is enabled.
  *
- * Features are enabled when:
- * 1. Premium plugin is active AND
- * 2. User has a valid license with the feature OR
- * 3. Premium is in dev mode
+ * Features are unlocked when premium plugin hooks into the
+ * 'wp_statistics_premium_unlocked_features' PHP filter.
+ * This is secure because the data comes from PHP, not client-side manipulation.
  *
  * @param featureSlug - The feature slug to check (e.g., 'widget-customization')
  * @returns Object with isEnabled boolean and isLoading state
@@ -24,9 +23,9 @@ export function usePremiumFeature(featureSlug: string) {
         return { isEnabled: false, isLoading: false }
       }
 
-      // Check if feature is in the enabled features list
-      const features = premium.features || []
-      const isEnabled = features.includes(featureSlug)
+      // Check unlockedFeatures (from PHP filter) - secure, can't be client-side manipulated
+      const unlockedFeatures = premium.unlockedFeatures || {}
+      const isEnabled = unlockedFeatures[featureSlug] === true
 
       return { isEnabled, isLoading: false }
     } catch {
@@ -39,16 +38,20 @@ export function usePremiumFeature(featureSlug: string) {
 }
 
 /**
- * Hook to get all enabled premium features.
+ * Hook to get all unlocked premium features.
  *
- * @returns Array of enabled feature slugs
+ * @returns Array of unlocked feature slugs
  */
 export function usePremiumFeatures() {
   return useMemo(() => {
     try {
       const wp = WordPress.getInstance()
       const premium = wp.getData('premium')
-      return premium?.features || []
+      const unlockedFeatures = premium?.unlockedFeatures || {}
+      // Return array of feature slugs that are unlocked (value === true)
+      return Object.entries(unlockedFeatures)
+        .filter(([, value]) => value === true)
+        .map(([key]) => key)
     } catch {
       return []
     }

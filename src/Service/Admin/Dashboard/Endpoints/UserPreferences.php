@@ -25,6 +25,12 @@ class UserPreferences implements PageActionInterface
     private const PREFIX = 'wp_statistics';
 
     /**
+     * Contexts allowed in free plugin.
+     * Premium can extend this via 'wp_statistics_user_preferences_allowed_contexts' filter.
+     */
+    private const FREE_ALLOWED_CONTEXTS = ['columns'];
+
+    /**
      * Preferences manager instance.
      *
      * @var UserPreferencesManager
@@ -37,6 +43,42 @@ class UserPreferences implements PageActionInterface
     public function __construct()
     {
         $this->manager = new UserPreferencesManager();
+    }
+
+    /**
+     * Check if a context is allowed for preferences operations.
+     *
+     * Free plugin allows only specific contexts (e.g., 'columns').
+     * Premium can add more contexts via the filter.
+     *
+     * @param string $context The context to check.
+     * @return bool True if context is allowed.
+     */
+    private function isContextAllowed(string $context): bool
+    {
+        /**
+         * Filter the allowed contexts for user preferences.
+         *
+         * Premium plugin can hook into this to allow additional contexts.
+         * Supports exact match and wildcard patterns (e.g., 'page_options_*').
+         *
+         * @since 15.0.0
+         * @param array $contexts Array of allowed context patterns.
+         */
+        $allowed = apply_filters('wp_statistics_user_preferences_allowed_contexts', self::FREE_ALLOWED_CONTEXTS);
+
+        foreach ($allowed as $pattern) {
+            // Exact match
+            if ($context === $pattern) {
+                return true;
+            }
+            // Wildcard pattern match (e.g., 'page_options_*' matches 'page_options_visitors-overview')
+            if (str_ends_with($pattern, '*') && str_starts_with($context, rtrim($pattern, '*'))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -124,6 +166,17 @@ class UserPreferences implements PageActionInterface
             ];
         }
 
+        // Validate context is allowed (security check - premium features require premium plugin)
+        if (!$this->isContextAllowed($context)) {
+            return [
+                'success' => false,
+                'error'   => [
+                    'code'    => 'context_not_allowed',
+                    'message' => __('This feature requires WP Statistics Premium.', 'wp-statistics'),
+                ],
+            ];
+        }
+
         if (empty($data) || !is_array($data)) {
             return [
                 'success' => false,
@@ -168,6 +221,17 @@ class UserPreferences implements PageActionInterface
                 'error'   => [
                     'code'    => 'missing_context',
                     'message' => __('Context parameter is required.', 'wp-statistics'),
+                ],
+            ];
+        }
+
+        // Validate context is allowed (security check - premium features require premium plugin)
+        if (!$this->isContextAllowed($context)) {
+            return [
+                'success' => false,
+                'error'   => [
+                    'code'    => 'context_not_allowed',
+                    'message' => __('This feature requires WP Statistics Premium.', 'wp-statistics'),
                 ],
             ];
         }
