@@ -258,6 +258,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={rangeValue.min}
             onChange={(e) => handleRangeValueChange('min', e.target.value)}
             placeholder={__('Min', 'wp-statistics')}
+            aria-label={__('Minimum value', 'wp-statistics')}
             className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
           <span className="text-xs text-neutral-400">{__('to', 'wp-statistics')}</span>
@@ -266,6 +267,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={rangeValue.max}
             onChange={(e) => handleRangeValueChange('max', e.target.value)}
             placeholder={__('Max', 'wp-statistics')}
+            aria-label={__('Maximum value', 'wp-statistics')}
             className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
         </div>
@@ -347,6 +349,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={hasValues ? '' : __('Search...', 'wp-statistics')}
+              aria-label={__('Search filter values', 'wp-statistics')}
               className="flex-1 min-w-[60px] h-5 text-xs bg-transparent border-0 outline-none placeholder:text-muted-foreground"
             />
           )}
@@ -527,6 +530,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
+            aria-label={__('Filter value', 'wp-statistics')}
             className="h-8 text-xs border-0 bg-white shadow-sm min-w-[80px] flex-1"
           />
         )
@@ -537,6 +541,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Select date', 'wp-statistics')}
+            aria-label={__('Filter date', 'wp-statistics')}
             className="h-8 text-xs border-0 bg-white shadow-sm min-w-[120px] flex-1"
           />
         )
@@ -548,6 +553,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
+            aria-label={__('Filter value', 'wp-statistics')}
             className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1"
           />
         )

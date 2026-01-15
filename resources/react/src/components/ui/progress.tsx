@@ -5,16 +5,18 @@ import { cn } from '@/lib/utils'
 interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: number
   max?: number
+  'aria-label'?: string
 }
 
 const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
-  ({ className, value = 0, max = 100, ...props }, ref) => {
+  ({ className, value = 0, max = 100, 'aria-label': ariaLabel = 'Progress', ...props }, ref) => {
     const percentage = Math.min(Math.max((value / max) * 100, 0), 100)
 
     return (
       <div
         ref={ref}
         role="progressbar"
+        aria-label={ariaLabel}
         aria-valuemin={0}
         aria-valuemax={max}
         aria-valuenow={value}

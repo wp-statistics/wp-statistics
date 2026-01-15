@@ -485,6 +485,7 @@ export function GlobalMap({
                 className="h-10 w-10 md:h-8 md:w-8 bg-white shadow-sm"
                 onClick={handleZoomIn}
                 disabled={position.zoom >= MAP_ZOOM.MAX}
+                aria-label="Zoom in"
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -494,6 +495,7 @@ export function GlobalMap({
                 className="h-10 w-10 md:h-8 md:w-8 bg-white shadow-sm"
                 onClick={handleZoomOut}
                 disabled={position.zoom <= MAP_ZOOM.MIN}
+                aria-label="Zoom out"
               >
                 <Minus className="h-4 w-4" />
               </Button>

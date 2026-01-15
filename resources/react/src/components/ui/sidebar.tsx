@@ -385,6 +385,7 @@ function SidebarGroupLabel({
 function SidebarGroupAction({
   className,
   asChild = false,
+  'aria-label': ariaLabel = 'Group action',
   ...props
 }: React.ComponentProps<'button'> & { asChild?: boolean }) {
   const Comp = asChild ? Slot : 'button'
@@ -393,6 +394,7 @@ function SidebarGroupAction({
     <Comp
       data-slot="sidebar-group-action"
       data-sidebar="group-action"
+      aria-label={ariaLabel}
       className={cn(
         'text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
         // Increases the hit area of the button on mobile/tablet.
@@ -509,6 +511,7 @@ function SidebarMenuAction({
   className,
   asChild = false,
   showOnHover = false,
+  'aria-label': ariaLabel = 'Menu action',
   ...props
 }: React.ComponentProps<'button'> & {
   asChild?: boolean
@@ -520,6 +523,7 @@ function SidebarMenuAction({
     <Comp
       data-slot="sidebar-menu-action"
       data-sidebar="menu-action"
+      aria-label={ariaLabel}
       className={cn(
         'text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer-hover/menu-button:text-sidebar-accent-foreground absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
         // Increases the hit area of the button on mobile/tablet.

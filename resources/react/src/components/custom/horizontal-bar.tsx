@@ -104,7 +104,7 @@ export function HorizontalBar({
       {/* Bottom bar indicator - GA4 style */}
       <div className="mt-1.5 h-0.5 bg-neutral-100 rounded-full overflow-hidden">
         <div
-          className="h-full rounded-full transition-all opacity-50"
+          className="h-full rounded-full transition-all opacity-70"
           style={{ width: `${barWidth}%`, backgroundColor: 'var(--chart-5)' }}
         />
       </div>
