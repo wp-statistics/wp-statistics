@@ -35,7 +35,7 @@ import { WordPress } from '@/lib/wordpress'
 import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
 import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
 
-const CONTEXT = 'online_visitors_data_table'
+const CONTEXT = 'online_visitors'
 const DEFAULT_HIDDEN_COLUMNS: string[] = ['entryPage', 'lastVisit']
 
 // Column configuration for this page
