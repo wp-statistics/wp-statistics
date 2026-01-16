@@ -221,16 +221,27 @@ export function ColumnsDetailView<TData>({
   const [columnOrder, setColumnOrder] = useState<ColumnItem[]>([])
 
   // Build column list on mount or when table becomes available
-  // Always use table's default column order (from column definitions) for consistent UX
-  // This ensures "Reset to default" doesn't change the display order
+  // Respects table's current column order (user's reordering persists)
   useEffect(() => {
     // Handle null table (before DataTable renders)
     if (!table) return
 
     const columns = table.getAllColumns().filter((column) => column.getCanHide())
+    const tableColumnOrder = table.getState().columnOrder
 
-    // Always use the table's natural column order (from column definitions)
-    const items = columns.map((column) => ({
+    // Sort columns according to the table's current column order if set
+    const sortedColumns = tableColumnOrder.length > 0
+      ? [...columns].sort((a, b) => {
+          const aIndex = tableColumnOrder.indexOf(a.id)
+          const bIndex = tableColumnOrder.indexOf(b.id)
+          // If not in order array, put at the end
+          const aPos = aIndex === -1 ? tableColumnOrder.length : aIndex
+          const bPos = bIndex === -1 ? tableColumnOrder.length : bIndex
+          return aPos - bPos
+        })
+      : columns
+
+    const items = sortedColumns.map((column) => ({
       id: column.id,
       label: getColumnLabel(column),
       isVisible: column.getIsVisible(),

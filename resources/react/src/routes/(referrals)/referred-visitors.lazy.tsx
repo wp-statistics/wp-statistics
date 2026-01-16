@@ -1,7 +1,8 @@
+import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
@@ -9,8 +10,14 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import type { Filter } from '@/components/custom/filter-bar'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
+  OptionsDrawerTrigger,
+  TableOptionsDrawer,
+  useTableOptions,
+} from '@/components/custom/options-drawer'
+import {
   createVisitorsColumns,
   transformVisitorData,
+  type Visitor,
   VISITORS_COLUMN_CONFIG,
   VISITORS_DEFAULT_API_COLUMNS,
   VISITORS_DEFAULT_HIDDEN_COLUMNS,
@@ -60,6 +67,9 @@ function RouteComponent() {
     defaultSort: [{ id: 'lastVisit', desc: true }],
     onPageReset: () => setPage(1),
   })
+
+  // Table ref for Options drawer column management
+  const tableRef = useRef<Table<Visitor> | null>(null)
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -134,6 +144,16 @@ function RouteComponent() {
     hasApiResponse: !!response?.data,
   })
 
+  // Options drawer with column management
+  const options = useTableOptions({
+    filterGroup: 'referrals',
+    table: tableRef.current,
+    defaultHiddenColumns: VISITORS_DEFAULT_HIDDEN_COLUMNS,
+    onColumnVisibilityChange: handleColumnVisibilityChange,
+    onColumnOrderChange: handleColumnOrderChange,
+    onReset: handleColumnPreferencesReset,
+  })
+
   // Transform API data
   const tableData = useMemo(() => {
     if (!response?.data?.data?.rows) return []
@@ -175,8 +195,23 @@ function RouteComponent() {
             onUpdate={handleDateRangeUpdate}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer with Column Management */}
+      <TableOptionsDrawer
+        config={{
+          filterGroup: 'referrals',
+          table: tableRef.current,
+          defaultHiddenColumns: VISITORS_DEFAULT_HIDDEN_COLUMNS,
+          onColumnVisibilityChange: handleColumnVisibilityChange,
+          onColumnOrderChange: handleColumnOrderChange,
+          onReset: handleColumnPreferencesReset,
+        }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="referred-visitors" />
@@ -192,6 +227,7 @@ function RouteComponent() {
           </PanelSkeleton>
         ) : (
           <DataTable
+            tableRef={tableRef}
             columns={columns}
             data={tableData}
             sorting={sorting}
@@ -203,7 +239,7 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={true}
+            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={VISITORS_DEFAULT_HIDDEN_COLUMNS}

@@ -1,12 +1,18 @@
+import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { ErrorMessage } from '@/components/custom/error-message'
+import {
+  OptionsDrawerTrigger,
+  TableOptionsDrawer,
+  useTableOptions,
+} from '@/components/custom/options-drawer'
 import {
   DurationCell,
   EntryPageCell,
@@ -287,6 +293,9 @@ function RouteComponent() {
 
   const [page, setPage] = useState(1)
 
+  // Table ref for Options drawer column management
+  const tableRef = useRef<Table<OnlineVisitor> | null>(null)
+
   const { sorting, handleSortingChange, orderBy, order } = useUrlSortSync({
     defaultSort: [{ id: 'lastVisit', desc: true }],
     onPageReset: () => setPage(1),
@@ -330,6 +339,17 @@ function RouteComponent() {
     hasApiResponse: !!response?.data,
   })
 
+  // Options drawer with column management (no filters or date for this page)
+  const options = useTableOptions({
+    filterGroup: 'visitors',
+    table: tableRef.current,
+    hideFilters: true,
+    defaultHiddenColumns: DEFAULT_HIDDEN_COLUMNS,
+    onColumnVisibilityChange: handleColumnVisibilityChange,
+    onColumnOrderChange: handleColumnOrderChange,
+    onReset: handleColumnPreferencesReset,
+  })
+
   // Transform API data to component format
   const visitors = response?.data?.data?.rows?.map(transformVisitorData) || []
   const total = response?.data?.meta?.total_rows ?? 0
@@ -348,7 +368,25 @@ function RouteComponent() {
     <div className="min-w-0">
       <div className="flex items-center justify-between px-4 py-3 ">
         <h1 className="text-2xl font-semibold text-neutral-800">{__('Online Visitors', 'wp-statistics')}</h1>
+        <div className="flex items-center gap-3">
+          <OptionsDrawerTrigger {...options.triggerProps} />
+        </div>
       </div>
+
+      {/* Options Drawer with Column Management */}
+      <TableOptionsDrawer
+        config={{
+          filterGroup: 'visitors',
+          table: tableRef.current,
+          hideFilters: true,
+          defaultHiddenColumns: DEFAULT_HIDDEN_COLUMNS,
+          onColumnVisibilityChange: handleColumnVisibilityChange,
+          onColumnOrderChange: handleColumnOrderChange,
+          onReset: handleColumnPreferencesReset,
+        }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="online-visitors" />
@@ -363,6 +401,7 @@ function RouteComponent() {
           </PanelSkeleton>
         ) : (
           <DataTable
+            tableRef={tableRef}
             columns={columns}
             data={visitors}
             sorting={sorting}
@@ -374,7 +413,7 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={total}
             rowLimit={PER_PAGE}
-            showColumnManagement={true}
+            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={DEFAULT_HIDDEN_COLUMNS}
