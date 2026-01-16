@@ -25,12 +25,6 @@ class UserPreferences implements PageActionInterface
     private const PREFIX = 'wp_statistics';
 
     /**
-     * Context patterns that require premium.
-     * Premium can unlock these via 'wp_statistics_user_preferences_allowed_contexts' filter.
-     */
-    private const PREMIUM_CONTEXT_PATTERNS = ['page_options_*'];
-
-    /**
      * Preferences manager instance.
      *
      * @var UserPreferencesManager
@@ -43,68 +37,6 @@ class UserPreferences implements PageActionInterface
     public function __construct()
     {
         $this->manager = new UserPreferencesManager();
-    }
-
-    /**
-     * Check if a context is allowed for preferences operations.
-     *
-     * Most contexts are allowed by default. Only specific premium patterns
-     * (like 'page_options_*' for widget/metric customization) require premium.
-     * Premium can unlock these via the filter.
-     *
-     * @param string $context The context to check.
-     * @return bool True if context is allowed.
-     */
-    private function isContextAllowed(string $context): bool
-    {
-        // Check if this context matches any premium-only pattern
-        foreach (self::PREMIUM_CONTEXT_PATTERNS as $pattern) {
-            // Wildcard pattern match (e.g., 'page_options_*' matches 'page_options_visitors-overview')
-            if (str_ends_with($pattern, '*') && str_starts_with($context, rtrim($pattern, '*'))) {
-                // This is a premium context, check if premium has unlocked it
-                return $this->isPremiumContextUnlocked($context);
-            }
-            // Exact match
-            if ($context === $pattern) {
-                return $this->isPremiumContextUnlocked($context);
-            }
-        }
-
-        // Not a premium pattern, allow by default
-        return true;
-    }
-
-    /**
-     * Check if a premium context has been unlocked via filter.
-     *
-     * @param string $context The context to check.
-     * @return bool True if unlocked by premium.
-     */
-    private function isPremiumContextUnlocked(string $context): bool
-    {
-        /**
-         * Filter to allow additional contexts for user preferences.
-         *
-         * Premium plugin hooks into this to unlock premium contexts.
-         * Supports exact match and wildcard patterns (e.g., 'page_options_*').
-         *
-         * @since 15.0.0
-         * @param array $contexts Array of allowed context patterns.
-         */
-        $allowed = apply_filters('wp_statistics_user_preferences_allowed_contexts', []);
-
-        foreach ($allowed as $pattern) {
-            // Exact match
-            if ($context === $pattern) {
-                return true;
-            }
-            // Wildcard pattern match
-            if (str_ends_with($pattern, '*') && str_starts_with($context, rtrim($pattern, '*'))) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -192,17 +124,6 @@ class UserPreferences implements PageActionInterface
             ];
         }
 
-        // Validate context is allowed (security check - premium features require premium plugin)
-        if (!$this->isContextAllowed($context)) {
-            return [
-                'success' => false,
-                'error'   => [
-                    'code'    => 'context_not_allowed',
-                    'message' => __('This feature requires WP Statistics Premium.', 'wp-statistics'),
-                ],
-            ];
-        }
-
         if (empty($data) || !is_array($data)) {
             return [
                 'success' => false,
@@ -247,17 +168,6 @@ class UserPreferences implements PageActionInterface
                 'error'   => [
                     'code'    => 'missing_context',
                     'message' => __('Context parameter is required.', 'wp-statistics'),
-                ],
-            ];
-        }
-
-        // Validate context is allowed (security check - premium features require premium plugin)
-        if (!$this->isContextAllowed($context)) {
-            return [
-                'success' => false,
-                'error'   => [
-                    'code'    => 'context_not_allowed',
-                    'message' => __('This feature requires WP Statistics Premium.', 'wp-statistics'),
                 ],
             ];
         }

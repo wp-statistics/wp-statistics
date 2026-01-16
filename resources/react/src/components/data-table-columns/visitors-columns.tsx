@@ -28,7 +28,7 @@ import type { VisitorRecord } from '@/services/visitor-insight/get-visitors'
 /**
  * Context identifier for user preferences
  */
-export const VISITORS_CONTEXT = 'visitors_data_table'
+export const VISITORS_CONTEXT = 'visitors'
 
 /**
  * Columns hidden by default (can be shown via column management)

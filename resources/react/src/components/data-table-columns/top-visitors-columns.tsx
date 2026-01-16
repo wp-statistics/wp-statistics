@@ -30,7 +30,7 @@ import type { TopVisitorRecord } from '@/services/visitor-insight/get-top-visito
 /**
  * Context identifier for user preferences
  */
-export const TOP_VISITORS_CONTEXT = 'top_visitors_data_table'
+export const TOP_VISITORS_CONTEXT = 'top_visitors'
 
 /**
  * Columns hidden by default

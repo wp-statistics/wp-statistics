@@ -172,8 +172,8 @@ class Test_UserPreferencesManager extends WP_UnitTestCase
     {
         $manager = new UserPreferencesManager($this->testUserId);
 
-        // Test with special characters
-        $result = $manager->save('invalid-context', ['columns' => ['date']]);
+        // Test with special characters (@ symbol)
+        $result = $manager->save('invalid@context', ['columns' => ['date']]);
         $this->assertFalse($result);
 
         // Test with spaces
@@ -187,6 +187,21 @@ class Test_UserPreferencesManager extends WP_UnitTestCase
         // Test empty string
         $result = $manager->save('', ['columns' => ['date']]);
         $this->assertFalse($result);
+    }
+
+    /**
+     * Test context names with hyphens are accepted.
+     */
+    public function test_context_names_with_hyphens_accepted()
+    {
+        $manager = new UserPreferencesManager($this->testUserId);
+
+        // Hyphens are valid in context names (e.g., visitors-overview route path)
+        $result = $manager->save('visitors-overview', ['columns' => ['date']]);
+        $this->assertTrue($result);
+
+        $result = $manager->save('page-insights-overview', ['columns' => ['date']]);
+        $this->assertTrue($result);
     }
 
     /**

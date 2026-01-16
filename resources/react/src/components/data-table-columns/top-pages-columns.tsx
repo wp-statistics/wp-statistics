@@ -14,7 +14,7 @@ import type { TopPageRecord } from '@/services/page-insight/get-top-pages'
 /**
  * Context identifier for user preferences
  */
-export const TOP_PAGES_CONTEXT = 'top_pages_data_table'
+export const TOP_PAGES_CONTEXT = 'top_pages'
 
 /**
  * Columns hidden by default (can be shown via column management)

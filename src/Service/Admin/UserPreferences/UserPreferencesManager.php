@@ -86,44 +86,8 @@ class UserPreferencesManager
         }
 
         $allPreferences = $this->getAll();
-        $preferences = $allPreferences[$context] ?? null;
 
-        // Normalize keys for backward compatibility (sanitize_key() used to lowercase everything)
-        if (is_array($preferences)) {
-            $preferences = $this->normalizeKeys($preferences);
-        }
-
-        return $preferences;
-    }
-
-    /**
-     * Normalize preference keys for backward compatibility.
-     *
-     * Converts known lowercase keys to their expected camelCase form.
-     * This handles preferences saved before the sanitize_key() fix.
-     *
-     * @param array $data Preferences data.
-     * @return array Normalized preferences data.
-     */
-    private function normalizeKeys(array $data): array
-    {
-        // Map of lowercase keys to their expected camelCase form
-        $keyMap = [
-            'visiblewidgets' => 'visibleWidgets',
-            'widgetorder'    => 'widgetOrder',
-            'column_order'   => 'column_order', // snake_case is intentional
-            'updated_at'     => 'updated_at',   // snake_case is intentional
-        ];
-
-        $normalized = [];
-        foreach ($data as $key => $value) {
-            $lowercaseKey = strtolower($key);
-            // Use the mapped key if it exists, otherwise keep the original
-            $normalizedKey = $keyMap[$lowercaseKey] ?? $key;
-            $normalized[$normalizedKey] = is_array($value) ? $this->normalizeKeys($value) : $value;
-        }
-
-        return $normalized;
+        return $allPreferences[$context] ?? null;
     }
 
     /**

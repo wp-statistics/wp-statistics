@@ -18,7 +18,7 @@ import type { TopCategoryRecord } from '@/services/content-analytics/get-top-cat
 /**
  * Context identifier for user preferences
  */
-export const TOP_CATEGORIES_CONTEXT = 'top_categories_data_table'
+export const TOP_CATEGORIES_CONTEXT = 'top_categories'
 
 /**
  * Columns hidden by default (can be shown via column management)

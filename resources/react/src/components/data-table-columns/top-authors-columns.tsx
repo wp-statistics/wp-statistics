@@ -19,7 +19,7 @@ import type { TopAuthorRecord } from '@/services/content-analytics/get-top-autho
 /**
  * Context identifier for user preferences
  */
-export const TOP_AUTHORS_CONTEXT = 'top_authors_data_table'
+export const TOP_AUTHORS_CONTEXT = 'top_authors'
 
 /**
  * Columns hidden by default (can be shown via column management)

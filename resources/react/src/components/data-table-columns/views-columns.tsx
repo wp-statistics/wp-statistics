@@ -25,7 +25,7 @@ import type { ViewRecord } from '@/services/visitor-insight/get-views'
 /**
  * Context identifier for user preferences
  */
-export const VIEWS_CONTEXT = 'views_data_table'
+export const VIEWS_CONTEXT = 'views'
 
 /**
  * Columns hidden by default

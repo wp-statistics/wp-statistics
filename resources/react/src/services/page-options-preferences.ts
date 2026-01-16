@@ -1,7 +1,6 @@
 import { clientRequest } from '@/lib/client-request'
 
 const STORAGE_PREFIX = 'wp_statistics_page_options_'
-const CONTEXT_PREFIX = 'page_options_'
 
 export interface PageOptionsPreferences {
   widgets?: Record<string, boolean>
@@ -66,7 +65,7 @@ export const savePageOptionsPreferences = async (
           '',
           {
             action_type: 'save',
-            context: `${CONTEXT_PREFIX}${currentPageId}`,
+            context: currentPageId,
             data: currentPreferences,
           },
           {
@@ -95,7 +94,7 @@ export const resetPageOptionsPreferences = async (pageId: string): Promise<void>
       '',
       {
         action_type: 'reset',
-        context: `${CONTEXT_PREFIX}${pageId}`,
+        context: pageId,
       },
       {
         params: {

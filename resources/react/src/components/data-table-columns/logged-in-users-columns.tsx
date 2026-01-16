@@ -28,7 +28,7 @@ import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insi
 /**
  * Context identifier for user preferences
  */
-export const LOGGED_IN_USERS_CONTEXT = 'logged_in_users_data_table'
+export const LOGGED_IN_USERS_CONTEXT = 'logged_in_users'
 
 /**
  * Columns hidden by default
