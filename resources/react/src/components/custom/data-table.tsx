@@ -3,7 +3,7 @@ import './data-table-types' // Import to extend ColumnMeta
 import { Button } from '@components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
 import { cn } from '@lib/utils'
-import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table'
+import type { ColumnDef, ColumnFiltersState, SortingState, Table as TanStackTable, VisibilityState } from '@tanstack/react-table'
 import {
   flexRender,
   getCoreRowModel,
@@ -70,6 +70,8 @@ interface DataTableProps<TData, TValue> {
   stickyHeader?: boolean
   // Borderless panel variant for single-widget report pages
   borderless?: boolean
+  // Ref to expose the table instance for external use (e.g., column management in drawer)
+  tableRef?: React.MutableRefObject<TanStackTable<TData> | null>
 }
 
 export function DataTable<TData, TValue>({
@@ -112,6 +114,8 @@ export function DataTable<TData, TValue>({
   stickyHeader = false,
   // Borderless panel
   borderless = false,
+  // Table ref
+  tableRef,
 }: DataTableProps<TData, TValue>) {
   const isMobile = useIsMobile()
 
@@ -284,6 +288,13 @@ export function DataTable<TData, TValue>({
         }
       : undefined,
   })
+
+  // Expose table instance via ref if provided
+  React.useEffect(() => {
+    if (tableRef) {
+      tableRef.current = table
+    }
+  }, [table, tableRef])
 
   // Extract values for memoization dependencies
   const currentPageIndex = table.getState().pagination.pageIndex

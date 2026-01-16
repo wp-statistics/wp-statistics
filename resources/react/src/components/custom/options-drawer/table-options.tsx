@@ -14,7 +14,7 @@ import { OptionsDrawer } from './options-drawer'
  */
 export interface TableOptionsConfig<TData> {
   filterGroup: string
-  table: Table<TData>
+  table: Table<TData> | null
   lockedFilters?: LockedFilter[]
   initialColumnOrder?: string[]
   defaultHiddenColumns?: string[]
@@ -29,13 +29,14 @@ export interface TableOptionsConfig<TData> {
 
 /**
  * Hook that provides everything needed for the Options button and drawer on table pages.
+ * Handles the case where table may be null (before DataTable renders).
  */
 export function useTableOptions<TData>(config: TableOptionsConfig<TData>) {
   const [isOpen, setIsOpen] = useState(false)
   const { filters } = useGlobalFilters()
 
-  // Count hidden columns
-  const columns = config.table.getAllColumns().filter((col) => col.getCanHide())
+  // Count hidden columns (handle null table)
+  const columns = config.table?.getAllColumns().filter((col) => col.getCanHide()) ?? []
   const hiddenColumnCount = columns.filter((col) => !col.getIsVisible()).length
   const appliedFilterCount = filters?.length ?? 0
 

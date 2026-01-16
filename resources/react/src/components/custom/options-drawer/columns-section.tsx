@@ -142,7 +142,7 @@ function SortableItem({ item, onToggle, onComparisonToggle, disabled }: Sortable
 }
 
 interface ColumnsSectionProps<TData> {
-  table: Table<TData>
+  table: Table<TData> | null
   initialColumnOrder?: string[]
   defaultHiddenColumns?: string[]
   /** Columns that support comparison display */
@@ -165,8 +165,13 @@ const getColumnLabel = (
   return meta?.title || meta?.mobileLabel || column.id
 }
 
-export function ColumnsMenuEntry<TData>({ table }: { table: Table<TData> }) {
+export function ColumnsMenuEntry<TData>({ table }: { table: Table<TData> | null }) {
   const { currentView, setCurrentView } = useOptionsDrawer()
+
+  // Handle null table (before DataTable renders)
+  if (!table) {
+    return null
+  }
 
   const columns = table.getAllColumns().filter((column) => column.getCanHide())
   const hiddenCount = columns.filter((column) => !column.getIsVisible()).length
@@ -202,8 +207,11 @@ export function ColumnsDetailView<TData>({
   const { currentView } = useOptionsDrawer()
   const [columnOrder, setColumnOrder] = useState<ColumnItem[]>([])
 
-  // Build column list on mount
+  // Build column list on mount or when table becomes available
   useEffect(() => {
+    // Handle null table (before DataTable renders)
+    if (!table) return
+
     const columns = table.getAllColumns().filter((column) => column.getCanHide())
 
     let items: ColumnItem[]
@@ -339,7 +347,7 @@ export function ColumnsDetailView<TData>({
     }
   }
 
-  if (currentView !== 'columns' || columnOrder.length === 0) {
+  if (currentView !== 'columns' || columnOrder.length === 0 || !table) {
     return null
   }
 

@@ -1,19 +1,21 @@
+import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
-  DetailOptionsDrawer,
   OptionsDrawerTrigger,
-  useDetailOptions,
+  TableOptionsDrawer,
+  useTableOptions,
 } from '@/components/custom/options-drawer'
 import {
   createTopPagesColumns,
+  type TopPage,
   TOP_PAGES_COLUMN_CONFIG,
   TOP_PAGES_COMPARABLE_COLUMNS,
   TOP_PAGES_CONTEXT,
@@ -58,8 +60,8 @@ function RouteComponent() {
     onPageReset: () => setPage(1),
   })
 
-  // Options drawer
-  const options = useDetailOptions({ filterGroup: 'views' })
+  // Table ref for Options drawer column management
+  const tableRef = useRef<Table<TopPage> | null>(null)
 
   // Get comparison date label for tooltip display
   const { label: comparisonLabel } = useComparisonDateLabel()
@@ -130,6 +132,21 @@ function RouteComponent() {
     comparisonColumnsFromApi: (response?.data?.meta?.preferences as { comparison_columns?: string[] } | undefined)?.comparison_columns,
   })
 
+  // Options drawer with column management
+  const options = useTableOptions({
+    filterGroup: 'views',
+    table: tableRef.current,
+    initialColumnOrder: columnOrder,
+    defaultHiddenColumns: TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
+    comparableColumns: TOP_PAGES_COMPARABLE_COLUMNS,
+    comparisonColumns,
+    defaultComparisonColumns: TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
+    onColumnVisibilityChange: handleColumnVisibilityChange,
+    onColumnOrderChange: handleColumnOrderChange,
+    onComparisonColumnsChange: handleComparisonColumnsChange,
+    onReset: handleColumnPreferencesReset,
+  })
+
   // Final columns with comparison settings applied
   const columns = useMemo(
     () => createTopPagesColumns({ comparisonLabel, comparisonColumns }),
@@ -181,9 +198,21 @@ function RouteComponent() {
         </div>
       </div>
 
-      {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{ filterGroup: 'views' }}
+      {/* Options Drawer with Column Management */}
+      <TableOptionsDrawer
+        config={{
+          filterGroup: 'views',
+          table: tableRef.current,
+          initialColumnOrder: columnOrder,
+          defaultHiddenColumns: TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
+          comparableColumns: TOP_PAGES_COMPARABLE_COLUMNS,
+          comparisonColumns,
+          defaultComparisonColumns: TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
+          onColumnVisibilityChange: handleColumnVisibilityChange,
+          onColumnOrderChange: handleColumnOrderChange,
+          onComparisonColumnsChange: handleComparisonColumnsChange,
+          onReset: handleColumnPreferencesReset,
+        }}
         isOpen={options.isOpen}
         setIsOpen={options.setIsOpen}
       />
@@ -213,7 +242,7 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={true}
+            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={TOP_PAGES_DEFAULT_HIDDEN_COLUMNS}
@@ -229,6 +258,7 @@ function RouteComponent() {
             emptyStateMessage={__('No pages found for the selected period', 'wp-statistics')}
             stickyHeader={true}
             borderless
+            tableRef={tableRef}
           />
         )}
       </div>
