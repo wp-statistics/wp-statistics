@@ -8,6 +8,11 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
+import {
   createTopPagesColumns,
   TOP_PAGES_COLUMN_CONFIG,
   TOP_PAGES_COMPARABLE_COLUMNS,
@@ -52,6 +57,9 @@ function RouteComponent() {
     defaultSort: [{ id: 'views', desc: true }],
     onPageReset: () => setPage(1),
   })
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'views' })
 
   // Get comparison date label for tooltip display
   const { label: comparisonLabel } = useComparisonDateLabel()
@@ -169,8 +177,16 @@ function RouteComponent() {
             showCompare={true}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'views' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-pages" />

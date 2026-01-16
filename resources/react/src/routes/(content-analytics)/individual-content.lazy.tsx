@@ -8,6 +8,11 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { NoticeContainer } from '@/components/ui/notice-container'
@@ -196,6 +201,9 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
   const navigate = useNavigate()
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'individual-content' })
 
   // Get filter fields for individual content
   const filterFields = useMemo<FilterField[]>(() => {
@@ -474,8 +482,16 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
               onUpdate={handleDateRangeUpdate}
               align="end"
             />
+            <OptionsDrawerTrigger {...options.triggerProps} />
           </div>
         </div>
+
+        {/* Options Drawer */}
+        <DetailOptionsDrawer
+          config={{ filterGroup: 'individual-content' }}
+          isOpen={options.isOpen}
+          setIsOpen={options.setIsOpen}
+        />
 
         {/* Content Meta */}
         {contentMetadata && (

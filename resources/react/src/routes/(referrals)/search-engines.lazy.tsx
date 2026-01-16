@@ -9,6 +9,11 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
+import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
@@ -58,6 +63,9 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const calcPercentage = usePercentageCalc()
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'referrals' })
 
   // Get filter fields for 'referrals' group
   const filterFields = useMemo<FilterField[]>(() => {
@@ -295,8 +303,16 @@ function RouteComponent() {
             onUpdate={handleDateRangeUpdate}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'referrals' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-2 space-y-4">
         <NoticeContainer currentRoute="search-engines" />

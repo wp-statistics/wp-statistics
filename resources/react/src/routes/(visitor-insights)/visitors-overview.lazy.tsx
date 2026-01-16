@@ -11,14 +11,11 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import {
-  FiltersDetailView,
-  FiltersMenuEntry,
-  MetricsDetailView,
-  MetricsMenuEntry,
-  OptionsDrawer,
+  type OverviewOptionsConfig,
   OptionsDrawerTrigger,
-  WidgetsDetailView,
-  WidgetsMenuEntry,
+  OverviewOptionsDrawer,
+  OverviewOptionsProvider,
+  useOverviewOptions,
 } from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
@@ -29,7 +26,7 @@ import {
   PanelSkeleton,
   TableSkeleton,
 } from '@/components/ui/skeletons'
-import { type MetricConfig,PageOptionsProvider, type WidgetConfig } from '@/contexts/page-options-context'
+import { type MetricConfig, type WidgetConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -66,6 +63,14 @@ const METRIC_CONFIGS: MetricConfig[] = [
   { id: 'logged-in-share', label: __('Logged-in Share', 'wp-statistics'), defaultVisible: true },
 ]
 
+// Options configuration for this page
+const OPTIONS_CONFIG: OverviewOptionsConfig = {
+  pageId: 'visitors-overview',
+  filterGroup: 'visitors',
+  widgetConfigs: WIDGET_CONFIGS,
+  metricConfigs: METRIC_CONFIGS,
+}
+
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,
   errorComponent: ({ error }) => (
@@ -78,13 +83,9 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
 
 function RouteComponent() {
   return (
-    <PageOptionsProvider
-      pageId="visitors-overview"
-      widgetConfigs={WIDGET_CONFIGS}
-      metricConfigs={METRIC_CONFIGS}
-    >
+    <OverviewOptionsProvider config={OPTIONS_CONFIG}>
       <VisitorsOverviewContent />
-    </PageOptionsProvider>
+    </OverviewOptionsProvider>
   )
 }
 
@@ -106,16 +107,10 @@ function VisitorsOverviewContent() {
   } = useGlobalFilters()
 
   // Page options for widget/metric visibility
-  const {
-    isWidgetVisible,
-    isMetricVisible,
-    getHiddenWidgetCount,
-    getHiddenMetricCount,
-    resetToDefaults,
-  } = usePageOptions()
+  const { isWidgetVisible, isMetricVisible } = usePageOptions()
 
-  // Options drawer state
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false)
+  // Options drawer (uses new reusable components)
+  const options = useOverviewOptions()
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -384,29 +379,17 @@ function VisitorsOverviewContent() {
             onUpdate={handleDateRangeUpdate}
             align="end"
           />
-          <OptionsDrawerTrigger
-            onClick={() => setIsOptionsOpen(true)}
-            isActive={getHiddenWidgetCount() > 0 || getHiddenMetricCount() > 0}
-          />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
 
       {/* Options Drawer */}
-      <OptionsDrawer
-        open={isOptionsOpen}
-        onOpenChange={setIsOptionsOpen}
-        onReset={resetToDefaults}
-      >
-        {/* Main menu entries */}
-        <FiltersMenuEntry filterGroup="visitors" />
-        <WidgetsMenuEntry />
-        <MetricsMenuEntry />
-
-        {/* Detail views */}
-        <FiltersDetailView filterGroup="visitors" />
-        <WidgetsDetailView />
-        <MetricsDetailView />
-      </OptionsDrawer>
+      <OverviewOptionsDrawer
+        config={OPTIONS_CONFIG}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+        resetToDefaults={options.resetToDefaults}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-3" currentRoute="visitors-overview" />

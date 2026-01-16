@@ -1,7 +1,13 @@
 export { ColumnsDetailView, ColumnsMenuEntry, ColumnsSection } from './columns-section'
+export { DateRangeDetailView, DateRangeMenuEntry } from './date-range-section'
+export {
+  DetailOptionsDrawer,
+  type DetailOptionsConfig,
+  useDetailOptions,
+} from './detail-options'
 export { DrawerFilterRow } from './drawer-filter-row'
-export { FiltersDetailView,FiltersMenuEntry } from './filters-section'
-export { MetricsDetailView,MetricsMenuEntry } from './metrics-section'
+export { FiltersDetailView, FiltersMenuEntry } from './filters-section'
+export { MetricsDetailView, MetricsMenuEntry } from './metrics-section'
 export {
   LockedMenuItem,
   OptionsDetailView,
@@ -12,4 +18,15 @@ export {
   useOptionsDrawer,
 } from './options-drawer'
 export { OptionsDrawerTrigger } from './options-drawer-trigger'
-export { WidgetsDetailView,WidgetsMenuEntry } from './widgets-section'
+export {
+  OverviewOptionsDrawer,
+  type OverviewOptionsConfig,
+  OverviewOptionsProvider,
+  useOverviewOptions,
+} from './overview-options'
+export {
+  TableOptionsDrawer,
+  type TableOptionsConfig,
+  useTableOptions,
+} from './table-options'
+export { WidgetsDetailView, WidgetsMenuEntry } from './widgets-section'

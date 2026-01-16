@@ -8,6 +8,11 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
+import {
   createTopVisitorsColumns,
   TOP_VISITORS_COLUMN_CONFIG,
   TOP_VISITORS_CONTEXT,
@@ -50,6 +55,9 @@ function RouteComponent() {
     defaultSort: [{ id: 'totalViews', desc: true }],
     onPageReset: () => setPage(1),
   })
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'visitors' })
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -159,8 +167,16 @@ function RouteComponent() {
             showCompare={true}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'visitors' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-visitors" />

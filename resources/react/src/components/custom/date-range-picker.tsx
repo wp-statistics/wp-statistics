@@ -287,6 +287,355 @@ export const isValidPreset = (presetName: string | undefined): boolean => {
   return PRESETS.some((preset) => preset.name === presetName)
 }
 
+/**
+ * Props for DateRangePickerContent - the reusable inner content
+ */
+export interface DateRangePickerContentProps {
+  /** Current date range */
+  range: DateRange
+  /** Handler for range changes */
+  onRangeChange: (range: DateRange) => void
+  /** Current comparison range (if enabled) */
+  rangeCompare?: DateRange
+  /** Handler for comparison range changes */
+  onRangeCompareChange: (range: DateRange | undefined) => void
+  /** Current selected preset name */
+  selectedPreset?: string
+  /** Handler for preset selection */
+  onPresetSelect: (preset: string) => void
+  /** Current comparison mode */
+  comparisonMode: ComparisonMode
+  /** Handler for comparison mode changes */
+  onComparisonModeChange: (mode: ComparisonMode) => void
+  /** Whether to show comparison feature */
+  showCompare?: boolean
+  /** Number of months to show in calendar */
+  numberOfMonths?: number
+  /** Additional className for the container */
+  className?: string
+  /** Handler for apply action */
+  onApply: () => void
+  /** Handler for cancel action (optional - for popover mode) */
+  onCancel?: () => void
+  /** CSS class for SelectContent (useful for z-index in modals/drawers) */
+  selectContentClassName?: string
+}
+
+/**
+ * DateRangePickerContent - Reusable inner content for date range selection
+ * Used by both DateRangePicker (popover) and Options drawer
+ */
+export function DateRangePickerContent({
+  range,
+  onRangeChange,
+  rangeCompare,
+  onRangeCompareChange,
+  selectedPreset,
+  onPresetSelect,
+  comparisonMode,
+  onComparisonModeChange,
+  showCompare = true,
+  numberOfMonths = 1,
+  className,
+  onApply,
+  onCancel,
+  selectContentClassName,
+}: DateRangePickerContentProps) {
+  // Track which range is being edited
+  type ActiveRangeTarget = 'main' | 'compare'
+  const [activeRangeTarget, setActiveRangeTarget] = useState<ActiveRangeTarget>('main')
+  const [awaitingCompareEndDate, setAwaitingCompareEndDate] = useState(false)
+
+  // Reset activeRangeTarget when comparison is disabled
+  useEffect(() => {
+    if (!rangeCompare && activeRangeTarget === 'compare') {
+      setActiveRangeTarget('main')
+      setAwaitingCompareEndDate(false)
+    }
+  }, [rangeCompare, activeRangeTarget])
+
+  // Reset compare selection state when switching to main mode
+  useEffect(() => {
+    if (activeRangeTarget === 'main') {
+      setAwaitingCompareEndDate(false)
+    }
+  }, [activeRangeTarget])
+
+  const handlePresetSelect = (preset: string) => {
+    onPresetSelect(preset)
+    const newRange = getPresetRange(preset)
+    onRangeChange(newRange)
+    if (rangeCompare && comparisonMode !== 'custom') {
+      const newRangeCompare = calculateComparisonRange(newRange, comparisonMode)
+      if (newRangeCompare) {
+        onRangeCompareChange(newRangeCompare)
+      }
+    }
+  }
+
+  const handleCompareToggle = (checked: boolean) => {
+    if (checked) {
+      const rangeWithTo = !range.to ? { from: range.from, to: range.from } : range
+      if (!range.to) {
+        onRangeChange(rangeWithTo)
+      }
+      const newRangeCompare = calculateComparisonRange(rangeWithTo, comparisonMode)
+      if (newRangeCompare) {
+        onRangeCompareChange(newRangeCompare)
+      }
+    } else {
+      onRangeCompareChange(undefined)
+    }
+  }
+
+  const handleComparisonModeChange = (mode: ComparisonMode) => {
+    onComparisonModeChange(mode)
+    if (mode !== 'custom' && range.from && range.to) {
+      const newRangeCompare = calculateComparisonRange(range, mode)
+      if (newRangeCompare) {
+        onRangeCompareChange(newRangeCompare)
+      }
+    }
+  }
+
+  const handleCompareDateChange = () => {
+    if (comparisonMode !== 'custom') {
+      onComparisonModeChange('custom')
+    }
+  }
+
+  const autoUpdateComparisonRange = (newRange: DateRange) => {
+    if (!rangeCompare || comparisonMode === 'custom') return
+    if (!newRange.from || !newRange.to) return
+    const newRangeCompare = calculateComparisonRange(newRange, comparisonMode)
+    if (newRangeCompare) {
+      onRangeCompareChange(newRangeCompare)
+    }
+  }
+
+  return (
+    <div className={cn('@container flex flex-col', className)}>
+      {/* Body */}
+      <div className="flex flex-col @lg:flex-row">
+        {/* Presets sidebar - only on wide containers */}
+        <div className="hidden @lg:block w-[185px] p-3 border-r border-neutral-100 bg-neutral-50/50">
+            <div className="flex flex-col gap-0.5">
+              {PRESETS.map((preset) => (
+                <button
+                  key={preset.name}
+                  type="button"
+                  onClick={() => handlePresetSelect(preset.name)}
+                  aria-label={`Select date range: ${getPresetLabel(preset.name)}`}
+                  aria-pressed={selectedPreset === preset.name}
+                  className={cn(
+                    'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors cursor-pointer',
+                    selectedPreset === preset.name
+                      ? 'bg-primary/10 text-primary font-medium'
+                      : 'text-neutral-600 hover:bg-neutral-100'
+                  )}
+                >
+                  <span
+                    className={cn(
+                      'w-2 h-2 rounded-full border-2 transition-colors shrink-0',
+                      selectedPreset === preset.name
+                        ? 'border-primary bg-primary'
+                        : 'border-neutral-300 bg-transparent'
+                    )}
+                  />
+                  {getPresetLabel(preset.name)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+        {/* Main content */}
+        <div className="flex-1 p-4">
+          {/* Preset dropdown - narrow containers */}
+          <div className="mb-4 @lg:hidden">
+            <Select value={selectedPreset || ''} onValueChange={handlePresetSelect}>
+              <SelectTrigger className="h-9 text-sm">
+                <SelectValue placeholder="Quick select...">
+                  {selectedPreset ? getPresetLabel(selectedPreset) : null}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className={selectContentClassName}>
+                {PRESETS.map((preset) => (
+                  <SelectItem key={preset.name} value={preset.name} className="text-sm">
+                    {getPresetLabel(preset.name)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Date inputs */}
+          <div className="flex items-center gap-2 mb-4">
+            <DateInput
+              value={range.from}
+              onChange={(date) => {
+                const toDate = range.to == null || date > range.to ? date : range.to
+                const newRange = { from: date, to: toDate }
+                onRangeChange(newRange)
+                autoUpdateComparisonRange(newRange)
+              }}
+              onFocus={() => setActiveRangeTarget('main')}
+              className={cn(
+                'h-9 text-sm w-[130px]',
+                activeRangeTarget === 'main' && 'ring-2 ring-primary/30'
+              )}
+            />
+            <span className="text-neutral-400">→</span>
+            <DateInput
+              value={range.to}
+              onChange={(date) => {
+                const fromDate = date < range.from ? date : range.from
+                const newRange = { from: fromDate, to: date }
+                onRangeChange(newRange)
+                autoUpdateComparisonRange(newRange)
+              }}
+              onFocus={() => setActiveRangeTarget('main')}
+              className={cn(
+                'h-9 text-sm w-[130px]',
+                activeRangeTarget === 'main' && 'ring-2 ring-primary/30'
+              )}
+            />
+          </div>
+
+          {/* Compare section */}
+          {showCompare && (
+            <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100 mb-4">
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  checked={Boolean(rangeCompare)}
+                  onCheckedChange={handleCompareToggle}
+                  id="compare-checkbox-content"
+                />
+                <Label
+                  htmlFor="compare-checkbox-content"
+                  className="text-xs font-medium text-neutral-600 cursor-pointer"
+                >
+                  Compare to
+                </Label>
+              </div>
+
+              {rangeCompare != null && (
+                <div className="mt-3 space-y-2">
+                  <Select value={comparisonMode} onValueChange={handleComparisonModeChange}>
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue placeholder="Select..." />
+                    </SelectTrigger>
+                    <SelectContent className={selectContentClassName}>
+                      {COMPARISON_MODES.map((mode) => (
+                        <SelectItem key={mode.name} value={mode.name} className="text-xs">
+                          {mode.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <div className="flex items-center gap-2">
+                    <DateInput
+                      value={rangeCompare?.from}
+                      onChange={(date) => {
+                        handleCompareDateChange()
+                        const compareToDate = rangeCompare?.to == null || date > rangeCompare.to ? date : rangeCompare.to
+                        onRangeCompareChange({ from: date, to: compareToDate })
+                      }}
+                      onFocus={() => setActiveRangeTarget('compare')}
+                      className={cn(
+                        'h-8 text-xs w-[130px]',
+                        activeRangeTarget === 'compare' && 'ring-2 ring-amber-500/30'
+                      )}
+                    />
+                    <span className="text-neutral-400 text-xs">→</span>
+                    <DateInput
+                      value={rangeCompare?.to}
+                      onChange={(date) => {
+                        handleCompareDateChange()
+                        if (rangeCompare?.from) {
+                          const compareFromDate = date < rangeCompare.from ? date : rangeCompare.from
+                          onRangeCompareChange({ from: compareFromDate, to: date })
+                        }
+                      }}
+                      onFocus={() => setActiveRangeTarget('compare')}
+                      className={cn(
+                        'h-8 text-xs w-[130px]',
+                        activeRangeTarget === 'compare' && 'ring-2 ring-amber-500/30'
+                      )}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Compare selection indicator */}
+          {activeRangeTarget === 'compare' && rangeCompare && (
+            <div className="mb-2 px-1 flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              <span className="text-xs text-amber-600 font-medium">
+                {awaitingCompareEndDate ? 'Select end date for comparison' : 'Select start date for comparison'}
+              </span>
+            </div>
+          )}
+
+          {/* Calendar - centered */}
+          <div className="flex justify-center">
+            <Calendar
+              mode="range"
+              onSelect={(value: { from?: Date; to?: Date } | undefined) => {
+                if (activeRangeTarget === 'main' && value?.from != null) {
+                  const newRange = { from: value.from, to: value.to }
+                  onRangeChange(newRange)
+                  if (newRange.to) {
+                    autoUpdateComparisonRange(newRange as DateRange)
+                  }
+                }
+              }}
+              onDayClick={(day: Date) => {
+                if (activeRangeTarget === 'compare') {
+                  handleCompareDateChange()
+                  if (!awaitingCompareEndDate) {
+                    onRangeCompareChange({ from: day, to: day })
+                    setAwaitingCompareEndDate(true)
+                  } else {
+                    const currentFrom = rangeCompare?.from ?? day
+                    if (day >= currentFrom) {
+                      onRangeCompareChange({ from: currentFrom, to: day })
+                    } else {
+                      onRangeCompareChange({ from: day, to: currentFrom })
+                    }
+                    setAwaitingCompareEndDate(false)
+                  }
+                }
+              }}
+              selected={range}
+              numberOfMonths={numberOfMonths}
+              defaultMonth={new Date(new Date().setMonth(new Date().getMonth() - (numberOfMonths > 1 ? 1 : 0)))}
+              cellSize="2rem"
+              className="p-0"
+              compareRange={rangeCompare}
+              selectionMode={activeRangeTarget}
+              showOutsideDays={false}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-neutral-100">
+        {onCancel && (
+          <Button variant="ghost" size="sm" className="text-xs" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
+        <Button size="sm" className="text-xs px-4" onClick={onApply}>
+          Apply
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 /** The DateRangePicker component allows a user to select a range of dates */
 export const DateRangePicker = ({
   initialDateFrom = new Date(new Date().setHours(0, 0, 0, 0)),

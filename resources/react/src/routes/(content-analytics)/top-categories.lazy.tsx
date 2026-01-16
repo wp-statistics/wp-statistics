@@ -8,6 +8,11 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
+import {
   createTopCategoriesColumns,
   TOP_CATEGORIES_COLUMN_CONFIG,
   TOP_CATEGORIES_CONTEXT,
@@ -54,6 +59,9 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const columns = useMemo(() => createTopCategoriesColumns(), [])
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'categories' })
 
   // Available filters: Author, Post Type, Cached Date, Taxonomy Type
   const ADVANCED_FILTERS = ['author', 'post_type', 'cached_date']
@@ -225,8 +233,16 @@ function RouteComponent() {
             showCompare={true}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'categories' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-categories" />

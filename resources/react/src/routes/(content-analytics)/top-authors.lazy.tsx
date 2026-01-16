@@ -8,6 +8,11 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
+import {
   createTopAuthorsColumns,
   TOP_AUTHORS_COLUMN_CONFIG,
   TOP_AUTHORS_CONTEXT,
@@ -54,6 +59,9 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const columns = useMemo(() => createTopAuthorsColumns(), [])
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'content' })
 
   // Available filters: Post Type
   const AVAILABLE_FILTERS = ['post_type']
@@ -208,8 +216,16 @@ function RouteComponent() {
             showCompare={true}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'content' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-authors" />

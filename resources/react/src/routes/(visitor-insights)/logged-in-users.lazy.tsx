@@ -9,6 +9,11 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField, type LockedFilter } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
+import {
   createLoggedInUsersColumns,
   LOGGED_IN_USERS_COLUMN_CONFIG,
   LOGGED_IN_USERS_CONTEXT,
@@ -67,6 +72,9 @@ function RouteComponent() {
     onPageReset: () => setPage(1),
   })
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'visitors' })
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -219,8 +227,16 @@ function RouteComponent() {
             showCompare={true}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'visitors' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-2 grid gap-3">
         <NoticeContainer currentRoute="logged-in-users" />

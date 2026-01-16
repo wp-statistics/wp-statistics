@@ -8,6 +8,11 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -48,6 +53,9 @@ function RouteComponent() {
 
   const wp = WordPress.getInstance()
   const calcPercentage = usePercentageCalc()
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'referrals' })
 
   // Get filter fields for 'referrals' group
   const filterFields = useMemo<FilterField[]>(() => {
@@ -257,8 +265,16 @@ function RouteComponent() {
             onUpdate={handleDateRangeUpdate}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'referrals' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="referrers" />

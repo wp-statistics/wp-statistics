@@ -6,6 +6,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
+import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
@@ -46,6 +51,9 @@ function AuthorsOverviewView() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'content' })
 
   // Get filter fields for content analytics
   const filterFields = useMemo<FilterField[]>(() => {
@@ -343,8 +351,16 @@ function AuthorsOverviewView() {
             onUpdate={handleDateRangeUpdate}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'content' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="authors" />

@@ -7,6 +7,11 @@ import { __ } from '@wordpress/i18n'
 import { useCallback } from 'react'
 
 import { ErrorMessage } from '@/components/custom/error-message'
+import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -69,6 +74,9 @@ function RouteComponent() {
     apiDateParams,
   } = useGlobalFilters()
 
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'visitors' })
+
   // Handle date range updates from DateRangePicker
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
@@ -126,7 +134,15 @@ function RouteComponent() {
           showCompare={true}
           align="end"
         />
+        <OptionsDrawerTrigger {...options.triggerProps} />
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'visitors' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="search-terms" />

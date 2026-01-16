@@ -8,14 +8,11 @@ import { FilterButton, type FilterField } from '@/components/custom/filter-butto
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { Metrics } from '@/components/custom/metrics'
 import {
-  FiltersDetailView,
-  FiltersMenuEntry,
-  MetricsDetailView,
-  MetricsMenuEntry,
-  OptionsDrawer,
+  type OverviewOptionsConfig,
   OptionsDrawerTrigger,
-  WidgetsDetailView,
-  WidgetsMenuEntry,
+  OverviewOptionsDrawer,
+  OverviewOptionsProvider,
+  useOverviewOptions,
 } from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
@@ -24,7 +21,7 @@ import {
   MetricsSkeleton,
   PanelSkeleton,
 } from '@/components/ui/skeletons'
-import { type MetricConfig,PageOptionsProvider, type WidgetConfig } from '@/contexts/page-options-context'
+import { type MetricConfig, type WidgetConfig } from '@/contexts/page-options-context'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
@@ -51,6 +48,14 @@ const METRIC_CONFIGS: MetricConfig[] = [
   { id: 'top-page', label: __('Top Page', 'wp-statistics'), defaultVisible: true },
 ]
 
+// Options configuration for this page
+const OPTIONS_CONFIG: OverviewOptionsConfig = {
+  pageId: 'page-insights-overview',
+  filterGroup: 'views',
+  widgetConfigs: WIDGET_CONFIGS,
+  metricConfigs: METRIC_CONFIGS,
+}
+
 export const Route = createLazyFileRoute('/(page-insights)/page-insights-overview')({
   component: RouteComponent,
   errorComponent: ({ error }) => (
@@ -63,13 +68,9 @@ export const Route = createLazyFileRoute('/(page-insights)/page-insights-overvie
 
 function RouteComponent() {
   return (
-    <PageOptionsProvider
-      pageId="page-insights-overview"
-      widgetConfigs={WIDGET_CONFIGS}
-      metricConfigs={METRIC_CONFIGS}
-    >
+    <OverviewOptionsProvider config={OPTIONS_CONFIG}>
       <PageInsightsOverviewContent />
-    </PageOptionsProvider>
+    </OverviewOptionsProvider>
   )
 }
 
@@ -92,16 +93,10 @@ function PageInsightsOverviewContent() {
   } = useGlobalFilters()
 
   // Page options for widget/metric visibility
-  const {
-    isWidgetVisible,
-    isMetricVisible,
-    getHiddenWidgetCount,
-    getHiddenMetricCount,
-    resetToDefaults,
-  } = usePageOptions()
+  const { isWidgetVisible, isMetricVisible } = usePageOptions()
 
-  // Options drawer state
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false)
+  // Options drawer (uses new reusable components)
+  const options = useOverviewOptions()
 
   const wp = WordPress.getInstance()
 
@@ -260,29 +255,17 @@ function PageInsightsOverviewContent() {
             onUpdate={handleDateRangeUpdate}
             align="end"
           />
-          <OptionsDrawerTrigger
-            onClick={() => setIsOptionsOpen(true)}
-            isActive={getHiddenWidgetCount() > 0 || getHiddenMetricCount() > 0}
-          />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
 
       {/* Options Drawer */}
-      <OptionsDrawer
-        open={isOptionsOpen}
-        onOpenChange={setIsOptionsOpen}
-        onReset={resetToDefaults}
-      >
-        {/* Main menu entries */}
-        <FiltersMenuEntry filterGroup="views" />
-        <WidgetsMenuEntry />
-        <MetricsMenuEntry />
-
-        {/* Detail views */}
-        <FiltersDetailView filterGroup="views" />
-        <WidgetsDetailView />
-        <MetricsDetailView />
-      </OptionsDrawer>
+      <OverviewOptionsDrawer
+        config={OPTIONS_CONFIG}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+        resetToDefaults={options.resetToDefaults}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-3" currentRoute="page-insights-overview" />

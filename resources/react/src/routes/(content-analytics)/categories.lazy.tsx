@@ -6,6 +6,11 @@ import { useCallback, useMemo, useState } from 'react'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
@@ -63,6 +68,9 @@ function CategoriesOverviewView() {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'categories' })
 
   // Get filter fields for categories page
   const filterFields = wp.getFilterFieldsByGroup('categories') as FilterField[]
@@ -453,8 +461,16 @@ function CategoriesOverviewView() {
             onUpdate={handleDateRangeUpdate}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'categories' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="categories" />

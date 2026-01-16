@@ -7,6 +7,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { TabbedList, type TabbedListTab } from '@/components/custom/tabbed-list'
@@ -223,6 +228,9 @@ function IndividualCategoryView({ termId }: { termId: number }) {
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'categories' })
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
   const [activeContentTab, setActiveContentTab] = useState<string>('popular')
@@ -516,8 +524,16 @@ function IndividualCategoryView({ termId }: { termId: number }) {
               onUpdate={handleDateRangeUpdate}
               align="end"
             />
+            <OptionsDrawerTrigger {...options.triggerProps} />
           </div>
         </div>
+
+        {/* Options Drawer */}
+        <DetailOptionsDrawer
+          config={{ filterGroup: 'categories' }}
+          isOpen={options.isOpen}
+          setIsOpen={options.setIsOpen}
+        />
 
         {/* Term Meta */}
         {termMetadata && (

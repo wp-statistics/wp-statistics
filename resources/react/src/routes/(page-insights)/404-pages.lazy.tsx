@@ -7,6 +7,11 @@ import { useCallback, useMemo } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
+import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
 import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
 import { NumericCell, UriCell } from '@/components/data-table-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
@@ -86,6 +91,9 @@ function RouteComponent() {
 
   const columns = useMemo(() => createNotFoundPagesColumns(), [])
 
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'views' })
+
   const handleDateRangeUpdate = useCallback(
     (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
       setDateRange(values.range, values.rangeCompare, values.period)
@@ -146,8 +154,16 @@ function RouteComponent() {
             showCompare={true}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer
+        config={{ filterGroup: 'views' }}
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="404-pages" />
