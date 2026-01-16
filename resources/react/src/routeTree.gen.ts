@@ -19,7 +19,6 @@ import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as visitorInsightsVisitorsOverviewRouteImport } from './routes/(visitor-insights)/visitors-overview'
 import { Route as visitorInsightsVisitorsRouteImport } from './routes/(visitor-insights)/visitors'
-import { Route as visitorInsightsViewsRouteImport } from './routes/(visitor-insights)/views'
 import { Route as visitorInsightsTopVisitorsRouteImport } from './routes/(visitor-insights)/top-visitors'
 import { Route as visitorInsightsLoggedInUsersRouteImport } from './routes/(visitor-insights)/logged-in-users'
 import { Route as referralsReferralsOverviewRouteImport } from './routes/(referrals)/referrals-overview'
@@ -367,15 +366,6 @@ const visitorInsightsVisitorsRoute = visitorInsightsVisitorsRouteImport
   .lazy(() =>
     import('./routes/(visitor-insights)/visitors.lazy').then((d) => d.Route),
   )
-const visitorInsightsViewsRoute = visitorInsightsViewsRouteImport
-  .update({
-    id: '/(visitor-insights)/views',
-    path: '/views',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() =>
-    import('./routes/(visitor-insights)/views.lazy').then((d) => d.Route),
-  )
 const visitorInsightsTopVisitorsRoute = visitorInsightsTopVisitorsRouteImport
   .update({
     id: '/(visitor-insights)/top-visitors',
@@ -570,7 +560,6 @@ export interface FileRoutesByFullPath {
   '/referrals-overview': typeof referralsReferralsOverviewRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
-  '/views': typeof visitorInsightsViewsRoute
   '/visitors': typeof visitorInsightsVisitorsRoute
   '/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
   '/campaigns': typeof referralsCampaignsLazyRoute
@@ -623,7 +612,6 @@ export interface FileRoutesByTo {
   '/referrals-overview': typeof referralsReferralsOverviewRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
-  '/views': typeof visitorInsightsViewsRoute
   '/visitors': typeof visitorInsightsVisitorsRoute
   '/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
   '/campaigns': typeof referralsCampaignsLazyRoute
@@ -679,7 +667,6 @@ export interface FileRoutesById {
   '/(referrals)/referrals-overview': typeof referralsReferralsOverviewRoute
   '/(visitor-insights)/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/(visitor-insights)/top-visitors': typeof visitorInsightsTopVisitorsRoute
-  '/(visitor-insights)/views': typeof visitorInsightsViewsRoute
   '/(visitor-insights)/visitors': typeof visitorInsightsVisitorsRoute
   '/(visitor-insights)/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
   '/(referrals)/campaigns': typeof referralsCampaignsLazyRoute
@@ -736,7 +723,6 @@ export interface FileRouteTypes {
     | '/referrals-overview'
     | '/logged-in-users'
     | '/top-visitors'
-    | '/views'
     | '/visitors'
     | '/visitors-overview'
     | '/campaigns'
@@ -789,7 +775,6 @@ export interface FileRouteTypes {
     | '/referrals-overview'
     | '/logged-in-users'
     | '/top-visitors'
-    | '/views'
     | '/visitors'
     | '/visitors-overview'
     | '/campaigns'
@@ -844,7 +829,6 @@ export interface FileRouteTypes {
     | '/(referrals)/referrals-overview'
     | '/(visitor-insights)/logged-in-users'
     | '/(visitor-insights)/top-visitors'
-    | '/(visitor-insights)/views'
     | '/(visitor-insights)/visitors'
     | '/(visitor-insights)/visitors-overview'
     | '/(referrals)/campaigns'
@@ -900,7 +884,6 @@ export interface RootRouteChildren {
   referralsReferralsOverviewRoute: typeof referralsReferralsOverviewRoute
   visitorInsightsLoggedInUsersRoute: typeof visitorInsightsLoggedInUsersRoute
   visitorInsightsTopVisitorsRoute: typeof visitorInsightsTopVisitorsRoute
-  visitorInsightsViewsRoute: typeof visitorInsightsViewsRoute
   visitorInsightsVisitorsRoute: typeof visitorInsightsVisitorsRoute
   visitorInsightsVisitorsOverviewRoute: typeof visitorInsightsVisitorsOverviewRoute
   referralsCampaignsLazyRoute: typeof referralsCampaignsLazyRoute
@@ -1167,13 +1150,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof visitorInsightsVisitorsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(visitor-insights)/views': {
-      id: '/(visitor-insights)/views'
-      path: '/views'
-      fullPath: '/views'
-      preLoaderRoute: typeof visitorInsightsViewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(visitor-insights)/top-visitors': {
       id: '/(visitor-insights)/top-visitors'
       path: '/top-visitors'
@@ -1370,7 +1346,6 @@ const rootRouteChildren: RootRouteChildren = {
   referralsReferralsOverviewRoute: referralsReferralsOverviewRoute,
   visitorInsightsLoggedInUsersRoute: visitorInsightsLoggedInUsersRoute,
   visitorInsightsTopVisitorsRoute: visitorInsightsTopVisitorsRoute,
-  visitorInsightsViewsRoute: visitorInsightsViewsRoute,
   visitorInsightsVisitorsRoute: visitorInsightsVisitorsRoute,
   visitorInsightsVisitorsOverviewRoute: visitorInsightsVisitorsOverviewRoute,
   referralsCampaignsLazyRoute: referralsCampaignsLazyRoute,

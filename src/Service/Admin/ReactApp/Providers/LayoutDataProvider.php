@@ -44,10 +44,6 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                         'label' => esc_html__('Visitors', 'wp-statistics'),
                         'slug'  => 'visitors'
                     ],
-                    'views'            => [
-                        'label' => esc_html__('Views', 'wp-statistics'),
-                        'slug'  => 'views'
-                    ],
                     'onlineVisitors'   => [
                         'label' => esc_html__('Online Visitors', 'wp-statistics'),
                         'slug'  => 'online-visitors'
