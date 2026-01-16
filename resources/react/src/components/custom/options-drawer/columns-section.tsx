@@ -165,7 +165,12 @@ const getColumnLabel = (
   return meta?.title || meta?.mobileLabel || column.id
 }
 
-export function ColumnsMenuEntry<TData>({ table }: { table: Table<TData> | null }) {
+interface ColumnsMenuEntryProps<TData> {
+  table: Table<TData> | null
+  defaultHiddenColumns?: string[]
+}
+
+export function ColumnsMenuEntry<TData>({ table, defaultHiddenColumns = [] }: ColumnsMenuEntryProps<TData>) {
   const { currentView, setCurrentView } = useOptionsDrawer()
 
   // Handle null table (before DataTable renders)
@@ -174,13 +179,21 @@ export function ColumnsMenuEntry<TData>({ table }: { table: Table<TData> | null 
   }
 
   const columns = table.getAllColumns().filter((column) => column.getCanHide())
-  const hiddenCount = columns.filter((column) => !column.getIsVisible()).length
+  const hiddenColumnIds = columns.filter((column) => !column.getIsVisible()).map((col) => col.id)
 
   if (currentView !== 'main' || columns.length === 0) {
     return null
   }
 
-  const summary = hiddenCount > 0 ? `${hiddenCount} ${__('hidden', 'wp-statistics')}` : undefined
+  // Only show "x hidden" if it differs from default
+  const hasNonDefaultHiddenColumns =
+    hiddenColumnIds.length !== defaultHiddenColumns.length ||
+    hiddenColumnIds.some((id) => !defaultHiddenColumns.includes(id)) ||
+    defaultHiddenColumns.some((id) => !hiddenColumnIds.includes(id))
+
+  const summary = hasNonDefaultHiddenColumns
+    ? `${hiddenColumnIds.length} ${__('hidden', 'wp-statistics')}`
+    : undefined
 
   return (
     <OptionsMenuItem
@@ -208,49 +221,25 @@ export function ColumnsDetailView<TData>({
   const [columnOrder, setColumnOrder] = useState<ColumnItem[]>([])
 
   // Build column list on mount or when table becomes available
+  // Always use table's default column order (from column definitions) for consistent UX
+  // This ensures "Reset to default" doesn't change the display order
   useEffect(() => {
     // Handle null table (before DataTable renders)
     if (!table) return
 
     const columns = table.getAllColumns().filter((column) => column.getCanHide())
 
-    let items: ColumnItem[]
-    if (initialColumnOrder && initialColumnOrder.length > 0) {
-      items = []
-      initialColumnOrder.forEach((id) => {
-        const column = columns.find((c) => c.id === id)
-        if (column) {
-          items.push({
-            id: column.id,
-            label: getColumnLabel(column),
-            isVisible: column.getIsVisible(),
-            isComparable: comparableColumns.includes(column.id),
-            showComparison: comparisonColumns.includes(column.id),
-          })
-        }
-      })
-      columns.forEach((column) => {
-        if (!initialColumnOrder.includes(column.id)) {
-          items.push({
-            id: column.id,
-            label: getColumnLabel(column),
-            isVisible: column.getIsVisible(),
-            isComparable: comparableColumns.includes(column.id),
-            showComparison: comparisonColumns.includes(column.id),
-          })
-        }
-      })
-    } else {
-      items = columns.map((column) => ({
-        id: column.id,
-        label: getColumnLabel(column),
-        isVisible: column.getIsVisible(),
-        isComparable: comparableColumns.includes(column.id),
-        showComparison: comparisonColumns.includes(column.id),
-      }))
-    }
+    // Always use the table's natural column order (from column definitions)
+    const items = columns.map((column) => ({
+      id: column.id,
+      label: getColumnLabel(column),
+      isVisible: column.getIsVisible(),
+      isComparable: comparableColumns.includes(column.id),
+      showComparison: comparisonColumns.includes(column.id),
+    }))
+
     setColumnOrder(items)
-  }, [table, initialColumnOrder, comparableColumns, comparisonColumns])
+  }, [table, comparableColumns, comparisonColumns])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -378,7 +367,7 @@ export function ColumnsDetailView<TData>({
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-end px-4 py-3 border-t border-neutral-100 bg-neutral-50/50 shrink-0">
+      <div className="flex items-center justify-end px-4 py-3 shrink-0">
         <button
           type="button"
           onClick={handleReset}

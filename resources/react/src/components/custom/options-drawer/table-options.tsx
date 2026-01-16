@@ -37,16 +37,26 @@ export function useTableOptions<TData>(config: TableOptionsConfig<TData>) {
 
   // Count hidden columns (handle null table)
   const columns = config.table?.getAllColumns().filter((col) => col.getCanHide()) ?? []
-  const hiddenColumnCount = columns.filter((col) => !col.getIsVisible()).length
-  const appliedFilterCount = filters?.length ?? 0
+  const hiddenColumns = columns.filter((col) => !col.getIsVisible()).map((col) => col.id)
+  const defaultHiddenColumns = config.defaultHiddenColumns ?? []
 
-  const isActive = hiddenColumnCount > 0 || appliedFilterCount > 0
+  // Check if current hidden columns differ from default
+  // Only compare when table is available, otherwise assume no changes
+  const hasNonDefaultHiddenColumns = config.table
+    ? hiddenColumns.length !== defaultHiddenColumns.length ||
+      hiddenColumns.some((id) => !defaultHiddenColumns.includes(id)) ||
+      defaultHiddenColumns.some((id) => !hiddenColumns.includes(id))
+    : false
+
+  const appliedFilterCount = filters?.length ?? 0
+  const isActive = hasNonDefaultHiddenColumns || appliedFilterCount > 0
 
   return {
     isOpen,
     setIsOpen,
     isActive,
-    hiddenColumnCount,
+    hiddenColumnCount: hiddenColumns.length,
+    hasNonDefaultHiddenColumns,
     appliedFilterCount,
     triggerProps: {
       onClick: () => setIsOpen(true),
@@ -75,7 +85,7 @@ export function TableOptionsDrawer<TData>({
       {/* Main menu entries */}
       <DateRangeMenuEntry />
       <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
-      <ColumnsMenuEntry table={config.table} />
+      <ColumnsMenuEntry table={config.table} defaultHiddenColumns={config.defaultHiddenColumns} />
 
       {/* Detail views */}
       <DateRangeDetailView />
