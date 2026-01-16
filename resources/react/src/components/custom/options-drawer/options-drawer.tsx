@@ -4,7 +4,7 @@ import { createContext, type ReactNode, useContext,useEffect, useState } from 'r
 
 import { cn } from '@/lib/utils'
 
-export type OptionsView = 'main' | 'widgets' | 'metrics' | 'filters' | 'columns' | 'date-range'
+export type OptionsView = 'main' | 'widgets' | 'metrics' | 'filters' | 'columns' | 'date-range' | 'page-filters'
 
 interface OptionsDrawerProps {
   open: boolean
@@ -43,6 +43,8 @@ const getViewTitle = (view: OptionsView): string => {
       return __('Show/hide columns', 'wp-statistics')
     case 'date-range':
       return __('Date Range', 'wp-statistics')
+    case 'page-filters':
+      return __('Page Filters', 'wp-statistics')
     default:
       return __('Options', 'wp-statistics')
   }

@@ -12,6 +12,7 @@ import { LineChart } from '@/components/custom/line-chart'
 import {
   DetailOptionsDrawer,
   OptionsDrawerTrigger,
+  type PageFilterConfig,
   useDetailOptions,
 } from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
@@ -64,9 +65,6 @@ function RouteComponent() {
   const wp = WordPress.getInstance()
   const calcPercentage = usePercentageCalc()
 
-  // Options drawer
-  const options = useDetailOptions({ filterGroup: 'referrals' })
-
   // Get filter fields for 'referrals' group
   const filterFields = useMemo<FilterField[]>(() => {
     return wp.getFilterFieldsByGroup('referrals') as FilterField[]
@@ -88,6 +86,27 @@ function RouteComponent() {
     },
     [setPage]
   )
+
+  // Page filters config for Options drawer
+  const pageFilters = useMemo<PageFilterConfig[]>(
+    () => [
+      {
+        id: 'searchType',
+        label: __('Search Type', 'wp-statistics'),
+        value: searchType,
+        options: [
+          { value: 'all', label: __('All Search', 'wp-statistics') },
+          { value: 'organic', label: __('Organic Search', 'wp-statistics') },
+          { value: 'paid', label: __('Paid Search', 'wp-statistics') },
+        ],
+        onChange: handleSearchTypeChange,
+      },
+    ],
+    [searchType, handleSearchTypeChange]
+  )
+
+  // Options drawer
+  const options = useDetailOptions({ filterGroup: 'referrals', pageFilters })
 
   // Fetch data
   const {
@@ -309,7 +328,7 @@ function RouteComponent() {
 
       {/* Options Drawer */}
       <DetailOptionsDrawer
-        config={{ filterGroup: 'referrals' }}
+        config={{ filterGroup: 'referrals', pageFilters }}
         isOpen={options.isOpen}
         setIsOpen={options.setIsOpen}
       />

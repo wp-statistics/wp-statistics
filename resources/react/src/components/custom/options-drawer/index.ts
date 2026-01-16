@@ -25,6 +25,11 @@ export {
   useOverviewOptions,
 } from './overview-options'
 export {
+  PageFiltersDetailView,
+  PageFiltersMenuEntry,
+  type PageFilterConfig,
+} from './page-filters-section'
+export {
   TableOptionsDrawer,
   type TableOptionsConfig,
   useTableOptions,
