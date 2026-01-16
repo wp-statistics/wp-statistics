@@ -156,7 +156,7 @@ function RouteComponent() {
             showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
-            emptyStateMessage={__('No category pages found for the selected period', 'wp-statistics')}
+            emptyStateMessage={__('No term pages found for the selected period', 'wp-statistics')}
             stickyHeader={true}
             borderless
           />

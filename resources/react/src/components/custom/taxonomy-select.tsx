@@ -20,7 +20,7 @@ export function TaxonomySelect({ value, onValueChange, className }: TaxonomySele
 
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className={className ?? 'w-[180px]'}>
+      <SelectTrigger className={className ?? 'w-[180px] h-8 text-xs font-medium border-neutral-200 hover:bg-neutral-50'}>
         <SelectValue placeholder={__('Select taxonomy', 'wp-statistics')} />
       </SelectTrigger>
       <SelectContent>
