@@ -227,7 +227,7 @@ export function ColumnsDetailView<TData>({
     if (!table) return
 
     const columns = table.getAllColumns().filter((column) => column.getCanHide())
-    const tableColumnOrder = table.getState().columnOrder
+    const tableColumnOrder = table.getState().columnOrder || []
 
     // Sort columns according to the table's current column order if set
     const sortedColumns = tableColumnOrder.length > 0
