@@ -1,19 +1,21 @@
+import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
-  DetailOptionsDrawer,
   OptionsDrawerTrigger,
-  useDetailOptions,
+  TableOptionsDrawer,
+  useTableOptions,
 } from '@/components/custom/options-drawer'
 import {
   createViewsColumns,
   transformViewData,
+  type ViewData,
   VIEWS_COLUMN_CONFIG,
   VIEWS_CONTEXT,
   VIEWS_DEFAULT_API_COLUMNS,
@@ -55,8 +57,8 @@ function RouteComponent() {
     onPageReset: () => setPage(1),
   })
 
-  // Options drawer
-  const options = useDetailOptions({ filterGroup: 'views' })
+  // Table ref for Options drawer column management
+  const tableRef = useRef<Table<ViewData> | null>(null)
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -125,6 +127,16 @@ function RouteComponent() {
     hasApiResponse: !!response?.data,
   })
 
+  // Options drawer with column management
+  const options = useTableOptions({
+    filterGroup: 'views',
+    table: tableRef.current,
+    defaultHiddenColumns: VIEWS_DEFAULT_HIDDEN_COLUMNS,
+    onColumnVisibilityChange: handleColumnVisibilityChange,
+    onColumnOrderChange: handleColumnOrderChange,
+    onReset: handleColumnPreferencesReset,
+  })
+
   // Transform API data to component interface
   const tableData = useMemo(() => {
     if (!response?.data?.data?.rows) return []
@@ -170,9 +182,16 @@ function RouteComponent() {
         </div>
       </div>
 
-      {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{ filterGroup: 'views' }}
+      {/* Options Drawer with Column Management */}
+      <TableOptionsDrawer
+        config={{
+          filterGroup: 'views',
+          table: tableRef.current,
+          defaultHiddenColumns: VIEWS_DEFAULT_HIDDEN_COLUMNS,
+          onColumnVisibilityChange: handleColumnVisibilityChange,
+          onColumnOrderChange: handleColumnOrderChange,
+          onReset: handleColumnPreferencesReset,
+        }}
         isOpen={options.isOpen}
         setIsOpen={options.setIsOpen}
       />
@@ -201,7 +220,7 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={true}
+            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={VIEWS_DEFAULT_HIDDEN_COLUMNS}
@@ -213,6 +232,7 @@ function RouteComponent() {
             emptyStateMessage={__('No views found for the selected period', 'wp-statistics')}
             stickyHeader={true}
             borderless
+            tableRef={tableRef}
           />
         )}
       </div>

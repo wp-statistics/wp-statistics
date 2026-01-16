@@ -530,7 +530,7 @@ function IndividualCategoryView({ termId }: { termId: number }) {
 
         {/* Options Drawer */}
         <DetailOptionsDrawer
-          config={{ filterGroup: 'categories' }}
+          config={{ filterGroup: 'categories', hideFilters: true }}
           isOpen={options.isOpen}
           setIsOpen={options.setIsOpen}
         />

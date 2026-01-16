@@ -13,6 +13,8 @@ import { OptionsDrawer } from './options-drawer'
 export interface DetailOptionsConfig {
   filterGroup: string
   lockedFilters?: LockedFilter[]
+  /** Hide the filters section (for pages that don't use filtering) */
+  hideFilters?: boolean
 }
 
 /**
@@ -56,11 +58,15 @@ export function DetailOptionsDrawer({
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen}>
       {/* Main menu entries */}
       <DateRangeMenuEntry />
-      <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      {!config.hideFilters && (
+        <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      )}
 
       {/* Detail views */}
       <DateRangeDetailView />
-      <FiltersDetailView filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      {!config.hideFilters && (
+        <FiltersDetailView filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      )}
     </OptionsDrawer>
   )
 }

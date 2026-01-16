@@ -1,7 +1,8 @@
+import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
@@ -9,12 +10,13 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField, type LockedFilter } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import {
-  DetailOptionsDrawer,
   OptionsDrawerTrigger,
-  useDetailOptions,
+  TableOptionsDrawer,
+  useTableOptions,
 } from '@/components/custom/options-drawer'
 import {
   createLoggedInUsersColumns,
+  type LoggedInUser,
   LOGGED_IN_USERS_COLUMN_CONFIG,
   LOGGED_IN_USERS_CONTEXT,
   LOGGED_IN_USERS_DEFAULT_API_COLUMNS,
@@ -73,8 +75,8 @@ function RouteComponent() {
   })
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
-  // Options drawer
-  const options = useDetailOptions({ filterGroup: 'visitors' })
+  // Table ref for Options drawer column management
+  const tableRef = useRef<Table<LoggedInUser> | null>(null)
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
@@ -163,6 +165,16 @@ function RouteComponent() {
     hasApiResponse: !!usersResponse,
   })
 
+  // Options drawer with column management
+  const options = useTableOptions({
+    filterGroup: 'visitors',
+    table: tableRef.current,
+    defaultHiddenColumns: LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
+    onColumnVisibilityChange: handleColumnVisibilityChange,
+    onColumnOrderChange: handleColumnOrderChange,
+    onReset: handleColumnPreferencesReset,
+  })
+
   // Transform users data
   const tableData = useMemo(() => {
     if (!usersResponse?.data?.rows) return []
@@ -231,9 +243,16 @@ function RouteComponent() {
         </div>
       </div>
 
-      {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{ filterGroup: 'visitors' }}
+      {/* Options Drawer with Column Management */}
+      <TableOptionsDrawer
+        config={{
+          filterGroup: 'visitors',
+          table: tableRef.current,
+          defaultHiddenColumns: LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
+          onColumnVisibilityChange: handleColumnVisibilityChange,
+          onColumnOrderChange: handleColumnOrderChange,
+          onReset: handleColumnPreferencesReset,
+        }}
         isOpen={options.isOpen}
         setIsOpen={options.setIsOpen}
       />
@@ -283,7 +302,7 @@ function RouteComponent() {
               onPageChange={handlePageChange}
               totalRows={totalRows}
               rowLimit={PER_PAGE}
-              showColumnManagement={true}
+              showColumnManagement={false}
               showPagination={true}
               isFetching={isBatchFetching}
               hiddenColumns={LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS}
@@ -295,6 +314,7 @@ function RouteComponent() {
               emptyStateMessage={__('No logged-in users found for the selected period', 'wp-statistics')}
               stickyHeader={true}
               borderless
+              tableRef={tableRef}
             />
           </>
         )}

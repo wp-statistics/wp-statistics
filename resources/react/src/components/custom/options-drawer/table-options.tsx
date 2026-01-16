@@ -16,6 +16,8 @@ export interface TableOptionsConfig<TData> {
   filterGroup: string
   table: Table<TData> | null
   lockedFilters?: LockedFilter[]
+  /** Hide the filters section (for pages that don't use filtering) */
+  hideFilters?: boolean
   initialColumnOrder?: string[]
   defaultHiddenColumns?: string[]
   comparableColumns?: string[]
@@ -84,12 +86,16 @@ export function TableOptionsDrawer<TData>({
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={config.onReset}>
       {/* Main menu entries */}
       <DateRangeMenuEntry />
-      <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      {!config.hideFilters && (
+        <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      )}
       <ColumnsMenuEntry table={config.table} defaultHiddenColumns={config.defaultHiddenColumns} />
 
       {/* Detail views */}
       <DateRangeDetailView />
-      <FiltersDetailView filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      {!config.hideFilters && (
+        <FiltersDetailView filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      )}
       <ColumnsDetailView
         table={config.table}
         initialColumnOrder={config.initialColumnOrder}

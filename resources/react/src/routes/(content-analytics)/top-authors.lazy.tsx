@@ -1,19 +1,21 @@
+import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
-  DetailOptionsDrawer,
   OptionsDrawerTrigger,
-  useDetailOptions,
+  TableOptionsDrawer,
+  useTableOptions,
 } from '@/components/custom/options-drawer'
 import {
   createTopAuthorsColumns,
+  type TopAuthor,
   TOP_AUTHORS_COLUMN_CONFIG,
   TOP_AUTHORS_CONTEXT,
   TOP_AUTHORS_DEFAULT_API_COLUMNS,
@@ -57,11 +59,11 @@ function RouteComponent() {
   })
   const [defaultFilterRemoved, setDefaultFilterRemoved] = useState(false)
 
+  // Table ref for Options drawer column management
+  const tableRef = useRef<Table<TopAuthor> | null>(null)
+
   const wp = WordPress.getInstance()
   const columns = useMemo(() => createTopAuthorsColumns(), [])
-
-  // Options drawer
-  const options = useDetailOptions({ filterGroup: 'content' })
 
   // Available filters: Post Type
   const AVAILABLE_FILTERS = ['post_type']
@@ -175,6 +177,16 @@ function RouteComponent() {
     hasApiResponse: !!response?.data,
   })
 
+  // Options drawer with column management
+  const options = useTableOptions({
+    filterGroup: 'content',
+    table: tableRef.current,
+    defaultHiddenColumns: TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS,
+    onColumnVisibilityChange: handleColumnVisibilityChange,
+    onColumnOrderChange: handleColumnOrderChange,
+    onReset: handleColumnPreferencesReset,
+  })
+
   // Transform API data to component interface
   const tableData = useMemo(() => {
     if (!response?.data?.data?.rows) return []
@@ -220,9 +232,16 @@ function RouteComponent() {
         </div>
       </div>
 
-      {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{ filterGroup: 'content' }}
+      {/* Options Drawer with Column Management */}
+      <TableOptionsDrawer
+        config={{
+          filterGroup: 'content',
+          table: tableRef.current,
+          defaultHiddenColumns: TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS,
+          onColumnVisibilityChange: handleColumnVisibilityChange,
+          onColumnOrderChange: handleColumnOrderChange,
+          onReset: handleColumnPreferencesReset,
+        }}
         isOpen={options.isOpen}
         setIsOpen={options.setIsOpen}
       />
@@ -252,7 +271,7 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={true}
+            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS}
@@ -264,6 +283,7 @@ function RouteComponent() {
             emptyStateMessage={__('No authors found for the selected period', 'wp-statistics')}
             stickyHeader={true}
             borderless
+            tableRef={tableRef}
           />
         )}
       </div>

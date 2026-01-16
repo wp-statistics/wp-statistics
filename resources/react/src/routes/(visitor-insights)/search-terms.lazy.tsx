@@ -124,22 +124,24 @@ function RouteComponent() {
     <div className="min-w-0">
       <div className="flex items-center justify-between px-4 py-3 ">
         <h1 className="text-2xl font-semibold text-neutral-800">{__('Search Terms', 'wp-statistics')}</h1>
-        <DateRangePicker
-          initialDateFrom={dateFrom}
-          initialDateTo={dateTo}
-          initialCompareFrom={compareDateFrom}
-          initialCompareTo={compareDateTo}
-          initialPeriod={period}
-          onUpdate={handleDateRangeUpdate}
-          showCompare={true}
-          align="end"
-        />
-        <OptionsDrawerTrigger {...options.triggerProps} />
+        <div className="flex items-center gap-3">
+          <DateRangePicker
+            initialDateFrom={dateFrom}
+            initialDateTo={dateTo}
+            initialCompareFrom={compareDateFrom}
+            initialCompareTo={compareDateTo}
+            initialPeriod={period}
+            onUpdate={handleDateRangeUpdate}
+            showCompare={true}
+            align="end"
+          />
+          <OptionsDrawerTrigger {...options.triggerProps} />
+        </div>
       </div>
 
       {/* Options Drawer */}
       <DetailOptionsDrawer
-        config={{ filterGroup: 'visitors' }}
+        config={{ filterGroup: 'visitors', hideFilters: true }}
         isOpen={options.isOpen}
         setIsOpen={options.setIsOpen}
       />

@@ -160,7 +160,7 @@ function RouteComponent() {
 
       {/* Options Drawer */}
       <DetailOptionsDrawer
-        config={{ filterGroup: 'views' }}
+        config={{ filterGroup: 'views', hideFilters: true }}
         isOpen={options.isOpen}
         setIsOpen={options.setIsOpen}
       />
