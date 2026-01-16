@@ -248,6 +248,7 @@ function RouteComponent() {
         config={{
           filterGroup: 'visitors',
           table: tableRef.current,
+          lockedFilters,
           defaultHiddenColumns: LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
           onColumnVisibilityChange: handleColumnVisibilityChange,
           onColumnOrderChange: handleColumnOrderChange,
