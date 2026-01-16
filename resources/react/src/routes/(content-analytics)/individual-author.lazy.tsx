@@ -643,14 +643,16 @@ function IndividualAuthorView({ authorId }: { authorId: number }) {
             </div>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
-            {filterFields.length > 0 && isInitialized && (
-              <FilterButton
-                fields={filterFields}
-                appliedFilters={filtersForDisplay}
-                onApplyFilters={handleAuthorApplyFilters}
-                filterGroup="individual-content"
-              />
-            )}
+            <div className="hidden lg:flex">
+              {filterFields.length > 0 && isInitialized && (
+                <FilterButton
+                  fields={filterFields}
+                  appliedFilters={filtersForDisplay}
+                  onApplyFilters={handleAuthorApplyFilters}
+                  filterGroup="individual-content"
+                />
+              )}
+            </div>
             <DateRangePicker
               initialDateFrom={dateFrom}
               initialDateTo={dateTo}

@@ -300,14 +300,16 @@ function RouteComponent() {
               <SelectItem value="paid">{__('Paid Social', 'wp-statistics')}</SelectItem>
             </SelectContent>
           </Select>
-          {filterFields.length > 0 && isInitialized && (
-            <FilterButton
-              fields={filterFields}
-              appliedFilters={appliedFilters || []}
-              onApplyFilters={handleApplyFilters}
-              filterGroup="referrals"
-            />
-          )}
+          <div className="hidden lg:flex">
+            {filterFields.length > 0 && isInitialized && (
+              <FilterButton
+                fields={filterFields}
+                appliedFilters={appliedFilters || []}
+                onApplyFilters={handleApplyFilters}
+                filterGroup="referrals"
+              />
+            )}
+          </div>
           <DateRangePicker
             initialDateFrom={dateFrom}
             initialDateTo={dateTo}

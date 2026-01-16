@@ -464,14 +464,16 @@ function IndividualContentView({ resourceId }: { resourceId: number }) {
             )}
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
-            {filterFields.length > 0 && isInitialized && (
-              <FilterButton
-                fields={filterFields}
-                appliedFilters={filtersWithoutPostType}
-                onApplyFilters={handleApplyFilters}
-                filterGroup="individual-content"
-              />
-            )}
+            <div className="hidden lg:flex">
+              {filterFields.length > 0 && isInitialized && (
+                <FilterButton
+                  fields={filterFields}
+                  appliedFilters={filtersWithoutPostType}
+                  onApplyFilters={handleApplyFilters}
+                  filterGroup="individual-content"
+                />
+              )}
+            </div>
             <DateRangePicker
               initialDateFrom={dateFrom}
               initialDateTo={dateTo}
