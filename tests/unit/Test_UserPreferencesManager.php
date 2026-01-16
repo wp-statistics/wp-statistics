@@ -323,4 +323,181 @@ class Test_UserPreferencesManager extends WP_UnitTestCase
         $this->assertEquals(['x', 'y', 'z'], $context1['columns']);
         $this->assertEquals(['c', 'd'], $context2['columns']);
     }
+
+    /**
+     * Test unified context schema - columns, widgets, and metrics can coexist.
+     *
+     * This validates the new schema where all page preferences are stored
+     * in a single context keyed by the page/route identifier.
+     */
+    public function test_unified_context_schema()
+    {
+        $manager = new UserPreferencesManager($this->testUserId);
+
+        // Save comprehensive preferences for a page
+        $data = [
+            'columns'            => ['date', 'visitors', 'views'],
+            'comparison_columns' => ['visitors', 'views'],
+            'widgets'            => [
+                'traffic_summary' => true,
+                'top_referrers'   => false,
+            ],
+            'widget_order'       => ['traffic_summary', 'visitor_map', 'top_referrers'],
+            'metrics'            => [
+                'visitors'    => true,
+                'views'       => true,
+                'bounce_rate' => false,
+            ],
+            'metric_order'       => ['visitors', 'views', 'bounce_rate'],
+        ];
+
+        $result = $manager->save('visitors_overview', $data);
+        $this->assertTrue($result);
+
+        $preferences = $manager->get('visitors_overview');
+
+        // Verify all data types are preserved
+        $this->assertArrayHasKey('columns', $preferences);
+        $this->assertArrayHasKey('comparison_columns', $preferences);
+        $this->assertArrayHasKey('widgets', $preferences);
+        $this->assertArrayHasKey('widget_order', $preferences);
+        $this->assertArrayHasKey('metrics', $preferences);
+        $this->assertArrayHasKey('metric_order', $preferences);
+
+        // Verify data integrity
+        $this->assertEquals(['date', 'visitors', 'views'], $preferences['columns']);
+        $this->assertTrue($preferences['widgets']['traffic_summary']);
+        $this->assertFalse($preferences['widgets']['top_referrers']);
+        $this->assertEquals(['visitors', 'views', 'bounce_rate'], $preferences['metric_order']);
+    }
+
+    /**
+     * Test route-based context naming convention.
+     *
+     * Context names should match route paths with underscores instead of hyphens.
+     */
+    public function test_route_based_context_naming()
+    {
+        $manager = new UserPreferencesManager($this->testUserId);
+
+        // Test various route-based context names
+        $routeContexts = [
+            'visitors_overview',
+            'top_pages',
+            'page_insights_overview',
+            'referrals_overview',
+            'top_visitors',
+            'logged_in_users',
+            'online_visitors',
+            'top_categories',
+            'top_authors',
+            'global_filters',
+        ];
+
+        foreach ($routeContexts as $context) {
+            $result = $manager->save($context, ['columns' => ['test']]);
+            $this->assertTrue($result, "Failed to save context: {$context}");
+            $this->assertTrue($manager->exists($context), "Context should exist: {$context}");
+        }
+
+        // Verify all contexts were saved independently
+        $all = $manager->getAll();
+        $this->assertCount(count($routeContexts), $all);
+    }
+
+    /**
+     * Test any valid context format can be saved (no backend premium restriction).
+     *
+     * After simplification, there's no premium context validation in backend.
+     * Any alphanumeric context with underscores/hyphens should work.
+     */
+    public function test_no_backend_premium_restriction()
+    {
+        $manager = new UserPreferencesManager($this->testUserId);
+
+        // These were previously considered "premium-only" patterns
+        // Now any valid format should be accepted
+        $contexts = [
+            'visitors_overview'       => ['widgets' => ['widget1' => true]],
+            'page_insights_overview'  => ['metrics' => ['metric1' => true]],
+            'any_custom_context'      => ['custom_data' => 'value'],
+            'widget_order'            => ['page1' => ['w1', 'w2']],
+        ];
+
+        foreach ($contexts as $context => $data) {
+            $result = $manager->save($context, $data);
+            $this->assertTrue($result, "Should accept any valid context format: {$context}");
+
+            $saved = $manager->get($context);
+            $this->assertNotNull($saved, "Should retrieve saved context: {$context}");
+        }
+    }
+
+    /**
+     * Test saving unchanged data skips database write.
+     */
+    public function test_save_unchanged_data_skips_write()
+    {
+        $manager = new UserPreferencesManager($this->testUserId);
+
+        // Initial save
+        $data = ['columns' => ['date', 'visitors']];
+        $manager->save('test_context', $data);
+
+        $firstSave = $manager->get('test_context');
+        $firstTimestamp = $firstSave['updated_at'];
+
+        // Sleep briefly to ensure timestamp would differ if updated
+        usleep(100000); // 0.1 seconds
+
+        // Save same data again
+        $result = $manager->save('test_context', $data);
+        $this->assertTrue($result);
+
+        // Timestamp should remain unchanged since data didn't change
+        $secondSave = $manager->get('test_context');
+        $this->assertEquals($firstTimestamp, $secondSave['updated_at']);
+    }
+
+    /**
+     * Test boolean values are preserved correctly.
+     */
+    public function test_boolean_values_preserved()
+    {
+        $manager = new UserPreferencesManager($this->testUserId);
+
+        $data = [
+            'widgets' => [
+                'enabled_widget'  => true,
+                'disabled_widget' => false,
+            ],
+        ];
+
+        $manager->save('test_context', $data);
+        $preferences = $manager->get('test_context');
+
+        $this->assertTrue($preferences['widgets']['enabled_widget']);
+        $this->assertFalse($preferences['widgets']['disabled_widget']);
+        $this->assertIsBool($preferences['widgets']['enabled_widget']);
+        $this->assertIsBool($preferences['widgets']['disabled_widget']);
+    }
+
+    /**
+     * Test numeric values are preserved correctly.
+     */
+    public function test_numeric_values_preserved()
+    {
+        $manager = new UserPreferencesManager($this->testUserId);
+
+        $data = [
+            'integer_value' => 42,
+            'float_value'   => 3.14,
+        ];
+
+        $manager->save('test_context', $data);
+        $preferences = $manager->get('test_context');
+
+        $this->assertEquals(42, $preferences['integer_value']);
+        $this->assertEquals(3.14, $preferences['float_value']);
+    }
 }
