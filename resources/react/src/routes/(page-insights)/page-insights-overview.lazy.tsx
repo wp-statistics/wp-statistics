@@ -21,6 +21,7 @@ import {
   MetricsSkeleton,
   PanelSkeleton,
 } from '@/components/ui/skeletons'
+import { useContentRegistry, type WidgetRenderProps } from '@/contexts/content-registry-context'
 import { type MetricConfig, type WidgetConfig } from '@/contexts/page-options-context'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -31,7 +32,8 @@ import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } fro
 import { WordPress } from '@/lib/wordpress'
 import { getPageInsightsOverviewQueryOptions } from '@/services/page-insight/get-page-insights-overview'
 
-// Widget configuration for this page
+// Widget configuration for this page (core widgets only)
+// Premium widgets are dynamically registered via ContentRegistry
 const WIDGET_CONFIGS: WidgetConfig[] = [
   { id: 'metrics', label: __('Metrics Overview', 'wp-statistics'), defaultVisible: true },
   { id: 'top-pages', label: __('Top Pages', 'wp-statistics'), defaultVisible: true },
@@ -94,6 +96,10 @@ function PageInsightsOverviewContent() {
 
   // Page options for widget/metric visibility
   const { isWidgetVisible, isMetricVisible } = usePageOptions()
+
+  // Get registered widgets from premium plugins
+  const { getWidgetsForPage } = useContentRegistry()
+  const registeredWidgets = getWidgetsForPage('page-insights-overview')
 
   // Options drawer (uses new reusable components)
   const options = useOverviewOptions()
@@ -393,6 +399,33 @@ function PageInsightsOverviewContent() {
                 />
               </div>
             )}
+
+            {/* Render registered widgets from premium plugins */}
+            {registeredWidgets.map((widget) => {
+              // Check widget visibility (if configured in options)
+              if (!isWidgetVisible(widget.id)) return null
+
+              // Get data from batch response using the widget's queryId
+              const widgetData = batchResponse?.data?.items?.[widget.queryId as keyof typeof batchResponse.data.items]
+              const data = (widgetData as { data?: { rows?: unknown[]; totals?: Record<string, unknown> } })?.data?.rows || []
+              const totals = (widgetData as { data?: { rows?: unknown[]; totals?: Record<string, unknown> } })?.data?.totals || {}
+
+              // Create props for the widget render function
+              const widgetProps: WidgetRenderProps = {
+                data,
+                totals,
+                isCompareEnabled,
+                comparisonDateLabel,
+                navigate,
+                getTotalFromResponse,
+              }
+
+              return (
+                <div key={widget.id} className="col-span-12 lg:col-span-6">
+                  {widget.render(widgetProps)}
+                </div>
+              )
+            })}
           </div>
         )}
       </div>

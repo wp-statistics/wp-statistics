@@ -35,6 +35,8 @@ export interface PageViewsRecord {
 export interface PageViewsColumnOptions {
   /** Header text for the page column (e.g., "Author", "Category", "Page") */
   pageColumnHeader?: string
+  /** Header text for the views column (e.g., "Views", "Unique Entrances") */
+  viewsColumnHeader?: string
   /** Max length for truncating the title */
   maxTitleLength?: number
   /** Default title when page_title is empty */
@@ -45,6 +47,7 @@ export interface PageViewsColumnOptions {
 
 const defaultOptions: Required<PageViewsColumnOptions> = {
   pageColumnHeader: __('Page', 'wp-statistics'),
+  viewsColumnHeader: __('Views', 'wp-statistics'),
   maxTitleLength: 40,
   defaultTitle: __('Unknown', 'wp-statistics'),
   idPrefix: 'page',
@@ -105,14 +108,14 @@ export function createPageViewsColumns(options: PageViewsColumnOptions = {}): Co
       accessorKey: 'views',
       header: () => (
         <div className="text-right">
-          <StaticSortIndicator title={__('Views', 'wp-statistics')} direction="desc" />
+          <StaticSortIndicator title={opts.viewsColumnHeader} direction="desc" />
         </div>
       ),
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.views} />,
       enableSorting: false,
       meta: {
-        title: 'Views',
+        title: opts.viewsColumnHeader,
         priority: 'primary',
         cardPosition: 'body',
       },

@@ -18,6 +18,7 @@ import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
+import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { get404PagesQueryOptions, type NotFoundPageRecord } from '@/services/page-insight/get-404-pages'
 
 const PER_PAGE = 20
@@ -123,12 +124,12 @@ function RouteComponent() {
 
   // Transform API data to component interface
   const tableData = useMemo(() => {
-    if (!response?.data?.data?.rows) return []
-    return response.data.data.rows.map(transformNotFoundPageData)
+    return extractRows<NotFoundPageRecord>(response).map(transformNotFoundPageData)
   }, [response])
 
-  const totalRows = response?.data?.meta?.total_rows ?? 0
-  const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+  const meta = extractMeta(response)
+  const totalRows = meta?.totalRows ?? 0
+  const totalPages = meta?.totalPages ?? 1
 
   const handlePageChange = useCallback(
     (newPage: number) => {

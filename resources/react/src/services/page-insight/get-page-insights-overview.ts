@@ -69,6 +69,15 @@ export interface AuthorRow {
   }
 }
 
+export interface EntryPageRow {
+  page_uri: string
+  page_title: string
+  sessions: number | string
+  previous?: {
+    sessions: number | string
+  }
+}
+
 // Totals can be either a simple value or a comparison object
 interface TotalValue {
   current?: number | string
@@ -116,6 +125,7 @@ export interface PageInsightsOverviewResponse {
     pages_404?: TableQueryResult<NotFoundPageRow>
     by_category?: TableQueryResult<CategoryRow>
     by_author?: TableQueryResult<AuthorRow>
+    top_entry_pages?: TableQueryResult<EntryPageRow>
   }
   errors?: Record<string, { code: string; message: string }>
   skipped?: string[]
@@ -230,6 +240,19 @@ export const getPageInsightsOverviewQueryOptions = ({
               columns: ['author_name', 'views'],
               per_page: 5,
               order_by: 'views',
+              order: 'DESC',
+              format: 'table',
+              show_totals: true,
+              compare: true,
+            },
+            // Top Entry Pages (requires premium entry-pages feature)
+            {
+              id: 'top_entry_pages',
+              sources: ['sessions'],
+              group_by: ['entry_page'],
+              columns: ['page_uri', 'page_title', 'sessions'],
+              per_page: 5,
+              order_by: 'sessions',
               order: 'DESC',
               format: 'table',
               show_totals: true,

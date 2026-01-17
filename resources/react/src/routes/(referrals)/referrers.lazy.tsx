@@ -18,6 +18,7 @@ import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
+import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getReferrersQueryOptions, type ReferrerRow } from '@/services/referral/get-referrers'
@@ -222,13 +223,13 @@ function RouteComponent() {
 
   // Transform data
   const tableData = useMemo(() => {
-    if (!response?.data?.data?.rows) return []
-    return response.data.data.rows
+    return extractRows<ReferrerRow>(response)
   }, [response])
 
   // Get pagination info
-  const totalRows = response?.data?.meta?.total_rows ?? 0
-  const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+  const meta = extractMeta(response)
+  const totalRows = meta?.totalRows ?? 0
+  const totalPages = meta?.totalPages ?? 1
 
   // Handle page changes
   const handlePageChange = useCallback(

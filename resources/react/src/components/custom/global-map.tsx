@@ -11,6 +11,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
 import { MapErrorBoundary } from '@/components/custom/map-error-boundary'
+import { extractRows } from '@/lib/response-helpers'
 import {
   calculateZoomFromDimension,
   COLOR_SCALE_THRESHOLDS,
@@ -397,10 +398,9 @@ export function GlobalMap({
     setTooltip({ visible: false, x: 0, y: 0, content: '' }) // Hide tooltip on metric change
   }
 
-  // Get region data from API response
-  // Path: regionsResponse (AxiosResponse) -> data (API response) -> data.rows
+  // Get region data from API response using standardized helper
   const regionItems = useMemo(() => {
-    return regionsResponse?.data?.data?.rows || []
+    return extractRows(regionsResponse)
   }, [regionsResponse])
 
   // Build optimized region matcher with O(n) lookup instead of O(n²)

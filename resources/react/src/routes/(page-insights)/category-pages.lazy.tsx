@@ -20,6 +20,7 @@ import { NoticeContainer } from '@/components/ui/notice-container'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
 import { getCategoryPagesQueryOptions } from '@/services/page-insight/get-category-pages'
 
@@ -124,12 +125,12 @@ function RouteComponent() {
 
   // Transform API data to component interface
   const tableData = useMemo(() => {
-    if (!response?.data?.data?.rows) return []
-    return response.data.data.rows.map(transformData)
+    return extractRows(response).map(transformData)
   }, [response, transformData])
 
-  const totalRows = response?.data?.meta?.total_rows ?? 0
-  const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+  const meta = extractMeta(response)
+  const totalRows = meta?.totalRows ?? 0
+  const totalPages = meta?.totalPages ?? 1
 
   const handlePageChange = useCallback(
     (newPage: number) => {

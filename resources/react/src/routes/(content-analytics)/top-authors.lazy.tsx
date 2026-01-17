@@ -27,6 +27,7 @@ import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
+import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
 import { getTopAuthorsQueryOptions } from '@/services/content-analytics/get-top-authors'
 
@@ -189,12 +190,12 @@ function RouteComponent() {
 
   // Transform API data to component interface
   const tableData = useMemo(() => {
-    if (!response?.data?.data?.rows) return []
-    return response.data.data.rows.map(transformTopAuthorData)
+    return extractRows(response).map(transformTopAuthorData)
   }, [response])
 
-  const totalRows = response?.data?.meta?.total_rows ?? 0
-  const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+  const meta = extractMeta(response)
+  const totalRows = meta?.totalRows ?? 0
+  const totalPages = meta?.totalPages ?? 1
 
   const handlePageChange = useCallback(
     (newPage: number) => {
