@@ -4,12 +4,18 @@
  * Provides a unified registration system for premium content in both:
  * - Overview Widgets: Small components on overview pages (e.g., Top Entry Pages widget)
  * - Report Pages: Full page content (e.g., Entry Pages report)
+ * - Config-based Reports: Simple table reports with minimal config
  *
  * Core provides infrastructure, Premium provides content.
  *
  * Supports both:
  * 1. React context-based registration (via useContentRegistry hook)
  * 2. Global API registration (via window.wpsContentRegistry) for external plugins
+ *
+ * Three levels of page registration:
+ * - Level 1: registerReport() - Config-based table reports (minimal code)
+ * - Level 2: registerReport() with slots - Config + custom components
+ * - Level 3: registerPageContent() - Full custom component
  */
 
 import {
@@ -22,6 +28,7 @@ import {
   useState,
 } from 'react'
 import type { NavigateFunction } from '@tanstack/react-router'
+import type { ReportConfig } from '@/components/report-page-renderer'
 
 // Widget registration types
 export interface WidgetRenderProps {
@@ -53,6 +60,12 @@ export interface RegisteredPageContent {
   render: (props?: PageContentProps) => React.ReactNode
 }
 
+// Report registration types (Level 1 & 2)
+export interface RegisteredReport<TData = unknown, TRecord = unknown> {
+  pageId: string
+  config: ReportConfig<TData, TRecord>
+}
+
 // Combined registry context interface
 export interface ContentRegistryContextValue {
   // Widget registration
@@ -60,15 +73,21 @@ export interface ContentRegistryContextValue {
   unregisterWidget: (pageId: string, widgetId: string) => void
   getWidgetsForPage: (pageId: string) => RegisteredWidget[]
 
-  // Page content registration
+  // Page content registration (Level 3: Full custom component)
   registerPageContent: (pageId: string, content: Omit<RegisteredPageContent, 'pageId'>) => void
   unregisterPageContent: (pageId: string) => void
   getPageContent: (pageId: string) => RegisteredPageContent | null
+
+  // Report registration (Level 1 & 2: Config-based reports)
+  registerReport: <TData = unknown, TRecord = unknown>(pageId: string, config: ReportConfig<TData, TRecord>) => void
+  unregisterReport: (pageId: string) => void
+  getReport: <TData = unknown, TRecord = unknown>(pageId: string) => RegisteredReport<TData, TRecord> | null
 }
 
 // Global registry storage (accessible outside React)
 const globalWidgetRegistry = new Map<string, Map<string, RegisteredWidget>>()
 const globalPageContentRegistry = new Map<string, RegisteredPageContent>()
+const globalReportRegistry = new Map<string, RegisteredReport>()
 const globalListeners = new Set<() => void>()
 
 // Global API for external registration (premium plugin)
@@ -107,6 +126,28 @@ function globalGetPageContent(pageId: string): RegisteredPageContent | null {
   return globalPageContentRegistry.get(pageId) || null
 }
 
+// Global API for report registration (Level 1 & 2)
+function globalRegisterReport<TData = unknown, TRecord = unknown>(
+  pageId: string,
+  config: ReportConfig<TData, TRecord>
+): void {
+  globalReportRegistry.set(pageId, { pageId, config: config as ReportConfig })
+  globalListeners.forEach((listener) => listener())
+  // Dispatch event for components to react
+  window.dispatchEvent(new CustomEvent('wps:report-registered', { detail: { pageId } }))
+}
+
+function globalUnregisterReport(pageId: string): void {
+  globalReportRegistry.delete(pageId)
+  globalListeners.forEach((listener) => listener())
+}
+
+function globalGetReport<TData = unknown, TRecord = unknown>(
+  pageId: string
+): RegisteredReport<TData, TRecord> | null {
+  return (globalReportRegistry.get(pageId) as RegisteredReport<TData, TRecord>) || null
+}
+
 // Expose global API on window for premium plugin
 declare global {
   interface Window {
@@ -117,6 +158,9 @@ declare global {
       registerPageContent: typeof globalRegisterPageContent
       unregisterPageContent: typeof globalUnregisterPageContent
       getPageContent: typeof globalGetPageContent
+      registerReport: typeof globalRegisterReport
+      unregisterReport: typeof globalUnregisterReport
+      getReport: typeof globalGetReport
     }
   }
 }
@@ -129,6 +173,9 @@ window.wpsContentRegistry = {
   registerPageContent: globalRegisterPageContent,
   unregisterPageContent: globalUnregisterPageContent,
   getPageContent: globalGetPageContent,
+  registerReport: globalRegisterReport,
+  unregisterReport: globalUnregisterReport,
+  getReport: globalGetReport,
 }
 
 const ContentRegistryContext = createContext<ContentRegistryContextValue | undefined>(undefined)
@@ -175,6 +222,24 @@ export function ContentRegistryProvider({ children }: ContentRegistryProviderPro
     return globalGetPageContent(pageId)
   }, [])
 
+  // Report registration methods (Level 1 & 2)
+  const registerReport = useCallback(<TData = unknown, TRecord = unknown>(
+    pageId: string,
+    config: ReportConfig<TData, TRecord>
+  ) => {
+    globalRegisterReport(pageId, config)
+  }, [])
+
+  const unregisterReport = useCallback((pageId: string) => {
+    globalUnregisterReport(pageId)
+  }, [])
+
+  const getReport = useCallback(<TData = unknown, TRecord = unknown>(
+    pageId: string
+  ): RegisteredReport<TData, TRecord> | null => {
+    return globalGetReport(pageId)
+  }, [])
+
   const value: ContentRegistryContextValue = useMemo(
     () => ({
       registerWidget,
@@ -183,6 +248,9 @@ export function ContentRegistryProvider({ children }: ContentRegistryProviderPro
       registerPageContent,
       unregisterPageContent,
       getPageContent,
+      registerReport,
+      unregisterReport,
+      getReport,
     }),
     [
       registerWidget,
@@ -191,6 +259,9 @@ export function ContentRegistryProvider({ children }: ContentRegistryProviderPro
       registerPageContent,
       unregisterPageContent,
       getPageContent,
+      registerReport,
+      unregisterReport,
+      getReport,
     ]
   )
 

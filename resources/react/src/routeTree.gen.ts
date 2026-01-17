@@ -24,6 +24,7 @@ import { Route as visitorInsightsLoggedInUsersRouteImport } from './routes/(visi
 import { Route as referralsReferralsOverviewRouteImport } from './routes/(referrals)/referrals-overview'
 import { Route as pageInsightsTopPagesRouteImport } from './routes/(page-insights)/top-pages'
 import { Route as pageInsightsPageInsightsOverviewRouteImport } from './routes/(page-insights)/page-insights-overview'
+import { Route as pageInsightsExitPagesRouteImport } from './routes/(page-insights)/exit-pages'
 import { Route as pageInsightsEntryPagesRouteImport } from './routes/(page-insights)/entry-pages'
 import { Route as pageInsightsCategoryPagesRouteImport } from './routes/(page-insights)/category-pages'
 import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insights)/author-pages'
@@ -420,6 +421,15 @@ const pageInsightsPageInsightsOverviewRoute =
         (d) => d.Route,
       ),
     )
+const pageInsightsExitPagesRoute = pageInsightsExitPagesRouteImport
+  .update({
+    id: '/(page-insights)/exit-pages',
+    path: '/exit-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/exit-pages.lazy').then((d) => d.Route),
+  )
 const pageInsightsEntryPagesRoute = pageInsightsEntryPagesRouteImport
   .update({
     id: '/(page-insights)/entry-pages',
@@ -566,6 +576,7 @@ export interface FileRoutesByFullPath {
   '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/category-pages': typeof pageInsightsCategoryPagesRoute
   '/entry-pages': typeof pageInsightsEntryPagesRoute
+  '/exit-pages': typeof pageInsightsExitPagesRoute
   '/page-insights-overview': typeof pageInsightsPageInsightsOverviewRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
   '/referrals-overview': typeof referralsReferralsOverviewRoute
@@ -619,6 +630,7 @@ export interface FileRoutesByTo {
   '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/category-pages': typeof pageInsightsCategoryPagesRoute
   '/entry-pages': typeof pageInsightsEntryPagesRoute
+  '/exit-pages': typeof pageInsightsExitPagesRoute
   '/page-insights-overview': typeof pageInsightsPageInsightsOverviewRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
   '/referrals-overview': typeof referralsReferralsOverviewRoute
@@ -675,6 +687,7 @@ export interface FileRoutesById {
   '/(page-insights)/author-pages': typeof pageInsightsAuthorPagesRoute
   '/(page-insights)/category-pages': typeof pageInsightsCategoryPagesRoute
   '/(page-insights)/entry-pages': typeof pageInsightsEntryPagesRoute
+  '/(page-insights)/exit-pages': typeof pageInsightsExitPagesRoute
   '/(page-insights)/page-insights-overview': typeof pageInsightsPageInsightsOverviewRoute
   '/(page-insights)/top-pages': typeof pageInsightsTopPagesRoute
   '/(referrals)/referrals-overview': typeof referralsReferralsOverviewRoute
@@ -732,6 +745,7 @@ export interface FileRouteTypes {
     | '/author-pages'
     | '/category-pages'
     | '/entry-pages'
+    | '/exit-pages'
     | '/page-insights-overview'
     | '/top-pages'
     | '/referrals-overview'
@@ -785,6 +799,7 @@ export interface FileRouteTypes {
     | '/author-pages'
     | '/category-pages'
     | '/entry-pages'
+    | '/exit-pages'
     | '/page-insights-overview'
     | '/top-pages'
     | '/referrals-overview'
@@ -840,6 +855,7 @@ export interface FileRouteTypes {
     | '/(page-insights)/author-pages'
     | '/(page-insights)/category-pages'
     | '/(page-insights)/entry-pages'
+    | '/(page-insights)/exit-pages'
     | '/(page-insights)/page-insights-overview'
     | '/(page-insights)/top-pages'
     | '/(referrals)/referrals-overview'
@@ -896,6 +912,7 @@ export interface RootRouteChildren {
   pageInsightsAuthorPagesRoute: typeof pageInsightsAuthorPagesRoute
   pageInsightsCategoryPagesRoute: typeof pageInsightsCategoryPagesRoute
   pageInsightsEntryPagesRoute: typeof pageInsightsEntryPagesRoute
+  pageInsightsExitPagesRoute: typeof pageInsightsExitPagesRoute
   pageInsightsPageInsightsOverviewRoute: typeof pageInsightsPageInsightsOverviewRoute
   pageInsightsTopPagesRoute: typeof pageInsightsTopPagesRoute
   referralsReferralsOverviewRoute: typeof referralsReferralsOverviewRoute
@@ -1202,6 +1219,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pageInsightsPageInsightsOverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(page-insights)/exit-pages': {
+      id: '/(page-insights)/exit-pages'
+      path: '/exit-pages'
+      fullPath: '/exit-pages'
+      preLoaderRoute: typeof pageInsightsExitPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(page-insights)/entry-pages': {
       id: '/(page-insights)/entry-pages'
       path: '/entry-pages'
@@ -1366,6 +1390,7 @@ const rootRouteChildren: RootRouteChildren = {
   pageInsightsAuthorPagesRoute: pageInsightsAuthorPagesRoute,
   pageInsightsCategoryPagesRoute: pageInsightsCategoryPagesRoute,
   pageInsightsEntryPagesRoute: pageInsightsEntryPagesRoute,
+  pageInsightsExitPagesRoute: pageInsightsExitPagesRoute,
   pageInsightsPageInsightsOverviewRoute: pageInsightsPageInsightsOverviewRoute,
   pageInsightsTopPagesRoute: pageInsightsTopPagesRoute,
   referralsReferralsOverviewRoute: referralsReferralsOverviewRoute,

@@ -19,11 +19,15 @@ import {
   OptionsDetailView,
   OptionsMenuItem,
   OptionsToggleItem,
-  type OptionsView,
   useOptionsDrawer,
 } from '@/components/custom/options-drawer/options-drawer'
 // Content Registry
 import { useContentRegistry } from '@/contexts/content-registry-context'
+// Report Page Renderer
+import {
+  ReportPageRenderer,
+  type ReportConfig,
+} from '@/components/report-page-renderer'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 // Hooks
 import { usePageOptions } from '@/hooks/use-page-options'
@@ -51,6 +55,11 @@ import {
   type EntryPageRecord,
   type GetEntryPagesParams,
 } from '@/services/page-insight/get-entry-pages'
+import {
+  getExitPagesQueryOptions,
+  type ExitPageRecord,
+  type GetExitPagesParams,
+} from '@/services/page-insight/get-exit-pages'
 // Query Client
 import { queryClient } from '@/lib/query-client'
 // Response Helpers
@@ -63,6 +72,17 @@ window.React = React
 window.ReactDOM = ReactDOM
 // @ts-expect-error - Setting global TanStack Query for premium plugin
 window.__TANSTACK_QUERY__ = TanStackQuery
+
+/**
+ * Convenience function to register a report with the content registry.
+ * Premium modules can use this to register config-based reports.
+ */
+function registerReport<TData = unknown, TRecord = unknown>(
+  pageId: string,
+  config: ReportConfig<TData, TRecord>
+): void {
+  window.wpsContentRegistry?.registerReport(pageId, config)
+}
 
 // Type definition for exports
 interface WpsExports {
@@ -86,6 +106,7 @@ interface WpsExports {
     PanelSkeleton: typeof PanelSkeleton
     TableSkeleton: typeof TableSkeleton
     NoticeContainer: typeof NoticeContainer
+    ReportPageRenderer: typeof ReportPageRenderer
   }
   utils: {
     createPageViewsColumns: typeof createPageViewsColumns
@@ -95,7 +116,14 @@ interface WpsExports {
   }
   services: {
     getEntryPagesQueryOptions: typeof getEntryPagesQueryOptions
+    getExitPagesQueryOptions: typeof getExitPagesQueryOptions
   }
+  /**
+   * Register a config-based report page.
+   * Core handles the full UI (header, filters, table, pagination).
+   * Premium provides the config (title, columns, query, etc.).
+   */
+  registerReport: typeof registerReport
   queryClient: QueryClient
 }
 
@@ -129,6 +157,7 @@ window.wps_exports = {
     PanelSkeleton,
     TableSkeleton,
     NoticeContainer,
+    ReportPageRenderer,
   },
   utils: {
     createPageViewsColumns,
@@ -138,7 +167,9 @@ window.wps_exports = {
   },
   services: {
     getEntryPagesQueryOptions,
+    getExitPagesQueryOptions,
   },
+  registerReport,
   queryClient,
 }
 

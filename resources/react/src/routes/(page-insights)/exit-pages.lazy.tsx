@@ -8,7 +8,7 @@ import { useContentRegistry } from '@/contexts/content-registry-context'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 
-export const Route = createLazyFileRoute('/(page-insights)/entry-pages')({
+export const Route = createLazyFileRoute('/(page-insights)/exit-pages')({
   component: RouteComponent,
 })
 
@@ -20,11 +20,11 @@ function LockedState() {
           <LockIcon className="w-8 h-8 text-primary" strokeWidth={1.5} />
         </div>
         <h2 className="text-lg font-semibold text-neutral-800">
-          {__('Entry Pages Report', 'wp-statistics')}
+          {__('Exit Pages Report', 'wp-statistics')}
         </h2>
         <p className="text-sm text-muted-foreground">
           {__(
-            'See which pages visitors land on when they first enter your site. Understand your top entry points and optimize them for better engagement.',
+            'See which pages visitors leave your site from. Understand your exit points and optimize them to keep visitors engaged longer.',
             'wp-statistics'
           )}
         </p>
@@ -32,7 +32,7 @@ function LockedState() {
           {__('This feature requires the Premium addon.', 'wp-statistics')}
         </p>
         <a
-          href="https://wp-statistics.com/pricing/?utm_source=plugin&utm_medium=link&utm_campaign=entry-pages"
+          href="https://wp-statistics.com/pricing/?utm_source=plugin&utm_medium=link&utm_campaign=exit-pages"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/90 transition-colors"
@@ -51,12 +51,12 @@ function RouteComponent() {
   // Listen for content/report registration events
   useEffect(() => {
     const handleContentRegistered = (event: CustomEvent) => {
-      if (event.detail?.pageId === 'entry-pages') {
+      if (event.detail?.pageId === 'exit-pages') {
         forceUpdate((n) => n + 1)
       }
     }
     const handleReportRegistered = (event: CustomEvent) => {
-      if (event.detail?.pageId === 'entry-pages') {
+      if (event.detail?.pageId === 'exit-pages') {
         forceUpdate((n) => n + 1)
       }
     }
@@ -70,13 +70,13 @@ function RouteComponent() {
   }, [])
 
   // Level 1 & 2: Check for registered report config
-  const registeredReport = getReport('entry-pages')
+  const registeredReport = getReport('exit-pages')
   if (registeredReport?.config) {
     return <ReportPageRenderer config={registeredReport.config} />
   }
 
   // Level 3: Check for full custom page content
-  const pageContent = getPageContent('entry-pages')
+  const pageContent = getPageContent('exit-pages')
   if (pageContent?.render) {
     const premiumContent = pageContent.render()
     if (premiumContent) {
@@ -88,10 +88,10 @@ function RouteComponent() {
   return (
     <div className="min-w-0">
       <div className="flex items-center justify-between px-4 py-3 ">
-        <h1 className="text-2xl font-semibold text-neutral-800">{__('Entry Pages', 'wp-statistics')}</h1>
+        <h1 className="text-2xl font-semibold text-neutral-800">{__('Exit Pages', 'wp-statistics')}</h1>
       </div>
       <div className="p-3">
-        <NoticeContainer className="mb-2" currentRoute="entry-pages" />
+        <NoticeContainer className="mb-2" currentRoute="exit-pages" />
         <LockedState />
       </div>
     </div>
