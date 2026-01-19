@@ -25,8 +25,17 @@ if (!defined('ABSPATH')) exit;
  * Pro is handling everything and Free should stay dormant.
  */
 if (defined('WP_STATISTICS_PRO_FILE')) {
-    // Pro is active - show persistent notice asking user to deactivate Free
-    add_action('admin_notices', function () {
+    // Load textdomain early so notice can be translated
+    add_action('init', function () {
+        load_plugin_textdomain(
+            'wp-statistics',
+            false,
+            dirname(plugin_basename(__FILE__)) . '/resources/languages'
+        );
+    }, 1);
+
+    // Notice callback for when Pro is active
+    $wp_statistics_pro_active_notice = function () {
         ?>
         <div class="notice notice-warning">
             <p>
@@ -35,7 +44,14 @@ if (defined('WP_STATISTICS_PRO_FILE')) {
             </p>
         </div>
         <?php
-    });
+    };
+
+    // Register notice for both regular and network admin
+    add_action('admin_notices', $wp_statistics_pro_active_notice);
+    if (is_multisite()) {
+        add_action('network_admin_notices', $wp_statistics_pro_active_notice);
+    }
+
     return; // Stop loading Free
 }
 
