@@ -15,20 +15,51 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-# Exit if accessed directly
-if (!defined('ABSPATH')) exit;
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+    exit;
+}
 
-# Load Plugin Constants
+/*
+|--------------------------------------------------------------------------
+| Pro Compatibility Check
+|--------------------------------------------------------------------------
+|
+| If WP Statistics Pro is active, it includes all Free features.
+| Free should stay dormant and display a notice to deactivate.
+|
+*/
+require_once __DIR__ . '/src/pro-compatibility.php';
+
+if (wp_statistics_is_pro_active()) {
+    wp_statistics_init_pro_compatibility(__FILE__);
+    return;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Load Constants
+|--------------------------------------------------------------------------
+*/
 require_once __DIR__ . '/src/constants.php';
 
-# Set another useful plugin define.
-define('WP_STATISTICS_VERSION', '15.0');
+/*
+|--------------------------------------------------------------------------
+| Load Composer Autoloader
+|--------------------------------------------------------------------------
+*/
+require_once __DIR__ . '/vendor/autoload.php';
 
-# Load Composer autoloader
-require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
+/*
+|--------------------------------------------------------------------------
+| Load Global Functions
+|--------------------------------------------------------------------------
+*/
+require_once __DIR__ . '/src/functions.php';
 
-# Load global functions
-require_once WP_STATISTICS_DIR . 'src/functions.php';
-
-# Initialize plugin
+/*
+|--------------------------------------------------------------------------
+| Initialize Plugin
+|--------------------------------------------------------------------------
+*/
 WP_Statistics\Bootstrap::init();
