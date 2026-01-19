@@ -23,3 +23,9 @@ define('WP_STATISTICS_DIR', $pluginDir . '/');
 define('WP_STATISTICS_MAIN_FILE', WP_STATISTICS_DIR . 'wp-statistics.php');
 define('WP_STATISTICS_UPLOADS_DIR', 'wp-statistics');
 define('WP_STATISTICS_SITE_URL', 'https://wp-statistics.com');
+
+// Plugin version (also defined in wp-statistics.php for redundancy)
+// This ensures version is available early in load sequence
+if (!defined('WP_STATISTICS_VERSION')) {
+    define('WP_STATISTICS_VERSION', '15.0');
+}
