@@ -18,6 +18,50 @@
 # Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
+/**
+ * Mutual Exclusivity Check
+ *
+ * WP Statistics Pro includes all Free features. When Pro is active,
+ * the Free version should not load to prevent conflicts.
+ * ACF-style: Users install Free OR Pro, not both.
+ */
+register_activation_hook(__FILE__, function () {
+    // Include plugin.php for is_plugin_active()
+    if (!function_exists('is_plugin_active')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    // Check if Pro is already active
+    if (is_plugin_active('wp-statistics-pro/wp-statistics-pro.php')) {
+        wp_die(
+            __('WP Statistics Pro is already active and includes all free features. Please deactivate Pro first if you want to use the free version.', 'wp-statistics'),
+            __('Plugin Activation Error', 'wp-statistics'),
+            ['back_link' => true]
+        );
+    }
+});
+
+/**
+ * Check if Pro is active and skip loading Free
+ *
+ * Pro defines WP_STATISTICS_PRO_FILE constant. If it's defined,
+ * Pro is handling everything and Free should stay dormant.
+ */
+if (defined('WP_STATISTICS_PRO_FILE')) {
+    // Pro is active - show notice and don't load Free
+    add_action('admin_notices', function () {
+        ?>
+        <div class="notice notice-warning is-dismissible">
+            <p>
+                <strong><?php esc_html_e('WP Statistics', 'wp-statistics'); ?>:</strong>
+                <?php esc_html_e('WP Statistics Pro is active and includes all free features. Please deactivate the free version to avoid conflicts.', 'wp-statistics'); ?>
+            </p>
+        </div>
+        <?php
+    });
+    return; // Stop loading Free
+}
+
 # Load Plugin Constants
 require_once __DIR__ . '/src/constants.php';
 
