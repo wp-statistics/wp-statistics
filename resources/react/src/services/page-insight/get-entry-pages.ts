@@ -7,6 +7,9 @@ export interface EntryPageRecord {
   page_uri: string
   page_title: string
   sessions: number
+  previous?: {
+    sessions: number
+  }
 }
 
 export interface GetEntryPagesResponse {
