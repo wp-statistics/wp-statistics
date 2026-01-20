@@ -32,6 +32,9 @@ Temporary Items
 node_modules
 package-lock.json
 
+# Composer
+vendor/
+
 # Environment files (keep .env.example)
 .env
 .env.local
