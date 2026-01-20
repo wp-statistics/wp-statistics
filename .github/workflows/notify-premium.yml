@@ -1,4 +1,4 @@
-name: Notify Pro Repository
+name: Notify Premium Repository
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - 'v*'
 
 jobs:
-  trigger-pro-build:
-    name: Trigger Pro Build
+  trigger-premium-build:
+    name: Trigger Premium Build
     runs-on: ubuntu-latest
 
     steps:
@@ -16,16 +16,16 @@ jobs:
         run: |
           VERSION="${GITHUB_REF#refs/tags/}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Triggering Pro build for version: $VERSION"
+          echo "Triggering Premium build for version: $VERSION"
 
-      - name: Trigger Pro Repository Build
+      - name: Trigger Premium Repository Build
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PRO_REPO_PAT }}
-          repository: wp-statistics/wp-statistics-pro
+          repository: wp-statistics/wp-statistics-premium
           event-type: free-release
           client-payload: '{"version": "${{ steps.version.outputs.version }}"}'
 
       - name: Log Success
         run: |
-          echo "Successfully triggered Pro build for ${{ steps.version.outputs.version }}"
+          echo "Successfully triggered Premium build for ${{ steps.version.outputs.version }}"

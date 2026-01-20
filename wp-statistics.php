@@ -22,17 +22,17 @@ if (!defined('ABSPATH')) {
 
 /*
 |--------------------------------------------------------------------------
-| Pro Compatibility Check
+| Premium Compatibility Check
 |--------------------------------------------------------------------------
 |
-| If WP Statistics Pro is active, it includes all Free features.
+| If WP Statistics Premium is active, it includes all Free features.
 | Free should stay dormant and display a notice to deactivate.
 |
 */
-require_once __DIR__ . '/src/pro-compatibility.php';
+require_once __DIR__ . '/src/premium-compatibility.php';
 
-if (wp_statistics_is_pro_active()) {
-    wp_statistics_init_pro_compatibility(__FILE__);
+if (wp_statistics_is_premium_active()) {
+    wp_statistics_init_premium_compatibility(__FILE__);
     return;
 }
 
