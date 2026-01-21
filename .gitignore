@@ -46,6 +46,7 @@ vendor/
 public/*
 !public/.gitkeep
 storybook-static/
+stats.html
 
 # VSCode IDE
 .vscode/*

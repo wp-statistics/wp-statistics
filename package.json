@@ -16,6 +16,7 @@
     "build:legacy": "vite build --config vite.config.legacy.js",
     "build:blocks": "vite build --config vite.config.blocks.js",
     "build:react": "vite build --config vite.config.react.ts",
+    "build:react:analyze": "ANALYZE=true vite build --config vite.config.react.ts",
     "start": "npm run dev",
     "dev": "npm run dev:react",
     "dev:legacy": "vite build --config vite.config.legacy.js --watch --mode development",
@@ -133,6 +134,7 @@
     "tw-animate-css": "^1.4.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.44.0",
+    "rollup-plugin-visualizer": "^6.0.5",
     "vite": "^7.3.1",
     "vitest": "^4.0.16"
   },
