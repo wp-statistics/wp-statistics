@@ -37,8 +37,17 @@ class Insert extends AbstractTableOperation
      */
     public function setSourceTable(string $sourceTable)
     {
-        $this->sourceTable         = $sourceTable;
-        $this->prefixedSourceTable = $this->wpdb->prefix . 'statistics_' . $sourceTable;
+        $this->sourceTable = $sourceTable;
+
+        /**
+         * Filter the prefix segment used between wpdb prefix and table name.
+         *
+         * @param string $prefix The default 'statistics' (no trailing underscore).
+         * @param string $tableName The logical table name.
+         */
+        $tableNamePrefix = apply_filters('wp_statistics_table_prefix', 'statistics', $sourceTable);
+
+        $this->prefixedSourceTable = $this->wpdb->prefix . $tableNamePrefix . '_' . $sourceTable;
 
         return $this;
     }
@@ -66,7 +75,7 @@ class Insert extends AbstractTableOperation
             }
         } catch (\Exception $e) {
             Option::saveOptionGroup('migration_status_detail', [
-                'status' => 'failed',
+                'status'  => 'failed',
                 'message' => $e->getMessage()
             ], 'db');
 
@@ -81,7 +90,7 @@ class Insert extends AbstractTableOperation
      */
     public function insertOrUpdateData()
     {
-        $mapping = $this->args['mapping'] ?? [];
+        $mapping    = $this->args['mapping'] ?? [];
         $conditions = $this->args['conditions'] ?? [];
 
         if (empty($mapping) || empty($conditions)) {
@@ -90,18 +99,18 @@ class Insert extends AbstractTableOperation
 
         // Construct WHERE clause from conditions
         $whereClauses = [];
-        $params = [];
+        $params       = [];
 
         foreach ($conditions as $column => $value) {
             $whereClauses[] = "`$column` = %s";
-            $params[] = $value;
+            $params[]       = $value;
         }
 
         $whereQuery = implode(' AND ', $whereClauses);
 
         // Check if a matching record exists
         $existsQuery = "SELECT COUNT(*) FROM {$this->fullName} WHERE $whereQuery";
-        $exists = $this->wpdb->get_var($this->wpdb->prepare($existsQuery, ...$params));
+        $exists      = $this->wpdb->get_var($this->wpdb->prepare($existsQuery, ...$params));
 
         if ($exists > 0) {
             // Update existing record
@@ -112,7 +121,7 @@ class Insert extends AbstractTableOperation
         } else {
             // Insert new record
             $mergedData = array_merge($mapping, $conditions);
-            $result = $this->wpdb->insert($this->fullName, $mergedData);
+            $result     = $this->wpdb->insert($this->fullName, $mergedData);
             if ($result === false) {
                 throw new RuntimeException("Failed to insert data: {$this->wpdb->last_error}");
             }
@@ -131,7 +140,7 @@ class Insert extends AbstractTableOperation
             throw new RuntimeException("Source table is not specified for migration.");
         }
 
-        $mapping = $this->args['mapping'] ?? [];
+        $mapping        = $this->args['mapping'] ?? [];
         $distinctFields = $this->args['distinct_fields'] ?? [];
         $sourceTableSet = $this->args['source_table_set'] ?? [];
 
@@ -140,7 +149,7 @@ class Insert extends AbstractTableOperation
         }
 
         $batchSize = $this->args['batch_size'] ?? 50;
-        $offset = $this->args['offset'] ?? 0;
+        $offset    = $this->args['offset'] ?? 0;
 
         // Prepare the columns for fetching data from the source table
         $sourceColumns = implode(', ', array_values($mapping));
@@ -199,7 +208,7 @@ class Insert extends AbstractTableOperation
         }
 
         $conditionQuery = implode(' AND ', $conditions);
-        $exists = $this->wpdb->get_var("SELECT COUNT(*) FROM {$this->fullName} WHERE $conditionQuery");
+        $exists         = $this->wpdb->get_var("SELECT COUNT(*) FROM {$this->fullName} WHERE $conditionQuery");
 
         return $exists > 0;
     }
