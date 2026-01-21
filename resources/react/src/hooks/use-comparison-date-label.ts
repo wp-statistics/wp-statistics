@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 
 export interface ComparisonDateLabel {
-  /** Compact label: "Dec 16 - Jan 12 vs. Nov 18 - Dec 15" (year omitted if same) */
+  /** Compact label: "Dec 16 - Jan 12 vs. Nov 18 - Dec 15" (year omitted if all dates are in current year) */
   label: string | undefined
   /** Current period only */
   currentPeriodLabel: string
@@ -45,12 +45,11 @@ function formatDateRange(from: Date, to: Date, includeYear: boolean = true, loca
 }
 
 /**
- * Check if all dates are in the same year
+ * Check if all dates are in the current year
  */
-function allSameYear(...dates: Date[]): boolean {
-  if (dates.length === 0) return true
-  const firstYear = dates[0].getFullYear()
-  return dates.every((date) => date.getFullYear() === firstYear)
+function allInCurrentYear(...dates: Date[]): boolean {
+  const currentYear = new Date().getFullYear()
+  return dates.every((date) => date.getFullYear() === currentYear)
 }
 
 /**
@@ -60,7 +59,7 @@ function allSameYear(...dates: Date[]): boolean {
  * ```tsx
  * const { label, isCompareEnabled } = useComparisonDateLabel()
  *
- * // label = "Dec 16 - Jan 12 vs. Nov 18 - Dec 15" (compact, year omitted if same)
+ * // label = "Dec 16 - Jan 12 vs. Nov 18 - Dec 15" (compact, year omitted if all in current year)
  * // or undefined if comparison is disabled
  * ```
  */
@@ -68,8 +67,9 @@ export function useComparisonDateLabel(): ComparisonDateLabel {
   const { dateFrom, dateTo, compareDateFrom, compareDateTo, isCompareEnabled } = useGlobalFilters()
 
   return useMemo(() => {
-    // For current period label (used standalone), always include year
-    const currentPeriodLabel = formatDateRange(dateFrom, dateTo, true)
+    // For current period label (used standalone), hide year if in current year
+    const showYearInCurrentPeriod = !allInCurrentYear(dateFrom, dateTo)
+    const currentPeriodLabel = formatDateRange(dateFrom, dateTo, showYearInCurrentPeriod)
 
     if (!isCompareEnabled || !compareDateFrom || !compareDateTo) {
       return {
@@ -80,16 +80,17 @@ export function useComparisonDateLabel(): ComparisonDateLabel {
       }
     }
 
-    // For comparison tooltip, check if we can omit the year for compactness
-    const sameYear = allSameYear(dateFrom, dateTo, compareDateFrom, compareDateTo)
+    // For comparison tooltip, hide year only if all 4 dates are in the current year
+    const allCurrentYear = allInCurrentYear(dateFrom, dateTo, compareDateFrom, compareDateTo)
+    const showYear = !allCurrentYear
 
-    const currentLabel = formatDateRange(dateFrom, dateTo, !sameYear)
-    const previousLabel = formatDateRange(compareDateFrom, compareDateTo, !sameYear)
+    const currentLabel = formatDateRange(dateFrom, dateTo, showYear)
+    const previousLabel = formatDateRange(compareDateFrom, compareDateTo, showYear)
 
     return {
       label: `${currentLabel} ${__('vs.', 'wp-statistics')} ${previousLabel}`,
       currentPeriodLabel,
-      previousPeriodLabel: formatDateRange(compareDateFrom, compareDateTo, true),
+      previousPeriodLabel: formatDateRange(compareDateFrom, compareDateTo, !allInCurrentYear(compareDateFrom, compareDateTo)),
       isCompareEnabled: true,
     }
   }, [dateFrom, dateTo, compareDateFrom, compareDateTo, isCompareEnabled])
