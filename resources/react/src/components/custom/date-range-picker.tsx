@@ -46,11 +46,15 @@ export interface DateRangePickerProps {
   initialComparisonMode?: ComparisonMode
 }
 
-const formatDate = (date: Date, locale: string = 'en-us'): string => {
+const isCurrentYear = (date: Date): boolean => {
+  return date.getFullYear() === new Date().getFullYear()
+}
+
+const formatDate = (date: Date, locale: string = 'en-us', includeYear: boolean = true): string => {
   return date.toLocaleDateString(locale, {
     month: 'short',
     day: 'numeric',
-    year: 'numeric',
+    ...(includeYear && { year: 'numeric' }),
   })
 }
 
@@ -678,9 +682,9 @@ export const DateRangePicker = ({
   // Track compare range selection state (true = waiting for end date after selecting start)
   const [awaitingCompareEndDate, setAwaitingCompareEndDate] = useState(false)
 
-  const openedRangeRef = useRef<DateRange | undefined>()
-  const openedRangeCompareRef = useRef<DateRange | undefined>()
-  const openedComparisonModeRef = useRef<ComparisonMode | undefined>()
+  const openedRangeRef = useRef<DateRange | undefined>(undefined)
+  const openedRangeCompareRef = useRef<DateRange | undefined>(undefined)
+  const openedComparisonModeRef = useRef<ComparisonMode | undefined>(undefined)
 
   const [selectedPreset, setSelectedPreset] = useState<string | undefined>(
     initialPeriod && isValidPreset(initialPeriod) ? initialPeriod : undefined
@@ -920,9 +924,18 @@ export const DateRangePicker = ({
               </span>
             )}
 
-            {/* Main date range */}
+            {/* Main date range - show year on end date only if all dates are in current year */}
             <span className="text-neutral-700 font-medium">
-              {formatDate(range.from, locale)} - {range.to ? formatDate(range.to, locale) : formatDate(range.from, locale)}
+              {(() => {
+                const allCurrentYear = isCurrentYear(range.from) && (!range.to || isCurrentYear(range.to))
+                const toDate = range.to ?? range.from
+                // If same day, show with year
+                if (range.from.getTime() === toDate.getTime()) {
+                  return formatDate(range.from, locale, true)
+                }
+                // Show year on both dates if any is not current year, otherwise only on end date
+                return `${formatDate(range.from, locale, !allCurrentYear)} - ${formatDate(toDate, locale, true)}`
+              })()}
             </span>
 
             {/* Comparison indicator badge */}

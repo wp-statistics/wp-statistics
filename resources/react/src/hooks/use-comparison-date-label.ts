@@ -30,16 +30,19 @@ function formatDate(date: Date, includeYear: boolean = true, locale: string = 'e
 
 /**
  * Format a date range for display (compact format)
- * Returns "Dec 16 - Jan 12" or just "Dec 16" if same day
+ * Returns "Dec 16 - Jan 12, 2026" or just "Dec 16, 2026" if same day
+ * When includeYear is true, year is shown on both dates
+ * When includeYear is false but keepOneYear is true, year is shown only on end date for clarity
  */
-function formatDateRange(from: Date, to: Date, includeYear: boolean = true, locale: string = 'en-US'): string {
-  const fromStr = formatDate(from, includeYear, locale)
-  const toStr = formatDate(to, includeYear, locale)
-
-  // If same day, just show one date
+function formatDateRange(from: Date, to: Date, includeYear: boolean = true, locale: string = 'en-US', keepOneYear: boolean = true): string {
+  // If same day, always show year on that single date for clarity
   if (from.getTime() === to.getTime()) {
-    return fromStr
+    return formatDate(from, includeYear || keepOneYear, locale)
   }
+
+  // When not including year on both, still show it on end date for clarity
+  const fromStr = formatDate(from, includeYear, locale)
+  const toStr = formatDate(to, includeYear || keepOneYear, locale)
 
   return `${fromStr} - ${toStr}`
 }
