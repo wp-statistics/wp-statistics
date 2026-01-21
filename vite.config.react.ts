@@ -4,7 +4,6 @@ import { cpSync, rmSync, readFileSync, existsSync, mkdirSync, readdirSync, write
 
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import { visualizer } from 'rollup-plugin-visualizer'
 import { wpI18n } from './vite-plugin-wp-i18n.js'
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
@@ -110,7 +109,6 @@ function copyGeoJsonPlugin(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const isAnalyze = process.env.ANALYZE === 'true'
   const reactRoot = resolve(__dirname, 'resources/react')
 
   // Load environment variables from .env and .env.react files
@@ -149,14 +147,7 @@ export default defineConfig(({ mode }) => {
       wpI18n({ textDomain: 'wp-statistics' }),
       copyImagesPlugin(),
       copyGeoJsonPlugin(),
-      // Bundle analyzer - only runs with ANALYZE=true (npm run build:react:analyze)
-      isAnalyze && visualizer({
-        filename: 'stats.html',
-        open: true,
-        gzipSize: true,
-        brotliSize: true,
-      }),
-    ].filter(Boolean),
+    ],
     css: {
       postcss: {
         plugins: [postcssImportantPlugin()],
