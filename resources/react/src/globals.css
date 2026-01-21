@@ -1,6 +1,11 @@
 @import 'tailwindcss' important;
 @import 'tw-animate-css';
 
+/* Explicitly tell Tailwind where to scan for utility classes */
+/* Paths are relative to this CSS file */
+@source "./";
+@source "../pro";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
