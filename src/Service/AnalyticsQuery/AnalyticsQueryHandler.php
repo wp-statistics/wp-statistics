@@ -1045,6 +1045,7 @@ class AnalyticsQueryHandler
         $this->comparisonHandler
             ->setSources($sources)
             ->setGroupBy($groupBy)
+            ->setFilters($query->getFilters())
             ->setCurrentPeriodRange($query->getDateFrom(), $query->getDateTo())
             ->setPreviousPeriodRange($previousPeriod['from'], $previousPeriod['to']);
 

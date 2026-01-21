@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\Formatters;
 
+use WP_Statistics\Service\AnalyticsQuery\Helpers\PublishedContentHelper;
 use WP_Statistics\Service\AnalyticsQuery\Query\Query;
 
 /**
@@ -143,6 +144,7 @@ class ChartFormatter extends AbstractFormatter
      * Fill in missing dates for time-series data.
      *
      * Ensures all dates in the query range are present, with zero values for missing dates.
+     * Special handling for published_content which queries WordPress posts table directly.
      *
      * @param array  $rows        Existing data rows.
      * @param Query  $query       Query object with date range.
@@ -161,7 +163,7 @@ class ChartFormatter extends AbstractFormatter
         }
 
         // Generate all expected labels for the date range
-        $allLabels = $this->generateDateLabels($dateFrom, $dateTo, $groupByType);
+        $allLabels = $this->generateDateLabels($dateFrom, $query->getDateTo(), $groupByType);
 
         if (empty($allLabels)) {
             return $rows;
@@ -176,6 +178,22 @@ class ChartFormatter extends AbstractFormatter
             }
         }
 
+        // Check if published_content is requested
+        $hasPublishedContent = in_array('published_content', $sources, true);
+
+        // Pre-fetch published content for all missing dates if needed
+        $publishedContentByDate = [];
+        if ($hasPublishedContent) {
+            $missingLabels = array_diff($allLabels, array_keys($rowIndex));
+            if (!empty($missingLabels)) {
+                $publishedContentByDate = PublishedContentHelper::getPublishedContentByDates(
+                    $missingLabels,
+                    $groupByType,
+                    $query->getFilters()
+                );
+            }
+        }
+
         // Build complete result with all dates
         $filledRows = [];
         foreach ($allLabels as $label) {
@@ -185,7 +203,11 @@ class ChartFormatter extends AbstractFormatter
                 // Create empty row with zeros
                 $emptyRow = [$labelAlias => $label];
                 foreach ($sources as $source) {
-                    $emptyRow[$source] = 0;
+                    if ($source === 'published_content' && isset($publishedContentByDate[$label])) {
+                        $emptyRow[$source] = $publishedContentByDate[$label];
+                    } else {
+                        $emptyRow[$source] = 0;
+                    }
                 }
                 // Don't add previous data for filled dates - let them be null
                 // This ensures missing previous period dates show as gaps, not zeros

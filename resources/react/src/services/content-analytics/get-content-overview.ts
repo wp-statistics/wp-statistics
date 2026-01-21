@@ -37,115 +37,22 @@ export interface ContentMetricsResponse {
   }
 }
 
-// Chart format response (for performance trends)
-export interface ContentPerformanceChartResponse {
+// Chart format response (for traffic trends chart)
+// Matches ChartApiResponse from types/chart.ts for compatibility with useChartData
+export interface TrafficTrendsChartResponse {
   success: boolean
   labels: string[]
+  previousLabels?: string[]
   datasets: Array<{
     key: string
     label: string
-    data: (number | string)[]
+    data: (number | null)[]
     comparison?: boolean
   }>
-  meta?: Record<string, unknown>
-}
-
-// Top content row
-export interface TopContentRow {
-  resource_id: number
-  page_title: string
-  page_uri: string
-  page_type: string
-  page_wp_id: number
-  page_uri_id: number
-  views: number | string
-  visitors: number | string
-  comments: number | string
-  published_date: string | null
-  thumbnail_url: string | null
-  previous?: {
-    views: number | string
-    visitors: number | string
-  }
-}
-
-// Top referrer row
-export interface TopReferrerRow {
-  referrer_domain: string | null
-  referrer_name: string | null
-  referrer_channel: string | null
-  visitors: number | string
-  previous?: {
-    visitors: number | string
-  }
-}
-
-// Top country row
-export interface TopCountryRow {
-  country_code: string
-  country_name: string
-  visitors: number | string
-  previous?: {
-    visitors: number | string
-  }
-}
-
-// Top browser row
-export interface TopBrowserRow {
-  browser_name: string
-  visitors: number | string
-  previous?: {
-    visitors: number | string
-  }
-}
-
-// Top OS row
-export interface TopOSRow {
-  os_name: string
-  visitors: number | string
-  previous?: {
-    visitors: number | string
-  }
-}
-
-// Top device row
-export interface TopDeviceRow {
-  device_type_name: string
-  visitors: number | string
-  previous?: {
-    visitors: number | string
-  }
-}
-
-// Totals value structure
-interface TotalsValue {
-  current?: number | string
-  previous?: number | string
-}
-
-// Table format response wrapper
-export interface TableQueryResult<T> {
-  success: boolean
-  data: {
-    rows: T[]
-    totals?: {
-      visitors?: number | string | TotalsValue
-      views?: number | string | TotalsValue
-      [key: string]: unknown
-    }
-  }
   meta?: {
-    date_from: string
-    date_to: string
-    page?: number
-    per_page?: number
-    total_pages?: number
-    total_rows?: number
-    preferences?: Record<string, unknown> | null
-    cached: boolean
-    cache_ttl: number
     compare_from?: string
     compare_to?: string
+    [key: string]: unknown
   }
 }
 
@@ -153,20 +60,8 @@ export interface TableQueryResult<T> {
 export interface ContentOverviewResponse {
   success: boolean
   items: {
-    // Flat format - totals at top level
     content_metrics?: ContentMetricsResponse
-    // Chart format - labels and datasets at top level
-    content_performance?: ContentPerformanceChartResponse
-    // Table format queries
-    top_content_popular?: TableQueryResult<TopContentRow>
-    top_content_commented?: TableQueryResult<TopContentRow>
-    top_content_recent?: TableQueryResult<TopContentRow>
-    top_referrers?: TableQueryResult<TopReferrerRow>
-    top_search_engines?: TableQueryResult<TopReferrerRow>
-    top_countries?: TableQueryResult<TopCountryRow>
-    top_browsers?: TableQueryResult<TopBrowserRow>
-    top_os?: TableQueryResult<TopOSRow>
-    top_devices?: TableQueryResult<TopDeviceRow>
+    traffic_trends?: TrafficTrendsChartResponse
   }
   errors?: Record<string, { code: string; message: string }>
   skipped?: string[]
@@ -180,8 +75,8 @@ export interface GetContentOverviewParams {
   dateTo: string
   compareDateFrom?: string
   compareDateTo?: string
-  timeframe?: 'daily' | 'weekly' | 'monthly'
   filters?: Filter[]
+  timeframe?: 'daily' | 'weekly' | 'monthly'
 }
 
 export const getContentOverviewQueryOptions = ({
@@ -189,28 +84,19 @@ export const getContentOverviewQueryOptions = ({
   dateTo,
   compareDateFrom,
   compareDateTo,
-  timeframe = 'daily',
   filters = [],
+  timeframe = 'daily',
 }: GetContentOverviewParams) => {
-  // Determine the appropriate date group_by based on timeframe
-  const dateGroupBy = timeframe === 'monthly' ? 'month' : timeframe === 'weekly' ? 'week' : 'date'
   // Transform UI filters to API format
   const apiFilters = transformFiltersToApi(filters)
   // Check if compare dates are provided
   const hasCompare = !!(compareDateFrom && compareDateTo)
 
+  // Map timeframe to API group_by value
+  const dateGroupBy = timeframe === 'weekly' ? 'week' : timeframe === 'monthly' ? 'month' : 'date'
+
   return queryOptions({
-    queryKey: [
-      'content-overview',
-      dateFrom,
-      dateTo,
-      compareDateFrom,
-      compareDateTo,
-      timeframe,
-      apiFilters,
-      hasCompare,
-      dateGroupBy,
-    ],
+    queryKey: ['content-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe],
     queryFn: () =>
       clientRequest.post<ContentOverviewResponse>(
         '',
@@ -233,170 +119,13 @@ export const getContentOverviewQueryOptions = ({
               show_totals: true,
               compare: true,
             },
-            // Content Performance: Chart format for line chart
+            // Traffic Trends: Chart format for line chart with published content bars
             {
-              id: 'content_performance',
+              id: 'traffic_trends',
               sources: ['visitors', 'views', 'published_content'],
               group_by: [dateGroupBy],
               format: 'chart',
               show_totals: false,
-              compare: true,
-            },
-            // Top Content - Most Popular (by views)
-            {
-              id: 'top_content_popular',
-              sources: ['views', 'visitors'],
-              group_by: ['page'],
-              columns: [
-                'resource_id',
-                'page_title',
-                'page_uri',
-                'page_type',
-                'page_wp_id',
-                'views',
-                'visitors',
-                'published_date',
-                'thumbnail_url',
-                'comments',
-              ],
-              per_page: 5,
-              order_by: 'views',
-              order: 'DESC',
-              format: 'table',
-              show_totals: true,
-              compare: true,
-            },
-            // Top Content - Most Commented (by comments)
-            {
-              id: 'top_content_commented',
-              sources: ['views', 'visitors', 'comments'],
-              group_by: ['page'],
-              columns: [
-                'resource_id',
-                'page_title',
-                'page_uri',
-                'page_type',
-                'page_wp_id',
-                'views',
-                'visitors',
-                'published_date',
-                'thumbnail_url',
-                'comments',
-              ],
-              per_page: 5,
-              order_by: 'comments',
-              order: 'DESC',
-              format: 'table',
-              show_totals: false,
-              compare: false,
-            },
-            // Top Content - Most Recent (by published date)
-            {
-              id: 'top_content_recent',
-              sources: ['views', 'visitors'],
-              group_by: ['page'],
-              columns: [
-                'resource_id',
-                'page_title',
-                'page_uri',
-                'page_type',
-                'page_wp_id',
-                'views',
-                'visitors',
-                'published_date',
-                'thumbnail_url',
-                'comments',
-              ],
-              per_page: 5,
-              order_by: 'published_date',
-              order: 'DESC',
-              format: 'table',
-              show_totals: false,
-              compare: false,
-            },
-            // Top Referrers
-            {
-              id: 'top_referrers',
-              sources: ['visitors'],
-              group_by: ['referrer'],
-              columns: ['referrer_domain', 'referrer_name', 'referrer_channel', 'visitors'],
-              per_page: 5,
-              order_by: 'visitors',
-              order: 'DESC',
-              format: 'table',
-              show_totals: true,
-              compare: true,
-            },
-            // Top Search Engines
-            {
-              id: 'top_search_engines',
-              sources: ['visitors'],
-              group_by: ['referrer'],
-              columns: ['referrer_domain', 'referrer_name', 'referrer_channel', 'visitors'],
-              filters: [
-                {
-                  key: 'referrer_channel',
-                  operator: 'is',
-                  value: 'search',
-                },
-              ],
-              per_page: 5,
-              order_by: 'visitors',
-              order: 'DESC',
-              format: 'table',
-              show_totals: true,
-              compare: true,
-            },
-            // Top Countries
-            {
-              id: 'top_countries',
-              sources: ['visitors'],
-              group_by: ['country'],
-              columns: ['country_code', 'country_name', 'visitors'],
-              per_page: 5,
-              order_by: 'visitors',
-              order: 'DESC',
-              format: 'table',
-              show_totals: true,
-              compare: true,
-            },
-            // Top Browsers
-            {
-              id: 'top_browsers',
-              sources: ['visitors'],
-              group_by: ['browser'],
-              columns: ['browser_name', 'visitors'],
-              per_page: 5,
-              order_by: 'visitors',
-              order: 'DESC',
-              format: 'table',
-              show_totals: true,
-              compare: true,
-            },
-            // Top Operating Systems
-            {
-              id: 'top_os',
-              sources: ['visitors'],
-              group_by: ['os'],
-              columns: ['os_name', 'visitors'],
-              per_page: 5,
-              order_by: 'visitors',
-              order: 'DESC',
-              format: 'table',
-              show_totals: true,
-              compare: true,
-            },
-            // Top Device Categories
-            {
-              id: 'top_devices',
-              sources: ['visitors'],
-              group_by: ['device_type'],
-              columns: ['device_type_name', 'visitors'],
-              per_page: 5,
-              order_by: 'visitors',
-              order: 'DESC',
-              format: 'table',
-              show_totals: true,
               compare: true,
             },
           ],

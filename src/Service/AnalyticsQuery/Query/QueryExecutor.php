@@ -697,6 +697,7 @@ class QueryExecutor implements QueryExecutorInterface
         foreach ($sources as $sourceName) {
             $source = $this->sourceRegistry->get($sourceName);
             if ($source) {
+                $source->setContext($groupByNames, $filters, $dateFrom, $dateTo);
                 $select[] = $source->getExpressionWithAlias();
             }
         }
@@ -761,6 +762,7 @@ class QueryExecutor implements QueryExecutorInterface
         foreach ($sources as $sourceName) {
             $source = $this->sourceRegistry->get($sourceName);
             if ($source) {
+                $source->setContext([], $filters, $dateFrom, $dateTo);
                 $select[] = $source->getExpressionWithAlias();
             }
         }
@@ -1110,8 +1112,9 @@ class QueryExecutor implements QueryExecutorInterface
      */
     private function needsResourcesJoin(array $sources, array $groupByNames): bool
     {
-        // Check if comments source is used - it needs resources table for author correlation
-        if (in_array('comments', $sources, true)) {
+        // Check if comments or published_content source is used - they need resources table
+        // published_content uses resources.cached_author_id for author-context detection
+        if (in_array('comments', $sources, true) || in_array('published_content', $sources, true)) {
             return true;
         }
 

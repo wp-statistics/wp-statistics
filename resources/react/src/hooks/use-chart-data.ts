@@ -66,7 +66,13 @@ export function useChartData(
   response: ChartApiResponse | undefined | null,
   options: UseChartDataOptions
 ): UseChartDataResult {
-  const { metrics: metricConfigs, showPreviousValues = false, preserveNull = false, keyMapping = {} } = options
+  const {
+    metrics: metricConfigs,
+    showPreviousValues = false,
+    preserveNull = false,
+    keyMapping = {},
+    totalOverrides = {},
+  } = options
 
   // Extract metric keys for total calculation
   const metricKeys = useMemo(() => metricConfigs.map((m) => m.key), [metricConfigs])
@@ -77,8 +83,22 @@ export function useChartData(
     [response, preserveNull, keyMapping]
   )
 
-  // Calculate totals for all metrics
-  const totals = useMemo<ChartTotals>(() => calculateChartTotals(response, metricKeys), [response, metricKeys])
+  // Calculate totals for all metrics, then apply overrides
+  const totals = useMemo<ChartTotals>(() => {
+    const calculatedTotals = calculateChartTotals(response, metricKeys)
+
+    // Apply overrides for metrics that need correct totals from external sources
+    // (e.g., COUNT DISTINCT metrics where summing daily values overcounts)
+    Object.keys(totalOverrides).forEach((key) => {
+      if (calculatedTotals[key]) {
+        calculatedTotals[key] = { ...calculatedTotals[key], ...totalOverrides[key] }
+      } else {
+        calculatedTotals[key] = totalOverrides[key]
+      }
+    })
+
+    return calculatedTotals
+  }, [response, metricKeys, totalOverrides])
 
   // Build metrics array with values
   const metrics = useMemo<LineChartMetric[]>(

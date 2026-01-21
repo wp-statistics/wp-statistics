@@ -62,6 +62,8 @@ export interface LineChartMetricConfig {
   color?: string
   /** Whether the metric line is initially visible */
   enabled?: boolean
+  /** Chart type: 'line' (default) or 'bar' for mixed charts */
+  type?: 'line' | 'bar'
 }
 
 /**
@@ -104,6 +106,12 @@ export interface UseChartDataOptions extends TransformChartOptions {
   metrics: LineChartMetricConfig[]
   /** Whether to include previous period values in metrics */
   showPreviousValues?: boolean
+  /**
+   * Override calculated totals for specific metrics.
+   * Useful when chart data aggregation (sum of daily values) differs from
+   * the correct total (e.g., COUNT DISTINCT metrics like published_content).
+   */
+  totalOverrides?: ChartTotals
 }
 
 /**

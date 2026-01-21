@@ -4,7 +4,7 @@ import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/pan
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
-import { CartesianGrid, Line, LineChart as RechartsLineChart, XAxis, YAxis } from 'recharts'
+import { Bar, CartesianGrid, ComposedChart, Line, XAxis, YAxis } from 'recharts'
 
 import { useBreakpoint } from '@/hooks/use-breakpoint'
 import { cn, formatCompactNumber, isToday } from '@/lib/utils'
@@ -22,6 +22,7 @@ export interface LineChartMetric {
   enabled?: boolean
   value?: string | number
   previousValue?: string | number
+  type?: 'line' | 'bar'
 }
 
 export interface LineChartProps {
@@ -61,7 +62,7 @@ export function LineChart({
   compareDateTo,
   dateTo,
 }: LineChartProps) {
-  const { isMobile } = useBreakpoint()
+  useBreakpoint() // Trigger responsive re-renders
   const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
     metrics.reduce(
       (acc, metric) => ({
@@ -132,6 +133,8 @@ export function LineChart({
   const currentLines = React.useMemo(
     () =>
       metrics.flatMap((metric, index) => {
+        // Skip bar metrics - they're rendered by barElements
+        if (metric.type === 'bar') return []
         if (!visibleMetrics[metric.key]) return []
         const color = metric.color || defaultColors[index % defaultColors.length]
 
@@ -180,6 +183,8 @@ export function LineChart({
   const previousLines = React.useMemo(
     () =>
       metrics.map((metric, index) => {
+        // Skip bar metrics - they don't have previous period lines
+        if (metric.type === 'bar') return null
         const previousKey = `${metric.key}Previous`
         if (!visibleMetrics[previousKey]) return null
         const color = metric.color || defaultColors[index % defaultColors.length]
@@ -196,6 +201,25 @@ export function LineChart({
             connectNulls={false}
           />
         )
+      }),
+    [metrics, visibleMetrics, defaultColors]
+  )
+
+  // Memoize bar elements for bar-type metrics
+  const barElements = React.useMemo(
+    () =>
+      metrics.flatMap((metric, index) => {
+        if (metric.type !== 'bar' || !visibleMetrics[metric.key]) return []
+        const color = metric.color || defaultColors[index % defaultColors.length]
+        return [
+          <Bar
+            key={metric.key}
+            dataKey={metric.key}
+            fill={color}
+            opacity={0.7}
+            radius={[2, 2, 0, 0]}
+          />,
+        ]
       }),
     [metrics, visibleMetrics, defaultColors]
   )
@@ -222,6 +246,7 @@ export function LineChart({
               const color = metric.color || defaultColors[index % defaultColors.length]
               const isCurrentVisible = visibleMetrics[metric.key]
               const isPreviousVisible = visibleMetrics[`${metric.key}Previous`]
+              const isBarType = metric.type === 'bar'
               return (
                 <div key={metric.key} className="flex flex-col gap-1">
                   <span className="text-xs font-medium text-neutral-500 leading-none">{metric.label}</span>
@@ -238,9 +263,15 @@ export function LineChart({
                           !isCurrentVisible && 'opacity-50'
                         )}
                       >
-                        <svg width="12" height="3" className="shrink-0">
-                          <line x1="0" y1="1.5" x2="12" y2="1.5" style={{ stroke: color }} strokeWidth="3" />
-                        </svg>
+                        {isBarType ? (
+                          <svg width="12" height="12" className="shrink-0">
+                            <rect x="0" y="4" width="12" height="8" fill={color} rx="1" />
+                          </svg>
+                        ) : (
+                          <svg width="12" height="3" className="shrink-0">
+                            <line x1="0" y1="1.5" x2="12" y2="1.5" style={{ stroke: color }} strokeWidth="3" />
+                          </svg>
+                        )}
                         <span
                           className={cn(
                             'text-sm font-semibold text-neutral-900 leading-none tabular-nums',
@@ -251,7 +282,7 @@ export function LineChart({
                         </span>
                       </button>
                     )}
-                    {metric.previousValue != null && (
+                    {metric.previousValue != null && !isBarType && (
                       <button
                         onClick={() => toggleMetric(`${metric.key}Previous`)}
                         aria-label={`Toggle ${metric.label} previous period visibility`}
@@ -311,7 +342,7 @@ export function LineChart({
           </div>
         ) : (
           <ChartContainer config={chartConfig} className="h-[180px] md:h-[220px] lg:h-[250px] w-full">
-            <RechartsLineChart data={chartData} margin={{ left: 24 }}>
+            <ComposedChart data={chartData} margin={{ left: 24 }}>
               <CartesianGrid vertical={false} horizontal={true} stroke="#e5e7eb" strokeDasharray="0" />
               <XAxis
                 dataKey="date"
@@ -597,19 +628,29 @@ export function LineChart({
                               : prevFormatted
                             : baseMetric.label
 
+                          const isBarType = baseMetric.type === 'bar'
+
                           return (
                             <div key={entry.dataKey} className="flex items-center justify-between gap-4">
                               <div className="flex items-center gap-2 text-xs">
-                                <svg width="12" height="3" className={isPrevious ? 'shrink-0 opacity-50' : 'shrink-0'}>
-                                  <line
-                                    x1="0"
-                                    y1="1.5"
-                                    x2="12"
-                                    y2="1.5"
-                                    style={{ stroke: color }}
-                                    strokeWidth="3"
-                                    strokeDasharray={isPrevious ? '3 2' : '0'}
-                                  />
+                                <svg
+                                  width="12"
+                                  height="12"
+                                  className={isPrevious ? 'shrink-0 opacity-50' : 'shrink-0'}
+                                >
+                                  {isBarType ? (
+                                    <rect x="0" y="2" width="12" height="8" fill={color} rx="1" />
+                                  ) : (
+                                    <line
+                                      x1="0"
+                                      y1="6"
+                                      x2="12"
+                                      y2="6"
+                                      style={{ stroke: color }}
+                                      strokeWidth="3"
+                                      strokeDasharray={isPrevious ? '3 2' : '0'}
+                                    />
+                                  )}
                                 </svg>
                                 <span className="text-neutral-100">{displayLabel}</span>
                               </div>
@@ -622,9 +663,10 @@ export function LineChart({
                   )
                 }}
               />
+              {barElements}
               {currentLines}
               {previousLines}
-            </RechartsLineChart>
+            </ComposedChart>
           </ChartContainer>
         )}
       </PanelContent>

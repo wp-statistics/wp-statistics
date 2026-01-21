@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\Comparison;
 
+use WP_Statistics\Service\AnalyticsQuery\Helpers\PublishedContentHelper;
 use WP_Statistics\Service\AnalyticsQuery\Registry\GroupByRegistry;
 
 /**
@@ -61,6 +62,13 @@ class ComparisonHandler
      * @var array|null ['from' => string, 'to' => string]
      */
     private $currentPeriodRange = null;
+
+    /**
+     * Active filters for published content queries.
+     *
+     * @var array
+     */
+    private $filters = [];
 
     /**
      * Constructor.
@@ -388,6 +396,26 @@ class ComparisonHandler
         $interval = new \DateInterval('P1D');
         $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
 
+        // Pre-fetch published_content for missing dates if needed
+        $hasPublishedContent = in_array('published_content', $this->sources, true);
+        $publishedContentByDate = [];
+        if ($hasPublishedContent) {
+            $allDates = [];
+            foreach ($period as $date) {
+                $allDates[] = $date->format('Y-m-d');
+            }
+            $missingDates = array_diff($allDates, array_keys($currentIndex));
+            if (!empty($missingDates)) {
+                $publishedContentByDate = PublishedContentHelper::getPublishedContentByDates(
+                    $missingDates,
+                    'date',
+                    $this->filters
+                );
+            }
+            // Reset the period iterator
+            $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
+        }
+
         foreach ($period as $date) {
             $dateStr = $date->format('Y-m-d');
             if (isset($currentIndex[$dateStr])) {
@@ -399,7 +427,11 @@ class ComparisonHandler
                 // Create row with 0 values for missing date
                 $emptyRow = ['date' => $dateStr];
                 foreach ($this->sources as $source) {
-                    $emptyRow[$source] = 0;
+                    if ($source === 'published_content' && isset($publishedContentByDate[$dateStr])) {
+                        $emptyRow[$source] = $publishedContentByDate[$dateStr];
+                    } else {
+                        $emptyRow[$source] = 0;
+                    }
                 }
                 $filledCurrent[] = $emptyRow;
             }
@@ -596,6 +628,18 @@ class ComparisonHandler
             'from' => substr($from, 0, 10), // Extract date part only
             'to'   => substr($to, 0, 10),
         ];
+        return $this;
+    }
+
+    /**
+     * Set filters for published content queries.
+     *
+     * @param array $filters Array of filter configurations.
+     * @return self
+     */
+    public function setFilters(array $filters): self
+    {
+        $this->filters = $filters;
         return $this;
     }
 }
