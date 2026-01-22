@@ -293,3 +293,9 @@
 .animate-pulse {
   animation-duration: 3s;
 }
+
+/* Ensure exit animations maintain their final state (prevents flash on close) */
+[data-state="closed"],
+[data-state="hide"] {
+  --tw-animation-fill-mode: forwards;
+}
