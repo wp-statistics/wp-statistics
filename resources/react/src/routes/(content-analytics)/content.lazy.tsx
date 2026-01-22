@@ -7,6 +7,8 @@ import { type DateRange, DateRangePicker } from '@/components/custom/date-range-
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
+import { HorizontalBar } from '@/components/custom/horizontal-bar'
+import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
 import {
   type OverviewOptionsConfig,
   OptionsDrawerTrigger,
@@ -14,6 +16,7 @@ import {
   OverviewOptionsProvider,
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
+import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
@@ -25,11 +28,12 @@ import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import { getContentOverviewQueryOptions } from '@/services/content-analytics/get-content-overview'
+import { getContentOverviewQueryOptions, type TopContentItem } from '@/services/content-analytics/get-content-overview'
 
 // Widget configuration for Content page
 const WIDGET_CONFIGS: WidgetConfig[] = [
   { id: 'traffic-trends', label: __('Content Performance', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-content', label: __('Top Content', 'wp-statistics'), defaultVisible: true },
 ]
 
 // Metric configuration for Content page (8 metrics)
@@ -258,6 +262,7 @@ function ContentOverviewContent() {
   // Extract data from batch response
   const metricsResponse = batchResponse?.data?.items?.content_metrics
   const trafficTrendsResponse = batchResponse?.data?.items?.traffic_trends
+  const topContentResponse = batchResponse?.data?.items?.top_content
 
   // Transform chart data using shared hook
   // Uses 'published_content' source which counts posts by publish date from wp_posts
@@ -323,7 +328,6 @@ function ContentOverviewContent() {
               previousValue: formatCompactNumber(prevPublishedContent),
             }
           : {}),
-        tooltipContent: __('Number of published content items', 'wp-statistics'),
       },
       {
         id: 'visitors',
@@ -336,7 +340,6 @@ function ContentOverviewContent() {
               previousValue: formatCompactNumber(prevVisitors),
             }
           : {}),
-        tooltipContent: __('Unique visitors to content', 'wp-statistics'),
       },
       {
         id: 'views',
@@ -349,7 +352,6 @@ function ContentOverviewContent() {
               previousValue: formatCompactNumber(prevViews),
             }
           : {}),
-        tooltipContent: __('Total page views', 'wp-statistics'),
       },
       {
         id: 'views-per-content',
@@ -362,7 +364,6 @@ function ContentOverviewContent() {
               previousValue: formatDecimal(prevViewsPerPost),
             }
           : {}),
-        tooltipContent: __('Average views per content item', 'wp-statistics'),
       },
       {
         id: 'bounce-rate',
@@ -375,7 +376,6 @@ function ContentOverviewContent() {
               previousValue: `${formatDecimal(prevBounceRate)}%`,
             }
           : {}),
-        tooltipContent: __('Percentage of single-page sessions', 'wp-statistics'),
       },
       {
         id: 'time-on-page',
@@ -388,7 +388,6 @@ function ContentOverviewContent() {
               previousValue: formatDuration(prevAvgTimeOnPage),
             }
           : {}),
-        tooltipContent: __('Average time spent on content', 'wp-statistics'),
       },
       {
         id: 'comments',
@@ -401,7 +400,6 @@ function ContentOverviewContent() {
               previousValue: formatCompactNumber(prevComments),
             }
           : {}),
-        tooltipContent: __('Total comments on content', 'wp-statistics'),
       },
       {
         id: 'avg-comments-per-content',
@@ -414,13 +412,141 @@ function ContentOverviewContent() {
               previousValue: formatDecimal(prevAvgCommentsPerPost),
             }
           : {}),
-        tooltipContent: __('Average comments per content item', 'wp-statistics'),
       },
     ]
 
     // Filter metrics based on visibility
     return allMetrics.filter((metric) => isMetricVisible(metric.id))
   }, [metricsResponse, postTypeLabel, calcPercentage, isCompareEnabled, comparisonDateLabel, isMetricVisible])
+
+  // Transform top content data into tabbed panel format with HorizontalBar
+  const topContentTabs = useMemo((): TabbedPanelTab[] => {
+    const rows = topContentResponse?.data?.rows || []
+
+    // Build URL params for links
+    const baseParams = `date_from=${apiDateParams.date_from}&date_to=${apiDateParams.date_to}`
+
+    // Most Popular: Sort by views desc
+    const popularSorted = [...rows].sort((a, b) => Number(b.views) - Number(a.views)).slice(0, 5)
+    const maxPopularViews = popularSorted[0] ? Number(popularSorted[0].views) : 1
+
+    // Most Commented: Filter items with comments > 0, then sort by comments desc
+    const commentedSorted = [...rows]
+      .filter((item) => Number(item.comments) > 0)
+      .sort((a, b) => Number(b.comments) - Number(a.comments))
+      .slice(0, 5)
+    const maxComments = commentedSorted[0] ? Number(commentedSorted[0].comments) : 1
+
+    // Most Recent: Sort by published_date desc
+    const recentSorted = [...rows]
+      .filter((item) => item.published_date)
+      .sort((a, b) => {
+        const dateA = new Date(a.published_date || 0).getTime()
+        const dateB = new Date(b.published_date || 0).getTime()
+        return dateB - dateA
+      })
+      .slice(0, 5)
+
+    // Build tabs array
+    const tabs: TabbedPanelTab[] = [
+      {
+        id: 'popular',
+        label: __('Most Popular', 'wp-statistics'),
+        columnHeaders: {
+          left: __('Content', 'wp-statistics'),
+          right: __('Views', 'wp-statistics'),
+        },
+        content: popularSorted.length > 0 ? (
+          <div className="flex flex-col gap-3">
+            {popularSorted.map((item, i) => {
+              const views = Number(item.views) || 0
+              const prevViews = Number(item.previous?.views) || 0
+              const comparison = isCompareEnabled ? calcPercentage(views, prevViews) : null
+
+              return (
+                <HorizontalBar
+                  key={`${item.page_uri}-${i}`}
+                  label={item.page_title || item.page_uri || '/'}
+                  value={`${formatCompactNumber(views)} ${__('views', 'wp-statistics')}`}
+                  percentage={comparison?.percentage}
+                  isNegative={comparison?.isNegative}
+                  tooltipSubtitle={isCompareEnabled ? `${__('Previous:', 'wp-statistics')} ${formatCompactNumber(prevViews)}` : undefined}
+                  comparisonDateLabel={comparisonDateLabel}
+                  showComparison={isCompareEnabled}
+                  showBar={false}
+                  highlightFirst={false}
+                />
+              )
+            })}
+          </div>
+        ) : (
+          <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
+        ),
+        link: {
+          href: `/top-pages?order_by=views&order=desc&${baseParams}`,
+          title: __('See all', 'wp-statistics'),
+        },
+      },
+    ]
+
+    // Only add "Most Commented" tab if there are items with comments
+    if (commentedSorted.length > 0) {
+      tabs.push({
+        id: 'commented',
+        label: __('Most Commented', 'wp-statistics'),
+        columnHeaders: {
+          left: __('Content', 'wp-statistics'),
+          right: __('Comments', 'wp-statistics'),
+        },
+        content: (
+          <div className="flex flex-col gap-3">
+            {commentedSorted.map((item, i) => (
+              <HorizontalBar
+                key={`${item.page_uri}-${i}`}
+                label={item.page_title || item.page_uri || '/'}
+                value={`${formatCompactNumber(Number(item.comments))} ${__('comments', 'wp-statistics')}`}
+                showComparison={false}
+                showBar={false}
+                highlightFirst={false}
+              />
+            ))}
+          </div>
+        ),
+        // No link for Most Commented tab
+      })
+    }
+
+    tabs.push({
+      id: 'recent',
+      label: __('Most Recent', 'wp-statistics'),
+      columnHeaders: {
+        left: __('Content', 'wp-statistics'),
+        right: __('Views', 'wp-statistics'),
+      },
+      content: recentSorted.length > 0 ? (
+        <div className="flex flex-col gap-3">
+          {recentSorted.map((item, i) => (
+            <HorizontalBar
+              key={`${item.page_uri}-${i}`}
+              label={item.page_title || item.page_uri || '/'}
+              value={`${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`}
+              showComparison={false}
+              showBar={false}
+              highlightFirst={false}
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
+      ),
+      link: {
+        href: `/top-pages?order_by=publishedDate&order=desc&${baseParams}`,
+        title: __('See all', 'wp-statistics'),
+      },
+    })
+
+    return tabs
+  }, [topContentResponse, apiDateParams.date_from, apiDateParams.date_to, isCompareEnabled, calcPercentage, comparisonDateLabel])
 
   return (
     <div className="min-w-0">
@@ -497,6 +623,16 @@ function ContentOverviewContent() {
                   loading={isChartRefetching}
                   compareDateTo={apiDateParams.previous_date_to}
                   dateTo={apiDateParams.date_to}
+                />
+              </div>
+            )}
+            {/* Row 3: Top Content Widget */}
+            {isWidgetVisible('top-content') && (
+              <div className="col-span-12">
+                <TabbedPanel
+                  title={__('Top Content', 'wp-statistics')}
+                  tabs={topContentTabs}
+                  defaultTab="popular"
                 />
               </div>
             )}

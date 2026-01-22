@@ -19,7 +19,7 @@ export const TOP_PAGES_CONTEXT = 'top_pages'
 /**
  * Columns hidden by default (can be shown via column management)
  */
-export const TOP_PAGES_DEFAULT_HIDDEN_COLUMNS: string[] = ['viewsPerVisitor', 'bounceRate']
+export const TOP_PAGES_DEFAULT_HIDDEN_COLUMNS: string[] = ['viewsPerVisitor', 'bounceRate', 'publishedDate']
 
 /**
  * Columns that show PP comparison by default (to reduce visual clutter)
@@ -50,6 +50,7 @@ export const TOP_PAGES_COLUMN_CONFIG: ColumnConfig = {
     viewsPerVisitor: ['visitors', 'views'],
     bounceRate: ['bounce_rate'],
     sessionDuration: ['avg_time_on_page'],
+    publishedDate: ['published_date'],
   },
   context: TOP_PAGES_CONTEXT,
 }
@@ -71,6 +72,7 @@ export interface TopPage {
   views: number
   bounceRate: number
   sessionDuration: number
+  publishedDate: Date | null
   // Previous period values for comparison
   previousVisitors?: number
   previousViews?: number
@@ -93,6 +95,7 @@ export function transformTopPageData(record: TopPageRecord): TopPage {
     views: Number(record.views) || 0,
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
     sessionDuration: Math.round(Number(record.avg_time_on_page) || 0),
+    publishedDate: record.published_date ? new Date(record.published_date) : null,
     // Previous period values (only set if comparison data exists)
     ...(previous && {
       previousVisitors: previous.visitors !== undefined ? Number(previous.visitors) : undefined,
@@ -250,6 +253,26 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
         mobileLabel: 'Time on Page',
         isComparable: true,
         showComparison: showComparison('sessionDuration'),
+      },
+    },
+    {
+      accessorKey: 'publishedDate',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
+      size: 100,
+      cell: ({ row }) => {
+        const date = row.original.publishedDate
+        if (!date) return <span className="text-xs text-neutral-400">—</span>
+        const formattedDate = date.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        })
+        return <span className="text-xs text-neutral-700 whitespace-nowrap">{formattedDate}</span>
+      },
+      meta: {
+        title: 'Published Date',
+        priority: 'secondary',
+        mobileLabel: 'Published',
       },
     },
   ]

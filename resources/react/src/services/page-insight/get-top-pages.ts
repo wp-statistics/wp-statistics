@@ -17,6 +17,7 @@ export interface TopPageRecord {
   views: number
   bounce_rate: number | null
   avg_time_on_page: number | null
+  published_date: string | null
   previous?: {
     visitors?: number
     views?: number
@@ -69,10 +70,11 @@ const columnMapping: Record<string, string> = {
   views: 'views',
   bounceRate: 'bounce_rate',
   sessionDuration: 'avg_time_on_page',
+  publishedDate: 'published_date',
 }
 
 // Default columns when no specific columns are provided
-const DEFAULT_COLUMNS = ['page_uri', 'page_title', 'page_wp_id', 'visitors', 'views', 'bounce_rate', 'avg_time_on_page']
+const DEFAULT_COLUMNS = ['page_uri', 'page_title', 'page_wp_id', 'visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_date']
 
 export const getTopPagesQueryOptions = ({
   page,
@@ -110,7 +112,7 @@ export const getTopPagesQueryOptions = ({
       clientRequest.post<GetTopPagesResponse>(
         '',
         {
-          sources: ['visitors', 'views', 'bounce_rate', 'avg_time_on_page'],
+          sources: ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_content'],
           group_by: ['page'],
           columns: apiColumns,
           date_from,

@@ -17,6 +17,8 @@ export interface HorizontalBarProps {
   comparisonDateLabel?: string
   isFirst?: boolean
   showComparison?: boolean // Whether to show the percentage change indicator
+  showBar?: boolean // Whether to show the bottom progress bar (default: true)
+  highlightFirst?: boolean // Whether to highlight first item with bold styling (default: true)
 }
 
 export function HorizontalBar({
@@ -30,6 +32,8 @@ export function HorizontalBar({
   comparisonDateLabel,
   isFirst = false,
   showComparison = true,
+  showBar = true,
+  highlightFirst = true,
 }: HorizontalBarProps) {
   // Ensure label is always a string
   const safeLabel = label || ''
@@ -79,7 +83,7 @@ export function HorizontalBar({
           <span
             className={cn(
               'text-xs tabular-nums',
-              isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600'
+              highlightFirst && isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600'
             )}
           >
             {displayValue}
@@ -103,10 +107,12 @@ export function HorizontalBar({
       </div>
       {/* Bottom bar indicator - GA4 style */}
       <div className="mt-1.5 h-0.5 bg-neutral-100 rounded-full overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all opacity-70"
-          style={{ width: `${barWidth}%`, backgroundColor: 'var(--chart-5)' }}
-        />
+        {showBar && (
+          <div
+            className="h-full rounded-full transition-all opacity-70"
+            style={{ width: `${barWidth}%`, backgroundColor: 'var(--chart-5)' }}
+          />
+        )}
       </div>
     </div>
   )

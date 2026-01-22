@@ -4,6 +4,7 @@ import { Loader2 } from 'lucide-react'
 import { EmptyState } from '@/components/ui/empty-state'
 import { Panel, PanelAction, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
 
+import { BarListHeader } from './bar-list-header'
 import { HorizontalBar } from './horizontal-bar'
 
 interface HorizontalBarItem {
@@ -27,9 +28,13 @@ interface HorizontalBarListProps {
   }
   loading?: boolean
   showComparison?: boolean // Whether to show percentage change indicators
+  columnHeaders?: {
+    left: string
+    right: string
+  }
 }
 
-export function HorizontalBarList({ title, items, link, loading = false, showComparison = true }: HorizontalBarListProps) {
+export function HorizontalBarList({ title, items, link, loading = false, showComparison = true, columnHeaders }: HorizontalBarListProps) {
   // Ensure items is always an array
   const safeItems = items || []
 
@@ -47,7 +52,11 @@ export function HorizontalBarList({ title, items, link, loading = false, showCom
         ) : safeItems.length === 0 ? (
           <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
         ) : (
-          <div className="flex flex-col gap-3">
+          <>
+            {columnHeaders && (
+              <BarListHeader left={columnHeaders.left} right={columnHeaders.right} />
+            )}
+            <div className="flex flex-col gap-3">
             {safeItems.map((item, index) => (
               <HorizontalBar
                 key={`${item.label}-${index}`}
@@ -63,7 +72,8 @@ export function HorizontalBarList({ title, items, link, loading = false, showCom
                 showComparison={showComparison}
               />
             ))}
-          </div>
+            </div>
+          </>
         )}
       </PanelContent>
 

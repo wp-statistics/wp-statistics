@@ -56,12 +56,38 @@ export interface TrafficTrendsChartResponse {
   }
 }
 
+// Top content item for top content widget
+export interface TopContentItem {
+  page_uri: string
+  page_title: string
+  page_wp_id: number | null
+  visitors: number
+  views: number
+  comments: number
+  published_date: string | null
+}
+
+// Top content response (table format)
+export interface TopContentResponse {
+  success: boolean
+  data: {
+    rows: TopContentItem[]
+  }
+  meta?: {
+    total_rows?: number
+    page?: number
+    per_page?: number
+    total_pages?: number
+  }
+}
+
 // Batch response structure for content overview
 export interface ContentOverviewResponse {
   success: boolean
   items: {
     content_metrics?: ContentMetricsResponse
     traffic_trends?: TrafficTrendsChartResponse
+    top_content?: TopContentResponse
   }
   errors?: Record<string, { code: string; message: string }>
   skipped?: string[]
@@ -127,6 +153,17 @@ export const getContentOverviewQueryOptions = ({
               format: 'chart',
               show_totals: false,
               compare: true,
+            },
+            // Top Content: Table format for top content widget (3 tabs x 5 items each)
+            {
+              id: 'top_content',
+              sources: ['visitors', 'views', 'published_content', 'comments'],
+              group_by: ['page'],
+              format: 'table',
+              show_totals: false,
+              compare: false,
+              per_page: 15,
+              columns: ['page_uri', 'page_title', 'page_wp_id', 'visitors', 'views', 'comments', 'published_date'],
             },
           ],
         },
