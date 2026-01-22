@@ -67,6 +67,73 @@ export interface TopContentItem {
   published_date: string | null
 }
 
+// Top referrer row for referrer widgets
+export interface TopReferrerRow {
+  referrer_domain: string | null
+  referrer_name: string | null
+  referrer_channel: string | null
+  visitors: number | string
+  previous?: {
+    visitors: number | string
+  }
+}
+
+// Table format row types for new widgets
+export interface TopCountryRow {
+  country_code: string
+  country_name: string
+  visitors: number | string
+  previous?: {
+    visitors: number | string
+  }
+}
+
+export interface BrowserRow {
+  browser_name: string
+  visitors: number | string
+  previous?: {
+    visitors: number | string
+  }
+}
+
+export interface OperatingSystemRow {
+  os_name: string
+  visitors: number | string
+  previous?: {
+    visitors: number | string
+  }
+}
+
+export interface DeviceTypeRow {
+  device_type_name: string
+  visitors: number | string
+  previous?: {
+    visitors: number | string
+  }
+}
+
+// Table format response wrapper
+export interface TableQueryResult<T> {
+  success: boolean
+  data: {
+    rows: T[]
+    totals?: { visitors: { current: number; previous?: number } }
+  }
+  meta?: {
+    date_from: string
+    date_to: string
+    page?: number
+    per_page?: number
+    total_pages?: number
+    total_rows?: number
+    preferences?: Record<string, unknown> | null
+    cached: boolean
+    cache_ttl: number
+    compare_from?: string
+    compare_to?: string
+  }
+}
+
 // Top content response (table format)
 export interface TopContentResponse {
   success: boolean
@@ -81,6 +148,15 @@ export interface TopContentResponse {
   }
 }
 
+// Top referrers response (table format)
+export interface TopReferrersResponse {
+  success: boolean
+  data: {
+    rows: TopReferrerRow[]
+    totals?: { visitors: { current: number; previous?: number } }
+  }
+}
+
 // Batch response structure for content overview
 export interface ContentOverviewResponse {
   success: boolean
@@ -88,6 +164,12 @@ export interface ContentOverviewResponse {
     content_metrics?: ContentMetricsResponse
     traffic_trends?: TrafficTrendsChartResponse
     top_content?: TopContentResponse
+    top_referrers?: TopReferrersResponse
+    top_search_engines?: TopReferrersResponse
+    top_countries?: TableQueryResult<TopCountryRow>
+    top_browsers?: TableQueryResult<BrowserRow>
+    top_operating_systems?: TableQueryResult<OperatingSystemRow>
+    top_device_categories?: TableQueryResult<DeviceTypeRow>
   }
   errors?: Record<string, { code: string; message: string }>
   skipped?: string[]
@@ -164,6 +246,89 @@ export const getContentOverviewQueryOptions = ({
               compare: false,
               per_page: 15,
               columns: ['page_uri', 'page_title', 'page_wp_id', 'visitors', 'views', 'comments', 'published_date'],
+            },
+            // Top Referrers: Table format for top referrers widget
+            {
+              id: 'top_referrers',
+              sources: ['visitors'],
+              group_by: ['referrer'],
+              columns: ['referrer_domain', 'referrer_name', 'referrer_channel', 'visitors'],
+              filters: [{ key: 'referrer_domain', operator: 'is_not_empty', value: '' }],
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'table',
+              show_totals: true,
+              compare: true,
+            },
+            // Top Search Engines: Table format for top search engines widget
+            {
+              id: 'top_search_engines',
+              sources: ['visitors'],
+              group_by: ['referrer'],
+              columns: ['referrer_domain', 'referrer_name', 'visitors'],
+              filters: [
+                { key: 'referrer_domain', operator: 'is_not_empty', value: '' },
+                { key: 'referrer_channel', operator: 'contains', value: 'search' },
+              ],
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'table',
+              show_totals: true,
+              compare: true,
+            },
+            // Top Countries
+            {
+              id: 'top_countries',
+              sources: ['visitors'],
+              group_by: ['country'],
+              columns: ['country_code', 'country_name', 'visitors'],
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'table',
+              show_totals: true,
+              compare: true,
+            },
+            // Top Browsers
+            {
+              id: 'top_browsers',
+              sources: ['visitors'],
+              group_by: ['browser'],
+              columns: ['browser_name', 'visitors'],
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'table',
+              show_totals: true,
+              compare: true,
+            },
+            // Top Operating Systems
+            {
+              id: 'top_operating_systems',
+              sources: ['visitors'],
+              group_by: ['os'],
+              columns: ['os_name', 'visitors'],
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'table',
+              show_totals: true,
+              compare: true,
+            },
+            // Top Device Categories
+            {
+              id: 'top_device_categories',
+              sources: ['visitors'],
+              group_by: ['device_type'],
+              columns: ['device_type_name', 'visitors'],
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              format: 'table',
+              show_totals: true,
+              compare: true,
             },
           ],
         },
