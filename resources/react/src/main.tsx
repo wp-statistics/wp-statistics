@@ -137,9 +137,3 @@ if (rootElement) {
     </React.StrictMode>
   )
 }
-
-// Premium modules auto-import
-// Uses @pro alias (defined in vite.config.ts) to resolve to pro/ directory
-// In Free standalone: alias not defined, glob returns empty (no error)
-// In Premium: imports all module entry points which self-register
-import.meta.glob('@pro/modules/*/resources/react/index.tsx', { eager: true })
