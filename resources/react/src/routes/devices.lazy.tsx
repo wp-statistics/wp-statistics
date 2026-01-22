@@ -183,6 +183,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Browsers', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Browser', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topBrowsersData, {
                   label: (item) => item.browser_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -208,6 +212,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Operating Systems', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('OS', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topOperatingSystemsData, {
                   label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -234,6 +242,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Device Categories', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Device', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topDeviceCategoriesData, {
                   label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -260,6 +272,10 @@ function RouteComponent() {
                 <HorizontalBarList
                   title={__('Top Screen Resolutions', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Resolution', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
                   items={transformToBarList(topScreenResolutionsData, {
                     label: (item) => item.screen_resolution || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.visitors) || 0,

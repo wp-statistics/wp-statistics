@@ -321,6 +321,10 @@ function PageInsightsOverviewContent() {
                 <HorizontalBarList
                   title={__('Top Pages', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Page', 'wp-statistics'),
+                    right: __('Views', 'wp-statistics'),
+                  }}
                   items={transformToBarList(topPagesData, {
                     label: (item) => item.page_title || item.page_uri || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.views) || 0,
@@ -342,6 +346,10 @@ function PageInsightsOverviewContent() {
                 <HorizontalBarList
                   title={__('404 Pages', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Page', 'wp-statistics'),
+                    right: __('Views', 'wp-statistics'),
+                  }}
                   items={transformToBarList(pages404Data, {
                     label: (item) => item.page_uri || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.views) || 0,
@@ -363,6 +371,10 @@ function PageInsightsOverviewContent() {
                 <HorizontalBarList
                   title={__('Category Pages', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Category', 'wp-statistics'),
+                    right: __('Views', 'wp-statistics'),
+                  }}
                   items={transformToBarList(byCategoryData, {
                     label: (item) => item.page_title || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.views) || 0,
@@ -384,6 +396,10 @@ function PageInsightsOverviewContent() {
                 <HorizontalBarList
                   title={__('Author Pages', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Author', 'wp-statistics'),
+                    right: __('Views', 'wp-statistics'),
+                  }}
                   items={transformToBarList(byAuthorData, {
                     label: (item) => item.author_name || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.views) || 0,

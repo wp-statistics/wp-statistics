@@ -470,6 +470,10 @@ function VisitorsOverviewContent() {
                 <HorizontalBarList
                   title={__('Top Referrers', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Referrer', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
                   items={transformToBarList(topReferrersData, {
                     label: (item) =>
                       item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics'),
@@ -491,6 +495,10 @@ function VisitorsOverviewContent() {
                 <HorizontalBarList
                   title={__('Top Countries', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Country', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
                   items={transformToBarList(topCountriesData, {
                     label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.visitors) || 0,
@@ -518,6 +526,10 @@ function VisitorsOverviewContent() {
                 <HorizontalBarList
                   title={__('Device Type', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Device', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
                   items={transformToBarList(deviceTypeData, {
                     label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.visitors) || 0,
@@ -545,6 +557,10 @@ function VisitorsOverviewContent() {
                 <HorizontalBarList
                   title={__('Operating Systems', 'wp-statistics')}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('OS', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
                   items={transformToBarList(operatingSystemsData, {
                     label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.visitors) || 0,

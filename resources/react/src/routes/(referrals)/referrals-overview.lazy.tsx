@@ -309,6 +309,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Entry Pages', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Page', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topEntryPagesData, {
                   label: (item) => item.page_title || item.page_uri || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -326,6 +330,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Referrers', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Referrer', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topReferrersData, {
                   label: (item) => item.referrer_name || item.referrer_domain || __('Direct', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -345,6 +353,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Country', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topCountriesData, {
                   label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -369,6 +381,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Operating Systems', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('OS', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topOsData, {
                   label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -393,6 +409,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Device Categories', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Device', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topDevicesData, {
                   label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -419,6 +439,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Source Categories', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Source', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topSourceCategoriesData, {
                   label: (item) => item.referrer_channel || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -436,6 +460,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Search Engines', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Search Engine', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topSearchEnginesData, {
                   label: (item) => item.referrer_name || item.referrer_domain || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -453,6 +481,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Social Media', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Platform', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topSocialMediaData, {
                   label: (item) => item.referrer_name || item.referrer_domain || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,

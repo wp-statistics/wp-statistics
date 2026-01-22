@@ -208,6 +208,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Countries', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Country', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topCountriesData, {
                   label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -233,6 +237,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top Cities', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('City', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topCitiesData, {
                   label: (item) => item.city_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -253,6 +261,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top European Countries', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Country', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topEuropeanCountriesData, {
                   label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -281,6 +293,10 @@ function RouteComponent() {
                 <HorizontalBarList
                   title={`${__('Top Regions of', 'wp-statistics')} ${userCountryName}`}
                   showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Region', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
                   items={transformToBarList(topRegionsData, {
                     label: (item) => item.region_name || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.visitors) || 0,
@@ -299,6 +315,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Top US States', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('State', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(topUsStatesData, {
                   label: (item) => item.region_name || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
@@ -317,6 +337,10 @@ function RouteComponent() {
               <HorizontalBarList
                 title={__('Visitors by Continent', 'wp-statistics')}
                 showComparison={isCompareEnabled}
+                columnHeaders={{
+                  left: __('Continent', 'wp-statistics'),
+                  right: __('Visitors', 'wp-statistics'),
+                }}
                 items={transformToBarList(visitorsByContinentData, {
                   label: (item) => item.continent_name || item.continent || __('Unknown', 'wp-statistics'),
                   value: (item) => Number(item.visitors) || 0,
