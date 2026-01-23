@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
 import { ComparisonTooltipHeader } from '@/components/custom/comparison-tooltip-header'
@@ -19,6 +20,10 @@ export interface HorizontalBarProps {
   showComparison?: boolean // Whether to show the percentage change indicator
   showBar?: boolean // Whether to show the bottom progress bar (default: true)
   highlightFirst?: boolean // Whether to highlight first item with bold styling (default: true)
+  /** Optional internal link to navigate to when label is clicked */
+  linkTo?: string
+  /** Optional params for internal link (e.g., { postId: '123' }) */
+  linkParams?: Record<string, string>
 }
 
 export function HorizontalBar({
@@ -34,6 +39,8 @@ export function HorizontalBar({
   showComparison = true,
   showBar = true,
   highlightFirst = true,
+  linkTo,
+  linkParams,
 }: HorizontalBarProps) {
   // Ensure label is always a string
   const safeLabel = label || ''
@@ -54,6 +61,21 @@ export function HorizontalBar({
   const needsTruncation = safeLabel.length > maxLabelLength
   const truncatedLabel = needsTruncation ? `${safeLabel.substring(0, maxLabelLength - 1)}…` : safeLabel
 
+  // Label text element - either as link or plain text
+  const labelTextElement = linkTo ? (
+    <Link
+      to={linkTo}
+      params={linkParams}
+      className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px] hover:text-primary hover:underline"
+    >
+      {truncatedLabel}
+    </Link>
+  ) : (
+    <span className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px]">
+      {truncatedLabel}
+    </span>
+  )
+
   const content = (
     <div
       className={cn(
@@ -67,15 +89,11 @@ export function HorizontalBar({
           {icon && <span className="text-lg md:text-xl leading-none shrink-0">{icon}</span>}
           {needsTruncation ? (
             <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px]">
-                  {truncatedLabel}
-                </span>
-              </TooltipTrigger>
+              <TooltipTrigger asChild>{labelTextElement}</TooltipTrigger>
               <TooltipContent side="top">{safeLabel}</TooltipContent>
             </Tooltip>
           ) : (
-            <span className="text-xs font-medium text-neutral-700 truncate">{safeLabel}</span>
+            labelTextElement
           )}
         </div>
 

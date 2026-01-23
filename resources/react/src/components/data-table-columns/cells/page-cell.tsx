@@ -2,6 +2,7 @@
  * PageCell - Displays page title with tooltip for full URL and optional external link on hover
  */
 
+import { Link } from '@tanstack/react-router'
 import { ExternalLink } from 'lucide-react'
 import { memo } from 'react'
 
@@ -15,9 +16,19 @@ interface PageCellProps {
   maxLength?: number
   /** Optional external URL - when provided, shows an external link icon on hover */
   externalUrl?: string
+  /** Optional internal link to single content report */
+  internalLinkTo?: string
+  /** Optional params for internal link (e.g., { postId: '123' }) */
+  internalLinkParams?: Record<string, string>
 }
 
-export const PageCell = memo(function PageCell({ data, maxLength = 28, externalUrl }: PageCellProps) {
+export const PageCell = memo(function PageCell({
+  data,
+  maxLength = 28,
+  externalUrl,
+  internalLinkTo,
+  internalLinkParams,
+}: PageCellProps) {
   const { title, url } = data
   const truncatedTitle = title.length > maxLength ? `${title.substring(0, maxLength - 3)}...` : title
 
@@ -31,12 +42,23 @@ export const PageCell = memo(function PageCell({ data, maxLength = 28, externalU
       : `${siteUrl.replace(/\/+$/, '')}/${externalUrl.replace(/^\/+/, '')}`
     : null
 
+  // Title content - either plain text or internal link
+  const titleContent = internalLinkTo ? (
+    <Link
+      to={internalLinkTo}
+      params={internalLinkParams}
+      className="cursor-pointer truncate text-xs text-neutral-700 hover:text-primary hover:underline"
+    >
+      {truncatedTitle}
+    </Link>
+  ) : (
+    <span className="cursor-pointer truncate text-xs text-neutral-700">{truncatedTitle}</span>
+  )
+
   return (
     <div className="group flex items-center gap-2 max-w-[180px]">
       <Tooltip>
-        <TooltipTrigger asChild>
-          <span className="cursor-pointer truncate text-xs text-neutral-700">{truncatedTitle}</span>
-        </TooltipTrigger>
+        <TooltipTrigger asChild>{titleContent}</TooltipTrigger>
         <TooltipContent>{url}</TooltipContent>
       </Tooltip>
       {fullExternalUrl && (
