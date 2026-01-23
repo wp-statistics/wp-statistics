@@ -50,6 +50,7 @@ class Manager
                 'KEY resource_type (resource_type)',
                 'KEY resource_id (resource_id)',
                 'KEY language (language)',
+                'KEY idx_resource_lookup (resource_id, resource_type, is_deleted)',
             ],
         ],
         'views'                   => [

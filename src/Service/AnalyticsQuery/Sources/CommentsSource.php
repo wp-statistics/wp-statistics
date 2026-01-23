@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\Sources;
 
+use WP_Statistics\Utils\PostType;
+
 /**
  * Comments source - counts total comments for content with views.
  *
@@ -77,6 +79,13 @@ class CommentsSource extends AbstractSource
         $resourcesTable = $wpdb->prefix . 'statistics_resources';
         $postsTable     = $wpdb->posts;
 
+        // Get queryable post types dynamically
+        $queryableTypes = PostType::getQueryableTypes();
+        $quotedTypes    = array_map(function ($type) use ($wpdb) {
+            return $wpdb->prepare('%s', $type);
+        }, $queryableTypes);
+        $typesInClause  = implode(', ', $quotedTypes);
+
         // Sum comments for posts in the filtered result set.
         //
         // Uses dual correlation strategy:
@@ -99,7 +108,7 @@ class CommentsSource extends AbstractSource
             SELECT SUM(p.comment_count)
             FROM {$postsTable} p
             INNER JOIN {$resourcesTable} r ON p.ID = r.resource_id
-            WHERE r.resource_type IN ('post', 'page')
+            WHERE r.resource_type IN ({$typesInClause})
             AND (
                 (resources.cached_terms IS NOT NULL AND resources.cached_terms != '' AND
                  FIND_IN_SET(TRIM(SUBSTRING_INDEX(resources.cached_terms, ',', 1)), REPLACE(r.cached_terms, ' ', '')) > 0)

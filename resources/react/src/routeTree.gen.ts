@@ -30,6 +30,7 @@ import { Route as pageInsightsCategoryPagesRouteImport } from './routes/(page-in
 import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insights)/author-pages'
 import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
+import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
 
 const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
@@ -468,6 +469,18 @@ const contentAnalyticsContentRoute = contentAnalyticsContentRouteImport
   .lazy(() =>
     import('./routes/(content-analytics)/content.lazy').then((d) => d.Route),
   )
+const contentAnalyticsContentPostIdRoute =
+  contentAnalyticsContentPostIdRouteImport
+    .update({
+      id: '/(content-analytics)/content_/$postId',
+      path: '/content/$postId',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/content_.$postId.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -517,6 +530,7 @@ export interface FileRoutesByFullPath {
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings/': typeof SettingsIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/content/$postId': typeof contentAnalyticsContentPostIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -564,6 +578,7 @@ export interface FileRoutesByTo {
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings': typeof SettingsIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/content/$postId': typeof contentAnalyticsContentPostIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -614,6 +629,7 @@ export interface FileRoutesById {
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings/': typeof SettingsIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/(content-analytics)/content_/$postId': typeof contentAnalyticsContentPostIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -665,6 +681,7 @@ export interface FileRouteTypes {
     | '/tools/system-info'
     | '/settings/'
     | '/tools/'
+    | '/content/$postId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -712,6 +729,7 @@ export interface FileRouteTypes {
     | '/tools/system-info'
     | '/settings'
     | '/tools'
+    | '/content/$postId'
   id:
     | '__root__'
     | '/'
@@ -761,6 +779,7 @@ export interface FileRouteTypes {
     | '/tools/system-info'
     | '/settings/'
     | '/tools/'
+    | '/(content-analytics)/content_/$postId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -795,6 +814,7 @@ export interface RootRouteChildren {
   referralsSourceCategoriesLazyRoute: typeof referralsSourceCategoriesLazyRoute
   visitorInsightsOnlineVisitorsLazyRoute: typeof visitorInsightsOnlineVisitorsLazyRoute
   visitorInsightsSearchTermsLazyRoute: typeof visitorInsightsSearchTermsLazyRoute
+  contentAnalyticsContentPostIdRoute: typeof contentAnalyticsContentPostIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1128,6 +1148,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof contentAnalyticsContentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(content-analytics)/content_/$postId': {
+      id: '/(content-analytics)/content_/$postId'
+      path: '/content/$postId'
+      fullPath: '/content/$postId'
+      preLoaderRoute: typeof contentAnalyticsContentPostIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1216,6 +1243,7 @@ const rootRouteChildren: RootRouteChildren = {
   visitorInsightsOnlineVisitorsLazyRoute:
     visitorInsightsOnlineVisitorsLazyRoute,
   visitorInsightsSearchTermsLazyRoute: visitorInsightsSearchTermsLazyRoute,
+  contentAnalyticsContentPostIdRoute: contentAnalyticsContentPostIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

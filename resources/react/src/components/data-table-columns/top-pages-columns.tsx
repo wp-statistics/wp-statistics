@@ -9,6 +9,7 @@ import { DataTableColumnHeader } from '@/components/custom/data-table-column-hea
 import { DurationCell, NumericCell, PageCell } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
+import { getAnalyticsRoute } from '@/lib/url-utils'
 import type { TopPageRecord } from '@/services/page-insight/get-top-pages'
 
 /**
@@ -44,7 +45,7 @@ export const TOP_PAGES_COMPARABLE_COLUMNS: string[] = [
 export const TOP_PAGES_COLUMN_CONFIG: ColumnConfig = {
   baseColumns: ['page_uri', 'page_title'],
   columnDependencies: {
-    page: ['page_uri', 'page_title', 'page_wp_id'],
+    page: ['page_uri', 'page_title', 'page_wp_id', 'page_type'],
     visitors: ['visitors'],
     views: ['views'],
     viewsPerVisitor: ['visitors', 'views'],
@@ -68,6 +69,7 @@ export interface TopPage {
   pageUri: string
   pageTitle: string
   pageWpId: number | null
+  pageType?: string
   visitors: number
   views: number
   bounceRate: number
@@ -91,6 +93,7 @@ export function transformTopPageData(record: TopPageRecord): TopPage {
     pageUri: record.page_uri || '/',
     pageTitle: record.page_title || record.page_uri || 'Unknown',
     pageWpId: record.page_wp_id || null,
+    pageType: record.page_type,
     visitors: Number(record.visitors) || 0,
     views: Number(record.views) || 0,
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
@@ -130,16 +133,21 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
     {
       accessorKey: 'page',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
-      cell: ({ row }) => (
-        <PageCell
-          data={{
-            title: row.original.pageTitle,
-            url: row.original.pageUri,
-          }}
-          maxLength={40}
-          externalUrl={row.original.pageUri}
-        />
-      ),
+      cell: ({ row }) => {
+        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId)
+        return (
+          <PageCell
+            data={{
+              title: row.original.pageTitle,
+              url: row.original.pageUri,
+            }}
+            maxLength={40}
+            externalUrl={row.original.pageUri}
+            internalLinkTo={route?.to}
+            internalLinkParams={route?.params}
+          />
+        )
+      },
       enableSorting: false,
       meta: {
         title: 'Page',

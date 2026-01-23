@@ -3,7 +3,11 @@
 namespace WP_Statistics\Service\AnalyticsQuery\Filters;
 
 /**
- * Resource ID filter - filters by resource ID.
+ * Resource ID filter - filters by WordPress post/resource ID.
+ *
+ * This filter now filters on resources.resource_id (WordPress post ID) instead of
+ * views.resource_id (internal PK). This ensures correct filtering when combined
+ * with post_type filter to uniquely identify content.
  *
  * @since 15.0.0
  */
@@ -19,9 +23,9 @@ class ResourceIdFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: views.resource_id
+     * @var string Column path: resources.resource_id (WordPress post ID)
      */
-    protected $column = 'views.resource_id';
+    protected $column = 'resources.resource_id';
 
     /**
      * Value type for sanitization.
@@ -43,6 +47,26 @@ class ResourceIdFilter extends AbstractFilter
      * @var string|null Table name: views
      */
     protected $requirement = 'views';
+
+    /**
+     * Required JOINs to access the resources table.
+     *
+     * The resources JOIN includes is_deleted = 0 to exclude deleted content.
+     *
+     * @var array JOIN chain: views -> resource_uris -> resources
+     */
+    protected $joins = [
+        [
+            'table' => 'resource_uris',
+            'alias' => 'resource_uris',
+            'on'    => 'views.resource_uri_id = resource_uris.ID',
+        ],
+        [
+            'table' => 'resources',
+            'alias' => 'resources',
+            'on'    => 'resource_uris.resource_id = resources.ID AND resources.is_deleted = 0',
+        ],
+    ];
 
     /**
      * Allowed comparison operators.

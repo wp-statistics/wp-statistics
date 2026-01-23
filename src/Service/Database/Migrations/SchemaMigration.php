@@ -57,6 +57,7 @@ class SchemaMigration extends AbstractMigrationOperation
         '15.0.0'  => [
             'addResourceUriIdAndSessionIdToEvents',
             'addSessionIdEventNameIndexToEvents',
+            'addResourceLookupIndex',
         ],
     ];
 
@@ -191,6 +192,29 @@ class SchemaMigration extends AbstractMigrationOperation
                 ->setName('events')
                 ->setArgs([
                     'indexDefinition' => 'KEY `session_id_event_name` (`session_id`,`event_name`)',
+                ])
+                ->execute();
+        } catch (\Throwable $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds composite index on (resource_id, resource_type, is_deleted) to the 'resources' table
+     * for fast lookups when filtering by WordPress post ID and type.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public function addResourceLookupIndex()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('repair')
+                ->setName('resources')
+                ->setArgs([
+                    'indexDefinition' => 'KEY `idx_resource_lookup` (`resource_id`,`resource_type`,`is_deleted`)',
                 ])
                 ->execute();
         } catch (\Throwable $e) {

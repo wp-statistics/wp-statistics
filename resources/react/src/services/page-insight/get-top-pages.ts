@@ -13,6 +13,7 @@ export interface TopPageRecord {
   page_uri: string
   page_title: string
   page_wp_id: number | null
+  page_type?: string
   visitors: number
   views: number
   bounce_rate: number | null
@@ -74,7 +75,7 @@ const columnMapping: Record<string, string> = {
 }
 
 // Default columns when no specific columns are provided
-const DEFAULT_COLUMNS = ['page_uri', 'page_title', 'page_wp_id', 'visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_date']
+const DEFAULT_COLUMNS = ['page_uri', 'page_title', 'page_wp_id', 'page_type', 'visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_date']
 
 export const getTopPagesQueryOptions = ({
   page,

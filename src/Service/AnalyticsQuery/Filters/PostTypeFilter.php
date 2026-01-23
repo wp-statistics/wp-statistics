@@ -40,6 +40,8 @@ class PostTypeFilter extends AbstractFilter
     /**
      * Required JOINs to access the column.
      *
+     * The resources JOIN includes is_deleted = 0 to exclude deleted content.
+     *
      * @var array JOIN chain: views -> resource_uris -> resources
      */
     protected $joins = [
@@ -51,7 +53,7 @@ class PostTypeFilter extends AbstractFilter
         [
             'table' => 'resources',
             'alias' => 'resources',
-            'on'    => 'resource_uris.resource_id = resources.ID',
+            'on'    => 'resource_uris.resource_id = resources.ID AND resources.is_deleted = 0',
         ],
     ];
 

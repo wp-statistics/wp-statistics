@@ -49,7 +49,7 @@ const stringifySearch = (search: Record<string, unknown>): string => {
  * to the hash route on page reload. This parser filters out WordPress admin params
  * that don't belong in the hash route's search params.
  */
-const WORDPRESS_ADMIN_PARAMS = new Set(['page', 'post_type', 'taxonomy'])
+const WORDPRESS_ADMIN_PARAMS = new Set(['page'])
 
 const parseSearch = (searchString: string): Record<string, string> => {
   // Remove leading '?' if present

@@ -156,6 +156,20 @@ export class WordPress {
   public getData<T = unknown>(key: string): T | undefined {
     return (this.data as Record<string, unknown>)[key] as T | undefined
   }
+
+  /**
+   * Get list of queryable post types.
+   * Extracts post type options from the post_type filter field.
+   * Used for single content pages to filter by all possible content types.
+   */
+  public getQueryablePostTypes(): string[] {
+    const postTypeField = this.data?.filters?.fields?.post_type
+    if (!postTypeField?.options) {
+      // Fallback to common post types if filter not available
+      return ['post', 'page']
+    }
+    return postTypeField.options.map((opt) => opt.value as string)
+  }
 }
 
 export interface TaxonomyItem {

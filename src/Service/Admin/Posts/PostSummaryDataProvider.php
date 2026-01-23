@@ -193,6 +193,7 @@ class PostSummaryDataProvider
             'date_to'   => $dateRange['to'],
             'filters'   => [
                 'resource_id' => $this->postId,
+                'post_type'   => get_post_type($this->postId),
             ],
             'format'    => 'flat',
         ]);
@@ -217,6 +218,7 @@ class PostSummaryDataProvider
             'date_to'   => $dateRange['to'],
             'filters'   => [
                 'resource_id' => $this->postId,
+                'post_type'   => get_post_type($this->postId),
             ],
             'format'    => 'flat',
         ]);
@@ -238,6 +240,7 @@ class PostSummaryDataProvider
             'date_to'   => $this->toDate,
             'filters'   => [
                 'resource_id' => $this->postId,
+                'post_type'   => get_post_type($this->postId),
             ],
             'format'    => 'table',
             'per_page'  => 1000,
@@ -270,6 +273,7 @@ class PostSummaryDataProvider
             'date_to'   => $this->toDate,
             'filters'   => [
                 'resource_id' => $this->postId,
+                'post_type'   => get_post_type($this->postId),
             ],
             'format'    => 'table',
             'per_page'  => 1000,
@@ -306,6 +310,7 @@ class PostSummaryDataProvider
             'date_to'   => $dateRange['to'],
             'filters'   => [
                 'resource_id' => $this->postId,
+                'post_type'   => get_post_type($this->postId),
             ],
             'format'    => 'table',
             'per_page'  => 1,

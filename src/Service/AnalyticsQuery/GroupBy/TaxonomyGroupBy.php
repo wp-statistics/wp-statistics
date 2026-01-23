@@ -46,7 +46,7 @@ class TaxonomyGroupBy extends AbstractGroupBy
         [
             'table' => 'resources',
             'alias' => 'resources',
-            'on'    => 'resource_uris.resource_id = resources.ID',
+            'on'    => 'resource_uris.resource_id = resources.ID AND resources.is_deleted = 0',
             'type'  => 'LEFT',
         ],
     ];

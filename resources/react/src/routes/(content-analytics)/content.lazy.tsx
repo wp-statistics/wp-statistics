@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -28,6 +28,7 @@ import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
+import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getContentOverviewQueryOptions, type TopContentItem } from '@/services/content-analytics/get-content-overview'
@@ -75,26 +76,6 @@ export const Route = createLazyFileRoute('/(content-analytics)/content')({
 })
 
 function RouteComponent() {
-  const { resource_id } = Route.useSearch()
-  const navigate = useNavigate()
-
-  // If resource_id is provided, redirect to individual-content route
-  useEffect(() => {
-    if (resource_id) {
-      navigate({
-        to: '/individual-content',
-        search: { resource_id },
-        replace: true,
-      })
-    }
-  }, [resource_id, navigate])
-
-  // Show loading while redirecting
-  if (resource_id) {
-    return null
-  }
-
-  // Otherwise show the overview with the OverviewOptionsProvider
   return (
     <OverviewOptionsProvider config={OPTIONS_CONFIG}>
       <ContentOverviewContent />
@@ -479,6 +460,7 @@ function ContentOverviewContent() {
               const views = Number(item.views) || 0
               const prevViews = Number(item.previous?.views) || 0
               const comparison = isCompareEnabled ? calcPercentage(views, prevViews) : null
+              const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
 
               return (
                 <HorizontalBar
@@ -492,6 +474,8 @@ function ContentOverviewContent() {
                   showComparison={isCompareEnabled}
                   showBar={false}
                   highlightFirst={false}
+                  linkTo={route?.to}
+                  linkParams={route?.params}
                 />
               )
             })}
@@ -517,16 +501,21 @@ function ContentOverviewContent() {
         },
         content: (
           <div className="flex flex-col gap-3">
-            {commentedSorted.map((item, i) => (
-              <HorizontalBar
-                key={`${item.page_uri}-${i}`}
-                label={item.page_title || item.page_uri || '/'}
-                value={`${formatCompactNumber(Number(item.comments))} ${__('comments', 'wp-statistics')}`}
-                showComparison={false}
-                showBar={false}
-                highlightFirst={false}
-              />
-            ))}
+            {commentedSorted.map((item, i) => {
+              const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
+              return (
+                <HorizontalBar
+                  key={`${item.page_uri}-${i}`}
+                  label={item.page_title || item.page_uri || '/'}
+                  value={`${formatCompactNumber(Number(item.comments))} ${__('comments', 'wp-statistics')}`}
+                  showComparison={false}
+                  showBar={false}
+                  highlightFirst={false}
+                  linkTo={route?.to}
+                  linkParams={route?.params}
+                />
+              )
+            })}
           </div>
         ),
         // No link for Most Commented tab
@@ -542,16 +531,21 @@ function ContentOverviewContent() {
       },
       content: recentSorted.length > 0 ? (
         <div className="flex flex-col gap-3">
-          {recentSorted.map((item, i) => (
-            <HorizontalBar
-              key={`${item.page_uri}-${i}`}
-              label={item.page_title || item.page_uri || '/'}
-              value={`${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`}
-              showComparison={false}
-              showBar={false}
-              highlightFirst={false}
-            />
-          ))}
+          {recentSorted.map((item, i) => {
+            const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
+            return (
+              <HorizontalBar
+                key={`${item.page_uri}-${i}`}
+                label={item.page_title || item.page_uri || '/'}
+                value={`${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`}
+                showComparison={false}
+                showBar={false}
+                highlightFirst={false}
+                linkTo={route?.to}
+                linkParams={route?.params}
+              />
+            )
+          })}
         </div>
       ) : (
         <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />

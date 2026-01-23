@@ -61,6 +61,7 @@ export interface TopContentItem {
   page_uri: string
   page_title: string
   page_wp_id: number | null
+  page_type?: string
   visitors: number
   views: number
   comments: number
@@ -245,7 +246,7 @@ export const getContentOverviewQueryOptions = ({
               show_totals: false,
               compare: false,
               per_page: 15,
-              columns: ['page_uri', 'page_title', 'page_wp_id', 'visitors', 'views', 'comments', 'published_date'],
+              columns: ['page_uri', 'page_title', 'page_wp_id', 'page_type', 'visitors', 'views', 'comments', 'published_date'],
             },
             // Top Referrers: Table format for top referrers widget
             {
