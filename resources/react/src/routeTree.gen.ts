@@ -31,6 +31,8 @@ import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insi
 import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
 import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
+import { Route as contentAnalyticsCategoryTermIdRouteImport } from './routes/(content-analytics)/category_.$termId'
+import { Route as contentAnalyticsAuthorAuthorIdRouteImport } from './routes/(content-analytics)/author_.$authorId'
 
 const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
@@ -481,6 +483,30 @@ const contentAnalyticsContentPostIdRoute =
         (d) => d.Route,
       ),
     )
+const contentAnalyticsCategoryTermIdRoute =
+  contentAnalyticsCategoryTermIdRouteImport
+    .update({
+      id: '/(content-analytics)/category_/$termId',
+      path: '/category/$termId',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/category_.$termId.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const contentAnalyticsAuthorAuthorIdRoute =
+  contentAnalyticsAuthorAuthorIdRouteImport
+    .update({
+      id: '/(content-analytics)/author_/$authorId',
+      path: '/author/$authorId',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/author_.$authorId.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -530,6 +556,8 @@ export interface FileRoutesByFullPath {
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings/': typeof SettingsIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/author/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
+  '/category/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
 }
 export interface FileRoutesByTo {
@@ -578,6 +606,8 @@ export interface FileRoutesByTo {
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings': typeof SettingsIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/author/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
+  '/category/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
 }
 export interface FileRoutesById {
@@ -629,6 +659,8 @@ export interface FileRoutesById {
   '/tools/system-info': typeof ToolsSystemInfoLazyRoute
   '/settings/': typeof SettingsIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/(content-analytics)/author_/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
+  '/(content-analytics)/category_/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/(content-analytics)/content_/$postId': typeof contentAnalyticsContentPostIdRoute
 }
 export interface FileRouteTypes {
@@ -681,6 +713,8 @@ export interface FileRouteTypes {
     | '/tools/system-info'
     | '/settings/'
     | '/tools/'
+    | '/author/$authorId'
+    | '/category/$termId'
     | '/content/$postId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -729,6 +763,8 @@ export interface FileRouteTypes {
     | '/tools/system-info'
     | '/settings'
     | '/tools'
+    | '/author/$authorId'
+    | '/category/$termId'
     | '/content/$postId'
   id:
     | '__root__'
@@ -779,6 +815,8 @@ export interface FileRouteTypes {
     | '/tools/system-info'
     | '/settings/'
     | '/tools/'
+    | '/(content-analytics)/author_/$authorId'
+    | '/(content-analytics)/category_/$termId'
     | '/(content-analytics)/content_/$postId'
   fileRoutesById: FileRoutesById
 }
@@ -814,6 +852,8 @@ export interface RootRouteChildren {
   referralsSourceCategoriesLazyRoute: typeof referralsSourceCategoriesLazyRoute
   visitorInsightsOnlineVisitorsLazyRoute: typeof visitorInsightsOnlineVisitorsLazyRoute
   visitorInsightsSearchTermsLazyRoute: typeof visitorInsightsSearchTermsLazyRoute
+  contentAnalyticsAuthorAuthorIdRoute: typeof contentAnalyticsAuthorAuthorIdRoute
+  contentAnalyticsCategoryTermIdRoute: typeof contentAnalyticsCategoryTermIdRoute
   contentAnalyticsContentPostIdRoute: typeof contentAnalyticsContentPostIdRoute
 }
 
@@ -1155,6 +1195,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof contentAnalyticsContentPostIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(content-analytics)/category_/$termId': {
+      id: '/(content-analytics)/category_/$termId'
+      path: '/category/$termId'
+      fullPath: '/category/$termId'
+      preLoaderRoute: typeof contentAnalyticsCategoryTermIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/author_/$authorId': {
+      id: '/(content-analytics)/author_/$authorId'
+      path: '/author/$authorId'
+      fullPath: '/author/$authorId'
+      preLoaderRoute: typeof contentAnalyticsAuthorAuthorIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1243,6 +1297,8 @@ const rootRouteChildren: RootRouteChildren = {
   visitorInsightsOnlineVisitorsLazyRoute:
     visitorInsightsOnlineVisitorsLazyRoute,
   visitorInsightsSearchTermsLazyRoute: visitorInsightsSearchTermsLazyRoute,
+  contentAnalyticsAuthorAuthorIdRoute: contentAnalyticsAuthorAuthorIdRoute,
+  contentAnalyticsCategoryTermIdRoute: contentAnalyticsCategoryTermIdRoute,
   contentAnalyticsContentPostIdRoute: contentAnalyticsContentPostIdRoute,
 }
 export const routeTree = rootRouteImport

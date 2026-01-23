@@ -1,116 +1,87 @@
-import { useRouter } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
 import {
-  EntryPageCell,
-  NumericCell,
-  PageCell,
-  ReferrerCell,
-  VisitorInfoCell,
-  type VisitorInfoConfig,
-} from '@/components/data-table-columns'
-import { COLUMN_SIZES } from '@/lib/column-sizes'
+  createTopVisitorsColumns,
+  type TopVisitor,
+} from '@/components/data-table-columns/top-visitors-columns'
+import { formatReferrerChannel } from '@/lib/filter-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import { WordPress } from '@/lib/wordpress'
-import type { TopVisitorsData } from '@/services/visitor-insight/get-visitor-overview'
-
-type TopVisitorData = {
-  visitorInfo: {
-    country: { code: string; name: string; region: string; city: string }
-    os: { icon: string; name: string }
-    browser: { icon: string; name: string; version: string }
-    user?: { username: string; id: number; email: string; role: string }
-    ipAddress?: string
-    hash?: string
-  }
-  totalViews: number
-  referrer: {
-    domain?: string
-    fullUrl?: string
-    category: string
-  }
-  entryPage: {
-    title: string
-    url: string
-    hasQueryString: boolean
-    queryString?: string
-    utmCampaign?: string
-  }
-  exitPage: {
-    title: string
-    url: string
-  }
-}
+import type { TopVisitorRow } from '@/services/visitor-insight/get-visitor-overview'
 
 interface OverviewTopVisitorsProps {
-  data?: TopVisitorsData['rows']
+  data?: TopVisitorRow[]
 }
+
+/**
+ * Transform overview API data to TopVisitor interface
+ * This allows reuse of the shared column definitions
+ */
+function transformOverviewVisitorData(record: TopVisitorRow): TopVisitor {
+  const entryPageData = parseEntryPage(record.entry_page, record.entry_page_title)
+
+  return {
+    id: `visitor-${record.visitor_id}`,
+    // Use current date as fallback since overview doesn't have last_visit
+    lastVisit: new Date(),
+    country: record.country_name || 'Unknown',
+    countryCode: (record.country_code || '000').toLowerCase(),
+    region: record.region_name || '',
+    city: record.city_name || '',
+    os: (record.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    osName: record.os_name || 'Unknown',
+    browser: (record.browser_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    browserName: record.browser_name || 'Unknown',
+    browserVersion: record.browser_version || '',
+    userId: record.user_id ? String(record.user_id) : undefined,
+    username: record.user_login || undefined,
+    email: record.user_email || undefined,
+    userRole: record.user_role || undefined,
+    ipAddress: record.ip_address || undefined,
+    hash: record.visitor_hash || undefined,
+    referrerDomain: record.referrer_domain || undefined,
+    referrerCategory: formatReferrerChannel(record.referrer_channel),
+    entryPage: entryPageData.path,
+    entryPageTitle: entryPageData.title,
+    entryPageHasQuery: entryPageData.hasQueryString,
+    entryPageQueryString: entryPageData.queryString,
+    entryPageType: record.entry_page_type || undefined,
+    entryPageWpId: record.entry_page_wp_id ?? null,
+    utmCampaign: entryPageData.utmCampaign,
+    exitPage: record.exit_page || '/',
+    exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
+    exitPageType: record.exit_page_type || undefined,
+    exitPageWpId: record.exit_page_wp_id ?? null,
+    totalViews: Number(record.total_views) || 0,
+    // Default values for fields not available in overview query
+    totalSessions: 0,
+    sessionDuration: 0,
+    viewsPerSession: 0,
+    bounceRate: 0,
+    visitorStatus: 'returning',
+    firstVisit: new Date(),
+  }
+}
+
+// Columns to show in the overview widget
+const OVERVIEW_VISIBLE_COLUMNS = ['visitorInfo', 'totalViews', 'referrer', 'entryPage', 'exitPage']
 
 export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-  const router = useRouter()
 
-  // Transform API data to component format
-  const transformedData = useMemo<TopVisitorData[]>(() => {
+  // Transform API data using shared transform logic
+  const transformedData = useMemo<TopVisitor[]>(() => {
     if (!data || data.length === 0) {
       return []
     }
-
-    return data.map((visitor) => ({
-      visitorInfo: {
-        country: {
-          code: visitor.country_code?.toLowerCase() || '000',
-          name: visitor.country_name || 'Unknown',
-          region: visitor.region_name || '',
-          city: visitor.city_name || '',
-        },
-        os: {
-          icon: (visitor.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
-          name: visitor.os_name || 'Unknown',
-        },
-        browser: {
-          icon: (visitor.browser_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
-          name: visitor.browser_name || 'Unknown',
-          version: visitor.browser_version || '',
-        },
-        ...(visitor.user_id && visitor.user_login
-          ? {
-              user: {
-                username: visitor.user_login,
-                id: visitor.user_id,
-                email: visitor.user_email || '',
-                role: visitor.user_role || '',
-              },
-            }
-          : {}),
-        ipAddress: visitor.ip_address || undefined,
-        hash: visitor.visitor_hash || undefined,
-      },
-      totalViews: visitor.total_views || 0,
-      referrer: {
-        domain: visitor.referrer_domain || undefined,
-        fullUrl: visitor.referrer_domain ? `https://${visitor.referrer_domain}` : undefined,
-        category: visitor.referrer_channel || 'DIRECT TRAFFIC',
-      },
-      entryPage: {
-        title: visitor.entry_page_title || visitor.entry_page || 'Home',
-        url: visitor.entry_page || '/',
-        hasQueryString: (visitor.entry_page || '').includes('?'),
-        queryString: (visitor.entry_page || '').includes('?') ? (visitor.entry_page || '').split('?')[1] : undefined,
-      },
-      exitPage: {
-        title: visitor.exit_page_title || visitor.exit_page || 'Home',
-        url: visitor.exit_page || '/',
-      },
-    }))
+    return data.map(transformOverviewVisitorData)
   }, [data])
 
   // Config for visitor info display
-  const config: VisitorInfoConfig = useMemo(
+  const config = useMemo(
     () => ({
       pluginUrl,
       trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
@@ -119,101 +90,14 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
     [pluginUrl, wp]
   )
 
-  const columns: ColumnDef<TopVisitorData>[] = [
-    {
-      accessorKey: 'visitorInfo',
-      header: 'Visitor Info',
-      size: COLUMN_SIZES.visitorInfo,
-      cell: ({ row }) => {
-        const visitorInfo = row.getValue('visitorInfo') as TopVisitorData['visitorInfo']
-        return (
-          <VisitorInfoCell
-            data={{
-              country: {
-                code: visitorInfo.country.code,
-                name: visitorInfo.country.name,
-                region: visitorInfo.country.region,
-                city: visitorInfo.country.city,
-              },
-              os: { icon: visitorInfo.os.icon, name: visitorInfo.os.name },
-              browser: {
-                icon: visitorInfo.browser.icon,
-                name: visitorInfo.browser.name,
-                version: visitorInfo.browser.version,
-              },
-              user: visitorInfo.user
-                ? {
-                    id: visitorInfo.user.id,
-                    username: visitorInfo.user.username,
-                    email: visitorInfo.user.email,
-                    role: visitorInfo.user.role,
-                  }
-                : undefined,
-              identifier: visitorInfo.hash || visitorInfo.ipAddress,
-            }}
-            config={config}
-          />
-        )
-      },
-    },
-    {
-      accessorKey: 'totalViews',
-      header: () => (
-        <div className="text-right">
-          <StaticSortIndicator title={__('Total Views', 'wp-statistics')} direction="desc" />
-        </div>
-      ),
-      size: COLUMN_SIZES.totalViews,
-      meta: { align: 'right' },
-      cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
-    },
-    {
-      accessorKey: 'referrer',
-      header: 'Referrer',
-      size: COLUMN_SIZES.referrer,
-      cell: ({ row }) => {
-        const referrer = row.getValue('referrer') as TopVisitorData['referrer']
-        return (
-          <ReferrerCell
-            data={{
-              domain: referrer.domain,
-              category: referrer.category,
-            }}
-            maxLength={25}
-          />
-        )
-      },
-    },
-    {
-      accessorKey: 'entryPage',
-      header: 'Entry Page',
-      size: COLUMN_SIZES.entryPage,
-      cell: ({ row }) => {
-        const entryPage = row.getValue('entryPage') as TopVisitorData['entryPage']
-        return (
-          <EntryPageCell
-            data={{
-              title: entryPage.title,
-              url: entryPage.url,
-              hasQueryString: entryPage.hasQueryString,
-              queryString: entryPage.queryString,
-              utmCampaign: entryPage.utmCampaign,
-            }}
-            maxLength={35}
-          />
-        )
-      },
-    },
-    {
-      accessorKey: 'exitPage',
-      header: 'Exit Page',
-      size: COLUMN_SIZES.exitPage,
-      cell: ({ row }) => {
-        const exitPage = row.getValue('exitPage') as TopVisitorData['exitPage']
-        return <PageCell data={{ title: exitPage.title, url: exitPage.url }} maxLength={35} />
-      },
-    },
-  ]
+  // Use shared column definitions, filtered to overview columns
+  const columns = useMemo(() => {
+    const allColumns = createTopVisitorsColumns(config)
+    return allColumns.filter((col) => {
+      const key = 'accessorKey' in col ? col.accessorKey : undefined
+      return key && OVERVIEW_VISIBLE_COLUMNS.includes(key as string)
+    })
+  }, [config])
 
   return (
     <DataTable
@@ -224,12 +108,7 @@ export const OverviewTopVisitors = ({ data }: OverviewTopVisitorsProps) => {
       showPagination={false}
       showColumnManagement={false}
       fullReportLink={{
-        action: () => {
-          router.navigate({
-            from: '/visitors-overview',
-            to: '/top-visitors',
-          })
-        },
+        to: '/top-visitors',
       }}
     />
   )

@@ -22,7 +22,7 @@ import {
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
-import { parseEntryPage } from '@/lib/url-utils'
+import { getAnalyticsRoute, parseEntryPage } from '@/lib/url-utils'
 import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
 
 /**
@@ -57,9 +57,9 @@ export const LOGGED_IN_USERS_COLUMN_CONFIG: ColumnConfig = {
       'user_role',
     ],
     lastVisit: ['last_visit'],
-    page: ['entry_page', 'entry_page_title'],
+    page: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
     referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title'],
+    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
     totalViews: ['total_views'],
     location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
@@ -96,8 +96,12 @@ export interface LoggedInUser {
   entryPageTitle: string
   entryPageHasQuery?: boolean
   entryPageQueryString?: string
+  entryPageType?: string
+  entryPageWpId?: number | null
   page: string
   pageTitle: string
+  pageType?: string
+  pageWpId?: number | null
   totalViews: number
 }
 
@@ -130,8 +134,12 @@ export function transformLoggedInUserData(record: LoggedInUserRecord): LoggedInU
     entryPageTitle: entryPageData.title,
     entryPageHasQuery: entryPageData.hasQueryString,
     entryPageQueryString: entryPageData.queryString,
+    entryPageType: record.entry_page_type || undefined,
+    entryPageWpId: record.entry_page_wp_id ?? null,
     page: record.entry_page || '/',
     pageTitle: record.entry_page_title || record.entry_page || 'Unknown',
+    pageType: record.entry_page_type || undefined,
+    pageWpId: record.entry_page_wp_id ?? null,
     totalViews: record.total_views || 0,
   }
 }
@@ -168,6 +176,9 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
       meta: {
         title: 'Visitor Info',
+        priority: 'primary',
+        cardPosition: 'header',
+        mobileLabel: 'Visitor',
       },
     },
     {
@@ -188,15 +199,29 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
       meta: {
         title: 'Last Visit',
+        priority: 'primary',
+        cardPosition: 'header',
       },
     },
     {
       accessorKey: 'page',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       enableSorting: false,
-      cell: ({ row }) => <PageCell data={{ title: row.original.pageTitle, url: row.original.page }} maxLength={35} />,
+      cell: ({ row }) => {
+        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId)
+        return (
+          <PageCell
+            data={{ title: row.original.pageTitle, url: row.original.page }}
+            maxLength={35}
+            internalLinkTo={route?.to}
+            internalLinkParams={route?.params}
+          />
+        )
+      },
       meta: {
         title: 'Page',
+        priority: 'primary',
+        cardPosition: 'body',
       },
     },
     {
@@ -206,6 +231,8 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
       meta: {
         title: 'Views',
+        priority: 'primary',
+        cardPosition: 'body',
       },
     },
     {
@@ -223,6 +250,7 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       ),
       meta: {
         title: 'Referrer',
+        priority: 'secondary',
       },
     },
     // Hidden by default
@@ -232,6 +260,7 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       enableSorting: false,
       cell: ({ row }) => {
         const user = row.original
+        const route = getAnalyticsRoute(user.entryPageType, user.entryPageWpId)
         return (
           <EntryPageCell
             data={{
@@ -241,11 +270,15 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
               queryString: user.entryPageQueryString,
             }}
             maxLength={35}
+            internalLinkTo={route?.to}
+            internalLinkParams={route?.params}
           />
         )
       },
       meta: {
         title: 'Entry Page',
+        priority: 'secondary',
+        mobileLabel: 'Entry',
       },
     },
   ]

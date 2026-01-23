@@ -25,6 +25,8 @@ export interface OnlineVisitor {
   referrer_domain: string | null
   referrer_channel: string
   entry_page: string
+  entry_page_type?: string | null
+  entry_page_wp_id?: number | null
   visitors?: number
 }
 
@@ -97,6 +99,8 @@ const DEFAULT_COLUMNS = [
   'referrer_domain',
   'referrer_channel',
   'entry_page',
+  'entry_page_type',
+  'entry_page_wp_id',
 ]
 
 // Format dates to ISO string (YYYY-MM-DDTHH:mm:ss)

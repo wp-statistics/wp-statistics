@@ -10,7 +10,6 @@ import {
   EntryPageCell,
   LastVisitCell,
   LocationCell,
-  type LocationData,
   NumericCell,
   PageCell,
   ReferrerCell,
@@ -19,7 +18,7 @@ import {
 } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
-import { parseEntryPage } from '@/lib/url-utils'
+import { getAnalyticsRoute, parseEntryPage } from '@/lib/url-utils'
 import type { ViewRecord } from '@/services/visitor-insight/get-views'
 
 /**
@@ -54,9 +53,9 @@ export const VIEWS_COLUMN_CONFIG: ColumnConfig = {
       'user_email',
       'user_role',
     ],
-    page: ['entry_page', 'entry_page_title'],
+    page: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
     referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title'],
+    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
     totalViews: ['total_views'],
     location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
@@ -71,7 +70,7 @@ export const VIEWS_DEFAULT_API_COLUMNS = getDefaultApiColumns(VIEWS_COLUMN_CONFI
 /**
  * View data interface for the table
  */
-export type ViewData = {
+export interface ViewData {
   lastVisit: string
   visitorInfo: {
     country: { code: string; name: string; region: string; city: string }
@@ -84,6 +83,8 @@ export type ViewData = {
   page: {
     title: string
     url: string
+    type?: string
+    wpId?: number | null
   }
   referrer: {
     domain?: string
@@ -96,6 +97,8 @@ export type ViewData = {
     hasQueryString: boolean
     queryString?: string
     utmCampaign?: string
+    type?: string
+    wpId?: number | null
   }
   totalViews: number
 }
@@ -139,6 +142,8 @@ export function transformViewData(record: ViewRecord): ViewData {
     page: {
       title: record.entry_page_title || record.entry_page || 'Unknown',
       url: record.entry_page || '/',
+      type: record.entry_page_type || undefined,
+      wpId: record.entry_page_wp_id ?? null,
     },
     referrer: {
       domain: record.referrer_domain || undefined,
@@ -151,6 +156,8 @@ export function transformViewData(record: ViewRecord): ViewData {
       hasQueryString: entryPageData.hasQueryString,
       queryString: entryPageData.queryString,
       utmCampaign: entryPageData.utmCampaign,
+      type: record.entry_page_type || undefined,
+      wpId: record.entry_page_wp_id ?? null,
     },
     totalViews: record.total_views || 0,
   }
@@ -172,29 +179,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
         return (
           <VisitorInfoCell
-            data={{
-              country: {
-                code: visitorInfo.country.code,
-                name: visitorInfo.country.name,
-                region: visitorInfo.country.region,
-                city: visitorInfo.country.city,
-              },
-              os: { icon: visitorInfo.os.icon, name: visitorInfo.os.name },
-              browser: {
-                icon: visitorInfo.browser.icon,
-                name: visitorInfo.browser.name,
-                version: visitorInfo.browser.version,
-              },
-              user: visitorInfo.user
-                ? {
-                    id: visitorInfo.user.id,
-                    username: visitorInfo.user.username,
-                    email: visitorInfo.user.email,
-                    role: visitorInfo.user.role,
-                  }
-                : undefined,
-              identifier: visitorInfo.hash || visitorInfo.ipAddress,
-            }}
+            data={{ ...visitorInfo, identifier: visitorInfo.hash || visitorInfo.ipAddress }}
             config={config}
           />
         )
@@ -214,13 +199,17 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
       enableHiding: true,
       cell: ({ row }) => {
         const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
-        const locationData: LocationData = {
-          countryCode: visitorInfo.country.code,
-          countryName: visitorInfo.country.name,
-          regionName: visitorInfo.country.region || undefined,
-          cityName: visitorInfo.country.city || undefined,
-        }
-        return <LocationCell data={locationData} pluginUrl={config.pluginUrl} />
+        return (
+          <LocationCell
+            data={{
+              countryCode: visitorInfo.country.code,
+              countryName: visitorInfo.country.name,
+              regionName: visitorInfo.country.region || undefined,
+              cityName: visitorInfo.country.city || undefined,
+            }}
+            pluginUrl={config.pluginUrl}
+          />
+        )
       },
       meta: {
         title: 'Location',
@@ -234,7 +223,15 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
       enableSorting: false,
       cell: ({ row }) => {
         const page = row.getValue('page') as ViewData['page']
-        return <PageCell data={{ title: page.title, url: page.url }} maxLength={35} />
+        const route = getAnalyticsRoute(page.type, page.wpId)
+        return (
+          <PageCell
+            data={{ title: page.title, url: page.url }}
+            maxLength={35}
+            internalLinkTo={route?.to}
+            internalLinkParams={route?.params}
+          />
+        )
       },
       meta: {
         title: 'Page',
@@ -294,6 +291,7 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
       enableSorting: false,
       cell: ({ row }) => {
         const entryPage = row.getValue('entryPage') as ViewData['entryPage']
+        const route = getAnalyticsRoute(entryPage.type, entryPage.wpId)
         return (
           <EntryPageCell
             data={{
@@ -304,6 +302,8 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
               utmCampaign: entryPage.utmCampaign,
             }}
             maxLength={35}
+            internalLinkTo={route?.to}
+            internalLinkParams={route?.params}
           />
         )
       },

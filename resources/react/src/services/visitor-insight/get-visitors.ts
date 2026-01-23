@@ -26,8 +26,12 @@ export interface VisitorRecord {
   referrer_channel: string | null
   entry_page: string | null
   entry_page_title: string | null
+  entry_page_type?: string | null
+  entry_page_wp_id?: number | null
   exit_page: string | null
   exit_page_title: string | null
+  exit_page_type?: string | null
+  exit_page_wp_id?: number | null
   total_views: number
   total_sessions: number
   avg_session_duration: number | null
@@ -112,8 +116,12 @@ const DEFAULT_COLUMNS = [
   'referrer_channel',
   'entry_page',
   'entry_page_title',
+  'entry_page_type',
+  'entry_page_wp_id',
   'exit_page',
   'exit_page_title',
+  'exit_page_type',
+  'exit_page_wp_id',
   'total_views',
   'total_sessions',
   'avg_session_duration',

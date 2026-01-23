@@ -28,6 +28,8 @@ export interface LoggedInUser {
   referrer_channel: string
   entry_page: string
   entry_page_title: string
+  entry_page_type?: string
+  entry_page_wp_id?: number | null
 }
 
 export interface GetLoggedInUsersResponse {
@@ -102,6 +104,8 @@ const DEFAULT_COLUMNS = [
   'referrer_channel',
   'entry_page',
   'entry_page_title',
+  'entry_page_type',
+  'entry_page_wp_id',
 ]
 
 export const getLoggedInUsersQueryOptions = ({

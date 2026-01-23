@@ -168,8 +168,12 @@ class VisitorGroupBy extends AbstractGroupBy
             'referrer_channel',
             'entry_page',
             'entry_page_title',
+            'entry_page_type',
+            'entry_page_wp_id',
             'exit_page',
             'exit_page_title',
+            'exit_page_type',
+            'exit_page_wp_id',
         ];
     }
 
@@ -235,8 +239,12 @@ class VisitorGroupBy extends AbstractGroupBy
                 attr_referrer.channel AS referrer_channel,
                 entry_page_uri.uri AS entry_page,
                 entry_page_resource.cached_title AS entry_page_title,
+                entry_page_resource.resource_type AS entry_page_type,
+                entry_page_resource.resource_id AS entry_page_wp_id,
                 exit_page_uri.uri AS exit_page,
                 exit_page_resource.cached_title AS exit_page_title,
+                exit_page_resource.resource_type AS exit_page_type,
+                exit_page_resource.resource_id AS exit_page_wp_id,
                 attr_user_role.meta_value AS user_role_raw
             FROM {$tablePrefix}sessions sessions
             LEFT JOIN {$wpdb->users} attr_user ON sessions.user_id = attr_user.ID
@@ -353,8 +361,12 @@ class VisitorGroupBy extends AbstractGroupBy
             'referrer_channel' => null,
             'entry_page'       => null,
             'entry_page_title' => null,
+            'entry_page_type'  => null,
+            'entry_page_wp_id' => null,
             'exit_page'        => null,
             'exit_page_title'  => null,
+            'exit_page_type'   => null,
+            'exit_page_wp_id'  => null,
         ];
     }
 }
