@@ -94,8 +94,8 @@ function RouteComponent() {
     hasApiResponse: !!response?.data,
   })
 
-  // Options drawer with column management (no filters or date for this page)
-  const options = useTableOptions({
+  // Options drawer config
+  const tableOptionsConfig = {
     filterGroup: 'visitors',
     table: tableRef.current,
     hideFilters: true,
@@ -103,7 +103,10 @@ function RouteComponent() {
     onColumnVisibilityChange: handleColumnVisibilityChange,
     onColumnOrderChange: handleColumnOrderChange,
     onReset: handleColumnPreferencesReset,
-  })
+  }
+
+  // Options drawer with column management (no filters or date for this page)
+  const options = useTableOptions(tableOptionsConfig)
 
   // Transform API data to component format
   const visitors = response?.data?.data?.rows?.map(transformOnlineVisitorData) || []
@@ -130,7 +133,7 @@ function RouteComponent() {
 
       {/* Options Drawer with Column Management */}
       <TableOptionsDrawer
-        config={options.config}
+        config={tableOptionsConfig}
         isOpen={options.isOpen}
         setIsOpen={options.setIsOpen}
       />
