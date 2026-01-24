@@ -3,6 +3,7 @@ import { queryOptions } from '@tanstack/react-query'
 import type { Filter } from '@/components/custom/filter-bar'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
+import type { FixedDatePeriod, FixedDatePeriodId } from '@/lib/fixed-date-ranges'
 import { WordPress } from '@/lib/wordpress'
 import type {
   TrafficTrendsChartResponse,
@@ -283,4 +284,141 @@ export const getSingleContentQueryOptions = ({
         }
       ),
   })
+}
+
+// ============================================================================
+// Traffic Summary Types and Query Options
+// ============================================================================
+
+/**
+ * Traffic summary data for a single period
+ */
+export interface TrafficSummaryPeriodData {
+  visitors: number
+  views: number
+  previous?: {
+    visitors: number
+    views: number
+  }
+}
+
+/**
+ * Response structure for a single period query
+ */
+export interface TrafficSummaryPeriodResponse {
+  success: boolean
+  totals: {
+    visitors?: MetricValue
+    views?: MetricValue
+  }
+}
+
+/**
+ * Parameters for traffic summary query
+ */
+export interface GetTrafficSummaryParams {
+  postId: string | number
+  period: FixedDatePeriod
+  filters?: Filter[]
+}
+
+/**
+ * Query options for a single traffic summary period
+ *
+ * This is designed to be used with useQueries for parallel fetching
+ * of all 5 fixed time periods.
+ */
+export const getTrafficSummaryPeriodQueryOptions = ({
+  postId,
+  period,
+  filters,
+}: GetTrafficSummaryParams) => {
+  // Transform UI filters to API format
+  const apiFilters = transformFiltersToApi(filters || [])
+
+  // Get all queryable post types
+  const queryablePostTypes = WordPress.getInstance().getQueryablePostTypes()
+
+  // Add resource_id and post_type filters
+  const filtersWithResourceId: Record<string, unknown> = {
+    ...apiFilters,
+    resource_id: String(postId),
+    post_type: { in: queryablePostTypes },
+  }
+
+  // Check if this period has comparison dates
+  const hasCompare = !!(period.compareDateFrom && period.compareDateTo)
+
+  return queryOptions({
+    queryKey: ['traffic-summary', postId, period.id, apiFilters],
+    queryFn: () =>
+      clientRequest.post<{ success: boolean; items: { traffic_summary?: TrafficSummaryPeriodResponse } }>(
+        '',
+        {
+          date_from: period.dateFrom,
+          date_to: period.dateTo,
+          compare: hasCompare,
+          ...(hasCompare && {
+            previous_date_from: period.compareDateFrom,
+            previous_date_to: period.compareDateTo,
+          }),
+          filters: filtersWithResourceId,
+          queries: [
+            {
+              id: 'traffic_summary',
+              sources: ['visitors', 'views'],
+              group_by: [],
+              format: 'flat',
+              show_totals: true,
+              compare: hasCompare,
+            },
+          ],
+        },
+        {
+          params: {
+            action: WordPress.getInstance().getAnalyticsAction(),
+          },
+        }
+      ),
+    // Cache for 5 minutes since fixed date ranges don't change often
+    staleTime: 5 * 60 * 1000,
+  })
+}
+
+/**
+ * Helper to extract traffic summary data from query result
+ */
+export function extractTrafficSummaryData(
+  response: { data?: { items?: { traffic_summary?: TrafficSummaryPeriodResponse } } } | undefined,
+  periodId: FixedDatePeriodId
+): TrafficSummaryPeriodData | null {
+  const summaryResponse = response?.data?.items?.traffic_summary
+  if (!summaryResponse?.success) return null
+
+  const totals = summaryResponse.totals
+  if (!totals) return null
+
+  const visitors = typeof totals.visitors?.current === 'number'
+    ? totals.visitors.current
+    : Number(totals.visitors?.current) || 0
+
+  const views = typeof totals.views?.current === 'number'
+    ? totals.views.current
+    : Number(totals.views?.current) || 0
+
+  const result: TrafficSummaryPeriodData = { visitors, views }
+
+  // Add previous values if available (not for 'total' period)
+  if (periodId !== 'total' && totals.visitors?.previous !== undefined) {
+    result.previous = {
+      visitors: typeof totals.visitors.previous === 'number'
+        ? totals.visitors.previous
+        : Number(totals.visitors.previous) || 0,
+      views: typeof totals.views?.previous === 'number'
+        ? totals.views.previous
+        : Number(totals.views?.previous) || 0,
+    }
+  }
+
+  return result
 }
