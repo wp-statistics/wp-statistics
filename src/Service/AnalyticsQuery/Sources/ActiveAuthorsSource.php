@@ -3,13 +3,13 @@
 namespace WP_Statistics\Service\AnalyticsQuery\Sources;
 
 /**
- * Active authors source - counts unique authors who have content with views.
+ * Active authors source - counts unique authors who published content.
  *
- * This source counts distinct author IDs from content that has been
- * tracked by WP Statistics within the selected date range.
+ * This source counts distinct author IDs who have published content
+ * of the selected post type within the selected date range.
  *
  * For aggregate queries (no group_by), this uses a subquery to count
- * distinct authors from the resources table.
+ * distinct authors from the WordPress posts table.
  *
  * @since 15.0.0
  */
@@ -55,28 +55,41 @@ class ActiveAuthorsSource extends AbstractSource
      *
      * Returns a COUNT DISTINCT expression for active authors.
      *
-     * Uses a subquery approach to count unique authors with content
-     * that has views, making it self-contained and not dependent on
-     * outer query joins.
+     * Counts authors who published content of the selected post type
+     * within the selected date range from wp_posts.
      */
     public function getExpression(): string
     {
         global $wpdb;
 
-        $resourcesTable    = $wpdb->prefix . 'statistics_resources';
-        $resourceUrisTable = $wpdb->prefix . 'statistics_resource_uris';
-        $viewsTable        = $wpdb->prefix . 'statistics_views';
+        $postsTable     = $wpdb->posts;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+        $dateClause     = $this->getDateRangeClause();
 
-        // Count distinct authors for content tracked by WP Statistics.
-        // This is a self-contained subquery that works for aggregate queries.
+        // Count distinct authors who published content in the date range.
         return "COALESCE((
-            SELECT COUNT(DISTINCT r.cached_author_id)
-            FROM {$resourcesTable} r
-            INNER JOIN {$resourceUrisTable} ru ON ru.resource_id = r.ID
-            INNER JOIN {$viewsTable} v ON v.resource_uri_id = ru.ID
-            WHERE r.cached_author_id IS NOT NULL
-            AND r.cached_author_id > 0
+            SELECT COUNT(DISTINCT p.post_author)
+            FROM {$postsTable} p
+            WHERE p.post_status = 'publish'
+            AND p.post_author > 0
+            AND {$postTypeClause}
+            {$dateClause}
         ), 0)";
+    }
+
+    /**
+     * Get date range clause for the query.
+     *
+     * @return string SQL clause for date filtering, or empty string if no dates
+     */
+    private function getDateRangeClause(): string
+    {
+        if ($this->dateFrom && $this->dateTo) {
+            $dateFrom = esc_sql($this->dateFrom);
+            $dateTo   = esc_sql($this->dateTo);
+            return "AND DATE(p.post_date) >= '{$dateFrom}' AND DATE(p.post_date) <= '{$dateTo}'";
+        }
+        return '';
     }
 
     /**
