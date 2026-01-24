@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import { PostMetaBar } from '@/components/custom/post-meta-bar'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import {
@@ -470,42 +471,56 @@ function SingleContentReportContent() {
   return (
     <div className="min-w-0">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-3">
-          <Link
-            to="/content"
-            className="p-1.5 -ml-1.5 rounded-md hover:bg-neutral-100 transition-colors"
-            aria-label={__('Back to Content', 'wp-statistics')}
-          >
-            <ArrowLeft className="h-5 w-5 text-neutral-500" />
-          </Link>
-          <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={postTitle}>
-            {showSkeleton ? __('Loading...', 'wp-statistics') : postTitle}
-          </h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="hidden lg:flex">
-            {filterFields.length > 0 && isInitialized && (
-              <FilterButton
-                fields={filterFields}
-                appliedFilters={appliedFilters || []}
-                onApplyFilters={handleApplyFilters}
-                filterGroup="content"
-              />
-            )}
+      <div className="px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link
+              to="/content"
+              className="p-1.5 -ml-1.5 rounded-md hover:bg-neutral-100 transition-colors"
+              aria-label={__('Back to Content', 'wp-statistics')}
+            >
+              <ArrowLeft className="h-5 w-5 text-neutral-500" />
+            </Link>
+            <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={postTitle}>
+              {showSkeleton ? __('Loading...', 'wp-statistics') : postTitle}
+            </h1>
           </div>
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            showCompare={true}
-            onUpdate={handleDateRangeUpdate}
-            align="end"
-          />
-          <OptionsDrawerTrigger {...options.triggerProps} />
+          <div className="flex items-center gap-3">
+            <div className="hidden lg:flex">
+              {filterFields.length > 0 && isInitialized && (
+                <FilterButton
+                  fields={filterFields}
+                  appliedFilters={appliedFilters || []}
+                  onApplyFilters={handleApplyFilters}
+                  filterGroup="content"
+                />
+              )}
+            </div>
+            <DateRangePicker
+              initialDateFrom={dateFrom}
+              initialDateTo={dateTo}
+              initialCompareFrom={compareDateFrom}
+              initialCompareTo={compareDateTo}
+              initialPeriod={period}
+              showCompare={true}
+              onUpdate={handleDateRangeUpdate}
+              align="end"
+            />
+            <OptionsDrawerTrigger {...options.triggerProps} />
+          </div>
         </div>
+
+        {/* Post Meta Bar */}
+        {!showSkeleton && postInfoRow && (
+          <PostMetaBar
+            authorName={postInfoRow.author_name}
+            postTypeLabel={postInfoRow.post_type_label}
+            publishedDate={postInfoRow.published_date}
+            modifiedDate={postInfoRow.modified_date}
+            terms={postInfoRow.cached_terms}
+            className="mt-2 ml-9"
+          />
+        )}
       </div>
 
       {/* Options Drawer */}

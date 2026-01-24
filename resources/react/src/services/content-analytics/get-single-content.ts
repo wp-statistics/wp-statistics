@@ -48,17 +48,29 @@ export interface SingleContentMetricsResponse {
   }
 }
 
+// Term/taxonomy data from API
+export interface TermInfo {
+  term_id: number
+  name: string
+  slug: string
+  taxonomy: string
+}
+
 // Post info row from table query
 export interface PostInfoRow {
   page_uri: string
   page_title: string
   page_wp_id: number | null
   page_type?: string
+  post_type_label?: string | null
   published_date?: string | null
+  modified_date?: string | null
   comments?: number
+  author_id?: number | null
   author_name?: string | null
   thumbnail_url?: string | null
   permalink?: string | null
+  cached_terms?: TermInfo[]
 }
 
 // Post info response (table format)
@@ -172,11 +184,15 @@ export const getSingleContentQueryOptions = ({
                 'page_title',
                 'page_wp_id',
                 'page_type',
+                'post_type_label',
                 'published_date',
+                'modified_date',
                 'comments',
+                'author_id',
                 'author_name',
                 'thumbnail_url',
                 'permalink',
+                'cached_terms',
               ],
               format: 'table',
               per_page: 1,
