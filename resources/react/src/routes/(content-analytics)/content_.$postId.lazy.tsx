@@ -535,15 +535,14 @@ function SingleContentReportContent() {
                 <MetricsSkeleton count={8} columns={4} />
               </PanelSkeleton>
             </div>
-            {/* Traffic Summary Skeleton */}
-            <div className="col-span-12">
+            {/* Chart + Traffic Summary Skeleton */}
+            <div className="col-span-12 lg:col-span-8">
+              <ChartSkeleton />
+            </div>
+            <div className="col-span-12 lg:col-span-4">
               <PanelSkeleton showTitle={true}>
                 <MetricsSkeleton count={5} columns={3} />
               </PanelSkeleton>
-            </div>
-            {/* Chart Skeleton */}
-            <div className="col-span-12">
-              <ChartSkeleton />
             </div>
             {/* Bar List Skeletons */}
             <div className="col-span-12 lg:col-span-6">
@@ -575,21 +574,11 @@ function SingleContentReportContent() {
                 </Panel>
               </div>
             )}
-            {/* Row 2: Traffic Summary */}
-            {isWidgetVisible('traffic-summary') && (
-              <div className="col-span-12">
-                <SimpleTable
-                  title={__('Traffic Summary', 'wp-statistics')}
-                  columns={trafficSummaryColumns}
-                  data={trafficSummaryData}
-                  isLoading={isTrafficSummaryLoading}
-                />
-              </div>
-            )}
-            {/* Row 3: Traffic Trends Chart */}
+            {/* Row 2: Traffic Trends Chart + Traffic Summary Sidebar */}
             {isWidgetVisible('traffic-trends') && (
-              <div className="col-span-12">
+              <div className="col-span-12 lg:col-span-8">
                 <LineChart
+                  className="h-full"
                   title={__('Traffic Trends', 'wp-statistics')}
                   data={chartData}
                   metrics={chartMetrics}
@@ -602,7 +591,17 @@ function SingleContentReportContent() {
                 />
               </div>
             )}
-            {/* Row 4: Top Referrers & Top Search Engines */}
+            {isWidgetVisible('traffic-summary') && (
+              <div className="col-span-12 lg:col-span-4">
+                <SimpleTable
+                  title={__('Traffic Summary', 'wp-statistics')}
+                  columns={trafficSummaryColumns}
+                  data={trafficSummaryData}
+                  isLoading={isTrafficSummaryLoading}
+                />
+              </div>
+            )}
+            {/* Row 3: Top Referrers & Top Search Engines */}
             {isWidgetVisible('top-referrers') && (
               <div className="col-span-12 lg:col-span-6">
                 <HorizontalBarList
@@ -643,7 +642,7 @@ function SingleContentReportContent() {
                 />
               </div>
             )}
-            {/* Row 5: Top Countries & Top Browsers */}
+            {/* Row 4: Top Countries & Top Browsers */}
             {isWidgetVisible('top-countries') && (
               <div className="col-span-12 lg:col-span-6">
                 <HorizontalBarList
@@ -698,7 +697,7 @@ function SingleContentReportContent() {
                 />
               </div>
             )}
-            {/* Row 6: Top Operating Systems & Top Device Categories */}
+            {/* Row 5: Top Operating Systems & Top Device Categories */}
             {isWidgetVisible('top-operating-systems') && (
               <div className="col-span-12 lg:col-span-6">
                 <HorizontalBarList

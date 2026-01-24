@@ -164,7 +164,7 @@ export function SimpleTable<T>({
   // If title is provided, wrap in Panel with header
   if (title) {
     return (
-      <Panel>
+      <Panel className="h-full flex flex-col">
         <PanelHeader>
           <PanelTitle>{title}</PanelTitle>
         </PanelHeader>
