@@ -427,6 +427,10 @@ function AuthorsOverviewContent() {
           ) : (
             <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
           ),
+        link: {
+          href: '/top-authors?order_by=views&order=desc',
+          title: __('See all', 'wp-statistics'),
+        },
       },
       {
         id: 'publishing',
@@ -445,6 +449,10 @@ function AuthorsOverviewContent() {
           ) : (
             <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
           ),
+        link: {
+          href: '/top-authors?order_by=published&order=desc',
+          title: __('See all', 'wp-statistics'),
+        },
       },
       {
         id: 'views-per-post',
@@ -468,6 +476,10 @@ function AuthorsOverviewContent() {
           ) : (
             <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
           ),
+        link: {
+          href: '/top-authors',
+          title: __('See all', 'wp-statistics'),
+        },
       },
       {
         id: 'comments-per-post',
@@ -491,6 +503,7 @@ function AuthorsOverviewContent() {
           ) : (
             <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
           ),
+        // No link for Comments per Post tab
       },
     ]
 
