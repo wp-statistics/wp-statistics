@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import {
   DetailOptionsDrawer,
@@ -39,7 +39,8 @@ function RouteComponent() {
     period,
     page,
     setPage,
-    setDateRange,
+    handleDateRangeUpdate,
+    handlePageChange,
     isInitialized,
     apiDateParams,
   } = useGlobalFilters()
@@ -66,13 +67,6 @@ function RouteComponent() {
     []
   )
 
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
-
   const handleTaxonomyChange = useCallback(
     (value: string) => {
       setTaxonomyType(value)
@@ -95,7 +89,7 @@ function RouteComponent() {
     ]
   }, [taxonomyType, handleTaxonomyChange, wp])
 
-  // Options drawer
+  // Options drawer - config is passed once and returned for drawer
   const options = useDetailOptions({
     filterGroup: 'categories',
     hideFilters: true,
@@ -132,13 +126,6 @@ function RouteComponent() {
   const totalRows = meta?.totalRows ?? 0
   const totalPages = meta?.totalPages ?? 1
 
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
-
   const showSkeleton = isLoading && !response
 
   return (
@@ -173,15 +160,7 @@ function RouteComponent() {
       </div>
 
       {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{
-          filterGroup: 'categories',
-          hideFilters: true,
-          pageFilters,
-        }}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-      />
+      <DetailOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="category-pages" />

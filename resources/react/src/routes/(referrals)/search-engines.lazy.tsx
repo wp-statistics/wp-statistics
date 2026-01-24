@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
@@ -46,9 +46,9 @@ function RouteComponent() {
     filters: appliedFilters,
     page,
     setPage,
-    setDateRange,
+    handleDateRangeUpdate,
+    handlePageChange,
     applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
     isInitialized,
     apiDateParams,
     isCompareEnabled,
@@ -70,13 +70,6 @@ function RouteComponent() {
     return wp.getFilterFieldsByGroup('referrals') as FilterField[]
   }, [wp])
 
-  // Handle date range updates
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   // Handle search type change
   const handleSearchTypeChange = useCallback(
@@ -274,12 +267,6 @@ function RouteComponent() {
   const totalRows = response?.data?.items?.table?.meta?.total_rows ?? 0
   const totalPages = response?.data?.items?.table?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
 
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
 
   const handleTimeframeChange = useCallback((newTimeframe: 'daily' | 'weekly' | 'monthly') => {
     setTimeframe(newTimeframe)
@@ -329,11 +316,7 @@ function RouteComponent() {
       </div>
 
       {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{ filterGroup: 'referrals', pageFilters }}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-      />
+      <DetailOptionsDrawer {...options} />
 
       <div className="p-2 space-y-4">
         <NoticeContainer currentRoute="search-engines" />

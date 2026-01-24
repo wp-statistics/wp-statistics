@@ -1,19 +1,17 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { Metrics } from '@/components/custom/metrics'
 import {
   type OverviewOptionsConfig,
-  OptionsDrawerTrigger,
   OverviewOptionsDrawer,
   OverviewOptionsProvider,
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import {
@@ -81,14 +79,7 @@ function PageInsightsOverviewContent() {
 
   // Use global filters context for date range and filters (hybrid URL + preferences)
   const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
     filters: appliedFilters,
-    setDateRange,
-    applyFilters: handleApplyFilters,
     isInitialized,
     isCompareEnabled,
     apiDateParams,
@@ -101,23 +92,10 @@ function PageInsightsOverviewContent() {
   const { getWidgetsForPage } = useContentRegistry()
   const registeredWidgets = getWidgetsForPage('page-insights-overview')
 
-  // Options drawer (uses new reusable components)
-  const options = useOverviewOptions()
+  // Options drawer - config is passed once and returned for drawer
+  const options = useOverviewOptions(OPTIONS_CONFIG)
 
   const wp = WordPress.getInstance()
-
-  // Get filter fields for 'views' group from localized data
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('views') as FilterField[]
-  }, [wp])
-
-  // Handle date range updates from DateRangePicker
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   // Batch query for all overview data (only when filters are initialized)
   const {
@@ -239,41 +217,14 @@ function PageInsightsOverviewContent() {
 
   return (
     <div className="min-w-0">
-      {/* Header row with title, date picker, and filter button */}
-      <div className="flex items-center justify-between px-4 py-3 ">
-        <h1 className="text-2xl font-semibold text-neutral-800">{__('Page Insights', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          <div className="hidden lg:flex">
-            {filterFields.length > 0 && isInitialized && (
-              <FilterButton
-                fields={filterFields}
-                appliedFilters={appliedFilters || []}
-                onApplyFilters={handleApplyFilters}
-                filterGroup="views"
-              />
-            )}
-          </div>
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            showCompare={true}
-            onUpdate={handleDateRangeUpdate}
-            align="end"
-          />
-          <OptionsDrawerTrigger {...options.triggerProps} />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('Page Insights', 'wp-statistics')}
+        filterGroup="views"
+        optionsTriggerProps={options.triggerProps}
+      />
 
       {/* Options Drawer */}
-      <OverviewOptionsDrawer
-        config={OPTIONS_CONFIG}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-        resetToDefaults={options.resetToDefaults}
-      />
+      <OverviewOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-3" currentRoute="page-insights-overview" />

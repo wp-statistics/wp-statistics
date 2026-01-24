@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n'
 import { ArrowLeft, LockIcon } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
@@ -182,7 +182,7 @@ function SingleContentReportContent() {
     compareDateTo,
     period,
     filters: appliedFilters,
-    setDateRange,
+    handleDateRangeUpdate,
     applyFilters: handleApplyFilters,
     isInitialized,
     apiDateParams,
@@ -193,7 +193,7 @@ function SingleContentReportContent() {
   const { isWidgetVisible, isMetricVisible } = usePageOptions()
 
   // Options drawer (uses new reusable components)
-  const options = useOverviewOptions()
+  const options = useOverviewOptions(OPTIONS_CONFIG)
 
   const wp = WordPress.getInstance()
 
@@ -238,12 +238,6 @@ function SingleContentReportContent() {
     setTimeframe(newTimeframe)
   }, [])
 
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   // Batch query for single content data
   const {
@@ -515,12 +509,7 @@ function SingleContentReportContent() {
       </div>
 
       {/* Options Drawer */}
-      <OverviewOptionsDrawer
-        config={OPTIONS_CONFIG}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-        resetToDefaults={options.resetToDefaults}
-      />
+      <OverviewOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="single-content" />

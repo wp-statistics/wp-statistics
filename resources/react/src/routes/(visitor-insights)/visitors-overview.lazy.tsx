@@ -3,20 +3,17 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
-import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import {
   type OverviewOptionsConfig,
-  OptionsDrawerTrigger,
   OverviewOptionsDrawer,
   OverviewOptionsProvider,
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import {
@@ -94,13 +91,7 @@ function VisitorsOverviewContent() {
   const {
     dateFrom,
     dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
     filters: appliedFilters,
-    setDateRange,
-    applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
     isInitialized,
     isCompareEnabled,
     apiDateParams,
@@ -109,16 +100,11 @@ function VisitorsOverviewContent() {
   // Page options for widget/metric visibility
   const { isWidgetVisible, isMetricVisible } = usePageOptions()
 
-  // Options drawer (uses new reusable components)
-  const options = useOverviewOptions()
+  // Options drawer - config is passed once and returned for drawer
+  const options = useOverviewOptions(OPTIONS_CONFIG)
 
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-
-  // Get filter fields for 'visitors' group from localized data
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
-  }, [wp])
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
@@ -151,14 +137,6 @@ function VisitorsOverviewContent() {
     setIsTimeframeOnlyChange(true)
     setTimeframe(newTimeframe)
   }, [])
-
-  // Handle date range updates from DateRangePicker
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   // Batch query for all overview data (only when filters are initialized)
   const {
@@ -357,41 +335,14 @@ function VisitorsOverviewContent() {
 
   return (
     <div className="min-w-0">
-      {/* Header row with title, date picker, and filter button */}
-      <div className="flex items-center justify-between px-4 py-3 ">
-        <h1 className="text-2xl font-semibold text-neutral-800">{__('Visitor Insights', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          <div className="hidden lg:flex">
-            {filterFields.length > 0 && isInitialized && (
-              <FilterButton
-                fields={filterFields}
-                appliedFilters={appliedFilters || []}
-                onApplyFilters={handleApplyFilters}
-                filterGroup="visitors"
-              />
-            )}
-          </div>
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            showCompare={true}
-            onUpdate={handleDateRangeUpdate}
-            align="end"
-          />
-          <OptionsDrawerTrigger {...options.triggerProps} />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('Visitor Insights', 'wp-statistics')}
+        filterGroup="visitors"
+        optionsTriggerProps={options.triggerProps}
+      />
 
       {/* Options Drawer */}
-      <OverviewOptionsDrawer
-        config={OPTIONS_CONFIG}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-        resetToDefaults={options.resetToDefaults}
-      />
+      <OverviewOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-3" currentRoute="visitors-overview" />

@@ -2,18 +2,14 @@ import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterButton, type FilterField, type LockedFilter } from '@/components/custom/filter-button'
+import type { LockedFilter } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
-import {
-  OptionsDrawerTrigger,
-  TableOptionsDrawer,
-  useTableOptions,
-} from '@/components/custom/options-drawer'
+import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createLoggedInUsersColumns,
   type LoggedInUser,
@@ -53,17 +49,10 @@ export const Route = createLazyFileRoute('/(visitor-insights)/logged-in-users')(
 
 function RouteComponent() {
   const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
     filters: appliedFilters,
     page,
     setPage,
-    setDateRange,
-    applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
+    handlePageChange,
     isInitialized,
     apiDateParams,
     isCompareEnabled,
@@ -90,11 +79,6 @@ function RouteComponent() {
     [pluginUrl, wp]
   )
 
-  // Get filter fields for 'visitors' group from localized data
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
-  }, [wp])
-
   // Define locked filter for this report (logged-in users only)
   const lockedFilters = useMemo<LockedFilter[]>(
     () => [
@@ -106,13 +90,6 @@ function RouteComponent() {
       },
     ],
     []
-  )
-
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
   )
 
   // Fetch all data in a single batch request
@@ -165,10 +142,11 @@ function RouteComponent() {
     hasApiResponse: !!usersResponse,
   })
 
-  // Options drawer with column management
+  // Options drawer with column management - config is passed once and returned for drawer
   const options = useTableOptions({
     filterGroup: 'visitors',
     table: tableRef.current,
+    lockedFilters,
     defaultHiddenColumns: LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
     onColumnVisibilityChange: handleColumnVisibilityChange,
     onColumnOrderChange: handleColumnOrderChange,
@@ -205,60 +183,19 @@ function RouteComponent() {
     preserveNull: true,
   })
 
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
-
   const isChartLoading = isBatchFetching
   const showSkeleton = isBatchLoading && !batchResponse
 
   return (
     <div className="min-w-0">
-      <div className="flex items-center justify-between px-4 py-3 ">
-        <h1 className="text-2xl font-semibold text-neutral-800">{__('Logged-in Users', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          <div className="hidden lg:flex">
-            {filterFields.length > 0 && isInitialized && (
-              <FilterButton
-                fields={filterFields}
-                appliedFilters={appliedFilters || []}
-                onApplyFilters={handleApplyFilters}
-                filterGroup="visitors"
-                lockedFilters={lockedFilters}
-              />
-            )}
-          </div>
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            onUpdate={handleDateRangeUpdate}
-            showCompare={true}
-            align="end"
-          />
-          <OptionsDrawerTrigger {...options.triggerProps} />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('Logged-in Users', 'wp-statistics')}
+        filterGroup="visitors"
+        optionsTriggerProps={options.triggerProps}
+      />
 
       {/* Options Drawer with Column Management */}
-      <TableOptionsDrawer
-        config={{
-          filterGroup: 'visitors',
-          table: tableRef.current,
-          lockedFilters,
-          defaultHiddenColumns: LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
-          onColumnVisibilityChange: handleColumnVisibilityChange,
-          onColumnOrderChange: handleColumnOrderChange,
-          onReset: handleColumnPreferencesReset,
-        }}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-      />
+      <TableOptionsDrawer {...options} />
 
       <div className="p-2 grid gap-3">
         <NoticeContainer currentRoute="logged-in-users" />

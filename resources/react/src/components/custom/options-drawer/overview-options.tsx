@@ -29,7 +29,7 @@ export interface OverviewOptionsConfig {
  * Hook that provides everything needed for the Options button and drawer on overview pages.
  * Must be used within a PageOptionsProvider.
  */
-export function useOverviewOptions() {
+export function useOverviewOptions(config: OverviewOptionsConfig) {
   const [isOpen, setIsOpen] = useState(false)
   const { getHiddenWidgetCount, getHiddenMetricCount, resetToDefaults } = usePageOptions()
 
@@ -40,6 +40,7 @@ export function useOverviewOptions() {
   return {
     isOpen,
     setIsOpen,
+    config, // Return config for drawer - single source of truth
     isActive,
     hiddenWidgets,
     hiddenMetrics,
@@ -51,6 +52,11 @@ export function useOverviewOptions() {
   }
 }
 
+/**
+ * Return type of useOverviewOptions hook for use with OverviewOptionsDrawer
+ */
+export type OverviewOptionsReturn = ReturnType<typeof useOverviewOptions>
+
 export interface OverviewOptionsDrawerProps {
   config: OverviewOptionsConfig
   isOpen: boolean
@@ -59,15 +65,28 @@ export interface OverviewOptionsDrawerProps {
 }
 
 /**
+ * Props for OverviewOptionsDrawer when spreading from useOverviewOptions return
+ */
+export type OverviewOptionsDrawerSpreadProps = Pick<
+  OverviewOptionsReturn,
+  'config' | 'isOpen' | 'setIsOpen' | 'resetToDefaults'
+>
+
+/**
  * Pre-configured Options drawer for overview pages.
  * Includes: DateRange, Filters, Widgets (Premium), Metrics (Premium)
+ *
+ * Can be used with explicit props or by spreading useOverviewOptions return:
+ * @example
+ * const options = useOverviewOptions(config)
+ * <OverviewOptionsDrawer {...options} />
  */
 export function OverviewOptionsDrawer({
   config,
   isOpen,
   setIsOpen,
   resetToDefaults,
-}: OverviewOptionsDrawerProps) {
+}: OverviewOptionsDrawerProps | OverviewOptionsDrawerSpreadProps) {
   return (
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={resetToDefaults}>
       {/* Main menu entries */}

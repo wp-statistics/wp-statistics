@@ -3,7 +3,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
@@ -94,7 +94,7 @@ function ContentOverviewContent() {
     compareDateTo,
     period,
     filters: appliedFilters,
-    setDateRange,
+    handleDateRangeUpdate,
     applyFilters: handleApplyFilters,
     isInitialized,
     apiDateParams,
@@ -105,7 +105,7 @@ function ContentOverviewContent() {
   const { isMetricVisible, isWidgetVisible } = usePageOptions()
 
   // Options drawer (uses new reusable components)
-  const options = useOverviewOptions()
+  const options = useOverviewOptions(OPTIONS_CONFIG)
 
   const wp = WordPress.getInstance()
 
@@ -215,12 +215,6 @@ function ContentOverviewContent() {
     [filtersForDisplay, handleApplyFilters]
   )
 
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   // Batch query for all overview data
   const {
@@ -590,12 +584,7 @@ function ContentOverviewContent() {
       </div>
 
       {/* Options Drawer */}
-      <OverviewOptionsDrawer
-        config={OPTIONS_CONFIG}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-        resetToDefaults={options.resetToDefaults}
-      />
+      <OverviewOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="content" />

@@ -3,7 +3,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
@@ -38,9 +38,8 @@ function RouteComponent() {
     compareDateTo,
     period,
     filters: appliedFilters,
-    setDateRange,
+    handleDateRangeUpdate,
     applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
     isInitialized,
     apiDateParams,
     isCompareEnabled,
@@ -78,12 +77,6 @@ function RouteComponent() {
     setTimeframe(newTimeframe)
   }, [])
 
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   const {
     data: batchResponse,

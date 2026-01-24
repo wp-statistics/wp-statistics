@@ -1,17 +1,12 @@
 import { DataTable } from '@components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@components/custom/date-range-picker'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback } from 'react'
 
 import { ErrorMessage } from '@/components/custom/error-message'
-import {
-  DetailOptionsDrawer,
-  OptionsDrawerTrigger,
-  useDetailOptions,
-} from '@/components/custom/options-drawer'
+import { DetailOptionsDrawer, useDetailOptions } from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -60,30 +55,10 @@ const columns: ColumnDef<SearchTermData>[] = [
 const PER_PAGE = 20
 
 function RouteComponent() {
-  // Use global filters context for date range (hybrid URL + preferences)
-  const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
-    page,
-    setPage,
-    setDateRange,
-    isInitialized,
-    apiDateParams,
-  } = useGlobalFilters()
+  const { page, handlePageChange, isInitialized, apiDateParams } = useGlobalFilters()
 
-  // Options drawer
-  const options = useDetailOptions({ filterGroup: 'visitors' })
-
-  // Handle date range updates from DateRangePicker
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
+  // Options drawer - config is passed once and returned for drawer
+  const options = useDetailOptions({ filterGroup: 'visitors', hideFilters: true })
 
   const {
     data: response,
@@ -109,42 +84,19 @@ function RouteComponent() {
   const total = response?.data?.meta?.total_rows ?? 0
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(total / PER_PAGE) || 1
 
-  // Loading states
   const showSkeleton = isLoading && !response
-
-  // Handle page change
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
 
   return (
     <div className="min-w-0">
-      <div className="flex items-center justify-between px-4 py-3 ">
-        <h1 className="text-2xl font-semibold text-neutral-800">{__('Search Terms', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            onUpdate={handleDateRangeUpdate}
-            showCompare={true}
-            align="end"
-          />
-          <OptionsDrawerTrigger {...options.triggerProps} />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('Search Terms', 'wp-statistics')}
+        filterGroup="visitors"
+        optionsTriggerProps={options.triggerProps}
+        showFilterButton={false}
+      />
 
       {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{ filterGroup: 'visitors', hideFilters: true }}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-      />
+      <DetailOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="search-terms" />

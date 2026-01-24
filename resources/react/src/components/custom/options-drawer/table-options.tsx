@@ -56,6 +56,7 @@ export function useTableOptions<TData>(config: TableOptionsConfig<TData>) {
   return {
     isOpen,
     setIsOpen,
+    config, // Return config for drawer - single source of truth
     isActive,
     hiddenColumnCount: hiddenColumns.length,
     hasNonDefaultHiddenColumns,
@@ -67,6 +68,11 @@ export function useTableOptions<TData>(config: TableOptionsConfig<TData>) {
   }
 }
 
+/**
+ * Return type of useTableOptions hook for use with TableOptionsDrawer
+ */
+export type TableOptionsReturn<TData> = ReturnType<typeof useTableOptions<TData>>
+
 export interface TableOptionsDrawerProps<TData> {
   config: TableOptionsConfig<TData>
   isOpen: boolean
@@ -74,14 +80,27 @@ export interface TableOptionsDrawerProps<TData> {
 }
 
 /**
+ * Props for TableOptionsDrawer when spreading from useTableOptions return
+ */
+export type TableOptionsDrawerSpreadProps<TData> = Pick<
+  TableOptionsReturn<TData>,
+  'config' | 'isOpen' | 'setIsOpen'
+>
+
+/**
  * Pre-configured Options drawer for table pages.
  * Includes: DateRange, Filters, Columns
+ *
+ * Can be used with explicit props or by spreading useTableOptions return:
+ * @example
+ * const options = useTableOptions(config)
+ * <TableOptionsDrawer {...options} />
  */
 export function TableOptionsDrawer<TData>({
   config,
   isOpen,
   setIsOpen,
-}: TableOptionsDrawerProps<TData>) {
+}: TableOptionsDrawerProps<TData> | TableOptionsDrawerSpreadProps<TData>) {
   return (
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={config.onReset}>
       {/* Main menu entries */}

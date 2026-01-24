@@ -2,15 +2,11 @@ import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { ErrorMessage } from '@/components/custom/error-message'
-import {
-  OptionsDrawerTrigger,
-  TableOptionsDrawer,
-  useTableOptions,
-} from '@/components/custom/options-drawer'
+import { OptionsDrawerTrigger, TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
 import {
   createOnlineVisitorsColumns,
   ONLINE_VISITORS_COLUMN_CONFIG,
@@ -94,8 +90,8 @@ function RouteComponent() {
     hasApiResponse: !!response?.data,
   })
 
-  // Options drawer config
-  const tableOptionsConfig = {
+  // Options drawer with column management (no filters or date for this page)
+  const options = useTableOptions({
     filterGroup: 'visitors',
     table: tableRef.current,
     hideFilters: true,
@@ -103,22 +99,12 @@ function RouteComponent() {
     onColumnVisibilityChange: handleColumnVisibilityChange,
     onColumnOrderChange: handleColumnOrderChange,
     onReset: handleColumnPreferencesReset,
-  }
-
-  // Options drawer with column management (no filters or date for this page)
-  const options = useTableOptions(tableOptionsConfig)
+  })
 
   // Transform API data to component format
   const visitors = response?.data?.data?.rows?.map(transformOnlineVisitorData) || []
   const total = response?.data?.meta?.total_rows ?? 0
   const totalPages = response?.data?.meta?.total_pages || Math.ceil(total / PER_PAGE) || 1
-
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
 
   const showSkeleton = isLoading && !response
 
@@ -132,11 +118,7 @@ function RouteComponent() {
       </div>
 
       {/* Options Drawer with Column Management */}
-      <TableOptionsDrawer
-        config={tableOptionsConfig}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-      />
+      <TableOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="online-visitors" />
@@ -160,7 +142,7 @@ function RouteComponent() {
             manualPagination={true}
             pageCount={totalPages}
             page={page}
-            onPageChange={handlePageChange}
+            onPageChange={setPage}
             totalRows={total}
             rowLimit={PER_PAGE}
             showColumnManagement={false}

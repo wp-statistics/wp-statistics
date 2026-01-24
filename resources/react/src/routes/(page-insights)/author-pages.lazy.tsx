@@ -1,10 +1,10 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import {
   createPageViewsColumns,
@@ -30,8 +30,8 @@ function RouteComponent() {
     compareDateTo,
     period,
     page,
-    setPage,
-    setDateRange,
+    handleDateRangeUpdate,
+    handlePageChange,
     isInitialized,
     apiDateParams,
   } = useGlobalFilters()
@@ -53,13 +53,6 @@ function RouteComponent() {
         idPrefix: 'author',
       }),
     []
-  )
-
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
   )
 
   // Fetch data from API
@@ -90,13 +83,6 @@ function RouteComponent() {
   const meta = extractMeta(response)
   const totalRows = meta?.totalRows ?? 0
   const totalPages = meta?.totalPages ?? 1
-
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
 
   const showSkeleton = isLoading && !response
 

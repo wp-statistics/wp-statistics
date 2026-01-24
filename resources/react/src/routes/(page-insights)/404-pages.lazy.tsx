@@ -2,16 +2,12 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import {
-  DetailOptionsDrawer,
-  OptionsDrawerTrigger,
-  useDetailOptions,
-} from '@/components/custom/options-drawer'
+import { DetailOptionsDrawer, useDetailOptions } from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
 import { NumericCell, UriCell } from '@/components/data-table-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
@@ -74,33 +70,15 @@ export const Route = createLazyFileRoute('/(page-insights)/404-pages')({
 })
 
 function RouteComponent() {
-  const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
-    page,
-    setPage,
-    setDateRange,
-    isInitialized,
-    apiDateParams,
-  } = useGlobalFilters()
+  const { page, handlePageChange, isInitialized, apiDateParams } = useGlobalFilters()
 
   // Static sorting - always views descending
   const sorting = useMemo(() => [{ id: 'views', desc: true }], [])
 
   const columns = useMemo(() => createNotFoundPagesColumns(), [])
 
-  // Options drawer
-  const options = useDetailOptions({ filterGroup: 'views' })
-
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
+  // Options drawer - config is passed once and returned for drawer
+  const options = useDetailOptions({ filterGroup: 'views', hideFilters: true })
 
   // Fetch data from API
   const {
@@ -131,40 +109,19 @@ function RouteComponent() {
   const totalRows = meta?.totalRows ?? 0
   const totalPages = meta?.totalPages ?? 1
 
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
-
   const showSkeleton = isLoading && !response
 
   return (
     <div className="min-w-0">
-      <div className="flex items-center justify-between px-4 py-3">
-        <h1 className="text-2xl font-semibold text-neutral-800">{__('404 Pages', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            onUpdate={handleDateRangeUpdate}
-            showCompare={true}
-            align="end"
-          />
-          <OptionsDrawerTrigger {...options.triggerProps} />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('404 Pages', 'wp-statistics')}
+        filterGroup="views"
+        optionsTriggerProps={options.triggerProps}
+        showFilterButton={false}
+      />
 
       {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{ filterGroup: 'views', hideFilters: true }}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-      />
+      <DetailOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="404-pages" />

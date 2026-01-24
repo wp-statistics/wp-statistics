@@ -62,6 +62,16 @@ export interface GlobalFiltersState {
   isInitialized: boolean
 }
 
+/**
+ * Parameters for handleDateRangeUpdate callback
+ */
+export interface DateRangeUpdateValues {
+  range: DateRange
+  rangeCompare?: DateRange
+  period?: string
+  comparisonMode?: string
+}
+
 export interface GlobalFiltersContextValue extends GlobalFiltersState {
   // Actions
   setDateRange: (range: DateRange, compare?: DateRange, period?: string, comparisonMode?: ComparisonMode) => void
@@ -70,6 +80,12 @@ export interface GlobalFiltersContextValue extends GlobalFiltersState {
   removeFilter: (filterId: string) => void
   applyFilters: (filters: Filter[]) => void
   resetAll: () => void
+
+  // Pre-built callbacks for common patterns (reduces boilerplate in pages)
+  /** Pre-built callback for DateRangePicker onUpdate - can be passed directly */
+  handleDateRangeUpdate: (values: DateRangeUpdateValues) => void
+  /** Pre-built callback for pagination - can be passed directly to onPageChange */
+  handlePageChange: (newPage: number) => void
 
   // Computed values
   /** Whether comparison/previous period is enabled (both compare dates are set) */
@@ -698,6 +714,24 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     lastSyncedRef.current = null
   }, [navigate])
 
+  // Pre-built callback for DateRangePicker onUpdate
+  // This reduces boilerplate in pages - can be passed directly to DateRangePicker
+  const handleDateRangeUpdate = useCallback(
+    (values: DateRangeUpdateValues) => {
+      setDateRange(values.range, values.rangeCompare, values.period, values.comparisonMode as ComparisonMode)
+    },
+    [setDateRange]
+  )
+
+  // Pre-built callback for pagination
+  // This reduces boilerplate in pages - can be passed directly to onPageChange
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setPage(newPage)
+    },
+    [setPage]
+  )
+
   // Computed: whether comparison/previous period is enabled
   const isCompareEnabled = useMemo(
     () => !!(state.compareDateFrom && state.compareDateTo),
@@ -725,10 +759,12 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
       removeFilter,
       applyFilters,
       resetAll,
+      handleDateRangeUpdate,
+      handlePageChange,
       isCompareEnabled,
       apiDateParams,
     }),
-    [state, setDateRange, setFilters, setPage, removeFilter, applyFilters, resetAll, isCompareEnabled, apiDateParams]
+    [state, setDateRange, setFilters, setPage, removeFilter, applyFilters, resetAll, handleDateRangeUpdate, handlePageChange, isCompareEnabled, apiDateParams]
   )
 
   return <GlobalFiltersContext.Provider value={value}>{children}</GlobalFiltersContext.Provider>

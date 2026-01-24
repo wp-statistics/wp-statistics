@@ -3,10 +3,10 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { ExternalLink } from 'lucide-react'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { Metrics } from '@/components/custom/metrics'
 import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
@@ -114,19 +114,12 @@ function NetworkOverviewComponent() {
   }
 
   // Use global filters context for date range (syncs with URL)
-  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams, isCompareEnabled } =
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, handleDateRangeUpdate, isInitialized, apiDateParams, isCompareEnabled } =
     useGlobalFilters()
 
   // Use percentage calculation hook
   const calcPercentage = usePercentageCalc()
 
-  // Handle date range updates
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   // Fetch network stats
   const {

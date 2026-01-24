@@ -3,6 +3,8 @@ export { DateRangeDetailView, DateRangeMenuEntry } from './date-range-section'
 export {
   DetailOptionsDrawer,
   type DetailOptionsConfig,
+  type DetailOptionsDrawerSpreadProps,
+  type DetailOptionsReturn,
   useDetailOptions,
 } from './detail-options'
 export { DrawerFilterRow } from './drawer-filter-row'
@@ -21,6 +23,8 @@ export { OptionsDrawerTrigger } from './options-drawer-trigger'
 export {
   OverviewOptionsDrawer,
   type OverviewOptionsConfig,
+  type OverviewOptionsDrawerSpreadProps,
+  type OverviewOptionsReturn,
   OverviewOptionsProvider,
   useOverviewOptions,
 } from './overview-options'
@@ -32,6 +36,8 @@ export {
 export {
   TableOptionsDrawer,
   type TableOptionsConfig,
+  type TableOptionsDrawerSpreadProps,
+  type TableOptionsReturn,
   useTableOptions,
 } from './table-options'
 export { WidgetsDetailView, WidgetsMenuEntry } from './widgets-section'

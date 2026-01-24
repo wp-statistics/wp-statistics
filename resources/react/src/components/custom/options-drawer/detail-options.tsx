@@ -33,6 +33,7 @@ export function useDetailOptions(config: DetailOptionsConfig) {
   return {
     isOpen,
     setIsOpen,
+    config, // Return config for drawer - single source of truth
     isActive,
     appliedFilterCount,
     triggerProps: {
@@ -42,6 +43,11 @@ export function useDetailOptions(config: DetailOptionsConfig) {
   }
 }
 
+/**
+ * Return type of useDetailOptions hook for use with DetailOptionsDrawer
+ */
+export type DetailOptionsReturn = ReturnType<typeof useDetailOptions>
+
 export interface DetailOptionsDrawerProps {
   config: DetailOptionsConfig
   isOpen: boolean
@@ -49,14 +55,27 @@ export interface DetailOptionsDrawerProps {
 }
 
 /**
+ * Props for DetailOptionsDrawer when spreading from useDetailOptions return
+ */
+export type DetailOptionsDrawerSpreadProps = Pick<
+  DetailOptionsReturn,
+  'config' | 'isOpen' | 'setIsOpen'
+>
+
+/**
  * Pre-configured Options drawer for detail pages.
  * Includes: DateRange, PageFilters (optional), Filters (optional)
+ *
+ * Can be used with explicit props or by spreading useDetailOptions return:
+ * @example
+ * const options = useDetailOptions(config)
+ * <DetailOptionsDrawer {...options} />
  */
 export function DetailOptionsDrawer({
   config,
   isOpen,
   setIsOpen,
-}: DetailOptionsDrawerProps) {
+}: DetailOptionsDrawerProps | DetailOptionsDrawerSpreadProps) {
   return (
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen}>
       {/* Main menu entries */}

@@ -2,17 +2,12 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import {
-  DetailOptionsDrawer,
-  OptionsDrawerTrigger,
-  useDetailOptions,
-} from '@/components/custom/options-drawer'
+import { DetailOptionsDrawer, useDetailOptions } from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -20,7 +15,6 @@ import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
-import { WordPress } from '@/lib/wordpress'
 import { getReferrersQueryOptions, type ReferrerRow } from '@/services/referral/get-referrers'
 
 const PER_PAGE = 20
@@ -31,17 +25,10 @@ export const Route = createLazyFileRoute('/(referrals)/referrers')({
 
 function RouteComponent() {
   const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
     filters: appliedFilters,
     page,
     setPage,
-    setDateRange,
-    applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
+    handlePageChange,
     isInitialized,
     apiDateParams,
     isCompareEnabled,
@@ -52,24 +39,10 @@ function RouteComponent() {
     onPageReset: () => setPage(1),
   })
 
-  const wp = WordPress.getInstance()
   const calcPercentage = usePercentageCalc()
 
-  // Options drawer
+  // Options drawer - config is passed once and returned for drawer
   const options = useDetailOptions({ filterGroup: 'referrals' })
-
-  // Get filter fields for 'referrals' group
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('referrals') as FilterField[]
-  }, [wp])
-
-  // Handle date range updates
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   // Fetch referrers data
   const {
@@ -231,57 +204,22 @@ function RouteComponent() {
   const totalRows = meta?.totalRows ?? 0
   const totalPages = meta?.totalPages ?? 1
 
-  // Handle page changes
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
-
   // Loading states
   const showSkeleton = isLoading && !response
 
   return (
     <div className="min-w-0">
-      {/* Header row */}
-      <div className="flex items-center justify-between px-4 py-3 ">
-        <h1 className="text-2xl font-semibold text-neutral-800">{__('Referrers', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          <div className="hidden lg:flex">
-            {filterFields.length > 0 && isInitialized && (
-              <FilterButton
-                fields={filterFields}
-                appliedFilters={appliedFilters || []}
-                onApplyFilters={handleApplyFilters}
-                filterGroup="referrals"
-              />
-            )}
-          </div>
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            showCompare={true}
-            onUpdate={handleDateRangeUpdate}
-            align="end"
-          />
-          <OptionsDrawerTrigger {...options.triggerProps} />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('Referrers', 'wp-statistics')}
+        filterGroup="referrals"
+        optionsTriggerProps={options.triggerProps}
+      />
 
       {/* Options Drawer */}
-      <DetailOptionsDrawer
-        config={{ filterGroup: 'referrals' }}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-      />
+      <DetailOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="referrers" />
-        {/* Applied filters row */}
 
         {isError ? (
           <div className="p-2 text-center">

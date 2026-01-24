@@ -2,17 +2,12 @@ import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import {
-  OptionsDrawerTrigger,
-  TableOptionsDrawer,
-  useTableOptions,
-} from '@/components/custom/options-drawer'
+import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createTopVisitorsColumns,
   type TopVisitor,
@@ -39,17 +34,10 @@ export const Route = createLazyFileRoute('/(visitor-insights)/top-visitors')({
 
 function RouteComponent() {
   const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
-    period,
     filters: appliedFilters,
     page,
     setPage,
-    setDateRange,
-    applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
+    handlePageChange,
     isInitialized,
     apiDateParams,
   } = useGlobalFilters()
@@ -72,17 +60,6 @@ function RouteComponent() {
         hashEnabled: wp.isHashEnabled(),
       }),
     [pluginUrl, wp]
-  )
-
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
-  }, [wp])
-
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
   )
 
   // Fetch data from API
@@ -129,7 +106,7 @@ function RouteComponent() {
     hasApiResponse: !!response?.data,
   })
 
-  // Options drawer with column management
+  // Options drawer with column management - config is passed once and returned for drawer
   const options = useTableOptions({
     filterGroup: 'visitors',
     table: tableRef.current,
@@ -148,57 +125,18 @@ function RouteComponent() {
   const totalRows = meta?.totalRows ?? 0
   const totalPages = meta?.totalPages ?? 1
 
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
-
   const showSkeleton = isLoading && !response
 
   return (
     <div className="min-w-0">
-      <div className="flex items-center justify-between px-4 py-3 ">
-        <h1 className="text-2xl font-semibold text-neutral-800">{__('Top Visitors', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          <div className="hidden lg:flex">
-            {filterFields.length > 0 && isInitialized && (
-              <FilterButton
-                fields={filterFields}
-                appliedFilters={appliedFilters || []}
-                onApplyFilters={handleApplyFilters}
-                filterGroup="visitors"
-              />
-            )}
-          </div>
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            onUpdate={handleDateRangeUpdate}
-            showCompare={true}
-            align="end"
-          />
-          <OptionsDrawerTrigger {...options.triggerProps} />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('Top Visitors', 'wp-statistics')}
+        filterGroup="visitors"
+        optionsTriggerProps={options.triggerProps}
+      />
 
       {/* Options Drawer with Column Management */}
-      <TableOptionsDrawer
-        config={{
-          filterGroup: 'visitors',
-          table: tableRef.current,
-          defaultHiddenColumns: TOP_VISITORS_DEFAULT_HIDDEN_COLUMNS,
-          onColumnVisibilityChange: handleColumnVisibilityChange,
-          onColumnOrderChange: handleColumnOrderChange,
-          onReset: handleColumnPreferencesReset,
-        }}
-        isOpen={options.isOpen}
-        setIsOpen={options.setIsOpen}
-      />
+      <TableOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="top-visitors" />

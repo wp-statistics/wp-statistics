@@ -1,9 +1,9 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { Metrics } from '@/components/custom/metrics'
@@ -27,7 +27,7 @@ export const Route = createLazyFileRoute('/geographic')({
 })
 
 function RouteComponent() {
-  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, setDateRange, isInitialized, apiDateParams, isCompareEnabled } =
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, handleDateRangeUpdate, isInitialized, apiDateParams, isCompareEnabled } =
     useGlobalFilters()
 
   const wp = WordPress.getInstance()
@@ -35,12 +35,6 @@ function RouteComponent() {
   const userCountry = wp.getUserCountry() || 'US'
   const userCountryName = wp.getUserCountryName() || 'United States'
 
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange; period?: string }) => {
-      setDateRange(values.range, values.rangeCompare, values.period)
-    },
-    [setDateRange]
-  )
 
   const { data: batchResponse, isLoading } = useQuery({
     ...getGeographicOverviewQueryOptions({
