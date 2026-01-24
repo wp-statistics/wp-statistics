@@ -151,6 +151,20 @@ function AuthorsOverviewContent() {
     return [...(appliedFilters || []), defaultPostTypeFilter]
   }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
 
+  // Build Top Authors URL with current post_type filter for "See all" links
+  const buildTopAuthorsUrl = useMemo(() => {
+    const postTypeFilter = filtersForApi.find((f) => f.id.startsWith('post_type'))
+    const filterParam = postTypeFilter
+      ? `filter[post_type]=eq:${postTypeFilter.rawValue || postTypeFilter.value}`
+      : ''
+
+    return (baseParams?: string) => {
+      if (!filterParam) return `/top-authors${baseParams ? `?${baseParams}` : ''}`
+      if (baseParams) return `/top-authors?${baseParams}&${filterParam}`
+      return `/top-authors?${filterParam}`
+    }
+  }, [filtersForApi])
+
   // Wrap handleApplyFilters to detect when post_type filter is intentionally removed
   const handleAuthorsApplyFilters = useCallback(
     (newFilters: typeof appliedFilters) => {
@@ -428,7 +442,7 @@ function AuthorsOverviewContent() {
             <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
           ),
         link: {
-          href: '/top-authors?order_by=views&order=desc',
+          href: buildTopAuthorsUrl('order_by=views&order=desc'),
           title: __('See all', 'wp-statistics'),
         },
       },
@@ -450,7 +464,7 @@ function AuthorsOverviewContent() {
             <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
           ),
         link: {
-          href: '/top-authors?order_by=published&order=desc',
+          href: buildTopAuthorsUrl('order_by=published&order=desc'),
           title: __('See all', 'wp-statistics'),
         },
       },
@@ -477,7 +491,7 @@ function AuthorsOverviewContent() {
             <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
           ),
         link: {
-          href: '/top-authors',
+          href: buildTopAuthorsUrl(),
           title: __('See all', 'wp-statistics'),
         },
       },
@@ -517,6 +531,7 @@ function AuthorsOverviewContent() {
     isCompareEnabled,
     calcPercentage,
     comparisonDateLabel,
+    buildTopAuthorsUrl,
   ])
 
   return (
