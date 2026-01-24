@@ -10,6 +10,7 @@ export type { LocationData } from './cells/location-cell'
 export type { PageData, ReferrerData, VisitorInfoConfig, VisitorInfoData } from './types'
 
 // Cell Components
+export { AuthorCell, type AuthorCellProps } from './cells/author-cell'
 export { DurationCell } from './cells/duration-cell'
 export { EntryPageCell } from './cells/entry-page-cell'
 export { JourneyCell } from './cells/journey-cell'
