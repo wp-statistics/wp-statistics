@@ -37,6 +37,28 @@ function getOptimalColumns(count: number): 1 | 2 | 3 | 4 | 6 | 12 {
   return 4 // 4, 7, 8+ metrics: use 4 columns
 }
 
+// Balance columns to avoid single item in last row
+function getBalancedColumns(count: number, requestedColumns: number): number {
+  if (count <= 1) return 1
+
+  const lastRowCount = count % requestedColumns
+
+  // If last row has only 1 item and we have more than 1 row, try to balance
+  if (lastRowCount === 1 && count > requestedColumns) {
+    // Try reducing columns by 1 to get better balance
+    const reducedColumns = requestedColumns - 1
+    if (reducedColumns >= 2) {
+      const newLastRowCount = count % reducedColumns
+      // Only use reduced columns if it gives better balance (2+ items in last row)
+      if (newLastRowCount === 0 || newLastRowCount >= 2) {
+        return reducedColumns
+      }
+    }
+  }
+
+  return requestedColumns
+}
+
 export function Metrics({ metrics, columns = 'auto', className }: MetricsProps) {
   const { isMobile, isTablet } = useBreakpoint()
   const displayMetrics = metrics.slice(0, 12)
@@ -46,7 +68,8 @@ export function Metrics({ metrics, columns = 'auto', className }: MetricsProps) 
     if (columns === 'auto') {
       return getOptimalColumns(displayMetrics.length)
     }
-    return columns
+    // Balance explicit columns to avoid single item in last row
+    return getBalancedColumns(displayMetrics.length, columns) as 1 | 2 | 3 | 4 | 6 | 12
   }, [columns, displayMetrics.length])
 
   // Auto-scale columns based on breakpoint
