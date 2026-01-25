@@ -173,6 +173,15 @@ function CategoriesOverviewContent() {
     setSelectedTaxonomy(value)
   }, [])
 
+  // Build Top Categories URL with current taxonomy filter preserved
+  const buildTopCategoriesUrl = useMemo(() => {
+    return (baseParams?: string) => {
+      const taxonomyParam = `filter[taxonomy_type]=eq:${selectedTaxonomy}`
+      if (baseParams) return `/top-categories?${baseParams}&${taxonomyParam}`
+      return `/top-categories?${taxonomyParam}`
+    }
+  }, [selectedTaxonomy])
+
   // Page filters config for Options drawer
   const pageFilters = useMemo<PageFilterConfig[]>(() => {
     return [
@@ -395,6 +404,10 @@ function CategoriesOverviewContent() {
           left: __('Term', 'wp-statistics'),
           right: __('Views', 'wp-statistics'),
         },
+        link: {
+          href: buildTopCategoriesUrl('order_by=views&order=desc'),
+          title: __('See all', 'wp-statistics'),
+        },
         content:
           sortedByViews.length > 0 ? (
             <div className="flex flex-col gap-3">
@@ -411,6 +424,10 @@ function CategoriesOverviewContent() {
           left: __('Term', 'wp-statistics'),
           right: __('Contents', 'wp-statistics'),
         },
+        link: {
+          href: buildTopCategoriesUrl('order_by=published&order=desc'),
+          title: __('See all', 'wp-statistics'),
+        },
         content:
           sortedByContents.length > 0 ? (
             <div className="flex flex-col gap-3">
@@ -423,7 +440,7 @@ function CategoriesOverviewContent() {
           ),
       },
     ]
-  }, [sortedByViews, sortedByContents, isCompareEnabled, calcPercentage, comparisonDateLabel])
+  }, [sortedByViews, sortedByContents, isCompareEnabled, calcPercentage, comparisonDateLabel, buildTopCategoriesUrl])
 
   // Get content rows from response
   const contentRows = useMemo(() => {

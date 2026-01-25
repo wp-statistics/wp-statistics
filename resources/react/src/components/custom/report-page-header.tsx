@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { useMemo } from 'react'
 
 import { DateRangePicker } from '@/components/custom/date-range-picker'
@@ -22,6 +23,8 @@ export interface ReportPageHeaderProps {
   showFilterButton?: boolean
   /** Custom filter fields to use instead of fetching by filterGroup */
   customFilterFields?: FilterField[]
+  /** Additional controls to render in the header (e.g., taxonomy selector) */
+  children?: ReactNode
 }
 
 /**
@@ -46,6 +49,7 @@ export function ReportPageHeader({
   showCompare = true,
   showFilterButton = true,
   customFilterFields,
+  children,
 }: ReportPageHeaderProps) {
   const {
     dateFrom,
@@ -73,6 +77,7 @@ export function ReportPageHeader({
     <div className="flex items-center justify-between px-4 py-3">
       <h1 className="text-2xl font-semibold text-neutral-800">{title}</h1>
       <div className="flex items-center gap-3">
+        {children && <div className="hidden lg:flex">{children}</div>}
         {showFilterButton && (
           <div className="hidden lg:flex">
             {filterFields.length > 0 && isInitialized && (

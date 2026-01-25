@@ -8,6 +8,7 @@ import { ColumnsDetailView, ColumnsMenuEntry } from './columns-section'
 import { DateRangeDetailView, DateRangeMenuEntry } from './date-range-section'
 import { FiltersDetailView, FiltersMenuEntry } from './filters-section'
 import { OptionsDrawer } from './options-drawer'
+import { PageFiltersDetailView, PageFiltersMenuEntry, type PageFilterConfig } from './page-filters-section'
 
 /**
  * Configuration for table pages (visitors, top-pages, referrers, etc.)
@@ -18,6 +19,8 @@ export interface TableOptionsConfig<TData> {
   lockedFilters?: LockedFilter[]
   /** Hide the filters section (for pages that don't use filtering) */
   hideFilters?: boolean
+  /** Page-specific filter dropdowns (shown in Options drawer) */
+  pageFilters?: PageFilterConfig[]
   initialColumnOrder?: string[]
   defaultHiddenColumns?: string[]
   comparableColumns?: string[]
@@ -105,6 +108,9 @@ export function TableOptionsDrawer<TData>({
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={config.onReset}>
       {/* Main menu entries */}
       <DateRangeMenuEntry />
+      {config.pageFilters && config.pageFilters.length > 0 && (
+        <PageFiltersMenuEntry filters={config.pageFilters} />
+      )}
       {!config.hideFilters && (
         <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
       )}
@@ -112,6 +118,9 @@ export function TableOptionsDrawer<TData>({
 
       {/* Detail views */}
       <DateRangeDetailView />
+      {config.pageFilters && config.pageFilters.length > 0 && (
+        <PageFiltersDetailView filters={config.pageFilters} />
+      )}
       {!config.hideFilters && (
         <FiltersDetailView filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
       )}

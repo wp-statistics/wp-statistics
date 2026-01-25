@@ -29,6 +29,7 @@ import { Route as pageInsightsEntryPagesRouteImport } from './routes/(page-insig
 import { Route as pageInsightsCategoryPagesRouteImport } from './routes/(page-insights)/category-pages'
 import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insights)/author-pages'
 import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
+import { Route as contentAnalyticsTopCategoriesRouteImport } from './routes/(content-analytics)/top-categories'
 import { Route as contentAnalyticsTopAuthorsRouteImport } from './routes/(content-analytics)/top-authors'
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
 import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
@@ -465,6 +466,18 @@ const pageInsights404PagesRoute = pageInsights404PagesRouteImport
   .lazy(() =>
     import('./routes/(page-insights)/404-pages.lazy').then((d) => d.Route),
   )
+const contentAnalyticsTopCategoriesRoute =
+  contentAnalyticsTopCategoriesRouteImport
+    .update({
+      id: '/(content-analytics)/top-categories',
+      path: '/top-categories',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/top-categories.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 const contentAnalyticsTopAuthorsRoute = contentAnalyticsTopAuthorsRouteImport
   .update({
     id: '/(content-analytics)/top-authors',
@@ -555,6 +568,7 @@ export interface FileRoutesByFullPath {
   '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
+  '/top-categories': typeof contentAnalyticsTopCategoriesRoute
   '/404-pages': typeof pageInsights404PagesRoute
   '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -608,6 +622,7 @@ export interface FileRoutesByTo {
   '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
+  '/top-categories': typeof contentAnalyticsTopCategoriesRoute
   '/404-pages': typeof pageInsights404PagesRoute
   '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -664,6 +679,7 @@ export interface FileRoutesById {
   '/(content-analytics)/categories': typeof contentAnalyticsCategoriesRoute
   '/(content-analytics)/content': typeof contentAnalyticsContentRoute
   '/(content-analytics)/top-authors': typeof contentAnalyticsTopAuthorsRoute
+  '/(content-analytics)/top-categories': typeof contentAnalyticsTopCategoriesRoute
   '/(page-insights)/404-pages': typeof pageInsights404PagesRoute
   '/(page-insights)/author-pages': typeof pageInsightsAuthorPagesRoute
   '/(page-insights)/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -721,6 +737,7 @@ export interface FileRouteTypes {
     | '/categories'
     | '/content'
     | '/top-authors'
+    | '/top-categories'
     | '/404-pages'
     | '/author-pages'
     | '/category-pages'
@@ -774,6 +791,7 @@ export interface FileRouteTypes {
     | '/categories'
     | '/content'
     | '/top-authors'
+    | '/top-categories'
     | '/404-pages'
     | '/author-pages'
     | '/category-pages'
@@ -829,6 +847,7 @@ export interface FileRouteTypes {
     | '/(content-analytics)/categories'
     | '/(content-analytics)/content'
     | '/(content-analytics)/top-authors'
+    | '/(content-analytics)/top-categories'
     | '/(page-insights)/404-pages'
     | '/(page-insights)/author-pages'
     | '/(page-insights)/category-pages'
@@ -885,6 +904,7 @@ export interface RootRouteChildren {
   contentAnalyticsCategoriesRoute: typeof contentAnalyticsCategoriesRoute
   contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
   contentAnalyticsTopAuthorsRoute: typeof contentAnalyticsTopAuthorsRoute
+  contentAnalyticsTopCategoriesRoute: typeof contentAnalyticsTopCategoriesRoute
   pageInsights404PagesRoute: typeof pageInsights404PagesRoute
   pageInsightsAuthorPagesRoute: typeof pageInsightsAuthorPagesRoute
   pageInsightsCategoryPagesRoute: typeof pageInsightsCategoryPagesRoute
@@ -1234,6 +1254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pageInsights404PagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(content-analytics)/top-categories': {
+      id: '/(content-analytics)/top-categories'
+      path: '/top-categories'
+      fullPath: '/top-categories'
+      preLoaderRoute: typeof contentAnalyticsTopCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(content-analytics)/top-authors': {
       id: '/(content-analytics)/top-authors'
       path: '/top-authors'
@@ -1353,6 +1380,7 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsCategoriesRoute: contentAnalyticsCategoriesRoute,
   contentAnalyticsContentRoute: contentAnalyticsContentRoute,
   contentAnalyticsTopAuthorsRoute: contentAnalyticsTopAuthorsRoute,
+  contentAnalyticsTopCategoriesRoute: contentAnalyticsTopCategoriesRoute,
   pageInsights404PagesRoute: pageInsights404PagesRoute,
   pageInsightsAuthorPagesRoute: pageInsightsAuthorPagesRoute,
   pageInsightsCategoryPagesRoute: pageInsightsCategoryPagesRoute,

@@ -27,6 +27,7 @@ import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePremiumFeature } from '@/hooks/use-premium-feature'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
+import { getApiSortField } from '@/lib/column-utils'
 import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
 import { getTopAuthorsQueryOptions } from '@/services/content-analytics/get-top-authors'
@@ -51,6 +52,9 @@ function RouteComponent() {
     defaultSort: [{ id: 'views', desc: true }],
     onPageReset: () => setPage(1),
   })
+
+  // Map column ID to API field name for sorting
+  const apiOrderBy = getApiSortField(orderBy, TOP_AUTHORS_COLUMN_CONFIG)
 
   // Table ref for Options drawer column management
   const tableRef = useRef<Table<TopAuthor> | null>(null)
@@ -86,7 +90,7 @@ function RouteComponent() {
     ...getTopAuthorsQueryOptions({
       page,
       per_page: PER_PAGE,
-      order_by: orderBy,
+      order_by: apiOrderBy,
       order: order as 'asc' | 'desc',
       date_from: apiDateParams.date_from,
       date_to: apiDateParams.date_to,

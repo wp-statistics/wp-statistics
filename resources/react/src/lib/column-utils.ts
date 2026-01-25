@@ -218,3 +218,16 @@ export const clearCachedComparisonColumns = (context: string): void => {
     // Ignore storage errors
   }
 }
+
+/**
+ * Get the API field name for sorting based on column ID
+ * Uses the first dependency field from columnDependencies as the sort field
+ * Returns the columnId if no mapping exists (assumes it matches API field)
+ */
+export const getApiSortField = (columnId: string, config: ColumnConfig): string => {
+  const dependencies = config.columnDependencies[columnId]
+  if (dependencies && dependencies.length > 0) {
+    return dependencies[0]
+  }
+  return columnId
+}
