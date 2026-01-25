@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { HorizontalBar } from '@/components/custom/horizontal-bar'
+import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import {
@@ -27,14 +28,20 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
+import { transformToBarList } from '@/lib/bar-list-helpers'
 import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
   getCategoriesOverviewQueryOptions,
   type AuthorRow,
+  type BrowserRow,
   type ContentRow,
+  type DeviceTypeRow,
+  type OperatingSystemRow,
   type TermRow,
+  type TopCountryRow,
+  type TopReferrerRow,
 } from '@/services/content-analytics/get-categories-overview'
 
 // Widget configuration for Categories page
@@ -43,6 +50,12 @@ const WIDGET_CONFIGS: WidgetConfig[] = [
   { id: 'top-terms', label: __('Top Terms', 'wp-statistics'), defaultVisible: true },
   { id: 'top-content', label: __('Top Content', 'wp-statistics'), defaultVisible: true },
   { id: 'top-authors', label: __('Top Authors', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-referrers', label: __('Top Referrers', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-search-engines', label: __('Top Search Engines', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-countries', label: __('Top Countries', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-browsers', label: __('Top Browsers', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-operating-systems', label: __('Top Operating Systems', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-device-categories', label: __('Top Device Categories', 'wp-statistics'), defaultVisible: true },
 ]
 
 // Metric configuration for Categories page (5 metrics)
@@ -103,6 +116,7 @@ function CategoriesOverviewContent() {
 
   const wp = WordPress.getInstance()
   const isPremium = wp.getIsPremium()
+  const pluginUrl = wp.getPluginUrl()
 
   // Get taxonomies and filter based on premium status
   const availableTaxonomies = useMemo(() => {
@@ -213,6 +227,12 @@ function CategoriesOverviewContent() {
   const topTermsResponse = batchResponse?.data?.items?.top_terms
   const topContentResponse = batchResponse?.data?.items?.top_content
   const topAuthorsResponse = batchResponse?.data?.items?.top_authors
+  const topReferrersResponse = batchResponse?.data?.items?.top_referrers
+  const topSearchEnginesResponse = batchResponse?.data?.items?.top_search_engines
+  const topCountriesResponse = batchResponse?.data?.items?.top_countries
+  const topBrowsersResponse = batchResponse?.data?.items?.top_browsers
+  const topOperatingSystemsResponse = batchResponse?.data?.items?.top_operating_systems
+  const topDeviceCategoriesResponse = batchResponse?.data?.items?.top_device_categories
 
   // Transform chart data using shared hook
   const { data: chartData, metrics: chartMetrics } = useChartData(trafficTrendsResponse, {
@@ -721,6 +741,25 @@ function CategoriesOverviewContent() {
                 <BarListSkeleton items={5} showIcon />
               </PanelSkeleton>
             </div>
+            {/* New widget skeletons - 3 rows x 2 columns */}
+            <div className="col-span-12 lg:col-span-6">
+              <BarListSkeleton />
+            </div>
+            <div className="col-span-12 lg:col-span-6">
+              <BarListSkeleton />
+            </div>
+            <div className="col-span-12 lg:col-span-6">
+              <BarListSkeleton />
+            </div>
+            <div className="col-span-12 lg:col-span-6">
+              <BarListSkeleton />
+            </div>
+            <div className="col-span-12 lg:col-span-6">
+              <BarListSkeleton />
+            </div>
+            <div className="col-span-12 lg:col-span-6">
+              <BarListSkeleton />
+            </div>
           </div>
         ) : (
           <div className="grid gap-3 grid-cols-12">
@@ -764,6 +803,157 @@ function CategoriesOverviewContent() {
             {isWidgetVisible('top-authors') && (
               <div className="col-span-12">
                 <TabbedPanel title={__('Top Authors', 'wp-statistics')} tabs={topAuthorsTabs} defaultTab="views" />
+              </div>
+            )}
+            {/* Row 6: Top Referrers & Top Search Engines */}
+            {isWidgetVisible('top-referrers') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Referrers', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Referrer', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(topReferrersResponse?.data?.rows || [], {
+                    label: (item) => item.referrer_name || item.referrer_domain || __('Direct', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topReferrersResponse?.data?.totals?.visitors?.current) || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                />
+              </div>
+            )}
+            {isWidgetVisible('top-search-engines') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Search Engines', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Search Engine', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(topSearchEnginesResponse?.data?.rows || [], {
+                    label: (item) => item.referrer_name || item.referrer_domain || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topSearchEnginesResponse?.data?.totals?.visitors?.current) || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                />
+              </div>
+            )}
+            {/* Row 7: Top Countries & Top Browsers */}
+            {isWidgetVisible('top-countries') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Countries', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Country', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(topCountriesResponse?.data?.rows || [], {
+                    label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topCountriesResponse?.data?.totals?.visitors?.current) || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
+                        alt={item.country_name || ''}
+                        className="h-4 w-4 shrink-0"
+                      />
+                    ),
+                  })}
+                />
+              </div>
+            )}
+            {isWidgetVisible('top-browsers') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Browsers', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Browser', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(topBrowsersResponse?.data?.rows || [], {
+                    label: (item) => item.browser_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topBrowsersResponse?.data?.totals?.visitors?.current) || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/browser/${(item.browser_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+                        alt={item.browser_name || ''}
+                        className="h-4 w-4 shrink-0"
+                      />
+                    ),
+                  })}
+                />
+              </div>
+            )}
+            {/* Row 8: Top Operating Systems & Top Device Categories */}
+            {isWidgetVisible('top-operating-systems') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Operating Systems', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('OS', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(topOperatingSystemsResponse?.data?.rows || [], {
+                    label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topOperatingSystemsResponse?.data?.totals?.visitors?.current) || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+                        alt={item.os_name || ''}
+                        className="h-4 w-4 shrink-0"
+                      />
+                    ),
+                  })}
+                />
+              </div>
+            )}
+            {isWidgetVisible('top-device-categories') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Device Categories', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Device', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(topDeviceCategoriesResponse?.data?.rows || [], {
+                    label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topDeviceCategoriesResponse?.data?.totals?.visitors?.current) || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/device/${(item.device_type_name || 'desktop').toLowerCase()}.svg`}
+                        alt={item.device_type_name || ''}
+                        className="h-4 w-4 shrink-0"
+                      />
+                    ),
+                  })}
+                />
               </div>
             )}
           </div>
