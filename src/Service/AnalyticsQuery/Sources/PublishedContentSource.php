@@ -48,7 +48,9 @@ class PublishedContentSource extends AbstractSource
             return $this->getAuthorContextExpression();
         }
 
-        if ($this->hasContextDimension('category') || $this->hasContextDimension('post_tag')) {
+        if ($this->hasContextDimension('category')
+            || $this->hasContextDimension('post_tag')
+            || $this->hasContextDimension('taxonomy')) {
             return $this->getTermContextExpression();
         }
 
@@ -68,6 +70,11 @@ class PublishedContentSource extends AbstractSource
         global $wpdb;
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
+
+        // Check if taxonomy_type filter is present
+        if (!empty($this->filters['taxonomy_type']['is'])) {
+            return $this->getTaxonomyFilteredDateExpression($this->filters['taxonomy_type']['is']);
+        }
 
         // Use session date to count posts for that specific day
         return "COALESCE((
@@ -90,6 +97,11 @@ class PublishedContentSource extends AbstractSource
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
 
+        // Check if taxonomy_type filter is present
+        if (!empty($this->filters['taxonomy_type']['is'])) {
+            return $this->getTaxonomyFilteredWeekExpression($this->filters['taxonomy_type']['is']);
+        }
+
         // Use session date to determine the week, count posts in that week
         return "COALESCE((
             SELECT COUNT(*)
@@ -110,6 +122,11 @@ class PublishedContentSource extends AbstractSource
         global $wpdb;
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
+
+        // Check if taxonomy_type filter is present
+        if (!empty($this->filters['taxonomy_type']['is'])) {
+            return $this->getTaxonomyFilteredMonthExpression($this->filters['taxonomy_type']['is']);
+        }
 
         // Use session date to determine the month, count posts in that month
         return "COALESCE((
@@ -133,6 +150,11 @@ class PublishedContentSource extends AbstractSource
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
         $dateClause = $this->getFullRangeDateClause();
+
+        // Check if taxonomy_type filter is present
+        if (!empty($this->filters['taxonomy_type']['is'])) {
+            return $this->getTaxonomyFilteredAuthorExpression($this->filters['taxonomy_type']['is']);
+        }
 
         return "COALESCE((
             SELECT COUNT(*)
@@ -182,12 +204,156 @@ class PublishedContentSource extends AbstractSource
         $postTypeClause = $this->getPostTypeClause('p.post_type');
         $dateClause = $this->getFullRangeDateClause();
 
+        // Check if taxonomy_type filter is present - if so, count only posts with that taxonomy
+        if (!empty($this->filters['taxonomy_type']['is'])) {
+            return $this->getTaxonomyFilteredAggregateExpression($this->filters['taxonomy_type']['is']);
+        }
+
         return "COALESCE((
             SELECT COUNT(*)
             FROM {$postsTable} p
             WHERE {$dateClause}
             AND p.post_status = 'publish'
             AND {$postTypeClause}
+        ), 0)";
+    }
+
+    /**
+     * Count posts that have terms in the specified taxonomy (aggregate mode).
+     *
+     * @param string $taxonomy The taxonomy type (e.g., 'category', 'post_tag')
+     * @return string SQL expression
+     */
+    private function getTaxonomyFilteredAggregateExpression(string $taxonomy): string
+    {
+        global $wpdb;
+        $postsTable = $wpdb->posts;
+        $termRelTable = $wpdb->term_relationships;
+        $termTaxTable = $wpdb->term_taxonomy;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+        $dateClause = $this->getFullRangeDateClause();
+        $taxonomySafe = esc_sql($taxonomy);
+
+        return "COALESCE((
+            SELECT COUNT(DISTINCT p.ID)
+            FROM {$postsTable} p
+            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
+            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            WHERE {$dateClause}
+            AND p.post_status = 'publish'
+            AND {$postTypeClause}
+            AND tt.taxonomy = '{$taxonomySafe}'
+        ), 0)";
+    }
+
+    /**
+     * Count posts published on a specific day that have terms in the specified taxonomy.
+     *
+     * @param string $taxonomy The taxonomy type (e.g., 'category', 'post_tag')
+     * @return string SQL expression
+     */
+    private function getTaxonomyFilteredDateExpression(string $taxonomy): string
+    {
+        global $wpdb;
+        $postsTable = $wpdb->posts;
+        $termRelTable = $wpdb->term_relationships;
+        $termTaxTable = $wpdb->term_taxonomy;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+        $taxonomySafe = esc_sql($taxonomy);
+
+        return "COALESCE((
+            SELECT COUNT(DISTINCT p.ID)
+            FROM {$postsTable} p
+            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
+            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            WHERE DATE(p.post_date) = DATE(MIN(sessions.started_at))
+            AND p.post_status = 'publish'
+            AND {$postTypeClause}
+            AND tt.taxonomy = '{$taxonomySafe}'
+        ), 0)";
+    }
+
+    /**
+     * Count posts published in a specific week that have terms in the specified taxonomy.
+     *
+     * @param string $taxonomy The taxonomy type (e.g., 'category', 'post_tag')
+     * @return string SQL expression
+     */
+    private function getTaxonomyFilteredWeekExpression(string $taxonomy): string
+    {
+        global $wpdb;
+        $postsTable = $wpdb->posts;
+        $termRelTable = $wpdb->term_relationships;
+        $termTaxTable = $wpdb->term_taxonomy;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+        $taxonomySafe = esc_sql($taxonomy);
+
+        return "COALESCE((
+            SELECT COUNT(DISTINCT p.ID)
+            FROM {$postsTable} p
+            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
+            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            WHERE YEARWEEK(p.post_date, 1) = YEARWEEK(MIN(sessions.started_at), 1)
+            AND p.post_status = 'publish'
+            AND {$postTypeClause}
+            AND tt.taxonomy = '{$taxonomySafe}'
+        ), 0)";
+    }
+
+    /**
+     * Count posts published in a specific month that have terms in the specified taxonomy.
+     *
+     * @param string $taxonomy The taxonomy type (e.g., 'category', 'post_tag')
+     * @return string SQL expression
+     */
+    private function getTaxonomyFilteredMonthExpression(string $taxonomy): string
+    {
+        global $wpdb;
+        $postsTable = $wpdb->posts;
+        $termRelTable = $wpdb->term_relationships;
+        $termTaxTable = $wpdb->term_taxonomy;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+        $taxonomySafe = esc_sql($taxonomy);
+
+        return "COALESCE((
+            SELECT COUNT(DISTINCT p.ID)
+            FROM {$postsTable} p
+            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
+            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            WHERE YEAR(p.post_date) = YEAR(MIN(sessions.started_at))
+            AND MONTH(p.post_date) = MONTH(MIN(sessions.started_at))
+            AND p.post_status = 'publish'
+            AND {$postTypeClause}
+            AND tt.taxonomy = '{$taxonomySafe}'
+        ), 0)";
+    }
+
+    /**
+     * Count posts per author that have terms in the specified taxonomy.
+     *
+     * @param string $taxonomy The taxonomy type (e.g., 'category', 'post_tag')
+     * @return string SQL expression
+     */
+    private function getTaxonomyFilteredAuthorExpression(string $taxonomy): string
+    {
+        global $wpdb;
+        $postsTable = $wpdb->posts;
+        $termRelTable = $wpdb->term_relationships;
+        $termTaxTable = $wpdb->term_taxonomy;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+        $dateClause = $this->getFullRangeDateClause();
+        $taxonomySafe = esc_sql($taxonomy);
+
+        return "COALESCE((
+            SELECT COUNT(DISTINCT p.ID)
+            FROM {$postsTable} p
+            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
+            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            WHERE {$dateClause}
+            AND p.post_status = 'publish'
+            AND {$postTypeClause}
+            AND p.post_author = resources.cached_author_id
+            AND tt.taxonomy = '{$taxonomySafe}'
         ), 0)";
     }
 

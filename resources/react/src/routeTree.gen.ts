@@ -31,6 +31,7 @@ import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insi
 import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
 import { Route as contentAnalyticsTopAuthorsRouteImport } from './routes/(content-analytics)/top-authors'
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
+import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
 import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
 import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
 import { Route as contentAnalyticsCategoryTermIdRouteImport } from './routes/(content-analytics)/category_.$termId'
@@ -484,6 +485,15 @@ const contentAnalyticsContentRoute = contentAnalyticsContentRouteImport
   .lazy(() =>
     import('./routes/(content-analytics)/content.lazy').then((d) => d.Route),
   )
+const contentAnalyticsCategoriesRoute = contentAnalyticsCategoriesRouteImport
+  .update({
+    id: '/(content-analytics)/categories',
+    path: '/categories',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(content-analytics)/categories.lazy').then((d) => d.Route),
+  )
 const contentAnalyticsAuthorsRoute = contentAnalyticsAuthorsRouteImport
   .update({
     id: '/(content-analytics)/authors',
@@ -542,6 +552,7 @@ export interface FileRoutesByFullPath {
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
   '/authors': typeof contentAnalyticsAuthorsRoute
+  '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/404-pages': typeof pageInsights404PagesRoute
@@ -594,6 +605,7 @@ export interface FileRoutesByTo {
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
   '/authors': typeof contentAnalyticsAuthorsRoute
+  '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/404-pages': typeof pageInsights404PagesRoute
@@ -649,6 +661,7 @@ export interface FileRoutesById {
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
   '/(content-analytics)/authors': typeof contentAnalyticsAuthorsRoute
+  '/(content-analytics)/categories': typeof contentAnalyticsCategoriesRoute
   '/(content-analytics)/content': typeof contentAnalyticsContentRoute
   '/(content-analytics)/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/(page-insights)/404-pages': typeof pageInsights404PagesRoute
@@ -705,6 +718,7 @@ export interface FileRouteTypes {
     | '/overview'
     | '/page-analytics'
     | '/authors'
+    | '/categories'
     | '/content'
     | '/top-authors'
     | '/404-pages'
@@ -757,6 +771,7 @@ export interface FileRouteTypes {
     | '/overview'
     | '/page-analytics'
     | '/authors'
+    | '/categories'
     | '/content'
     | '/top-authors'
     | '/404-pages'
@@ -811,6 +826,7 @@ export interface FileRouteTypes {
     | '/overview'
     | '/page-analytics'
     | '/(content-analytics)/authors'
+    | '/(content-analytics)/categories'
     | '/(content-analytics)/content'
     | '/(content-analytics)/top-authors'
     | '/(page-insights)/404-pages'
@@ -866,6 +882,7 @@ export interface RootRouteChildren {
   OverviewLazyRoute: typeof OverviewLazyRoute
   PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
   contentAnalyticsAuthorsRoute: typeof contentAnalyticsAuthorsRoute
+  contentAnalyticsCategoriesRoute: typeof contentAnalyticsCategoriesRoute
   contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
   contentAnalyticsTopAuthorsRoute: typeof contentAnalyticsTopAuthorsRoute
   pageInsights404PagesRoute: typeof pageInsights404PagesRoute
@@ -1231,6 +1248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof contentAnalyticsContentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(content-analytics)/categories': {
+      id: '/(content-analytics)/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof contentAnalyticsCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(content-analytics)/authors': {
       id: '/(content-analytics)/authors'
       path: '/authors'
@@ -1326,6 +1350,7 @@ const rootRouteChildren: RootRouteChildren = {
   OverviewLazyRoute: OverviewLazyRoute,
   PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
   contentAnalyticsAuthorsRoute: contentAnalyticsAuthorsRoute,
+  contentAnalyticsCategoriesRoute: contentAnalyticsCategoriesRoute,
   contentAnalyticsContentRoute: contentAnalyticsContentRoute,
   contentAnalyticsTopAuthorsRoute: contentAnalyticsTopAuthorsRoute,
   pageInsights404PagesRoute: pageInsights404PagesRoute,

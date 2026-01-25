@@ -60,6 +60,21 @@ class PublishedContentHelper
     }
 
     /**
+     * Get taxonomy type from filters array.
+     *
+     * @param array $filters Array of filter configurations.
+     * @return string|null Taxonomy type slug or null if not set.
+     */
+    public static function getTaxonomyTypeFromFilters(array $filters = []): ?string
+    {
+        // Check if taxonomy_type filter is set with 'is' operator
+        if (isset($filters['taxonomy_type']['is'])) {
+            return $filters['taxonomy_type']['is'];
+        }
+        return null;
+    }
+
+    /**
      * Count published posts for a specific date or date range.
      *
      * @param string $dateFrom Start date (Y-m-d format).
@@ -74,16 +89,38 @@ class PublishedContentHelper
         $postTypes = self::getPostTypesFromFilters($filters);
         $postTypesList = implode("','", array_map('esc_sql', $postTypes));
 
-        $count = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*)
-            FROM {$wpdb->posts}
-            WHERE DATE(post_date) >= %s
-            AND DATE(post_date) <= %s
-            AND post_status = 'publish'
-            AND post_type IN ('{$postTypesList}')",
-            $dateFrom,
-            $dateTo
-        ));
+        // Check for taxonomy_type filter
+        $taxonomyType = self::getTaxonomyTypeFromFilters($filters);
+
+        if ($taxonomyType) {
+            // Query with taxonomy join - count posts that have terms in this taxonomy
+            $count = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(DISTINCT p.ID)
+                FROM {$wpdb->posts} p
+                INNER JOIN {$wpdb->term_relationships} tr ON p.ID = tr.object_id
+                INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                WHERE DATE(p.post_date) >= %s
+                AND DATE(p.post_date) <= %s
+                AND p.post_status = 'publish'
+                AND p.post_type IN ('{$postTypesList}')
+                AND tt.taxonomy = %s",
+                $dateFrom,
+                $dateTo,
+                $taxonomyType
+            ));
+        } else {
+            // Original query without taxonomy filter
+            $count = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*)
+                FROM {$wpdb->posts}
+                WHERE DATE(post_date) >= %s
+                AND DATE(post_date) <= %s
+                AND post_status = 'publish'
+                AND post_type IN ('{$postTypesList}')",
+                $dateFrom,
+                $dateTo
+            ));
+        }
 
         return (int) $count;
     }

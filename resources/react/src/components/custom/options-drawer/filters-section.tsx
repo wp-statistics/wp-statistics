@@ -120,7 +120,11 @@ export function FiltersMenuEntry({ filterGroup = 'visitors', lockedFilters }: Fi
     return null
   }
 
-  const filterCount = (appliedFilters?.length || 0) + (lockedFilters?.length || 0)
+  // Only count filters that belong to this page's filterGroup
+  const relevantFilters = appliedFilters?.filter((af) => {
+    return filterFields.some((f) => f.label === af.label)
+  }) || []
+  const filterCount = relevantFilters.length + (lockedFilters?.length || 0)
   const summary = filterCount > 0 ? `${filterCount} ${__('applied', 'wp-statistics')}` : undefined
 
   return (
@@ -149,7 +153,12 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
   // Convert applied filters to pending filters when view opens
   useEffect(() => {
     if (currentView === 'filters' && appliedFilters) {
-      const converted: FilterRowData[] = appliedFilters.map((af) => {
+      const converted: FilterRowData[] = appliedFilters
+        // Only include filters that belong to this page's filterGroup
+        .filter((af) => {
+          return filterFields.some((f) => f.label === af.label)
+        })
+        .map((af) => {
         const field = filterFields.find((f) => f.label === af.label)
         const fieldName = field?.name || (af.label.toLowerCase().replace(/\s+/g, '_') as FilterFieldName)
         const operator = (af.rawOperator || af.operator) as FilterOperator

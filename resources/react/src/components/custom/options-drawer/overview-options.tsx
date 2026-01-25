@@ -12,6 +12,7 @@ import { DateRangeDetailView, DateRangeMenuEntry } from './date-range-section'
 import { FiltersDetailView, FiltersMenuEntry } from './filters-section'
 import { MetricsDetailView, MetricsMenuEntry } from './metrics-section'
 import { OptionsDrawer } from './options-drawer'
+import { PageFiltersDetailView, PageFiltersMenuEntry, type PageFilterConfig } from './page-filters-section'
 import { WidgetsDetailView, WidgetsMenuEntry } from './widgets-section'
 
 /**
@@ -23,6 +24,10 @@ export interface OverviewOptionsConfig {
   widgetConfigs: WidgetConfig[]
   metricConfigs: MetricConfig[]
   lockedFilters?: LockedFilter[]
+  /** Hide the filters section (for pages that don't use filtering) */
+  hideFilters?: boolean
+  /** Page-specific filter dropdowns */
+  pageFilters?: PageFilterConfig[]
 }
 
 /**
@@ -91,13 +96,23 @@ export function OverviewOptionsDrawer({
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={resetToDefaults}>
       {/* Main menu entries */}
       <DateRangeMenuEntry />
-      <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      {config.pageFilters && config.pageFilters.length > 0 && (
+        <PageFiltersMenuEntry filters={config.pageFilters} />
+      )}
+      {!config.hideFilters && (
+        <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      )}
       <WidgetsMenuEntry />
       <MetricsMenuEntry />
 
       {/* Detail views */}
       <DateRangeDetailView />
-      <FiltersDetailView filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      {config.pageFilters && config.pageFilters.length > 0 && (
+        <PageFiltersDetailView filters={config.pageFilters} />
+      )}
+      {!config.hideFilters && (
+        <FiltersDetailView filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
+      )}
       <WidgetsDetailView />
       <MetricsDetailView />
     </OptionsDrawer>
