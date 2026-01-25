@@ -46,18 +46,46 @@ class ApiCommunicator
      * @param string $licenseKey
      * @param string $pluginSlug
      *
-     * @return string|null The download URL if found, null otherwise
+     * @return object|null The product info if found, null otherwise
      * @throws Exception if the API call fails
      */
     public function getDownloadUrl($licenseKey, $pluginSlug)
     {
-        $remoteRequest = new RemoteRequest(ApiEndpoints::PRODUCT_DOWNLOAD, 'GET', [
-            'license_key' => $licenseKey,
-            'domain'      => home_url(),
-            'plugin_slug' => $pluginSlug,
-        ]);
+        // Use a site-independent cache key to prevent duplicate requests on multilingual sites
+        // where home_url() returns different values for each language (e.g., /en, /fr, /de)
+        $cacheKey = 'wp_statistics_product_info_' . md5($pluginSlug . '_' . $licenseKey);
 
-        return $remoteRequest->execute(true, true, DAY_IN_SECONDS);
+        // Check for cached result (including negative cache for failed requests)
+        $cached = get_transient($cacheKey);
+        if ($cached !== false) {
+            // Return null for negative cache entries
+            if (is_object($cached) && isset($cached->_negative_cache)) {
+                return null;
+            }
+            return $cached;
+        }
+
+        try {
+            $remoteRequest = new RemoteRequest(ApiEndpoints::PRODUCT_DOWNLOAD, 'GET', [
+                'license_key' => $licenseKey,
+                'domain'      => home_url(),
+                'plugin_slug' => $pluginSlug,
+            ]);
+
+            $result = $remoteRequest->execute(true, false); // Disable RemoteRequest's internal cache
+
+            // Cache successful result for 1 day
+            if ($result) {
+                set_transient($cacheKey, $result, DAY_IN_SECONDS);
+            }
+
+            return $result;
+
+        } catch (Exception $e) {
+            // Negative cache: store failed requests for 1 hour to prevent API hammering
+            set_transient($cacheKey, (object)['_negative_cache' => true], HOUR_IN_SECONDS);
+            throw $e;
+        }
     }
 
     /**
