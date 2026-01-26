@@ -29,6 +29,7 @@ import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
+import { extractFilterField, getCompatibleFilters } from '@/lib/filter-utils'
 import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
@@ -106,6 +107,11 @@ function ContentOverviewContent() {
     return wp.getFilterFieldsByGroup('content') as FilterField[]
   }, [wp])
 
+  // Filter to only include compatible filters for this page
+  const compatibleFilters = useMemo(() => {
+    return getCompatibleFilters(appliedFilters || [], filterFields)
+  }, [appliedFilters, filterFields])
+
   // Chart timeframe state
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
@@ -156,8 +162,8 @@ function ContentOverviewContent() {
 
   // Check if user has applied a post_type filter (overriding default)
   const hasUserPostTypeFilter = useMemo(() => {
-    return appliedFilters?.some((f) => f.id.startsWith('post_type')) ?? false
-  }, [appliedFilters])
+    return compatibleFilters.some((f) => f.id.startsWith('post_type'))
+  }, [compatibleFilters])
 
   // Reset defaultFilterRemoved when user applies a post_type filter
   useEffect(() => {
@@ -169,24 +175,32 @@ function ContentOverviewContent() {
   // Filters to use for API requests (includes default if no user filter and not removed)
   const filtersForApi = useMemo(() => {
     if (hasUserPostTypeFilter) {
-      return appliedFilters || []
+      return compatibleFilters
     }
     if (defaultFilterRemoved) {
-      return appliedFilters || []
+      return compatibleFilters
     }
-    return [...(appliedFilters || []), defaultPostTypeFilter]
-  }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
+    return [...compatibleFilters, defaultPostTypeFilter]
+  }, [compatibleFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
 
   // Filters to display (includes default if no user filter and not removed)
   const filtersForDisplay = useMemo(() => {
     if (hasUserPostTypeFilter) {
-      return appliedFilters || []
+      return compatibleFilters
     }
     if (defaultFilterRemoved) {
-      return appliedFilters || []
+      return compatibleFilters
     }
-    return [...(appliedFilters || []), defaultPostTypeFilter]
-  }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
+    return [...compatibleFilters, defaultPostTypeFilter]
+  }, [compatibleFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
+
+  // Helper to check if a filter is the default post_type filter by field name + value
+  const isDefaultPostTypeFilter = useCallback((filter: { id: string; rawValue?: unknown; value: unknown }) => {
+    const fieldName = extractFilterField(filter.id)
+    if (fieldName !== 'post_type') return false
+    const value = filter.rawValue ?? filter.value
+    return value === 'post'
+  }, [])
 
   // Wrap handleApplyFilters to detect when post_type filter is intentionally removed
   const handleContentApplyFilters = useCallback(
@@ -200,11 +214,11 @@ function ContentOverviewContent() {
         setDefaultFilterRemoved(true)
       }
 
-      // Apply only the non-default filters to global state
-      const globalFilters = newFilters?.filter((f) => f.id !== 'post_type-content-default') ?? []
+      // Apply only the non-default filters to global state (check by field+value, not ID)
+      const globalFilters = newFilters?.filter((f) => !isDefaultPostTypeFilter(f)) ?? []
       handleApplyFilters(globalFilters)
     },
-    [filtersForDisplay, handleApplyFilters]
+    [filtersForDisplay, handleApplyFilters, isDefaultPostTypeFilter]
   )
 
 

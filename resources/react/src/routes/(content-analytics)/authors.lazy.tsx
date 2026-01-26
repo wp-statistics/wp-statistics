@@ -25,6 +25,7 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
+import { extractFilterField, getCompatibleFilters } from '@/lib/filter-utils'
 import { formatCompactNumber, formatDecimal, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getAuthorsOverviewQueryOptions, type AuthorRow } from '@/services/content-analytics/get-authors-overview'
@@ -94,6 +95,11 @@ function AuthorsOverviewContent() {
     return wp.getFilterFieldsByGroup('content') as FilterField[]
   }, [wp])
 
+  // Filter to only include compatible filters for this page
+  const compatibleFilters = useMemo(() => {
+    return getCompatibleFilters(appliedFilters || [], filterFields)
+  }, [appliedFilters, filterFields])
+
   const [defaultFilterRemoved, setDefaultFilterRemoved] = useState(false)
 
   // Build default post_type filter for Authors page (page-specific, not global)
@@ -113,8 +119,8 @@ function AuthorsOverviewContent() {
 
   // Check if user has applied a post_type filter (overriding default)
   const hasUserPostTypeFilter = useMemo(() => {
-    return appliedFilters?.some((f) => f.id.startsWith('post_type')) ?? false
-  }, [appliedFilters])
+    return compatibleFilters.some((f) => f.id.startsWith('post_type'))
+  }, [compatibleFilters])
 
   // Reset defaultFilterRemoved when user applies a post_type filter
   useEffect(() => {
@@ -126,24 +132,24 @@ function AuthorsOverviewContent() {
   // Filters to use for API requests (includes default if no user filter and not removed)
   const filtersForApi = useMemo(() => {
     if (hasUserPostTypeFilter) {
-      return appliedFilters || []
+      return compatibleFilters
     }
     if (defaultFilterRemoved) {
-      return appliedFilters || []
+      return compatibleFilters
     }
-    return [...(appliedFilters || []), defaultPostTypeFilter]
-  }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
+    return [...compatibleFilters, defaultPostTypeFilter]
+  }, [compatibleFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
 
   // Filters to display (includes default if no user filter and not removed)
   const filtersForDisplay = useMemo(() => {
     if (hasUserPostTypeFilter) {
-      return appliedFilters || []
+      return compatibleFilters
     }
     if (defaultFilterRemoved) {
-      return appliedFilters || []
+      return compatibleFilters
     }
-    return [...(appliedFilters || []), defaultPostTypeFilter]
-  }, [appliedFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
+    return [...compatibleFilters, defaultPostTypeFilter]
+  }, [compatibleFilters, hasUserPostTypeFilter, defaultPostTypeFilter, defaultFilterRemoved])
 
   // Build Top Authors URL with current post_type filter for "See all" links
   const buildTopAuthorsUrl = useMemo(() => {
@@ -159,6 +165,14 @@ function AuthorsOverviewContent() {
     }
   }, [filtersForApi])
 
+  // Helper to check if a filter is the default post_type filter by field name + value
+  const isDefaultPostTypeFilter = useCallback((filter: { id: string; rawValue?: unknown; value: unknown }) => {
+    const fieldName = extractFilterField(filter.id)
+    if (fieldName !== 'post_type') return false
+    const value = filter.rawValue ?? filter.value
+    return value === 'post'
+  }, [])
+
   // Wrap handleApplyFilters to detect when post_type filter is intentionally removed
   const handleAuthorsApplyFilters = useCallback(
     (newFilters: typeof appliedFilters) => {
@@ -171,11 +185,11 @@ function AuthorsOverviewContent() {
         setDefaultFilterRemoved(true)
       }
 
-      // Apply only the non-default filters to global state
-      const globalFilters = newFilters?.filter((f) => f.id !== 'post_type-authors-default') ?? []
+      // Apply only the non-default filters to global state (check by field+value, not ID)
+      const globalFilters = newFilters?.filter((f) => !isDefaultPostTypeFilter(f)) ?? []
       handleApplyFilters(globalFilters)
     },
-    [filtersForDisplay, handleApplyFilters]
+    [filtersForDisplay, handleApplyFilters, isDefaultPostTypeFilter]
   )
 
   // Batch query for all overview data

@@ -5,6 +5,7 @@ import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { OptionsDrawerTrigger } from '@/components/custom/options-drawer'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { getCompatibleFilters } from '@/lib/filter-utils'
 import { WordPress } from '@/lib/wordpress'
 
 export interface ReportPageHeaderProps {
@@ -73,6 +74,11 @@ export function ReportPageHeader({
     return wp.getFilterFieldsByGroup(filterGroup) as FilterField[]
   }, [wp, filterGroup, customFilterFields])
 
+  // Filter to only include compatible filters for this page
+  const compatibleFilters = useMemo(() => {
+    return getCompatibleFilters(appliedFilters || [], filterFields)
+  }, [appliedFilters, filterFields])
+
   return (
     <div className="flex items-center justify-between px-4 py-3">
       <h1 className="text-2xl font-semibold text-neutral-800">{title}</h1>
@@ -83,7 +89,7 @@ export function ReportPageHeader({
             {filterFields.length > 0 && isInitialized && (
               <FilterButton
                 fields={filterFields}
-                appliedFilters={appliedFilters || []}
+                appliedFilters={compatibleFilters}
                 onApplyFilters={applyFilters}
                 filterGroup={filterGroup}
               />

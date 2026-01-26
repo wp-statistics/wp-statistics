@@ -237,3 +237,24 @@ export const filtersToUrlFilters = (filters: Filter[]): UrlFilter[] => {
     value: filter.rawValue || filter.value,
   }))
 }
+
+/**
+ * Filter applied filters to only include those compatible with the current page's filter fields.
+ * This prevents filters from one page (e.g., country on Visitors) from showing on pages
+ * that don't support those filters (e.g., Content page).
+ *
+ * @param filters - The applied filters from global state
+ * @param filterFields - The filter fields available on the current page
+ * @returns Filters that are compatible with the current page
+ */
+export const getCompatibleFilters = (filters: Filter[], filterFields: FilterField[]): Filter[] => {
+  if (!filters || filters.length === 0) return []
+  if (!filterFields || filterFields.length === 0) return []
+
+  const availableFieldNames = new Set(filterFields.map((f) => f.name))
+
+  return filters.filter((filter) => {
+    const fieldName = extractFilterField(filter.id)
+    return availableFieldNames.has(fieldName)
+  })
+}
