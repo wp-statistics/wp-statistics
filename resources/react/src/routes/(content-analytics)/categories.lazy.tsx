@@ -22,7 +22,8 @@ import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { type MetricConfig, type WidgetConfig } from '@/contexts/page-options-context'
+import { type WidgetConfig } from '@/contexts/page-options-context'
+import { pickMetrics } from '@/constants/metric-definitions'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -59,13 +60,7 @@ const WIDGET_CONFIGS: WidgetConfig[] = [
 ]
 
 // Metric configuration for Categories page (5 metrics)
-const METRIC_CONFIGS: MetricConfig[] = [
-  { id: 'contents', label: __('Contents', 'wp-statistics'), defaultVisible: true },
-  { id: 'visitors', label: __('Visitors', 'wp-statistics'), defaultVisible: true },
-  { id: 'views', label: __('Views', 'wp-statistics'), defaultVisible: true },
-  { id: 'bounce-rate', label: __('Bounce Rate', 'wp-statistics'), defaultVisible: true },
-  { id: 'time-on-page', label: __('Avg. Time on Page', 'wp-statistics'), defaultVisible: true },
-]
+const METRIC_CONFIGS = pickMetrics('contents', 'visitors', 'views', 'bounceRate', 'avgTimeOnPage')
 
 // Options configuration for this page - base config without pageFilters
 // pageFilters are added dynamically in the component since they need state
@@ -325,7 +320,7 @@ function CategoriesOverviewContent() {
           : {}),
       },
       {
-        id: 'time-on-page',
+        id: 'avg-time-on-page',
         label: __('Avg. Time on Page', 'wp-statistics'),
         value: formatDuration(avgTimeOnPage),
         ...(isCompareEnabled
@@ -784,7 +779,7 @@ function CategoriesOverviewContent() {
             {categoriesMetrics.length > 0 && (
               <div className="col-span-12">
                 <Panel>
-                  <Metrics metrics={categoriesMetrics} columns={4} />
+                  <Metrics metrics={categoriesMetrics} columns="auto" />
                 </Panel>
               </div>
             )}

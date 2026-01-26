@@ -23,7 +23,8 @@ import {
   PanelSkeleton,
   TableSkeleton,
 } from '@/components/ui/skeletons'
-import { type MetricConfig, type WidgetConfig } from '@/contexts/page-options-context'
+import { type WidgetConfig } from '@/contexts/page-options-context'
+import { pickMetrics } from '@/constants/metric-definitions'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -49,16 +50,7 @@ const WIDGET_CONFIGS: WidgetConfig[] = [
 ]
 
 // Metric configuration for this page
-const METRIC_CONFIGS: MetricConfig[] = [
-  { id: 'visitors', label: __('Visitors', 'wp-statistics'), defaultVisible: true },
-  { id: 'views', label: __('Views', 'wp-statistics'), defaultVisible: true },
-  { id: 'session-duration', label: __('Session Duration', 'wp-statistics'), defaultVisible: true },
-  { id: 'views-per-session', label: __('Views/Session', 'wp-statistics'), defaultVisible: true },
-  { id: 'top-country', label: __('Top Country', 'wp-statistics'), defaultVisible: true },
-  { id: 'top-referrer', label: __('Top Referrer', 'wp-statistics'), defaultVisible: true },
-  { id: 'top-search-term', label: __('Top Search Term', 'wp-statistics'), defaultVisible: true },
-  { id: 'logged-in-share', label: __('Logged-in Share', 'wp-statistics'), defaultVisible: true },
-]
+const METRIC_CONFIGS = pickMetrics('visitors', 'views', 'sessionDuration', 'viewsPerSession', 'topCountry', 'topReferrer', 'topSearchTerm', 'loggedInShare')
 
 // Options configuration for this page
 const OPTIONS_CONFIG: OverviewOptionsConfig = {

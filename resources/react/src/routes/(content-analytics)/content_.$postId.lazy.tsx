@@ -22,7 +22,8 @@ import { NumericCell } from '@/components/data-table-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { type MetricConfig, type WidgetConfig } from '@/contexts/page-options-context'
+import { type WidgetConfig } from '@/contexts/page-options-context'
+import { pickMetrics } from '@/constants/metric-definitions'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -53,16 +54,7 @@ const WIDGET_CONFIGS: WidgetConfig[] = [
 ]
 
 // Metric configuration for Single Content Report
-const METRIC_CONFIGS: MetricConfig[] = [
-  { id: 'visitors', label: __('Visitors', 'wp-statistics'), defaultVisible: true },
-  { id: 'views', label: __('Views', 'wp-statistics'), defaultVisible: true },
-  { id: 'avg-time-on-page', label: __('Avg. Time on Page', 'wp-statistics'), defaultVisible: true },
-  { id: 'bounce-rate', label: __('Bounce Rate', 'wp-statistics'), defaultVisible: true },
-  { id: 'entry-page', label: __('Entry Page', 'wp-statistics'), defaultVisible: true },
-  { id: 'exit-page', label: __('Exit Page', 'wp-statistics'), defaultVisible: true },
-  { id: 'exit-rate', label: __('Exit Rate', 'wp-statistics'), defaultVisible: true },
-  { id: 'comments', label: __('Comments', 'wp-statistics'), defaultVisible: true },
-]
+const METRIC_CONFIGS = pickMetrics('visitors', 'views', 'avgTimeOnPage', 'bounceRate', 'entryPage', 'exitPage', 'exitRate', 'comments')
 
 // Options configuration (shared pageId for all single content reports)
 const OPTIONS_CONFIG: OverviewOptionsConfig = {
@@ -574,7 +566,7 @@ function SingleContentReportContent() {
             {isWidgetVisible('metrics') && contentMetrics.length > 0 && (
               <div className="col-span-12">
                 <Panel>
-                  <Metrics metrics={contentMetrics} columns={4} />
+                  <Metrics metrics={contentMetrics} columns="auto" />
                 </Panel>
               </div>
             )}

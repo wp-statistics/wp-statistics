@@ -168,7 +168,7 @@ function RouteComponent() {
             {/* Row 1: Device Metrics */}
             <div className="col-span-12">
               <Panel>
-                <Metrics metrics={deviceMetrics} columns={4} />
+                <Metrics metrics={deviceMetrics} columns="auto" />
               </Panel>
             </div>
 

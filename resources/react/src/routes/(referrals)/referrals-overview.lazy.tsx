@@ -278,7 +278,7 @@ function RouteComponent() {
             {/* Row 1: Overview Metrics */}
             <div className="col-span-12">
               <Panel>
-                <Metrics metrics={overviewMetrics} columns={4} />
+                <Metrics metrics={overviewMetrics} columns="auto" />
               </Panel>
             </div>
 

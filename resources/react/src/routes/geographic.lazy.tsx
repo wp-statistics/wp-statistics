@@ -172,7 +172,7 @@ function RouteComponent() {
             {/* Row 1: Geographic Metrics */}
             <div className="col-span-12">
               <Panel>
-                <Metrics metrics={geographicMetrics} columns={3} />
+                <Metrics metrics={geographicMetrics} columns="auto" />
               </Panel>
             </div>
 

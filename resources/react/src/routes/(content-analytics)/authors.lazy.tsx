@@ -19,7 +19,8 @@ import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { type MetricConfig, type WidgetConfig } from '@/contexts/page-options-context'
+import { type WidgetConfig } from '@/contexts/page-options-context'
+import { pickMetrics } from '@/constants/metric-definitions'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
@@ -34,14 +35,7 @@ const WIDGET_CONFIGS: WidgetConfig[] = [
 ]
 
 // Metric configuration for Authors page (6 metrics)
-const METRIC_CONFIGS: MetricConfig[] = [
-  { id: 'published-content', label: __('Published Content', 'wp-statistics'), defaultVisible: true },
-  { id: 'active-authors', label: __('Active Authors', 'wp-statistics'), defaultVisible: true },
-  { id: 'visitors', label: __('Visitors', 'wp-statistics'), defaultVisible: true },
-  { id: 'views', label: __('Views', 'wp-statistics'), defaultVisible: true },
-  { id: 'views-per-author', label: __('Views per Author', 'wp-statistics'), defaultVisible: true },
-  { id: 'avg-posts-per-author', label: __('Avg. Posts per Author', 'wp-statistics'), defaultVisible: true },
-]
+const METRIC_CONFIGS = pickMetrics('publishedContent', 'activeAuthors', 'visitors', 'views', 'viewsPerAuthor', 'avgPostsPerAuthor')
 
 // Options configuration for this page
 const OPTIONS_CONFIG: OverviewOptionsConfig = {
@@ -589,7 +583,7 @@ function AuthorsOverviewContent() {
             {authorsMetrics.length > 0 && (
               <div className="col-span-12">
                 <Panel>
-                  <Metrics metrics={authorsMetrics} columns={3} />
+                  <Metrics metrics={authorsMetrics} columns="auto" />
                 </Panel>
               </div>
             )}

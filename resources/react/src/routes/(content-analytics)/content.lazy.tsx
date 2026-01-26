@@ -21,7 +21,8 @@ import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { type MetricConfig, type WidgetConfig } from '@/contexts/page-options-context'
+import { type WidgetConfig } from '@/contexts/page-options-context'
+import { pickMetrics } from '@/constants/metric-definitions'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -46,16 +47,7 @@ const WIDGET_CONFIGS: WidgetConfig[] = [
 ]
 
 // Metric configuration for Content page (8 metrics)
-const METRIC_CONFIGS: MetricConfig[] = [
-  { id: 'published-content', label: __('Published Content', 'wp-statistics'), defaultVisible: true },
-  { id: 'visitors', label: __('Visitors', 'wp-statistics'), defaultVisible: true },
-  { id: 'views', label: __('Views', 'wp-statistics'), defaultVisible: true },
-  { id: 'views-per-content', label: __('Views per Content', 'wp-statistics'), defaultVisible: true },
-  { id: 'bounce-rate', label: __('Bounce Rate', 'wp-statistics'), defaultVisible: true },
-  { id: 'time-on-page', label: __('Time on Page', 'wp-statistics'), defaultVisible: true },
-  { id: 'comments', label: __('Comments', 'wp-statistics'), defaultVisible: true },
-  { id: 'avg-comments-per-content', label: __('Avg. Comments per Content', 'wp-statistics'), defaultVisible: true },
-]
+const METRIC_CONFIGS = pickMetrics('publishedContent', 'visitors', 'views', 'viewsPerContent', 'bounceRate', 'avgTimeOnPage', 'comments', 'avgCommentsPerContent')
 
 // Options configuration for this page
 const OPTIONS_CONFIG: OverviewOptionsConfig = {
@@ -370,8 +362,8 @@ function ContentOverviewContent() {
           : {}),
       },
       {
-        id: 'time-on-page',
-        label: __('Time on Page', 'wp-statistics'),
+        id: 'avg-time-on-page',
+        label: __('Avg. Time on Page', 'wp-statistics'),
         value: formatDuration(avgTimeOnPage),
         ...(isCompareEnabled
           ? {
@@ -606,7 +598,7 @@ function ContentOverviewContent() {
             {contentMetrics.length > 0 && (
               <div className="col-span-12">
                 <Panel>
-                  <Metrics metrics={contentMetrics} columns={4} />
+                  <Metrics metrics={contentMetrics} columns="auto" />
                 </Panel>
               </div>
             )}
