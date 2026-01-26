@@ -46,6 +46,26 @@ class PublishedContentSource extends AbstractSource
     }
 
     /**
+     * Extract author ID from author filter if present.
+     *
+     * Handles both array format (with 'is' key) and scalar format.
+     *
+     * @return int|null The author ID or null if not set
+     */
+    private function getAuthorIdFromFilter(): ?int
+    {
+        if (empty($this->filters['author'])) {
+            return null;
+        }
+
+        $authorId = is_array($this->filters['author'])
+            ? ($this->filters['author']['is'] ?? reset($this->filters['author']))
+            : $this->filters['author'];
+
+        return (int) $authorId;
+    }
+
+    /**
      * Build SQL expression for term-filtered post count.
      *
      * Creates a correlated subquery that counts posts belonging to a specific term,
@@ -110,6 +130,62 @@ class PublishedContentSource extends AbstractSource
     }
 
     /**
+     * Build SQL expression for author-filtered post count.
+     *
+     * Creates a subquery that counts posts by a specific author,
+     * filtered by the provided date WHERE clause. Also respects
+     * taxonomy and taxonomy_type filters if present.
+     *
+     * @param int    $authorId        The author ID to filter by
+     * @param string $dateWhereClause SQL WHERE clause for date filtering
+     * @return string SQL expression
+     */
+    private function buildAuthorFilteredExpression(int $authorId, string $dateWhereClause): string
+    {
+        global $wpdb;
+        $postsTable = $wpdb->posts;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+
+        // Check if taxonomy_type filter is also present - combine with author filter
+        if (!empty($this->filters['taxonomy_type']['is'])) {
+            return $this->buildTaxonomyFilteredExpression(
+                $this->filters['taxonomy_type']['is'],
+                $dateWhereClause,
+                "p.post_author = {$authorId}"
+            );
+        }
+
+        // Check if taxonomy filter is present (specific term_id) - combine with author filter
+        $termId = $this->getTermIdFromFilter();
+        if ($termId !== null) {
+            $termRelTable = $wpdb->term_relationships;
+            $termTaxTable = $wpdb->term_taxonomy;
+
+            return "COALESCE((
+                SELECT COUNT(DISTINCT p.ID)
+                FROM {$postsTable} p
+                INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
+                INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                WHERE {$dateWhereClause}
+                AND p.post_status = 'publish'
+                AND {$postTypeClause}
+                AND tt.term_id = {$termId}
+                AND p.post_author = {$authorId}
+            ), 0)";
+        }
+
+        // Author filter only
+        return "COALESCE((
+            SELECT COUNT(*)
+            FROM {$postsTable} p
+            WHERE {$dateWhereClause}
+            AND p.post_status = 'publish'
+            AND {$postTypeClause}
+            AND p.post_author = {$authorId}
+        ), 0)";
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getExpression(): string
@@ -155,6 +231,12 @@ class PublishedContentSource extends AbstractSource
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
 
+        // Check if author filter is present
+        $authorId = $this->getAuthorIdFromFilter();
+        if ($authorId !== null) {
+            return $this->getAuthorFilteredDateExpression($authorId);
+        }
+
         // Check if taxonomy filter is present (specific term_id)
         $termId = $this->getTermIdFromFilter();
         if ($termId !== null) {
@@ -191,6 +273,20 @@ class PublishedContentSource extends AbstractSource
     }
 
     /**
+     * Count posts published on a specific day by a specific author.
+     *
+     * @param int $authorId The author ID to filter by
+     * @return string SQL expression
+     */
+    private function getAuthorFilteredDateExpression(int $authorId): string
+    {
+        return $this->buildAuthorFilteredExpression(
+            $authorId,
+            "DATE(p.post_date) = DATE(MIN(sessions.started_at))"
+        );
+    }
+
+    /**
      * Count posts published in a specific week (week-grouped queries).
      *
      * @return string
@@ -200,6 +296,12 @@ class PublishedContentSource extends AbstractSource
         global $wpdb;
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
+
+        // Check if author filter is present
+        $authorId = $this->getAuthorIdFromFilter();
+        if ($authorId !== null) {
+            return $this->getAuthorFilteredWeekExpression($authorId);
+        }
 
         // Check if taxonomy filter is present (specific term_id)
         $termId = $this->getTermIdFromFilter();
@@ -237,6 +339,20 @@ class PublishedContentSource extends AbstractSource
     }
 
     /**
+     * Count posts published in a specific week by a specific author.
+     *
+     * @param int $authorId The author ID to filter by
+     * @return string SQL expression
+     */
+    private function getAuthorFilteredWeekExpression(int $authorId): string
+    {
+        return $this->buildAuthorFilteredExpression(
+            $authorId,
+            "YEARWEEK(p.post_date, 1) = YEARWEEK(MIN(sessions.started_at), 1)"
+        );
+    }
+
+    /**
      * Count posts published in a specific month (month-grouped queries).
      *
      * @return string
@@ -246,6 +362,12 @@ class PublishedContentSource extends AbstractSource
         global $wpdb;
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
+
+        // Check if author filter is present
+        $authorId = $this->getAuthorIdFromFilter();
+        if ($authorId !== null) {
+            return $this->getAuthorFilteredMonthExpression($authorId);
+        }
 
         // Check if taxonomy filter is present (specific term_id)
         $termId = $this->getTermIdFromFilter();
@@ -279,6 +401,20 @@ class PublishedContentSource extends AbstractSource
     {
         return $this->buildTermFilteredExpression(
             $termId,
+            "YEAR(p.post_date) = YEAR(MIN(sessions.started_at)) AND MONTH(p.post_date) = MONTH(MIN(sessions.started_at))"
+        );
+    }
+
+    /**
+     * Count posts published in a specific month by a specific author.
+     *
+     * @param int $authorId The author ID to filter by
+     * @return string SQL expression
+     */
+    private function getAuthorFilteredMonthExpression(int $authorId): string
+    {
+        return $this->buildAuthorFilteredExpression(
+            $authorId,
             "YEAR(p.post_date) = YEAR(MIN(sessions.started_at)) AND MONTH(p.post_date) = MONTH(MIN(sessions.started_at))"
         );
     }
@@ -348,6 +484,13 @@ class PublishedContentSource extends AbstractSource
         $postTypeClause = $this->getPostTypeClause('p.post_type');
         $dateClause = $this->getFullRangeDateClause();
 
+        // Check if author filter is present - filter posts by this specific author
+        // This is used for single author pages where we need posts for that specific author
+        $authorId = $this->getAuthorIdFromFilter();
+        if ($authorId !== null) {
+            return $this->getAuthorFilteredAggregateExpression($authorId);
+        }
+
         // Check if taxonomy filter is present (specific term_id) - this takes priority
         // This is used for single category/tag pages where we need posts for that specific term
         $termId = $this->getTermIdFromFilter();
@@ -378,6 +521,17 @@ class PublishedContentSource extends AbstractSource
     private function getTermFilteredAggregateExpression(int $termId): string
     {
         return $this->buildTermFilteredExpression($termId, $this->getFullRangeDateClause());
+    }
+
+    /**
+     * Count posts that belong to a specific author (aggregate mode).
+     *
+     * @param int $authorId The author ID to filter by
+     * @return string SQL expression
+     */
+    private function getAuthorFilteredAggregateExpression(int $authorId): string
+    {
+        return $this->buildAuthorFilteredExpression($authorId, $this->getFullRangeDateClause());
     }
 
     /**

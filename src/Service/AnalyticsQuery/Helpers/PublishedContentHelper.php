@@ -23,7 +23,37 @@ class PublishedContentHelper
      */
     public static function getPostTypesFromFilters(array $filters = []): array
     {
-        // Check if post_type filter is set
+        // Check for post_type filter in various formats
+        if (isset($filters['post_type'])) {
+            $postTypeFilter = $filters['post_type'];
+
+            // Format 1: Normalized simple value - ['post_type' => 'post']
+            if (is_string($postTypeFilter)) {
+                return [$postTypeFilter];
+            }
+
+            // Format 2: API format with operator - ['post_type' => ['is' => 'post']]
+            if (is_array($postTypeFilter)) {
+                // Handle 'is' operator (single value)
+                if (isset($postTypeFilter['is'])) {
+                    return [$postTypeFilter['is']];
+                }
+                // Handle 'in' operator (multiple values)
+                if (isset($postTypeFilter['in']) && is_array($postTypeFilter['in'])) {
+                    return $postTypeFilter['in'];
+                }
+                // Handle 'is_not' - return all types except the excluded one
+                if (isset($postTypeFilter['is_not'])) {
+                    $excludedType = $postTypeFilter['is_not'];
+                    $types = PostType::getQueryableTypes();
+                    return array_filter($types, function($type) use ($excludedType) {
+                        return $type !== $excludedType;
+                    });
+                }
+            }
+        }
+
+        // Check for legacy format: [['column' => 'post_type', 'value' => 'post']]
         foreach ($filters as $filter) {
             if (isset($filter['column']) && $filter['column'] === 'post_type') {
                 $value = $filter['value'] ?? null;

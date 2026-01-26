@@ -4,6 +4,11 @@ import type { Filter } from '@/components/custom/filter-bar'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
+import type { TableQueryResult, TrafficTrendsChartResponse } from './get-content-overview'
+import type { ContentRow } from './get-categories-overview'
+
+// Re-export for consumers
+export type { ContentRow }
 
 // Metric value with current/previous structure
 interface MetricValue {
@@ -36,12 +41,15 @@ export interface SingleAuthorMetricsResponse {
   }
 }
 
-// Author info row from table query
+// Author info row from table query (using group_by: ['author'])
 export interface AuthorInfoRow {
-  page_uri: string
-  page_title: string
-  page_wp_id: number | null
-  page_type?: string
+  author_id: number
+  author_name: string
+  author_avatar: string | null
+  visitors?: number | string
+  views?: number | string
+  published_content?: number | string
+  comments?: number | string
 }
 
 // Author info response (table format)
@@ -58,6 +66,8 @@ export interface SingleAuthorResponse {
   items: {
     author_metrics?: SingleAuthorMetricsResponse
     author_info?: AuthorInfoResponse
+    traffic_trends?: TrafficTrendsChartResponse
+    top_content?: TableQueryResult<ContentRow>
   }
   errors?: Record<string, { code: string; message: string }>
   skipped?: string[]
@@ -73,6 +83,9 @@ export interface GetSingleAuthorParams {
   compareDateFrom?: string
   compareDateTo?: string
   filters?: Filter[]
+  timeframe?: 'daily' | 'weekly' | 'monthly'
+  /** Filter by post type (e.g., 'post', 'page'). If 'all' or undefined, no post_type filter is applied. */
+  postType?: string
 }
 
 export const getSingleAuthorQueryOptions = ({
@@ -82,20 +95,27 @@ export const getSingleAuthorQueryOptions = ({
   compareDateFrom,
   compareDateTo,
   filters,
+  timeframe = 'daily',
+  postType,
 }: GetSingleAuthorParams) => {
   // Transform UI filters to API format (ensure filters is an array)
   const apiFilters = transformFiltersToApi(filters || [])
   // Check if compare dates are provided
   const hasCompare = !!(compareDateFrom && compareDateTo)
 
-  // Add author_id filter for the specific author
-  const filtersWithAuthorId: Record<string, unknown> = {
+  // Build filters with author and optional post_type
+  const filtersWithAuthor: Record<string, unknown> = {
     ...apiFilters,
-    author_id: String(authorId),
+    author: { is: String(authorId) },
+    // Add post_type filter if specified (not 'all')
+    ...(postType && postType !== 'all' && { post_type: { is: postType } }),
   }
 
+  // Determine group_by based on timeframe
+  const chartGroupBy = timeframe === 'daily' ? 'date' : timeframe === 'weekly' ? 'week' : 'month'
+
   return queryOptions({
-    queryKey: ['single-author', authorId, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare],
+    queryKey: ['single-author', authorId, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe, postType],
     queryFn: () =>
       clientRequest.post<SingleAuthorResponse>(
         '',
@@ -107,7 +127,7 @@ export const getSingleAuthorQueryOptions = ({
             previous_date_from: compareDateFrom,
             previous_date_to: compareDateTo,
           }),
-          filters: filtersWithAuthorId,
+          filters: filtersWithAuthor,
           queries: [
             // Author Metrics: Flat format for aggregate totals
             {
@@ -125,25 +145,56 @@ export const getSingleAuthorQueryOptions = ({
               show_totals: true,
               compare: true,
             },
-            // Author Info: Table format to get author metadata
+            // Author Info: Table format to get author metadata (grouped by author)
             {
               id: 'author_info',
-              sources: ['views'],
-              group_by: ['page'],
-              filters: {
-                post_type: { is: 'author_archive' },
-                resource_id: String(authorId),
-              },
+              sources: ['visitors', 'views', 'published_content', 'comments'],
+              group_by: ['author'],
               columns: [
-                'page_uri',
-                'page_title',
-                'page_wp_id',
-                'page_type',
+                'author_id',
+                'author_name',
+                'author_avatar',
+                'visitors',
+                'views',
+                'published_content',
+                'comments',
               ],
               format: 'table',
               per_page: 1,
               show_totals: false,
               compare: false,
+            },
+            // Traffic Trends: Chart format for performance over time
+            {
+              id: 'traffic_trends',
+              sources: ['visitors', 'views', 'published_content'],
+              group_by: [chartGroupBy],
+              format: 'chart',
+              show_totals: false,
+              compare: true,
+            },
+            // Top Content: Table format for author's content list
+            // Note: post_type filter is applied globally (including 'all' which excludes author_archive via queryable types)
+            {
+              id: 'top_content',
+              sources: ['visitors', 'views', 'comments'],
+              group_by: ['page'],
+              columns: [
+                'page_uri',
+                'page_title',
+                'page_wp_id',
+                'page_type',
+                'visitors',
+                'views',
+                'comments',
+                'published_date',
+              ],
+              format: 'table',
+              per_page: 15,
+              order_by: 'views',
+              order: 'DESC',
+              show_totals: false,
+              compare: true,
             },
           ],
         },

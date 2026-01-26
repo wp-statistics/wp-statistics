@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
@@ -12,16 +12,16 @@ import {
   type PageFilterConfig,
   useDetailOptions,
 } from '@/components/custom/options-drawer'
+import { TaxonomySelect } from '@/components/custom/taxonomy-select'
 import {
   createPageViewsColumns,
   createPageViewsTransform,
 } from '@/components/data-table-columns/page-views-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { useTaxonomyFilter } from '@/hooks/use-taxonomy-filter'
 import { extractMeta, extractRows } from '@/lib/response-helpers'
-import { WordPress } from '@/lib/wordpress'
 import { getCategoryPagesQueryOptions } from '@/services/page-insight/get-category-pages'
 
 const PER_PAGE = 20
@@ -45,8 +45,27 @@ function RouteComponent() {
     apiDateParams,
   } = useGlobalFilters()
 
-  const [taxonomyType, setTaxonomyType] = useState('category')
-  const wp = WordPress.getInstance()
+  // Taxonomy filter with URL sync
+  const {
+    value: taxonomyType,
+    onChange: baseTaxonomyChange,
+    pageFilterConfig: taxonomyFilterConfig,
+  } = useTaxonomyFilter()
+
+  // Wrap taxonomy change to also reset page
+  const handleTaxonomyChange = useCallback(
+    (value: string) => {
+      baseTaxonomyChange(value)
+      setPage(1) // Reset to first page when taxonomy changes
+    },
+    [baseTaxonomyChange, setPage]
+  )
+
+  // Page filters config for Options drawer - with page reset on change
+  const pageFilters = useMemo<PageFilterConfig[]>(
+    () => [{ ...taxonomyFilterConfig, onChange: handleTaxonomyChange }],
+    [taxonomyFilterConfig, handleTaxonomyChange]
+  )
 
   const columns = useMemo(
     () =>
@@ -66,28 +85,6 @@ function RouteComponent() {
       }),
     []
   )
-
-  const handleTaxonomyChange = useCallback(
-    (value: string) => {
-      setTaxonomyType(value)
-      setPage(1)
-    },
-    [setPage]
-  )
-
-  // Page filters config for Options drawer
-  const pageFilters = useMemo<PageFilterConfig[]>(() => {
-    const taxonomies = wp.getTaxonomies()
-    return [
-      {
-        id: 'taxonomy',
-        label: __('Taxonomy Type', 'wp-statistics'),
-        value: taxonomyType,
-        options: taxonomies,
-        onChange: handleTaxonomyChange,
-      },
-    ]
-  }, [taxonomyType, handleTaxonomyChange, wp])
 
   // Options drawer - config is passed once and returned for drawer
   const options = useDetailOptions({
@@ -133,18 +130,7 @@ function RouteComponent() {
       <div className="flex items-center justify-between px-4 py-3 ">
         <h1 className="text-2xl font-semibold text-neutral-800">{__('Category Pages', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
-          <Select value={taxonomyType} onValueChange={handleTaxonomyChange}>
-            <SelectTrigger className="h-8 w-auto text-xs gap-1 px-3 border-neutral-200 hover:bg-neutral-50">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {wp.getTaxonomies().map((taxonomy) => (
-                <SelectItem key={taxonomy.value} value={taxonomy.value}>
-                  {taxonomy.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <TaxonomySelect value={taxonomyType} onValueChange={handleTaxonomyChange} />
           <DateRangePicker
             initialDateFrom={dateFrom}
             initialDateTo={dateTo}

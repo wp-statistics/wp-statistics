@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { __, sprintf } from '@wordpress/i18n'
+import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DateRangePicker } from '@/components/custom/date-range-picker'
@@ -10,11 +10,11 @@ import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import {
   type OverviewOptionsConfig,
+  type PageFilterConfig,
   OptionsDrawerTrigger,
   OverviewOptionsDrawer,
   OverviewOptionsProvider,
   useOverviewOptions,
-  type PageFilterConfig,
 } from '@/components/custom/options-drawer'
 import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
 import { TaxonomySelect } from '@/components/custom/taxonomy-select'
@@ -29,6 +29,7 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
+import { useTaxonomyFilter } from '@/hooks/use-taxonomy-filter'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
@@ -110,27 +111,28 @@ function CategoriesOverviewContent() {
   const { isMetricVisible, isWidgetVisible } = usePageOptions()
 
   const wp = WordPress.getInstance()
-  const isPremium = wp.getIsPremium()
   const pluginUrl = wp.getPluginUrl()
 
-  // Get taxonomies and filter based on premium status
-  const availableTaxonomies = useMemo(() => {
-    const allTaxonomies = wp.getTaxonomies()
-    if (isPremium) {
-      return allTaxonomies // All including custom
-    }
-    // Free: Only category and post_tag
-    return allTaxonomies.filter((t) => t.value === 'category' || t.value === 'post_tag')
-  }, [wp, isPremium])
+  // Taxonomy filter with URL sync and premium filtering
+  const {
+    value: selectedTaxonomy,
+    onChange: handleTaxonomyChange,
+    selectedLabel: selectedTaxonomyLabel,
+    pageFilterConfig: taxonomyFilterConfig,
+    buildNavigationUrl,
+  } = useTaxonomyFilter({ premiumOnly: true })
 
-  // Taxonomy selector state
-  const [selectedTaxonomy, setSelectedTaxonomy] = useState<string>('category')
+  // Page filters config for Options drawer
+  const pageFilters = useMemo<PageFilterConfig[]>(
+    () => [taxonomyFilterConfig],
+    [taxonomyFilterConfig]
+  )
 
-  // Get selected taxonomy label for display
-  const selectedTaxonomyLabel = useMemo(() => {
-    const taxonomy = availableTaxonomies.find((t) => t.value === selectedTaxonomy)
-    return taxonomy?.label || __('Categories', 'wp-statistics')
-  }, [availableTaxonomies, selectedTaxonomy])
+  // Build Top Categories URL with current taxonomy filter preserved
+  const buildTopCategoriesUrl = useCallback(
+    (baseParams?: string) => buildNavigationUrl('/top-categories', baseParams),
+    [buildNavigationUrl]
+  )
 
   // Chart timeframe state
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
@@ -162,33 +164,6 @@ function CategoriesOverviewContent() {
     setIsTimeframeOnlyChange(true)
     setTimeframe(newTimeframe)
   }, [])
-
-  // Handle taxonomy change
-  const handleTaxonomyChange = useCallback((value: string) => {
-    setSelectedTaxonomy(value)
-  }, [])
-
-  // Build Top Categories URL with current taxonomy filter preserved
-  const buildTopCategoriesUrl = useMemo(() => {
-    return (baseParams?: string) => {
-      const taxonomyParam = `filter[taxonomy_type]=eq:${selectedTaxonomy}`
-      if (baseParams) return `/top-categories?${baseParams}&${taxonomyParam}`
-      return `/top-categories?${taxonomyParam}`
-    }
-  }, [selectedTaxonomy])
-
-  // Page filters config for Options drawer
-  const pageFilters = useMemo<PageFilterConfig[]>(() => {
-    return [
-      {
-        id: 'taxonomy',
-        label: __('Taxonomy Type', 'wp-statistics'),
-        value: selectedTaxonomy,
-        options: availableTaxonomies,
-        onChange: handleTaxonomyChange,
-      },
-    ]
-  }, [selectedTaxonomy, availableTaxonomies, handleTaxonomyChange])
 
   // Build full options config with pageFilters
   const optionsConfig = useMemo<OverviewOptionsConfig>(() => ({

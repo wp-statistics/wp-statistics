@@ -2,7 +2,7 @@ import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { ErrorMessage } from '@/components/custom/error-message'
@@ -19,16 +19,15 @@ import {
   TOP_CATEGORIES_DEFAULT_HIDDEN_COLUMNS,
   transformTopCategoryData,
 } from '@/components/data-table-columns/top-categories-columns'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { useTaxonomyFilter } from '@/hooks/use-taxonomy-filter'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { getApiSortField } from '@/lib/column-utils'
 import { extractMeta, extractRows } from '@/lib/response-helpers'
-import { WordPress } from '@/lib/wordpress'
 import { getTopCategoriesQueryOptions } from '@/services/content-analytics/get-top-categories'
 
 const PER_PAGE = 20
@@ -39,7 +38,6 @@ export const Route = createLazyFileRoute('/(content-analytics)/top-categories')(
 
 function RouteComponent() {
   const {
-    filters: appliedFilters,
     page,
     setPage,
     handlePageChange,
@@ -61,55 +59,28 @@ function RouteComponent() {
   // Get comparison date label for tooltip display
   const { label: comparisonLabel } = useComparisonDateLabel()
 
-  const wp = WordPress.getInstance()
-  const isPremium = wp.getIsPremium()
+  // Taxonomy filter with URL sync and premium filtering
+  // Reads initial value from URL filter[taxonomy_type] param (from Categories report links)
+  const {
+    value: selectedTaxonomy,
+    onChange: baseTaxonomyChange,
+    pageFilterConfig: taxonomyFilterConfig,
+  } = useTaxonomyFilter({ premiumOnly: true })
 
-  // Get available taxonomies based on premium status
-  const availableTaxonomies = useMemo(() => {
-    const allTaxonomies = wp.getTaxonomies()
-    if (isPremium) {
-      return allTaxonomies // All including custom
-    }
-    // Free: Only category and post_tag
-    return allTaxonomies.filter((t) => t.value === 'category' || t.value === 'post_tag')
-  }, [wp, isPremium])
+  // Wrap taxonomy change to also reset page
+  const handleTaxonomyChange = useCallback(
+    (value: string) => {
+      baseTaxonomyChange(value)
+      setPage(1) // Reset to first page when taxonomy changes
+    },
+    [baseTaxonomyChange, setPage]
+  )
 
-  // Get initial taxonomy from URL filter (from Categories report link)
-  const getInitialTaxonomy = () => {
-    const taxonomyFilter = appliedFilters?.find((f) => f.name === 'taxonomy_type')
-    if (taxonomyFilter?.value) {
-      const allTaxonomies = wp.getTaxonomies()
-      const validTaxonomies = isPremium
-        ? allTaxonomies
-        : allTaxonomies.filter((t) => t.value === 'category' || t.value === 'post_tag')
-      if (validTaxonomies.some((t) => t.value === taxonomyFilter.value)) {
-        return taxonomyFilter.value
-      }
-    }
-    return 'category'
-  }
-
-  // Taxonomy state - initialized from URL filter if present
-  const [selectedTaxonomy, setSelectedTaxonomy] = useState<string>(getInitialTaxonomy)
-
-  // Handle taxonomy change
-  const handleTaxonomyChange = useCallback((value: string) => {
-    setSelectedTaxonomy(value)
-    setPage(1) // Reset to first page when taxonomy changes
-  }, [setPage])
-
-  // Page filters for Options drawer - taxonomy selector
-  const pageFilters = useMemo<PageFilterConfig[]>(() => {
-    return [
-      {
-        id: 'taxonomy',
-        label: __('Taxonomy Type', 'wp-statistics'),
-        value: selectedTaxonomy,
-        options: availableTaxonomies,
-        onChange: handleTaxonomyChange,
-      },
-    ]
-  }, [selectedTaxonomy, availableTaxonomies, handleTaxonomyChange])
+  // Page filters for Options drawer - taxonomy selector with page reset
+  const pageFilters = useMemo<PageFilterConfig[]>(
+    () => [{ ...taxonomyFilterConfig, onChange: handleTaxonomyChange }],
+    [taxonomyFilterConfig, handleTaxonomyChange]
+  )
 
   // Base columns for preferences hook (stable definition for column IDs)
   const baseColumns = useMemo(() => createTopCategoriesColumns({ comparisonLabel }), [comparisonLabel])

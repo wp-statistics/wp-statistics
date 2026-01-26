@@ -11,7 +11,12 @@
 import '@/contexts/content-registry-context'
 
 import type { ReportConfig } from '@/components/report-page-renderer'
-import type { RegisteredWidget, WidgetRenderProps } from '@/contexts/content-registry-context'
+import type {
+  RegisteredWidget,
+  RegisteredPageContent,
+  WidgetRenderProps,
+  PageContentProps,
+} from '@/contexts/content-registry-context'
 
 export function registerReport<TData = unknown, TRecord = unknown>(
   pageId: string,
@@ -24,5 +29,14 @@ export function registerWidget(pageId: string, widget: RegisteredWidget): void {
   window.wpsContentRegistry!.registerWidget(pageId, widget)
 }
 
+export function registerPageContent(
+  pageId: string,
+  content: Omit<RegisteredPageContent, 'pageId'>
+): void {
+  window.wpsContentRegistry!.registerPageContent(pageId, content)
+  // Dispatch event so routes can re-render with premium content
+  window.dispatchEvent(new CustomEvent('wps:content-registered', { detail: { pageId } }))
+}
+
 export type { ReportConfig } from '@/components/report-page-renderer'
-export type { RegisteredWidget, WidgetRenderProps } from '@/contexts/content-registry-context'
+export type { RegisteredWidget, WidgetRenderProps, PageContentProps } from '@/contexts/content-registry-context'
