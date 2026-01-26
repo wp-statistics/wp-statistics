@@ -1,61 +1,32 @@
 import { DataTable } from '@components/custom/data-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
+import { useMemo } from 'react'
 
 import { ErrorMessage } from '@/components/custom/error-message'
 import { DetailOptionsDrawer, useDetailOptions } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
+import {
+  createSearchTermsColumns,
+  transformSearchTermData,
+} from '@/components/data-table-columns/search-terms-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
-import { decodeText } from '@/lib/utils'
-import type { SearchTerm as APISearchTerm } from '@/services/visitor-insight/get-search-terms'
 import { getSearchTermsQueryOptions } from '@/services/visitor-insight/get-search-terms'
 
 export const Route = createLazyFileRoute('/(visitor-insights)/search-terms')({
   component: RouteComponent,
 })
 
-type SearchTermData = {
-  searchTerm: string
-  searches: number
-}
-
-// Transform API response to component interface
-const transformSearchTermData = (apiSearchTerm: APISearchTerm): SearchTermData => {
-  return {
-    searchTerm: decodeText(apiSearchTerm.search_term) || '',
-    searches: parseInt(apiSearchTerm.searches, 10) || 0,
-  }
-}
-
-const columns: ColumnDef<SearchTermData>[] = [
-  {
-    accessorKey: 'searchTerm',
-    header: 'Search Term',
-    cell: ({ row }) => {
-      const searchTerm = row.getValue('searchTerm') as string
-      const displayTerm = searchTerm.length > 50 ? `${searchTerm.substring(0, 50)}…` : searchTerm
-      return <div className="max-w-md min-h-7 align-middle flex items-center">{displayTerm}</div>
-    },
-  },
-  {
-    accessorKey: 'searches',
-    header: () => <div className="text-right pr-4">Searches</div>,
-    cell: ({ row }) => {
-      const searches = row.getValue('searches') as number
-      const formattedSearches = searches.toLocaleString()
-      return <div className="text-right pr-4">{formattedSearches}</div>
-    },
-  },
-]
-
 const PER_PAGE = 20
 
 function RouteComponent() {
   const { page, handlePageChange, isInitialized, apiDateParams } = useGlobalFilters()
+
+  // Create columns using shared factory
+  const columns = useMemo(() => createSearchTermsColumns(), [])
 
   // Options drawer - config is passed once and returned for drawer
   const options = useDetailOptions({ filterGroup: 'visitors', hideFilters: true })

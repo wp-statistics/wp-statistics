@@ -1,6 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo } from 'react'
 
@@ -8,62 +7,17 @@ import { DataTable } from '@/components/custom/data-table'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { DetailOptionsDrawer, useDetailOptions } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
-import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
-import { NumericCell, UriCell } from '@/components/data-table-columns'
+import {
+  createNotFoundPagesColumns,
+  transformNotFoundPageData,
+} from '@/components/data-table-columns/404-pages-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
-import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { get404PagesQueryOptions, type NotFoundPageRecord } from '@/services/page-insight/get-404-pages'
 
 const PER_PAGE = 20
-
-interface NotFoundPage {
-  id: string
-  pageUri: string
-  views: number
-}
-
-function transformNotFoundPageData(record: NotFoundPageRecord): NotFoundPage {
-  return {
-    id: `404-${record.page_uri}`,
-    pageUri: record.page_uri || '/',
-    views: Number(record.views) || 0,
-  }
-}
-
-function createNotFoundPagesColumns(): ColumnDef<NotFoundPage>[] {
-  return [
-    {
-      accessorKey: 'pageUri',
-      header: __('URL', 'wp-statistics'),
-      cell: ({ row }) => <UriCell uri={row.original.pageUri} />,
-      enableSorting: false,
-      meta: {
-        title: __('URL', 'wp-statistics'),
-        priority: 'primary',
-        cardPosition: 'header',
-      },
-    },
-    {
-      accessorKey: 'views',
-      header: () => (
-        <div className="text-right">
-          <StaticSortIndicator title={__('Views', 'wp-statistics')} direction="desc" />
-        </div>
-      ),
-      size: COLUMN_SIZES.views,
-      cell: ({ row }) => <NumericCell value={row.original.views} />,
-      enableSorting: false,
-      meta: {
-        title: __('Views', 'wp-statistics'),
-        priority: 'primary',
-        cardPosition: 'body',
-      },
-    },
-  ]
-}
 
 export const Route = createLazyFileRoute('/(page-insights)/404-pages')({
   component: RouteComponent,

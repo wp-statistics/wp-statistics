@@ -1,16 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { ExternalLink } from 'lucide-react'
 import { useMemo } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { Metrics } from '@/components/custom/metrics'
-import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
-import { Button } from '@/components/ui/button'
+import { createNetworkSitesColumns } from '@/components/data-table-columns/network-sites-columns'
 import { Panel } from '@/components/ui/panel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MetricsSkeleton, TableSkeleton } from '@/components/ui/skeletons'
@@ -18,88 +15,11 @@ import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import { getNetworkStatsQueryOptions, type NetworkSiteStats } from '@/services/network/get-network-stats'
+import { getNetworkStatsQueryOptions } from '@/services/network/get-network-stats'
 
 export const Route = createLazyFileRoute('/network-overview')({
   component: NetworkOverviewComponent,
 })
-
-// Column definitions for the sites table
-const createSitesColumns = (): ColumnDef<NetworkSiteStats>[] => [
-  {
-    accessorKey: 'name',
-    header: __('Site', 'wp-statistics'),
-    cell: ({ row }) => {
-      const site = row.original
-      return (
-        <div>
-          <div className="font-medium">{site.name}</div>
-          <a
-            href={site.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-muted-foreground hover:text-primary hover:underline"
-          >
-            {site.url}
-          </a>
-        </div>
-      )
-    },
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'visitors',
-    header: () => (
-      <div className="text-center w-full flex justify-center">
-        <StaticSortIndicator title={__('Visitors', 'wp-statistics')} direction="desc" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      const site = row.original
-      if (site.error) {
-        return <div className="text-center text-destructive text-sm">{__('Error', 'wp-statistics')}</div>
-      }
-      return <div className="text-center">{formatCompactNumber(site.visitors)}</div>
-    },
-  },
-  {
-    accessorKey: 'views',
-    header: () => <div className="text-center w-full">{__('Views', 'wp-statistics')}</div>,
-    cell: ({ row }) => {
-      const site = row.original
-      if (site.error) return <div className="text-center">-</div>
-      return <div className="text-center">{formatCompactNumber(site.views)}</div>
-    },
-  },
-  {
-    accessorKey: 'sessions',
-    header: () => <div className="text-center w-full">{__('Sessions', 'wp-statistics')}</div>,
-    cell: ({ row }) => {
-      const site = row.original
-      if (site.error) return <div className="text-center">-</div>
-      return <div className="text-center">{formatCompactNumber(site.sessions)}</div>
-    },
-  },
-  {
-    id: 'actions',
-    header: () => <div className="text-right w-full">{__('Actions', 'wp-statistics')}</div>,
-    cell: ({ row }) => {
-      const site = row.original
-      return (
-        <div className="text-right">
-          <Button variant="outline" size="sm" asChild>
-            <a href={site.admin_url} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
-              {__('Dashboard', 'wp-statistics')}
-            </a>
-          </Button>
-        </div>
-      )
-    },
-    enableHiding: false,
-    enableSorting: false,
-  },
-]
 
 function NetworkOverviewComponent() {
   const wp = WordPress.getInstance()
@@ -144,8 +64,8 @@ function NetworkOverviewComponent() {
     return networkData?.sites ?? []
   }, [networkData])
 
-  // Create columns
-  const columns = useMemo(() => createSitesColumns(), [])
+  // Create columns using shared factory
+  const columns = useMemo(() => createNetworkSitesColumns(), [])
 
   // Metrics data for summary
   const summaryMetrics = useMemo(() => {
