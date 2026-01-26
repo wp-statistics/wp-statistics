@@ -26,6 +26,90 @@ class PublishedContentSource extends AbstractSource
     protected $format = 'number';
 
     /**
+     * Extract term ID from taxonomy filter if present.
+     *
+     * Handles both array format (with 'is' key) and scalar format.
+     *
+     * @return int|null The term ID or null if not set
+     */
+    private function getTermIdFromFilter(): ?int
+    {
+        if (empty($this->filters['taxonomy'])) {
+            return null;
+        }
+
+        $termId = is_array($this->filters['taxonomy'])
+            ? ($this->filters['taxonomy']['is'] ?? reset($this->filters['taxonomy']))
+            : $this->filters['taxonomy'];
+
+        return (int) $termId;
+    }
+
+    /**
+     * Build SQL expression for term-filtered post count.
+     *
+     * Creates a correlated subquery that counts posts belonging to a specific term,
+     * filtered by the provided date WHERE clause.
+     *
+     * @param int    $termId          The term ID to filter by
+     * @param string $dateWhereClause SQL WHERE clause for date filtering
+     * @return string SQL expression
+     */
+    private function buildTermFilteredExpression(int $termId, string $dateWhereClause): string
+    {
+        global $wpdb;
+        $postsTable = $wpdb->posts;
+        $termRelTable = $wpdb->term_relationships;
+        $termTaxTable = $wpdb->term_taxonomy;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+
+        return "COALESCE((
+            SELECT COUNT(DISTINCT p.ID)
+            FROM {$postsTable} p
+            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
+            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            WHERE {$dateWhereClause}
+            AND p.post_status = 'publish'
+            AND {$postTypeClause}
+            AND tt.term_id = {$termId}
+        ), 0)";
+    }
+
+    /**
+     * Build SQL expression for taxonomy-type filtered post count.
+     *
+     * Creates a correlated subquery that counts posts belonging to any term
+     * in the specified taxonomy, filtered by the provided date WHERE clause.
+     *
+     * @param string $taxonomy             The taxonomy type (e.g., 'category', 'post_tag')
+     * @param string $dateWhereClause      SQL WHERE clause for date filtering
+     * @param string $additionalWhereClause Optional additional WHERE conditions
+     * @return string SQL expression
+     */
+    private function buildTaxonomyFilteredExpression(string $taxonomy, string $dateWhereClause, string $additionalWhereClause = ''): string
+    {
+        global $wpdb;
+        $postsTable = $wpdb->posts;
+        $termRelTable = $wpdb->term_relationships;
+        $termTaxTable = $wpdb->term_taxonomy;
+        $postTypeClause = $this->getPostTypeClause('p.post_type');
+        $taxonomySafe = esc_sql($taxonomy);
+
+        $additionalClause = $additionalWhereClause ? "\n            AND {$additionalWhereClause}" : '';
+
+        return "COALESCE((
+            SELECT COUNT(DISTINCT p.ID)
+            FROM {$postsTable} p
+            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
+            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+            WHERE {$dateWhereClause}
+            AND p.post_status = 'publish'
+            AND {$postTypeClause}
+            AND tt.taxonomy = '{$taxonomySafe}'{$additionalClause}
+        ), 0)";
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getExpression(): string
@@ -71,6 +155,12 @@ class PublishedContentSource extends AbstractSource
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
 
+        // Check if taxonomy filter is present (specific term_id)
+        $termId = $this->getTermIdFromFilter();
+        if ($termId !== null) {
+            return $this->getTermFilteredDateExpression($termId);
+        }
+
         // Check if taxonomy_type filter is present
         if (!empty($this->filters['taxonomy_type']['is'])) {
             return $this->getTaxonomyFilteredDateExpression($this->filters['taxonomy_type']['is']);
@@ -87,6 +177,20 @@ class PublishedContentSource extends AbstractSource
     }
 
     /**
+     * Count posts published on a specific day that belong to a specific term.
+     *
+     * @param int $termId The term ID to filter by
+     * @return string SQL expression
+     */
+    private function getTermFilteredDateExpression(int $termId): string
+    {
+        return $this->buildTermFilteredExpression(
+            $termId,
+            "DATE(p.post_date) = DATE(MIN(sessions.started_at))"
+        );
+    }
+
+    /**
      * Count posts published in a specific week (week-grouped queries).
      *
      * @return string
@@ -96,6 +200,12 @@ class PublishedContentSource extends AbstractSource
         global $wpdb;
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
+
+        // Check if taxonomy filter is present (specific term_id)
+        $termId = $this->getTermIdFromFilter();
+        if ($termId !== null) {
+            return $this->getTermFilteredWeekExpression($termId);
+        }
 
         // Check if taxonomy_type filter is present
         if (!empty($this->filters['taxonomy_type']['is'])) {
@@ -113,6 +223,20 @@ class PublishedContentSource extends AbstractSource
     }
 
     /**
+     * Count posts published in a specific week that belong to a specific term.
+     *
+     * @param int $termId The term ID to filter by
+     * @return string SQL expression
+     */
+    private function getTermFilteredWeekExpression(int $termId): string
+    {
+        return $this->buildTermFilteredExpression(
+            $termId,
+            "YEARWEEK(p.post_date, 1) = YEARWEEK(MIN(sessions.started_at), 1)"
+        );
+    }
+
+    /**
      * Count posts published in a specific month (month-grouped queries).
      *
      * @return string
@@ -122,6 +246,12 @@ class PublishedContentSource extends AbstractSource
         global $wpdb;
         $postsTable = $wpdb->posts;
         $postTypeClause = $this->getPostTypeClause('p.post_type');
+
+        // Check if taxonomy filter is present (specific term_id)
+        $termId = $this->getTermIdFromFilter();
+        if ($termId !== null) {
+            return $this->getTermFilteredMonthExpression($termId);
+        }
 
         // Check if taxonomy_type filter is present
         if (!empty($this->filters['taxonomy_type']['is'])) {
@@ -137,6 +267,20 @@ class PublishedContentSource extends AbstractSource
             AND p.post_status = 'publish'
             AND {$postTypeClause}
         ), 0)";
+    }
+
+    /**
+     * Count posts published in a specific month that belong to a specific term.
+     *
+     * @param int $termId The term ID to filter by
+     * @return string SQL expression
+     */
+    private function getTermFilteredMonthExpression(int $termId): string
+    {
+        return $this->buildTermFilteredExpression(
+            $termId,
+            "YEAR(p.post_date) = YEAR(MIN(sessions.started_at)) AND MONTH(p.post_date) = MONTH(MIN(sessions.started_at))"
+        );
     }
 
     /**
@@ -204,6 +348,13 @@ class PublishedContentSource extends AbstractSource
         $postTypeClause = $this->getPostTypeClause('p.post_type');
         $dateClause = $this->getFullRangeDateClause();
 
+        // Check if taxonomy filter is present (specific term_id) - this takes priority
+        // This is used for single category/tag pages where we need posts for that specific term
+        $termId = $this->getTermIdFromFilter();
+        if ($termId !== null) {
+            return $this->getTermFilteredAggregateExpression($termId);
+        }
+
         // Check if taxonomy_type filter is present - if so, count only posts with that taxonomy
         if (!empty($this->filters['taxonomy_type']['is'])) {
             return $this->getTaxonomyFilteredAggregateExpression($this->filters['taxonomy_type']['is']);
@@ -219,6 +370,17 @@ class PublishedContentSource extends AbstractSource
     }
 
     /**
+     * Count posts that belong to a specific term (aggregate mode).
+     *
+     * @param int $termId The term ID to filter by
+     * @return string SQL expression
+     */
+    private function getTermFilteredAggregateExpression(int $termId): string
+    {
+        return $this->buildTermFilteredExpression($termId, $this->getFullRangeDateClause());
+    }
+
+    /**
      * Count posts that have terms in the specified taxonomy (aggregate mode).
      *
      * @param string $taxonomy The taxonomy type (e.g., 'category', 'post_tag')
@@ -226,24 +388,7 @@ class PublishedContentSource extends AbstractSource
      */
     private function getTaxonomyFilteredAggregateExpression(string $taxonomy): string
     {
-        global $wpdb;
-        $postsTable = $wpdb->posts;
-        $termRelTable = $wpdb->term_relationships;
-        $termTaxTable = $wpdb->term_taxonomy;
-        $postTypeClause = $this->getPostTypeClause('p.post_type');
-        $dateClause = $this->getFullRangeDateClause();
-        $taxonomySafe = esc_sql($taxonomy);
-
-        return "COALESCE((
-            SELECT COUNT(DISTINCT p.ID)
-            FROM {$postsTable} p
-            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
-            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-            WHERE {$dateClause}
-            AND p.post_status = 'publish'
-            AND {$postTypeClause}
-            AND tt.taxonomy = '{$taxonomySafe}'
-        ), 0)";
+        return $this->buildTaxonomyFilteredExpression($taxonomy, $this->getFullRangeDateClause());
     }
 
     /**
@@ -254,23 +399,10 @@ class PublishedContentSource extends AbstractSource
      */
     private function getTaxonomyFilteredDateExpression(string $taxonomy): string
     {
-        global $wpdb;
-        $postsTable = $wpdb->posts;
-        $termRelTable = $wpdb->term_relationships;
-        $termTaxTable = $wpdb->term_taxonomy;
-        $postTypeClause = $this->getPostTypeClause('p.post_type');
-        $taxonomySafe = esc_sql($taxonomy);
-
-        return "COALESCE((
-            SELECT COUNT(DISTINCT p.ID)
-            FROM {$postsTable} p
-            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
-            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-            WHERE DATE(p.post_date) = DATE(MIN(sessions.started_at))
-            AND p.post_status = 'publish'
-            AND {$postTypeClause}
-            AND tt.taxonomy = '{$taxonomySafe}'
-        ), 0)";
+        return $this->buildTaxonomyFilteredExpression(
+            $taxonomy,
+            "DATE(p.post_date) = DATE(MIN(sessions.started_at))"
+        );
     }
 
     /**
@@ -281,23 +413,10 @@ class PublishedContentSource extends AbstractSource
      */
     private function getTaxonomyFilteredWeekExpression(string $taxonomy): string
     {
-        global $wpdb;
-        $postsTable = $wpdb->posts;
-        $termRelTable = $wpdb->term_relationships;
-        $termTaxTable = $wpdb->term_taxonomy;
-        $postTypeClause = $this->getPostTypeClause('p.post_type');
-        $taxonomySafe = esc_sql($taxonomy);
-
-        return "COALESCE((
-            SELECT COUNT(DISTINCT p.ID)
-            FROM {$postsTable} p
-            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
-            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-            WHERE YEARWEEK(p.post_date, 1) = YEARWEEK(MIN(sessions.started_at), 1)
-            AND p.post_status = 'publish'
-            AND {$postTypeClause}
-            AND tt.taxonomy = '{$taxonomySafe}'
-        ), 0)";
+        return $this->buildTaxonomyFilteredExpression(
+            $taxonomy,
+            "YEARWEEK(p.post_date, 1) = YEARWEEK(MIN(sessions.started_at), 1)"
+        );
     }
 
     /**
@@ -308,24 +427,10 @@ class PublishedContentSource extends AbstractSource
      */
     private function getTaxonomyFilteredMonthExpression(string $taxonomy): string
     {
-        global $wpdb;
-        $postsTable = $wpdb->posts;
-        $termRelTable = $wpdb->term_relationships;
-        $termTaxTable = $wpdb->term_taxonomy;
-        $postTypeClause = $this->getPostTypeClause('p.post_type');
-        $taxonomySafe = esc_sql($taxonomy);
-
-        return "COALESCE((
-            SELECT COUNT(DISTINCT p.ID)
-            FROM {$postsTable} p
-            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
-            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-            WHERE YEAR(p.post_date) = YEAR(MIN(sessions.started_at))
-            AND MONTH(p.post_date) = MONTH(MIN(sessions.started_at))
-            AND p.post_status = 'publish'
-            AND {$postTypeClause}
-            AND tt.taxonomy = '{$taxonomySafe}'
-        ), 0)";
+        return $this->buildTaxonomyFilteredExpression(
+            $taxonomy,
+            "YEAR(p.post_date) = YEAR(MIN(sessions.started_at)) AND MONTH(p.post_date) = MONTH(MIN(sessions.started_at))"
+        );
     }
 
     /**
@@ -336,25 +441,11 @@ class PublishedContentSource extends AbstractSource
      */
     private function getTaxonomyFilteredAuthorExpression(string $taxonomy): string
     {
-        global $wpdb;
-        $postsTable = $wpdb->posts;
-        $termRelTable = $wpdb->term_relationships;
-        $termTaxTable = $wpdb->term_taxonomy;
-        $postTypeClause = $this->getPostTypeClause('p.post_type');
-        $dateClause = $this->getFullRangeDateClause();
-        $taxonomySafe = esc_sql($taxonomy);
-
-        return "COALESCE((
-            SELECT COUNT(DISTINCT p.ID)
-            FROM {$postsTable} p
-            INNER JOIN {$termRelTable} tr ON p.ID = tr.object_id
-            INNER JOIN {$termTaxTable} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-            WHERE {$dateClause}
-            AND p.post_status = 'publish'
-            AND {$postTypeClause}
-            AND p.post_author = resources.cached_author_id
-            AND tt.taxonomy = '{$taxonomySafe}'
-        ), 0)";
+        return $this->buildTaxonomyFilteredExpression(
+            $taxonomy,
+            $this->getFullRangeDateClause(),
+            "p.post_author = resources.cached_author_id"
+        );
     }
 
     /**
