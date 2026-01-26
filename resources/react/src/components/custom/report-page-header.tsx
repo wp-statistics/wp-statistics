@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import type { LockedFilter } from '@/components/custom/filter-panel'
 import { OptionsDrawerTrigger } from '@/components/custom/options-drawer'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { getCompatibleFilters } from '@/lib/filter-utils'
@@ -24,6 +25,8 @@ export interface ReportPageHeaderProps {
   showFilterButton?: boolean
   /** Custom filter fields to use instead of fetching by filterGroup */
   customFilterFields?: FilterField[]
+  /** Locked filters displayed as read-only rows in the filter panel */
+  lockedFilters?: LockedFilter[]
   /** Additional controls to render in the header (e.g., taxonomy selector) */
   children?: ReactNode
 }
@@ -50,6 +53,7 @@ export function ReportPageHeader({
   showCompare = true,
   showFilterButton = true,
   customFilterFields,
+  lockedFilters,
   children,
 }: ReportPageHeaderProps) {
   const {
@@ -92,6 +96,7 @@ export function ReportPageHeader({
                 appliedFilters={compatibleFilters}
                 onApplyFilters={applyFilters}
                 filterGroup={filterGroup}
+                lockedFilters={lockedFilters}
               />
             )}
           </div>
