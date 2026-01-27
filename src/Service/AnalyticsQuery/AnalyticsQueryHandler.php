@@ -364,6 +364,9 @@ class AnalyticsQueryHandler
             case 'social_media_chart':
                 $chartData = ChartDataProviderFactory::socialMediaChart($args)->getData();
                 break;
+            case 'source_category_chart':
+                $chartData = ChartDataProviderFactory::sourceCategoryChart($args)->getData();
+                break;
             default:
                 throw new \InvalidArgumentException(
                     sprintf(__('Unknown chart type: %s', 'wp-statistics'), $chartType)
