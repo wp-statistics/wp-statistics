@@ -2,11 +2,15 @@
 
 namespace WP_Statistics\Service\CLI;
 
-use WP_Statistics\Service\CLI\Commands\SummaryCommand;
+use WP_Statistics\Service\CLI\Commands\CacheCommand;
+use WP_Statistics\Service\CLI\Commands\ExportCommand;
+use WP_Statistics\Service\CLI\Commands\MigrateCommand;
 use WP_Statistics\Service\CLI\Commands\OnlineCommand;
-use WP_Statistics\Service\CLI\Commands\VisitorsCommand;
-use WP_Statistics\Service\CLI\Commands\ReinitializeCommand;
+use WP_Statistics\Service\CLI\Commands\QueryCommand;
 use WP_Statistics\Service\CLI\Commands\RecordCommand;
+use WP_Statistics\Service\CLI\Commands\ReinitializeCommand;
+use WP_Statistics\Service\CLI\Commands\SummaryCommand;
+use WP_Statistics\Service\CLI\Commands\VisitorsCommand;
 
 /**
  * CLI Manager for WP Statistics v15.
@@ -24,11 +28,23 @@ use WP_Statistics\Service\CLI\Commands\RecordCommand;
  *      # Show list of last visitors
  *      $ wp statistics visitors
  *
+ *      # Query analytics data
+ *      $ wp statistics query visitors,views --group-by=country
+ *
+ *      # Export data to CSV
+ *      $ wp statistics export visitors --output=visitors.csv
+ *
+ *      # Clear analytics cache
+ *      $ wp statistics cache clear
+ *
  *      # Reinitialize database
  *      $ wp statistics reinitialize
  *
  *      # Record a hit
- *      $ wp statistics record --url="https://example.com"
+ *      $ wp statistics record --uri="/sample-page/" --post_id=2
+ *
+ *      # Migrate data from v14 to v15
+ *      $ wp statistics migrate v14-to-v15 --dry-run
  *
  * @since 15.0.0
  */
@@ -46,10 +62,20 @@ class CLIManager
         }
 
         \WP_CLI::add_command('statistics', __CLASS__);
+
+        // Data retrieval commands
         \WP_CLI::add_command('statistics summary', SummaryCommand::class);
         \WP_CLI::add_command('statistics online', OnlineCommand::class);
         \WP_CLI::add_command('statistics visitors', VisitorsCommand::class);
+        \WP_CLI::add_command('statistics query', QueryCommand::class);
+        \WP_CLI::add_command('statistics export', ExportCommand::class);
+
+        // Management commands
+        \WP_CLI::add_command('statistics cache', CacheCommand::class);
         \WP_CLI::add_command('statistics reinitialize', ReinitializeCommand::class);
         \WP_CLI::add_command('statistics record', RecordCommand::class);
+
+        // Migration commands
+        \WP_CLI::add_command('statistics migrate', MigrateCommand::class);
     }
 }
