@@ -7,10 +7,18 @@ use WP_Statistics\Components\RemoteRequest;
 use WP_Statistics\Exception\LicenseException;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Traits\TransientCacheTrait;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 class ApiCommunicator
 {
     use TransientCacheTrait;
+
+    /**
+     * Cache duration for failed requests (5 minutes).
+     * Short duration allows users to retry quickly after fixing license issues
+     * (e.g., adding domain to license, renewing expired license).
+     */
+    const NEGATIVE_CACHE_DURATION = 5 * MINUTE_IN_SECONDS;
 
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
@@ -41,6 +49,50 @@ class ApiCommunicator
     }
 
     /**
+     * Generate a cache key for product info.
+     *
+     * The key is site-specific to handle:
+     * - Multisite with subdomains (each subsite may have different license)
+     * - Multisite with subdirectories
+     * - Single site with multilingual plugins (WPML, Polylang) where home_url() varies by language
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     *
+     * @return string The cache key.
+     */
+    private function getProductInfoCacheKey($pluginSlug, $licenseKey)
+    {
+        // Use blog ID for multisite to ensure each subsite has its own cache
+        // For single sites, this will always be 1
+        $siteIdentifier = get_current_blog_id();
+
+        return 'wp_statistics_product_info_' . md5($pluginSlug . '_' . $licenseKey . '_' . $siteIdentifier);
+    }
+
+    /**
+     * Clear cached product info for a specific plugin and license.
+     *
+     * Call this method when license is validated/changed to ensure fresh data.
+     *
+     * @param string $licenseKey The license key.
+     * @param string $pluginSlug The plugin slug (optional, clears all if not provided).
+     *
+     * @return void
+     */
+    public function clearProductInfoCache($licenseKey, $pluginSlug = null)
+    {
+        if ($pluginSlug) {
+            delete_transient($this->getProductInfoCacheKey($pluginSlug, $licenseKey));
+        } else {
+            // Clear cache for all known add-ons when no specific slug provided
+            foreach (array_keys(PluginHelper::$plugins) as $addon) {
+                delete_transient($this->getProductInfoCacheKey($addon, $licenseKey));
+            }
+        }
+    }
+
+    /**
      * Get the download link for the specified plugin using the license key.
      *
      * @param string $licenseKey
@@ -51,9 +103,7 @@ class ApiCommunicator
      */
     public function getDownloadUrl($licenseKey, $pluginSlug)
     {
-        // Use a site-independent cache key to prevent duplicate requests on multilingual sites
-        // where home_url() returns different values for each language (e.g., /en, /fr, /de)
-        $cacheKey = 'wp_statistics_product_info_' . md5($pluginSlug . '_' . $licenseKey);
+        $cacheKey = $this->getProductInfoCacheKey($pluginSlug, $licenseKey);
 
         // Check for cached result (including negative cache for failed requests)
         $cached = get_transient($cacheKey);
@@ -82,8 +132,9 @@ class ApiCommunicator
             return $result;
 
         } catch (Exception $e) {
-            // Negative cache: store failed requests for 1 hour to prevent API hammering
-            set_transient($cacheKey, (object)['_negative_cache' => true], HOUR_IN_SECONDS);
+            // Negative cache: store failed requests for 5 minutes to prevent API hammering
+            // while still allowing users to retry quickly after fixing issues
+            set_transient($cacheKey, (object)['_negative_cache' => true], self::NEGATIVE_CACHE_DURATION);
             throw $e;
         }
     }
@@ -158,6 +209,10 @@ class ApiCommunicator
         }
 
         LicenseHelper::storeLicense($licenseKey, $licenseData);
+
+        // Clear product info cache on successful license validation
+        // This ensures fresh download URLs after license changes (renewal, domain addition, etc.)
+        $this->clearProductInfoCache($licenseKey);
 
         return $licenseData;
     }
