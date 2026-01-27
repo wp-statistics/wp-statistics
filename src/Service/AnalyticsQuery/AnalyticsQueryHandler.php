@@ -19,6 +19,7 @@ use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidColumnException;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 /**
  * Facade for analytics query operations.
@@ -287,7 +288,12 @@ class AnalyticsQueryHandler
             }
 
             try {
-                $result            = $this->handle($queryData);
+                // Check if this is a chart provider query
+                if (isset($queryData['chart'])) {
+                    $result = $this->handleChartProviderQuery($queryData, $dateFrom, $dateTo, $globalCompare);
+                } else {
+                    $result = $this->handle($queryData);
+                }
                 $results[$queryId] = $result;
             } catch (\Exception $e) {
                 $errors[$queryId] = [
@@ -316,6 +322,131 @@ class AnalyticsQueryHandler
         }
 
         return $response;
+    }
+
+    /**
+     * Handle a chart provider query.
+     *
+     * Routes to specialized chart data providers for complex chart data
+     * that cannot be easily expressed via standard sources/group_by.
+     *
+     * @param array       $queryData    Query data with 'chart' parameter.
+     * @param string|null $dateFrom     Global date_from.
+     * @param string|null $dateTo       Global date_to.
+     * @param bool        $globalCompare Global compare flag.
+     * @return array Chart data in frontend-compatible format.
+     */
+    private function handleChartProviderQuery(
+        array $queryData,
+        ?string $dateFrom,
+        ?string $dateTo,
+        bool $globalCompare
+    ): array {
+        $chartType = $queryData['chart'];
+        $filters   = $queryData['filters'] ?? [];
+        $compare   = $queryData['compare'] ?? $globalCompare;
+
+        // Build args for chart provider
+        $args = [
+            'date' => [
+                'from' => $queryData['date_from'] ?? $dateFrom,
+                'to'   => $queryData['date_to'] ?? $dateTo,
+            ],
+            'prev_data' => $compare,
+            'filters'   => $filters,
+        ];
+
+        // Get the appropriate chart data provider
+        switch ($chartType) {
+            case 'search_engine_chart':
+                $chartData = ChartDataProviderFactory::searchEngineChart($args)->getData();
+                break;
+            case 'social_media_chart':
+                $chartData = ChartDataProviderFactory::socialMediaChart($args)->getData();
+                break;
+            default:
+                throw new \InvalidArgumentException(
+                    sprintf(__('Unknown chart type: %s', 'wp-statistics'), $chartType)
+                );
+        }
+
+        return $this->transformChartProviderResponse($chartData, $compare);
+    }
+
+    /**
+     * Transform chart provider response to frontend-compatible format.
+     *
+     * Converts from LineChartResponseTrait format:
+     * {
+     *   'data' => ['labels' => [...], 'datasets' => [['label' => 'X', 'data' => [...], 'slug' => 'x']]],
+     *   'previousData' => ['labels' => [...], 'datasets' => [...]]
+     * }
+     *
+     * To ChartApiResponse format:
+     * {
+     *   'success' => true,
+     *   'labels' => [...],
+     *   'previousLabels' => [...],
+     *   'datasets' => [
+     *     ['key' => 'x', 'label' => 'X', 'data' => [...], 'comparison' => false],
+     *     ['key' => 'x_previous', 'label' => 'X', 'data' => [...], 'comparison' => true]
+     *   ]
+     * }
+     *
+     * @param array $chartData Raw chart provider response.
+     * @param bool  $compare   Whether comparison is enabled.
+     * @return array Transformed response.
+     */
+    private function transformChartProviderResponse(array $chartData, bool $compare): array
+    {
+        $result = [
+            'success'  => true,
+            'labels'   => [],
+            'datasets' => [],
+        ];
+
+        // Extract labels (formatted dates to simple date strings)
+        if (!empty($chartData['data']['labels'])) {
+            $result['labels'] = array_map(function ($label) {
+                // If label is array with 'date' key, extract it
+                return is_array($label) ? ($label['date'] ?? $label['formatted_date'] ?? '') : $label;
+            }, $chartData['data']['labels']);
+        }
+
+        // Extract previous period labels
+        if ($compare && !empty($chartData['previousData']['labels'])) {
+            $result['previousLabels'] = array_map(function ($label) {
+                return is_array($label) ? ($label['date'] ?? $label['formatted_date'] ?? '') : $label;
+            }, $chartData['previousData']['labels']);
+        }
+
+        // Transform current period datasets
+        if (!empty($chartData['data']['datasets'])) {
+            foreach ($chartData['data']['datasets'] as $dataset) {
+                $key = !empty($dataset['slug']) ? $dataset['slug'] : sanitize_title($dataset['label']);
+                $result['datasets'][] = [
+                    'key'        => $key,
+                    'label'      => $dataset['label'],
+                    'data'       => $dataset['data'],
+                    'comparison' => false,
+                ];
+            }
+        }
+
+        // Transform previous period datasets (only for Total in search engine chart)
+        if ($compare && !empty($chartData['previousData']['datasets'])) {
+            foreach ($chartData['previousData']['datasets'] as $dataset) {
+                $key = !empty($dataset['slug']) ? $dataset['slug'] : sanitize_title($dataset['label']);
+                $result['datasets'][] = [
+                    'key'        => $key . '_previous',
+                    'label'      => $dataset['label'],
+                    'data'       => $dataset['data'],
+                    'comparison' => true,
+                ];
+            }
+        }
+
+        return $result;
     }
 
     /**

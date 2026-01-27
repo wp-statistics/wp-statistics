@@ -40,6 +40,34 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         return $this->getChartData();
     }
 
+    /**
+     * Get the channel filter based on external filters.
+     *
+     * @return array Channel filter for the query.
+     */
+    protected function getChannelFilter()
+    {
+        $externalFilters = $this->args['filters'] ?? [];
+
+        // Check if referrer_channel is specified in external filters
+        if (isset($externalFilters['referrer_channel']) && is_array($externalFilters['referrer_channel'])) {
+            $channelFilter = $externalFilters['referrer_channel'];
+
+            // Handle 'in' operator: ['in' => ['search', 'paid']]
+            if (isset($channelFilter['in'])) {
+                return $channelFilter;
+            }
+
+            // Handle 'is' operator: ['is' => 'search'] or ['is' => 'paid']
+            if (isset($channelFilter['is'])) {
+                return ['in' => [$channelFilter['is']]];
+            }
+        }
+
+        // Default: both search and paid channels
+        return ['in' => ['search', 'paid']];
+    }
+
     protected function setThisPeriodData()
     {
         $thisPeriod      = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
@@ -52,12 +80,12 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         // Set chart labels
         $this->setChartLabels($this->generateChartLabels($thisPeriodDates));
 
-        // Query for search engine referrals (search and paid channels)
+        // Query for search engine referrals with channel filter from args
         $result = $this->queryHandler->handle([
             'sources'   => ['visitors'],
             'group_by'  => ['referrer', 'date'],
             'filters'   => [
-                'referrer_channel' => ['in' => ['search', 'paid']],
+                'referrer_channel' => $this->getChannelFilter(),
             ],
             'date_from' => $thisPeriod['from'] ?? null,
             'date_to'   => $thisPeriod['to'] ?? null,
@@ -118,12 +146,12 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
         $this->setChartPreviousLabels($this->generateChartLabels($prevPeriodDates));
 
-        // Query for previous period search engine referrals
+        // Query for previous period search engine referrals with same channel filter
         $result = $this->queryHandler->handle([
             'sources'   => ['visitors'],
             'group_by'  => ['date'],
             'filters'   => [
-                'referrer_channel' => ['in' => ['search', 'paid']],
+                'referrer_channel' => $this->getChannelFilter(),
             ],
             'date_from' => $prevPeriod['from'] ?? null,
             'date_to'   => $prevPeriod['to'] ?? null,
