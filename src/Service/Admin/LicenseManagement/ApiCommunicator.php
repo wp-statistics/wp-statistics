@@ -105,14 +105,10 @@ class ApiCommunicator
     {
         $cacheKey = $this->getProductInfoCacheKey($pluginSlug, $licenseKey);
 
-        // Check for cached result (including negative cache for failed requests)
+        // Check for negative cache (failed requests cached for 5 minutes)
         $cached = get_transient($cacheKey);
-        if ($cached !== false) {
-            // Return null for negative cache entries
-            if (is_object($cached) && isset($cached->_negative_cache)) {
-                return null;
-            }
-            return $cached;
+        if ($cached !== false && is_object($cached) && isset($cached->_negative_cache)) {
+            return null;
         }
 
         try {
@@ -122,14 +118,8 @@ class ApiCommunicator
                 'plugin_slug' => $pluginSlug,
             ]);
 
-            $result = $remoteRequest->execute(true, false); // Disable RemoteRequest's internal cache
-
-            // Cache successful result for 1 day
-            if ($result) {
-                set_transient($cacheKey, $result, DAY_IN_SECONDS);
-            }
-
-            return $result;
+            // Use custom cache key for proper multisite/multilingual support
+            return $remoteRequest->execute(true, true, DAY_IN_SECONDS, $cacheKey);
 
         } catch (Exception $e) {
             // Negative cache: store failed requests for 5 minutes to prevent API hammering

@@ -120,15 +120,16 @@ class RemoteRequest
      * @param bool $throwFailedHttpCodeResponse Whether or not to throw an exception if the request returns a failed HTTP code.
      * @param bool $useCache Whether or not to use caching.
      * @param int $cacheExpiration Cache expiration time in seconds.
+     * @param string|null $customCacheKey Optional custom cache key. If provided, this key will be used instead of auto-generated one.
      *
      * @return mixed
      *
      * @throws Exception
      */
-    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS)
+    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS, $customCacheKey = null)
     {
-        // Generate the cache key
-        $cacheKey = $this->generateCacheKey();
+        // Use custom cache key if provided, otherwise generate one
+        $cacheKey = $customCacheKey ?? $this->generateCacheKey();
 
         // Check if cached result exists if caching is enabled
         if ($useCache) {
