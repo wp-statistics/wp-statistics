@@ -40,6 +40,34 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         return $this->getChartData();
     }
 
+    /**
+     * Get the channel filter based on external filters.
+     *
+     * @return array Channel filter for the query.
+     */
+    protected function getChannelFilter()
+    {
+        $externalFilters = $this->args['filters'] ?? [];
+
+        // Check if referrer_channel is specified in external filters
+        if (isset($externalFilters['referrer_channel']) && is_array($externalFilters['referrer_channel'])) {
+            $channelFilter = $externalFilters['referrer_channel'];
+
+            // Handle 'in' operator: ['in' => ['social', 'paid_social']]
+            if (isset($channelFilter['in'])) {
+                return $channelFilter;
+            }
+
+            // Handle 'is' operator: ['is' => 'social'] or ['is' => 'paid_social']
+            if (isset($channelFilter['is'])) {
+                return ['in' => [$channelFilter['is']]];
+            }
+        }
+
+        // Default: both social and paid_social channels
+        return ['in' => ['social', 'paid_social']];
+    }
+
     protected function setThisPeriodData()
     {
         $thisPeriod      = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
@@ -58,7 +86,7 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
             'date_from' => $thisPeriod['from'] ?? null,
             'date_to'   => $thisPeriod['to'] ?? null,
             'filters'   => [
-                'referrer_channel' => ['in' => ['social', 'paid_social']]
+                'referrer_channel' => $this->getChannelFilter(),
             ],
             'format'    => 'table',
             'per_page'  => 1000,
@@ -123,7 +151,7 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
             'date_from' => $prevPeriod['from'] ?? null,
             'date_to'   => $prevPeriod['to'] ?? null,
             'filters'   => [
-                'referrer_channel' => ['in' => ['social', 'paid_social']]
+                'referrer_channel' => $this->getChannelFilter(),
             ],
             'format'    => 'table',
             'per_page'  => 1000,
@@ -138,7 +166,7 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
             $visitors = intval($row['visitors'] ?? 0);
             $date     = $row['date'] ?? '';
 
-            if (!empty($date)) {
+            if (!empty($date) && isset($prevPeriodTotal[$date])) {
                 $prevPeriodTotal[$date] += $visitors;
             }
         }

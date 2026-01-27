@@ -287,6 +287,7 @@ function RouteComponent() {
               showPreviousPeriod={isCompareEnabled}
               compareDateTo={apiDateParams.previous_date_to}
               dateTo={apiDateParams.date_to}
+              borderless
             />
 
             {/* Referrers Table */}
