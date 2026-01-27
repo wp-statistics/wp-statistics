@@ -60,7 +60,7 @@ class CountryFilter extends AbstractFilter
      *
      * @var array Groups: visitors
      */
-    protected $groups = ['visitors', 'views', 'individual-content'];
+    protected $groups = ['visitors', 'views', 'individual-content', 'referrals'];
 
     /**
      * {@inheritdoc}
