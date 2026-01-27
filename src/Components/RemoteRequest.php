@@ -128,12 +128,14 @@ class RemoteRequest
      */
     public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS, $customCacheKey = null)
     {
-        // Use custom cache key if provided, otherwise generate one
-        $cacheKey = $customCacheKey ?? $this->generateCacheKey();
-
         // Check if cached result exists if caching is enabled
         if ($useCache) {
-            $cachedResponse = $this->getCachedResult($cacheKey);
+            // Use direct transient for custom cache key, trait method for auto-generated key
+            if ($customCacheKey) {
+                $cachedResponse = get_transient($customCacheKey);
+            } else {
+                $cachedResponse = $this->getCachedResult($this->generateCacheKey());
+            }
             if ($cachedResponse !== false) {
                 return $cachedResponse;
             }
@@ -173,7 +175,12 @@ class RemoteRequest
         $resultToCache = ($responseJson === null) ? $this->responseBody : $responseJson;
         if ($useCache) {
             if ($this->isRequestSuccessful() && (is_object($resultToCache) || is_array($resultToCache))) {
-                $this->setCachedResult($cacheKey, $resultToCache, $cacheExpiration);
+                // Use direct transient for custom cache key, trait method for auto-generated key
+                if ($customCacheKey) {
+                    set_transient($customCacheKey, $resultToCache, $cacheExpiration);
+                } else {
+                    $this->setCachedResult($this->generateCacheKey(), $resultToCache, $cacheExpiration);
+                }
             }
         }
 
