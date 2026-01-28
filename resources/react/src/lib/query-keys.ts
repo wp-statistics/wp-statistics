@@ -204,6 +204,10 @@ export const queryKeys = {
     /** Countries list (paginated) */
     countries: (params: ListQueryParams) =>
       [...queryKeys.geographic.all(), 'countries', params] as const,
+
+    /** Cities list (paginated) */
+    citiesList: (params: ListQueryParams) =>
+      [...queryKeys.geographic.all(), 'cities-list', params] as const,
   },
 
   // ==========================================================================
