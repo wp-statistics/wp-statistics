@@ -152,9 +152,31 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                 ]
             ],
             'geographic'        => [
-                'icon'  => 'Earth',
-                'label' => esc_html__('Geographics', 'wp-statistics'),
-                'slug'  => 'geographic'
+                'icon'     => 'Earth',
+                'label'    => esc_html__('Geographics', 'wp-statistics'),
+                'slug'     => 'geographic',
+                'subPages' => [
+                    'geographicOverview' => [
+                        'label' => esc_html__('Geographic Overview', 'wp-statistics'),
+                        'slug'  => 'geographic-overview'
+                    ],
+                    'countries'          => [
+                        'label' => esc_html__('Countries', 'wp-statistics'),
+                        'slug'  => 'countries'
+                    ],
+                    'europeanCountries'  => [
+                        'label' => esc_html__('European Countries', 'wp-statistics'),
+                        'slug'  => 'european-countries'
+                    ],
+                    'usStates'           => [
+                        'label' => esc_html__('US States', 'wp-statistics'),
+                        'slug'  => 'us-states'
+                    ],
+                    'cities'             => [
+                        'label' => esc_html__('Cities', 'wp-statistics'),
+                        'slug'  => 'cities'
+                    ]
+                ]
             ],
             'devices'           => [
                 'icon'  => 'MonitorSmartphone',

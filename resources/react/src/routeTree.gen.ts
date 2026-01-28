@@ -30,6 +30,11 @@ import { Route as pageInsightsEntryPagesRouteImport } from './routes/(page-insig
 import { Route as pageInsightsCategoryPagesRouteImport } from './routes/(page-insights)/category-pages'
 import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insights)/author-pages'
 import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
+import { Route as geographicUsStatesRouteImport } from './routes/(geographic)/us-states'
+import { Route as geographicGeographicOverviewRouteImport } from './routes/(geographic)/geographic-overview'
+import { Route as geographicEuropeanCountriesRouteImport } from './routes/(geographic)/european-countries'
+import { Route as geographicCountriesRouteImport } from './routes/(geographic)/countries'
+import { Route as geographicCitiesRouteImport } from './routes/(geographic)/cities'
 import { Route as contentAnalyticsTopCategoriesRouteImport } from './routes/(content-analytics)/top-categories'
 import { Route as contentAnalyticsTopAuthorsRouteImport } from './routes/(content-analytics)/top-authors'
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
@@ -461,6 +466,54 @@ const pageInsights404PagesRoute = pageInsights404PagesRouteImport
   .lazy(() =>
     import('./routes/(page-insights)/404-pages.lazy').then((d) => d.Route),
   )
+const geographicUsStatesRoute = geographicUsStatesRouteImport
+  .update({
+    id: '/(geographic)/us-states',
+    path: '/us-states',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/us-states.lazy').then((d) => d.Route),
+  )
+const geographicGeographicOverviewRoute =
+  geographicGeographicOverviewRouteImport
+    .update({
+      id: '/(geographic)/geographic-overview',
+      path: '/geographic-overview',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(geographic)/geographic-overview.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const geographicEuropeanCountriesRoute = geographicEuropeanCountriesRouteImport
+  .update({
+    id: '/(geographic)/european-countries',
+    path: '/european-countries',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/european-countries.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const geographicCountriesRoute = geographicCountriesRouteImport
+  .update({
+    id: '/(geographic)/countries',
+    path: '/countries',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/countries.lazy').then((d) => d.Route),
+  )
+const geographicCitiesRoute = geographicCitiesRouteImport
+  .update({
+    id: '/(geographic)/cities',
+    path: '/cities',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() => import('./routes/(geographic)/cities.lazy').then((d) => d.Route))
 const contentAnalyticsTopCategoriesRoute =
   contentAnalyticsTopCategoriesRouteImport
     .update({
@@ -564,6 +617,11 @@ export interface FileRoutesByFullPath {
   '/content': typeof contentAnalyticsContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/cities': typeof geographicCitiesRoute
+  '/countries': typeof geographicCountriesRoute
+  '/european-countries': typeof geographicEuropeanCountriesRoute
+  '/geographic-overview': typeof geographicGeographicOverviewRoute
+  '/us-states': typeof geographicUsStatesRoute
   '/404-pages': typeof pageInsights404PagesRoute
   '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -618,6 +676,11 @@ export interface FileRoutesByTo {
   '/content': typeof contentAnalyticsContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/cities': typeof geographicCitiesRoute
+  '/countries': typeof geographicCountriesRoute
+  '/european-countries': typeof geographicEuropeanCountriesRoute
+  '/geographic-overview': typeof geographicGeographicOverviewRoute
+  '/us-states': typeof geographicUsStatesRoute
   '/404-pages': typeof pageInsights404PagesRoute
   '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -675,6 +738,11 @@ export interface FileRoutesById {
   '/(content-analytics)/content': typeof contentAnalyticsContentRoute
   '/(content-analytics)/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/(content-analytics)/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/(geographic)/cities': typeof geographicCitiesRoute
+  '/(geographic)/countries': typeof geographicCountriesRoute
+  '/(geographic)/european-countries': typeof geographicEuropeanCountriesRoute
+  '/(geographic)/geographic-overview': typeof geographicGeographicOverviewRoute
+  '/(geographic)/us-states': typeof geographicUsStatesRoute
   '/(page-insights)/404-pages': typeof pageInsights404PagesRoute
   '/(page-insights)/author-pages': typeof pageInsightsAuthorPagesRoute
   '/(page-insights)/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -733,6 +801,11 @@ export interface FileRouteTypes {
     | '/content'
     | '/top-authors'
     | '/top-categories'
+    | '/cities'
+    | '/countries'
+    | '/european-countries'
+    | '/geographic-overview'
+    | '/us-states'
     | '/404-pages'
     | '/author-pages'
     | '/category-pages'
@@ -787,6 +860,11 @@ export interface FileRouteTypes {
     | '/content'
     | '/top-authors'
     | '/top-categories'
+    | '/cities'
+    | '/countries'
+    | '/european-countries'
+    | '/geographic-overview'
+    | '/us-states'
     | '/404-pages'
     | '/author-pages'
     | '/category-pages'
@@ -843,6 +921,11 @@ export interface FileRouteTypes {
     | '/(content-analytics)/content'
     | '/(content-analytics)/top-authors'
     | '/(content-analytics)/top-categories'
+    | '/(geographic)/cities'
+    | '/(geographic)/countries'
+    | '/(geographic)/european-countries'
+    | '/(geographic)/geographic-overview'
+    | '/(geographic)/us-states'
     | '/(page-insights)/404-pages'
     | '/(page-insights)/author-pages'
     | '/(page-insights)/category-pages'
@@ -900,6 +983,11 @@ export interface RootRouteChildren {
   contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
   contentAnalyticsTopAuthorsRoute: typeof contentAnalyticsTopAuthorsRoute
   contentAnalyticsTopCategoriesRoute: typeof contentAnalyticsTopCategoriesRoute
+  geographicCitiesRoute: typeof geographicCitiesRoute
+  geographicCountriesRoute: typeof geographicCountriesRoute
+  geographicEuropeanCountriesRoute: typeof geographicEuropeanCountriesRoute
+  geographicGeographicOverviewRoute: typeof geographicGeographicOverviewRoute
+  geographicUsStatesRoute: typeof geographicUsStatesRoute
   pageInsights404PagesRoute: typeof pageInsights404PagesRoute
   pageInsightsAuthorPagesRoute: typeof pageInsightsAuthorPagesRoute
   pageInsightsCategoryPagesRoute: typeof pageInsightsCategoryPagesRoute
@@ -1249,6 +1337,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pageInsights404PagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(geographic)/us-states': {
+      id: '/(geographic)/us-states'
+      path: '/us-states'
+      fullPath: '/us-states'
+      preLoaderRoute: typeof geographicUsStatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/geographic-overview': {
+      id: '/(geographic)/geographic-overview'
+      path: '/geographic-overview'
+      fullPath: '/geographic-overview'
+      preLoaderRoute: typeof geographicGeographicOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/european-countries': {
+      id: '/(geographic)/european-countries'
+      path: '/european-countries'
+      fullPath: '/european-countries'
+      preLoaderRoute: typeof geographicEuropeanCountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/countries': {
+      id: '/(geographic)/countries'
+      path: '/countries'
+      fullPath: '/countries'
+      preLoaderRoute: typeof geographicCountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/cities': {
+      id: '/(geographic)/cities'
+      path: '/cities'
+      fullPath: '/cities'
+      preLoaderRoute: typeof geographicCitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(content-analytics)/top-categories': {
       id: '/(content-analytics)/top-categories'
       path: '/top-categories'
@@ -1376,6 +1499,11 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsContentRoute: contentAnalyticsContentRoute,
   contentAnalyticsTopAuthorsRoute: contentAnalyticsTopAuthorsRoute,
   contentAnalyticsTopCategoriesRoute: contentAnalyticsTopCategoriesRoute,
+  geographicCitiesRoute: geographicCitiesRoute,
+  geographicCountriesRoute: geographicCountriesRoute,
+  geographicEuropeanCountriesRoute: geographicEuropeanCountriesRoute,
+  geographicGeographicOverviewRoute: geographicGeographicOverviewRoute,
+  geographicUsStatesRoute: geographicUsStatesRoute,
   pageInsights404PagesRoute: pageInsights404PagesRoute,
   pageInsightsAuthorPagesRoute: pageInsightsAuthorPagesRoute,
   pageInsightsCategoryPagesRoute: pageInsightsCategoryPagesRoute,
