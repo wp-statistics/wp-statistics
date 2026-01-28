@@ -55,10 +55,18 @@ export interface FilterParams {
   filters?: ApiFilters
 }
 
+/** Query-level filter for batch queries (e.g., continent filter) */
+export interface QueryFilter {
+  key: string
+  operator: string
+  value: string | string[]
+}
+
 /** Combined paginated, sorted, filtered date query params */
 export interface ListQueryParams extends DateParams, PaginationParams, SortParams, FilterParams {
   context?: string
   columns?: string[]
+  queryFilters?: QueryFilter[]
 }
 
 /** Timeframe parameter for chart data */
@@ -331,6 +339,7 @@ export function createListParams(
     filters?: ApiFilters
     context?: string
     columns?: string[]
+    queryFilters?: QueryFilter[]
   }
 ): ListQueryParams {
   return {
@@ -346,5 +355,6 @@ export function createListParams(
     ...(options?.filters && Object.keys(options.filters).length > 0 && { filters: options.filters }),
     ...(options?.context && { context: options.context }),
     ...(options?.columns && options.columns.length > 0 && { columns: options.columns }),
+    ...(options?.queryFilters && options.queryFilters.length > 0 && { queryFilters: options.queryFilters }),
   }
 }

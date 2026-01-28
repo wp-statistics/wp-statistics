@@ -3,7 +3,7 @@ import { queryOptions } from '@tanstack/react-query'
 import type { Filter } from '@/components/custom/filter-bar'
 import { type ApiFilters, transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
-import { createListParams, queryKeys } from '@/lib/query-keys'
+import { createListParams, queryKeys, type QueryFilter } from '@/lib/query-keys'
 import { WordPress } from '@/lib/wordpress'
 
 // Re-export ApiFilters for backward compatibility
@@ -92,6 +92,8 @@ export interface GetCountriesParams {
   filters?: Filter[]
   context?: string
   columns?: string[]
+  /** Query-level filters passed directly to the batch queries (e.g., for continent filtering) */
+  queryFilters?: QueryFilter[]
 }
 
 // Map frontend column names to API column names
@@ -125,6 +127,7 @@ export const getCountriesQueryOptions = ({
   filters = [],
   context,
   columns,
+  queryFilters,
 }: GetCountriesParams) => {
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
@@ -144,6 +147,7 @@ export const getCountriesQueryOptions = ({
         filters: apiFilters,
         context,
         columns: apiColumns,
+        queryFilters,
       })
     ),
     queryFn: () =>
@@ -173,6 +177,7 @@ export const getCountriesQueryOptions = ({
               show_totals: false, // Don't need totals in paginated query
               compare: hasCompare,
               ...(context && { context }),
+              ...(queryFilters?.length && { filters: queryFilters }),
             },
             {
               id: 'totals',
@@ -180,6 +185,7 @@ export const getCountriesQueryOptions = ({
               group_by: [], // No grouping = site-wide aggregate
               format: 'flat',
               compare: false, // No comparison needed for totals
+              ...(queryFilters?.length && { filters: queryFilters }),
             },
           ],
         },

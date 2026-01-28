@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\AnalyticsQuery\Registry;
 
 use WP_Statistics\Service\AnalyticsQuery\Contracts\FilterInterface;
 use WP_Statistics\Service\AnalyticsQuery\Filters\CountryFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\ContinentFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\CityFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\RegionFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\BrowserFilter;
@@ -112,6 +113,7 @@ class FilterRegistry
         $defaults = [
             // Geographic filters
             'country'          => CountryFilter::class,
+            'continent'        => ContinentFilter::class,
             'city'             => CityFilter::class,
             'region'           => RegionFilter::class,
 

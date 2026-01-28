@@ -18,6 +18,11 @@ import type { CountryRecord } from '@/services/geographic/get-countries'
 export const COUNTRIES_CONTEXT = 'countries'
 
 /**
+ * Context identifier for European countries user preferences
+ */
+export const EUROPEAN_COUNTRIES_CONTEXT = 'european-countries'
+
+/**
  * Columns hidden by default (can be shown via column management)
  */
 export const COUNTRIES_DEFAULT_HIDDEN_COLUMNS: string[] = ['bounceRate', 'sessionDuration', 'percentOfTotal']
