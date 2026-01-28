@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { AlertTriangle, Archive, Clock, Infinity, Info,Loader2, Trash2 } from 'lucide-react'
+import { AlertTriangle, Archive, Clock, Infinity as InfinityIcon, Info,Loader2, Trash2 } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -22,7 +22,7 @@ interface RetentionOption {
 const retentionOptions: RetentionOption[] = [
   {
     value: 'forever',
-    icon: <Infinity className="h-5 w-5" />,
+    icon: <InfinityIcon className="h-5 w-5" />,
     title: 'Keep forever',
     description: 'Store all data indefinitely (may increase database size over time)',
   },

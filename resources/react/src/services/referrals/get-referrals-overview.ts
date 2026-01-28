@@ -198,7 +198,7 @@ export const getReferralsOverviewQueryOptions = ({
   const notDirectFilter = { key: 'referrer_channel', operator: 'is_not', value: 'direct' }
 
   return queryOptions({
-    queryKey: ['referrals-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, timeframe, apiFilters],
+    queryKey: ['referrals-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, timeframe, apiFilters, hasCompare, notDirectFilter, dateGroupBy],
     queryFn: () =>
       clientRequest.post<ReferralsOverviewResponse>(
         '',

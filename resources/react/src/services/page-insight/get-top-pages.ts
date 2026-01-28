@@ -100,6 +100,7 @@ export const getTopPagesQueryOptions = ({
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- hasCompare is derived from compareDateFrom/compareDateTo which are in the key
     queryKey: queryKeys.pageInsights.topPages(
       createListParams(date_from, date_to, page, per_page, apiOrderBy, order, {
         compareDateFrom: previous_date_from,

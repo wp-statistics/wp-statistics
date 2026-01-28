@@ -55,7 +55,7 @@ export const Default: Story = {
 }
 
 export const WithResetButton: Story = {
-  render: () => {
+  render: function WithResetButtonStory() {
     const [open, setOpen] = useState(false)
 
     return (

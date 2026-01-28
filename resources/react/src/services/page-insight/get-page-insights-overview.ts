@@ -165,7 +165,7 @@ export const getPageInsightsOverviewQueryOptions = ({
   const hasCompare = !!(compareDateFrom && compareDateTo)
 
   return queryOptions({
-    queryKey: ['page-insights-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters],
+    queryKey: ['page-insights-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare],
     queryFn: () =>
       clientRequest.post<PageInsightsOverviewResponse>(
         '',

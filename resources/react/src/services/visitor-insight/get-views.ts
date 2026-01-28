@@ -145,6 +145,7 @@ export const getViewsQueryOptions = ({
       apiFilters,
       context,
       apiColumns,
+      hasCompare,
     ],
     queryFn: () =>
       clientRequest.post<GetViewsResponse>(

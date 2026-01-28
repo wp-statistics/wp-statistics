@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 /**
  * Column definitions for the Network Sites data table.
  * Displays site information and statistics for WordPress multisite networks.

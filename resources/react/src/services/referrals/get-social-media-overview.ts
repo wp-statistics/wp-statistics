@@ -135,6 +135,7 @@ export const getSocialMediaOverviewQueryOptions = ({
       order,
       mergedFilters,
       context,
+      hasCompare,
     ],
     queryFn: () =>
       clientRequest.post<SocialMediaOverviewResponse>(

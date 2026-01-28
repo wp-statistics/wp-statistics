@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { __ } from '@wordpress/i18n'
 import { ChevronLeftIcon, LockIcon } from 'lucide-react'
 import { createContext, type ReactNode, useContext,useEffect, useState } from 'react'

@@ -123,7 +123,7 @@ export const getOnlineVisitorsQueryOptions = ({
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['online-visitors', page, per_page, order_by, order, timeRangeMinutes, context, apiColumns],
+    queryKey: ['online-visitors', page, per_page, apiOrderBy, order, timeRangeMinutes, context, apiColumns],
     queryFn: () => {
       // Calculate date range INSIDE queryFn so it's fresh on each actual fetch
       // This prevents StrictMode double-mount from creating different request bodies

@@ -95,7 +95,7 @@ export const getDevicesOverviewQueryOptions = ({
   const hasCompare = !!(compareDateFrom && compareDateTo)
 
   return queryOptions({
-    queryKey: ['devices-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters],
+    queryKey: ['devices-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare],
     queryFn: () =>
       clientRequest.post<DevicesOverviewResponse>(
         '',

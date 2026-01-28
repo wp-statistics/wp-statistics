@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 /**
  * Column definitions for the Search Terms data table.
  * Displays search terms and their search counts.

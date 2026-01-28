@@ -23,15 +23,7 @@ export const Route = createLazyFileRoute('/network-overview')({
 
 function NetworkOverviewComponent() {
   const wp = WordPress.getInstance()
-
-  // Check if we're in network admin context
-  if (!wp.isNetworkAdmin()) {
-    return (
-      <div className="p-6">
-        <ErrorMessage message={__('This page is only available in Network Admin.', 'wp-statistics')} />
-      </div>
-    )
-  }
+  const isNetworkAdmin = wp.isNetworkAdmin()
 
   // Use global filters context for date range (syncs with URL)
   const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, handleDateRangeUpdate, isInitialized, apiDateParams, isCompareEnabled } =
@@ -39,7 +31,6 @@ function NetworkOverviewComponent() {
 
   // Use percentage calculation hook
   const calcPercentage = usePercentageCalc()
-
 
   // Fetch network stats
   const {
@@ -54,7 +45,7 @@ function NetworkOverviewComponent() {
       previous_date_from: apiDateParams.previous_date_from,
       previous_date_to: apiDateParams.previous_date_to,
     }),
-    enabled: isInitialized && !!apiDateParams.date_from && !!apiDateParams.date_to,
+    enabled: isNetworkAdmin && isInitialized && !!apiDateParams.date_from && !!apiDateParams.date_to,
   })
 
   const networkData = response?.data
@@ -102,6 +93,15 @@ function NetworkOverviewComponent() {
       },
     ]
   }, [sitesData.length, networkData?.totals, networkData?.previous_totals, calcPercentage, isCompareEnabled])
+
+  // Check if we're in network admin context (after hooks)
+  if (!isNetworkAdmin) {
+    return (
+      <div className="p-6">
+        <ErrorMessage message={__('This page is only available in Network Admin.', 'wp-statistics')} />
+      </div>
+    )
+  }
 
   // Show loading state while initializing
   if (!isInitialized) {

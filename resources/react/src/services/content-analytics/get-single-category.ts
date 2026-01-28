@@ -139,7 +139,7 @@ export const getSingleCategoryQueryOptions = ({
   const taxonomyFilter = { key: 'taxonomy', operator: 'is', value: String(termId) }
 
   return queryOptions({
-    queryKey: ['single-category', termId, taxonomyType, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe],
+    queryKey: ['single-category', termId, taxonomyType, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe, dateGroupBy, filtersWithTaxonomy, taxonomyFilter],
     queryFn: () =>
       clientRequest.post<SingleCategoryResponse>(
         '',
@@ -393,7 +393,7 @@ export const getCategoryTrafficSummaryPeriodQueryOptions = ({
   const hasCompare = !!(period.compareDateFrom && period.compareDateTo)
 
   return queryOptions({
-    queryKey: ['category-traffic-summary', termId, taxonomyType, period.id, apiFilters],
+    queryKey: ['category-traffic-summary', termId, taxonomyType, period.id, apiFilters, period.dateFrom, period.dateTo, period.compareDateFrom, period.compareDateTo, hasCompare, filtersWithTaxonomy, taxonomyFilter],
     queryFn: () =>
       clientRequest.post<{ success: boolean; items: { traffic_summary?: CategoryTrafficSummaryPeriodResponse } }>(
         '',

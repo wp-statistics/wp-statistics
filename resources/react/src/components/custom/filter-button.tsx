@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { __ } from '@wordpress/i18n'
 import { Filter, X } from 'lucide-react'
 import { useState } from 'react'

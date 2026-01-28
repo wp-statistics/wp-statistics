@@ -129,6 +129,7 @@ export const getSourceCategoriesOverviewQueryOptions = ({
       order,
       apiFilters,
       context,
+      hasCompare,
     ],
     queryFn: () =>
       clientRequest.post<SourceCategoriesOverviewResponse>(

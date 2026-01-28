@@ -48,7 +48,7 @@ export const getSearchTermsQueryOptions = ({
   const hasCompare = !!(previous_date_from && previous_date_to)
 
   return queryOptions({
-    queryKey: ['search-terms', page, per_page, date_from, date_to, previous_date_from, previous_date_to],
+    queryKey: ['search-terms', page, per_page, date_from, date_to, previous_date_from, previous_date_to, hasCompare],
     queryFn: () =>
       clientRequest.post<GetSearchTermsResponse>(
         '',

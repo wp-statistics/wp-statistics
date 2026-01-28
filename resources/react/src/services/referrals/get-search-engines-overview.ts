@@ -135,6 +135,7 @@ export const getSearchEnginesOverviewQueryOptions = ({
       order,
       mergedFilters,
       context,
+      hasCompare,
     ],
     queryFn: () =>
       clientRequest.post<SearchEnginesOverviewResponse>(

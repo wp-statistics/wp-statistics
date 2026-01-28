@@ -53,6 +53,7 @@ export const getAuthorPagesQueryOptions = ({
       date_to,
       previous_date_from,
       previous_date_to,
+      hasCompare,
     ],
     queryFn: () =>
       clientRequest.post<GetAuthorPagesResponse>(

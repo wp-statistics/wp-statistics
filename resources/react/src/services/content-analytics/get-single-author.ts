@@ -116,7 +116,7 @@ export const getSingleAuthorQueryOptions = ({
   const chartGroupBy = timeframe === 'daily' ? 'date' : timeframe === 'weekly' ? 'week' : 'month'
 
   return queryOptions({
-    queryKey: ['single-author', authorId, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe, postType],
+    queryKey: ['single-author', authorId, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe, postType, filtersWithAuthor, chartGroupBy],
     queryFn: () =>
       clientRequest.post<SingleAuthorResponse>(
         '',

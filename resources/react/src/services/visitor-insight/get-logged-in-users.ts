@@ -135,7 +135,7 @@ export const getLoggedInUsersQueryOptions = ({
       'logged-in-users',
       page,
       per_page,
-      order_by,
+      apiOrderBy,
       order,
       date_from,
       date_to,
@@ -144,6 +144,7 @@ export const getLoggedInUsersQueryOptions = ({
       apiFilters,
       context,
       apiColumns,
+      hasCompare,
     ],
     queryFn: () =>
       clientRequest.post<GetLoggedInUsersResponse>(

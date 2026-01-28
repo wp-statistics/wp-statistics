@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-refresh/only-export-components */
+
 import { ChevronDown } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 

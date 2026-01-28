@@ -286,6 +286,7 @@ function SingleContentReportContent() {
         comparisonLabel: period.comparisonLabel,
       }
     })
+  // eslint-disable-next-line @tanstack/query/no-unstable-deps -- Intentionally using entire useQueries result for transformation
   }, [fixedDatePeriods, trafficSummaryQueries])
 
   // Extract data from batch response (axios returns AxiosResponse with .data property)

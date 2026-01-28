@@ -186,7 +186,7 @@ export const getCategoriesOverviewQueryOptions = ({
   const dateGroupBy = timeframe === 'weekly' ? 'week' : timeframe === 'monthly' ? 'month' : 'date'
 
   return queryOptions({
-    queryKey: ['categories-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, taxonomy, timeframe],
+    queryKey: ['categories-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, taxonomy, timeframe, dateGroupBy],
     queryFn: () =>
       clientRequest.post<CategoriesOverviewResponse>(
         '',

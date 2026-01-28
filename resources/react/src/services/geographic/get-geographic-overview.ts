@@ -120,7 +120,7 @@ export const getGeographicOverviewQueryOptions = ({
   const userCountry = wp.getUserCountry() || 'US'
 
   return queryOptions({
-    queryKey: ['geographic-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, userCountry],
+    queryKey: ['geographic-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, userCountry, hasCompare],
     queryFn: () =>
       clientRequest.post<GeographicOverviewResponse>(
         '',

@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { useQuery } from '@tanstack/react-query'
 import { __ } from '@wordpress/i18n'
 import { Loader2, Trash2 } from 'lucide-react'

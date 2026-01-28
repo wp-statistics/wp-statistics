@@ -166,6 +166,7 @@ export const getVisitorsQueryOptions = ({
       apiFilters,
       context,
       apiColumns,
+      hasCompare,
     ],
     queryFn: () =>
       clientRequest.post<GetVisitorsResponse>(

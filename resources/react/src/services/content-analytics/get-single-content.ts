@@ -143,7 +143,7 @@ export const getSingleContentQueryOptions = ({
   }
 
   return queryOptions({
-    queryKey: ['single-content', postId, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe],
+    queryKey: ['single-content', postId, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe, dateGroupBy, filtersWithResourceId, queryablePostTypes],
     queryFn: () =>
       clientRequest.post<SingleContentResponse>(
         '',
@@ -367,7 +367,7 @@ export const getTrafficSummaryPeriodQueryOptions = ({
   const hasCompare = !!(period.compareDateFrom && period.compareDateTo)
 
   return queryOptions({
-    queryKey: ['traffic-summary', postId, period.id, apiFilters],
+    queryKey: ['traffic-summary', postId, period.id, apiFilters, period.dateFrom, period.dateTo, period.compareDateFrom, period.compareDateTo, hasCompare, filtersWithResourceId],
     queryFn: () =>
       clientRequest.post<{ success: boolean; items: { traffic_summary?: TrafficSummaryPeriodResponse } }>(
         '',

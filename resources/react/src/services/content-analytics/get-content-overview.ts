@@ -205,7 +205,7 @@ export const getContentOverviewQueryOptions = ({
   const dateGroupBy = timeframe === 'weekly' ? 'week' : timeframe === 'monthly' ? 'month' : 'date'
 
   return queryOptions({
-    queryKey: ['content-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe],
+    queryKey: ['content-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe, dateGroupBy],
     queryFn: () =>
       clientRequest.post<ContentOverviewResponse>(
         '',

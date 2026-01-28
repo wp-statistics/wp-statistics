@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import type { Table, VisibilityState } from '@tanstack/react-table'
 import { useState } from 'react'
 

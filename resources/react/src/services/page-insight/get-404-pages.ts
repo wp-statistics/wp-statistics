@@ -44,7 +44,7 @@ export const get404PagesQueryOptions = ({
   const hasCompare = !!(previous_date_from && previous_date_to)
 
   return queryOptions({
-    queryKey: ['404-pages', page, per_page, date_from, date_to, previous_date_from, previous_date_to],
+    queryKey: ['404-pages', page, per_page, date_from, date_to, previous_date_from, previous_date_to, hasCompare],
     queryFn: () =>
       clientRequest.post<Get404PagesResponse>(
         '',

@@ -56,6 +56,7 @@ export const getCategoryPagesQueryOptions = ({
       previous_date_from,
       previous_date_to,
       taxonomyType,
+      hasCompare,
     ],
     queryFn: () =>
       clientRequest.post<GetCategoryPagesResponse>(

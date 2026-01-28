@@ -34,14 +34,14 @@ export const Default: Story = {
 }
 
 export const SingleSelection: Story = {
-  render: () => {
+  render: function SingleSelectionStory() {
     const [date, setDate] = useState<Date | undefined>(new Date())
     return <Calendar mode="single" selected={date} onSelect={setDate} />
   },
 }
 
 export const RangeSelection: Story = {
-  render: () => {
+  render: function RangeSelectionStory() {
     const [range, setRange] = useState<{ from: Date; to?: Date } | undefined>({
       from: new Date(),
       to: new Date(new Date().setDate(new Date().getDate() + 7)),
@@ -51,7 +51,7 @@ export const RangeSelection: Story = {
 }
 
 export const MultipleSelection: Story = {
-  render: () => {
+  render: function MultipleSelectionStory() {
     const [dates, setDates] = useState<Date[] | undefined>([
       new Date(),
       new Date(new Date().setDate(new Date().getDate() + 2)),
@@ -62,7 +62,7 @@ export const MultipleSelection: Story = {
 }
 
 export const WithDisabledDates: Story = {
-  render: () => {
+  render: function WithDisabledDatesStory() {
     const [date, setDate] = useState<Date | undefined>(new Date())
     return <Calendar mode="single" selected={date} onSelect={setDate} disabled={(date) => date < new Date()} />
   },

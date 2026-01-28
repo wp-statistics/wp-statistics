@@ -85,7 +85,7 @@ export const WithLabel: Story = {
 }
 
 export const Controlled: Story = {
-  render: () => {
+  render: function ControlledStory() {
     const [checked, setChecked] = useState(false)
     return (
       <div className="flex flex-col items-center gap-4">

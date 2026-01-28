@@ -175,17 +175,17 @@ export interface VisitorOverviewResponse {
     metrics_top_country: {
       success: boolean
       items: [{ country_name: string; visitors: number }]
-      totals: {}
+      totals: Record<string, never>
     }
     metrics_top_referrer: {
       success: boolean
       items: [{ referrer_name: string; visitors: number }]
-      totals: {}
+      totals: Record<string, never>
     }
     metrics_top_search: {
       success: boolean
       items: [{ search_term: string; searches: number }]
-      totals: {}
+      totals: Record<string, never>
     }
     metrics_logged_in: {
       success: boolean
@@ -238,7 +238,7 @@ export const getVisitorOverviewQueryOptions = ({
   const hasCompare = !!(compareDateFrom && compareDateTo)
 
   return queryOptions({
-    queryKey: ['visitor-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, timeframe, apiFilters],
+    queryKey: ['visitor-overview', dateFrom, dateTo, compareDateFrom, compareDateTo, timeframe, apiFilters, hasCompare, dateGroupBy],
     queryFn: () =>
       clientRequest.post<VisitorOverviewResponse>(
         '',
