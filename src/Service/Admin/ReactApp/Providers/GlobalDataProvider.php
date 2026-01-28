@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
+use WP_Statistics\Components\Country;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\AnalyticsQuery;
@@ -47,6 +48,8 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'dateFormat'            => get_option('date_format', 'Y-m-d'),
             'startOfWeek'           => (int) get_option('start_of_week', 0),
             'taxonomies'            => $this->getTaxonomyList(),
+            'userCountry'           => $this->getUserCountryCode(),
+            'userCountryName'       => $this->getUserCountryName(),
         ];
 
         /**
@@ -99,6 +102,38 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Get user's country code based on WordPress timezone.
+     *
+     * @return string Country code or empty string if not detected
+     */
+    private function getUserCountryCode()
+    {
+        static $countryCode = null;
+
+        if ($countryCode === null) {
+            $countryCode = Country::getByTimeZone();
+        }
+
+        return $countryCode;
+    }
+
+    /**
+     * Get user's country name based on WordPress timezone.
+     *
+     * @return string Country name or empty string if not detected
+     */
+    private function getUserCountryName()
+    {
+        $countryCode = $this->getUserCountryCode();
+
+        if (empty($countryCode)) {
+            return '';
+        }
+
+        return Country::getName($countryCode);
     }
 }
 

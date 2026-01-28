@@ -212,6 +212,10 @@ export const queryKeys = {
     /** US States list (paginated) */
     usStates: (params: ListQueryParams) =>
       [...queryKeys.geographic.all(), 'us-states', params] as const,
+
+    /** Country regions list (paginated) - dynamic by user's country */
+    countryRegions: (params: ListQueryParams & { countryCode: string }) =>
+      [...queryKeys.geographic.all(), 'country-regions', params] as const,
   },
 
   // ==========================================================================

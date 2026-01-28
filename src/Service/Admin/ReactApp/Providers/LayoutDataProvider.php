@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
+use WP_Statistics\Components\Country;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 
 /**
@@ -155,28 +156,7 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                 'icon'     => 'Earth',
                 'label'    => esc_html__('Geographics', 'wp-statistics'),
                 'slug'     => 'geographic',
-                'subPages' => [
-                    'geographicOverview' => [
-                        'label' => esc_html__('Geographic Overview', 'wp-statistics'),
-                        'slug'  => 'geographic-overview'
-                    ],
-                    'countries'          => [
-                        'label' => esc_html__('Countries', 'wp-statistics'),
-                        'slug'  => 'countries'
-                    ],
-                    'europeanCountries'  => [
-                        'label' => esc_html__('European Countries', 'wp-statistics'),
-                        'slug'  => 'european-countries'
-                    ],
-                    'usStates'           => [
-                        'label' => esc_html__('US States', 'wp-statistics'),
-                        'slug'  => 'us-states'
-                    ],
-                    'cities'             => [
-                        'label' => esc_html__('Cities', 'wp-statistics'),
-                        'slug'  => 'cities'
-                    ]
-                ]
+                'subPages' => $this->getGeographicSubPages()
             ],
             'devices'           => [
                 'icon'  => 'MonitorSmartphone',
@@ -204,6 +184,51 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
     public function getKey()
     {
         return 'layout';
+    }
+
+    /**
+     * Get geographic sub-pages with conditional country regions.
+     *
+     * @return array
+     */
+    private function getGeographicSubPages()
+    {
+        $subPages = [
+            'geographicOverview' => [
+                'label' => esc_html__('Geographic Overview', 'wp-statistics'),
+                'slug'  => 'geographic-overview'
+            ],
+            'countries'          => [
+                'label' => esc_html__('Countries', 'wp-statistics'),
+                'slug'  => 'countries'
+            ],
+            'europeanCountries'  => [
+                'label' => esc_html__('European Countries', 'wp-statistics'),
+                'slug'  => 'european-countries'
+            ],
+            'usStates'           => [
+                'label' => esc_html__('US States', 'wp-statistics'),
+                'slug'  => 'us-states'
+            ],
+        ];
+
+        // Add country regions if a country is detected and it's not US
+        $countryCode = Country::getByTimeZone();
+        if (!empty($countryCode) && $countryCode !== 'US') {
+            $countryName              = Country::getName($countryCode);
+            $subPages['countryRegions'] = [
+                // translators: %s is the country name
+                'label' => sprintf(esc_html__('Regions of %s', 'wp-statistics'), $countryName),
+                'slug'  => 'country-regions'
+            ];
+        }
+
+        $subPages['cities'] = [
+            'label' => esc_html__('Cities', 'wp-statistics'),
+            'slug'  => 'cities'
+        ];
+
+        return $subPages;
     }
 }
 

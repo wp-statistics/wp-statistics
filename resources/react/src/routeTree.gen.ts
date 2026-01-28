@@ -33,6 +33,7 @@ import { Route as pageInsights404PagesRouteImport } from './routes/(page-insight
 import { Route as geographicUsStatesRouteImport } from './routes/(geographic)/us-states'
 import { Route as geographicGeographicOverviewRouteImport } from './routes/(geographic)/geographic-overview'
 import { Route as geographicEuropeanCountriesRouteImport } from './routes/(geographic)/european-countries'
+import { Route as geographicCountryRegionsRouteImport } from './routes/(geographic)/country-regions'
 import { Route as geographicCountriesRouteImport } from './routes/(geographic)/countries'
 import { Route as geographicCitiesRouteImport } from './routes/(geographic)/cities'
 import { Route as contentAnalyticsTopCategoriesRouteImport } from './routes/(content-analytics)/top-categories'
@@ -498,6 +499,15 @@ const geographicEuropeanCountriesRoute = geographicEuropeanCountriesRouteImport
       (d) => d.Route,
     ),
   )
+const geographicCountryRegionsRoute = geographicCountryRegionsRouteImport
+  .update({
+    id: '/(geographic)/country-regions',
+    path: '/country-regions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/country-regions.lazy').then((d) => d.Route),
+  )
 const geographicCountriesRoute = geographicCountriesRouteImport
   .update({
     id: '/(geographic)/countries',
@@ -619,6 +629,7 @@ export interface FileRoutesByFullPath {
   '/top-categories': typeof contentAnalyticsTopCategoriesRoute
   '/cities': typeof geographicCitiesRoute
   '/countries': typeof geographicCountriesRoute
+  '/country-regions': typeof geographicCountryRegionsRoute
   '/european-countries': typeof geographicEuropeanCountriesRoute
   '/geographic-overview': typeof geographicGeographicOverviewRoute
   '/us-states': typeof geographicUsStatesRoute
@@ -678,6 +689,7 @@ export interface FileRoutesByTo {
   '/top-categories': typeof contentAnalyticsTopCategoriesRoute
   '/cities': typeof geographicCitiesRoute
   '/countries': typeof geographicCountriesRoute
+  '/country-regions': typeof geographicCountryRegionsRoute
   '/european-countries': typeof geographicEuropeanCountriesRoute
   '/geographic-overview': typeof geographicGeographicOverviewRoute
   '/us-states': typeof geographicUsStatesRoute
@@ -740,6 +752,7 @@ export interface FileRoutesById {
   '/(content-analytics)/top-categories': typeof contentAnalyticsTopCategoriesRoute
   '/(geographic)/cities': typeof geographicCitiesRoute
   '/(geographic)/countries': typeof geographicCountriesRoute
+  '/(geographic)/country-regions': typeof geographicCountryRegionsRoute
   '/(geographic)/european-countries': typeof geographicEuropeanCountriesRoute
   '/(geographic)/geographic-overview': typeof geographicGeographicOverviewRoute
   '/(geographic)/us-states': typeof geographicUsStatesRoute
@@ -803,6 +816,7 @@ export interface FileRouteTypes {
     | '/top-categories'
     | '/cities'
     | '/countries'
+    | '/country-regions'
     | '/european-countries'
     | '/geographic-overview'
     | '/us-states'
@@ -862,6 +876,7 @@ export interface FileRouteTypes {
     | '/top-categories'
     | '/cities'
     | '/countries'
+    | '/country-regions'
     | '/european-countries'
     | '/geographic-overview'
     | '/us-states'
@@ -923,6 +938,7 @@ export interface FileRouteTypes {
     | '/(content-analytics)/top-categories'
     | '/(geographic)/cities'
     | '/(geographic)/countries'
+    | '/(geographic)/country-regions'
     | '/(geographic)/european-countries'
     | '/(geographic)/geographic-overview'
     | '/(geographic)/us-states'
@@ -985,6 +1001,7 @@ export interface RootRouteChildren {
   contentAnalyticsTopCategoriesRoute: typeof contentAnalyticsTopCategoriesRoute
   geographicCitiesRoute: typeof geographicCitiesRoute
   geographicCountriesRoute: typeof geographicCountriesRoute
+  geographicCountryRegionsRoute: typeof geographicCountryRegionsRoute
   geographicEuropeanCountriesRoute: typeof geographicEuropeanCountriesRoute
   geographicGeographicOverviewRoute: typeof geographicGeographicOverviewRoute
   geographicUsStatesRoute: typeof geographicUsStatesRoute
@@ -1358,6 +1375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof geographicEuropeanCountriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(geographic)/country-regions': {
+      id: '/(geographic)/country-regions'
+      path: '/country-regions'
+      fullPath: '/country-regions'
+      preLoaderRoute: typeof geographicCountryRegionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(geographic)/countries': {
       id: '/(geographic)/countries'
       path: '/countries'
@@ -1501,6 +1525,7 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsTopCategoriesRoute: contentAnalyticsTopCategoriesRoute,
   geographicCitiesRoute: geographicCitiesRoute,
   geographicCountriesRoute: geographicCountriesRoute,
+  geographicCountryRegionsRoute: geographicCountryRegionsRoute,
   geographicEuropeanCountriesRoute: geographicEuropeanCountriesRoute,
   geographicGeographicOverviewRoute: geographicGeographicOverviewRoute,
   geographicUsStatesRoute: geographicUsStatesRoute,
