@@ -192,6 +192,10 @@ export const queryKeys = {
     /** Top countries widget */
     topCountries: () =>
       [...queryKeys.geographic.all(), 'top-countries'] as const,
+
+    /** Countries list (paginated) */
+    countries: (params: ListQueryParams) =>
+      [...queryKeys.geographic.all(), 'countries', params] as const,
   },
 
   // ==========================================================================
