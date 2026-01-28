@@ -1,6 +1,6 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useRef } from 'react'
 
@@ -11,13 +11,13 @@ import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createTopAuthorsColumns,
-  type TopAuthor,
   TOP_AUTHORS_COLUMN_CONFIG,
   TOP_AUTHORS_COMPARABLE_COLUMNS,
   TOP_AUTHORS_CONTEXT,
   TOP_AUTHORS_DEFAULT_API_COLUMNS,
   TOP_AUTHORS_DEFAULT_COMPARISON_COLUMNS,
   TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS,
+  type TopAuthor,
   transformTopAuthorData,
 } from '@/components/data-table-columns/top-authors-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'

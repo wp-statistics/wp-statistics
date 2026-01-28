@@ -8,8 +8,8 @@ import { FilterButton, type FilterField } from '@/components/custom/filter-butto
 import { HorizontalBar } from '@/components/custom/horizontal-bar'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import {
-  type OverviewOptionsConfig,
   OptionsDrawerTrigger,
+  type OverviewOptionsConfig,
   OverviewOptionsDrawer,
   OverviewOptionsProvider,
   useOverviewOptions,
@@ -19,8 +19,8 @@ import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { type WidgetConfig } from '@/contexts/page-options-context'
 import { pickMetrics } from '@/constants/metric-definitions'
+import { type WidgetConfig } from '@/contexts/page-options-context'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
@@ -28,7 +28,7 @@ import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { extractFilterField, getCompatibleFilters } from '@/lib/filter-utils'
 import { formatCompactNumber, formatDecimal, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import { getAuthorsOverviewQueryOptions, type AuthorRow } from '@/services/content-analytics/get-authors-overview'
+import { type AuthorRow,getAuthorsOverviewQueryOptions } from '@/services/content-analytics/get-authors-overview'
 
 // Widget configuration for Authors page
 const WIDGET_CONFIGS: WidgetConfig[] = [

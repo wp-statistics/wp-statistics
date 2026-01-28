@@ -5,19 +5,20 @@ import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import type { FixedDatePeriod, FixedDatePeriodId } from '@/lib/fixed-date-ranges'
 import { WordPress } from '@/lib/wordpress'
-import type {
-  TrafficTrendsChartResponse,
-  TopCountryRow,
-  BrowserRow,
-  OperatingSystemRow,
-  DeviceTypeRow,
-  TableQueryResult,
-  TopReferrersResponse,
-} from './get-content-overview'
+
 import type { ContentRow } from './get-categories-overview'
+import type {
+  BrowserRow,
+  DeviceTypeRow,
+  OperatingSystemRow,
+  TableQueryResult,
+  TopCountryRow,
+  TopReferrersResponse,
+  TrafficTrendsChartResponse,
+} from './get-content-overview'
 
 // Re-export types for consumers
-export type { TopCountryRow, BrowserRow, OperatingSystemRow, DeviceTypeRow, ContentRow }
+export type { BrowserRow, ContentRow,DeviceTypeRow, OperatingSystemRow, TopCountryRow }
 
 // Metric value with current/previous structure
 interface MetricValue {

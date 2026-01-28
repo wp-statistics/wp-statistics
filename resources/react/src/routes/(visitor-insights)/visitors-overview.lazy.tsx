@@ -23,8 +23,8 @@ import {
   PanelSkeleton,
   TableSkeleton,
 } from '@/components/ui/skeletons'
-import { type WidgetConfig } from '@/contexts/page-options-context'
 import { pickMetrics } from '@/constants/metric-definitions'
+import { type WidgetConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'

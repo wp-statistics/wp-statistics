@@ -12,10 +12,10 @@ import '@/contexts/content-registry-context'
 
 import type { ReportConfig } from '@/components/report-page-renderer'
 import type {
-  RegisteredWidget,
-  RegisteredPageContent,
-  WidgetRenderProps,
   PageContentProps,
+  RegisteredPageContent,
+  RegisteredWidget,
+  WidgetRenderProps,
 } from '@/contexts/content-registry-context'
 
 export function registerReport<TData = unknown, TRecord = unknown>(
@@ -39,4 +39,4 @@ export function registerPageContent(
 }
 
 export type { ReportConfig } from '@/components/report-page-renderer'
-export type { RegisteredWidget, WidgetRenderProps, PageContentProps } from '@/contexts/content-registry-context'
+export type { PageContentProps,RegisteredWidget, WidgetRenderProps } from '@/contexts/content-registry-context'

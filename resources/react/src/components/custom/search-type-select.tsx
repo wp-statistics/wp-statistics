@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { cn } from '@/lib/utils'
 import type { SearchType } from '@/hooks/use-search-type-filter'
+import { cn } from '@/lib/utils'
 
 export interface SearchTypeSelectProps {
   /** Current selected value */

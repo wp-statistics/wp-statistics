@@ -12,7 +12,7 @@ import { DateRangeDetailView, DateRangeMenuEntry } from './date-range-section'
 import { FiltersDetailView, FiltersMenuEntry } from './filters-section'
 import { MetricsDetailView, MetricsMenuEntry } from './metrics-section'
 import { OptionsDrawer } from './options-drawer'
-import { PageFiltersDetailView, PageFiltersMenuEntry, type PageFilterConfig } from './page-filters-section'
+import { type PageFilterConfig,PageFiltersDetailView, PageFiltersMenuEntry } from './page-filters-section'
 import { WidgetsDetailView, WidgetsMenuEntry } from './widgets-section'
 
 /**

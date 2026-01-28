@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { cn } from '@/lib/utils'
 import type { SocialType } from '@/hooks/use-social-type-filter'
+import { cn } from '@/lib/utils'
 
 export interface SocialTypeSelectProps {
   /** Current selected value */

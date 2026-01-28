@@ -1,6 +1,6 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useRef } from 'react'
 
@@ -11,13 +11,13 @@ import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createTopPagesColumns,
-  type TopPage,
   TOP_PAGES_COLUMN_CONFIG,
   TOP_PAGES_COMPARABLE_COLUMNS,
   TOP_PAGES_CONTEXT,
   TOP_PAGES_DEFAULT_API_COLUMNS,
   TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
   TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
+  type TopPage,
   transformTopPageData,
 } from '@/components/data-table-columns/top-pages-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'

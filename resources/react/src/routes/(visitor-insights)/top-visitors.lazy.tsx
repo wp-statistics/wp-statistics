@@ -1,6 +1,6 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useRef } from 'react'
 
@@ -10,11 +10,11 @@ import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createTopVisitorsColumns,
-  type TopVisitor,
   TOP_VISITORS_COLUMN_CONFIG,
   TOP_VISITORS_CONTEXT,
   TOP_VISITORS_DEFAULT_API_COLUMNS,
   TOP_VISITORS_DEFAULT_HIDDEN_COLUMNS,
+  type TopVisitor,
   transformTopVisitorData,
 } from '@/components/data-table-columns/top-visitors-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'

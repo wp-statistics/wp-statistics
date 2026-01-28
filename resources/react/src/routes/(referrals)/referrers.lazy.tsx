@@ -1,6 +1,6 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useRef } from 'react'
 
@@ -10,7 +10,6 @@ import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createReferrersColumns,
-  transformReferrerData,
   type Referrer,
   REFERRERS_COLUMN_CONFIG,
   REFERRERS_COMPARABLE_COLUMNS,
@@ -18,6 +17,7 @@ import {
   REFERRERS_DEFAULT_API_COLUMNS,
   REFERRERS_DEFAULT_COMPARISON_COLUMNS,
   REFERRERS_DEFAULT_HIDDEN_COLUMNS,
+  transformReferrerData,
 } from '@/components/data-table-columns/referrers-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'

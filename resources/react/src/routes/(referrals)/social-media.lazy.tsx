@@ -1,6 +1,6 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useRef } from 'react'
 
@@ -12,28 +12,28 @@ import { OptionsDrawerTrigger, TableOptionsDrawer, useTableOptions } from '@/com
 import { SocialTypeSelect } from '@/components/custom/social-type-select'
 import {
   createReferrersColumns,
-  transformReferrerData,
   type Referrer,
   REFERRERS_COLUMN_CONFIG,
   REFERRERS_COMPARABLE_COLUMNS,
   REFERRERS_DEFAULT_API_COLUMNS,
   REFERRERS_DEFAULT_COMPARISON_COLUMNS,
   REFERRERS_DEFAULT_HIDDEN_COLUMNS,
+  transformReferrerData,
 } from '@/components/data-table-columns/referrers-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, ChartSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useSocialTypeFilter } from '@/hooks/use-social-type-filter'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { formatChartValue, transformChartResponse } from '@/lib/chart-utils'
-import type { LineChartDataPoint, LineChartMetric } from '@/types/chart'
 import {
   getSocialMediaOverviewQueryOptions,
   type SocialMediaChartResponse,
   type SocialMediaTableResponse,
 } from '@/services/referrals/get-social-media-overview'
+import type { LineChartDataPoint, LineChartMetric } from '@/types/chart'
 
 const PER_PAGE = 25
 const SOCIAL_MEDIA_CONTEXT = 'social-media'

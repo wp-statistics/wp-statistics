@@ -4,18 +4,19 @@ import type { Filter } from '@/components/custom/filter-bar'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
+
 import type {
-  TopReferrerRow,
-  TopCountryRow,
   BrowserRow,
-  OperatingSystemRow,
   DeviceTypeRow,
+  OperatingSystemRow,
   TableQueryResult,
+  TopCountryRow,
+  TopReferrerRow,
   TopReferrersResponse,
 } from './get-content-overview'
 
 // Re-export types for consumers
-export type { TopReferrerRow, TopCountryRow, BrowserRow, OperatingSystemRow, DeviceTypeRow }
+export type { BrowserRow, DeviceTypeRow,OperatingSystemRow, TopCountryRow, TopReferrerRow }
 
 // Metric value with current/previous structure
 interface MetricValue {

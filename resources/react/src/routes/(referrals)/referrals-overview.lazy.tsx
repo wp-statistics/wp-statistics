@@ -13,6 +13,7 @@ import {
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
+import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import {
@@ -21,8 +22,8 @@ import {
   MetricsSkeleton,
   PanelSkeleton,
 } from '@/components/ui/skeletons'
-import { type WidgetConfig } from '@/contexts/page-options-context'
 import { pickMetrics } from '@/constants/metric-definitions'
+import { type WidgetConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -31,7 +32,6 @@ import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { formatCompactNumber, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { getReferralsOverviewQueryOptions } from '@/services/referrals/get-referrals-overview'
 
 // Widget configuration for this page

@@ -1,6 +1,6 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useRef, useState } from 'react'
 
@@ -13,8 +13,8 @@ import {
   ONLINE_VISITORS_CONTEXT,
   ONLINE_VISITORS_DEFAULT_API_COLUMNS,
   ONLINE_VISITORS_DEFAULT_HIDDEN_COLUMNS,
-  transformOnlineVisitorData,
   type OnlineVisitor,
+  transformOnlineVisitorData,
 } from '@/components/data-table-columns/online-visitors-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'

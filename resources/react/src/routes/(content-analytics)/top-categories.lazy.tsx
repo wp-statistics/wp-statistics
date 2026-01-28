@@ -1,22 +1,22 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo, useRef } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { TableOptionsDrawer, useTableOptions, type PageFilterConfig } from '@/components/custom/options-drawer'
+import { type PageFilterConfig,TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createTopCategoriesColumns,
-  type TopCategory,
   TOP_CATEGORIES_COLUMN_CONFIG,
   TOP_CATEGORIES_COMPARABLE_COLUMNS,
   TOP_CATEGORIES_CONTEXT,
   TOP_CATEGORIES_DEFAULT_API_COLUMNS,
   TOP_CATEGORIES_DEFAULT_COMPARISON_COLUMNS,
   TOP_CATEGORIES_DEFAULT_HIDDEN_COLUMNS,
+  type TopCategory,
   transformTopCategoryData,
 } from '@/components/data-table-columns/top-categories-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'

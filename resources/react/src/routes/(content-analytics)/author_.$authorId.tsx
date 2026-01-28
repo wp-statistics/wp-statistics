@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { createSearchValidator, type BaseSearchParams } from '@/lib/route-validation'
+import { type BaseSearchParams,createSearchValidator } from '@/lib/route-validation'
 
 /**
  * Search params for single author page

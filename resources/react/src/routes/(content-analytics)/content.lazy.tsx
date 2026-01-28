@@ -5,24 +5,24 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import { LineChart } from '@/components/custom/line-chart'
-import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import { HorizontalBar } from '@/components/custom/horizontal-bar'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
-import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
+import { LineChart } from '@/components/custom/line-chart'
+import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import {
-  type OverviewOptionsConfig,
   OptionsDrawerTrigger,
+  type OverviewOptionsConfig,
   OverviewOptionsDrawer,
   OverviewOptionsProvider,
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
+import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
 import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { type WidgetConfig } from '@/contexts/page-options-context'
 import { pickMetrics } from '@/constants/metric-definitions'
+import { type WidgetConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'

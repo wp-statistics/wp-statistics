@@ -9,11 +9,11 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import {
-  type OverviewOptionsConfig,
-  type PageFilterConfig,
   OptionsDrawerTrigger,
+  type OverviewOptionsConfig,
   OverviewOptionsDrawer,
   OverviewOptionsProvider,
+  type PageFilterConfig,
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
 import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
@@ -22,8 +22,8 @@ import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { type WidgetConfig } from '@/contexts/page-options-context'
 import { pickMetrics } from '@/constants/metric-definitions'
+import { type WidgetConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -35,11 +35,11 @@ import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
-  getCategoriesOverviewQueryOptions,
   type AuthorRow,
   type BrowserRow,
   type ContentRow,
   type DeviceTypeRow,
+  getCategoriesOverviewQueryOptions,
   type OperatingSystemRow,
   type TermRow,
   type TopCountryRow,

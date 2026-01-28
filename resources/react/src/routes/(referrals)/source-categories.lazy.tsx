@@ -1,6 +1,6 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useRef } from 'react'
 
@@ -11,28 +11,28 @@ import { LineChart } from '@/components/custom/line-chart'
 import { OptionsDrawerTrigger, TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
 import {
   createSourceCategoriesColumns,
-  transformSourceCategoryData,
-  type SourceCategory,
   SOURCE_CATEGORIES_COLUMN_CONFIG,
   SOURCE_CATEGORIES_COMPARABLE_COLUMNS,
   SOURCE_CATEGORIES_CONTEXT,
   SOURCE_CATEGORIES_DEFAULT_API_COLUMNS,
   SOURCE_CATEGORIES_DEFAULT_COMPARISON_COLUMNS,
   SOURCE_CATEGORIES_DEFAULT_HIDDEN_COLUMNS,
+  type SourceCategory,
+  transformSourceCategoryData,
 } from '@/components/data-table-columns/source-categories-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, ChartSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { formatChartValue, transformChartResponse } from '@/lib/chart-utils'
-import type { LineChartDataPoint, LineChartMetric } from '@/types/chart'
 import {
   getSourceCategoriesOverviewQueryOptions,
   type SourceCategoriesChartResponse,
   type SourceCategoriesTableResponse,
 } from '@/services/referrals/get-source-categories-overview'
+import type { LineChartDataPoint, LineChartMetric } from '@/types/chart'
 
 const PER_PAGE = 25
 

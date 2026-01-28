@@ -1,6 +1,6 @@
-import type { Table } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo, useRef, useState } from 'react'
 
@@ -12,11 +12,11 @@ import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createLoggedInUsersColumns,
-  type LoggedInUser,
   LOGGED_IN_USERS_COLUMN_CONFIG,
   LOGGED_IN_USERS_CONTEXT,
   LOGGED_IN_USERS_DEFAULT_API_COLUMNS,
   LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS,
+  type LoggedInUser,
   transformLoggedInUserData,
 } from '@/components/data-table-columns/logged-in-users-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'

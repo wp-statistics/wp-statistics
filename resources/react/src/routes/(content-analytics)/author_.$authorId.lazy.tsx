@@ -3,9 +3,9 @@ import { __ } from '@wordpress/i18n'
 import { LockIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import { useContentRegistry } from '@/contexts/content-registry-context'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
+import { useContentRegistry } from '@/contexts/content-registry-context'
 
 export const Route = createLazyFileRoute('/(content-analytics)/author_/$authorId')({
   component: RouteComponent,

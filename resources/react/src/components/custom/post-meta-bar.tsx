@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { Calendar, User, FileText, RefreshCw } from 'lucide-react'
+import { Calendar, FileText, RefreshCw,User } from 'lucide-react'
 import { Fragment, type ReactNode } from 'react'
 
 import { Badge } from '@/components/ui/badge'

@@ -4,9 +4,9 @@ import { LockIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { ReportPageRenderer } from '@/components/report-page-renderer'
-import { useContentRegistry } from '@/contexts/content-registry-context'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
+import { useContentRegistry } from '@/contexts/content-registry-context'
 
 export const Route = createLazyFileRoute('/(page-insights)/exit-pages')({
   component: RouteComponent,

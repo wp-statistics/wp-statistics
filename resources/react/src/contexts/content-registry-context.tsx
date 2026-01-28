@@ -11,6 +11,7 @@
  */
 
 import type { NavigateFunction } from '@tanstack/react-router'
+
 import type { ReportConfig } from '@/components/report-page-renderer'
 
 // Widget types

@@ -4,8 +4,9 @@ import type { Filter } from '@/components/custom/filter-bar'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
-import type { TableQueryResult, TrafficTrendsChartResponse } from './get-content-overview'
+
 import type { ContentRow } from './get-categories-overview'
+import type { TableQueryResult, TrafficTrendsChartResponse } from './get-content-overview'
 
 // Re-export for consumers
 export type { ContentRow }

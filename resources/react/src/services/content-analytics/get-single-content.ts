@@ -5,14 +5,15 @@ import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import type { FixedDatePeriod, FixedDatePeriodId } from '@/lib/fixed-date-ranges'
 import { WordPress } from '@/lib/wordpress'
+
 import type {
-  TrafficTrendsChartResponse,
-  TopCountryRow,
   BrowserRow,
-  OperatingSystemRow,
   DeviceTypeRow,
+  OperatingSystemRow,
   TableQueryResult,
+  TopCountryRow,
   TopReferrersResponse,
+  TrafficTrendsChartResponse,
 } from './get-content-overview'
 
 // Metric value with current/previous structure

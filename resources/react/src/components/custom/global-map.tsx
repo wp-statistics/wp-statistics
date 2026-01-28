@@ -11,7 +11,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps'
 
 import { MapErrorBoundary } from '@/components/custom/map-error-boundary'
-import { extractRows } from '@/lib/response-helpers'
 import {
   calculateZoomFromDimension,
   COLOR_SCALE_THRESHOLDS,
@@ -24,6 +23,7 @@ import {
   WORLD_CENTER,
 } from '@/constants/map-constants'
 import { COLOR_SCALE, getMapUrl } from '@/constants/map-data'
+import { extractRows } from '@/lib/response-helpers'
 import type { MapViewMode, MetricOption } from '@/types/geographic'
 
 // GeoJSON geometry coordinate types

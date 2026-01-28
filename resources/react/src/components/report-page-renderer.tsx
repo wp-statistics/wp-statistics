@@ -13,11 +13,11 @@
  * - Level 3: Full custom (use registerPage instead)
  */
 
-import type { ColumnDef, SortingState, Table } from '@tanstack/react-table'
 import type { QueryKey } from '@tanstack/react-query'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import type { ColumnDef, SortingState, Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo, useRef, type ReactNode } from 'react'
+import { type ReactNode,useCallback, useMemo, useRef } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
@@ -34,9 +34,9 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
+import type { ColumnConfig } from '@/lib/column-utils'
 import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
-import type { ColumnConfig } from '@/lib/column-utils'
 
 /**
  * Query options factory function type
