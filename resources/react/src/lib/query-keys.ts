@@ -216,6 +216,10 @@ export const queryKeys = {
     /** Country regions list (paginated) - dynamic by user's country */
     countryRegions: (params: ListQueryParams & { countryCode: string }) =>
       [...queryKeys.geographic.all(), 'country-regions', params] as const,
+
+    /** Timezones list (paginated) */
+    timezonesList: (params: ListQueryParams) =>
+      [...queryKeys.geographic.all(), 'timezones-list', params] as const,
   },
 
   // ==========================================================================
