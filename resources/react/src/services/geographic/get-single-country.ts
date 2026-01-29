@@ -78,7 +78,32 @@ export interface CityRow {
 // Referrer row for top referrer
 export interface ReferrerRow {
   referrer_domain: string
+  referrer_name?: string
   visitors: number | string
+  previous?: { visitors?: number }
+}
+
+// Entry page row for top entry pages
+export interface EntryPageRow {
+  page_uri: string
+  page_title: string
+  sessions: number | string
+  previous?: { sessions?: number }
+}
+
+// Search engine row for top search engines
+export interface SearchEngineRow {
+  referrer_name: string
+  referrer_domain: string
+  visitors: number | string
+  previous?: { visitors?: number }
+}
+
+// Browser row for top browsers
+export interface BrowserRow {
+  browser_name: string
+  visitors: number | string
+  previous?: { visitors?: number }
 }
 
 // Chart response for traffic trends
@@ -128,6 +153,10 @@ export interface SingleCountryResponse {
     top_regions?: TableQueryResult<RegionRow>
     top_cities?: TableQueryResult<CityRow>
     top_referrer?: TableQueryResult<ReferrerRow>
+    top_entry_pages?: TableQueryResult<EntryPageRow>
+    top_referrers?: TableQueryResult<ReferrerRow>
+    top_search_engines?: TableQueryResult<SearchEngineRow>
+    top_browsers?: TableQueryResult<BrowserRow>
   }
   errors?: Record<string, { code: string; message: string }>
   skipped?: string[]
@@ -264,6 +293,62 @@ export const getSingleCountryQueryOptions = ({
               order: 'DESC',
               show_totals: false,
               compare: false,
+              filters: countryFilter,
+            },
+            // Top Entry Pages: 5 items ordered by sessions
+            {
+              id: 'top_entry_pages',
+              sources: ['sessions'],
+              group_by: ['entry_page'],
+              columns: ['page_uri', 'page_title', 'sessions'],
+              format: 'table',
+              per_page: 5,
+              order_by: 'sessions',
+              order: 'DESC',
+              show_totals: false,
+              compare: true,
+              filters: countryFilter,
+            },
+            // Top Referrers: 5 items ordered by visitors
+            {
+              id: 'top_referrers',
+              sources: ['visitors'],
+              group_by: ['referrer'],
+              columns: ['referrer_domain', 'referrer_name', 'visitors'],
+              format: 'table',
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              show_totals: false,
+              compare: true,
+              filters: countryFilter,
+            },
+            // Top Search Engines: 5 items ordered by visitors
+            {
+              id: 'top_search_engines',
+              sources: ['visitors'],
+              group_by: ['search_engine'],
+              columns: ['referrer_name', 'referrer_domain', 'visitors'],
+              format: 'table',
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              show_totals: false,
+              compare: true,
+              filters: countryFilter,
+            },
+            // Top Browsers: 5 items ordered by visitors
+            {
+              id: 'top_browsers',
+              sources: ['visitors'],
+              group_by: ['browser'],
+              columns: ['browser_name', 'visitors'],
+              format: 'table',
+              per_page: 5,
+              order_by: 'visitors',
+              order: 'DESC',
+              show_totals: false,
+              compare: true,
               filters: countryFilter,
             },
           ],
