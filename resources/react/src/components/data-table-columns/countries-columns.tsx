@@ -123,15 +123,13 @@ export interface CountriesColumnsOptions {
   comparisonLabel?: string
   /** Columns that should display PP comparison (defaults to COUNTRIES_DEFAULT_COMPARISON_COLUMNS) */
   comparisonColumns?: string[]
-  /** Whether to show link to single country report (premium feature) */
-  showCountryLink?: boolean
 }
 
 /**
  * Create column definitions for the Countries table
  */
 export function createCountriesColumns(options: CountriesColumnsOptions): ColumnDef<CountryData>[] {
-  const { pluginUrl, comparisonLabel, comparisonColumns = COUNTRIES_DEFAULT_COMPARISON_COLUMNS, showCountryLink = false } = options
+  const { pluginUrl, comparisonLabel, comparisonColumns = COUNTRIES_DEFAULT_COMPARISON_COLUMNS } = options
 
   // Helper to check if a column should show comparison
   const showComparison = (columnId: string) => comparisonColumns.includes(columnId)
@@ -148,8 +146,8 @@ export function createCountriesColumns(options: CountriesColumnsOptions): Column
             countryName: row.original.countryName,
           }}
           pluginUrl={pluginUrl}
-          linkTo={showCountryLink ? '/country/$countryCode' : undefined}
-          linkParams={showCountryLink ? { countryCode: row.original.countryCode } : undefined}
+          linkTo="/country/$countryCode"
+          linkParams={{ countryCode: row.original.countryCode }}
         />
       ),
       enableSorting: false,

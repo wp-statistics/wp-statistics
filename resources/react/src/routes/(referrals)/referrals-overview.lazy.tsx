@@ -471,6 +471,8 @@ function ReferralsOverviewContent() {
                     ),
                     isCompareEnabled,
                     comparisonDateLabel,
+                    linkTo: () => '/country/$countryCode',
+                    linkParams: (item) => ({ countryCode: item.country_code?.toLowerCase() || '000' }),
                   })}
                 />
               </div>

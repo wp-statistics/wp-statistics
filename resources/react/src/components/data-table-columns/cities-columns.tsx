@@ -156,6 +156,8 @@ export function createCitiesColumns(options: CitiesColumnsOptions): ColumnDef<Ci
             countryName: row.original.countryName,
           }}
           pluginUrl={pluginUrl}
+          linkTo="/country/$countryCode"
+          linkParams={{ countryCode: row.original.countryCode }}
         />
       ),
       enableSorting: false,

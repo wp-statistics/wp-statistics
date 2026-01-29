@@ -18,6 +18,10 @@ export interface HorizontalBarItem {
   tooltipSubtitle?: string
   /** Date range comparison header for tooltip */
   comparisonDateLabel?: string
+  /** Internal link route path */
+  linkTo?: string
+  /** Internal link route params */
+  linkParams?: Record<string, string>
 }
 
 /**
@@ -40,6 +44,10 @@ export interface TransformBarListOptions<T> {
   isCompareEnabled?: boolean
   /** Comparison date label for tooltip header */
   comparisonDateLabel?: string
+  /** Internal link route path generator */
+  linkTo?: (item: T) => string
+  /** Internal link route params generator */
+  linkParams?: (item: T) => Record<string, string>
 }
 
 /**
@@ -85,6 +93,8 @@ export function transformToBarList<T>(items: T[], options: TransformBarListOptio
     tooltipSubtitle: getTooltipSubtitle,
     isCompareEnabled = false,
     comparisonDateLabel,
+    linkTo: getLinkTo,
+    linkParams: getLinkParams,
   } = options
 
   return items.map((item) => {
@@ -110,6 +120,8 @@ export function transformToBarList<T>(items: T[], options: TransformBarListOptio
       value: currentValue,
       fillPercentage: calcSharePercentage(currentValue, total),
       tooltipTitle: labelText,
+      linkTo: getLinkTo?.(item),
+      linkParams: getLinkParams?.(item),
       ...comparisonProps,
     }
   })

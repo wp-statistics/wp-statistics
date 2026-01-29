@@ -17,6 +17,10 @@ interface HorizontalBarItem {
   tooltipSubtitle?: string
   /** Date range comparison header for tooltip */
   comparisonDateLabel?: string
+  /** Internal link route path */
+  linkTo?: string
+  /** Internal link route params */
+  linkParams?: Record<string, string>
 }
 
 interface HorizontalBarListProps {
@@ -68,6 +72,8 @@ export function HorizontalBarList({ title, items, link, loading = false, showCom
                 isNegative={item.isNegative}
                 tooltipSubtitle={item.tooltipSubtitle}
                 comparisonDateLabel={item.comparisonDateLabel}
+                linkTo={item.linkTo}
+                linkParams={item.linkParams}
                 isFirst={index === 0}
                 showComparison={showComparison}
               />

@@ -197,7 +197,17 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
       size: COLUMN_SIZES.location,
       enableSorting: false,
       enableHiding: true,
-      cell: ({ row }) => <LocationCell data={createLocationData(row.original)} pluginUrl={config.pluginUrl} />,
+      cell: ({ row }) => {
+        const data = createLocationData(row.original)
+        return (
+          <LocationCell
+            data={data}
+            pluginUrl={config.pluginUrl}
+            linkTo="/country/$countryCode"
+            linkParams={{ countryCode: data.countryCode }}
+          />
+        )
+      },
       meta: {
         title: 'Location',
         priority: 'secondary',

@@ -456,6 +456,8 @@ function VisitorsOverviewContent() {
                     ),
                     isCompareEnabled,
                     comparisonDateLabel,
+                    linkTo: () => '/country/$countryCode',
+                    linkParams: (item) => ({ countryCode: item.country_code?.toLowerCase() || '000' }),
                   })}
                   link={{
                     action: () => console.log('View all countries'),

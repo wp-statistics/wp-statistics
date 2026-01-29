@@ -208,6 +208,8 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
               cityName: visitorInfo.country.city || undefined,
             }}
             pluginUrl={config.pluginUrl}
+            linkTo="/country/$countryCode"
+            linkParams={{ countryCode: visitorInfo.country.code }}
           />
         )
       },
