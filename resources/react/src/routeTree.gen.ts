@@ -37,16 +37,16 @@ import { Route as geographicEuropeanCountriesRouteImport } from './routes/(geogr
 import { Route as geographicCountryRegionsRouteImport } from './routes/(geographic)/country-regions'
 import { Route as geographicCountriesRouteImport } from './routes/(geographic)/countries'
 import { Route as geographicCitiesRouteImport } from './routes/(geographic)/cities'
-import { Route as contentAnalyticsTopCategoriesRouteImport } from './routes/(content-analytics)/top-categories'
-import { Route as contentAnalyticsTopAuthorsRouteImport } from './routes/(content-analytics)/top-authors'
-import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
-import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
-import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
 import { Route as devicesScreenResolutionsRouteImport } from './routes/(devices)/screen-resolutions'
 import { Route as devicesOperatingSystemsRouteImport } from './routes/(devices)/operating-systems'
 import { Route as devicesDevicesOverviewRouteImport } from './routes/(devices)/devices-overview'
 import { Route as devicesDeviceCategoriesRouteImport } from './routes/(devices)/device-categories'
 import { Route as devicesBrowsersRouteImport } from './routes/(devices)/browsers'
+import { Route as contentAnalyticsTopCategoriesRouteImport } from './routes/(content-analytics)/top-categories'
+import { Route as contentAnalyticsTopAuthorsRouteImport } from './routes/(content-analytics)/top-authors'
+import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
+import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
+import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
 import { Route as geographicCountryCountryCodeRouteImport } from './routes/(geographic)/country_.$countryCode'
 import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
 import { Route as contentAnalyticsCategoryTermIdRouteImport } from './routes/(content-analytics)/category_.$termId'
@@ -107,52 +107,6 @@ const referralsReferrersLazyRouteImport = createFileRoute(
 const referralsCampaignsLazyRouteImport = createFileRoute(
   '/(referrals)/campaigns',
 )()
-
-const devicesScreenResolutionsRoute = devicesScreenResolutionsRouteImport
-  .update({
-    id: '/(devices)/screen-resolutions',
-    path: '/screen-resolutions',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() =>
-    import('./routes/(devices)/screen-resolutions.lazy').then((d) => d.Route),
-  )
-const devicesOperatingSystemsRoute = devicesOperatingSystemsRouteImport
-  .update({
-    id: '/(devices)/operating-systems',
-    path: '/operating-systems',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() =>
-    import('./routes/(devices)/operating-systems.lazy').then((d) => d.Route),
-  )
-const devicesDevicesOverviewRoute = devicesDevicesOverviewRouteImport
-  .update({
-    id: '/(devices)/devices-overview',
-    path: '/devices-overview',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() =>
-    import('./routes/(devices)/devices-overview.lazy').then((d) => d.Route),
-  )
-const devicesDeviceCategoriesRoute = devicesDeviceCategoriesRouteImport
-  .update({
-    id: '/(devices)/device-categories',
-    path: '/device-categories',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() =>
-    import('./routes/(devices)/device-categories.lazy').then((d) => d.Route),
-  )
-const devicesBrowsersRoute = devicesBrowsersRouteImport
-  .update({
-    id: '/(devices)/browsers',
-    path: '/browsers',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() =>
-    import('./routes/(devices)/browsers.lazy').then((d) => d.Route),
-  )
 
 const PageAnalyticsLazyRoute = PageAnalyticsLazyRouteImport.update({
   id: '/page-analytics',
@@ -586,6 +540,49 @@ const geographicCitiesRoute = geographicCitiesRouteImport
     getParentRoute: () => rootRouteImport,
   } as any)
   .lazy(() => import('./routes/(geographic)/cities.lazy').then((d) => d.Route))
+const devicesScreenResolutionsRoute = devicesScreenResolutionsRouteImport
+  .update({
+    id: '/(devices)/screen-resolutions',
+    path: '/screen-resolutions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(devices)/screen-resolutions.lazy').then((d) => d.Route),
+  )
+const devicesOperatingSystemsRoute = devicesOperatingSystemsRouteImport
+  .update({
+    id: '/(devices)/operating-systems',
+    path: '/operating-systems',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(devices)/operating-systems.lazy').then((d) => d.Route),
+  )
+const devicesDevicesOverviewRoute = devicesDevicesOverviewRouteImport
+  .update({
+    id: '/(devices)/devices-overview',
+    path: '/devices-overview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(devices)/devices-overview.lazy').then((d) => d.Route),
+  )
+const devicesDeviceCategoriesRoute = devicesDeviceCategoriesRouteImport
+  .update({
+    id: '/(devices)/device-categories',
+    path: '/device-categories',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(devices)/device-categories.lazy').then((d) => d.Route),
+  )
+const devicesBrowsersRoute = devicesBrowsersRouteImport
+  .update({
+    id: '/(devices)/browsers',
+    path: '/browsers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() => import('./routes/(devices)/browsers.lazy').then((d) => d.Route))
 const contentAnalyticsTopCategoriesRoute =
   contentAnalyticsTopCategoriesRouteImport
     .update({
@@ -696,16 +693,16 @@ export interface FileRoutesByFullPath {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
-  '/browsers': typeof devicesBrowsersRoute
-  '/device-categories': typeof devicesDeviceCategoriesRoute
-  '/devices-overview': typeof devicesDevicesOverviewRoute
-  '/operating-systems': typeof devicesOperatingSystemsRoute
-  '/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/authors': typeof contentAnalyticsAuthorsRoute
   '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/browsers': typeof devicesBrowsersRoute
+  '/device-categories': typeof devicesDeviceCategoriesRoute
+  '/devices-overview': typeof devicesDevicesOverviewRoute
+  '/operating-systems': typeof devicesOperatingSystemsRoute
+  '/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/cities': typeof geographicCitiesRoute
   '/countries': typeof geographicCountriesRoute
   '/country-regions': typeof geographicCountryRegionsRoute
@@ -763,16 +760,16 @@ export interface FileRoutesByTo {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
-  '/browsers': typeof devicesBrowsersRoute
-  '/device-categories': typeof devicesDeviceCategoriesRoute
-  '/devices-overview': typeof devicesDevicesOverviewRoute
-  '/operating-systems': typeof devicesOperatingSystemsRoute
-  '/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/authors': typeof contentAnalyticsAuthorsRoute
   '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
   '/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/browsers': typeof devicesBrowsersRoute
+  '/device-categories': typeof devicesDeviceCategoriesRoute
+  '/devices-overview': typeof devicesDevicesOverviewRoute
+  '/operating-systems': typeof devicesOperatingSystemsRoute
+  '/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/cities': typeof geographicCitiesRoute
   '/countries': typeof geographicCountriesRoute
   '/country-regions': typeof geographicCountryRegionsRoute
@@ -833,16 +830,16 @@ export interface FileRoutesById {
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
-  '/(devices)/browsers': typeof devicesBrowsersRoute
-  '/(devices)/device-categories': typeof devicesDeviceCategoriesRoute
-  '/(devices)/devices-overview': typeof devicesDevicesOverviewRoute
-  '/(devices)/operating-systems': typeof devicesOperatingSystemsRoute
-  '/(devices)/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/(content-analytics)/authors': typeof contentAnalyticsAuthorsRoute
   '/(content-analytics)/categories': typeof contentAnalyticsCategoriesRoute
   '/(content-analytics)/content': typeof contentAnalyticsContentRoute
   '/(content-analytics)/top-authors': typeof contentAnalyticsTopAuthorsRoute
   '/(content-analytics)/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/(devices)/browsers': typeof devicesBrowsersRoute
+  '/(devices)/device-categories': typeof devicesDeviceCategoriesRoute
+  '/(devices)/devices-overview': typeof devicesDevicesOverviewRoute
+  '/(devices)/operating-systems': typeof devicesOperatingSystemsRoute
+  '/(devices)/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/(geographic)/cities': typeof geographicCitiesRoute
   '/(geographic)/countries': typeof geographicCountriesRoute
   '/(geographic)/country-regions': typeof geographicCountryRegionsRoute
@@ -904,16 +901,16 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
-    | '/browsers'
-    | '/device-categories'
-    | '/devices-overview'
-    | '/operating-systems'
-    | '/screen-resolutions'
     | '/authors'
     | '/categories'
     | '/content'
     | '/top-authors'
     | '/top-categories'
+    | '/browsers'
+    | '/device-categories'
+    | '/devices-overview'
+    | '/operating-systems'
+    | '/screen-resolutions'
     | '/cities'
     | '/countries'
     | '/country-regions'
@@ -971,16 +968,16 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
-    | '/browsers'
-    | '/device-categories'
-    | '/devices-overview'
-    | '/operating-systems'
-    | '/screen-resolutions'
     | '/authors'
     | '/categories'
     | '/content'
     | '/top-authors'
     | '/top-categories'
+    | '/browsers'
+    | '/device-categories'
+    | '/devices-overview'
+    | '/operating-systems'
+    | '/screen-resolutions'
     | '/cities'
     | '/countries'
     | '/country-regions'
@@ -1040,16 +1037,16 @@ export interface FileRouteTypes {
     | '/geographic'
     | '/overview'
     | '/page-analytics'
-    | '/(devices)/browsers'
-    | '/(devices)/device-categories'
-    | '/(devices)/devices-overview'
-    | '/(devices)/operating-systems'
-    | '/(devices)/screen-resolutions'
     | '/(content-analytics)/authors'
     | '/(content-analytics)/categories'
     | '/(content-analytics)/content'
     | '/(content-analytics)/top-authors'
     | '/(content-analytics)/top-categories'
+    | '/(devices)/browsers'
+    | '/(devices)/device-categories'
+    | '/(devices)/devices-overview'
+    | '/(devices)/operating-systems'
+    | '/(devices)/screen-resolutions'
     | '/(geographic)/cities'
     | '/(geographic)/countries'
     | '/(geographic)/country-regions'
@@ -1108,11 +1105,6 @@ export interface RootRouteChildren {
   CategoryAnalyticsLazyRoute: typeof CategoryAnalyticsLazyRoute
   DevicesLazyRoute: typeof DevicesLazyRoute
   GeographicLazyRoute: typeof GeographicLazyRoute
-  devicesBrowsersRoute: typeof devicesBrowsersRoute
-  devicesDeviceCategoriesRoute: typeof devicesDeviceCategoriesRoute
-  devicesDevicesOverviewRoute: typeof devicesDevicesOverviewRoute
-  devicesOperatingSystemsRoute: typeof devicesOperatingSystemsRoute
-  devicesScreenResolutionsRoute: typeof devicesScreenResolutionsRoute
   OverviewLazyRoute: typeof OverviewLazyRoute
   PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
   contentAnalyticsAuthorsRoute: typeof contentAnalyticsAuthorsRoute
@@ -1120,6 +1112,11 @@ export interface RootRouteChildren {
   contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
   contentAnalyticsTopAuthorsRoute: typeof contentAnalyticsTopAuthorsRoute
   contentAnalyticsTopCategoriesRoute: typeof contentAnalyticsTopCategoriesRoute
+  devicesBrowsersRoute: typeof devicesBrowsersRoute
+  devicesDeviceCategoriesRoute: typeof devicesDeviceCategoriesRoute
+  devicesDevicesOverviewRoute: typeof devicesDevicesOverviewRoute
+  devicesOperatingSystemsRoute: typeof devicesOperatingSystemsRoute
+  devicesScreenResolutionsRoute: typeof devicesScreenResolutionsRoute
   geographicCitiesRoute: typeof geographicCitiesRoute
   geographicCountriesRoute: typeof geographicCountriesRoute
   geographicCountryRegionsRoute: typeof geographicCountryRegionsRoute
@@ -1337,41 +1334,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsAccessLazyRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
-    '/(devices)/browsers': {
-      id: '/(devices)/browsers'
-      path: '/browsers'
-      fullPath: '/browsers'
-      preLoaderRoute: typeof devicesBrowsersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(devices)/device-categories': {
-      id: '/(devices)/device-categories'
-      path: '/device-categories'
-      fullPath: '/device-categories'
-      preLoaderRoute: typeof devicesDeviceCategoriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(devices)/devices-overview': {
-      id: '/(devices)/devices-overview'
-      path: '/devices-overview'
-      fullPath: '/devices-overview'
-      preLoaderRoute: typeof devicesDevicesOverviewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(devices)/operating-systems': {
-      id: '/(devices)/operating-systems'
-      path: '/operating-systems'
-      fullPath: '/operating-systems'
-      preLoaderRoute: typeof devicesOperatingSystemsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(devices)/screen-resolutions': {
-      id: '/(devices)/screen-resolutions'
-      path: '/screen-resolutions'
-      fullPath: '/screen-resolutions'
-      preLoaderRoute: typeof devicesScreenResolutionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(visitor-insights)/search-terms': {
       id: '/(visitor-insights)/search-terms'
       path: '/search-terms'
@@ -1561,6 +1523,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof geographicCitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(devices)/screen-resolutions': {
+      id: '/(devices)/screen-resolutions'
+      path: '/screen-resolutions'
+      fullPath: '/screen-resolutions'
+      preLoaderRoute: typeof devicesScreenResolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/operating-systems': {
+      id: '/(devices)/operating-systems'
+      path: '/operating-systems'
+      fullPath: '/operating-systems'
+      preLoaderRoute: typeof devicesOperatingSystemsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/devices-overview': {
+      id: '/(devices)/devices-overview'
+      path: '/devices-overview'
+      fullPath: '/devices-overview'
+      preLoaderRoute: typeof devicesDevicesOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/device-categories': {
+      id: '/(devices)/device-categories'
+      path: '/device-categories'
+      fullPath: '/device-categories'
+      preLoaderRoute: typeof devicesDeviceCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/browsers': {
+      id: '/(devices)/browsers'
+      path: '/browsers'
+      fullPath: '/browsers'
+      preLoaderRoute: typeof devicesBrowsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(content-analytics)/top-categories': {
       id: '/(content-analytics)/top-categories'
       path: '/top-categories'
@@ -1688,11 +1685,6 @@ const rootRouteChildren: RootRouteChildren = {
   CategoryAnalyticsLazyRoute: CategoryAnalyticsLazyRoute,
   DevicesLazyRoute: DevicesLazyRoute,
   GeographicLazyRoute: GeographicLazyRoute,
-  devicesBrowsersRoute: devicesBrowsersRoute,
-  devicesDeviceCategoriesRoute: devicesDeviceCategoriesRoute,
-  devicesDevicesOverviewRoute: devicesDevicesOverviewRoute,
-  devicesOperatingSystemsRoute: devicesOperatingSystemsRoute,
-  devicesScreenResolutionsRoute: devicesScreenResolutionsRoute,
   OverviewLazyRoute: OverviewLazyRoute,
   PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
   contentAnalyticsAuthorsRoute: contentAnalyticsAuthorsRoute,
@@ -1700,6 +1692,11 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsContentRoute: contentAnalyticsContentRoute,
   contentAnalyticsTopAuthorsRoute: contentAnalyticsTopAuthorsRoute,
   contentAnalyticsTopCategoriesRoute: contentAnalyticsTopCategoriesRoute,
+  devicesBrowsersRoute: devicesBrowsersRoute,
+  devicesDeviceCategoriesRoute: devicesDeviceCategoriesRoute,
+  devicesDevicesOverviewRoute: devicesDevicesOverviewRoute,
+  devicesOperatingSystemsRoute: devicesOperatingSystemsRoute,
+  devicesScreenResolutionsRoute: devicesScreenResolutionsRoute,
   geographicCitiesRoute: geographicCitiesRoute,
   geographicCountriesRoute: geographicCountriesRoute,
   geographicCountryRegionsRoute: geographicCountryRegionsRoute,

@@ -278,6 +278,10 @@ export const queryKeys = {
     /** Operating systems widget */
     os: () =>
       [...queryKeys.devices.all(), 'os'] as const,
+
+    /** Browsers list (paginated) */
+    browsers: (params: ListQueryParams) =>
+      [...queryKeys.devices.all(), 'browsers', params] as const,
   },
 
   // ==========================================================================

@@ -3,10 +3,11 @@ import './data-table-types' // Import to extend ColumnMeta
 import { Button } from '@components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
 import { cn } from '@lib/utils'
-import type { ColumnDef, ColumnFiltersState, SortingState, Table as TanStackTable, VisibilityState } from '@tanstack/react-table'
+import type { ColumnDef, ColumnFiltersState, Row, SortingState, Table as TanStackTable, VisibilityState } from '@tanstack/react-table'
 import {
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -72,6 +73,9 @@ interface DataTableProps<TData, TValue> {
   borderless?: boolean
   // Ref to expose the table instance for external use (e.g., column management in drawer)
   tableRef?: React.MutableRefObject<TanStackTable<TData> | null>
+  // Expandable rows
+  renderSubComponent?: (props: { row: Row<TData> }) => React.ReactNode
+  getRowCanExpand?: (row: Row<TData>) => boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -116,6 +120,9 @@ export function DataTable<TData, TValue>({
   borderless = false,
   // Table ref
   tableRef,
+  // Expandable rows
+  renderSubComponent,
+  getRowCanExpand,
 }: DataTableProps<TData, TValue>) {
   const isMobile = useIsMobile()
 
@@ -251,9 +258,11 @@ export function DataTable<TData, TValue>({
     onSortingChange: handleSortingChange,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
     getPaginationRowModel: manualPagination ? undefined : getPaginationRowModel(),
     getSortedRowModel: manualSorting ? undefined : getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getRowCanExpand,
     onColumnVisibilityChange: setColumnVisibility,
     onColumnOrderChange: handleColumnOrderChange,
     manualSorting,
@@ -416,25 +425,33 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row, rowIndex) => (
-                <TableRow
-                  key={row.id}
-                  className={cn(
-                    'border-0 transition-colors',
-                    rowIndex % 2 === 0 ? 'bg-white hover:bg-neutral-50' : 'bg-neutral-50/50 hover:bg-neutral-100/70'
+                <React.Fragment key={row.id}>
+                  <TableRow
+                    className={cn(
+                      'border-0 transition-colors',
+                      rowIndex % 2 === 0 ? 'bg-white hover:bg-neutral-50' : 'bg-neutral-50/50 hover:bg-neutral-100/70'
+                    )}
+                  >
+                    {row.getVisibleCells().map((cell, cellIndex) => (
+                      <TableCell
+                        key={cell.id}
+                        className={cn(
+                          cellIndex === 0 ? 'pl-4' : '',
+                          cellIndex === row.getVisibleCells().length - 1 ? 'pr-4' : ''
+                        )}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {row.getIsExpanded() && renderSubComponent && (
+                    <TableRow className="border-0 bg-neutral-50 hover:bg-neutral-50">
+                      <TableCell colSpan={row.getVisibleCells().length} className="p-0">
+                        {renderSubComponent({ row })}
+                      </TableCell>
+                    </TableRow>
                   )}
-                >
-                  {row.getVisibleCells().map((cell, cellIndex) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        cellIndex === 0 ? 'pl-4' : '',
-                        cellIndex === row.getVisibleCells().length - 1 ? 'pr-4' : ''
-                      )}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                </React.Fragment>
               ))
             ) : (
               <TableRow className="border-0 hover:bg-transparent">

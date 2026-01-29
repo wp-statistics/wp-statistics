@@ -12,6 +12,7 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\CountryGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\CityGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\RegionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\BrowserGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\BrowserVersionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\OsGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\DeviceTypeGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\DeviceModelGroupBy;
@@ -109,6 +110,7 @@ class GroupByRegistry implements RegistryInterface
             'city'             => CityGroupBy::class,
             'region'           => RegionGroupBy::class,
             'browser'          => BrowserGroupBy::class,
+            'browser_version'  => BrowserVersionGroupBy::class,
             'os'               => OsGroupBy::class,
             'device_type'      => DeviceTypeGroupBy::class,
             'device_model'     => DeviceModelGroupBy::class,
