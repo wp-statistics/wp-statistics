@@ -24,6 +24,7 @@ import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { usePremiumFeature } from '@/hooks/use-premium-feature'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { WordPress } from '@/lib/wordpress'
 import { extractCountriesData, getCountriesQueryOptions } from '@/services/geographic/get-countries'
@@ -58,10 +59,13 @@ function RouteComponent() {
   // Get plugin URL for flag images
   const pluginUrl = WordPress.getInstance().getPluginUrl()
 
+  // Check if single-country premium feature is enabled
+  const { isEnabled: hasSingleCountry } = usePremiumFeature('single-country')
+
   // Base columns for preferences hook (stable definition for column IDs)
   const baseColumns = useMemo(
-    () => createCountriesColumns({ pluginUrl, comparisonLabel }),
-    [pluginUrl, comparisonLabel]
+    () => createCountriesColumns({ pluginUrl, comparisonLabel, showCountryLink: hasSingleCountry }),
+    [pluginUrl, comparisonLabel, hasSingleCountry]
   )
 
   // Fetch data from API
@@ -135,8 +139,8 @@ function RouteComponent() {
 
   // Final columns with comparison settings applied
   const columns = useMemo(
-    () => createCountriesColumns({ pluginUrl, comparisonLabel, comparisonColumns }),
-    [pluginUrl, comparisonLabel, comparisonColumns]
+    () => createCountriesColumns({ pluginUrl, comparisonLabel, comparisonColumns, showCountryLink: hasSingleCountry }),
+    [pluginUrl, comparisonLabel, comparisonColumns, hasSingleCountry]
   )
 
   // Transform API data to component interface with totals for % of Total

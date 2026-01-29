@@ -16,7 +16,7 @@
  * - Batches preference saves with debouncing
  */
 
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useLocation, useNavigate, useSearch } from '@tanstack/react-router'
 import { createContext, type ReactNode,useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
@@ -181,16 +181,6 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
   // Track whether we've initialized
   const hasInitialized = useRef(false)
   const lastSyncedRef = useRef<string | null>(null)
-
-  // Performance: Use refs for values needed in hashchange handler
-  // This prevents re-registering the event listener on every state change
-  const currentDatesRef = useRef({ from: '', to: '' })
-  const filterFieldsRef = useRef(filterFields)
-
-  // Keep refs in sync with current values
-  useEffect(() => {
-    filterFieldsRef.current = filterFields
-  }, [filterFields])
 
   // Debounced preference saving (300ms delay to batch rapid changes)
   const debouncedSavePrefs = useRef(
@@ -416,90 +406,110 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     hasInitialized.current = true
   }, [urlParams, filterFields])
 
-  // Keep currentDatesRef in sync (for hashchange comparison)
-  useEffect(() => {
-    currentDatesRef.current = {
-      from: formatDateForAPI(state.dateFrom),
-      to: formatDateForAPI(state.dateTo),
-    }
-  }, [state.dateFrom, state.dateTo])
+  // Track previous URL params for comparison (avoids reacting to own state→URL syncs)
+  const prevUrlParamsRef = useRef<string>('')
 
   // Watch for URL param changes during SPA navigation (after initialization)
-  // Performance optimizations:
-  // - Uses refs for comparison to avoid effect re-registration
-  // - Debounces rapid hash changes (browser back/forward)
-  // - Only registers once after initialization
+  // Uses TanStack Router's reactive useSearch instead of hashchange events,
+  // because TanStack Router doesn't fire native hashchange during SPA navigation.
   useEffect(() => {
     if (!state.isInitialized) return
 
-    const processHashChange = () => {
-      const hashParams = parseHashParams()
+    // Parse current URL filters from bracket notation
+    const currentUrlFilters = parseBracketFiltersFromParams(urlParams)
 
-      // Only process if URL has date params
-      if (!hashParams.date_from || !hashParams.date_to) return
+    // Create a stable string for comparison
+    const urlParamsString = JSON.stringify({
+      date_from: urlParams.date_from,
+      date_to: urlParams.date_to,
+      previous_date_from: urlParams.previous_date_from,
+      previous_date_to: urlParams.previous_date_to,
+      filters: currentUrlFilters,
+    })
 
-      const urlDateFrom = parseDate(hashParams.date_from)
-      const urlDateTo = parseDate(hashParams.date_to)
+    // Skip if URL params haven't changed
+    if (urlParamsString === prevUrlParamsRef.current) return
+    prevUrlParamsRef.current = urlParamsString
 
-      if (!urlDateFrom || !urlDateTo) return
+    // Skip if no date params in URL
+    if (!urlParams.date_from || !urlParams.date_to) return
 
-      // Use ref for comparison (avoids effect re-registration)
-      if (hashParams.date_from === currentDatesRef.current.from && hashParams.date_to === currentDatesRef.current.to) {
-        // Dates match, no update needed
-        return
-      }
+    const urlDateFrom = parseDate(urlParams.date_from)
+    const urlDateTo = parseDate(urlParams.date_to)
+    if (!urlDateFrom || !urlDateTo) return
 
-      // URL has different dates - update state
-      const urlCompareFrom = parseDate(hashParams.previous_date_from)
-      const urlCompareTo = parseDate(hashParams.previous_date_to)
+    // Check if this is actually a change from current state
+    const datesMatch = formatDateForAPI(state.dateFrom) === urlParams.date_from &&
+                       formatDateForAPI(state.dateTo) === urlParams.date_to
+    const currentFiltersString = JSON.stringify(filtersToUrlFilters(state.filters))
+    const newFiltersString = JSON.stringify(currentUrlFilters)
+    const filtersMatch = currentFiltersString === newFiltersString
 
-      // Parse filters from bracket notation in hash params
-      const effectiveUrlFilters = hashParams._bracketFilters || []
-      const urlFilters = urlFiltersToFilters(effectiveUrlFilters, filterFieldsRef.current)
-      const effectivePage = parseInt(hashParams.page, 10) || 1
-      const urlComparisonMode = hashParams.comparison_mode as ComparisonMode | undefined
+    if (datesMatch && filtersMatch) return
 
-      // Serialize bracket params for lastSyncedRef comparison
-      const bracketParams = serializeFiltersToBracketParams(filtersToUrlFilters(urlFilters))
+    // URL has different dates or filters - update state
+    const urlCompareFrom = parseDate(urlParams.previous_date_from)
+    const urlCompareTo = parseDate(urlParams.previous_date_to)
+    const urlFilters = urlFiltersToFilters(currentUrlFilters, filterFields)
+    const effectivePage = parseInt(String(urlParams.page), 10) || 1
+    const urlComparisonMode = (urlParams as Record<string, string>).comparison_mode as ComparisonMode | undefined
 
-      setState({
-        dateFrom: urlDateFrom,
-        dateTo: urlDateTo,
-        compareDateFrom: urlCompareFrom,
-        compareDateTo: urlCompareTo,
-        period: undefined, // URL navigation clears period (explicit dates in URL)
-        comparisonMode: isValidComparisonMode(urlComparisonMode) ? urlComparisonMode : undefined,
-        filters: urlFilters,
-        page: effectivePage,
-        source: 'url',
-        isInitialized: true,
-      })
+    // Serialize bracket params for lastSyncedRef comparison
+    const bracketParams = serializeFiltersToBracketParams(filtersToUrlFilters(urlFilters))
 
-      lastSyncedRef.current = JSON.stringify({
-        date_from: hashParams.date_from,
-        date_to: hashParams.date_to,
-        previous_date_from: hashParams.previous_date_from,
-        previous_date_to: hashParams.previous_date_to,
-        comparison_mode: urlComparisonMode,
-        ...bracketParams,
-        page: effectivePage,
-      })
-    }
+    setState({
+      dateFrom: urlDateFrom,
+      dateTo: urlDateTo,
+      compareDateFrom: urlCompareFrom,
+      compareDateTo: urlCompareTo,
+      period: undefined,
+      comparisonMode: isValidComparisonMode(urlComparisonMode) ? urlComparisonMode : undefined,
+      filters: urlFilters,
+      page: effectivePage,
+      source: 'url',
+      isInitialized: true,
+    })
 
-    // Debounce to handle rapid back/forward navigation
-    const debouncedHandler = debounce(processHashChange, 50)
+    lastSyncedRef.current = JSON.stringify({
+      date_from: urlParams.date_from,
+      date_to: urlParams.date_to,
+      previous_date_from: urlParams.previous_date_from,
+      previous_date_to: urlParams.previous_date_to,
+      comparison_mode: urlComparisonMode,
+      ...bracketParams,
+      page: effectivePage,
+    })
+  }, [state.isInitialized, urlParams, filterFields, state.filters, state.dateFrom, state.dateTo])
 
-    // Listen for hash changes (SPA navigation)
-    window.addEventListener('hashchange', debouncedHandler)
+  // Clear URL-sourced filters when route path changes
+  // URL-sourced filters are page-specific (e.g., "show cities for Germany")
+  // and should not persist when navigating to a different page
+  const location = useLocation()
+  const prevPathRef = useRef(location.pathname)
 
-    // Check immediately in case URL changed before this effect ran
-    processHashChange()
+  useEffect(() => {
+    if (!state.isInitialized) return
 
-    return () => {
-      window.removeEventListener('hashchange', debouncedHandler)
-      debouncedHandler.cancel()
-    }
-  }, [state.isInitialized]) // Only depends on isInitialized - refs handle the rest
+    const prevPath = prevPathRef.current
+    prevPathRef.current = location.pathname
+
+    if (prevPath === location.pathname) return
+    if (state.source !== 'url') return
+    if (state.filters.length === 0) return
+
+    // If the new URL already has explicit filters, let the URL-watching effect handle them
+    const newUrlFilters = parseBracketFiltersFromParams(urlParams)
+    if (newUrlFilters.length > 0) return
+
+    // Reset prevUrlParamsRef so the URL-watching effect can re-evaluate for the new page
+    prevUrlParamsRef.current = ''
+
+    setState(prev => ({
+      ...prev,
+      filters: [],
+      source: 'preferences',
+    }))
+  }, [location.pathname, state.isInitialized, state.source, state.filters.length, urlParams])
 
   // Sync state to URL when source is 'url' or 'manual'
   useEffect(() => {
@@ -585,7 +595,9 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
         // Save to preferences (debounced to batch rapid changes)
         // If a period preset is selected, save the period name for dynamic resolution
         // Otherwise, save the actual dates
-        const urlFilters = filtersToUrlFilters(prev.filters)
+        // Don't save filters that came from URL navigation - only save manually-set filters
+        const shouldSaveFilters = prev.source !== 'url'
+        const urlFilters = shouldSaveFilters ? filtersToUrlFilters(prev.filters) : []
         debouncedSavePrefs({
           date_from: formatDateForAPI(newState.dateFrom),
           date_to: formatDateForAPI(newState.dateTo),
