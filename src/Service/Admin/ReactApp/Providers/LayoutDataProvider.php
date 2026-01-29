@@ -159,9 +159,16 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                 'subPages' => $this->getGeographicSubPages()
             ],
             'devices'           => [
-                'icon'  => 'MonitorSmartphone',
-                'label' => esc_html__('Devices', 'wp-statistics'),
-                'slug'  => 'devices'
+                'icon'     => 'MonitorSmartphone',
+                'label'    => esc_html__('Devices', 'wp-statistics'),
+                'slug'     => 'devices',
+                'subPages' => [
+                    'devicesOverview'   => ['label' => esc_html__('Devices Overview', 'wp-statistics'), 'slug' => 'devices-overview'],
+                    'browsers'          => ['label' => esc_html__('Browsers', 'wp-statistics'), 'slug' => 'browsers'],
+                    'operatingSystems'  => ['label' => esc_html__('Operating Systems', 'wp-statistics'), 'slug' => 'operating-systems'],
+                    'deviceCategories'  => ['label' => esc_html__('Device Categories', 'wp-statistics'), 'slug' => 'device-categories'],
+                    'screenResolutions' => ['label' => esc_html__('Screen Resolutions', 'wp-statistics'), 'slug' => 'screen-resolutions'],
+                ]
             ]
         ];
 
