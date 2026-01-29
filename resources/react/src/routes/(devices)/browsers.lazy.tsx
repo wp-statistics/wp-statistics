@@ -69,7 +69,7 @@ function BrowserVersionsSubRow({ row, apiDateParams, filters }: { row: Row<Brows
 
   if (versions.length === 0) {
     return (
-      <div className="pl-14 py-3 text-sm text-neutral-500">
+      <div className="pl-14 py-3 text-xs text-neutral-500">
         {__('No version data available', 'wp-statistics')}
       </div>
     )
@@ -94,7 +94,7 @@ function BrowserVersionsSubRow({ row, apiDateParams, filters }: { row: Row<Brows
               key={v.browser_version}
               className="border-t border-neutral-100 bg-neutral-50 hover:bg-neutral-100/50"
             >
-              <td className="pl-14 py-1.5 text-sm text-neutral-600">
+              <td className="pl-14 py-1.5 text-xs font-medium text-neutral-700">
                 {v.browser_version || __('Unknown', 'wp-statistics')}
               </td>
               <td className="py-1.5 pr-4" style={{ width: 120 }}>

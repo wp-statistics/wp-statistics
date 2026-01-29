@@ -98,7 +98,7 @@ export function createBrowsersColumns(options: BrowsersColumnsOptions): ColumnDe
             ) : (
               <span className="w-5 shrink-0" />
             )}
-            <span className="truncate text-sm text-neutral-800">{row.original.browserName}</span>
+            <span className="truncate text-xs font-medium text-neutral-700">{row.original.browserName}</span>
           </div>
         )
       },
