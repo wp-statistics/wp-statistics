@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\MiniChart;
 
-use WP_STATISTICS\Helper;
+use WP_Statistics\Components\Addons;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
-use WP_STATISTICS\TimeZone;
 
 class MiniChartHelper
 {
@@ -31,7 +31,7 @@ class MiniChartHelper
 
     public function __construct()
     {
-        $this->isMiniChartActive = Helper::isAddOnActive('mini-chart');
+        $this->isMiniChartActive = Addons::isActive('mini-chart');
     }
 
     /**
@@ -54,7 +54,7 @@ class MiniChartHelper
         $metric = $this->metric;
 
         if ($this->isMiniChartActive()) {
-            $metric = Option::getByAddon('metric', 'mini_chart', 'views');
+            $metric = Option::getAddonValue('metric', 'mini_chart', 'views');
         }
 
         return apply_filters('wp_statistics_mini_chart_metric', $metric);
@@ -71,7 +71,7 @@ class MiniChartHelper
             return 14;
         }
 
-        return intval(Option::getByAddon('date_range', 'mini_chart', '14'));
+        return intval(Option::getAddonValue('date_range', 'mini_chart', '14'));
     }
 
     /**
@@ -85,7 +85,7 @@ class MiniChartHelper
             return 'total';
         }
 
-        return Option::getByAddon('count_display', 'mini_chart', 'total');
+        return Option::getAddonValue('count_display', 'mini_chart', 'total');
     }
 
     /**
@@ -99,7 +99,7 @@ class MiniChartHelper
             return '#7362BF';
         }
 
-        return Option::getByAddon('chart_color', 'mini_chart', '#7362BF');
+        return Option::getAddonValue('chart_color', 'mini_chart', '#7362BF');
     }
 
     /**
@@ -131,7 +131,7 @@ class MiniChartHelper
         // Fill `$chartDates` in reveresed order (oldest date is at the beginning of the array)
         $daysAgoStartIndex = intval($forceDays) ? intval($forceDays) - 1 : $this->getChartDateRange() - 1;
         for ($i = $daysAgoStartIndex; $i >= 0; $i--) {
-            $date = TimeZone::getTimeAgo($i);
+            $date = DateTime::getTimeAgo($i);
             // Add `$date` if `$minDate` is not passed or if `$minDate` is less than `$date`
             if (empty($minDate) || $minDate < $date) {
                 $chartDates[] = $date;

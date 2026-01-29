@@ -2,28 +2,19 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
-use WP_STATISTICS\Menus;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
+use WP_Statistics\Utils\UrlBuilder;
 
 /**
  * This class is used to get summary stats about a post (e.g. visitors, views, referrers, etc.).
  *
  * @since 15.0.0 Refactored to use AnalyticsQueryHandler instead of legacy models.
+ * @since 15.x.x Refactored to use getAllData() with batched queries and immutable date ranges.
  */
 class PostSummaryDataProvider
 {
     private $postId = 0;
-
-    private $fromDate = '';
-    private $toDate = '';
-
-    /**
-     * Total period date range (from publish date to today).
-     *
-     * @var array Format: ['from' => 'Y-m-d', 'to' => 'Y-m-d']
-     */
-    private $totalDateRange = [];
 
     /**
      * Analytics query handler instance.
@@ -31,6 +22,20 @@ class PostSummaryDataProvider
      * @var AnalyticsQueryHandler
      */
     private $queryHandler;
+
+    /**
+     * Post type cache.
+     *
+     * @var string
+     */
+    private $postType;
+
+    /**
+     * Common filters for all queries.
+     *
+     * @var array
+     */
+    private $filters;
 
     /**
      * Initializes the class.
@@ -45,273 +50,90 @@ class PostSummaryDataProvider
             throw new \Exception('Invalid post!');
         }
 
-        $this->postId = $postId;
-
-        $this->setFrom(DateTime::get('-7 days'));
-        $this->setTo(DateTime::get());
-
-        $this->totalDateRange = [
-            'from' => $this->getPublishDate(),
-            'to'   => date('Y-m-d'),
-        ];
-
+        $this->postId       = $postId;
+        $this->postType     = get_post_type($postId);
         $this->queryHandler = new AnalyticsQueryHandler(false);
+        $this->filters      = [
+            'resource_id' => $this->postId,
+            'post_type'   => $this->postType,
+        ];
     }
 
     /**
-     * Sets a new value for the `$fromDate` attribute.
+     * Returns all summary data for this post in batched queries (5 queries instead of 8).
      *
-     * @param string $from
-     * @param bool   $checkPublishDate Make sure the input date is after (or equal) the post's publish date.
+     * @param array  $periodRange Date range for the period summary. Format: ['from' => 'Y-m-d', 'to' => 'Y-m-d'].
+     * @param array  $totalRange  Date range for total/lifetime stats. Format: ['from' => 'Y-m-d', 'to' => 'Y-m-d'].
+     * @param array  $chartRange  Date range for the chart data. Format: ['from' => 'Y-m-d', 'to' => 'Y-m-d'].
+     * @param string $chartMetric Either 'views' or 'visitors'.
      *
-     * @return void
+     * @return array
      */
-    public function setFrom($from, $checkPublishDate = true)
+    public function getAllData(array $periodRange, array $totalRange, array $chartRange, $chartMetric = 'visitors')
     {
-        if (!DateTime::isValidDate($from)) {
-            return;
-        }
-
-        if ($checkPublishDate) {
-            $publishDate = get_the_date('Y-m-d', $this->postId);
-            if ($from < $publishDate) {
-                $from = $publishDate;
-            }
-        }
-
-        $this->fromDate = $from;
-    }
-
-    /**
-     * Sets a new value for the `$toDate` attribute.
-     *
-     * @param string $to
-     *
-     * @return void
-     */
-    public function setTo($to)
-    {
-        if (!DateTime::isValidDate($to)) {
-            return;
-        }
-
-        $this->toDate = $to;
-    }
-
-    /**
-     * Returns `$fromDate` as a string.
-     *
-     * @param   string          $format         Returns the date with this format. If left empty, the format in WordPress settings will be used.
-     * @param   bool            $shortFormat    Make the returned date format shorter.
-     *
-     * @return  string|false
-     */
-    public function getFromString($format = '', $shortFormat = false)
-    {
-        if (empty($format)) {
-            $format = get_option('date_format');
-        }
-
-        if ($shortFormat) {
-            $format = $this->makeDateFormatShorter($format);
-        }
-
-        return date($format, strtotime($this->fromDate));
-    }
-
-    /**
-     * Returns `$toDate` as a string.
-     *
-     * @param   string          $format         Returns the date with this format. If left empty, the format in WordPress settings will be used.
-     * @param   bool            $shortFormat    Make the returned date format shorter.
-     *
-     * @return  string|false
-     */
-    public function getToString($format = '', $shortFormat = false)
-    {
-        if (empty($format)) {
-            $format = get_option('date_format');
-        }
-
-        if ($shortFormat) {
-            $format = $this->makeDateFormatShorter($format);
-        }
-
-        return date($format, strtotime($this->toDate));
-    }
-
-    /**
-     * Removes year from the given date format and make the month shorter.
-     *
-     * @param   string  $dateFormat
-     *
-     * @return  string
-     */
-    private function makeDateFormatShorter($dateFormat)
-    {
-        // Remove year
-        $dateFormat = str_replace(['o', 'X', 'x', 'Y', 'y'], '', $dateFormat);
-
-        // Trim extra charaters
-        $dateFormat = trim($dateFormat, ' ,./\\-_');
-
-        // Replace full representation of a month with its short one
-        $dateFormat = str_replace('F', 'M', $dateFormat);
-
-        // Trim extra charaters
-        $dateFormat = trim($dateFormat, ' ,./\\-_');
-
-        return $dateFormat;
-    }
-
-    /**
-     * Returns post publish date as a string.
-     *
-     * @param   string              $format     Returns the date with this format. Default: 'Y-m-d'.
-     *
-     * @return  string|int|false
-     */
-    public function getPublishDate($format = 'Y-m-d')
-    {
-        return get_the_date($format, $this->postId);
-    }
-
-    /**
-     * Returns the number of visitors for this post.
-     *
-     * @param bool $isTotal Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
-     *
-     * @return int
-     */
-    public function getVisitors($isTotal = false)
-    {
-        $dateRange = $isTotal ? $this->totalDateRange : ['from' => $this->fromDate, 'to' => $this->toDate];
-
-        $result = $this->queryHandler->handle([
-            'sources'   => ['visitors'],
-            'date_from' => $dateRange['from'],
-            'date_to'   => $dateRange['to'],
-            'filters'   => [
-                'resource_id' => $this->postId,
-                'post_type'   => get_post_type($this->postId),
-            ],
+        // Query A: Total visitors + views (batched)
+        $totals = $this->queryHandler->handle([
+            'sources'   => ['visitors', 'views'],
+            'date_from' => $totalRange['from'],
+            'date_to'   => $totalRange['to'],
+            'filters'   => $this->filters,
             'format'    => 'flat',
         ]);
 
-        return intval($result['data']['totals']['visitors'] ?? 0);
-    }
-
-    /**
-     * Returns the number of views for this post.
-     *
-     * @param bool $isTotal Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
-     *
-     * @return int
-     */
-    public function getViews($isTotal = false)
-    {
-        $dateRange = $isTotal ? $this->totalDateRange : ['from' => $this->fromDate, 'to' => $this->toDate];
-
-        $result = $this->queryHandler->handle([
-            'sources'   => ['views'],
-            'date_from' => $dateRange['from'],
-            'date_to'   => $dateRange['to'],
-            'filters'   => [
-                'resource_id' => $this->postId,
-                'post_type'   => get_post_type($this->postId),
-            ],
+        // Query B: Period visitors + views (batched)
+        $period = $this->queryHandler->handle([
+            'sources'   => ['visitors', 'views'],
+            'date_from' => $periodRange['from'],
+            'date_to'   => $periodRange['to'],
+            'filters'   => $this->filters,
             'format'    => 'flat',
         ]);
 
-        return intval($result['data']['totals']['views'] ?? 0);
-    }
-
-    /**
-     * Returns daily views for this post for the past x days.
-     *
-     * @return array Format: `[['views' => {COUNT}, 'date' => '{DATE}'], ['views' => {COUNT}, 'date' => '{DATE}'], ...]`.
-     */
-    public function getDailyViews()
-    {
-        $result = $this->queryHandler->handle([
-            'sources'   => ['views'],
+        // Query C: Daily chart data (single source based on metric)
+        $source = ($chartMetric === 'views') ? 'views' : 'visitors';
+        $daily  = $this->queryHandler->handle([
+            'sources'   => [$source],
             'group_by'  => ['date'],
-            'date_from' => $this->fromDate,
-            'date_to'   => $this->toDate,
-            'filters'   => [
-                'resource_id' => $this->postId,
-                'post_type'   => get_post_type($this->postId),
-            ],
+            'date_from' => $chartRange['from'],
+            'date_to'   => $chartRange['to'],
+            'filters'   => $this->filters,
             'format'    => 'table',
             'per_page'  => 1000,
         ]);
 
-        $dailyViews = [];
-        if (!empty($result['data']['rows'])) {
-            foreach ($result['data']['rows'] as $row) {
-                $dailyViews[] = [
-                    'views' => intval($row['views'] ?? 0),
-                    'date'  => $row['date'] ?? '',
-                ];
-            }
-        }
+        // Query D: Top referrer (total)
+        $topRefTotal = $this->queryTopReferrer($totalRange);
 
-        return $dailyViews;
+        // Query E: Top referrer (period)
+        $topRefPeriod = $this->queryTopReferrer($periodRange);
+
+        return [
+            'totalVisitors'        => intval($totals['data']['totals']['visitors'] ?? 0),
+            'totalViews'           => intval($totals['data']['totals']['views'] ?? 0),
+            'periodVisitors'       => intval($period['data']['totals']['visitors'] ?? 0),
+            'periodViews'          => intval($period['data']['totals']['views'] ?? 0),
+            'dailyHits'            => $this->parseDailyRows($daily, $source),
+            'topReferrerTotal'     => $topRefTotal,
+            'topReferrerPeriod'    => $topRefPeriod,
+            'contentAnalyticsUrl'  => $this->getContentAnalyticsUrl(),
+        ];
     }
 
     /**
-     * Returns daily visitors for this post for the past x days.
+     * Queries the top referrer for a given date range.
      *
-     * @return array Format: `[['date' => '{DATE}', 'visitors' => {COUNT}], ['date' => '{DATE}', 'visitors' => {COUNT}], ...]`.
+     * @param array $dateRange Format: ['from' => 'Y-m-d', 'to' => 'Y-m-d'].
+     *
+     * @return array Format: ['url' => '{URL}', 'count' => {COUNT}].
      */
-    public function getDailyVisitors()
+    private function queryTopReferrer(array $dateRange)
     {
-        $result = $this->queryHandler->handle([
-            'sources'   => ['visitors'],
-            'group_by'  => ['date'],
-            'date_from' => $this->fromDate,
-            'date_to'   => $this->toDate,
-            'filters'   => [
-                'resource_id' => $this->postId,
-                'post_type'   => get_post_type($this->postId),
-            ],
-            'format'    => 'table',
-            'per_page'  => 1000,
-        ]);
-
-        $dailyVisitors = [];
-        if (!empty($result['data']['rows'])) {
-            foreach ($result['data']['rows'] as $row) {
-                $dailyVisitors[] = [
-                    'date'     => $row['date'] ?? '',
-                    'visitors' => intval($row['visitors'] ?? 0),
-                ];
-            }
-        }
-
-        return $dailyVisitors;
-    }
-
-    /**
-     * Returns the top referrer website and its hit count for this post.
-     *
-     * @param bool $isTotal Should return the top referrer of all time? Or use `$fromDate` and `$toDate` as date range?
-     *
-     * @return array Format: `['url' => '{URL}', 'count' => {COUNT}]`.
-     */
-    public function getTopReferrerAndCount($isTotal = false)
-    {
-        $dateRange = $isTotal ? $this->totalDateRange : ['from' => $this->fromDate, 'to' => $this->toDate];
-
         $result = $this->queryHandler->handle([
             'sources'   => ['visitors'],
             'group_by'  => ['referrer'],
             'date_from' => $dateRange['from'],
             'date_to'   => $dateRange['to'],
-            'filters'   => [
-                'resource_id' => $this->postId,
-                'post_type'   => get_post_type($this->postId),
-            ],
+            'filters'   => $this->filters,
             'format'    => 'table',
             'per_page'  => 1,
         ]);
@@ -332,12 +154,100 @@ class PostSummaryDataProvider
     }
 
     /**
+     * Parses daily rows from the query result.
+     *
+     * @param array  $result Query result.
+     * @param string $source The source key ('views' or 'visitors').
+     *
+     * @return array Format: [['date' => '{DATE}', 'hits' => {COUNT}], ...].
+     */
+    private function parseDailyRows(array $result, $source)
+    {
+        $rows = [];
+
+        if (!empty($result['data']['rows'])) {
+            foreach ($result['data']['rows'] as $row) {
+                $rows[] = [
+                    'date' => $row['date'] ?? '',
+                    'hits' => intval($row[$source] ?? 0),
+                ];
+            }
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Returns post publish date as a string.
+     *
+     * @param string $format Returns the date with this format. Default: 'Y-m-d'.
+     *
+     * @return string|int|false
+     */
+    public function getPublishDate($format = 'Y-m-d')
+    {
+        return get_the_date($format, $this->postId);
+    }
+
+    /**
      * Returns the url to content analytics page for this post.
      *
-     * @return  string
+     * @return string
      */
     public function getContentAnalyticsUrl()
     {
-        return esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $this->postId]));
+        return esc_url(UrlBuilder::pageAnalytics($this->postId));
+    }
+
+    /**
+     * @deprecated Use getAllData() instead.
+     */
+    public function getVisitors($isTotal = false)
+    {
+        $dateRange = $isTotal
+            ? ['from' => $this->getPublishDate(), 'to' => date('Y-m-d')]
+            : ['from' => DateTime::get('-7 days'), 'to' => DateTime::get()];
+
+        $result = $this->queryHandler->handle([
+            'sources'   => ['visitors'],
+            'date_from' => $dateRange['from'],
+            'date_to'   => $dateRange['to'],
+            'filters'   => $this->filters,
+            'format'    => 'flat',
+        ]);
+
+        return intval($result['data']['totals']['visitors'] ?? 0);
+    }
+
+    /**
+     * @deprecated Use getAllData() instead.
+     */
+    public function getViews($isTotal = false)
+    {
+        $dateRange = $isTotal
+            ? ['from' => $this->getPublishDate(), 'to' => date('Y-m-d')]
+            : ['from' => DateTime::get('-7 days'), 'to' => DateTime::get()];
+
+        $result = $this->queryHandler->handle([
+            'sources'   => ['views'],
+            'date_from' => $dateRange['from'],
+            'date_to'   => $dateRange['to'],
+            'filters'   => $this->filters,
+            'format'    => 'flat',
+        ]);
+
+        return intval($result['data']['totals']['views'] ?? 0);
+    }
+
+    /**
+     * @deprecated Use getAllData() instead.
+     */
+    public function getTopReferrerAndCount($isTotal = false)
+    {
+        $dateRange = $isTotal
+            ? ['from' => $this->getPublishDate(), 'to' => date('Y-m-d')]
+            : ['from' => DateTime::get('-7 days'), 'to' => DateTime::get()];
+
+        return $this->queryTopReferrer($dateRange);
     }
 }

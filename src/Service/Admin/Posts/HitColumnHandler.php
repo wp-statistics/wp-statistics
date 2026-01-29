@@ -2,16 +2,14 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
-use WP_Statistics\Components\DateRange;
-use WP_STATISTICS\DB;
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
-use WP_Statistics\Components\Option;
+use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
-use WP_STATISTICS\TimeZone;
+use WP_Statistics\Service\Database\DatabaseSchema;
 use WP_Statistics\Traits\ObjectCacheTrait;
+use WP_Statistics\Utils\UrlBuilder;
 
 /**
  * This class will add, render, modify sort and modify order by hits column in posts and taxonomies list pages.
@@ -56,7 +54,9 @@ class HitColumnHandler
             $this->columnName = 'wp-statistics-tax-hits';
         }
 
-        $this->initialPostDate = Helper::getInitialPostDate();
+        $postsModel            = new PostsModel();
+        $initialDate           = $postsModel->getInitialPostDate();
+        $this->initialPostDate = !empty($initialDate) ? DateTime::format($initialDate, ['date_format' => 'Y-m-d']) : date('Y-m-d');
 
         $this->miniChartHelper = new MiniChartHelper();
         $this->queryHandler    = new AnalyticsQueryHandler();
@@ -197,26 +197,33 @@ class HitColumnHandler
         // Add date condition if needed
         $dateCondition = '';
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
-            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . date('Y-m-d') . '"';
+            $dateCondition = 'BETWEEN "' . DateTime::getTimeAgo($this->miniChartHelper->getChartDateRange()) . '" AND "' . date('Y-m-d') . '"';
         }
+
+        // v15 table names
+        $viewsTable        = DatabaseSchema::table('views');
+        $resourceUrisTable = DatabaseSchema::table('resource_uris');
+        $resourcesTable    = DatabaseSchema::table('resources');
+        $sessionsTable     = DatabaseSchema::table('sessions');
+        $summaryTable      = DatabaseSchema::table('summary');
 
         // Select Field
         if ($this->miniChartHelper->getChartMetric() === 'visitors') {
             if (!empty($dateCondition)) {
-                $dateCondition = "AND `visitor_relationships`.`date` $dateCondition";
+                $dateCondition = "AND `v`.`viewed_at` $dateCondition";
             }
 
-            $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE (`pages`.`type` IN ("page", "post", "product") OR `pages`.`type` LIKE "post_type_%") AND ' . $wpdb->posts . '.`ID` = `pages`.`id` ' . $dateCondition . ') AS `post_hits_sortable` ';
+            $clauses['fields'] .= ", (SELECT COUNT(DISTINCT `s`.`visitor_id`) FROM {$viewsTable} AS `v` INNER JOIN {$resourceUrisTable} AS `ru` ON `v`.`resource_uri_id` = `ru`.`ID` INNER JOIN {$resourcesTable} AS `r` ON `ru`.`resource_id` = `r`.`ID` AND `r`.`is_deleted` = 0 INNER JOIN {$sessionsTable} AS `s` ON `v`.`session_id` = `s`.`ID` WHERE `r`.`resource_id` = {$wpdb->posts}.`ID` {$dateCondition}) AS `post_hits_sortable` ";
         } else {
-            $historicalSubQuery = '';
+            $summarySubQuery = '';
             if (!empty($dateCondition)) {
-                $dateCondition = "AND `pages`.`date` $dateCondition";
+                $dateCondition = "AND `v`.`viewed_at` $dateCondition";
             } else {
-                // Consider historical for total views
-                $historicalSubQuery = ' + IFNULL((SELECT SUM(`historical`.`value`) FROM ' . DB::table('historical') . ' AS `historical` WHERE `historical`.`page_id` = ' . $wpdb->posts . '.`ID` AND `historical`.`uri` LIKE CONCAT("%/", ' . $wpdb->posts . '.`post_name`, "/")), 0)';
+                // Consider summary totals for all-time views
+                $summarySubQuery = " + IFNULL((SELECT SUM(`sm`.`views`) FROM {$summaryTable} AS `sm` INNER JOIN {$resourceUrisTable} AS `sru` ON `sm`.`resource_uri_id` = `sru`.`ID` INNER JOIN {$resourcesTable} AS `sr` ON `sru`.`resource_id` = `sr`.`ID` AND `sr`.`is_deleted` = 0 WHERE `sr`.`resource_id` = {$wpdb->posts}.`ID`), 0)";
             }
 
-            $clauses['fields'] .= ', ((SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE (`pages`.`type` IN ("page", "post", "product") OR `pages`.`type` LIKE "post_type_%") AND ' . $wpdb->posts . '.`ID` = `pages`.`id` ' . $dateCondition . ')' . $historicalSubQuery . ') AS `post_hits_sortable` ';
+            $clauses['fields'] .= ", ((SELECT COUNT(*) FROM {$viewsTable} AS `v` INNER JOIN {$resourceUrisTable} AS `ru` ON `v`.`resource_uri_id` = `ru`.`ID` INNER JOIN {$resourcesTable} AS `r` ON `ru`.`resource_id` = `r`.`ID` AND `r`.`is_deleted` = 0 WHERE `r`.`resource_id` = {$wpdb->posts}.`ID` {$dateCondition}){$summarySubQuery}) AS `post_hits_sortable` ";
         }
 
         // Order by `post_hits_sortable`
@@ -250,26 +257,33 @@ class HitColumnHandler
         // Add date condition if needed
         $dateCondition = '';
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
-            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . date('Y-m-d') . '"';
+            $dateCondition = 'BETWEEN "' . DateTime::getTimeAgo($this->miniChartHelper->getChartDateRange()) . '" AND "' . date('Y-m-d') . '"';
         }
+
+        // v15 table names
+        $viewsTable        = DatabaseSchema::table('views');
+        $resourceUrisTable = DatabaseSchema::table('resource_uris');
+        $resourcesTable    = DatabaseSchema::table('resources');
+        $sessionsTable     = DatabaseSchema::table('sessions');
+        $summaryTable      = DatabaseSchema::table('summary');
 
         // Select Field
         if ($this->miniChartHelper->getChartMetric() === 'visitors') {
             if (!empty($dateCondition)) {
-                $dateCondition = "AND `visitor_relationships`.`date` $dateCondition";
+                $dateCondition = "AND `v`.`viewed_at` $dateCondition";
             }
 
-            $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE `pages`.`type` IN ("category", "post_tag", "tax") AND `t`.`term_id` = `pages`.`id` ' . $dateCondition . ') AS `tax_hits_sortable` ';
+            $clauses['fields'] .= ", (SELECT COUNT(DISTINCT `s`.`visitor_id`) FROM {$viewsTable} AS `v` INNER JOIN {$resourceUrisTable} AS `ru` ON `v`.`resource_uri_id` = `ru`.`ID` INNER JOIN {$resourcesTable} AS `r` ON `ru`.`resource_id` = `r`.`ID` AND `r`.`is_deleted` = 0 INNER JOIN {$sessionsTable} AS `s` ON `v`.`session_id` = `s`.`ID` WHERE `r`.`resource_id` = `t`.`term_id` AND `r`.`resource_type` LIKE 'tax_%' {$dateCondition}) AS `tax_hits_sortable` ";
         } else {
-            $historicalSubQuery = '';
+            $summarySubQuery = '';
             if (!empty($dateCondition)) {
-                $dateCondition = "AND `pages`.`date` $dateCondition";
+                $dateCondition = "AND `v`.`viewed_at` $dateCondition";
             } else {
-                // Consider historical for total views
-                $historicalSubQuery = ' + IFNULL((SELECT SUM(`historical`.`value`) FROM ' . DB::table('historical') . ' AS `historical` WHERE `historical`.`page_id` = `t`.`term_id` AND `historical`.`uri` LIKE CONCAT("%/", `t`.`slug`, "/")), 0)';
+                // Consider summary totals for all-time views
+                $summarySubQuery = " + IFNULL((SELECT SUM(`sm`.`views`) FROM {$summaryTable} AS `sm` INNER JOIN {$resourceUrisTable} AS `sru` ON `sm`.`resource_uri_id` = `sru`.`ID` INNER JOIN {$resourcesTable} AS `sr` ON `sru`.`resource_id` = `sr`.`ID` AND `sr`.`is_deleted` = 0 WHERE `sr`.`resource_id` = `t`.`term_id` AND `sr`.`resource_type` LIKE 'tax_%'), 0)";
             }
 
-            $clauses['fields'] .= ', ((SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE `pages`.`type` IN ("category", "post_tag", "tax") AND `t`.`term_id` = `pages`.`id` ' . $dateCondition . ')' . $historicalSubQuery . ') AS `tax_hits_sortable` ';
+            $clauses['fields'] .= ", ((SELECT COUNT(*) FROM {$viewsTable} AS `v` INNER JOIN {$resourceUrisTable} AS `ru` ON `v`.`resource_uri_id` = `ru`.`ID` INNER JOIN {$resourcesTable} AS `r` ON `ru`.`resource_id` = `r`.`ID` AND `r`.`is_deleted` = 0 WHERE `r`.`resource_id` = `t`.`term_id` AND `r`.`resource_type` LIKE 'tax_%' {$dateCondition}){$summarySubQuery}) AS `tax_hits_sortable` ";
         }
 
         // Order by `tax_hits_sortable`
@@ -309,7 +323,7 @@ class HitColumnHandler
         // Add date range if configured
         if ($countDisplay === 'date_range') {
             $dateRange = [
-                'from' => TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))),
+                'from' => DateTime::getTimeAgo($this->miniChartHelper->getChartDateRange()),
                 'to'   => date('Y-m-d'),
             ];
 
@@ -371,23 +385,9 @@ class HitColumnHandler
 
         // Display hit count only if it's a valid number
         if (is_numeric($hitCount)) {
-            $date = $this->getCache('hitArgs')['date'] ?? DateRange::get('30days');
-
-            $analyticsUrl = Menus::admin_url('content-analytics', [
-                'post_id' => $objectId,
-                'type'    => 'single',
-                'from'    => $date['from'],
-                'to'      => $date['to']
-            ]);
-
-            if ($isTerm) {
-                $analyticsUrl = Menus::admin_url('category-analytics', [
-                    'term_id' => $objectId,
-                    'type'    => 'single',
-                    'from'    => $date['from'],
-                    'to'      => $date['to']
-                ]);
-            }
+            $analyticsUrl = $isTerm
+                ? UrlBuilder::categoryAnalytics(intval($objectId))
+                : UrlBuilder::pageAnalytics(intval($objectId));
 
             // Add hit number below the chart
             $result .= sprintf(

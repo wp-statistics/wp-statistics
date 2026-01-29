@@ -11,6 +11,7 @@ use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Network\NetworkMenuManager;
 use WP_Statistics\Service\Admin\Notification\NotificationManager;
+use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
@@ -82,6 +83,11 @@ class AdminServiceProvider implements ServiceProvider
             return new LicenseManagementManager();
         });
 
+        // Metabox Manager (dashboard and post editor metaboxes)
+        $container->register('metabox', function () {
+            return new MetaboxManager();
+        });
+
         // Posts Manager (hits column, post meta tracking)
         $container->register('posts', function () {
             return new PostsManager();
@@ -151,6 +157,7 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('site_health_info');
             $container->get('site_health_tests');
             $container->get('license_management');
+            $container->get('metabox');
             $container->get('posts');
             $container->get('filters');
             $container->get('notifications');

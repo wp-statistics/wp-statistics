@@ -2,7 +2,7 @@
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\Option;
-use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\PostType;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
@@ -35,7 +35,7 @@ class PostSummary extends BaseMetabox
 
     public function getScreen()
     {
-        return Helper::getPostTypes();
+        return PostType::getAllTypes();
     }
 
     public function getData()

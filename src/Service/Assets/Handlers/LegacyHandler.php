@@ -204,6 +204,8 @@ class LegacyHandler extends BaseAssets
             'wp_timezone'    => (new DateTime())->getTimezone()->getName()
         ]);
 
+        global $post;
+
         $list['page'] = array(
             'file' => $hook,
             'ID'   => (isset($post) ? $post->ID : 0)

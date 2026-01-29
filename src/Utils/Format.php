@@ -112,4 +112,32 @@ class Format
         }
         return $value;
     }
+
+    /**
+     * Calculates the percentage change between two numbers.
+     *
+     * Returns a positive value for increase, negative for decrease, 0 if equal.
+     *
+     * @param int|float $previous The previous/baseline value.
+     * @param int|float $current  The current value.
+     * @param int       $decimals Number of decimal places to round to.
+     *
+     * @return float The percentage change.
+     */
+    public static function calculatePercentageChange($previous, $current, $decimals = 2)
+    {
+        $previous = intval($previous);
+        $current  = intval($current);
+
+        if ($previous == $current) {
+            return 0;
+        }
+
+        $multiply = ($previous > $current) ? -1 : 1;
+        $change   = abs($current - $previous);
+        $result   = $previous == 0 ? $change : ($change / $previous);
+        $result   *= 100 * $multiply;
+
+        return round($result, $decimals);
+    }
 }

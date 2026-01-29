@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Metabox;
 
-use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Format;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Components\DateRange;
@@ -302,6 +302,10 @@ class MetaboxDataProvider
             $postId = Request::get('current_page', [], 'array')['ID'] ?? 0;
         }
 
+        if (!empty($postId) && !current_user_can('edit_post', $postId)) {
+            return null;
+        }
+
         return PostsManager::getPostStatisticsSummary($postId);
     }
 
@@ -426,7 +430,7 @@ class MetaboxDataProvider
         ];
 
         foreach ($data as $key => $value) {
-            $data[$key]['diff_percentage'] = Helper::calculatePercentageChange($value['prev_period'], $value['current_period']);
+            $data[$key]['diff_percentage'] = Format::calculatePercentageChange($value['prev_period'], $value['current_period']);
             if ($data[$key]['diff_percentage'] > 0) {
                 $data[$key]['diff_type'] = 'plus';
             } elseif ($data[$key]['diff_percentage'] < 0) {

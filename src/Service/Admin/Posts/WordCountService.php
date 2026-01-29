@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
-use WP_STATISTICS\Helper;
 use WP_Statistics\Components\Option;
+use WP_Statistics\Utils\PostType;
 
 class WordCountService
 {
@@ -71,7 +71,7 @@ class WordCountService
      */
     public function handleSavePost($postId, $post)
     {
-        if ($post && $post->post_status == 'publish' && in_array($post->post_type, Helper::get_list_post_type())) {
+        if ($post && $post->post_status == 'publish' && in_array($post->post_type, PostType::getAllTypes())) {
             $wordCount = $this->calculate($post->post_content);
             $this->saveWordsCount($postId, $wordCount);
         }
@@ -80,7 +80,7 @@ class WordCountService
     public function getPostsWithoutWordCountMeta()
     {
         return get_posts([
-            'post_type'    => Helper::get_list_post_type(),
+            'post_type'    => PostType::getAllTypes(),
             'post_status'  => 'publish',
             'numberposts'  => -1,
             'meta_key'     => self::WORDS_COUNT_META_KEY,
