@@ -144,7 +144,7 @@ function parseHref(href: string): { path: string; search?: Record<string, string
  */
 function PanelAction({ children, className, href, onClick }: PanelActionProps) {
   const sharedClassName = cn(
-    'inline-flex items-center gap-1.5 cursor-pointer',
+    'inline-flex items-center gap-1.5',
     'text-xs font-medium text-neutral-500',
     'hover:text-neutral-700 transition-colors',
     className

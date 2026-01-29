@@ -25,7 +25,7 @@ function FilterChip({ label, operator, value, onRemove, className }: FilterChipP
       <button
         type="button"
         onClick={onRemove}
-        className="flex h-4 w-4 items-center justify-center rounded-full text-secondary-foreground cursor-pointer"
+        className="flex h-4 w-4 items-center justify-center rounded-full text-secondary-foreground"
         aria-label={`Remove ${label} filter`}
       >
         <X className="h-3 w-3" />

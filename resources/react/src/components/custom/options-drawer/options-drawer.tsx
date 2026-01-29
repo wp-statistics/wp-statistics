@@ -149,7 +149,7 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
                 <button
                   type="button"
                   onClick={onReset}
-                  className="text-xs text-neutral-500 hover:text-neutral-700 transition-colors cursor-pointer"
+                  className="text-xs text-neutral-500 hover:text-neutral-700 transition-colors"
                 >
                   {__('Reset all', 'wp-statistics')}
                 </button>
@@ -161,7 +161,7 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
                 <button
                   type="button"
                   onClick={goBack}
-                  className="flex items-center justify-center w-6 h-6 -ml-1 rounded hover:bg-neutral-100 transition-colors text-neutral-500 hover:text-neutral-700 cursor-pointer"
+                  className="flex items-center justify-center w-6 h-6 -ml-1 rounded hover:bg-neutral-100 transition-colors text-neutral-500 hover:text-neutral-700"
                   aria-label={__('Back', 'wp-statistics')}
                 >
                   <ChevronLeftIcon className="h-4 w-4" />
@@ -173,7 +173,7 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
               <button
                 type="button"
                 onClick={handleClose}
-                className="text-xs text-neutral-500 hover:text-neutral-700 transition-colors cursor-pointer"
+                className="text-xs text-neutral-500 hover:text-neutral-700 transition-colors"
               >
                 {__('Done', 'wp-statistics')}
               </button>
@@ -214,7 +214,7 @@ export function OptionsMenuItem({ icon, title, summary, onClick, className }: Op
       className={cn(
         'flex w-full items-center justify-between px-4 py-3',
         'hover:bg-neutral-50 active:bg-neutral-100 transition-colors',
-        'border-b border-neutral-100 cursor-pointer',
+        'border-b border-neutral-100',
         'group',
         className
       )}
@@ -275,7 +275,7 @@ export function OptionsToggleItem({ icon, label, checked, onCheckedChange, disab
       className={cn(
         'flex w-full items-center justify-between py-2.5',
         'border-b border-neutral-100 last:border-b-0',
-        'cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
+        'disabled:cursor-not-allowed disabled:opacity-50',
         'hover:bg-neutral-50/50 -mx-4 px-4 transition-colors'
       )}
     >

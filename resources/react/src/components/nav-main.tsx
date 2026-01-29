@@ -76,7 +76,7 @@ const SubMenuItem = React.memo(function SubMenuItem({
       <SidebarMenuSubButton
         asChild
         isActive={isActive}
-        className={`cursor-pointer text-sm bg-transparent hover:bg-transparent focus:ring-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 overflow-visible ${
+        className={`text-sm bg-transparent hover:bg-transparent focus:ring-0 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 overflow-visible ${
           isActive
             ? 'text-sidebar-accent-foreground font-medium'
             : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'
@@ -134,15 +134,15 @@ const NavMenuItem = React.memo(function NavMenuItem({
   }, [item.items, onNavigate])
 
   // Stable class strings
-  const menuButtonClasses = `relative cursor-pointer pe-8 bg-transparent hover:bg-sidebar-hover hover:text-sidebar-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 ${
+  const menuButtonClasses = `relative pe-8 bg-transparent hover:bg-sidebar-hover hover:text-sidebar-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 ${
     isSubmenuActive ? 'text-sidebar-accent-foreground [&_svg]:opacity-100' : 'text-sidebar-foreground'
   }`
 
-  const chevronButtonClasses = `cursor-pointer absolute end-2 top-1/2 -translate-y-1/2 p-1 rounded z-10 group-data-[collapsible=icon]:hidden ${
+  const chevronButtonClasses = `absolute end-2 top-1/2 -translate-y-1/2 p-1 rounded z-10 group-data-[collapsible=icon]:hidden ${
     isSubmenuActive ? 'text-sidebar-accent-foreground' : 'text-sidebar-foreground hover:text-sidebar-foreground'
   }`
 
-  const singleItemClasses = `relative cursor-pointer bg-transparent hover:bg-sidebar-hover hover:text-sidebar-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 text-sidebar-foreground data-[active=true]:bg-sidebar-active data-[active=true]:text-sidebar-accent-foreground data-[active=true]:[&_svg]:opacity-100`
+  const singleItemClasses = `relative bg-transparent hover:bg-sidebar-hover hover:text-sidebar-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/30 focus-visible:outline-offset-[-2px] focus:ring-0 [&_svg]:opacity-60 hover:[&_svg]:opacity-100 text-sidebar-foreground data-[active=true]:bg-sidebar-active data-[active=true]:text-sidebar-accent-foreground data-[active=true]:[&_svg]:opacity-100`
 
   return (
     <Collapsible asChild open={isOpen} onOpenChange={setIsOpen}>

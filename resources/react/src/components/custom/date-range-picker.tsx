@@ -434,7 +434,7 @@ export function DateRangePickerContent({
                   aria-label={`Select date range: ${getPresetLabel(preset.name)}`}
                   aria-pressed={selectedPreset === preset.name}
                   className={cn(
-                    'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors cursor-pointer',
+                    'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors',
                     selectedPreset === preset.name
                       ? 'bg-primary/10 text-primary font-medium'
                       : 'text-neutral-600 hover:bg-neutral-100'
@@ -969,7 +969,7 @@ export const DateRangePicker = ({
                     aria-label={`Select date range: ${getPresetLabel(preset.name)}`}
                     aria-pressed={selectedPreset === preset.name}
                     className={cn(
-                      'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors cursor-pointer',
+                      'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors',
                       selectedPreset === preset.name
                         ? 'bg-primary/10 text-primary font-medium'
                         : 'text-neutral-600 hover:bg-neutral-100'

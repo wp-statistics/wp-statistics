@@ -75,8 +75,8 @@ function QuickFilters({ definitions, activeFilters, onToggle, lockedFilters = []
               isLocked
                 ? 'bg-neutral-100 text-neutral-500 border-neutral-200 cursor-default'
                 : isActive
-                  ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90 cursor-pointer'
-                  : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300 cursor-pointer'
+                  ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
+                  : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300'
             )}
           >
             {isLocked ? (

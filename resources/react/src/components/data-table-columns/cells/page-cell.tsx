@@ -47,12 +47,12 @@ export const PageCell = memo(function PageCell({
     <Link
       to={internalLinkTo}
       params={internalLinkParams}
-      className="cursor-pointer truncate text-xs text-neutral-700 hover:text-primary hover:underline"
+      className="truncate text-xs text-neutral-700 hover:text-primary hover:underline"
     >
       {truncatedTitle}
     </Link>
   ) : (
-    <span className="cursor-pointer truncate text-xs text-neutral-700">{truncatedTitle}</span>
+    <span className="truncate text-xs text-neutral-700">{truncatedTitle}</span>
   )
 
   return (

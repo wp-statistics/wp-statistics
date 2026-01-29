@@ -255,6 +255,21 @@
   @apply list-none pl-0 m-0;
 }
 
+/* Ensure pointer cursor on all interactive elements */
+#wp-statistics-app button,
+#wp-statistics-app [role="button"],
+#wp-statistics-app [role="tab"],
+#wp-statistics-app [role="menuitem"],
+#wp-statistics-app [role="menuitemcheckbox"],
+#wp-statistics-app [role="menuitemradio"],
+#wp-statistics-app [role="option"],
+#wp-statistics-app [role="link"],
+#wp-statistics-app [role="switch"],
+#wp-statistics-app summary,
+#wp-statistics-app a[href] {
+  cursor: pointer;
+}
+
 /* Sidebar scrollbar styling */
 [data-slot='sidebar-content']::-webkit-scrollbar {
   width: 4px;

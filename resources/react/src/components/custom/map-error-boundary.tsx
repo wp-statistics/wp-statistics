@@ -56,7 +56,7 @@ export class MapErrorBoundary extends Component<Props, State> {
             <p className="text-sm text-neutral-500 mb-4">{fallbackMessage}</p>
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="text-left w-full mb-4">
-                <summary className="text-xs text-neutral-500 cursor-pointer hover:text-neutral-600">
+                <summary className="text-xs text-neutral-500 hover:text-neutral-600">
                   Technical details
                 </summary>
                 <pre className="mt-2 p-2 bg-neutral-100 rounded text-xs text-neutral-600 overflow-auto max-h-32">
