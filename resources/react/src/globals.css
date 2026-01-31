@@ -270,6 +270,14 @@
   cursor: pointer;
 }
 
+/* Pointer cursor for Radix portaled content (renders outside #wp-statistics-app) */
+[data-radix-popper-content-wrapper] [role="option"],
+[data-radix-popper-content-wrapper] [role="menuitem"],
+[data-radix-popper-content-wrapper] [role="menuitemcheckbox"],
+[data-radix-popper-content-wrapper] [role="menuitemradio"] {
+  cursor: pointer;
+}
+
 /* Sidebar scrollbar styling */
 [data-slot='sidebar-content']::-webkit-scrollbar {
   width: 4px;
