@@ -286,6 +286,10 @@ export const queryKeys = {
     /** Operating systems list (paginated) */
     operatingSystems: (params: ListQueryParams) =>
       [...queryKeys.devices.all(), 'operating-systems', params] as const,
+
+    /** Device categories list (paginated) */
+    deviceCategories: (params: ListQueryParams) =>
+      [...queryKeys.devices.all(), 'device-categories', params] as const,
   },
 
   // ==========================================================================
