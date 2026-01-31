@@ -55,10 +55,10 @@ export function WidgetCatalog({ categories }: WidgetCatalogProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-72 p-0" align="end">
-        <div className="p-3 pb-2">
-          <p className="text-sm font-medium">{__('Add widget', 'wp-statistics')}</p>
+        <div className="flex items-center px-3 py-2 border-b border-neutral-100 bg-neutral-50/50">
+          <span className="text-sm font-semibold text-neutral-700">{__('Add widget', 'wp-statistics')}</span>
         </div>
-        <div className="max-h-80 overflow-y-auto px-3 pb-2">
+        <div className="max-h-80 overflow-y-auto p-2">
           {categories.map((cat) => {
             // Only show categories with at least one hidden widget
             const hiddenWidgets = cat.widgets.filter(
@@ -67,18 +67,18 @@ export function WidgetCatalog({ categories }: WidgetCatalogProps) {
             if (hiddenWidgets.length === 0) return null
 
             return (
-              <div key={cat.label} className="mb-3">
-                <p className="mb-1.5 text-xs font-medium text-muted-foreground">
+              <div key={cat.label} className="mb-2">
+                <p className="px-2 mb-1 text-xs font-medium text-neutral-500">
                   {cat.label}
                 </p>
-                <div className="space-y-1.5">
+                <div className="space-y-0.5">
                   {hiddenWidgets.map((id) => {
                     const config = configMap.get(id)
                     if (!config) return null
                     return (
                       <label
                         key={id}
-                        className="flex cursor-pointer items-center gap-2 rounded px-1 py-1 text-sm hover:bg-accent"
+                        className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-xs hover:bg-accent"
                       >
                         <Checkbox
                           checked={selected.includes(id)}
@@ -95,14 +95,14 @@ export function WidgetCatalog({ categories }: WidgetCatalogProps) {
           {categories.every((cat) =>
             cat.widgets.every((id) => !configMap.has(id) || isWidgetVisible(id))
           ) && (
-            <p className="py-4 text-center text-sm text-muted-foreground">
+            <p className="py-4 text-center text-xs text-muted-foreground">
               {__('All widgets are visible', 'wp-statistics')}
             </p>
           )}
         </div>
         {selected.length > 0 && (
-          <div className="border-t p-3">
-            <Button size="sm" className="w-full" onClick={handleAdd}>
+          <div className="border-t border-neutral-100 bg-neutral-50/30 p-2">
+            <Button size="sm" className="w-full text-xs" onClick={handleAdd}>
               {__('Add selected', 'wp-statistics')} ({selected.length})
             </Button>
           </div>
