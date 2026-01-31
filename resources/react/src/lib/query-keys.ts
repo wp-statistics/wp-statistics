@@ -282,6 +282,10 @@ export const queryKeys = {
     /** Browsers list (paginated) */
     browsers: (params: ListQueryParams) =>
       [...queryKeys.devices.all(), 'browsers', params] as const,
+
+    /** Operating systems list (paginated) */
+    operatingSystems: (params: ListQueryParams) =>
+      [...queryKeys.devices.all(), 'operating-systems', params] as const,
   },
 
   // ==========================================================================
