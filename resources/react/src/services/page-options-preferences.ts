@@ -5,6 +5,9 @@ const STORAGE_PREFIX = 'wp_statistics_page_options_'
 export interface PageOptionsPreferences {
   widgets?: Record<string, boolean>
   metrics?: Record<string, boolean>
+  widgetOrder?: string[]
+  widgetSizes?: Record<string, 4 | 6 | 8 | 12>
+  widgetPresets?: Record<string, string>
 }
 
 interface SavePreferencesResponse {

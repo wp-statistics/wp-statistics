@@ -19,10 +19,14 @@ import {
   setCachedPageOptions,
 } from '@/services/page-options-preferences'
 
+export type WidgetSize = 4 | 6 | 8 | 12
+
 export interface WidgetConfig {
   id: string
   label: string
   defaultVisible?: boolean
+  defaultSize?: WidgetSize
+  allowedSizes?: WidgetSize[]
 }
 
 export interface MetricConfig {
@@ -35,6 +39,9 @@ export interface PageOptionsState {
   pageId: string
   widgets: Record<string, boolean>
   metrics: Record<string, boolean>
+  widgetOrder: string[]
+  widgetSizes: Record<string, number>
+  widgetPresets: Record<string, string>
   isInitialized: boolean
 }
 
@@ -50,6 +57,14 @@ export interface PageOptionsContextValue extends PageOptionsState {
   toggleMetric: (metricId: string) => void
   isMetricVisible: (metricId: string) => boolean
   getHiddenMetricCount: () => number
+
+  // Widget order, size & preset actions
+  setWidgetOrder: (order: string[]) => void
+  setWidgetSize: (widgetId: string, size: WidgetSize) => void
+  getWidgetSize: (widgetId: string) => WidgetSize
+  setWidgetPreset: (widgetId: string, preset: string) => void
+  getWidgetPreset: (widgetId: string) => string
+  getOrderedVisibleWidgets: () => WidgetConfig[]
 
   // General actions
   resetToDefaults: () => void
@@ -91,6 +106,16 @@ export function PageOptionsProvider({
     return defaults
   }, [metricConfigs])
 
+  const defaultWidgetOrder = useMemo(() => widgetConfigs.map((c) => c.id), [widgetConfigs])
+
+  const defaultWidgetSizes = useMemo(() => {
+    const defaults: Record<string, number> = {}
+    widgetConfigs.forEach((c) => {
+      defaults[c.id] = c.defaultSize ?? 12
+    })
+    return defaults
+  }, [widgetConfigs])
+
   // Initialize state from cache or defaults
   const [state, setState] = useState<PageOptionsState>(() => {
     const cached = getCachedPageOptions(pageId)
@@ -99,6 +124,9 @@ export function PageOptionsProvider({
         pageId,
         widgets: { ...defaultWidgets, ...cached.widgets },
         metrics: { ...defaultMetrics, ...cached.metrics },
+        widgetOrder: cached.widgetOrder ?? defaultWidgetOrder,
+        widgetSizes: { ...defaultWidgetSizes, ...cached.widgetSizes },
+        widgetPresets: cached.widgetPresets ?? {},
         isInitialized: true,
       }
     }
@@ -106,14 +134,17 @@ export function PageOptionsProvider({
       pageId,
       widgets: defaultWidgets,
       metrics: defaultMetrics,
+      widgetOrder: defaultWidgetOrder,
+      widgetSizes: defaultWidgetSizes,
+      widgetPresets: {},
       isInitialized: true,
     }
   })
 
   // Debounced save to backend
   const debouncedSave = useRef(
-    debounce((widgets: Record<string, boolean>, metrics: Record<string, boolean>) => {
-      savePageOptionsPreferences(pageId, { widgets, metrics })
+    debounce((prefs: { widgets: Record<string, boolean>; metrics: Record<string, boolean>; widgetOrder: string[]; widgetSizes: Record<string, number>; widgetPresets: Record<string, string> }) => {
+      savePageOptionsPreferences(pageId, prefs)
     }, 500)
   ).current
 
@@ -126,35 +157,47 @@ export function PageOptionsProvider({
 
   // Save to cache immediately and debounce backend save
   const savePreferences = useCallback(
-    (widgets: Record<string, boolean>, metrics: Record<string, boolean>) => {
-      setCachedPageOptions(pageId, { widgets, metrics })
-      debouncedSave(widgets, metrics)
+    (prefs: { widgets: Record<string, boolean>; metrics: Record<string, boolean>; widgetOrder: string[]; widgetSizes: Record<string, number>; widgetPresets: Record<string, string> }) => {
+      setCachedPageOptions(pageId, prefs)
+      debouncedSave(prefs)
     },
     [pageId, debouncedSave]
+  )
+
+  // Helper to build prefs object from state
+  const buildPrefs = useCallback(
+    (s: PageOptionsState) => ({
+      widgets: s.widgets,
+      metrics: s.metrics,
+      widgetOrder: s.widgetOrder,
+      widgetSizes: s.widgetSizes,
+      widgetPresets: s.widgetPresets,
+    }),
+    []
   )
 
   // Widget actions
   const setWidgetVisibility = useCallback(
     (widgetId: string, visible: boolean) => {
       setState((prev) => {
-        const newWidgets = { ...prev.widgets, [widgetId]: visible }
-        savePreferences(newWidgets, prev.metrics)
-        return { ...prev, widgets: newWidgets }
+        const next = { ...prev, widgets: { ...prev.widgets, [widgetId]: visible } }
+        savePreferences(buildPrefs(next))
+        return next
       })
     },
-    [savePreferences]
+    [savePreferences, buildPrefs]
   )
 
   const toggleWidget = useCallback(
     (widgetId: string) => {
       setState((prev) => {
         const currentVisible = prev.widgets[widgetId] !== false
-        const newWidgets = { ...prev.widgets, [widgetId]: !currentVisible }
-        savePreferences(newWidgets, prev.metrics)
-        return { ...prev, widgets: newWidgets }
+        const next = { ...prev, widgets: { ...prev.widgets, [widgetId]: !currentVisible } }
+        savePreferences(buildPrefs(next))
+        return next
       })
     },
-    [savePreferences]
+    [savePreferences, buildPrefs]
   )
 
   const isWidgetVisible = useCallback(
@@ -172,24 +215,24 @@ export function PageOptionsProvider({
   const setMetricVisibility = useCallback(
     (metricId: string, visible: boolean) => {
       setState((prev) => {
-        const newMetrics = { ...prev.metrics, [metricId]: visible }
-        savePreferences(prev.widgets, newMetrics)
-        return { ...prev, metrics: newMetrics }
+        const next = { ...prev, metrics: { ...prev.metrics, [metricId]: visible } }
+        savePreferences(buildPrefs(next))
+        return next
       })
     },
-    [savePreferences]
+    [savePreferences, buildPrefs]
   )
 
   const toggleMetric = useCallback(
     (metricId: string) => {
       setState((prev) => {
         const currentVisible = prev.metrics[metricId] !== false
-        const newMetrics = { ...prev.metrics, [metricId]: !currentVisible }
-        savePreferences(prev.widgets, newMetrics)
-        return { ...prev, metrics: newMetrics }
+        const next = { ...prev, metrics: { ...prev.metrics, [metricId]: !currentVisible } }
+        savePreferences(buildPrefs(next))
+        return next
       })
     },
-    [savePreferences]
+    [savePreferences, buildPrefs]
   )
 
   const isMetricVisible = useCallback(
@@ -203,6 +246,61 @@ export function PageOptionsProvider({
     return metricConfigs.filter((config) => state.metrics[config.id] === false).length
   }, [metricConfigs, state.metrics])
 
+  // Widget order & size actions
+  const setWidgetOrder = useCallback(
+    (order: string[]) => {
+      setState((prev) => {
+        const next = { ...prev, widgetOrder: order }
+        savePreferences(buildPrefs(next))
+        return next
+      })
+    },
+    [savePreferences, buildPrefs]
+  )
+
+  const setWidgetSize = useCallback(
+    (widgetId: string, size: WidgetSize) => {
+      setState((prev) => {
+        const next = { ...prev, widgetSizes: { ...prev.widgetSizes, [widgetId]: size } }
+        savePreferences(buildPrefs(next))
+        return next
+      })
+    },
+    [savePreferences, buildPrefs]
+  )
+
+  const getWidgetSize = useCallback(
+    (widgetId: string): WidgetSize => {
+      return (state.widgetSizes[widgetId] ?? 12) as WidgetSize
+    },
+    [state.widgetSizes]
+  )
+
+  const setWidgetPreset = useCallback(
+    (widgetId: string, preset: string) => {
+      setState((prev) => {
+        const next = { ...prev, widgetPresets: { ...prev.widgetPresets, [widgetId]: preset } }
+        savePreferences(buildPrefs(next))
+        return next
+      })
+    },
+    [savePreferences, buildPrefs]
+  )
+
+  const getWidgetPreset = useCallback(
+    (widgetId: string): string => {
+      return state.widgetPresets[widgetId] ?? 'last30'
+    },
+    [state.widgetPresets]
+  )
+
+  const getOrderedVisibleWidgets = useCallback((): WidgetConfig[] => {
+    const configMap = new Map(widgetConfigs.map((c) => [c.id, c]))
+    return state.widgetOrder
+      .filter((id) => state.widgets[id] !== false && configMap.has(id))
+      .map((id) => configMap.get(id)!)
+  }, [widgetConfigs, state.widgetOrder, state.widgets])
+
   // Reset to defaults
   const resetToDefaults = useCallback(() => {
     cancelPendingSave()
@@ -213,9 +311,12 @@ export function PageOptionsProvider({
       pageId,
       widgets: defaultWidgets,
       metrics: defaultMetrics,
+      widgetOrder: defaultWidgetOrder,
+      widgetSizes: defaultWidgetSizes,
+      widgetPresets: {},
       isInitialized: true,
     })
-  }, [pageId, defaultWidgets, defaultMetrics])
+  }, [pageId, defaultWidgets, defaultMetrics, defaultWidgetOrder, defaultWidgetSizes])
 
   const value: PageOptionsContextValue = useMemo(
     () => ({
@@ -224,6 +325,12 @@ export function PageOptionsProvider({
       toggleWidget,
       isWidgetVisible,
       getHiddenWidgetCount,
+      setWidgetOrder,
+      setWidgetSize,
+      getWidgetSize,
+      setWidgetPreset,
+      getWidgetPreset,
+      getOrderedVisibleWidgets,
       setMetricVisibility,
       toggleMetric,
       isMetricVisible,
@@ -238,6 +345,12 @@ export function PageOptionsProvider({
       toggleWidget,
       isWidgetVisible,
       getHiddenWidgetCount,
+      setWidgetOrder,
+      setWidgetSize,
+      getWidgetSize,
+      setWidgetPreset,
+      getWidgetPreset,
+      getOrderedVisibleWidgets,
       setMetricVisibility,
       toggleMetric,
       isMetricVisible,

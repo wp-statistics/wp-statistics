@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 
 import { EmptyState } from '@/components/ui/empty-state'
-import { Panel, PanelAction, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
+import { Panel, PanelAction, PanelActions, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
 
 import { BarListHeader } from './bar-list-header'
 import { HorizontalBar } from './horizontal-bar'
@@ -36,9 +36,11 @@ interface HorizontalBarListProps {
     left: string
     right: string
   }
+  footerLeft?: React.ReactNode
+  headerRight?: React.ReactNode
 }
 
-export function HorizontalBarList({ title, items, link, loading = false, showComparison = true, columnHeaders }: HorizontalBarListProps) {
+export function HorizontalBarList({ title, items, link, loading = false, showComparison = true, columnHeaders, footerLeft, headerRight }: HorizontalBarListProps) {
   // Ensure items is always an array
   const safeItems = items || []
 
@@ -46,6 +48,7 @@ export function HorizontalBarList({ title, items, link, loading = false, showCom
     <Panel className="h-full flex flex-col">
       <PanelHeader>
         <PanelTitle>{title}</PanelTitle>
+        {headerRight && <PanelActions>{headerRight}</PanelActions>}
       </PanelHeader>
 
       <PanelContent className="flex-1">
@@ -83,9 +86,14 @@ export function HorizontalBarList({ title, items, link, loading = false, showCom
         )}
       </PanelContent>
 
-      {link && safeItems.length !== 0 && (
-        <PanelFooter>
-          <PanelAction onClick={link.action}>{link.title || __('See all', 'wp-statistics')}</PanelAction>
+      {(footerLeft || (link && safeItems.length !== 0)) && (
+        <PanelFooter className="justify-between">
+          <div>{footerLeft}</div>
+          <div>
+            {link && safeItems.length !== 0 && (
+              <PanelAction onClick={link.action}>{link.title || __('See all', 'wp-statistics')}</PanelAction>
+            )}
+          </div>
         </PanelFooter>
       )}
     </Panel>

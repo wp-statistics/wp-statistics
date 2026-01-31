@@ -1,6 +1,6 @@
 import type { ChartConfig } from '@components/ui/chart'
 import { ChartContainer, ChartTooltip } from '@components/ui/chart'
-import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
+import { Panel, PanelActions, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
@@ -39,6 +39,10 @@ export interface LineChartProps {
   compareDateTo?: string
   /** End date of the current period - used to detect incomplete data (shows dotted line when ending today) */
   dateTo?: string
+  /** Additional actions rendered next to the timeframe selector */
+  headerActions?: React.ReactNode
+  /** Rendered in PanelActions next to the title (top-right), same as HorizontalBarList */
+  headerRight?: React.ReactNode
 }
 
 // Type for chart tooltip payload entries
@@ -61,6 +65,8 @@ export function LineChart({
   borderless = false,
   compareDateTo,
   dateTo,
+  headerActions,
+  headerRight,
 }: LineChartProps) {
   useBreakpoint() // Trigger responsive re-renders
   const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
@@ -227,7 +233,12 @@ export function LineChart({
   return (
     <Panel variant={borderless ? 'borderless' : 'default'} className={className}>
       <PanelHeader className="flex-col items-start gap-3 md:gap-4">
-        {title && <PanelTitle>{title}</PanelTitle>}
+        {(title || headerRight) && (
+          <div className="flex w-full items-center justify-between">
+            {title && <PanelTitle>{title}</PanelTitle>}
+            {headerRight && <PanelActions>{headerRight}</PanelActions>}
+          </div>
+        )}
         <div
           className={cn(
             'flex w-full',
@@ -320,6 +331,7 @@ export function LineChart({
             })}
           </div>
           <div className="flex items-center gap-2 md:gap-3">
+            {headerActions}
             {onTimeframeChange && (
               <Select value={timeframe} onValueChange={onTimeframeChange}>
                 <SelectTrigger className="w-[90px] md:w-[100px] h-10 md:h-8 text-xs font-medium">
