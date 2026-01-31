@@ -23,7 +23,7 @@ export function WidgetPresetSelector({ widgetId }: WidgetPresetSelectorProps) {
       </SelectTrigger>
       <SelectContent>
         {PRESETS.map((p) => (
-          <SelectItem key={p.name} value={p.name}>
+          <SelectItem key={p.name} value={p.name} className="text-xs">
             {getPresetLabel(p.name)}
           </SelectItem>
         ))}

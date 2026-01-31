@@ -20,7 +20,7 @@ import { WidgetContextMenu } from '@/components/custom/widget-context-menu'
 import { WidgetPresetSelector } from '@/components/custom/widget-preset-selector'
 import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
-import { Panel, PanelActions, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
+import { Panel } from '@/components/ui/panel'
 import { type WidgetConfig, type WidgetSize } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { usePageOptions } from '@/hooks/use-page-options'
@@ -195,23 +195,15 @@ function MetricsOverviewWidget({ widgetId }: { widgetId: string }) {
 
   return (
     <Panel className="h-full">
-      <PanelHeader>
-        <PanelTitle>{__('Metrics Overview', 'wp-statistics')}</PanelTitle>
-        <PanelActions>
-          <WidgetContextMenu widgetId={widgetId} allowedSizes={[4, 6, 8, 12]} />
-        </PanelActions>
-      </PanelHeader>
-      <PanelContent>
-        {metrics.length > 0 ? (
-          <Metrics metrics={metrics} columns="auto" />
-        ) : (
-          <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-        )}
-      </PanelContent>
-      <PanelFooter className="justify-between">
-        <div><WidgetPresetSelector widgetId={widgetId} /></div>
-        <div />
-      </PanelFooter>
+      <div className="flex items-center justify-between px-4 pt-3 pb-1">
+        <WidgetPresetSelector widgetId={widgetId} />
+        <WidgetContextMenu widgetId={widgetId} allowedSizes={[4, 6, 8, 12]} />
+      </div>
+      {metrics.length > 0 ? (
+        <Metrics metrics={metrics} columns="auto" />
+      ) : (
+        <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
+      )}
     </Panel>
   )
 }

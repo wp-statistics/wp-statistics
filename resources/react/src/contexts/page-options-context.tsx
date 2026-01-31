@@ -208,8 +208,12 @@ export function PageOptionsProvider({
   )
 
   const getHiddenWidgetCount = useCallback(() => {
-    return widgetConfigs.filter((config) => state.widgets[config.id] === false).length
-  }, [widgetConfigs, state.widgets])
+    return widgetConfigs.filter((config) => {
+      const isVisible = state.widgets[config.id] !== false
+      const defaultVisible = defaultWidgets[config.id] !== false
+      return isVisible !== defaultVisible
+    }).length
+  }, [widgetConfigs, state.widgets, defaultWidgets])
 
   // Metric actions
   const setMetricVisibility = useCallback(
@@ -243,8 +247,12 @@ export function PageOptionsProvider({
   )
 
   const getHiddenMetricCount = useCallback(() => {
-    return metricConfigs.filter((config) => state.metrics[config.id] === false).length
-  }, [metricConfigs, state.metrics])
+    return metricConfigs.filter((config) => {
+      const isVisible = state.metrics[config.id] !== false
+      const defaultVisible = defaultMetrics[config.id] !== false
+      return isVisible !== defaultVisible
+    }).length
+  }, [metricConfigs, state.metrics, defaultMetrics])
 
   // Widget order & size actions
   const setWidgetOrder = useCallback(
