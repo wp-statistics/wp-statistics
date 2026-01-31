@@ -61,6 +61,12 @@ export const SHARED_METRICS = {
   topRegion: { id: 'top-region', label: __('Top Region', 'wp-statistics'), defaultVisible: true },
   topCity: { id: 'top-city', label: __('Top City', 'wp-statistics'), defaultVisible: true },
 
+  // Real-time metrics
+  onlineVisitors: { id: 'online-visitors', label: __('Online Visitors', 'wp-statistics'), defaultVisible: false },
+
+  // Search metrics
+  searches: { id: 'searches', label: __('Searches', 'wp-statistics'), defaultVisible: false },
+
   // Referral metrics
   referredVisitors: { id: 'referred-visitors', label: __('Referred Visitors', 'wp-statistics'), defaultVisible: true },
   topSearchEngine: { id: 'top-search-engine', label: __('Top Search Engine', 'wp-statistics'), defaultVisible: true },

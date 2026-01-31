@@ -26,6 +26,9 @@ import { useChartData } from '@/hooks/use-chart-data'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { useWidgetDateRange } from '@/hooks/use-widget-date-range'
 import { transformToBarList } from '@/lib/bar-list-helpers'
+import { pickMetrics } from '@/constants/metric-definitions'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
+import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
@@ -55,9 +58,9 @@ const WIDGET_CONFIGS: WidgetConfig[] = [
   { id: 'top-pages', label: __('Top Pages', 'wp-statistics'), defaultVisible: true, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
   { id: 'top-referrers', label: __('Top Referrers', 'wp-statistics'), defaultVisible: true, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
   { id: 'top-countries', label: __('Top Countries', 'wp-statistics'), defaultVisible: true, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
-  { id: 'top-browsers', label: __('Top Browsers', 'wp-statistics'), defaultVisible: true, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
+  { id: 'top-search-engines', label: __('Top Search Engines', 'wp-statistics'), defaultVisible: true, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
+  { id: 'top-browsers', label: __('Top Browsers', 'wp-statistics'), defaultVisible: false, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
   { id: 'top-visitors', label: __('Top Visitors', 'wp-statistics'), defaultVisible: false, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
-  { id: 'top-search-engines', label: __('Top Search Engines', 'wp-statistics'), defaultVisible: false, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
   { id: 'top-social-media', label: __('Top Social Media', 'wp-statistics'), defaultVisible: false, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
   { id: 'top-cities', label: __('Top Cities', 'wp-statistics'), defaultVisible: false, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
   { id: 'top-os', label: __('Top Operating Systems', 'wp-statistics'), defaultVisible: false, defaultSize: 6, allowedSizes: [4, 6, 8, 12] },
@@ -87,12 +90,15 @@ const WIDGET_CATEGORIES = [
   },
 ]
 
+const METRIC_CONFIGS = pickMetrics('visitors', 'views', 'sessionDuration', 'viewsPerSession', 'bounceRate', 'onlineVisitors', 'searches')
+
 const OPTIONS_CONFIG: OverviewOptionsConfig = {
   pageId: 'overview',
   filterGroup: 'overview',
   widgetConfigs: WIDGET_CONFIGS,
-  metricConfigs: [],
+  metricConfigs: METRIC_CONFIGS,
   hideFilters: true,
+  hideDateRange: true,
 }
 
 // === Size mapping ===
@@ -111,6 +117,10 @@ function sizeToColSpan(size: WidgetSize): string {
 
 function MetricsOverviewWidget({ widgetId }: { widgetId: string }) {
   const widgetRange = useWidgetDateRange(widgetId)
+  const { isMetricVisible } = usePageOptions()
+  const calcPercentage = usePercentageCalc()
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
+  const isCompareEnabled = !!(widgetRange.compareDateFrom && widgetRange.compareDateTo)
 
   const { data: response } = useQuery({
     ...getOverviewMetricsQueryOptions(widgetRange),
@@ -126,15 +136,62 @@ function MetricsOverviewWidget({ widgetId }: { widgetId: string }) {
     const avgSessionDuration = getTotalValue(totals.avg_session_duration?.current ?? totals.avg_session_duration) || 0
     const pagesPerSession = getTotalValue(totals.pages_per_session?.current ?? totals.pages_per_session) || 0
     const bounceRate = getTotalValue(totals.bounce_rate?.current ?? totals.bounce_rate) || 0
+    const onlineVisitors = getTotalValue(totals.online_visitors?.current ?? totals.online_visitors) || 0
+    const searches = getTotalValue(totals.searches?.current ?? totals.searches) || 0
 
-    return [
-      { label: __('Visitors', 'wp-statistics'), value: formatCompactNumber(visitors) },
-      { label: __('Views', 'wp-statistics'), value: formatCompactNumber(views) },
-      { label: __('Session Duration', 'wp-statistics'), value: formatDuration(avgSessionDuration) },
-      { label: __('Views/Session', 'wp-statistics'), value: formatDecimal(pagesPerSession) },
-      { label: __('Bounce Rate', 'wp-statistics'), value: `${formatDecimal(bounceRate)}%` },
+    const prevVisitors = getTotalValue(totals.visitors?.previous) || 0
+    const prevViews = getTotalValue(totals.views?.previous) || 0
+    const prevAvgSessionDuration = getTotalValue(totals.avg_session_duration?.previous) || 0
+    const prevPagesPerSession = getTotalValue(totals.pages_per_session?.previous) || 0
+    const prevBounceRate = getTotalValue(totals.bounce_rate?.previous) || 0
+    const prevSearches = getTotalValue(totals.searches?.previous) || 0
+
+    const allMetrics: MetricItem[] = [
+      {
+        id: 'visitors',
+        label: __('Visitors', 'wp-statistics'),
+        value: formatCompactNumber(visitors),
+        ...(isCompareEnabled ? { ...calcPercentage(visitors, prevVisitors), comparisonDateLabel, previousValue: formatCompactNumber(prevVisitors) } : {}),
+      },
+      {
+        id: 'views',
+        label: __('Views', 'wp-statistics'),
+        value: formatCompactNumber(views),
+        ...(isCompareEnabled ? { ...calcPercentage(views, prevViews), comparisonDateLabel, previousValue: formatCompactNumber(prevViews) } : {}),
+      },
+      {
+        id: 'session-duration',
+        label: __('Session Duration', 'wp-statistics'),
+        value: formatDuration(avgSessionDuration),
+        ...(isCompareEnabled ? { ...calcPercentage(avgSessionDuration, prevAvgSessionDuration), comparisonDateLabel, previousValue: formatDuration(prevAvgSessionDuration) } : {}),
+      },
+      {
+        id: 'views-per-session',
+        label: __('Views/Session', 'wp-statistics'),
+        value: formatDecimal(pagesPerSession),
+        ...(isCompareEnabled ? { ...calcPercentage(pagesPerSession, prevPagesPerSession), comparisonDateLabel, previousValue: formatDecimal(prevPagesPerSession) } : {}),
+      },
+      {
+        id: 'bounce-rate',
+        label: __('Bounce Rate', 'wp-statistics'),
+        value: `${formatDecimal(bounceRate)}%`,
+        ...(isCompareEnabled ? { ...calcPercentage(bounceRate, prevBounceRate), comparisonDateLabel, previousValue: `${formatDecimal(prevBounceRate)}%` } : {}),
+      },
+      {
+        id: 'online-visitors',
+        label: __('Online Visitors', 'wp-statistics'),
+        value: formatCompactNumber(onlineVisitors),
+      },
+      {
+        id: 'searches',
+        label: __('Searches', 'wp-statistics'),
+        value: formatCompactNumber(searches),
+        ...(isCompareEnabled ? { ...calcPercentage(searches, prevSearches), comparisonDateLabel, previousValue: formatCompactNumber(prevSearches) } : {}),
+      },
     ]
-  }, [response])
+
+    return allMetrics.filter((metric) => isMetricVisible(metric.id!))
+  }, [response, isCompareEnabled, comparisonDateLabel, isMetricVisible])
 
   return (
     <Panel className="h-full">
@@ -383,7 +440,7 @@ function createWidgetRenderers(): Record<string, (widgetId: string) => React.Rea
         queryItemKey="top_search_engines"
         columnLeft={__('Search Engine', 'wp-statistics')}
         columnRight={__('Visitors', 'wp-statistics')}
-        labelAccessor={(item) => item.search_engine_name || __('Unknown', 'wp-statistics')}
+        labelAccessor={(item) => item.referrer_name || item.referrer_domain || __('Unknown', 'wp-statistics')}
         seeAllRoute="/search-engines"
       />
     ),
@@ -395,7 +452,7 @@ function createWidgetRenderers(): Record<string, (widgetId: string) => React.Rea
         queryItemKey="top_social_media"
         columnLeft={__('Social Media', 'wp-statistics')}
         columnRight={__('Visitors', 'wp-statistics')}
-        labelAccessor={(item) => item.social_media_name || __('Unknown', 'wp-statistics')}
+        labelAccessor={(item) => item.referrer_name || item.referrer_domain || __('Unknown', 'wp-statistics')}
         seeAllRoute="/social-media"
       />
     ),

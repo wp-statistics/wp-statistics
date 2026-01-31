@@ -1,24 +1,22 @@
 import { __ } from '@wordpress/i18n'
-import { ArrowDownIcon, ArrowUpIcon, EllipsisIcon, EyeOffIcon } from 'lucide-react'
+import { ArrowDownIcon, ArrowUpIcon, Columns2, Columns3, EllipsisIcon, EyeOffIcon, Maximize2Icon, PanelLeftIcon } from 'lucide-react'
 import { useCallback, useMemo } from 'react'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { type WidgetSize } from '@/contexts/page-options-context'
 import { usePageOptions } from '@/hooks/use-page-options'
 
-const SIZE_LABELS: Record<number, string> = {
-  4: __('⅓ width', 'wp-statistics'),
-  6: __('½ width', 'wp-statistics'),
-  8: __('⅔ width', 'wp-statistics'),
-  12: __('Full width', 'wp-statistics'),
+const SIZE_OPTIONS: Record<number, { label: string; icon: typeof Columns2 }> = {
+  4: { label: __('⅓ width', 'wp-statistics'), icon: Columns3 },
+  6: { label: __('½ width', 'wp-statistics'), icon: Columns2 },
+  8: { label: __('⅔ width', 'wp-statistics'), icon: PanelLeftIcon },
+  12: { label: __('Full width', 'wp-statistics'), icon: Maximize2Icon },
 }
 
 interface WidgetContextMenuProps {
@@ -59,16 +57,21 @@ export function WidgetContextMenu({ widgetId, allowedSizes = [4, 6, 12] }: Widge
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuRadioGroup
-          value={String(currentSize)}
-          onValueChange={(val) => setWidgetSize(widgetId, Number(val) as WidgetSize)}
-        >
-          {allowedSizes.map((size) => (
-            <DropdownMenuRadioItem key={size} value={String(size)}>
-              {SIZE_LABELS[size] ?? `${size} cols`}
-            </DropdownMenuRadioItem>
-          ))}
-        </DropdownMenuRadioGroup>
+        {allowedSizes.map((size) => {
+          const option = SIZE_OPTIONS[size]
+          const Icon = option?.icon
+          const isSelected = currentSize === size
+          return (
+            <DropdownMenuItem
+              key={size}
+              className={isSelected ? 'bg-accent text-accent-foreground' : undefined}
+              onSelect={() => setWidgetSize(widgetId, size)}
+            >
+              {Icon && <Icon className="size-3.5" />}
+              {option?.label ?? `${size} cols`}
+            </DropdownMenuItem>
+          )
+        })}
         <DropdownMenuSeparator />
         <DropdownMenuItem disabled={!canMoveUp} onSelect={() => handleMove(-1)}>
           <ArrowUpIcon className="size-3.5" />

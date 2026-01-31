@@ -62,7 +62,7 @@ export const getOverviewMetricsQueryOptions = (params: WidgetQueryParams) => {
         queries: [
           {
             id: 'metrics',
-            sources: ['visitors', 'views', 'sessions', 'avg_session_duration', 'bounce_rate', 'pages_per_session'],
+            sources: ['visitors', 'views', 'sessions', 'avg_session_duration', 'bounce_rate', 'pages_per_session', 'online_visitors', 'searches'],
             group_by: [],
             format: 'flat',
             show_totals: true,
@@ -156,8 +156,9 @@ export const getOverviewTopSearchEnginesQueryOptions = (params: WidgetQueryParam
   tableQueryOptions(params, 'top-search-engines', {
     id: 'top_search_engines',
     sources: ['visitors'],
-    group_by: ['search_engine'],
-    columns: ['search_engine_name', 'visitors'],
+    group_by: ['referrer'],
+    columns: ['referrer_name', 'referrer_domain', 'visitors'],
+    filters: { referrer_channel: { is: 'search' } },
     per_page: 5,
     order_by: 'visitors',
     order: 'DESC',
@@ -169,8 +170,9 @@ export const getOverviewTopSocialMediaQueryOptions = (params: WidgetQueryParams)
   tableQueryOptions(params, 'top-social-media', {
     id: 'top_social_media',
     sources: ['visitors'],
-    group_by: ['social_media'],
-    columns: ['social_media_name', 'visitors'],
+    group_by: ['referrer'],
+    columns: ['referrer_name', 'referrer_domain', 'visitors'],
+    filters: { referrer_channel: { is: 'social' } },
     per_page: 5,
     order_by: 'visitors',
     order: 'DESC',

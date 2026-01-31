@@ -28,6 +28,8 @@ export interface OverviewOptionsConfig {
   lockedFilters?: LockedFilter[]
   /** Hide the filters section (for pages that don't use filtering) */
   hideFilters?: boolean
+  /** Hide the date range section (for pages where widgets have their own date pickers) */
+  hideDateRange?: boolean
   /** Page-specific filter dropdowns */
   pageFilters?: PageFilterConfig[]
 }
@@ -97,7 +99,7 @@ export function OverviewOptionsDrawer({
   return (
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={resetToDefaults}>
       {/* Main menu entries */}
-      <DateRangeMenuEntry />
+      {!config.hideDateRange && <DateRangeMenuEntry />}
       {config.pageFilters && config.pageFilters.length > 0 && (
         <PageFiltersMenuEntry filters={config.pageFilters} />
       )}
@@ -108,7 +110,7 @@ export function OverviewOptionsDrawer({
       <MetricsMenuEntry />
 
       {/* Detail views */}
-      <DateRangeDetailView />
+      {!config.hideDateRange && <DateRangeDetailView />}
       {config.pageFilters && config.pageFilters.length > 0 && (
         <PageFiltersDetailView filters={config.pageFilters} />
       )}

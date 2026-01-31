@@ -49,8 +49,8 @@ export function WidgetCatalog({ categories }: WidgetCatalogProps) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-1">
-          <Plus className="h-4 w-4" />
+        <Button variant="outline" size="sm" className="h-8 gap-1 text-xs font-medium border-neutral-200 hover:bg-neutral-50">
+          <Plus className="h-3.5 w-3.5 text-neutral-500" />
           {__('Add widget', 'wp-statistics')}
         </Button>
       </PopoverTrigger>
