@@ -26,6 +26,7 @@ import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
+import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getPageInsightsOverviewQueryOptions } from '@/services/page-insight/get-page-insights-overview'
@@ -283,6 +284,8 @@ function PageInsightsOverviewContent() {
                     total: getTotalFromResponse(topPagesTotals, 'views') || 1,
                     isCompareEnabled,
                     comparisonDateLabel,
+                    linkTo: (item) => getAnalyticsRoute(item.page_type, item.page_wp_id)?.to,
+                    linkParams: (item) => getAnalyticsRoute(item.page_type, item.page_wp_id)?.params,
                   })}
                   link={{
                     title: __('See all', 'wp-statistics'),

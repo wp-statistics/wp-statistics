@@ -39,6 +39,8 @@ export interface MetricsResponse {
 export interface TopPageRow {
   page_uri: string
   page_title: string
+  page_type?: string
+  page_wp_id?: number | string | null
   views: number | string
   previous?: {
     views: number | string
@@ -72,6 +74,8 @@ export interface AuthorRow {
 export interface EntryPageRow {
   page_uri: string
   page_title: string
+  page_type?: string
+  page_wp_id?: number | string | null
   sessions: number | string
   previous?: {
     sessions: number | string
@@ -81,6 +85,8 @@ export interface EntryPageRow {
 export interface ExitPageRow {
   page_uri: string
   page_title: string
+  page_type?: string
+  page_wp_id?: number | string | null
   sessions: number | string
   previous?: {
     sessions: number | string
@@ -206,7 +212,7 @@ export const getPageInsightsOverviewQueryOptions = ({
               id: 'top_pages',
               sources: ['views'],
               group_by: ['page'],
-              columns: ['page_uri', 'page_title', 'views'],
+              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'views'],
               per_page: 5,
               order_by: 'views',
               order: 'DESC',
@@ -260,7 +266,7 @@ export const getPageInsightsOverviewQueryOptions = ({
               id: 'top_entry_pages',
               sources: ['sessions'],
               group_by: ['entry_page'],
-              columns: ['page_uri', 'page_title', 'sessions'],
+              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'sessions'],
               per_page: 5,
               order_by: 'sessions',
               order: 'DESC',
@@ -273,7 +279,7 @@ export const getPageInsightsOverviewQueryOptions = ({
               id: 'top_exit_pages',
               sources: ['sessions'],
               group_by: ['exit_page'],
-              columns: ['page_uri', 'page_title', 'sessions'],
+              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'sessions'],
               per_page: 5,
               order_by: 'sessions',
               order: 'DESC',

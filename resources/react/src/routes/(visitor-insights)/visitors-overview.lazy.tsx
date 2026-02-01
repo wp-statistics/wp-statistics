@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -88,6 +88,8 @@ function VisitorsOverviewContent() {
     isCompareEnabled,
     apiDateParams,
   } = useGlobalFilters()
+
+  const navigate = useNavigate()
 
   // Page options for widget/metric visibility
   const { isWidgetVisible, isMetricVisible } = usePageOptions()
@@ -427,7 +429,7 @@ function VisitorsOverviewContent() {
                     comparisonDateLabel,
                   })}
                   link={{
-                    action: () => console.log('View all referrers'),
+                    action: () => navigate({ to: '/referrers' }),
                   }}
                 />
               </div>
@@ -460,7 +462,7 @@ function VisitorsOverviewContent() {
                     linkParams: (item) => ({ countryCode: item.country_code?.toLowerCase() || '000' }),
                   })}
                   link={{
-                    action: () => console.log('View all countries'),
+                    action: () => navigate({ to: '/countries' }),
                   }}
                 />
               </div>
@@ -491,7 +493,7 @@ function VisitorsOverviewContent() {
                     comparisonDateLabel,
                   })}
                   link={{
-                    action: () => console.log('View all device types'),
+                    action: () => navigate({ to: '/browsers' }),
                   }}
                 />
               </div>
@@ -522,7 +524,7 @@ function VisitorsOverviewContent() {
                     comparisonDateLabel,
                   })}
                   link={{
-                    action: () => console.log('View all operating systems'),
+                    action: () => navigate({ to: '/operating-systems' }),
                   }}
                 />
               </div>

@@ -6,6 +6,8 @@ import { WordPress } from '@/lib/wordpress'
 export interface ExitPageRecord {
   page_uri: string
   page_title: string
+  page_type?: string
+  page_wp_id?: number | string | null
   sessions: number
   previous?: {
     sessions: number
