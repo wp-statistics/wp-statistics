@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 6.9
-Stable tag: 14.16
+Stable tag: 14.16.1
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -146,6 +146,24 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.1 - 2025-02-01 =
+- **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
+- **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
+- **Fix:** Fixed an issue where the Page ID was not correctly updated during Interactivity API navigation and barba.js transitions.
+- **Fix:** Prevent infinite or extremely large percentage values when no previous analytics data exists.
+- **Fix:** Fixed the "All Time" filter showing incorrect start date in single content analytics.
+- **Fix:** Fixed notification indicators hiding when viewing the empty Dismissed tab.
+- **Fix:** Optimized license API caching to prevent excessive requests on multilingual sites.
+- **Fix:** Resolved unsafe SQL calls and direct file access issues for WordPress.org compliance.
+- **New:** Added "Total" row to the Traffic Summary widget showing all-time Visitors and Views (includes legacy historical data).
+- **Enhancement:** Added pagination support for Category Analytics.
+- **Enhancement:** Unified disabled premium buttons across the plugin for a consistent look.
+- **Enhancement:** Added PHP environment configuration values (memory_limit, max_execution_time, post_max_size, upload_max_filesize) to anonymous usage data.
+- **Enhancement:** Updated Advanced Reporting premium modal copies.
+- **Dev:** Added `wp_statistics_register_background_jobs` filter to allow add-ons to register custom background processes.
+- **Dev:** Added `wp_statistics_register_data_migrations` filter to allow add-ons to register custom data migration keys.
+- **Dev:** Added `wp_statistics_resolve_page_from_uri` filter to allow custom page resolution from URL for SPA tracking.
+
 = 14.16 - 2025-12-01 =
 - **New:** Added an **Export** button to all report pages (requires the Advanced Reporting add-on).
 - **New:** Introduced a new `Summary Totals` table to store daily aggregated data, improving performance.
