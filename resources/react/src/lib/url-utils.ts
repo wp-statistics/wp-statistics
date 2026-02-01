@@ -171,7 +171,7 @@ export const getAnalyticsRoute = (
   if (!pageType || !pageWpId) {
     // For non-linkable types without a WP ID, use resourceId to link to URL report
     // Exclude 'unknown' — we don't know what the page is
-    if (pageType && pageType !== 'unknown' && resourceId && NON_LINKABLE_TYPES.has(pageType)) {
+    if (pageType && pageType !== 'unknown' && pageType !== '404' && resourceId && NON_LINKABLE_TYPES.has(pageType)) {
       return { to: '/url/$resourceId', params: { resourceId: String(resourceId) } }
     }
     return null
@@ -181,14 +181,14 @@ export const getAnalyticsRoute = (
 
   // Non-content pages: link to URL report if resourceId available, otherwise no link
   if (NON_LINKABLE_TYPES.has(pageType)) {
-    if (resourceId && pageType !== 'unknown') {
+    if (resourceId && pageType !== 'unknown' && pageType !== '404') {
       return { to: '/url/$resourceId', params: { resourceId: String(resourceId) } }
     }
     return null
   }
 
-  // Author pages (stored as 'author' in resources table)
-  if (pageType === 'author') {
+  // Author pages (stored as 'author' or 'author_archive' in resources table)
+  if (pageType === 'author' || pageType === 'author_archive') {
     return { to: '/author/$authorId', params: { authorId: id } }
   }
 

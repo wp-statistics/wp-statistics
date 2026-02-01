@@ -532,7 +532,7 @@ function VisitorsOverviewContent() {
 
             {isWidgetVisible('top-visitors') && (
               <div className="col-span-12">
-                <OverviewTopVisitors data={batchResponse?.data?.items?.top_visitors?.data?.rows} />
+                <OverviewTopVisitors data={batchResponse?.data?.items?.top_visitors?.data?.rows} isFetching={isFetching} />
               </div>
             )}
 

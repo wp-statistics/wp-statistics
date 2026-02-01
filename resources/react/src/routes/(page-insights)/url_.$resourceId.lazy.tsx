@@ -57,7 +57,7 @@ const PAGE_TYPE_LABELS: Record<string, string> = {
 }
 
 /** Page types for archive pages that have a page_wp_id but should NOT redirect to /content */
-const ARCHIVE_PAGE_TYPES = new Set(['author_archive', 'category', 'post_tag'])
+const ARCHIVE_PAGE_TYPES = new Set(['category', 'post_tag'])
 
 // Widget configuration for Single URL Report
 const WIDGET_CONFIGS: WidgetConfig[] = [
