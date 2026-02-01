@@ -9,6 +9,7 @@ import { __ } from '@wordpress/i18n'
 import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
 import { NumericCell, PageCell } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
+import { getAnalyticsRoute } from '@/lib/url-utils'
 
 /**
  * Generic page data interface for simple page + views tables
@@ -18,6 +19,9 @@ export interface PageViewsData {
   pageUri: string
   pageTitle: string
   views: number
+  pageType?: string
+  pageWpId?: number | string
+  resourceId?: number | string
 }
 
 /**
@@ -87,16 +91,21 @@ export function createPageViewsColumns(options: PageViewsColumnOptions = {}): Co
     {
       accessorKey: 'page',
       header: opts.pageColumnHeader,
-      cell: ({ row }) => (
-        <PageCell
-          data={{
-            title: row.original.pageTitle,
-            url: row.original.pageUri,
-          }}
-          maxLength={opts.maxTitleLength}
-          externalUrl={row.original.pageUri}
-        />
-      ),
+      cell: ({ row }) => {
+        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId, undefined, row.original.resourceId)
+        return (
+          <PageCell
+            data={{
+              title: row.original.pageTitle,
+              url: row.original.pageUri,
+            }}
+            maxLength={opts.maxTitleLength}
+            externalUrl={row.original.pageUri}
+            internalLinkTo={route?.to}
+            internalLinkParams={route?.params}
+          />
+        )
+      },
       enableSorting: false,
       meta: {
         title: opts.pageColumnHeader,
