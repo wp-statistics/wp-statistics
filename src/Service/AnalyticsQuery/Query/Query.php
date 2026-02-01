@@ -573,6 +573,40 @@ class Query implements QueryInterface
     }
 
     /**
+     * Create a new query without pagination limits.
+     *
+     * Used for comparison queries where we need all rows to match against
+     * current period results, not just the top N of the previous period.
+     *
+     * @return self
+     */
+    public function withoutPagination(): self
+    {
+        return new self(
+            $this->sources,
+            $this->groupBy,
+            $this->filters,
+            $this->dateFrom,
+            $this->dateTo,
+            $this->orderBy,
+            $this->order,
+            1,
+            1000,
+            $this->compare,
+            $this->previousDateFrom,
+            $this->previousDateTo,
+            $this->comparisonMode,
+            $this->dateColumn,
+            $this->aggregateOthers,
+            $this->originalPerPage,
+            $this->showTotals,
+            $this->format,
+            $this->columns,
+            false
+        );
+    }
+
+    /**
      * Create a Query from an array.
      *
      * @param array $data Query data.

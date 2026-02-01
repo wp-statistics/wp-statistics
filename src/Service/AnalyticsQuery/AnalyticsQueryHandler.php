@@ -1170,7 +1170,8 @@ class AnalyticsQueryHandler
 
         // Create query for previous period
         $prevQuery = $query->withDateRange($previousPeriod['from'], $previousPeriod['to'])
-                          ->withoutComparison();
+                          ->withoutComparison()
+                          ->withoutPagination();
 
         // Execute previous period query
         $prevResult = $this->executeQuery($prevQuery);
