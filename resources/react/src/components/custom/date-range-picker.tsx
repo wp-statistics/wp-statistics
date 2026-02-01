@@ -845,6 +845,7 @@ export const DateRangePicker = ({
       openedRangeCompareRef.current = rangeCompare
       openedComparisonModeRef.current = comparisonMode
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally captures snapshot of range/compare state when picker opens
   }, [isOpen])
 
   const handleCompareToggle = (checked: boolean) => {

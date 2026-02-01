@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components, @typescript-eslint/no-explicit-any */
+/* eslint-disable react-refresh/only-export-components */
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
@@ -32,6 +32,7 @@ import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
+import type { WidgetQueryParams } from '@/services/overview/get-overview-widgets'
 import {
   getOverviewMetricsQueryOptions,
   getOverviewTopBrowsersQueryOptions,
@@ -261,10 +262,12 @@ function BarListWidget({
 }: {
   widgetId: string
   title: string
-  queryOptionsFn: (params: { dateFrom: string; dateTo: string; compareDateFrom?: string; compareDateTo?: string }) => any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- analytics API returns dynamic response shapes per widget
+  queryOptionsFn: (params: WidgetQueryParams) => any
   queryItemKey: string
   columnLeft: string
   columnRight: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- row shape varies per widget
   labelAccessor: (item: any) => string
   iconAccessor?: (item: any) => React.ReactNode
   linkTo?: (item: any) => string
@@ -275,7 +278,7 @@ function BarListWidget({
   const navigate = useNavigate()
   const widgetRange = useWidgetDateRange(widgetId)
 
-  const { data: response, isFetching } = useQuery<any>({
+  const { data: response, isFetching } = useQuery({
     ...queryOptionsFn(widgetRange),
     placeholderData: keepPreviousData,
   })

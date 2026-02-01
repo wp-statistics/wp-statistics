@@ -71,7 +71,6 @@ function FilterPanelWrapper({
         onFiltersChange={setFilters}
         onApply={() => {
           onApply?.()
-          console.log('Applied filters:', filters)
         }}
         onClearAll={onClearAll}
       />

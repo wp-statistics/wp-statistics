@@ -156,6 +156,7 @@ export function GlobalMap({
         cancelAnimationFrame(animationRef.current)
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- captures starting position snapshot; adding `position` would restart animation each frame
   }, [targetPosition])
 
   // Handle wheel event to show hint when user scrolls without Cmd/Ctrl
