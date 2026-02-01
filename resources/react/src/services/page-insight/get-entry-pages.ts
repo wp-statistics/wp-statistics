@@ -8,6 +8,7 @@ export interface EntryPageRecord {
   page_title: string
   page_type?: string
   page_wp_id?: number | string | null
+  resource_id?: number | string | null
   sessions: number
   previous?: {
     sessions: number

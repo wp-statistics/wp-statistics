@@ -3,8 +3,13 @@ import { queryOptions } from '@tanstack/react-query'
 import type { Filter } from '@/components/custom/filter-bar'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
-import type { FixedDatePeriod, FixedDatePeriodId } from '@/lib/fixed-date-ranges'
+import type { FixedDatePeriod } from '@/lib/fixed-date-ranges'
 import { WordPress } from '@/lib/wordpress'
+import {
+  extractTrafficSummaryData,
+  type TrafficSummaryPeriodData,
+  type TrafficSummaryPeriodResponse,
+} from '@/services/content-analytics/get-single-content'
 
 import type {
   BrowserRow,
@@ -22,8 +27,8 @@ interface MetricValue {
   previous?: number | string
 }
 
-// Totals structure for flat format
-interface MetricsTotals {
+// Totals structure for flat format (no comments for URL pages)
+interface UrlMetricsTotals {
   visitors?: MetricValue
   views?: MetricValue
   bounce_rate?: MetricValue
@@ -31,14 +36,13 @@ interface MetricsTotals {
   entry_page?: MetricValue
   exit_page?: MetricValue
   exit_rate?: MetricValue
-  comments?: MetricValue
 }
 
-// Single content metrics response (flat format)
-export interface SingleContentMetricsResponse {
+// Single URL metrics response (flat format)
+export interface SingleUrlMetricsResponse {
   success: boolean
   items: Array<Record<string, string | number>>
-  totals: MetricsTotals
+  totals: UrlMetricsTotals
   meta: {
     date_from: string
     date_to: string
@@ -49,45 +53,30 @@ export interface SingleContentMetricsResponse {
   }
 }
 
-// Term/taxonomy data from API
-export interface TermInfo {
-  term_id: number
-  name: string
-  slug: string
-  taxonomy: string
-}
-
-// Post info row from table query
-export interface PostInfoRow {
+// URL info row from table query
+export interface UrlInfoRow {
   page_uri: string
   page_title: string
   page_wp_id: number | null
   page_type?: string
-  post_type_label?: string | null
-  published_date?: string | null
-  modified_date?: string | null
-  comments?: number
-  author_id?: number | null
-  author_name?: string | null
-  thumbnail_url?: string | null
+  resource_id?: number | string
   permalink?: string | null
-  cached_terms?: TermInfo[]
 }
 
-// Post info response (table format)
-export interface PostInfoResponse {
+// URL info response (table format)
+export interface UrlInfoResponse {
   success: boolean
   data: {
-    rows: PostInfoRow[]
+    rows: UrlInfoRow[]
   }
 }
 
-// Batch response structure for single content
-export interface SingleContentResponse {
+// Batch response structure for single URL
+export interface SingleUrlResponse {
   success: boolean
   items: {
-    content_metrics?: SingleContentMetricsResponse
-    post_info?: PostInfoResponse
+    url_metrics?: SingleUrlMetricsResponse
+    url_info?: UrlInfoResponse
     traffic_trends?: TrafficTrendsChartResponse
     top_referrers?: TopReferrersResponse
     top_search_engines?: TopReferrersResponse
@@ -103,8 +92,8 @@ export interface SingleContentResponse {
   }
 }
 
-export interface GetSingleContentParams {
-  postId: string | number
+export interface GetSingleUrlParams {
+  resourceId: string | number
   dateFrom: string
   dateTo: string
   compareDateFrom?: string
@@ -113,39 +102,29 @@ export interface GetSingleContentParams {
   timeframe?: 'daily' | 'weekly' | 'monthly'
 }
 
-export const getSingleContentQueryOptions = ({
-  postId,
+export const getSingleUrlQueryOptions = ({
+  resourceId,
   dateFrom,
   dateTo,
   compareDateFrom,
   compareDateTo,
   filters,
   timeframe = 'daily',
-}: GetSingleContentParams) => {
-  // Transform UI filters to API format (ensure filters is an array)
+}: GetSingleUrlParams) => {
   const apiFilters = transformFiltersToApi(filters || [])
-  // Check if compare dates are provided
   const hasCompare = !!(compareDateFrom && compareDateTo)
-
-  // Map timeframe to API group_by value
   const dateGroupBy = timeframe === 'weekly' ? 'week' : timeframe === 'monthly' ? 'month' : 'date'
 
-  // Get all queryable post types to filter content resources
-  // This ensures we only match content (post, page, etc.) and not authors/categories
-  const queryablePostTypes = WordPress.getInstance().getQueryablePostTypes()
-
-  // Add resource_id and post_type filters for the specific post
-  // post_type uses 'in' operator to match any content type
+  // Filter by resource_pk (resources table PK) — no post_type filter needed for non-content pages
   const filtersWithResourceId: Record<string, unknown> = {
     ...apiFilters,
-    resource_id: String(postId),
-    post_type: { in: queryablePostTypes },
+    resource_pk: String(resourceId),
   }
 
   return queryOptions({
-    queryKey: ['single-content', postId, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe, dateGroupBy, filtersWithResourceId, queryablePostTypes],
+    queryKey: ['single-url', resourceId, dateFrom, dateTo, compareDateFrom, compareDateTo, apiFilters, hasCompare, timeframe, dateGroupBy, filtersWithResourceId],
     queryFn: () =>
-      clientRequest.post<SingleContentResponse>(
+      clientRequest.post<SingleUrlResponse>(
         '',
         {
           date_from: dateFrom,
@@ -157,9 +136,9 @@ export const getSingleContentQueryOptions = ({
           }),
           filters: filtersWithResourceId,
           queries: [
-            // Content Metrics: Flat format for aggregate totals
+            // URL Metrics: Flat format for aggregate totals (no comments)
             {
-              id: 'content_metrics',
+              id: 'url_metrics',
               sources: [
                 'visitors',
                 'views',
@@ -168,16 +147,15 @@ export const getSingleContentQueryOptions = ({
                 'entry_page',
                 'exit_page',
                 'exit_rate',
-                'comments',
               ],
               group_by: [],
               format: 'flat',
               show_totals: true,
               compare: true,
             },
-            // Post Info: Table format to get page metadata
+            // URL Info: Table format to get page metadata
             {
-              id: 'post_info',
+              id: 'url_info',
               sources: ['views'],
               group_by: ['page'],
               columns: [
@@ -185,22 +163,15 @@ export const getSingleContentQueryOptions = ({
                 'page_title',
                 'page_wp_id',
                 'page_type',
-                'post_type_label',
-                'published_date',
-                'modified_date',
-                'comments',
-                'author_id',
-                'author_name',
-                'thumbnail_url',
+                'resource_id',
                 'permalink',
-                'cached_terms',
               ],
               format: 'table',
               per_page: 1,
               show_totals: false,
               compare: false,
             },
-            // Traffic Trends: Chart format for line chart (visitors + views only, no published_content for single content)
+            // Traffic Trends: Chart format for line chart
             {
               id: 'traffic_trends',
               sources: ['visitors', 'views'],
@@ -209,7 +180,7 @@ export const getSingleContentQueryOptions = ({
               show_totals: false,
               compare: true,
             },
-            // Top Referrers: Table format for top referrers widget
+            // Top Referrers
             {
               id: 'top_referrers',
               sources: ['visitors'],
@@ -223,7 +194,7 @@ export const getSingleContentQueryOptions = ({
               show_totals: true,
               compare: true,
             },
-            // Top Search Engines: Table format for top search engines widget
+            // Top Search Engines
             {
               id: 'top_search_engines',
               sources: ['visitors'],
@@ -303,71 +274,42 @@ export const getSingleContentQueryOptions = ({
   })
 }
 
-// ============================================================================
-// Traffic Summary Types and Query Options
-// ============================================================================
+// Re-export shared types for consumers
+export type { TrafficSummaryPeriodData as UrlTrafficSummaryPeriodData }
+export { extractTrafficSummaryData as extractUrlTrafficSummaryData }
 
-/**
- * Traffic summary data for a single period
- */
-export interface TrafficSummaryPeriodData {
-  visitors: number
-  views: number
-  previous?: {
-    visitors: number
-    views: number
-  }
-}
-
-/**
- * Response structure for a single period query
- */
-export interface TrafficSummaryPeriodResponse {
-  success: boolean
-  totals: {
-    visitors?: MetricValue | number | string
-    views?: MetricValue | number | string
-  }
-}
+// ============================================================================
+// Traffic Summary Query Options
+// ============================================================================
 
 /**
  * Parameters for traffic summary query
  */
-export interface GetTrafficSummaryParams {
-  postId: string | number
+export interface GetUrlTrafficSummaryParams {
+  resourceId: string | number
   period: FixedDatePeriod
   filters?: Filter[]
 }
 
 /**
  * Query options for a single traffic summary period
- *
- * This is designed to be used with useQueries for parallel fetching
- * of all 5 fixed time periods.
  */
-export const getTrafficSummaryPeriodQueryOptions = ({
-  postId,
+export const getUrlTrafficSummaryPeriodQueryOptions = ({
+  resourceId,
   period,
   filters,
-}: GetTrafficSummaryParams) => {
-  // Transform UI filters to API format
+}: GetUrlTrafficSummaryParams) => {
   const apiFilters = transformFiltersToApi(filters || [])
 
-  // Get all queryable post types
-  const queryablePostTypes = WordPress.getInstance().getQueryablePostTypes()
-
-  // Add resource_id and post_type filters
   const filtersWithResourceId: Record<string, unknown> = {
     ...apiFilters,
-    resource_id: String(postId),
-    post_type: { in: queryablePostTypes },
+    resource_pk: String(resourceId),
   }
 
-  // Check if this period has comparison dates
   const hasCompare = !!(period.compareDateFrom && period.compareDateTo)
 
   return queryOptions({
-    queryKey: ['traffic-summary', postId, period.id, apiFilters, period.dateFrom, period.dateTo, period.compareDateFrom, period.compareDateTo, hasCompare, filtersWithResourceId],
+    queryKey: ['url-traffic-summary', resourceId, period.id, apiFilters, period.dateFrom, period.dateTo, period.compareDateFrom, period.compareDateTo, hasCompare, filtersWithResourceId],
     queryFn: () =>
       clientRequest.post<{ success: boolean; items: { traffic_summary?: TrafficSummaryPeriodResponse } }>(
         '',
@@ -397,48 +339,7 @@ export const getTrafficSummaryPeriodQueryOptions = ({
           },
         }
       ),
-    // Cache for 5 minutes since fixed date ranges don't change often
     staleTime: 5 * 60 * 1000,
   })
 }
 
-/**
- * Helper to extract traffic summary data from query result
- */
-export function extractTrafficSummaryData(
-  response: { data?: { items?: { traffic_summary?: TrafficSummaryPeriodResponse } } } | undefined,
-  periodId: FixedDatePeriodId
-): TrafficSummaryPeriodData | null {
-  const summaryResponse = response?.data?.items?.traffic_summary
-  if (!summaryResponse?.success) return null
-
-  const totals = summaryResponse.totals
-  if (!totals) return null
-
-  // Totals can be plain numbers (no compare) or {current, previous} objects (with compare)
-  const rawVisitors = totals.visitors
-  const visitors = typeof rawVisitors === 'number' || typeof rawVisitors === 'string'
-    ? Number(rawVisitors) || 0
-    : Number(rawVisitors?.current) || 0
-
-  const rawViews = totals.views
-  const views = typeof rawViews === 'number' || typeof rawViews === 'string'
-    ? Number(rawViews) || 0
-    : Number(rawViews?.current) || 0
-
-  const result: TrafficSummaryPeriodData = { visitors, views }
-
-  // Add previous values if available (not for 'total' period)
-  if (periodId !== 'total' && totals.visitors?.previous !== undefined) {
-    result.previous = {
-      visitors: typeof totals.visitors.previous === 'number'
-        ? totals.visitors.previous
-        : Number(totals.visitors.previous) || 0,
-      views: typeof totals.views?.previous === 'number'
-        ? totals.views.previous
-        : Number(totals.views?.previous) || 0,
-    }
-  }
-
-  return result
-}

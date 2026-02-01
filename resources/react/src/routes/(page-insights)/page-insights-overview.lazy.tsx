@@ -284,8 +284,8 @@ function PageInsightsOverviewContent() {
                     total: getTotalFromResponse(topPagesTotals, 'views') || 1,
                     isCompareEnabled,
                     comparisonDateLabel,
-                    linkTo: (item) => getAnalyticsRoute(item.page_type, item.page_wp_id)?.to,
-                    linkParams: (item) => getAnalyticsRoute(item.page_type, item.page_wp_id)?.params,
+                    linkTo: (item) => getAnalyticsRoute(item.page_type, item.page_wp_id, undefined, item.resource_id)?.to,
+                    linkParams: (item) => getAnalyticsRoute(item.page_type, item.page_wp_id, undefined, item.resource_id)?.params,
                   })}
                   link={{
                     title: __('See all', 'wp-statistics'),

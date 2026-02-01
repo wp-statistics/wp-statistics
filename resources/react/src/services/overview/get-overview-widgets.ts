@@ -105,7 +105,7 @@ export const getOverviewTopPagesQueryOptions = (params: WidgetQueryParams) =>
     id: 'top_pages',
     sources: ['views', 'visitors'],
     group_by: ['page'],
-    columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'visitors', 'views'],
+    columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'resource_id', 'visitors', 'views'],
     per_page: 5,
     order_by: 'views',
     order: 'DESC',

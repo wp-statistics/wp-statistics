@@ -41,6 +41,7 @@ export interface TopPageRow {
   page_title: string
   page_type?: string
   page_wp_id?: number | string | null
+  resource_id?: number | string | null
   views: number | string
   previous?: {
     views: number | string
@@ -76,6 +77,7 @@ export interface EntryPageRow {
   page_title: string
   page_type?: string
   page_wp_id?: number | string | null
+  resource_id?: number | string | null
   sessions: number | string
   previous?: {
     sessions: number | string
@@ -87,6 +89,7 @@ export interface ExitPageRow {
   page_title: string
   page_type?: string
   page_wp_id?: number | string | null
+  resource_id?: number | string | null
   sessions: number | string
   previous?: {
     sessions: number | string
@@ -212,7 +215,7 @@ export const getPageInsightsOverviewQueryOptions = ({
               id: 'top_pages',
               sources: ['views'],
               group_by: ['page'],
-              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'views'],
+              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'resource_id', 'views'],
               per_page: 5,
               order_by: 'views',
               order: 'DESC',
@@ -266,7 +269,7 @@ export const getPageInsightsOverviewQueryOptions = ({
               id: 'top_entry_pages',
               sources: ['sessions'],
               group_by: ['entry_page'],
-              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'sessions'],
+              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'resource_id', 'sessions'],
               per_page: 5,
               order_by: 'sessions',
               order: 'DESC',
@@ -279,7 +282,7 @@ export const getPageInsightsOverviewQueryOptions = ({
               id: 'top_exit_pages',
               sources: ['sessions'],
               group_by: ['exit_page'],
-              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'sessions'],
+              columns: ['page_uri', 'page_title', 'page_type', 'page_wp_id', 'resource_id', 'sessions'],
               per_page: 5,
               order_by: 'sessions',
               order: 'DESC',

@@ -45,7 +45,7 @@ export const TOP_PAGES_COMPARABLE_COLUMNS: string[] = [
 export const TOP_PAGES_COLUMN_CONFIG: ColumnConfig = {
   baseColumns: ['page_uri', 'page_title'],
   columnDependencies: {
-    page: ['page_uri', 'page_title', 'page_wp_id', 'page_type'],
+    page: ['page_uri', 'page_title', 'page_wp_id', 'page_type', 'resource_id'],
     visitors: ['visitors'],
     views: ['views'],
     viewsPerVisitor: ['visitors', 'views'],
@@ -70,6 +70,7 @@ export interface TopPage {
   pageTitle: string
   pageWpId: number | null
   pageType?: string
+  resourceId?: number | string | null
   visitors: number
   views: number
   bounceRate: number
@@ -94,6 +95,7 @@ export function transformTopPageData(record: TopPageRecord): TopPage {
     pageTitle: record.page_title || record.page_uri || 'Unknown',
     pageWpId: record.page_wp_id || null,
     pageType: record.page_type,
+    resourceId: record.resource_id || null,
     visitors: Number(record.visitors) || 0,
     views: Number(record.views) || 0,
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
@@ -134,7 +136,7 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
       accessorKey: 'page',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       cell: ({ row }) => {
-        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId)
+        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId, undefined, row.original.resourceId)
         return (
           <PageCell
             data={{

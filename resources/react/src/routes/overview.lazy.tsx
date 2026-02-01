@@ -368,8 +368,8 @@ function createWidgetRenderers(): Record<string, (widgetId: string) => React.Rea
         columnLeft={__('Page', 'wp-statistics')}
         columnRight={__('Views', 'wp-statistics')}
         labelAccessor={(item) => item.page_title || item.page_uri || '/'}
-        linkTo={(item) => getAnalyticsRoute(item.page_type, item.page_wp_id)?.to}
-        linkParams={(item) => getAnalyticsRoute(item.page_type, item.page_wp_id)?.params}
+        linkTo={(item) => getAnalyticsRoute(item.page_type, item.page_wp_id, undefined, item.resource_id)?.to}
+        linkParams={(item) => getAnalyticsRoute(item.page_type, item.page_wp_id, undefined, item.resource_id)?.params}
         seeAllRoute="/top-pages"
       />
     ),

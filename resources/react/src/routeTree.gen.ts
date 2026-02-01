@@ -47,6 +47,7 @@ import { Route as contentAnalyticsTopAuthorsRouteImport } from './routes/(conten
 import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
 import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
 import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
+import { Route as pageInsightsUrlResourceIdRouteImport } from './routes/(page-insights)/url_.$resourceId'
 import { Route as geographicCountryCountryCodeRouteImport } from './routes/(geographic)/country_.$countryCode'
 import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
 import { Route as contentAnalyticsCategoryTermIdRouteImport } from './routes/(content-analytics)/category_.$termId'
@@ -633,6 +634,17 @@ const contentAnalyticsAuthorsRoute = contentAnalyticsAuthorsRouteImport
   .lazy(() =>
     import('./routes/(content-analytics)/authors.lazy').then((d) => d.Route),
   )
+const pageInsightsUrlResourceIdRoute = pageInsightsUrlResourceIdRouteImport
+  .update({
+    id: '/(page-insights)/url_/$resourceId',
+    path: '/url/$resourceId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/url_.$resourceId.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 const geographicCountryCountryCodeRoute =
   geographicCountryCountryCodeRouteImport
     .update({
@@ -750,6 +762,7 @@ export interface FileRoutesByFullPath {
   '/category/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
   '/country/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -817,6 +830,7 @@ export interface FileRoutesByTo {
   '/category/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
   '/country/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -887,6 +901,7 @@ export interface FileRoutesById {
   '/(content-analytics)/category_/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/(content-analytics)/content_/$postId': typeof contentAnalyticsContentPostIdRoute
   '/(geographic)/country_/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/(page-insights)/url_/$resourceId': typeof pageInsightsUrlResourceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -958,6 +973,7 @@ export interface FileRouteTypes {
     | '/category/$termId'
     | '/content/$postId'
     | '/country/$countryCode'
+    | '/url/$resourceId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1025,6 +1041,7 @@ export interface FileRouteTypes {
     | '/category/$termId'
     | '/content/$postId'
     | '/country/$countryCode'
+    | '/url/$resourceId'
   id:
     | '__root__'
     | '/'
@@ -1094,6 +1111,7 @@ export interface FileRouteTypes {
     | '/(content-analytics)/category_/$termId'
     | '/(content-analytics)/content_/$postId'
     | '/(geographic)/country_/$countryCode'
+    | '/(page-insights)/url_/$resourceId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1148,6 +1166,7 @@ export interface RootRouteChildren {
   contentAnalyticsCategoryTermIdRoute: typeof contentAnalyticsCategoryTermIdRoute
   contentAnalyticsContentPostIdRoute: typeof contentAnalyticsContentPostIdRoute
   geographicCountryCountryCodeRoute: typeof geographicCountryCountryCodeRoute
+  pageInsightsUrlResourceIdRoute: typeof pageInsightsUrlResourceIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1593,6 +1612,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof contentAnalyticsAuthorsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(page-insights)/url_/$resourceId': {
+      id: '/(page-insights)/url_/$resourceId'
+      path: '/url/$resourceId'
+      fullPath: '/url/$resourceId'
+      preLoaderRoute: typeof pageInsightsUrlResourceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(geographic)/country_/$countryCode': {
       id: '/(geographic)/country_/$countryCode'
       path: '/country/$countryCode'
@@ -1729,6 +1755,7 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsCategoryTermIdRoute: contentAnalyticsCategoryTermIdRoute,
   contentAnalyticsContentPostIdRoute: contentAnalyticsContentPostIdRoute,
   geographicCountryCountryCodeRoute: geographicCountryCountryCodeRoute,
+  pageInsightsUrlResourceIdRoute: pageInsightsUrlResourceIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

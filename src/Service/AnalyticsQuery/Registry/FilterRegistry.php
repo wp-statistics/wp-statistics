@@ -21,6 +21,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\UserIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\LoggedInFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\PageFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ResourceIdFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\ResourcePkFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\LanguageFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\IpFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ResolutionFilter;
@@ -135,6 +136,7 @@ class FilterRegistry
             'author'           => AuthorFilter::class,
             'page'             => PageFilter::class,
             'resource_id'      => ResourceIdFilter::class,
+            'resource_pk'      => ResourcePkFilter::class,
             'taxonomy_type'    => TaxonomyTypeFilter::class,
             'taxonomy'         => TaxonomyFilter::class,
 
