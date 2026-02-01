@@ -336,6 +336,8 @@ function PageInsightsOverviewContent() {
                     total: getTotalFromResponse(byCategoryTotals, 'views') || 1,
                     isCompareEnabled,
                     comparisonDateLabel,
+                    linkTo: (item) => item.resource_id ? '/url/$resourceId' : undefined,
+                    linkParams: (item) => item.resource_id ? { resourceId: String(item.resource_id) } : undefined,
                   })}
                   link={{
                     title: __('See all', 'wp-statistics'),
@@ -355,12 +357,14 @@ function PageInsightsOverviewContent() {
                     right: __('Views', 'wp-statistics'),
                   }}
                   items={transformToBarList(byAuthorData, {
-                    label: (item) => item.author_name || __('Unknown', 'wp-statistics'),
+                    label: (item) => item.page_title || __('Unknown', 'wp-statistics'),
                     value: (item) => Number(item.views) || 0,
                     previousValue: (item) => Number(item.previous?.views) || 0,
                     total: getTotalFromResponse(byAuthorTotals, 'views') || 1,
                     isCompareEnabled,
                     comparisonDateLabel,
+                    linkTo: (item) => item.resource_id ? '/url/$resourceId' : undefined,
+                    linkParams: (item) => item.resource_id ? { resourceId: String(item.resource_id) } : undefined,
                   })}
                   link={{
                     title: __('See all', 'wp-statistics'),

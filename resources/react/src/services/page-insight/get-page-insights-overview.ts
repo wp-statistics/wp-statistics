@@ -58,6 +58,7 @@ export interface NotFoundPageRow {
 
 export interface CategoryRow {
   page_title: string
+  resource_id?: number | string
   views: number | string
   previous?: {
     views: number | string
@@ -65,7 +66,8 @@ export interface CategoryRow {
 }
 
 export interface AuthorRow {
-  author_name: string
+  page_title: string
+  resource_id?: number | string
   views: number | string
   previous?: {
     views: number | string
@@ -242,7 +244,7 @@ export const getPageInsightsOverviewQueryOptions = ({
               id: 'by_category',
               sources: ['views'],
               group_by: ['page'],
-              columns: ['page_title', 'views'],
+              columns: ['page_title', 'resource_id', 'views'],
               filters: [{ key: 'post_type', operator: 'is', value: 'category' }],
               per_page: 5,
               order_by: 'views',
@@ -255,8 +257,9 @@ export const getPageInsightsOverviewQueryOptions = ({
             {
               id: 'by_author',
               sources: ['views'],
-              group_by: ['author'],
-              columns: ['author_name', 'views'],
+              group_by: ['page'],
+              columns: ['page_title', 'resource_id', 'views'],
+              filters: [{ key: 'post_type', operator: 'is', value: 'author_archive' }],
               per_page: 5,
               order_by: 'views',
               order: 'DESC',
