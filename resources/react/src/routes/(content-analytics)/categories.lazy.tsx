@@ -3,6 +3,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { BarListContent } from '@/components/custom/bar-list-content'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { HorizontalBar } from '@/components/custom/horizontal-bar'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
@@ -18,7 +19,6 @@ import {
 } from '@/components/custom/options-drawer'
 import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
 import { TaxonomySelect } from '@/components/custom/taxonomy-select'
-import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
@@ -378,14 +378,11 @@ function CategoriesOverviewContent() {
           href: buildTopCategoriesUrl('order_by=views&order=desc'),
           title: __('See all', 'wp-statistics'),
         },
-        content:
-          sortedByViews.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {sortedByViews.map((term, i) => renderTermItem(term, 'views', __('views', 'wp-statistics'), i))}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={sortedByViews.length === 0}>
+            {sortedByViews.map((term, i) => renderTermItem(term, 'views', __('views', 'wp-statistics'), i))}
+          </BarListContent>
+        ),
       },
       {
         id: 'contents',
@@ -398,16 +395,13 @@ function CategoriesOverviewContent() {
           href: buildTopCategoriesUrl('order_by=published&order=desc'),
           title: __('See all', 'wp-statistics'),
         },
-        content:
-          sortedByContents.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {sortedByContents.map((term, i) =>
-                renderTermItem(term, 'published_content', __('contents', 'wp-statistics'), i)
-              )}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={sortedByContents.length === 0}>
+            {sortedByContents.map((term, i) =>
+              renderTermItem(term, 'published_content', __('contents', 'wp-statistics'), i)
+            )}
+          </BarListContent>
+        ),
       },
     ]
   }, [sortedByViews, sortedByContents, isCompareEnabled, calcPercentage, comparisonDateLabel, buildTopCategoriesUrl])
@@ -446,38 +440,35 @@ function CategoriesOverviewContent() {
           left: __('Content', 'wp-statistics'),
           right: __('Views', 'wp-statistics'),
         },
-        content:
-          popularSorted.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {popularSorted.map((item, i) => {
-                const views = Number(item.views) || 0
-                const prevViews = Number(item.previous?.views) || 0
-                const comparison = isCompareEnabled ? calcPercentage(views, prevViews) : null
-                const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
+        content: (
+          <BarListContent isEmpty={popularSorted.length === 0}>
+            {popularSorted.map((item, i) => {
+              const views = Number(item.views) || 0
+              const prevViews = Number(item.previous?.views) || 0
+              const comparison = isCompareEnabled ? calcPercentage(views, prevViews) : null
+              const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
 
-                return (
-                  <HorizontalBar
-                    key={`${item.page_uri}-${i}`}
-                    label={item.page_title || item.page_uri || '/'}
-                    value={`${formatCompactNumber(views)} ${__('views', 'wp-statistics')}`}
-                    percentage={comparison?.percentage}
-                    isNegative={comparison?.isNegative}
-                    tooltipSubtitle={
-                      isCompareEnabled ? `${__('Previous:', 'wp-statistics')} ${formatCompactNumber(prevViews)}` : undefined
-                    }
-                    comparisonDateLabel={comparisonDateLabel}
-                    showComparison={isCompareEnabled}
-                    showBar={false}
-                    highlightFirst={false}
-                    linkTo={route?.to}
-                    linkParams={route?.params}
-                  />
-                )
-              })}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+              return (
+                <HorizontalBar
+                  key={`${item.page_uri}-${i}`}
+                  label={item.page_title || item.page_uri || '/'}
+                  value={`${formatCompactNumber(views)} ${__('views', 'wp-statistics')}`}
+                  percentage={comparison?.percentage}
+                  isNegative={comparison?.isNegative}
+                  tooltipSubtitle={
+                    isCompareEnabled ? `${__('Previous:', 'wp-statistics')} ${formatCompactNumber(prevViews)}` : undefined
+                  }
+                  comparisonDateLabel={comparisonDateLabel}
+                  showComparison={isCompareEnabled}
+                  showBar={false}
+                  highlightFirst={false}
+                  linkTo={route?.to}
+                  linkParams={route?.params}
+                />
+              )
+            })}
+          </BarListContent>
+        ),
       },
     ]
 
@@ -491,7 +482,7 @@ function CategoriesOverviewContent() {
           right: __('Comments', 'wp-statistics'),
         },
         content: (
-          <div className="flex flex-col gap-3">
+          <BarListContent>
             {commentedSorted.map((item, i) => {
               const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
               return (
@@ -507,7 +498,7 @@ function CategoriesOverviewContent() {
                 />
               )
             })}
-          </div>
+          </BarListContent>
         ),
       })
     }
@@ -519,28 +510,25 @@ function CategoriesOverviewContent() {
         left: __('Content', 'wp-statistics'),
         right: __('Views', 'wp-statistics'),
       },
-      content:
-        recentSorted.length > 0 ? (
-          <div className="flex flex-col gap-3">
-            {recentSorted.map((item, i) => {
-              const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
-              return (
-                <HorizontalBar
-                  key={`${item.page_uri}-${i}`}
-                  label={item.page_title || item.page_uri || '/'}
-                  value={`${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`}
-                  showComparison={false}
-                  showBar={false}
-                  highlightFirst={false}
-                  linkTo={route?.to}
-                  linkParams={route?.params}
-                />
-              )
-            })}
-          </div>
-        ) : (
-          <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-        ),
+      content: (
+        <BarListContent isEmpty={recentSorted.length === 0}>
+          {recentSorted.map((item, i) => {
+            const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
+            return (
+              <HorizontalBar
+                key={`${item.page_uri}-${i}`}
+                label={item.page_title || item.page_uri || '/'}
+                value={`${formatCompactNumber(Number(item.views))} ${__('views', 'wp-statistics')}`}
+                showComparison={false}
+                showBar={false}
+                highlightFirst={false}
+                linkTo={route?.to}
+                linkParams={route?.params}
+              />
+            )
+          })}
+        </BarListContent>
+      ),
     })
 
     return tabs
@@ -626,14 +614,11 @@ function CategoriesOverviewContent() {
           left: __('Author', 'wp-statistics'),
           right: __('Views', 'wp-statistics'),
         },
-        content:
-          authorsSortedByViews.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {authorsSortedByViews.map((author, i) => renderAuthorItem(author, 'views', __('views', 'wp-statistics'), i))}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={authorsSortedByViews.length === 0}>
+            {authorsSortedByViews.map((author, i) => renderAuthorItem(author, 'views', __('views', 'wp-statistics'), i))}
+          </BarListContent>
+        ),
       },
       {
         id: 'publishing',
@@ -642,16 +627,13 @@ function CategoriesOverviewContent() {
           left: __('Author', 'wp-statistics'),
           right: __('Contents', 'wp-statistics'),
         },
-        content:
-          authorsSortedByPublishing.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {authorsSortedByPublishing.map((author, i) =>
-                renderAuthorItem(author, 'published_content', __('contents', 'wp-statistics'), i)
-              )}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={authorsSortedByPublishing.length === 0}>
+            {authorsSortedByPublishing.map((author, i) =>
+              renderAuthorItem(author, 'published_content', __('contents', 'wp-statistics'), i)
+            )}
+          </BarListContent>
+        ),
       },
       {
         id: 'engagement',
@@ -660,16 +642,13 @@ function CategoriesOverviewContent() {
           left: __('Author', 'wp-statistics'),
           right: __('Views/Content', 'wp-statistics'),
         },
-        content:
-          authorsSortedByEngagement.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {authorsSortedByEngagement.map((author, i) =>
-                renderAuthorItem(author, 'views_per_content', __('views/content', 'wp-statistics'), i)
-              )}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={authorsSortedByEngagement.length === 0}>
+            {authorsSortedByEngagement.map((author, i) =>
+              renderAuthorItem(author, 'views_per_content', __('views/content', 'wp-statistics'), i)
+            )}
+          </BarListContent>
+        ),
       },
     ]
   }, [authorsSortedByViews, authorsSortedByPublishing, authorsSortedByEngagement, isCompareEnabled, calcPercentage, comparisonDateLabel])

@@ -3,6 +3,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { __, sprintf } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { BarListContent } from '@/components/custom/bar-list-content'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBar } from '@/components/custom/horizontal-bar'
@@ -15,7 +16,6 @@ import {
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
 import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
-import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
@@ -439,16 +439,13 @@ function AuthorsOverviewContent() {
           left: __('Author', 'wp-statistics'),
           right: __('Views', 'wp-statistics'),
         },
-        content:
-          sortedByViews.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {sortedByViews.map((author, i) =>
-                renderAuthorItem(author, 'views', __('views', 'wp-statistics'), i)
-              )}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={sortedByViews.length === 0}>
+            {sortedByViews.map((author, i) =>
+              renderAuthorItem(author, 'views', __('views', 'wp-statistics'), i)
+            )}
+          </BarListContent>
+        ),
         link: {
           href: buildTopAuthorsUrl('order_by=views&order=desc'),
           title: __('See all', 'wp-statistics'),
@@ -461,16 +458,13 @@ function AuthorsOverviewContent() {
           left: __('Author', 'wp-statistics'),
           right: postTypeLabel,
         },
-        content:
-          sortedByPublishing.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {sortedByPublishing.map((author, i) =>
-                renderAuthorItem(author, 'published_content', postTypeLabel.toLowerCase(), i)
-              )}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={sortedByPublishing.length === 0}>
+            {sortedByPublishing.map((author, i) =>
+              renderAuthorItem(author, 'published_content', postTypeLabel.toLowerCase(), i)
+            )}
+          </BarListContent>
+        ),
         link: {
           href: buildTopAuthorsUrl('order_by=published&order=desc'),
           title: __('See all', 'wp-statistics'),
@@ -483,21 +477,18 @@ function AuthorsOverviewContent() {
           left: __('Author', 'wp-statistics'),
           right: sprintf(__('Views/%s', 'wp-statistics'), postTypeLabel),
         },
-        content:
-          sortedByViewsPerPost.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {sortedByViewsPerPost.map((author, i) =>
-                renderAuthorItem(
-                  author,
-                  'views_per_post',
-                  sprintf(__('views/%s', 'wp-statistics'), postTypeLabel.toLowerCase()),
-                  i
-                )
-              )}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={sortedByViewsPerPost.length === 0}>
+            {sortedByViewsPerPost.map((author, i) =>
+              renderAuthorItem(
+                author,
+                'views_per_post',
+                sprintf(__('views/%s', 'wp-statistics'), postTypeLabel.toLowerCase()),
+                i
+              )
+            )}
+          </BarListContent>
+        ),
         link: {
           href: buildTopAuthorsUrl(),
           title: __('See all', 'wp-statistics'),
@@ -510,21 +501,18 @@ function AuthorsOverviewContent() {
           left: __('Author', 'wp-statistics'),
           right: sprintf(__('Comments/%s', 'wp-statistics'), postTypeLabel),
         },
-        content:
-          sortedByCommentsPerPost.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {sortedByCommentsPerPost.map((author, i) =>
-                renderAuthorItem(
-                  author,
-                  'comments_per_post',
-                  sprintf(__('comments/%s', 'wp-statistics'), postTypeLabel.toLowerCase()),
-                  i
-                )
-              )}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={sortedByCommentsPerPost.length === 0}>
+            {sortedByCommentsPerPost.map((author, i) =>
+              renderAuthorItem(
+                author,
+                'comments_per_post',
+                sprintf(__('comments/%s', 'wp-statistics'), postTypeLabel.toLowerCase()),
+                i
+              )
+            )}
+          </BarListContent>
+        ),
         // No link for Comments per Post tab
       },
     ]

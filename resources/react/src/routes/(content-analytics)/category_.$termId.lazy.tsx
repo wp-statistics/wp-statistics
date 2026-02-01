@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n'
 import { ArrowLeft, LockIcon } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { BarListContent } from '@/components/custom/bar-list-content'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { HorizontalBar } from '@/components/custom/horizontal-bar'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
@@ -19,7 +20,6 @@ import {
 import { SimpleTable, type SimpleTableColumn } from '@/components/custom/simple-table'
 import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
 import { NumericCell } from '@/components/data-table-columns'
-import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
@@ -489,14 +489,11 @@ function SingleCategoryReportContent() {
           left: __('Content', 'wp-statistics'),
           right: __('Views', 'wp-statistics'),
         },
-        content:
-          popularSorted.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {popularSorted.map((item) => renderContentItem(item))}
-            </div>
-          ) : (
-            <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-          ),
+        content: (
+          <BarListContent isEmpty={popularSorted.length === 0}>
+            {popularSorted.map((item) => renderContentItem(item))}
+          </BarListContent>
+        ),
       },
     ]
 
@@ -510,7 +507,7 @@ function SingleCategoryReportContent() {
           right: __('Comments', 'wp-statistics'),
         },
         content: (
-          <div className="flex flex-col gap-3">
+          <BarListContent>
             {commentedSorted.map((item) => {
               const route = getAnalyticsRoute(item.page_type, item.page_wp_id)
               return (
@@ -526,7 +523,7 @@ function SingleCategoryReportContent() {
                 />
               )
             })}
-          </div>
+          </BarListContent>
         ),
       })
     }
@@ -538,14 +535,11 @@ function SingleCategoryReportContent() {
         left: __('Content', 'wp-statistics'),
         right: __('Views', 'wp-statistics'),
       },
-      content:
-        recentSorted.length > 0 ? (
-          <div className="flex flex-col gap-3">
-            {recentSorted.map((item) => renderContentItem(item, false))}
-          </div>
-        ) : (
-          <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
-        ),
+      content: (
+        <BarListContent isEmpty={recentSorted.length === 0}>
+          {recentSorted.map((item) => renderContentItem(item, false))}
+        </BarListContent>
+      ),
     })
 
     return tabs

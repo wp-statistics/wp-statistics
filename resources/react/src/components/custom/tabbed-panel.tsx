@@ -53,11 +53,11 @@ export interface TabbedPanelProps {
  *       id: 'popular',
  *       label: 'Most Popular',
  *       content: (
- *         <div className="flex flex-col gap-3">
+ *         <BarListContent isEmpty={items.length === 0}>
  *           {items.map((item, i) => (
  *             <HorizontalBar key={i} label={item.label} value={item.value} />
  *           ))}
- *         </div>
+ *         </BarListContent>
  *       ),
  *       link: { href: '/top-pages?order_by=views' }
  *     }
