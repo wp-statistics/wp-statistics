@@ -33,6 +33,7 @@ export interface ViewRecord {
   entry_page_title: string
   entry_page_type?: string
   entry_page_wp_id?: number | null
+  entry_page_resource_id?: number | null
 }
 
 export interface GetViewsResponse {

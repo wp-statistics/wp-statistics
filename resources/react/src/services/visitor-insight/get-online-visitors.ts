@@ -27,6 +27,7 @@ export interface OnlineVisitor {
   entry_page: string
   entry_page_type?: string | null
   entry_page_wp_id?: number | null
+  entry_page_resource_id?: number | null
   visitors?: number
 }
 

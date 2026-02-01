@@ -82,39 +82,8 @@ export interface OperatingSystemRow {
   }
 }
 
-export interface TopVisitorRow {
-  visitor_id: string
-  visitor_hash: string
-  ip_address: string | null
-  user_id: number | null
-  user_login: string | null
-  user_email: string | null
-  user_role: string | null
-  total_views: number
-  country_code: string | null
-  country_name: string | null
-  region_name: string | null
-  city_name: string | null
-  os_name: string | null
-  browser_name: string | null
-  browser_version: string | null
-  device_type_name: string | null
-  referrer_domain: string | null
-  referrer_channel: string | null
-  entry_page: string | null
-  entry_page_title: string | null
-  entry_page_type?: string | null
-  entry_page_wp_id?: number | null
-  exit_page: string | null
-  exit_page_title: string | null
-  exit_page_type?: string | null
-  exit_page_wp_id?: number | null
-}
-
-// Export type alias for TopVisitorsData (used by overview-top-visitors component)
-export interface TopVisitorsData {
-  rows: TopVisitorRow[]
-}
+// Reuse TopVisitorRecord — overview returns a subset of the same fields
+export type { TopVisitorRecord as TopVisitorRow } from './get-top-visitors'
 
 export interface TopEntryPageRow {
   page_uri: string
@@ -392,10 +361,12 @@ export const getVisitorOverviewQueryOptions = ({
                 'entry_page_title',
                 'entry_page_type',
                 'entry_page_wp_id',
+                'entry_page_resource_id',
                 'exit_page',
                 'exit_page_title',
                 'exit_page_type',
                 'exit_page_wp_id',
+                'exit_page_resource_id',
               ],
               per_page: 10,
               order_by: 'total_views',

@@ -66,6 +66,10 @@ export interface TopContentItem {
   views: number
   comments: number
   published_date: string | null
+  previous?: {
+    views: number | string
+    visitors: number | string
+  }
 }
 
 // Top referrer row for referrer widgets
@@ -244,8 +248,10 @@ export const getContentOverviewQueryOptions = ({
               group_by: ['page'],
               format: 'table',
               show_totals: false,
-              compare: false,
+              compare: true,
               per_page: 15,
+              order_by: 'views',
+              order: 'DESC',
               columns: ['page_uri', 'page_title', 'page_wp_id', 'page_type', 'visitors', 'views', 'comments', 'published_date'],
             },
             // Top Referrers: Table format for top referrers widget

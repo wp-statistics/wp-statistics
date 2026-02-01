@@ -28,10 +28,12 @@ export interface VisitorRecord {
   entry_page_title: string | null
   entry_page_type?: string | null
   entry_page_wp_id?: number | null
+  entry_page_resource_id?: number | null
   exit_page: string | null
   exit_page_title: string | null
   exit_page_type?: string | null
   exit_page_wp_id?: number | null
+  exit_page_resource_id?: number | null
   total_views: number
   total_sessions: number
   avg_session_duration: number | null

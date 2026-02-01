@@ -9,7 +9,7 @@ import { WordPress } from '@/lib/wordpress'
 export type { ApiFilters }
 
 export interface TopVisitorRecord {
-  visitor_id: number
+  visitor_id: number | string
   visitor_hash: string
   ip_address: string | null
   user_id: number | null
@@ -17,13 +17,13 @@ export interface TopVisitorRecord {
   user_email: string | null
   user_role: string | null
   total_views: number
-  total_sessions: number
-  last_visit: string
-  first_visit: string
-  bounce_rate: number | null
-  avg_session_duration: number | null
-  pages_per_session: number | null
-  visitor_status: 'new' | 'returning' | null
+  total_sessions?: number
+  last_visit?: string
+  first_visit?: string
+  bounce_rate?: number | null
+  avg_session_duration?: number | null
+  pages_per_session?: number | null
+  visitor_status?: 'new' | 'returning' | null
   country_code: string | null
   country_name: string | null
   region_name: string | null
@@ -38,10 +38,12 @@ export interface TopVisitorRecord {
   entry_page_title: string | null
   entry_page_type?: string | null
   entry_page_wp_id?: number | null
+  entry_page_resource_id?: number | null
   exit_page: string | null
   exit_page_title: string | null
   exit_page_type?: string | null
   exit_page_wp_id?: number | null
+  exit_page_resource_id?: number | null
 }
 
 export interface GetTopVisitorsResponse {
@@ -127,10 +129,12 @@ const DEFAULT_COLUMNS = [
   'entry_page_title',
   'entry_page_type',
   'entry_page_wp_id',
+  'entry_page_resource_id',
   'exit_page',
   'exit_page_title',
   'exit_page_type',
   'exit_page_wp_id',
+  'exit_page_resource_id',
 ]
 
 export const getTopVisitorsQueryOptions = ({
