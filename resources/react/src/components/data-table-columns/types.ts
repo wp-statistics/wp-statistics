@@ -41,6 +41,10 @@ export interface PageData {
   hasQueryString?: boolean
   queryString?: string
   utmCampaign?: string
+  // Optional routing fields — when present, cells auto-resolve internal links
+  pageType?: string
+  pageWpId?: number | string | null
+  resourceId?: number | string | null
 }
 
 // Referrer data

@@ -4,30 +4,33 @@
 
 import { Link } from '@tanstack/react-router'
 import { ArrowDown, CornerDownLeft, Flag, MapPin } from 'lucide-react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { getAnalyticsRoute } from '@/lib/url-utils'
+
+import type { PageData } from '../types'
 
 interface JourneyCellProps {
   data: {
-    entryPage: { title: string; url: string; utmCampaign?: string }
-    exitPage: { title: string; url: string }
+    entryPage: PageData
+    exitPage: PageData
     isBounce: boolean
   }
   maxLength?: number
-  /** Optional internal link for entry page */
+  /** Route override for entry page — skips auto-resolution from PageData routing fields. */
   entryLinkTo?: string
-  /** Optional params for entry page link */
+  /** Params for entry page route override */
   entryLinkParams?: Record<string, string>
-  /** Optional internal link for exit page */
+  /** Route override for exit page — skips auto-resolution from PageData routing fields. */
   exitLinkTo?: string
-  /** Optional params for exit page link */
+  /** Params for exit page route override */
   exitLinkParams?: Record<string, string>
 }
 
 export const JourneyCell = memo(function JourneyCell({
   data,
-  maxLength = 20,
+  maxLength = 28,
   entryLinkTo,
   entryLinkParams,
   exitLinkTo,
@@ -37,11 +40,24 @@ export const JourneyCell = memo(function JourneyCell({
 
   const truncate = (text: string) => (text.length > maxLength ? `${text.substring(0, maxLength - 3)}...` : text)
 
+  // Auto-resolve routes from page data when explicit link props not provided
+  const resolvedEntryRoute = useMemo(() => {
+    if (entryLinkTo) return { to: entryLinkTo, params: entryLinkParams }
+    if (entryPage.pageType) return getAnalyticsRoute(entryPage.pageType, entryPage.pageWpId, undefined, entryPage.resourceId)
+    return null
+  }, [entryLinkTo, entryLinkParams, entryPage.pageType, entryPage.pageWpId, entryPage.resourceId])
+
+  const resolvedExitRoute = useMemo(() => {
+    if (exitLinkTo) return { to: exitLinkTo, params: exitLinkParams }
+    if (exitPage.pageType) return getAnalyticsRoute(exitPage.pageType, exitPage.pageWpId, undefined, exitPage.resourceId)
+    return null
+  }, [exitLinkTo, exitLinkParams, exitPage.pageType, exitPage.pageWpId, exitPage.resourceId])
+
   // Entry title content - either plain text or internal link
-  const entryTitleContent = entryLinkTo ? (
+  const entryTitleContent = resolvedEntryRoute?.to ? (
     <Link
-      to={entryLinkTo}
-      params={entryLinkParams}
+      to={resolvedEntryRoute.to}
+      params={resolvedEntryRoute.params}
       className="text-xs text-neutral-700 truncate hover:text-primary hover:underline"
     >
       {truncate(entryPage.title)}
@@ -51,10 +67,10 @@ export const JourneyCell = memo(function JourneyCell({
   )
 
   // Exit title content - either plain text or internal link
-  const exitTitleContent = exitLinkTo ? (
+  const exitTitleContent = resolvedExitRoute?.to ? (
     <Link
-      to={exitLinkTo}
-      params={exitLinkParams}
+      to={resolvedExitRoute.to}
+      params={resolvedExitRoute.params}
       className="text-xs text-neutral-700 truncate hover:text-primary hover:underline"
     >
       {truncate(exitPage.title)}
@@ -65,10 +81,10 @@ export const JourneyCell = memo(function JourneyCell({
 
   // Bounce: show single page with bounce indicator
   if (isBounce) {
-    const bounceTitleContent = entryLinkTo ? (
+    const bounceTitleContent = resolvedEntryRoute?.to ? (
       <Link
-        to={entryLinkTo}
-        params={entryLinkParams}
+        to={resolvedEntryRoute.to}
+        params={resolvedEntryRoute.params}
         className="text-xs text-neutral-500 truncate hover:text-primary hover:underline"
       >
         {truncate(entryPage.title)}
@@ -78,10 +94,10 @@ export const JourneyCell = memo(function JourneyCell({
     )
 
     return (
-      <div className="flex flex-col gap-0.5 group/journey max-w-[160px]">
+      <div className="flex flex-col gap-0.5 group/journey max-w-[180px]">
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="flex items-center gap-1.5 cursor-pointer">
+            <div className="flex items-center gap-1.5">
               <CornerDownLeft className="w-3 h-3 text-neutral-400 shrink-0" />
               {bounceTitleContent}
             </div>
@@ -94,7 +110,7 @@ export const JourneyCell = memo(function JourneyCell({
           </TooltipContent>
         </Tooltip>
         {entryPage.utmCampaign && (
-          <span className="text-[11px] text-neutral-500 truncate pl-4">{entryPage.utmCampaign}</span>
+          <span className="text-xs text-neutral-500 block mt-0.5">{entryPage.utmCampaign}</span>
         )}
       </div>
     )
@@ -102,11 +118,11 @@ export const JourneyCell = memo(function JourneyCell({
 
   // Normal flow: entry → exit
   return (
-    <div className="flex flex-col gap-0 group/journey max-w-[160px]">
+    <div className="flex flex-col gap-0 group/journey max-w-[180px]">
       {/* Entry Page */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex items-center gap-1.5 cursor-pointer">
+          <div className="flex items-center gap-1.5">
             <MapPin className="w-3 h-3 text-neutral-400 shrink-0 opacity-60 group-hover/journey:opacity-100 transition-opacity" />
             {entryTitleContent}
           </div>
@@ -122,7 +138,7 @@ export const JourneyCell = memo(function JourneyCell({
       {/* Exit Page */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex items-center gap-1.5 cursor-pointer">
+          <div className="flex items-center gap-1.5">
             <Flag className="w-3 h-3 text-neutral-400 shrink-0 opacity-60 group-hover/journey:opacity-100 transition-opacity" />
             {exitTitleContent}
           </div>
@@ -132,7 +148,7 @@ export const JourneyCell = memo(function JourneyCell({
 
       {/* UTM Campaign */}
       {entryPage.utmCampaign && (
-        <span className="text-[11px] text-neutral-500 truncate pl-4 mt-0.5">{entryPage.utmCampaign}</span>
+        <span className="text-xs text-neutral-500 block mt-0.5">{entryPage.utmCampaign}</span>
       )}
     </div>
   )
