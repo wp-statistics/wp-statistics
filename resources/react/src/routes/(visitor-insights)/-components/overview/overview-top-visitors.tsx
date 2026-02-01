@@ -61,7 +61,6 @@ export const OverviewTopVisitors = ({ data, isFetching }: OverviewTopVisitorsPro
       isFetching={isFetching}
       emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}
       stickyHeader={true}
-      borderless
       fullReportLink={{
         to: '/top-visitors',
       }}
