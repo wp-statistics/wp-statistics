@@ -32,6 +32,7 @@ import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { usePremiumFeature } from '@/hooks/use-premium-feature'
 import { transformToBarList } from '@/lib/bar-list-helpers'
+import { clientRequest } from '@/lib/client-request'
 import { getFixedDatePeriods } from '@/lib/fixed-date-ranges'
 import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
@@ -310,8 +311,21 @@ function SingleCategoryReportContent() {
     [categoryInfoResponse, termId]
   )
 
-  // Get category title from term data
-  const categoryTitle = termData?.term_name || __('Category', 'wp-statistics')
+  // Fetch term info via AJAX as fallback when analytics data is empty
+  const { data: wpTermData } = useQuery({
+    queryKey: ['wp-term-info', termId],
+    queryFn: () =>
+      clientRequest.post<{ success: boolean; data: { name: string; slug: string; taxonomy: string } }>(
+        '',
+        { term_id: termId },
+        { params: { action: 'wp_statistics_get_term_info' } }
+      ),
+    staleTime: Infinity,
+    enabled: !termData?.term_name,
+  })
+
+  // Get category title from term data, falling back to AJAX endpoint
+  const categoryTitle = termData?.term_name || wpTermData?.data?.data?.name || __('Category', 'wp-statistics')
   const taxonomyType = termData?.taxonomy_type || 'category'
 
   // Check if this is a built-in taxonomy (category or post_tag)
