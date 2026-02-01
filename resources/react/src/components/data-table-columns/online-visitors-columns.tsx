@@ -20,7 +20,7 @@ import {
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
-import { getAnalyticsRoute, parseEntryPage } from '@/lib/url-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import type { OnlineVisitor as APIOnlineVisitor } from '@/services/visitor-insight/get-online-visitors'
 
 /**
@@ -54,9 +54,9 @@ export const ONLINE_VISITORS_COLUMN_CONFIG: ColumnConfig = {
       'user_role',
     ],
     onlineFor: ['total_sessions'],
-    page: ['entry_page', 'entry_page_type', 'entry_page_wp_id'],
+    page: ['entry_page', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     totalViews: ['total_views'],
-    entryPage: ['entry_page', 'entry_page_type', 'entry_page_wp_id'],
+    entryPage: ['entry_page', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     referrer: ['referrer_domain', 'referrer_channel'],
     lastVisit: ['last_visit'],
   },
@@ -93,6 +93,7 @@ export interface OnlineVisitor {
   pageTitle: string
   pageType?: string
   pageWpId?: number | null
+  pageResourceId?: number | null
   totalViews: number
   entryPage: string
   entryPageTitle: string
@@ -100,6 +101,7 @@ export interface OnlineVisitor {
   entryPageQueryString?: string
   entryPageType?: string
   entryPageWpId?: number | null
+  entryPageResourceId?: number | null
   referrerDomain?: string
   referrerCategory: string
   lastVisit: Date
@@ -142,6 +144,7 @@ export function transformOnlineVisitorData(apiVisitor: APIOnlineVisitor): Online
     pageTitle: getPageTitle(entryPageData.path),
     pageType: apiVisitor.entry_page_type || undefined,
     pageWpId: apiVisitor.entry_page_wp_id ?? null,
+    pageResourceId: apiVisitor.entry_page_resource_id ?? null,
     totalViews: apiVisitor.total_views || 0,
     entryPage: entryPageData.path,
     entryPageTitle: getPageTitle(entryPageData.path),
@@ -149,6 +152,7 @@ export function transformOnlineVisitorData(apiVisitor: APIOnlineVisitor): Online
     entryPageQueryString: entryPageData.queryString,
     entryPageType: apiVisitor.entry_page_type || undefined,
     entryPageWpId: apiVisitor.entry_page_wp_id ?? null,
+    entryPageResourceId: apiVisitor.entry_page_resource_id ?? null,
     referrerDomain: apiVisitor.referrer_domain || undefined,
     referrerCategory: formatReferrerChannel(apiVisitor.referrer_channel),
     lastVisit: lastVisitDate,
@@ -176,17 +180,18 @@ export function createOnlineVisitorsColumns(config: VisitorInfoConfig): ColumnDe
       accessorKey: 'page',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Page" />,
       enableSorting: false,
-      cell: ({ row }) => {
-        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId)
-        return (
-          <PageCell
-            data={{ title: row.original.pageTitle, url: row.original.page }}
-            maxLength={35}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
-          />
-        )
-      },
+      cell: ({ row }) => (
+        <PageCell
+          data={{
+            title: row.original.pageTitle,
+            url: row.original.page,
+            pageType: row.original.pageType,
+            pageWpId: row.original.pageWpId,
+            resourceId: row.original.pageResourceId,
+          }}
+          maxLength={35}
+        />
+      ),
       meta: {
         priority: 'primary',
         cardPosition: 'header',
@@ -244,7 +249,6 @@ export function createOnlineVisitorsColumns(config: VisitorInfoConfig): ColumnDe
       enableSorting: false,
       cell: ({ row }) => {
         const visitor = row.original
-        const route = getAnalyticsRoute(visitor.entryPageType, visitor.entryPageWpId)
         return (
           <EntryPageCell
             data={{
@@ -252,10 +256,11 @@ export function createOnlineVisitorsColumns(config: VisitorInfoConfig): ColumnDe
               url: visitor.entryPage,
               hasQueryString: visitor.entryPageHasQuery,
               queryString: visitor.entryPageQueryString,
+              pageType: visitor.entryPageType,
+              pageWpId: visitor.entryPageWpId,
+              resourceId: visitor.entryPageResourceId,
             }}
             maxLength={35}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
           />
         )
       },

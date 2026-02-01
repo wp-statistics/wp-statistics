@@ -18,7 +18,7 @@ import {
 } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
-import { getAnalyticsRoute, parseEntryPage } from '@/lib/url-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import type { ViewRecord } from '@/services/visitor-insight/get-views'
 
 /**
@@ -53,9 +53,9 @@ export const VIEWS_COLUMN_CONFIG: ColumnConfig = {
       'user_email',
       'user_role',
     ],
-    page: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
+    page: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
+    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     totalViews: ['total_views'],
     location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
@@ -85,6 +85,7 @@ export interface ViewData {
     url: string
     type?: string
     wpId?: number | null
+    resourceId?: number | null
   }
   referrer: {
     domain?: string
@@ -99,6 +100,7 @@ export interface ViewData {
     utmCampaign?: string
     type?: string
     wpId?: number | null
+    resourceId?: number | null
   }
   totalViews: number
 }
@@ -144,6 +146,7 @@ export function transformViewData(record: ViewRecord): ViewData {
       url: record.entry_page || '/',
       type: record.entry_page_type || undefined,
       wpId: record.entry_page_wp_id ?? null,
+      resourceId: record.entry_page_resource_id ?? null,
     },
     referrer: {
       domain: record.referrer_domain || undefined,
@@ -158,6 +161,7 @@ export function transformViewData(record: ViewRecord): ViewData {
       utmCampaign: entryPageData.utmCampaign,
       type: record.entry_page_type || undefined,
       wpId: record.entry_page_wp_id ?? null,
+      resourceId: record.entry_page_resource_id ?? null,
     },
     totalViews: record.total_views || 0,
   }
@@ -225,13 +229,16 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
       enableSorting: false,
       cell: ({ row }) => {
         const page = row.getValue('page') as ViewData['page']
-        const route = getAnalyticsRoute(page.type, page.wpId)
         return (
           <PageCell
-            data={{ title: page.title, url: page.url }}
+            data={{
+              title: page.title,
+              url: page.url,
+              pageType: page.type,
+              pageWpId: page.wpId,
+              resourceId: page.resourceId,
+            }}
             maxLength={35}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
           />
         )
       },
@@ -293,7 +300,6 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
       enableSorting: false,
       cell: ({ row }) => {
         const entryPage = row.getValue('entryPage') as ViewData['entryPage']
-        const route = getAnalyticsRoute(entryPage.type, entryPage.wpId)
         return (
           <EntryPageCell
             data={{
@@ -302,10 +308,11 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
               hasQueryString: entryPage.hasQueryString,
               queryString: entryPage.queryString,
               utmCampaign: entryPage.utmCampaign,
+              pageType: entryPage.type,
+              pageWpId: entryPage.wpId,
+              resourceId: entryPage.resourceId,
             }}
             maxLength={35}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
           />
         )
       },

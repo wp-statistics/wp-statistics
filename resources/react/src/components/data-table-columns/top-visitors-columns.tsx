@@ -24,7 +24,7 @@ import {
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
-import { getAnalyticsRoute, parseEntryPage } from '@/lib/url-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import type { TopVisitorRecord } from '@/services/visitor-insight/get-top-visitors'
 
 /**
@@ -67,8 +67,8 @@ export const TOP_VISITORS_COLUMN_CONFIG: ColumnConfig = {
       'user_role',
     ],
     referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
-    exitPage: ['exit_page', 'exit_page_title', 'exit_page_type', 'exit_page_wp_id'],
+    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
+    exitPage: ['exit_page', 'exit_page_title', 'exit_page_type', 'exit_page_wp_id', 'exit_page_resource_id'],
     totalViews: ['total_views'],
     totalSessions: ['total_sessions'],
     sessionDuration: ['avg_session_duration'],
@@ -128,11 +128,13 @@ export interface TopVisitor {
   entryPageQueryString?: string
   entryPageType?: string
   entryPageWpId?: number | null
+  entryPageResourceId?: number | null
   utmCampaign?: string
   exitPage: string
   exitPageTitle: string
   exitPageType?: string
   exitPageWpId?: number | null
+  exitPageResourceId?: number | null
   totalViews: number
   totalSessions: number
   sessionDuration: number
@@ -150,7 +152,7 @@ export function transformTopVisitorData(record: TopVisitorRecord): TopVisitor {
 
   return {
     id: `visitor-${record.visitor_id}`,
-    lastVisit: new Date(record.last_visit),
+    lastVisit: record.last_visit ? new Date(record.last_visit) : new Date(),
     country: record.country_name || 'Unknown',
     countryCode: (record.country_code || '000').toLowerCase(),
     region: record.region_name || '',
@@ -174,18 +176,20 @@ export function transformTopVisitorData(record: TopVisitorRecord): TopVisitor {
     entryPageQueryString: entryPageData.queryString,
     entryPageType: record.entry_page_type || undefined,
     entryPageWpId: record.entry_page_wp_id ?? null,
+    entryPageResourceId: record.entry_page_resource_id ?? null,
     utmCampaign: entryPageData.utmCampaign,
     exitPage: record.exit_page || '/',
     exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
     exitPageType: record.exit_page_type || undefined,
     exitPageWpId: record.exit_page_wp_id ?? null,
+    exitPageResourceId: record.exit_page_resource_id ?? null,
     totalViews: Number(record.total_views) || 0,
     totalSessions: Number(record.total_sessions) || 0,
     sessionDuration: Math.round(Number(record.avg_session_duration) || 0),
     viewsPerSession: Number(record.pages_per_session) || 0,
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
     visitorStatus: record.visitor_status || 'returning',
-    firstVisit: new Date(record.first_visit || record.last_visit),
+    firstVisit: new Date(record.first_visit || record.last_visit || Date.now()),
   }
 }
 
@@ -296,7 +300,6 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       cell: ({ row }) => {
         const visitor = row.original
-        const route = getAnalyticsRoute(visitor.entryPageType, visitor.entryPageWpId)
         return (
           <EntryPageCell
             data={{
@@ -305,9 +308,10 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
               hasQueryString: visitor.entryPageHasQuery,
               queryString: visitor.entryPageQueryString,
               utmCampaign: visitor.utmCampaign,
+              pageType: visitor.entryPageType,
+              pageWpId: visitor.entryPageWpId,
+              resourceId: visitor.entryPageResourceId,
             }}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
           />
         )
       },
@@ -321,19 +325,17 @@ export function createTopVisitorsColumns(config: VisitorInfoConfig): ColumnDef<T
     {
       accessorKey: 'exitPage',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
-      cell: ({ row }) => {
-        const route = getAnalyticsRoute(row.original.exitPageType, row.original.exitPageWpId)
-        return (
-          <PageCell
-            data={{
-              title: row.original.exitPageTitle,
-              url: row.original.exitPage,
-            }}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
-          />
-        )
-      },
+      cell: ({ row }) => (
+        <PageCell
+          data={{
+            title: row.original.exitPageTitle,
+            url: row.original.exitPage,
+            pageType: row.original.exitPageType,
+            pageWpId: row.original.exitPageWpId,
+            resourceId: row.original.exitPageResourceId,
+          }}
+        />
+      ),
       enableSorting: false,
       meta: {
         title: 'Exit Page',

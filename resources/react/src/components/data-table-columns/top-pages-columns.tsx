@@ -9,7 +9,6 @@ import { DataTableColumnHeader } from '@/components/custom/data-table-column-hea
 import { DurationCell, NumericCell, PageCell } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
-import { getAnalyticsRoute } from '@/lib/url-utils'
 import type { TopPageRecord } from '@/services/page-insight/get-top-pages'
 
 /**
@@ -135,21 +134,19 @@ export function createTopPagesColumns(options: TopPagesColumnsOptions = {}): Col
     {
       accessorKey: 'page',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
-      cell: ({ row }) => {
-        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId, undefined, row.original.resourceId)
-        return (
-          <PageCell
-            data={{
-              title: row.original.pageTitle,
-              url: row.original.pageUri,
-            }}
-            maxLength={40}
-            externalUrl={row.original.pageUri}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
-          />
-        )
-      },
+      cell: ({ row }) => (
+        <PageCell
+          data={{
+            title: row.original.pageTitle,
+            url: row.original.pageUri,
+            pageType: row.original.pageType,
+            pageWpId: row.original.pageWpId,
+            resourceId: row.original.resourceId,
+          }}
+          maxLength={40}
+          externalUrl={row.original.pageUri}
+        />
+      ),
       enableSorting: false,
       meta: {
         title: 'Page',

@@ -9,7 +9,6 @@ import { __ } from '@wordpress/i18n'
 import { StaticSortIndicator } from '@/components/custom/static-sort-indicator'
 import { NumericCell, PageCell } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
-import { getAnalyticsRoute } from '@/lib/url-utils'
 
 /**
  * Generic page data interface for simple page + views tables
@@ -101,19 +100,23 @@ export function createPageViewsColumns(options: PageViewsColumnOptions = {}): Co
       accessorKey: 'page',
       header: opts.pageColumnHeader,
       cell: ({ row }) => {
-        const route = opts.useUrlRoute && row.original.resourceId
+        // When useUrlRoute is set (e.g. category-pages), override routing to /url/$resourceId
+        const urlRouteOverride = opts.useUrlRoute && row.original.resourceId
           ? { to: '/url/$resourceId', params: { resourceId: String(row.original.resourceId) } }
-          : getAnalyticsRoute(row.original.pageType, row.original.pageWpId, undefined, row.original.resourceId)
+          : undefined
         return (
           <PageCell
             data={{
               title: row.original.pageTitle,
               url: row.original.pageUri,
+              pageType: row.original.pageType,
+              pageWpId: row.original.pageWpId,
+              resourceId: row.original.resourceId,
             }}
             maxLength={opts.maxTitleLength}
             externalUrl={row.original.pageUri}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
+            internalLinkTo={urlRouteOverride?.to}
+            internalLinkParams={urlRouteOverride?.params}
           />
         )
       },

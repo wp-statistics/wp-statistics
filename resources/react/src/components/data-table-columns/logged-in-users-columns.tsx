@@ -22,7 +22,7 @@ import {
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
-import { getAnalyticsRoute, parseEntryPage } from '@/lib/url-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
 
 /**
@@ -57,9 +57,9 @@ export const LOGGED_IN_USERS_COLUMN_CONFIG: ColumnConfig = {
       'user_role',
     ],
     lastVisit: ['last_visit'],
-    page: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
+    page: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id'],
+    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     totalViews: ['total_views'],
     location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
@@ -98,10 +98,12 @@ export interface LoggedInUser {
   entryPageQueryString?: string
   entryPageType?: string
   entryPageWpId?: number | null
+  entryPageResourceId?: number | null
   page: string
   pageTitle: string
   pageType?: string
   pageWpId?: number | null
+  pageResourceId?: number | null
   totalViews: number
 }
 
@@ -136,10 +138,12 @@ export function transformLoggedInUserData(record: LoggedInUserRecord): LoggedInU
     entryPageQueryString: entryPageData.queryString,
     entryPageType: record.entry_page_type || undefined,
     entryPageWpId: record.entry_page_wp_id ?? null,
+    entryPageResourceId: record.entry_page_resource_id ?? null,
     page: record.entry_page || '/',
     pageTitle: record.entry_page_title || record.entry_page || 'Unknown',
     pageType: record.entry_page_type || undefined,
     pageWpId: record.entry_page_wp_id ?? null,
+    pageResourceId: record.entry_page_resource_id ?? null,
     totalViews: record.total_views || 0,
   }
 }
@@ -217,17 +221,18 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       accessorKey: 'page',
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       enableSorting: false,
-      cell: ({ row }) => {
-        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId)
-        return (
-          <PageCell
-            data={{ title: row.original.pageTitle, url: row.original.page }}
-            maxLength={35}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
-          />
-        )
-      },
+      cell: ({ row }) => (
+        <PageCell
+          data={{
+            title: row.original.pageTitle,
+            url: row.original.page,
+            pageType: row.original.pageType,
+            pageWpId: row.original.pageWpId,
+            resourceId: row.original.pageResourceId,
+          }}
+          maxLength={35}
+        />
+      ),
       meta: {
         title: 'Page',
         priority: 'primary',
@@ -270,7 +275,6 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
       enableSorting: false,
       cell: ({ row }) => {
         const user = row.original
-        const route = getAnalyticsRoute(user.entryPageType, user.entryPageWpId)
         return (
           <EntryPageCell
             data={{
@@ -278,10 +282,11 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
               url: user.entryPage,
               hasQueryString: user.entryPageHasQuery,
               queryString: user.entryPageQueryString,
+              pageType: user.entryPageType,
+              pageWpId: user.entryPageWpId,
+              resourceId: user.entryPageResourceId,
             }}
             maxLength={35}
-            internalLinkTo={route?.to}
-            internalLinkParams={route?.params}
           />
         )
       },

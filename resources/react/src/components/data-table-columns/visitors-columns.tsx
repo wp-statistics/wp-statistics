@@ -22,7 +22,7 @@ import {
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
-import { getAnalyticsRoute, parseEntryPage } from '@/lib/url-utils'
+import { parseEntryPage } from '@/lib/url-utils'
 import type { VisitorRecord } from '@/services/visitor-insight/get-visitors'
 
 /**
@@ -65,7 +65,7 @@ export const VISITORS_COLUMN_CONFIG: ColumnConfig = {
       'user_role',
     ],
     referrer: ['referrer_domain', 'referrer_channel'],
-    journey: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'exit_page', 'exit_page_title', 'exit_page_type', 'exit_page_wp_id'],
+    journey: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id', 'exit_page', 'exit_page_title', 'exit_page_type', 'exit_page_wp_id', 'exit_page_resource_id'],
     totalViews: ['total_views'],
     totalSessions: ['total_sessions'],
     sessionDuration: ['avg_session_duration'],
@@ -112,11 +112,13 @@ export interface Visitor {
   entryPageQueryString?: string
   entryPageType?: string
   entryPageWpId?: number | null
+  entryPageResourceId?: number | null
   utmCampaign?: string
   exitPage: string
   exitPageTitle: string
   exitPageType?: string
   exitPageWpId?: number | null
+  exitPageResourceId?: number | null
   totalViews: number
   totalSessions: number
   sessionDuration: number
@@ -158,11 +160,13 @@ export function transformVisitorData(record: VisitorRecord): Visitor {
     entryPageQueryString: entryPageData.queryString,
     entryPageType: record.entry_page_type || undefined,
     entryPageWpId: record.entry_page_wp_id ?? null,
+    entryPageResourceId: record.entry_page_resource_id ?? null,
     utmCampaign: entryPageData.utmCampaign,
     exitPage: record.exit_page || '/',
     exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
     exitPageType: record.exit_page_type || undefined,
     exitPageWpId: record.exit_page_wp_id ?? null,
+    exitPageResourceId: record.exit_page_resource_id ?? null,
     totalViews: Number(record.total_views) || 0,
     totalSessions: Number(record.total_sessions) || 0,
     sessionDuration: Math.round(Number(record.avg_session_duration) || 0),
@@ -284,8 +288,6 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
       cell: ({ row }) => {
         const visitor = row.original
         const isBounce = visitor.entryPage === visitor.exitPage
-        const entryRoute = getAnalyticsRoute(visitor.entryPageType, visitor.entryPageWpId)
-        const exitRoute = getAnalyticsRoute(visitor.exitPageType, visitor.exitPageWpId)
         return (
           <JourneyCell
             data={{
@@ -293,17 +295,19 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
                 title: visitor.entryPageTitle,
                 url: visitor.entryPage,
                 utmCampaign: visitor.utmCampaign,
+                pageType: visitor.entryPageType,
+                pageWpId: visitor.entryPageWpId,
+                resourceId: visitor.entryPageResourceId,
               },
               exitPage: {
                 title: visitor.exitPageTitle,
                 url: visitor.exitPage,
+                pageType: visitor.exitPageType,
+                pageWpId: visitor.exitPageWpId,
+                resourceId: visitor.exitPageResourceId,
               },
               isBounce,
             }}
-            entryLinkTo={entryRoute?.to}
-            entryLinkParams={entryRoute?.params}
-            exitLinkTo={exitRoute?.to}
-            exitLinkParams={exitRoute?.params}
           />
         )
       },
