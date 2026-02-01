@@ -51,7 +51,13 @@ const PAGE_TYPE_LABELS: Record<string, string> = {
   post_type_archive: __('Post Type Archive', 'wp-statistics'),
   feed: __('Feed', 'wp-statistics'),
   loginpage: __('Login Page', 'wp-statistics'),
+  author_archive: __('Author Archive', 'wp-statistics'),
+  category: __('Category Archive', 'wp-statistics'),
+  post_tag: __('Tag Archive', 'wp-statistics'),
 }
+
+/** Page types for archive pages that have a page_wp_id but should NOT redirect to /content */
+const ARCHIVE_PAGE_TYPES = new Set(['author_archive', 'category', 'post_tag'])
 
 // Widget configuration for Single URL Report
 const WIDGET_CONFIGS: WidgetConfig[] = [
@@ -280,8 +286,9 @@ function SingleUrlReportContent() {
   useEffect(() => {
     if (!urlInfoRow) return
 
-    // If this is a regular content type with a WP ID, redirect to content report
-    if (pageWpId && !NON_LINKABLE_TYPES.has(pageType) && pageType !== 'unknown') {
+    // If this is a regular content type with a WP ID, redirect to content report.
+    // Skip author and taxonomy archive pages — they are archive URLs, not individual content.
+    if (pageWpId && !NON_LINKABLE_TYPES.has(pageType) && !ARCHIVE_PAGE_TYPES.has(pageType) && pageType !== 'unknown') {
       navigate({ to: '/content/$postId', params: { postId: String(pageWpId) }, replace: true })
     }
   }, [urlInfoRow, pageType, pageWpId, navigate])

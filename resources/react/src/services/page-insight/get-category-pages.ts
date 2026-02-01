@@ -7,6 +7,9 @@ export interface CategoryPageRecord {
   page_uri: string
   page_title: string
   views: number
+  page_type?: string
+  page_wp_id?: number | string
+  resource_id?: number | string
 }
 
 export interface GetCategoryPagesResponse {

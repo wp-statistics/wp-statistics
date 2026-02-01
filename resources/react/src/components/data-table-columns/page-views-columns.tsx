@@ -31,6 +31,9 @@ export interface PageViewsRecord {
   page_uri: string
   page_title: string
   views: number
+  page_type?: string
+  page_wp_id?: number | string
+  resource_id?: number | string
 }
 
 /**
@@ -47,6 +50,8 @@ export interface PageViewsColumnOptions {
   defaultTitle?: string
   /** ID prefix for generating unique row IDs */
   idPrefix?: string
+  /** When true, always link rows to /url/$resourceId instead of using getAnalyticsRoute */
+  useUrlRoute?: boolean
 }
 
 const defaultOptions: Required<PageViewsColumnOptions> = {
@@ -55,6 +60,7 @@ const defaultOptions: Required<PageViewsColumnOptions> = {
   maxTitleLength: 40,
   defaultTitle: __('Unknown', 'wp-statistics'),
   idPrefix: 'page',
+  useUrlRoute: false,
 }
 
 /**
@@ -71,6 +77,9 @@ export function transformPageViewsData(
     pageUri: record.page_uri || '/',
     pageTitle: record.page_title || opts.defaultTitle,
     views: Number(record.views) || 0,
+    pageType: record.page_type,
+    pageWpId: record.page_wp_id,
+    resourceId: record.resource_id,
   }
 }
 
@@ -92,7 +101,9 @@ export function createPageViewsColumns(options: PageViewsColumnOptions = {}): Co
       accessorKey: 'page',
       header: opts.pageColumnHeader,
       cell: ({ row }) => {
-        const route = getAnalyticsRoute(row.original.pageType, row.original.pageWpId, undefined, row.original.resourceId)
+        const route = opts.useUrlRoute && row.original.resourceId
+          ? { to: '/url/$resourceId', params: { resourceId: String(row.original.resourceId) } }
+          : getAnalyticsRoute(row.original.pageType, row.original.pageWpId, undefined, row.original.resourceId)
         return (
           <PageCell
             data={{

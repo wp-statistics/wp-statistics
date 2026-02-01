@@ -73,6 +73,7 @@ function RouteComponent() {
         pageColumnHeader: __('Term Page', 'wp-statistics'),
         defaultTitle: __('Unknown', 'wp-statistics'),
         idPrefix: 'category',
+        useUrlRoute: true,
       }),
     []
   )

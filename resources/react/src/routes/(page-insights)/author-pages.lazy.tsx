@@ -42,6 +42,7 @@ function RouteComponent() {
         pageColumnHeader: __('Author', 'wp-statistics'),
         defaultTitle: __('Unknown Author', 'wp-statistics'),
         idPrefix: 'author',
+        useUrlRoute: true,
       }),
     []
   )
