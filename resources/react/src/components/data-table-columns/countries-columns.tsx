@@ -123,13 +123,15 @@ export interface CountriesColumnsOptions {
   comparisonLabel?: string
   /** Columns that should display PP comparison (defaults to COUNTRIES_DEFAULT_COMPARISON_COLUMNS) */
   comparisonColumns?: string[]
+  /** Path to pass as `from` search param on country links (for back button navigation) */
+  fromPath?: string
 }
 
 /**
  * Create column definitions for the Countries table
  */
 export function createCountriesColumns(options: CountriesColumnsOptions): ColumnDef<CountryData>[] {
-  const { pluginUrl, comparisonLabel, comparisonColumns = COUNTRIES_DEFAULT_COMPARISON_COLUMNS } = options
+  const { pluginUrl, comparisonLabel, comparisonColumns = COUNTRIES_DEFAULT_COMPARISON_COLUMNS, fromPath } = options
 
   // Helper to check if a column should show comparison
   const showComparison = (columnId: string) => comparisonColumns.includes(columnId)
@@ -148,6 +150,7 @@ export function createCountriesColumns(options: CountriesColumnsOptions): Column
           pluginUrl={pluginUrl}
           linkTo="/country/$countryCode"
           linkParams={{ countryCode: row.original.countryCode }}
+          {...(fromPath && { linkSearch: { from: fromPath } })}
         />
       ),
       enableSorting: false,

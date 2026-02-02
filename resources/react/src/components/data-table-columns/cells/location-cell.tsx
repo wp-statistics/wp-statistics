@@ -22,6 +22,8 @@ interface LocationCellProps {
   linkTo?: string
   /** Optional link params (e.g., { countryCode: 'US' }) */
   linkParams?: Record<string, string>
+  /** Optional search params to append to the link (e.g., { from: '/european-countries' }) */
+  linkSearch?: Record<string, string>
 }
 
 /**
@@ -47,7 +49,7 @@ function getTooltipText(data: LocationData): string {
   return parts.join(', ') || 'Unknown'
 }
 
-export const LocationCell = memo(function LocationCell({ data, pluginUrl, linkTo, linkParams }: LocationCellProps) {
+export const LocationCell = memo(function LocationCell({ data, pluginUrl, linkTo, linkParams, linkSearch }: LocationCellProps) {
   const locationText = getLocationText(data)
   const tooltipText = getTooltipText(data)
   const flagPath = `${pluginUrl}public/images/flags/${data.countryCode || '000'}.svg`
@@ -70,7 +72,7 @@ export const LocationCell = memo(function LocationCell({ data, pluginUrl, linkTo
       <TooltipTrigger asChild>
         {linkTo ? (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          <Link to={linkTo as any} params={linkParams}>
+          <Link to={linkTo as any} params={linkParams} search={linkSearch}>
             {content}
           </Link>
         ) : (

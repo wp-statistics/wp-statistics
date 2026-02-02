@@ -63,7 +63,7 @@ function RouteComponent() {
 
   // Base columns for preferences hook (stable definition for column IDs)
   const baseColumns = useMemo(
-    () => createCountriesColumns({ pluginUrl, comparisonLabel }),
+    () => createCountriesColumns({ pluginUrl, comparisonLabel, fromPath: '/european-countries' }),
     [pluginUrl, comparisonLabel]
   )
 
@@ -139,7 +139,7 @@ function RouteComponent() {
 
   // Final columns with comparison settings applied
   const columns = useMemo(
-    () => createCountriesColumns({ pluginUrl, comparisonLabel, comparisonColumns }),
+    () => createCountriesColumns({ pluginUrl, comparisonLabel, comparisonColumns, fromPath: '/european-countries' }),
     [pluginUrl, comparisonLabel, comparisonColumns]
   )
 
