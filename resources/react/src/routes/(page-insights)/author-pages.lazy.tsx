@@ -7,6 +7,11 @@ import { DataTable } from '@/components/custom/data-table'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import {
+  DetailOptionsDrawer,
+  OptionsDrawerTrigger,
+  useDetailOptions,
+} from '@/components/custom/options-drawer'
+import {
   createPageViewsColumns,
   createPageViewsTransform,
 } from '@/components/data-table-columns/page-views-columns'
@@ -55,6 +60,11 @@ function RouteComponent() {
     []
   )
 
+  // Options drawer with filter support
+  const options = useDetailOptions({
+    filterGroup: 'content',
+  })
+
   // Fetch data from API
   const {
     data: response,
@@ -101,8 +111,12 @@ function RouteComponent() {
             showCompare={true}
             align="end"
           />
+          <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
+
+      {/* Options Drawer */}
+      <DetailOptionsDrawer {...options} />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="author-pages" />

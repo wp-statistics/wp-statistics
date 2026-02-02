@@ -49,7 +49,7 @@ class LoggedInFilter extends AbstractFilter
      *
      * @var array Groups: visitors, views, individual-content, referrals
      */
-    protected $groups = ['visitors', 'views', 'individual-content', 'referrals'];
+    protected $groups = ['visitors', 'views', 'individual-content', 'referrals', 'content', 'individual-category', 'individual-author'];
 
     /**
      * {@inheritdoc}

@@ -25,7 +25,7 @@ declare global {
   type OperatorType = 'single' | 'multiple' | 'range'
 
   // Filter groups
-  type FilterGroup = 'visitors' | 'views' | 'content' | 'geographic' | 'referrals' | 'devices' | 'individual-content' | 'categories'
+  type FilterGroup = 'visitors' | 'views' | 'content' | 'geographic' | 'referrals' | 'devices' | 'individual-content' | 'categories' | 'individual-category' | 'individual-author'
 
   // Dropdown option
   interface FilterOption<T extends string | number = string | number> {

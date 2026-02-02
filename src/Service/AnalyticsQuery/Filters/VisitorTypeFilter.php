@@ -54,7 +54,7 @@ class VisitorTypeFilter extends AbstractFilter
      *
      * @var array Groups: visitors, views, referrals
      */
-    protected $groups = ['visitors', 'views', 'referrals'];
+    protected $groups = ['visitors', 'views', 'referrals', 'content'];
 
     /**
      * Required base table to enable this filter.
