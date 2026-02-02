@@ -93,6 +93,9 @@ const visitorInsightsSearchTermsLazyRouteImport = createFileRoute(
 const visitorInsightsOnlineVisitorsLazyRouteImport = createFileRoute(
   '/(visitor-insights)/online-visitors',
 )()
+const referralsUtmPerformanceLazyRouteImport = createFileRoute(
+  '/(referrals)/utm-performance',
+)()
 const referralsSourceCategoriesLazyRouteImport = createFileRoute(
   '/(referrals)/source-categories',
 )()
@@ -299,6 +302,15 @@ const visitorInsightsOnlineVisitorsLazyRoute =
         (d) => d.Route,
       ),
     )
+const referralsUtmPerformanceLazyRoute = referralsUtmPerformanceLazyRouteImport
+  .update({
+    id: '/(referrals)/utm-performance',
+    path: '/utm-performance',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/utm-performance.lazy').then((d) => d.Route),
+  )
 const referralsSourceCategoriesLazyRoute =
   referralsSourceCategoriesLazyRouteImport
     .update({
@@ -740,6 +752,7 @@ export interface FileRoutesByFullPath {
   '/search-engines': typeof referralsSearchEnginesLazyRoute
   '/social-media': typeof referralsSocialMediaLazyRoute
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/utm-performance': typeof referralsUtmPerformanceLazyRoute
   '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
   '/settings/access': typeof SettingsAccessLazyRoute
@@ -808,6 +821,7 @@ export interface FileRoutesByTo {
   '/search-engines': typeof referralsSearchEnginesLazyRoute
   '/social-media': typeof referralsSocialMediaLazyRoute
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/utm-performance': typeof referralsUtmPerformanceLazyRoute
   '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
   '/settings/access': typeof SettingsAccessLazyRoute
@@ -879,6 +893,7 @@ export interface FileRoutesById {
   '/(referrals)/search-engines': typeof referralsSearchEnginesLazyRoute
   '/(referrals)/social-media': typeof referralsSocialMediaLazyRoute
   '/(referrals)/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/(referrals)/utm-performance': typeof referralsUtmPerformanceLazyRoute
   '/(visitor-insights)/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/(visitor-insights)/search-terms': typeof visitorInsightsSearchTermsLazyRoute
   '/settings/access': typeof SettingsAccessLazyRoute
@@ -951,6 +966,7 @@ export interface FileRouteTypes {
     | '/search-engines'
     | '/social-media'
     | '/source-categories'
+    | '/utm-performance'
     | '/online-visitors'
     | '/search-terms'
     | '/settings/access'
@@ -1019,6 +1035,7 @@ export interface FileRouteTypes {
     | '/search-engines'
     | '/social-media'
     | '/source-categories'
+    | '/utm-performance'
     | '/online-visitors'
     | '/search-terms'
     | '/settings/access'
@@ -1089,6 +1106,7 @@ export interface FileRouteTypes {
     | '/(referrals)/search-engines'
     | '/(referrals)/social-media'
     | '/(referrals)/source-categories'
+    | '/(referrals)/utm-performance'
     | '/(visitor-insights)/online-visitors'
     | '/(visitor-insights)/search-terms'
     | '/settings/access'
@@ -1160,6 +1178,7 @@ export interface RootRouteChildren {
   referralsSearchEnginesLazyRoute: typeof referralsSearchEnginesLazyRoute
   referralsSocialMediaLazyRoute: typeof referralsSocialMediaLazyRoute
   referralsSourceCategoriesLazyRoute: typeof referralsSourceCategoriesLazyRoute
+  referralsUtmPerformanceLazyRoute: typeof referralsUtmPerformanceLazyRoute
   visitorInsightsOnlineVisitorsLazyRoute: typeof visitorInsightsOnlineVisitorsLazyRoute
   visitorInsightsSearchTermsLazyRoute: typeof visitorInsightsSearchTermsLazyRoute
   contentAnalyticsAuthorAuthorIdRoute: typeof contentAnalyticsAuthorAuthorIdRoute
@@ -1365,6 +1384,13 @@ declare module '@tanstack/react-router' {
       path: '/online-visitors'
       fullPath: '/online-visitors'
       preLoaderRoute: typeof visitorInsightsOnlineVisitorsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/utm-performance': {
+      id: '/(referrals)/utm-performance'
+      path: '/utm-performance'
+      fullPath: '/utm-performance'
+      preLoaderRoute: typeof referralsUtmPerformanceLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(referrals)/source-categories': {
@@ -1748,6 +1774,7 @@ const rootRouteChildren: RootRouteChildren = {
   referralsSearchEnginesLazyRoute: referralsSearchEnginesLazyRoute,
   referralsSocialMediaLazyRoute: referralsSocialMediaLazyRoute,
   referralsSourceCategoriesLazyRoute: referralsSourceCategoriesLazyRoute,
+  referralsUtmPerformanceLazyRoute: referralsUtmPerformanceLazyRoute,
   visitorInsightsOnlineVisitorsLazyRoute:
     visitorInsightsOnlineVisitorsLazyRoute,
   visitorInsightsSearchTermsLazyRoute: visitorInsightsSearchTermsLazyRoute,
