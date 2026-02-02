@@ -1,15 +1,41 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { Megaphone } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 import { AddonPromo } from '@/components/custom/addon-promo'
 import { NoticeContainer } from '@/components/ui/notice-container'
+import { useContentRegistry } from '@/contexts/content-registry-context'
 
 export const Route = createLazyFileRoute('/(referrals)/campaigns')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { getPageContent } = useContentRegistry()
+  const [, forceUpdate] = useState(0)
+
+  useEffect(() => {
+    const handleContentRegistered = (event: CustomEvent) => {
+      if (event.detail?.pageId === 'campaigns') {
+        forceUpdate((n) => n + 1)
+      }
+    }
+
+    window.addEventListener('wps:content-registered', handleContentRegistered as EventListener)
+    return () => {
+      window.removeEventListener('wps:content-registered', handleContentRegistered as EventListener)
+    }
+  }, [])
+
+  const pageContent = getPageContent('campaigns')
+  if (pageContent?.render) {
+    const premiumContent = pageContent.render()
+    if (premiumContent) {
+      return <div className="min-w-0">{premiumContent}</div>
+    }
+  }
+
   return (
     <div className="min-w-0">
       {/* Header row */}
