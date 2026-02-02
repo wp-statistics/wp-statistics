@@ -415,6 +415,12 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
   useEffect(() => {
     if (!state.isInitialized) return
 
+    // Skip if route-change effect just cleared filters (urlParams may be stale)
+    if (skipUrlWatchRef.current) {
+      skipUrlWatchRef.current = false
+      return
+    }
+
     // Parse current URL filters from bracket notation
     const currentUrlFilters = parseBracketFiltersFromParams(urlParams)
 
@@ -486,6 +492,8 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
   // and should not persist when navigating to a different page
   const location = useLocation()
   const prevPathRef = useRef(location.pathname)
+  const skipUrlSyncRef = useRef(false)
+  const skipUrlWatchRef = useRef(false)
 
   useEffect(() => {
     if (!state.isInitialized) return
@@ -497,23 +505,30 @@ export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFil
     if (state.source !== 'url') return
     if (state.filters.length === 0) return
 
-    // If the new URL already has explicit filters, let the URL-watching effect handle them
-    const newUrlFilters = parseBracketFiltersFromParams(urlParams)
-    if (newUrlFilters.length > 0) return
-
     // Reset prevUrlParamsRef so the URL-watching effect can re-evaluate for the new page
     prevUrlParamsRef.current = ''
 
+    // Prevent the URL sync and URL-watching effects from writing stale filters
+    // during the same React commit (before setState takes effect)
+    skipUrlSyncRef.current = true
+    skipUrlWatchRef.current = true
     setState(prev => ({
       ...prev,
       filters: [],
       source: 'preferences',
     }))
-  }, [location.pathname, state.isInitialized, state.source, state.filters.length, urlParams])
+  }, [location.pathname, state.isInitialized, state.source, state.filters.length])
 
   // Sync state to URL when source is 'url' or 'manual'
   useEffect(() => {
     if (!state.isInitialized) return
+
+    // Reset skip flag regardless of source, so it doesn't get stuck
+    if (skipUrlSyncRef.current) {
+      skipUrlSyncRef.current = false
+      return
+    }
+
     if (state.source === 'preferences' || state.source === 'defaults') {
       // Don't add date params to URL when loaded from preferences or defaults
       return
