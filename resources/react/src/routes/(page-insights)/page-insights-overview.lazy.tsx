@@ -219,7 +219,7 @@ function PageInsightsOverviewContent() {
   return (
     <div className="min-w-0">
       <ReportPageHeader
-        title={__('Page Insights', 'wp-statistics')}
+        title={__('Pages Overview', 'wp-statistics')}
         filterGroup="views"
         optionsTriggerProps={options.triggerProps}
       />

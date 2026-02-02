@@ -330,7 +330,7 @@ function VisitorsOverviewContent() {
   return (
     <div className="min-w-0">
       <ReportPageHeader
-        title={__('Visitor Insights', 'wp-statistics')}
+        title={__('Visitors Overview', 'wp-statistics')}
         filterGroup="visitors"
         optionsTriggerProps={options.triggerProps}
       />
