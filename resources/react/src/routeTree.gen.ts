@@ -52,6 +52,7 @@ import { Route as geographicCountryCountryCodeRouteImport } from './routes/(geog
 import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
 import { Route as contentAnalyticsCategoryTermIdRouteImport } from './routes/(content-analytics)/category_.$termId'
 import { Route as contentAnalyticsAuthorAuthorIdRouteImport } from './routes/(content-analytics)/author_.$authorId'
+import { Route as referralsUtmUtmTypeUtmValueRouteImport } from './routes/(referrals)/utm_.$utmType.$utmValue'
 
 const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
@@ -705,6 +706,17 @@ const contentAnalyticsAuthorAuthorIdRoute =
         (d) => d.Route,
       ),
     )
+const referralsUtmUtmTypeUtmValueRoute = referralsUtmUtmTypeUtmValueRouteImport
+  .update({
+    id: '/(referrals)/utm_/$utmType/$utmValue',
+    path: '/utm/$utmType/$utmValue',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/utm_.$utmType.$utmValue.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -776,6 +788,7 @@ export interface FileRoutesByFullPath {
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
   '/country/$countryCode': typeof geographicCountryCountryCodeRoute
   '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
+  '/utm/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -845,6 +858,7 @@ export interface FileRoutesByTo {
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
   '/country/$countryCode': typeof geographicCountryCountryCodeRoute
   '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
+  '/utm/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -917,6 +931,7 @@ export interface FileRoutesById {
   '/(content-analytics)/content_/$postId': typeof contentAnalyticsContentPostIdRoute
   '/(geographic)/country_/$countryCode': typeof geographicCountryCountryCodeRoute
   '/(page-insights)/url_/$resourceId': typeof pageInsightsUrlResourceIdRoute
+  '/(referrals)/utm_/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -990,6 +1005,7 @@ export interface FileRouteTypes {
     | '/content/$postId'
     | '/country/$countryCode'
     | '/url/$resourceId'
+    | '/utm/$utmType/$utmValue'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1059,6 +1075,7 @@ export interface FileRouteTypes {
     | '/content/$postId'
     | '/country/$countryCode'
     | '/url/$resourceId'
+    | '/utm/$utmType/$utmValue'
   id:
     | '__root__'
     | '/'
@@ -1130,6 +1147,7 @@ export interface FileRouteTypes {
     | '/(content-analytics)/content_/$postId'
     | '/(geographic)/country_/$countryCode'
     | '/(page-insights)/url_/$resourceId'
+    | '/(referrals)/utm_/$utmType/$utmValue'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1186,6 +1204,7 @@ export interface RootRouteChildren {
   contentAnalyticsContentPostIdRoute: typeof contentAnalyticsContentPostIdRoute
   geographicCountryCountryCodeRoute: typeof geographicCountryCountryCodeRoute
   pageInsightsUrlResourceIdRoute: typeof pageInsightsUrlResourceIdRoute
+  referralsUtmUtmTypeUtmValueRoute: typeof referralsUtmUtmTypeUtmValueRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1673,6 +1692,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof contentAnalyticsAuthorAuthorIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(referrals)/utm_/$utmType/$utmValue': {
+      id: '/(referrals)/utm_/$utmType/$utmValue'
+      path: '/utm/$utmType/$utmValue'
+      fullPath: '/utm/$utmType/$utmValue'
+      preLoaderRoute: typeof referralsUtmUtmTypeUtmValueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1783,6 +1809,7 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsContentPostIdRoute: contentAnalyticsContentPostIdRoute,
   geographicCountryCountryCodeRoute: geographicCountryCountryCodeRoute,
   pageInsightsUrlResourceIdRoute: pageInsightsUrlResourceIdRoute,
+  referralsUtmUtmTypeUtmValueRoute: referralsUtmUtmTypeUtmValueRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

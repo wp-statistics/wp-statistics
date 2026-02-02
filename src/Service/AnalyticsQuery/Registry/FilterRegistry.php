@@ -38,6 +38,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\BounceFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\EventPageIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyTypeFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\EntryPageFilter;
 
 /**
  * Registry for analytics query filters.
@@ -139,6 +140,7 @@ class FilterRegistry
             'resource_pk'      => ResourcePkFilter::class,
             'taxonomy_type'    => TaxonomyTypeFilter::class,
             'taxonomy'         => TaxonomyFilter::class,
+            'entry_page'       => EntryPageFilter::class,
 
             // Visitor/session filters
             'user_id'          => UserIdFilter::class,
