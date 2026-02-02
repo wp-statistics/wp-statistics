@@ -2,7 +2,7 @@
  * JourneyCell - Displays entry → exit page flow in a compact stacked format
  */
 
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import { ArrowDown, CornerDownLeft, Flag, MapPin } from 'lucide-react'
 import { memo, useMemo } from 'react'
 
@@ -36,6 +36,7 @@ export const JourneyCell = memo(function JourneyCell({
   exitLinkTo,
   exitLinkParams,
 }: JourneyCellProps) {
+  const { pathname } = useLocation()
   const { entryPage, exitPage, isBounce } = data
 
   const truncate = (text: string) => (text.length > maxLength ? `${text.substring(0, maxLength - 3)}...` : text)
@@ -58,6 +59,7 @@ export const JourneyCell = memo(function JourneyCell({
     <Link
       to={resolvedEntryRoute.to}
       params={resolvedEntryRoute.params}
+      search={{ from: pathname }}
       className="text-xs text-neutral-700 truncate hover:text-primary hover:underline"
     >
       {truncate(entryPage.title)}
@@ -71,6 +73,7 @@ export const JourneyCell = memo(function JourneyCell({
     <Link
       to={resolvedExitRoute.to}
       params={resolvedExitRoute.params}
+      search={{ from: pathname }}
       className="text-xs text-neutral-700 truncate hover:text-primary hover:underline"
     >
       {truncate(exitPage.title)}
@@ -85,6 +88,7 @@ export const JourneyCell = memo(function JourneyCell({
       <Link
         to={resolvedEntryRoute.to}
         params={resolvedEntryRoute.params}
+        search={{ from: pathname }}
         className="text-xs text-neutral-500 truncate hover:text-primary hover:underline"
       >
         {truncate(entryPage.title)}

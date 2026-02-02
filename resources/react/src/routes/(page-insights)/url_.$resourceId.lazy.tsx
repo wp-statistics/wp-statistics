@@ -1,9 +1,10 @@
 import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { BackButton } from '@/components/custom/back-button'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
@@ -419,13 +420,7 @@ function SingleUrlReportContent() {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
-            <Link
-              to="/top-pages"
-              className="p-1.5 -ml-1.5 rounded-md hover:bg-neutral-100 transition-colors shrink-0"
-              aria-label={__('Back to Top Pages', 'wp-statistics')}
-            >
-              <ArrowLeft className="h-5 w-5 text-neutral-500" />
-            </Link>
+            <BackButton defaultTo="/top-pages" label={__('Back to Top Pages', 'wp-statistics')} />
             <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={pageTitle}>
               {showSkeleton ? __('Loading...', 'wp-statistics') : pageTitle}
             </h1>

@@ -2,7 +2,7 @@
  * EntryPageCell - Displays entry page with query string indicator and UTM campaign
  */
 
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import { Info } from 'lucide-react'
 import { memo, useMemo } from 'react'
 
@@ -26,6 +26,7 @@ export const EntryPageCell = memo(function EntryPageCell({
   internalLinkTo,
   internalLinkParams,
 }: EntryPageCellProps) {
+  const { pathname } = useLocation()
   const { title, url, hasQueryString, queryString, utmCampaign } = data
   const truncatedTitle = title.length > maxLength ? `${title.substring(0, maxLength - 3)}...` : title
 
@@ -41,6 +42,7 @@ export const EntryPageCell = memo(function EntryPageCell({
     <Link
       to={resolvedRoute.to}
       params={resolvedRoute.params}
+      search={{ from: pathname }}
       className="truncate text-xs text-neutral-700 hover:text-primary hover:underline"
     >
       {truncatedTitle}

@@ -32,6 +32,8 @@ export interface BaseSearchParams {
   // Sorting params for data tables
   order_by?: string
   order?: 'asc' | 'desc'
+  // Back-navigation: stores the originating route so back buttons can return there
+  from?: string
   // Bracket notation filter params are passed through as strings
   // e.g., 'filter[country]': 'eq:US'
   [key: `filter[${string}]`]: string
@@ -156,6 +158,11 @@ export function createSearchValidator<T extends BaseSearchParams = BaseSearchPar
       result.order_by = orderBy
       // Only include order if order_by is present, default to 'desc' if not specified
       result.order = order || 'desc'
+    }
+
+    // Parse back-navigation `from` param (must be an internal path starting with /)
+    if (typeof search.from === 'string' && search.from.startsWith('/')) {
+      result.from = search.from
     }
 
     return result as T

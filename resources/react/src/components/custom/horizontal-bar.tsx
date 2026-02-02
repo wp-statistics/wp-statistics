@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
 import { ComparisonTooltipHeader } from '@/components/custom/comparison-tooltip-header'
@@ -42,6 +42,8 @@ export function HorizontalBar({
   linkTo,
   linkParams,
 }: HorizontalBarProps) {
+  const { pathname } = useLocation()
+
   // Ensure label is always a string
   const safeLabel = label || ''
 
@@ -66,6 +68,7 @@ export function HorizontalBar({
     <Link
       to={linkTo}
       params={linkParams}
+      search={{ from: pathname }}
       className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px] hover:text-primary hover:underline"
     >
       {truncatedLabel}

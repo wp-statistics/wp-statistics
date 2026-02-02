@@ -1,9 +1,10 @@
 import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, Link } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { ArrowLeft, LockIcon } from 'lucide-react'
+import { LockIcon } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { BackButton } from '@/components/custom/back-button'
 import { BarListContent } from '@/components/custom/bar-list-content'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { HorizontalBar } from '@/components/custom/horizontal-bar'
@@ -551,13 +552,7 @@ function SingleCategoryReportContent() {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link
-              to="/categories"
-              className="p-1.5 -ml-1.5 rounded-md hover:bg-neutral-100 transition-colors"
-              aria-label={__('Back to Categories', 'wp-statistics')}
-            >
-              <ArrowLeft className="h-5 w-5 text-neutral-500" />
-            </Link>
+            <BackButton defaultTo="/categories" label={__('Back to Categories', 'wp-statistics')} />
             <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={categoryTitle}>
               {showSkeleton ? __('Loading...', 'wp-statistics') : categoryTitle}
             </h1>

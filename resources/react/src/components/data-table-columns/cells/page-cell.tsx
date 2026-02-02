@@ -2,7 +2,7 @@
  * PageCell - Displays page title with tooltip for full URL and optional external link on hover
  */
 
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import { ExternalLink } from 'lucide-react'
 import { memo, useMemo } from 'react'
 
@@ -30,6 +30,7 @@ export const PageCell = memo(function PageCell({
   internalLinkTo,
   internalLinkParams,
 }: PageCellProps) {
+  const { pathname } = useLocation()
   const { title, url } = data
   const truncatedTitle = title.length > maxLength ? `${title.substring(0, maxLength - 3)}...` : title
 
@@ -55,6 +56,7 @@ export const PageCell = memo(function PageCell({
     <Link
       to={resolvedRoute.to}
       params={resolvedRoute.params}
+      search={{ from: pathname }}
       className="truncate text-xs text-neutral-700 hover:text-primary hover:underline"
     >
       {truncatedTitle}

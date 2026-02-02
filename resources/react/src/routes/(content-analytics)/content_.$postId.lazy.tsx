@@ -1,9 +1,10 @@
 import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, Link } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { ArrowLeft, LockIcon } from 'lucide-react'
+import { LockIcon } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { BackButton } from '@/components/custom/back-button'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
@@ -467,13 +468,7 @@ function SingleContentReportContent() {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link
-              to="/content"
-              className="p-1.5 -ml-1.5 rounded-md hover:bg-neutral-100 transition-colors"
-              aria-label={__('Back to Content', 'wp-statistics')}
-            >
-              <ArrowLeft className="h-5 w-5 text-neutral-500" />
-            </Link>
+            <BackButton defaultTo="/content" label={__('Back to Content', 'wp-statistics')} />
             <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={postTitle}>
               {showSkeleton ? __('Loading...', 'wp-statistics') : postTitle}
             </h1>
