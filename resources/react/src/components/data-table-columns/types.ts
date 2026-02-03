@@ -26,6 +26,10 @@ export interface VisitorInfoData {
     role?: string
   }
   identifier?: string // IP or hash
+  /** Visitor hash for linking to single visitor page (used when no user_id or IP) */
+  visitorHash?: string
+  /** IP address for linking (used when no user_id but IP is available) */
+  ipAddress?: string
 }
 
 export interface VisitorInfoConfig {

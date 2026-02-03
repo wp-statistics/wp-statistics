@@ -75,6 +75,9 @@ export function createVisitorInfoData(visitor: BaseVisitorFields): VisitorInfoDa
           }
         : undefined,
     identifier: visitor.hash || visitor.ipAddress,
+    // Include hash and IP for single visitor page linking
+    visitorHash: visitor.hash,
+    ipAddress: visitor.ipAddress,
   }
 }
 

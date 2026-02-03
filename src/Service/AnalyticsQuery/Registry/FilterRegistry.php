@@ -28,6 +28,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\ResolutionFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TimezoneFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\UserRoleFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\VisitorTypeFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\VisitorHashFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\SessionDurationFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ViewsPerSessionFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TotalViewsFilter;
@@ -39,6 +40,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\EventPageIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyTypeFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\EntryPageFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\SessionIdFilter;
 
 /**
  * Registry for analytics query filters.
@@ -146,6 +148,7 @@ class FilterRegistry
             'user_id'          => UserIdFilter::class,
             'logged_in'        => LoggedInFilter::class,
             'ip'               => IpFilter::class,
+            'visitor_hash'     => VisitorHashFilter::class,
             'user_role'        => UserRoleFilter::class,
             'visitor_type'     => VisitorTypeFilter::class,
             'session_duration' => SessionDurationFilter::class,
@@ -162,6 +165,9 @@ class FilterRegistry
 
             // Event filters
             'event_page_id'    => EventPageIdFilter::class,
+
+            // Session filters (internal use)
+            'session_id'       => SessionIdFilter::class,
         ];
 
         $this->filterClasses = $defaults;

@@ -31,6 +31,8 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\AuthorGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\TaxonomyGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionReasonGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionDateGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\SessionGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\PageViewGroupBy;
 
 /**
  * Registry for analytics group by.
@@ -130,6 +132,8 @@ class GroupByRegistry implements RegistryInterface
             'taxonomy'         => TaxonomyGroupBy::class,
             'exclusion_reason' => ExclusionReasonGroupBy::class,
             'exclusion_date'   => ExclusionDateGroupBy::class,
+            'session'          => SessionGroupBy::class,
+            'page_view'        => PageViewGroupBy::class,
         ];
 
         $this->defaultsRegistered = true;
