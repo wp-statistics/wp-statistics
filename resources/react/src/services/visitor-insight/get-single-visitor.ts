@@ -15,6 +15,8 @@ export interface UserVisitorInfo {
   user_role: string | null
   first_visit: string | null
   last_visit: string | null
+  first_visit_formatted?: string
+  last_visit_formatted?: string
   total_sessions: number
   total_views: number
   // Location and device info (from most recent session)
@@ -32,6 +34,8 @@ export interface IpVisitorInfo {
   ip_address: string
   first_visit: string | null
   last_visit: string | null
+  first_visit_formatted?: string
+  last_visit_formatted?: string
   total_sessions: number
   total_views: number
   country_code: string | null
@@ -48,6 +52,8 @@ export interface HashVisitorInfo {
   visitor_hash: string
   first_visit: string | null
   last_visit: string | null
+  first_visit_formatted?: string
+  last_visit_formatted?: string
   total_sessions: number
   total_views: number
   browser_name: string | null
@@ -125,6 +131,7 @@ export interface SessionRow {
   session_id: number
   session_start: string
   session_end: string | null
+  session_start_formatted?: string
   session_duration: number
   page_count: number
   entry_page: string | null
@@ -134,8 +141,6 @@ export interface SessionRow {
   referrer_domain: string | null
   referrer_name: string | null
   referrer_channel: string | null
-  // Page views within this session (for expandable rows)
-  page_views?: PageViewRow[]
 }
 
 // Page view row for session journey
@@ -342,11 +347,13 @@ export const getSingleVisitorQueryOptions = ({
               columns: infoColumns,
               format: 'table',
               per_page: 1,
+              order_by: 'last_visit',
+              order: 'DESC',
               show_totals: false,
               compare: false,
               filters: visitorFilter,
               date_from: '2000-01-01',
-              date_to: new Date().toISOString().split('T')[0],
+              date_to: '2099-12-31',
             },
             // Visitor Metrics: Flat format for aggregate totals
             {
@@ -471,7 +478,7 @@ export const getSessionPageViewsQueryOptions = ({ sessionId }: GetSessionPageVie
           filters: [{ key: 'session_id', operator: 'is', value: sessionId.toString() }],
           // Use all-time date range since sessions can be from any date
           date_from: '2000-01-01',
-          date_to: new Date().toISOString().split('T')[0],
+          date_to: '2099-12-31',
         },
         {
           params: {

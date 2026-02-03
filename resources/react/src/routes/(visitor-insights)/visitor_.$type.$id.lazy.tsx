@@ -558,12 +558,8 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
     )
   }
 
-  // Format dates
-  const formatDate = (dateStr: string | null) => {
-    if (!dateStr) return '-'
-    const date = new Date(dateStr)
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-  }
+  // Format dates - prefer pre-formatted from backend, fall back to raw date string
+  const formatDate = (formatted: string | undefined, raw: string | null) => formatted || raw || '-'
 
   // Device info display (common to all types)
   const DeviceInfo = ({
@@ -639,10 +635,10 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
               <span className="text-xs text-neutral-400">
-                {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit)}
+                {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit_formatted, info.first_visit)}
               </span>
               <span className="text-xs text-neutral-400">
-                {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit)}
+                {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit_formatted, info.last_visit)}
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
@@ -709,10 +705,10 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
               <span className="text-xs text-neutral-400">
-                {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit)}
+                {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit_formatted, info.first_visit)}
               </span>
               <span className="text-xs text-neutral-400">
-                {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit)}
+                {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit_formatted, info.last_visit)}
               </span>
             </div>
           </div>
@@ -723,7 +719,7 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
 
   // Hash type
   const info = visitorInfo as HashVisitorInfo
-  const shortHash = info.visitor_hash.replace(/^#hash#/i, '').substring(0, 8)
+  const shortHash = (info.visitor_hash || '').replace(/^#hash#/i, '').substring(0, 8) || '------'
 
   return (
     <Panel className="p-4">
@@ -754,10 +750,10 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
             <span className="text-xs text-neutral-400">
-              {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit)}
+              {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit_formatted, info.first_visit)}
             </span>
             <span className="text-xs text-neutral-400">
-              {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit)}
+              {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit_formatted, info.last_visit)}
             </span>
           </div>
         </div>
@@ -865,21 +861,11 @@ function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
       {
         accessorKey: 'session_start',
         header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
-        cell: ({ row }) => {
-          const dateStr = row.original.session_start
-          if (!dateStr) return <span className="text-neutral-400">-</span>
-          const date = new Date(dateStr)
-          return (
-            <div className="flex flex-col">
-              <span className="text-sm text-neutral-800">
-                {date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-              </span>
-              <span className="text-xs text-neutral-500">
-                {date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
-              </span>
-            </div>
-          )
-        },
+        cell: ({ row }) => (
+          <span className="text-sm text-neutral-800">
+            {row.original.session_start_formatted || row.original.session_start || '-'}
+          </span>
+        ),
         meta: {
           title: __('Date/Time', 'wp-statistics'),
           priority: 'primary',

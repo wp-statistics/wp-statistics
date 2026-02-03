@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
 
+use WP_Statistics\Components\DateTime;
+
 /**
  * Session group by - returns individual session rows.
  *
@@ -36,6 +38,13 @@ class SessionGroupBy extends AbstractGroupBy
      * @var array
      */
     protected $datetimeFields = ['session_start', 'session_end'];
+
+    /**
+     * Columns added by postProcess (not in SQL, but valid for column selection).
+     *
+     * @var array
+     */
+    protected $postProcessedColumns = ['session_start_formatted'];
 
     /**
      * JOINs for session data.
@@ -170,5 +179,30 @@ class SessionGroupBy extends AbstractGroupBy
             'referrer_name',
             'referrer_channel',
         ];
+    }
+
+    /**
+     * Post-process session rows to add formatted datetime fields.
+     *
+     * @param array $rows Query result rows.
+     * @param \wpdb $wpdb WordPress database instance.
+     * @return array Processed rows with formatted fields.
+     */
+    public function postProcess(array $rows, \wpdb $wpdb): array
+    {
+        // First convert UTC to site timezone
+        $rows = $this->convertDatetimeFields($rows);
+
+        // Then add formatted versions
+        foreach ($rows as &$row) {
+            if (!empty($row['session_start'])) {
+                $row['session_start_formatted'] = DateTime::format($row['session_start'], [
+                    'include_time' => true,
+                    'short_month'  => true,
+                ]);
+            }
+        }
+
+        return $rows;
     }
 }

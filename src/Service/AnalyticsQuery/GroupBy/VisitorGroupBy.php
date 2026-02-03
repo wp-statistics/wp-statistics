@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
 
+use WP_Statistics\Components\DateTime;
+
 /**
  * Visitor group by - groups by visitor.
  *
@@ -57,6 +59,13 @@ class VisitorGroupBy extends AbstractGroupBy
      * @var array
      */
     protected $datetimeFields = ['first_visit', 'last_visit'];
+
+    /**
+     * Columns added by postProcess (not in SQL, but valid for column selection).
+     *
+     * @var array
+     */
+    protected $postProcessedColumns = ['first_visit_formatted', 'last_visit_formatted'];
 
     /**
      * Get SELECT columns with attribution support.
@@ -192,7 +201,8 @@ class VisitorGroupBy extends AbstractGroupBy
     public function postProcess(array $rows, \wpdb $wpdb): array
     {
         if (empty($rows) || !isset($rows[0]['attributed_session_id'])) {
-            return $this->convertDatetimeFields($rows);
+            $rows = $this->convertDatetimeFields($rows);
+            return $this->addFormattedDateFields($rows);
         }
 
         $sessionIds = array_filter(array_column($rows, 'attributed_session_id'));
@@ -207,7 +217,34 @@ class VisitorGroupBy extends AbstractGroupBy
             unset($row['attributed_session_id']);
         }
 
-        return $this->convertDatetimeFields($rows);
+        $rows = $this->convertDatetimeFields($rows);
+        return $this->addFormattedDateFields($rows);
+    }
+
+    /**
+     * Add formatted date fields for first_visit and last_visit.
+     *
+     * @param array $rows Query result rows.
+     * @return array Rows with formatted date fields added.
+     */
+    private function addFormattedDateFields(array $rows): array
+    {
+        foreach ($rows as &$row) {
+            if (!empty($row['first_visit'])) {
+                $row['first_visit_formatted'] = DateTime::format($row['first_visit'], [
+                    'include_time' => false,
+                    'short_month'  => true,
+                ]);
+            }
+            if (!empty($row['last_visit'])) {
+                $row['last_visit_formatted'] = DateTime::format($row['last_visit'], [
+                    'include_time' => false,
+                    'short_month'  => true,
+                ]);
+            }
+        }
+
+        return $rows;
     }
 
     /**
