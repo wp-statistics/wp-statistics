@@ -16,7 +16,7 @@
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { ColumnDef, Row } from '@tanstack/react-table'
+import type { ColumnDef, Row, Table, VisibilityState } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { ChevronDown, ChevronRight, Globe, Hash } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -29,11 +29,19 @@ import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { type MetricItem, Metrics } from '@/components/custom/metrics'
 import {
+  ColumnsDetailView,
+  ColumnsMenuEntry,
+  DateRangeDetailView,
+  DateRangeMenuEntry,
+  MetricsDetailView,
+  MetricsMenuEntry,
+  OptionsDrawer,
   OptionsDrawerTrigger,
   type OverviewOptionsConfig,
-  OverviewOptionsDrawer,
   OverviewOptionsProvider,
   useOverviewOptions,
+  WidgetsDetailView,
+  WidgetsMenuEntry,
 } from '@/components/custom/options-drawer'
 import { DurationCell, EntryPageCell, NumericCell, PageCell, ReferrerCell } from '@/components/data-table-columns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -50,9 +58,17 @@ import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
+import {
+  clearCachedColumns,
+  getCachedVisibility,
+  getCachedVisibleColumns,
+  getVisibleColumnsForSave,
+  setCachedColumns,
+} from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
+import { resetUserPreferences, saveUserPreferences } from '@/services/user-preferences'
 import {
   getSessionPageViewsQueryOptions,
   getSingleVisitorQueryOptions,
@@ -90,6 +106,59 @@ const BASE_OPTIONS_CONFIG: OverviewOptionsConfig = {
   widgetConfigs: WIDGET_CONFIGS,
   metricConfigs: METRIC_CONFIGS,
   hideFilters: true,
+}
+
+// Default hidden columns for session history table (all visible by default)
+const SESSION_DEFAULT_HIDDEN_COLUMNS: string[] = []
+
+// Context identifier for session history column preferences
+const SESSION_HISTORY_CONTEXT = 'single-visitor-sessions'
+
+/**
+ * Custom Options Drawer for Single Visitor page
+ * Includes: DateRange, Widgets, Metrics, and Columns for the session history table
+ */
+function SingleVisitorOptionsDrawer({
+  isOpen,
+  setIsOpen,
+  resetToDefaults,
+  sessionTableRef,
+  onColumnVisibilityChange,
+  onColumnOrderChange,
+  onColumnReset,
+}: {
+  isOpen: boolean
+  setIsOpen: (open: boolean) => void
+  resetToDefaults: () => void
+  sessionTableRef: React.MutableRefObject<Table<SessionRow> | null>
+  onColumnVisibilityChange: (visibility: VisibilityState) => void
+  onColumnOrderChange: (order: string[]) => void
+  onColumnReset: () => void
+}) {
+  return (
+    <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={resetToDefaults}>
+      {/* Main menu entries */}
+      <DateRangeMenuEntry />
+      <WidgetsMenuEntry />
+      <MetricsMenuEntry />
+      <ColumnsMenuEntry
+        table={sessionTableRef.current}
+        defaultHiddenColumns={SESSION_DEFAULT_HIDDEN_COLUMNS}
+      />
+
+      {/* Detail views */}
+      <DateRangeDetailView />
+      <WidgetsDetailView />
+      <MetricsDetailView />
+      <ColumnsDetailView
+        table={sessionTableRef.current}
+        defaultHiddenColumns={SESSION_DEFAULT_HIDDEN_COLUMNS}
+        onColumnVisibilityChange={onColumnVisibilityChange}
+        onColumnOrderChange={onColumnOrderChange}
+        onReset={onColumnReset}
+      />
+    </OptionsDrawer>
+  )
 }
 
 function RouteComponent() {
@@ -150,6 +219,59 @@ function SingleVisitorReportContent({ type, id }: SingleVisitorReportContentProp
 
   // Options drawer
   const options = useOverviewOptions(BASE_OPTIONS_CONFIG)
+
+  // Table ref for session history (needed for column management in Options drawer)
+  const sessionTableRef = useRef<Table<SessionRow> | null>(null)
+
+  // Session table column IDs (excluding expand which is not hideable)
+  const sessionColumnIds = useMemo(
+    () => ['session_start', 'session_duration', 'page_count', 'entry_page', 'exit_page', 'referrer_domain'],
+    []
+  )
+
+  // Session column preferences (persistence)
+  const initialSessionColumnVisibility = useMemo(() => {
+    return getCachedVisibility(SESSION_HISTORY_CONTEXT, sessionColumnIds)
+  }, [sessionColumnIds])
+
+  const [sessionColumnOrder, setSessionColumnOrder] = useState<string[]>(() => {
+    return getCachedVisibleColumns(SESSION_HISTORY_CONTEXT) || []
+  })
+
+  // Handle session column visibility change - save to localStorage + backend
+  const handleSessionColumnVisibilityChange = useCallback(
+    (visibility: VisibilityState) => {
+      const visibleColumns = getVisibleColumnsForSave(visibility, sessionColumnOrder, sessionColumnIds)
+      setCachedColumns(SESSION_HISTORY_CONTEXT, visibleColumns)
+      saveUserPreferences({ context: SESSION_HISTORY_CONTEXT, columns: visibleColumns })
+    },
+    [sessionColumnOrder, sessionColumnIds]
+  )
+
+  // Handle session column order change
+  const handleSessionColumnOrderChange = useCallback(
+    (order: string[]) => {
+      setSessionColumnOrder(order)
+      // Order is embedded in visibility save - get current visibility from table
+      const table = sessionTableRef.current
+      if (table) {
+        const visibility = table.getState().columnVisibility
+        const visibleColumns = getVisibleColumnsForSave(visibility, order, sessionColumnIds)
+        setCachedColumns(SESSION_HISTORY_CONTEXT, visibleColumns)
+        saveUserPreferences({ context: SESSION_HISTORY_CONTEXT, columns: visibleColumns })
+      }
+    },
+    [sessionColumnIds]
+  )
+
+  // Handle session column reset
+  const handleSessionColumnPreferencesReset = useCallback(() => {
+    clearCachedColumns(SESSION_HISTORY_CONTEXT)
+    resetUserPreferences({ context: SESSION_HISTORY_CONTEXT })
+    setSessionColumnOrder([])
+    // Force table to reset visibility
+    sessionTableRef.current?.resetColumnVisibility()
+  }, [])
 
   // Chart timeframe state (local, not synced to URL)
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
@@ -423,7 +545,15 @@ function SingleVisitorReportContent({ type, id }: SingleVisitorReportContentProp
       </div>
 
       {/* Options Drawer */}
-      <OverviewOptionsDrawer {...options} />
+      <SingleVisitorOptionsDrawer
+        isOpen={options.isOpen}
+        setIsOpen={options.setIsOpen}
+        resetToDefaults={options.resetToDefaults}
+        sessionTableRef={sessionTableRef}
+        onColumnVisibilityChange={handleSessionColumnVisibilityChange}
+        onColumnOrderChange={handleSessionColumnOrderChange}
+        onColumnReset={handleSessionColumnPreferencesReset}
+      />
 
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute="single-visitor" />
@@ -501,7 +631,14 @@ function SingleVisitorReportContent({ type, id }: SingleVisitorReportContentProp
             {/* Row 4: Session History */}
             {isWidgetVisible('session-history') && (
               <div className="col-span-12">
-                <SessionHistoryTable sessions={sessionsResponse?.data?.rows || []} />
+                <SessionHistoryTable
+                  sessions={sessionsResponse?.data?.rows || []}
+                  tableRef={sessionTableRef}
+                  initialColumnVisibility={initialSessionColumnVisibility ?? undefined}
+                  columnOrder={sessionColumnOrder.length > 0 ? sessionColumnOrder : undefined}
+                  onColumnVisibilityChange={handleSessionColumnVisibilityChange}
+                  onColumnOrderChange={handleSessionColumnOrderChange}
+                />
               </div>
             )}
 
@@ -804,9 +941,21 @@ function SessionPageViewsSubRow({ row }: { row: Row<SessionRow> }) {
  */
 interface SessionHistoryTableProps {
   sessions: SessionRow[]
+  tableRef?: React.MutableRefObject<Table<SessionRow> | null>
+  initialColumnVisibility?: VisibilityState
+  columnOrder?: string[]
+  onColumnVisibilityChange?: (visibility: VisibilityState) => void
+  onColumnOrderChange?: (order: string[]) => void
 }
 
-function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
+function SessionHistoryTable({
+  sessions,
+  tableRef,
+  initialColumnVisibility,
+  columnOrder,
+  onColumnVisibilityChange,
+  onColumnOrderChange,
+}: SessionHistoryTableProps) {
   // Define columns for session history table
   const sessionColumns = useMemo<ColumnDef<SessionRow>[]>(
     () => [
@@ -835,13 +984,15 @@ function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
         accessorKey: 'session_start',
         header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
         cell: ({ row }) => (
-          <span className="text-sm text-neutral-800">
+          <span className="text-xs font-medium text-neutral-700">
             {row.original.session_start_formatted || row.original.session_start || '-'}
           </span>
         ),
         meta: {
           title: __('Date/Time', 'wp-statistics'),
           priority: 'primary',
+          mobileLabel: __('Time', 'wp-statistics'),
+          cardPosition: 'header',
         },
       },
       {
@@ -852,6 +1003,7 @@ function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
         meta: {
           title: __('Duration', 'wp-statistics'),
           priority: 'primary',
+          cardPosition: 'body',
         },
       },
       {
@@ -862,6 +1014,7 @@ function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
         meta: {
           title: __('Pages', 'wp-statistics'),
           priority: 'primary',
+          cardPosition: 'body',
         },
       },
       {
@@ -879,6 +1032,7 @@ function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
         meta: {
           title: __('Entry Page', 'wp-statistics'),
           priority: 'primary',
+          cardPosition: 'body',
         },
       },
       {
@@ -896,6 +1050,7 @@ function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
         meta: {
           title: __('Exit Page', 'wp-statistics'),
           priority: 'primary',
+          cardPosition: 'body',
         },
       },
       {
@@ -913,6 +1068,7 @@ function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
         meta: {
           title: __('Referrer', 'wp-statistics'),
           priority: 'secondary',
+          cardPosition: 'footer',
         },
       },
     ],
@@ -920,15 +1076,20 @@ function SessionHistoryTable({ sessions }: SessionHistoryTableProps) {
   )
 
   return (
-    <Panel title={__('Session History', 'wp-statistics')}>
-      <DataTable
-        columns={sessionColumns}
-        data={sessions}
-        emptyMessage={__('No sessions found for this visitor.', 'wp-statistics')}
-        showColumnManagement={false}
-        getRowCanExpand={() => true}
-        renderSubComponent={({ row }) => <SessionPageViewsSubRow row={row} />}
-      />
-    </Panel>
+    <DataTable
+      title={__('Session History', 'wp-statistics')}
+      columns={sessionColumns}
+      data={sessions}
+      emptyMessage={__('No sessions found for this visitor.', 'wp-statistics')}
+      showColumnManagement={false}
+      getRowCanExpand={() => true}
+      renderSubComponent={({ row }) => <SessionPageViewsSubRow row={row} />}
+      stickyHeader={true}
+      tableRef={tableRef}
+      initialColumnVisibility={initialColumnVisibility}
+      columnOrder={columnOrder}
+      onColumnVisibilityChange={onColumnVisibilityChange}
+      onColumnOrderChange={onColumnOrderChange}
+    />
   )
 }
