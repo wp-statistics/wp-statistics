@@ -53,8 +53,8 @@ export const ONLINE_VISITORS_COLUMN_CONFIG: ColumnConfig = {
       'user_email',
       'user_role',
     ],
-    onlineFor: ['total_sessions'],
-    page: ['entry_page', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
+    onlineFor: ['first_visit', 'last_visit'],
+    page: ['exit_page', 'exit_page_type', 'exit_page_wp_id', 'exit_page_resource_id'],
     totalViews: ['total_views'],
     entryPage: ['entry_page', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     referrer: ['referrer_domain', 'referrer_channel'],
@@ -112,8 +112,12 @@ export interface OnlineVisitor {
  */
 export function transformOnlineVisitorData(apiVisitor: APIOnlineVisitor): OnlineVisitor {
   const lastVisitDate = new Date(apiVisitor.last_visit)
-  const onlineForSeconds = Math.max(0, apiVisitor.total_sessions * 60)
+  // Calculate online duration from first_visit to last_visit
+  const firstVisitDate = new Date(apiVisitor.first_visit || apiVisitor.last_visit)
+  const onlineForSeconds = Math.max(0, Math.floor((lastVisitDate.getTime() - firstVisitDate.getTime()) / 1000))
   const entryPageData = parseEntryPage(apiVisitor.entry_page)
+  // Use exit_page for the "Page" column (current/last page visited)
+  const exitPageData = parseEntryPage(apiVisitor.exit_page || '')
 
   const getPageTitle = (path: string): string => {
     if (!path || path === '/') return 'Home'
@@ -121,6 +125,9 @@ export function transformOnlineVisitorData(apiVisitor: APIOnlineVisitor): Online
     const lastSegment = segments[segments.length - 1] || ''
     return lastSegment.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
   }
+
+  // For page (last/current page), use exit_page with fallback to entry_page
+  const pagePath = exitPageData.path || entryPageData.path
 
   return {
     id: `visitor-${apiVisitor.visitor_id}`,
@@ -140,12 +147,14 @@ export function transformOnlineVisitorData(apiVisitor: APIOnlineVisitor): Online
     ipAddress: apiVisitor.ip_address || undefined,
     hash: apiVisitor.visitor_hash || undefined,
     onlineFor: onlineForSeconds,
-    page: entryPageData.path,
-    pageTitle: getPageTitle(entryPageData.path),
-    pageType: apiVisitor.entry_page_type || undefined,
-    pageWpId: apiVisitor.entry_page_wp_id ?? null,
-    pageResourceId: apiVisitor.entry_page_resource_id ?? null,
+    // page = last/current page (exit_page with fallback to entry_page)
+    page: pagePath,
+    pageTitle: getPageTitle(pagePath),
+    pageType: apiVisitor.exit_page_type ?? apiVisitor.entry_page_type ?? undefined,
+    pageWpId: apiVisitor.exit_page_wp_id ?? apiVisitor.entry_page_wp_id ?? null,
+    pageResourceId: apiVisitor.exit_page_resource_id ?? apiVisitor.entry_page_resource_id ?? null,
     totalViews: apiVisitor.total_views || 0,
+    // entryPage = first page visited (always entry_page)
     entryPage: entryPageData.path,
     entryPageTitle: getPageTitle(entryPageData.path),
     entryPageHasQuery: entryPageData.hasQueryString,

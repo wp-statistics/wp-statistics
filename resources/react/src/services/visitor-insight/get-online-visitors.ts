@@ -2,12 +2,12 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
-import { getWpNow } from '@/lib/wp-date'
 
 export interface OnlineVisitor {
   visitor_id: number
   visitor_hash: string
   ip_address: string
+  first_visit?: string
   last_visit: string
   total_views: number
   total_sessions: number
@@ -29,6 +29,10 @@ export interface OnlineVisitor {
   entry_page_type?: string | null
   entry_page_wp_id?: number | null
   entry_page_resource_id?: number | null
+  exit_page?: string
+  exit_page_type?: string | null
+  exit_page_wp_id?: number | null
+  exit_page_resource_id?: number | null
   visitors?: number
 }
 
@@ -71,7 +75,7 @@ export interface GetOnlineVisitorsParams {
 const columnMapping: Record<string, string> = {
   visitorInfo: 'visitor_id',
   onlineFor: 'total_sessions',
-  page: 'entry_page',
+  page: 'exit_page',
   totalViews: 'total_views',
   entryPage: 'entry_page',
   referrer: 'referrer_domain',
@@ -83,6 +87,7 @@ const DEFAULT_COLUMNS = [
   'visitor_id',
   'visitor_hash',
   'ip_address',
+  'first_visit',
   'last_visit',
   'total_views',
   'total_sessions',
@@ -103,6 +108,11 @@ const DEFAULT_COLUMNS = [
   'entry_page',
   'entry_page_type',
   'entry_page_wp_id',
+  'entry_page_resource_id',
+  'exit_page',
+  'exit_page_type',
+  'exit_page_wp_id',
+  'exit_page_resource_id',
 ]
 
 // Format dates to ISO string (YYYY-MM-DDTHH:mm:ss)
@@ -129,8 +139,8 @@ export const getOnlineVisitorsQueryOptions = ({
     queryFn: () => {
       // Calculate date range INSIDE queryFn so it's fresh on each actual fetch
       // This prevents StrictMode double-mount from creating different request bodies
-      // Use WordPress timezone for consistency with backend
-      const now = getWpNow()
+      // Use UTC directly since database stores times in UTC
+      const now = new Date()
       const dateFrom = new Date(now.getTime() - timeRangeMinutes * 60 * 1000)
       const dateTo = now
 
