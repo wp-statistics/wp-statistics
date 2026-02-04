@@ -22,7 +22,6 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import { EmptyState } from '../ui/empty-state'
 import { Panel, PanelAction, PanelFooter, PanelHeader, PanelTitle } from '../ui/panel'
 import { DataTableCardList } from './data-table-card-list'
-import { DataTableColumnToggle } from './data-table-column-toggle'
 import { DataTableMobileHeader } from './data-table-mobile-header'
 import { DataTableMobilePagination } from './data-table-mobile-pagination'
 
@@ -37,7 +36,6 @@ interface DataTableProps<TData, TValue> {
   title?: string
   defaultSort?: string
   rowLimit?: number
-  showColumnManagement?: boolean
   showPagination?: boolean
   fullReportLink?: FullReportLink
   hiddenColumns?: string[]
@@ -84,7 +82,6 @@ export function DataTable<TData, TValue>({
   title,
   defaultSort,
   rowLimit = 50,
-  showColumnManagement = true,
   showPagination = true,
   fullReportLink,
   hiddenColumns = [],
@@ -104,13 +101,13 @@ export function DataTable<TData, TValue>({
   // Column preferences
   initialColumnVisibility,
   columnOrder,
-  onColumnVisibilityChange,
+  onColumnVisibilityChange: _onColumnVisibilityChange,
   onColumnOrderChange,
-  onColumnPreferencesReset,
+  onColumnPreferencesReset: _onColumnPreferencesReset,
   // Comparison column preferences
-  comparableColumns,
+  comparableColumns: _comparableColumns,
   comparisonColumns,
-  defaultComparisonColumns,
+  defaultComparisonColumns: _defaultComparisonColumns,
   onComparisonColumnsChange,
   // Mobile card view
   mobileCardEnabled = true,
@@ -463,72 +460,55 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {(showColumnManagement || showPagination || fullReportLink) && (
-        <PanelFooter className="grid grid-cols-3 items-center">
-          {/* Left: Column toggle */}
-          <div className="justify-self-start">
-            {showColumnManagement && (
-              <DataTableColumnToggle
-                table={table}
-                initialColumnOrder={columnOrder}
-                defaultHiddenColumns={hiddenColumns}
-                comparableColumns={comparableColumns}
-                comparisonColumns={comparisonColumns}
-                defaultComparisonColumns={defaultComparisonColumns}
-                onColumnVisibilityChange={onColumnVisibilityChange}
-                onColumnOrderChange={onColumnOrderChange}
-                onComparisonColumnsChange={onComparisonColumnsChange}
-                onReset={onColumnPreferencesReset}
-              />
-            )}
-          </div>
+      {(showPagination || fullReportLink) && (
+        <PanelFooter className="flex items-center justify-between">
+          {/* Left: Empty for alignment */}
+          <div />
 
           {/* Center: Pagination */}
-          <div className="justify-self-center">
-            {showPagination && (totalRows ?? 0) > 0 && (
-              <div className="flex items-center gap-0.5">
-                <Button
-                  variant="ghost"
-                  onClick={handlePreviousPage}
-                  disabled={!table.getCanPreviousPage()}
-                  className="h-7 px-2 text-xs"
-                >
-                  <ChevronLeft className="h-3.5 w-3.5" />
-                  Prev
-                </Button>
-                {paginationPages.map((page, index) => {
-                  const currentPage = currentPageIndex + 1
-                  return typeof page === 'number' ? (
-                    <Button
-                      key={`page-${page}`}
-                      variant={currentPage === page ? 'default' : 'ghost'}
-                      size="icon"
-                      onClick={() => handleSetPageIndex(page - 1)}
-                      className="h-7 w-7 text-xs"
-                    >
-                      {page}
-                    </Button>
-                  ) : (
-                    <span key={`ellipsis-${index}`} className="px-1 text-neutral-400 text-xs">
-                      {page}
-                    </span>
-                  )
-                })}
-                <Button
-                  variant="ghost"
-                  onClick={handleNextPage}
-                  disabled={!table.getCanNextPage()}
-                  className="h-7 px-2 text-xs"
-                >
-                  Next
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </Button>
-              </div>
-            )}
-          </div>
+          {showPagination && (totalRows ?? 0) > 0 && (
+            <div className="flex items-center gap-0.5">
+              <Button
+                variant="ghost"
+                onClick={handlePreviousPage}
+                disabled={!table.getCanPreviousPage()}
+                className="h-7 px-2 text-xs"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+                Prev
+              </Button>
+              {paginationPages.map((page, index) => {
+                const currentPage = currentPageIndex + 1
+                return typeof page === 'number' ? (
+                  <Button
+                    key={`page-${page}`}
+                    variant={currentPage === page ? 'default' : 'ghost'}
+                    size="icon"
+                    onClick={() => handleSetPageIndex(page - 1)}
+                    className="h-7 w-7 text-xs"
+                  >
+                    {page}
+                  </Button>
+                ) : (
+                  <span key={`ellipsis-${index}`} className="px-1 text-neutral-400 text-xs">
+                    {page}
+                  </span>
+                )
+              })}
+              <Button
+                variant="ghost"
+                onClick={handleNextPage}
+                disabled={!table.getCanNextPage()}
+                className="h-7 px-2 text-xs"
+              >
+                Next
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          )}
 
           {/* Right: Full report link */}
-          <div className="justify-self-end">
+          <div>
             {fullReportLink && (
               <PanelAction onClick={fullReportLink.action}>
                 {fullReportLink.text || __('See all', 'wp-statistics')}
