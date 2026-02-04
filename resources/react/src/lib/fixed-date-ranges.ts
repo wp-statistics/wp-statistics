@@ -8,6 +8,7 @@
 import { __ } from '@wordpress/i18n'
 
 import { formatDateForAPI } from '@/lib/utils'
+import { getWpToday } from '@/lib/wp-date'
 
 export type FixedDatePeriodId = 'today' | 'yesterday' | 'last_7_days' | 'last_28_days' | 'total'
 
@@ -23,11 +24,10 @@ export interface FixedDatePeriod {
 }
 
 /**
- * Get a date offset by a number of days from today
+ * Get a date offset by a number of days from today (in WordPress timezone)
  */
 function getDateOffset(daysAgo: number): Date {
-  const date = new Date()
-  date.setHours(0, 0, 0, 0)
+  const date = getWpToday()
   date.setDate(date.getDate() - daysAgo)
   return date
 }

@@ -15,8 +15,8 @@ import {
   COUNTRIES_DEFAULT_COMPARISON_COLUMNS,
   COUNTRIES_DEFAULT_HIDDEN_COLUMNS,
   type CountryData,
-  EUROPEAN_COUNTRIES_CONTEXT,
   createCountriesColumns,
+  EUROPEAN_COUNTRIES_CONTEXT,
   transformCountryData,
 } from '@/components/data-table-columns/countries-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'

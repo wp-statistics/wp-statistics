@@ -1,22 +1,26 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+import { getWpToday, parseDateString } from '@/lib/wp-date'
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
 export const getToday = (): string => {
-  const today = new Date()
-  return today.toISOString().split('T')[0]
+  const today = getWpToday()
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const day = String(today.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 /**
- * Check if a date string represents today's date
+ * Check if a date string represents today's date in WordPress timezone
  */
 export function isToday(dateString: string): boolean {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const checkDate = new Date(dateString)
+  const today = getWpToday()
+  const checkDate = parseDateString(dateString)
   checkDate.setHours(0, 0, 0, 0)
   return today.getTime() === checkDate.getTime()
 }

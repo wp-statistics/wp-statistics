@@ -38,6 +38,7 @@ import {
 } from '@/lib/filter-utils'
 import { formatDateForAPI } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
+import { getWpToday, parseDateString } from '@/lib/wp-date'
 import { resetGlobalFiltersPreferences,saveGlobalFiltersPreferences } from '@/services/global-filters-preferences'
 
 /**
@@ -103,13 +104,11 @@ export interface GlobalFiltersContextValue extends GlobalFiltersState {
   }
 }
 
-// Default date range: last 30 days
+// Default date range: last 30 days (using WordPress timezone)
 const getDefaultDateRange = (): { from: Date; to: Date } => {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const thirtyDaysAgo = new Date()
+  const today = getWpToday()
+  const thirtyDaysAgo = new Date(today)
   thirtyDaysAgo.setDate(today.getDate() - 29)
-  thirtyDaysAgo.setHours(0, 0, 0, 0)
   return { from: thirtyDaysAgo, to: today }
 }
 
@@ -117,8 +116,7 @@ const getDefaultDateRange = (): { from: Date; to: Date } => {
 const parseDate = (dateString: string | undefined): Date | undefined => {
   if (!dateString) return undefined
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return undefined
-  const parts = dateString.split('-').map((part) => parseInt(part, 10))
-  const date = new Date(parts[0], parts[1] - 1, parts[2])
+  const date = parseDateString(dateString)
   date.setHours(0, 0, 0, 0)
   return date
 }

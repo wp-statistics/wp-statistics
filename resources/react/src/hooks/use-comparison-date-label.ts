@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n'
 import { useMemo } from 'react'
 
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { getWpCurrentYear } from '@/lib/wp-date'
 
 export interface ComparisonDateLabel {
   /** Compact label: "Dec 16 - Jan 12 vs. Nov 18 - Dec 15" (year omitted if all dates are in current year) */
@@ -48,10 +49,10 @@ function formatDateRange(from: Date, to: Date, includeYear: boolean = true, loca
 }
 
 /**
- * Check if all dates are in the current year
+ * Check if all dates are in the current year (WordPress timezone)
  */
 function allInCurrentYear(...dates: Date[]): boolean {
-  const currentYear = new Date().getFullYear()
+  const currentYear = getWpCurrentYear()
   return dates.every((date) => date.getFullYear() === currentYear)
 }
 

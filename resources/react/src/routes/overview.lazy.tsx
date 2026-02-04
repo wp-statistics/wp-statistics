@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+ 
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
@@ -21,15 +21,15 @@ import { WidgetPresetSelector } from '@/components/custom/widget-preset-selector
 import { EmptyState } from '@/components/ui/empty-state'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
+import { pickMetrics } from '@/constants/metric-definitions'
 import { type WidgetConfig, type WidgetSize } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { usePageOptions } from '@/hooks/use-page-options'
+import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { useWidgetDateRange } from '@/hooks/use-widget-date-range'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { getAnalyticsRoute } from '@/lib/url-utils'
-import { pickMetrics } from '@/constants/metric-definitions'
-import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
-import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import type { WidgetQueryParams } from '@/services/overview/get-overview-widgets'

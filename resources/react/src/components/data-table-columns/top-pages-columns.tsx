@@ -9,6 +9,7 @@ import { DataTableColumnHeader } from '@/components/custom/data-table-column-hea
 import { DurationCell, NumericCell, PageCell } from '@/components/data-table-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
+import { parseDateString } from '@/lib/wp-date'
 import type { TopPageRecord } from '@/services/page-insight/get-top-pages'
 
 /**
@@ -99,7 +100,7 @@ export function transformTopPageData(record: TopPageRecord): TopPage {
     views: Number(record.views) || 0,
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
     sessionDuration: Math.round(Number(record.avg_time_on_page) || 0),
-    publishedDate: record.published_date ? new Date(record.published_date) : null,
+    publishedDate: record.published_date ? parseDateString(record.published_date) : null,
     // Previous period values (only set if comparison data exists)
     ...(previous && {
       previousVisitors: previous.visitors !== undefined ? Number(previous.visitors) : undefined,

@@ -2,6 +2,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
+import { getWpNow } from '@/lib/wp-date'
 
 export interface OnlineVisitor {
   visitor_id: number
@@ -128,7 +129,8 @@ export const getOnlineVisitorsQueryOptions = ({
     queryFn: () => {
       // Calculate date range INSIDE queryFn so it's fresh on each actual fetch
       // This prevents StrictMode double-mount from creating different request bodies
-      const now = new Date()
+      // Use WordPress timezone for consistency with backend
+      const now = getWpNow()
       const dateFrom = new Date(now.getTime() - timeRangeMinutes * 60 * 1000)
       const dateTo = now
 

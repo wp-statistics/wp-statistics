@@ -142,6 +142,14 @@ export class WordPress {
   }
 
   /**
+   * Get WordPress site timezone information.
+   * Used for timezone-aware date calculations.
+   */
+  public getTimezone(): { string?: string; gmtOffset: number } | undefined {
+    return this.data.globals.timezone
+  }
+
+  /**
    * Get list of available taxonomies.
    * Used for taxonomy filter dropdowns.
    */

@@ -4,8 +4,8 @@ import { useMemo } from 'react'
 import { DataTable } from '@/components/custom/data-table'
 import {
   createTopVisitorsColumns,
-  transformTopVisitorData,
   type TopVisitor,
+  transformTopVisitorData,
 } from '@/components/data-table-columns/top-visitors-columns'
 import { WordPress } from '@/lib/wordpress'
 import type { TopVisitorRow } from '@/services/visitor-insight/get-visitor-overview'

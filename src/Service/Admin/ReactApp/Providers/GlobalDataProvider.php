@@ -50,6 +50,10 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'taxonomies'            => $this->getTaxonomyList(),
             'userCountry'           => $this->getUserCountryCode(),
             'userCountryName'       => $this->getUserCountryName(),
+            'timezone'              => [
+                'string'    => wp_timezone_string(),
+                'gmtOffset' => (float) get_option('gmt_offset', 0),
+            ],
         ];
 
         /**

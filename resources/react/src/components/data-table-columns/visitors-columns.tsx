@@ -23,6 +23,7 @@ import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { parseDateTimeString } from '@/lib/wp-date'
 import type { VisitorRecord } from '@/services/visitor-insight/get-visitors'
 
 /**
@@ -135,8 +136,8 @@ export function transformVisitorData(record: VisitorRecord): Visitor {
 
   return {
     id: `visitor-${record.visitor_id}`,
-    lastVisit: new Date(record.last_visit),
-    firstVisit: record.first_visit ? new Date(record.first_visit) : new Date(record.last_visit),
+    lastVisit: parseDateTimeString(record.last_visit),
+    firstVisit: record.first_visit ? parseDateTimeString(record.first_visit) : parseDateTimeString(record.last_visit),
     country: record.country_name || 'Unknown',
     countryCode: (record.country_code || '000').toLowerCase(),
     region: record.region_name || '',

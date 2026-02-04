@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { type DateFieldConfig,getFieldConfigs, getNavigationFields, parseDateFormat } from '@/lib/date-format'
 import { cn } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
+import { getWpToday } from '@/lib/wp-date'
 
 interface DateInputProps {
   value?: Date
@@ -20,7 +21,7 @@ interface DateParts {
 
 const DateInput: React.FC<DateInputProps> = ({ value, onChange, className, onFocus }) => {
   const [date, setDate] = useState<DateParts>(() => {
-    const d = value ? new Date(value) : new Date()
+    const d = value ? new Date(value) : getWpToday()
     return {
       day: d.getDate(),
       month: d.getMonth() + 1,
@@ -42,7 +43,7 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, className, onFoc
   const initialDate = useRef<DateParts>(date)
 
   useEffect(() => {
-    const d = value ? new Date(value) : new Date()
+    const d = value ? new Date(value) : getWpToday()
     const newDate = {
       day: d.getDate(),
       month: d.getMonth() + 1,

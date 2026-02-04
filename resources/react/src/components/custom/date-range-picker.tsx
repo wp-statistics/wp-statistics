@@ -14,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
+import { getWpCurrentYear, getWpToday } from '@/lib/wp-date'
 
 export interface DateRange {
   from: Date
@@ -49,7 +50,7 @@ export interface DateRangePickerProps {
 }
 
 const isCurrentYear = (date: Date): boolean => {
-  return date.getFullYear() === new Date().getFullYear()
+  return date.getFullYear() === getWpCurrentYear()
 }
 
 const formatDate = (date: Date, locale: string = 'en-us', includeYear: boolean = true): string => {
@@ -174,8 +175,9 @@ export const getPresetRange = (presetName: string): DateRange => {
   if (!preset) throw new Error(`Unknown date range preset: ${presetName}`)
 
   const startOfWeek = WordPress.getInstance().getStartOfWeek()
-  const from = new Date()
-  const to = new Date()
+  const wpToday = getWpToday()
+  const from = new Date(wpToday)
+  const to = new Date(wpToday)
 
   switch (preset.name) {
     case 'today':
@@ -616,7 +618,10 @@ export function DateRangePickerContent({
               }}
               selected={range}
               numberOfMonths={numberOfMonths}
-              defaultMonth={new Date(new Date().setMonth(new Date().getMonth() - (numberOfMonths > 1 ? 1 : 0)))}
+              defaultMonth={(() => {
+                const wpToday = getWpToday()
+                return new Date(wpToday.setMonth(wpToday.getMonth() - (numberOfMonths > 1 ? 1 : 0)))
+              })()}
               cellSize="2rem"
               className="p-0"
               compareRange={rangeCompare}
@@ -1178,7 +1183,10 @@ export const DateRangePicker = ({
               }}
               selected={range}
               numberOfMonths={isSmallScreen ? 1 : 2}
-              defaultMonth={new Date(new Date().setMonth(new Date().getMonth() - (isSmallScreen ? 0 : 1)))}
+              defaultMonth={(() => {
+                const wpToday = getWpToday()
+                return new Date(wpToday.setMonth(wpToday.getMonth() - (isSmallScreen ? 0 : 1)))
+              })()}
               cellSize="1.875rem"
               className="p-0"
               compareRange={rangeCompare}

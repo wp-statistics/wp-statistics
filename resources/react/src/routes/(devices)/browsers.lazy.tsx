@@ -5,20 +5,20 @@ import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 import { useMemo, useRef } from 'react'
 
-import type { Filter } from '@/components/custom/filter-bar'
 import { DataTable } from '@/components/custom/data-table'
 import { ErrorMessage } from '@/components/custom/error-message'
+import type { Filter } from '@/components/custom/filter-bar'
 import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
+import { NumericCell } from '@/components/data-table-columns'
 import {
+  type BrowserData,
   BROWSERS_COMPARABLE_COLUMNS,
   BROWSERS_CONTEXT,
   BROWSERS_DEFAULT_COMPARISON_COLUMNS,
-  type BrowserData,
   createBrowsersColumns,
   transformBrowserData,
 } from '@/components/data-table-columns/browsers-columns'
-import { NumericCell } from '@/components/data-table-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'

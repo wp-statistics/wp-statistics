@@ -25,6 +25,7 @@ import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { parseDateTimeString } from '@/lib/wp-date'
 import type { TopVisitorRecord } from '@/services/visitor-insight/get-top-visitors'
 
 /**
@@ -152,7 +153,7 @@ export function transformTopVisitorData(record: TopVisitorRecord): TopVisitor {
 
   return {
     id: `visitor-${record.visitor_id}`,
-    lastVisit: record.last_visit ? new Date(record.last_visit) : new Date(),
+    lastVisit: record.last_visit ? parseDateTimeString(record.last_visit) : new Date(),
     country: record.country_name || 'Unknown',
     countryCode: (record.country_code || '000').toLowerCase(),
     region: record.region_name || '',
@@ -189,7 +190,11 @@ export function transformTopVisitorData(record: TopVisitorRecord): TopVisitor {
     viewsPerSession: Number(record.pages_per_session) || 0,
     bounceRate: Math.round(Number(record.bounce_rate) || 0),
     visitorStatus: record.visitor_status || 'returning',
-    firstVisit: new Date(record.first_visit || record.last_visit || Date.now()),
+    firstVisit: record.first_visit
+      ? parseDateTimeString(record.first_visit)
+      : record.last_visit
+        ? parseDateTimeString(record.last_visit)
+        : new Date(),
   }
 }
 

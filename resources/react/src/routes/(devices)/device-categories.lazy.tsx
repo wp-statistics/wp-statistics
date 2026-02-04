@@ -9,11 +9,11 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
+  createDeviceCategoriesColumns,
   DEVICE_CATEGORIES_COMPARABLE_COLUMNS,
   DEVICE_CATEGORIES_CONTEXT,
   DEVICE_CATEGORIES_DEFAULT_COMPARISON_COLUMNS,
   type DeviceCategoryData,
-  createDeviceCategoriesColumns,
   transformDeviceCategoryData,
 } from '@/components/data-table-columns/device-categories-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'

@@ -14,9 +14,9 @@
  * - id: WordPress user ID, IP address, or visitor hash
  */
 
-import type { ColumnDef, Row } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import type { ColumnDef, Row } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { ChevronDown, ChevronRight, Globe, Hash } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -41,21 +41,21 @@ import { Badge } from '@/components/ui/badge'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
-import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { pickMetrics } from '@/constants/metric-definitions'
 import { type WidgetConfig } from '@/contexts/page-options-context'
-import { formatReferrerChannel } from '@/lib/filter-utils'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
+import { COLUMN_SIZES } from '@/lib/column-sizes'
+import { formatReferrerChannel } from '@/lib/filter-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import {
-  getSingleVisitorQueryOptions,
   getSessionPageViewsQueryOptions,
+  getSingleVisitorQueryOptions,
   type HashVisitorInfo,
   type IpVisitorInfo,
   type PageViewRow,

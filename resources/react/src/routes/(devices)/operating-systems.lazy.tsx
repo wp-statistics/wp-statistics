@@ -9,11 +9,11 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
+  createOsColumns,
   OS_COMPARABLE_COLUMNS,
   OS_CONTEXT,
   OS_DEFAULT_COMPARISON_COLUMNS,
   type OsData,
-  createOsColumns,
   transformOsData,
 } from '@/components/data-table-columns/operating-systems-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
