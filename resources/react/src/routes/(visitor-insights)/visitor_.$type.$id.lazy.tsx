@@ -859,6 +859,10 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
           </div>
           <div className="text-xs text-neutral-500 mb-2">{__('Anonymous Visitor', 'wp-statistics')}</div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <LocationInfo
+              countryCode={info.country_code}
+              countryName={info.country_name}
+            />
             <DeviceInfo
               browser={info.browser_name}
               browserVersion={info.browser_version}
