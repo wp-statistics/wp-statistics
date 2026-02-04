@@ -59,6 +59,9 @@ class SchemaMigration extends AbstractMigrationOperation
             'addSessionIdEventNameIndexToEvents',
             'addResourceLookupIndex',
         ],
+        '15.0.1'  => [
+            'addIpColumnToVisitors',
+        ],
     ];
 
     /**
@@ -218,6 +221,30 @@ class SchemaMigration extends AbstractMigrationOperation
                 ])
                 ->execute();
         } catch (\Throwable $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds `ip` column to the 'visitors' table for storing hashed IP addresses.
+     *
+     * @return void
+     * @since 15.0.1
+     */
+    public function addIpColumnToVisitors()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('visitors')
+                ->setArgs([
+                    'add' => [
+                        'ip' => 'varchar(128) DEFAULT NULL',
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
             $this->setErrorStatus($e->getMessage());
         }
     }
