@@ -5,7 +5,6 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit\Faqs;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
 
 class RequireConsent extends AbstractFaq
 {
@@ -39,7 +38,6 @@ class RequireConsent extends AbstractFaq
             RecordUserPageVisits::isOptionPassed(),
             HashIpAddress::isOptionPassed(),
             AnonymizeIpAddress::isOptionPassed(),
-            StoreUserAgentString::isOptionPassed()
         ];
 
         if (in_array(false, $requirements)) {

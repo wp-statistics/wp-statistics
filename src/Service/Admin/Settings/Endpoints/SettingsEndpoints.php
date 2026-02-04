@@ -346,7 +346,6 @@ class SettingsEndpoints
                 // Tracking Options
                 'useronline',
                 'visitors_log',
-                'store_ua',
                 'attribution_model',
                 // Tracker Configuration
                 'use_cache_plugin',

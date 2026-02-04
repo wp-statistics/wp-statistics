@@ -14,7 +14,6 @@ export function GeneralSettings() {
 
   // Individual settings
   const [visitorsLog, setVisitorsLog] = useSetting(settings, 'visitors_log', false)
-  const [storeUa, setStoreUa] = useSetting(settings, 'store_ua', false)
   const [attributionModel, setAttributionModel] = useSetting(settings, 'attribution_model', 'first-touch')
   const [useCachePlugin, setUseCachePlugin] = useSetting(settings, 'use_cache_plugin', true)
   const [bypassAdBlockers, setBypassAdBlockers] = useSetting(settings, 'bypass_ad_blockers', false)
@@ -52,14 +51,6 @@ export function GeneralSettings() {
               </p>
             </div>
             <Switch id="visitors-log" checked={!!visitorsLog} onCheckedChange={setVisitorsLog} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="store-ua">Store Entire User Agent String</Label>
-              <p className="text-sm text-muted-foreground">Records full details of visitors for diagnostic purposes.</p>
-            </div>
-            <Switch id="store-ua" checked={!!storeUa} onCheckedChange={setStoreUa} />
           </div>
 
           <div className="flex items-center justify-between">

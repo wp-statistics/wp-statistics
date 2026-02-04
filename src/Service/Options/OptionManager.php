@@ -195,7 +195,6 @@ class OptionManager
             'content_report'                  => '',
             'update_geoip'                    => true,
             'privacy_audit'                   => true,
-            'store_ua'                        => false,
             'consent_level_integration'       => 'disabled',
             'anonymous_tracking'              => false,
             'do_not_track'                    => false,

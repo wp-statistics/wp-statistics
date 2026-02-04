@@ -74,16 +74,6 @@ class VisitorDecorator
     }
 
     /**
-     * Get the visitor's user agent string.
-     *
-     * @return string|null
-     */
-    public function getUserAgent()
-    {
-        return $this->visitor->UAString ?? null;
-    }
-
-    /**
      * Get the visitor's IP address.
      *
      * @return string|null

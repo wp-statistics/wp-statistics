@@ -17,9 +17,7 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\BaseAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\RecommendedAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoredUserAgentStringData;
 
 class PrivacyAuditDataProvider
 {
@@ -53,8 +51,6 @@ class PrivacyAuditDataProvider
             'record_user_page_visits'       => RecordUserPageVisits::class,
             'anonymize_ip_address'          => AnonymizeIpAddress::class,
             'hash_ip_address'               => HashIpAddress::class,
-            'store_user_agent_string'       => StoreUserAgentString::class,
-            'stored_user_agent_string_data' => StoredUserAgentStringData::class,
             'unhashed_ip_address'           => UnhashedIpAddress::class,
             'stored_user_id_data'           => StoredUserIdData::class
         ];

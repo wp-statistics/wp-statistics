@@ -37,9 +37,6 @@ class PrivacyPolicyGenerator
         // IP address handling
         $content .= $this->getIpAddressSection();
 
-        // User agent storage
-        $content .= $this->getUserAgentSection();
-
         $content .= '</div>';
 
         /**
@@ -133,28 +130,6 @@ class PrivacyPolicyGenerator
             '<li>' . __('<b>Why We Store IPs</b>: This helps us detect unique visits, identify possible misuse or security issues, and gather accurate traffic data.', 'wp-statistics') . '</li>' .
             '<li>' . __('<b>Data Protection</b>: We keep IP records on our own server, secured and accessible only to authorized staff. We do not share them unless required by law.', 'wp-statistics') . '</li>' .
             '<li>' . __('<b>Privacy Considerations</b>: Since IP addresses may be considered personal data, we take reasonable measures to protect them. You can contact us regarding removal or other data rights if you feel your IP address is personally identifying.', 'wp-statistics') . '</li>' .
-            '</ul>';
-    }
-
-    /**
-     * Get user agent storage section.
-     *
-     * @return string HTML content.
-     */
-    private function getUserAgentSection()
-    {
-        if (!Option::getValue('store_ua')) {
-            return '';
-        }
-
-        return '<p>' .
-            __('We record <b>full User-Agent strings</b> for each visitor\'s browser/device. This includes:', 'wp-statistics') .
-            '</p>' .
-            '<ul>' .
-            '<li>' . __('<b>Detailed Browser/OS Info</b>: The User-Agent string reveals your browser version, operating system type, and sometimes device model or other technical specifics.', 'wp-statistics') . '</li>' .
-            '<li>' . __('<b>Purpose</b>: We use this information for diagnostic or compatibility analysis, to ensure our site functions well across different setups.', 'wp-statistics') . '</li>' .
-            '<li>' . __('<b>Potential Identifiability</b>: Although this data generally does not include your name or email, detailed User-Agent strings can (in rare cases) be used to identify unique browsing configurations.', 'wp-statistics') . '</li>' .
-            '<li>' . __('<b>Local Storage</b>: All User-Agent data is stored on our server and not shared with third parties unless required by law. We periodically review and may remove these logs.', 'wp-statistics') . '</li>' .
             '</ul>';
     }
 }

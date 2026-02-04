@@ -75,7 +75,6 @@ class Option
             'email_free_content_footer'       => '',
             'update_geoip'                    => true,
             'privacy_audit'                   => true,
-            'store_ua'                        => false,
             'consent_level_integration'       => 'disabled',
             'anonymous_tracking'              => false,
             'do_not_track'                    => false,

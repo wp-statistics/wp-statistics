@@ -178,11 +178,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('visitors_log') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('visitors_log') ? 'Enabled' : 'Disabled',
             ],
-            'storeEntireUserAgentString'     => [
-                'label' => esc_html__('Store Entire User Agent String', 'wp-statistics'),
-                'value' => Option::getValue('store_ua') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('store_ua') ? 'Enabled' : 'Disabled',
-            ],
             'attributionModel'               => [
                 'label' => esc_html__('Attribution Model', 'wp-statistics'),
                 'value' => Option::getValue('attribution_model', 'first-touch'),
