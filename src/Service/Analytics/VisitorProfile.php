@@ -787,13 +787,13 @@ class VisitorProfile
     /**
      * Get the user ID of the visitor, with caching for better performance.
      *
-     * @return int The user ID or 0 if anonymous tracking is enabled.
+     * @return int|null The user ID or null if anonymous tracking is enabled.
      */
     public function getUserId()
     {
         return $this->getCachedData('userId', function () {
             if (!Option::getValue('visitors_log') || IntegrationHelper::shouldTrackAnonymously()) {
-                return 0;
+                return null;
             } else {
                 return User::getId();
             }
