@@ -52,7 +52,9 @@ interface UseDataTablePreferencesOptions<TData> {
 }
 
 interface UseDataTablePreferencesReturn {
-  /** Current column order */
+  /** Default column order derived from column definitions (for comparison with persisted order) */
+  defaultColumnOrder: string[]
+  /** Current persisted column order */
   columnOrder: string[]
   /** Current API columns for query optimization */
   apiColumns: string[]
@@ -92,6 +94,12 @@ export function useDataTablePreferences<TData>({
     return columns.filter((col) => col.enableHiding !== false).map((col) => (col as { accessorKey?: string }).accessorKey as string)
   }, [columns])
 
+  // Get default column order from column definitions (all columns, for order comparison)
+  const defaultColumnOrder = useMemo(
+    () => columns.map((col) => ((col as { id?: string }).id ?? (col as { accessorKey?: string }).accessorKey) as string).filter(Boolean),
+    [columns]
+  )
+
   // Get cached column order from localStorage
   const getCachedColumnOrder = useCallback((): string[] => {
     return getCachedVisibleColumns(context) || []
@@ -127,6 +135,9 @@ export function useDataTablePreferences<TData>({
 
   // Stable empty visibility state to avoid creating new objects on each render
   const emptyVisibilityRef = useRef<VisibilityState>({})
+
+  // Track visibility changes to force useMemo re-computation for immediate Options button highlight
+  const [visibilityVersion, setVisibilityVersion] = useState(0)
 
   // Helper to compare two arrays for equality (same elements, same order)
   const arraysEqual = useCallback((a: string[], b: string[]): boolean => {
@@ -183,7 +194,8 @@ export function useDataTablePreferences<TData>({
     computedColumnOrderRef.current = newOrder
 
     return visibility
-  }, [hasApiResponse, preferencesFromApi, allColumnIds, context, defaultHiddenColumns])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasApiResponse, preferencesFromApi, allColumnIds, context, defaultHiddenColumns, visibilityVersion])
 
   // Sync column order when preferences are computed (only once on initial load)
   useEffect(() => {
@@ -201,6 +213,8 @@ export function useDataTablePreferences<TData>({
     (visibility: VisibilityState) => {
       currentVisibilityRef.current = visibility
       computedVisibilityRef.current = visibility
+      // Increment version to force useMemo re-computation for immediate Options button highlight
+      setVisibilityVersion((v) => v + 1)
       const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
       saveUserPreferences({ context, columns: visibleColumns })
       setCachedColumns(context, visibleColumns)
@@ -248,6 +262,8 @@ export function useDataTablePreferences<TData>({
     )
     computedVisibilityRef.current = defaultVisibility
     currentVisibilityRef.current = defaultVisibility
+    // Increment version to force useMemo re-computation for immediate Options button un-highlight
+    setVisibilityVersion((v) => v + 1)
     // Reset API columns to default
     setApiColumns((prev) => (arraysEqual(prev, defaultApiColumns) ? prev : defaultApiColumns))
     // Reset comparison columns to default
@@ -260,6 +276,7 @@ export function useDataTablePreferences<TData>({
   }, [context, defaultHiddenColumns, defaultApiColumns, defaultComparisonColumns, arraysEqual])
 
   return {
+    defaultColumnOrder,
     columnOrder,
     apiColumns,
     initialColumnVisibility,

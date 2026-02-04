@@ -168,9 +168,15 @@ const getColumnLabel = (
 interface ColumnsMenuEntryProps<TData> {
   table: Table<TData> | null
   defaultHiddenColumns?: string[]
+  /** Persisted visibility state from useDataTablePreferences - used for reliable change detection after navigation */
+  initialColumnVisibility?: VisibilityState
 }
 
-export function ColumnsMenuEntry<TData>({ table, defaultHiddenColumns = [] }: ColumnsMenuEntryProps<TData>) {
+export function ColumnsMenuEntry<TData>({
+  table,
+  defaultHiddenColumns = [],
+  initialColumnVisibility,
+}: ColumnsMenuEntryProps<TData>) {
   const { currentView, setCurrentView } = useOptionsDrawer()
 
   // Handle null table (before DataTable renders)
@@ -179,11 +185,18 @@ export function ColumnsMenuEntry<TData>({ table, defaultHiddenColumns = [] }: Co
   }
 
   const columns = table.getAllColumns().filter((column) => column.getCanHide())
-  const hiddenColumnIds = columns.filter((column) => !column.getIsVisible()).map((col) => col.id)
 
   if (currentView !== 'main' || columns.length === 0) {
     return null
   }
+
+  // Use persisted visibility if available (reliable after navigation), otherwise fall back to table state
+  const hiddenColumnIds =
+    initialColumnVisibility && Object.keys(initialColumnVisibility).length > 0
+      ? Object.entries(initialColumnVisibility)
+          .filter(([_, visible]) => !visible)
+          .map(([id]) => id)
+      : columns.filter((column) => !column.getIsVisible()).map((col) => col.id)
 
   // Only show "x hidden" if it differs from default
   const hasNonDefaultHiddenColumns =
@@ -221,25 +234,28 @@ export function ColumnsDetailView<TData>({
   const [columnOrder, setColumnOrder] = useState<ColumnItem[]>([])
 
   // Build column list on mount or when table becomes available
-  // Respects table's current column order (user's reordering persists)
+  // Uses initialColumnOrder for stable ordering (definition order), not table state
   useEffect(() => {
     // Handle null table (before DataTable renders)
     if (!table) return
 
     const columns = table.getAllColumns().filter((column) => column.getCanHide())
-    const tableColumnOrder = table.getState().columnOrder || []
 
-    // Sort columns according to the table's current column order if set
-    const sortedColumns = tableColumnOrder.length > 0
-      ? [...columns].sort((a, b) => {
-          const aIndex = tableColumnOrder.indexOf(a.id)
-          const bIndex = tableColumnOrder.indexOf(b.id)
-          // If not in order array, put at the end
-          const aPos = aIndex === -1 ? tableColumnOrder.length : aIndex
-          const bPos = bIndex === -1 ? tableColumnOrder.length : bIndex
-          return aPos - bPos
-        })
-      : columns
+    // Use initialColumnOrder for stable, predictable ordering
+    // This ensures hidden columns stay in their definition position, not pushed to the end
+    const baseOrder = initialColumnOrder || []
+
+    const sortedColumns =
+      baseOrder.length > 0
+        ? [...columns].sort((a, b) => {
+            const aIndex = baseOrder.indexOf(a.id)
+            const bIndex = baseOrder.indexOf(b.id)
+            // Columns not in baseOrder go to end (shouldn't happen normally)
+            const aPos = aIndex === -1 ? baseOrder.length : aIndex
+            const bPos = bIndex === -1 ? baseOrder.length : bIndex
+            return aPos - bPos
+          })
+        : columns
 
     const items = sortedColumns.map((column) => ({
       id: column.id,
@@ -250,7 +266,7 @@ export function ColumnsDetailView<TData>({
     }))
 
     setColumnOrder(items)
-  }, [table, comparableColumns, comparisonColumns])
+  }, [table, initialColumnOrder, comparableColumns, comparisonColumns])
 
   const sensors = useSensors(
     useSensor(PointerSensor),

@@ -23,8 +23,13 @@ export interface TableOptionsConfig<TData> {
   hideFilters?: boolean
   /** Page-specific filter dropdowns (shown in Options drawer) */
   pageFilters?: PageFilterConfig[]
+  /** The default column order (derived from column definitions) */
   initialColumnOrder?: string[]
+  /** The current persisted column order (from useDataTablePreferences) */
+  columnOrder?: string[]
   defaultHiddenColumns?: string[]
+  /** Persisted visibility state from useDataTablePreferences - used for reliable change detection after navigation */
+  initialColumnVisibility?: VisibilityState
   comparableColumns?: string[]
   comparisonColumns?: string[]
   defaultComparisonColumns?: string[]
@@ -42,28 +47,72 @@ export function useTableOptions<TData>(config: TableOptionsConfig<TData>) {
   const [isOpen, setIsOpen] = useState(false)
   const { filters } = useGlobalFilters()
 
-  // Count hidden columns (handle null table)
-  const columns = config.table?.getAllColumns().filter((col) => col.getCanHide()) ?? []
-  const hiddenColumns = columns.filter((col) => !col.getIsVisible()).map((col) => col.id)
   const defaultHiddenColumns = config.defaultHiddenColumns ?? []
 
   // Check if current hidden columns differ from default
-  // Only compare when table is available, otherwise assume no changes
-  const hasNonDefaultHiddenColumns = config.table
-    ? hiddenColumns.length !== defaultHiddenColumns.length ||
+  // Use persisted visibility if available (reliable after navigation), otherwise fall back to table state
+  const hasNonDefaultHiddenColumns = (() => {
+    if (config.initialColumnVisibility && Object.keys(config.initialColumnVisibility).length > 0) {
+      // Use persisted visibility (reliable after navigation)
+      const hiddenFromPrefs = Object.entries(config.initialColumnVisibility)
+        .filter(([_, visible]) => !visible)
+        .map(([id]) => id)
+
+      return (
+        hiddenFromPrefs.length !== defaultHiddenColumns.length ||
+        hiddenFromPrefs.some((id) => !defaultHiddenColumns.includes(id)) ||
+        defaultHiddenColumns.some((id) => !hiddenFromPrefs.includes(id))
+      )
+    }
+
+    // Fallback to table state (before preferences load)
+    if (!config.table) return false
+    const columns = config.table.getAllColumns().filter((col) => col.getCanHide())
+    const hiddenColumns = columns.filter((col) => !col.getIsVisible()).map((col) => col.id)
+
+    return (
+      hiddenColumns.length !== defaultHiddenColumns.length ||
       hiddenColumns.some((id) => !defaultHiddenColumns.includes(id)) ||
       defaultHiddenColumns.some((id) => !hiddenColumns.includes(id))
-    : false
+    )
+  })()
+
+  // Check if current column order differs from initial order
+  // Use persisted columnOrder prop (not table state) to reliably detect changes after navigation
+  // Note: columnOrder only contains visible columns, so we compare relative order, not absolute positions
+  const currentColumnOrder = config.columnOrder ?? []
+  const hasNonDefaultColumnOrder =
+    config.initialColumnOrder && currentColumnOrder.length > 0
+      ? (() => {
+          // Filter initialColumnOrder to only include columns present in currentColumnOrder
+          // This allows us to compare relative ordering without false positives from hidden columns
+          const expectedOrder = config.initialColumnOrder.filter((id) => currentColumnOrder.includes(id))
+          // If lengths differ after filtering, a column was added that wasn't in initial order (edge case)
+          if (expectedOrder.length !== currentColumnOrder.length) return true
+          // Compare the filtered expected order with current order
+          return expectedOrder.some((id, index) => currentColumnOrder[index] !== id)
+        })()
+      : false
 
   const appliedFilterCount = filters?.length ?? 0
-  const isActive = hasNonDefaultHiddenColumns || appliedFilterCount > 0
+  const isActive = hasNonDefaultHiddenColumns || hasNonDefaultColumnOrder || appliedFilterCount > 0
+
+  // Compute hidden column count from persisted visibility or table state
+  const hiddenColumnCount = (() => {
+    if (config.initialColumnVisibility && Object.keys(config.initialColumnVisibility).length > 0) {
+      return Object.values(config.initialColumnVisibility).filter((visible) => !visible).length
+    }
+    if (!config.table) return 0
+    const columns = config.table.getAllColumns().filter((col) => col.getCanHide())
+    return columns.filter((col) => !col.getIsVisible()).length
+  })()
 
   return {
     isOpen,
     setIsOpen,
     config, // Return config for drawer - single source of truth
     isActive,
-    hiddenColumnCount: hiddenColumns.length,
+    hiddenColumnCount,
     hasNonDefaultHiddenColumns,
     appliedFilterCount,
     triggerProps: {
@@ -116,7 +165,11 @@ export function TableOptionsDrawer<TData>({
       {!config.hideFilters && (
         <FiltersMenuEntry filterGroup={config.filterGroup} lockedFilters={config.lockedFilters} />
       )}
-      <ColumnsMenuEntry table={config.table} defaultHiddenColumns={config.defaultHiddenColumns} />
+      <ColumnsMenuEntry
+        table={config.table}
+        defaultHiddenColumns={config.defaultHiddenColumns}
+        initialColumnVisibility={config.initialColumnVisibility}
+      />
 
       {/* Detail views */}
       <DateRangeDetailView />
