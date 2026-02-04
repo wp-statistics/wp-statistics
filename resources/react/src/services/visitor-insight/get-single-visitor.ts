@@ -473,7 +473,7 @@ export const getSessionPageViewsQueryOptions = ({ sessionId }: GetSessionPageVie
           format: 'table',
           per_page: 100,
           order_by: 'timestamp',
-          order: 'ASC',
+          order: 'DESC',
           show_totals: false,
           filters: [{ key: 'session_id', operator: 'is', value: sessionId.toString() }],
           // Use all-time date range since sessions can be from any date
