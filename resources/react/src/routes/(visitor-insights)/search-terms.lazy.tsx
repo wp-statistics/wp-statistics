@@ -90,7 +90,6 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={total}
             rowLimit={PER_PAGE}
-            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             emptyStateMessage={__('No data available for the selected period', 'wp-statistics')}

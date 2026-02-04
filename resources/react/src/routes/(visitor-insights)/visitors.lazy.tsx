@@ -89,6 +89,7 @@ function RouteComponent() {
 
   // Use the preferences hook for column management
   const {
+    defaultColumnOrder,
     columnOrder,
     initialColumnVisibility,
     handleColumnVisibilityChange,
@@ -110,7 +111,10 @@ function RouteComponent() {
   const options = useTableOptions({
     filterGroup: 'visitors',
     table: tableRef.current,
+    initialColumnOrder: defaultColumnOrder,
+    columnOrder,
     defaultHiddenColumns: VISITORS_DEFAULT_HIDDEN_COLUMNS,
+    initialColumnVisibility,
     onColumnVisibilityChange: handleColumnVisibilityChange,
     onColumnOrderChange: handleColumnOrderChange,
     onReset: handleColumnPreferencesReset,
@@ -163,7 +167,6 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={VISITORS_DEFAULT_HIDDEN_COLUMNS}

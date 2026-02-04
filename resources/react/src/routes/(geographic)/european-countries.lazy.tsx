@@ -102,6 +102,7 @@ function RouteComponent() {
 
   // Use the preferences hook for column management
   const {
+    defaultColumnOrder,
     columnOrder,
     initialColumnVisibility,
     comparisonColumns,
@@ -127,7 +128,10 @@ function RouteComponent() {
   const options = useTableOptions({
     filterGroup: 'visitors',
     table: tableRef.current,
+    initialColumnOrder: defaultColumnOrder,
+    columnOrder,
     defaultHiddenColumns: COUNTRIES_DEFAULT_HIDDEN_COLUMNS,
+    initialColumnVisibility,
     comparableColumns: COUNTRIES_COMPARABLE_COLUMNS,
     comparisonColumns,
     defaultComparisonColumns: COUNTRIES_DEFAULT_COMPARISON_COLUMNS,
@@ -190,7 +194,6 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={COUNTRIES_DEFAULT_HIDDEN_COLUMNS}

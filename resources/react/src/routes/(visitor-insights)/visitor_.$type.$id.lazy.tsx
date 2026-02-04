@@ -1081,7 +1081,6 @@ function SessionHistoryTable({
       columns={sessionColumns}
       data={sessions}
       emptyMessage={__('No sessions found for this visitor.', 'wp-statistics')}
-      showColumnManagement={false}
       getRowCanExpand={() => true}
       renderSubComponent={({ row }) => <SessionPageViewsSubRow row={row} />}
       stickyHeader={true}

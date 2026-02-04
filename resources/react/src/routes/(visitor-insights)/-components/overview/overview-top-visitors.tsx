@@ -56,7 +56,6 @@ export const OverviewTopVisitors = ({ data, isFetching }: OverviewTopVisitorsPro
       data={transformedData}
       rowLimit={10}
       showPagination={false}
-      showColumnManagement={false}
       hiddenColumns={OVERVIEW_HIDDEN_COLUMNS}
       isFetching={isFetching}
       emptyStateMessage={__('No visitors found for the selected period', 'wp-statistics')}

@@ -106,6 +106,7 @@ function RouteComponent() {
 
   // Use the preferences hook for column management
   const {
+    defaultColumnOrder,
     columnOrder,
     initialColumnVisibility,
     comparisonColumns,
@@ -131,8 +132,10 @@ function RouteComponent() {
   const options = useTableOptions({
     filterGroup: 'content',
     table: tableRef.current,
-    initialColumnOrder: columnOrder,
+    initialColumnOrder: defaultColumnOrder,
+    columnOrder,
     defaultHiddenColumns: TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS,
+    initialColumnVisibility,
     comparableColumns: TOP_AUTHORS_COMPARABLE_COLUMNS,
     comparisonColumns,
     defaultComparisonColumns: TOP_AUTHORS_DEFAULT_COMPARISON_COLUMNS,
@@ -196,7 +199,6 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={TOP_AUTHORS_DEFAULT_HIDDEN_COLUMNS}

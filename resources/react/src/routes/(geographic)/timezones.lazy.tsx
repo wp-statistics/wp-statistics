@@ -87,6 +87,7 @@ function RouteComponent() {
   const comparisonColumnsFromApi = response?.data?.items?.timezones?.meta?.preferences?.comparison_columns
 
   const {
+    defaultColumnOrder,
     columnOrder,
     initialColumnVisibility,
     comparisonColumns,
@@ -111,7 +112,10 @@ function RouteComponent() {
   const options = useTableOptions({
     filterGroup: 'visitors',
     table: tableRef.current,
+    initialColumnOrder: defaultColumnOrder,
+    columnOrder,
     defaultHiddenColumns: TIMEZONES_DEFAULT_HIDDEN_COLUMNS,
+    initialColumnVisibility,
     comparableColumns: TIMEZONES_COMPARABLE_COLUMNS,
     comparisonColumns,
     defaultComparisonColumns: TIMEZONES_DEFAULT_COMPARISON_COLUMNS,
@@ -170,7 +174,6 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={TIMEZONES_DEFAULT_HIDDEN_COLUMNS}

@@ -158,7 +158,6 @@ function NetworkOverviewComponent() {
               data={sitesData}
               title={__('Sites Statistics', 'wp-statistics')}
               showPagination={sitesData.length > 10}
-              showColumnManagement={false}
               rowLimit={10}
               isFetching={isFetching}
               emptyStateMessage={__('No sites found', 'wp-statistics')}

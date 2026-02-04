@@ -212,7 +212,6 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             emptyStateMessage={__('No browsers found for the selected period', 'wp-statistics')}

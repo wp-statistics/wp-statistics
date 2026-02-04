@@ -237,6 +237,7 @@ export function ReportPageRenderer<TData, TRecord>({
   // Use the preferences hook for column management (only if columnConfig provided)
   const hasColumnConfig = !!columnConfig && defaultApiColumns.length > 0
   const {
+    defaultColumnOrder,
     columnOrder,
     initialColumnVisibility,
     comparisonColumns,
@@ -262,8 +263,10 @@ export function ReportPageRenderer<TData, TRecord>({
   const options = useTableOptions({
     filterGroup,
     table: tableRef.current,
-    initialColumnOrder: columnOrder,
+    initialColumnOrder: defaultColumnOrder,
+    columnOrder,
     defaultHiddenColumns,
+    initialColumnVisibility,
     comparableColumns,
     comparisonColumns,
     defaultComparisonColumns,
@@ -381,7 +384,6 @@ export function ReportPageRenderer<TData, TRecord>({
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={perPage}
-            showColumnManagement={false}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={defaultHiddenColumns}

@@ -152,6 +152,7 @@ function RouteComponent() {
 
   // Use the preferences hook for column management
   const {
+    defaultColumnOrder,
     columnOrder,
     initialColumnVisibility,
     comparisonColumns,
@@ -178,7 +179,10 @@ function RouteComponent() {
     filterGroup: 'referrals',
     table: tableRef.current,
     hideFilters: true,
+    initialColumnOrder: defaultColumnOrder,
+    columnOrder,
     defaultHiddenColumns: SOURCE_CATEGORIES_DEFAULT_HIDDEN_COLUMNS,
+    initialColumnVisibility,
     comparableColumns: SOURCE_CATEGORIES_COMPARABLE_COLUMNS,
     comparisonColumns,
     defaultComparisonColumns: SOURCE_CATEGORIES_DEFAULT_COMPARISON_COLUMNS,
@@ -275,7 +279,6 @@ function RouteComponent() {
               onPageChange={handlePageChange}
               totalRows={totalRows}
               rowLimit={PER_PAGE}
-              showColumnManagement={false}
               showPagination={true}
               isFetching={isFetching}
               hiddenColumns={SOURCE_CATEGORIES_DEFAULT_HIDDEN_COLUMNS}
