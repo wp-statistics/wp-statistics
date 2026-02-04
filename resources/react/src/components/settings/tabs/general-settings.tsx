@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { useSetting,useSettings } from '@/hooks/use-settings'
+import { useSetting, useSettings } from '@/hooks/use-settings'
 
 export function GeneralSettings() {
   const settings = useSettings({ tab: 'general' })
@@ -15,7 +15,6 @@ export function GeneralSettings() {
   // Individual settings
   const [visitorsLog, setVisitorsLog] = useSetting(settings, 'visitors_log', false)
   const [attributionModel, setAttributionModel] = useSetting(settings, 'attribution_model', 'first-touch')
-  const [useCachePlugin, setUseCachePlugin] = useSetting(settings, 'use_cache_plugin', true)
   const [bypassAdBlockers, setBypassAdBlockers] = useSetting(settings, 'bypass_ad_blockers', false)
 
   const handleSave = async () => {
@@ -82,33 +81,13 @@ export function GeneralSettings() {
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="use-cache-plugin">Tracking Method</Label>
+              <Label htmlFor="bypass-ad-blockers">Bypass Ad Blockers</Label>
               <p className="text-sm text-muted-foreground">
-                Client Side Tracking uses the visitor's browser for better accuracy and caching compatibility.
+                Dynamically load the tracking script with a unique name and address to bypass ad blockers.
               </p>
             </div>
-            <Select value={useCachePlugin ? '1' : '0'} onValueChange={(v) => setUseCachePlugin(v === '1')}>
-              <SelectTrigger className="w-[280px]">
-                <SelectValue placeholder="Select method" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">Client Side Tracking (Recommended)</SelectItem>
-                <SelectItem value="0">Server Side Tracking (Deprecated)</SelectItem>
-              </SelectContent>
-            </Select>
+            <Switch id="bypass-ad-blockers" checked={!!bypassAdBlockers} onCheckedChange={setBypassAdBlockers} />
           </div>
-
-          {useCachePlugin && (
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label htmlFor="bypass-ad-blockers">Bypass Ad Blockers</Label>
-                <p className="text-sm text-muted-foreground">
-                  Dynamically load the tracking script with a unique name and address to bypass ad blockers.
-                </p>
-              </div>
-              <Switch id="bypass-ad-blockers" checked={!!bypassAdBlockers} onCheckedChange={setBypassAdBlockers} />
-            </div>
-          )}
         </CardContent>
       </Card>
 

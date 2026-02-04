@@ -197,7 +197,6 @@ class Option extends Singleton
             'pages'                           => true,
             'menu_bar'                        => true,
             'email_list'                      => Environment::getAdminEmail(),
-            'use_cache_plugin'                => true,
             'time_report'                     => '0',
             'send_report'                     => 'mail',
             'geoip_license_type'              => 'js-deliver',

@@ -348,7 +348,6 @@ class SettingsEndpoints
                 'visitors_log',
                 'attribution_model',
                 // Tracker Configuration
-                'use_cache_plugin',
                 'bypass_ad_blockers',
                 // Legacy keys for backward compatibility
                 'visits',

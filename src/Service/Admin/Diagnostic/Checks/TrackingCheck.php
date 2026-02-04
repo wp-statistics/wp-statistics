@@ -82,14 +82,12 @@ class TrackingCheck extends AbstractCheck
             );
         }
 
-        // Determine if using REST or AJAX
-        $isRestApi = Option::getValue('use_cache_plugin');
-
-        if ($isRestApi) {
-            return $this->testRestEndpoint($trackingRoute);
+        // Determine if using REST or AJAX based on bypass_ad_blockers setting
+        if (Option::getValue('bypass_ad_blockers', false)) {
+            return $this->testAjaxEndpoint();
         }
 
-        return $this->testAjaxEndpoint();
+        return $this->testRestEndpoint($trackingRoute);
     }
 
     /**
