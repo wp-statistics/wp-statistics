@@ -558,9 +558,6 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
     )
   }
 
-  // Format dates - prefer pre-formatted from backend, fall back to raw date string
-  const formatDate = (formatted: string | undefined, raw: string | null) => formatted || raw || '-'
-
   // Device info display (common to all types)
   const DeviceInfo = ({
     browser,
@@ -634,14 +631,6 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
               )}
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
-              <span className="text-xs text-neutral-400">
-                {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit_formatted, info.first_visit)}
-              </span>
-              <span className="text-xs text-neutral-400">
-                {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit_formatted, info.last_visit)}
-              </span>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
               <LocationInfo
                 countryCode={info.country_code}
                 countryName={info.country_name}
@@ -703,14 +692,6 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
                 deviceType={info.device_type_name}
               />
             </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
-              <span className="text-xs text-neutral-400">
-                {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit_formatted, info.first_visit)}
-              </span>
-              <span className="text-xs text-neutral-400">
-                {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit_formatted, info.last_visit)}
-              </span>
-            </div>
           </div>
         </div>
       </Panel>
@@ -747,14 +728,6 @@ function VisitorProfileCard({ type, visitorInfo }: VisitorProfileCardProps) {
               os={info.os_name}
               deviceType={info.device_type_name}
             />
-          </div>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
-            <span className="text-xs text-neutral-400">
-              {__('First Visit:', 'wp-statistics')} {formatDate(info.first_visit_formatted, info.first_visit)}
-            </span>
-            <span className="text-xs text-neutral-400">
-              {__('Last Visit:', 'wp-statistics')} {formatDate(info.last_visit_formatted, info.last_visit)}
-            </span>
           </div>
         </div>
       </div>
