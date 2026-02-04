@@ -6,7 +6,7 @@ import { useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { ErrorMessage } from '@/components/custom/error-message'
-import type { LockedFilter } from '@/components/custom/filter-button'
+import type { LockedFilter } from '@/components/custom/filter-panel'
 import { LineChart } from '@/components/custom/line-chart'
 import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
@@ -79,8 +79,21 @@ function RouteComponent() {
     [pluginUrl, wp]
   )
 
-  // Define locked filter for this report (logged-in users only)
-  const lockedFilters = useMemo<LockedFilter[]>(
+  // Hardcoded filter to show only logged-in users (excludes user #0)
+  const loggedInFilter = useMemo(
+    () => ({
+      id: 'logged_in-hardcoded',
+      label: __('User Type', 'wp-statistics'),
+      operator: __('is', 'wp-statistics'),
+      rawOperator: 'is',
+      value: __('Logged-in', 'wp-statistics'),
+      rawValue: '1',
+    }),
+    []
+  )
+
+  // Locked filter for display in Options drawer (read-only)
+  const lockedFilters: LockedFilter[] = useMemo(
     () => [
       {
         id: 'logged_in-locked',
@@ -91,6 +104,11 @@ function RouteComponent() {
     ],
     []
   )
+
+  // Merge hardcoded filter with user-applied filters
+  const mergedFilters = useMemo(() => {
+    return [loggedInFilter, ...(appliedFilters || [])]
+  }, [loggedInFilter, appliedFilters])
 
   // Fetch all data in a single batch request
   const {
@@ -110,7 +128,7 @@ function RouteComponent() {
       previous_date_from: apiDateParams.previous_date_from,
       previous_date_to: apiDateParams.previous_date_to,
       group_by: getGroupBy(timeframe),
-      filters: appliedFilters || [],
+      filters: mergedFilters,
       context: LOGGED_IN_USERS_CONTEXT,
       columns: LOGGED_IN_USERS_DEFAULT_API_COLUMNS,
     }),
@@ -196,6 +214,7 @@ function RouteComponent() {
         title={__('Logged-in Users', 'wp-statistics')}
         filterGroup="visitors"
         optionsTriggerProps={options.triggerProps}
+        lockedFilters={lockedFilters}
       />
 
       {/* Options Drawer with Column Management */}
