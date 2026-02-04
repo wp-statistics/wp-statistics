@@ -265,7 +265,7 @@ class VisitorGroupBy extends AbstractGroupBy
                 sessions.user_id,
                 attr_user.user_login,
                 attr_user.user_email,
-                sessions.ip AS ip_address,
+                visitors.ip AS ip_address,
                 attr_country.code AS country_code,
                 attr_country.name AS country_name,
                 attr_city.city_name,
@@ -288,6 +288,7 @@ class VisitorGroupBy extends AbstractGroupBy
                 exit_page_resource.ID AS exit_page_resource_id,
                 attr_user_role.meta_value AS user_role_raw
             FROM {$tablePrefix}sessions sessions
+            LEFT JOIN {$tablePrefix}visitors visitors ON sessions.visitor_id = visitors.ID
             LEFT JOIN {$wpdb->users} attr_user ON sessions.user_id = attr_user.ID
             LEFT JOIN {$wpdb->usermeta} attr_user_role ON sessions.user_id = attr_user_role.user_id AND attr_user_role.meta_key = '{$wpdb->prefix}capabilities'
             LEFT JOIN {$tablePrefix}countries attr_country ON sessions.country_id = attr_country.ID

@@ -112,6 +112,7 @@ class TableColumns
     public const VISITORS = [
         'visitor_id'         => 'visitors.ID',
         'visitor_hash'       => 'visitors.hash',
+        'visitor_ip'         => 'visitors.ip',
         'visitor_created_at' => 'visitors.created_at',
     ];
 
@@ -121,7 +122,6 @@ class TableColumns
     public const SESSIONS = [
         'session_id'                        => 'sessions.ID',
         'session_visitor_id'                => 'sessions.visitor_id',
-        'session_ip'                        => 'sessions.ip',
         'session_referrer_id'               => 'sessions.referrer_id',
         'session_country_id'                => 'sessions.country_id',
         'session_city_id'                   => 'sessions.city_id',

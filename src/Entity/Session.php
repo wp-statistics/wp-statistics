@@ -58,7 +58,6 @@ class Session extends BaseEntity
 
         $sessionId = (int)RecordFactory::session()->insert([
             'visitor_id'                => $visitorId,
-            'ip'                        => $this->profile->getProcessedIPForStorage(),
             'referrer_id'               => $this->profile->getReferrerId(),
             'country_id'                => $this->profile->getCountryId(),
             'city_id'                   => $this->profile->getCityId(),

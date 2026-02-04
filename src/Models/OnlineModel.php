@@ -75,7 +75,7 @@ class OnlineModel extends BaseModel
         $result = Query::select([
             'sessions.ID AS online_id',
             'sessions.visitor_id AS ID',
-            'sessions.ip',
+            'visitors.ip',
             'sessions.started_at AS created',
             'sessions.ended_at AS timestamp',
             'sessions.total_views AS hits',

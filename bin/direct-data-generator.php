@@ -561,6 +561,7 @@ class DirectDataGenerator
         // Create visitor record
         $visitorId = RecordFactory::visitor()->insert([
             'hash' => $visitor['hashed_ip'],
+            'ip' => $visitor['hashed_ip'],
             'created_at' => date('Y-m-d H:i:s', $visitor['timestamp']),
         ]);
 
@@ -582,7 +583,6 @@ class DirectDataGenerator
 
         $sessionId = RecordFactory::session()->insert([
             'visitor_id' => $visitorId,
-            'ip' => $visitor['hashed_ip'],
             'referrer_id' => $referrerId,
             'country_id' => $countryId,
             'city_id' => $cityId,

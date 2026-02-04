@@ -39,20 +39,30 @@ function getIdentifierDisplay(identifier: string | undefined, hashEnabled: boole
 
 /**
  * Get the link destination for a visitor based on available identifiers.
- * Priority: user_id > ip_address > visitor_hash
+ *
+ * Routing priority:
+ * 1. Logged-in user → /visitor/user/{id}
+ * 2. Real IP (hash_ips disabled, IP doesn't start with #hash#) → /visitor/ip/{ip}
+ * 3. Hash visitor (default) → /visitor/hash/{hash}
  */
 function getVisitorLink(
   data: VisitorInfoData
 ): { type: 'user' | 'ip' | 'hash'; id: string } | null {
+  // 1. Logged-in user takes priority
   if (data.user?.id) {
     return { type: 'user', id: String(data.user.id) }
   }
-  if (data.ipAddress) {
+
+  // 2. Real IP (when hash_ips is disabled) - IP won't have #hash# prefix
+  if (data.ipAddress && !data.ipAddress.startsWith('#hash#')) {
     return { type: 'ip', id: data.ipAddress }
   }
+
+  // 3. Hash visitor (default - when hash_ips is enabled or IP is hashed)
   if (data.visitorHash) {
     return { type: 'hash', id: data.visitorHash }
   }
+
   return null
 }
 

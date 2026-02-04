@@ -192,18 +192,19 @@ class Manager
             'columns'     => [
                 'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'hash'       => 'varchar(20)',
+                'ip'         => 'varchar(128) DEFAULT NULL',
                 'created_at' => 'datetime NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY hash (hash)',
+                'KEY ip (ip)',
             ],
         ],
         'sessions'                => [
             'columns'     => [
                 'ID'                        => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'visitor_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'ip'                        => 'varchar(128) DEFAULT NULL',
                 'referrer_id'               => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'country_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'city_id'                   => 'bigint(20) UNSIGNED DEFAULT NULL',
@@ -224,7 +225,6 @@ class Manager
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY ip (ip)',
                 'KEY visitor_id (visitor_id)',
                 'KEY country_id (country_id)',
                 'KEY city_id (city_id)',

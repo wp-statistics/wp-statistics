@@ -46,11 +46,26 @@ class SessionDecorator
     /**
      * Get IP address.
      *
+     * IP is now stored on the visitors table, not sessions.
+     * This method first checks if IP was joined in the query,
+     * otherwise fetches it from the visitor record.
+     *
      * @return string|null
      */
     public function getIp()
     {
-        return $this->session->ip ?? null;
+        // Check if IP was provided via query join (e.g., from OnlineModel)
+        if (isset($this->session->ip)) {
+            return $this->session->ip;
+        }
+
+        // Fetch from visitor record if visitor_id exists
+        if (!empty($this->session->visitor_id)) {
+            $visitor = $this->getVisitor();
+            return $visitor->getRawIP();
+        }
+
+        return null;
     }
 
     /**
@@ -347,7 +362,7 @@ class SessionDecorator
     /**
      * Is the visitor's IP hashed?
      *
-     * @return string|null
+     * @return bool
      */
     public function isHashedIP()
     {
