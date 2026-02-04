@@ -84,9 +84,9 @@ class AdminBar
         $today     = DateRange::get('today');
         $yesterday = DateRange::get('yesterday');
 
-        // Online visitors date range: last 5 minutes
-        $now            = current_time('mysql');
-        $fiveMinutesAgo = gmdate('Y-m-d H:i:s', strtotime($now) - (5 * 60));
+        // Online visitors date range: last 5 minutes (using UTC to match database storage)
+        $now            = gmdate('Y-m-d H:i:s');
+        $fiveMinutesAgo = gmdate('Y-m-d H:i:s', time() - (5 * 60));
 
         try {
             // Batch query for visitors and views with compare feature
