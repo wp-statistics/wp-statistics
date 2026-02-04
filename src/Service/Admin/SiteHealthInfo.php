@@ -160,11 +160,6 @@ class SiteHealthInfo
                 'value' => Option::getValue('store_ua') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('store_ua') ? 'Enabled' : 'Disabled',
             ],
-            'attributionModel'               => [
-                'label' => esc_html__('Attribution Model', 'wp-statistics'),
-                'value' => Option::getValue('attribution_model', 'first-touch'),
-                'debug' => Option::getValue('attribution_model', 'first-touch'),
-            ],
             'trackingMethod'                 => [
                 'label' => esc_html__('Tracking Method', 'wp-statistics'),
                 'value' => Option::getValue('use_cache_plugin') ? __('Client Side Tracking', 'wp-statistics') : __('Server Side Tracking', 'wp-statistics'),

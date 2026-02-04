@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { NoticeBanner } from '@/components/ui/notice-banner'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { useSetting, useSettings } from '@/hooks/use-settings'
 
@@ -14,7 +13,6 @@ export function GeneralSettings() {
 
   // Individual settings
   const [visitorsLog, setVisitorsLog] = useSetting(settings, 'visitors_log', false)
-  const [attributionModel, setAttributionModel] = useSetting(settings, 'attribution_model', 'first-touch')
   const [bypassAdBlockers, setBypassAdBlockers] = useSetting(settings, 'bypass_ad_blockers', false)
 
   const handleSave = async () => {
@@ -50,25 +48,6 @@ export function GeneralSettings() {
               </p>
             </div>
             <Switch id="visitors-log" checked={!!visitorsLog} onCheckedChange={setVisitorsLog} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="attribution-model">Attribution Model</Label>
-              <p className="text-sm text-muted-foreground">
-                Select how conversions are attributed: First-Touch credits the first interaction, Last-Touch credits the
-                most recent.
-              </p>
-            </div>
-            <Select value={attributionModel as string} onValueChange={setAttributionModel}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select model" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="first-touch">First-Touch</SelectItem>
-                <SelectItem value="last-touch">Last-Touch</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </CardContent>
       </Card>

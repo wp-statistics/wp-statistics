@@ -7,12 +7,8 @@ use WP_Statistics\Components\DateTime;
 /**
  * Visitor group by - groups by visitor.
  *
- * Returns visitor data with attribution-aware session-level fields.
- * Session-level data (referrer, country, device, etc.) is attributed based on:
- * - First Touch: data from the visitor's FIRST session
- * - Last Touch: data from the visitor's MOST RECENT session
- *
- * Aggregate data (total sessions, total views) is NOT affected by attribution.
+ * Returns visitor data with session-level fields from the visitor's first session.
+ * Aggregate data (total sessions, total views) spans all sessions.
  *
  * @since 15.0.0
  */
@@ -24,7 +20,7 @@ class VisitorGroupBy extends AbstractGroupBy
     protected $groupBy = 'visitors.ID';
 
     /**
-     * Base extra columns that are not affected by attribution.
+     * Base extra columns.
      *
      * @var array
      */
@@ -68,26 +64,24 @@ class VisitorGroupBy extends AbstractGroupBy
     protected $postProcessedColumns = ['first_visit_formatted', 'last_visit_formatted'];
 
     /**
-     * Get SELECT columns with attribution support.
+     * Get SELECT columns.
      *
      * Returns base columns + attributed_session_id. The QueryExecutor will
      * fetch session attributes (country, browser, etc.) in a second query
      * and merge them into the results.
      *
-     * @param string $attribution      Attribution model ('first_touch' or 'last_touch').
-     * @param array  $requestedColumns Optional list of requested column aliases to filter which columns to include.
+     * @param array $requestedColumns Optional list of requested column aliases to filter which columns to include.
      * @return array
      */
-    public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array
+    public function getSelectColumns(array $requestedColumns = []): array
     {
         $columns = [$this->column . ' AS ' . $this->alias];
 
         // Add base extra columns conditionally based on requested columns
         $columns = array_merge($columns, $this->getBaseExtraColumns($requestedColumns));
 
-        // Add attributed_session_id - QueryExecutor will use this to fetch session attributes
-        $aggFunc = $attribution === 'last_touch' ? 'MAX' : 'MIN';
-        $columns[] = "CAST(SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', sessions.ID)), '||', -1) AS UNSIGNED) AS attributed_session_id";
+        // Add attributed_session_id - use MIN to get the first session
+        $columns[] = "CAST(SUBSTRING_INDEX(MIN(CONCAT(sessions.started_at, '||', sessions.ID)), '||', -1) AS UNSIGNED) AS attributed_session_id";
 
         return $columns;
     }

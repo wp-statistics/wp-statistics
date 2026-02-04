@@ -116,7 +116,7 @@ abstract class AbstractGroupBy implements GroupByInterface
     /**
      * {@inheritdoc}
      */
-    public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array
+    public function getSelectColumns(array $requestedColumns = []): array
     {
         $columns = [$this->column . ' AS ' . $this->alias];
 

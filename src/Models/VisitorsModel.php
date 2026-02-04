@@ -1926,16 +1926,12 @@ class VisitorsModel extends BaseModel
     }
 
     /**
-     * Get most active visitors with optimized query and attribution-aware referrer.
+     * Get most active visitors with optimized query.
      *
      * Optimizations:
      * - Single subquery using idx_started_visitor index
      * - All aggregations (SUM, COUNT, MIN/MAX) in one pass
      * - Reduced number of JOINs from 13 to 9
-     *
-     * Referrer attribution model:
-     * - last-touch: referrer from last session (fallback to first if empty)
-     * - first-touch: referrer from first session (fallback to last if empty)
      *
      * @param array $args {
      *     @type array{from:string,to:string} $date Date range with 'from' and 'to' keys (Y-m-d)
@@ -1959,11 +1955,7 @@ class VisitorsModel extends BaseModel
             $toEx     = !empty($args['date']['to']) ? date('Y-m-d', strtotime($args['date']['to'] . ' +1 day')) : '';
         }
 
-        // 2) attribution model – only affects which session we read referrer from
-        $attributionModel = Option::getValue('attribution_model', 'first-touch');
-        $isLastTouch      = ($attributionModel === 'last-touch');
-
-        // 3) aggregate sessions per visitor in range
+        // 2) aggregate sessions per visitor in range
         //    - SUM(total_views)  → total views across ALL sessions (req. 1)
         //    - MAX(ID)           → last session (req. 2,4,5,6)
         //    - MIN(ID)           → first session (req. 3)
@@ -2003,7 +1995,7 @@ class VisitorsModel extends BaseModel
             ->from('resource_uris')
             ->getQuery();
 
-        // 5) base select – referrer will be filled after attribution join
+        // 5) base select
         $select = [
             'agg.visitor_id',                          // 7) visitor id
             'visitors.hash AS visitor_hash',           // to display in UI like getTop()
@@ -2016,7 +2008,7 @@ class VisitorsModel extends BaseModel
             'referrers.domain AS referrer',            // 3) filled via attr_ses join below
         ];
 
-        // 6) build main query (joins that are common to both attribution modes)
+        // 6) build main query
         $query = Query::select($select)
             ->fromQuery($aggSubquery, 'agg')
             ->join('visitors', ['agg.visitor_id', 'visitors.ID'])
@@ -2034,18 +2026,10 @@ class VisitorsModel extends BaseModel
             ->allowCaching()
             ->perPage(1, 10);
 
-        // 7) attribution-aware REFERRER join
-        if ($isLastTouch) {
-            // last-touch → get referrer from LAST session
-            $query
-                ->joinQuery($sessionSql, ['agg.last_session_id', 'attr_ses.ID'], 'attr_ses')
-                ->join('referrers', ['attr_ses.referrer_id', 'referrers.ID'], [], 'LEFT');
-        } else {
-            // first-touch → get referrer from FIRST session (in the same date range)
-            $query
-                ->joinQuery($sessionSql, ['agg.first_session_id', 'attr_ses.ID'], 'attr_ses')
-                ->join('referrers', ['attr_ses.referrer_id', 'referrers.ID'], [], 'LEFT');
-        }
+        // 7) referrer join (from first session in the date range)
+        $query
+            ->joinQuery($sessionSql, ['agg.first_session_id', 'attr_ses.ID'], 'attr_ses')
+            ->join('referrers', ['attr_ses.referrer_id', 'referrers.ID'], [], 'LEFT');
 
         $results = $query->getAll();
 

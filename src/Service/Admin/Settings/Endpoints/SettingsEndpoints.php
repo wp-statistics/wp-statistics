@@ -346,7 +346,6 @@ class SettingsEndpoints
                 // Tracking Options
                 'useronline',
                 'visitors_log',
-                'attribution_model',
                 // Tracker Configuration
                 'bypass_ad_blockers',
                 // Legacy keys for backward compatibility

@@ -111,11 +111,10 @@ class SessionGroupBy extends AbstractGroupBy
     /**
      * Get SELECT columns with entry/exit page and referrer info.
      *
-     * @param string $attribution      Attribution model (unused for session groupby).
-     * @param array  $requestedColumns Optional list of requested column aliases.
+     * @param array $requestedColumns Optional list of requested column aliases.
      * @return array
      */
-    public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array
+    public function getSelectColumns(array $requestedColumns = []): array
     {
         $columns = [$this->column . ' AS ' . $this->alias];
 

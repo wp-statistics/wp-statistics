@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\Query;
 
-use WP_Statistics\Components\Option;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryInterface;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryExecutorInterface;
 use WP_Statistics\Service\AnalyticsQuery\Registry\SourceRegistry;
@@ -655,7 +654,6 @@ class QueryExecutor implements QueryExecutorInterface
         $page         = $query->getPage();
         $perPage      = $query->getPerPage();
         $offset       = ($page - 1) * $perPage;
-        $attribution  = Option::getValue('attribution_model', 'first_touch');
         $requestedColumns = $query->getColumns() ?: [];
         $orderBy      = $this->validateOrderBy($query->getOrderBy(), $sources, $groupByNames, $requestedColumns);
 
@@ -681,7 +679,7 @@ class QueryExecutor implements QueryExecutorInterface
                 continue;
             }
 
-            $select  = array_merge($select, $groupByItem->getSelectColumns($attribution, $requestedColumns));
+            $select  = array_merge($select, $groupByItem->getSelectColumns($requestedColumns));
             $joins   = array_merge($joins, $this->normalizeJoins($groupByItem->getJoins()));
 
             if ($groupByItem->getGroupBy()) {
@@ -844,7 +842,7 @@ class QueryExecutor implements QueryExecutorInterface
             $groupByItem = $this->groupByRegistry->get($groupByName);
             if ($groupByItem) {
                 // Use requestedColumns to get only the columns that will be in SELECT
-                $selectColumns = $groupByItem->getSelectColumns('first_touch', $requestedColumns);
+                $selectColumns = $groupByItem->getSelectColumns($requestedColumns);
                 foreach ($selectColumns as $selectColumn) {
                     // Extract alias from "expression AS alias" format
                     if (preg_match('/\s+AS\s+(\w+)$/i', $selectColumn, $matches)) {
