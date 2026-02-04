@@ -822,14 +822,7 @@ class VisitorsModel extends BaseModel
             ->where('user_id', '=', $args['user_id'])
             ->where('user_email', 'LIKE', "%{$args['email']}%")
             ->where('user_login', 'LIKE', "%{$args['username']}%")
-            ->whereRaw(
-                "OR (ip LIKE '#hash#%' AND ip LIKE %s)",
-                ["#hash#{$args['ip']}%"]
-            )
-            ->whereRaw(
-                "OR (ip NOT LIKE '#hash#%' AND ip LIKE %s)",
-                ["{$args['ip']}%"]
-            )
+            ->where('ip', 'LIKE', "{$args['ip']}%")
             ->whereRelation('OR')
             ->getAll();
 
@@ -1088,6 +1081,7 @@ class VisitorsModel extends BaseModel
         $selectFields = $returnCount ? 'COUNT(*)' : ['ID'];
 
         // Build the query
+        // Only include visitors with real IP addresses (contain . or :) that can be geolocated
         $query = Query::select($selectFields)
             ->from('visitor')
             ->whereRaw(
@@ -1097,7 +1091,7 @@ class VisitorsModel extends BaseModel
             OR continent = ''
             OR continent IS NULL
             OR (continent = location))
-            AND ip NOT LIKE '#hash#%'",
+            AND (ip LIKE '%%.%%' OR ip LIKE '%%:%%')",
                 [$privateCountry]
             );
 
@@ -1689,21 +1683,22 @@ class VisitorsModel extends BaseModel
      */
     public function updatePlaintextIps()
     {
-        // Get all distinct non-hashed IPs
+        // Get all distinct non-hashed IPs (real IPs contain . or :)
         $result = Query::select('DISTINCT ip')
             ->from('visitors')
-            ->where('ip', 'NOT LIKE', Ip::$hashIpPrefix . '%')
+            ->whereRaw("(ip LIKE '%%.%%' OR ip LIKE '%%:%%')")
             ->getAll();
-        
+
         $resultUpdate = [];
 
         foreach ($result as $row) {
-            if (!Ip::isHashed($row->ip)) {
+            // Only hash if it's a valid IP address
+            if (Ip::isSanitized($row->ip)) {
                 $updated = Query::update('visitors')
                     ->set(['ip' => Ip::hash($row->ip)])
                     ->where('ip', '=', $row->ip)
                     ->execute();
-                
+
                 if ($updated !== false) {
                     $resultUpdate[] = $updated;
                 }

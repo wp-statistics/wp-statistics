@@ -16,7 +16,8 @@ class UnhashedIpAddress extends BaseAudit
         $isOptionEnabled = HashIpAddress::isOptionEnabled();
 
         // Count unhashed IPs from the visitors table.
-        $unhashedIPs = $wpdb->get_var('SELECT COUNT(DISTINCT ' . self::$columnName . ') FROM ' . DB::table('visitor') . ' WHERE ' . self::$columnName . ' NOT LIKE "#hash#%"');
+        // Real IPs contain '.' (IPv4) or ':' (IPv6), hashed IPs are alphanumeric strings
+        $unhashedIPs = $wpdb->get_var('SELECT COUNT(DISTINCT ' . self::$columnName . ') FROM ' . DB::table('visitor') . ' WHERE ' . self::$columnName . ' LIKE "%.%" OR ' . self::$columnName . ' LIKE "%:%"');
 
         return $isOptionEnabled && $unhashedIPs > 0 ? 'action_required' : 'passed';
     }

@@ -53,13 +53,6 @@ class IP
     public static $default_ip_method = 'sequential';
 
     /**
-     * Hash IP Prefix
-     *
-     * @var string
-     */
-    public static $hash_ip_prefix = '#hash#';
-
-    /**
      * Returns all IP method options
      *
      * @return array
@@ -187,22 +180,10 @@ class IP
         $userAgent = UserAgent::getHttpUserAgent();
 
         $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
-        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46); 
+        $truncatedHash = substr($hash, 0, 20);
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
-        // This hash is then prefixed and filtered for potential modification before being returned.
         return apply_filters('wp_statistics_hash_ip', $truncatedHash);
-    }
-
-    /**
-     * Check IP is Hashed
-     *
-     * @param $ip
-     * @return bool
-     */
-    public static function IsHashIP($ip)
-    {
-        return (substr($ip, 0, strlen(self::$hash_ip_prefix)) == self::$hash_ip_prefix);
     }
 
     /**
@@ -407,12 +388,14 @@ class IP
         global $wpdb;
 
         // Get the rows from the Visitors table.
+        // Real IPs contain '.' (IPv4) or ':' (IPv6), hashes don't
         $visitorTable = DB::table('visitor');
-        $result       = $wpdb->get_results("SELECT DISTINCT ip FROM {$visitorTable} WHERE ip NOT LIKE '#hash#%'");
+        $result       = $wpdb->get_results("SELECT DISTINCT ip FROM {$visitorTable} WHERE ip LIKE '%.%' OR ip LIKE '%:%'");
         $resultUpdate = [];
 
         foreach ($result as $row) {
-            if (!self::IsHashIP($row->ip)) {
+            // Only hash if it's a valid IP address
+            if (self::check_sanitize_ip($row->ip)) {
                 $resultUpdate[] = $wpdb->update(
                     $visitorTable,
                     array('ip' => self::hashUserIp($row->ip)),

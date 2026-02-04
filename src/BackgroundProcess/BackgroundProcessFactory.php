@@ -54,6 +54,7 @@ class BackgroundProcessFactory
         }
 
         $privateCountry                 = GeolocationFactory::getProviderInstance()->getPrivateCountryCode();
+        // Only include visitors with real IP addresses (contain . or :) that can be geolocated
         $visitorsWithIncompleteLocation = Query::select(['ID'])
             ->from('visitor')
             ->whereRaw(
@@ -63,7 +64,7 @@ class BackgroundProcessFactory
             OR continent = ''
             OR continent IS NULL
             OR (continent = location))
-            AND ip NOT LIKE '#hash#%%'",
+            AND (ip LIKE '%%.%%' OR ip LIKE '%%:%%')",
                 [$privateCountry]
             )
             ->getAll();

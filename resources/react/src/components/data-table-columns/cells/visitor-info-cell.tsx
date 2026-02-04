@@ -19,11 +19,10 @@ interface VisitorInfoCellProps {
 }
 
 /**
- * Format hash display: strip #hash# prefix and show first 6 chars
+ * Format hash display: show first 6 chars
  */
 function formatHashDisplay(value: string): string {
-  const cleanHash = value.replace(/^#hash#/i, '')
-  return cleanHash.substring(0, 6)
+  return value.substring(0, 6)
 }
 
 /**
@@ -38,11 +37,18 @@ function getIdentifierDisplay(identifier: string | undefined, hashEnabled: boole
 }
 
 /**
+ * Check if a string looks like an IP address (contains . or :)
+ */
+function isIpAddress(value: string): boolean {
+  return value.includes('.') || value.includes(':')
+}
+
+/**
  * Get the link destination for a visitor based on available identifiers.
  *
  * Routing priority:
  * 1. Logged-in user → /visitor/user/{id}
- * 2. Real IP (hash_ips disabled, IP doesn't start with #hash#) → /visitor/ip/{ip}
+ * 2. Real IP (hash_ips disabled, IP contains . or :) → /visitor/ip/{ip}
  * 3. Hash visitor (default) → /visitor/hash/{hash}
  */
 function getVisitorLink(
@@ -53,12 +59,12 @@ function getVisitorLink(
     return { type: 'user', id: String(data.user.id) }
   }
 
-  // 2. Real IP (when hash_ips is disabled) - IP won't have #hash# prefix
-  if (data.ipAddress && !data.ipAddress.startsWith('#hash#')) {
+  // 2. Real IP (when hash_ips is disabled) - real IPs contain . or :
+  if (data.ipAddress && isIpAddress(data.ipAddress)) {
     return { type: 'ip', id: data.ipAddress }
   }
 
-  // 3. Hash visitor (default - when hash_ips is enabled or IP is hashed)
+  // 3. Hash visitor (default - when hash_ips is enabled)
   if (data.visitorHash) {
     return { type: 'hash', id: data.visitorHash }
   }

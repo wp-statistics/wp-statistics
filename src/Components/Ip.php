@@ -68,13 +68,6 @@ class Ip
     public static string $defaultIpMethod = 'sequential';
 
     /**
-     * Hash IP prefix.
-     *
-     * @var string
-     */
-    public static string $hashIpPrefix = '#hash#';
-
-    /**
      * Cached IP method for the current request.
      *
      * @var string|null
@@ -235,17 +228,6 @@ class Ip
          * @param string $truncatedHash The hashed IP address.
          */
         return apply_filters('wp_statistics_hash_ip', $truncatedHash);
-    }
-
-    /**
-     * Check if IP is hashed.
-     *
-     * @param string $ip The IP address to check.
-     * @return bool True if IP is hashed, false otherwise.
-     */
-    public static function isHashed(string $ip)
-    {
-        return substr($ip, 0, strlen(self::$hashIpPrefix)) === self::$hashIpPrefix;
     }
 
     /**
