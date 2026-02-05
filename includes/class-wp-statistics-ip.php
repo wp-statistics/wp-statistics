@@ -179,7 +179,8 @@ class IP
         // Retrieve the current user agent, defaulting to '' if unavailable or empty.
         $userAgent = UserAgent::getHttpUserAgent();
 
-        $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
+        $anonymizedIp  = wp_privacy_anonymize_ip($ip);
+        $hash          = hash('sha256', $dailySalt['salt'] . $anonymizedIp . $userAgent);
         $truncatedHash = substr($hash, 0, 20);
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.

@@ -595,7 +595,7 @@ class VisitorProfile
     /**
      * Get the hashed IP address for storage in the visitor table.
      *
-     * Returns a pure SHA-256 hash (40 characters) without any prefix.
+     * Returns a truncated SHA-256 hash (20 characters) without any prefix.
      * The hash is generated using a daily rotating salt combined with
      * the visitor's IP address and user agent for privacy protection.
      *

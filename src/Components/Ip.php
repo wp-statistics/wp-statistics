@@ -207,7 +207,7 @@ class Ip
      * and a daily rotating salt for privacy protection.
      *
      * @param string|null $ip Optional. The IP address to hash. If null, uses current user IP.
-     * @return string The hashed IP address without prefix (40 characters).
+     * @return string The hashed IP address without prefix (20 characters).
      */
     public static function hash($ip = null)
     {
@@ -215,10 +215,11 @@ class Ip
             $ip = self::getCurrent();
         }
 
-        $salt      = self::getSalt();
-        $userAgent = UserAgent::getHttpUserAgent();
+        $salt         = self::getSalt();
+        $userAgent    = UserAgent::getHttpUserAgent();
+        $anonymizedIp = wp_privacy_anonymize_ip($ip);
 
-        $hash          = hash('sha256', $salt . $ip . $userAgent);
+        $hash          = hash('sha256', $salt . $anonymizedIp . $userAgent);
         $truncatedHash = substr($hash, 0, 20);
 
 
