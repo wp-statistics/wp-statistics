@@ -16,7 +16,6 @@ export function PrivacySettings() {
   // Individual settings
   const [storeIp, setStoreIp] = useSetting(settings, 'store_ip', false)
   const [hashRotationInterval, setHashRotationInterval] = useSetting(settings, 'hash_rotation_interval', 'daily')
-  const [doNotTrack, setDoNotTrack] = useSetting(settings, 'do_not_track', false)
   const [anonymousTracking, setAnonymousTracking] = useSetting(settings, 'anonymous_tracking', false)
   const [consentIntegration, setConsentIntegration] = useSetting(settings, 'consent_integration', 'none')
   const [consentLevel, setConsentLevel] = useSetting(settings, 'consent_level_integration', 'functional')
@@ -142,16 +141,6 @@ export function PrivacySettings() {
               <Switch id="anonymous-tracking" checked={!!anonymousTracking} onCheckedChange={setAnonymousTracking} />
             </div>
           )}
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="do-not-track">Do Not Track (DNT)</Label>
-              <p className="text-sm text-muted-foreground">
-                Respect the visitor's browser setting to not track their activity.
-              </p>
-            </div>
-            <Switch id="do-not-track" checked={!!doNotTrack} onCheckedChange={setDoNotTrack} />
-          </div>
         </CardContent>
       </Card>
 

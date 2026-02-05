@@ -363,7 +363,6 @@ class SettingsEndpoints
                 'consent_integration',
                 'consent_level_integration',
                 'anonymous_tracking',
-                'do_not_track',
             ],
             'notifications' => [
                 // Email Reports

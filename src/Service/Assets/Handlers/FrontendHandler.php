@@ -69,7 +69,6 @@ class FrontendHandler extends BaseAssets
             'hitParams'           => $hitParams,
             'option'              => [
                 'userOnline'           => Option::getValue('useronline'),
-                'dntEnabled'           => Option::getValue('do_not_track'),
                 'bypassAdBlockers'     => Option::getValue('bypass_ad_blockers', false),
                 'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
                 'isPreview'            => is_preview(),

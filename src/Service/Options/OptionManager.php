@@ -197,7 +197,6 @@ class OptionManager
             'privacy_audit'                   => true,
             'consent_level_integration'       => 'disabled',
             'anonymous_tracking'              => false,
-            'do_not_track'                    => false,
             'exclude_administrator'           => true,
             'referrerspam'                    => true,
             'map_type'                        => 'jqvmap',

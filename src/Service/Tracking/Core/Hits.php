@@ -13,7 +13,7 @@ use WP_Statistics\Utils\Request;
 /**
  * Handles hit tracking for visitors, including page views, REST API activity, and login tracking.
  *
- * Integrates with the exclusion system to respect rules such as DNT, user roles, and IP blocks, and etc.
+ * Integrates with the exclusion system to respect rules such as user roles and IP blocks.
  */
 class Hits extends BaseTracking
 {

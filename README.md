@@ -28,7 +28,6 @@ WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
 - 100% data ownership. Data is entirely created and stored on your server
 - Enhance IP Hashing with Random Daily Salt Mechanism
 - Features to export and delete data for GDPR
-- Respect for User Privacy with Do Not Track (DNT)
 - Privacy Audit Tool for compliance with privacy laws
 
 Your site won't need to have a cookie popup since WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).

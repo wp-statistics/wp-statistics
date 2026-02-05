@@ -13,9 +13,6 @@ if (!window.WpStatisticsUserTracker) {
         // Check user activity every x seconds (legacy)
         checkTime: WP_Statistics_Tracker_Object.jsCheckTime,
 
-        // Check DoNotTrack Settings on User Browser
-        isDndActive: parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10),
-
         // Prevent init() from running more than once
         hasTrackerInitializedOnce: false,
 
@@ -119,15 +116,7 @@ if (!window.WpStatisticsUserTracker) {
 
         // Check Conditions for Sending Hit Request
         checkHitRequestConditions: function () {
-            if (WP_Statistics_Tracker_Object.option.dntEnabled) {
-                if (this.isDndActive !== 1) {
-                    this.sendHitRequest();
-                } else {
-                    console.log('WP Statistics: Do Not Track (DNT) is enabled. Hit request not sent.');
-                }
-            } else {
-                this.sendHitRequest();
-            }
+            this.sendHitRequest();
         },
 
         // Sending Hit Request
@@ -225,7 +214,7 @@ if (!window.WpStatisticsUserTracker) {
 
             this.userOnlineIntervalId = setInterval(
                 function () {
-                    if ((!WP_Statistics_Tracker_Object.option.dntEnabled || (WP_Statistics_Tracker_Object.option.dntEnabled && this.isDndActive !== 1)) && this.hitRequestSuccessful) {
+                    if (this.hitRequestSuccessful) {
                         this.sendOnlineUserRequest();
                     }
                 }.bind(this), this.checkTime

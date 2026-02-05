@@ -1464,20 +1464,6 @@ class Helper
         return "{$mainVersion}.{$anonymousSubVersion}";
     }
 
-    /**
-     * Do not track browser detection
-     *
-     * @return bool
-     */
-    public static function dntEnabled()
-    {
-        if (Option::get('do_not_track')) {
-            return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) or (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
-        }
-
-        return false;
-    }
-
     public static function getRequestUri()
     {
         if (self::is_rest_request() and isset($_REQUEST['page_uri'])) {

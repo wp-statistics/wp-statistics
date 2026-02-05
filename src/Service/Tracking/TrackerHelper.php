@@ -145,24 +145,6 @@ final class TrackerHelper
     }
 
     /**
-     * Determine whether Do Not Track (DNT) is enabled in the user's browser,
-     * and allowed by the plugin settings.
-     *
-     * Checks both the HTTP_DNT header and the DNT value from getallheaders(),
-     * if available, and only if the plugin setting 'do_not_track' is enabled.
-     *
-     * @return bool True if DNT is enabled and respected, false otherwise.
-     */
-    public static function isDoNotTrackEnabled()
-    {
-        if (Option::getValue('do_not_track')) {
-            return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) || (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
-        }
-
-        return false;
-    }
-
-    /**
      * Determine if the request‑signature feature is active.
      *
      * @return bool True when enabled via the

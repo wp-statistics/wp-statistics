@@ -203,11 +203,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('anonymous_tracking') ? 'Enabled' : 'Disabled',
             ],
-            'doNotTrack'                     => [
-                'label' => esc_html__('Do Not Track (DNT)', 'wp-statistics'),
-                'value' => Option::getValue('do_not_track') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('do_not_track') ? 'Enabled' : 'Disabled',
-            ],
             'viewStatsInEditor'              => [
                 'label' => esc_html__('View Stats in Editor', 'wp-statistics'),
                 'value' => Option::getValue('disable_editor') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),
