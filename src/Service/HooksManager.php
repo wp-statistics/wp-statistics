@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service;
 
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Utils\UrlBuilder;
 
@@ -64,6 +65,10 @@ class HooksManager
      */
     public function serveObfuscatedAsset()
     {
+        if (!Option::getValue('bypass_ad_blockers', false)) {
+            return;
+        }
+
         $assetNameObfuscator = new AssetNameObfuscator();
         $dynamicAssetKey     = $assetNameObfuscator->getDynamicAssetKey();
 
