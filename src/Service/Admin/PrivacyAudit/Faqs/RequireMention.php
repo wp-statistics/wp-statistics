@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Faqs;
 
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
 
@@ -38,7 +37,6 @@ class RequireMention extends AbstractFaq
         $requirements = [
             RecordUserPageVisits::isOptionPassed(),
             HashIpAddress::isOptionPassed(),
-            AnonymizeIpAddress::isOptionPassed(),
         ];
 
         if (in_array(false, $requirements)) {

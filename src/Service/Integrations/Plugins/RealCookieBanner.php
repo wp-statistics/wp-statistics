@@ -78,12 +78,12 @@ class RealCookieBanner extends AbstractIntegration
     {
         $options        = Option::get();
         $defaultOptions = Option::getDefaults();
-        $hashIps        = boolval($options['hash_ips'] ?? $defaultOptions['hash_ips']);
+        $storeIp        = boolval($options['store_ip'] ?? $defaultOptions['store_ip']);
         $file           = constant('WP_STATISTICS_MAIN_FILE');
 
         $integration->integrate($file, 'wp-statistics');
 
-        if (!$hashIps) {
+        if ($storeIp) {
             $integration->integrate($file, 'wp-statistics-with-data-processing');
         }
     }

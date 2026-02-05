@@ -117,8 +117,8 @@ class PrivacyPolicyGenerator
      */
     private function getIpAddressSection()
     {
-        // Only show if IPs are not anonymized
-        if (Option::getValue('anonymize_ips') && Option::getValue('hash_ips')) {
+        // Skip IP section when not storing raw IPs
+        if (!Option::getValue('store_ip')) {
             return '';
         }
 

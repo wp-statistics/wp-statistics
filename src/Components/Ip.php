@@ -233,38 +233,18 @@ class Ip
     /**
      * Get IP address for storage in database.
      *
-     * This method processes the IP address according to privacy settings,
-     * applying anonymization and/or hashing as configured.
+     * Returns the raw IP when store_ip is enabled, or null when disabled.
+     * The hash column handles visitor dedup separately.
      *
-     * @return string
+     * @return string|null
      */
-    public static function getAnonymized()
+    public static function getStorableIp()
     {
-        $userIp = self::getCurrent();
-
-        // Use default IP if no valid IP address found
-        if (empty($userIp)) {
-            return self::$defaultIp;
+        if (!Option::getValue('store_ip') || IntegrationHelper::shouldTrackAnonymously()) {
+            return null;
         }
 
-        /**
-         * Anonymize IP if enabled for privacy & GDPR compliance.
-         *
-         * @example 192.168.1.1 -> 192.168.1.0
-         * @example 2001:db8::1 -> 2001:db8::
-         */
-        if (Option::getValue('anonymize_ips') || IntegrationHelper::shouldTrackAnonymously()) {
-            $userIp = wp_privacy_anonymize_ip($userIp);
-        }
-
-        /**
-         * Hash IP if enabled in settings.
-         */
-        if (Option::getValue('hash_ips') || IntegrationHelper::shouldTrackAnonymously()) {
-            $userIp = self::hash($userIp);
-        }
-
-        return sanitize_text_field($userIp);
+        return sanitize_text_field(self::getCurrent());
     }
 
     /**

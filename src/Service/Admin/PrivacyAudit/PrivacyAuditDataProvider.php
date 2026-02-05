@@ -13,7 +13,6 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecommendConsent;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoredUserIdData;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\UnhashedIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireCookieBanner;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\BaseAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\RecommendedAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
@@ -49,7 +48,6 @@ class PrivacyAuditDataProvider
         $audits = [
             'recommend_consent'             => RecommendConsent::class,
             'record_user_page_visits'       => RecordUserPageVisits::class,
-            'anonymize_ip_address'          => AnonymizeIpAddress::class,
             'hash_ip_address'               => HashIpAddress::class,
             'unhashed_ip_address'           => UnhashedIpAddress::class,
             'stored_user_id_data'           => StoredUserIdData::class

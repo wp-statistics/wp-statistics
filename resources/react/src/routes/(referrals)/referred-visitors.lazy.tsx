@@ -70,7 +70,7 @@ function RouteComponent() {
       createVisitorsColumns({
         pluginUrl,
         trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
-        hashEnabled: wp.isHashEnabled(),
+        storeIpEnabled: wp.isStoreIpEnabled(),
       }),
     [pluginUrl, wp]
   )

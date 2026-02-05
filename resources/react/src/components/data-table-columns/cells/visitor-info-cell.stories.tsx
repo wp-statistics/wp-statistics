@@ -7,7 +7,7 @@ import { VisitorInfoCell } from './visitor-info-cell'
 const defaultConfig: VisitorInfoConfig = {
   pluginUrl: '/public/images/',
   trackLoggedInEnabled: true,
-  hashEnabled: false,
+  storeIpEnabled: false,
 }
 
 const meta = {
@@ -33,7 +33,6 @@ export const AnonymousVisitorWithIP: Story = {
       browser: { icon: 'chrome', name: 'Chrome', version: '120' },
       identifier: '192.168.1.1',
     },
-    config: { ...defaultConfig, hashEnabled: false },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
@@ -48,9 +47,8 @@ export const AnonymousVisitorWithHash: Story = {
       country: { code: 'GB', name: 'United Kingdom', city: 'London' },
       os: { icon: 'macos', name: 'macOS' },
       browser: { icon: 'safari', name: 'Safari', version: '17' },
-      identifier: '#hash#abc123def456',
+      identifier: 'abc123def456789a',
     },
-    config: { ...defaultConfig, hashEnabled: true },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
@@ -104,9 +102,8 @@ export const AndroidVisitor: Story = {
       country: { code: 'IN', name: 'India', city: 'Mumbai' },
       os: { icon: 'android', name: 'Android' },
       browser: { icon: 'chrome', name: 'Chrome Mobile', version: '120' },
-      identifier: '#hash#xyz789abc123',
+      identifier: 'xyz789abc123def4',
     },
-    config: { ...defaultConfig, hashEnabled: true },
   },
 }
 
@@ -132,7 +129,7 @@ export const AllVariants: Story = {
           browser: { icon: 'chrome', name: 'Chrome', version: '120' },
           identifier: '192.168.1.100',
         },
-        config: { ...defaultConfig, hashEnabled: false },
+        config: defaultConfig,
       },
       {
         label: 'Anonymous (Hash)',
@@ -140,9 +137,9 @@ export const AllVariants: Story = {
           country: { code: 'FR', name: 'France', city: 'Paris' },
           os: { icon: 'macos', name: 'macOS' },
           browser: { icon: 'safari', name: 'Safari' },
-          identifier: '#hash#def456ghi789',
+          identifier: 'def456ghi789abc1',
         },
-        config: { ...defaultConfig, hashEnabled: true },
+        config: defaultConfig,
       },
       {
         label: 'Logged in user',
@@ -189,7 +186,7 @@ export const InTableContext: Story = {
                 browser: { icon: 'chrome', name: 'Chrome', version: '120' },
                 identifier: '192.168.1.1',
               }}
-              config={{ ...defaultConfig, hashEnabled: false }}
+              config={defaultConfig}
             />
           </td>
         </tr>
@@ -215,9 +212,9 @@ export const InTableContext: Story = {
                 country: { code: 'JP', name: 'Japan', city: 'Tokyo' },
                 os: { icon: 'ios', name: 'iOS' },
                 browser: { icon: 'safari', name: 'Safari Mobile' },
-                identifier: '#hash#abc123xyz789',
+                identifier: 'abc123xyz789def4',
               }}
-              config={{ ...defaultConfig, hashEnabled: true }}
+              config={defaultConfig}
             />
           </td>
         </tr>

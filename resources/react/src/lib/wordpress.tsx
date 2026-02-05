@@ -40,8 +40,8 @@ export class WordPress {
     return this.data.globals.trackLoggedInUsers
   }
 
-  public isHashEnabled(): boolean {
-    return this.data.globals.hashIps
+  public isStoreIpEnabled(): boolean {
+    return this.data.globals.storeIp
   }
 
   public getAnalyticsAction(): string {

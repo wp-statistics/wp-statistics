@@ -36,7 +36,7 @@ export const withWordPressContext: Decorator = (Story) => {
           filterAction: 'wp_statistics_get_filter_options',
           userPreferencesAction: 'wp_statistics_user_preferences',
           trackLoggedInUsers: true,
-          hashIps: false,
+          storeIp: false,
         },
         layout: {
           sidebar: {

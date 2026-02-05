@@ -40,7 +40,7 @@ export interface BaseVisitorFields {
  *     os: { icon: visitor.os, name: visitor.osName },
  *     browser: { icon: visitor.browser, name: visitor.browserName, version: visitor.browserVersion },
  *     user: visitor.userId && visitor.username ? { ... } : undefined,
- *     identifier: visitor.hash || visitor.ipAddress,
+ *     identifier: visitor.ipAddress || visitor.hash,
  *   }}
  *   config={config}
  * />
@@ -74,7 +74,7 @@ export function createVisitorInfoData(visitor: BaseVisitorFields): VisitorInfoDa
             role: visitor.userRole,
           }
         : undefined,
-    identifier: visitor.hash || visitor.ipAddress,
+    identifier: visitor.ipAddress || visitor.hash,
     // Include hash and IP for single visitor page linking
     visitorHash: visitor.hash,
     ipAddress: visitor.ipAddress,

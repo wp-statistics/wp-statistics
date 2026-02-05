@@ -26,17 +26,6 @@ function formatHashDisplay(value: string): string {
 }
 
 /**
- * Get identifier display based on hash settings
- */
-function getIdentifierDisplay(identifier: string | undefined, hashEnabled: boolean): string | undefined {
-  if (!identifier) return undefined
-
-  // hashEnabled = true → show first 6 chars of hash
-  // hashEnabled = false → show full IP address
-  return hashEnabled ? formatHashDisplay(identifier) : identifier
-}
-
-/**
  * Check if a string looks like an IP address (contains . or :)
  */
 function isIpAddress(value: string): boolean {
@@ -44,11 +33,19 @@ function isIpAddress(value: string): boolean {
 }
 
 /**
+ * Get identifier display - data-driven based on value content
+ */
+function getIdentifierDisplay(identifier: string | undefined): string | undefined {
+  if (!identifier) return undefined
+  return isIpAddress(identifier) ? identifier : formatHashDisplay(identifier)
+}
+
+/**
  * Get the link destination for a visitor based on available identifiers.
  *
  * Routing priority:
  * 1. Logged-in user → /visitor/user/{id}
- * 2. Real IP (hash_ips disabled, IP contains . or :) → /visitor/ip/{ip}
+ * 2. Real IP (IP contains . or :) → /visitor/ip/{ip}
  * 3. Hash visitor (default) → /visitor/hash/{hash}
  */
 function getVisitorLink(
@@ -59,12 +56,12 @@ function getVisitorLink(
     return { type: 'user', id: String(data.user.id) }
   }
 
-  // 2. Real IP (when hash_ips is disabled) - real IPs contain . or :
+  // 2. Real IP - real IPs contain . or :
   if (data.ipAddress && isIpAddress(data.ipAddress)) {
     return { type: 'ip', id: data.ipAddress }
   }
 
-  // 3. Hash visitor (default - when hash_ips is enabled)
+  // 3. Hash visitor (default)
   if (data.visitorHash) {
     return { type: 'hash', id: data.visitorHash }
   }
@@ -74,7 +71,7 @@ function getVisitorLink(
 
 export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config, disableLink = false }: VisitorInfoCellProps) {
   const { country, os, browser, user, identifier } = data
-  const { pluginUrl, hashEnabled } = config
+  const { pluginUrl } = config
 
   // Get current route pathname for back navigation
   const { pathname } = useLocation()
@@ -92,7 +89,7 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config, dis
 
   // Determine what to show - always show user badge if user exists (has user_id)
   const showUserBadge = !!user
-  const identifierDisplay = getIdentifierDisplay(identifier, hashEnabled)
+  const identifierDisplay = getIdentifierDisplay(identifier)
 
   return (
     <div className="flex flex-col gap-0.5">

@@ -355,8 +355,7 @@ class SettingsEndpoints
             ],
             'privacy' => [
                 // Data Protection
-                'anonymize_ips',
-                'hash_ips',
+                'store_ip',
                 'hash_rotation_interval',
                 // Privacy Compliance
                 'privacy_audit',

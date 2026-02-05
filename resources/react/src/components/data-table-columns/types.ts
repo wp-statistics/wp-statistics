@@ -35,7 +35,7 @@ export interface VisitorInfoData {
 export interface VisitorInfoConfig {
   pluginUrl: string
   trackLoggedInEnabled: boolean
-  hashEnabled: boolean
+  storeIpEnabled: boolean
 }
 
 // Page data (for page, entry page, exit page columns)

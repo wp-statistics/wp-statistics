@@ -588,7 +588,7 @@ class VisitorProfile
     public function getProcessedIPForStorage()
     {
         return $this->getCachedData('processedIPForStorage', function () {
-            return Ip::getAnonymized();
+            return Ip::getStorableIp();
         });
     }
 

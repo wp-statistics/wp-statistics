@@ -42,7 +42,7 @@ export const OverviewTopVisitors = ({ data, isFetching }: OverviewTopVisitorsPro
     () => ({
       pluginUrl,
       trackLoggedInEnabled: wp.isTrackLoggedInEnabled(),
-      hashEnabled: wp.isHashEnabled(),
+      storeIpEnabled: wp.isStoreIpEnabled(),
     }),
     [pluginUrl, wp]
   )

@@ -300,7 +300,7 @@ class LegacyHandler extends BaseAssets
             'word'                         => __('Search Term', 'wp-statistics'),
             'browser'                      => __('Visitor\'s Browser', 'wp-statistics'),
             'city'                         => __('Visitor\'s City', 'wp-statistics'),
-            'ip'                           => Option::getValue('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
+            'ip'                           => !Option::getValue('store_ip') ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
             'ip_hash'                      => __('IP Address/Hash', 'wp-statistics'),
             'ip_hash_placeholder'          => __('Enter IP (e.g., 192.168.1.1) or hash (#...)', 'wp-statistics'),
             'referring_site'               => __('Referring Site', 'wp-statistics'),

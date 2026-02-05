@@ -74,7 +74,7 @@ function RouteComponent() {
       createLoggedInUsersColumns({
         pluginUrl,
         trackLoggedInEnabled: true, // Always true for logged-in users page
-        hashEnabled: wp.isHashEnabled(),
+        storeIpEnabled: wp.isStoreIpEnabled(),
       }),
     [pluginUrl, wp]
   )

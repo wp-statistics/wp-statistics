@@ -170,15 +170,10 @@ class SiteHealthInfo
                 'value' => Option::getValue('bypass_ad_blockers') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('bypass_ad_blockers') ? 'Enabled' : 'Disabled',
             ],
-            'anonymizeIpAddresses'           => [
-                'label' => esc_html__('Anonymize IP Addresses', 'wp-statistics'),
-                'value' => Option::getValue('anonymize_ips') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('anonymize_ips') ? 'Enabled' : 'Disabled',
-            ],
-            'hashIpAddresses'                => [
-                'label' => esc_html__('Hash IP Addresses', 'wp-statistics'),
-                'value' => Option::getValue('hash_ips') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('hash_ips') ? 'Enabled' : 'Disabled',
+            'storeIpAddresses'               => [
+                'label' => esc_html__('Store IP Addresses', 'wp-statistics'),
+                'value' => Option::getValue('store_ip') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('store_ip') ? 'Enabled' : 'Disabled',
             ],
             'wpConsentLevelIntegration'      => [
                 'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),

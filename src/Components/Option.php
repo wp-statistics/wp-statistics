@@ -190,8 +190,7 @@ class Option extends Singleton
     {
         return [
             'query_params_allow_list'         => QueryParams::getDefaultAllowedList('string'),
-            'anonymize_ips'                   => true,
-            'hash_ips'                        => true,
+            'store_ip'                        => false,
             'geoip'                           => true,
             'useronline'                      => true,
             'pages'                           => true,

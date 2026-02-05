@@ -39,7 +39,7 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'analyticsAction'       => AnalyticsQuery::getActionName(),
             'userPreferencesAction' => UserPreferences::getActionName(),
             'filterAction'          => FilterOptions::getActionName(),
-            'hashIps'               => (bool) Option::getValue('hash_ips', true),
+            'storeIp'               => (bool) Option::getValue('store_ip', false),
             'trackLoggedInUsers'    => (bool) Option::getValue('visitors_log', false),
             'userPreferences'       => [
                 'globalFilters' => $this->getGlobalFiltersPreferences(),

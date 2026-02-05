@@ -179,8 +179,7 @@ class OptionManager
         return [
             'robotlist'                       => self::getDefaultRobotList(),
             'query_params_allow_list'         => '',
-            'anonymize_ips'                   => true,
-            'hash_ips'                        => true,
+            'store_ip'                        => false,
             'geoip'                           => true,
             'useronline'                      => true,
             'pages'                           => true,

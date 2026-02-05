@@ -192,7 +192,7 @@ declare global {
       filterAction: string
       userPreferencesAction: string
       trackLoggedInUsers: boolean
-      hashIps: boolean
+      storeIp: boolean
       userPreferences?: UserPreferences
       currentPage: string
       userCountry?: string

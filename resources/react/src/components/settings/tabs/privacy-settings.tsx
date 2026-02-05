@@ -13,8 +13,7 @@ export function PrivacySettings() {
   const settings = useSettings({ tab: 'privacy' })
 
   // Individual settings
-  const [anonymizeIps, setAnonymizeIps] = useSetting(settings, 'anonymize_ips', true)
-  const [hashIps, setHashIps] = useSetting(settings, 'hash_ips', true)
+  const [storeIp, setStoreIp] = useSetting(settings, 'store_ip', false)
   const [doNotTrack, setDoNotTrack] = useSetting(settings, 'do_not_track', false)
   const [anonymousTracking, setAnonymousTracking] = useSetting(settings, 'anonymous_tracking', false)
   const [consentIntegration, setConsentIntegration] = useSetting(settings, 'consent_integration', 'none')
@@ -47,22 +46,12 @@ export function PrivacySettings() {
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="anonymize-ips">Anonymize IP Addresses</Label>
+              <Label htmlFor="store-ip">Store IP Addresses</Label>
               <p className="text-sm text-muted-foreground">
-                Masks the last segment of IP addresses for privacy compliance.
+                Record full visitor IP addresses in the database. When disabled, only anonymous hashes are stored.
               </p>
             </div>
-            <Switch id="anonymize-ips" checked={!!anonymizeIps} onCheckedChange={setAnonymizeIps} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="hash-ips">Hash IP Addresses</Label>
-              <p className="text-sm text-muted-foreground">
-                Transforms IP addresses into a unique, non-reversible string.
-              </p>
-            </div>
-            <Switch id="hash-ips" checked={!!hashIps} onCheckedChange={setHashIps} />
+            <Switch id="store-ip" checked={!!storeIp} onCheckedChange={setStoreIp} />
           </div>
         </CardContent>
       </Card>
