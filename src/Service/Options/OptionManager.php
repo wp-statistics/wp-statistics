@@ -180,6 +180,7 @@ class OptionManager
             'robotlist'                       => self::getDefaultRobotList(),
             'query_params_allow_list'         => '',
             'store_ip'                        => false,
+            'hash_rotation_interval'          => 'daily',
             'geoip'                           => true,
             'useronline'                      => true,
             'pages'                           => true,

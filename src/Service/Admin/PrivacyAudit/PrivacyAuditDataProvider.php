@@ -9,6 +9,7 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\TransferData;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireMention;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashRotationInterval;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecommendConsent;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoredUserIdData;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\UnhashedIpAddress;
@@ -49,6 +50,7 @@ class PrivacyAuditDataProvider
             'recommend_consent'             => RecommendConsent::class,
             'record_user_page_visits'       => RecordUserPageVisits::class,
             'hash_ip_address'               => HashIpAddress::class,
+            'hash_rotation_interval'        => HashRotationInterval::class,
             'unhashed_ip_address'           => UnhashedIpAddress::class,
             'stored_user_id_data'           => StoredUserIdData::class
         ];

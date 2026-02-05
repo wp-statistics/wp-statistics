@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
@@ -14,6 +15,7 @@ export function PrivacySettings() {
 
   // Individual settings
   const [storeIp, setStoreIp] = useSetting(settings, 'store_ip', false)
+  const [hashRotationInterval, setHashRotationInterval] = useSetting(settings, 'hash_rotation_interval', 'daily')
   const [doNotTrack, setDoNotTrack] = useSetting(settings, 'do_not_track', false)
   const [anonymousTracking, setAnonymousTracking] = useSetting(settings, 'anonymous_tracking', false)
   const [consentIntegration, setConsentIntegration] = useSetting(settings, 'consent_integration', 'none')
@@ -53,6 +55,35 @@ export function PrivacySettings() {
             </div>
             <Switch id="store-ip" checked={!!storeIp} onCheckedChange={setStoreIp} />
           </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label htmlFor="hash-rotation-interval">{__('Hash Rotation Interval', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">
+                {__('How often the salt used for visitor hashing rotates. Shorter intervals improve privacy but reduce returning-visitor detection accuracy.', 'wp-statistics')}
+              </p>
+            </div>
+            <Select value={hashRotationInterval as string} onValueChange={setHashRotationInterval}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder={__('Select interval', 'wp-statistics')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="daily">{__('Daily', 'wp-statistics')}</SelectItem>
+                <SelectItem value="weekly">{__('Weekly', 'wp-statistics')}</SelectItem>
+                <SelectItem value="monthly">{__('Monthly', 'wp-statistics')}</SelectItem>
+                <SelectItem value="disabled">{__('Disabled', 'wp-statistics')}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {hashRotationInterval === 'disabled' && (
+            <NoticeBanner
+              id="hash-rotation-warning"
+              type="warning"
+              message={__('Disabling hash rotation means the same visitor will always produce the same hash. This improves returning-visitor detection but reduces privacy protection.', 'wp-statistics')}
+              dismissible={false}
+            />
+          )}
         </CardContent>
       </Card>
 

@@ -172,18 +172,19 @@ class Ip
     }
 
     /**
-     * Gets or creates the daily salt for IP hashing.
+     * Gets or creates the salt for IP hashing, rotated based on the configured interval.
      *
-     * @return string The daily salt string.
+     * @return string The salt string.
      */
     public static function getSalt()
     {
-        $date      = date('Y-m-d');
-        $dailySalt = Option::getValue('daily_salt', []);
+        $interval      = Option::getValue('hash_rotation_interval', 'daily');
+        $currentPeriod = self::getCurrentPeriod($interval);
+        $dailySalt     = Option::getValue('daily_salt', []);
 
-        if (isset($dailySalt['date']) && $dailySalt['date'] !== $date) {
+        if (isset($dailySalt['date']) && $dailySalt['date'] !== $currentPeriod) {
             $dailySalt = [
-                'date' => $date,
+                'date' => $currentPeriod,
                 'salt' => hash('sha256', wp_generate_password())
             ];
             Option::updateValue('daily_salt', $dailySalt);
@@ -191,13 +192,34 @@ class Ip
 
         if (!$dailySalt || !is_array($dailySalt)) {
             $dailySalt = [
-                'date' => $date,
+                'date' => $currentPeriod,
                 'salt' => hash('sha256', wp_generate_password())
             ];
             Option::updateValue('daily_salt', $dailySalt);
         }
 
         return $dailySalt['salt'];
+    }
+
+    /**
+     * Returns the current period identifier based on the rotation interval.
+     *
+     * @param string $interval One of 'daily', 'weekly', 'monthly', 'disabled'.
+     * @return string Period identifier string.
+     */
+    private static function getCurrentPeriod($interval)
+    {
+        switch ($interval) {
+            case 'weekly':
+                return date('o-W');
+            case 'monthly':
+                return date('Y-m');
+            case 'disabled':
+                return 'permanent';
+            case 'daily':
+            default:
+                return date('Y-m-d');
+        }
     }
 
     /**

@@ -191,6 +191,7 @@ class Option extends Singleton
         return [
             'query_params_allow_list'         => QueryParams::getDefaultAllowedList('string'),
             'store_ip'                        => false,
+            'hash_rotation_interval'          => 'daily',
             'geoip'                           => true,
             'useronline'                      => true,
             'pages'                           => true,
