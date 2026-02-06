@@ -49,8 +49,14 @@ class GeneralNotices
             return;
         }
 
-        if (!Helper::is_request('ajax') && !Option::getValue('hide_notices') && User::hasAccess('manage')) {
+        if (!Helper::is_request('ajax') && User::hasAccess('manage')) {
+            $hideNotices = Option::getValue('hide_notices');
+
             foreach ($this->coreNotices as $notice) {
+                if ($hideNotices && $notice !== 'checkDbSchemaIssue') {
+                    continue;
+                }
+
                 if (method_exists($this, $notice)) {
                     call_user_func([$this, $notice]);
                 }

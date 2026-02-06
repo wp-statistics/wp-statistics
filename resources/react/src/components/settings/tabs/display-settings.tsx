@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
@@ -126,9 +127,9 @@ export function DisplaySettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="hide-notices">Disable Inactive Feature Notices</Label>
+              <Label htmlFor="hide-notices">{__('Disable Admin Notices', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Stops displaying messages for essential features that are currently switched off.
+                {__('Hides configuration and optimization notices in the admin area. Critical database notices will still be shown.', 'wp-statistics')}
               </p>
             </div>
             <Switch id="hide-notices" checked={!!hideNotices} onCheckedChange={setHideNotices} />

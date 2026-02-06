@@ -234,7 +234,7 @@ class SiteHealthInfo extends Singleton
                 'debug' => Option::getValue('display_notifications') ? 'Enabled' : 'Disabled',
             ],
             'disableInactiveFeatureNotices'  => [
-                'label' => esc_html__('Disable Inactive Essential Feature Notices', 'wp-statistics'),
+                'label' => esc_html__('Disable Admin Notices', 'wp-statistics'),
                 'value' => Option::getValue('hide_notices') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('hide_notices') ? 'Enabled' : 'Disabled',
             ],
