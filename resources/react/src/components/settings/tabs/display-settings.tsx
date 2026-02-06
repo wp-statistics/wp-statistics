@@ -17,7 +17,6 @@ export function DisplaySettings() {
   const [disableColumn, setDisableColumn] = useSetting(settings, 'disable_column', false)
   const [enableUserColumn, setEnableUserColumn] = useSetting(settings, 'enable_user_column', false)
   const [menuBar, setMenuBar] = useSetting(settings, 'menu_bar', false)
-  const [chartsPreviousPeriod, setChartsPreviousPeriod] = useSetting(settings, 'charts_previous_period', true)
   const [disableDashboard, setDisableDashboard] = useSetting(settings, 'disable_dashboard', false)
   const [displayNotifications, setDisplayNotifications] = useSetting(settings, 'display_notifications', true)
   const [hideNotices, setHideNotices] = useSetting(settings, 'hide_notices', false)
@@ -97,20 +96,6 @@ export function DisplaySettings() {
               </p>
             </div>
             <Switch id="menu-bar" checked={!!menuBar} onCheckedChange={setMenuBar} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="charts-previous-period">Previous Period in Charts</Label>
-              <p className="text-sm text-muted-foreground">
-                Show data from the previous period in charts for comparison.
-              </p>
-            </div>
-            <Switch
-              id="charts-previous-period"
-              checked={!!chartsPreviousPeriod}
-              onCheckedChange={setChartsPreviousPeriod}
-            />
           </div>
 
           <div className="flex items-center justify-between">

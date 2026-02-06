@@ -85,7 +85,6 @@ class Option
             'exclude_feeds'                   => true,
             'schedule_dbmaint'                => true,
             'schedule_dbmaint_days'           => '180',
-            'charts_previous_period'          => true,
             'geoip_location_detection_method' => 'maxmind',
             'delete_data_on_uninstall'        => false,
             'share_anonymous_data'            => false,

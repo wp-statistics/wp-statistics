@@ -223,11 +223,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('menu_bar') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('menu_bar') ? 'Enabled' : 'Disabled',
             ],
-            'wpStatisticsChartsPrevPeriod'   => [
-                'label' => esc_html__('Previous Period in Charts', 'wp-statistics'),
-                'value' => Option::getValue('charts_previous_period') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('charts_previous_period') ? 'Enabled' : 'Disabled',
-            ],
             'wpStatisticsWidgets'            => [
                 'label' => esc_html__('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'),
                 'value' => Option::getValue('disable_dashboard') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),

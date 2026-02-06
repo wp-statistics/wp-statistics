@@ -33,7 +33,7 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
 
         $this->setThisPeriodData();
 
-        // Get previous data only if previous chart data option is enabled
+        // Get previous data only if comparison is enabled
         if ($this->isPreviousDataEnabled()) {
             $this->setPrevPeriodData();
         }

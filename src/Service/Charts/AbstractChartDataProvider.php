@@ -1,8 +1,6 @@
 <?php
 namespace WP_Statistics\Service\Charts;
 
-use WP_Statistics\Components\Option;
-
 abstract class AbstractChartDataProvider
 {
     protected $args;
@@ -19,10 +17,6 @@ abstract class AbstractChartDataProvider
      */
     protected function isPreviousDataEnabled()
     {
-        if (!empty($this->args['prev_data'])) {
-            return true;
-        }
-
-        return Option::getValue('charts_previous_period', 1) ? true : false;
+        return !empty($this->args['prev_data']);
     }
 }

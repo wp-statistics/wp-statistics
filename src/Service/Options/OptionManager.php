@@ -208,7 +208,6 @@ class OptionManager
             'schedule_dbmaint_days'           => '180',
             'data_retention_mode'             => 'forever',
             'data_retention_days'             => '180',
-            'charts_previous_period'          => true,
             'geoip_location_detection_method' => 'maxmind',
             'delete_data_on_uninstall'        => false,
             'share_anonymous_data'            => false,

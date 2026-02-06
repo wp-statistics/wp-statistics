@@ -435,7 +435,6 @@ class SettingsEndpoints
                 'disable_column',
                 'enable_user_column',
                 'menu_bar',
-                'charts_previous_period',
                 'disable_dashboard',
                 'display_notifications',
                 'hide_notices',
