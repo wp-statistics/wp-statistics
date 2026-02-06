@@ -66,9 +66,9 @@ export function DisplaySettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="disable-column">Views Column in Content List</Label>
+              <Label htmlFor="disable-column">Stats Column in Content List</Label>
               <p className="text-sm text-muted-foreground">
-                Display the "Views" column in the content list menus, showing page view counts.
+                Display the statistics column in the content list menus, showing page view or visitor counts.
               </p>
             </div>
             <Switch

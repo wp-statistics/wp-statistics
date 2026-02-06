@@ -209,7 +209,7 @@ class SiteHealthInfo extends Singleton
                 'debug' => Option::getValue('disable_editor') ? 'Disabled' : 'Enabled',
             ],
             'viewsColumnInContentList'       => [
-                'label' => esc_html__('Views Column in Content List', 'wp-statistics'),
+                'label' => esc_html__('Stats Column in Content List', 'wp-statistics'),
                 'value' => Option::getValue('disable_column') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),
                 'debug' => Option::getValue('disable_column') ? 'Disabled' : 'Enabled',
             ],

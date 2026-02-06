@@ -29,6 +29,7 @@
 
 .column-wp-statistics-post-hits ,.column-wp-statistics-tax-hits{
   width: 12%;
+  min-width: 100px;
 
   .wps-column__chart{
     span{
@@ -140,6 +141,12 @@
       opacity: 0;
       transition: opacity .5s cubic-bezier(0.65, 0, 0.35, 1), visibility 0s .5s;
     }
+  }
+
+  a:focus-visible {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   a:not(:hover) span.wps-admin-column__unlock__text {
