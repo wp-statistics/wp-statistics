@@ -1,20 +1,33 @@
-import { AlertTriangle, Globe, Loader2, RefreshCw, RotateCcw,Server } from 'lucide-react'
+import { __ } from '@wordpress/i18n'
+import { AlertTriangle, Globe, Loader2, RotateCcw, Server } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { useSetting,useSettings } from '@/hooks/use-settings'
+import { useSetting, useSettings } from '@/hooks/use-settings'
+import { useToast } from '@/hooks/use-toast'
+import { WordPress } from '@/lib/wordpress'
 
 export function AdvancedSettings() {
   const settings = useSettings({ tab: 'advanced' })
-  const [detectedIp, setDetectedIp] = React.useState<string>('Loading...')
-  const [externalIp, setExternalIp] = React.useState<string>('Loading...')
+  const [detectedIp, setDetectedIp] = React.useState<string>(__('Loading...', 'wp-statistics'))
+  const [externalIp, setExternalIp] = React.useState<string>(__('Loading...', 'wp-statistics'))
   const [isResetting, setIsResetting] = React.useState(false)
+  const [showResetDialog, setShowResetDialog] = React.useState(false)
+  const { toast } = useToast()
 
   // Fetch detected IP on mount
   React.useEffect(() => {
@@ -23,14 +36,14 @@ export function AdvancedSettings() {
     if (wpStatsIp) {
       setDetectedIp(wpStatsIp)
     } else {
-      setDetectedIp('Not available')
+      setDetectedIp(__('Not available', 'wp-statistics'))
     }
 
     // Fetch external IP from ipify
     fetch('https://api.ipify.org?format=json')
       .then((res) => res.json())
       .then((data) => setExternalIp(data.ip))
-      .catch(() => setExternalIp('Unable to detect'))
+      .catch(() => setExternalIp(__('Unable to detect', 'wp-statistics')))
   }, [])
 
   // IP Detection Settings
@@ -62,7 +75,43 @@ export function AdvancedSettings() {
   const handleSave = async () => {
     const success = await settings.save()
     if (success) {
-      // Could show a toast notification here
+      toast({
+        title: __('Settings saved', 'wp-statistics'),
+        description: __('Advanced settings have been updated.', 'wp-statistics'),
+      })
+    }
+  }
+
+  const handleRestoreDefaults = async () => {
+    setShowResetDialog(false)
+    setIsResetting(true)
+    try {
+      const wp = WordPress.getInstance()
+      const response = await fetch(
+        `${wp.getAjaxUrl()}?action=wps_restore_defaults&nonce=${wp.getNonce()}`,
+        { method: 'POST', credentials: 'same-origin' }
+      )
+      if (response.ok) {
+        toast({
+          title: __('Settings restored', 'wp-statistics'),
+          description: __('Settings have been restored to defaults. The page will now reload.', 'wp-statistics'),
+        })
+        setTimeout(() => window.location.reload(), 1500)
+      } else {
+        toast({
+          title: __('Error', 'wp-statistics'),
+          description: __('Failed to restore settings. Please try again.', 'wp-statistics'),
+          variant: 'destructive',
+        })
+      }
+    } catch (error) {
+      toast({
+        title: __('Error', 'wp-statistics'),
+        description: __('Failed to restore settings. Please try again.', 'wp-statistics'),
+        variant: 'destructive',
+      })
+    } finally {
+      setIsResetting(false)
     }
   }
 
@@ -70,7 +119,7 @@ export function AdvancedSettings() {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">Loading settings...</span>
+        <span className="ml-2">{__('Loading settings...', 'wp-statistics')}</span>
       </div>
     )
   }
@@ -79,18 +128,18 @@ export function AdvancedSettings() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>IP Detection</CardTitle>
-          <CardDescription>Configure how visitor IP addresses are detected.</CardDescription>
+          <CardTitle>{__('IP Detection', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Configure how visitor IP addresses are detected.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="ip-method">IP Detection Method</Label>
+            <Label htmlFor="ip-method">{__('IP Detection Method', 'wp-statistics')}</Label>
             <Select value={ipMethod as string} onValueChange={setIpMethod}>
               <SelectTrigger id="ip-method">
-                <SelectValue placeholder="Select method" />
+                <SelectValue placeholder={__('Select method', 'wp-statistics')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="sequential">Sequential (Check All Headers)</SelectItem>
+                <SelectItem value="sequential">{__('Sequential (Check All Headers)', 'wp-statistics')}</SelectItem>
                 <SelectItem value="REMOTE_ADDR">REMOTE_ADDR</SelectItem>
                 <SelectItem value="HTTP_CLIENT_IP">HTTP_CLIENT_IP</SelectItem>
                 <SelectItem value="HTTP_X_FORWARDED_FOR">HTTP_X_FORWARDED_FOR</SelectItem>
@@ -98,19 +147,18 @@ export function AdvancedSettings() {
                 <SelectItem value="HTTP_FORWARDED_FOR">HTTP_FORWARDED_FOR</SelectItem>
                 <SelectItem value="HTTP_FORWARDED">HTTP_FORWARDED</SelectItem>
                 <SelectItem value="HTTP_X_REAL_IP">HTTP_X_REAL_IP</SelectItem>
-                <SelectItem value="HTTP_CF_CONNECTING_IP">HTTP_CF_CONNECTING_IP (Cloudflare)</SelectItem>
-                <SelectItem value="custom">Custom Header</SelectItem>
+                <SelectItem value="HTTP_CF_CONNECTING_IP">{__('HTTP_CF_CONNECTING_IP (Cloudflare)', 'wp-statistics')}</SelectItem>
+                <SelectItem value="custom">{__('Custom Header', 'wp-statistics')}</SelectItem>
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">
-              Select how visitor IP addresses should be detected. Use 'Sequential' to check all headers automatically,
-              or specify a specific header for your server configuration.
+              {__("Select how visitor IP addresses should be detected. Use 'Sequential' to check all headers automatically, or specify a specific header for your server configuration.", 'wp-statistics')}
             </p>
           </div>
 
           {ipMethod === 'custom' && (
             <div className="space-y-2">
-              <Label htmlFor="custom-header">Custom Header Name</Label>
+              <Label htmlFor="custom-header">{__('Custom Header Name', 'wp-statistics')}</Label>
               <Input
                 id="custom-header"
                 type="text"
@@ -119,34 +167,34 @@ export function AdvancedSettings() {
                 onChange={(e) => setCustomHeaderIpMethod(e.target.value)}
               />
               <p className="text-xs text-muted-foreground">
-                Enter the custom server header name that contains the visitor's IP address.
+                {__("Enter the custom server header name that contains the visitor's IP address.", 'wp-statistics')}
               </p>
             </div>
           )}
 
           <div className="rounded-lg border bg-muted/50 p-4">
-            <h4 className="text-sm font-medium mb-3">Your IP Information</h4>
+            <h4 className="text-sm font-medium mb-3">{__('Your IP Information', 'wp-statistics')}</h4>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="flex items-center gap-2">
                 <Server className="h-4 w-4 text-muted-foreground" />
                 <div>
-                  <p className="text-xs text-muted-foreground">WP Statistics Detected</p>
+                  <p className="text-xs text-muted-foreground">{__('WP Statistics Detected', 'wp-statistics')}</p>
                   <p className="text-sm font-mono">{detectedIp}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Globe className="h-4 w-4 text-muted-foreground" />
                 <div>
-                  <p className="text-xs text-muted-foreground">External IP (ipify.org)</p>
+                  <p className="text-xs text-muted-foreground">{__('External IP (ipify.org)', 'wp-statistics')}</p>
                   <p className="text-sm font-mono">{externalIp}</p>
                 </div>
               </div>
             </div>
-            {detectedIp !== 'Loading...' && externalIp !== 'Loading...' && detectedIp !== externalIp && (
+            {detectedIp !== __('Loading...', 'wp-statistics') && externalIp !== __('Loading...', 'wp-statistics') && detectedIp !== externalIp && (
               <div className="mt-3 flex items-start gap-2 rounded-md bg-amber-500/10 p-2">
                 <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5" />
                 <p className="text-xs text-amber-600 dark:text-amber-400">
-                  The IPs don't match. If you're behind a proxy or CDN, ensure the correct header is selected above.
+                  {__("The IPs don't match. If you're behind a proxy or CDN, ensure the correct header is selected above.", 'wp-statistics')}
                 </p>
               </div>
             )}
@@ -156,34 +204,34 @@ export function AdvancedSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>GeoIP Settings</CardTitle>
-          <CardDescription>Configure how visitor locations are detected and displayed.</CardDescription>
+          <CardTitle>{__('GeoIP Settings', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Configure how visitor locations are detected and displayed.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="geoip-detection">Location Detection Method</Label>
+              <Label htmlFor="geoip-detection">{__('Location Detection Method', 'wp-statistics')}</Label>
               <Select value={geoipDetectionMethod as string} onValueChange={setGeoipDetectionMethod}>
                 <SelectTrigger id="geoip-detection">
-                  <SelectValue placeholder="Select method" />
+                  <SelectValue placeholder={__('Select method', 'wp-statistics')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="maxmind">MaxMind GeoIP</SelectItem>
-                  <SelectItem value="dbip">DB-IP</SelectItem>
-                  <SelectItem value="cf">Cloudflare IP Geolocation</SelectItem>
+                  <SelectItem value="maxmind">{__('MaxMind GeoIP', 'wp-statistics')}</SelectItem>
+                  <SelectItem value="dbip">{__('DB-IP', 'wp-statistics')}</SelectItem>
+                  <SelectItem value="cf">{__('Cloudflare IP Geolocation', 'wp-statistics')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="geoip-source">Database Update Source</Label>
+              <Label htmlFor="geoip-source">{__('Database Update Source', 'wp-statistics')}</Label>
               <Select value={geoipLicenseType as string} onValueChange={setGeoipLicenseType}>
                 <SelectTrigger id="geoip-source">
-                  <SelectValue placeholder="Select source" />
+                  <SelectValue placeholder={__('Select source', 'wp-statistics')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="js-deliver">JsDelivr (Free)</SelectItem>
-                  <SelectItem value="user-license">Custom License Key</SelectItem>
+                  <SelectItem value="js-deliver">{__('JsDelivr (Free)', 'wp-statistics')}</SelectItem>
+                  <SelectItem value="user-license">{__('Custom License Key', 'wp-statistics')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -192,22 +240,22 @@ export function AdvancedSettings() {
           {geoipLicenseType === 'user-license' && (
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="maxmind-license">MaxMind License Key</Label>
+                <Label htmlFor="maxmind-license">{__('MaxMind License Key', 'wp-statistics')}</Label>
                 <Input
                   id="maxmind-license"
                   type="text"
-                  placeholder="Enter your MaxMind license key"
+                  placeholder={__('Enter your MaxMind license key', 'wp-statistics')}
                   value={geoipLicenseKey as string}
                   onChange={(e) => setGeoipLicenseKey(e.target.value)}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="dbip-license">DB-IP License Key</Label>
+                <Label htmlFor="dbip-license">{__('DB-IP License Key', 'wp-statistics')}</Label>
                 <Input
                   id="dbip-license"
                   type="text"
-                  placeholder="Enter your DB-IP license key"
+                  placeholder={__('Enter your DB-IP license key', 'wp-statistics')}
                   value={geoipDbipLicenseKey as string}
                   onChange={(e) => setGeoipDbipLicenseKey(e.target.value)}
                 />
@@ -217,24 +265,24 @@ export function AdvancedSettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="schedule-geoip">Auto-Update GeoIP Database</Label>
-              <p className="text-sm text-muted-foreground">Automatically download the latest GeoIP database weekly.</p>
+              <Label htmlFor="schedule-geoip">{__('Auto-Update GeoIP Database', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Automatically download the latest GeoIP database weekly.', 'wp-statistics')}</p>
             </div>
             <Switch id="schedule-geoip" checked={!!scheduleGeoip} onCheckedChange={setScheduleGeoip} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="auto-pop">Auto-Fill Missing Locations</Label>
+              <Label htmlFor="auto-pop">{__('Auto-Fill Missing Locations', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Automatically fill in location data for visitors with incomplete records.
+                {__('Automatically fill in location data for visitors with incomplete records.', 'wp-statistics')}
               </p>
             </div>
             <Switch id="auto-pop" checked={!!autoPop} onCheckedChange={setAutoPop} />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="private-country">Private IP Country Code</Label>
+            <Label htmlFor="private-country">{__('Private IP Country Code', 'wp-statistics')}</Label>
             <Input
               id="private-country"
               type="text"
@@ -244,22 +292,22 @@ export function AdvancedSettings() {
               onChange={(e) => setPrivateCountryCode(e.target.value)}
               className="w-24"
             />
-            <p className="text-xs text-muted-foreground">Country code to use for private/local IP addresses.</p>
+            <p className="text-xs text-muted-foreground">{__('Country code to use for private/local IP addresses.', 'wp-statistics')}</p>
           </div>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Content Analytics</CardTitle>
-          <CardDescription>Configure content analysis features.</CardDescription>
+          <CardTitle>{__('Content Analytics', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Configure content analysis features.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="word-count-analytics">Word Count Analytics</Label>
+              <Label htmlFor="word-count-analytics">{__('Word Count Analytics', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Calculate and store word count for posts to enable reading time estimates and content length analytics.
+                {__('Calculate and store word count for posts to enable reading time estimates and content length analytics.', 'wp-statistics')}
               </p>
             </div>
             <Switch id="word-count-analytics" checked={!!wordCountAnalytics} onCheckedChange={setWordCountAnalytics} />
@@ -269,15 +317,15 @@ export function AdvancedSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Anonymous Data Sharing</CardTitle>
-          <CardDescription>Help improve WP Statistics.</CardDescription>
+          <CardTitle>{__('Anonymous Data Sharing', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Help improve WP Statistics.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="share-anonymous">Share Anonymous Usage Data</Label>
+              <Label htmlFor="share-anonymous">{__('Share Anonymous Usage Data', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Help us improve WP Statistics by sharing anonymous usage data.
+                {__('Help us improve WP Statistics by sharing anonymous usage data.', 'wp-statistics')}
               </p>
             </div>
             <Switch id="share-anonymous" checked={!!shareAnonymousData} onCheckedChange={setShareAnonymousData} />
@@ -287,16 +335,15 @@ export function AdvancedSettings() {
 
       <Card className="border-destructive/50">
         <CardHeader>
-          <CardTitle className="text-destructive">Danger Zone</CardTitle>
-          <CardDescription>These actions are irreversible. Please proceed with caution.</CardDescription>
+          <CardTitle className="text-destructive">{__('Danger Zone', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('These actions are irreversible. Please proceed with caution.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="delete-on-uninstall">Delete All Data on Uninstall</Label>
+              <Label htmlFor="delete-on-uninstall">{__('Delete All Data on Uninstall', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Remove all WP Statistics data from the database when the plugin is uninstalled. This action cannot be
-                undone.
+                {__('Remove all WP Statistics data from the database when the plugin is uninstalled. This action cannot be undone.', 'wp-statistics')}
               </p>
             </div>
             <Switch id="delete-on-uninstall" checked={!!deleteOnUninstall} onCheckedChange={setDeleteOnUninstall} />
@@ -305,33 +352,15 @@ export function AdvancedSettings() {
           <div className="border-t pt-6">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label>Restore Default Settings</Label>
+                <Label>{__('Restore Default Settings', 'wp-statistics')}</Label>
                 <p className="text-sm text-muted-foreground">
-                  Reset all WP Statistics settings to their default values. Your statistics data will not be affected.
+                  {__('Reset all WP Statistics settings to their default values. Your statistics data will not be affected.', 'wp-statistics')}
                 </p>
               </div>
               <Button
                 variant="destructive"
                 size="sm"
-                onClick={async () => {
-                  if (confirm('Are you sure you want to restore all settings to defaults? This cannot be undone.')) {
-                    setIsResetting(true)
-                    try {
-                      const response = await fetch(
-                        `${(window as any).wps_react?.ajaxUrl}?action=wps_restore_defaults&nonce=${(window as any).wps_react?.nonce}`,
-                        { method: 'POST' }
-                      )
-                      if (response.ok) {
-                        alert('Settings have been restored to defaults. The page will now reload.')
-                        window.location.reload()
-                      }
-                    } catch (error) {
-                      alert('Failed to restore settings. Please try again.')
-                    } finally {
-                      setIsResetting(false)
-                    }
-                  }
-                }}
+                onClick={() => setShowResetDialog(true)}
                 disabled={isResetting}
               >
                 {isResetting ? (
@@ -339,7 +368,7 @@ export function AdvancedSettings() {
                 ) : (
                   <RotateCcw className="mr-2 h-4 w-4" />
                 )}
-                Restore Defaults
+                {__('Restore Defaults', 'wp-statistics')}
               </Button>
             </div>
           </div>
@@ -351,9 +380,32 @@ export function AdvancedSettings() {
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>
           {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Save Changes
+          {__('Save Changes', 'wp-statistics')}
         </Button>
       </div>
+
+      {/* Restore Defaults Confirmation Dialog */}
+      <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              {__('Restore Default Settings', 'wp-statistics')}
+            </DialogTitle>
+            <DialogDescription>
+              {__('Are you sure you want to restore all settings to defaults? This cannot be undone.', 'wp-statistics')}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowResetDialog(false)}>
+              {__('Cancel', 'wp-statistics')}
+            </Button>
+            <Button variant="destructive" onClick={handleRestoreDefaults}>
+              {__('Restore Defaults', 'wp-statistics')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

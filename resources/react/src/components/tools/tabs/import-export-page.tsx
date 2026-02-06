@@ -1,4 +1,5 @@
-import { AlertTriangle,CheckCircle2, Download, Loader2, RefreshCw, Upload, XCircle } from 'lucide-react'
+import { __ } from '@wordpress/i18n'
+import { AlertTriangle, CheckCircle2, Download, Loader2, RefreshCw, Upload, XCircle } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -7,12 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
-
-// Get the plugin URL from WordPress localized data
-const getPluginUrl = () => {
-  const wpsReact = (window as any).wps_react
-  return wpsReact?.globals?.pluginUrl || '/wp-content/plugins/wp-statistics'
-}
+import { WordPress } from '@/lib/wordpress'
+import { callImportExportApi } from '@/services/tools'
 
 interface ImportAdapter {
   key: string
@@ -42,34 +39,6 @@ interface ExportStatus {
   exportId?: string
 }
 
-// Helper to get import/export config
-const getConfig = () => {
-  const wpsReact = (window as any).wps_react
-  return {
-    ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-    nonce: wpsReact?.globals?.nonce || '',
-  }
-}
-
-// Helper to call import/export endpoint with sub_action
-const callImportExportApi = async (subAction: string, params: Record<string, string> = {}, formData?: FormData) => {
-  const config = getConfig()
-  const data = formData || new FormData()
-  data.append('wps_nonce', config.nonce)
-  data.append('sub_action', subAction)
-  Object.entries(params).forEach(([key, value]) => {
-    if (!data.has(key)) {
-      data.append(key, value)
-    }
-  })
-
-  const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_import_export`, {
-    method: 'POST',
-    body: data,
-  })
-  return response.json()
-}
-
 // V14 to V15 Migration Wizard Component
 interface V14MigrationWizardProps {
   importStatus: ImportStatus
@@ -91,12 +60,12 @@ interface V14DataStats {
 }
 
 const TIME_PERIOD_OPTIONS = [
-  { value: 'all', label: 'All Time' },
-  { value: '30', label: 'Last 30 Days' },
-  { value: '90', label: 'Last 90 Days' },
-  { value: '180', label: 'Last 6 Months' },
-  { value: '365', label: 'Last Year' },
-  { value: '730', label: 'Last 2 Years' },
+  { value: 'all', label: __('All Time', 'wp-statistics') },
+  { value: '30', label: __('Last 30 Days', 'wp-statistics') },
+  { value: '90', label: __('Last 90 Days', 'wp-statistics') },
+  { value: '180', label: __('Last 6 Months', 'wp-statistics') },
+  { value: '365', label: __('Last Year', 'wp-statistics') },
+  { value: '730', label: __('Last 2 Years', 'wp-statistics') },
 ]
 
 function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizardProps) {
@@ -123,10 +92,14 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
 
   const fetchV14Stats = async () => {
     try {
-      const config = getConfig()
-      const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_v14_stats`, {
+      const wp = WordPress.getInstance()
+      const formData = new FormData()
+      formData.append('wps_nonce', wp.getNonce())
+
+      const response = await fetch(`${wp.getAjaxUrl()}?action=wp_statistics_v14_stats`, {
         method: 'POST',
-        headers: { 'X-WP-Nonce': config.nonce },
+        body: formData,
+        credentials: 'same-origin',
       })
       const data = await response.json()
       if (data.success && data.data) {
@@ -155,23 +128,23 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
     setImportStatus({
       status: 'importing',
       progress: 0,
-      message: migrationMode === 'fresh' ? 'Creating fresh v15 schema...' : 'Starting migration...',
+      message: migrationMode === 'fresh' ? __('Creating fresh v15 schema...', 'wp-statistics') : __('Starting migration...', 'wp-statistics'),
     })
 
     try {
-      const config = getConfig()
+      const wp = WordPress.getInstance()
       const formData = new FormData()
       formData.append('mode', migrationMode)
       formData.append('tables', JSON.stringify(selectedTables))
       if (migrationMode === 'selective' && timePeriod !== 'all') {
         formData.append('days', timePeriod)
       }
-      formData.append('_wpnonce', config.nonce)
+      formData.append('wps_nonce', wp.getNonce())
 
-      const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_v14_migrate`, {
+      const response = await fetch(`${wp.getAjaxUrl()}?action=wp_statistics_v14_migrate`, {
         method: 'POST',
-        headers: { 'X-WP-Nonce': config.nonce },
         body: formData,
+        credentials: 'same-origin',
       })
 
       const data = await response.json()
@@ -180,38 +153,38 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
         setImportStatus({
           status: 'success',
           progress: 100,
-          message: data.data?.message || 'Migration completed successfully!',
+          message: data.data?.message || __('Migration completed successfully!', 'wp-statistics'),
         })
       } else {
         setImportStatus({
           status: 'error',
           progress: 0,
-          message: data.data?.message || 'Migration failed',
+          message: data.data?.message || __('Migration failed', 'wp-statistics'),
         })
       }
     } catch {
       setImportStatus({
         status: 'error',
         progress: 0,
-        message: 'Migration failed. Please try again.',
+        message: __('Migration failed. Please try again.', 'wp-statistics'),
       })
     }
   }
 
   const tables = [
-    { key: 'visitors', label: 'Visitors', count: dataStats.visitors },
-    { key: 'visits', label: 'Visits/Sessions', count: dataStats.visits },
-    { key: 'pages', label: 'Page Views', count: dataStats.pages },
-    { key: 'useronline', label: 'Online Users History', count: dataStats.useronline },
-    { key: 'search', label: 'Search Keywords', count: dataStats.search },
-    { key: 'exclusions', label: 'Exclusion Logs', count: dataStats.exclusions },
+    { key: 'visitors', label: __('Visitors', 'wp-statistics'), count: dataStats.visitors },
+    { key: 'visits', label: __('Visits/Sessions', 'wp-statistics'), count: dataStats.visits },
+    { key: 'pages', label: __('Page Views', 'wp-statistics'), count: dataStats.pages },
+    { key: 'useronline', label: __('Online Users History', 'wp-statistics'), count: dataStats.useronline },
+    { key: 'search', label: __('Search Keywords', 'wp-statistics'), count: dataStats.search },
+    { key: 'exclusions', label: __('Exclusion Logs', 'wp-statistics'), count: dataStats.exclusions },
   ]
 
   if (dataStats.isLoading) {
     return (
       <div className="rounded-lg border bg-muted/50 p-6 flex items-center justify-center">
         <Loader2 className="h-5 w-5 animate-spin mr-2" />
-        <span className="text-sm">Checking for existing v14 data...</span>
+        <span className="text-sm">{__('Checking for existing v14 data...', 'wp-statistics')}</span>
       </div>
     )
   }
@@ -224,10 +197,9 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5" />
             <div>
-              <h4 className="text-sm font-medium text-blue-900 dark:text-blue-100">Existing V14 Data Detected</h4>
+              <h4 className="text-sm font-medium text-blue-900 dark:text-blue-100">{__('Existing V14 Data Detected', 'wp-statistics')}</h4>
               <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                Found <strong>{dataStats.total.toLocaleString()}</strong> total records in your v14 database. Choose how
-                you'd like to proceed with the upgrade.
+                {__('Found', 'wp-statistics')} <strong>{dataStats.total.toLocaleString()}</strong> {__('total records in your v14 database. Choose how you\'d like to proceed with the upgrade.', 'wp-statistics')}
               </p>
             </div>
           </div>
@@ -236,7 +208,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
 
       {/* Migration Options */}
       <div className="space-y-3">
-        <Label>Migration Strategy</Label>
+        <Label>{__('Migration Strategy', 'wp-statistics')}</Label>
         <div className="grid gap-3">
           {/* Option: Migrate All */}
           <label
@@ -258,12 +230,11 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <span className="font-medium">Migrate All Data</span>
-                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">Recommended</span>
+                <span className="font-medium">{__('Migrate All Data', 'wp-statistics')}</span>
+                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">{__('Recommended', 'wp-statistics')}</span>
               </div>
               <p className="text-sm text-muted-foreground mt-1">
-                Transfer all your existing statistics to the new v15 schema. Your historical data will be preserved and
-                converted.
+                {__('Transfer all your existing statistics to the new v15 schema. Your historical data will be preserved and converted.', 'wp-statistics')}
               </p>
             </div>
             {migrationMode === 'all' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
@@ -290,9 +261,9 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
               <RefreshCw className="h-5 w-5 text-blue-600" />
             </div>
             <div className="flex-1">
-              <span className="font-medium">Selective Migration</span>
+              <span className="font-medium">{__('Selective Migration', 'wp-statistics')}</span>
               <p className="text-sm text-muted-foreground mt-1">
-                Choose which data types to migrate. Useful if you only want specific data or have limited storage.
+                {__('Choose which data types to migrate. Useful if you only want specific data or have limited storage.', 'wp-statistics')}
               </p>
             </div>
             {migrationMode === 'selective' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
@@ -322,10 +293,9 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
               <XCircle className="h-5 w-5 text-amber-600" />
             </div>
             <div className="flex-1">
-              <span className="font-medium">Fresh Start</span>
+              <span className="font-medium">{__('Fresh Start', 'wp-statistics')}</span>
               <p className="text-sm text-muted-foreground mt-1">
-                Start with a clean database. Old v14 tables will be archived (not deleted) and can be restored later if
-                needed.
+                {__('Start with a clean database. Old v14 tables will be archived (not deleted) and can be restored later if needed.', 'wp-statistics')}
               </p>
             </div>
             {migrationMode === 'fresh' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
@@ -337,7 +307,7 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
       {migrationMode === 'selective' && (
         <div className="rounded-lg border p-4 space-y-4">
           <div className="space-y-3">
-            <Label>Select Data to Migrate</Label>
+            <Label>{__('Select Data to Migrate', 'wp-statistics')}</Label>
             <div className="grid grid-cols-2 gap-2">
               {tables.map((table) => (
                 // eslint-disable-next-line jsx-a11y/label-has-associated-control
@@ -366,8 +336,8 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
           </div>
 
           <div className="border-t pt-4 space-y-3">
-            <Label htmlFor="migration-time-period">Time Period</Label>
-            <p className="text-xs text-muted-foreground">Choose how much historical data to migrate.</p>
+            <Label htmlFor="migration-time-period">{__('Time Period', 'wp-statistics')}</Label>
+            <p className="text-xs text-muted-foreground">{__('Choose how much historical data to migrate.', 'wp-statistics')}</p>
             <select
               id="migration-time-period"
               value={timePeriod}
@@ -390,10 +360,9 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
             <div>
-              <h4 className="text-sm font-medium text-amber-900 dark:text-amber-100">Are you sure?</h4>
+              <h4 className="text-sm font-medium text-amber-900 dark:text-amber-100">{__('Are you sure?', 'wp-statistics')}</h4>
               <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                This will archive your existing v14 data and create fresh v15 tables. Your old data won't be deleted but
-                won't be accessible in the new dashboard.
+                {__('This will archive your existing v14 data and create fresh v15 tables. Your old data won\'t be deleted but won\'t be accessible in the new dashboard.', 'wp-statistics')}
               </p>
             </div>
           </div>
@@ -404,29 +373,29 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
               onChange={(e) => setConfirmFreshStart(e.target.checked)}
               className="rounded border-amber-300"
             />
-            <span className="text-sm text-amber-800 dark:text-amber-200">I understand and want to start fresh</span>
+            <span className="text-sm text-amber-800 dark:text-amber-200">{__('I understand and want to start fresh', 'wp-statistics')}</span>
           </label>
         </div>
       )}
 
       {/* V15 Benefits */}
       <div className="rounded-lg border bg-primary/5 p-4">
-        <h4 className="text-sm font-medium mb-2">✨ What's New in V15</h4>
+        <h4 className="text-sm font-medium mb-2">{__("What's New in V15", 'wp-statistics')}</h4>
         <ul className="text-sm text-muted-foreground space-y-1">
           <li>
-            • <strong>10x faster queries</strong> with optimized database schema
+            • <strong>{__('10x faster queries', 'wp-statistics')}</strong> {__('with optimized database schema', 'wp-statistics')}
           </li>
           <li>
-            • <strong>Session-based tracking</strong> for better visitor journey insights
+            • <strong>{__('Session-based tracking', 'wp-statistics')}</strong> {__('for better visitor journey insights', 'wp-statistics')}
           </li>
           <li>
-            • <strong>Enhanced privacy</strong> with improved GDPR compliance
+            • <strong>{__('Enhanced privacy', 'wp-statistics')}</strong> {__('with improved GDPR compliance', 'wp-statistics')}
           </li>
           <li>
-            • <strong>Real-time dashboard</strong> with modern React UI
+            • <strong>{__('Real-time dashboard', 'wp-statistics')}</strong> {__('with modern React UI', 'wp-statistics')}
           </li>
           <li>
-            • <strong>Better aggregations</strong> for faster reporting
+            • <strong>{__('Better aggregations', 'wp-statistics')}</strong> {__('for faster reporting', 'wp-statistics')}
           </li>
         </ul>
       </div>
@@ -447,9 +416,9 @@ function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizar
         ) : (
           <RefreshCw className="mr-2 h-4 w-4" />
         )}
-        {migrationMode === 'all' && 'Start Full Migration'}
-        {migrationMode === 'selective' && `Migrate ${selectedTables.length} Selected Tables`}
-        {migrationMode === 'fresh' && 'Create Fresh V15 Database'}
+        {migrationMode === 'all' && __('Start Full Migration', 'wp-statistics')}
+        {migrationMode === 'selective' && `${__('Migrate', 'wp-statistics')} ${selectedTables.length} ${__('Selected Tables', 'wp-statistics')}`}
+        {migrationMode === 'fresh' && __('Create Fresh V15 Database', 'wp-statistics')}
       </Button>
     </div>
   )
@@ -504,7 +473,7 @@ export function ImportExportPage() {
     setImportStatus({
       status: 'uploading',
       progress: 0,
-      message: 'Uploading file...',
+      message: __('Uploading file...', 'wp-statistics'),
     })
 
     try {
@@ -518,7 +487,7 @@ export function ImportExportPage() {
         setImportStatus({
           status: 'previewing',
           progress: 25,
-          message: 'Loading preview...',
+          message: __('Loading preview...', 'wp-statistics'),
           importId: data.data.import_id,
         })
 
@@ -527,14 +496,14 @@ export function ImportExportPage() {
         setImportStatus({
           status: 'error',
           progress: 0,
-          message: data.data?.message || 'Upload failed',
+          message: data.data?.message || __('Upload failed', 'wp-statistics'),
         })
       }
     } catch (error) {
       setImportStatus({
         status: 'error',
         progress: 0,
-        message: 'Upload failed. Please try again.',
+        message: __('Upload failed. Please try again.', 'wp-statistics'),
       })
     }
 
@@ -552,21 +521,21 @@ export function ImportExportPage() {
           ...prev,
           status: 'previewing',
           progress: 50,
-          message: `Found ${data.data.total_rows} records`,
+          message: `${__('Found', 'wp-statistics')} ${data.data.total_rows} ${__('records', 'wp-statistics')}`,
           preview: data.data,
         }))
       } else {
         setImportStatus({
           status: 'error',
           progress: 0,
-          message: data.data?.message || 'Failed to load preview',
+          message: data.data?.message || __('Failed to load preview', 'wp-statistics'),
         })
       }
     } catch (error) {
       setImportStatus({
         status: 'error',
         progress: 0,
-        message: 'Failed to load preview',
+        message: __('Failed to load preview', 'wp-statistics'),
       })
     }
   }
@@ -578,7 +547,7 @@ export function ImportExportPage() {
       ...prev,
       status: 'importing',
       progress: 50,
-      message: 'Importing data...',
+      message: __('Importing data...', 'wp-statistics'),
     }))
 
     try {
@@ -588,20 +557,20 @@ export function ImportExportPage() {
         setImportStatus({
           status: 'success',
           progress: 100,
-          message: 'Import completed successfully!',
+          message: __('Import completed successfully!', 'wp-statistics'),
         })
       } else {
         setImportStatus({
           status: 'error',
           progress: 0,
-          message: data.data?.message || 'Import failed',
+          message: data.data?.message || __('Import failed', 'wp-statistics'),
         })
       }
     } catch (error) {
       setImportStatus({
         status: 'error',
         progress: 0,
-        message: 'Import failed. Please try again.',
+        message: __('Import failed. Please try again.', 'wp-statistics'),
       })
     }
   }
@@ -626,7 +595,7 @@ export function ImportExportPage() {
     setExportStatus({
       status: 'exporting',
       progress: 25,
-      message: 'Preparing export...',
+      message: __('Preparing export...', 'wp-statistics'),
     })
 
     try {
@@ -639,21 +608,21 @@ export function ImportExportPage() {
         setExportStatus({
           status: 'success',
           progress: 100,
-          message: 'Export ready for download',
+          message: __('Export ready for download', 'wp-statistics'),
           exportId: data.data.export_id,
         })
       } else {
         setExportStatus({
           status: 'error',
           progress: 0,
-          message: data.data?.message || 'Export failed',
+          message: data.data?.message || __('Export failed', 'wp-statistics'),
         })
       }
     } catch (error) {
       setExportStatus({
         status: 'error',
         progress: 0,
-        message: 'Export failed. Please try again.',
+        message: __('Export failed. Please try again.', 'wp-statistics'),
       })
     }
   }
@@ -661,8 +630,8 @@ export function ImportExportPage() {
   const downloadExport = () => {
     if (!exportStatus.exportId) return
 
-    const config = getConfig()
-    window.location.href = `${config.ajaxUrl}?action=wp_statistics_import_export&sub_action=download&export_id=${exportStatus.exportId}&wps_nonce=${config.nonce}`
+    const wp = WordPress.getInstance()
+    window.location.href = `${wp.getAjaxUrl()}?action=wp_statistics_import_export&sub_action=download&export_id=${exportStatus.exportId}&wps_nonce=${wp.getNonce()}`
 
     setTimeout(() => {
       setExportStatus({
@@ -677,7 +646,7 @@ export function ImportExportPage() {
 
   // Get logo for adapter
   const getAdapterLogo = (adapterKey: string, size: string = 'h-8 w-8') => {
-    const pluginUrl = getPluginUrl()
+    const pluginUrl = WordPress.getInstance().getPluginUrl()
     const logoMap: Record<string, string> = {
       wp_statistics_backup: 'wp-statistics.svg',
       legacy_v14: 'wp-statistics.svg',
@@ -697,23 +666,22 @@ export function ImportExportPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Upload className="h-5 w-5" />
-            Import Data
+            {__('Import Data', 'wp-statistics')}
           </CardTitle>
           <CardDescription>
-            Import analytics data from external sources like Google Analytics 4, Plausible, or restore from a backup
-            file.
+            {__('Import analytics data from external sources like Google Analytics 4, Plausible, or restore from a backup file.', 'wp-statistics')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {isLoadingAdapters ? (
             <div className="flex items-center justify-center p-8">
               <Loader2 className="h-6 w-6 animate-spin" />
-              <span className="ml-2">Loading import options...</span>
+              <span className="ml-2">{__('Loading import options...', 'wp-statistics')}</span>
             </div>
           ) : (
             <>
               <div className="space-y-3">
-                <Label>Import Source</Label>
+                <Label>{__('Import Source', 'wp-statistics')}</Label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                   {adapters.map((adapter) => (
                     <label
@@ -743,9 +711,9 @@ export function ImportExportPage() {
                 </div>
                 {selectedAdapterInfo && (
                   <p className="text-xs text-muted-foreground">
-                    Supported formats: {selectedAdapterInfo.extensions.join(', ').toUpperCase() || 'Database migration'}
+                    {__('Supported formats:', 'wp-statistics')} {selectedAdapterInfo.extensions.join(', ').toUpperCase() || __('Database migration', 'wp-statistics')}
                     {selectedAdapterInfo.is_aggregate_import && (
-                      <span className="ml-2 text-amber-600">(Imports to summary tables)</span>
+                      <span className="ml-2 text-amber-600">({__('Imports to summary tables', 'wp-statistics')})</span>
                     )}
                   </p>
                 )}
@@ -753,7 +721,7 @@ export function ImportExportPage() {
 
               {selectedAdapter !== 'legacy_v14' && (
                 <div className="space-y-2">
-                  <Label htmlFor="import-file">Upload File</Label>
+                  <Label htmlFor="import-file">{__('Upload File', 'wp-statistics')}</Label>
                   <Input
                     ref={fileInputRef}
                     id="import-file"
@@ -791,34 +759,34 @@ export function ImportExportPage() {
                   {importStatus.status === 'previewing' && importStatus.preview && (
                     <div className="rounded-lg border p-4 space-y-4">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-medium">Preview</h4>
+                        <h4 className="text-sm font-medium">{__('Preview', 'wp-statistics')}</h4>
                         <span className="text-xs text-muted-foreground">
-                          {importStatus.preview.total_rows.toLocaleString()} records
+                          {importStatus.preview.total_rows.toLocaleString()} {__('records', 'wp-statistics')}
                         </span>
                       </div>
 
                       {importStatus.preview.is_valid ? (
                         <>
                           <div className="text-xs text-muted-foreground">
-                            Columns: {importStatus.preview.headers.slice(0, 5).join(', ')}
+                            {__('Columns:', 'wp-statistics')} {importStatus.preview.headers.slice(0, 5).join(', ')}
                             {importStatus.preview.headers.length > 5 &&
-                              ` +${importStatus.preview.headers.length - 5} more`}
+                              ` +${importStatus.preview.headers.length - 5} ${__('more', 'wp-statistics')}`}
                           </div>
 
                           <div className="flex gap-2">
                             <Button onClick={startImport}>
                               <Upload className="mr-2 h-4 w-4" />
-                              Start Import
+                              {__('Start Import', 'wp-statistics')}
                             </Button>
                             <Button variant="outline" onClick={cancelImport}>
-                              Cancel
+                              {__('Cancel', 'wp-statistics')}
                             </Button>
                           </div>
                         </>
                       ) : (
                         <div className="flex items-center gap-2 text-destructive">
                           <XCircle className="h-4 w-4" />
-                          <span className="text-sm">File format is invalid. Please check the file and try again.</span>
+                          <span className="text-sm">{__('File format is invalid. Please check the file and try again.', 'wp-statistics')}</span>
                         </div>
                       )}
                     </div>
@@ -830,7 +798,7 @@ export function ImportExportPage() {
                       variant="outline"
                       onClick={() => setImportStatus({ status: 'idle', progress: 0, message: '' })}
                     >
-                      Import Another File
+                      {__('Import Another File', 'wp-statistics')}
                     </Button>
                   )}
                 </div>
@@ -845,16 +813,16 @@ export function ImportExportPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Download className="h-5 w-5" />
-            Export Data
+            {__('Export Data', 'wp-statistics')}
           </CardTitle>
           <CardDescription>
-            Export your analytics data to JSON format for migration to another site or for external analysis.
+            {__('Export your analytics data to JSON format for migration to another site or for external analysis.', 'wp-statistics')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="export-from">From Date (Optional)</Label>
+              <Label htmlFor="export-from">{__('From Date (Optional)', 'wp-statistics')}</Label>
               <Input
                 id="export-from"
                 type="date"
@@ -863,7 +831,7 @@ export function ImportExportPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="export-to">To Date (Optional)</Label>
+              <Label htmlFor="export-to">{__('To Date (Optional)', 'wp-statistics')}</Label>
               <Input
                 id="export-to"
                 type="date"
@@ -874,7 +842,7 @@ export function ImportExportPage() {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Leave dates empty to export all data. The export will be in JSON format compatible with the Import feature.
+            {__('Leave dates empty to export all data. The export will be in JSON format compatible with the Import feature.', 'wp-statistics')}
           </p>
 
           {/* Export Status */}
@@ -899,7 +867,7 @@ export function ImportExportPage() {
             {exportStatus.status === 'success' && exportStatus.exportId ? (
               <Button onClick={downloadExport}>
                 <Download className="mr-2 h-4 w-4" />
-                Download Export
+                {__('Download Export', 'wp-statistics')}
               </Button>
             ) : (
               <Button onClick={startExport} disabled={exportStatus.status === 'exporting'}>
@@ -908,7 +876,7 @@ export function ImportExportPage() {
                 ) : (
                   <Download className="mr-2 h-4 w-4" />
                 )}
-                Create Export
+                {__('Create Export', 'wp-statistics')}
               </Button>
             )}
           </div>

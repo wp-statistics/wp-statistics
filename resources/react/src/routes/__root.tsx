@@ -7,6 +7,7 @@ import { Header } from '@/components/header'
 import { settingsNavItems, toolsNavItems } from '@/components/secondary-nav-items'
 import { SecondarySidebar } from '@/components/secondary-sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { Toaster } from '@/components/ui/toaster'
 import { GlobalFiltersProvider } from '@/contexts/global-filters-context'
 import { WordPress } from '@/lib/wordpress'
 
@@ -45,6 +46,7 @@ const RootLayout = () => {
           </div>
         </div>
       </SidebarProvider>
+      <Toaster />
     </GlobalFiltersProvider>
   )
 }

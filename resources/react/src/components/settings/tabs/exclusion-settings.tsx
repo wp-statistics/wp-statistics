@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
@@ -8,10 +9,12 @@ import { Label } from '@/components/ui/label'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { useSetting,useSettings } from '@/hooks/use-settings'
+import { useSetting, useSettings } from '@/hooks/use-settings'
+import { useToast } from '@/hooks/use-toast'
 
 export function ExclusionSettings() {
   const settings = useSettings({ tab: 'exclusions' })
+  const { toast } = useToast()
 
   // IP/URL Exclusions
   const [excludeIp, setExcludeIp] = useSetting(settings, 'exclude_ip', '')
@@ -43,7 +46,10 @@ export function ExclusionSettings() {
   const handleSave = async () => {
     const success = await settings.save()
     if (success) {
-      // Could show a toast notification here
+      toast({
+        title: __('Settings saved', 'wp-statistics'),
+        description: __('Exclusion settings have been updated.', 'wp-statistics'),
+      })
     }
   }
 
@@ -51,7 +57,7 @@ export function ExclusionSettings() {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">Loading settings...</span>
+        <span className="ml-2">{__('Loading settings...', 'wp-statistics')}</span>
       </div>
     )
   }
@@ -60,36 +66,36 @@ export function ExclusionSettings() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Page Exclusions</CardTitle>
-          <CardDescription>Exclude specific pages or paths from being tracked.</CardDescription>
+          <CardTitle>{__('Page Exclusions', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Exclude specific pages or paths from being tracked.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-loginpage">Exclude Login Page</Label>
-              <p className="text-sm text-muted-foreground">Don't track WordPress login page visits.</p>
+              <Label htmlFor="exclude-loginpage">{__('Exclude Login Page', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__("Don't track WordPress login page visits.", 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-loginpage" checked={!!excludeLoginpage} onCheckedChange={setExcludeLoginpage} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-feeds">Exclude RSS Feeds</Label>
-              <p className="text-sm text-muted-foreground">Don't count RSS feed requests in statistics.</p>
+              <Label htmlFor="exclude-feeds">{__('Exclude RSS Feeds', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__("Don't count RSS feed requests in statistics.", 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-feeds" checked={!!excludeFeeds} onCheckedChange={setExcludeFeeds} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-404s">Exclude 404 Pages</Label>
-              <p className="text-sm text-muted-foreground">Don't track visits to pages that return 404 errors.</p>
+              <Label htmlFor="exclude-404s">{__('Exclude 404 Pages', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__("Don't track visits to pages that return 404 errors.", 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-404s" checked={!!exclude404s} onCheckedChange={setExclude404s} />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="exclude-urls">Excluded URLs</Label>
+            <Label htmlFor="exclude-urls">{__('Excluded URLs', 'wp-statistics')}</Label>
             <Textarea
               id="exclude-urls"
               placeholder="/admin&#10;/wp-json&#10;/api/*"
@@ -98,7 +104,7 @@ export function ExclusionSettings() {
               rows={4}
             />
             <p className="text-xs text-muted-foreground">
-              Enter URL paths to exclude, one per line. Supports wildcards (*).
+              {__('Enter URL paths to exclude, one per line. Supports wildcards (*).', 'wp-statistics')}
             </p>
           </div>
         </CardContent>
@@ -106,12 +112,12 @@ export function ExclusionSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>IP Exclusions</CardTitle>
-          <CardDescription>Exclude specific IP addresses from being tracked.</CardDescription>
+          <CardTitle>{__('IP Exclusions', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Exclude specific IP addresses from being tracked.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="exclude-ips">Excluded IP Addresses</Label>
+            <Label htmlFor="exclude-ips">{__('Excluded IP Addresses', 'wp-statistics')}</Label>
             <Textarea
               id="exclude-ips"
               placeholder="192.168.1.1&#10;10.0.0.0/8"
@@ -119,19 +125,19 @@ export function ExclusionSettings() {
               onChange={(e) => setExcludeIp(e.target.value)}
               rows={4}
             />
-            <p className="text-xs text-muted-foreground">Enter IP addresses or CIDR ranges, one per line.</p>
+            <p className="text-xs text-muted-foreground">{__('Enter IP addresses or CIDR ranges, one per line.', 'wp-statistics')}</p>
           </div>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Country Filters</CardTitle>
-          <CardDescription>Filter visitors by country.</CardDescription>
+          <CardTitle>{__('Country Filters', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Filter visitors by country.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="excluded-countries">Excluded Countries</Label>
+            <Label htmlFor="excluded-countries">{__('Excluded Countries', 'wp-statistics')}</Label>
             <Textarea
               id="excluded-countries"
               placeholder="US&#10;CN"
@@ -139,11 +145,11 @@ export function ExclusionSettings() {
               onChange={(e) => setExcludedCountries(e.target.value)}
               rows={3}
             />
-            <p className="text-xs text-muted-foreground">Enter 2-letter country codes to exclude, one per line.</p>
+            <p className="text-xs text-muted-foreground">{__('Enter 2-letter country codes to exclude, one per line.', 'wp-statistics')}</p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="included-countries">Included Countries Only</Label>
+            <Label htmlFor="included-countries">{__('Included Countries Only', 'wp-statistics')}</Label>
             <Textarea
               id="included-countries"
               placeholder="US&#10;CA&#10;GB"
@@ -151,19 +157,19 @@ export function ExclusionSettings() {
               onChange={(e) => setIncludedCountries(e.target.value)}
               rows={3}
             />
-            <p className="text-xs text-muted-foreground">If specified, only track visitors from these countries.</p>
+            <p className="text-xs text-muted-foreground">{__('If specified, only track visitors from these countries.', 'wp-statistics')}</p>
           </div>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>URL Query Parameters</CardTitle>
-          <CardDescription>Control which URL query parameters are retained in your statistics.</CardDescription>
+          <CardTitle>{__('URL Query Parameters', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Control which URL query parameters are retained in your statistics.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="query-params">Allowed Query Parameters</Label>
+            <Label htmlFor="query-params">{__('Allowed Query Parameters', 'wp-statistics')}</Label>
             <Textarea
               id="query-params"
               placeholder="ref&#10;source&#10;utm_source&#10;utm_medium&#10;utm_campaign"
@@ -172,8 +178,7 @@ export function ExclusionSettings() {
               rows={5}
             />
             <p className="text-xs text-muted-foreground">
-              Enter parameter names to retain, one per line. Default: ref, source, utm_source, utm_medium, utm_campaign,
-              utm_content, utm_term, utm_id, s, p.
+              {__('Enter parameter names to retain, one per line. Default: ref, source, utm_source, utm_medium, utm_campaign, utm_content, utm_term, utm_id, s, p.', 'wp-statistics')}
             </p>
           </div>
         </CardContent>
@@ -181,12 +186,12 @@ export function ExclusionSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Bot & Crawler Detection</CardTitle>
-          <CardDescription>Filter out bots and search engine crawlers.</CardDescription>
+          <CardTitle>{__('Bot & Crawler Detection', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Filter out bots and search engine crawlers.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="robotlist">Bot User Agent List</Label>
+            <Label htmlFor="robotlist">{__('Bot User Agent List', 'wp-statistics')}</Label>
             <Textarea
               id="robotlist"
               placeholder="Googlebot&#10;Bingbot&#10;YandexBot"
@@ -194,11 +199,11 @@ export function ExclusionSettings() {
               onChange={(e) => setRobotlist(e.target.value)}
               rows={5}
             />
-            <p className="text-xs text-muted-foreground">Enter bot user agent names to exclude, one per line.</p>
+            <p className="text-xs text-muted-foreground">{__('Enter bot user agent names to exclude, one per line.', 'wp-statistics')}</p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="robot-threshold">Daily Hit Threshold</Label>
+            <Label htmlFor="robot-threshold">{__('Daily Hit Threshold', 'wp-statistics')}</Label>
             <Input
               id="robot-threshold"
               type="number"
@@ -208,14 +213,14 @@ export function ExclusionSettings() {
               className="w-32"
             />
             <p className="text-xs text-muted-foreground">
-              Consider visitors with more than this many daily hits as bots (0 to disable).
+              {__('Consider visitors with more than this many daily hits as bots (0 to disable).', 'wp-statistics')}
             </p>
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="record-exclusions">Record Exclusions</Label>
-              <p className="text-sm text-muted-foreground">Log excluded visitors for debugging purposes.</p>
+              <Label htmlFor="record-exclusions">{__('Record Exclusions', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Log excluded visitors for debugging purposes.', 'wp-statistics')}</p>
             </div>
             <Switch id="record-exclusions" checked={!!recordExclusions} onCheckedChange={setRecordExclusions} />
           </div>
@@ -224,54 +229,54 @@ export function ExclusionSettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>User Role Exclusions</CardTitle>
-          <CardDescription>Exclude users with specific roles from being tracked.</CardDescription>
+          <CardTitle>{__('User Role Exclusions', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Exclude users with specific roles from being tracked.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-admin">Administrators</Label>
-              <p className="text-sm text-muted-foreground">Exclude users with administrator role.</p>
+              <Label htmlFor="exclude-admin">{__('Administrators', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Exclude users with administrator role.', 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-admin" checked={!!excludeAdmin} onCheckedChange={setExcludeAdmin} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-editor">Editors</Label>
-              <p className="text-sm text-muted-foreground">Exclude users with editor role.</p>
+              <Label htmlFor="exclude-editor">{__('Editors', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Exclude users with editor role.', 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-editor" checked={!!excludeEditor} onCheckedChange={setExcludeEditor} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-author">Authors</Label>
-              <p className="text-sm text-muted-foreground">Exclude users with author role.</p>
+              <Label htmlFor="exclude-author">{__('Authors', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Exclude users with author role.', 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-author" checked={!!excludeAuthor} onCheckedChange={setExcludeAuthor} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-contributor">Contributors</Label>
-              <p className="text-sm text-muted-foreground">Exclude users with contributor role.</p>
+              <Label htmlFor="exclude-contributor">{__('Contributors', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Exclude users with contributor role.', 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-contributor" checked={!!excludeContributor} onCheckedChange={setExcludeContributor} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-subscriber">Subscribers</Label>
-              <p className="text-sm text-muted-foreground">Exclude users with subscriber role.</p>
+              <Label htmlFor="exclude-subscriber">{__('Subscribers', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Exclude users with subscriber role.', 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-subscriber" checked={!!excludeSubscriber} onCheckedChange={setExcludeSubscriber} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="exclude-anonymous">Anonymous Users</Label>
-              <p className="text-sm text-muted-foreground">Exclude users who are not logged in.</p>
+              <Label htmlFor="exclude-anonymous">{__('Anonymous Users', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Exclude users who are not logged in.', 'wp-statistics')}</p>
             </div>
             <Switch id="exclude-anonymous" checked={!!excludeAnonymous} onCheckedChange={setExcludeAnonymous} />
           </div>
@@ -283,7 +288,7 @@ export function ExclusionSettings() {
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>
           {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Save Changes
+          {__('Save Changes', 'wp-statistics')}
         </Button>
       </div>
     </div>

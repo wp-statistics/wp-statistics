@@ -1,9 +1,11 @@
+import { __ } from '@wordpress/i18n'
+
 import { WordPress } from '@/lib/wordpress'
 
 /**
  * Settings tab names
  */
-export type SettingsTab = 'general' | 'privacy' | 'notifications' | 'exclusions' | 'advanced'
+export type SettingsTab = 'general' | 'privacy' | 'notifications' | 'exclusions' | 'advanced' | 'display' | 'access' | 'data'
 
 /**
  * Settings response from AJAX
@@ -134,6 +136,9 @@ export const getAllSettings = async (): Promise<Record<SettingsTab, Record<strin
       notifications: {},
       exclusions: {},
       advanced: {},
+      display: {},
+      access: {},
+      data: {},
     }
   } catch (error) {
     console.error('Failed to get all settings:', error)
@@ -143,6 +148,49 @@ export const getAllSettings = async (): Promise<Record<SettingsTab, Record<strin
       notifications: {},
       exclusions: {},
       advanced: {},
+      display: {},
+      access: {},
+      data: {},
     }
+  }
+}
+
+/**
+ * Preview email report (opens in new window)
+ */
+export const previewEmail = async (): Promise<{ success: boolean; html?: string; message?: string }> => {
+  try {
+    const response = await ajaxRequest<{
+      success: boolean
+      data: { html?: string; message?: string }
+    }>('wp_statistics_email_preview', {})
+
+    if (response?.success && response?.data?.html) {
+      return { success: true, html: response.data.html }
+    }
+
+    return { success: false, message: response?.data?.message || __('Unable to generate preview.', 'wp-statistics') }
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : __('Failed to generate preview.', 'wp-statistics') }
+  }
+}
+
+/**
+ * Send test email
+ */
+export const sendTestEmail = async (): Promise<{ success: boolean; email?: string; message?: string }> => {
+  try {
+    const response = await ajaxRequest<{
+      success: boolean
+      data: { email?: string; message?: string }
+    }>('wp_statistics_email_send_test', {})
+
+    if (response?.success) {
+      return { success: true, email: (response.data as { email?: string })?.email }
+    }
+
+    return { success: false, message: (response?.data as { message?: string })?.message || __('Failed to send test email.', 'wp-statistics') }
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : __('Failed to send test email.', 'wp-statistics') }
   }
 }

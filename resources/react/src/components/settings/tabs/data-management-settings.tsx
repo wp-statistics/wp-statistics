@@ -1,14 +1,25 @@
 import { Link } from '@tanstack/react-router'
-import { AlertTriangle, Archive, Clock, Infinity as InfinityIcon, Info,Loader2, Trash2 } from 'lucide-react'
+import { __ } from '@wordpress/i18n'
+import { AlertTriangle, Archive, Clock, Infinity as InfinityIcon, Info, Loader2, Trash2 } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { NoticeBanner } from '@/components/ui/notice-banner'
-import { useSetting,useSettings } from '@/hooks/use-settings'
+import { useSetting, useSettings } from '@/hooks/use-settings'
+import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
 
 type RetentionMode = 'forever' | 'delete' | 'archive'
 
@@ -23,82 +34,71 @@ const retentionOptions: RetentionOption[] = [
   {
     value: 'forever',
     icon: <InfinityIcon className="h-5 w-5" />,
-    title: 'Keep forever',
-    description: 'Store all data indefinitely (may increase database size over time)',
+    title: __('Keep forever', 'wp-statistics'),
+    description: __('Store all data indefinitely (may increase database size over time)', 'wp-statistics'),
   },
   {
     value: 'delete',
     icon: <Trash2 className="h-5 w-5" />,
-    title: 'Delete after X days',
-    description: 'Permanently remove all data older than specified days',
+    title: __('Delete after X days', 'wp-statistics'),
+    description: __('Permanently remove all data older than specified days', 'wp-statistics'),
   },
   {
     value: 'archive',
     icon: <Archive className="h-5 w-5" />,
-    title: 'Archive after X days',
-    description: 'Create automatic backups, then delete raw data (recommended)',
+    title: __('Archive after X days', 'wp-statistics'),
+    description: __('Create automatic backups, then delete raw data (recommended)', 'wp-statistics'),
   },
 ]
-
-// Helper to get config
-const getConfig = () => {
-  const wpsReact = (window as any).wps_react
-  return {
-    ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-    nonce: wpsReact?.importExport?.nonce || wpsReact?.globals?.nonce || '',
-    actions: {
-      purgeDataNow: 'wp_statistics_purge_data_now',
-      ...(wpsReact?.importExport?.actions || {}),
-    },
-  }
-}
 
 export function DataManagementSettings() {
   const settings = useSettings({ tab: 'data' })
   const [isPurging, setIsPurging] = React.useState(false)
+  const [showPurgeDialog, setShowPurgeDialog] = React.useState(false)
+  const { toast } = useToast()
 
   // Data retention settings
   const [retentionMode, setRetentionMode] = useSetting(settings, 'data_retention_mode', 'forever')
   const [retentionDays, setRetentionDays] = useSetting(settings, 'data_retention_days', 180)
 
   const applyRetentionNow = async () => {
-    if (retentionMode === 'forever') {
-      return
-    }
-
-    if (
-      !confirm(
-        `Are you sure you want to apply the retention policy now? This will ${
-          retentionMode === 'delete' ? 'permanently delete' : 'archive and then delete'
-        } data older than ${retentionDays} days. This action cannot be undone.`
-      )
-    ) {
-      return
-    }
-
+    setShowPurgeDialog(false)
     setIsPurging(true)
     try {
-      const config = getConfig()
+      const wp = WordPress.getInstance()
       const formData = new FormData()
-      formData.append('_wpnonce', config.nonce)
+      formData.append('_wpnonce', wp.getNonce())
 
-      const response = await fetch(`${config.ajaxUrl}?action=${config.actions.purgeDataNow}`, {
+      const response = await fetch(`${wp.getAjaxUrl()}?action=wp_statistics_purge_data_now`, {
         method: 'POST',
-        headers: {
-          'X-WP-Nonce': config.nonce,
-        },
         body: formData,
+        credentials: 'same-origin',
       })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
       const data = await response.json()
 
       if (data.success) {
-        alert(data.data?.message || 'Data cleanup completed successfully.')
+        toast({
+          title: __('Data cleanup completed', 'wp-statistics'),
+          description: data.data?.message || __('Data cleanup completed successfully.', 'wp-statistics'),
+        })
       } else {
-        alert(data.data?.message || 'Failed to apply retention policy.')
+        toast({
+          title: __('Error', 'wp-statistics'),
+          description: data.data?.message || __('Failed to apply retention policy.', 'wp-statistics'),
+          variant: 'destructive',
+        })
       }
     } catch (error) {
-      alert('Failed to apply retention policy. Please try again.')
+      toast({
+        title: __('Error', 'wp-statistics'),
+        description: __('Failed to apply retention policy. Please try again.', 'wp-statistics'),
+        variant: 'destructive',
+      })
     } finally {
       setIsPurging(false)
     }
@@ -107,7 +107,10 @@ export function DataManagementSettings() {
   const handleSave = async () => {
     const success = await settings.save()
     if (success) {
-      // Could show a toast notification here
+      toast({
+        title: __('Settings saved', 'wp-statistics'),
+        description: __('Data management settings have been updated.', 'wp-statistics'),
+      })
     }
   }
 
@@ -115,7 +118,7 @@ export function DataManagementSettings() {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">Loading settings...</span>
+        <span className="ml-2">{__('Loading settings...', 'wp-statistics')}</span>
       </div>
     )
   }
@@ -127,10 +130,10 @@ export function DataManagementSettings() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5" />
-            Data Retention
+            {__('Data Retention', 'wp-statistics')}
           </CardTitle>
           <CardDescription>
-            Choose how to manage old statistics data. This affects database size and query performance.
+            {__('Choose how to manage old statistics data. This affects database size and query performance.', 'wp-statistics')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -162,7 +165,7 @@ export function DataManagementSettings() {
                     </span>
                     {option.value === 'archive' && (
                       <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                        Recommended
+                        {__('Recommended', 'wp-statistics')}
                       </span>
                     )}
                   </div>
@@ -186,7 +189,7 @@ export function DataManagementSettings() {
 
           {retentionMode !== 'forever' && (
             <div className="space-y-2 rounded-lg border bg-muted/30 p-4">
-              <Label htmlFor="retention-days">Retention Period</Label>
+              <Label htmlFor="retention-days">{__('Retention Period', 'wp-statistics')}</Label>
               <div className="flex items-center gap-3">
                 <Input
                   id="retention-days"
@@ -197,12 +200,12 @@ export function DataManagementSettings() {
                   onChange={(e) => setRetentionDays(parseInt(e.target.value) || 180)}
                   className="w-24"
                 />
-                <span className="text-sm text-muted-foreground">days</span>
+                <span className="text-sm text-muted-foreground">{__('days', 'wp-statistics')}</span>
               </div>
               <p className="text-xs text-muted-foreground">
                 {retentionMode === 'delete'
-                  ? 'All visitor, session, and view data older than this will be permanently deleted.'
-                  : 'A backup will be created automatically, then raw session and view data will be removed.'}
+                  ? __('All visitor, session, and view data older than this will be permanently deleted.', 'wp-statistics')
+                  : __('A backup will be created automatically, then raw session and view data will be removed.', 'wp-statistics')}
               </p>
             </div>
           )}
@@ -212,10 +215,9 @@ export function DataManagementSettings() {
               <div className="flex gap-3">
                 <Info className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-muted-foreground">
-                  When using Archive mode, automatic backups are created before data is deleted. You can manage these
-                  backups in{' '}
+                  {__('When using Archive mode, automatic backups are created before data is deleted. You can manage these backups in', 'wp-statistics')}{' '}
                   <Link to="/tools/backups" className="font-medium underline underline-offset-4">
-                    Tools &rarr; Backups
+                    {__('Tools', 'wp-statistics')} &rarr; {__('Backups', 'wp-statistics')}
                   </Link>
                   .
                 </p>
@@ -230,29 +232,29 @@ export function DataManagementSettings() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-destructive">
             <AlertTriangle className="h-5 w-5" />
-            Danger Zone
+            {__('Danger Zone', 'wp-statistics')}
           </CardTitle>
-          <CardDescription>These actions are irreversible. Please proceed with caution.</CardDescription>
+          <CardDescription>{__('These actions are irreversible. Please proceed with caution.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Apply Retention Policy Now</Label>
+              <Label>{__('Apply Retention Policy Now', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Immediately apply the retention policy to existing data.
+                {__('Immediately apply the retention policy to existing data.', 'wp-statistics')}
                 {retentionMode === 'forever'
-                  ? ' (Disabled - retention mode is set to "Keep forever")'
-                  : ` Data older than ${retentionDays} days will be ${retentionMode === 'delete' ? 'deleted' : 'archived'}.`}
+                  ? ` ${__('(Disabled - retention mode is set to "Keep forever")', 'wp-statistics')}`
+                  : ` ${__('Data older than', 'wp-statistics')} ${retentionDays} ${__('days will be', 'wp-statistics')} ${retentionMode === 'delete' ? __('deleted', 'wp-statistics') : __('archived', 'wp-statistics')}.`}
               </p>
             </div>
             <Button
               variant="destructive"
               size="sm"
-              onClick={applyRetentionNow}
+              onClick={() => setShowPurgeDialog(true)}
               disabled={isPurging || retentionMode === 'forever'}
             >
               {isPurging ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
-              Apply Now
+              {__('Apply Now', 'wp-statistics')}
             </Button>
           </div>
         </CardContent>
@@ -263,9 +265,35 @@ export function DataManagementSettings() {
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>
           {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Save Changes
+          {__('Save Changes', 'wp-statistics')}
         </Button>
       </div>
+
+      {/* Purge Confirmation Dialog */}
+      <Dialog open={showPurgeDialog} onOpenChange={setShowPurgeDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              {__('Apply Retention Policy', 'wp-statistics')}
+            </DialogTitle>
+            <DialogDescription>
+              {retentionMode === 'delete'
+                ? __('This will permanently delete data older than', 'wp-statistics')
+                : __('This will archive and then delete data older than', 'wp-statistics')}{' '}
+              {retentionDays} {__('days. This action cannot be undone.', 'wp-statistics')}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPurgeDialog(false)}>
+              {__('Cancel', 'wp-statistics')}
+            </Button>
+            <Button variant="destructive" onClick={applyRetentionNow}>
+              {__('Apply Now', 'wp-statistics')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

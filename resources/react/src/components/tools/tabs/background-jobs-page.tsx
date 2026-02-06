@@ -1,12 +1,14 @@
-import { Activity, Clock, Loader2, PauseCircle,PlayCircle, RefreshCw } from 'lucide-react'
+import { __ } from '@wordpress/i18n'
+import { Activity, Clock, Loader2, PauseCircle, PlayCircle, RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Progress } from '@/components/ui/progress'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useToast } from '@/hooks/use-toast'
+import { callToolsApi } from '@/services/tools'
 
 interface BackgroundJob {
   key: string
@@ -21,40 +23,11 @@ interface BackgroundJob {
   } | null
 }
 
-// Helper to get config
-const getConfig = () => {
-  const wpsReact = (window as any).wps_react
-  return {
-    ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-    nonce: wpsReact?.globals?.nonce || '',
-  }
-}
-
-// Helper to call tools endpoint with sub_action
-const callToolsApi = async (subAction: string, params: Record<string, string> = {}) => {
-  const config = getConfig()
-  const formData = new FormData()
-  formData.append('wps_nonce', config.nonce)
-  formData.append('sub_action', subAction)
-  Object.entries(params).forEach(([key, value]) => {
-    formData.append(key, value)
-  })
-
-  const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_tools`, {
-    method: 'POST',
-    body: formData,
-  })
-  return response.json()
-}
-
 export function BackgroundJobsPage() {
   const [jobs, setJobs] = React.useState<BackgroundJob[]>([])
   const [isLoading, setIsLoading] = React.useState(true)
   const [isRefreshing, setIsRefreshing] = React.useState(false)
-  const [statusMessage, setStatusMessage] = React.useState<{
-    type: 'success' | 'error'
-    message: string
-  } | null>(null)
+  const { toast } = useToast()
 
   // Fetch jobs on mount
   React.useEffect(() => {
@@ -86,18 +59,20 @@ export function BackgroundJobsPage() {
         setJobs(data.data.jobs || [])
       } else {
         if (!silent) {
-          setStatusMessage({
-            type: 'error',
-            message: data.data?.message || 'Failed to fetch background jobs.',
+          toast({
+            title: __('Error', 'wp-statistics'),
+            description: data.data?.message || __('Failed to fetch background jobs.', 'wp-statistics'),
+            variant: 'destructive',
           })
         }
       }
     } catch (error) {
       console.error('Failed to fetch background jobs:', error)
       if (!silent) {
-        setStatusMessage({
-          type: 'error',
-          message: 'Failed to load background jobs. Please refresh the page.',
+        toast({
+          title: __('Error', 'wp-statistics'),
+          description: __('Failed to load background jobs. Please refresh the page.', 'wp-statistics'),
+          variant: 'destructive',
         })
       }
     } finally {
@@ -112,21 +87,21 @@ export function BackgroundJobsPage() {
         return (
           <Badge variant="default" className="bg-blue-500 hover:bg-blue-600">
             <PlayCircle className="mr-1 h-3 w-3" />
-            Running
+            {__('Running', 'wp-statistics')}
           </Badge>
         )
       case 'queued':
         return (
           <Badge variant="secondary">
             <Clock className="mr-1 h-3 w-3" />
-            Queued
+            {__('Queued', 'wp-statistics')}
           </Badge>
         )
       default:
         return (
           <Badge variant="outline">
             <PauseCircle className="mr-1 h-3 w-3" />
-            Idle
+            {__('Idle', 'wp-statistics')}
           </Badge>
         )
     }
@@ -140,57 +115,46 @@ export function BackgroundJobsPage() {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">Loading background jobs...</span>
+        <span className="ml-2">{__('Loading background jobs...', 'wp-statistics')}</span>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      {/* Status Message */}
-      {statusMessage && (
-        <NoticeBanner
-          id="background-jobs-status"
-          message={statusMessage.message}
-          type={statusMessage.type}
-          dismissible
-          onDismiss={() => setStatusMessage(null)}
-        />
-      )}
-
       {/* Background Jobs Card */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
-              Background Jobs
+              {__('Background Jobs', 'wp-statistics')}
             </CardTitle>
             <CardDescription>
               {getActiveJobsCount() > 0
-                ? `${getActiveJobsCount()} job${getActiveJobsCount() > 1 ? 's' : ''} currently active.`
-                : 'No active background jobs.'}
+                ? `${getActiveJobsCount()} ${getActiveJobsCount() > 1 ? __('jobs currently active.', 'wp-statistics') : __('job currently active.', 'wp-statistics')}`
+                : __('No active background jobs.', 'wp-statistics')}
             </CardDescription>
           </div>
           <Button variant="outline" size="sm" onClick={() => fetchJobs()} disabled={isRefreshing}>
             {isRefreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
-            Refresh
+            {__('Refresh', 'wp-statistics')}
           </Button>
         </CardHeader>
         <CardContent>
           {jobs.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Activity className="h-12 w-12 text-muted-foreground/50 mb-4" />
-              <h3 className="text-lg font-medium mb-1">No background jobs</h3>
-              <p className="text-sm text-muted-foreground">Background jobs will appear here when they are running.</p>
+              <h3 className="text-lg font-medium mb-1">{__('No background jobs', 'wp-statistics')}</h3>
+              <p className="text-sm text-muted-foreground">{__('Background jobs will appear here when they are running.', 'wp-statistics')}</p>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Job</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Progress</TableHead>
+                  <TableHead>{__('Job', 'wp-statistics')}</TableHead>
+                  <TableHead>{__('Status', 'wp-statistics')}</TableHead>
+                  <TableHead>{__('Progress', 'wp-statistics')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -213,7 +177,7 @@ export function BackgroundJobsPage() {
                           </div>
                         </div>
                       ) : job.status === 'queued' ? (
-                        <span className="text-sm text-muted-foreground">Waiting to start...</span>
+                        <span className="text-sm text-muted-foreground">{__('Waiting to start...', 'wp-statistics')}</span>
                       ) : (
                         <span className="text-sm text-muted-foreground">-</span>
                       )}
@@ -229,16 +193,14 @@ export function BackgroundJobsPage() {
       {/* Info Card */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">About Background Jobs</CardTitle>
+          <CardTitle className="text-base">{__('About Background Jobs', 'wp-statistics')}</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground space-y-2">
           <p>
-            Background jobs process large datasets without blocking your browser. They run automatically via WordPress
-            cron and continue even if you close this page.
+            {__('Background jobs process large datasets without blocking your browser. They run automatically via WordPress cron and continue even if you close this page.', 'wp-statistics')}
           </p>
           <p>
-            Jobs include: GeoIP database updates, visitor location updates, source channel processing, daily summary
-            calculations, and resource cache updates.
+            {__('Jobs include: GeoIP database updates, visitor location updates, source channel processing, daily summary calculations, and resource cache updates.', 'wp-statistics')}
           </p>
         </CardContent>
       </Card>

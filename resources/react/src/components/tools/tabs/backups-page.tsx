@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import {
   AlertTriangle,
   Calendar,
@@ -26,6 +27,9 @@ import {
 } from '@/components/ui/dialog'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useToast } from '@/hooks/use-toast'
+import { WordPress } from '@/lib/wordpress'
+import { callImportExportApi } from '@/services/tools'
 
 interface Backup {
   name: string
@@ -35,32 +39,6 @@ interface Backup {
   type?: 'archive_backup' | 'manual'
 }
 
-// Helper to get config
-const getConfig = () => {
-  const wpsReact = (window as any).wps_react
-  return {
-    ajaxUrl: wpsReact?.globals?.ajaxUrl || '/wp-admin/admin-ajax.php',
-    nonce: wpsReact?.globals?.nonce || '',
-  }
-}
-
-// Helper to call import/export endpoint with sub_action
-const callImportExportApi = async (subAction: string, params: Record<string, string> = {}) => {
-  const config = getConfig()
-  const formData = new FormData()
-  formData.append('wps_nonce', config.nonce)
-  formData.append('sub_action', subAction)
-  Object.entries(params).forEach(([key, value]) => {
-    formData.append(key, value)
-  })
-
-  const response = await fetch(`${config.ajaxUrl}?action=wp_statistics_import_export`, {
-    method: 'POST',
-    body: formData,
-  })
-  return response.json()
-}
-
 export function BackupsPage() {
   const [backups, setBackups] = React.useState<Backup[]>([])
   const [isLoading, setIsLoading] = React.useState(true)
@@ -68,10 +46,7 @@ export function BackupsPage() {
   const [isRestoring, setIsRestoring] = React.useState<string | null>(null)
   const [deleteTarget, setDeleteTarget] = React.useState<string | null>(null)
   const [restoreTarget, setRestoreTarget] = React.useState<string | null>(null)
-  const [statusMessage, setStatusMessage] = React.useState<{
-    type: 'success' | 'error'
-    message: string
-  } | null>(null)
+  const { toast } = useToast()
 
   // Fetch backups on mount
   React.useEffect(() => {
@@ -87,9 +62,10 @@ export function BackupsPage() {
       }
     } catch (error) {
       console.error('Failed to fetch backups:', error)
-      setStatusMessage({
-        type: 'error',
-        message: 'Failed to load backups. Please refresh the page.',
+      toast({
+        title: __('Error', 'wp-statistics'),
+        description: __('Failed to load backups. Please refresh the page.', 'wp-statistics'),
+        variant: 'destructive',
       })
     } finally {
       setIsLoading(false)
@@ -98,27 +74,25 @@ export function BackupsPage() {
 
   const createBackup = async () => {
     setIsCreating(true)
-    setStatusMessage(null)
 
     try {
       const data = await callImportExportApi('create_backup')
 
       if (data.success) {
-        setStatusMessage({
-          type: 'success',
-          message: 'Backup created successfully.',
-        })
+        toast({ title: __('Backup created successfully.', 'wp-statistics') })
         fetchBackups()
       } else {
-        setStatusMessage({
-          type: 'error',
-          message: data.data?.message || 'Failed to create backup.',
+        toast({
+          title: __('Error', 'wp-statistics'),
+          description: data.data?.message || __('Failed to create backup.', 'wp-statistics'),
+          variant: 'destructive',
         })
       }
     } catch (error) {
-      setStatusMessage({
-        type: 'error',
-        message: 'Failed to create backup. Please try again.',
+      toast({
+        title: __('Error', 'wp-statistics'),
+        description: __('Failed to create backup. Please try again.', 'wp-statistics'),
+        variant: 'destructive',
       })
     } finally {
       setIsCreating(false)
@@ -126,34 +100,31 @@ export function BackupsPage() {
   }
 
   const downloadBackup = (fileName: string) => {
-    const config = getConfig()
-    window.location.href = `${config.ajaxUrl}?action=wp_statistics_import_export&sub_action=download_backup&file_name=${encodeURIComponent(fileName)}&wps_nonce=${config.nonce}`
+    const wp = WordPress.getInstance()
+    window.location.href = `${wp.getAjaxUrl()}?action=wp_statistics_import_export&sub_action=download_backup&file_name=${encodeURIComponent(fileName)}&wps_nonce=${wp.getNonce()}`
   }
 
   const deleteBackup = async () => {
     if (!deleteTarget) return
 
-    setStatusMessage(null)
-
     try {
       const data = await callImportExportApi('delete_backup', { file_name: deleteTarget })
 
       if (data.success) {
-        setStatusMessage({
-          type: 'success',
-          message: 'Backup deleted successfully.',
-        })
+        toast({ title: __('Backup deleted successfully.', 'wp-statistics') })
         fetchBackups()
       } else {
-        setStatusMessage({
-          type: 'error',
-          message: data.data?.message || 'Failed to delete backup.',
+        toast({
+          title: __('Error', 'wp-statistics'),
+          description: data.data?.message || __('Failed to delete backup.', 'wp-statistics'),
+          variant: 'destructive',
         })
       }
     } catch (error) {
-      setStatusMessage({
-        type: 'error',
-        message: 'Failed to delete backup. Please try again.',
+      toast({
+        title: __('Error', 'wp-statistics'),
+        description: __('Failed to delete backup. Please try again.', 'wp-statistics'),
+        variant: 'destructive',
       })
     } finally {
       setDeleteTarget(null)
@@ -164,26 +135,27 @@ export function BackupsPage() {
     if (!restoreTarget) return
 
     setIsRestoring(restoreTarget)
-    setStatusMessage(null)
 
     try {
       const data = await callImportExportApi('restore_backup', { file_name: restoreTarget })
 
       if (data.success) {
-        setStatusMessage({
-          type: 'success',
-          message: data.data?.message || 'Backup restored successfully.',
+        toast({
+          title: __('Backup restored successfully.', 'wp-statistics'),
+          description: data.data?.message,
         })
       } else {
-        setStatusMessage({
-          type: 'error',
-          message: data.data?.message || 'Failed to restore backup.',
+        toast({
+          title: __('Error', 'wp-statistics'),
+          description: data.data?.message || __('Failed to restore backup.', 'wp-statistics'),
+          variant: 'destructive',
         })
       }
     } catch (error) {
-      setStatusMessage({
-        type: 'error',
-        message: 'Failed to restore backup. Please try again.',
+      toast({
+        title: __('Error', 'wp-statistics'),
+        description: __('Failed to restore backup. Please try again.', 'wp-statistics'),
+        variant: 'destructive',
       })
     } finally {
       setIsRestoring(null)
@@ -210,7 +182,7 @@ export function BackupsPage() {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">Loading backups...</span>
+        <span className="ml-2">{__('Loading backups...', 'wp-statistics')}</span>
       </div>
     )
   }
@@ -219,23 +191,12 @@ export function BackupsPage() {
     <div className="space-y-6">
       {/* Info Box */}
       <NoticeBanner
-        title="About Backups"
-        message='Backups are automatically created when using the "Archive after X days" data retention mode. You can also create manual backups at any time. Backups contain your raw statistics data and can be restored or downloaded for safekeeping.'
+        title={__('About Backups', 'wp-statistics')}
+        message={__('Backups are automatically created when using the "Archive after X days" data retention mode. You can also create manual backups at any time. Backups contain your raw statistics data and can be restored or downloaded for safekeeping.', 'wp-statistics')}
         type="neutral"
         icon={Info}
         dismissible={false}
       />
-
-      {/* Status Message */}
-      {statusMessage && (
-        <NoticeBanner
-          id="backup-status"
-          message={statusMessage.message}
-          type={statusMessage.type}
-          dismissible
-          onDismiss={() => setStatusMessage(null)}
-        />
-      )}
 
       {/* Backups Card */}
       <Card>
@@ -243,39 +204,39 @@ export function BackupsPage() {
           <div>
             <CardTitle className="flex items-center gap-2">
               <Database className="h-5 w-5" />
-              Backups
+              {__('Backups', 'wp-statistics')}
             </CardTitle>
             <CardDescription>
-              Manage your statistics data backups. Download, restore, or delete backups as needed.
+              {__('Manage your statistics data backups. Download, restore, or delete backups as needed.', 'wp-statistics')}
             </CardDescription>
           </div>
           <Button onClick={createBackup} disabled={isCreating}>
             {isCreating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
-            Create Backup
+            {__('Create Backup', 'wp-statistics')}
           </Button>
         </CardHeader>
         <CardContent>
           {backups.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Database className="h-12 w-12 text-muted-foreground/50 mb-4" />
-              <h3 className="text-lg font-medium mb-1">No backups yet</h3>
+              <h3 className="text-lg font-medium mb-1">{__('No backups yet', 'wp-statistics')}</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Create your first backup to preserve your statistics data.
+                {__('Create your first backup to preserve your statistics data.', 'wp-statistics')}
               </p>
               <Button onClick={createBackup} disabled={isCreating}>
                 {isCreating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
-                Create Backup
+                {__('Create Backup', 'wp-statistics')}
               </Button>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Backup</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Size</TableHead>
-                  <TableHead>Created</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{__('Backup', 'wp-statistics')}</TableHead>
+                  <TableHead>{__('Type', 'wp-statistics')}</TableHead>
+                  <TableHead>{__('Size', 'wp-statistics')}</TableHead>
+                  <TableHead>{__('Created', 'wp-statistics')}</TableHead>
+                  <TableHead className="text-right">{__('Actions', 'wp-statistics')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -291,7 +252,7 @@ export function BackupsPage() {
                     </TableCell>
                     <TableCell>
                       <Badge variant={backup.type === 'archive_backup' ? 'secondary' : 'outline'}>
-                        {backup.type === 'archive_backup' ? 'Automatic' : 'Manual'}
+                        {backup.type === 'archive_backup' ? __('Automatic', 'wp-statistics') : __('Manual', 'wp-statistics')}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -312,7 +273,7 @@ export function BackupsPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => downloadBackup(backup.name)}
-                          title="Download backup"
+                          title={__('Download backup', 'wp-statistics')}
                         >
                           <Download className="h-4 w-4" />
                         </Button>
@@ -321,7 +282,7 @@ export function BackupsPage() {
                           size="sm"
                           onClick={() => setRestoreTarget(backup.name)}
                           disabled={isRestoring === backup.name}
-                          title="Restore backup"
+                          title={__('Restore backup', 'wp-statistics')}
                         >
                           {isRestoring === backup.name ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -334,7 +295,7 @@ export function BackupsPage() {
                           size="sm"
                           onClick={() => setDeleteTarget(backup.name)}
                           className="text-destructive hover:text-destructive"
-                          title="Delete backup"
+                          title={__('Delete backup', 'wp-statistics')}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -354,20 +315,20 @@ export function BackupsPage() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-destructive" />
-              Delete Backup
+              {__('Delete Backup', 'wp-statistics')}
             </DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this backup? This action cannot be undone.
+              {__('Are you sure you want to delete this backup? This action cannot be undone.', 'wp-statistics')}
               <br />
               <span className="font-medium">{deleteTarget}</span>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteTarget(null)}>
-              Cancel
+              {__('Cancel', 'wp-statistics')}
             </Button>
             <Button variant="destructive" onClick={deleteBackup}>
-              Delete
+              {__('Delete', 'wp-statistics')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -379,19 +340,19 @@ export function BackupsPage() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <RotateCcw className="h-5 w-5 text-primary" />
-              Restore Backup
+              {__('Restore Backup', 'wp-statistics')}
             </DialogTitle>
             <DialogDescription>
-              This will restore the data from this backup. Existing data with the same IDs may be updated.
+              {__('This will restore the data from this backup. Existing data with the same IDs may be updated.', 'wp-statistics')}
               <br />
               <span className="font-medium">{restoreTarget}</span>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setRestoreTarget(null)}>
-              Cancel
+              {__('Cancel', 'wp-statistics')}
             </Button>
-            <Button onClick={restoreBackup}>Restore</Button>
+            <Button onClick={restoreBackup}>{__('Restore', 'wp-statistics')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
