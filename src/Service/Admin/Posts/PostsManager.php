@@ -80,14 +80,17 @@ class PostsManager
         if ($pagenow === 'edit.php' || $isPostQuickEdit) {
             // Posts and pages and CPTs + Quick edit
 
-            $hitColumnHandler = new HitColumnHandler();
+            // Get post type for context-aware batch prefetching.
+            // This enables HitColumnHandler to prefetch hit counts for all posts
+            // on the current page in a single query rather than N+1 queries.
+            $currentPage = Request::get('post_type', 'post');
+
+            $hitColumnHandler = new HitColumnHandler(false, $currentPage);
 
             foreach (['posts', 'pages'] as $type) {
                 add_filter("manage_{$type}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
                 add_action("manage_{$type}_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
             }
-
-            $currentPage = Request::get('post_type', 'post');
 
             add_filter("manage_edit-{$currentPage}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
 
@@ -101,7 +104,12 @@ class PostsManager
                 return;
             }
 
-            $hitColumnHandler = new HitColumnHandler(true);
+            // Get taxonomy for context-aware batch prefetching.
+            // This enables HitColumnHandler to prefetch hit counts for all terms
+            // on the current page in a single query rather than N+1 queries.
+            $currentTax = Request::get('taxonomy', 'category');
+
+            $hitColumnHandler = new HitColumnHandler(true, $currentTax);
 
             foreach (Helper::get_list_taxonomy() as $tax => $name) {
                 add_filter("manage_edit-{$tax}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);

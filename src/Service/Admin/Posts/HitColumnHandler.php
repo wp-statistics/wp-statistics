@@ -2,16 +2,14 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
-use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
-use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
+use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHelper;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Traits\ObjectCacheTrait;
+use WP_Statistics\Utils\UrlBuilder;
 
 /**
  * This class will add, render, modify sort and modify order by hits column in posts and taxonomies list pages.
@@ -28,13 +26,18 @@ class HitColumnHandler
     private $miniChartHelper;
 
     /**
-     * Analytics query handler for v15 API.
+     * Whether this handler is for taxonomies.
      *
-     * @var AnalyticsQueryHandler
+     * @var bool
      */
-    private $queryHandler;
+    private $isTerm;
 
-    private $initialPostDate;
+    /**
+     * The context type (post_type or taxonomy slug).
+     *
+     * @var string|null
+     */
+    private $contextType;
 
     /**
      * Hits column name.
@@ -48,18 +51,19 @@ class HitColumnHandler
     /**
      * Class constructor.
      *
-     * @param bool $isTerm Is this instance handling a taxonomies list?
+     * @param bool        $isTerm      Is this instance handling a taxonomies list?
+     * @param string|null $contextType The post type or taxonomy slug for context-aware queries.
      */
-    public function __construct($isTerm = false)
+    public function __construct($isTerm = false, $contextType = null)
     {
+        $this->isTerm      = $isTerm;
+        $this->contextType = $contextType;
+
         if ($isTerm) {
             $this->columnName = 'wp-statistics-tax-hits';
         }
 
-        $this->initialPostDate = Helper::getInitialPostDate();
-
         $this->miniChartHelper = new MiniChartHelper();
-        $this->queryHandler    = new AnalyticsQueryHandler();
     }
 
     /**
@@ -118,7 +122,14 @@ class HitColumnHandler
             $this->setCache('postType', get_post_type($postId));
         }
 
-        $hitCount = $this->calculateHitCount($postId);
+        // Batch prefetch on first call
+        if (!$this->isCacheSet('batchResults')) {
+            $this->prefetchPostHitCounts();
+        }
+
+        $batchResults = $this->getCache('batchResults');
+        $hitCount     = $batchResults[$postId] ?? 0;
+
         echo $this->getHitColumnContent($hitCount, $postId);
     }
 
@@ -143,11 +154,19 @@ class HitColumnHandler
         $term = get_term($termId);
 
         // Initialize class attributes only once (since all terms in the list have the same taxonomy)
+        // v15 stores raw taxonomy names (no 'tax_' prefix)
         if (!$this->isCacheSet('postType')) {
-            $this->setCache('postType', (($term instanceof \WP_Term) && ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag')) ? $term->taxonomy : 'tax_' . $term->taxonomy);
+            $this->setCache('postType', ($term instanceof \WP_Term) ? $term->taxonomy : '');
         }
 
-        $hitCount = $this->calculateHitCount($termId, $term);
+        // Batch prefetch on first call
+        if (!$this->isCacheSet('batchResults')) {
+            $this->prefetchTaxHitCounts($term->taxonomy);
+        }
+
+        $batchResults = $this->getCache('batchResults');
+        $hitCount     = $batchResults[$termId] ?? 0;
+
         return $this->getHitColumnContent($hitCount, $termId, true);
     }
 
@@ -171,6 +190,13 @@ class HitColumnHandler
     /**
      * Modifies query clauses when posts are sorted by hits column.
      *
+     * Note: This method uses custom SQL subqueries because WordPress's posts_clauses
+     * filter requires inline SQL for ORDER BY. It cannot use AnalyticsQueryHelper,
+     * but follows the same join pattern for consistency:
+     * views.resource_uri_id → resource_uris.ID → resources.ID
+     *
+     * @see AnalyticsQueryHelper::getViewsResourceJoinPattern() for the canonical pattern.
+     *
      * @param array $clauses Clauses for the query.
      * @param \WP_Query $wpQuery Current posts query.
      *
@@ -181,7 +207,7 @@ class HitColumnHandler
     public function handlePostOrderByHits($clauses, $wpQuery)
     {
         if (!is_admin()) {
-            return;
+            return $clauses;
         }
 
         // If order-by.
@@ -194,29 +220,46 @@ class HitColumnHandler
         // Get global Variable
         $order = $wpQuery->query_vars['order'];
 
-        // Add date condition if needed
+        // v15 table references
+        $viewsTable        = DB::table('views');
+        $sessionsTable     = DB::table('sessions');
+        $resourceUrisTable = DB::table('resource_uris');
+        $resourcesTable    = DB::table('resources');
+
+        // Add date condition if needed (viewed_at is a datetime column)
         $dateCondition = '';
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
-            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . date('Y-m-d') . '"';
+            $dateFrom = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
+            $dateTo   = date('Y-m-d');
+            $dateCondition = $wpdb->prepare(
+                ' AND v.viewed_at BETWEEN %s AND %s',
+                $dateFrom . ' 00:00:00',
+                $dateTo . ' 23:59:59'
+            );
         }
 
-        // Select Field
+        // Select Field - use v15 normalized tables
+        // Join via resource_uris for consistency with AnalyticsQuery:
+        // views.resource_uri_id -> resource_uris.ID -> resources.ID
         if ($this->miniChartHelper->getChartMetric() === 'visitors') {
-            if (!empty($dateCondition)) {
-                $dateCondition = "AND `visitor_relationships`.`date` $dateCondition";
-            }
-
-            $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE (`pages`.`type` IN ("page", "post", "product") OR `pages`.`type` LIKE "post_type_%") AND ' . $wpdb->posts . '.`ID` = `pages`.`id` ' . $dateCondition . ') AS `post_hits_sortable` ';
+            // For visitors: join through sessions to get visitor_id
+            $clauses['fields'] .= ", (
+                SELECT COUNT(DISTINCT s.visitor_id)
+                FROM {$viewsTable} v
+                JOIN {$sessionsTable} s ON v.session_id = s.ID
+                JOIN {$resourceUrisTable} ru ON v.resource_uri_id = ru.ID
+                JOIN {$resourcesTable} r ON ru.resource_id = r.ID AND r.is_deleted = 0
+                WHERE r.resource_id = {$wpdb->posts}.ID{$dateCondition}
+            ) AS `post_hits_sortable` ";
         } else {
-            $historicalSubQuery = '';
-            if (!empty($dateCondition)) {
-                $dateCondition = "AND `pages`.`date` $dateCondition";
-            } else {
-                // Consider historical for total views
-                $historicalSubQuery = ' + IFNULL((SELECT SUM(`historical`.`value`) FROM ' . DB::table('historical') . ' AS `historical` WHERE `historical`.`page_id` = ' . $wpdb->posts . '.`ID` AND `historical`.`uri` LIKE CONCAT("%/", ' . $wpdb->posts . '.`post_name`, "/")), 0)';
-            }
-
-            $clauses['fields'] .= ', ((SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE (`pages`.`type` IN ("page", "post", "product") OR `pages`.`type` LIKE "post_type_%") AND ' . $wpdb->posts . '.`ID` = `pages`.`id` ' . $dateCondition . ')' . $historicalSubQuery . ') AS `post_hits_sortable` ';
+            // For views: each row in views = 1 view, so COUNT(*)
+            $clauses['fields'] .= ", (
+                SELECT COUNT(*)
+                FROM {$viewsTable} v
+                JOIN {$resourceUrisTable} ru ON v.resource_uri_id = ru.ID
+                JOIN {$resourcesTable} r ON ru.resource_id = r.ID AND r.is_deleted = 0
+                WHERE r.resource_id = {$wpdb->posts}.ID{$dateCondition}
+            ) AS `post_hits_sortable` ";
         }
 
         // Order by `post_hits_sortable`
@@ -227,6 +270,13 @@ class HitColumnHandler
 
     /**
      * Modifies query clauses when terms are sorted by hits column.
+     *
+     * Note: This method uses custom SQL subqueries because WordPress's terms_clauses
+     * filter requires inline SQL for ORDER BY. It cannot use AnalyticsQueryHelper,
+     * but follows the same join pattern for consistency:
+     * views.resource_uri_id → resource_uris.ID → resources.ID
+     *
+     * @see AnalyticsQueryHelper::getViewsResourceJoinPattern() for the canonical pattern.
      *
      * @param array $clauses Clauses for the query.
      * @param array $taxonomies Taxonomy WP_Statistics_names.
@@ -239,7 +289,7 @@ class HitColumnHandler
     public function handleTaxOrderByHits($clauses, $taxonomies, $args)
     {
         if (!is_admin()) {
-            return;
+            return $clauses;
         }
 
         // If order-by.
@@ -247,29 +297,48 @@ class HitColumnHandler
             return $clauses;
         }
 
-        // Add date condition if needed
+        global $wpdb;
+
+        // v15 table references
+        $viewsTable        = DB::table('views');
+        $sessionsTable     = DB::table('sessions');
+        $resourceUrisTable = DB::table('resource_uris');
+        $resourcesTable    = DB::table('resources');
+
+        // Add date condition if needed (viewed_at is a datetime column)
         $dateCondition = '';
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
-            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . date('Y-m-d') . '"';
+            $dateFrom = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
+            $dateTo   = date('Y-m-d');
+            $dateCondition = $wpdb->prepare(
+                ' AND v.viewed_at BETWEEN %s AND %s',
+                $dateFrom . ' 00:00:00',
+                $dateTo . ' 23:59:59'
+            );
         }
 
-        // Select Field
+        // Select Field - use v15 normalized tables
+        // Join via resource_uris for consistency with AnalyticsQuery:
+        // views.resource_uri_id -> resource_uris.ID -> resources.ID
         if ($this->miniChartHelper->getChartMetric() === 'visitors') {
-            if (!empty($dateCondition)) {
-                $dateCondition = "AND `visitor_relationships`.`date` $dateCondition";
-            }
-
-            $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE `pages`.`type` IN ("category", "post_tag", "tax") AND `t`.`term_id` = `pages`.`id` ' . $dateCondition . ') AS `tax_hits_sortable` ';
+            // For visitors: join through sessions to get visitor_id
+            $clauses['fields'] .= ", (
+                SELECT COUNT(DISTINCT s.visitor_id)
+                FROM {$viewsTable} v
+                JOIN {$sessionsTable} s ON v.session_id = s.ID
+                JOIN {$resourceUrisTable} ru ON v.resource_uri_id = ru.ID
+                JOIN {$resourcesTable} r ON ru.resource_id = r.ID AND r.is_deleted = 0
+                WHERE r.resource_id = t.term_id{$dateCondition}
+            ) AS `tax_hits_sortable` ";
         } else {
-            $historicalSubQuery = '';
-            if (!empty($dateCondition)) {
-                $dateCondition = "AND `pages`.`date` $dateCondition";
-            } else {
-                // Consider historical for total views
-                $historicalSubQuery = ' + IFNULL((SELECT SUM(`historical`.`value`) FROM ' . DB::table('historical') . ' AS `historical` WHERE `historical`.`page_id` = `t`.`term_id` AND `historical`.`uri` LIKE CONCAT("%/", `t`.`slug`, "/")), 0)';
-            }
-
-            $clauses['fields'] .= ', ((SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE `pages`.`type` IN ("category", "post_tag", "tax") AND `t`.`term_id` = `pages`.`id` ' . $dateCondition . ')' . $historicalSubQuery . ') AS `tax_hits_sortable` ';
+            // For views: each row in views = 1 view, so COUNT(*)
+            $clauses['fields'] .= ", (
+                SELECT COUNT(*)
+                FROM {$viewsTable} v
+                JOIN {$resourceUrisTable} ru ON v.resource_uri_id = ru.ID
+                JOIN {$resourcesTable} r ON ru.resource_id = r.ID AND r.is_deleted = 0
+                WHERE r.resource_id = t.term_id{$dateCondition}
+            ) AS `tax_hits_sortable` ";
         }
 
         // Order by `tax_hits_sortable`
@@ -279,62 +348,123 @@ class HitColumnHandler
     }
 
     /**
-     * Calculates hits count based on Mini-chart add-on's options.
+     * Prefetch hit counts for all posts currently displayed in the list.
      *
-     * @param int $objectId Post or term ID.
-     * @param \WP_Term $term If not empty, this method will calculate terms hits stats instead of posts hits stats.
+     * Uses the global WP_Query to get all post IDs and fetches their hit counts in a single query.
      *
-     * @return int|null
+     * @return void
      */
-    private function calculateHitCount($objectId, $term = null)
+    private function prefetchPostHitCounts()
     {
+        global $wp_query;
+
         // Don't calculate stats if `count_display` is disabled
         if ($this->miniChartHelper->getCountDisplay() === 'disabled') {
-            return null;
+            $this->setCache('batchResults', []);
+            $this->setCache('hitArgs', []);
+            return;
         }
 
+        // Get IDs from WordPress's already-fetched posts
+        $postIds = [];
+        if (!empty($wp_query->posts)) {
+            $postIds = wp_list_pluck($wp_query->posts, 'ID');
+        }
+
+        if (empty($postIds)) {
+            $this->setCache('batchResults', []);
+            $this->setCache('hitArgs', []);
+            return;
+        }
+
+        // Determine the type for the query
+        // Use context if provided, otherwise derive from the first post
+        $type = $this->contextType;
+        if (empty($type) && !empty($wp_query->posts[0])) {
+            $type = get_post_type($wp_query->posts[0]);
+        }
+
+        $this->fetchHitCountsForIds($postIds, $type, false);
+    }
+
+    /**
+     * Prefetch hit counts for all terms currently displayed in the list.
+     *
+     * @param string $taxonomy The taxonomy slug.
+     *
+     * @return void
+     */
+    private function prefetchTaxHitCounts($taxonomy)
+    {
+        global $wp_list_table;
+
+        // Don't calculate stats if `count_display` is disabled
+        if ($this->miniChartHelper->getCountDisplay() === 'disabled') {
+            $this->setCache('batchResults', []);
+            $this->setCache('hitArgs', []);
+            return;
+        }
+
+        // WP_Terms_List_Table stores terms in $this->items after prepare_items()
+        $termIds = [];
+        if (!empty($wp_list_table) && !empty($wp_list_table->items)) {
+            $termIds = wp_list_pluck($wp_list_table->items, 'term_id');
+        }
+
+        if (empty($termIds)) {
+            $this->setCache('batchResults', []);
+            $this->setCache('hitArgs', []);
+            return;
+        }
+
+        // v15 stores raw taxonomy names (no 'tax_' prefix)
+        $this->fetchHitCountsForIds($termIds, $taxonomy, true);
+    }
+
+    /**
+     * Fetch hit counts for a set of IDs in a single optimized query.
+     *
+     * Uses AnalyticsQueryHelper::getResourceHitsBatch() internally to ensure
+     * consistent join patterns with the analytics reports.
+     *
+     * @param array  $ids    Array of post or term IDs.
+     * @param string $type   The resource type (e.g., 'post', 'page', 'category', 'product_cat').
+     * @param bool   $isTerm Whether these are term IDs (unused, kept for signature compatibility).
+     *
+     * @return void
+     */
+    private function fetchHitCountsForIds(array $ids, $type, $isTerm)
+    {
         $countDisplay = $this->miniChartHelper->getCountDisplay();
         $isVisitors   = $this->miniChartHelper->getChartMetric() === 'visitors';
 
-        // Build the query request
-        $queryRequest = [
-            'sources' => [$isVisitors ? 'visitors' : 'views'],
-            'filters' => [
-                'resource_id' => $objectId,
-                'post_type'   => $this->getCache('postType'),
-            ],
-            'format'  => 'flat',
-        ];
-
-        // Add date range if configured
+        // Calculate date range
+        // Note: AnalyticsQueryHandler defaults to 30 days if no dates provided,
+        // so we must pass explicit dates for both modes
         if ($countDisplay === 'date_range') {
-            $dateRange = [
-                'from' => TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))),
-                'to'   => date('Y-m-d'),
-            ];
-
-            $queryRequest['date_from'] = $dateRange['from'];
-            $queryRequest['date_to']   = $dateRange['to'];
-
-            // Cache hitArgs for use in getHitColumnContent
-            $this->setCache('hitArgs', ['date' => $dateRange]);
+            $dateFrom = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
+            $dateTo   = date('Y-m-d');
+            $this->setCache('hitArgs', ['date' => ['from' => $dateFrom, 'to' => $dateTo]]);
         } else {
-            // For total count, we don't limit by date
-            $queryRequest['date_from'] = $this->initialPostDate;
-            $queryRequest['date_to']   = date('Y-m-d');
-
+            // Total mode: use all-time (from earliest possible date to today)
+            $dateFrom = '2000-01-01';
+            $dateTo   = date('Y-m-d');
             $this->setCache('hitArgs', []);
         }
 
-        try {
-            $result   = $this->queryHandler->handle($queryRequest);
-            $source   = $isVisitors ? 'visitors' : 'views';
-            $hitCount = $result['data'][$source] ?? 0;
-        } catch (\Exception $e) {
-            $hitCount = 0;
-        }
+        // Determine metric
+        $metric = $isVisitors ? 'visitors' : 'views';
 
-        return $hitCount;
+        // Use AnalyticsQueryHelper for consistent query patterns
+        $batchResults = AnalyticsQueryHelper::getResourceHitsBatch(
+            $ids,
+            $type,
+            $metric,
+            $dateFrom,
+            $dateTo
+        );
+
+        $this->setCache('batchResults', $batchResults);
     }
 
     /**
@@ -371,23 +501,19 @@ class HitColumnHandler
 
         // Display hit count only if it's a valid number
         if (is_numeric($hitCount)) {
-            $date = $this->getCache('hitArgs')['date'] ?? DateRange::get('30days');
+            // Build URL using v15 hash-based routing
+            $hitArgs = $this->getCache('hitArgs');
 
-            $analyticsUrl = Menus::admin_url('content-analytics', [
-                'post_id' => $objectId,
-                'type'    => 'single',
-                'from'    => $date['from'],
-                'to'      => $date['to']
-            ]);
-
-            if ($isTerm) {
-                $analyticsUrl = Menus::admin_url('category-analytics', [
-                    'term_id' => $objectId,
-                    'type'    => 'single',
-                    'from'    => $date['from'],
-                    'to'      => $date['to']
-                ]);
+            // Only add date params for date_range mode (not for total mode)
+            $urlParams = [];
+            if (!empty($hitArgs['date'])) {
+                $urlParams['from'] = $hitArgs['date']['from'];
+                $urlParams['to']   = $hitArgs['date']['to'];
             }
+
+            $analyticsUrl = $isTerm
+                ? UrlBuilder::categoryAnalytics($objectId, $urlParams)
+                : UrlBuilder::contentAnalytics($objectId, $urlParams);
 
             // Add hit number below the chart
             $result .= sprintf(
