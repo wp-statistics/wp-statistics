@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
-use WP_STATISTICS\Menus;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
+use WP_Statistics\Utils\UrlBuilder;
 
 /**
  * This class is used to get summary stats about a post (e.g. visitors, views, referrers, etc.).
@@ -338,6 +338,6 @@ class PostSummaryDataProvider
      */
     public function getContentAnalyticsUrl()
     {
-        return esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $this->postId]));
+        return esc_url(UrlBuilder::contentAnalytics($this->postId));
     }
 }

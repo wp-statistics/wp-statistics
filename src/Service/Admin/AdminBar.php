@@ -317,7 +317,7 @@ class AdminBar
         $context['view_type']   = get_post_type($objectId);
         $context['view_title']  = __('Page Views', 'wp-statistics');
         $context['footer_text'] = __('View Page Performance', 'wp-statistics');
-        $context['footer_link'] = esc_url(UrlBuilder::pageAnalytics($objectId));
+        $context['footer_link'] = esc_url(UrlBuilder::contentAnalytics($objectId));
 
         return $context;
     }
