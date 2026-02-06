@@ -39,7 +39,7 @@ function tableQueryOptions(
 ) {
   const cp = compareParams(params)
   return queryOptions({
-    queryKey: ['overview-widget', cacheKey, params.dateFrom, params.dateTo, cp.compare, params.compareDateFrom],
+    queryKey: ['overview-widget', cacheKey, params.dateFrom, params.dateTo, cp, params.compareDateFrom, params.compareDateTo, query],
     queryFn: () =>
       postAnalytics({
         date_from: params.dateFrom,
@@ -53,7 +53,7 @@ function tableQueryOptions(
 export const getOverviewMetricsQueryOptions = (params: WidgetQueryParams) => {
   const cp = compareParams(params)
   return queryOptions({
-    queryKey: ['overview-widget', 'metrics', params.dateFrom, params.dateTo, cp.compare, params.compareDateFrom],
+    queryKey: ['overview-widget', 'metrics', params.dateFrom, params.dateTo, cp, params.compareDateFrom, params.compareDateTo],
     queryFn: () =>
       postAnalytics({
         date_from: params.dateFrom,
@@ -80,7 +80,7 @@ export const getOverviewTrafficTrendsQueryOptions = (
   const cp = compareParams(params)
   const dateGroupBy = timeframe === 'monthly' ? 'month' : timeframe === 'weekly' ? 'week' : 'date'
   return queryOptions({
-    queryKey: ['overview-widget', 'traffic-trends', dateFrom, dateTo, timeframe, dateGroupBy, cp.compare, params.compareDateFrom],
+    queryKey: ['overview-widget', 'traffic-trends', dateFrom, dateTo, timeframe, dateGroupBy, cp, params.compareDateFrom, params.compareDateTo],
     queryFn: () =>
       postAnalytics({
         date_from: dateFrom,

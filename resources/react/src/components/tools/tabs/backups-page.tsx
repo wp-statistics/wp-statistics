@@ -51,6 +51,7 @@ export function BackupsPage() {
   // Fetch backups on mount
   React.useEffect(() => {
     fetchBackups()
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- fetch once on mount
   }, [])
 
   const fetchBackups = async () => {
@@ -88,7 +89,7 @@ export function BackupsPage() {
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('Failed to create backup. Please try again.', 'wp-statistics'),
@@ -120,7 +121,7 @@ export function BackupsPage() {
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('Failed to delete backup. Please try again.', 'wp-statistics'),
@@ -151,7 +152,7 @@ export function BackupsPage() {
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('Failed to restore backup. Please try again.', 'wp-statistics'),

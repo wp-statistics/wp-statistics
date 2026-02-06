@@ -56,7 +56,7 @@ export function NotificationSettings() {
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('An error occurred while generating preview.', 'wp-statistics'),
@@ -83,7 +83,7 @@ export function NotificationSettings() {
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('An error occurred while sending the test email.', 'wp-statistics'),

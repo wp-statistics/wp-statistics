@@ -179,7 +179,7 @@ function VisitorsOverviewContent() {
   const operatingSystemsTotals = batchResponse?.data?.items?.operating_systems?.data?.totals
   const topReferrersData = batchResponse?.data?.items?.top_referrers?.data?.rows || []
   const topReferrersTotals = batchResponse?.data?.items?.top_referrers?.data?.totals
-  const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
+  const countriesMapRows = batchResponse?.data?.items?.countries_map?.data?.rows
 
   // Transform chart data using shared hook
   const { data: chartData, metrics: trafficTrendsMetrics } = useChartData(trafficTrendsResponse, {
@@ -194,7 +194,7 @@ function VisitorsOverviewContent() {
   // Transform countries map data for GlobalMap component
   const globalMapData = useMemo(
     () => ({
-      countries: countriesMapData
+      countries: (countriesMapRows || [])
         .filter((item) => item.country_code && item.country_name)
         .map((item) => ({
           code: item.country_code.toLowerCase(),
@@ -203,7 +203,7 @@ function VisitorsOverviewContent() {
           views: Number(item.views) || 0,
         })),
     }),
-    [countriesMapData]
+    [countriesMapRows]
   )
 
   // Use the shared percentage calculation hook
@@ -325,7 +325,7 @@ function VisitorsOverviewContent() {
 
     // Filter metrics based on visibility
     return allMetrics.filter((metric) => isMetricVisible(metric.id))
-  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn, isCompareEnabled, comparisonDateLabel, isMetricVisible])
+  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn, isCompareEnabled, comparisonDateLabel, isMetricVisible, calcPercentage])
 
   return (
     <div className="min-w-0">

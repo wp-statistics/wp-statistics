@@ -27,6 +27,7 @@ export function ScheduledTasksPage() {
   // Fetch tasks on mount
   React.useEffect(() => {
     fetchTasks()
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- fetch once on mount
   }, [])
 
   const fetchTasks = async () => {
@@ -68,7 +69,7 @@ export function ScheduledTasksPage() {
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('Failed to run task. Please try again.', 'wp-statistics'),

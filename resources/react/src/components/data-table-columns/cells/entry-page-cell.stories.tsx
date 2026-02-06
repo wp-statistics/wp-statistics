@@ -111,7 +111,7 @@ export const CustomMaxLength: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await expect(canvas.getByText('Documentati...')).toBeInTheDocument()
+    await expect(canvas.getByText('Documenta...')).toBeInTheDocument()
   },
 }
 

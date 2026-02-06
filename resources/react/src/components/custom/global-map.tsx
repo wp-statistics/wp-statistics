@@ -78,7 +78,6 @@ export interface GlobalMapProps {
 export function GlobalMap({
   title,
   data,
-  metric = 'Visitors',
   showZoomControls = true,
   showLegend = true,
   pluginUrl = '',
@@ -196,7 +195,7 @@ export function GlobalMap({
     if (viewMode === 'cities' && selectedCountry) {
       setProvincesGeoLoaded(false)
     }
-  }, [viewMode, selectedCountry?.code])
+  }, [viewMode, selectedCountry])
 
   // Fetch regions data when a country is selected and animation is complete
   const shouldFetchRegions = !!selectedCountry && enableCityDrilldown && !isAnimating && !!dateFrom && !!dateTo

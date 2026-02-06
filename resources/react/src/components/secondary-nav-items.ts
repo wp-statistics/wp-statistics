@@ -1,6 +1,5 @@
-import { Activity, Ban, Bell, Clock, Database, Info, type LucideIcon, Monitor, Settings, Shield, Stethoscope, Upload, Users, Wrench } from 'lucide-react'
-
 import { __ } from '@wordpress/i18n'
+import { Activity, Ban, Bell, Clock, Database, Info, type LucideIcon, Monitor, Settings, Shield, Stethoscope, Upload, Users, Wrench } from 'lucide-react'
 
 export type SecondaryNavItem = {
   title: string

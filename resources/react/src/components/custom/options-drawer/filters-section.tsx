@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { FilterIcon, Plus, Trash2Icon } from 'lucide-react'
+import { FilterIcon, Plus } from 'lucide-react'
 import { useEffect,useMemo, useState } from 'react'
 
 import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'

@@ -35,8 +35,8 @@ export const Default: Story = {
     // Verify domain is displayed
     await expect(canvas.getByText('google.com')).toBeInTheDocument()
 
-    // Verify category is displayed
-    await expect(canvas.getByText('organic search')).toBeInTheDocument()
+    // Verify category is displayed (component applies toTitleCase)
+    await expect(canvas.getByText('Organic Search')).toBeInTheDocument()
   },
 }
 
@@ -53,8 +53,8 @@ export const LongDomain: Story = {
     // Verify truncated domain (with ellipsis)
     await expect(canvas.getByText(/subdomain.*….*\.com/)).toBeInTheDocument()
 
-    // Verify category
-    await expect(canvas.getByText('referral traffic')).toBeInTheDocument()
+    // Verify category (component applies toTitleCase)
+    await expect(canvas.getByText('Referral Traffic')).toBeInTheDocument()
   },
 }
 
@@ -70,8 +70,8 @@ export const DirectTraffic: Story = {
     // No domain link for direct traffic
     await expect(canvas.queryByRole('link')).not.toBeInTheDocument()
 
-    // Category should still be visible
-    await expect(canvas.getByText('direct traffic')).toBeInTheDocument()
+    // Category should still be visible (component applies toTitleCase)
+    await expect(canvas.getByText('Direct Traffic')).toBeInTheDocument()
   },
 }
 
@@ -106,8 +106,8 @@ export const WithTooltip: Story = {
     await userEvent.hover(trigger)
 
     // Tooltip should show the full domain
-    const tooltip = await within(document.body).findByText('very-long-subdomain.example.com')
-    await expect(tooltip).toBeInTheDocument()
+    const tooltip = await within(document.body).findByRole('tooltip')
+    await expect(tooltip).toHaveTextContent('very-long-subdomain.example.com')
 
     await userEvent.unhover(trigger)
   },

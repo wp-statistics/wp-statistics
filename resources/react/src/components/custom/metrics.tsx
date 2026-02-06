@@ -104,7 +104,6 @@ export function Metrics({ metrics, columns = 'auto', className }: MetricsProps) 
 
     // Check if this is the last item in its row
     const col = index % responsiveColumns
-    const itemsInThisRow = isLastRow ? lastRowItemCount : responsiveColumns
     const isLastInRow = isLastRow ? (col === lastRowItemCount - 1) : (col === responsiveColumns - 1)
 
     return cn(

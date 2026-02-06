@@ -32,6 +32,7 @@ export function BackgroundJobsPage() {
   // Fetch jobs on mount
   React.useEffect(() => {
     fetchJobs()
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- fetch once on mount
   }, [])
 
   // Auto-refresh when there are running jobs
@@ -45,6 +46,7 @@ export function BackgroundJobsPage() {
 
       return () => clearInterval(interval)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- re-check on jobs change; fetchJobs is stable
   }, [jobs])
 
   const fetchJobs = async (silent = false) => {

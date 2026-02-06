@@ -1,5 +1,4 @@
 import type { Decorator } from '@storybook/react'
-import { useEffect } from 'react'
 
 // Mock filter operators
 const mockOperators = {
@@ -16,41 +15,39 @@ const mockOperators = {
   not_contains: { label: 'does not contain', type: 'single' as const },
 }
 
+// Set up mock WordPress context synchronously so it's available before first render
+if (typeof window !== 'undefined' && !window.wps_react) {
+  window.wps_react = {
+    globals: {
+      nonce: 'storybook-mock-nonce',
+      ajaxUrl: 'https://wordpress.test/wp-admin/admin-ajax.php',
+      pluginUrl: 'https://wordpress.test/wp-content/plugins/wp-statistics/',
+      isPremium: false,
+      restUrl: 'https://wordpress.test/wp-json/',
+      restNonce: 'storybook-mock-rest-nonce',
+      analyticsAction: 'wp_statistics_analytics',
+      filterAction: 'wp_statistics_get_filter_options',
+      userPreferencesAction: 'wp_statistics_user_preferences',
+      trackLoggedInUsers: true,
+      storeIp: false,
+    },
+    layout: {
+      sidebar: {
+        items: [],
+      },
+    },
+    filters: {
+      operators: mockOperators,
+      fields: {},
+    },
+    config: {},
+  }
+}
+
 /**
  * Decorator that provides mock WordPress context for Storybook
- * This prevents the "wps_react not available" error
+ * The mock is set up at module load time (above) so it's available before first render.
  */
 export const withWordPressContext: Decorator = (Story) => {
-  useEffect(() => {
-    // Mock the WordPress global object that the plugin expects
-    if (typeof window !== 'undefined' && !window.wps_react) {
-      window.wps_react = {
-        globals: {
-          nonce: 'storybook-mock-nonce',
-          ajaxUrl: 'https://wordpress.test/wp-admin/admin-ajax.php',
-          pluginUrl: 'https://wordpress.test/wp-content/plugins/wp-statistics/',
-          isPremium: false,
-          restUrl: 'https://wordpress.test/wp-json/',
-          restNonce: 'storybook-mock-rest-nonce',
-          analyticsAction: 'wp_statistics_analytics',
-          filterAction: 'wp_statistics_get_filter_options',
-          userPreferencesAction: 'wp_statistics_user_preferences',
-          trackLoggedInUsers: true,
-          storeIp: false,
-        },
-        layout: {
-          sidebar: {
-            items: [],
-          },
-        },
-        filters: {
-          operators: mockOperators,
-          fields: {},
-        },
-        config: {},
-      }
-    }
-  }, [])
-
   return <Story />
 }

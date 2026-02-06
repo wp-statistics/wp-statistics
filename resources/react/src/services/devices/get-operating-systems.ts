@@ -91,14 +91,14 @@ export const getOsQueryOptions = ({
   const hasCompare = !!(previous_date_from && previous_date_to)
 
   return queryOptions({
-    queryKey: queryKeys.devices.operatingSystems(
+    queryKey: [...queryKeys.devices.operatingSystems(
       createListParams(date_from, date_to, page, per_page, order_by, order, {
         compareDateFrom: previous_date_from,
         compareDateTo: previous_date_to,
         filters: apiFilters,
         context,
       })
-    ),
+    ), hasCompare],
     queryFn: () =>
       clientRequest.post<GetOsResponse>(
         '',

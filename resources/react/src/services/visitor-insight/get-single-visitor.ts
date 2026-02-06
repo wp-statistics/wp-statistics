@@ -266,6 +266,8 @@ export const getSingleVisitorQueryOptions = ({
       timeframe,
       sessionsPage,
       sessionsPerPage,
+      hasCompare,
+      chartGroupBy,
     ],
     queryFn: () => {
       // Visitor filter for queries - created inside queryFn to avoid dependency issues

@@ -123,7 +123,7 @@ function GeographicOverviewContent() {
   const metricsTopRegion = batchResponse?.data?.items?.metrics_top_region
   const metricsTopCity = batchResponse?.data?.items?.metrics_top_city
 
-  const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
+  const countriesMapRows = batchResponse?.data?.items?.countries_map?.data?.rows
 
   const topCountriesData = batchResponse?.data?.items?.top_countries?.data?.rows || []
   const topCountriesTotals = batchResponse?.data?.items?.top_countries?.data?.totals
@@ -141,7 +141,7 @@ function GeographicOverviewContent() {
   // Transform map data
   const globalMapData = useMemo(
     () => ({
-      countries: countriesMapData
+      countries: (countriesMapRows || [])
         .filter((item) => item.country_code && item.country_name)
         .map((item) => ({
           code: item.country_code.toLowerCase(),
@@ -150,7 +150,7 @@ function GeographicOverviewContent() {
           views: Number(item.views) || 0,
         })),
     }),
-    [countriesMapData]
+    [countriesMapRows]
   )
 
   // Build context metrics

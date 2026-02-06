@@ -33,7 +33,7 @@ import { extractFilterField, getCompatibleFilters } from '@/lib/filter-utils'
 import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-import { getContentOverviewQueryOptions, type TopContentItem } from '@/services/content-analytics/get-content-overview'
+import { getContentOverviewQueryOptions } from '@/services/content-analytics/get-content-overview'
 
 // Widget configuration for Content page
 const WIDGET_CONFIGS: WidgetConfig[] = [
@@ -426,14 +426,12 @@ function ContentOverviewContent() {
 
     // Most Popular: Sort by views desc
     const popularSorted = [...rows].sort((a, b) => Number(b.views) - Number(a.views)).slice(0, 5)
-    const maxPopularViews = popularSorted[0] ? Number(popularSorted[0].views) : 1
 
     // Most Commented: Filter items with comments > 0, then sort by comments desc
     const commentedSorted = [...rows]
       .filter((item) => Number(item.comments) > 0)
       .sort((a, b) => Number(b.comments) - Number(a.comments))
       .slice(0, 5)
-    const maxComments = commentedSorted[0] ? Number(commentedSorted[0].comments) : 1
 
     // Most Recent: Sort by published_date desc
     const recentSorted = [...rows]

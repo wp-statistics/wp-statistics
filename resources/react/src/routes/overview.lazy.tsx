@@ -193,7 +193,7 @@ function MetricsOverviewWidget({ widgetId }: { widgetId: string }) {
     ]
 
     return allMetrics.filter((metric) => isMetricVisible(metric.id!))
-  }, [response, isCompareEnabled, comparisonDateLabel, isMetricVisible])
+  }, [response, isCompareEnabled, comparisonDateLabel, isMetricVisible, calcPercentage])
 
   return (
     <Panel className="h-full">

@@ -96,7 +96,7 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && open) {
-        handleClose()
+        onOpenChange(false)
       }
     }
 
@@ -104,7 +104,7 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
       document.addEventListener('keydown', handleKeyDown)
       return () => document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [open])
+  }, [open, onOpenChange])
 
   if (!isVisible) return null
 

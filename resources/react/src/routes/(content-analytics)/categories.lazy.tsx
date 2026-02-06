@@ -36,14 +36,8 @@ import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } fro
 import { WordPress } from '@/lib/wordpress'
 import {
   type AuthorRow,
-  type BrowserRow,
-  type ContentRow,
-  type DeviceTypeRow,
   getCategoriesOverviewQueryOptions,
-  type OperatingSystemRow,
   type TermRow,
-  type TopCountryRow,
-  type TopReferrerRow,
 } from '@/services/content-analytics/get-categories-overview'
 
 // Widget configuration for Categories page

@@ -32,6 +32,7 @@ import { WordPress } from '@/lib/wordpress'
 import { getTopPagesQueryOptions } from '@/services/page-insight/get-top-pages'
 
 const PER_PAGE = 20
+const CONTENT_FILTERS = ['page', 'resource_id', 'post_type', 'author']
 
 export const Route = createLazyFileRoute('/(page-insights)/top-pages')({
   component: RouteComponent,
@@ -64,9 +65,6 @@ function RouteComponent() {
   const wp = WordPress.getInstance()
   // Base columns for preferences hook (stable definition for column IDs)
   const baseColumns = useMemo(() => createTopPagesColumns({ comparisonLabel }), [comparisonLabel])
-
-  // Content-specific filters only
-  const CONTENT_FILTERS = ['page', 'resource_id', 'post_type', 'author']
 
   const customFilterFields = useMemo<FilterField[]>(() => {
     return wp.getFilterFieldsByGroup('views').filter((field) => CONTENT_FILTERS.includes(field.name)) as FilterField[]

@@ -708,6 +708,7 @@ export const DateRangePicker = ({
     if (newFrom.getTime() !== range.from.getTime() || newTo.getTime() !== (range.to?.getTime() ?? 0)) {
       setRange({ from: newFrom, to: newTo })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- Sync-from-props: intentionally omit range to avoid infinite loop
   }, [initialDateFrom, initialDateTo])
 
   // Sync compare range when props change
@@ -727,6 +728,7 @@ export const DateRangePicker = ({
       // Props cleared compare, so clear internal state
       setRangeCompare(undefined)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- Sync-from-props: intentionally omit rangeCompare to avoid infinite loop
   }, [initialCompareFrom, initialCompareTo])
 
   // Sync selectedPreset when initialPeriod changes
@@ -837,6 +839,7 @@ export const DateRangePicker = ({
 
   useEffect(() => {
     checkPreset()
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- checkPreset is stable (only depends on presets); including it triggers unnecessary re-runs
   }, [range])
 
   const areRangesEqual = (a?: DateRange, b?: DateRange): boolean => {

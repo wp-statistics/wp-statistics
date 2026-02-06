@@ -15,7 +15,7 @@
 
 import type { QueryKey } from '@tanstack/react-query'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import type { ColumnDef, SortingState, Table } from '@tanstack/react-table'
+import type { ColumnDef, Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { type ReactNode,useCallback, useMemo, useRef } from 'react'
 

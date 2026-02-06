@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Bot, Globe, MonitorSmartphone, UserIcon } from 'lucide-react'
 import { useState } from 'react'
-import { expect, fn, userEvent, within } from 'storybook/test'
+import { expect, fn, within } from 'storybook/test'
 
 import type { FilterRowData } from '@/components/custom/filter-row'
 import type { QuickFilterDefinition } from '@/config/quick-filter-definitions'
 
-import { QuickFilters, type QuickFiltersProps } from './quick-filters'
+import { QuickFilters } from './quick-filters'
 
 // Mock quick filter definitions for stories
 const mockDefinitions: QuickFilterDefinition[] = [

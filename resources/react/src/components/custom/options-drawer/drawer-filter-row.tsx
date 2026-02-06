@@ -12,14 +12,10 @@ import {
   getOperatorType,
   getRangeValue,
   getSingleValue,
-  isRangeValue,
-  type RangeValue,
 } from '@/components/custom/filter-row'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useDebounce } from '@/hooks/use-debounce'
-import { cn } from '@/lib/utils'
-import { WordPress } from '@/lib/wordpress'
 import { getSearchableFilterOptionsQueryOptions } from '@/services/filters/get-searchable-filter-options'
 
 interface DrawerFilterRowProps {

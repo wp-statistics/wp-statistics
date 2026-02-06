@@ -27,7 +27,7 @@ interface ImportStatus {
   preview?: {
     headers: string[]
     total_rows: number
-    sample_rows: any[]
+    sample_rows: unknown[]
     is_valid: boolean
   }
 }
@@ -499,7 +499,7 @@ export function ImportExportPage() {
           message: data.data?.message || __('Upload failed', 'wp-statistics'),
         })
       }
-    } catch (error) {
+    } catch {
       setImportStatus({
         status: 'error',
         progress: 0,
@@ -531,7 +531,7 @@ export function ImportExportPage() {
           message: data.data?.message || __('Failed to load preview', 'wp-statistics'),
         })
       }
-    } catch (error) {
+    } catch {
       setImportStatus({
         status: 'error',
         progress: 0,
@@ -566,7 +566,7 @@ export function ImportExportPage() {
           message: data.data?.message || __('Import failed', 'wp-statistics'),
         })
       }
-    } catch (error) {
+    } catch {
       setImportStatus({
         status: 'error',
         progress: 0,
@@ -580,7 +580,7 @@ export function ImportExportPage() {
 
     try {
       await callImportExportApi('cancel_import', { import_id: importStatus.importId })
-    } catch (error) {
+    } catch {
       // Ignore errors on cancel
     }
 
@@ -618,7 +618,7 @@ export function ImportExportPage() {
           message: data.data?.message || __('Export failed', 'wp-statistics'),
         })
       }
-    } catch (error) {
+    } catch {
       setExportStatus({
         status: 'error',
         progress: 0,

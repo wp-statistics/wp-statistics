@@ -28,7 +28,6 @@ import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { getAnalyticsRoute } from '@/lib/url-utils'
 import { formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
-import { WordPress } from '@/lib/wordpress'
 import { getPageInsightsOverviewQueryOptions } from '@/services/page-insight/get-page-insights-overview'
 
 // Widget configuration for this page (core widgets only)
@@ -95,8 +94,6 @@ function PageInsightsOverviewContent() {
 
   // Options drawer - config is passed once and returned for drawer
   const options = useOverviewOptions(OPTIONS_CONFIG)
-
-  const wp = WordPress.getInstance()
 
   // Batch query for all overview data (only when filters are initialized)
   const {

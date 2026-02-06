@@ -93,7 +93,7 @@ export function DataManagementSettings() {
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('Failed to apply retention policy. Please try again.', 'wp-statistics'),

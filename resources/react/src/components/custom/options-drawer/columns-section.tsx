@@ -39,7 +39,7 @@ interface SortableItemProps {
   disabled?: boolean
 }
 
-function SortableItem({ item, onToggle, onComparisonToggle, disabled }: SortableItemProps) {
+function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: item.id,
   })

@@ -117,8 +117,9 @@ export const Empty: Story = {
     // Click to add a filter
     await userEvent.click(addFilterButton)
 
-    // Verify a filter row was added (comboboxes should appear)
-    await expect(canvas.getByRole('combobox')).toBeInTheDocument()
+    // Verify a filter row was added (field + operator comboboxes should appear)
+    const comboboxes = canvas.getAllByRole('combobox')
+    await expect(comboboxes.length).toBeGreaterThanOrEqual(1)
 
     // Verify Apply button exists
     await expect(canvas.getByRole('button', { name: /apply/i })).toBeInTheDocument()

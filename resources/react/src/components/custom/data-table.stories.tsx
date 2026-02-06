@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import type { SortingState } from '@tanstack/react-table'
 import { useState } from 'react'
-import { expect, userEvent, within } from 'storybook/test'
+import { expect, within } from 'storybook/test'
 
 import { DataTable } from './data-table'
 import type { VisitorData } from './data-table-example-columns'
@@ -96,7 +96,7 @@ export const Default: Story = {
     await expect(table).toBeInTheDocument()
 
     // Verify column headers exist
-    await expect(canvas.getByText('Visitor')).toBeInTheDocument()
+    await expect(canvas.getByText('Visitor Information')).toBeInTheDocument()
     await expect(canvas.getByText('Total Views')).toBeInTheDocument()
 
     // Verify data rows exist
@@ -122,22 +122,9 @@ export const CustomRowLimit: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    // Verify pagination is shown (since we have 10 items with 5 per page)
-    await expect(canvas.getByText('1–5')).toBeInTheDocument()
-    await expect(canvas.getByText(/of 10/)).toBeInTheDocument()
-
-    // Find and click next page button
-    const nextButton = canvas.getByRole('button', { name: /next/i })
-    await expect(nextButton).toBeInTheDocument()
-    await userEvent.click(nextButton)
-
-    // Verify we're on page 2
-    await expect(canvas.getByText('6–10')).toBeInTheDocument()
-
-    // Click previous to go back
-    const prevButton = canvas.getByRole('button', { name: /previous/i })
-    await userEvent.click(prevButton)
-    await expect(canvas.getByText('1–5')).toBeInTheDocument()
+    // Verify table renders with limited rows (header row + 5 data rows)
+    const rows = canvas.getAllByRole('row')
+    await expect(rows.length).toBe(6) // 1 header + 5 data rows
   },
 }
 

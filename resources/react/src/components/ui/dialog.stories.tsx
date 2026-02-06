@@ -122,8 +122,8 @@ export const WithForm: Story = {
     await userEvent.click(canvas.getByRole('button', { name: /edit profile/i }))
 
     const dialog = await within(document.body).findByRole('dialog')
-    await expect(within(dialog).getByLabelText(/name/i)).toBeInTheDocument()
-    await expect(within(dialog).getByLabelText(/username/i)).toBeInTheDocument()
+    await expect(within(dialog).getByRole('textbox', { name: /^name$/i })).toBeInTheDocument()
+    await expect(within(dialog).getByRole('textbox', { name: /username/i })).toBeInTheDocument()
   },
 }
 

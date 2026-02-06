@@ -201,15 +201,6 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
 
   const rangeError = getRangeError()
 
-  const handleMultipleValueChange = (value: string) => {
-    const currentValues = getArrayValue(filter.value)
-    if (currentValues.includes(value)) {
-      onUpdate({ ...filter, value: currentValues.filter((v) => v !== value) })
-    } else {
-      onUpdate({ ...filter, value: [...currentValues, value] })
-    }
-  }
-
   const handleSearchableSelect = (value: string, label: string) => {
     const currentLabels = filter.valueLabels || {}
 

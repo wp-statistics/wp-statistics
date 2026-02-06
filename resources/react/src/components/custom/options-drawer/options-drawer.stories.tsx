@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ColumnsIcon, FilterIcon, GaugeIcon, LayoutGridIcon } from 'lucide-react'
 import { useState } from 'react'
-import { expect, fn, userEvent, within } from 'storybook/test'
+import { fn } from 'storybook/test'
 
 import {
   LockedMenuItem,

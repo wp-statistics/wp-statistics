@@ -53,6 +53,9 @@ interface TooltipPayloadEntry {
   name?: string
 }
 
+// Chart colors: Blue, Green, Amber, Red, Purple
+const defaultColors = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)']
+
 export function LineChart({
   data,
   metrics,
@@ -79,9 +82,6 @@ export function LineChart({
       {}
     )
   )
-
-  // Chart colors: Blue, Green, Amber, Red, Purple
-  const defaultColors = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)']
 
   // Build chart config from metrics
   const chartConfig = metrics.reduce((acc, metric, index) => {
@@ -182,7 +182,7 @@ export function LineChart({
           />,
         ]
       }),
-    [metrics, visibleMetrics, defaultColors, hasIncompleteData]
+    [metrics, visibleMetrics, hasIncompleteData]
   )
 
   // Memoize previous period lines to prevent unnecessary re-renders
@@ -208,7 +208,7 @@ export function LineChart({
           />
         )
       }),
-    [metrics, visibleMetrics, defaultColors]
+    [metrics, visibleMetrics]
   )
 
   // Memoize bar elements for bar-type metrics
@@ -227,7 +227,7 @@ export function LineChart({
           />,
         ]
       }),
-    [metrics, visibleMetrics, defaultColors]
+    [metrics, visibleMetrics]
   )
 
   return (

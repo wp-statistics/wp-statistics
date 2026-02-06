@@ -102,14 +102,14 @@ export const getBrowsersQueryOptions = ({
   const hasCompare = !!(previous_date_from && previous_date_to)
 
   return queryOptions({
-    queryKey: queryKeys.devices.browsers(
+    queryKey: [...queryKeys.devices.browsers(
       createListParams(date_from, date_to, page, per_page, order_by, order, {
         compareDateFrom: previous_date_from,
         compareDateTo: previous_date_to,
         filters: apiFilters,
         context,
       })
-    ),
+    ), hasCompare],
     queryFn: () =>
       clientRequest.post<GetBrowsersResponse>(
         '',
@@ -232,7 +232,7 @@ export const getBrowserVersionsQueryOptions = ({
   const apiFilters = transformFiltersToApi(filters)
 
   return queryOptions({
-    queryKey: ['wp-statistics', 'devices', 'browser-versions', browserId, date_from, date_to, previous_date_from, previous_date_to, apiFilters],
+    queryKey: ['wp-statistics', 'devices', 'browser-versions', browserId, date_from, date_to, previous_date_from, previous_date_to, apiFilters, hasCompare],
     queryFn: () =>
       clientRequest.post<GetBrowserVersionsResponse>(
         '',

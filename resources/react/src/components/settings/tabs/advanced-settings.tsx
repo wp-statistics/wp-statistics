@@ -32,7 +32,8 @@ export function AdvancedSettings() {
   // Fetch detected IP on mount
   React.useEffect(() => {
     // Get WP Statistics detected IP from localized data
-    const wpStatsIp = (window as any).wps_react?.globals?.userIp
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- userIp not in wpsReact type definition
+    const wpStatsIp = (window.wps_react?.globals as any)?.userIp
     if (wpStatsIp) {
       setDetectedIp(wpStatsIp)
     } else {
@@ -104,7 +105,7 @@ export function AdvancedSettings() {
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('Failed to restore settings. Please try again.', 'wp-statistics'),

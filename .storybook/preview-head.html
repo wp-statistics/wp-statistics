@@ -9,6 +9,11 @@
       isPremium: false,
       restUrl: 'https://wordpress.test/wp-json/',
       restNonce: 'storybook-mock-rest-nonce',
+      analyticsAction: 'wp_statistics_analytics',
+      filterAction: 'wp_statistics_get_filter_options',
+      userPreferencesAction: 'wp_statistics_user_preferences',
+      trackLoggedInUsers: true,
+      storeIp: false,
     },
     layout: {
       sidebar: {
@@ -17,7 +22,19 @@
     },
     filters: {
       fields: {},
-      operators: {},
+      operators: {
+        is: { label: 'is', type: 'single' },
+        is_not: { label: 'is not', type: 'single' },
+        in: { label: 'is any of', type: 'multiple' },
+        not_in: { label: 'is none of', type: 'multiple' },
+        gt: { label: 'greater than', type: 'single' },
+        gte: { label: 'greater than or equal', type: 'single' },
+        lt: { label: 'less than', type: 'single' },
+        lte: { label: 'less than or equal', type: 'single' },
+        between: { label: 'is between', type: 'range' },
+        contains: { label: 'contains', type: 'single' },
+        not_contains: { label: 'does not contain', type: 'single' },
+      },
     },
     config: {},
   };
