@@ -154,7 +154,9 @@ export interface GlobalFiltersProviderProps {
   filterFields?: FilterField[]
 }
 
-export function GlobalFiltersProvider({ children, filterFields = [] }: GlobalFiltersProviderProps) {
+const EMPTY_FILTER_FIELDS: FilterField[] = []
+
+export function GlobalFiltersProvider({ children, filterFields = EMPTY_FILTER_FIELDS }: GlobalFiltersProviderProps) {
   const navigate = useNavigate()
 
   // Get URL search params (this works at the router level)
