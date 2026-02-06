@@ -137,8 +137,7 @@ class Hits extends BaseTracking
         EntityFactory::view($visitorProfile)
             ->record();
 
-        EntityFactory::parameter($visitorProfile)
-            ->record();
+        // UTM parameters are now recorded in Session::record() on session creation
 
         return $exclusion;
     }

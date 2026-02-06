@@ -4,6 +4,7 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Entity\EntityFactory;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
 
@@ -70,6 +71,10 @@ class Session extends BaseEntity
         ]);
 
         $this->profile->setSessionId($sessionId);
+
+        // Record UTM parameters for this new session (first-touch attribution)
+        EntityFactory::parameter($this->profile)->record();
+
         return $this;
     }
 

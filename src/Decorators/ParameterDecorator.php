@@ -49,26 +49,6 @@ class ParameterDecorator
     }
 
     /**
-     * Get the resource ID.
-     *
-     * @return int|null
-     */
-    public function getResourceId()
-    {
-        return empty($this->parameter->resource_uri_id) ? null : (int)$this->parameter->resource_uri_id;
-    }
-
-    /**
-     * Get the view ID.
-     *
-     * @return int|null
-     */
-    public function getViewId()
-    {
-        return empty($this->parameter->view_id) ? null : (int)$this->parameter->view_id;
-    }
-
-    /**
      * Get the parameter name.
      *
      * @return string|null

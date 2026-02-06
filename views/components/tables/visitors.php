@@ -107,7 +107,8 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                                         $initialResource      = $visitor->getInitialView()->getResource();
                                         $initialResourceLink  = $initialResource->getUrl();
                                         $initialResourceTitle = $initialResource->getTitle();
-                                        $initialesourceQuery  = $visitor->getParameter($initialResource->getId())->getFull();
+                                        $utmQuery             = $visitor->getUtmQueryString();
+                                        $initialesourceQuery  = $utmQuery ? "?{$utmQuery}" : '';
                                     }
 
                                     if (!empty($page)) :

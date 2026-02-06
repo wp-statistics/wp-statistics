@@ -45,22 +45,21 @@ class QueryParams
     /**
      * Built‑in default allow‑list shipped with the plugin.
      *
+     * Only UTM parameters are tracked. source/ref are consolidated into
+     * utm_source during recording.
+     *
      * @param string $type 'array' or any other value for newline string.
      * @return array|string
      */
     public static function getDefaultAllowedList($type = 'array')
     {
         $allowList = [
-            'ref',
-            'source',
             'utm_source',
             'utm_medium',
             'utm_campaign',
             'utm_content',
             'utm_term',
             'utm_id',
-            's',
-            'p'
         ];
 
         return ($type === 'array')

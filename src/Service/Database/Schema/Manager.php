@@ -18,18 +18,15 @@ class Manager
     private static $tablesSchema = [
         'parameters'              => [
             'columns'     => [
-                'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_uri_id' => 'bigint(20) UNSIGNED NOT NULL',
-                'view_id'         => 'bigint(20) UNSIGNED NOT NULL',
-                'parameter'       => 'varchar(64)',
-                'value'           => 'varchar(255)',
+                'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'session_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'parameter'  => 'varchar(64)',
+                'value'      => 'varchar(255)',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY session_id (session_id)',
-                'KEY resource_uri_id (resource_uri_id)',
-                'KEY view_id (view_id)',
+                'UNIQUE KEY session_param (session_id, parameter)',
             ],
         ],
         'resources'               => [

@@ -181,14 +181,13 @@ class TableColumns
 
     /**
      * Column definitions for parameters table.
+     * Parameters are stored at session level (first-touch attribution).
      */
     public const PARAMETERS = [
-        'parameter_id'              => 'parameters.ID',
-        'parameter_session_id'      => 'parameters.session_id',
-        'parameter_resource_uri_id' => 'parameters.resource_uri_id',
-        'parameter_view_id'         => 'parameters.view_id',
-        'parameter_name'            => 'parameters.parameter',
-        'parameter_value'           => 'parameters.value',
+        'parameter_id'         => 'parameters.ID',
+        'parameter_session_id' => 'parameters.session_id',
+        'parameter_name'       => 'parameters.parameter',
+        'parameter_value'      => 'parameters.value',
     ];
 
     /**
