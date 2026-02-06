@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n'
+import { __, sprintf } from '@wordpress/i18n'
 import {
   AlertTriangle,
   CheckCircle2,
@@ -43,28 +43,30 @@ interface DiagnosticsResponse {
   warningCount: number
 }
 
-const statusConfig = {
-  pass: {
-    icon: CheckCircle2,
-    color: 'text-emerald-600 dark:text-emerald-400',
-    bgColor: 'bg-green-50 dark:bg-green-950/30',
-    borderColor: 'border-green-200 dark:border-green-800',
-    label: __('Passed', 'wp-statistics'),
-  },
-  warning: {
-    icon: AlertTriangle,
-    color: 'text-yellow-600 dark:text-yellow-400',
-    bgColor: 'bg-yellow-50 dark:bg-yellow-950/30',
-    borderColor: 'border-yellow-200 dark:border-yellow-800',
-    label: __('Warning', 'wp-statistics'),
-  },
-  fail: {
-    icon: XCircle,
-    color: 'text-red-600 dark:text-red-400',
-    bgColor: 'bg-red-50 dark:bg-red-950/30',
-    borderColor: 'border-red-200 dark:border-red-800',
-    label: __('Failed', 'wp-statistics'),
-  },
+function getStatusConfig() {
+  return {
+    pass: {
+      icon: CheckCircle2,
+      color: 'text-emerald-600 dark:text-emerald-400',
+      bgColor: 'bg-emerald-50 dark:bg-emerald-950/30',
+      borderColor: 'border-emerald-200 dark:border-emerald-800',
+      label: __('Passed', 'wp-statistics'),
+    },
+    warning: {
+      icon: AlertTriangle,
+      color: 'text-amber-600 dark:text-amber-400',
+      bgColor: 'bg-amber-50 dark:bg-amber-950/30',
+      borderColor: 'border-amber-200 dark:border-amber-800',
+      label: __('Warning', 'wp-statistics'),
+    },
+    fail: {
+      icon: XCircle,
+      color: 'text-destructive dark:text-red-400',
+      bgColor: 'bg-red-50 dark:bg-red-950/30',
+      borderColor: 'border-red-200 dark:border-red-800',
+      label: __('Failed', 'wp-statistics'),
+    },
+  }
 }
 
 interface DiagnosticCheckItemProps {
@@ -77,7 +79,7 @@ interface DiagnosticCheckItemProps {
 
 function DiagnosticCheckItem({ check, isRunning, isRepairing, onRetest, onRepair }: DiagnosticCheckItemProps) {
   const [isOpen, setIsOpen] = React.useState(false)
-  const config = statusConfig[check.status]
+  const config = getStatusConfig()[check.status]
   const StatusIcon = config.icon
   const hasDetails = check.details && Object.keys(check.details).length > 0
   const canRepair = check.details?.canRepair === true && check.status !== 'pass'
@@ -170,8 +172,8 @@ export function DiagnosticsPage() {
         setFailCount(response.failCount)
         setWarningCount(response.warningCount)
       }
-    } catch (error) {
-      console.error('Failed to fetch diagnostics:', error)
+    } catch {
+      // Error state handled by empty checks array
     } finally {
       setIsLoading(false)
     }
@@ -191,8 +193,7 @@ export function DiagnosticsPage() {
         setWarningCount(response.warningCount)
         toast({ title: __('Diagnostics complete', 'wp-statistics') })
       }
-    } catch (error) {
-      console.error('Failed to run diagnostics:', error)
+    } catch {
       toast({ title: __('Error', 'wp-statistics'), description: __('Failed to run diagnostics.', 'wp-statistics'), variant: 'destructive' })
     } finally {
       setIsRunningAll(false)
@@ -213,8 +214,7 @@ export function DiagnosticsPage() {
         setFailCount(updated.filter((c) => c.status === 'fail').length)
         setWarningCount(updated.filter((c) => c.status === 'warning').length)
       }
-    } catch (error) {
-      console.error('Failed to run check:', error)
+    } catch {
       toast({ title: __('Error', 'wp-statistics'), description: __('Failed to run check.', 'wp-statistics'), variant: 'destructive' })
     } finally {
       setRunningCheck(null)
@@ -234,8 +234,7 @@ export function DiagnosticsPage() {
       } else {
         toast({ title: __('Error', 'wp-statistics'), description: __('Repair failed.', 'wp-statistics'), variant: 'destructive' })
       }
-    } catch (error) {
-      console.error('Failed to repair:', error)
+    } catch {
       toast({ title: __('Error', 'wp-statistics'), description: __('Repair failed.', 'wp-statistics'), variant: 'destructive' })
     } finally {
       setRepairingCheck(null)
@@ -252,9 +251,9 @@ export function DiagnosticsPage() {
 
     if (diffHours < 1) {
       const diffMins = Math.floor(diffMs / (1000 * 60))
-      return diffMins <= 1 ? __('Just now', 'wp-statistics') : `${diffMins} ${__('minutes ago', 'wp-statistics')}`
+      return diffMins <= 1 ? __('Just now', 'wp-statistics') : sprintf(__('%d minutes ago', 'wp-statistics'), diffMins)
     } else if (diffHours < 24) {
-      return `${diffHours} ${diffHours > 1 ? __('hours ago', 'wp-statistics') : __('hour ago', 'wp-statistics')}`
+      return diffHours > 1 ? sprintf(__('%d hours ago', 'wp-statistics'), diffHours) : __('1 hour ago', 'wp-statistics')
     } else {
       return date.toLocaleDateString(undefined, {
         month: 'short',
@@ -297,18 +296,18 @@ export function DiagnosticsPage() {
             </CardTitle>
             <CardDescription className="flex items-center gap-4">
               <span className="flex items-center gap-1">
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                 {passCount} {__('Passed', 'wp-statistics')}
               </span>
               {warningCount > 0 && (
                 <span className="flex items-center gap-1">
-                  <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
                   {warningCount} {warningCount > 1 ? __('Warnings', 'wp-statistics') : __('Warning', 'wp-statistics')}
                 </span>
               )}
               {failCount > 0 && (
                 <span className="flex items-center gap-1">
-                  <XCircle className="h-4 w-4 text-red-500" />
+                  <XCircle className="h-4 w-4 text-destructive" />
                   {failCount} {__('Failed', 'wp-statistics')}
                 </span>
               )}

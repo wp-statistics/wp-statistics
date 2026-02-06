@@ -1,10 +1,11 @@
-import { __ } from '@wordpress/i18n'
-import { Calendar, Clock, Loader2, Play, RefreshCw } from 'lucide-react'
+import { __, sprintf } from '@wordpress/i18n'
+import { Calendar, Clock, Info, Loader2, Play, RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useToast } from '@/hooks/use-toast'
 import { callToolsApi } from '@/services/tools'
@@ -37,8 +38,7 @@ export function ScheduledTasksPage() {
       if (data.success) {
         setTasks(data.data.tasks || [])
       }
-    } catch (error) {
-      console.error('Failed to fetch scheduled tasks:', error)
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('Failed to load scheduled tasks. Please refresh the page.', 'wp-statistics'),
@@ -116,18 +116,13 @@ export function ScheduledTasksPage() {
 
   return (
     <div className="space-y-6">
-      {/* Info Box */}
-      <div className="rounded-lg border bg-muted/50 p-4">
-        <div className="flex gap-3">
-          <Clock className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
-          <div>
-            <h4 className="font-medium mb-1">{__('About Scheduled Tasks', 'wp-statistics')}</h4>
-            <p className="text-sm text-muted-foreground">
-              {__('These tasks run automatically via WordPress cron. Some tasks may be disabled based on your plugin settings. You can manually trigger any task using the "Run Now" button.', 'wp-statistics')}
-            </p>
-          </div>
-        </div>
-      </div>
+      <NoticeBanner
+        title={__('About Scheduled Tasks', 'wp-statistics')}
+        message={__('These tasks run automatically via WordPress cron. Some tasks may be disabled based on your plugin settings. You can manually trigger any task using the "Run Now" button.', 'wp-statistics')}
+        type="neutral"
+        icon={Info}
+        dismissible={false}
+      />
 
       {/* Scheduled Tasks Card */}
       <Card>
@@ -138,7 +133,7 @@ export function ScheduledTasksPage() {
               {__('Scheduled Tasks', 'wp-statistics')}
             </CardTitle>
             <CardDescription>
-              {tasks.filter((t) => t.enabled).length} {__('of', 'wp-statistics')} {tasks.length} {__('tasks are currently enabled.', 'wp-statistics')}
+              {sprintf(__('%1$d of %2$d tasks are currently enabled.', 'wp-statistics'), tasks.filter((t) => t.enabled).length, tasks.length)}
             </CardDescription>
           </div>
           <Button variant="outline" size="sm" onClick={fetchTasks} disabled={isLoading}>
@@ -176,7 +171,7 @@ export function ScheduledTasksPage() {
                     <TableCell>{getRecurrenceBadge(task.recurrence)}</TableCell>
                     <TableCell>
                       {task.enabled ? (
-                        <Badge variant="default" className="bg-green-500 hover:bg-green-600">
+                        <Badge variant="default" className="bg-emerald-600 hover:bg-emerald-700">
                           {__('Enabled', 'wp-statistics')}
                         </Badge>
                       ) : (

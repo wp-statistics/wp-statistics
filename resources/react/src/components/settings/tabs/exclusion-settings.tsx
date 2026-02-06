@@ -115,7 +115,7 @@ export function ExclusionSettings() {
           <CardTitle>{__('IP Exclusions', 'wp-statistics')}</CardTitle>
           <CardDescription>{__('Exclude specific IP addresses from being tracked.', 'wp-statistics')}</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="exclude-ips">{__('Excluded IP Addresses', 'wp-statistics')}</Label>
             <Textarea
@@ -135,7 +135,7 @@ export function ExclusionSettings() {
           <CardTitle>{__('Country Filters', 'wp-statistics')}</CardTitle>
           <CardDescription>{__('Filter visitors by country.', 'wp-statistics')}</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="excluded-countries">{__('Excluded Countries', 'wp-statistics')}</Label>
             <Textarea
@@ -167,7 +167,7 @@ export function ExclusionSettings() {
           <CardTitle>{__('URL Query Parameters', 'wp-statistics')}</CardTitle>
           <CardDescription>{__('Control which URL query parameters are retained in your statistics.', 'wp-statistics')}</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="query-params">{__('Allowed Query Parameters', 'wp-statistics')}</Label>
             <Textarea
@@ -189,7 +189,7 @@ export function ExclusionSettings() {
           <CardTitle>{__('Bot & Crawler Detection', 'wp-statistics')}</CardTitle>
           <CardDescription>{__('Filter out bots and search engine crawlers.', 'wp-statistics')}</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="robotlist">{__('Bot User Agent List', 'wp-statistics')}</Label>
             <Textarea

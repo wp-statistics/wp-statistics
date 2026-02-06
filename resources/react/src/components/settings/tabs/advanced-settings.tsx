@@ -193,7 +193,7 @@ export function AdvancedSettings() {
             </div>
             {detectedIp !== __('Loading...', 'wp-statistics') && externalIp !== __('Loading...', 'wp-statistics') && detectedIp !== externalIp && (
               <div className="mt-3 flex items-start gap-2 rounded-md bg-amber-500/10 p-2">
-                <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5" />
+                <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5" />
                 <p className="text-xs text-amber-600 dark:text-amber-400">
                   {__("The IPs don't match. If you're behind a proxy or CDN, ensure the correct header is selected above.", 'wp-statistics')}
                 </p>

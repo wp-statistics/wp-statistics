@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n'
+import { __, sprintf } from '@wordpress/i18n'
 import { Clock, Database, HardDrive, Loader2, RefreshCw, Server, Settings, User } from 'lucide-react'
 import * as React from 'react'
 
@@ -70,8 +70,7 @@ export function SystemInfoPage() {
         setTables(data.data.tables || [])
         setPlugin(data.data.plugin || null)
       }
-    } catch (error) {
-      console.error('Failed to fetch system info:', error)
+    } catch {
       setLoadError(__('Failed to load system information. Please refresh the page.', 'wp-statistics'))
     } finally {
       setIsLoading(false)
@@ -91,8 +90,8 @@ export function SystemInfoPage() {
         setTransients(data.data.transients || [])
         setUserMeta(data.data.user_meta || [])
       }
-    } catch (error) {
-      console.error('Failed to fetch options/transients:', error)
+    } catch {
+      // Errors silently ignored - user can retry via Load Data button
     } finally {
       setIsLoadingOptionsTransients(false)
     }
@@ -186,7 +185,7 @@ export function SystemInfoPage() {
             {__('Database Tables', 'wp-statistics')}
           </CardTitle>
           <CardDescription>
-            {tables.length} {__('tables with', 'wp-statistics')} {getTotalRecords().toLocaleString()} {__('total records.', 'wp-statistics')}
+            {sprintf(__('%1$d tables with %2$s total records.', 'wp-statistics'), tables.length, getTotalRecords().toLocaleString())}
           </CardDescription>
         </CardHeader>
         <CardContent>

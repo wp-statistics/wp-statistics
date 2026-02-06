@@ -61,8 +61,7 @@ export function BackupsPage() {
       if (data.success && data.data?.backups) {
         setBackups(data.data.backups)
       }
-    } catch (error) {
-      console.error('Failed to fetch backups:', error)
+    } catch {
       toast({
         title: __('Error', 'wp-statistics'),
         description: __('Failed to load backups. Please refresh the page.', 'wp-statistics'),

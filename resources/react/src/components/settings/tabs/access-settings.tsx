@@ -64,7 +64,7 @@ export function AccessSettings() {
               <SelectContent>
                 {CAPABILITIES.map((cap) => (
                   <SelectItem key={cap.value} value={cap.value}>
-                    {cap.label}
+                    {cap.label} ({cap.description})
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -83,7 +83,7 @@ export function AccessSettings() {
               <SelectContent>
                 {CAPABILITIES.map((cap) => (
                   <SelectItem key={cap.value} value={cap.value}>
-                    {cap.label}
+                    {cap.label} ({cap.description})
                   </SelectItem>
                 ))}
               </SelectContent>

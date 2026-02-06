@@ -8,10 +8,12 @@ import { Label } from '@/components/ui/label'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { useSetting,useSettings } from '@/hooks/use-settings'
+import { useSetting, useSettings } from '@/hooks/use-settings'
+import { useToast } from '@/hooks/use-toast'
 
 export function PrivacySettings() {
   const settings = useSettings({ tab: 'privacy' })
+  const { toast } = useToast()
 
   // Individual settings
   const [storeIp, setStoreIp] = useSetting(settings, 'store_ip', false)
@@ -24,7 +26,10 @@ export function PrivacySettings() {
   const handleSave = async () => {
     const success = await settings.save()
     if (success) {
-      // Could show a toast notification here
+      toast({
+        title: __('Settings saved', 'wp-statistics'),
+        description: __('Privacy settings have been updated.', 'wp-statistics'),
+      })
     }
   }
 
@@ -32,7 +37,7 @@ export function PrivacySettings() {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">Loading settings...</span>
+        <span className="ml-2">{__('Loading settings...', 'wp-statistics')}</span>
       </div>
     )
   }
@@ -41,15 +46,15 @@ export function PrivacySettings() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Data Protection</CardTitle>
-          <CardDescription>Configure how visitor IP addresses are stored and processed.</CardDescription>
+          <CardTitle>{__('Data Protection', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Configure how visitor IP addresses are stored and processed.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="store-ip">Store IP Addresses</Label>
+              <Label htmlFor="store-ip">{__('Store IP Addresses', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Record full visitor IP addresses in the database. When disabled, only anonymous hashes are stored.
+                {__('Record full visitor IP addresses in the database. When disabled, only anonymous hashes are stored.', 'wp-statistics')}
               </p>
             </div>
             <Switch id="store-ip" checked={!!storeIp} onCheckedChange={setStoreIp} />
@@ -88,26 +93,26 @@ export function PrivacySettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>User Preferences</CardTitle>
-          <CardDescription>Configure consent integration and respect user privacy preferences.</CardDescription>
+          <CardTitle>{__('User Preferences', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Configure consent integration and respect user privacy preferences.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="consent-integration">Consent Plugin Integration</Label>
-              <p className="text-sm text-muted-foreground">Integrate with supported consent management plugins.</p>
+              <Label htmlFor="consent-integration">{__('Consent Plugin Integration', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('Integrate with supported consent management plugins.', 'wp-statistics')}</p>
             </div>
             <Select value={consentIntegration as string} onValueChange={setConsentIntegration}>
               <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Select plugin" />
+                <SelectValue placeholder={__('Select plugin', 'wp-statistics')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="none">None</SelectItem>
-                <SelectItem value="wp_consent_api">Via WP Consent API</SelectItem>
-                <SelectItem value="complianz">Complianz</SelectItem>
-                <SelectItem value="cookieyes">CookieYes</SelectItem>
-                <SelectItem value="real_cookie_banner">Real Cookie Banner</SelectItem>
-                <SelectItem value="borlabs_cookie">Borlabs Cookie</SelectItem>
+                <SelectItem value="none">{__('None', 'wp-statistics')}</SelectItem>
+                <SelectItem value="wp_consent_api">{__('Via WP Consent API', 'wp-statistics')}</SelectItem>
+                <SelectItem value="complianz">{__('Complianz', 'wp-statistics')}</SelectItem>
+                <SelectItem value="cookieyes">{__('CookieYes', 'wp-statistics')}</SelectItem>
+                <SelectItem value="real_cookie_banner">{__('Real Cookie Banner', 'wp-statistics')}</SelectItem>
+                <SelectItem value="borlabs_cookie">{__('Borlabs Cookie', 'wp-statistics')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -115,18 +120,18 @@ export function PrivacySettings() {
           {consentIntegration === 'wp_consent_api' && (
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label htmlFor="consent-level">Consent Category</Label>
-                <p className="text-sm text-muted-foreground">Select the consent category WP Statistics should track.</p>
+                <Label htmlFor="consent-level">{__('Consent Category', 'wp-statistics')}</Label>
+                <p className="text-sm text-muted-foreground">{__('Select the consent category WP Statistics should track.', 'wp-statistics')}</p>
               </div>
               <Select value={consentLevel as string} onValueChange={setConsentLevel}>
                 <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder={__('Select category', 'wp-statistics')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="functional">Functional</SelectItem>
-                  <SelectItem value="statistics-anonymous">Statistics-Anonymous</SelectItem>
-                  <SelectItem value="statistics">Statistics</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
+                  <SelectItem value="functional">{__('Functional', 'wp-statistics')}</SelectItem>
+                  <SelectItem value="statistics-anonymous">{__('Statistics-Anonymous', 'wp-statistics')}</SelectItem>
+                  <SelectItem value="statistics">{__('Statistics', 'wp-statistics')}</SelectItem>
+                  <SelectItem value="marketing">{__('Marketing', 'wp-statistics')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -135,8 +140,8 @@ export function PrivacySettings() {
           {consentIntegration && consentIntegration !== 'none' && (
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label htmlFor="anonymous-tracking">Anonymous Tracking</Label>
-                <p className="text-sm text-muted-foreground">Track all users anonymously without PII by default.</p>
+                <Label htmlFor="anonymous-tracking">{__('Anonymous Tracking', 'wp-statistics')}</Label>
+                <p className="text-sm text-muted-foreground">{__('Track all users anonymously without PII by default.', 'wp-statistics')}</p>
               </div>
               <Switch id="anonymous-tracking" checked={!!anonymousTracking} onCheckedChange={setAnonymousTracking} />
             </div>
@@ -146,15 +151,15 @@ export function PrivacySettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Privacy Audit</CardTitle>
-          <CardDescription>Enable privacy monitoring and compliance tools.</CardDescription>
+          <CardTitle>{__('Privacy Audit', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Enable privacy monitoring and compliance tools.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="privacy-audit">Enable Privacy Audit</Label>
+              <Label htmlFor="privacy-audit">{__('Enable Privacy Audit', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Show privacy indicators on settings that affect user privacy.
+                {__('Show privacy indicators on settings that affect user privacy.', 'wp-statistics')}
               </p>
             </div>
             <Switch id="privacy-audit" checked={!!privacyAudit} onCheckedChange={setPrivacyAudit} />
@@ -167,7 +172,7 @@ export function PrivacySettings() {
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>
           {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Save Changes
+          {__('Save Changes', 'wp-statistics')}
         </Button>
       </div>
     </div>

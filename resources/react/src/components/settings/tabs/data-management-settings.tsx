@@ -164,7 +164,7 @@ export function DataManagementSettings() {
                       {option.title}
                     </span>
                     {option.value === 'archive' && (
-                      <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                      <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
                         {__('Recommended', 'wp-statistics')}
                       </span>
                     )}

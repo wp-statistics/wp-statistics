@@ -8,10 +8,12 @@ import { Label } from '@/components/ui/label'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { useSetting,useSettings } from '@/hooks/use-settings'
+import { useSetting, useSettings } from '@/hooks/use-settings'
+import { useToast } from '@/hooks/use-toast'
 
 export function DisplaySettings() {
   const settings = useSettings({ tab: 'display' })
+  const { toast } = useToast()
 
   // Admin Interface Settings
   const [disableEditor, setDisableEditor] = useSetting(settings, 'disable_editor', false)
@@ -29,7 +31,10 @@ export function DisplaySettings() {
   const handleSave = async () => {
     const success = await settings.save()
     if (success) {
-      // Could show a toast notification here
+      toast({
+        title: __('Settings saved', 'wp-statistics'),
+        description: __('Display settings have been updated.', 'wp-statistics'),
+      })
     }
   }
 
@@ -37,7 +42,7 @@ export function DisplaySettings() {
     return (
       <div className="flex items-center justify-center p-8">
         <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">Loading settings...</span>
+        <span className="ml-2">{__('Loading settings...', 'wp-statistics')}</span>
       </div>
     )
   }
@@ -46,15 +51,15 @@ export function DisplaySettings() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Admin Interface</CardTitle>
-          <CardDescription>Configure how WP Statistics appears in the WordPress admin area.</CardDescription>
+          <CardTitle>{__('Admin Interface', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Configure how WP Statistics appears in the WordPress admin area.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="disable-editor">View Stats in Editor</Label>
+              <Label htmlFor="disable-editor">{__('View Stats in Editor', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Show a summary of content view statistics in the post editor.
+                {__('Show a summary of content view statistics in the post editor.', 'wp-statistics')}
               </p>
             </div>
             <Switch
@@ -66,9 +71,9 @@ export function DisplaySettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="disable-column">Stats Column in Content List</Label>
+              <Label htmlFor="disable-column">{__('Stats Column in Content List', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Display the statistics column in the content list menus, showing page view or visitor counts.
+                {__('Display the statistics column in the content list menus, showing page view or visitor counts.', 'wp-statistics')}
               </p>
             </div>
             <Switch
@@ -80,10 +85,9 @@ export function DisplaySettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="enable-user-column">Views Column in User List</Label>
+              <Label htmlFor="enable-user-column">{__('Views Column in User List', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Display the "Views" column in the admin user list. Requires "Track Logged-In User Activity" to be
-                enabled.
+                {__('Display the "Views" column in the admin user list. Requires "Track Logged-In User Activity" to be enabled.', 'wp-statistics')}
               </p>
             </div>
             <Switch id="enable-user-column" checked={!!enableUserColumn} onCheckedChange={setEnableUserColumn} />
@@ -91,9 +95,9 @@ export function DisplaySettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="menu-bar">Show Stats in Admin Menu Bar</Label>
+              <Label htmlFor="menu-bar">{__('Show Stats in Admin Menu Bar', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                View your site's statistics directly from the WordPress admin menu bar.
+                {__("View your site's statistics directly from the WordPress admin menu bar.", 'wp-statistics')}
               </p>
             </div>
             <Switch id="menu-bar" checked={!!menuBar} onCheckedChange={setMenuBar} />
@@ -101,8 +105,8 @@ export function DisplaySettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="disable-dashboard">WP Statistics Widgets in Dashboard</Label>
-              <p className="text-sm text-muted-foreground">View WP Statistics widgets in the WordPress dashboard.</p>
+              <Label htmlFor="disable-dashboard">{__('WP Statistics Widgets in Dashboard', 'wp-statistics')}</Label>
+              <p className="text-sm text-muted-foreground">{__('View WP Statistics widgets in the WordPress dashboard.', 'wp-statistics')}</p>
             </div>
             <Switch
               id="disable-dashboard"
@@ -113,9 +117,9 @@ export function DisplaySettings() {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="display-notifications">WP Statistics Notifications</Label>
+              <Label htmlFor="display-notifications">{__('WP Statistics Notifications', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Display important notifications such as new version releases, feature updates, and news.
+                {__('Display important notifications such as new version releases, feature updates, and news.', 'wp-statistics')}
               </p>
             </div>
             <Switch
@@ -139,15 +143,15 @@ export function DisplaySettings() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Frontend Display</CardTitle>
-          <CardDescription>Configure how statistics appear on your website frontend.</CardDescription>
+          <CardTitle>{__('Frontend Display', 'wp-statistics')}</CardTitle>
+          <CardDescription>{__('Configure how statistics appear on your website frontend.', 'wp-statistics')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="show-hits">Views in Single Contents</Label>
+              <Label htmlFor="show-hits">{__('Views in Single Contents', 'wp-statistics')}</Label>
               <p className="text-sm text-muted-foreground">
-                Shows the view count on the content's page for visitor insight.
+                {__("Shows the view count on the content's page for visitor insight.", 'wp-statistics')}
               </p>
             </div>
             <Switch id="show-hits" checked={!!showHits} onCheckedChange={setShowHits} />
@@ -155,18 +159,18 @@ export function DisplaySettings() {
 
           {showHits && (
             <div className="space-y-2">
-              <Label htmlFor="display-hits-position">Display Position</Label>
+              <Label htmlFor="display-hits-position">{__('Display Position', 'wp-statistics')}</Label>
               <Select value={displayHitsPosition as string} onValueChange={setDisplayHitsPosition}>
                 <SelectTrigger id="display-hits-position" className="w-[200px]">
-                  <SelectValue placeholder="Select position" />
+                  <SelectValue placeholder={__('Select position', 'wp-statistics')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Please select</SelectItem>
-                  <SelectItem value="before_content">Before Content</SelectItem>
-                  <SelectItem value="after_content">After Content</SelectItem>
+                  <SelectItem value="none">{__('Please select', 'wp-statistics')}</SelectItem>
+                  <SelectItem value="before_content">{__('Before Content', 'wp-statistics')}</SelectItem>
+                  <SelectItem value="after_content">{__('After Content', 'wp-statistics')}</SelectItem>
                 </SelectContent>
               </Select>
-              <p className="text-xs text-muted-foreground">Choose the position to show views on your content pages.</p>
+              <p className="text-xs text-muted-foreground">{__('Choose the position to show views on your content pages.', 'wp-statistics')}</p>
             </div>
           )}
         </CardContent>
@@ -177,7 +181,7 @@ export function DisplaySettings() {
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={settings.isSaving}>
           {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Save Changes
+          {__('Save Changes', 'wp-statistics')}
         </Button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n'
+import { __, sprintf } from '@wordpress/i18n'
 import { Activity, Clock, Loader2, PauseCircle, PlayCircle, RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
@@ -68,8 +68,7 @@ export function BackgroundJobsPage() {
           })
         }
       }
-    } catch (error) {
-      console.error('Failed to fetch background jobs:', error)
+    } catch {
       if (!silent) {
         toast({
           title: __('Error', 'wp-statistics'),
@@ -87,7 +86,7 @@ export function BackgroundJobsPage() {
     switch (status) {
       case 'running':
         return (
-          <Badge variant="default" className="bg-blue-500 hover:bg-blue-600">
+          <Badge variant="default" className="bg-primary hover:bg-primary/90">
             <PlayCircle className="mr-1 h-3 w-3" />
             {__('Running', 'wp-statistics')}
           </Badge>
@@ -134,7 +133,7 @@ export function BackgroundJobsPage() {
             </CardTitle>
             <CardDescription>
               {getActiveJobsCount() > 0
-                ? `${getActiveJobsCount()} ${getActiveJobsCount() > 1 ? __('jobs currently active.', 'wp-statistics') : __('job currently active.', 'wp-statistics')}`
+                ? sprintf(__('%d jobs currently active.', 'wp-statistics'), getActiveJobsCount())
                 : __('No active background jobs.', 'wp-statistics')}
             </CardDescription>
           </div>
