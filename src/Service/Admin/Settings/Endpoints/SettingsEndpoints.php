@@ -324,10 +324,12 @@ class SettingsEndpoints
     private function getSettingsForTab($tab)
     {
         $keys     = $this->getAllowedKeysForTab($tab);
+        $defaults = Option::getDefaults();
         $settings = [];
 
         foreach ($keys as $key) {
-            $settings[$key] = Option::getValue($key);
+            $default        = array_key_exists($key, $defaults) ? $defaults[$key] : null;
+            $settings[$key] = Option::getValue($key, $default);
         }
 
         return $settings;
