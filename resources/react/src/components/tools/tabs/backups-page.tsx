@@ -14,9 +14,9 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 
+import { SettingsCard } from '@/components/settings-ui'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -188,7 +188,7 @@ export function BackupsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Info Box */}
       <NoticeBanner
         title={__('About Backups', 'wp-statistics')}
@@ -199,23 +199,17 @@ export function BackupsPage() {
       />
 
       {/* Backups Card */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <Database className="h-5 w-5" />
-              {__('Backups', 'wp-statistics')}
-            </CardTitle>
-            <CardDescription>
-              {__('Manage your statistics data backups. Download, restore, or delete backups as needed.', 'wp-statistics')}
-            </CardDescription>
-          </div>
+      <SettingsCard
+        title={__('Backups', 'wp-statistics')}
+        icon={Database}
+        description={__('Manage your statistics data backups. Download, restore, or delete backups as needed.', 'wp-statistics')}
+        action={
           <Button onClick={createBackup} disabled={isCreating}>
             {isCreating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
             {__('Create Backup', 'wp-statistics')}
           </Button>
-        </CardHeader>
-        <CardContent>
+        }
+      >
           {backups.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Database className="h-12 w-12 text-muted-foreground/50 mb-4" />
@@ -306,8 +300,7 @@ export function BackupsPage() {
               </TableBody>
             </Table>
           )}
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>

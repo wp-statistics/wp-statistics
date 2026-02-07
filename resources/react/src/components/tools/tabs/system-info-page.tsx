@@ -2,9 +2,9 @@ import { __, sprintf } from '@wordpress/i18n'
 import { Clock, Database, HardDrive, Loader2, RefreshCw, Server, Settings, User } from 'lucide-react'
 import * as React from 'react'
 
+import { SettingsCard } from '@/components/settings-ui'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { callToolsApi } from '@/services/tools'
@@ -129,7 +129,7 @@ export function SystemInfoPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Load Error */}
       {loadError && (
         <NoticeBanner
@@ -142,53 +142,42 @@ export function SystemInfoPage() {
 
       {/* Plugin Info Card */}
       {plugin && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Server className="h-5 w-5" />
-              {__('Plugin Information', 'wp-statistics')}
-            </CardTitle>
-            <CardDescription>{__('Current versions and environment details.', 'wp-statistics')}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{__('Plugin Version', 'wp-statistics')}</p>
-                <p className="font-medium">{plugin.version}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{__('Database Version', 'wp-statistics')}</p>
-                <p className="font-medium">{plugin.db_version}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{__('PHP Version', 'wp-statistics')}</p>
-                <p className="font-medium">{plugin.php}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{__('MySQL Version', 'wp-statistics')}</p>
-                <p className="font-medium">{plugin.mysql}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{__('WordPress Version', 'wp-statistics')}</p>
-                <p className="font-medium">{plugin.wp}</p>
-              </div>
+        <SettingsCard
+          title={__('Plugin Information', 'wp-statistics')}
+          icon={Server}
+          description={__('Current versions and environment details.', 'wp-statistics')}
+        >
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{__('Plugin Version', 'wp-statistics')}</p>
+              <p className="font-medium">{plugin.version}</p>
             </div>
-          </CardContent>
-        </Card>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{__('Database Version', 'wp-statistics')}</p>
+              <p className="font-medium">{plugin.db_version}</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{__('PHP Version', 'wp-statistics')}</p>
+              <p className="font-medium">{plugin.php}</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{__('MySQL Version', 'wp-statistics')}</p>
+              <p className="font-medium">{plugin.mysql}</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{__('WordPress Version', 'wp-statistics')}</p>
+              <p className="font-medium">{plugin.wp}</p>
+            </div>
+          </div>
+        </SettingsCard>
       )}
 
       {/* Database Tables Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Database className="h-5 w-5" />
-            {__('Database Tables', 'wp-statistics')}
-          </CardTitle>
-          <CardDescription>
-            {sprintf(__('%1$d tables with %2$s total records.', 'wp-statistics'), tables.length, getTotalRecords().toLocaleString())}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+      <SettingsCard
+        title={__('Database Tables', 'wp-statistics')}
+        icon={Database}
+        description={sprintf(__('%1$d tables with %2$s total records.', 'wp-statistics'), tables.length, getTotalRecords().toLocaleString())}
+      >
           {tables.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Database className="h-12 w-12 text-muted-foreground/50 mb-4" />
@@ -242,19 +231,14 @@ export function SystemInfoPage() {
               </TableBody>
             </Table>
           )}
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       {/* Options & Transients Card */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="h-5 w-5" />
-              {__('Options & Transients', 'wp-statistics')}
-            </CardTitle>
-            <CardDescription>{__('WordPress options, transients, and user meta used by WP Statistics.', 'wp-statistics')}</CardDescription>
-          </div>
+      <SettingsCard
+        title={__('Options & Transients', 'wp-statistics')}
+        icon={Settings}
+        description={__('WordPress options, transients, and user meta used by WP Statistics.', 'wp-statistics')}
+        action={
           <Button variant="outline" size="sm" onClick={fetchOptionsAndTransients} disabled={isLoadingOptionsTransients}>
             {isLoadingOptionsTransients ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -263,8 +247,8 @@ export function SystemInfoPage() {
             )}
             {__('Load Data', 'wp-statistics')}
           </Button>
-        </CardHeader>
-        <CardContent>
+        }
+      >
           {options.length === 0 && transients.length === 0 && userMeta.length === 0 ? (
             <p className="text-sm text-muted-foreground">
               {__('Click "Load Data" to view options, transients, and user meta.', 'wp-statistics')}
@@ -362,8 +346,7 @@ export function SystemInfoPage() {
               )}
             </div>
           )}
-        </CardContent>
-      </Card>
+      </SettingsCard>
     </div>
   )
 }

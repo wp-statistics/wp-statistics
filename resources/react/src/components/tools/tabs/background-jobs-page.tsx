@@ -2,9 +2,9 @@ import { __, sprintf } from '@wordpress/i18n'
 import { Activity, Clock, Loader2, PauseCircle, PlayCircle, RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
+import { SettingsCard } from '@/components/settings-ui'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useToast } from '@/hooks/use-toast'
@@ -122,27 +122,23 @@ export function BackgroundJobsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Background Jobs Card */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5" />
-              {__('Background Jobs', 'wp-statistics')}
-            </CardTitle>
-            <CardDescription>
-              {getActiveJobsCount() > 0
-                ? sprintf(__('%d jobs currently active.', 'wp-statistics'), getActiveJobsCount())
-                : __('No active background jobs.', 'wp-statistics')}
-            </CardDescription>
-          </div>
+      <SettingsCard
+        title={__('Background Jobs', 'wp-statistics')}
+        icon={Activity}
+        description={
+          getActiveJobsCount() > 0
+            ? sprintf(__('%d jobs currently active.', 'wp-statistics'), getActiveJobsCount())
+            : __('No active background jobs.', 'wp-statistics')
+        }
+        action={
           <Button variant="outline" size="sm" onClick={() => fetchJobs()} disabled={isRefreshing}>
             {isRefreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
             {__('Refresh', 'wp-statistics')}
           </Button>
-        </CardHeader>
-        <CardContent>
+        }
+      >
           {jobs.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Activity className="h-12 w-12 text-muted-foreground/50 mb-4" />
@@ -188,23 +184,19 @@ export function BackgroundJobsPage() {
               </TableBody>
             </Table>
           )}
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       {/* Info Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">{__('About Background Jobs', 'wp-statistics')}</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground space-y-2">
+      <SettingsCard title={__('About Background Jobs', 'wp-statistics')}>
+        <div className="text-sm text-muted-foreground space-y-2">
           <p>
             {__('Background jobs process large datasets without blocking your browser. They run automatically via WordPress cron and continue even if you close this page.', 'wp-statistics')}
           </p>
           <p>
             {__('Jobs include: GeoIP database updates, visitor location updates, source channel processing, daily summary calculations, and resource cache updates.', 'wp-statistics')}
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </SettingsCard>
     </div>
   )
 }

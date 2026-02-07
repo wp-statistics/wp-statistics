@@ -4,7 +4,6 @@ import {
   CheckCircle2,
   ChevronDown,
   ChevronUp,
-  Clock,
   ExternalLink,
   Loader2,
   RefreshCw,
@@ -14,9 +13,9 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 
+import { SettingsCard } from '@/components/settings-ui'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { useToast } from '@/hooks/use-toast'
@@ -276,7 +275,7 @@ export function DiagnosticsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Info Box */}
       <NoticeBanner
         title={__('System Diagnostics', 'wp-statistics')}
@@ -287,48 +286,39 @@ export function DiagnosticsPage() {
       />
 
       {/* Summary Card */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-4">
-          <div className="space-y-1">
-            <CardTitle className="flex items-center gap-2">
-              <Stethoscope className="h-5 w-5" />
-              {__('Diagnostic Results', 'wp-statistics')}
-            </CardTitle>
-            <CardDescription className="flex items-center gap-4">
+      <SettingsCard
+        title={__('Diagnostic Results', 'wp-statistics')}
+        icon={Stethoscope}
+        description={formatLastCheck(lastFullCheck) !== __('Never', 'wp-statistics') ? `${__('Last full check:', 'wp-statistics')} ${formatLastCheck(lastFullCheck)}` : undefined}
+        action={
+          <Button onClick={runAllChecks} disabled={isRunningAll}>
+            {isRunningAll ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCw className="mr-2 h-4 w-4" />
+            )}
+            {__('Run All Checks', 'wp-statistics')}
+          </Button>
+        }
+      >
+          <div className="flex items-center gap-4 text-sm">
+            <span className="flex items-center gap-1">
+              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+              {passCount} {__('Passed', 'wp-statistics')}
+            </span>
+            {warningCount > 0 && (
               <span className="flex items-center gap-1">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                {passCount} {__('Passed', 'wp-statistics')}
+                <AlertTriangle className="h-4 w-4 text-amber-600" />
+                {warningCount} {warningCount > 1 ? __('Warnings', 'wp-statistics') : __('Warning', 'wp-statistics')}
               </span>
-              {warningCount > 0 && (
-                <span className="flex items-center gap-1">
-                  <AlertTriangle className="h-4 w-4 text-amber-600" />
-                  {warningCount} {warningCount > 1 ? __('Warnings', 'wp-statistics') : __('Warning', 'wp-statistics')}
-                </span>
-              )}
-              {failCount > 0 && (
-                <span className="flex items-center gap-1">
-                  <XCircle className="h-4 w-4 text-destructive" />
-                  {failCount} {__('Failed', 'wp-statistics')}
-                </span>
-              )}
-            </CardDescription>
+            )}
+            {failCount > 0 && (
+              <span className="flex items-center gap-1">
+                <XCircle className="h-4 w-4 text-destructive" />
+                {failCount} {__('Failed', 'wp-statistics')}
+              </span>
+            )}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <Clock className="h-4 w-4" />
-              {__('Last full check:', 'wp-statistics')} {formatLastCheck(lastFullCheck)}
-            </div>
-            <Button onClick={runAllChecks} disabled={isRunningAll}>
-              {isRunningAll ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <RefreshCw className="mr-2 h-4 w-4" />
-              )}
-              {__('Run All Checks', 'wp-statistics')}
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
           <div className="space-y-3">
             {checks.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -351,8 +341,7 @@ export function DiagnosticsPage() {
               ))
             )}
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
     </div>
   )
 }

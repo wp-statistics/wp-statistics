@@ -2,9 +2,9 @@ import { __, sprintf } from '@wordpress/i18n'
 import { Calendar, Clock, Info, Loader2, Play, RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
+import { SettingsCard } from '@/components/settings-ui'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useToast } from '@/hooks/use-toast'
@@ -115,7 +115,7 @@ export function ScheduledTasksPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <NoticeBanner
         title={__('About Scheduled Tasks', 'wp-statistics')}
         message={__('These tasks run automatically via WordPress cron. Some tasks may be disabled based on your plugin settings. You can manually trigger any task using the "Run Now" button.', 'wp-statistics')}
@@ -125,23 +125,17 @@ export function ScheduledTasksPage() {
       />
 
       {/* Scheduled Tasks Card */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              {__('Scheduled Tasks', 'wp-statistics')}
-            </CardTitle>
-            <CardDescription>
-              {sprintf(__('%1$d of %2$d tasks are currently enabled.', 'wp-statistics'), tasks.filter((t) => t.enabled).length, tasks.length)}
-            </CardDescription>
-          </div>
+      <SettingsCard
+        title={__('Scheduled Tasks', 'wp-statistics')}
+        icon={Clock}
+        description={sprintf(__('%1$d of %2$d tasks are currently enabled.', 'wp-statistics'), tasks.filter((t) => t.enabled).length, tasks.length)}
+        action={
           <Button variant="outline" size="sm" onClick={fetchTasks} disabled={isLoading}>
             <RefreshCw className="mr-2 h-4 w-4" />
             {__('Refresh', 'wp-statistics')}
           </Button>
-        </CardHeader>
-        <CardContent>
+        }
+      >
           {tasks.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Clock className="h-12 w-12 text-muted-foreground/50 mb-4" />
@@ -208,8 +202,7 @@ export function ScheduledTasksPage() {
               </TableBody>
             </Table>
           )}
-        </CardContent>
-      </Card>
+      </SettingsCard>
     </div>
   )
 }

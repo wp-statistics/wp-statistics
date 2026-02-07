@@ -2,8 +2,8 @@ import { __ } from '@wordpress/i18n'
 import { AlertTriangle, Globe, Loader2, RotateCcw, Server } from 'lucide-react'
 import * as React from 'react'
 
+import { SettingsActionField, SettingsCard, SettingsField, SettingsInfoBox, SettingsPage, SettingsSelectField, SettingsToggleField } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -13,10 +13,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { NoticeBanner } from '@/components/ui/notice-banner'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
 import { useSetting, useSettings } from '@/hooks/use-settings'
 import { useToast } from '@/hooks/use-toast'
 import { WordPress } from '@/lib/wordpress'
@@ -31,7 +27,6 @@ export function AdvancedSettings() {
 
   // Fetch detected IP on mount
   React.useEffect(() => {
-    // Get WP Statistics detected IP from localized data
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- userIp not in wpsReact type definition
     const wpStatsIp = (window.wps_react?.globals as any)?.userIp
     if (wpStatsIp) {
@@ -40,7 +35,6 @@ export function AdvancedSettings() {
       setDetectedIp(__('Not available', 'wp-statistics'))
     }
 
-    // Fetch external IP from ipify
     fetch('https://api.ipify.org?format=json')
       .then((res) => res.json())
       .then((data) => setExternalIp(data.ip))
@@ -55,11 +49,7 @@ export function AdvancedSettings() {
   const [geoipLicenseType, setGeoipLicenseType] = useSetting(settings, 'geoip_license_type', 'js-deliver')
   const [geoipLicenseKey, setGeoipLicenseKey] = useSetting(settings, 'geoip_license_key', '')
   const [geoipDbipLicenseKey, setGeoipDbipLicenseKey] = useSetting(settings, 'geoip_dbip_license_key_option', '')
-  const [geoipDetectionMethod, setGeoipDetectionMethod] = useSetting(
-    settings,
-    'geoip_location_detection_method',
-    'maxmind'
-  )
+  const [geoipDetectionMethod, setGeoipDetectionMethod] = useSetting(settings, 'geoip_location_detection_method', 'maxmind')
   const [scheduleGeoip, setScheduleGeoip] = useSetting(settings, 'schedule_geoip', false)
   const [autoPop, setAutoPop] = useSetting(settings, 'auto_pop', false)
   const [privateCountryCode, setPrivateCountryCode] = useSetting(settings, 'private_country_code', '000')
@@ -72,16 +62,6 @@ export function AdvancedSettings() {
 
   // Other Settings
   const [shareAnonymousData, setShareAnonymousData] = useSetting(settings, 'share_anonymous_data', false)
-
-  const handleSave = async () => {
-    const success = await settings.save()
-    if (success) {
-      toast({
-        title: __('Settings saved', 'wp-statistics'),
-        description: __('Advanced settings have been updated.', 'wp-statistics'),
-      })
-    }
-  }
 
   const handleRestoreDefaults = async () => {
     setShowResetDialog(false)
@@ -116,274 +96,239 @@ export function AdvancedSettings() {
     }
   }
 
-  if (settings.isLoading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">{__('Loading settings...', 'wp-statistics')}</span>
-      </div>
-    )
-  }
-
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>{__('IP Detection', 'wp-statistics')}</CardTitle>
-          <CardDescription>{__('Configure how visitor IP addresses are detected.', 'wp-statistics')}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="ip-method">{__('IP Detection Method', 'wp-statistics')}</Label>
-            <Select value={ipMethod as string} onValueChange={setIpMethod}>
-              <SelectTrigger id="ip-method">
-                <SelectValue placeholder={__('Select method', 'wp-statistics')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="sequential">{__('Sequential (Check All Headers)', 'wp-statistics')}</SelectItem>
-                <SelectItem value="REMOTE_ADDR">REMOTE_ADDR</SelectItem>
-                <SelectItem value="HTTP_CLIENT_IP">HTTP_CLIENT_IP</SelectItem>
-                <SelectItem value="HTTP_X_FORWARDED_FOR">HTTP_X_FORWARDED_FOR</SelectItem>
-                <SelectItem value="HTTP_X_FORWARDED">HTTP_X_FORWARDED</SelectItem>
-                <SelectItem value="HTTP_FORWARDED_FOR">HTTP_FORWARDED_FOR</SelectItem>
-                <SelectItem value="HTTP_FORWARDED">HTTP_FORWARDED</SelectItem>
-                <SelectItem value="HTTP_X_REAL_IP">HTTP_X_REAL_IP</SelectItem>
-                <SelectItem value="HTTP_CF_CONNECTING_IP">{__('HTTP_CF_CONNECTING_IP (Cloudflare)', 'wp-statistics')}</SelectItem>
-                <SelectItem value="custom">{__('Custom Header', 'wp-statistics')}</SelectItem>
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-muted-foreground">
-              {__("Select how visitor IP addresses should be detected. Use 'Sequential' to check all headers automatically, or specify a specific header for your server configuration.", 'wp-statistics')}
-            </p>
-          </div>
+    <SettingsPage settings={settings} saveDescription={__('Advanced settings have been updated.', 'wp-statistics')}>
+      <SettingsCard
+        title={__('IP Detection', 'wp-statistics')}
+        description={__('Configure how visitor IP addresses are detected.', 'wp-statistics')}
+      >
+        <SettingsSelectField
+          id="ip-method"
+          label={__('IP Detection Method', 'wp-statistics')}
+          description={__("Select how visitor IP addresses should be detected. Use 'Sequential' to check all headers automatically, or specify a specific header for your server configuration.", 'wp-statistics')}
+          layout="stacked"
+          value={ipMethod as string}
+          onValueChange={setIpMethod}
+          placeholder={__('Select method', 'wp-statistics')}
+          options={[
+            { value: 'sequential', label: __('Sequential (Check All Headers)', 'wp-statistics') },
+            { value: 'REMOTE_ADDR', label: 'REMOTE_ADDR' },
+            { value: 'HTTP_CLIENT_IP', label: 'HTTP_CLIENT_IP' },
+            { value: 'HTTP_X_FORWARDED_FOR', label: 'HTTP_X_FORWARDED_FOR' },
+            { value: 'HTTP_X_FORWARDED', label: 'HTTP_X_FORWARDED' },
+            { value: 'HTTP_FORWARDED_FOR', label: 'HTTP_FORWARDED_FOR' },
+            { value: 'HTTP_FORWARDED', label: 'HTTP_FORWARDED' },
+            { value: 'HTTP_X_REAL_IP', label: 'HTTP_X_REAL_IP' },
+            { value: 'HTTP_CF_CONNECTING_IP', label: __('HTTP_CF_CONNECTING_IP (Cloudflare)', 'wp-statistics') },
+            { value: 'custom', label: __('Custom Header', 'wp-statistics') },
+          ]}
+        />
 
-          {ipMethod === 'custom' && (
-            <div className="space-y-2">
-              <Label htmlFor="custom-header">{__('Custom Header Name', 'wp-statistics')}</Label>
-              <Input
-                id="custom-header"
-                type="text"
-                placeholder="HTTP_X_CUSTOM_IP"
-                value={customHeaderIpMethod as string}
-                onChange={(e) => setCustomHeaderIpMethod(e.target.value)}
-              />
-              <p className="text-xs text-muted-foreground">
-                {__("Enter the custom server header name that contains the visitor's IP address.", 'wp-statistics')}
-              </p>
-            </div>
-          )}
-
-          <div className="rounded-lg border bg-muted/50 p-4">
-            <h4 className="text-sm font-medium mb-3">{__('Your IP Information', 'wp-statistics')}</h4>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="flex items-center gap-2">
-                <Server className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <p className="text-xs text-muted-foreground">{__('WP Statistics Detected', 'wp-statistics')}</p>
-                  <p className="text-sm font-mono">{detectedIp}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <p className="text-xs text-muted-foreground">{__('External IP (ipify.org)', 'wp-statistics')}</p>
-                  <p className="text-sm font-mono">{externalIp}</p>
-                </div>
-              </div>
-            </div>
-            {detectedIp !== __('Loading...', 'wp-statistics') && externalIp !== __('Loading...', 'wp-statistics') && detectedIp !== externalIp && (
-              <div className="mt-3 flex items-start gap-2 rounded-md bg-amber-500/10 p-2">
-                <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5" />
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  {__("The IPs don't match. If you're behind a proxy or CDN, ensure the correct header is selected above.", 'wp-statistics')}
-                </p>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>{__('GeoIP Settings', 'wp-statistics')}</CardTitle>
-          <CardDescription>{__('Configure how visitor locations are detected and displayed.', 'wp-statistics')}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="geoip-detection">{__('Location Detection Method', 'wp-statistics')}</Label>
-              <Select value={geoipDetectionMethod as string} onValueChange={setGeoipDetectionMethod}>
-                <SelectTrigger id="geoip-detection">
-                  <SelectValue placeholder={__('Select method', 'wp-statistics')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="maxmind">{__('MaxMind GeoIP', 'wp-statistics')}</SelectItem>
-                  <SelectItem value="dbip">{__('DB-IP', 'wp-statistics')}</SelectItem>
-                  <SelectItem value="cf">{__('Cloudflare IP Geolocation', 'wp-statistics')}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="geoip-source">{__('Database Update Source', 'wp-statistics')}</Label>
-              <Select value={geoipLicenseType as string} onValueChange={setGeoipLicenseType}>
-                <SelectTrigger id="geoip-source">
-                  <SelectValue placeholder={__('Select source', 'wp-statistics')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="js-deliver">{__('JsDelivr (Free)', 'wp-statistics')}</SelectItem>
-                  <SelectItem value="user-license">{__('Custom License Key', 'wp-statistics')}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {geoipLicenseType === 'user-license' && (
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="maxmind-license">{__('MaxMind License Key', 'wp-statistics')}</Label>
-                <Input
-                  id="maxmind-license"
-                  type="text"
-                  placeholder={__('Enter your MaxMind license key', 'wp-statistics')}
-                  value={geoipLicenseKey as string}
-                  onChange={(e) => setGeoipLicenseKey(e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="dbip-license">{__('DB-IP License Key', 'wp-statistics')}</Label>
-                <Input
-                  id="dbip-license"
-                  type="text"
-                  placeholder={__('Enter your DB-IP license key', 'wp-statistics')}
-                  value={geoipDbipLicenseKey as string}
-                  onChange={(e) => setGeoipDbipLicenseKey(e.target.value)}
-                />
-              </div>
-            </div>
-          )}
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="schedule-geoip">{__('Auto-Update GeoIP Database', 'wp-statistics')}</Label>
-              <p className="text-sm text-muted-foreground">{__('Automatically download the latest GeoIP database weekly.', 'wp-statistics')}</p>
-            </div>
-            <Switch id="schedule-geoip" checked={!!scheduleGeoip} onCheckedChange={setScheduleGeoip} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="auto-pop">{__('Auto-Fill Missing Locations', 'wp-statistics')}</Label>
-              <p className="text-sm text-muted-foreground">
-                {__('Automatically fill in location data for visitors with incomplete records.', 'wp-statistics')}
-              </p>
-            </div>
-            <Switch id="auto-pop" checked={!!autoPop} onCheckedChange={setAutoPop} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="private-country">{__('Private IP Country Code', 'wp-statistics')}</Label>
+        {ipMethod === 'custom' && (
+          <SettingsField
+            id="custom-header"
+            label={__('Custom Header Name', 'wp-statistics')}
+            description={__("Enter the custom server header name that contains the visitor's IP address.", 'wp-statistics')}
+            layout="stacked"
+            nested
+          >
             <Input
-              id="private-country"
+              id="custom-header"
               type="text"
-              maxLength={3}
-              placeholder="000"
-              value={privateCountryCode as string}
-              onChange={(e) => setPrivateCountryCode(e.target.value)}
-              className="w-24"
+              placeholder="HTTP_X_CUSTOM_IP"
+              value={customHeaderIpMethod as string}
+              onChange={(e) => setCustomHeaderIpMethod(e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">{__('Country code to use for private/local IP addresses.', 'wp-statistics')}</p>
-          </div>
-        </CardContent>
-      </Card>
+          </SettingsField>
+        )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>{__('Content Analytics', 'wp-statistics')}</CardTitle>
-          <CardDescription>{__('Configure content analysis features.', 'wp-statistics')}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="word-count-analytics">{__('Word Count Analytics', 'wp-statistics')}</Label>
-              <p className="text-sm text-muted-foreground">
-                {__('Calculate and store word count for posts to enable reading time estimates and content length analytics.', 'wp-statistics')}
-              </p>
-            </div>
-            <Switch id="word-count-analytics" checked={!!wordCountAnalytics} onCheckedChange={setWordCountAnalytics} />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>{__('Anonymous Data Sharing', 'wp-statistics')}</CardTitle>
-          <CardDescription>{__('Help improve WP Statistics.', 'wp-statistics')}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="share-anonymous">{__('Share Anonymous Usage Data', 'wp-statistics')}</Label>
-              <p className="text-sm text-muted-foreground">
-                {__('Help us improve WP Statistics by sharing anonymous usage data.', 'wp-statistics')}
-              </p>
-            </div>
-            <Switch id="share-anonymous" checked={!!shareAnonymousData} onCheckedChange={setShareAnonymousData} />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="border-destructive/50">
-        <CardHeader>
-          <CardTitle className="text-destructive">{__('Danger Zone', 'wp-statistics')}</CardTitle>
-          <CardDescription>{__('These actions are irreversible. Please proceed with caution.', 'wp-statistics')}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="delete-on-uninstall">{__('Delete All Data on Uninstall', 'wp-statistics')}</Label>
-              <p className="text-sm text-muted-foreground">
-                {__('Remove all WP Statistics data from the database when the plugin is uninstalled. This action cannot be undone.', 'wp-statistics')}
-              </p>
-            </div>
-            <Switch id="delete-on-uninstall" checked={!!deleteOnUninstall} onCheckedChange={setDeleteOnUninstall} />
-          </div>
-
-          <div className="border-t pt-6">
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>{__('Restore Default Settings', 'wp-statistics')}</Label>
-                <p className="text-sm text-muted-foreground">
-                  {__('Reset all WP Statistics settings to their default values. Your statistics data will not be affected.', 'wp-statistics')}
-                </p>
+        <SettingsInfoBox title={__('Your IP Information', 'wp-statistics')}>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="flex items-center gap-2">
+              <Server className="h-4 w-4 text-muted-foreground" />
+              <div>
+                <p className="text-xs text-muted-foreground">{__('WP Statistics Detected', 'wp-statistics')}</p>
+                <p className="text-sm font-mono">{detectedIp}</p>
               </div>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => setShowResetDialog(true)}
-                disabled={isResetting}
-              >
-                {isResetting ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <RotateCcw className="mr-2 h-4 w-4" />
-                )}
-                {__('Restore Defaults', 'wp-statistics')}
-              </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <Globe className="h-4 w-4 text-muted-foreground" />
+              <div>
+                <p className="text-xs text-muted-foreground">{__('External IP (ipify.org)', 'wp-statistics')}</p>
+                <p className="text-sm font-mono">{externalIp}</p>
+              </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+          {detectedIp !== __('Loading...', 'wp-statistics') && externalIp !== __('Loading...', 'wp-statistics') && detectedIp !== externalIp && (
+            <div className="mt-3 flex items-start gap-2 rounded-md bg-amber-500/10 p-2">
+              <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5" />
+              <p className="text-xs text-amber-600 dark:text-amber-400">
+                {__("The IPs don't match. If you're behind a proxy or CDN, ensure the correct header is selected above.", 'wp-statistics')}
+              </p>
+            </div>
+          )}
+        </SettingsInfoBox>
+      </SettingsCard>
 
-      {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
+      <SettingsCard
+        title={__('GeoIP Settings', 'wp-statistics')}
+        description={__('Configure how visitor locations are detected and displayed.', 'wp-statistics')}
+      >
+        <div className="grid gap-4 sm:grid-cols-2">
+          <SettingsSelectField
+            id="geoip-detection"
+            label={__('Location Detection Method', 'wp-statistics')}
+            layout="stacked"
+            value={geoipDetectionMethod as string}
+            onValueChange={setGeoipDetectionMethod}
+            placeholder={__('Select method', 'wp-statistics')}
+            options={[
+              { value: 'maxmind', label: __('MaxMind GeoIP', 'wp-statistics') },
+              { value: 'dbip', label: __('DB-IP', 'wp-statistics') },
+              { value: 'cf', label: __('Cloudflare IP Geolocation', 'wp-statistics') },
+            ]}
+          />
 
-      <div className="flex justify-end">
-        <Button onClick={handleSave} disabled={settings.isSaving}>
-          {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {__('Save Changes', 'wp-statistics')}
-        </Button>
-      </div>
+          <SettingsSelectField
+            id="geoip-source"
+            label={__('Database Update Source', 'wp-statistics')}
+            layout="stacked"
+            value={geoipLicenseType as string}
+            onValueChange={setGeoipLicenseType}
+            placeholder={__('Select source', 'wp-statistics')}
+            options={[
+              { value: 'js-deliver', label: __('JsDelivr (Free)', 'wp-statistics') },
+              { value: 'user-license', label: __('Custom License Key', 'wp-statistics') },
+            ]}
+          />
+        </div>
+
+        {geoipLicenseType === 'user-license' && (
+          <div className="space-y-4">
+            <SettingsField
+              id="maxmind-license"
+              label={__('MaxMind License Key', 'wp-statistics')}
+              layout="stacked"
+              nested
+            >
+              <Input
+                id="maxmind-license"
+                type="text"
+                placeholder={__('Enter your MaxMind license key', 'wp-statistics')}
+                value={geoipLicenseKey as string}
+                onChange={(e) => setGeoipLicenseKey(e.target.value)}
+              />
+            </SettingsField>
+
+            <SettingsField
+              id="dbip-license"
+              label={__('DB-IP License Key', 'wp-statistics')}
+              layout="stacked"
+              nested
+            >
+              <Input
+                id="dbip-license"
+                type="text"
+                placeholder={__('Enter your DB-IP license key', 'wp-statistics')}
+                value={geoipDbipLicenseKey as string}
+                onChange={(e) => setGeoipDbipLicenseKey(e.target.value)}
+              />
+            </SettingsField>
+          </div>
+        )}
+
+        <SettingsToggleField
+          id="schedule-geoip"
+          label={__('Auto-Update GeoIP Database', 'wp-statistics')}
+          description={__('Automatically download the latest GeoIP database weekly.', 'wp-statistics')}
+          checked={!!scheduleGeoip}
+          onCheckedChange={setScheduleGeoip}
+        />
+
+        <SettingsToggleField
+          id="auto-pop"
+          label={__('Auto-Fill Missing Locations', 'wp-statistics')}
+          description={__('Automatically fill in location data for visitors with incomplete records.', 'wp-statistics')}
+          checked={!!autoPop}
+          onCheckedChange={setAutoPop}
+        />
+
+        <SettingsField
+          id="private-country"
+          label={__('Private IP Country Code', 'wp-statistics')}
+          description={__('Country code to use for private/local IP addresses.', 'wp-statistics')}
+          layout="stacked"
+        >
+          <Input
+            id="private-country"
+            type="text"
+            maxLength={3}
+            placeholder="000"
+            value={privateCountryCode as string}
+            onChange={(e) => setPrivateCountryCode(e.target.value)}
+            className="w-24"
+          />
+        </SettingsField>
+      </SettingsCard>
+
+      <SettingsCard
+        title={__('Content Analytics', 'wp-statistics')}
+        description={__('Configure content analysis features.', 'wp-statistics')}
+      >
+        <SettingsToggleField
+          id="word-count-analytics"
+          label={__('Word Count Analytics', 'wp-statistics')}
+          description={__('Calculate and store word count for posts to enable reading time estimates and content length analytics.', 'wp-statistics')}
+          checked={!!wordCountAnalytics}
+          onCheckedChange={setWordCountAnalytics}
+        />
+      </SettingsCard>
+
+      <SettingsCard
+        title={__('Anonymous Data Sharing', 'wp-statistics')}
+        description={__('Help improve WP Statistics.', 'wp-statistics')}
+      >
+        <SettingsToggleField
+          id="share-anonymous"
+          label={__('Share Anonymous Usage Data', 'wp-statistics')}
+          description={__('Help us improve WP Statistics by sharing anonymous usage data.', 'wp-statistics')}
+          checked={!!shareAnonymousData}
+          onCheckedChange={setShareAnonymousData}
+        />
+      </SettingsCard>
+
+      <SettingsCard
+        title={__('Danger Zone', 'wp-statistics')}
+        variant="danger"
+        description={__('These actions are irreversible. Please proceed with caution.', 'wp-statistics')}
+      >
+        <SettingsToggleField
+          id="delete-on-uninstall"
+          label={__('Delete All Data on Uninstall', 'wp-statistics')}
+          description={__('Remove all WP Statistics data from the database when the plugin is uninstalled. This action cannot be undone.', 'wp-statistics')}
+          checked={!!deleteOnUninstall}
+          onCheckedChange={setDeleteOnUninstall}
+        />
+
+        <SettingsActionField
+          label={__('Restore Default Settings', 'wp-statistics')}
+          description={__('Reset all WP Statistics settings to their default values. Your statistics data will not be affected.', 'wp-statistics')}
+        >
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => setShowResetDialog(true)}
+            disabled={isResetting}
+          >
+            {isResetting ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <RotateCcw className="mr-2 h-4 w-4" />
+            )}
+            {__('Restore Defaults', 'wp-statistics')}
+          </Button>
+        </SettingsActionField>
+      </SettingsCard>
 
       {/* Restore Defaults Confirmation Dialog */}
       <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
@@ -407,6 +352,6 @@ export function AdvancedSettings() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </SettingsPage>
   )
 }

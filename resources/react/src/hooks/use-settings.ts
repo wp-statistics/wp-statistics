@@ -6,7 +6,7 @@ interface UseSettingsOptions {
   tab: SettingsTab
 }
 
-interface UseSettingsReturn {
+export interface UseSettingsReturn {
   settings: Record<string, unknown>
   isLoading: boolean
   isSaving: boolean

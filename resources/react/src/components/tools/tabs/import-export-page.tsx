@@ -2,8 +2,8 @@ import { __, sprintf } from '@wordpress/i18n'
 import { AlertTriangle, CheckCircle2, Download, Loader2, Upload, XCircle } from 'lucide-react'
 import * as React from 'react'
 
+import { SettingsCard } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
@@ -277,19 +277,13 @@ export function ImportExportPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Import Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Upload className="h-5 w-5" />
-            {__('Import Data', 'wp-statistics')}
-          </CardTitle>
-          <CardDescription>
-            {__('Import analytics data from external sources like Google Analytics 4, Plausible, or restore from a backup file.', 'wp-statistics')}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+      <SettingsCard
+        title={__('Import Data', 'wp-statistics')}
+        icon={Upload}
+        description={__('Import analytics data from external sources like Google Analytics 4, Plausible, or restore from a backup file.', 'wp-statistics')}
+      >
           {isLoadingAdapters ? (
             <div className="flex items-center justify-center p-8">
               <Loader2 className="h-6 w-6 animate-spin" />
@@ -422,21 +416,14 @@ export function ImportExportPage() {
               )}
             </>
           )}
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       {/* Export Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Download className="h-5 w-5" />
-            {__('Export Data', 'wp-statistics')}
-          </CardTitle>
-          <CardDescription>
-            {__('Export your analytics data to JSON format for migration to another site or for external analysis.', 'wp-statistics')}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+      <SettingsCard
+        title={__('Export Data', 'wp-statistics')}
+        icon={Download}
+        description={__('Export your analytics data to JSON format for migration to another site or for external analysis.', 'wp-statistics')}
+      >
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="export-from">{__('From Date (Optional)', 'wp-statistics')}</Label>
@@ -497,8 +484,7 @@ export function ImportExportPage() {
               </Button>
             )}
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
     </div>
   )
 }

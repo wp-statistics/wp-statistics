@@ -1,10 +1,11 @@
 import { __, sprintf } from '@wordpress/i18n'
-import { AlertTriangle, CheckCircle2, Loader2, RefreshCw, XCircle } from 'lucide-react'
+import { CheckCircle2, Loader2, RefreshCw, XCircle } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
@@ -166,17 +167,12 @@ export function V14MigrationWizard({ importStatus, setImportStatus }: V14Migrati
     <div className="space-y-6">
       {/* Data Summary */}
       {dataStats.hasV14Data && (
-        <div className="rounded-lg border bg-blue-50 dark:bg-blue-950/20 p-4">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5" />
-            <div>
-              <h4 className="text-sm font-medium text-blue-900 dark:text-blue-100">{__('Existing V14 Data Detected', 'wp-statistics')}</h4>
-              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                {sprintf(__('Found %s total records in your v14 database. Choose how you\'d like to proceed with the upgrade.', 'wp-statistics'), dataStats.total.toLocaleString())}
-              </p>
-            </div>
-          </div>
-        </div>
+        <NoticeBanner
+          title={__('Existing V14 Data Detected', 'wp-statistics')}
+          message={sprintf(__('Found %s total records in your v14 database. Choose how you\'d like to proceed with the upgrade.', 'wp-statistics'), dataStats.total.toLocaleString())}
+          type="info"
+          dismissible={false}
+        />
       )}
 
       {/* Migration Options */}
@@ -327,22 +323,19 @@ export function V14MigrationWizard({ importStatus, setImportStatus }: V14Migrati
 
       {/* Fresh Start: Confirmation */}
       {migrationMode === 'fresh' && (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950/20 p-4 space-y-3">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
-            <div>
-              <h4 className="text-sm font-medium text-amber-900 dark:text-amber-100">{__('Are you sure?', 'wp-statistics')}</h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                {__('This will archive your existing v14 data and create fresh v15 tables. Your old data won\'t be deleted but won\'t be accessible in the new dashboard.', 'wp-statistics')}
-              </p>
-            </div>
-          </div>
-          <label className="flex items-center gap-2 cursor-pointer">
+        <div className="space-y-3">
+          <NoticeBanner
+            title={__('Are you sure?', 'wp-statistics')}
+            message={__('This will archive your existing v14 data and create fresh v15 tables. Your old data won\'t be deleted but won\'t be accessible in the new dashboard.', 'wp-statistics')}
+            type="warning"
+            dismissible={false}
+          />
+          <label className="flex items-center gap-2 cursor-pointer ml-1">
             <Checkbox
               checked={confirmFreshStart}
               onCheckedChange={(checked) => setConfirmFreshStart(checked === true)}
             />
-            <span className="text-sm text-amber-800 dark:text-amber-200">{__('I understand and want to start fresh', 'wp-statistics')}</span>
+            <span className="text-sm text-muted-foreground">{__('I understand and want to start fresh', 'wp-statistics')}</span>
           </label>
         </div>
       )}
