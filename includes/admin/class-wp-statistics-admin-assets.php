@@ -208,11 +208,6 @@ class Admin_Assets
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
         }
 
-        // Load mini-chart
-        if (Helper::isAdminBarShowing()) {
-            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
-        }
-
         if (Menus::in_page('author-analytics')) {
             wp_enqueue_script(self::$prefix . '-chart-matrix.js', self::url('chartjs/chart-matrix.min.js'), [], '2.0.8', true);
         }
@@ -509,7 +504,6 @@ class Admin_Assets
      * Checks if any of the conditions for enqueuing Chart.js library are met.
      *
      * Conditions are:
-     * - Mini Chart add-on is enabled and admin bar button is showing.
      * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
      * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
      * - User is currently in edit post page and `disable_editor` is disabled.
@@ -523,7 +517,7 @@ class Admin_Assets
     {
         global $pagenow;
 
-        return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
+        return Menus::in_plugin_page() ||
             (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1');

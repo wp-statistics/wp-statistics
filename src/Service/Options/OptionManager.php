@@ -184,7 +184,6 @@ class OptionManager
             'geoip'                           => true,
             'useronline'                      => true,
             'pages'                           => true,
-            'menu_bar'                        => true,
             'coefficient'                     => 1,
             'email_list'                      => get_bloginfo('admin_email'),
             'use_cache_plugin'                => true,

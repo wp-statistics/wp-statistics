@@ -195,7 +195,6 @@ class Option extends Singleton
             'geoip'                           => true,
             'useronline'                      => true,
             'pages'                           => true,
-            'menu_bar'                        => true,
             'email_list'                      => Environment::getAdminEmail(),
             'time_report'                     => '0',
             'send_report'                     => 'mail',

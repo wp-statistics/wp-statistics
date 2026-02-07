@@ -10,7 +10,6 @@ export function DisplaySettings() {
   const [disableEditor, setDisableEditor] = useSetting(settings, 'disable_editor', false)
   const [disableColumn, setDisableColumn] = useSetting(settings, 'disable_column', false)
   const [enableUserColumn, setEnableUserColumn] = useSetting(settings, 'enable_user_column', false)
-  const [menuBar, setMenuBar] = useSetting(settings, 'menu_bar', false)
   const [disableDashboard, setDisableDashboard] = useSetting(settings, 'disable_dashboard', false)
   const [displayNotifications, setDisplayNotifications] = useSetting(settings, 'display_notifications', true)
   const [hideNotices, setHideNotices] = useSetting(settings, 'hide_notices', false)
@@ -47,14 +46,6 @@ export function DisplaySettings() {
           description={__('Display the "Views" column in the admin user list. Requires "Track Logged-In User Activity" to be enabled.', 'wp-statistics')}
           checked={!!enableUserColumn}
           onCheckedChange={setEnableUserColumn}
-        />
-
-        <SettingsToggleField
-          id="menu-bar"
-          label={__('Show Stats in Admin Menu Bar', 'wp-statistics')}
-          description={__("View your site's statistics directly from the WordPress admin menu bar.", 'wp-statistics')}
-          checked={!!menuBar}
-          onCheckedChange={setMenuBar}
         />
 
         <SettingsToggleField

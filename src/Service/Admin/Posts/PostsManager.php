@@ -2,13 +2,11 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
-use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Meta_Box;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\User;
@@ -195,8 +193,7 @@ class PostsManager
      */
     public static function getPostStatisticsSummary($postId)
     {
-        $dataProvider    = null;
-        $miniChartHelper = new MiniChartHelper();
+        $dataProvider = null;
         try {
             $dataProvider = new PostSummaryDataProvider($postId);
         } catch (\Exception $e) {
@@ -211,10 +208,9 @@ class PostsManager
         $wpDateFormat = get_option('date_format');
         $publishDate  = $dataProvider->getPublishDate();
 
-        // Fill `$chartData` with default 0s
-        // Use a short date format for indexes and `chartDates` for values
-        // Short date format will be displayed below summary charts
-        foreach ($miniChartHelper->getChartDates() as $date) {
+        // Fill `$chartData` with default 0s for the last 14 days
+        for ($i = 13; $i >= 0; $i--) {
+            $date                  = TimeZone::getTimeAgo($i);
             $shortDate             = date('d M', strtotime($date));
             $chartData[$shortDate] = [
                 'ymdDate'   => date('Y-m-d', strtotime($date)),
@@ -223,24 +219,23 @@ class PostsManager
             ];
         }
 
-        // Set date range for charts based on MiniChart's `date_range` option
-        // Also change `to_date` to include today's stats in charts too
-        $dataProvider->setFrom(TimeZone::getTimeAgo($miniChartHelper->isMiniChartActive() ? Option::getByAddon('date_range', 'mini_chart', '14') : 14));
+        // Set date range for charts: last 14 days
+        $dataProvider->setFrom(TimeZone::getTimeAgo(14));
         $dataProvider->setTo(date('Y-m-d'));
 
-        // Fill `$dailyHits` based on MiniChart's `metric` option
-        $dailyHits = Addons::optionMatches('mini-chart', 'metric', 'views', 'visitors') ? $dataProvider->getDailyViews() : $dataProvider->getDailyVisitors();
+        // Always use views
+        $dailyHits = $dataProvider->getDailyViews();
 
         // Fill `$chartData` with real stats
         foreach ($dailyHits as $hit) {
-            if (empty($hit->date) || (empty($hit->visitors) && empty($hit->views))) {
+            if (empty($hit->date) || empty($hit->views)) {
                 continue;
             }
 
             $shortDate             = date('d M', strtotime($hit->date));
             $chartData[$shortDate] = [
                 'ymdDate'   => $hit->date,
-                'hits'      => !empty($hit->visitors) ? intval($hit->visitors) : intval($hit->views),
+                'hits'      => intval($hit->views),
                 'fullDate'  => date($wpDateFormat, strtotime($hit->date)),
             ];
         }
@@ -253,10 +248,10 @@ class PostsManager
             return ($a['ymdDate'] < $b['ymdDate']) ? -1 : 1;
         });
 
-        // Some settings for the chart
+        // Chart settings
         $chartSettings = [
-            'color'  => $miniChartHelper->getChartColor(),
-            'label'  => $miniChartHelper->getLabel(),
+            'color'  => '#7362BF',
+            'label'  => __('Views', 'wp-statistics'),
         ];
 
         // Reset date range because text summary displays info for the past week

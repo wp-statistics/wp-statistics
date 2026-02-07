@@ -83,10 +83,6 @@ class MessagingFactory
                 'title'   => __('Real-Time Stats', 'wp-statistics'),
                 'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. <div style="margin-top: 16px"><a href="https://wp-statistics.com/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=realtime" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/public/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
-            [
-                'title'   => __('Mini Chart', 'wp-statistics'),
-                'content' => __(sprintf('Track your content\'s performance with mini charts. Quick access to traffic data is provided by an admin bar. The chart type and color can be customized according to your preferences. Analyze your content\'s performance and make informed decisions to enhance its success. <div style="margin-top: 16px"><a href="https://wp-statistics.com/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=email&utm_campaign=mini-chart" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/public/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
-            ],
         ];
 
         return $tips[array_rand($tips)];

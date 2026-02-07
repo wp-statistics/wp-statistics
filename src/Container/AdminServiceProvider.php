@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Container;
 
-use WP_Statistics\Service\Admin\AdminBar;
 use WP_Statistics\Service\Admin\AdminMenuManager;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\CommandPalette\CommandPaletteHandler;
@@ -37,11 +36,6 @@ class AdminServiceProvider implements ServiceProvider
      */
     public function register(ServiceContainer $container): void
     {
-        // Admin Bar - works on both frontend and admin
-        $container->register('admin_bar', function () {
-            return new AdminBar();
-        });
-
         // Admin Menu Manager
         $container->register('admin_menu', function () {
             return new AdminMenuManager();
@@ -139,9 +133,6 @@ class AdminServiceProvider implements ServiceProvider
      */
     public function boot(ServiceContainer $container): void
     {
-        // Admin bar is loaded on both frontend and admin
-        $container->get('admin_bar');
-
         // Admin-only services
         if (is_admin()) {
             $container->get('admin_menu');

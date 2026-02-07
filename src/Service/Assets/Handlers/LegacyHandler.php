@@ -106,11 +106,6 @@ class LegacyHandler extends BaseAssets
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4', '', true, true);
         }
 
-        // Load mini-chart
-        if (Route::isAdminBarShowing()) {
-            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
-        }
-
         if (Menu::isOnPage('author-analytics')) {
             wp_enqueue_script($this->getAssetHandle('chart-matrix'), $this->getUrl('js/chartjs/chart-matrix.min.js'), [], '2.0.8', true);
         }
@@ -397,8 +392,7 @@ class LegacyHandler extends BaseAssets
     {
         global $pagenow;
 
-        return (Addons::isActive('mini-chart') && Route::isAdminBarShowing()) ||
-            Menu::isInPluginPage() ||
+        return Menu::isInPluginPage() ||
             (in_array(Route::getScreenId(), ['dashboard']) && !Option::getValue('disable_dashboard')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && !Option::getValue('disable_editor')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && Addons::isActive('data-plus') && Option::getAddonValue('latest_visitors_metabox', 'data_plus', '1') === '1');

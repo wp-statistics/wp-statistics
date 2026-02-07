@@ -394,17 +394,14 @@ function moveFrontendAssets() {
     name: 'move-frontend-assets',
     writeBundle() {
       const sourceJsDir = resolve(__dirname, 'public/legacy/js')
-      const sourceCssDir = resolve(__dirname, 'public/legacy/css')
       const frontendJsDir = resolve(__dirname, 'public/frontend/js')
-      const frontendCssDir = resolve(__dirname, 'public/frontend/css')
 
       try {
         // Create frontend directories
         mkdirSync(frontendJsDir, { recursive: true })
-        mkdirSync(frontendCssDir, { recursive: true })
 
         // Move frontend JS files from legacy to frontend
-        const jsFiles = ['tracker.min.js', 'tracker.js', 'mini-chart.min.js']
+        const jsFiles = ['tracker.min.js', 'tracker.js']
         jsFiles.forEach((file) => {
           const sourcePath = join(sourceJsDir, file)
           const destPath = join(frontendJsDir, file)
@@ -431,18 +428,6 @@ function moveFrontendAssets() {
             cpSync(chartUmdMinPath, chartUmdMinDest)
           }
         }
-
-        // Move frontend CSS files from legacy to frontend
-        const cssFiles = ['frontend.min.css']
-        cssFiles.forEach((file) => {
-          const sourcePath = join(sourceCssDir, file)
-          const destPath = join(frontendCssDir, file)
-
-          if (existsSync(sourcePath)) {
-            cpSync(sourcePath, destPath)
-            rmSync(sourcePath, { force: true })
-          }
-        })
 
         console.log('✓ Moved frontend assets to public/frontend/')
       } catch (e) {
@@ -498,9 +483,6 @@ export default defineConfig({
         // Tracker (minified) - will be moved to public/frontend/js/ by moveFrontendAssets plugin
         'js/tracker.min': resolve(__dirname, 'resources/frontend/entries/tracker.js'),
 
-        // Mini chart (minified)
-        'js/mini-chart.min': resolve(__dirname, 'resources/legacy/entries/mini-chart.js'),
-
         // Command palette (WordPress Cmd+K integration)
         'js/command-palette.min': resolve(__dirname, 'resources/legacy/entries/command-palette.js'),
 
@@ -509,7 +491,6 @@ export default defineConfig({
         // Styles
         'css/admin.min': resolve(__dirname, 'resources/legacy/sass/admin.scss'),
         'css/rtl.min': resolve(__dirname, 'resources/legacy/sass/rtl.scss'),
-        'css/frontend.min': resolve(__dirname, 'resources/legacy/sass/frontend.scss'),
         'css/mail.min': resolve(__dirname, 'resources/legacy/sass/mail.scss'),
       },
 

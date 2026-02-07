@@ -9,8 +9,6 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
-use WP_Statistics\Utils\Route;
-
 /**
  * Frontend Assets Service
  * 
@@ -96,12 +94,6 @@ class FrontendHandler extends BaseAssets
         }
 
         Assets::script('tracker', 'js/tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
-
-        if (Route::isAdminBarShowing()) {
-            Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4', '', true);
-            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
-            Assets::style('front', 'css/frontend.min.css');
-        }
     }
 
     /**
