@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Container;
 
+use WP_Statistics\Service\Admin\AccessControl\AccessLevelEnforcer;
 use WP_Statistics\Service\Admin\AdminMenuManager;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\CommandPalette\CommandPaletteHandler;
@@ -119,6 +120,11 @@ class AdminServiceProvider implements ServiceProvider
             return new DashboardWidgetManager();
         });
 
+        // Access Level Enforcer (restricts analytics queries by user role)
+        $container->register('access_enforcer', function () {
+            return new AccessLevelEnforcer();
+        });
+
         // Global Notice Manager (admin notices for React and non-React pages)
         $container->register('notice_manager', function () {
             // Initialize the notice manager
@@ -141,6 +147,7 @@ class AdminServiceProvider implements ServiceProvider
     {
         // Admin-only services
         if (is_admin()) {
+            $container->get('access_enforcer');
             $container->get('admin_menu');
             $container->get('react_app');
             $container->get('email_reports');

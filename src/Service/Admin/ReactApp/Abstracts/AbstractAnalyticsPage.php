@@ -134,6 +134,28 @@ abstract class AbstractAnalyticsPage implements PageActionInterface
         $query = $this->resolvePeriodDates($query);
 
         try {
+            /**
+             * Filters analytics query data before execution.
+             *
+             * Allows components to modify query parameters (e.g., inject
+             * author filters for own-content access, block PII queries).
+             *
+             * @param array $query Query data.
+             * @since 15.1.0
+             */
+            $query = apply_filters('wp_statistics_analytics_query_data', $query);
+
+            // Check if query was blocked by a filter (e.g., access enforcer)
+            if (isset($query['_blocked'])) {
+                return [
+                    'success' => false,
+                    'error'   => [
+                        'code'    => $query['_blocked']['code'] ?? 'forbidden',
+                        'message' => $query['_blocked']['message'] ?? __('Access denied.', 'wp-statistics'),
+                    ],
+                ];
+            }
+
             // Check if this is a batch request with queries
             $batchQueries = $query['queries'] ?? null;
             if (is_array($batchQueries) && !empty($batchQueries)) {

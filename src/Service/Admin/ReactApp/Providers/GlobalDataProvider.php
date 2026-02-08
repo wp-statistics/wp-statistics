@@ -11,6 +11,7 @@ use WP_Statistics\Service\Admin\Dashboard\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 use WP_Statistics\Utils\Taxonomy;
+use WP_Statistics\Utils\User;
 
 /**
  * Provider for global application data.
@@ -50,6 +51,8 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'taxonomies'            => $this->getTaxonomyList(),
             'userCountry'           => $this->getUserCountryCode(),
             'userCountryName'       => $this->getUserCountryName(),
+            'accessLevel'           => User::getAccessLevel(),
+            'userId'                => get_current_user_id(),
             'timezone'              => [
                 'string'    => wp_timezone_string(),
                 'gmtOffset' => (float) get_option('gmt_offset', 0),

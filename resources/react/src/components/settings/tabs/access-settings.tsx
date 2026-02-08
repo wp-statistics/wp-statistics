@@ -1,70 +1,105 @@
 import { __ } from '@wordpress/i18n'
+import { Lock } from 'lucide-react'
 
-import { SettingsCard, SettingsInfoBox, SettingsPage, SettingsSelectField } from '@/components/settings-ui'
+import { SettingsCard, SettingsInfoBox, SettingsPage } from '@/components/settings-ui'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useSetting, useSettings } from '@/hooks/use-settings'
 
-const CAPABILITIES = [
-  { value: 'manage_network', label: `manage_network (${__('Super Admin (Network)', 'wp-statistics')})` },
-  { value: 'manage_options', label: `manage_options (${__('Administrator', 'wp-statistics')})` },
-  { value: 'edit_others_posts', label: `edit_others_posts (${__('Editor', 'wp-statistics')})` },
-  { value: 'publish_posts', label: `publish_posts (${__('Author', 'wp-statistics')})` },
-  { value: 'edit_posts', label: `edit_posts (${__('Contributor', 'wp-statistics')})` },
-  { value: 'read', label: `read (${__('Subscriber', 'wp-statistics')})` },
+type AccessLevel = wpsReact['globals']['accessLevel']
+
+const ACCESS_LEVELS: { value: AccessLevel; label: string }[] = [
+  { value: 'none', label: __('No access', 'wp-statistics') },
+  { value: 'own_content', label: __('Own content', 'wp-statistics') },
+  { value: 'view_stats', label: __('View statistics', 'wp-statistics') },
+  { value: 'view_all', label: __('View all data', 'wp-statistics') },
+  { value: 'manage', label: __('Manage', 'wp-statistics') },
 ]
 
 export function AccessSettings() {
   const settings = useSettings({ tab: 'access' })
 
-  const [readCapability, setReadCapability] = useSetting(settings, 'read_capability', 'manage_options')
-  const [manageCapability, setManageCapability] = useSetting(settings, 'manage_capability', 'manage_options')
+  const [accessLevels, setAccessLevels] = useSetting<Record<string, AccessLevel>>(settings, 'access_levels', {})
+
+  // Roles are provided by the backend as _roles (not saved, read-only metadata)
+  const roles = (settings.getValue('_roles', []) as { slug: string; name: string }[])
+
+  const handleLevelChange = (roleSlug: string, level: AccessLevel) => {
+    setAccessLevels({ ...accessLevels, [roleSlug]: level })
+  }
 
   return (
     <SettingsPage settings={settings} saveDescription={__('Access settings have been updated.', 'wp-statistics')}>
       <SettingsCard
         title={__('Roles & Permissions', 'wp-statistics')}
-        description={__('Control which users can view statistics and manage plugin settings.', 'wp-statistics')}
+        description={__('Control what level of statistics access each user role receives.', 'wp-statistics')}
       >
-        <SettingsSelectField
-          id="read-capability"
-          label={__('Minimum Role to View Statistics', 'wp-statistics')}
-          description={__('Select the least privileged user role allowed to view WP Statistics. Higher roles will also have this permission.', 'wp-statistics')}
-          layout="stacked"
-          value={readCapability as string}
-          onValueChange={setReadCapability}
-          placeholder={__('Select capability', 'wp-statistics')}
-          options={CAPABILITIES}
-        />
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[200px]">{__('Role', 'wp-statistics')}</TableHead>
+              <TableHead>{__('Access level', 'wp-statistics')}</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {roles.map((role) => {
+              const isAdmin = role.slug === 'administrator'
+              const currentLevel = isAdmin ? 'manage' : (accessLevels[role.slug] ?? 'none')
 
-        <SettingsSelectField
-          id="manage-capability"
-          label={__('Minimum Role to Manage Settings', 'wp-statistics')}
-          description={__('Select the least privileged user role allowed to change WP Statistics settings. This should typically be reserved for trusted roles.', 'wp-statistics')}
-          layout="stacked"
-          value={manageCapability as string}
-          onValueChange={setManageCapability}
-          placeholder={__('Select capability', 'wp-statistics')}
-          options={CAPABILITIES}
-        />
+              return (
+                <TableRow key={role.slug}>
+                  <TableCell className="font-medium">{role.name}</TableCell>
+                  <TableCell>
+                    {isAdmin ? (
+                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <Lock className="h-3.5 w-3.5" />
+                        {__('Manage', 'wp-statistics')}
+                      </div>
+                    ) : (
+                      <Select
+                        value={currentLevel}
+                        onValueChange={(value: string) => handleLevelChange(role.slug, value as AccessLevel)}
+                      >
+                        <SelectTrigger className="w-[200px]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ACCESS_LEVELS.map((level) => (
+                            <SelectItem key={level.value} value={level.value}>
+                              {level.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
 
-        <SettingsInfoBox title={__('Hints on Capabilities:', 'wp-statistics')}>
+        <SettingsInfoBox title={__('Access levels:', 'wp-statistics')}>
           <ul className="list-disc list-inside space-y-1">
             <li>
-              <code className="text-xs">manage_network</code> - {__('Super Admin role in a network setup', 'wp-statistics')}
+              <span className="font-medium">{__('No access', 'wp-statistics')}</span> –{' '}
+              {__('Cannot see any WP Statistics data', 'wp-statistics')}
             </li>
             <li>
-              <code className="text-xs">manage_options</code> - {__('Administrator capability', 'wp-statistics')}
+              <span className="font-medium">{__('Own content', 'wp-statistics')}</span> –{' '}
+              {__('View stats only for their authored posts', 'wp-statistics')}
             </li>
             <li>
-              <code className="text-xs">edit_others_posts</code> - {__('Editor role', 'wp-statistics')}
+              <span className="font-medium">{__('View statistics', 'wp-statistics')}</span> –{' '}
+              {__('All reports except individual visitor details', 'wp-statistics')}
             </li>
             <li>
-              <code className="text-xs">publish_posts</code> - {__('Author role', 'wp-statistics')}
+              <span className="font-medium">{__('View all data', 'wp-statistics')}</span> –{' '}
+              {__('Full access including individual visitor data', 'wp-statistics')}
             </li>
             <li>
-              <code className="text-xs">edit_posts</code> - {__('Contributor role', 'wp-statistics')}
-            </li>
-            <li>
-              <code className="text-xs">read</code> - {__('Subscriber role', 'wp-statistics')}
+              <span className="font-medium">{__('Manage', 'wp-statistics')}</span> –{' '}
+              {__('Full access plus settings, tools, and data management', 'wp-statistics')}
             </li>
           </ul>
         </SettingsInfoBox>

@@ -1,5 +1,5 @@
-import { createRootRouteWithContext, Outlet, useRouterState } from '@tanstack/react-router'
-import { useMemo } from 'react'
+import { createRootRouteWithContext, Outlet, useNavigate, useRouterState } from '@tanstack/react-router'
+import { useEffect, useMemo } from 'react'
 
 import { AppSidebar } from '@/components/app-sidebar'
 import type { FilterField } from '@/components/custom/filter-button'
@@ -11,11 +11,63 @@ import { Toaster } from '@/components/ui/toaster'
 import { GlobalFiltersProvider } from '@/contexts/global-filters-context'
 import { WordPress } from '@/lib/wordpress'
 
+/** Routes that show individual visitor data (PII). Blocked for view_stats and own_content users. */
+const PII_ROUTES = ['/visitors', '/online-visitors', '/top-visitors', '/logged-in-users', '/referred-visitors']
+const PII_ROUTE_PREFIX = '/visitor/'
+
+/** Routes allowed for own_content users (overview + content analytics). */
+const OWN_CONTENT_ALLOWED_PREFIXES = [
+  '/overview',
+  '/content',
+  '/categories',
+  '/category/',
+  '/authors',
+  '/author/',
+  '/top-authors',
+  '/top-categories',
+  '/page-analytics',
+  '/category-analytics',
+  '/author-analytics',
+]
+
 const RootLayout = () => {
   const routerState = useRouterState()
+  const navigate = useNavigate()
+  const wp = WordPress.getInstance()
   const isSettingsPage = routerState.location.pathname.startsWith('/settings')
   const isToolsPage = routerState.location.pathname.startsWith('/tools')
-  const isNetworkAdmin = WordPress.getInstance().isNetworkAdmin()
+  const isNetworkAdmin = wp.isNetworkAdmin()
+
+  // Route guard: restrict access based on user level
+  const accessLevel = wp.getAccessLevel()
+  const pathname = routerState.location.pathname
+
+  useEffect(() => {
+    // none: block all pages
+    if (accessLevel === 'none') {
+      void navigate({ to: '/overview', replace: true })
+      return
+    }
+
+    // own_content: only overview + content analytics
+    if (accessLevel === 'own_content') {
+      const isAllowed = OWN_CONTENT_ALLOWED_PREFIXES.some(
+        (prefix) => pathname === prefix || pathname.startsWith(prefix + '/')
+      )
+      if (!isAllowed) {
+        void navigate({ to: '/overview', replace: true })
+      }
+      return
+    }
+
+    // view_stats: block PII routes
+    if (accessLevel === 'view_stats') {
+      const isPiiRoute = PII_ROUTES.includes(pathname) || pathname.startsWith(PII_ROUTE_PREFIX)
+      if (isPiiRoute) {
+        void navigate({ to: '/overview', replace: true })
+      }
+    }
+  }, [accessLevel, pathname, navigate])
 
   // Determine which sidebar to show
   const sidebar = isNetworkAdmin
@@ -27,7 +79,6 @@ const RootLayout = () => {
         : <AppSidebar />
 
   // Get all filter fields so GlobalFiltersProvider can resolve labels from URL params
-  const wp = WordPress.getInstance()
   const allFilterFields = useMemo<FilterField[]>(() => {
     const fields = wp.getFilterFields()
     return Object.values(fields) as FilterField[]

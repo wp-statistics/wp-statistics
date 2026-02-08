@@ -141,6 +141,10 @@ export class WordPress {
     return this.data.globals.startOfWeek ?? 0
   }
 
+  public getAccessLevel(): wpsReact['globals']['accessLevel'] {
+    return this.data.globals.accessLevel ?? 'none'
+  }
+
   /**
    * Get WordPress site timezone information.
    * Used for timezone-aware date calculations.

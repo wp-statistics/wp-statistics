@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Installation;
 
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Options\OptionManager;
 use WP_Statistics\Components\Event;
@@ -314,9 +315,29 @@ class InstallManager
             }
         }
 
+        // Migrate legacy access settings to tier-based access levels (15.1)
+        self::migrateAccessLevels();
+
         // Clear unused scheduled hooks
         wp_clear_scheduled_hook('wp_statistics_dbmaint_visitor_hook');
         wp_clear_scheduled_hook('wp_statistics_referrals_db_hook');
+    }
+
+    /**
+     * Migrate legacy read_capability/manage_capability to the new access_levels format.
+     *
+     * Only runs if access_levels is not already set.
+     *
+     * @return void
+     */
+    private static function migrateAccessLevels(): void
+    {
+        $existing = OptionManager::get('access_levels');
+        if (!empty($existing) && is_array($existing)) {
+            return;
+        }
+
+        AccessLevel::migrateFromLegacy();
     }
 
     /**

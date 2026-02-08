@@ -3,8 +3,10 @@
 namespace WP_Statistics\Service\Admin\AdminBar;
 
 use WP_Statistics\Components\Option;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Utils\Format;
+use WP_Statistics\Utils\User;
 
 /**
  * Admin Bar Statistics Widget.
@@ -57,14 +59,7 @@ class AdminBarManager
             return false;
         }
 
-        /**
-         * Filters the capability required to see admin bar stats.
-         *
-         * @param string $capability Default 'read'.
-         */
-        $capability = apply_filters('wp_statistics_admin_bar_capability', 'read');
-
-        if (!current_user_can($capability)) {
+        if (!User::hasAccessLevel(AccessLevel::OWN_CONTENT)) {
             return false;
         }
 

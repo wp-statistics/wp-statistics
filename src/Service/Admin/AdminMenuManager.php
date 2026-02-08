@@ -2,8 +2,7 @@
 
 namespace WP_Statistics\Service\Admin;
 
-use WP_Statistics\Components\Option;
-use WP_Statistics\Utils\User;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditPage;
 use WP_Statistics\Service\Admin\HelpCenter\HelpCenterPage;
@@ -66,8 +65,8 @@ class AdminMenuManager
      */
     public function registerMenus()
     {
-        $readCapability   = User::getExistingCapability(Option::getValue('read_capability', 'manage_options'));
-        $manageCapability = User::getExistingCapability(Option::getValue('manage_capability', 'manage_options'));
+        $readCapability   = AccessLevel::getMinimumCapabilityForLevel(AccessLevel::OWN_CONTENT);
+        $manageCapability = AccessLevel::getMinimumCapabilityForLevel(AccessLevel::MANAGE);
 
         // Main Dashboard menu (position 3 = between Dashboard and Posts)
         add_menu_page(

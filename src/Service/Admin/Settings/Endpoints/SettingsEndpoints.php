@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Settings\Endpoints;
 
 use WP_Statistics\Components\Ajax;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
@@ -173,8 +174,11 @@ class SettingsEndpoints
                     continue;
                 }
 
-                // Handle different value types
-                if (is_array($value)) {
+                // Validate access_levels specifically
+                if ($sanitizedKey === 'access_levels' && is_array($value)) {
+                    $sanitizedValue = $this->sanitizeAccessLevels($value);
+                } elseif (is_array($value)) {
+                    // Handle different value types
                     $sanitizedValue = array_map('sanitize_text_field', $value);
                 } elseif ($value === 'true' || $value === true) {
                     $sanitizedValue = true;
@@ -332,7 +336,36 @@ class SettingsEndpoints
             $settings[$key] = Option::getValue($key, $default);
         }
 
+        // For access tab, include available roles so the UI can render them
+        if ($tab === 'access') {
+            $settings['_roles'] = $this->getAvailableRoles();
+        }
+
         return $settings;
+    }
+
+    /**
+     * Get available WordPress roles for access level assignment.
+     *
+     * @return array<int, array{slug: string, name: string}>
+     */
+    private function getAvailableRoles()
+    {
+        global $wp_roles;
+
+        if (!is_object($wp_roles) || !is_array($wp_roles->roles)) {
+            return [];
+        }
+
+        $roles = [];
+        foreach ($wp_roles->get_names() as $slug => $name) {
+            $roles[] = [
+                'slug' => $slug,
+                'name' => translate_user_role($name),
+            ];
+        }
+
+        return $roles;
     }
 
     /**
@@ -444,7 +477,9 @@ class SettingsEndpoints
                 'display_hits_position',
             ],
             'access' => [
-                // Roles & Permissions
+                // Roles & Permissions (new tier-based system)
+                'access_levels',
+                // Legacy keys for backward compatibility
                 'read_capability',
                 'manage_capability',
             ],
@@ -459,6 +494,47 @@ class SettingsEndpoints
         ];
 
         return $tabKeys[$tab] ?? [];
+    }
+
+    /**
+     * Sanitize and validate the access_levels setting.
+     *
+     * Only valid role slugs and access level values are preserved.
+     * Administrator is always forced to 'manage'.
+     *
+     * @param array $levels Raw access levels from the request.
+     * @return array<string, string> Sanitized role => level map.
+     */
+    private function sanitizeAccessLevels(array $levels): array
+    {
+        global $wp_roles;
+
+        $sanitized   = [];
+        $validLevels = AccessLevel::getAll();
+        $validRoles  = is_object($wp_roles) && is_array($wp_roles->roles)
+            ? array_keys($wp_roles->roles)
+            : ['administrator'];
+
+        foreach ($levels as $roleSlug => $level) {
+            $roleSlug = sanitize_key($roleSlug);
+            $level    = sanitize_text_field($level);
+
+            if (!in_array($roleSlug, $validRoles, true)) {
+                continue;
+            }
+
+            if (!in_array($level, $validLevels, true)) {
+                continue;
+            }
+
+            // Administrator is always manage
+            $sanitized[$roleSlug] = ($roleSlug === 'administrator') ? AccessLevel::MANAGE : $level;
+        }
+
+        // Ensure administrator is always present
+        $sanitized['administrator'] = AccessLevel::MANAGE;
+
+        return $sanitized;
     }
 
     /**

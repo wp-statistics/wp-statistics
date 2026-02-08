@@ -3,7 +3,9 @@
 namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
 use WP_Statistics\Components\Country;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
+use WP_Statistics\Utils\User;
 
 /**
  * Provider for layout configuration data.
@@ -172,6 +174,9 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
             ]
         ];
 
+        // Filter sidebar based on user access level
+        $items['sidebar'] = $this->filterSidebarByAccessLevel($items['sidebar']);
+
         /**
          * Filter layout data before sending to React.
          *
@@ -191,6 +196,54 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
     public function getKey()
     {
         return 'layout';
+    }
+
+    /**
+     * Filter sidebar items based on user's access level.
+     *
+     * - own_content: Only overview and contentAnalytics (filtered to own posts)
+     * - view_stats: Everything except PII sub-pages (visitors, onlineVisitors, topVisitors, loggedInUsers)
+     * - view_all / manage: No filtering
+     *
+     * @param array $sidebar Sidebar configuration.
+     * @return array Filtered sidebar.
+     */
+    private function filterSidebarByAccessLevel(array $sidebar): array
+    {
+        $level = User::getAccessLevel();
+
+        // view_all and manage see everything
+        if (AccessLevel::isAtLeast($level, AccessLevel::VIEW_ALL)) {
+            return $sidebar;
+        }
+
+        // own_content: only overview + content analytics
+        if ($level === AccessLevel::OWN_CONTENT) {
+            $allowed = ['overview', 'contentAnalytics'];
+            return array_intersect_key($sidebar, array_flip($allowed));
+        }
+
+        // view_stats: remove PII sub-pages from visitorInsights
+        if ($level === AccessLevel::VIEW_STATS) {
+            $piiSubPages = ['visitors', 'onlineVisitors', 'topVisitors', 'loggedInUsers'];
+
+            if (isset($sidebar['visitorInsights']['subPages'])) {
+                $sidebar['visitorInsights']['subPages'] = array_diff_key(
+                    $sidebar['visitorInsights']['subPages'],
+                    array_flip($piiSubPages)
+                );
+            }
+
+            // Also remove referredVisitors (shows individual visitor data)
+            if (isset($sidebar['referrals']['subPages']['referredVisitors'])) {
+                unset($sidebar['referrals']['subPages']['referredVisitors']);
+            }
+
+            return $sidebar;
+        }
+
+        // none: empty sidebar (shouldn't normally reach here)
+        return [];
     }
 
     /**
