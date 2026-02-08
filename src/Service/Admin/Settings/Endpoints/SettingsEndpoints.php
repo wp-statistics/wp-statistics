@@ -439,6 +439,7 @@ class SettingsEndpoints
                 'disable_dashboard',
                 'display_notifications',
                 'hide_notices',
+                'menu_bar',
                 // Frontend Display
                 'show_hits',
                 'display_hits_position',

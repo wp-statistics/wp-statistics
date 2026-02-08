@@ -14,6 +14,9 @@ export function DisplaySettings() {
   const [displayNotifications, setDisplayNotifications] = useSetting(settings, 'display_notifications', true)
   const [hideNotices, setHideNotices] = useSetting(settings, 'hide_notices', false)
 
+  // Admin Bar
+  const [menuBar, setMenuBar] = useSetting(settings, 'menu_bar', true)
+
   // Frontend Display Settings
   const [showHits, setShowHits] = useSetting(settings, 'show_hits', false)
   const [displayHitsPosition, setDisplayHitsPosition] = useSetting(settings, 'display_hits_position', 'none')
@@ -70,6 +73,14 @@ export function DisplaySettings() {
           description={__('Hides configuration and optimization notices in the admin area. Critical database notices will still be shown.', 'wp-statistics')}
           checked={!!hideNotices}
           onCheckedChange={setHideNotices}
+        />
+
+        <SettingsToggleField
+          id="menu-bar"
+          label={__('Show Stats in Admin Bar', 'wp-statistics')}
+          description={__('Display a quick statistics summary in the WordPress admin bar.', 'wp-statistics')}
+          checked={!!menuBar}
+          onCheckedChange={setMenuBar}
         />
       </SettingsCard>
 

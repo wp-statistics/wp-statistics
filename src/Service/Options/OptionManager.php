@@ -214,6 +214,7 @@ class OptionManager
             'word_count_analytics'            => true,
             'show_privacy_issues_in_report'   => false,
             'disable_column'                  => false,
+            'menu_bar'                        => true,
         ];
     }
 

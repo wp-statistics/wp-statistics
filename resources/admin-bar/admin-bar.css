@@ -1,0 +1,609 @@
+/**
+ * WP Statistics — Admin Bar Widget
+ *
+ * Dark-themed popup with tabbed navigation (Overview / This Page).
+ * Rendered outside #wpadminbar (portal pattern).
+ * Defensive reset isolates popup from both WP admin bar resets AND theme styles.
+ * Premium extends via admin-bar-premium.css.
+ */
+
+/* ── Admin Bar Item (inside #wpadminbar — needs !important) ── */
+#wpadminbar .wps-admin-bar-stats > .ab-item {
+    display: flex !important;
+    align-items: center;
+    padding: 0 10px !important;
+    height: 32px;
+    cursor: pointer;
+}
+
+#wpadminbar .wps-admin-bar-stats:hover > .ab-item {
+    background: #2c3338;
+}
+
+#wpadminbar .wps-admin-bar-stats .wps-bar-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    opacity: 0.85;
+    transition: opacity 0.15s;
+}
+
+#wpadminbar .wps-admin-bar-stats:hover .wps-bar-icon {
+    opacity: 1;
+}
+
+#wpadminbar .wps-admin-bar-stats .wps-bar-count {
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    font-weight: 500;
+    color: #c3c4c7;
+    letter-spacing: -0.02em;
+    transition: color 0.15s;
+}
+
+#wpadminbar .wps-admin-bar-stats:hover .wps-bar-count {
+    color: #e4e6e9;
+}
+
+#wpadminbar .wps-admin-bar-stats .wps-bar-label {
+    font-size: 11px;
+    font-weight: 400;
+    color: #8c8f94;
+    margin-left: 3px;
+}
+
+/* ── Defensive reset (neutralize theme + admin bar bleed) ── */
+.wps-popup,
+.wps-popup *,
+.wps-popup *::before,
+.wps-popup *::after {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: normal;
+    vertical-align: baseline;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Element-specific guards */
+.wps-popup a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.wps-popup button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+}
+
+.wps-popup svg {
+    max-width: none;
+}
+
+/* ── Popup (scoped variables + base styles) ── */
+.wps-popup {
+    --wps-popup-bg: #2C3338;
+    --wps-popup-surface-hover: rgba(255,255,255,0.05);
+    --wps-text-primary: rgba(255,255,255,0.92);
+    --wps-text-secondary: rgba(255,255,255,0.64);
+    --wps-text-muted: rgba(255,255,255,0.38);
+    --wps-text-label: rgba(255,255,255,0.48);
+    --wps-accent-blue: #3b82f6;
+    --wps-online-pulse: #34d399;
+    --wps-divider: rgba(255,255,255,0.08);
+    --wps-radius-lg: 6px;
+    --wps-shadow-popup:
+        0 4px 6px -1px rgba(0,0,0,0.3),
+        0 10px 25px -5px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(255,255,255,0.05);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 380px;
+    background: var(--wps-popup-bg);
+    border-radius: 0 0 var(--wps-radius-lg) var(--wps-radius-lg);
+    box-shadow: var(--wps-shadow-popup);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0s 0.2s;
+    z-index: 100000;
+    overflow: hidden;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--wps-text-primary);
+    text-align: left;
+    white-space: normal;
+}
+
+.wps-popup.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0s 0s;
+}
+
+/* ── Tabs (pill style) ── */
+.wps-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 10px 20px 0;
+}
+
+.wps-tab {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--wps-text-muted);
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: color 0.15s, background 0.15s;
+}
+
+.wps-tab:hover:not(.disabled) {
+    color: var(--wps-text-secondary);
+}
+
+.wps-tab.active {
+    color: var(--wps-text-primary);
+    background: #1D2327;
+}
+
+.wps-tab.disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ── Content panels ── */
+.wps-content {
+    padding: 20px 20px 16px;
+}
+
+/* ── Hero section (flex row) ── */
+.wps-hero {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.wps-hero-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--wps-text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.wps-hero-online {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.45);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.wps-hero-online .wps-online-dot {
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.wps-hero-sub {
+    margin-top: 4px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.wps-hero-label {
+    color: var(--wps-text-muted);
+    font-weight: 500;
+}
+
+/* ── Trend badges ── */
+.wps-trend {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.wps-trend--up {
+    color: #34d399;
+}
+
+.wps-trend--down {
+    color: #f87171;
+}
+
+/* ── Sparkline (full-width, green) ── */
+.wps-sparkline {
+    width: 100%;
+    height: 32px;
+    margin: 14px 0 16px;
+}
+
+.wps-sparkline svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.wps-sparkline-line {
+    fill: none;
+    stroke: #34d399;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.wps-sparkline-area {
+    fill: rgba(52,211,153,0.08);
+}
+
+.wps-sparkline-dot {
+    fill: #34d399;
+}
+
+/* ── Online indicator ── */
+.wps-online-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--wps-online-pulse);
+    display: inline-block;
+    position: relative;
+}
+
+.wps-online-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: var(--wps-online-pulse);
+    opacity: 0;
+    animation: wps-pulse 2s ease-in-out infinite;
+}
+
+@keyframes wps-pulse {
+    0%, 100% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 0.3; transform: scale(1); }
+}
+
+/* ── Metrics row (horizontal, border-separated, left-aligned) ── */
+.wps-metrics {
+    display: flex;
+    border-top: 1px solid var(--wps-divider);
+    border-bottom: 1px solid var(--wps-divider);
+    margin: 0;
+}
+
+.wps-metric {
+    flex: 1;
+    padding: 10px 0;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.wps-metric:first-child {
+    padding-left: 0;
+}
+
+.wps-metric + .wps-metric {
+    border-left: 1px solid var(--wps-divider);
+}
+
+.wps-metric-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--wps-text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.wps-metric-sub {
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.wps-metric-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--wps-text-muted);
+}
+
+.wps-metric-trend {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.wps-metric-trend--positive {
+    color: #34d399;
+}
+
+.wps-metric-trend--negative {
+    color: #f87171;
+}
+
+/* ── Section ── */
+.wps-section {
+    padding: 4px 0;
+}
+
+.wps-section-label {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--wps-text-muted);
+}
+
+/* ── Content rows (top content) ── */
+.wps-content-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    transition: background 0.12s;
+    gap: 8px;
+}
+
+.wps-content-title {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--wps-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+}
+
+.wps-content-number {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--wps-text-primary);
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+a.wps-content-title {
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+a.wps-content-title:hover {
+    color: var(--wps-accent-blue);
+}
+
+/* ── Footer ── */
+.wps-footer {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--wps-divider);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wps-footer-logo {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.08);
+    flex-shrink: 0;
+}
+
+.wps-footer-nudge {
+    font-size: 11px;
+}
+
+.wps-footer-nudge a {
+    color: var(--wps-text-muted);
+    font-weight: 500;
+    transition: color 0.15s;
+}
+
+.wps-footer-nudge a:hover {
+    color: var(--wps-text-secondary);
+}
+
+.wps-footer-link {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--wps-accent-blue);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: auto;
+    padding: 0;
+    line-height: normal;
+    transition: color 0.15s, gap 0.15s;
+}
+
+.wps-footer-link:hover {
+    color: #60a5fa;
+    gap: 7px;
+}
+
+.wps-footer-arrow {
+    font-size: 14px;
+    transition: transform 0.15s;
+}
+
+.wps-footer-link:hover .wps-footer-arrow {
+    transform: translateX(2px);
+}
+
+/* ── Fallback message (This Page tab) ── */
+.wps-fallback {
+    padding: 32px 0;
+    text-align: center;
+}
+
+.wps-fallback p {
+    font-size: 12px;
+    color: var(--wps-text-muted);
+    line-height: 1.5;
+}
+
+/* ── Staggered reveal animations ── */
+.wps-popup.is-visible .wps-hero {
+    animation: wps-metric-in 0.25s ease 0.03s both;
+}
+
+.wps-popup.is-visible .wps-sparkline {
+    animation: wps-metric-in 0.25s ease 0.06s both;
+}
+
+.wps-popup.is-visible .wps-metrics {
+    animation: wps-metric-in 0.25s ease 0.09s both;
+}
+
+.wps-popup.is-visible .wps-section {
+    animation: wps-metric-in 0.25s ease 0.12s both;
+}
+
+.wps-popup.is-visible .wps-footer {
+    animation: wps-metric-in 0.25s ease 0.15s both;
+}
+
+@keyframes wps-metric-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sparkline draw animation */
+.wps-popup.is-visible .wps-sparkline-line {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: wps-draw-line 0.8s ease 0.15s forwards;
+}
+
+@keyframes wps-draw-line {
+    to { stroke-dashoffset: 0; }
+}
+
+.wps-popup.is-visible .wps-sparkline-area {
+    opacity: 0;
+    animation: wps-spark-fade-in 0.3s ease 0.5s forwards;
+}
+
+.wps-popup.is-visible .wps-sparkline-dot {
+    opacity: 0;
+    animation: wps-spark-fade-in 0.2s ease 0.6s forwards;
+}
+
+@keyframes wps-spark-fade-in {
+    to { opacity: 1; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 782px) {
+    #wpadminbar .wps-admin-bar-stats .wps-bar-count,
+    #wpadminbar .wps-admin-bar-stats .wps-bar-label {
+        display: none;
+    }
+
+    .wps-popup {
+        border-radius: 0;
+        width: 100%;
+    }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+    .wps-popup {
+        transition: opacity 0.1s, visibility 0s;
+        transform: none;
+    }
+
+    .wps-popup.is-visible .wps-hero,
+    .wps-popup.is-visible .wps-sparkline,
+    .wps-popup.is-visible .wps-metrics,
+    .wps-popup.is-visible .wps-section,
+    .wps-popup.is-visible .wps-footer,
+    .wps-popup.is-visible .wps-sparkline-line,
+    .wps-popup.is-visible .wps-sparkline-area,
+    .wps-popup.is-visible .wps-sparkline-dot {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+
+    .wps-online-dot::after {
+        animation: none;
+    }
+}
+
+/* ── RTL ── */
+[dir="rtl"] #wpadminbar .wps-admin-bar-stats .wps-bar-icon {
+    margin-right: 0;
+    margin-left: 6px;
+}
+
+[dir="rtl"] #wpadminbar .wps-admin-bar-stats .wps-bar-label {
+    margin-left: 0;
+    margin-right: 3px;
+}
+
+[dir="rtl"] .wps-metric + .wps-metric {
+    border-left: none;
+    border-right: 1px solid var(--wps-divider);
+}
+
+[dir="rtl"] .wps-metric {
+    padding-left: 0;
+    padding-right: 20px;
+}
+
+[dir="rtl"] .wps-metric:first-child {
+    padding-right: 0;
+}
+
+[dir="rtl"] .wps-footer-arrow {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .wps-content-title {
+    margin-right: 0;
+    margin-left: 12px;
+}
