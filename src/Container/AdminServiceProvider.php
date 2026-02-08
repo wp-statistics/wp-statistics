@@ -17,6 +17,7 @@ use WP_Statistics\Service\Admin\Tools\Endpoints\ToolsEndpoints;
 use WP_Statistics\Service\Admin\Notice\NoticeManager;
 use WP_Statistics\Service\Admin\Notice\Notices\DiagnosticNotice;
 use WP_Statistics\Service\EmailReport\EmailReportManager;
+use WP_Statistics\Service\Admin\Dashboard\DashboardWidgetManager;
 use WP_Statistics\Service\ImportExport\ImportExportManager;
 
 /**
@@ -113,6 +114,11 @@ class AdminServiceProvider implements ServiceProvider
             return new NetworkMenuManager();
         });
 
+        // Dashboard Widget (WordPress admin dashboard summary)
+        $container->register('dashboard_widget', function () {
+            return new DashboardWidgetManager();
+        });
+
         // Global Notice Manager (admin notices for React and non-React pages)
         $container->register('notice_manager', function () {
             // Initialize the notice manager
@@ -149,6 +155,7 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('import_export');
             $container->get('tools_endpoints');
             $container->get('network_menu');
+            $container->get('dashboard_widget');
             $container->get('notice_manager');
         }
     }

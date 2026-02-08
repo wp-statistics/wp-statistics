@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\AdminBar;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
+use WP_Statistics\Utils\Format;
 
 /**
  * Admin Bar Statistics Widget.
@@ -515,29 +516,6 @@ class AdminBarManager
     }
 
     /**
-     * Format a number compactly (e.g. 1234 → "1.2K", 45230 → "45.2K").
-     *
-     * @param int $number The number to format.
-     * @return string
-     */
-    private function formatCompactNumber(int $number): string
-    {
-        if ($number < 1000) {
-            return number_format_i18n($number);
-        }
-
-        if ($number < 10000) {
-            return number_format_i18n($number / 1000, 1) . 'K';
-        }
-
-        if ($number < 1000000) {
-            return number_format_i18n($number / 1000, $number < 100000 ? 1 : 0) . 'K';
-        }
-
-        return number_format_i18n($number / 1000000, 1) . 'M';
-    }
-
-    /**
      * Add the stats node to the admin bar.
      *
      * @param \WP_Admin_Bar $wp_admin_bar
@@ -560,7 +538,7 @@ class AdminBarManager
             . '<rect x="13.5" y="1" width="3.5" height="16" rx="1" fill="#c3c4c7"/>'
             . '</svg>';
 
-        $count = '<span class="wps-bar-count">' . esc_html($this->formatCompactNumber($data['bar_count'])) . '</span>'
+        $count = '<span class="wps-bar-count">' . esc_html(Format::compactNumber($data['bar_count'])) . '</span>'
     . '<span class="wps-bar-label">' . esc_html__('Views', 'wp-statistics') . '</span>';
 
         $wp_admin_bar->add_node([
