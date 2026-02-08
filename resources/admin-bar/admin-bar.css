@@ -145,9 +145,10 @@
 }
 
 /* ── Tabs (pill style) ── */
-.wps-tabs {
+.wps-popup .wps-tabs {
     display: flex;
     gap: 4px;
+    margin: 0;
     padding: 10px 20px 0;
 }
 
