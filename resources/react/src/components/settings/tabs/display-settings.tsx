@@ -10,7 +10,6 @@ export function DisplaySettings() {
   const [disableEditor, setDisableEditor] = useSetting(settings, 'disable_editor', false)
   const [disableColumn, setDisableColumn] = useSetting(settings, 'disable_column', false)
   const [enableUserColumn, setEnableUserColumn] = useSetting(settings, 'enable_user_column', false)
-  const [disableDashboard, setDisableDashboard] = useSetting(settings, 'disable_dashboard', false)
   const [displayNotifications, setDisplayNotifications] = useSetting(settings, 'display_notifications', true)
   const [hideNotices, setHideNotices] = useSetting(settings, 'hide_notices', false)
 
@@ -49,14 +48,6 @@ export function DisplaySettings() {
           description={__('Display the "Views" column in the admin user list. Requires "Track Logged-In User Activity" to be enabled.', 'wp-statistics')}
           checked={!!enableUserColumn}
           onCheckedChange={setEnableUserColumn}
-        />
-
-        <SettingsToggleField
-          id="disable-dashboard"
-          label={__('WP Statistics Widgets in Dashboard', 'wp-statistics')}
-          description={__('View WP Statistics widgets in the WordPress dashboard.', 'wp-statistics')}
-          checked={!disableDashboard}
-          onCheckedChange={(checked) => setDisableDashboard(!checked)}
         />
 
         <SettingsToggleField

@@ -171,7 +171,7 @@ class Admin_Assets
         }
 
         //Load Jquery VMap Css
-        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors')) {
             wp_enqueue_style(self::$prefix . '-jqvmap', self::url('jqvmap/jqvmap.min.css'), array(), '1.5.1');
         }
 
@@ -186,7 +186,7 @@ class Admin_Assets
         }
 
         // Load RangeDatePicker
-        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
+        if (Menus::in_plugin_page() || Menus::in_page('pages')) {
             wp_enqueue_style(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
             wp_enqueue_style(self::$prefix . '-customize', self::url('datepicker/customize.css'), array(), '1.0.0');
         }
@@ -213,7 +213,7 @@ class Admin_Assets
         }
 
         // Load Jquery VMap Js Library
-        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors')) {
             wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
         }
@@ -244,7 +244,7 @@ class Admin_Assets
 
         // Load Admin Js
         if (
-            Menus::in_plugin_page() || (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
+            Menus::in_plugin_page() ||
             (in_array($hook, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($hook, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
@@ -264,7 +264,7 @@ class Admin_Assets
         }
 
         // Add RangeDatePicker
-        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
+        if (Menus::in_plugin_page() || Menus::in_page('pages')) {
             wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
         }
@@ -505,7 +505,6 @@ class Admin_Assets
      *
      * Conditions are:
      * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
-     * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
      * - User is currently in edit post page and `disable_editor` is disabled.
      * - User is currently in edit post page and `latest_visitors_metabox` is enabled.
      *
@@ -518,7 +517,6 @@ class Admin_Assets
         global $pagenow;
 
         return Menus::in_plugin_page() ||
-            (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1');
     }

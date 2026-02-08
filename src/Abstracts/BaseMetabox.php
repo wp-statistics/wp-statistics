@@ -155,7 +155,7 @@ abstract class BaseMetabox
      */
     public function getScreen()
     {
-        return [Menu::getLoadActionSlug('overview'), 'dashboard'];
+        return [Menu::getLoadActionSlug('overview')];
     }
 
     /**
@@ -245,11 +245,6 @@ abstract class BaseMetabox
     {
         $userCapability = Option::getValue('read_capability');
         $screens        = $this->getScreen();
-
-        // If the dashboard widgets are disabled, remove them from the screens
-        if (Option::getValue('disable_dashboard') && in_array('dashboard', $screens)) {
-            $screens = array_diff($screens, ['dashboard']);
-        }
 
         // Return early if the user doesn't have the capability to view the stats
         if ($userCapability && !current_user_can($userCapability)) {

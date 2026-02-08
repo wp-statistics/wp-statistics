@@ -436,7 +436,6 @@ class SettingsEndpoints
                 'disable_editor',
                 'disable_column',
                 'enable_user_column',
-                'disable_dashboard',
                 'display_notifications',
                 'hide_notices',
                 'menu_bar',

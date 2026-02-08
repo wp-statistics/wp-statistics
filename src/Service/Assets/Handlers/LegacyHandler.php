@@ -63,8 +63,7 @@ class LegacyHandler extends BaseAssets
             Menu::isOnPage('overview') ||
             Menu::isOnPage('pages') ||
             Menu::isOnPage('geographic') ||
-            Menu::isOnPage('visitors') ||
-            (in_array($screenId, ['dashboard']) && !Option::getValue('disable_dashboard'))
+            Menu::isOnPage('visitors')
         ) {
             wp_enqueue_style($this->getAssetHandle('jqvmap'), $this->getUrl('css/jqvmap/jqvmap.min.css'), [], '1.5.1');
         }
@@ -84,7 +83,7 @@ class LegacyHandler extends BaseAssets
         }
 
         // Load RangeDatePicker
-        if (Menu::isInPluginPage() || Menu::isOnPage('pages') || in_array($screenId, ['dashboard'])) {
+        if (Menu::isInPluginPage() || Menu::isOnPage('pages')) {
             wp_enqueue_style($this->getAssetHandle('daterangepicker'), $this->getUrl('css/datepicker/daterangepicker.css'), [], '1.0.0');
             wp_enqueue_style($this->getAssetHandle('customize'), $this->getUrl('css/datepicker/customize.css'), [], '1.0.0');
         }
@@ -111,7 +110,7 @@ class LegacyHandler extends BaseAssets
         }
 
         // Load Jquery VMap Js Library
-        if (Menu::isOnPage('overview') || Menu::isOnPage('pages') || Menu::isOnPage('geographic') || Menu::isOnPage('visitors') || (in_array($screenId, ['dashboard']) && !Option::getValue('disable_dashboard'))) {
+        if (Menu::isOnPage('overview') || Menu::isOnPage('pages') || Menu::isOnPage('geographic') || Menu::isOnPage('visitors')) {
             wp_enqueue_script($this->getAssetHandle('jqvmap'), $this->getUrl('js/jqvmap/jquery.vmap.min.js'), ['jquery'], "1.5.1", ['in_footer' => true]);
             wp_enqueue_script($this->getAssetHandle('jqvmap-world'), $this->getUrl('js/jqvmap/jquery.vmap.world.min.js'), ['jquery'], "1.5.1", ['in_footer' => true]);
         }
@@ -144,7 +143,7 @@ class LegacyHandler extends BaseAssets
 
         // Load Admin Js
         if (
-            Menu::isInPluginPage() || (in_array($screenId, ['dashboard']) && !Option::getValue('disable_dashboard')) ||
+            Menu::isInPluginPage() ||
             (in_array($hook, ['post.php', 'edit.php']) && !Option::getValue('disable_editor')) ||
             (in_array($hook, ['post.php', 'edit.php']) && Addons::isActive('data-plus') && Option::getAddonValue('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
@@ -164,7 +163,7 @@ class LegacyHandler extends BaseAssets
         }
 
         // Add RangeDatePicker
-        if (Menu::isInPluginPage() || Menu::isOnPage('pages') || in_array($screenId, ['dashboard'])) {
+        if (Menu::isInPluginPage() || Menu::isOnPage('pages')) {
             wp_enqueue_script($this->getAssetHandle('moment'), $this->getUrl('js/datepicker/moment.min.js'), [], "2.30.2", ['in_footer' => true]);
             wp_enqueue_script($this->getAssetHandle('daterangepicker'), $this->getUrl('js/datepicker/daterangepicker.min.js'), [], "1.13.2", ['in_footer' => true]);
         }
@@ -393,7 +392,6 @@ class LegacyHandler extends BaseAssets
         global $pagenow;
 
         return Menu::isInPluginPage() ||
-            (in_array(Route::getScreenId(), ['dashboard']) && !Option::getValue('disable_dashboard')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && !Option::getValue('disable_editor')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && Addons::isActive('data-plus') && Option::getAddonValue('latest_visitors_metabox', 'data_plus', '1') === '1');
     }

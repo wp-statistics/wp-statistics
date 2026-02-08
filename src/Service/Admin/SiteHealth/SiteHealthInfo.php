@@ -218,11 +218,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('enable_user_column') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('enable_user_column') ? 'Enabled' : 'Disabled',
             ],
-            'wpStatisticsWidgets'            => [
-                'label' => esc_html__('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'),
-                'value' => Option::getValue('disable_dashboard') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),
-                'debug' => Option::getValue('disable_dashboard') ? 'Disabled' : 'Enabled',
-            ],
             'wpStatisticsNotifications'      => [
                 'label' => esc_html__('WP Statistics Notifications', 'wp-statistics'),
                 'value' => Option::getValue('display_notifications') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
