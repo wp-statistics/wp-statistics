@@ -1,9 +1,22 @@
-import { __ } from '@wordpress/i18n'
+import { __, sprintf } from '@wordpress/i18n'
 
 import { SettingsCard, SettingsField, SettingsPage, SettingsToggleField } from '@/components/settings-ui'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { useSetting, useSettings } from '@/hooks/use-settings'
+import { useSetting, useSettings, type UseSettingsReturn } from '@/hooks/use-settings'
+
+function RoleExclusionToggle({ settings, role }: { settings: UseSettingsReturn; role: { slug: string; name: string } }) {
+  const key = `exclude_${role.slug}`
+  return (
+    <SettingsToggleField
+      id={`exclude-${role.slug}`}
+      label={role.name}
+      description={sprintf(__('Exclude users with %s role.', 'wp-statistics'), role.name.toLowerCase())}
+      checked={!!settings.getValue(key, false)}
+      onCheckedChange={(v) => settings.setValue(key, v)}
+    />
+  )
+}
 
 export function ExclusionSettings() {
   const settings = useSettings({ tab: 'exclusions' })
@@ -24,13 +37,8 @@ export function ExclusionSettings() {
   const [excludeFeeds, setExcludeFeeds] = useSetting(settings, 'exclude_feeds', false)
   const [exclude404s, setExclude404s] = useSetting(settings, 'exclude_404s', false)
 
-  // Role Exclusions
-  const [excludeAdmin, setExcludeAdmin] = useSetting(settings, 'exclude_administrator', false)
-  const [excludeEditor, setExcludeEditor] = useSetting(settings, 'exclude_editor', false)
-  const [excludeAuthor, setExcludeAuthor] = useSetting(settings, 'exclude_author', false)
-  const [excludeContributor, setExcludeContributor] = useSetting(settings, 'exclude_contributor', false)
-  const [excludeSubscriber, setExcludeSubscriber] = useSetting(settings, 'exclude_subscriber', false)
-  const [excludeAnonymous, setExcludeAnonymous] = useSetting(settings, 'exclude_anonymous_users', false)
+  // Role Exclusions (dynamic from backend)
+  const roles = settings.getValue('_roles', []) as { slug: string; name: string }[]
 
   // Query Parameters
   const [queryParamsAllowList, setQueryParamsAllowList] = useSetting(settings, 'query_params_allow_list', '')
@@ -79,6 +87,22 @@ export function ExclusionSettings() {
             rows={4}
           />
         </SettingsField>
+      </SettingsCard>
+
+      <SettingsCard
+        title={__('User Role Exclusions', 'wp-statistics')}
+        description={__('Exclude users with specific roles from being tracked.', 'wp-statistics')}
+      >
+        {roles.map((role) => (
+          <RoleExclusionToggle key={role.slug} settings={settings} role={role} />
+        ))}
+        <SettingsToggleField
+          id="exclude-anonymous"
+          label={__('Anonymous Users', 'wp-statistics')}
+          description={__('Exclude users who are not logged in.', 'wp-statistics')}
+          checked={!!settings.getValue('exclude_anonymous_users', false)}
+          onCheckedChange={(v) => settings.setValue('exclude_anonymous_users', v)}
+        />
       </SettingsCard>
 
       <SettingsCard
@@ -198,18 +222,6 @@ export function ExclusionSettings() {
           checked={!!recordExclusions}
           onCheckedChange={setRecordExclusions}
         />
-      </SettingsCard>
-
-      <SettingsCard
-        title={__('User Role Exclusions', 'wp-statistics')}
-        description={__('Exclude users with specific roles from being tracked.', 'wp-statistics')}
-      >
-        <SettingsToggleField id="exclude-admin" label={__('Administrators', 'wp-statistics')} description={__('Exclude users with administrator role.', 'wp-statistics')} checked={!!excludeAdmin} onCheckedChange={setExcludeAdmin} />
-        <SettingsToggleField id="exclude-editor" label={__('Editors', 'wp-statistics')} description={__('Exclude users with editor role.', 'wp-statistics')} checked={!!excludeEditor} onCheckedChange={setExcludeEditor} />
-        <SettingsToggleField id="exclude-author" label={__('Authors', 'wp-statistics')} description={__('Exclude users with author role.', 'wp-statistics')} checked={!!excludeAuthor} onCheckedChange={setExcludeAuthor} />
-        <SettingsToggleField id="exclude-contributor" label={__('Contributors', 'wp-statistics')} description={__('Exclude users with contributor role.', 'wp-statistics')} checked={!!excludeContributor} onCheckedChange={setExcludeContributor} />
-        <SettingsToggleField id="exclude-subscriber" label={__('Subscribers', 'wp-statistics')} description={__('Exclude users with subscriber role.', 'wp-statistics')} checked={!!excludeSubscriber} onCheckedChange={setExcludeSubscriber} />
-        <SettingsToggleField id="exclude-anonymous" label={__('Anonymous Users', 'wp-statistics')} description={__('Exclude users who are not logged in.', 'wp-statistics')} checked={!!excludeAnonymous} onCheckedChange={setExcludeAnonymous} />
       </SettingsCard>
     </SettingsPage>
   )

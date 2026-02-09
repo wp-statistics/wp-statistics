@@ -336,8 +336,8 @@ class SettingsEndpoints
             $settings[$key] = Option::getValue($key, $default);
         }
 
-        // For access tab, include available roles so the UI can render them
-        if ($tab === 'access') {
+        // Include available roles so the UI can render them dynamically
+        if ($tab === 'access' || $tab === 'exclusions') {
             $settings['_roles'] = $this->getAvailableRoles();
         }
 
@@ -410,37 +410,36 @@ class SettingsEndpoints
                 'email_free_content_footer',
                 'show_privacy_issues_in_report',
             ],
-            'exclusions' => [
-                // Role Exclusions (dynamic keys for all WP roles)
-                'exclude_administrator',
-                'exclude_editor',
-                'exclude_author',
-                'exclude_contributor',
-                'exclude_subscriber',
-                'exclude_anonymous_users',
-                // IP Exclusions
-                'exclude_ip',
-                // Robot Exclusions
-                'robotlist',
-                'robot_threshold',
-                // Geolocation Exclusions
-                'excluded_countries',
-                'included_countries',
-                // URL Exclusions
-                'exclude_loginpage',
-                'exclude_feeds',
-                'exclude_404s',
-                'excluded_urls',
-                // URL Query Parameters
-                'query_params_allow_list',
-                // Referrer Spam (deprecated but still supported)
-                'referrerspam',
-                'schedule_referrerspam',
-                // Host Exclusions
-                'excluded_hosts',
-                // General Exclusions
-                'record_exclusions',
-            ],
+            'exclusions' => array_merge(
+                array_map(function ($role) {
+                    return 'exclude_' . $role['slug'];
+                }, $this->getAvailableRoles()),
+                [
+                    'exclude_anonymous_users',
+                    // IP Exclusions
+                    'exclude_ip',
+                    // Robot Exclusions
+                    'robotlist',
+                    'robot_threshold',
+                    // Geolocation Exclusions
+                    'excluded_countries',
+                    'included_countries',
+                    // URL Exclusions
+                    'exclude_loginpage',
+                    'exclude_feeds',
+                    'exclude_404s',
+                    'excluded_urls',
+                    // URL Query Parameters
+                    'query_params_allow_list',
+                    // Referrer Spam (deprecated but still supported)
+                    'referrerspam',
+                    'schedule_referrerspam',
+                    // Host Exclusions
+                    'excluded_hosts',
+                    // General Exclusions
+                    'record_exclusions',
+                ]
+            ),
             'advanced' => [
                 // IP Detection Method
                 'ip_method',

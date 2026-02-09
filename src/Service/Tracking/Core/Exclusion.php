@@ -121,10 +121,6 @@ class Exclusion extends Singleton
                 'message' => esc_html__('XML-RPC', 'wp-statistics'),
                 'method'  => 'exclusionXmlRpc',
             ],
-            'cross_site'      => [
-                'message' => esc_html__('Cross Site Request', 'wp-statistics'),
-                'method'  => 'exclusionCrossSite',
-            ],
             'pre_flight'      => [
                 'message' => esc_html__('Pre-flight Request', 'wp-statistics'),
                 'method'  => 'exclusionPreFlight',
@@ -291,7 +287,7 @@ class Exclusion extends Singleton
      */
     public static function exclusionFeed($visitorProfile)
     {
-        !empty(self::$options['exclude_feeds']) && is_feed();
+        return !empty(self::$options['exclude_feeds']) && is_feed();
     }
 
     /**
@@ -354,7 +350,7 @@ class Exclusion extends Singleton
 
         if ($currentUser) {
             foreach ($currentUser->roles as $role) {
-                if (!empty(self::$options['exclude_' . str_replace(' ', '_', strtolower($role))])) {
+                if (!empty(self::$options['exclude_' . $role])) {
                     return true;
                 }
             }
