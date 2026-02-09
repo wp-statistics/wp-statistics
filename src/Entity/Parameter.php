@@ -4,6 +4,7 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Utils\QueryParams;
 use WP_Statistics\Utils\Uri;
 
 /**
@@ -48,13 +49,16 @@ class Parameter extends BaseEntity
             return $this;
         }
 
+        // Normalize query param keys to lowercase for case-insensitive matching
+        $queryParams = array_change_key_case($queryParams, CASE_LOWER);
+
         // Consolidate source/ref into utm_source (priority: utm_source > source > ref)
         $utmSource = $queryParams['utm_source']
             ?? $queryParams['source']
             ?? $queryParams['ref']
             ?? null;
 
-        // Build final params to store
+        // Core UTM params to store (source/ref consolidated into utm_source)
         $paramsToStore = [
             'utm_source'   => $utmSource,
             'utm_medium'   => $queryParams['utm_medium'] ?? null,
@@ -64,13 +68,29 @@ class Parameter extends BaseEntity
             'utm_id'       => $queryParams['utm_id'] ?? null,
         ];
 
+        // Params already handled above (skip when processing custom allow-list)
+        $handledParams = [
+            'utm_source', 'utm_medium', 'utm_campaign',
+            'utm_content', 'utm_term', 'utm_id',
+            'source', 'ref',
+        ];
+
+        // Store custom allow-list params not already handled by UTM consolidation
+        $allowList = QueryParams::getAllowedList('array', true);
+        foreach ($allowList as $param) {
+            $paramLower = strtolower($param);
+            if (!in_array($paramLower, $handledParams, true) && isset($queryParams[$paramLower]) && is_string($queryParams[$paramLower]) && $queryParams[$paramLower] !== '') {
+                $paramsToStore[$paramLower] = $queryParams[$paramLower];
+            }
+        }
+
         // Insert each non-null parameter
         foreach ($paramsToStore as $key => $value) {
-            if ($value !== null && $value !== '') {
+            if ($value !== null && $value !== '' && is_string($value)) {
                 RecordFactory::parameter()->insert([
                     'session_id' => $sessionId,
-                    'parameter'  => $key,
-                    'value'      => sanitize_text_field($value),
+                    'parameter'  => strtolower($key),
+                    'value'      => sanitize_text_field(mb_substr($value, 0, 255)),
                 ]);
             }
         }

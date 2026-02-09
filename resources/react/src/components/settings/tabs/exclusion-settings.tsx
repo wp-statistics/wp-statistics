@@ -1,11 +1,15 @@
 import { __, sprintf } from '@wordpress/i18n'
 
-import { SettingsCard, SettingsField, SettingsPage, SettingsToggleField } from '@/components/settings-ui'
+import { SettingsCard, SettingsField, SettingsInfoBox, SettingsPage, SettingsToggleField } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Textarea } from '@/components/ui/textarea'
 import { useSetting, useSettings, type UseSettingsReturn } from '@/hooks/use-settings'
 import { WordPress } from '@/lib/wordpress'
+
+const DEFAULT_TRACKED_PARAMS = 'ref\nsource\nutm_source\nutm_medium\nutm_campaign\nutm_content\nutm_term\nutm_id'
+const COMMON_RESERVED = ['s', 'p', 'page', 'paged', 'page_id', 'cat', 'tag', 'author', 'feed', 'preview']
 
 function RoleExclusionToggle({ settings, role }: { settings: UseSettingsReturn; role: { slug: string; name: string } }) {
   const key = `exclude_${role.slug}`
@@ -46,6 +50,11 @@ export function ExclusionSettings() {
 
   // Query Parameters
   const [queryParamsAllowList, setQueryParamsAllowList] = useSetting(settings, 'query_params_allow_list', '')
+
+  const reservedWarnings = (queryParamsAllowList as string)
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => COMMON_RESERVED.includes(l))
 
   return (
     <SettingsPage settings={settings} saveDescription={__('Exclusion settings have been updated.', 'wp-statistics')}>
@@ -184,18 +193,39 @@ export function ExclusionSettings() {
       >
         <SettingsField
           id="query-params"
-          label={__('Allowed Query Parameters', 'wp-statistics')}
-          description={__('Enter parameter names to retain, one per line. Default: ref, source, utm_source, utm_medium, utm_campaign, utm_content, utm_term, utm_id, s, p.', 'wp-statistics')}
+          label={__('Tracked Query Parameters', 'wp-statistics')}
+          description={__('Enter parameter names to track separately and remove from stored page URLs, one per line. Default: ref, source, utm_source, utm_medium, utm_campaign, utm_content, utm_term, utm_id.', 'wp-statistics')}
           layout="stacked"
         >
           <Textarea
             id="query-params"
-            placeholder="ref&#10;source&#10;utm_source&#10;utm_medium&#10;utm_campaign"
+            placeholder={DEFAULT_TRACKED_PARAMS}
             value={queryParamsAllowList as string}
             onChange={(e) => setQueryParamsAllowList(e.target.value)}
             rows={5}
           />
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={() => setQueryParamsAllowList(DEFAULT_TRACKED_PARAMS)}
+          >
+            {__('Reset to Defaults', 'wp-statistics')}
+          </Button>
         </SettingsField>
+        {reservedWarnings.length > 0 && (
+          <NoticeBanner
+            type="warning"
+            dismissible={false}
+            message={sprintf(
+              __('%s are WordPress reserved terms and will be ignored during tracking.', 'wp-statistics'),
+              reservedWarnings.join(', ')
+            )}
+          />
+        )}
+        <SettingsInfoBox>
+          {__('Ad-platform parameters like fbclid, gclid, and msclkid are automatically removed from all stored URLs. This is always active and not configurable.', 'wp-statistics')}
+        </SettingsInfoBox>
       </SettingsCard>
 
       <SettingsCard
