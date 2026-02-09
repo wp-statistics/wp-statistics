@@ -91,6 +91,34 @@ class Helper
     }
 
     /**
+     * Whether WP Statistics should show its admin bar widget.
+     *
+     * Backward compatibility shim used by legacy add-ons (e.g. wp-statistics-mini-chart)
+     * to decide whether to enqueue assets for the admin bar UI.
+     *
+     * @return bool
+     */
+    public static function isAdminBarShowing()
+    {
+        if (!function_exists('is_admin_bar_showing') || !is_admin_bar_showing()) {
+            return false;
+        }
+
+        // WP Statistics toggle for admin bar widget.
+        if (!\WP_STATISTICS\Option::get('menu_bar', true)) {
+            return false;
+        }
+
+        // Mirror v15 access gating (AdminBarManager::shouldShow()) as closely as possible.
+        // Fallback to legacy read access if AccessLevel isn't available.
+        if (class_exists('\\WP_Statistics\\Service\\Admin\\AccessControl\\AccessLevel') && class_exists('\\WP_Statistics\\Utils\\User')) {
+            return \WP_Statistics\Utils\User::hasAccessLevel(\WP_Statistics\Service\Admin\AccessControl\AccessLevel::OWN_CONTENT);
+        }
+
+        return (bool) \WP_STATISTICS\User::Access('read');
+    }
+
+    /**
      * Returns true if the request belongs to "Bypass Ad Blockers" feature.
      *
      * @return  bool
