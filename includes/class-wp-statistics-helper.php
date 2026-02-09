@@ -286,24 +286,11 @@ class Helper
      *
      * @param string $type 'array' or 'list' (newline-separated string).
      * @return array|string
-     * @since 15.0.0 Changed to use JSON file instead of PHP.
+     * @deprecated No longer ships a default robot list. DeviceDetector handles bot detection.
      */
     public static function get_robots_list($type = 'list')
     {
-        $jsonFile = WP_STATISTICS_DIR . 'resources/json/robots-list.json';
-
-        if (file_exists($jsonFile)) {
-            $contents = file_get_contents($jsonFile);
-            $list     = json_decode($contents, true);
-
-            if (!is_array($list)) {
-                $list = [];
-            }
-        } else {
-            $list = [];
-        }
-
-        return ($type == 'array' ? $list : implode("\n", $list));
+        return ($type == 'array' ? [] : '');
     }
 
     /**

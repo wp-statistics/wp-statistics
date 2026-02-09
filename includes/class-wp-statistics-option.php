@@ -54,7 +54,7 @@ class Option
     {
 
         $options = array(
-            'robotlist'                       => Helper::get_robots_list(),
+            'robotlist'                       => '',
             'query_params_allow_list'         => Helper::get_default_query_params_allow_list('string'),
             'store_ip'                        => false,
             'geoip'                           => true,

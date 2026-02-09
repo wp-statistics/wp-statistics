@@ -37,7 +37,9 @@ export function ExclusionSettings() {
 
   // Bot Exclusions
   const [robotlist, setRobotlist] = useSetting(settings, 'robotlist', '')
-  const [robotThreshold, setRobotThreshold] = useSetting(settings, 'robot_threshold', 10)
+  const [robotThreshold, setRobotThreshold] = useSetting(settings, 'robot_threshold', 0)
+
+  // Exclusion Logging
   const [recordExclusions, setRecordExclusions] = useSetting(settings, 'record_exclusions', false)
 
   // Page Exclusions
@@ -230,17 +232,17 @@ export function ExclusionSettings() {
 
       <SettingsCard
         title={__('Bot & Crawler Detection', 'wp-statistics')}
-        description={__('Filter out bots and search engine crawlers.', 'wp-statistics')}
+        description={__('Known bots and crawlers are automatically detected. Use these settings for additional filtering.', 'wp-statistics')}
       >
         <SettingsField
           id="robotlist"
-          label={__('Bot User Agent List', 'wp-statistics')}
-          description={__('Enter bot user agent names to exclude, one per line.', 'wp-statistics')}
+          label={__('Additional Bot User Agents', 'wp-statistics')}
+          description={__('Known bots are automatically detected. Add custom user agent names here to exclude additional bots, one per line. Each entry must be more than 3 characters.', 'wp-statistics')}
           layout="stacked"
         >
           <Textarea
             id="robotlist"
-            placeholder="Googlebot&#10;Bingbot&#10;YandexBot"
+            placeholder="MyCustomBot&#10;InternalCrawler&#10;TestAgent"
             value={robotlist as string}
             onChange={(e) => setRobotlist(e.target.value)}
             rows={5}
@@ -256,17 +258,23 @@ export function ExclusionSettings() {
           <Input
             id="robot-threshold"
             type="number"
-            min="0"
+            min={0}
+            max={9999}
             value={robotThreshold as number}
             onChange={(e) => setRobotThreshold(parseInt(e.target.value) || 0)}
             className="w-32"
           />
         </SettingsField>
+      </SettingsCard>
 
+      <SettingsCard
+        title={__('Exclusion Logging', 'wp-statistics')}
+        description={__('Log details about excluded visits for debugging and auditing.', 'wp-statistics')}
+      >
         <SettingsToggleField
           id="record-exclusions"
           label={__('Record Exclusions', 'wp-statistics')}
-          description={__('Log excluded visitors for debugging purposes.', 'wp-statistics')}
+          description={__('Log all excluded visitors with the reason for exclusion. Useful for verifying that your exclusion rules are working correctly.', 'wp-statistics')}
           checked={!!recordExclusions}
           onCheckedChange={setRecordExclusions}
         />

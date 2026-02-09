@@ -177,7 +177,7 @@ class OptionManager
     public static function getDefaults(): array
     {
         return [
-            'robotlist'                       => self::getDefaultRobotList(),
+            'robotlist'                       => '',
             'query_params_allow_list'         => '',
             'store_ip'                        => false,
             'hash_rotation_interval'          => 'daily',
@@ -216,28 +216,6 @@ class OptionManager
             'disable_column'                  => false,
             'menu_bar'                        => true,
         ];
-    }
-
-    /**
-     * Get default robot list.
-     *
-     * @return string Default robots list (newline-separated).
-     * @since 15.0.0 Changed to use JSON file instead of PHP.
-     */
-    private static function getDefaultRobotList(): string
-    {
-        $jsonFile = WP_STATISTICS_DIR . 'resources/json/robots-list.json';
-
-        if (file_exists($jsonFile)) {
-            $contents = file_get_contents($jsonFile);
-            $robots   = json_decode($contents, true);
-
-            if (is_array($robots)) {
-                return implode("\n", $robots);
-            }
-        }
-
-        return '';
     }
 
     // =========================================================================
