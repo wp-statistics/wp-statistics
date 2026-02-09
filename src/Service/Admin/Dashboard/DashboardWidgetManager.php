@@ -6,6 +6,7 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Utils\Format;
+use WP_Statistics\Utils\Math;
 use WP_Statistics\Utils\User;
 
 /**
@@ -155,8 +156,8 @@ class DashboardWidgetManager
         $visitorsMonth    = (int) ($flat('this_month')['visitors'] ?? 0);
 
         // Percentage changes vs yesterday
-        $visitorsChange = $this->calcPercentageChange($visitorsYesterday, $visitorsToday);
-        $viewsChange    = $this->calcPercentageChange($viewsYesterday, $viewsToday);
+        $visitorsChange = (int) Math::percentageChange($visitorsYesterday, $visitorsToday, 0, 'zero');
+        $viewsChange    = (int) Math::percentageChange($viewsYesterday, $viewsToday, 0, 'zero');
 
         // Top pages
         $dashboardBase = admin_url('admin.php?page=wp-statistics');
@@ -194,22 +195,6 @@ class DashboardWidgetManager
             'overview_url'     => $dashboardBase . '#/overview',
             'has_data'         => $hasData,
         ];
-    }
-
-    /**
-     * Calculate the percentage change between two values.
-     *
-     * @param int $previous
-     * @param int $current
-     * @return int
-     */
-    private function calcPercentageChange(int $previous, int $current): int
-    {
-        if ($previous === 0 || $current === $previous) {
-            return 0;
-        }
-
-        return (int) round((($current - $previous) / $previous) * 100);
     }
 
     /**
