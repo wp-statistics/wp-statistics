@@ -398,7 +398,10 @@ class Exclusion extends Singleton
             $url = trim(urldecode(trim($url, '/\\')));
 
             if (strpos($url, '*') !== false) {
-                $patterns[] = '/^' . str_replace('\\*', '.*', preg_quote($url, '/', '/'))
+                if (trim($url, '* ') === '') {
+                    continue;
+                }
+                $patterns[] = '/^' . str_replace('\\*', '.*', preg_quote($url, '/'))
                     . '$/i';
             } elseif (strlen($url) > 2) {
                 $patterns[] = '/^' . preg_quote($url, '/') . '$/i';

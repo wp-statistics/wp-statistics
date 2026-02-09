@@ -81,7 +81,7 @@ export function ExclusionSettings() {
         <SettingsToggleField
           id="exclude-404s"
           label={__('Exclude 404 Pages', 'wp-statistics')}
-          description={__("Don't track visits to pages that return 404 errors.", 'wp-statistics')}
+          description={__("Don't track visits to pages that return 404 errors. Note: 404s for static files (images, CSS, JS) are always excluded automatically.", 'wp-statistics')}
           checked={!!exclude404s}
           onCheckedChange={setExclude404s}
         />
