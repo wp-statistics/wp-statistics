@@ -8,9 +8,6 @@ namespace WP_Statistics\Service\Database;
  * Provides table name management with caching for optimal performance.
  * Replaces legacy WP_STATISTICS\DB class.
  *
- * For the canonical legacy/v15/add-on table definitions and compatibility policy,
- * see: `docs/COMPATIBILITY.md`
- *
  * @since 15.0.0
  */
 class DatabaseSchema

@@ -214,9 +214,6 @@ class Bootstrap
      * These files provide the WP_STATISTICS namespace classes that add-ons depend on.
      * They will be removed when add-ons migrate to the new WP_Statistics namespace.
      *
-     * For the authoritative list of legacy APIs/tables/add-on dependencies, see:
-     * `docs/COMPATIBILITY.md`
-     *
      * ============================================================================
      * ADD-ON COMPATIBILITY LAYER
      * ============================================================================
