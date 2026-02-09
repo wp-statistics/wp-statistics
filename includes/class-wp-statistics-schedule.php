@@ -56,16 +56,6 @@ class Schedule
     {
         if (!Request::isFrom('admin')) {
 
-            // Add the referrerspam update schedule if it doesn't exist and it should be.
-            if (!wp_next_scheduled('wp_statistics_referrerspam_hook') && Option::get('schedule_referrerspam')) {
-                wp_schedule_event(time(), 'weekly', 'wp_statistics_referrerspam_hook');
-            }
-
-            // Remove the referrerspam update schedule if it does exist and it should shouldn't.
-            if (wp_next_scheduled('wp_statistics_referrerspam_hook') && !Option::get('schedule_referrerspam')) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_referrerspam_hook'), 'wp_statistics_referrerspam_hook');
-            }
-
             // Add the database maintenance schedule if it doesn't exist and it should be.
             if (!wp_next_scheduled('wp_statistics_dbmaint_hook') && Option::get('schedule_dbmaint')) {
                 wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_hook');

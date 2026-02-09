@@ -89,10 +89,6 @@ class Exclusion extends Singleton
                 'message' => esc_html__('Admin Page', 'wp-statistics'),
                 'method'  => 'exclusionAdminPage',
             ],
-            'referrer_spam'   => [
-                'message' => esc_html__('Referrer Spam', 'wp-statistics'),
-                'method'  => 'exclusionReferrerSpam',
-            ],
             'feed'            => [
                 'message' => esc_html__('Feed', 'wp-statistics'),
                 'method'  => 'exclusionFeed',
@@ -409,32 +405,6 @@ class Exclusion extends Singleton
         }
 
         return $patterns;
-    }
-
-    /**
-     * Excludes referrer spam based on configured list.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True when referrer contains a spam entry.
-     */
-    public static function exclusionReferrerSpam($visitorProfile)
-    {
-        if (empty(self::$options['referrerspam'])) {
-            return false;
-        }
-
-        $referrer = $visitorProfile->getReferrer();
-        $spamList = explode("\n", self::$options['referrerspamlist'] ?? '');
-
-        foreach ($spamList as $spamEntry) {
-            $spamEntry = trim($spamEntry);
-
-            if (strlen($spamEntry) > 3 && stripos($referrer, $spamEntry) !== false) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

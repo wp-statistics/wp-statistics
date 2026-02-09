@@ -145,7 +145,6 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
         $this->assertContains('license', $keys);
         $this->assertContains('referrals_database', $keys);
         $this->assertContains('notification', $keys);
-        $this->assertContains('referrer_spam', $keys);
     }
 
     /**

@@ -5,7 +5,6 @@ namespace WP_Statistics\Service\Cron;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Cron\Events\DatabaseMaintenanceEvent;
-use WP_Statistics\Service\Cron\Events\ReferrerSpamEvent;
 use WP_Statistics\Service\Cron\Events\GeoIPUpdateEvent;
 use WP_Statistics\Service\Cron\Events\DailySummaryEvent;
 use WP_Statistics\Service\Cron\Events\LicenseEvent;
@@ -77,7 +76,6 @@ class CronManager
         // Register class names only - no instantiation yet
         $this->eventClasses = [
             'database_maintenance' => DatabaseMaintenanceEvent::class,
-            'referrer_spam'        => ReferrerSpamEvent::class,
             'geoip_update'         => GeoIPUpdateEvent::class,
             'daily_summary'        => DailySummaryEvent::class,
             'license'              => LicenseEvent::class,
@@ -159,7 +157,6 @@ class CronManager
         $hooks = [
             // Current v15 hooks
             'wp_statistics_dbmaint_hook',
-            'wp_statistics_referrerspam_hook',
             'wp_statistics_geoip_hook',
             'wp_statistics_email_report',
             'wp_statistics_queue_daily_summary',
@@ -172,6 +169,7 @@ class CronManager
             'wp_statistics_anonymized_share_data_hook',
 
             // Legacy hooks (v14 cleanup)
+            'wp_statistics_referrerspam_hook',
             'wp_statistics_report_hook',
             'wp_statistics_notification_hook',
             'wp_statistics_dbmaint_visitor_hook',
@@ -199,10 +197,6 @@ class CronManager
             'wp_statistics_dbmaint_hook' => [
                 'label'      => __('Database Maintenance', 'wp-statistics'),
                 'recurrence' => 'daily',
-            ],
-            'wp_statistics_referrerspam_hook' => [
-                'label'      => __('Referrer Spam Update', 'wp-statistics'),
-                'recurrence' => 'weekly',
             ],
             'wp_statistics_geoip_hook' => [
                 'label'      => __('GeoIP Database Update', 'wp-statistics'),
@@ -363,7 +357,6 @@ class CronManager
             'email_list'        => 'email_report',
             'schedule_dbmaint'  => 'database_maintenance',
             'schedule_geoip'    => 'geoip_update',
-            'schedule_referrerspam' => 'referrer_spam',
         ];
 
         $eventsToReschedule = [];

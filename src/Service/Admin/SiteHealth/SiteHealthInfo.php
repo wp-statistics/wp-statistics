@@ -268,11 +268,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('excluded_urls') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::getValue('excluded_urls') ? 'Set' : 'Not Set',
             ],
-            'matomoReferrerSpamBlacklist'    => [
-                'label' => esc_html__('Matomo Referrer Spam Blacklist', 'wp-statistics'),
-                'value' => Option::getValue('referrerspam') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('referrerspam') ? 'Enabled' : 'Disabled',
-            ],
             'logRecordExclusions'            => [
                 'label' => esc_html__('Log Record Exclusions', 'wp-statistics'),
                 'value' => Option::getValue('record_exclusions') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),

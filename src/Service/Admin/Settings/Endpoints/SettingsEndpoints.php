@@ -36,8 +36,6 @@ class SettingsEndpoints
         'included_countries',
         'robotlist',
         'query_params_allow_list',
-        'excluded_hosts',
-        'referrerspamlist',
         'email_list',
     ];
 
@@ -380,8 +378,6 @@ class SettingsEndpoints
                 // Tracker Configuration
                 'bypass_ad_blockers',
                 // Legacy keys for backward compatibility
-                'visits',
-                'visitors',
                 'pages',
             ],
             'privacy' => [
@@ -427,11 +423,6 @@ class SettingsEndpoints
                     'excluded_urls',
                     // URL Query Parameters
                     'query_params_allow_list',
-                    // Referrer Spam (deprecated but still supported)
-                    'referrerspam',
-                    'schedule_referrerspam',
-                    // Host Exclusions
-                    'excluded_hosts',
                     // General Exclusions
                     'record_exclusions',
                 ]
@@ -449,12 +440,9 @@ class SettingsEndpoints
                 // Content Analytics
                 'word_count_analytics',
                 // Data Aggregation
-                'auto_aggregate_old_data',
                 'schedule_dbmaint_days',
                 // Anonymous Usage Data
                 'share_anonymous_data',
-                // Danger Zone
-                'delete_on_uninstall',
                 // Legacy keys (deprecated in v15)
                 'auto_pop',
                 'private_country_code',
