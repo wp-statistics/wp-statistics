@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="o-wrap wps-about-widget js-wps-widget-customization-empty">
     <div class="c-about">
         <div class="c-about__row c-about__row--logo  hndle ui-sortable-handle">

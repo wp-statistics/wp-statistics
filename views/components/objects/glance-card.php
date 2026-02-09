@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-card">
     <div class="wps-card__title">
         <h2><?php esc_html_e('At a Glance', 'wp-statistics'); ?></h2>
@@ -49,7 +50,7 @@
                             <?php else: ?>
                                 <span>-</span>
                             <?php endif; ?>
-                            <?php if (isset($metric['change']) && (!empty($metric['link-title']) || !empty($metric['value']))): ?>
+                            <?php if (isset($metric['change']) && $metric['change'] !== null && (!empty($metric['link-title']) || !empty($metric['value']))): ?>
                                 <?php
                                 $arrow_class = $metric['change'] > 0 ? 'wps-glance-up' : ($metric['change'] < 0 ? 'wps-glance-down' : '');
                                 $color_class = '';

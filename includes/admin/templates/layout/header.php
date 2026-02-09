@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wrap wps-wrap<?php echo(isset($class) ? ' ' . esc_attr($class) : ''); ?>">
 
 <?php

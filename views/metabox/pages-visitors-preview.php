@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-admin-pages-component__preview">
     <div class="wps-admin-pages-component__promotion">
         <h3><?php echo sprintf(

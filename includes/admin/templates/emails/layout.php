@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
@@ -98,7 +100,17 @@ function generatePerformanceSection($icon, $currentValue, $percentageChange, $la
     if (is_null($text_align_reverse)) {
         $text_align_reverse = is_rtl() ? 'left' : 'right';
     }
-    $styles = getPerformanceStyles($percentageChange);
+
+    // Build the percentage change badge only if we have valid data
+    $percentageBadge = '';
+    if ($percentageChange !== null) {
+        $styles = getPerformanceStyles($percentageChange);
+        $percentageBadge = '
+                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . $styles['background'] . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . $styles['color'] . ';display: inline-block">
+                            <img alt="' . $label . '" width="7" height="7" style="margin-' . $text_align_reverse . ': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . $styles['image']) . '"  >
+                            ' . $percentageChange . '%
+                        </span>';
+    }
 
     return '
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
@@ -108,13 +120,9 @@ function generatePerformanceSection($icon, $currentValue, $percentageChange, $la
                 </td>
                 <td style="padding-' . $text_align . ': 6px;">
                     <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: ' . $text_align . ';color:#3D3D44">
-                        <span style="float: ' . $text_align . ';margin-' . $text_align_reverse . ': 10px;margin-top: -3px;">' . $currentValue . '</span>
-                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . $styles['background'] . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . $styles['color'] . ';display: inline-block">
-                            <img alt="' . $label . '" width="7" height="7" style="margin-' . $text_align_reverse . ': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . $styles['image']) . '"  >
-                            ' . $percentageChange . '%
-                        </span>
+                        <span style="float: ' . $text_align . ';margin-' . $text_align_reverse . ': 10px;margin-top: -3px;">' . $currentValue . '</span>' . $percentageBadge . '
                     </div>
-                    <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . $label . '</span> 
+                    <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . $label . '</span>
                 </td>
             </tr>
         </table>';

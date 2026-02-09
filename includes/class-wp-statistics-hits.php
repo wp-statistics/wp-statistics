@@ -63,7 +63,23 @@ class Hits extends Singleton
      */
     public function set_current_page($current_page)
     {
+        /**
+         * Filter to resolve page type and ID from URL for SPA tracking.
+         *
+         * @param string $pageUri The page URI (decoded)
+         */
+        $pageUri  = isset($this->rest_hits->page_uri) ? base64_decode($this->rest_hits->page_uri) : '';
+        $resolved = apply_filters('wp_statistics_resolve_page_from_uri', $pageUri);
 
+        if (is_array($resolved) && isset($resolved['type']) && $resolved['type'] !== 'unknown') {
+            return array(
+                'type'         => esc_sql($resolved['type']),
+                'id'           => esc_sql($resolved['id']),
+                'search_query' => isset($resolved['search_query']) ? $resolved['search_query'] : ''
+            );
+        }
+
+        // Default behavior - use client-provided values
         if (isset($this->rest_hits->source_type) and isset($this->rest_hits->source_id)) {
             return array(
                 'type'         => esc_sql($this->rest_hits->source_type),

@@ -1,8 +1,12 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
+
 ?>
 
 <div class="wps-meta-traffic-summary">
@@ -29,7 +33,7 @@ use WP_STATISTICS\Helper;
             </thead>
             <tbody>
             <?php foreach ($data['summary'] as $key => $item) :
-                    $itemData = $item['data'];
+                $itemData = $item['data'];
                 ?>
                 <tr>
                     <td>
@@ -43,7 +47,7 @@ use WP_STATISTICS\Helper;
                     <td>
                         <div>
                             <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['visitors'], 1)) ?></span></a>
-                            <?php if (!empty($item['comparison'])) : ?>
+                            <?php if (!empty($item['comparison']) && isset($itemData['trend']['visitors']['percentage']) && $itemData['trend']['visitors']['percentage'] !== null) : ?>
                                 <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?>">
                                     <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['visitors']['percentage']) ?>%</span>
                                 </div>
@@ -53,7 +57,7 @@ use WP_STATISTICS\Helper;
                     <td>
                         <div>
                             <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['views'], 1)) ?></span></a>
-                            <?php if (!empty($item['comparison'])) : ?>
+                            <?php if (!empty($item['comparison']) && isset($itemData['trend']['views']['percentage']) && $itemData['trend']['views']['percentage'] !== null) : ?>
                                 <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?>">
                                     <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['views']['percentage']) ?>%</span>
                                 </div>

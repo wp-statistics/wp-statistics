@@ -38,7 +38,7 @@ class MetaboxDataProvider
     {
         $data = [
             'online'  => $this->onlineModel->countOnlines($args),
-            'summary' => ChartDataProviderFactory::summaryChart()->getData()
+            'summary' => ChartDataProviderFactory::summaryChart(['include_total' => true])->getData()
         ];
 
         return $data;
@@ -55,7 +55,7 @@ class MetaboxDataProvider
     {
         $data = [
             'online'  => $this->onlineModel->countOnlines($args),
-            'summary' => ChartDataProviderFactory::summaryChart()->getData()
+            'summary' => ChartDataProviderFactory::summaryChart(['include_total' => true])->getData()
         ];
 
         return $data;
@@ -165,16 +165,23 @@ class MetaboxDataProvider
         ];
 
         foreach ($data as $key => $value) {
-            $data[$key]['diff_percentage'] = Helper::calculatePercentageChange($value['prev_period'], $value['current_period']);
-            if ($data[$key]['diff_percentage'] > 0) {
+            $percentageChange = Helper::calculatePercentageChange($value['prev_period'], $value['current_period']);
+            $data[$key]['diff_percentage'] = $percentageChange;
+
+            // Only set diff_type if we have valid percentage data
+            if ($percentageChange === null) {
+                $data[$key]['diff_type'] = null;
+            } elseif ($percentageChange > 0) {
                 $data[$key]['diff_type'] = 'plus';
-            } elseif ($data[$key]['diff_percentage'] < 0) {
+            } elseif ($percentageChange < 0) {
                 $data[$key]['diff_type'] = 'minus';
             } else {
                 $data[$key]['diff_type'] = 'equal';
             }
 
-            $data[$key]['diff_percentage'] = abs($data[$key]['diff_percentage']);
+            if ($data[$key]['diff_percentage'] !== null) {
+                $data[$key]['diff_percentage'] = abs($data[$key]['diff_percentage']);
+            }
         }
 
         $topReferrer = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod]);

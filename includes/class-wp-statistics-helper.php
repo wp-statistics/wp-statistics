@@ -1848,17 +1848,21 @@ class Helper
     /**
      * Calculates percentage difference between two numbers.
      *
-     * @param int|float $firstNumber
-     * @param int|float $secondNumber
+     * @param int|float $firstNumber  The previous period value (baseline for comparison)
+     * @param int|float $secondNumber The current period value
      * @param int $decimals
      * @param bool $abs
      *
-     * @return  float
+     * @return float|null Returns null if firstNumber is 0 (no previous data to compare against)
      */
     public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2, $abs = false)
     {
         $firstNumber  = intval($firstNumber);
         $secondNumber = intval($secondNumber);
+        
+        if ($firstNumber == 0) {
+            return null;
+        }
 
         if ($firstNumber == $secondNumber) {
             return 0;
@@ -1874,8 +1878,7 @@ class Helper
         $change = $firstNumber > $secondNumber ? $firstNumber - $secondNumber : $secondNumber - $firstNumber;
 
         // Final part of the formula: ($change / $firstNumber) * 100
-        $result = $firstNumber == 0 ? $change : ($change / $firstNumber);
-        $result *= 100;
+        $result = ($change / $firstNumber) * 100;
         $result *= $multiply;
 
         $result = round($result, $decimals);

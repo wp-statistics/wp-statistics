@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-optionsMenu">
     <div class="wps-settings-side__title"><?php esc_html_e('optimization', 'wp-statistics'); ?></div>
     <a data-tab="resources" class="wps-optionsMenuItem current">

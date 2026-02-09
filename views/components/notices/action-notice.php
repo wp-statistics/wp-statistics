@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="notice notice-<?php echo esc_attr($notice['class'] ?? 'default'); ?> wp-statistics-notice">
     <h2 class="notice-title">
         <?php echo esc_html($notice['message']['title'] ?? 'Default Title'); ?>

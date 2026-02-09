@@ -8,7 +8,18 @@ use WP_STATISTICS\Option;
 /**
  * Factory class to get background process instances.
  *
+ * Provides static methods for accessing and managing background processes,
+ * including support for add-on registration via filters.
+ *
  * @package WP_Statistics\Service\Database\Migrations\BackgroundProcess
+ *
+ * @example Registering a custom background job from an add-on:
+ * ```php
+ * add_filter('wp_statistics_register_background_jobs', function ($jobs) {
+ *     $jobs['my_addon_sync'] = \Addon\Jobs\SyncJob::class;
+ *     return $jobs;
+ * });
+ * ```
  */
 class BackgroundProcessFactory
 {
@@ -82,7 +93,7 @@ class BackgroundProcessFactory
      */
     public static function getAllMigrations()
     {
-        return (new BackgroundProcessManager())->getAllDataMirations();
+        return (new BackgroundProcessManager())->getAllDataMigrations();
     }
 
     /**

@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-wrap__top tabbed_page">
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-steps">

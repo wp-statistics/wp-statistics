@@ -1,9 +1,12 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\ReferralDecorator;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -29,32 +32,32 @@ use WP_STATISTICS\Menus;
                     <div class="o-table-wrapper">
                         <table width="100%" class="o-table wps-new-table wps-new-table--referrers">
                             <thead>
-                                <tr>
-                                    <th scope="col" class="wps-pd-l">
-                                        <span><?php esc_html_e('Source Category', 'wp-statistics') ?></span>
-                                    </th>
-                                    <th scope="col" class="wps-pd-l start">
-                                        <span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics') ?></span>
-                                    </th>
-                                    <th scope="col">
-                                        <span class="screen-reader-text"><?php esc_html_e('Percentage', 'wp-statistics'); ?></span>
-                                    </th>
-                                </tr>
+                            <tr>
+                                <th scope="col" class="wps-pd-l">
+                                    <span><?php esc_html_e('Source Category', 'wp-statistics') ?></span>
+                                </th>
+                                <th scope="col" class="wps-pd-l start">
+                                    <span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics') ?></span>
+                                </th>
+                                <th scope="col">
+                                    <span class="screen-reader-text"><?php esc_html_e('Percentage', 'wp-statistics'); ?></span>
+                                </th>
+                            </tr>
                             </thead>
 
                             <tbody>
-                                <?php foreach($data['categories'] as $referral) : ?>
-                                    <?php /** @var ReferralDecorator $referral */ ?>
-                                    <tr>
-                                        <td class="wps-pd-l"><?php echo esc_html($referral->getSourceChannel()) ?></td>
+                            <?php foreach ($data['categories'] as $referral) : ?>
+                                <?php /** @var ReferralDecorator $referral */ ?>
+                                <tr>
+                                    <td class="wps-pd-l"><?php echo esc_html($referral->getSourceChannel()) ?></td>
 
-                                        <td class="wps-pd-l start">
-                                            <a href="<?php echo Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'source_channel' => $referral->getRawSourceChannel()]) ?>"><?php echo esc_html($referral->getTotalReferrals()) ?></a>
-                                        </td>
+                                    <td class="wps-pd-l start">
+                                        <a href="<?php echo Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'source_channel' => $referral->getRawSourceChannel()]) ?>"><?php echo esc_html($referral->getTotalReferrals()) ?></a>
+                                    </td>
 
-                                        <td class=" wps-pd-l"><?php echo esc_html(Helper::calculatePercentage($referral->getTotalReferrals(true), $data['total']) . '%') ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                    <td class=" wps-pd-l"><?php echo esc_html(Helper::calculatePercentage($referral->getTotalReferrals(true), $data['total']) . '%') ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>

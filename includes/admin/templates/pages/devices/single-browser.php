@@ -1,5 +1,9 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
+
 ?>
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
@@ -10,35 +14,35 @@ use WP_STATISTICS\Helper;
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
-                                    <tr>
-                                        <th class="wps-pd-l">
-                                            <?php echo esc_html($firstColTitle); ?>
-                                        </th>
-                                        <th class="wps-pd-l">
-                                            <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
-                                        </th>
-                                        <th class="wps-pd-l">
-                                            <?php esc_html_e('%', 'wp-statistics'); ?>
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th class="wps-pd-l">
+                                        <?php echo esc_html($firstColTitle); ?>
+                                    </th>
+                                    <th class="wps-pd-l">
+                                        <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
+                                    </th>
+                                    <th class="wps-pd-l">
+                                        <?php esc_html_e('%', 'wp-statistics'); ?>
+                                    </th>
+                                </tr>
                                 </thead>
 
                                 <tbody>
-                                    <?php foreach ($data['visitors'] as $item) : ?>
-                                        <tr>
-                                            <td class="wps-pd-l">
+                                <?php foreach ($data['visitors'] as $item) : ?>
+                                    <tr>
+                                        <td class="wps-pd-l">
                                                 <span title="<?php echo esc_attr(Helper::getMajorVersionOnly($item->casted_version)); ?>" class="wps-single-name">
                                                     <?php echo esc_html(Helper::getMajorVersionOnly($item->casted_version)); ?>
                                                 </span>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php echo number_format_i18n(intval($item->visitors)); ?>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php echo number_format_i18n(intval($item->visitors)); ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

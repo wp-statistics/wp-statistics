@@ -120,19 +120,25 @@ class RemoteRequest
      * @param bool $throwFailedHttpCodeResponse Whether or not to throw an exception if the request returns a failed HTTP code.
      * @param bool $useCache Whether or not to use caching.
      * @param int $cacheExpiration Cache expiration time in seconds.
+     * @param string|null $customCacheKey Optional custom cache key. If provided, this key will be used instead of auto-generated one.
      *
      * @return mixed
      *
      * @throws Exception
      */
-    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS)
+    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS, $customCacheKey = null)
     {
-        // Generate the cache key
-        $cacheKey = $this->generateCacheKey();
+        // Generate cache key once for reuse
+        $cacheKey = $customCacheKey ?: $this->generateCacheKey();
 
         // Check if cached result exists if caching is enabled
         if ($useCache) {
-            $cachedResponse = $this->getCachedResult($cacheKey);
+            // Use direct transient for custom cache key, trait method for auto-generated key
+            if ($customCacheKey) {
+                $cachedResponse = get_transient($cacheKey);
+            } else {
+                $cachedResponse = $this->getCachedResult($cacheKey);
+            }
             if ($cachedResponse !== false) {
                 return $cachedResponse;
             }
@@ -172,7 +178,12 @@ class RemoteRequest
         $resultToCache = ($responseJson === null) ? $this->responseBody : $responseJson;
         if ($useCache) {
             if ($this->isRequestSuccessful() && (is_object($resultToCache) || is_array($resultToCache))) {
-                $this->setCachedResult($cacheKey, $resultToCache, $cacheExpiration);
+                // Use direct transient for custom cache key, trait method for auto-generated key
+                if ($customCacheKey) {
+                    set_transient($cacheKey, $resultToCache, $cacheExpiration);
+                } else {
+                    $this->setCachedResult($cacheKey, $resultToCache, $cacheExpiration);
+                }
             }
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\View;
@@ -23,7 +25,7 @@ use WP_Statistics\Components\View;
 
                     <tbody>
                     <?php foreach ($data as $view) :
-                        $page  = Visitor::get_page_by_id($view->page_id);
+                        $page = Visitor::get_page_by_id($view->page_id);
                         $title = !empty($page['sub_page']) ? $page['title'] . ' (' . $page['sub_page'] . ')' : $page['title'];
                         ?>
                         <tr>

@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <div class="wps-notice wps-notice--success">
     <div>
         <p class="wps-notice__title"><?php esc_html_e('Upgrade to WP Statistics Premium', 'wp-statistics') ?></p>

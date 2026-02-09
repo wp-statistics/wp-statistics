@@ -1,3 +1,4 @@
+<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <button class="<?php echo esc_attr($classes) ?>" aria-label="<?php esc_html_e("Filter", "wp-statistics") ?>" id="<?php echo esc_attr($filter_type . '-filter'); ?>">
     <span class="dashicons dashicons-filter"></span>
     <span class="wps-visitor-filter__text">

@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 ?>
@@ -47,7 +50,7 @@ use WP_STATISTICS\Menus;
                         <td>
                             <div>
                                 <span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['visitors'], 1)) ?></span>
-                                <?php if (!empty($item['comparison'])) : ?>
+                                <?php if (!empty($item['comparison']) && isset($itemData['trend']['visitors']['percentage']) && $itemData['trend']['visitors']['percentage'] !== null) : ?>
                                     <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?>">
                                         <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['visitors']['percentage']) ?>%</span>
                                     </div>
@@ -58,7 +61,7 @@ use WP_STATISTICS\Menus;
                             <div>
                                 <span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['views'], 1)) ?></span>
 
-                                <?php if (!empty($item['comparison'])) : ?>
+                                <?php if (!empty($item['comparison']) && isset($itemData['trend']['views']['percentage']) && $itemData['trend']['views']['percentage'] !== null) : ?>
                                     <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?>">
                                         <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['views']['percentage']) ?>%</span>
                                     </div>
