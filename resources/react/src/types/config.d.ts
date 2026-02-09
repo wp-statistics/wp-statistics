@@ -193,6 +193,7 @@ declare global {
       userPreferencesAction: string
       trackLoggedInUsers: boolean
       storeIp: boolean
+      userIp: string
       accessLevel: 'none' | 'own_content' | 'view_stats' | 'view_all' | 'manage'
       userId: number
       userPreferences?: UserPreferences

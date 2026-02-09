@@ -44,6 +44,10 @@ export class WordPress {
     return this.data.globals.storeIp
   }
 
+  public getUserIp(): string {
+    return this.data.globals.userIp
+  }
+
   public getAnalyticsAction(): string {
     return this.data.globals.analyticsAction || 'wp_statistics_analytics'
   }

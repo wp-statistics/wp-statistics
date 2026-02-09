@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
 use WP_Statistics\Components\Country;
+use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\AnalyticsQuery;
@@ -41,6 +42,7 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
             'userPreferencesAction' => UserPreferences::getActionName(),
             'filterAction'          => FilterOptions::getActionName(),
             'storeIp'               => (bool) Option::getValue('store_ip', false),
+            'userIp'                => Ip::getCurrent(),
             'trackLoggedInUsers'    => (bool) Option::getValue('visitors_log', false),
             'userPreferences'       => [
                 'globalFilters' => $this->getGlobalFiltersPreferences(),

@@ -296,6 +296,16 @@ class Ip
                         $isWithinRange = true;
                         break;
                     }
+
+                    // Handle wildcard patterns (e.g., 192.168.*.*)
+                    if (strpos($range, '*') !== false) {
+                        $pattern = '/^' . str_replace('\\*', '\\d+', preg_quote($range, '/')) . '$/';
+                        if (preg_match($pattern, $ip)) {
+                            $isWithinRange = true;
+                            break;
+                        }
+                    }
+
                     continue;
                 }
 

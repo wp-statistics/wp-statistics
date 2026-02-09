@@ -1,9 +1,11 @@
 import { __, sprintf } from '@wordpress/i18n'
 
 import { SettingsCard, SettingsField, SettingsPage, SettingsToggleField } from '@/components/settings-ui'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useSetting, useSettings, type UseSettingsReturn } from '@/hooks/use-settings'
+import { WordPress } from '@/lib/wordpress'
 
 function RoleExclusionToggle({ settings, role }: { settings: UseSettingsReturn; role: { slug: string; name: string } }) {
   const key = `exclude_${role.slug}`
@@ -20,6 +22,8 @@ function RoleExclusionToggle({ settings, role }: { settings: UseSettingsReturn; 
 
 export function ExclusionSettings() {
   const settings = useSettings({ tab: 'exclusions' })
+
+  const userIp = WordPress.getInstance().getUserIp()
 
   // IP/URL Exclusions
   const [excludeIp, setExcludeIp] = useSetting(settings, 'exclude_ip', '')
@@ -112,27 +116,41 @@ export function ExclusionSettings() {
         <SettingsField
           id="exclude-ips"
           label={__('Excluded IP Addresses', 'wp-statistics')}
-          description={__('Enter IP addresses or CIDR ranges, one per line.', 'wp-statistics')}
+          description={__('Enter IP addresses, CIDR ranges, or wildcard patterns, one per line.', 'wp-statistics')}
           layout="stacked"
         >
           <Textarea
             id="exclude-ips"
-            placeholder="192.168.1.1&#10;10.0.0.0/8"
+            placeholder="192.168.1.1&#10;10.0.0.0/8&#10;192.168.*.*"
             value={excludeIp as string}
             onChange={(e) => setExcludeIp(e.target.value)}
             rows={4}
           />
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={() => {
+              const current = (excludeIp as string) || ''
+              const lines = current.split('\n').map(l => l.trim()).filter(Boolean)
+              if (!lines.includes(userIp)) {
+                setExcludeIp(lines.length ? current.trimEnd() + '\n' + userIp : userIp)
+              }
+            }}
+          >
+            {sprintf(__('Add My IP (%s)', 'wp-statistics'), userIp)}
+          </Button>
         </SettingsField>
       </SettingsCard>
 
       <SettingsCard
         title={__('Country Filters', 'wp-statistics')}
-        description={__('Filter visitors by country.', 'wp-statistics')}
+        description={__('Filter visitors by country. Excluded countries take priority over included countries.', 'wp-statistics')}
       >
         <SettingsField
           id="excluded-countries"
           label={__('Excluded Countries', 'wp-statistics')}
-          description={__('Enter 2-letter country codes to exclude, one per line.', 'wp-statistics')}
+          description={__('Enter ISO country codes (e.g., US, CN, DE) to exclude, one per line.', 'wp-statistics')}
           layout="stacked"
         >
           <Textarea
@@ -147,7 +165,7 @@ export function ExclusionSettings() {
         <SettingsField
           id="included-countries"
           label={__('Included Countries Only', 'wp-statistics')}
-          description={__('If specified, only track visitors from these countries.', 'wp-statistics')}
+          description={__('If specified, only track visitors from these countries. Enter ISO country codes (e.g., US, CA, GB), one per line.', 'wp-statistics')}
           layout="stacked"
         >
           <Textarea

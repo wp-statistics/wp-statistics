@@ -27,8 +27,7 @@ export function AdvancedSettings() {
 
   // Fetch detected IP on mount
   React.useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- userIp not in wpsReact type definition
-    const wpStatsIp = (window.wps_react?.globals as any)?.userIp
+    const wpStatsIp = WordPress.getInstance().getUserIp()
     if (wpStatsIp) {
       setDetectedIp(wpStatsIp)
     } else {

@@ -506,7 +506,7 @@ class Exclusion extends Singleton
         foreach ($ipRanges as $subnet) {
             $subnet = trim($subnet);
 
-            if (strlen($subnet) > 6 && Ip::isInRange([$subnet])) {
+            if (strlen($subnet) > 2 && Ip::isInRange([$subnet])) {
                 return true;
             }
         }
@@ -596,14 +596,14 @@ class Exclusion extends Singleton
         static $includedCountries = null;
 
         if ($excludedCountries === null) {
-            $excludedCountries = array_flip(array_filter(
+            $excludedCountries = array_flip(array_filter(array_map('trim',
                 explode("\n", strtoupper(str_replace("\r\n", "\n", self::$options['excluded_countries'] ?? '')))
-            ));
+            )));
         }
 
         if ($includedCountries === null) {
             $countriesString   = strtoupper(str_replace("\r\n", "\n", self::$options['included_countries'] ?? ''));
-            $includedCountries = $countriesString === '' ? [] : array_flip(array_filter(explode("\n", $countriesString)));
+            $includedCountries = $countriesString === '' ? [] : array_flip(array_filter(array_map('trim', explode("\n", $countriesString))));
         }
 
         if (empty($excludedCountries) && empty($includedCountries)) {

@@ -25,6 +25,23 @@ use Exception;
 class SettingsEndpoints
 {
     /**
+     * Setting keys that use textarea inputs and must preserve newlines.
+     *
+     * @var string[]
+     */
+    private static $textareaKeys = [
+        'exclude_ip',
+        'excluded_urls',
+        'excluded_countries',
+        'included_countries',
+        'robotlist',
+        'query_params_allow_list',
+        'excluded_hosts',
+        'referrerspamlist',
+        'email_list',
+    ];
+
+    /**
      * Register AJAX handlers.
      *
      * @return void
@@ -86,20 +103,8 @@ class SettingsEndpoints
             }
 
             foreach ($settings as $key => $value) {
-                $sanitizedKey = sanitize_key($key);
-
-                // Handle different value types
-                if (is_array($value)) {
-                    $sanitizedValue = array_map('sanitize_text_field', $value);
-                } elseif ($value === 'true' || $value === true) {
-                    $sanitizedValue = true;
-                } elseif ($value === 'false' || $value === false) {
-                    $sanitizedValue = false;
-                } elseif (is_numeric($value)) {
-                    $sanitizedValue = intval($value);
-                } else {
-                    $sanitizedValue = sanitize_text_field($value);
-                }
+                $sanitizedKey   = sanitize_key($key);
+                $sanitizedValue = $this->sanitizeSettingValue($sanitizedKey, $value);
 
                 Option::updateValue($sanitizedKey, $sanitizedValue);
             }
@@ -177,17 +182,8 @@ class SettingsEndpoints
                 // Validate access_levels specifically
                 if ($sanitizedKey === 'access_levels' && is_array($value)) {
                     $sanitizedValue = $this->sanitizeAccessLevels($value);
-                } elseif (is_array($value)) {
-                    // Handle different value types
-                    $sanitizedValue = array_map('sanitize_text_field', $value);
-                } elseif ($value === 'true' || $value === true) {
-                    $sanitizedValue = true;
-                } elseif ($value === 'false' || $value === false) {
-                    $sanitizedValue = false;
-                } elseif (is_numeric($value)) {
-                    $sanitizedValue = intval($value);
                 } else {
-                    $sanitizedValue = sanitize_text_field($value);
+                    $sanitizedValue = $this->sanitizeSettingValue($sanitizedKey, $value);
                 }
 
                 Option::updateValue($sanitizedKey, $sanitizedValue);
@@ -534,6 +530,30 @@ class SettingsEndpoints
         $sanitized['administrator'] = AccessLevel::MANAGE;
 
         return $sanitized;
+    }
+
+    /**
+     * Sanitize a single setting value based on its type and key.
+     *
+     * @param string $key   The sanitized setting key.
+     * @param mixed  $value The raw value to sanitize.
+     * @return mixed The sanitized value.
+     */
+    private function sanitizeSettingValue(string $key, $value)
+    {
+        if (is_array($value)) {
+            return array_map('sanitize_text_field', $value);
+        } elseif ($value === 'true' || $value === true) {
+            return true;
+        } elseif ($value === 'false' || $value === false) {
+            return false;
+        } elseif (is_numeric($value)) {
+            return intval($value);
+        } elseif (in_array($key, self::$textareaKeys, true)) {
+            return sanitize_textarea_field($value);
+        }
+
+        return sanitize_text_field($value);
     }
 
     /**
