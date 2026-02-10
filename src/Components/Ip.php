@@ -49,15 +49,16 @@ class Ip
      * @var array
      */
     public static array $ipMethodsServer = [
+        'HTTP_CF_CONNECTING_IP',
+        'HTTP_INCAP_CLIENT_IP',
         'HTTP_X_FORWARDED_FOR',
         'HTTP_X_FORWARDED',
         'HTTP_FORWARDED_FOR',
         'HTTP_FORWARDED',
-        'REMOTE_ADDR',
         'HTTP_CLIENT_IP',
         'HTTP_X_CLUSTER_CLIENT_IP',
         'HTTP_X_REAL_IP',
-        'HTTP_INCAP_CLIENT_IP'
+        'REMOTE_ADDR',
     ];
 
     /**
@@ -75,20 +76,19 @@ class Ip
     private static $cachedIpMethod = null;
 
     /**
-     * Returns all available detection headers.
+     * Get IP from the first available header in the sequential list.
      *
-     * @return array
+     * @return string|false The IP address or false if none found.
      */
-    public static function getDetectionHeaders()
+    private static function getIpFromHeaders()
     {
-        $headers = self::$ipMethodsServer;
-        $method  = self::getMethod();
-
-        if (isset($_SERVER[$method])) {
-            $headers[] = $method;
+        foreach (self::$ipMethodsServer as $method) {
+            if (isset($_SERVER[$method])) {
+                return $_SERVER[$method];
+            }
         }
 
-        return array_unique($headers);
+        return false;
     }
 
     /**
@@ -103,19 +103,13 @@ class Ip
         $ipMethod = self::getMethod();
 
         if ($ipMethod === 'sequential') {
-            foreach (self::$ipMethodsServer as $method) {
-                if (isset($_SERVER[$method])) {
-                    $ip = $_SERVER[$method];
-                    break;
-                }
-            }
+            $ip = self::getIpFromHeaders();
         } else {
             $ip = $_SERVER[$ipMethod] ?? false;
 
-            // Ensure backward compatibility for IP handling
             if (empty($ip)) {
-                // If the IP address is not available, set the IP method to the default value for the next visitor
-                Option::updateValue('ip_method', self::$defaultIpMethod);
+                // If the configured header is absent, fall back to sequential for this request
+                $ip = self::getIpFromHeaders();
             }
         }
 
@@ -415,7 +409,28 @@ class Ip
 
         $ipMethod = Option::getValue('ip_method', self::$defaultIpMethod);
 
-        if (!in_array($ipMethod, self::$ipMethodsServer, true) && $ipMethod !== self::$defaultIpMethod) {
+        // Handle custom header: resolve to the actual header name
+        if ($ipMethod === 'custom') {
+            $customHeader = Option::getValue('user_custom_header_ip_method', '');
+            $ipMethod     = !empty($customHeader) ? strtoupper(sanitize_text_field($customHeader)) : self::$defaultIpMethod;
+        }
+
+        /**
+         * Filters the resolved IP detection method before validation.
+         *
+         * Allows overriding the $_SERVER key used for IP detection.
+         * Return 'sequential' for automatic detection, or a specific
+         * $_SERVER key like 'HTTP_X_CUSTOM_IP'.
+         *
+         * @param string $ipMethod The resolved IP detection method.
+         */
+        $ipMethod = apply_filters('wp_statistics_ip_detection_method', $ipMethod);
+
+        // Validate: must be in known list, 'sequential', or a valid custom header (HTTP_ + alphanumeric/underscores)
+        if ($ipMethod !== self::$defaultIpMethod
+            && !in_array($ipMethod, self::$ipMethodsServer, true)
+            && !preg_match('/^HTTP_[A-Z0-9_]+$/', $ipMethod)
+        ) {
             Option::updateValue('ip_method', self::$defaultIpMethod);
             self::$cachedIpMethod = self::$defaultIpMethod;
             return self::$defaultIpMethod;

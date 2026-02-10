@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n'
-import { AlertTriangle, Globe, Loader2, RotateCcw, Server } from 'lucide-react'
+import { AlertTriangle, Loader2, RotateCcw } from 'lucide-react'
 import * as React from 'react'
 
-import { SettingsActionField, SettingsCard, SettingsField, SettingsInfoBox, SettingsPage, SettingsSelectField, SettingsToggleField } from '@/components/settings-ui'
+import { SettingsActionField, SettingsCard, SettingsField, SettingsPage, SettingsSelectField, SettingsToggleField } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -19,30 +19,9 @@ import { WordPress } from '@/lib/wordpress'
 
 export function AdvancedSettings() {
   const settings = useSettings({ tab: 'advanced' })
-  const [detectedIp, setDetectedIp] = React.useState<string>(__('Loading...', 'wp-statistics'))
-  const [externalIp, setExternalIp] = React.useState<string>(__('Loading...', 'wp-statistics'))
   const [isResetting, setIsResetting] = React.useState(false)
   const [showResetDialog, setShowResetDialog] = React.useState(false)
   const { toast } = useToast()
-
-  // Fetch detected IP on mount
-  React.useEffect(() => {
-    const wpStatsIp = WordPress.getInstance().getUserIp()
-    if (wpStatsIp) {
-      setDetectedIp(wpStatsIp)
-    } else {
-      setDetectedIp(__('Not available', 'wp-statistics'))
-    }
-
-    fetch('https://api.ipify.org?format=json')
-      .then((res) => res.json())
-      .then((data) => setExternalIp(data.ip))
-      .catch(() => setExternalIp(__('Unable to detect', 'wp-statistics')))
-  }, [])
-
-  // IP Detection Settings
-  const [ipMethod, setIpMethod] = useSetting(settings, 'ip_method', 'sequential')
-  const [customHeaderIpMethod, setCustomHeaderIpMethod] = useSetting(settings, 'user_custom_header_ip_method', '')
 
   // GeoIP Settings
   const [geoipLicenseType, setGeoipLicenseType] = useSetting(settings, 'geoip_license_type', 'js-deliver')
@@ -97,78 +76,6 @@ export function AdvancedSettings() {
 
   return (
     <SettingsPage settings={settings} saveDescription={__('Advanced settings have been updated.', 'wp-statistics')}>
-      <SettingsCard
-        title={__('IP Detection', 'wp-statistics')}
-        description={__('Configure how visitor IP addresses are detected.', 'wp-statistics')}
-      >
-        <SettingsSelectField
-          id="ip-method"
-          label={__('IP Detection Method', 'wp-statistics')}
-          description={__("Select how visitor IP addresses should be detected. Use 'Sequential' to check all headers automatically, or specify a specific header for your server configuration.", 'wp-statistics')}
-          layout="stacked"
-          value={ipMethod as string}
-          onValueChange={setIpMethod}
-          placeholder={__('Select method', 'wp-statistics')}
-          options={[
-            { value: 'sequential', label: __('Sequential (Check All Headers)', 'wp-statistics') },
-            { value: 'REMOTE_ADDR', label: 'REMOTE_ADDR' },
-            { value: 'HTTP_CLIENT_IP', label: 'HTTP_CLIENT_IP' },
-            { value: 'HTTP_X_FORWARDED_FOR', label: 'HTTP_X_FORWARDED_FOR' },
-            { value: 'HTTP_X_FORWARDED', label: 'HTTP_X_FORWARDED' },
-            { value: 'HTTP_FORWARDED_FOR', label: 'HTTP_FORWARDED_FOR' },
-            { value: 'HTTP_FORWARDED', label: 'HTTP_FORWARDED' },
-            { value: 'HTTP_X_REAL_IP', label: 'HTTP_X_REAL_IP' },
-            { value: 'HTTP_CF_CONNECTING_IP', label: __('HTTP_CF_CONNECTING_IP (Cloudflare)', 'wp-statistics') },
-            { value: 'custom', label: __('Custom Header', 'wp-statistics') },
-          ]}
-        />
-
-        {ipMethod === 'custom' && (
-          <SettingsField
-            id="custom-header"
-            label={__('Custom Header Name', 'wp-statistics')}
-            description={__("Enter the custom server header name that contains the visitor's IP address.", 'wp-statistics')}
-            layout="stacked"
-            nested
-          >
-            <Input
-              id="custom-header"
-              type="text"
-              placeholder="HTTP_X_CUSTOM_IP"
-              value={customHeaderIpMethod as string}
-              onChange={(e) => setCustomHeaderIpMethod(e.target.value)}
-            />
-          </SettingsField>
-        )}
-
-        <SettingsInfoBox title={__('Your IP Information', 'wp-statistics')}>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="flex items-center gap-2">
-              <Server className="h-4 w-4 text-muted-foreground" />
-              <div>
-                <p className="text-xs text-muted-foreground">{__('WP Statistics Detected', 'wp-statistics')}</p>
-                <p className="text-sm font-mono">{detectedIp}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Globe className="h-4 w-4 text-muted-foreground" />
-              <div>
-                <p className="text-xs text-muted-foreground">{__('External IP (ipify.org)', 'wp-statistics')}</p>
-                <p className="text-sm font-mono">{externalIp}</p>
-              </div>
-            </div>
-          </div>
-          {detectedIp !== __('Loading...', 'wp-statistics') && externalIp !== __('Loading...', 'wp-statistics') && detectedIp !== externalIp && (
-            <div className="mt-3 flex items-start gap-2 rounded-md bg-amber-500/10 p-2">
-              <AlertTriangle className="h-4 w-4 text-amber-600 mt-0.5" />
-              <p className="text-xs text-amber-600 dark:text-amber-400">
-                {__("The IPs don't match. If you're behind a proxy or CDN, ensure the correct header is selected above.", 'wp-statistics')}
-              </p>
-            </div>
-          )}
-        </SettingsInfoBox>
-      </SettingsCard>
-
       <SettingsCard
         title={__('GeoIP Settings', 'wp-statistics')}
         description={__('Configure how visitor locations are detected and displayed.', 'wp-statistics')}
