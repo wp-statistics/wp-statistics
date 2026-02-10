@@ -13,20 +13,8 @@ use WP_Statistics\Utils\User;
 
 class PostsManager
 {
-    /**
-     * @var WordCountService $wordsCount
-     */
-    private $wordsCount;
-
     public function __construct()
     {
-        $this->wordsCount = new WordCountService();
-
-        if ($this->wordsCount->isActive()) {
-            add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
-            add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
-        }
-
         // Add Hits column in edit lists of all post types
         if (User::hasAccess('read') && !Option::getValue('disable_column')) {
             add_action('admin_init', [$this, 'initHitsColumn']);
@@ -37,28 +25,6 @@ class PostsManager
 
         // Remove term hits on term delete
         add_action('delete_term', [$this, 'deleteTermHits'], 10, 3);
-    }
-
-    /**
-     * Count the number of words in a post and store it as a meta value
-     *
-     * @param $postId
-     * @param \WP_Post $post
-     */
-    public function addWordsCountCallback($postId, $post)
-    {
-        $this->wordsCount->handleSavePost($postId, $post);
-    }
-
-    /**
-     * Remove wps_words_count meta when the post is deleted
-     *
-     * @param $postId
-     * @param \WP_Post $post
-     */
-    public function removeWordsCountCallback($postId, $post)
-    {
-        $this->wordsCount->removeWordsCountMeta($postId, $post);
     }
 
     /**

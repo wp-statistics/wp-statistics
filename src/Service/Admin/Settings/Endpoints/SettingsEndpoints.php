@@ -436,8 +436,6 @@ class SettingsEndpoints
                 'geoip_license_type',
                 'geoip_license_key',
                 'geoip_dbip_license_key_option',
-                // Content Analytics
-                'word_count_analytics',
                 // Data Aggregation
                 'schedule_dbmaint_days',
                 // Anonymous Usage Data

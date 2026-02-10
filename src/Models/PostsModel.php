@@ -4,7 +4,6 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Utils\Query;
 
@@ -15,8 +14,8 @@ use WP_Statistics\Utils\Query;
  * and analytics queries that delegate to AnalyticsQueryHandler.
  *
  * @deprecated 15.0.0 Analytics methods delegate to AnalyticsQueryHandler.
- *                    WordPress content methods (countPosts, countDailyPosts, countWords,
- *                    countComments, getPost, getPostsWordsData, getPostsCommentsData,
+ *                    WordPress content methods (countPosts, countDailyPosts,
+ *                    countComments, getPost, getPostsCommentsData,
  *                    getInitialPostDate) remain for content operations.
  * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  */
@@ -110,52 +109,6 @@ class PostsModel extends BaseModel
         return $result;
     }
 
-    public function countWords($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => '',
-            'author_id' => '',
-            'post_id'   => '',
-            'taxonomy'  => '',
-            'term'      => ''
-        ]);
-
-        $wordsCountMetaKey = WordCountService::WORDS_COUNT_META_KEY;
-
-        $query = Query::select('SUM(meta_value)')
-            ->from('posts')
-            ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('posts.ID', '=', $args['post_id'])
-            ->where('post_author', '=', $args['author_id'])
-            ->where('meta_key', '=', $wordsCountMetaKey);
-
-        // Filter by date when no particular post ID has been set
-        if (empty($args['post_id'])) {
-            $query
-                ->whereDate('post_date', $args['date']);
-        }
-
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-        }
-
-        $result = $query->getVar();
-
-        return $result ? $result : 0;
-    }
-
     public function countComments($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -235,10 +188,6 @@ class PostsModel extends BaseModel
             'COALESCE(visitors.visitors, 0) AS visitors',
         ];
 
-        if (WordCountService::isActive()) {
-            $fields[] = "CAST(MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS UNSIGNED) AS words";
-        }
-
         $query = Query::select($fields)
             ->from('posts')
             ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
@@ -249,10 +198,6 @@ class PostsModel extends BaseModel
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page']);
-
-        if (WordCountService::isActive()) {
-            $query->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT');
-        }
 
         $result = $query->getAll();
 
@@ -559,38 +504,6 @@ class PostsModel extends BaseModel
         }
 
         $result = $query->getAll();
-
-        return $result;
-    }
-
-    public function getPostsWordsData($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::get_list_post_type(),
-            'order_by'  => 'words',
-            'order'     => 'DESC',
-            'page'      => 1,
-            'per_page'  => 5,
-            'author_id' => ''
-        ]);
-
-        $result = Query::select([
-            'posts.ID',
-            'posts.post_author',
-            'posts.post_title',
-            "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words",
-        ])
-            ->from('posts')
-            ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_status', '=', 'publish')
-            ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('posts.post_date', $args['date'])
-            ->groupBy('posts.ID')
-            ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->getAll();
 
         return $result;
     }

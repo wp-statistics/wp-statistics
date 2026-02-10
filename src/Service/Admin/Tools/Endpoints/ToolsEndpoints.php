@@ -227,11 +227,6 @@ class ToolsEndpoints
     {
         // Define known background jobs with metadata
         $jobDefinitions = [
-            'calculate_post_words_count' => [
-                'label'       => __('Post Word Count', 'wp-statistics'),
-                'description' => __('Calculates word count for posts without this meta.', 'wp-statistics'),
-                'optionKey'   => 'word_count_process_initiated',
-            ],
             'update_unknown_visitor_geoip' => [
                 'label'       => __('Visitor GeoIP Update', 'wp-statistics'),
                 'description' => __('Updates location data for visitors with incomplete GeoIP info.', 'wp-statistics'),

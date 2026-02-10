@@ -4,42 +4,12 @@ namespace WP_Statistics\BackgroundProcess;
 
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Utils\Query;
 
 class BackgroundProcessFactory
 {
-    /**
-     * Process word count for posts.
-     *
-     * @return void
-     */
-    public static function processWordCountForPosts()
-    {
-        $calculatePostWordsCount = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
-
-        if ($calculatePostWordsCount->is_active()) {
-            return;
-        }
-
-        $wordCount               = new WordCountService();
-        $postsWithoutWordCount   = $wordCount->getPostsWithoutWordCountMeta();
-
-        $batchSize = 100;
-        $batches   = array_chunk($postsWithoutWordCount, $batchSize);
-
-        foreach ($batches as $batch) {
-            $calculatePostWordsCount->push_to_queue(['posts' => $batch]);
-        }
-
-        // Mark as processed
-        Option::updateGroup('word_count_process_initiated', true, 'jobs');
-
-        $calculatePostWordsCount->save()->dispatch();
-    }
-
     /**
      * Batch update incomplete GeoIP info for visitors.
      *

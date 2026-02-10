@@ -207,7 +207,6 @@ class OptionManager
             'delete_data_on_uninstall'        => false,
             'share_anonymous_data'            => false,
             'display_notifications'           => true,
-            'word_count_analytics'            => true,
             'show_privacy_issues_in_report'   => false,
             'disable_column'                  => false,
             'menu_bar'                        => true,

@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\DateRange;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 use WP_Statistics\Utils\Query;
@@ -198,34 +197,6 @@ class AuthorAnalyticsDataProvider
     }
 
     /**
-     * Count words within date range.
-     *
-     * @param array $args Query arguments.
-     * @return int Words count.
-     */
-    protected function countWords($args = [])
-    {
-        $date     = $this->getDateRange($args['date'] ?? null);
-        $postType = $args['post_type'] ?? Helper::get_list_post_type();
-        $authorId = $args['author_id'] ?? '';
-
-        $wordsCountMetaKey = WordCountService::WORDS_COUNT_META_KEY;
-
-        $query = Query::select('SUM(meta_value)')
-            ->from('posts')
-            ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $postType)
-            ->where('post_author', '=', $authorId)
-            ->where('meta_key', '=', $wordsCountMetaKey)
-            ->whereDate('post_date', $date);
-
-        $result = $query->getVar();
-
-        return $result ? intval($result) : 0;
-    }
-
-    /**
      * Get authors by post publishes.
      *
      * @param array $args Query arguments.
@@ -357,39 +328,6 @@ class AuthorAnalyticsDataProvider
     }
 
     /**
-     * Get authors by words per post.
-     *
-     * @param array $args Query arguments.
-     * @return array Authors data.
-     */
-    protected function getAuthorsByWordsPerPost($args = [])
-    {
-        $date     = $this->getDateRange($args['date'] ?? null);
-        $postType = $args['post_type'] ?? Helper::get_list_post_type();
-        $page     = $args['page'] ?? 1;
-        $perPage  = $args['per_page'] ?? 5;
-
-        $result = Query::select([
-                'DISTINCT posts.post_author AS id',
-                'display_name AS name',
-                'SUM(postmeta.meta_value) / COUNT(DISTINCT posts.ID) AS average_words'
-            ])
-            ->from('posts')
-            ->join('users', ['posts.post_author', 'users.ID'])
-            ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
-            ->where('meta_key', '=', WordCountService::WORDS_COUNT_META_KEY)
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $postType)
-            ->whereDate('post_date', $date)
-            ->groupBy('post_author')
-            ->orderBy('average_words')
-            ->perPage($page, $perPage)
-            ->getAll();
-
-        return $result ? $result : [];
-    }
-
-    /**
      * Fetch authors report data from database.
      *
      * @param array $args Query arguments.
@@ -441,11 +379,6 @@ class AuthorAnalyticsDataProvider
             'views.total_views / COUNT(DISTINCT posts.ID) AS average_views'
         ];
 
-        if (WordCountService::isActive()) {
-            $fields[] = 'words.total_words AS total_words';
-            $fields[] = 'words.total_words / COUNT(DISTINCT posts.ID) AS average_words';
-        }
-
         $query = Query::select($fields)
             ->from('users')
             ->join(
@@ -464,20 +397,6 @@ class AuthorAnalyticsDataProvider
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($orderBy, $order)
             ->perPage($page, $perPage);
-
-        if (WordCountService::isActive()) {
-            $wordsQuery = Query::select(['DISTINCT post_author', 'SUM(meta_value) AS total_words'])
-                ->from('posts')
-                ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
-                ->where('postmeta.meta_key', '=', 'wp_statistics_words_count')
-                ->where('post_status', '=', 'publish')
-                ->where('post_type', 'IN', $postType)
-                ->whereDate('post_date', $date)
-                ->groupBy('post_author')
-                ->getQuery();
-
-            $query->joinQuery($wordsQuery, ['users.ID', 'words.post_author'], 'words', 'LEFT');
-        }
 
         $result = $query->getAll();
 
@@ -602,42 +521,6 @@ class AuthorAnalyticsDataProvider
             ->where('posts.post_author', '=', $authorId)
             ->where('comments.comment_type', '=', 'comment')
             ->where('comments.comment_approved', '=', '1')
-            ->whereDate('posts.post_date', $date)
-            ->groupBy('posts.ID')
-            ->orderBy($orderBy, $order)
-            ->perPage($page, $perPage)
-            ->getAll();
-
-        return $result ?? [];
-    }
-
-    /**
-     * Get posts words data.
-     *
-     * @param array $args Query arguments.
-     * @return array Posts words data.
-     */
-    protected function getPostsWordsData($args = [])
-    {
-        $date     = $this->getDateRange($args['date'] ?? null);
-        $postType = $args['post_type'] ?? Helper::get_list_post_type();
-        $authorId = $args['author_id'] ?? '';
-        $orderBy  = $args['order_by'] ?? 'words';
-        $order    = $args['order'] ?? 'DESC';
-        $page     = $args['page'] ?? 1;
-        $perPage  = $args['per_page'] ?? 5;
-
-        $result = Query::select([
-            'posts.ID',
-            'posts.post_author',
-            'posts.post_title',
-            "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words",
-        ])
-            ->from('posts')
-            ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
-            ->where('post_type', 'IN', $postType)
-            ->where('post_status', '=', 'publish')
-            ->where('posts.post_author', '=', $authorId)
             ->whereDate('posts.post_date', $date)
             ->groupBy('posts.ID')
             ->orderBy($orderBy, $order)
@@ -864,17 +747,6 @@ class AuthorAnalyticsDataProvider
             'top_by_views'      => $topAuthorsByViews
         ];
 
-        if (WordCountService::isActive()) {
-            $words    = $this->countWords($currentArgs);
-            $avgWords = Helper::divideNumbers($words, $posts);
-
-            $topAuthorsByWords = $this->getAuthorsByWordsPerPost($currentArgs);
-
-            $result['top_by_words']        = $topAuthorsByWords;
-            $result['glance']['words']     = ['value' => $words];
-            $result['glance']['words_avg'] = ['value' => $avgWords];
-        }
-
         return $result;
     }
 
@@ -1014,17 +886,6 @@ class AuthorAnalyticsDataProvider
             'visitors_country' => $visitorsCountry,
             'taxonomies'       => $taxonomies
         ];
-
-        if (WordCountService::isActive()) {
-            $words    = $this->countWords($currentArgs);
-            $avgWords = Helper::divideNumbers($words, $posts);
-
-            $topPostsByWords = $this->getPostsWordsData($currentArgs);
-
-            $data['glance']['words']     = ['value' => $words];
-            $data['glance']['words_avg'] = ['value' => $avgWords];
-            $data['posts']['top_words']  = $topPostsByWords;
-        }
 
         return $data;
     }

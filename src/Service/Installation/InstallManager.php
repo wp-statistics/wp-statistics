@@ -123,7 +123,6 @@ class InstallManager
             'update_geoip_process_initiated',
             'schema_migration_process_started',
             'table_operations_process_initiated',
-            'word_count_process_initiated',
             'update_resouce_cache_fields_initiated',
         ];
 

@@ -32,9 +32,6 @@ export function AdvancedSettings() {
   // Database Settings
   const [deleteOnUninstall, setDeleteOnUninstall] = useSetting(settings, 'delete_data_on_uninstall', false)
 
-  // Content Analytics Settings
-  const [wordCountAnalytics, setWordCountAnalytics] = useSetting(settings, 'word_count_analytics', false)
-
   // Other Settings
   const [shareAnonymousData, setShareAnonymousData] = useSetting(settings, 'share_anonymous_data', false)
 
@@ -146,19 +143,6 @@ export function AdvancedSettings() {
             )}
           </>
         )}
-      </SettingsCard>
-
-      <SettingsCard
-        title={__('Content Analytics', 'wp-statistics')}
-        description={__('Configure content analysis features.', 'wp-statistics')}
-      >
-        <SettingsToggleField
-          id="word-count-analytics"
-          label={__('Word Count Analytics', 'wp-statistics')}
-          description={__('Calculate and store word count for posts to enable reading time estimates and content length analytics.', 'wp-statistics')}
-          checked={!!wordCountAnalytics}
-          onCheckedChange={setWordCountAnalytics}
-        />
       </SettingsCard>
 
       <SettingsCard
