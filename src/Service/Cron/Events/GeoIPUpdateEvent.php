@@ -43,7 +43,7 @@ class GeoIPUpdateEvent extends AbstractCronEvent
             return false;
         }
 
-        return (bool) Option::getValue('schedule_geoip');
+        return true;
     }
 
     /**

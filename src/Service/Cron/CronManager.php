@@ -353,10 +353,10 @@ class CronManager
     {
         // Map settings to events that need rescheduling
         $settingsToEvents = [
-            'time_report'       => 'email_report',
-            'email_list'        => 'email_report',
-            'schedule_dbmaint'  => 'database_maintenance',
-            'schedule_geoip'    => 'geoip_update',
+            'time_report'                      => 'email_report',
+            'email_list'                       => 'email_report',
+            'schedule_dbmaint'                 => 'database_maintenance',
+            'geoip_location_detection_method'  => 'geoip_update',
         ];
 
         $eventsToReschedule = [];

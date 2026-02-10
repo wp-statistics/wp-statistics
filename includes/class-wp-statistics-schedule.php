@@ -91,23 +91,10 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled('wp_statistics_licenses_hook'), 'wp_statistics_licenses_hook');
         }
 
-        // Add the GeoIP update schedule if it doesn't exist and it should be.
-        if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
-            wp_schedule_event(self::getSchedules()['monthly']['next_schedule'], 'monthly', 'wp_statistics_geoip_hook');
-        }
-
-        // Remove the GeoIP update schedule if it does exist and it should shouldn't.
-        if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
-            wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
-        }
-
+        // Note: GeoIP scheduling is now handled by CronManager/GeoIPUpdateEvent.
+        // Legacy scheduling removed — the v15 system always auto-updates when not using Cloudflare.
         $locationDetection = Option::get('geoip_location_detection_method', 'maxmind');
 
-        if (wp_next_scheduled('wp_statistics_geoip_hook') && 'cf' === $locationDetection) {
-            wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
-        }
-
-        //Construct Event
         if (in_array($locationDetection, ['maxmind', 'dbip'], true)) {
             add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
         }

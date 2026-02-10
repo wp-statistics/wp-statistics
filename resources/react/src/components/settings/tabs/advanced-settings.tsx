@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n'
 import { AlertTriangle, Loader2, RotateCcw } from 'lucide-react'
 import * as React from 'react'
 
-import { SettingsActionField, SettingsCard, SettingsField, SettingsPage, SettingsSelectField, SettingsToggleField } from '@/components/settings-ui'
+import { SettingsActionField, SettingsCard, SettingsField, SettingsInfoBox, SettingsPage, SettingsSelectField, SettingsToggleField } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -28,9 +28,6 @@ export function AdvancedSettings() {
   const [geoipLicenseKey, setGeoipLicenseKey] = useSetting(settings, 'geoip_license_key', '')
   const [geoipDbipLicenseKey, setGeoipDbipLicenseKey] = useSetting(settings, 'geoip_dbip_license_key_option', '')
   const [geoipDetectionMethod, setGeoipDetectionMethod] = useSetting(settings, 'geoip_location_detection_method', 'maxmind')
-  const [scheduleGeoip, setScheduleGeoip] = useSetting(settings, 'schedule_geoip', false)
-  const [autoPop, setAutoPop] = useSetting(settings, 'auto_pop', false)
-  const [privateCountryCode, setPrivateCountryCode] = useSetting(settings, 'private_country_code', '000')
 
   // Database Settings
   const [deleteOnUninstall, setDeleteOnUninstall] = useSetting(settings, 'delete_data_on_uninstall', false)
@@ -80,101 +77,75 @@ export function AdvancedSettings() {
         title={__('GeoIP Settings', 'wp-statistics')}
         description={__('Configure how visitor locations are detected and displayed.', 'wp-statistics')}
       >
-        <div className="grid gap-4 sm:grid-cols-2">
-          <SettingsSelectField
-            id="geoip-detection"
-            label={__('Location Detection Method', 'wp-statistics')}
-            layout="stacked"
-            value={geoipDetectionMethod as string}
-            onValueChange={setGeoipDetectionMethod}
-            placeholder={__('Select method', 'wp-statistics')}
-            options={[
-              { value: 'maxmind', label: __('MaxMind GeoIP', 'wp-statistics') },
-              { value: 'dbip', label: __('DB-IP', 'wp-statistics') },
-              { value: 'cf', label: __('Cloudflare IP Geolocation', 'wp-statistics') },
-            ]}
-          />
-
-          <SettingsSelectField
-            id="geoip-source"
-            label={__('Database Update Source', 'wp-statistics')}
-            layout="stacked"
-            value={geoipLicenseType as string}
-            onValueChange={setGeoipLicenseType}
-            placeholder={__('Select source', 'wp-statistics')}
-            options={[
-              { value: 'js-deliver', label: __('JsDelivr (Free)', 'wp-statistics') },
-              { value: 'user-license', label: __('Custom License Key', 'wp-statistics') },
-            ]}
-          />
-        </div>
-
-        {geoipLicenseType === 'user-license' && (
-          <div className="space-y-4">
-            <SettingsField
-              id="maxmind-license"
-              label={__('MaxMind License Key', 'wp-statistics')}
-              layout="stacked"
-              nested
-            >
-              <Input
-                id="maxmind-license"
-                type="text"
-                placeholder={__('Enter your MaxMind license key', 'wp-statistics')}
-                value={geoipLicenseKey as string}
-                onChange={(e) => setGeoipLicenseKey(e.target.value)}
-              />
-            </SettingsField>
-
-            <SettingsField
-              id="dbip-license"
-              label={__('DB-IP License Key', 'wp-statistics')}
-              layout="stacked"
-              nested
-            >
-              <Input
-                id="dbip-license"
-                type="text"
-                placeholder={__('Enter your DB-IP license key', 'wp-statistics')}
-                value={geoipDbipLicenseKey as string}
-                onChange={(e) => setGeoipDbipLicenseKey(e.target.value)}
-              />
-            </SettingsField>
-          </div>
-        )}
-
-        <SettingsToggleField
-          id="schedule-geoip"
-          label={__('Auto-Update GeoIP Database', 'wp-statistics')}
-          description={__('Automatically download the latest GeoIP database weekly.', 'wp-statistics')}
-          checked={!!scheduleGeoip}
-          onCheckedChange={setScheduleGeoip}
-        />
-
-        <SettingsToggleField
-          id="auto-pop"
-          label={__('Auto-Fill Missing Locations', 'wp-statistics')}
-          description={__('Automatically fill in location data for visitors with incomplete records.', 'wp-statistics')}
-          checked={!!autoPop}
-          onCheckedChange={setAutoPop}
-        />
-
-        <SettingsField
-          id="private-country"
-          label={__('Private IP Country Code', 'wp-statistics')}
-          description={__('Country code to use for private/local IP addresses.', 'wp-statistics')}
+        <SettingsSelectField
+          id="geoip-detection"
+          label={__('Location Detection Method', 'wp-statistics')}
           layout="stacked"
-        >
-          <Input
-            id="private-country"
-            type="text"
-            maxLength={3}
-            placeholder="000"
-            value={privateCountryCode as string}
-            onChange={(e) => setPrivateCountryCode(e.target.value)}
-            className="w-24"
-          />
-        </SettingsField>
+          value={geoipDetectionMethod as string}
+          onValueChange={setGeoipDetectionMethod}
+          placeholder={__('Select method', 'wp-statistics')}
+          options={[
+            { value: 'maxmind', label: __('MaxMind GeoIP', 'wp-statistics') },
+            { value: 'dbip', label: __('DB-IP', 'wp-statistics') },
+            { value: 'cf', label: __('Cloudflare IP Geolocation', 'wp-statistics') },
+          ]}
+        />
+
+        {geoipDetectionMethod === 'cf' ? (
+          <SettingsInfoBox>
+            {__('Cloudflare provides location data via HTTP headers. Make sure IP Geolocation is enabled in your Cloudflare dashboard.', 'wp-statistics')}
+          </SettingsInfoBox>
+        ) : (
+          <>
+            <SettingsSelectField
+              id="geoip-source"
+              label={__('Database Update Source', 'wp-statistics')}
+              description={__('Select how the GeoIP database is downloaded. The free option uses a community-maintained database.', 'wp-statistics')}
+              layout="stacked"
+              value={geoipLicenseType as string}
+              onValueChange={setGeoipLicenseType}
+              placeholder={__('Select source', 'wp-statistics')}
+              options={[
+                { value: 'js-deliver', label: __('Free Database', 'wp-statistics') },
+                { value: 'user-license', label: __('Custom License Key', 'wp-statistics') },
+              ]}
+            />
+
+            {geoipLicenseType === 'user-license' && geoipDetectionMethod === 'maxmind' && (
+              <SettingsField
+                id="maxmind-license"
+                label={__('MaxMind License Key', 'wp-statistics')}
+                layout="stacked"
+                nested
+              >
+                <Input
+                  id="maxmind-license"
+                  type="text"
+                  placeholder={__('Enter your MaxMind license key', 'wp-statistics')}
+                  value={geoipLicenseKey as string}
+                  onChange={(e) => setGeoipLicenseKey(e.target.value)}
+                />
+              </SettingsField>
+            )}
+
+            {geoipLicenseType === 'user-license' && geoipDetectionMethod === 'dbip' && (
+              <SettingsField
+                id="dbip-license"
+                label={__('DB-IP License Key', 'wp-statistics')}
+                layout="stacked"
+                nested
+              >
+                <Input
+                  id="dbip-license"
+                  type="text"
+                  placeholder={__('Enter your DB-IP license key', 'wp-statistics')}
+                  value={geoipDbipLicenseKey as string}
+                  onChange={(e) => setGeoipDbipLicenseKey(e.target.value)}
+                />
+              </SettingsField>
+            )}
+          </>
+        )}
       </SettingsCard>
 
       <SettingsCard

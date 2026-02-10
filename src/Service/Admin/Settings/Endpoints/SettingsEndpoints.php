@@ -436,16 +436,12 @@ class SettingsEndpoints
                 'geoip_license_type',
                 'geoip_license_key',
                 'geoip_dbip_license_key_option',
-                'schedule_geoip',
                 // Content Analytics
                 'word_count_analytics',
                 // Data Aggregation
                 'schedule_dbmaint_days',
                 // Anonymous Usage Data
                 'share_anonymous_data',
-                // Legacy keys (deprecated in v15)
-                'auto_pop',
-                'private_country_code',
             ],
             'display' => [
                 // Admin Interface
