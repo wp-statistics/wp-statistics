@@ -2,6 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
+import { ExternalLink } from 'lucide-react'
 import { useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
@@ -19,6 +20,7 @@ import {
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
+import { usePremiumFeature } from '@/hooks/use-premium-feature'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import { WordPress } from '@/lib/wordpress'
 import { getOnlineVisitorsQueryOptions } from '@/services/visitor-insight/get-online-visitors'
@@ -32,6 +34,8 @@ const PER_PAGE = 50
 function RouteComponent() {
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
+  const { isEnabled: hasRealtimeStats } = usePremiumFeature('realtime-stats')
+  const livePageUrl = wp.getSiteUrl() + '/wps-live/'
   const columns = useMemo(
     () =>
       createOnlineVisitorsColumns({
@@ -117,6 +121,21 @@ function RouteComponent() {
       <div className="flex items-center justify-between px-4 py-3 ">
         <h1 className="text-2xl font-semibold text-neutral-800">{__('Online Visitors', 'wp-statistics')}</h1>
         <div className="flex items-center gap-3">
+          {hasRealtimeStats && (
+            <a
+              href={livePageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100"
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75 [animation-duration:2s]" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              </span>
+              {__('Live Dashboard', 'wp-statistics')}
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          )}
           <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
