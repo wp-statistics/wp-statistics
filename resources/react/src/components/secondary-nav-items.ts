@@ -1,11 +1,46 @@
 import { __ } from '@wordpress/i18n'
 import { Activity, Ban, Bell, Clock, Database, Info, type LucideIcon, Monitor, Settings, Shield, Stethoscope, Upload, Users, Wrench } from 'lucide-react'
 
+import { getSettingsTabs } from '@/registry/settings-registry'
+import type { SettingsConfig } from '@/services/settings-config'
+
 export type SecondaryNavItem = {
   title: string
   url: string
   icon: LucideIcon
 }
+
+/**
+ * Map icon name strings from PHP config to Lucide icon components.
+ */
+const iconMap: Record<string, LucideIcon> = {
+  settings: Settings,
+  monitor: Monitor,
+  shield: Shield,
+  bell: Bell,
+  ban: Ban,
+  users: Users,
+  database: Database,
+  wrench: Wrench,
+  info: Info,
+  stethoscope: Stethoscope,
+  clock: Clock,
+  activity: Activity,
+  upload: Upload,
+}
+
+/**
+ * Build nav items for an area from the settings config.
+ */
+export function getNavItemsFromConfig(config: SettingsConfig, area: 'settings' | 'tools'): SecondaryNavItem[] {
+  return getSettingsTabs(config, area).map((tab) => ({
+    title: tab.label,
+    url: `/${area}/${tab.id}`,
+    icon: iconMap[tab.icon] ?? Settings,
+  }))
+}
+
+// ── Static fallbacks (used before config loads) ──────────────────────
 
 export const settingsNavItems: SecondaryNavItem[] = [
   { title: __('General', 'wp-statistics'), url: '/settings/general', icon: Settings },

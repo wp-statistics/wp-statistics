@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Settings\Endpoints;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
+use WP_Statistics\Service\Admin\Settings\SettingsConfigProvider;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
@@ -52,9 +53,32 @@ class SettingsEndpoints
         Ajax::register('settings_get_tab', [$this, 'getTabSettings'], false);
         Ajax::register('settings_save_tab', [$this, 'saveTabSettings'], false);
 
+        // Settings config (admin only, not public)
+        Ajax::register('settings_get_config', [$this, 'getSettingsConfig'], false);
+
         // Email operations (admin only, not public)
         Ajax::register('email_preview', [$this, 'generateEmailPreview'], false);
         Ajax::register('email_send_test', [$this, 'sendTestEmail'], false);
+    }
+
+    /**
+     * Return the full settings/tools page configuration (tabs, cards, fields).
+     *
+     * @return void
+     */
+    public function getSettingsConfig()
+    {
+        try {
+            $this->verifyRequest();
+
+            $provider = new SettingsConfigProvider();
+            wp_send_json_success($provider->getConfig());
+        } catch (Exception $e) {
+            wp_send_json_error([
+                'message' => $e->getMessage(),
+                'code'    => 'config_error',
+            ]);
+        }
     }
 
     /**
@@ -365,38 +389,48 @@ class SettingsEndpoints
     /**
      * Get allowed setting keys for a tab.
      *
-     * @param string $tab Tab name.
+     * Merges hardcoded core keys with any keys added via the settings config
+     * filters (e.g. by premium modules).
+     *
+     * @param string $tab AJAX tab key (e.g. 'general', 'data').
      * @return array
      */
     private function getAllowedKeysForTab($tab)
     {
+        $hardcoded  = $this->getHardcodedKeysForTab($tab);
+        $fromConfig = $this->getConfigKeysForTab($tab);
+
+        return array_values(array_unique(array_merge($hardcoded, $fromConfig)));
+    }
+
+    /**
+     * Hardcoded setting keys per tab. Covers component-based tabs and legacy keys
+     * that are not (yet) represented in the declarative config.
+     *
+     * @param string $tab AJAX tab key.
+     * @return array
+     */
+    private function getHardcodedKeysForTab($tab)
+    {
         $tabKeys = [
             'general' => [
-                // Tracking Options
                 'useronline',
                 'visitors_log',
-                // Tracker Configuration
                 'bypass_ad_blockers',
-                // Legacy keys for backward compatibility
-                'pages',
+                'pages', // Legacy
             ],
             'privacy' => [
-                // Data Protection
                 'store_ip',
                 'hash_rotation_interval',
-                // Privacy Compliance
                 'privacy_audit',
-                // User Preferences
                 'consent_integration',
                 'consent_level_integration',
                 'anonymous_tracking',
             ],
             'notifications' => [
-                // Email Reports
                 'time_report',
                 'send_report',
                 'email_list',
-                // Email Content
                 'content_report',
                 'email_free_content_header',
                 'email_free_content_footer',
@@ -408,69 +442,70 @@ class SettingsEndpoints
                 }, $this->getAvailableRoles()),
                 [
                     'exclude_anonymous_users',
-                    // IP Exclusions
                     'exclude_ip',
-                    // Robot Exclusions
                     'robotlist',
                     'robot_threshold',
-                    // Geolocation Exclusions
                     'excluded_countries',
                     'included_countries',
-                    // URL Exclusions
                     'exclude_loginpage',
                     'exclude_feeds',
                     'exclude_404s',
                     'excluded_urls',
-                    // URL Query Parameters
                     'query_params_allow_list',
-                    // General Exclusions
                     'record_exclusions',
                 ]
             ),
             'advanced' => [
-                // IP Detection Method
                 'ip_method',
                 'user_custom_header_ip_method',
-                // Geolocation Settings
                 'geoip_location_detection_method',
                 'geoip_license_type',
                 'geoip_license_key',
                 'geoip_dbip_license_key_option',
-                // Data Aggregation
                 'schedule_dbmaint_days',
-                // Anonymous Usage Data
                 'share_anonymous_data',
             ],
             'display' => [
-                // Admin Interface
                 'disable_editor',
                 'disable_column',
                 'enable_user_column',
                 'display_notifications',
                 'hide_notices',
                 'menu_bar',
-                // Frontend Display
                 'show_hits',
                 'display_hits_position',
             ],
             'access' => [
-                // Roles & Permissions (new tier-based system)
                 'access_levels',
-                // Legacy keys for backward compatibility
-                'read_capability',
-                'manage_capability',
+                'read_capability',  // Legacy
+                'manage_capability', // Legacy
             ],
             'data' => [
-                // Data Retention Settings
                 'data_retention_mode',
                 'data_retention_days',
-                // Legacy (for backward compatibility)
-                'schedule_dbmaint',
+                'schedule_dbmaint',      // Legacy
                 'schedule_dbmaint_days',
             ],
         ];
 
         return $tabKeys[$tab] ?? [];
+    }
+
+    /**
+     * Collect setting keys from the declarative config for a given AJAX tab key.
+     *
+     * This picks up any fields added by premium or third-party plugins via
+     * the wp_statistics_settings_fields filter.
+     *
+     * @param string $tab AJAX tab key.
+     * @return array
+     */
+    private function getConfigKeysForTab($tab)
+    {
+        $provider   = new SettingsConfigProvider();
+        $keysByTab  = $provider->getSettingKeysByTab();
+
+        return $keysByTab[$tab] ?? [];
     }
 
     /**

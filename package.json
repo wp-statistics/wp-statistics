@@ -9,7 +9,8 @@
     "*.scss",
     "**/mini-chart.js",
     "**/tracker.js",
-    "**/exports.ts"
+    "**/exports.ts",
+    "**/custom-components.ts"
   ],
   "scripts": {
     "build": "npm run build:legacy && npm run build:blocks && npm run build:react",

@@ -3,9 +3,12 @@ import { __ } from '@wordpress/i18n'
 import { WordPress } from '@/lib/wordpress'
 
 /**
- * Settings tab names
+ * Settings tab names.
+ *
+ * Extensible string type — premium and third-party plugins can add new tabs
+ * via the wp_statistics_settings_tabs PHP filter.
  */
-export type SettingsTab = 'general' | 'privacy' | 'notifications' | 'exclusions' | 'advanced' | 'display' | 'access' | 'data'
+export type SettingsTab = string
 
 /**
  * Settings response from AJAX

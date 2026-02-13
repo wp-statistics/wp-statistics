@@ -4,12 +4,13 @@ import { useEffect, useMemo } from 'react'
 import { AppSidebar } from '@/components/app-sidebar'
 import type { FilterField } from '@/components/custom/filter-button'
 import { Header } from '@/components/header'
-import { settingsNavItems, toolsNavItems } from '@/components/secondary-nav-items'
+import { getNavItemsFromConfig, settingsNavItems, toolsNavItems } from '@/components/secondary-nav-items'
 import { SecondarySidebar } from '@/components/secondary-sidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/toaster'
 import { GlobalFiltersProvider } from '@/contexts/global-filters-context'
 import { WordPress } from '@/lib/wordpress'
+import { useSettingsConfig } from '@/registry/settings-registry'
 
 /** Routes that show individual visitor data (PII). Blocked for view_stats and own_content users. */
 const PII_ROUTES = ['/visitors', '/online-visitors', '/top-visitors', '/logged-in-users', '/referred-visitors']
@@ -69,13 +70,24 @@ const RootLayout = () => {
     }
   }, [accessLevel, pathname, navigate])
 
+  // Build nav items from config when available, fall back to static arrays
+  const { config } = useSettingsConfig()
+  const dynamicSettingsNav = useMemo(
+    () => (config ? getNavItemsFromConfig(config, 'settings') : settingsNavItems),
+    [config]
+  )
+  const dynamicToolsNav = useMemo(
+    () => (config ? getNavItemsFromConfig(config, 'tools') : toolsNavItems),
+    [config]
+  )
+
   // Determine which sidebar to show
   const sidebar = isNetworkAdmin
     ? null
     : isSettingsPage
-      ? <SecondarySidebar items={settingsNavItems} />
+      ? <SecondarySidebar items={dynamicSettingsNav} />
       : isToolsPage
-        ? <SecondarySidebar items={toolsNavItems} />
+        ? <SecondarySidebar items={dynamicToolsNav} />
         : <AppSidebar />
 
   // Get all filter fields so GlobalFiltersProvider can resolve labels from URL params
