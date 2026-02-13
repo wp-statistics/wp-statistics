@@ -447,6 +447,10 @@ class Query
             return $result;
         }
 
+        if (is_null($result)) {
+            return null;
+        }
+
         $decoratedResult = [];
 
         // If result is an array, decorate each item individually

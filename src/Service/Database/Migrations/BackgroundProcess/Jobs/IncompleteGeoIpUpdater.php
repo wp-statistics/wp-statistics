@@ -75,6 +75,10 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
                 'fields'     => ['visitor.ip']
             ]);
 
+            if (! $visitor instanceof VisitorDecorator) {
+                continue;
+            }
+
             $location = GeolocationFactory::getLocation($visitor->getIP(), MaxmindGeoIPProvider::class);
 
             $visitorModel->updateVisitor($visitorId, [
