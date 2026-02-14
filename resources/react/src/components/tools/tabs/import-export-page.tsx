@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
+import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { callImportExportApi } from '@/services/tools'
@@ -285,9 +286,13 @@ export function ImportExportPage() {
         description={__('Import analytics data from external sources like Google Analytics 4, Plausible, or restore from a backup file.', 'wp-statistics')}
       >
           {isLoadingAdapters ? (
-            <div className="flex items-center justify-center p-8">
-              <Loader2 className="h-6 w-6 animate-spin" />
-              <span className="ml-2">{__('Loading import options...', 'wp-statistics')}</span>
+            <div className="space-y-3">
+              <Skeleton className="h-4 w-24" />
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {[...Array(4)].map((_, i) => (
+                  <Skeleton key={i} className="h-24 rounded-lg" />
+                ))}
+              </div>
             </div>
           ) : (
             <>

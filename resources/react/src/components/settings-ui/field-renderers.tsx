@@ -127,6 +127,7 @@ function NoticeField({ field }: FieldProps) {
       id={field.id}
       type={field.notice_type ?? 'warning'}
       message={field.message ?? ''}
+      helpUrl={field.help_url}
       dismissible={false}
     />
   )

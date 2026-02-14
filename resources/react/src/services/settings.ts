@@ -23,36 +23,10 @@ export interface SettingsResponse {
 }
 
 /**
- * Build FormData for AJAX requests with nonce
+ * Internal helper — POST to the single wp_statistics_settings endpoint.
  */
-const buildFormData = (action: string, data: Record<string, unknown> = {}): FormData => {
+async function ajaxPost(formData: FormData) {
   const wp = WordPress.getInstance()
-  const formData = new FormData()
-
-  formData.append('action', action)
-  formData.append('wps_nonce', wp.getNonce())
-
-  // Append each data field
-  for (const [key, value] of Object.entries(data)) {
-    if (value !== undefined && value !== null) {
-      if (typeof value === 'object') {
-        formData.append(key, JSON.stringify(value))
-      } else {
-        formData.append(key, String(value))
-      }
-    }
-  }
-
-  return formData
-}
-
-/**
- * Make AJAX request with FormData
- */
-const ajaxRequest = async <T>(action: string, data: Record<string, unknown> = {}): Promise<T> => {
-  const wp = WordPress.getInstance()
-  const formData = buildFormData(action, data)
-
   const response = await fetch(wp.getAjaxUrl(), {
     method: 'POST',
     body: formData,
@@ -67,11 +41,38 @@ const ajaxRequest = async <T>(action: string, data: Record<string, unknown> = {}
 }
 
 /**
+ * Call the wp_statistics_settings AJAX endpoint with a sub_action.
+ * Mirrors the callToolsApi / callImportExportApi pattern from tools.ts.
+ */
+export const callSettingsApi = async (
+  subAction: string,
+  params: Record<string, unknown> = {}
+) => {
+  const wp = WordPress.getInstance()
+  const formData = new FormData()
+  formData.append('action', 'wp_statistics_settings')
+  formData.append('sub_action', subAction)
+  formData.append('wps_nonce', wp.getNonce())
+
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== null) {
+      if (typeof value === 'object') {
+        formData.append(key, JSON.stringify(value))
+      } else {
+        formData.append(key, String(value))
+      }
+    }
+  }
+
+  return ajaxPost(formData)
+}
+
+/**
  * Get settings for a specific tab
  */
 export const getTabSettings = async (tab: SettingsTab): Promise<Record<string, unknown>> => {
   try {
-    const response = await ajaxRequest<SettingsResponse>('wp_statistics_settings_get_tab', { tab })
+    const response = await callSettingsApi('get_tab', { tab })
 
     if (response?.success && response?.data?.settings) {
       return response.data.settings
@@ -92,10 +93,7 @@ export const saveTabSettings = async (
   settings: Record<string, unknown>
 ): Promise<{ success: boolean; message?: string }> => {
   try {
-    const response = await ajaxRequest<SettingsResponse>('wp_statistics_settings_save_tab', {
-      tab,
-      settings,
-    })
+    const response = await callSettingsApi('save_tab', { tab, settings })
 
     if (response?.success) {
       return {
@@ -122,12 +120,7 @@ export const saveTabSettings = async (
  */
 export const getAllSettings = async (): Promise<Record<SettingsTab, Record<string, unknown>>> => {
   try {
-    const response = await ajaxRequest<{
-      success: boolean
-      data?: {
-        settings: Record<SettingsTab, Record<string, unknown>>
-      }
-    }>('wp_statistics_settings_get', {})
+    const response = await callSettingsApi('get', {})
 
     if (response?.success && response?.data?.settings) {
       return response.data.settings
@@ -163,10 +156,7 @@ export const getAllSettings = async (): Promise<Record<SettingsTab, Record<strin
  */
 export const previewEmail = async (): Promise<{ success: boolean; html?: string; message?: string }> => {
   try {
-    const response = await ajaxRequest<{
-      success: boolean
-      data: { html?: string; message?: string }
-    }>('wp_statistics_email_preview', {})
+    const response = await callSettingsApi('email_preview', {})
 
     if (response?.success && response?.data?.html) {
       return { success: true, html: response.data.html }
@@ -181,12 +171,9 @@ export const previewEmail = async (): Promise<{ success: boolean; html?: string;
 /**
  * Send test email
  */
-export const sendTestEmail = async (): Promise<{ success: boolean; email?: string; message?: string }> => {
+export const sendTestEmail = async (email: string): Promise<{ success: boolean; email?: string; message?: string }> => {
   try {
-    const response = await ajaxRequest<{
-      success: boolean
-      data: { email?: string; message?: string }
-    }>('wp_statistics_email_send_test', {})
+    const response = await callSettingsApi('email_send', { email })
 
     if (response?.success) {
       return { success: true, email: (response.data as { email?: string })?.email }

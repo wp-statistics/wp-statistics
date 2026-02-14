@@ -22,7 +22,7 @@ use WP_STATISTICS\Helper;
  *
  * Migration guide:
  * - Visitor::get_pages_by_visitor_id()  -> VisitorsModel queries
- * - Visitor::getCoefficient()           -> OptionManager::get('coefficient')
+ * - Visitor::getCoefficient()           -> Option::getValue('coefficient')
  * - Visitor data processing             -> VisitorProfile class
  */
 class Visitor

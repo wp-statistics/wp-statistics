@@ -136,9 +136,6 @@ class Bootstrap
         require_once WP_STATISTICS_DIR . 'src/Service/Database/Schema/Manager.php';
         require_once WP_STATISTICS_DIR . 'src/Service/Database/Managers/TableHandler.php';
 
-        // Options management
-        require_once WP_STATISTICS_DIR . 'src/Service/Options/OptionManager.php';
-
         // Installation manager
         require_once WP_STATISTICS_DIR . 'src/Service/Installation/InstallManager.php';
     }

@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import type { UseSettingsReturn } from '@/hooks/use-settings'
 import { useToast } from '@/hooks/use-toast'
 
@@ -28,9 +29,13 @@ export function SettingsPage({ settings, saveDescription, children }: SettingsPa
 
   if (settings.isLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">{__('Loading settings...', 'wp-statistics')}</span>
+      <div className="space-y-5">
+        <PanelSkeleton titleWidth="w-40">
+          <TableSkeleton rows={4} columns={2} showHeader={false} />
+        </PanelSkeleton>
+        <PanelSkeleton titleWidth="w-32">
+          <TableSkeleton rows={3} columns={2} showHeader={false} />
+        </PanelSkeleton>
       </div>
     )
   }
@@ -41,7 +46,7 @@ export function SettingsPage({ settings, saveDescription, children }: SettingsPa
 
       {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}
 
-      <div className="flex justify-end">
+      <div className="flex justify-start">
         <Button onClick={handleSave} disabled={settings.isSaving}>
           {settings.isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {__('Save Changes', 'wp-statistics')}

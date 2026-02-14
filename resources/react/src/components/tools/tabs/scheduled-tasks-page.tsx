@@ -6,6 +6,8 @@ import { SettingsCard } from '@/components/settings-ui'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { NoticeBanner } from '@/components/ui/notice-banner'
+import { Skeleton } from '@/components/ui/skeleton'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useToast } from '@/hooks/use-toast'
 import { callToolsApi } from '@/services/tools'
@@ -107,9 +109,11 @@ export function ScheduledTasksPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">{__('Loading scheduled tasks...', 'wp-statistics')}</span>
+      <div className="space-y-5">
+        <Skeleton className="h-16 w-full rounded-lg" />
+        <PanelSkeleton titleWidth="w-36">
+          <TableSkeleton rows={6} columns={5} />
+        </PanelSkeleton>
       </div>
     )
   }

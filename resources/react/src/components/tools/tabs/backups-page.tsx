@@ -26,6 +26,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { NoticeBanner } from '@/components/ui/notice-banner'
+import { Skeleton } from '@/components/ui/skeleton'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useToast } from '@/hooks/use-toast'
 import { WordPress } from '@/lib/wordpress'
@@ -180,9 +182,11 @@ export function BackupsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">{__('Loading backups...', 'wp-statistics')}</span>
+      <div className="space-y-5">
+        <Skeleton className="h-16 w-full rounded-lg" />
+        <PanelSkeleton titleWidth="w-28">
+          <TableSkeleton rows={4} columns={5} />
+        </PanelSkeleton>
       </div>
     )
   }

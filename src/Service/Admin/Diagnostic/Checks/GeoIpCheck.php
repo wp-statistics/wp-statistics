@@ -85,14 +85,6 @@ class GeoIpCheck extends AbstractCheck
      */
     public function run(): DiagnosticResult
     {
-        // Check if GeoIP is disabled
-        if (Option::getValue('geoip') === false) {
-            return $this->pass(
-                __('GeoIP is disabled in settings.', 'wp-statistics'),
-                ['status' => 'disabled']
-            );
-        }
-
         // Check if using Cloudflare geolocation instead
         if (Option::getValue('geoip_location_detection_method') === 'cf') {
             return $this->pass(

@@ -42,7 +42,7 @@
     },
     {
       "step": "runPHP",
-      "code": "<?php require_once 'wp-load.php'; update_option('wps_settings', array_merge(get_option('wps_settings', []), ['useronline' => '1', 'visits' => '1', 'visitors' => '1', 'pages' => '1', 'geoip' => '1'])); ?>"
+      "code": "<?php require_once 'wp-load.php'; update_option('wps_settings', array_merge(get_option('wps_settings', []), ['useronline' => '1', 'visits' => '1', 'visitors' => '1', 'pages' => '1'])); ?>"
     }
   ]
 }

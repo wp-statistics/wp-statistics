@@ -101,11 +101,8 @@ class ReactAppManager
     /**
      * Initialize Settings AJAX endpoints.
      *
-     * Registers settings-specific endpoints:
-     * - wp_statistics_settings_get: Get all settings
-     * - wp_statistics_settings_save: Save settings
-     * - wp_statistics_email_preview: Generate email preview
-     * - wp_statistics_email_send_test: Send test email
+     * Registers single wp_statistics_settings endpoint with sub_action routing:
+     * get_config, get, save, get_tab, save_tab, email_preview, email_send
      *
      * @return void
      */

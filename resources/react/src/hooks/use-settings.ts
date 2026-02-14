@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { getTabSettings, saveTabSettings, type SettingsTab } from '@/services/settings'
+import { settingsCache } from '@/services/settings-config'
 
 interface UseSettingsOptions {
   tab: SettingsTab
@@ -32,6 +33,15 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
     setError(null)
 
     try {
+      // Check preloaded cache (seeded from get_config response with all settings tabs)
+      const cached = settingsCache.get(tab)
+      if (cached) {
+        setSettings(cached)
+        setIsLoading(false)
+        return
+      }
+
+      // Cache miss — tools tabs or after a save invalidation
       const data = await getTabSettings(tab)
       setSettings(data)
     } catch (err) {
@@ -76,6 +86,8 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
         setError(result.message || 'Failed to save settings')
         return false
       }
+      // Invalidate preloaded cache so next reload fetches fresh data
+      settingsCache.delete(tab)
       return true
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save settings')

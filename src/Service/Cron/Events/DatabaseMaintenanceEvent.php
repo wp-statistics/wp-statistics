@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Cron\Events;
 
 use WP_Statistics\Service\Cron\DatabaseMaintenanceManager;
 use WP_Statistics\Service\Database\DatabaseSchema;
-use WP_Statistics\Service\Options\OptionManager;
+use WP_Statistics\Components\Option;
 
 /**
  * Database Maintenance Cron Event.
@@ -48,8 +48,8 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
     public function shouldSchedule(): bool
     {
         // Schedule if retention mode is not 'forever'
-        $mode = OptionManager::get('data_retention_mode', 'forever');
-        return $mode !== 'forever' && (bool) OptionManager::get('schedule_dbmaint');
+        $mode = Option::getValue('data_retention_mode', 'forever');
+        return $mode !== 'forever' && (bool) Option::getValue('schedule_dbmaint');
     }
 
     /**
@@ -59,8 +59,8 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
      */
     public function execute(): void
     {
-        $mode = OptionManager::get('data_retention_mode', 'forever');
-        $days = (int) OptionManager::get('data_retention_days', 180);
+        $mode = Option::getValue('data_retention_mode', 'forever');
+        $days = (int) Option::getValue('data_retention_days', 180);
 
         if ($mode === 'forever' || $days <= 0) {
             return; // No action needed

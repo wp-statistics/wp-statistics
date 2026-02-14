@@ -18,6 +18,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { NoticeBanner } from '@/components/ui/notice-banner'
+import { Skeleton } from '@/components/ui/skeleton'
+import { PanelSkeleton } from '@/components/ui/skeletons'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
 import { callToolsApi } from '@/services/tools'
@@ -267,9 +269,15 @@ export function DiagnosticsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-6 w-6 animate-spin" />
-        <span className="ml-2">{__('Loading diagnostics...', 'wp-statistics')}</span>
+      <div className="space-y-5">
+        <Skeleton className="h-16 w-full rounded-lg" />
+        <PanelSkeleton titleWidth="w-40">
+          <div className="space-y-3">
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} className="h-16 w-full rounded-lg" />
+            ))}
+          </div>
+        </PanelSkeleton>
       </div>
     )
   }

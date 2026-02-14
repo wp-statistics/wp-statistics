@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Installation;
 
 use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Service\Database\Managers\TableHandler;
-use WP_Statistics\Service\Options\OptionManager;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Components\Event;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Query;
@@ -112,7 +112,7 @@ class InstallManager
      */
     private static function markBackgroundProcessAsInitiated(): void
     {
-        OptionManager::deleteGroup('jobs', 'data_migration_process_started');
+        Option::deleteGroup('data_migration_process_started', 'jobs');
 
         if (!self::isFresh()) {
             return;
@@ -127,7 +127,7 @@ class InstallManager
         ];
 
         foreach ($processes as $process) {
-            OptionManager::setGroup('jobs', $process, true);
+            Option::updateGroup($process, true, 'jobs');
         }
     }
 
@@ -138,10 +138,10 @@ class InstallManager
      */
     public static function createDefaultOptions(): void
     {
-        $existingOptions = get_option(OptionManager::OPTION_NAME);
+        $existingOptions = get_option(Option::$optionName);
 
         if ($existingOptions === false || !is_array($existingOptions)) {
-            update_option(OptionManager::OPTION_NAME, OptionManager::getDefaults());
+            update_option(Option::$optionName, Option::getDefaults());
         }
     }
 
@@ -164,10 +164,10 @@ class InstallManager
     public static function onBlogCreate(int $blogId): void
     {
         if (is_plugin_active_for_network(plugin_basename(WP_STATISTICS_MAIN_FILE))) {
-            $options = get_option(OptionManager::OPTION_NAME);
+            $options = get_option(Option::$optionName);
             switch_to_blog($blogId);
             TableHandler::createAllTables();
-            update_option(OptionManager::OPTION_NAME, $options);
+            update_option(Option::$optionName, $options);
             restore_current_blog();
         }
     }
@@ -275,7 +275,7 @@ class InstallManager
         }
 
         // Update GeoIP schedule from daily to monthly (14.11)
-        if (OptionManager::get('schedule_geoip') && version_compare($fromVersion, '14.11', '<')) {
+        if (Option::getValue('schedule_geoip') && version_compare($fromVersion, '14.11', '<')) {
             Event::reschedule('wp_statistics_geoip_hook', 'monthly');
         }
 
@@ -297,20 +297,20 @@ class InstallManager
         self::migrateConsentSettings();
 
         // Update privacy audit option (14.7)
-        if (OptionManager::get('privacy_audit') === false && version_compare($toVersion, '14.7', '>=')) {
-            OptionManager::set('privacy_audit', true);
+        if (Option::getValue('privacy_audit') === false && version_compare($toVersion, '14.7', '>=')) {
+            Option::updateValue('privacy_audit', true);
         }
 
         // Update notification options (14.12)
         if (version_compare($toVersion, '14.12', '>')) {
-            if (OptionManager::get('share_anonymous_data') === false) {
-                OptionManager::set('share_anonymous_data', false);
+            if (Option::getValue('share_anonymous_data') === false) {
+                Option::updateValue('share_anonymous_data', false);
             }
-            if (OptionManager::get('display_notifications') === false) {
-                OptionManager::set('display_notifications', true);
+            if (Option::getValue('display_notifications') === false) {
+                Option::updateValue('display_notifications', true);
             }
-            if (OptionManager::get('show_privacy_issues_in_report') === false) {
-                OptionManager::set('show_privacy_issues_in_report', false);
+            if (Option::getValue('show_privacy_issues_in_report') === false) {
+                Option::updateValue('show_privacy_issues_in_report', false);
             }
         }
 
@@ -331,7 +331,7 @@ class InstallManager
      */
     private static function migrateAccessLevels(): void
     {
-        $existing = OptionManager::get('access_levels');
+        $existing = Option::getValue('access_levels');
         if (!empty($existing) && is_array($existing)) {
             return;
         }
@@ -346,14 +346,14 @@ class InstallManager
      */
     private static function migrateConsentSettings(): void
     {
-        $integration = OptionManager::get('consent_integration');
-        $consentLevel = OptionManager::get('consent_level_integration', 'disabled');
+        $integration = Option::getValue('consent_integration');
+        $consentLevel = Option::getValue('consent_level_integration', 'disabled');
 
         if (class_exists(IntegrationHelper::class)) {
             $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
 
             if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
-                OptionManager::set('consent_integration', 'wp_consent_api');
+                Option::updateValue('consent_integration', 'wp_consent_api');
             }
         }
     }

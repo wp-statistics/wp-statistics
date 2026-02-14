@@ -1,56 +1,89 @@
 /**
- * Register custom React components for component-based settings/tools tabs.
+ * Register custom React components for component-based settings fields and tools tabs.
  *
- * These are lazily imported so each tab's code is only loaded when visited.
+ * Settings tabs are now fully declarative (cards + fields from PHP config).
+ * Complex UI elements use `type: 'component'` fields backed by these small,
+ * focused components that receive `settings` and `field` props.
+ *
+ * Tools tabs remain fully component-based (rendered entirely in React).
+ *
+ * These are lazily imported so each component's code is only loaded when visited.
  * Import this file once in app.tsx.
  */
 import { lazy } from 'react'
 
 import { registerSettingsComponent } from '@/registry/settings-registry'
 
-// ── Settings tab components ──────────────────────────────────────────
+// ── Settings field-level components ─────────────────────────────────
 
 registerSettingsComponent(
-  'NotificationSettings',
+  'EmailActions',
   lazy(() =>
-    import('@/components/settings/tabs/notification-settings').then((m) => ({
-      default: m.NotificationSettings,
+    import('@/components/settings/components/email-actions').then((m) => ({
+      default: m.EmailActions,
     }))
   )
 )
 
 registerSettingsComponent(
-  'ExclusionSettings',
+  'RestoreDefaultsAction',
   lazy(() =>
-    import('@/components/settings/tabs/exclusion-settings').then((m) => ({
-      default: m.ExclusionSettings,
+    import('@/components/settings/components/restore-defaults-action').then((m) => ({
+      default: m.RestoreDefaultsAction,
     }))
   )
 )
 
 registerSettingsComponent(
-  'AccessSettings',
+  'RoleExclusions',
   lazy(() =>
-    import('@/components/settings/tabs/access-settings').then((m) => ({
-      default: m.AccessSettings,
+    import('@/components/settings/components/role-exclusions').then((m) => ({
+      default: m.RoleExclusions,
     }))
   )
 )
 
 registerSettingsComponent(
-  'DataManagementSettings',
+  'ExcludeIpField',
   lazy(() =>
-    import('@/components/settings/tabs/data-management-settings').then((m) => ({
-      default: m.DataManagementSettings,
+    import('@/components/settings/components/exclude-ip-field').then((m) => ({
+      default: m.ExcludeIpField,
     }))
   )
 )
 
 registerSettingsComponent(
-  'AdvancedSettings',
+  'QueryParamsField',
   lazy(() =>
-    import('@/components/settings/tabs/advanced-settings').then((m) => ({
-      default: m.AdvancedSettings,
+    import('@/components/settings/components/query-params-field').then((m) => ({
+      default: m.QueryParamsField,
+    }))
+  )
+)
+
+registerSettingsComponent(
+  'AccessLevelTable',
+  lazy(() =>
+    import('@/components/settings/components/access-level-table').then((m) => ({
+      default: m.AccessLevelTable,
+    }))
+  )
+)
+
+registerSettingsComponent(
+  'RetentionModeSelector',
+  lazy(() =>
+    import('@/components/settings/components/retention-mode-selector').then((m) => ({
+      default: m.RetentionModeSelector,
+    }))
+  )
+)
+
+registerSettingsComponent(
+  'ApplyRetentionAction',
+  lazy(() =>
+    import('@/components/settings/components/apply-retention-action').then((m) => ({
+      default: m.ApplyRetentionAction,
     }))
   )
 )

@@ -10,12 +10,14 @@ let configPromise: Promise<SettingsConfig> | null = null
 
 /**
  * Fetch config once; subsequent calls return the cached value.
+ * On first call, passes initialTab so the server includes that tab's settings
+ * in the response (avoids a second AJAX request).
  */
-async function loadConfig(): Promise<SettingsConfig> {
+async function loadConfig(initialTab?: string): Promise<SettingsConfig> {
   if (configCache) return configCache
 
   if (!configPromise) {
-    configPromise = fetchSettingsConfig().then((data) => {
+    configPromise = fetchSettingsConfig(initialTab).then((data) => {
       configCache = data
       return data
     })
@@ -34,8 +36,9 @@ interface UseSettingsConfigReturn {
 
 /**
  * Fetches the settings config via AJAX on first call, caches in memory.
+ * Accepts an optional initialTab to prefetch that tab's settings in the same request.
  */
-export function useSettingsConfig(): UseSettingsConfigReturn {
+export function useSettingsConfig(initialTab?: string): UseSettingsConfigReturn {
   const [config, setConfig] = React.useState<SettingsConfig | null>(configCache)
   const [isLoading, setIsLoading] = React.useState(!configCache)
   const [error, setError] = React.useState<string | null>(null)
@@ -49,7 +52,7 @@ export function useSettingsConfig(): UseSettingsConfigReturn {
 
     let cancelled = false
 
-    loadConfig()
+    loadConfig(initialTab)
       .then((data) => {
         if (!cancelled) {
           setConfig(data)
@@ -66,7 +69,7 @@ export function useSettingsConfig(): UseSettingsConfigReturn {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [initialTab])
 
   return { config, isLoading, error }
 }
@@ -116,6 +119,29 @@ export function getSettingsFields(
   return Object.entries(fields)
     .map(([id, field]) => ({ ...field, id }))
     .sort((a, b) => a.order - b.order)
+}
+
+/**
+ * Get select options for a specific field by setting_key.
+ * Used by component-based tabs to read options from PHP config
+ * instead of hardcoding them in React.
+ */
+export function getFieldOptions(
+  config: SettingsConfig,
+  tabId: string,
+  cardId: string,
+  settingKey: string
+): { value: string; label: string }[] {
+  const fields = config.fields[`${tabId}/${cardId}`]
+  if (!fields) return []
+
+  for (const field of Object.values(fields)) {
+    if (field.setting_key === settingKey && field.options) {
+      return field.options
+    }
+  }
+
+  return []
 }
 
 // ── Component registry ───────────────────────────────────────────────

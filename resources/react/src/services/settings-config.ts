@@ -46,6 +46,7 @@ export interface SettingsFieldConfig {
   // Notice
   notice_type?: 'warning' | 'info'
   message?: string
+  help_url?: string
   // Action
   action?: string
   variant?: string
@@ -59,13 +60,26 @@ export interface SettingsConfig {
   fields: Record<string, Record<string, SettingsFieldConfig>>
 }
 
+// ── Settings cache (seeded from initial config response) ────────────
+
+/**
+ * One-time cache for initial tab settings returned alongside config.
+ * Consumed by use-settings.ts to avoid a second AJAX call on page load.
+ */
+export const settingsCache = new Map<string, Record<string, unknown>>()
+
 // ── AJAX fetcher ─────────────────────────────────────────────────────
 
-export async function fetchSettingsConfig(): Promise<SettingsConfig> {
+export async function fetchSettingsConfig(initialTab?: string): Promise<SettingsConfig> {
   const wp = WordPress.getInstance()
   const formData = new FormData()
-  formData.append('action', 'wp_statistics_settings_get_config')
+  formData.append('action', 'wp_statistics_settings')
+  formData.append('sub_action', 'get_config')
   formData.append('wps_nonce', wp.getNonce())
+
+  if (initialTab) {
+    formData.append('tab', initialTab)
+  }
 
   const response = await fetch(wp.getAjaxUrl(), {
     method: 'POST',
@@ -83,5 +97,19 @@ export async function fetchSettingsConfig(): Promise<SettingsConfig> {
     throw new Error('Failed to load settings config')
   }
 
-  return json.data as SettingsConfig
+  const data = json.data
+
+  // Seed the settings cache with ALL settings-area tab values.
+  // This eliminates per-tab AJAX requests for settings tabs.
+  if (data.all_settings && typeof data.all_settings === 'object') {
+    for (const [tab, values] of Object.entries(data.all_settings)) {
+      settingsCache.set(tab, values as Record<string, unknown>)
+    }
+  }
+
+  return {
+    tabs: data.tabs,
+    cards: data.cards,
+    fields: data.fields,
+  } as SettingsConfig
 }

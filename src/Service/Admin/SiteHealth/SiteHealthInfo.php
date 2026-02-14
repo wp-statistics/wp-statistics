@@ -180,8 +180,8 @@ class SiteHealthInfo extends Singleton
             ],
             'trackingMethod'                 => [
                 'label' => esc_html__('Tracking Method', 'wp-statistics'),
-                'value' => Option::getValue('use_cache_plugin') ? __('Client Side Tracking', 'wp-statistics') : __('Server Side Tracking', 'wp-statistics'),
-                'debug' => Option::getValue('use_cache_plugin') ? 'Client Side Tracking' : 'Server Side Tracking',
+                'value' => __('Client Side Tracking', 'wp-statistics'),
+                'debug' => 'Client Side Tracking',
             ],
             'bypassAdBlockers'               => [
                 'label' => esc_html__('Bypass Ad Blockers', 'wp-statistics'),
