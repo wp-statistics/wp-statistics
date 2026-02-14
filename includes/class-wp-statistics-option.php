@@ -5,18 +5,10 @@ namespace WP_STATISTICS;
 /**
  * Legacy Option class for backward compatibility.
  *
- * @deprecated 15.0.0 Use \WP_Statistics\Service\Options\OptionManager instead.
- * @see \WP_Statistics\Service\Options\OptionManager
- *
  * This class is maintained for backward compatibility with add-ons.
- * New code should use the OptionManager class from the v15 architecture.
+ * New code should use \WP_Statistics\Components\Option instead.
  *
- * Migration guide:
- * - Option::get($key)           -> OptionManager::get($key)
- * - Option::update($key, $val)  -> OptionManager::set($key, $val)
- * - Option::getOptions()        -> OptionManager::getAll()
- * - Option::getByAddon()        -> OptionManager::getAddon()
- * - Option::getOptionGroup()    -> OptionManager::getGroup()
+ * @see \WP_Statistics\Components\Option
  */
 class Option
 {
@@ -43,51 +35,6 @@ class Option
     public static function get_option_name($name)
     {
         return self::$opt_prefix . $name;
-    }
-
-    /**
-     * WP Statistics Default Option
-     *
-     * @return array
-     */
-    public static function defaultOption()
-    {
-
-        $options = array(
-            'robotlist'                       => '',
-            'query_params_allow_list'         => Helper::get_default_query_params_allow_list('string'),
-            'store_ip'                        => false,
-            'geoip'                           => true,
-            'useronline'                      => true,
-            'pages'                           => true,
-            'email_list'                      => get_bloginfo('admin_email'),
-            'use_cache_plugin'                => true,
-            'time_report'                     => '0',
-            'send_report'                     => 'mail',
-            'geoip_license_type'              => 'js-deliver',
-            'geoip_license_key'               => '',
-            'geoip_dbip_license_key_option'   => '',
-            'content_report'                  => '',
-            'email_free_content_header'       => '',
-            'email_free_content_footer'       => '',
-            'privacy_audit'                   => true,
-            'consent_level_integration'       => 'disabled',
-            'anonymous_tracking'              => false,
-            'exclude_administrator'           => true,
-            'ip_method'                       => 'sequential',
-            'exclude_loginpage'               => true,
-            'exclude_404s'                    => false,
-            'exclude_feeds'                   => true,
-            'schedule_dbmaint'                => true,
-            'schedule_dbmaint_days'           => '180',
-            'geoip_location_detection_method' => 'maxmind',
-            'delete_data_on_uninstall'        => false,
-            'share_anonymous_data'            => false,
-            'display_notifications'           => true,
-            'show_privacy_issues_in_report'   => false,
-        );
-
-        return $options;
     }
 
     /**

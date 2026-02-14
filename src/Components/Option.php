@@ -2,8 +2,7 @@
 
 namespace WP_Statistics\Components;
 
-use WP_Statistics\Utils\Environment;
-use WP_Statistics\Utils\QueryParams;
+use WP_Statistics\Service\Admin\Settings\Definitions\SettingsAreaDefinitions;
 
 /**
  * Context helper for WP Statistics options management.
@@ -188,37 +187,8 @@ class Option extends Singleton
      */
     public static function getDefaults()
     {
-        return [
-            'query_params_allow_list'         => QueryParams::getDefaultAllowedList('string'),
-            'store_ip'                        => false,
-            'hash_rotation_interval'          => 'daily',
-            'geoip'                           => true,
-            'useronline'                      => true,
-            'pages'                           => true,
-            'email_list'                      => Environment::getAdminEmail(),
-            'time_report'                     => '0',
-            'send_report'                     => 'mail',
-            'geoip_license_type'              => 'js-deliver',
-            'geoip_license_key'               => '',
-            'geoip_dbip_license_key_option'   => '',
-            'content_report'                  => '',
-            'email_free_content_header'       => '',
-            'email_free_content_footer'       => '',
-            'privacy_audit'                   => true,
-            'consent_level_integration'       => 'disabled',
-            'anonymous_tracking'              => false,
-            'exclude_administrator'           => true,
-            'ip_method'                       => 'sequential',
-            'exclude_loginpage'               => true,
-            'exclude_404s'                    => false,
-            'exclude_feeds'                   => true,
-            'schedule_dbmaint'                => true,
-            'schedule_dbmaint_days'           => '180',
-            'geoip_location_detection_method' => 'maxmind',
-            'delete_data_on_uninstall'        => false,
-            'share_anonymous_data'            => false,
-            'display_notifications'           => true,
-        ];
+        $definitions = new SettingsAreaDefinitions();
+        return $definitions->getDefaults();
     }
 
     /**
