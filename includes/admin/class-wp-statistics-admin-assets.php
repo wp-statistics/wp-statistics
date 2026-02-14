@@ -6,7 +6,6 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Service\Assets\AssetsFactory;
 use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 /**
@@ -18,11 +17,6 @@ use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
  *
  * This class is maintained for backward compatibility with add-ons.
  * New code should use the AssetsFactory service from the v15 architecture.
- *
- * Migration guide:
- * - Admin_Assets styles/scripts -> AssetsFactory::Legacy() for legacy pages
- * - Asset registration          -> Use Assets component
- * - Localization data           -> AssetsFactory handles this
  */
 class Admin_Assets
 {
@@ -45,7 +39,7 @@ class Admin_Assets
      *
      * @var string
      */
-    public static $asset_dir = 'public/legacy';
+    public static $asset_dir = 'public/entries';
 
     /**
      * Basic Of Plugin Url in WordPress
@@ -67,11 +61,8 @@ class Admin_Assets
      */
     public function __construct()
     {
-        AssetsFactory::Legacy();
-
-        // add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
-        // add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
-        // add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
+        // Legacy admin asset loading removed in v15.
+        // React admin app and standalone entries handle all assets.
     }
 
 

@@ -239,7 +239,7 @@ class DashboardWidgetManager
 
         wp_enqueue_style(
             'wp-statistics-dashboard-widget',
-            $baseUrl . 'resources/dashboard-widget/dashboard-widget.css',
+            $baseUrl . 'public/entries/dashboard-widget/dashboard-widget-style.min.css',
             [],
             WP_STATISTICS_VERSION
         );

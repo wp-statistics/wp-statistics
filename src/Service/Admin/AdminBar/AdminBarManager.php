@@ -573,14 +573,14 @@ class AdminBarManager
 
         wp_enqueue_style(
             'wp-statistics-admin-bar',
-            $baseUrl . 'resources/admin-bar/admin-bar.css',
+            $baseUrl . 'public/entries/admin-bar/admin-bar-style.min.css',
             [],
             WP_STATISTICS_VERSION
         );
 
         wp_enqueue_script(
             'wp-statistics-admin-bar',
-            $baseUrl . 'resources/admin-bar/admin-bar.js',
+            $baseUrl . 'public/entries/admin-bar/admin-bar.min.js',
             [],
             WP_STATISTICS_VERSION,
             true

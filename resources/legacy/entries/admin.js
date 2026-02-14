@@ -1,1 +1,0 @@
-import 'virtual:admin-bundle';

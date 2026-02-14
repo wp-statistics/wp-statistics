@@ -28,7 +28,7 @@ class FrontendHandler extends BaseAssets
     public function __construct()
     {
         $this->setContext('frontend');
-        $this->setAssetDir('public/frontend');
+        $this->setAssetDir('public/entries/tracker');
         $this->setPrefix('wp-statistics-frontend');
 
         add_filter('widget_text', 'do_shortcode');
@@ -93,7 +93,7 @@ class FrontendHandler extends BaseAssets
             $dependencies = $integration->getJsHandles();
         }
 
-        Assets::script('tracker', 'js/tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
+        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
     }
 
     /**
