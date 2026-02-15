@@ -4,7 +4,6 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Utils\Query;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\Url;
 
 class HistoricalModel
 {

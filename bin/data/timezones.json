@@ -1,7 +1,7 @@
 {
   "US": ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", "America/Phoenix", "America/Detroit", "America/Indiana/Indianapolis"],
   "GB": ["Europe/London"],
-  "CA": ["America/Toronto", "America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Halifax", "America/Montreal"],
+  "CA": ["America/Toronto", "America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Halifax", "America/St_Johns"],
   "DE": ["Europe/Berlin"],
   "FR": ["Europe/Paris"],
   "AU": ["Australia/Sydney", "Australia/Melbourne", "Australia/Perth", "Australia/Brisbane", "Australia/Adelaide"],

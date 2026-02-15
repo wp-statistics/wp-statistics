@@ -133,7 +133,7 @@ export const getLoggedInUsersBatchQueryOptions = ({
       'logged-in-users-batch',
       page,
       per_page,
-      order_by,
+      apiOrderBy,
       order,
       date_from,
       date_to,
@@ -143,6 +143,9 @@ export const getLoggedInUsersBatchQueryOptions = ({
       apiFilters,
       context,
       columns,
+      hasCompare,
+      loggedInFiltersArray,
+      anonymousFiltersArray,
     ],
     queryFn: () =>
       clientRequest.post<LoggedInUsersBatchResponse>(

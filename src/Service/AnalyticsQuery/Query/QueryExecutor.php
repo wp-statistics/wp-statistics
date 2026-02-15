@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\Query;
 
-use WP_Statistics\Components\Option;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryInterface;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\QueryExecutorInterface;
 use WP_Statistics\Service\AnalyticsQuery\Registry\SourceRegistry;
@@ -107,6 +106,13 @@ class QueryExecutor implements QueryExecutorInterface
 
         // Apply groupBy post-processing
         $rows = $this->applyGroupByPostProcessing($query, $rows ?: []);
+
+        // Normalize rows for week/month groupBy to add 'date' column
+        // This ensures ChartFormatter can find the date labels
+        $groupByNames = $query->getGroupBy();
+        if (!empty($groupByNames) && in_array($groupByNames[0], ['week', 'month'], true)) {
+            $rows = $this->normalizeRawTableRows($rows, $groupByNames[0]);
+        }
 
         return [
             'rows'  => $rows,
@@ -236,9 +242,23 @@ class QueryExecutor implements QueryExecutorInterface
 
         $rows = $this->wpdb->get_results($preparedSql, ARRAY_A);
 
+        // Check if result is empty or contains only NULL values
+        // SUM() returns a single row with NULL when no matching rows exist
+        $hasRealData = false;
+        if (!empty($rows)) {
+            foreach ($rows as $row) {
+                foreach ($row as $value) {
+                    if ($value !== null && $value !== '') {
+                        $hasRealData = true;
+                        break 2;
+                    }
+                }
+            }
+        }
+
         // Fallback to raw tables if summary table has no data for this period
         // This handles cases where summary table hasn't been populated yet
-        if (empty($rows)) {
+        if (!$hasRealData) {
             return $this->executeFromRawTables($query);
         }
 
@@ -289,8 +309,22 @@ class QueryExecutor implements QueryExecutorInterface
 
             $historicalRows = $this->wpdb->get_results($preparedSql, ARRAY_A);
 
+            // Check if result is empty or contains only NULL values
+            // SUM() returns a single row with NULL when no matching rows exist
+            $hasRealData = false;
+            if (!empty($historicalRows)) {
+                foreach ($historicalRows as $row) {
+                    foreach ($row as $value) {
+                        if ($value !== null && $value !== '') {
+                            $hasRealData = true;
+                            break 2;
+                        }
+                    }
+                }
+            }
+
             // Fallback to raw tables if summary table has no data for this period
-            if (empty($historicalRows)) {
+            if (!$hasRealData) {
                 $historicalResult = $this->executeFromRawTables($historicalQuery);
                 $historicalRows   = $historicalResult['rows'];
             }
@@ -615,11 +649,11 @@ class QueryExecutor implements QueryExecutorInterface
         $filters      = $query->getFilters();
         $dateFrom     = $query->getDateFrom();
         $dateTo       = $query->getDateTo();
+
         $order        = $query->getOrder();
         $page         = $query->getPage();
         $perPage      = $query->getPerPage();
         $offset       = ($page - 1) * $perPage;
-        $attribution  = Option::getValue('attribution_model', 'first_touch');
         $requestedColumns = $query->getColumns() ?: [];
         $orderBy      = $this->validateOrderBy($query->getOrderBy(), $sources, $groupByNames, $requestedColumns);
 
@@ -633,6 +667,11 @@ class QueryExecutor implements QueryExecutorInterface
             $joins = $this->addSessionJoinForViews($joins);
         }
 
+        // Add resources join if needed for views table (for comments source, etc.)
+        if ($primaryTable === 'views' && $this->needsResourcesJoin($sources, $groupByNames)) {
+            $joins = $this->addResourcesJoinForViews($joins);
+        }
+
         // Add group by columns and joins (pass requested columns for optimization)
         foreach ($groupByNames as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
@@ -640,7 +679,7 @@ class QueryExecutor implements QueryExecutorInterface
                 continue;
             }
 
-            $select  = array_merge($select, $groupByItem->getSelectColumns($attribution, $requestedColumns));
+            $select  = array_merge($select, $groupByItem->getSelectColumns($requestedColumns));
             $joins   = array_merge($joins, $this->normalizeJoins($groupByItem->getJoins()));
 
             if ($groupByItem->getGroupBy()) {
@@ -656,6 +695,7 @@ class QueryExecutor implements QueryExecutorInterface
         foreach ($sources as $sourceName) {
             $source = $this->sourceRegistry->get($sourceName);
             if ($source) {
+                $source->setContext($groupByNames, $filters, $dateFrom, $dateTo);
                 $select[] = $source->getExpressionWithAlias();
             }
         }
@@ -720,6 +760,7 @@ class QueryExecutor implements QueryExecutorInterface
         foreach ($sources as $sourceName) {
             $source = $this->sourceRegistry->get($sourceName);
             if ($source) {
+                $source->setContext([], $filters, $dateFrom, $dateTo);
                 $select[] = $source->getExpressionWithAlias();
             }
         }
@@ -728,6 +769,11 @@ class QueryExecutor implements QueryExecutorInterface
         // Only add if sources or filters actually need session data
         if ($primaryTable === 'views' && $this->needsSessionJoin($sources, [], $filters)) {
             $joins = $this->addSessionJoinForViews($joins);
+        }
+
+        // Add resources join if needed for views table (for comments source, etc.)
+        if ($primaryTable === 'views' && $this->needsResourcesJoin($sources, [])) {
+            $joins = $this->addResourcesJoinForViews($joins);
         }
 
         // Add date range filter
@@ -796,7 +842,7 @@ class QueryExecutor implements QueryExecutorInterface
             $groupByItem = $this->groupByRegistry->get($groupByName);
             if ($groupByItem) {
                 // Use requestedColumns to get only the columns that will be in SELECT
-                $selectColumns = $groupByItem->getSelectColumns('first_touch', $requestedColumns);
+                $selectColumns = $groupByItem->getSelectColumns($requestedColumns);
                 foreach ($selectColumns as $selectColumn) {
                     // Extract alias from "expression AS alias" format
                     if (preg_match('/\s+AS\s+(\w+)$/i', $selectColumn, $matches)) {
@@ -1048,6 +1094,68 @@ class QueryExecutor implements QueryExecutorInterface
                 'type'  => 'INNER',
             ];
         }
+        return $joins;
+    }
+
+    /**
+     * Check if resources join is needed for views query.
+     *
+     * The resources join is needed when:
+     * - The 'comments' source is used (requires resources.cached_author_id for filtering)
+     * - Any groupBy or filter that references the resources table
+     *
+     * @param array $sources      Source names.
+     * @param array $groupByNames Group by names.
+     * @return bool
+     */
+    private function needsResourcesJoin(array $sources, array $groupByNames): bool
+    {
+        // Check if comments or published_content source is used - they need resources table
+        // published_content uses resources.cached_author_id for author-context detection
+        if (in_array('comments', $sources, true) || in_array('published_content', $sources, true)) {
+            return true;
+        }
+
+        // Check if any groupBy needs resources table
+        $resourcesDependentGroupBy = ['page', 'author', 'post_type'];
+        foreach ($groupByNames as $groupByName) {
+            if (in_array($groupByName, $resourcesDependentGroupBy, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Add resources join for views table.
+     *
+     * Adds the necessary joins to access the resources table:
+     * views -> resource_uris -> resources
+     *
+     * @param array $joins Existing joins.
+     * @return array
+     */
+    private function addResourcesJoinForViews(array $joins): array
+    {
+        if (!isset($joins['resource_uris'])) {
+            $joins['resource_uris'] = [
+                'table' => $this->getFullTableName('resource_uris'),
+                'alias' => 'resource_uris',
+                'on'    => 'views.resource_uri_id = resource_uris.ID',
+                'type'  => 'LEFT',
+            ];
+        }
+
+        if (!isset($joins['resources'])) {
+            $joins['resources'] = [
+                'table' => $this->getFullTableName('resources'),
+                'alias' => 'resources',
+                'on'    => 'resource_uris.resource_id = resources.ID AND resources.is_deleted = 0',
+                'type'  => 'LEFT',
+            ];
+        }
+
         return $joins;
     }
 

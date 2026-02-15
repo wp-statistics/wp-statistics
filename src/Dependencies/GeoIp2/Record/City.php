@@ -18,8 +18,8 @@ namespace WP_Statistics\Dependencies\GeoIp2\Record;
  * @property-read string|null $name The name of the city based on the locales list
  * passed to the constructor. This attribute is returned by all location
  * services and databases.
- * @property-read array|null $WP_Statistics_names An array map where the keys are locale codes
- * and the values are WP_Statistics_names. This attribute is returned by all location
+ * @property-read array|null $names An array map where the keys are locale codes
+ * and the values are names. This attribute is returned by all location
  * services and databases.
  */
 class City extends AbstractPlaceRecord
@@ -29,5 +29,5 @@ class City extends AbstractPlaceRecord
      *
      * @var array<string>
      */
-    protected $validAttributes = ['confidence', 'geonameId', 'WP_Statistics_names'];
+    protected $validAttributes = ['confidence', 'geonameId', 'names'];
 }

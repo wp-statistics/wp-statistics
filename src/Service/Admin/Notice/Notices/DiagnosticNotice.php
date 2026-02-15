@@ -98,7 +98,6 @@ class DiagnosticNotice implements NoticeInterface
                 'type'        => $type,
                 'actionUrl'   => admin_url('admin.php?page=wp-statistics#/tools/diagnostics'),
                 'actionLabel' => __('View Diagnostics', 'wp-statistics'),
-                'helpUrl'     => 'https://wp-statistics.com/resources/diagnostics/',
                 'dismissible' => true,
                 'priority'    => 5, // High priority for diagnostic issues
             ]),

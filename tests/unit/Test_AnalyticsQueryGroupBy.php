@@ -74,7 +74,7 @@ class Test_AnalyticsQueryGroupBy extends WP_UnitTestCase
         $this->assertEquals('continent_name', $groupBy->getAlias());
 
         $extraAliases = $groupBy->getExtraColumnAliases();
-        $this->assertContains('continent_code', $extraAliases);
+        $this->assertContains('continent', $extraAliases);
     }
 
     /**
@@ -160,8 +160,8 @@ class Test_AnalyticsQueryGroupBy extends WP_UnitTestCase
     {
         $groupBy = new ResolutionGroupBy();
 
-        $this->assertEquals('resolution', $groupBy->getName());
-        $this->assertEquals('resolution', $groupBy->getAlias());
+        $this->assertEquals('screen_resolution', $groupBy->getName());
+        $this->assertEquals('screen_resolution', $groupBy->getAlias());
 
         $extraAliases = $groupBy->getExtraColumnAliases();
         $this->assertContains('resolution_id', $extraAliases);

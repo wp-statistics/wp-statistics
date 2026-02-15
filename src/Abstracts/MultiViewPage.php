@@ -6,8 +6,6 @@ use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
 use Exception;
-use WP_STATISTICS\Admin_Assets;
-
 abstract class MultiViewPage extends BasePage
 {
     protected $defaultView;
@@ -62,7 +60,7 @@ abstract class MultiViewPage extends BasePage
             $filters = $this->getFilters();
 
             if (! empty($filters)) {
-                wp_localize_script(Admin_Assets::$prefix, 'wpStatisticsFilters', $filters);
+                wp_localize_script('wp-statistics-admin', 'wpStatisticsFilters', $filters);
             }
 
             // Instantiate the view class and render content

@@ -53,13 +53,6 @@ class IP
     public static $default_ip_method = 'sequential';
 
     /**
-     * Hash IP Prefix
-     *
-     * @var string
-     */
-    public static $hash_ip_prefix = '#hash#';
-
-    /**
      * Returns all IP method options
      *
      * @return array
@@ -186,23 +179,12 @@ class IP
         // Retrieve the current user agent, defaulting to '' if unavailable or empty.
         $userAgent = UserAgent::getHttpUserAgent();
 
-        $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
-        $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46); 
+        $anonymizedIp  = wp_privacy_anonymize_ip($ip);
+        $hash          = hash('sha256', $dailySalt['salt'] . $anonymizedIp . $userAgent);
+        $truncatedHash = substr($hash, 0, 20);
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
-        // This hash is then prefixed and filtered for potential modification before being returned.
         return apply_filters('wp_statistics_hash_ip', $truncatedHash);
-    }
-
-    /**
-     * Check IP is Hashed
-     *
-     * @param $ip
-     * @return bool
-     */
-    public static function IsHashIP($ip)
-    {
-        return (substr($ip, 0, strlen(self::$hash_ip_prefix)) == self::$hash_ip_prefix);
     }
 
     /**
@@ -210,30 +192,14 @@ class IP
      */
     public static function getStoreIP()
     {
+        if (!Option::get('store_ip') || IntegrationHelper::shouldTrackAnonymously()) {
+            return null;
+        }
 
-        //Get User ip
         $user_ip = self::getIP();
 
-        // use 127.0.0.1 If no valid ip address has been found.
         if (false === $user_ip) {
             return self::$default_ip;
-        }
-
-        /**
-         * If the anonymize IP is enabled because of the data privacy & GDPR.
-         *
-         * @example 192.168.1.1 -> 192.168.1.0
-         * @example 0897:D836:7A7C:803F:344B:5348:71EE:1130 -> 897:d836:7a7c:803f::
-         */
-        if (Option::get('anonymize_ips') == true || IntegrationHelper::shouldTrackAnonymously()) {
-            $user_ip = wp_privacy_anonymize_ip($user_ip);
-        }
-
-        /**
-         * Check if the option to hash IP addresses is enabled in the settings.
-         */
-        if (Option::get('hash_ips') == true || IntegrationHelper::shouldTrackAnonymously()) {
-            $user_ip = self::hashUserIp($user_ip);
         }
 
         return sanitize_text_field($user_ip);
@@ -407,12 +373,14 @@ class IP
         global $wpdb;
 
         // Get the rows from the Visitors table.
+        // Real IPs contain '.' (IPv4) or ':' (IPv6), hashes don't
         $visitorTable = DB::table('visitor');
-        $result       = $wpdb->get_results("SELECT DISTINCT ip FROM {$visitorTable} WHERE ip NOT LIKE '#hash#%'");
+        $result       = $wpdb->get_results("SELECT DISTINCT ip FROM {$visitorTable} WHERE ip LIKE '%.%' OR ip LIKE '%:%'");
         $resultUpdate = [];
 
         foreach ($result as $row) {
-            if (!self::IsHashIP($row->ip)) {
+            // Only hash if it's a valid IP address
+            if (self::check_sanitize_ip($row->ip)) {
                 $resultUpdate[] = $wpdb->update(
                     $visitorTable,
                     array('ip' => self::hashUserIp($row->ip)),

@@ -1,6 +1,7 @@
 import { clientRequest } from '@lib/client-request'
 import { WordPress } from '@lib/wordpress'
 import { queryOptions } from '@tanstack/react-query'
+
 import { QUERY_CACHE } from '@/constants/map-constants'
 
 export interface GetRegionsByCountryParams {
@@ -42,8 +43,11 @@ export const getRegionsByCountryQueryOptions = ({
   dateTo,
   sources = ['visitors'],
 }: GetRegionsByCountryParams) => {
+  // First source determines sort order
+  const orderBySource = sources[0] || 'visitors'
+
   return queryOptions({
-    queryKey: ['geographic', 'regions-by-country', countryCode, dateFrom, dateTo, sources],
+    queryKey: ['geographic', 'regions-by-country', countryCode, dateFrom, dateTo, sources, orderBySource],
     queryFn: () =>
       clientRequest.post<GetRegionsByCountryResponse>(
         '',
@@ -57,7 +61,7 @@ export const getRegionsByCountryQueryOptions = ({
             country: countryCode,
           },
           per_page: 100,
-          order_by: sources[0] || 'visitors',
+          order_by: orderBySource,
           order: 'DESC',
           format: 'table',
           show_totals: true,

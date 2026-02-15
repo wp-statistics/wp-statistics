@@ -50,10 +50,7 @@ class AjaxBasedTracking extends BaseTrackerController
      */
     public function register()
     {
-        if (
-            !Option::getValue('use_cache_plugin') ||
-            !Option::getValue('bypass_ad_blockers', false)
-        ) {
+        if (!Option::getValue('bypass_ad_blockers', false)) {
             return;
         }
 

@@ -11,7 +11,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PremiumRouteImport } from './routes/premium'
 import { Route as NetworkOverviewRouteImport } from './routes/network-overview'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as ToolsRouteRouteImport } from './routes/tools/route'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,10 +21,41 @@ import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as visitorInsightsVisitorsOverviewRouteImport } from './routes/(visitor-insights)/visitors-overview'
 import { Route as visitorInsightsVisitorsRouteImport } from './routes/(visitor-insights)/visitors'
-import { Route as visitorInsightsViewsRouteImport } from './routes/(visitor-insights)/views'
 import { Route as visitorInsightsTopVisitorsRouteImport } from './routes/(visitor-insights)/top-visitors'
 import { Route as visitorInsightsLoggedInUsersRouteImport } from './routes/(visitor-insights)/logged-in-users'
+import { Route as referralsReferredVisitorsRouteImport } from './routes/(referrals)/referred-visitors'
+import { Route as referralsReferralsOverviewRouteImport } from './routes/(referrals)/referrals-overview'
 import { Route as pageInsightsTopPagesRouteImport } from './routes/(page-insights)/top-pages'
+import { Route as pageInsightsPageInsightsOverviewRouteImport } from './routes/(page-insights)/page-insights-overview'
+import { Route as pageInsightsExitPagesRouteImport } from './routes/(page-insights)/exit-pages'
+import { Route as pageInsightsEntryPagesRouteImport } from './routes/(page-insights)/entry-pages'
+import { Route as pageInsightsCategoryPagesRouteImport } from './routes/(page-insights)/category-pages'
+import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insights)/author-pages'
+import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
+import { Route as geographicUsStatesRouteImport } from './routes/(geographic)/us-states'
+import { Route as geographicTimezonesRouteImport } from './routes/(geographic)/timezones'
+import { Route as geographicGeographicOverviewRouteImport } from './routes/(geographic)/geographic-overview'
+import { Route as geographicEuropeanCountriesRouteImport } from './routes/(geographic)/european-countries'
+import { Route as geographicCountryRegionsRouteImport } from './routes/(geographic)/country-regions'
+import { Route as geographicCountriesRouteImport } from './routes/(geographic)/countries'
+import { Route as geographicCitiesRouteImport } from './routes/(geographic)/cities'
+import { Route as devicesScreenResolutionsRouteImport } from './routes/(devices)/screen-resolutions'
+import { Route as devicesOperatingSystemsRouteImport } from './routes/(devices)/operating-systems'
+import { Route as devicesDevicesOverviewRouteImport } from './routes/(devices)/devices-overview'
+import { Route as devicesDeviceCategoriesRouteImport } from './routes/(devices)/device-categories'
+import { Route as devicesBrowsersRouteImport } from './routes/(devices)/browsers'
+import { Route as contentAnalyticsTopCategoriesRouteImport } from './routes/(content-analytics)/top-categories'
+import { Route as contentAnalyticsTopAuthorsRouteImport } from './routes/(content-analytics)/top-authors'
+import { Route as contentAnalyticsContentRouteImport } from './routes/(content-analytics)/content'
+import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
+import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
+import { Route as pageInsightsUrlResourceIdRouteImport } from './routes/(page-insights)/url_.$resourceId'
+import { Route as geographicCountryCountryCodeRouteImport } from './routes/(geographic)/country_.$countryCode'
+import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
+import { Route as contentAnalyticsCategoryTermIdRouteImport } from './routes/(content-analytics)/category_.$termId'
+import { Route as contentAnalyticsAuthorAuthorIdRouteImport } from './routes/(content-analytics)/author_.$authorId'
+import { Route as visitorInsightsVisitorTypeIdRouteImport } from './routes/(visitor-insights)/visitor_.$type.$id'
+import { Route as referralsUtmUtmTypeUtmValueRouteImport } from './routes/(referrals)/utm_.$utmType.$utmValue'
 
 const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
@@ -32,37 +65,16 @@ const CategoryAnalyticsLazyRouteImport = createFileRoute(
   '/category-analytics',
 )()
 const AuthorAnalyticsLazyRouteImport = createFileRoute('/author-analytics')()
-const ToolsSystemInfoLazyRouteImport = createFileRoute('/tools/system-info')()
-const ToolsScheduledTasksLazyRouteImport = createFileRoute(
-  '/tools/scheduled-tasks',
-)()
-const ToolsImportExportLazyRouteImport = createFileRoute(
-  '/tools/import-export',
-)()
-const ToolsDiagnosticsLazyRouteImport = createFileRoute('/tools/diagnostics')()
-const ToolsBackupsLazyRouteImport = createFileRoute('/tools/backups')()
-const ToolsBackgroundJobsLazyRouteImport = createFileRoute(
-  '/tools/background-jobs',
-)()
-const SettingsPrivacyLazyRouteImport = createFileRoute('/settings/privacy')()
-const SettingsNotificationsLazyRouteImport = createFileRoute(
-  '/settings/notifications',
-)()
-const SettingsGeneralLazyRouteImport = createFileRoute('/settings/general')()
-const SettingsExclusionsLazyRouteImport = createFileRoute(
-  '/settings/exclusions',
-)()
-const SettingsDisplayLazyRouteImport = createFileRoute('/settings/display')()
-const SettingsDataManagementLazyRouteImport = createFileRoute(
-  '/settings/data-management',
-)()
-const SettingsAdvancedLazyRouteImport = createFileRoute('/settings/advanced')()
-const SettingsAccessLazyRouteImport = createFileRoute('/settings/access')()
+const ToolsTabIdLazyRouteImport = createFileRoute('/tools/$tabId')()
+const SettingsTabIdLazyRouteImport = createFileRoute('/settings/$tabId')()
 const visitorInsightsSearchTermsLazyRouteImport = createFileRoute(
   '/(visitor-insights)/search-terms',
 )()
 const visitorInsightsOnlineVisitorsLazyRouteImport = createFileRoute(
   '/(visitor-insights)/online-visitors',
+)()
+const referralsUtmPerformanceLazyRouteImport = createFileRoute(
+  '/(referrals)/utm-performance',
 )()
 const referralsSourceCategoriesLazyRouteImport = createFileRoute(
   '/(referrals)/source-categories',
@@ -76,8 +88,8 @@ const referralsSearchEnginesLazyRouteImport = createFileRoute(
 const referralsReferrersLazyRouteImport = createFileRoute(
   '/(referrals)/referrers',
 )()
-const referralsReferredVisitorsLazyRouteImport = createFileRoute(
-  '/(referrals)/referred-visitors',
+const referralsCampaignsLazyRouteImport = createFileRoute(
+  '/(referrals)/campaigns',
 )()
 
 const PageAnalyticsLazyRoute = PageAnalyticsLazyRouteImport.update({
@@ -116,6 +128,11 @@ const AuthorAnalyticsLazyRoute = AuthorAnalyticsLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/author-analytics.lazy').then((d) => d.Route),
 )
+const PremiumRoute = PremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/premium.lazy').then((d) => d.Route))
 const NetworkOverviewRoute = NetworkOverviewRouteImport.update({
   id: '/network-overview',
   path: '/network-overview',
@@ -123,6 +140,11 @@ const NetworkOverviewRoute = NetworkOverviewRouteImport.update({
 } as any).lazy(() =>
   import('./routes/network-overview.lazy').then((d) => d.Route),
 )
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/help.lazy').then((d) => d.Route))
 const ToolsRouteRoute = ToolsRouteRouteImport.update({
   id: '/tools',
   path: '/tools',
@@ -148,103 +170,17 @@ const SettingsIndexRoute = SettingsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => SettingsRouteRoute,
 } as any)
-const ToolsSystemInfoLazyRoute = ToolsSystemInfoLazyRouteImport.update({
-  id: '/system-info',
-  path: '/system-info',
+const ToolsTabIdLazyRoute = ToolsTabIdLazyRouteImport.update({
+  id: '/$tabId',
+  path: '/$tabId',
   getParentRoute: () => ToolsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/tools/system-info.lazy').then((d) => d.Route),
-)
-const ToolsScheduledTasksLazyRoute = ToolsScheduledTasksLazyRouteImport.update({
-  id: '/scheduled-tasks',
-  path: '/scheduled-tasks',
-  getParentRoute: () => ToolsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/tools/scheduled-tasks.lazy').then((d) => d.Route),
-)
-const ToolsImportExportLazyRoute = ToolsImportExportLazyRouteImport.update({
-  id: '/import-export',
-  path: '/import-export',
-  getParentRoute: () => ToolsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/tools/import-export.lazy').then((d) => d.Route),
-)
-const ToolsDiagnosticsLazyRoute = ToolsDiagnosticsLazyRouteImport.update({
-  id: '/diagnostics',
-  path: '/diagnostics',
-  getParentRoute: () => ToolsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/tools/diagnostics.lazy').then((d) => d.Route),
-)
-const ToolsBackupsLazyRoute = ToolsBackupsLazyRouteImport.update({
-  id: '/backups',
-  path: '/backups',
-  getParentRoute: () => ToolsRouteRoute,
-} as any).lazy(() => import('./routes/tools/backups.lazy').then((d) => d.Route))
-const ToolsBackgroundJobsLazyRoute = ToolsBackgroundJobsLazyRouteImport.update({
-  id: '/background-jobs',
-  path: '/background-jobs',
-  getParentRoute: () => ToolsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/tools/background-jobs.lazy').then((d) => d.Route),
-)
-const SettingsPrivacyLazyRoute = SettingsPrivacyLazyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
+} as any).lazy(() => import('./routes/tools/$tabId.lazy').then((d) => d.Route))
+const SettingsTabIdLazyRoute = SettingsTabIdLazyRouteImport.update({
+  id: '/$tabId',
+  path: '/$tabId',
   getParentRoute: () => SettingsRouteRoute,
 } as any).lazy(() =>
-  import('./routes/settings/privacy.lazy').then((d) => d.Route),
-)
-const SettingsNotificationsLazyRoute =
-  SettingsNotificationsLazyRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => SettingsRouteRoute,
-  } as any).lazy(() =>
-    import('./routes/settings/notifications.lazy').then((d) => d.Route),
-  )
-const SettingsGeneralLazyRoute = SettingsGeneralLazyRouteImport.update({
-  id: '/general',
-  path: '/general',
-  getParentRoute: () => SettingsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/settings/general.lazy').then((d) => d.Route),
-)
-const SettingsExclusionsLazyRoute = SettingsExclusionsLazyRouteImport.update({
-  id: '/exclusions',
-  path: '/exclusions',
-  getParentRoute: () => SettingsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/settings/exclusions.lazy').then((d) => d.Route),
-)
-const SettingsDisplayLazyRoute = SettingsDisplayLazyRouteImport.update({
-  id: '/display',
-  path: '/display',
-  getParentRoute: () => SettingsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/settings/display.lazy').then((d) => d.Route),
-)
-const SettingsDataManagementLazyRoute =
-  SettingsDataManagementLazyRouteImport.update({
-    id: '/data-management',
-    path: '/data-management',
-    getParentRoute: () => SettingsRouteRoute,
-  } as any).lazy(() =>
-    import('./routes/settings/data-management.lazy').then((d) => d.Route),
-  )
-const SettingsAdvancedLazyRoute = SettingsAdvancedLazyRouteImport.update({
-  id: '/advanced',
-  path: '/advanced',
-  getParentRoute: () => SettingsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/settings/advanced.lazy').then((d) => d.Route),
-)
-const SettingsAccessLazyRoute = SettingsAccessLazyRouteImport.update({
-  id: '/access',
-  path: '/access',
-  getParentRoute: () => SettingsRouteRoute,
-} as any).lazy(() =>
-  import('./routes/settings/access.lazy').then((d) => d.Route),
+  import('./routes/settings/$tabId.lazy').then((d) => d.Route),
 )
 const visitorInsightsSearchTermsLazyRoute =
   visitorInsightsSearchTermsLazyRouteImport
@@ -270,6 +206,15 @@ const visitorInsightsOnlineVisitorsLazyRoute =
         (d) => d.Route,
       ),
     )
+const referralsUtmPerformanceLazyRoute = referralsUtmPerformanceLazyRouteImport
+  .update({
+    id: '/(referrals)/utm-performance',
+    path: '/utm-performance',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/utm-performance.lazy').then((d) => d.Route),
+  )
 const referralsSourceCategoriesLazyRoute =
   referralsSourceCategoriesLazyRouteImport
     .update({
@@ -309,18 +254,15 @@ const referralsReferrersLazyRoute = referralsReferrersLazyRouteImport
   .lazy(() =>
     import('./routes/(referrals)/referrers.lazy').then((d) => d.Route),
   )
-const referralsReferredVisitorsLazyRoute =
-  referralsReferredVisitorsLazyRouteImport
-    .update({
-      id: '/(referrals)/referred-visitors',
-      path: '/referred-visitors',
-      getParentRoute: () => rootRouteImport,
-    } as any)
-    .lazy(() =>
-      import('./routes/(referrals)/referred-visitors.lazy').then(
-        (d) => d.Route,
-      ),
-    )
+const referralsCampaignsLazyRoute = referralsCampaignsLazyRouteImport
+  .update({
+    id: '/(referrals)/campaigns',
+    path: '/campaigns',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/campaigns.lazy').then((d) => d.Route),
+  )
 const visitorInsightsVisitorsOverviewRoute =
   visitorInsightsVisitorsOverviewRouteImport
     .update({
@@ -341,15 +283,6 @@ const visitorInsightsVisitorsRoute = visitorInsightsVisitorsRouteImport
   } as any)
   .lazy(() =>
     import('./routes/(visitor-insights)/visitors.lazy').then((d) => d.Route),
-  )
-const visitorInsightsViewsRoute = visitorInsightsViewsRouteImport
-  .update({
-    id: '/(visitor-insights)/views',
-    path: '/views',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() =>
-    import('./routes/(visitor-insights)/views.lazy').then((d) => d.Route),
   )
 const visitorInsightsTopVisitorsRoute = visitorInsightsTopVisitorsRouteImport
   .update({
@@ -374,6 +307,24 @@ const visitorInsightsLoggedInUsersRoute =
         (d) => d.Route,
       ),
     )
+const referralsReferredVisitorsRoute = referralsReferredVisitorsRouteImport
+  .update({
+    id: '/(referrals)/referred-visitors',
+    path: '/referred-visitors',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/referred-visitors.lazy').then((d) => d.Route),
+  )
+const referralsReferralsOverviewRoute = referralsReferralsOverviewRouteImport
+  .update({
+    id: '/(referrals)/referrals-overview',
+    path: '/referrals-overview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/referrals-overview.lazy').then((d) => d.Route),
+  )
 const pageInsightsTopPagesRoute = pageInsightsTopPagesRouteImport
   .update({
     id: '/(page-insights)/top-pages',
@@ -383,128 +334,492 @@ const pageInsightsTopPagesRoute = pageInsightsTopPagesRouteImport
   .lazy(() =>
     import('./routes/(page-insights)/top-pages.lazy').then((d) => d.Route),
   )
+const pageInsightsPageInsightsOverviewRoute =
+  pageInsightsPageInsightsOverviewRouteImport
+    .update({
+      id: '/(page-insights)/page-insights-overview',
+      path: '/page-insights-overview',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(page-insights)/page-insights-overview.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const pageInsightsExitPagesRoute = pageInsightsExitPagesRouteImport
+  .update({
+    id: '/(page-insights)/exit-pages',
+    path: '/exit-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/exit-pages.lazy').then((d) => d.Route),
+  )
+const pageInsightsEntryPagesRoute = pageInsightsEntryPagesRouteImport
+  .update({
+    id: '/(page-insights)/entry-pages',
+    path: '/entry-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/entry-pages.lazy').then((d) => d.Route),
+  )
+const pageInsightsCategoryPagesRoute = pageInsightsCategoryPagesRouteImport
+  .update({
+    id: '/(page-insights)/category-pages',
+    path: '/category-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/category-pages.lazy').then((d) => d.Route),
+  )
+const pageInsightsAuthorPagesRoute = pageInsightsAuthorPagesRouteImport
+  .update({
+    id: '/(page-insights)/author-pages',
+    path: '/author-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/author-pages.lazy').then((d) => d.Route),
+  )
+const pageInsights404PagesRoute = pageInsights404PagesRouteImport
+  .update({
+    id: '/(page-insights)/404-pages',
+    path: '/404-pages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/404-pages.lazy').then((d) => d.Route),
+  )
+const geographicUsStatesRoute = geographicUsStatesRouteImport
+  .update({
+    id: '/(geographic)/us-states',
+    path: '/us-states',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/us-states.lazy').then((d) => d.Route),
+  )
+const geographicTimezonesRoute = geographicTimezonesRouteImport
+  .update({
+    id: '/(geographic)/timezones',
+    path: '/timezones',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/timezones.lazy').then((d) => d.Route),
+  )
+const geographicGeographicOverviewRoute =
+  geographicGeographicOverviewRouteImport
+    .update({
+      id: '/(geographic)/geographic-overview',
+      path: '/geographic-overview',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(geographic)/geographic-overview.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const geographicEuropeanCountriesRoute = geographicEuropeanCountriesRouteImport
+  .update({
+    id: '/(geographic)/european-countries',
+    path: '/european-countries',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/european-countries.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const geographicCountryRegionsRoute = geographicCountryRegionsRouteImport
+  .update({
+    id: '/(geographic)/country-regions',
+    path: '/country-regions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/country-regions.lazy').then((d) => d.Route),
+  )
+const geographicCountriesRoute = geographicCountriesRouteImport
+  .update({
+    id: '/(geographic)/countries',
+    path: '/countries',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(geographic)/countries.lazy').then((d) => d.Route),
+  )
+const geographicCitiesRoute = geographicCitiesRouteImport
+  .update({
+    id: '/(geographic)/cities',
+    path: '/cities',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() => import('./routes/(geographic)/cities.lazy').then((d) => d.Route))
+const devicesScreenResolutionsRoute = devicesScreenResolutionsRouteImport
+  .update({
+    id: '/(devices)/screen-resolutions',
+    path: '/screen-resolutions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(devices)/screen-resolutions.lazy').then((d) => d.Route),
+  )
+const devicesOperatingSystemsRoute = devicesOperatingSystemsRouteImport
+  .update({
+    id: '/(devices)/operating-systems',
+    path: '/operating-systems',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(devices)/operating-systems.lazy').then((d) => d.Route),
+  )
+const devicesDevicesOverviewRoute = devicesDevicesOverviewRouteImport
+  .update({
+    id: '/(devices)/devices-overview',
+    path: '/devices-overview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(devices)/devices-overview.lazy').then((d) => d.Route),
+  )
+const devicesDeviceCategoriesRoute = devicesDeviceCategoriesRouteImport
+  .update({
+    id: '/(devices)/device-categories',
+    path: '/device-categories',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(devices)/device-categories.lazy').then((d) => d.Route),
+  )
+const devicesBrowsersRoute = devicesBrowsersRouteImport
+  .update({
+    id: '/(devices)/browsers',
+    path: '/browsers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() => import('./routes/(devices)/browsers.lazy').then((d) => d.Route))
+const contentAnalyticsTopCategoriesRoute =
+  contentAnalyticsTopCategoriesRouteImport
+    .update({
+      id: '/(content-analytics)/top-categories',
+      path: '/top-categories',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/top-categories.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const contentAnalyticsTopAuthorsRoute = contentAnalyticsTopAuthorsRouteImport
+  .update({
+    id: '/(content-analytics)/top-authors',
+    path: '/top-authors',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(content-analytics)/top-authors.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const contentAnalyticsContentRoute = contentAnalyticsContentRouteImport
+  .update({
+    id: '/(content-analytics)/content',
+    path: '/content',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(content-analytics)/content.lazy').then((d) => d.Route),
+  )
+const contentAnalyticsCategoriesRoute = contentAnalyticsCategoriesRouteImport
+  .update({
+    id: '/(content-analytics)/categories',
+    path: '/categories',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(content-analytics)/categories.lazy').then((d) => d.Route),
+  )
+const contentAnalyticsAuthorsRoute = contentAnalyticsAuthorsRouteImport
+  .update({
+    id: '/(content-analytics)/authors',
+    path: '/authors',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(content-analytics)/authors.lazy').then((d) => d.Route),
+  )
+const pageInsightsUrlResourceIdRoute = pageInsightsUrlResourceIdRouteImport
+  .update({
+    id: '/(page-insights)/url_/$resourceId',
+    path: '/url/$resourceId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(page-insights)/url_.$resourceId.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const geographicCountryCountryCodeRoute =
+  geographicCountryCountryCodeRouteImport
+    .update({
+      id: '/(geographic)/country_/$countryCode',
+      path: '/country/$countryCode',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(geographic)/country_.$countryCode.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const contentAnalyticsContentPostIdRoute =
+  contentAnalyticsContentPostIdRouteImport
+    .update({
+      id: '/(content-analytics)/content_/$postId',
+      path: '/content/$postId',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/content_.$postId.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const contentAnalyticsCategoryTermIdRoute =
+  contentAnalyticsCategoryTermIdRouteImport
+    .update({
+      id: '/(content-analytics)/category_/$termId',
+      path: '/category/$termId',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/category_.$termId.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const contentAnalyticsAuthorAuthorIdRoute =
+  contentAnalyticsAuthorAuthorIdRouteImport
+    .update({
+      id: '/(content-analytics)/author_/$authorId',
+      path: '/author/$authorId',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(content-analytics)/author_.$authorId.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const visitorInsightsVisitorTypeIdRoute =
+  visitorInsightsVisitorTypeIdRouteImport
+    .update({
+      id: '/(visitor-insights)/visitor_/$type/$id',
+      path: '/visitor/$type/$id',
+      getParentRoute: () => rootRouteImport,
+    } as any)
+    .lazy(() =>
+      import('./routes/(visitor-insights)/visitor_.$type.$id.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const referralsUtmUtmTypeUtmValueRoute = referralsUtmUtmTypeUtmValueRouteImport
+  .update({
+    id: '/(referrals)/utm_/$utmType/$utmValue',
+    path: '/utm/$utmType/$utmValue',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(referrals)/utm_.$utmType.$utmValue.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/settings': typeof SettingsRouteRouteWithChildren
   '/tools': typeof ToolsRouteRouteWithChildren
+  '/help': typeof HelpRoute
   '/network-overview': typeof NetworkOverviewRoute
+  '/premium': typeof PremiumRoute
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/authors': typeof contentAnalyticsAuthorsRoute
+  '/categories': typeof contentAnalyticsCategoriesRoute
+  '/content': typeof contentAnalyticsContentRoute
+  '/top-authors': typeof contentAnalyticsTopAuthorsRoute
+  '/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/browsers': typeof devicesBrowsersRoute
+  '/device-categories': typeof devicesDeviceCategoriesRoute
+  '/devices-overview': typeof devicesDevicesOverviewRoute
+  '/operating-systems': typeof devicesOperatingSystemsRoute
+  '/screen-resolutions': typeof devicesScreenResolutionsRoute
+  '/cities': typeof geographicCitiesRoute
+  '/countries': typeof geographicCountriesRoute
+  '/country-regions': typeof geographicCountryRegionsRoute
+  '/european-countries': typeof geographicEuropeanCountriesRoute
+  '/geographic-overview': typeof geographicGeographicOverviewRoute
+  '/timezones': typeof geographicTimezonesRoute
+  '/us-states': typeof geographicUsStatesRoute
+  '/404-pages': typeof pageInsights404PagesRoute
+  '/author-pages': typeof pageInsightsAuthorPagesRoute
+  '/category-pages': typeof pageInsightsCategoryPagesRoute
+  '/entry-pages': typeof pageInsightsEntryPagesRoute
+  '/exit-pages': typeof pageInsightsExitPagesRoute
+  '/page-insights-overview': typeof pageInsightsPageInsightsOverviewRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
+  '/referrals-overview': typeof referralsReferralsOverviewRoute
+  '/referred-visitors': typeof referralsReferredVisitorsRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
-  '/views': typeof visitorInsightsViewsRoute
   '/visitors': typeof visitorInsightsVisitorsRoute
   '/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
-  '/referred-visitors': typeof referralsReferredVisitorsLazyRoute
+  '/campaigns': typeof referralsCampaignsLazyRoute
   '/referrers': typeof referralsReferrersLazyRoute
   '/search-engines': typeof referralsSearchEnginesLazyRoute
   '/social-media': typeof referralsSocialMediaLazyRoute
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/utm-performance': typeof referralsUtmPerformanceLazyRoute
   '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
-  '/settings/access': typeof SettingsAccessLazyRoute
-  '/settings/advanced': typeof SettingsAdvancedLazyRoute
-  '/settings/data-management': typeof SettingsDataManagementLazyRoute
-  '/settings/display': typeof SettingsDisplayLazyRoute
-  '/settings/exclusions': typeof SettingsExclusionsLazyRoute
-  '/settings/general': typeof SettingsGeneralLazyRoute
-  '/settings/notifications': typeof SettingsNotificationsLazyRoute
-  '/settings/privacy': typeof SettingsPrivacyLazyRoute
-  '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
-  '/tools/backups': typeof ToolsBackupsLazyRoute
-  '/tools/diagnostics': typeof ToolsDiagnosticsLazyRoute
-  '/tools/import-export': typeof ToolsImportExportLazyRoute
-  '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
-  '/tools/system-info': typeof ToolsSystemInfoLazyRoute
+  '/settings/$tabId': typeof SettingsTabIdLazyRoute
+  '/tools/$tabId': typeof ToolsTabIdLazyRoute
   '/settings/': typeof SettingsIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/author/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
+  '/category/$termId': typeof contentAnalyticsCategoryTermIdRoute
+  '/content/$postId': typeof contentAnalyticsContentPostIdRoute
+  '/country/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
+  '/utm/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
+  '/visitor/$type/$id': typeof visitorInsightsVisitorTypeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/help': typeof HelpRoute
   '/network-overview': typeof NetworkOverviewRoute
+  '/premium': typeof PremiumRoute
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/authors': typeof contentAnalyticsAuthorsRoute
+  '/categories': typeof contentAnalyticsCategoriesRoute
+  '/content': typeof contentAnalyticsContentRoute
+  '/top-authors': typeof contentAnalyticsTopAuthorsRoute
+  '/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/browsers': typeof devicesBrowsersRoute
+  '/device-categories': typeof devicesDeviceCategoriesRoute
+  '/devices-overview': typeof devicesDevicesOverviewRoute
+  '/operating-systems': typeof devicesOperatingSystemsRoute
+  '/screen-resolutions': typeof devicesScreenResolutionsRoute
+  '/cities': typeof geographicCitiesRoute
+  '/countries': typeof geographicCountriesRoute
+  '/country-regions': typeof geographicCountryRegionsRoute
+  '/european-countries': typeof geographicEuropeanCountriesRoute
+  '/geographic-overview': typeof geographicGeographicOverviewRoute
+  '/timezones': typeof geographicTimezonesRoute
+  '/us-states': typeof geographicUsStatesRoute
+  '/404-pages': typeof pageInsights404PagesRoute
+  '/author-pages': typeof pageInsightsAuthorPagesRoute
+  '/category-pages': typeof pageInsightsCategoryPagesRoute
+  '/entry-pages': typeof pageInsightsEntryPagesRoute
+  '/exit-pages': typeof pageInsightsExitPagesRoute
+  '/page-insights-overview': typeof pageInsightsPageInsightsOverviewRoute
   '/top-pages': typeof pageInsightsTopPagesRoute
+  '/referrals-overview': typeof referralsReferralsOverviewRoute
+  '/referred-visitors': typeof referralsReferredVisitorsRoute
   '/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/top-visitors': typeof visitorInsightsTopVisitorsRoute
-  '/views': typeof visitorInsightsViewsRoute
   '/visitors': typeof visitorInsightsVisitorsRoute
   '/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
-  '/referred-visitors': typeof referralsReferredVisitorsLazyRoute
+  '/campaigns': typeof referralsCampaignsLazyRoute
   '/referrers': typeof referralsReferrersLazyRoute
   '/search-engines': typeof referralsSearchEnginesLazyRoute
   '/social-media': typeof referralsSocialMediaLazyRoute
   '/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/utm-performance': typeof referralsUtmPerformanceLazyRoute
   '/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/search-terms': typeof visitorInsightsSearchTermsLazyRoute
-  '/settings/access': typeof SettingsAccessLazyRoute
-  '/settings/advanced': typeof SettingsAdvancedLazyRoute
-  '/settings/data-management': typeof SettingsDataManagementLazyRoute
-  '/settings/display': typeof SettingsDisplayLazyRoute
-  '/settings/exclusions': typeof SettingsExclusionsLazyRoute
-  '/settings/general': typeof SettingsGeneralLazyRoute
-  '/settings/notifications': typeof SettingsNotificationsLazyRoute
-  '/settings/privacy': typeof SettingsPrivacyLazyRoute
-  '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
-  '/tools/backups': typeof ToolsBackupsLazyRoute
-  '/tools/diagnostics': typeof ToolsDiagnosticsLazyRoute
-  '/tools/import-export': typeof ToolsImportExportLazyRoute
-  '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
-  '/tools/system-info': typeof ToolsSystemInfoLazyRoute
+  '/settings/$tabId': typeof SettingsTabIdLazyRoute
+  '/tools/$tabId': typeof ToolsTabIdLazyRoute
   '/settings': typeof SettingsIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/author/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
+  '/category/$termId': typeof contentAnalyticsCategoryTermIdRoute
+  '/content/$postId': typeof contentAnalyticsContentPostIdRoute
+  '/country/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
+  '/utm/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
+  '/visitor/$type/$id': typeof visitorInsightsVisitorTypeIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/settings': typeof SettingsRouteRouteWithChildren
   '/tools': typeof ToolsRouteRouteWithChildren
+  '/help': typeof HelpRoute
   '/network-overview': typeof NetworkOverviewRoute
+  '/premium': typeof PremiumRoute
   '/author-analytics': typeof AuthorAnalyticsLazyRoute
   '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/page-analytics': typeof PageAnalyticsLazyRoute
+  '/(content-analytics)/authors': typeof contentAnalyticsAuthorsRoute
+  '/(content-analytics)/categories': typeof contentAnalyticsCategoriesRoute
+  '/(content-analytics)/content': typeof contentAnalyticsContentRoute
+  '/(content-analytics)/top-authors': typeof contentAnalyticsTopAuthorsRoute
+  '/(content-analytics)/top-categories': typeof contentAnalyticsTopCategoriesRoute
+  '/(devices)/browsers': typeof devicesBrowsersRoute
+  '/(devices)/device-categories': typeof devicesDeviceCategoriesRoute
+  '/(devices)/devices-overview': typeof devicesDevicesOverviewRoute
+  '/(devices)/operating-systems': typeof devicesOperatingSystemsRoute
+  '/(devices)/screen-resolutions': typeof devicesScreenResolutionsRoute
+  '/(geographic)/cities': typeof geographicCitiesRoute
+  '/(geographic)/countries': typeof geographicCountriesRoute
+  '/(geographic)/country-regions': typeof geographicCountryRegionsRoute
+  '/(geographic)/european-countries': typeof geographicEuropeanCountriesRoute
+  '/(geographic)/geographic-overview': typeof geographicGeographicOverviewRoute
+  '/(geographic)/timezones': typeof geographicTimezonesRoute
+  '/(geographic)/us-states': typeof geographicUsStatesRoute
+  '/(page-insights)/404-pages': typeof pageInsights404PagesRoute
+  '/(page-insights)/author-pages': typeof pageInsightsAuthorPagesRoute
+  '/(page-insights)/category-pages': typeof pageInsightsCategoryPagesRoute
+  '/(page-insights)/entry-pages': typeof pageInsightsEntryPagesRoute
+  '/(page-insights)/exit-pages': typeof pageInsightsExitPagesRoute
+  '/(page-insights)/page-insights-overview': typeof pageInsightsPageInsightsOverviewRoute
   '/(page-insights)/top-pages': typeof pageInsightsTopPagesRoute
+  '/(referrals)/referrals-overview': typeof referralsReferralsOverviewRoute
+  '/(referrals)/referred-visitors': typeof referralsReferredVisitorsRoute
   '/(visitor-insights)/logged-in-users': typeof visitorInsightsLoggedInUsersRoute
   '/(visitor-insights)/top-visitors': typeof visitorInsightsTopVisitorsRoute
-  '/(visitor-insights)/views': typeof visitorInsightsViewsRoute
   '/(visitor-insights)/visitors': typeof visitorInsightsVisitorsRoute
   '/(visitor-insights)/visitors-overview': typeof visitorInsightsVisitorsOverviewRoute
-  '/(referrals)/referred-visitors': typeof referralsReferredVisitorsLazyRoute
+  '/(referrals)/campaigns': typeof referralsCampaignsLazyRoute
   '/(referrals)/referrers': typeof referralsReferrersLazyRoute
   '/(referrals)/search-engines': typeof referralsSearchEnginesLazyRoute
   '/(referrals)/social-media': typeof referralsSocialMediaLazyRoute
   '/(referrals)/source-categories': typeof referralsSourceCategoriesLazyRoute
+  '/(referrals)/utm-performance': typeof referralsUtmPerformanceLazyRoute
   '/(visitor-insights)/online-visitors': typeof visitorInsightsOnlineVisitorsLazyRoute
   '/(visitor-insights)/search-terms': typeof visitorInsightsSearchTermsLazyRoute
-  '/settings/access': typeof SettingsAccessLazyRoute
-  '/settings/advanced': typeof SettingsAdvancedLazyRoute
-  '/settings/data-management': typeof SettingsDataManagementLazyRoute
-  '/settings/display': typeof SettingsDisplayLazyRoute
-  '/settings/exclusions': typeof SettingsExclusionsLazyRoute
-  '/settings/general': typeof SettingsGeneralLazyRoute
-  '/settings/notifications': typeof SettingsNotificationsLazyRoute
-  '/settings/privacy': typeof SettingsPrivacyLazyRoute
-  '/tools/background-jobs': typeof ToolsBackgroundJobsLazyRoute
-  '/tools/backups': typeof ToolsBackupsLazyRoute
-  '/tools/diagnostics': typeof ToolsDiagnosticsLazyRoute
-  '/tools/import-export': typeof ToolsImportExportLazyRoute
-  '/tools/scheduled-tasks': typeof ToolsScheduledTasksLazyRoute
-  '/tools/system-info': typeof ToolsSystemInfoLazyRoute
+  '/settings/$tabId': typeof SettingsTabIdLazyRoute
+  '/tools/$tabId': typeof ToolsTabIdLazyRoute
   '/settings/': typeof SettingsIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/(content-analytics)/author_/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
+  '/(content-analytics)/category_/$termId': typeof contentAnalyticsCategoryTermIdRoute
+  '/(content-analytics)/content_/$postId': typeof contentAnalyticsContentPostIdRoute
+  '/(geographic)/country_/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/(page-insights)/url_/$resourceId': typeof pageInsightsUrlResourceIdRoute
+  '/(referrals)/utm_/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
+  '/(visitor-insights)/visitor_/$type/$id': typeof visitorInsightsVisitorTypeIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -512,148 +827,248 @@ export interface FileRouteTypes {
     | '/'
     | '/settings'
     | '/tools'
+    | '/help'
     | '/network-overview'
+    | '/premium'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/authors'
+    | '/categories'
+    | '/content'
+    | '/top-authors'
+    | '/top-categories'
+    | '/browsers'
+    | '/device-categories'
+    | '/devices-overview'
+    | '/operating-systems'
+    | '/screen-resolutions'
+    | '/cities'
+    | '/countries'
+    | '/country-regions'
+    | '/european-countries'
+    | '/geographic-overview'
+    | '/timezones'
+    | '/us-states'
+    | '/404-pages'
+    | '/author-pages'
+    | '/category-pages'
+    | '/entry-pages'
+    | '/exit-pages'
+    | '/page-insights-overview'
     | '/top-pages'
+    | '/referrals-overview'
+    | '/referred-visitors'
     | '/logged-in-users'
     | '/top-visitors'
-    | '/views'
     | '/visitors'
     | '/visitors-overview'
-    | '/referred-visitors'
+    | '/campaigns'
     | '/referrers'
     | '/search-engines'
     | '/social-media'
     | '/source-categories'
+    | '/utm-performance'
     | '/online-visitors'
     | '/search-terms'
-    | '/settings/access'
-    | '/settings/advanced'
-    | '/settings/data-management'
-    | '/settings/display'
-    | '/settings/exclusions'
-    | '/settings/general'
-    | '/settings/notifications'
-    | '/settings/privacy'
-    | '/tools/background-jobs'
-    | '/tools/backups'
-    | '/tools/diagnostics'
-    | '/tools/import-export'
-    | '/tools/scheduled-tasks'
-    | '/tools/system-info'
+    | '/settings/$tabId'
+    | '/tools/$tabId'
     | '/settings/'
     | '/tools/'
+    | '/author/$authorId'
+    | '/category/$termId'
+    | '/content/$postId'
+    | '/country/$countryCode'
+    | '/url/$resourceId'
+    | '/utm/$utmType/$utmValue'
+    | '/visitor/$type/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/help'
     | '/network-overview'
+    | '/premium'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/authors'
+    | '/categories'
+    | '/content'
+    | '/top-authors'
+    | '/top-categories'
+    | '/browsers'
+    | '/device-categories'
+    | '/devices-overview'
+    | '/operating-systems'
+    | '/screen-resolutions'
+    | '/cities'
+    | '/countries'
+    | '/country-regions'
+    | '/european-countries'
+    | '/geographic-overview'
+    | '/timezones'
+    | '/us-states'
+    | '/404-pages'
+    | '/author-pages'
+    | '/category-pages'
+    | '/entry-pages'
+    | '/exit-pages'
+    | '/page-insights-overview'
     | '/top-pages'
+    | '/referrals-overview'
+    | '/referred-visitors'
     | '/logged-in-users'
     | '/top-visitors'
-    | '/views'
     | '/visitors'
     | '/visitors-overview'
-    | '/referred-visitors'
+    | '/campaigns'
     | '/referrers'
     | '/search-engines'
     | '/social-media'
     | '/source-categories'
+    | '/utm-performance'
     | '/online-visitors'
     | '/search-terms'
-    | '/settings/access'
-    | '/settings/advanced'
-    | '/settings/data-management'
-    | '/settings/display'
-    | '/settings/exclusions'
-    | '/settings/general'
-    | '/settings/notifications'
-    | '/settings/privacy'
-    | '/tools/background-jobs'
-    | '/tools/backups'
-    | '/tools/diagnostics'
-    | '/tools/import-export'
-    | '/tools/scheduled-tasks'
-    | '/tools/system-info'
+    | '/settings/$tabId'
+    | '/tools/$tabId'
     | '/settings'
     | '/tools'
+    | '/author/$authorId'
+    | '/category/$termId'
+    | '/content/$postId'
+    | '/country/$countryCode'
+    | '/url/$resourceId'
+    | '/utm/$utmType/$utmValue'
+    | '/visitor/$type/$id'
   id:
     | '__root__'
     | '/'
     | '/settings'
     | '/tools'
+    | '/help'
     | '/network-overview'
+    | '/premium'
     | '/author-analytics'
     | '/category-analytics'
     | '/devices'
     | '/geographic'
     | '/overview'
     | '/page-analytics'
+    | '/(content-analytics)/authors'
+    | '/(content-analytics)/categories'
+    | '/(content-analytics)/content'
+    | '/(content-analytics)/top-authors'
+    | '/(content-analytics)/top-categories'
+    | '/(devices)/browsers'
+    | '/(devices)/device-categories'
+    | '/(devices)/devices-overview'
+    | '/(devices)/operating-systems'
+    | '/(devices)/screen-resolutions'
+    | '/(geographic)/cities'
+    | '/(geographic)/countries'
+    | '/(geographic)/country-regions'
+    | '/(geographic)/european-countries'
+    | '/(geographic)/geographic-overview'
+    | '/(geographic)/timezones'
+    | '/(geographic)/us-states'
+    | '/(page-insights)/404-pages'
+    | '/(page-insights)/author-pages'
+    | '/(page-insights)/category-pages'
+    | '/(page-insights)/entry-pages'
+    | '/(page-insights)/exit-pages'
+    | '/(page-insights)/page-insights-overview'
     | '/(page-insights)/top-pages'
+    | '/(referrals)/referrals-overview'
+    | '/(referrals)/referred-visitors'
     | '/(visitor-insights)/logged-in-users'
     | '/(visitor-insights)/top-visitors'
-    | '/(visitor-insights)/views'
     | '/(visitor-insights)/visitors'
     | '/(visitor-insights)/visitors-overview'
-    | '/(referrals)/referred-visitors'
+    | '/(referrals)/campaigns'
     | '/(referrals)/referrers'
     | '/(referrals)/search-engines'
     | '/(referrals)/social-media'
     | '/(referrals)/source-categories'
+    | '/(referrals)/utm-performance'
     | '/(visitor-insights)/online-visitors'
     | '/(visitor-insights)/search-terms'
-    | '/settings/access'
-    | '/settings/advanced'
-    | '/settings/data-management'
-    | '/settings/display'
-    | '/settings/exclusions'
-    | '/settings/general'
-    | '/settings/notifications'
-    | '/settings/privacy'
-    | '/tools/background-jobs'
-    | '/tools/backups'
-    | '/tools/diagnostics'
-    | '/tools/import-export'
-    | '/tools/scheduled-tasks'
-    | '/tools/system-info'
+    | '/settings/$tabId'
+    | '/tools/$tabId'
     | '/settings/'
     | '/tools/'
+    | '/(content-analytics)/author_/$authorId'
+    | '/(content-analytics)/category_/$termId'
+    | '/(content-analytics)/content_/$postId'
+    | '/(geographic)/country_/$countryCode'
+    | '/(page-insights)/url_/$resourceId'
+    | '/(referrals)/utm_/$utmType/$utmValue'
+    | '/(visitor-insights)/visitor_/$type/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
   ToolsRouteRoute: typeof ToolsRouteRouteWithChildren
+  HelpRoute: typeof HelpRoute
   NetworkOverviewRoute: typeof NetworkOverviewRoute
+  PremiumRoute: typeof PremiumRoute
   AuthorAnalyticsLazyRoute: typeof AuthorAnalyticsLazyRoute
   CategoryAnalyticsLazyRoute: typeof CategoryAnalyticsLazyRoute
   DevicesLazyRoute: typeof DevicesLazyRoute
   GeographicLazyRoute: typeof GeographicLazyRoute
   OverviewLazyRoute: typeof OverviewLazyRoute
   PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
+  contentAnalyticsAuthorsRoute: typeof contentAnalyticsAuthorsRoute
+  contentAnalyticsCategoriesRoute: typeof contentAnalyticsCategoriesRoute
+  contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
+  contentAnalyticsTopAuthorsRoute: typeof contentAnalyticsTopAuthorsRoute
+  contentAnalyticsTopCategoriesRoute: typeof contentAnalyticsTopCategoriesRoute
+  devicesBrowsersRoute: typeof devicesBrowsersRoute
+  devicesDeviceCategoriesRoute: typeof devicesDeviceCategoriesRoute
+  devicesDevicesOverviewRoute: typeof devicesDevicesOverviewRoute
+  devicesOperatingSystemsRoute: typeof devicesOperatingSystemsRoute
+  devicesScreenResolutionsRoute: typeof devicesScreenResolutionsRoute
+  geographicCitiesRoute: typeof geographicCitiesRoute
+  geographicCountriesRoute: typeof geographicCountriesRoute
+  geographicCountryRegionsRoute: typeof geographicCountryRegionsRoute
+  geographicEuropeanCountriesRoute: typeof geographicEuropeanCountriesRoute
+  geographicGeographicOverviewRoute: typeof geographicGeographicOverviewRoute
+  geographicTimezonesRoute: typeof geographicTimezonesRoute
+  geographicUsStatesRoute: typeof geographicUsStatesRoute
+  pageInsights404PagesRoute: typeof pageInsights404PagesRoute
+  pageInsightsAuthorPagesRoute: typeof pageInsightsAuthorPagesRoute
+  pageInsightsCategoryPagesRoute: typeof pageInsightsCategoryPagesRoute
+  pageInsightsEntryPagesRoute: typeof pageInsightsEntryPagesRoute
+  pageInsightsExitPagesRoute: typeof pageInsightsExitPagesRoute
+  pageInsightsPageInsightsOverviewRoute: typeof pageInsightsPageInsightsOverviewRoute
   pageInsightsTopPagesRoute: typeof pageInsightsTopPagesRoute
+  referralsReferralsOverviewRoute: typeof referralsReferralsOverviewRoute
+  referralsReferredVisitorsRoute: typeof referralsReferredVisitorsRoute
   visitorInsightsLoggedInUsersRoute: typeof visitorInsightsLoggedInUsersRoute
   visitorInsightsTopVisitorsRoute: typeof visitorInsightsTopVisitorsRoute
-  visitorInsightsViewsRoute: typeof visitorInsightsViewsRoute
   visitorInsightsVisitorsRoute: typeof visitorInsightsVisitorsRoute
   visitorInsightsVisitorsOverviewRoute: typeof visitorInsightsVisitorsOverviewRoute
-  referralsReferredVisitorsLazyRoute: typeof referralsReferredVisitorsLazyRoute
+  referralsCampaignsLazyRoute: typeof referralsCampaignsLazyRoute
   referralsReferrersLazyRoute: typeof referralsReferrersLazyRoute
   referralsSearchEnginesLazyRoute: typeof referralsSearchEnginesLazyRoute
   referralsSocialMediaLazyRoute: typeof referralsSocialMediaLazyRoute
   referralsSourceCategoriesLazyRoute: typeof referralsSourceCategoriesLazyRoute
+  referralsUtmPerformanceLazyRoute: typeof referralsUtmPerformanceLazyRoute
   visitorInsightsOnlineVisitorsLazyRoute: typeof visitorInsightsOnlineVisitorsLazyRoute
   visitorInsightsSearchTermsLazyRoute: typeof visitorInsightsSearchTermsLazyRoute
+  contentAnalyticsAuthorAuthorIdRoute: typeof contentAnalyticsAuthorAuthorIdRoute
+  contentAnalyticsCategoryTermIdRoute: typeof contentAnalyticsCategoryTermIdRoute
+  contentAnalyticsContentPostIdRoute: typeof contentAnalyticsContentPostIdRoute
+  geographicCountryCountryCodeRoute: typeof geographicCountryCountryCodeRoute
+  pageInsightsUrlResourceIdRoute: typeof pageInsightsUrlResourceIdRoute
+  referralsUtmUtmTypeUtmValueRoute: typeof referralsUtmUtmTypeUtmValueRoute
+  visitorInsightsVisitorTypeIdRoute: typeof visitorInsightsVisitorTypeIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -700,11 +1115,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorAnalyticsLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/premium': {
+      id: '/premium'
+      path: '/premium'
+      fullPath: '/premium'
+      preLoaderRoute: typeof PremiumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/network-overview': {
       id: '/network-overview'
       path: '/network-overview'
       fullPath: '/network-overview'
       preLoaderRoute: typeof NetworkOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools': {
@@ -742,102 +1171,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
-    '/tools/system-info': {
-      id: '/tools/system-info'
-      path: '/system-info'
-      fullPath: '/tools/system-info'
-      preLoaderRoute: typeof ToolsSystemInfoLazyRouteImport
+    '/tools/$tabId': {
+      id: '/tools/$tabId'
+      path: '/$tabId'
+      fullPath: '/tools/$tabId'
+      preLoaderRoute: typeof ToolsTabIdLazyRouteImport
       parentRoute: typeof ToolsRouteRoute
     }
-    '/tools/scheduled-tasks': {
-      id: '/tools/scheduled-tasks'
-      path: '/scheduled-tasks'
-      fullPath: '/tools/scheduled-tasks'
-      preLoaderRoute: typeof ToolsScheduledTasksLazyRouteImport
-      parentRoute: typeof ToolsRouteRoute
-    }
-    '/tools/import-export': {
-      id: '/tools/import-export'
-      path: '/import-export'
-      fullPath: '/tools/import-export'
-      preLoaderRoute: typeof ToolsImportExportLazyRouteImport
-      parentRoute: typeof ToolsRouteRoute
-    }
-    '/tools/diagnostics': {
-      id: '/tools/diagnostics'
-      path: '/diagnostics'
-      fullPath: '/tools/diagnostics'
-      preLoaderRoute: typeof ToolsDiagnosticsLazyRouteImport
-      parentRoute: typeof ToolsRouteRoute
-    }
-    '/tools/backups': {
-      id: '/tools/backups'
-      path: '/backups'
-      fullPath: '/tools/backups'
-      preLoaderRoute: typeof ToolsBackupsLazyRouteImport
-      parentRoute: typeof ToolsRouteRoute
-    }
-    '/tools/background-jobs': {
-      id: '/tools/background-jobs'
-      path: '/background-jobs'
-      fullPath: '/tools/background-jobs'
-      preLoaderRoute: typeof ToolsBackgroundJobsLazyRouteImport
-      parentRoute: typeof ToolsRouteRoute
-    }
-    '/settings/privacy': {
-      id: '/settings/privacy'
-      path: '/privacy'
-      fullPath: '/settings/privacy'
-      preLoaderRoute: typeof SettingsPrivacyLazyRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/settings/notifications': {
-      id: '/settings/notifications'
-      path: '/notifications'
-      fullPath: '/settings/notifications'
-      preLoaderRoute: typeof SettingsNotificationsLazyRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/settings/general': {
-      id: '/settings/general'
-      path: '/general'
-      fullPath: '/settings/general'
-      preLoaderRoute: typeof SettingsGeneralLazyRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/settings/exclusions': {
-      id: '/settings/exclusions'
-      path: '/exclusions'
-      fullPath: '/settings/exclusions'
-      preLoaderRoute: typeof SettingsExclusionsLazyRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/settings/display': {
-      id: '/settings/display'
-      path: '/display'
-      fullPath: '/settings/display'
-      preLoaderRoute: typeof SettingsDisplayLazyRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/settings/data-management': {
-      id: '/settings/data-management'
-      path: '/data-management'
-      fullPath: '/settings/data-management'
-      preLoaderRoute: typeof SettingsDataManagementLazyRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/settings/advanced': {
-      id: '/settings/advanced'
-      path: '/advanced'
-      fullPath: '/settings/advanced'
-      preLoaderRoute: typeof SettingsAdvancedLazyRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/settings/access': {
-      id: '/settings/access'
-      path: '/access'
-      fullPath: '/settings/access'
-      preLoaderRoute: typeof SettingsAccessLazyRouteImport
+    '/settings/$tabId': {
+      id: '/settings/$tabId'
+      path: '/$tabId'
+      fullPath: '/settings/$tabId'
+      preLoaderRoute: typeof SettingsTabIdLazyRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
     '/(visitor-insights)/search-terms': {
@@ -852,6 +1197,13 @@ declare module '@tanstack/react-router' {
       path: '/online-visitors'
       fullPath: '/online-visitors'
       preLoaderRoute: typeof visitorInsightsOnlineVisitorsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/utm-performance': {
+      id: '/(referrals)/utm-performance'
+      path: '/utm-performance'
+      fullPath: '/utm-performance'
+      preLoaderRoute: typeof referralsUtmPerformanceLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(referrals)/source-categories': {
@@ -882,11 +1234,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof referralsReferrersLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(referrals)/referred-visitors': {
-      id: '/(referrals)/referred-visitors'
-      path: '/referred-visitors'
-      fullPath: '/referred-visitors'
-      preLoaderRoute: typeof referralsReferredVisitorsLazyRouteImport
+    '/(referrals)/campaigns': {
+      id: '/(referrals)/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof referralsCampaignsLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(visitor-insights)/visitors-overview': {
@@ -903,13 +1255,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof visitorInsightsVisitorsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(visitor-insights)/views': {
-      id: '/(visitor-insights)/views'
-      path: '/views'
-      fullPath: '/views'
-      preLoaderRoute: typeof visitorInsightsViewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(visitor-insights)/top-visitors': {
       id: '/(visitor-insights)/top-visitors'
       path: '/top-visitors'
@@ -924,6 +1269,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof visitorInsightsLoggedInUsersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(referrals)/referred-visitors': {
+      id: '/(referrals)/referred-visitors'
+      path: '/referred-visitors'
+      fullPath: '/referred-visitors'
+      preLoaderRoute: typeof referralsReferredVisitorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/referrals-overview': {
+      id: '/(referrals)/referrals-overview'
+      path: '/referrals-overview'
+      fullPath: '/referrals-overview'
+      preLoaderRoute: typeof referralsReferralsOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(page-insights)/top-pages': {
       id: '/(page-insights)/top-pages'
       path: '/top-pages'
@@ -931,30 +1290,226 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pageInsightsTopPagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(page-insights)/page-insights-overview': {
+      id: '/(page-insights)/page-insights-overview'
+      path: '/page-insights-overview'
+      fullPath: '/page-insights-overview'
+      preLoaderRoute: typeof pageInsightsPageInsightsOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(page-insights)/exit-pages': {
+      id: '/(page-insights)/exit-pages'
+      path: '/exit-pages'
+      fullPath: '/exit-pages'
+      preLoaderRoute: typeof pageInsightsExitPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(page-insights)/entry-pages': {
+      id: '/(page-insights)/entry-pages'
+      path: '/entry-pages'
+      fullPath: '/entry-pages'
+      preLoaderRoute: typeof pageInsightsEntryPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(page-insights)/category-pages': {
+      id: '/(page-insights)/category-pages'
+      path: '/category-pages'
+      fullPath: '/category-pages'
+      preLoaderRoute: typeof pageInsightsCategoryPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(page-insights)/author-pages': {
+      id: '/(page-insights)/author-pages'
+      path: '/author-pages'
+      fullPath: '/author-pages'
+      preLoaderRoute: typeof pageInsightsAuthorPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(page-insights)/404-pages': {
+      id: '/(page-insights)/404-pages'
+      path: '/404-pages'
+      fullPath: '/404-pages'
+      preLoaderRoute: typeof pageInsights404PagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/us-states': {
+      id: '/(geographic)/us-states'
+      path: '/us-states'
+      fullPath: '/us-states'
+      preLoaderRoute: typeof geographicUsStatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/timezones': {
+      id: '/(geographic)/timezones'
+      path: '/timezones'
+      fullPath: '/timezones'
+      preLoaderRoute: typeof geographicTimezonesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/geographic-overview': {
+      id: '/(geographic)/geographic-overview'
+      path: '/geographic-overview'
+      fullPath: '/geographic-overview'
+      preLoaderRoute: typeof geographicGeographicOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/european-countries': {
+      id: '/(geographic)/european-countries'
+      path: '/european-countries'
+      fullPath: '/european-countries'
+      preLoaderRoute: typeof geographicEuropeanCountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/country-regions': {
+      id: '/(geographic)/country-regions'
+      path: '/country-regions'
+      fullPath: '/country-regions'
+      preLoaderRoute: typeof geographicCountryRegionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/countries': {
+      id: '/(geographic)/countries'
+      path: '/countries'
+      fullPath: '/countries'
+      preLoaderRoute: typeof geographicCountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/cities': {
+      id: '/(geographic)/cities'
+      path: '/cities'
+      fullPath: '/cities'
+      preLoaderRoute: typeof geographicCitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/screen-resolutions': {
+      id: '/(devices)/screen-resolutions'
+      path: '/screen-resolutions'
+      fullPath: '/screen-resolutions'
+      preLoaderRoute: typeof devicesScreenResolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/operating-systems': {
+      id: '/(devices)/operating-systems'
+      path: '/operating-systems'
+      fullPath: '/operating-systems'
+      preLoaderRoute: typeof devicesOperatingSystemsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/devices-overview': {
+      id: '/(devices)/devices-overview'
+      path: '/devices-overview'
+      fullPath: '/devices-overview'
+      preLoaderRoute: typeof devicesDevicesOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/device-categories': {
+      id: '/(devices)/device-categories'
+      path: '/device-categories'
+      fullPath: '/device-categories'
+      preLoaderRoute: typeof devicesDeviceCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(devices)/browsers': {
+      id: '/(devices)/browsers'
+      path: '/browsers'
+      fullPath: '/browsers'
+      preLoaderRoute: typeof devicesBrowsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/top-categories': {
+      id: '/(content-analytics)/top-categories'
+      path: '/top-categories'
+      fullPath: '/top-categories'
+      preLoaderRoute: typeof contentAnalyticsTopCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/top-authors': {
+      id: '/(content-analytics)/top-authors'
+      path: '/top-authors'
+      fullPath: '/top-authors'
+      preLoaderRoute: typeof contentAnalyticsTopAuthorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/content': {
+      id: '/(content-analytics)/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof contentAnalyticsContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/categories': {
+      id: '/(content-analytics)/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof contentAnalyticsCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/authors': {
+      id: '/(content-analytics)/authors'
+      path: '/authors'
+      fullPath: '/authors'
+      preLoaderRoute: typeof contentAnalyticsAuthorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(page-insights)/url_/$resourceId': {
+      id: '/(page-insights)/url_/$resourceId'
+      path: '/url/$resourceId'
+      fullPath: '/url/$resourceId'
+      preLoaderRoute: typeof pageInsightsUrlResourceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(geographic)/country_/$countryCode': {
+      id: '/(geographic)/country_/$countryCode'
+      path: '/country/$countryCode'
+      fullPath: '/country/$countryCode'
+      preLoaderRoute: typeof geographicCountryCountryCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/content_/$postId': {
+      id: '/(content-analytics)/content_/$postId'
+      path: '/content/$postId'
+      fullPath: '/content/$postId'
+      preLoaderRoute: typeof contentAnalyticsContentPostIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/category_/$termId': {
+      id: '/(content-analytics)/category_/$termId'
+      path: '/category/$termId'
+      fullPath: '/category/$termId'
+      preLoaderRoute: typeof contentAnalyticsCategoryTermIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(content-analytics)/author_/$authorId': {
+      id: '/(content-analytics)/author_/$authorId'
+      path: '/author/$authorId'
+      fullPath: '/author/$authorId'
+      preLoaderRoute: typeof contentAnalyticsAuthorAuthorIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(visitor-insights)/visitor_/$type/$id': {
+      id: '/(visitor-insights)/visitor_/$type/$id'
+      path: '/visitor/$type/$id'
+      fullPath: '/visitor/$type/$id'
+      preLoaderRoute: typeof visitorInsightsVisitorTypeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(referrals)/utm_/$utmType/$utmValue': {
+      id: '/(referrals)/utm_/$utmType/$utmValue'
+      path: '/utm/$utmType/$utmValue'
+      fullPath: '/utm/$utmType/$utmValue'
+      preLoaderRoute: typeof referralsUtmUtmTypeUtmValueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface SettingsRouteRouteChildren {
-  SettingsAccessLazyRoute: typeof SettingsAccessLazyRoute
-  SettingsAdvancedLazyRoute: typeof SettingsAdvancedLazyRoute
-  SettingsDataManagementLazyRoute: typeof SettingsDataManagementLazyRoute
-  SettingsDisplayLazyRoute: typeof SettingsDisplayLazyRoute
-  SettingsExclusionsLazyRoute: typeof SettingsExclusionsLazyRoute
-  SettingsGeneralLazyRoute: typeof SettingsGeneralLazyRoute
-  SettingsNotificationsLazyRoute: typeof SettingsNotificationsLazyRoute
-  SettingsPrivacyLazyRoute: typeof SettingsPrivacyLazyRoute
+  SettingsTabIdLazyRoute: typeof SettingsTabIdLazyRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 const SettingsRouteRouteChildren: SettingsRouteRouteChildren = {
-  SettingsAccessLazyRoute: SettingsAccessLazyRoute,
-  SettingsAdvancedLazyRoute: SettingsAdvancedLazyRoute,
-  SettingsDataManagementLazyRoute: SettingsDataManagementLazyRoute,
-  SettingsDisplayLazyRoute: SettingsDisplayLazyRoute,
-  SettingsExclusionsLazyRoute: SettingsExclusionsLazyRoute,
-  SettingsGeneralLazyRoute: SettingsGeneralLazyRoute,
-  SettingsNotificationsLazyRoute: SettingsNotificationsLazyRoute,
-  SettingsPrivacyLazyRoute: SettingsPrivacyLazyRoute,
+  SettingsTabIdLazyRoute: SettingsTabIdLazyRoute,
   SettingsIndexRoute: SettingsIndexRoute,
 }
 
@@ -963,22 +1518,12 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
 )
 
 interface ToolsRouteRouteChildren {
-  ToolsBackgroundJobsLazyRoute: typeof ToolsBackgroundJobsLazyRoute
-  ToolsBackupsLazyRoute: typeof ToolsBackupsLazyRoute
-  ToolsDiagnosticsLazyRoute: typeof ToolsDiagnosticsLazyRoute
-  ToolsImportExportLazyRoute: typeof ToolsImportExportLazyRoute
-  ToolsScheduledTasksLazyRoute: typeof ToolsScheduledTasksLazyRoute
-  ToolsSystemInfoLazyRoute: typeof ToolsSystemInfoLazyRoute
+  ToolsTabIdLazyRoute: typeof ToolsTabIdLazyRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 const ToolsRouteRouteChildren: ToolsRouteRouteChildren = {
-  ToolsBackgroundJobsLazyRoute: ToolsBackgroundJobsLazyRoute,
-  ToolsBackupsLazyRoute: ToolsBackupsLazyRoute,
-  ToolsDiagnosticsLazyRoute: ToolsDiagnosticsLazyRoute,
-  ToolsImportExportLazyRoute: ToolsImportExportLazyRoute,
-  ToolsScheduledTasksLazyRoute: ToolsScheduledTasksLazyRoute,
-  ToolsSystemInfoLazyRoute: ToolsSystemInfoLazyRoute,
+  ToolsTabIdLazyRoute: ToolsTabIdLazyRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }
 
@@ -990,27 +1535,61 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
   ToolsRouteRoute: ToolsRouteRouteWithChildren,
+  HelpRoute: HelpRoute,
   NetworkOverviewRoute: NetworkOverviewRoute,
+  PremiumRoute: PremiumRoute,
   AuthorAnalyticsLazyRoute: AuthorAnalyticsLazyRoute,
   CategoryAnalyticsLazyRoute: CategoryAnalyticsLazyRoute,
   DevicesLazyRoute: DevicesLazyRoute,
   GeographicLazyRoute: GeographicLazyRoute,
   OverviewLazyRoute: OverviewLazyRoute,
   PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
+  contentAnalyticsAuthorsRoute: contentAnalyticsAuthorsRoute,
+  contentAnalyticsCategoriesRoute: contentAnalyticsCategoriesRoute,
+  contentAnalyticsContentRoute: contentAnalyticsContentRoute,
+  contentAnalyticsTopAuthorsRoute: contentAnalyticsTopAuthorsRoute,
+  contentAnalyticsTopCategoriesRoute: contentAnalyticsTopCategoriesRoute,
+  devicesBrowsersRoute: devicesBrowsersRoute,
+  devicesDeviceCategoriesRoute: devicesDeviceCategoriesRoute,
+  devicesDevicesOverviewRoute: devicesDevicesOverviewRoute,
+  devicesOperatingSystemsRoute: devicesOperatingSystemsRoute,
+  devicesScreenResolutionsRoute: devicesScreenResolutionsRoute,
+  geographicCitiesRoute: geographicCitiesRoute,
+  geographicCountriesRoute: geographicCountriesRoute,
+  geographicCountryRegionsRoute: geographicCountryRegionsRoute,
+  geographicEuropeanCountriesRoute: geographicEuropeanCountriesRoute,
+  geographicGeographicOverviewRoute: geographicGeographicOverviewRoute,
+  geographicTimezonesRoute: geographicTimezonesRoute,
+  geographicUsStatesRoute: geographicUsStatesRoute,
+  pageInsights404PagesRoute: pageInsights404PagesRoute,
+  pageInsightsAuthorPagesRoute: pageInsightsAuthorPagesRoute,
+  pageInsightsCategoryPagesRoute: pageInsightsCategoryPagesRoute,
+  pageInsightsEntryPagesRoute: pageInsightsEntryPagesRoute,
+  pageInsightsExitPagesRoute: pageInsightsExitPagesRoute,
+  pageInsightsPageInsightsOverviewRoute: pageInsightsPageInsightsOverviewRoute,
   pageInsightsTopPagesRoute: pageInsightsTopPagesRoute,
+  referralsReferralsOverviewRoute: referralsReferralsOverviewRoute,
+  referralsReferredVisitorsRoute: referralsReferredVisitorsRoute,
   visitorInsightsLoggedInUsersRoute: visitorInsightsLoggedInUsersRoute,
   visitorInsightsTopVisitorsRoute: visitorInsightsTopVisitorsRoute,
-  visitorInsightsViewsRoute: visitorInsightsViewsRoute,
   visitorInsightsVisitorsRoute: visitorInsightsVisitorsRoute,
   visitorInsightsVisitorsOverviewRoute: visitorInsightsVisitorsOverviewRoute,
-  referralsReferredVisitorsLazyRoute: referralsReferredVisitorsLazyRoute,
+  referralsCampaignsLazyRoute: referralsCampaignsLazyRoute,
   referralsReferrersLazyRoute: referralsReferrersLazyRoute,
   referralsSearchEnginesLazyRoute: referralsSearchEnginesLazyRoute,
   referralsSocialMediaLazyRoute: referralsSocialMediaLazyRoute,
   referralsSourceCategoriesLazyRoute: referralsSourceCategoriesLazyRoute,
+  referralsUtmPerformanceLazyRoute: referralsUtmPerformanceLazyRoute,
   visitorInsightsOnlineVisitorsLazyRoute:
     visitorInsightsOnlineVisitorsLazyRoute,
   visitorInsightsSearchTermsLazyRoute: visitorInsightsSearchTermsLazyRoute,
+  contentAnalyticsAuthorAuthorIdRoute: contentAnalyticsAuthorAuthorIdRoute,
+  contentAnalyticsCategoryTermIdRoute: contentAnalyticsCategoryTermIdRoute,
+  contentAnalyticsContentPostIdRoute: contentAnalyticsContentPostIdRoute,
+  geographicCountryCountryCodeRoute: geographicCountryCountryCodeRoute,
+  pageInsightsUrlResourceIdRoute: pageInsightsUrlResourceIdRoute,
+  referralsUtmUtmTypeUtmValueRoute: referralsUtmUtmTypeUtmValueRoute,
+  visitorInsightsVisitorTypeIdRoute: visitorInsightsVisitorTypeIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

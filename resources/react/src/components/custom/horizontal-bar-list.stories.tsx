@@ -93,7 +93,6 @@ export const WithTooltips: Story = {
         value: '17K',
         percentage: '8.3',
         isNegative: false,
-        tooltipTitle: 'Oct 29, 2025 vs Sep 29, 2025',
         tooltipSubtitle: 'Top Entry Page',
       },
       {
@@ -102,7 +101,6 @@ export const WithTooltips: Story = {
         value: '7K',
         percentage: '45',
         isNegative: false,
-        tooltipTitle: 'Oct 29, 2025 vs Sep 29, 2025',
         tooltipSubtitle: 'Top Entry Page',
       },
       {
@@ -111,7 +109,6 @@ export const WithTooltips: Story = {
         value: '5K',
         percentage: '34',
         isNegative: false,
-        tooltipTitle: 'Oct 29, 2025 vs Sep 29, 2025',
         tooltipSubtitle: 'Top Entry Page',
       },
     ],

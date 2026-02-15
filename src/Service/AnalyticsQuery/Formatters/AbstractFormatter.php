@@ -49,9 +49,13 @@ abstract class AbstractFormatter implements FormatterInterface
      */
     protected function buildBaseMeta(Query $query): array
     {
+        $nowUtc = (int) current_time('timestamp', true);
+
         $meta = [
-            'date_from' => $query->getDateFrom(),
-            'date_to'   => $query->getDateTo(),
+            'date_from'              => $query->getDateFrom(),
+            'date_to'                => $query->getDateTo(),
+            'server_now_utc'         => $nowUtc,
+            'wp_timezone_offset_sec' => (int) wp_timezone()->getOffset(new \DateTimeImmutable('@' . $nowUtc)),
         ];
 
         if ($this->cacheManager) {

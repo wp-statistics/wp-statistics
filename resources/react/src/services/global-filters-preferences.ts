@@ -5,6 +5,7 @@
  * Uses debouncing to avoid excessive API calls when user rapidly changes filters.
  */
 
+import type { ComparisonMode } from '@/components/custom/date-range-picker'
 import { clientRequest } from '@/lib/client-request'
 
 const CONTEXT = 'global_filters'
@@ -14,6 +15,10 @@ export interface GlobalFiltersPreferencesData {
   date_to?: string
   previous_date_from?: string
   previous_date_to?: string
+  /** Period preset name (e.g., 'yesterday', 'last30') for dynamic date resolution */
+  period?: string
+  /** Comparison mode for previous period calculation */
+  comparison_mode?: ComparisonMode
   filters?: PersistedUrlFilter[]
 }
 

@@ -6,9 +6,9 @@
  */
 
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isPremium = LicenseHelper::isPremiumLicenseAvailable();
+// TODO: Check premium status from wp-statistics-premium plugin
+$isPremium = function_exists('is_plugin_active') && is_plugin_active('wp-statistics-premium/wp-statistics-premium.php');
 $logoUrl   = WP_STATISTICS_URL . 'assets/images/' . ($isPremium ? 'wp-statistics-premium.svg' : 'white-header-logo.svg');
 
 ?>
@@ -26,9 +26,9 @@ $logoUrl   = WP_STATISTICS_URL . 'assets/images/' . ($isPremium ? 'wp-statistics
             <?php esc_html_e('Dashboard', 'wp-statistics'); ?>
         </a>
         <?php if (!$isPremium) : ?>
-        <a href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>" class="wps-adminHeader__menu-link">
+        <a href="<?php echo esc_url(admin_url('admin.php?page=wp-statistics#/premium')); ?>" class="wps-adminHeader__menu-link">
             <span class="wps-adminHeader__menu-icon wps-adminHeader__menu-icon--addons"></span>
-            <?php esc_html_e('Add-ons', 'wp-statistics'); ?>
+            <?php esc_html_e('Premium', 'wp-statistics'); ?>
         </a>
         <?php endif; ?>
         <a href="<?php echo esc_url(admin_url('admin.php?page=wp-statistics#/settings/general')); ?>" class="wps-adminHeader__menu-link">

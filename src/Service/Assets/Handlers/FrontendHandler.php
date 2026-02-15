@@ -9,8 +9,6 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
-use WP_Statistics\Utils\Route;
-
 /**
  * Frontend Assets Service
  * 
@@ -30,7 +28,7 @@ class FrontendHandler extends BaseAssets
     public function __construct()
     {
         $this->setContext('frontend');
-        $this->setAssetDir('public/frontend');
+        $this->setAssetDir('public/entries/tracker');
         $this->setPrefix('wp-statistics-frontend');
 
         add_filter('widget_text', 'do_shortcode');
@@ -57,55 +55,45 @@ class FrontendHandler extends BaseAssets
      */
     public function scripts($hook = '')
     {
-        if (Option::getValue('use_cache_plugin', true)) {
-            $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], TrackerHelper::getHitsDefaultParams());
-            $params = apply_filters('wp_statistics_js_localized_arguments', $params);
+        $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], TrackerHelper::getHitsDefaultParams());
+        $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 
-            $requestUrl = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
-            $hitParams  = !empty($params['hitParams']) ? $params['hitParams'] : [];
+        $requestUrl = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
+        $hitParams  = !empty($params['hitParams']) ? $params['hitParams'] : [];
 
-            $jsArgs = array(
-                'requestUrl'          => $requestUrl,
-                'ajaxUrl'             => admin_url('admin-ajax.php'),
-                'hitParams'           => $hitParams,
-                'option'              => [
-                    'userOnline'           => Option::getValue('useronline'),
-                    'dntEnabled'           => Option::getValue('do_not_track'),
-                    'bypassAdBlockers'     => Option::getValue('bypass_ad_blockers', false),
-                    'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
-                    'isPreview'            => is_preview(),
+        $jsArgs = array(
+            'requestUrl'          => $requestUrl,
+            'ajaxUrl'             => admin_url('admin-ajax.php'),
+            'hitParams'           => $hitParams,
+            'option'              => [
+                'userOnline'           => Option::getValue('useronline'),
+                'bypassAdBlockers'     => Option::getValue('bypass_ad_blockers', false),
+                'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
+                'isPreview'            => is_preview(),
 
-                    // legacy params for backward compatibility (with older versions of DataPlus)
-                    'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
-                    'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
-                    'consentLevel'         => Option::getValue('consent_level_integration', 'disabled'),
-                ],
-                'resourceUriId'       => ResourcesFactory::getCurrentResourceUri()->getId(),
-                'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
-                'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
-                'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
-            );
+                // legacy params for backward compatibility (with older versions of DataPlus)
+                'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
+                'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
+                'consentLevel'         => Option::getValue('consent_level_integration', 'disabled'),
+            ],
+            'resourceUriId'       => ResourcesFactory::getCurrentResourceUri()->getId(),
+            'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
+            'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
+            'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
+        );
 
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                $jsArgs['isConsoleVerbose'] = true;
-            }
-
-
-            // Add tracker.js dependencies
-            $dependencies = [];
-            $integration = IntegrationHelper::getActiveIntegration();
-            if ($integration) {
-                $dependencies = $integration->getJsHandles();
-            }
-
-            Assets::script('tracker', 'js/tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            $jsArgs['isConsoleVerbose'] = true;
         }
 
-        if (Route::isAdminBarShowing()) {
-            Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4', '', true);
-            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
-            Assets::style('front', 'css/frontend.min.css');
+        // Add tracker.js dependencies
+        $dependencies = [];
+        $integration = IntegrationHelper::getActiveIntegration();
+        if ($integration) {
+            $dependencies = $integration->getJsHandles();
         }
+
+        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
     }
 
     /**

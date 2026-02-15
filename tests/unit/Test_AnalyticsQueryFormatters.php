@@ -46,6 +46,7 @@ class Test_AnalyticsQueryFormatters extends WP_UnitTestCase
             $compare,                    // compare
             null,                        // previousDateFrom
             null,                        // previousDateTo
+            null,                        // comparisonMode
             null,                        // dateColumn
             true,                        // aggregateOthers
             null,                        // originalPerPage

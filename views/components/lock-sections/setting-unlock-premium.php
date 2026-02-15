@@ -44,5 +44,5 @@ $allowed_html = [
         echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings');
     }
     ?>"><?php esc_html_e('Unlock Everything with Premium', 'wp-statistics') ?></a>
-    <a class="wps-show-premium-modal button  js-wps-openPremiumModal" data-target="<?php echo esc_html($addon_modal_target) ?>" data-name="<?php echo esc_html($addon_title) ?>"><?php esc_html_e('Learn More', 'wp-statistics') ?></a>
+    <a class="button" target="_blank" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'); ?>"><?php esc_html_e('Learn More', 'wp-statistics') ?></a>
 </div>

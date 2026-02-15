@@ -21,11 +21,11 @@ define('WP_USE_THEMES', false);
 require_once(__DIR__ . '/../../../../wp-load.php');
 
 // Ensure WP Statistics is loaded
-if (!class_exists('WP_Statistics')) {
+if (!class_exists('WP_Statistics\Bootstrap')) {
     die("Error: WP Statistics plugin not found.\n");
 }
 
-use WP_Statistics\Globals\Option;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\Signature;
 
@@ -44,6 +44,7 @@ class TrackerSimulator
         'verbose' => false,
         'dry_run' => false,
         'url' => null,
+        'workers' => 10,
     ];
 
     /** @var string WordPress admin-ajax.php URL */
@@ -63,6 +64,52 @@ class TrackerSimulator
     /** @var array Prepared resources (posts with resource_uri_id) */
     private $resources = [];
 
+    /** @var array Category archive resources */
+    private $categoryResources = [];
+
+    /** @var array Author archive resources */
+    private $authorResources = [];
+
+    /** @var array Tag archive resources */
+    private $tagResources = [];
+
+    /** @var array 404 error resources */
+    private $notFoundResources = [];
+
+    /** @var array Search term resources */
+    private $searchResources = [];
+
+    /** @var array|null Home page resource */
+    private $homeResource = null;
+
+    /** @var array Sample 404 URLs */
+    private $notFoundUrls = [
+        '/non-existent-page/',
+        '/old-post-deleted/',
+        '/wp-content/uploads/missing-file.pdf',
+        '/broken-link-from-external/',
+        '/typo-in-url/',
+        '/page/999/',
+        '/2019/old-article/',
+        '/products/discontinued-item/',
+        '/download/expired-file.zip',
+        '/members/restricted-area/',
+    ];
+
+    /** @var array Sample search terms */
+    private $searchTerms = [
+        'wordpress tutorial',
+        'how to create plugin',
+        'best practices',
+        'seo tips',
+        'performance optimization',
+        'theme development',
+        'rest api',
+        'gutenberg blocks',
+        'woocommerce setup',
+        'contact form',
+    ];
+
     /** @var array Statistics */
     private $stats = [
         'requests_sent' => 0,
@@ -70,6 +117,9 @@ class TrackerSimulator
         'requests_failed' => 0,
         'errors' => [],
     ];
+
+    /** @var string Path to temporary mu-plugin for signature bypass */
+    private $signatureBypassPlugin;
 
     /**
      * Constructor - Initialize the simulator
@@ -90,6 +140,9 @@ class TrackerSimulator
             $this->ajaxUrl = admin_url('admin-ajax.php');
             $this->siteUrl = home_url();
         }
+
+        // Disable signature validation by creating a temporary mu-plugin
+        $this->createSignatureBypassPlugin();
 
         // Verify requirements
         $this->verifyRequirements();
@@ -115,6 +168,19 @@ class TrackerSimulator
             echo "Warning: Bypass ad blockers option is not enabled.\n";
             echo "This simulator uses admin-ajax.php which requires this setting.\n";
             echo "Attempting anyway...\n\n";
+        }
+
+        // Ensure IP method reads X-Forwarded-For header (simulator sends IPs this way)
+        $currentIpMethod = Option::getValue('ip_method', 'REMOTE_ADDR');
+        if ($currentIpMethod !== 'HTTP_X_FORWARDED_FOR') {
+            Option::updateValue('ip_method', 'HTTP_X_FORWARDED_FOR');
+            echo "Auto-configured: ip_method set to HTTP_X_FORWARDED_FOR for geo lookup.\n";
+        }
+
+        // Ensure GeoIP is enabled
+        if (!Option::getValue('geoip_enable')) {
+            Option::updateValue('geoip_enable', true);
+            echo "Auto-configured: GeoIP enabled.\n";
         }
 
         // Check if the site is reachable (skip in dry-run mode)
@@ -186,6 +252,14 @@ class TrackerSimulator
         }
 
         foreach ($posts as $post) {
+            // Get post terms (categories + tags) for cached_terms
+            $termIds = [];
+            $postTerms = wp_get_post_terms($post->ID, ['category', 'post_tag'], ['fields' => 'ids']);
+            if (!is_wp_error($postTerms)) {
+                $termIds = $postTerms;
+            }
+            $cachedTerms = !empty($termIds) ? implode(',', $termIds) : '';
+
             // Create or get resource record
             $resourceId = RecordFactory::resource()->getId([
                 'resource_type' => $post->post_type,
@@ -199,7 +273,14 @@ class TrackerSimulator
                     'cached_title' => $post->post_title,
                     'cached_author_id' => $post->post_author,
                     'cached_date' => $post->post_date,
+                    'cached_terms' => $cachedTerms,
                 ]);
+            } else {
+                // Update existing resource with cached_terms if needed
+                RecordFactory::resource()->update(
+                    ['cached_terms' => $cachedTerms],
+                    ['ID' => $resourceId]
+                );
             }
 
             // Get permalink path (without domain)
@@ -226,6 +307,412 @@ class TrackerSimulator
                 'uri' => $uri,
                 'title' => $post->post_title,
             ];
+        }
+
+        echo "Prepared " . count($this->resources) . " post/page resources.\n";
+
+        // Prepare additional resource types
+        $this->prepareCategoryResources();
+        $this->prepareAuthorResources();
+        $this->prepareTagResources();
+        $this->prepare404Resources();
+        $this->prepareSearchResources();
+        $this->prepareHomeResource();
+    }
+
+    /**
+     * Prepare category archive pages as trackable resources
+     */
+    private function prepareCategoryResources()
+    {
+        $categories = get_categories(['hide_empty' => false]);
+
+        foreach ($categories as $category) {
+            $uri = str_replace(home_url(), '', get_category_link($category->term_id));
+
+            $resourceId = RecordFactory::resource()->getId([
+                'resource_type' => 'category',
+                'resource_id' => $category->term_id,
+            ]);
+
+            if (!$resourceId) {
+                $resourceId = RecordFactory::resource()->insert([
+                    'resource_type' => 'category',
+                    'resource_id' => $category->term_id,
+                    'cached_title' => $category->name,
+                    'cached_author_id' => 0,
+                    'cached_date' => current_time('mysql'),
+                ]);
+            }
+
+            $resourceUriId = RecordFactory::resourceUri()->getId([
+                'resource_id' => $resourceId,
+                'uri' => $uri,
+            ]);
+
+            if (!$resourceUriId) {
+                $resourceUriId = RecordFactory::resourceUri()->insert([
+                    'resource_id' => $resourceId,
+                    'uri' => $uri,
+                ]);
+            }
+
+            $this->categoryResources[] = [
+                'resource_id' => $resourceId,
+                'resource_uri_id' => $resourceUriId,
+                'post_id' => $category->term_id,
+                'post_type' => 'category',
+                'uri' => $uri,
+                'title' => $category->name,
+            ];
+        }
+
+        echo "Prepared " . count($this->categoryResources) . " category resources.\n";
+    }
+
+    /**
+     * Prepare author archive pages as trackable resources
+     */
+    private function prepareAuthorResources()
+    {
+        $authors = get_users(['role__in' => ['administrator', 'editor', 'author']]);
+
+        foreach ($authors as $author) {
+            $uri = str_replace(home_url(), '', get_author_posts_url($author->ID));
+
+            $resourceId = RecordFactory::resource()->getId([
+                'resource_type' => 'author',
+                'resource_id' => $author->ID,
+            ]);
+
+            if (!$resourceId) {
+                $resourceId = RecordFactory::resource()->insert([
+                    'resource_type' => 'author',
+                    'resource_id' => $author->ID,
+                    'cached_title' => $author->display_name,
+                    'cached_author_id' => $author->ID,
+                    'cached_date' => $author->user_registered,
+                ]);
+            }
+
+            $resourceUriId = RecordFactory::resourceUri()->getId([
+                'resource_id' => $resourceId,
+                'uri' => $uri,
+            ]);
+
+            if (!$resourceUriId) {
+                $resourceUriId = RecordFactory::resourceUri()->insert([
+                    'resource_id' => $resourceId,
+                    'uri' => $uri,
+                ]);
+            }
+
+            $this->authorResources[] = [
+                'resource_id' => $resourceId,
+                'resource_uri_id' => $resourceUriId,
+                'post_id' => $author->ID,
+                'post_type' => 'author',
+                'uri' => $uri,
+                'title' => $author->display_name,
+            ];
+        }
+
+        echo "Prepared " . count($this->authorResources) . " author resources.\n";
+    }
+
+    /**
+     * Prepare tag archive pages as trackable resources
+     */
+    private function prepareTagResources()
+    {
+        $tags = get_tags(['hide_empty' => false]);
+
+        if (empty($tags) || is_wp_error($tags)) {
+            echo "Prepared 0 tag resources (no tags found).\n";
+            return;
+        }
+
+        foreach ($tags as $tag) {
+            $uri = str_replace(home_url(), '', get_tag_link($tag->term_id));
+
+            $resourceId = RecordFactory::resource()->getId([
+                'resource_type' => 'post_tag',
+                'resource_id' => $tag->term_id,
+            ]);
+
+            if (!$resourceId) {
+                $resourceId = RecordFactory::resource()->insert([
+                    'resource_type' => 'post_tag',
+                    'resource_id' => $tag->term_id,
+                    'cached_title' => $tag->name,
+                    'cached_author_id' => 0,
+                    'cached_date' => current_time('mysql'),
+                ]);
+            }
+
+            $resourceUriId = RecordFactory::resourceUri()->getId([
+                'resource_id' => $resourceId,
+                'uri' => $uri,
+            ]);
+
+            if (!$resourceUriId) {
+                $resourceUriId = RecordFactory::resourceUri()->insert([
+                    'resource_id' => $resourceId,
+                    'uri' => $uri,
+                ]);
+            }
+
+            $this->tagResources[] = [
+                'resource_id' => $resourceId,
+                'resource_uri_id' => $resourceUriId,
+                'post_id' => $tag->term_id,
+                'post_type' => 'post_tag',
+                'uri' => $uri,
+                'title' => $tag->name,
+            ];
+        }
+
+        echo "Prepared " . count($this->tagResources) . " tag resources.\n";
+    }
+
+    /**
+     * Prepare 404 error pages as trackable resources
+     */
+    private function prepare404Resources()
+    {
+        // Create a single 404 resource (all 404 URLs point to same resource_type)
+        $resourceId = RecordFactory::resource()->getId([
+            'resource_type' => '404',
+            'resource_id' => 0,
+        ]);
+
+        if (!$resourceId) {
+            $resourceId = RecordFactory::resource()->insert([
+                'resource_type' => '404',
+                'resource_id' => 0,
+                'cached_title' => '404 Not Found',
+                'cached_author_id' => 0,
+                'cached_date' => current_time('mysql'),
+            ]);
+        }
+
+        foreach ($this->notFoundUrls as $uri) {
+            $resourceUriId = RecordFactory::resourceUri()->getId([
+                'resource_id' => $resourceId,
+                'uri' => $uri,
+            ]);
+
+            if (!$resourceUriId) {
+                $resourceUriId = RecordFactory::resourceUri()->insert([
+                    'resource_id' => $resourceId,
+                    'uri' => $uri,
+                ]);
+            }
+
+            $this->notFoundResources[] = [
+                'resource_id' => $resourceId,
+                'resource_uri_id' => $resourceUriId,
+                'post_id' => 0,
+                'post_type' => '404',
+                'uri' => $uri,
+                'title' => '404 Not Found',
+            ];
+        }
+
+        echo "Prepared " . count($this->notFoundResources) . " 404 resources.\n";
+    }
+
+    /**
+     * Prepare search result pages as trackable resources
+     */
+    private function prepareSearchResources()
+    {
+        $resourceId = RecordFactory::resource()->getId([
+            'resource_type' => 'search',
+            'resource_id' => 0,
+        ]);
+
+        if (!$resourceId) {
+            $resourceId = RecordFactory::resource()->insert([
+                'resource_type' => 'search',
+                'resource_id' => 0,
+                'cached_title' => 'Search Results',
+                'cached_author_id' => 0,
+                'cached_date' => current_time('mysql'),
+            ]);
+        }
+
+        foreach ($this->searchTerms as $term) {
+            $uri = '/?s=' . urlencode($term);
+
+            $resourceUriId = RecordFactory::resourceUri()->getId([
+                'resource_id' => $resourceId,
+                'uri' => $uri,
+            ]);
+
+            if (!$resourceUriId) {
+                $resourceUriId = RecordFactory::resourceUri()->insert([
+                    'resource_id' => $resourceId,
+                    'uri' => $uri,
+                ]);
+            }
+
+            $this->searchResources[] = [
+                'resource_id' => $resourceId,
+                'resource_uri_id' => $resourceUriId,
+                'post_id' => 0,
+                'post_type' => 'search',
+                'uri' => $uri,
+                'title' => "Search: $term",
+            ];
+        }
+
+        echo "Prepared " . count($this->searchResources) . " search resources.\n";
+    }
+
+    /**
+     * Prepare home page as trackable resource
+     */
+    private function prepareHomeResource()
+    {
+        $uri = '/';
+        $frontPageId = get_option('page_on_front') ?: 0;
+
+        $resourceId = RecordFactory::resource()->getId([
+            'resource_type' => 'home',
+            'resource_id' => $frontPageId,
+        ]);
+
+        if (!$resourceId) {
+            $resourceId = RecordFactory::resource()->insert([
+                'resource_type' => 'home',
+                'resource_id' => $frontPageId,
+                'cached_title' => get_bloginfo('name'),
+                'cached_author_id' => 0,
+                'cached_date' => current_time('mysql'),
+            ]);
+        }
+
+        $resourceUriId = RecordFactory::resourceUri()->getId([
+            'resource_id' => $resourceId,
+            'uri' => $uri,
+        ]);
+
+        if (!$resourceUriId) {
+            $resourceUriId = RecordFactory::resourceUri()->insert([
+                'resource_id' => $resourceId,
+                'uri' => $uri,
+            ]);
+        }
+
+        $this->homeResource = [
+            'resource_id' => $resourceId,
+            'resource_uri_id' => $resourceUriId,
+            'post_id' => $frontPageId,
+            'post_type' => 'home',
+            'uri' => $uri,
+            'title' => get_bloginfo('name'),
+        ];
+
+        echo "Prepared home page resource.\n";
+    }
+
+    /**
+     * Create temporary mu-plugin to disable signature validation
+     */
+    private function createSignatureBypassPlugin()
+    {
+        $muPluginsDir = WP_CONTENT_DIR . '/mu-plugins';
+
+        if (!is_dir($muPluginsDir)) {
+            mkdir($muPluginsDir, 0755, true);
+        }
+
+        $this->signatureBypassPlugin = $muPluginsDir . '/wps-simulator-signature-bypass.php';
+
+        $content = "<?php\n// Temporary file created by WP Statistics Tracker Simulator\n// This file will be automatically deleted when the simulation completes\nadd_filter('wp_statistics_request_signature_enabled', '__return_false');\n";
+
+        file_put_contents($this->signatureBypassPlugin, $content);
+    }
+
+    /**
+     * Remove temporary mu-plugin
+     */
+    private function removeSignatureBypassPlugin()
+    {
+        if ($this->signatureBypassPlugin && file_exists($this->signatureBypassPlugin)) {
+            unlink($this->signatureBypassPlugin);
+        }
+    }
+
+    /**
+     * Find a resource by its resource_uri_id across all resource arrays
+     */
+    private function findResourceByUriId($resourceUriId)
+    {
+        // Search across all resource arrays
+        $allResources = array_merge(
+            $this->resources,
+            $this->categoryResources,
+            $this->authorResources,
+            $this->tagResources,
+            $this->notFoundResources,
+            $this->searchResources,
+            $this->homeResource ? [$this->homeResource] : []
+        );
+
+        foreach ($allResources as $resource) {
+            if ($resource['resource_uri_id'] == $resourceUriId) {
+                return $resource;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get a random resource with weighted distribution across all types
+     */
+    private function getRandomResource()
+    {
+        // Weighted distribution of page types (realistic traffic patterns)
+        $weights = [
+            'post_page' => 55,      // 55% - Regular posts/pages
+            'home' => 15,           // 15% - Homepage (high traffic)
+            'category' => 10,       // 10% - Category archives
+            'author' => 5,          // 5%  - Author archives
+            'search' => 5,          // 5%  - Search results
+            'tag' => 5,             // 5%  - Tag archives
+            '404' => 5,             // 5%  - 404 errors
+        ];
+
+        $type = $this->weightedRandom($weights);
+
+        switch ($type) {
+            case 'home':
+                return $this->homeResource ?? $this->resources[array_rand($this->resources)];
+            case 'category':
+                return !empty($this->categoryResources)
+                    ? $this->categoryResources[array_rand($this->categoryResources)]
+                    : $this->resources[array_rand($this->resources)];
+            case 'author':
+                return !empty($this->authorResources)
+                    ? $this->authorResources[array_rand($this->authorResources)]
+                    : $this->resources[array_rand($this->resources)];
+            case 'tag':
+                return !empty($this->tagResources)
+                    ? $this->tagResources[array_rand($this->tagResources)]
+                    : $this->resources[array_rand($this->resources)];
+            case 'search':
+                return !empty($this->searchResources)
+                    ? $this->searchResources[array_rand($this->searchResources)]
+                    : $this->resources[array_rand($this->resources)];
+            case '404':
+                return !empty($this->notFoundResources)
+                    ? $this->notFoundResources[array_rand($this->notFoundResources)]
+                    : $this->resources[array_rand($this->resources)];
+            default:
+                return $this->resources[array_rand($this->resources)];
         }
     }
 
@@ -424,6 +911,29 @@ class TrackerSimulator
             'NO' => ['2', '5', '31', '37', '46', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '91', '92', '93', '94', '95', '109', '176', '178', '185', '188', '193', '194', '195', '212', '213'],
             'DK' => ['2', '5', '31', '37', '46', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '91', '92', '93', '94', '95', '109', '176', '178', '185', '188', '193', '194', '195', '212', '213'],
             'FI' => ['2', '5', '31', '37', '46', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '91', '92', '93', '94', '95', '109', '176', '178', '185', '188', '193', '194', '195', '212', '213'],
+            // Additional countries with city-level GeoIP data
+            'IR' => ['2', '5', '31', '37', '46', '78', '80', '85', '91', '93', '151', '176', '178', '185', '188', '217'],
+            'RU' => ['5', '31', '37', '46', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '91', '92', '93', '94', '95', '109', '176', '178', '185', '188', '193', '194', '195', '212', '213'],
+            'CN' => ['14', '27', '36', '42', '43', '49', '58', '59', '60', '61', '101', '106', '110', '111', '112', '113', '114', '115', '116', '117', '118', '119', '120', '121', '122', '123', '124', '125', '180', '182', '183'],
+            'KR' => ['14', '27', '36', '42', '43', '49', '58', '59', '61', '106', '110', '112', '115', '116', '117', '118', '119', '121', '122', '123', '124', '125', '175', '180', '182', '183', '203', '210', '211'],
+            'TR' => ['31', '37', '46', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '91', '92', '93', '94', '95', '109', '176', '178', '185', '188', '193', '194', '195', '212', '213'],
+            'SA' => ['37', '46', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '91', '92', '93', '94', '95', '109', '176', '178', '185', '188', '193', '194', '195', '212', '213'],
+            'AE' => ['37', '46', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '91', '92', '93', '94', '95', '109', '176', '178', '185', '188', '193', '194', '195', '212', '213'],
+            'EG' => ['41', '102', '105', '154', '156', '163', '196', '197'],
+            'ZA' => ['41', '102', '105', '154', '156', '163', '196', '197'],
+            'NG' => ['41', '102', '105', '154', '156', '163', '196', '197'],
+            'ID' => ['36', '103', '110', '112', '114', '115', '116', '117', '118', '119', '120', '121', '122', '123', '124', '125', '180', '182', '202', '203'],
+            'TH' => ['27', '36', '49', '58', '61', '101', '103', '106', '110', '112', '115', '116', '117', '118', '119', '121', '122', '124', '125', '180', '182', '183', '202', '203'],
+            'VN' => ['14', '27', '36', '42', '49', '58', '59', '60', '61', '101', '103', '106', '110', '112', '113', '114', '115', '116', '117', '118', '119', '120', '121', '122', '123', '124', '125'],
+            'PH' => ['27', '36', '49', '58', '61', '101', '103', '110', '112', '115', '116', '117', '118', '119', '120', '121', '122', '124', '125', '180', '182', '202', '203'],
+            'MY' => ['27', '36', '49', '58', '60', '61', '101', '103', '110', '112', '113', '115', '116', '117', '118', '119', '121', '122', '124', '125', '175', '180', '182', '202', '203', '210', '211'],
+            'SG' => ['27', '36', '49', '58', '61', '101', '103', '110', '112', '115', '116', '117', '118', '119', '121', '122', '124', '125', '175', '180', '182', '202', '203', '210', '211'],
+            'HK' => ['14', '27', '36', '42', '43', '49', '58', '59', '60', '61', '101', '103', '106', '110', '112', '113', '114', '115', '116', '117', '118', '119', '121', '122', '123', '124', '125', '175', '180', '182', '202', '203', '210', '211'],
+            'TW' => ['14', '27', '36', '42', '49', '58', '59', '60', '61', '101', '106', '110', '111', '112', '113', '114', '115', '116', '117', '118', '119', '120', '121', '122', '123', '124', '125', '175', '180', '182', '202', '203', '210', '211'],
+            'AR' => ['131', '138', '143', '152', '168', '177', '179', '181', '186', '190', '191', '200', '201'],
+            'CL' => ['131', '138', '143', '152', '168', '177', '179', '181', '186', '190', '191', '200', '201'],
+            'CO' => ['131', '138', '143', '152', '168', '177', '179', '181', '186', '190', '191', '200', '201'],
+            'PE' => ['131', '138', '143', '152', '168', '177', '179', '181', '186', '190', '191', '200', '201'],
         ];
 
         $firstOctet = $countryIpRanges[$countryCode] ?? ['100', '101', '102'];
@@ -437,8 +947,8 @@ class TrackerSimulator
      */
     private function generateRequestData($profile)
     {
-        // Select random resource
-        $resource = $this->resources[array_rand($this->resources)];
+        // Select resource using weighted distribution across all resource types
+        $resource = $this->getRandomResource();
 
         return [
             // AJAX action
@@ -528,6 +1038,107 @@ class TrackerSimulator
     }
 
     /**
+     * Create a cURL handle for batch processing
+     */
+    private function createCurlHandle($params, $profile)
+    {
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $this->ajaxUrl,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($params),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 3,
+            CURLOPT_POSTREDIR => CURL_REDIR_POST_ALL,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/x-www-form-urlencoded',
+                'User-Agent: ' . $profile['user_agent'],
+                'X-Forwarded-For: ' . $profile['ip'],
+                'Referer: ' . ($profile['referrer'] ?: $this->siteUrl . '/'),
+            ],
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+        ]);
+        return $ch;
+    }
+
+    /**
+     * Send batch HTTP requests in parallel using curl_multi
+     */
+    private function sendBatchRequests($requests)
+    {
+        if (empty($requests)) {
+            return;
+        }
+
+        $multiHandle = curl_multi_init();
+        curl_multi_setopt($multiHandle, CURLMOPT_MAXCONNECTS, $this->config['workers']);
+
+        $handles = [];
+        $pending = $requests;
+
+        // Process requests in parallel batches
+        while (!empty($pending) || !empty($handles)) {
+            // Fill up to max workers
+            while (count($handles) < $this->config['workers'] && !empty($pending)) {
+                $req = array_shift($pending);
+                $ch = $this->createCurlHandle($req['params'], $req['profile']);
+                $id = (int)$ch;
+                curl_multi_add_handle($multiHandle, $ch);
+                $handles[$id] = $ch;
+            }
+
+            // Execute all handles
+            do {
+                $status = curl_multi_exec($multiHandle, $running);
+            } while ($status === CURLM_CALL_MULTI_PERFORM);
+
+            // Wait for activity (non-blocking)
+            if ($running > 0) {
+                curl_multi_select($multiHandle, 0.1);
+            }
+
+            // Check for completed requests
+            while ($info = curl_multi_info_read($multiHandle)) {
+                $ch = $info['handle'];
+                $id = (int)$ch;
+
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $response = curl_multi_getcontent($ch);
+
+                $this->stats['requests_sent']++;
+
+                if ($httpCode === 200) {
+                    $result = json_decode($response, true);
+                    if (isset($result['status']) && $result['status'] === true) {
+                        $this->stats['requests_successful']++;
+                    } else {
+                        $this->stats['requests_failed']++;
+                        $errorMsg = $result['data'] ?? 'Unknown error';
+                        if (!in_array($errorMsg, $this->stats['errors'])) {
+                            $this->stats['errors'][] = "HTTP $httpCode: $errorMsg";
+                        }
+                    }
+                } else {
+                    $this->stats['requests_failed']++;
+                    $error = curl_error($ch);
+                    if ($error && !in_array($error, $this->stats['errors'])) {
+                        $this->stats['errors'][] = "CURL Error: $error";
+                    }
+                }
+
+                curl_multi_remove_handle($multiHandle, $ch);
+                curl_close($ch);
+                unset($handles[$id]);
+            }
+        }
+
+        curl_multi_close($multiHandle);
+    }
+
+    /**
      * Weighted random selection
      */
     private function weightedRandom($weights)
@@ -544,6 +1155,98 @@ class TrackerSimulator
         }
 
         return array_key_last($weights);
+    }
+
+    /**
+     * Get current max IDs from tracking tables
+     */
+    private function getMaxIds()
+    {
+        global $wpdb;
+
+        return [
+            'visitors' => (int) $wpdb->get_var("SELECT COALESCE(MAX(ID), 0) FROM {$wpdb->prefix}statistics_visitors"),
+            'sessions' => (int) $wpdb->get_var("SELECT COALESCE(MAX(ID), 0) FROM {$wpdb->prefix}statistics_sessions"),
+            'views'    => (int) $wpdb->get_var("SELECT COALESCE(MAX(ID), 0) FROM {$wpdb->prefix}statistics_views"),
+        ];
+    }
+
+    /**
+     * Update dates for records created after the given max IDs
+     */
+    private function backdateRecords($maxIds, $targetDate, $hourDistribution)
+    {
+        global $wpdb;
+
+        // Get records created since max IDs
+        $newVisitorIds = $wpdb->get_col($wpdb->prepare(
+            "SELECT ID FROM {$wpdb->prefix}statistics_visitors WHERE ID > %d",
+            $maxIds['visitors']
+        ));
+
+        $newSessionIds = $wpdb->get_col($wpdb->prepare(
+            "SELECT ID FROM {$wpdb->prefix}statistics_sessions WHERE ID > %d",
+            $maxIds['sessions']
+        ));
+
+        $newViewIds = $wpdb->get_col($wpdb->prepare(
+            "SELECT ID FROM {$wpdb->prefix}statistics_views WHERE ID > %d",
+            $maxIds['views']
+        ));
+
+        // Update each record with a random time on the target date
+        foreach ($newVisitorIds as $id) {
+            $hour = $this->weightedRandom($hourDistribution);
+            $datetime = $targetDate . ' ' . sprintf('%02d:%02d:%02d', $hour, rand(0, 59), rand(0, 59));
+            $wpdb->update(
+                $wpdb->prefix . 'statistics_visitors',
+                ['created_at' => $datetime],
+                ['ID' => $id]
+            );
+        }
+
+        foreach ($newSessionIds as $id) {
+            $hour = $this->weightedRandom($hourDistribution);
+            $datetime = $targetDate . ' ' . sprintf('%02d:%02d:%02d', $hour, rand(0, 59), rand(0, 59));
+
+            // 88% guests (user_id=0), 12% logged-in (user_id=1-10)
+            $isLoggedIn = rand(1, 100) <= 12;
+            $userId = $isLoggedIn ? rand(1, 10) : 0;
+
+            // Calculate session duration: bounces 5-30s, engaged 60-600s
+            // Match the 45% bounce rate from getSessionPageCount()
+            $isBounce = rand(1, 100) <= 45;
+            $duration = $isBounce ? rand(5, 30) : rand(60, 600);
+
+            $endedAt = date('Y-m-d H:i:s', strtotime($datetime) + $duration);
+
+            $wpdb->update(
+                $wpdb->prefix . 'statistics_sessions',
+                [
+                    'started_at' => $datetime,
+                    'ended_at' => $endedAt,
+                    'duration' => $duration,
+                    'user_id' => $userId,
+                ],
+                ['ID' => $id]
+            );
+        }
+
+        foreach ($newViewIds as $id) {
+            $hour = $this->weightedRandom($hourDistribution);
+            $datetime = $targetDate . ' ' . sprintf('%02d:%02d:%02d', $hour, rand(0, 59), rand(0, 59));
+            $wpdb->update(
+                $wpdb->prefix . 'statistics_views',
+                ['viewed_at' => $datetime],
+                ['ID' => $id]
+            );
+        }
+
+        return [
+            'visitors' => count($newVisitorIds),
+            'sessions' => count($newSessionIds),
+            'views'    => count($newViewIds),
+        ];
     }
 
     /**
@@ -577,21 +1280,33 @@ class TrackerSimulator
     }
 
     /**
+     * Get number of pages a visitor views in their session
+     * 45% bounce (1 page), 55% engaged (2-6 pages)
+     */
+    private function getSessionPageCount()
+    {
+        if (rand(1, 100) <= 45) {
+            return 1;
+        }
+        return rand(2, 6);
+    }
+
+    /**
      * Main execution loop
      */
     public function run()
     {
         $this->printHeader();
 
-        $currentDate = new DateTime($this->config['from']);
-        $endDate = new DateTime($this->config['to']);
-        $totalDays = $currentDate->diff($endDate)->days + 1;
+        // Reverse order: start from newest date, go backwards to oldest
+        $currentDate = new DateTime($this->config['to']);
+        $startDate = new DateTime($this->config['from']);
+        $totalDays = $currentDate->diff($startDate)->days + 1;
         $dayNum = 0;
 
         $hourDistribution = $this->getHourDistribution();
-        $totalHourWeight = array_sum($hourDistribution);
 
-        while ($currentDate <= $endDate) {
+        while ($currentDate >= $startDate) {
             $date = $currentDate->format('Y-m-d');
             $dayNum++;
 
@@ -600,36 +1315,46 @@ class TrackerSimulator
             $weekdayMultiplier = $this->getWeekdayMultiplier($dayOfWeek);
             $visitorsToday = (int)round($this->config['visitors_per_day'] * $weekdayMultiplier);
 
-            echo "Day {$dayNum}/{$totalDays} ({$date}): {$visitorsToday} visitors\n";
+            echo "Day {$dayNum}/{$totalDays} ({$date}): {$visitorsToday} visitors";
 
-            // Distribute visitors across hours
+            // Capture current max IDs before this day's batch
+            $maxIdsBefore = $this->config['dry_run'] ? null : $this->getMaxIds();
+
+            // Build requests for all visitors with multi-page sessions
+            $requests = [];
             for ($i = 0; $i < $visitorsToday; $i++) {
-                // Select hour based on distribution
-                $hour = $this->weightedRandom($hourDistribution);
-
-                // Generate visitor profile
+                // Generate visitor profile (same profile for all pages in session)
                 $profile = $this->generateVisitorProfile();
 
-                // Generate request data
-                $params = $this->generateRequestData($profile);
+                // Each visitor views 1-6 pages (45% bounce, 55% engaged)
+                $pageCount = $this->getSessionPageCount();
 
-                // Send request
-                $success = $this->sendTrackingRequest($params, $profile);
-
-                if ($this->config['verbose']) {
-                    $status = $success ? 'OK' : 'FAIL';
-                    $resource = array_filter($this->resources, fn($r) => $r['resource_uri_id'] == $params['resourceUriId']);
-                    $resource = reset($resource);
-                    echo "  [{$status}] {$profile['ip']} - {$profile['browser']}/{$profile['os']} - {$resource['uri']}\n";
-                }
-
-                // Delay between requests
-                if ($this->config['delay_ms'] > 0 && !$this->config['dry_run']) {
-                    usleep($this->config['delay_ms'] * 1000);
+                for ($p = 0; $p < $pageCount; $p++) {
+                    // Generate request data (different page each time)
+                    $params = $this->generateRequestData($profile);
+                    $requests[] = ['params' => $params, 'profile' => $profile];
                 }
             }
 
-            $currentDate->modify('+1 day');
+            $totalPageViews = count($requests);
+            echo " ({$totalPageViews} page views)";
+
+            // Send all requests in parallel using curl_multi
+            if (!$this->config['dry_run']) {
+                $this->sendBatchRequests($requests);
+            } else {
+                $this->stats['requests_sent'] += $totalPageViews;
+                $this->stats['requests_successful'] += $totalPageViews;
+            }
+
+            // Backdate records created during this day's batch
+            if (!$this->config['dry_run'] && $maxIdsBefore !== null) {
+                $backdated = $this->backdateRecords($maxIdsBefore, $date, $hourDistribution);
+                echo " → backdated {$backdated['sessions']} sessions";
+            }
+
+            echo "\n";
+            $currentDate->modify('-1 day');  // Go backwards
         }
 
         $this->printSummary();
@@ -641,13 +1366,26 @@ class TrackerSimulator
     private function printHeader()
     {
         echo "=== WP Statistics Tracker.js Simulator ===\n\n";
-        echo "Date Range: {$this->config['from']} to {$this->config['to']}\n";
+        echo "Date Range: {$this->config['to']} → {$this->config['from']} (newest to oldest)\n";
         echo "Visitors/Day: {$this->config['visitors_per_day']}\n";
-        echo "Resources: " . count($this->resources) . " posts\n";
+        echo "Parallel Workers: {$this->config['workers']}\n";
         echo "AJAX URL: {$this->ajaxUrl}\n";
         if ($this->config['dry_run']) {
             echo "Mode: DRY RUN (no actual requests)\n";
         }
+        echo "\nResources prepared:\n";
+        echo "  - Posts/Pages: " . count($this->resources) . "\n";
+        echo "  - Categories:  " . count($this->categoryResources) . "\n";
+        echo "  - Authors:     " . count($this->authorResources) . "\n";
+        echo "  - Tags:        " . count($this->tagResources) . "\n";
+        echo "  - 404 URLs:    " . count($this->notFoundResources) . "\n";
+        echo "  - Searches:    " . count($this->searchResources) . "\n";
+        echo "  - Home:        " . ($this->homeResource ? '1' : '0') . "\n";
+        $totalResources = count($this->resources) + count($this->categoryResources) +
+            count($this->authorResources) + count($this->tagResources) +
+            count($this->notFoundResources) + count($this->searchResources) +
+            ($this->homeResource ? 1 : 0);
+        echo "  - Total:       " . $totalResources . "\n";
         echo "\n";
     }
 
@@ -656,6 +1394,9 @@ class TrackerSimulator
      */
     private function printSummary()
     {
+        // Clean up temporary mu-plugin
+        $this->removeSignatureBypassPlugin();
+
         echo "\n=== Summary ===\n";
         echo "Requests sent: " . number_format($this->stats['requests_sent']) . "\n";
         echo "Successful: " . number_format($this->stats['requests_successful']) . "\n";
@@ -685,6 +1426,7 @@ $options = getopt('', [
     'to:',
     'visitors-per-day:',
     'delay:',
+    'workers:',
     'url:',
     'verbose',
     'dry-run',
@@ -696,16 +1438,24 @@ if (isset($options['help'])) {
     echo "Simulates Tracker.js requests to admin-ajax.php for realistic test data.\n\n";
     echo "Options:\n";
     echo "  --days=<number>           Days to generate (default: 7)\n";
-    echo "  --from=<YYYY-MM-DD>       Start date\n";
-    echo "  --to=<YYYY-MM-DD>         End date (default: today)\n";
+    echo "  --from=<YYYY-MM-DD>       Start date (oldest date)\n";
+    echo "  --to=<YYYY-MM-DD>         End date (default: today, newest date)\n";
     echo "  --visitors-per-day=<num>  Average visitors per day (default: 50)\n";
-    echo "  --delay=<ms>              Delay between requests in ms (default: 50)\n";
+    echo "  --workers=<num>           Parallel HTTP workers (default: 10)\n";
+    echo "  --delay=<ms>              Delay between requests in ms (default: 50, unused with workers)\n";
     echo "  --url=<url>               Custom site URL (e.g., https://wordpress.test)\n";
     echo "  --verbose                 Show detailed request output\n";
     echo "  --dry-run                 Generate data without sending requests\n";
     echo "  --help                    Show this help\n\n";
+    echo "Features:\n";
+    echo "  - Imports from newest to oldest date for better UX\n";
+    echo "  - Multi-page sessions (45% bounce, 55% engaged with 2-6 pages)\n";
+    echo "  - Parallel HTTP requests for ~10x faster processing\n";
+    echo "  - Realistic user distribution (88% guest, 12% logged-in)\n";
+    echo "  - Session duration tracking\n\n";
     echo "Examples:\n";
     echo "  php bin/dummy-tracker-simulator.php --days=7 --visitors-per-day=50\n";
+    echo "  php bin/dummy-tracker-simulator.php --days=180 --visitors-per-day=100 --workers=20\n";
     echo "  php bin/dummy-tracker-simulator.php --url=https://localhost:8080 --days=1\n";
     echo "  php bin/dummy-tracker-simulator.php --from=2024-12-01 --to=2024-12-31 --verbose\n";
     echo "  php bin/dummy-tracker-simulator.php --days=1 --visitors-per-day=10 --dry-run\n\n";
@@ -720,6 +1470,7 @@ $config = [
     'days' => (int)($options['days'] ?? 7),
     'visitors_per_day' => (int)($options['visitors-per-day'] ?? 50),
     'delay_ms' => (int)($options['delay'] ?? 50),
+    'workers' => (int)($options['workers'] ?? 10),
     'verbose' => isset($options['verbose']),
     'dry_run' => isset($options['dry-run']),
 ];

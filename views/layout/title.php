@@ -71,7 +71,7 @@ if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                 <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
                     <span id="tooltip_realtime">
-                        <a data-target="wp-statistics-realtime-stats" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
+                        <a target="_blank" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime'); ?>"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
                         <span>
                             <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
                         </span>

@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
-import { transformFiltersToApi, type ApiFilters } from '@/lib/api-filter-transform'
+import { type ApiFilters,transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
 import { WordPress } from '@/lib/wordpress'
 
@@ -28,6 +28,9 @@ export interface LoggedInUser {
   referrer_channel: string
   entry_page: string
   entry_page_title: string
+  entry_page_type?: string
+  entry_page_wp_id?: number | null
+  entry_page_resource_id?: number | null
 }
 
 export interface GetLoggedInUsersResponse {
@@ -102,6 +105,8 @@ const DEFAULT_COLUMNS = [
   'referrer_channel',
   'entry_page',
   'entry_page_title',
+  'entry_page_type',
+  'entry_page_wp_id',
 ]
 
 export const getLoggedInUsersQueryOptions = ({
@@ -127,7 +132,21 @@ export const getLoggedInUsersQueryOptions = ({
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['logged-in-users', page, per_page, order_by, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context, apiColumns],
+    queryKey: [
+      'logged-in-users',
+      page,
+      per_page,
+      apiOrderBy,
+      order,
+      date_from,
+      date_to,
+      previous_date_from,
+      previous_date_to,
+      apiFilters,
+      context,
+      apiColumns,
+      hasCompare,
+    ],
     queryFn: () =>
       clientRequest.post<GetLoggedInUsersResponse>(
         '',

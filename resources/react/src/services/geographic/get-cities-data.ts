@@ -1,6 +1,7 @@
 import { clientRequest } from '@lib/client-request'
 import { WordPress } from '@lib/wordpress'
 import { queryOptions } from '@tanstack/react-query'
+
 import { QUERY_CACHE } from '@/constants/map-constants'
 
 export interface GetCitiesDataParams {

@@ -23,8 +23,6 @@ class Visitor extends BaseEntity
      * - Otherwise, create a new visitor record with the current timestamp.
      *
      * @return $this
-     *
-     * @todo Improve IP storage: clean up unnecessary prefixes like "#hash#".
      */
     public function record()
     {
@@ -44,6 +42,7 @@ class Visitor extends BaseEntity
             ? (int)$record->ID
             : RecordFactory::visitor()->insert([
                 'hash'       => $hash,
+                'ip'         => $this->profile->getProcessedIPForStorage(),
                 'created_at' => DateTime::getUtc(),
             ]);
 

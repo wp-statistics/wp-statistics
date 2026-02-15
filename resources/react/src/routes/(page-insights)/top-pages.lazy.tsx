@@ -1,125 +1,79 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import type { SortingState, VisibilityState } from '@tanstack/react-table'
+import type { Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import type { FilterField } from '@/components/custom/filter-button'
+import { TableOptionsDrawer, useTableOptions } from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import {
   createTopPagesColumns,
-  transformTopPageData,
   TOP_PAGES_COLUMN_CONFIG,
+  TOP_PAGES_COMPARABLE_COLUMNS,
   TOP_PAGES_CONTEXT,
   TOP_PAGES_DEFAULT_API_COLUMNS,
+  TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
   TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
+  type TopPage,
+  transformTopPageData,
 } from '@/components/data-table-columns/top-pages-columns'
+import { NoticeContainer } from '@/components/ui/notice-container'
+import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
+import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
-import {
-  clearCachedColumns,
-  computeApiColumns,
-  getCachedApiColumns,
-  getCachedVisibility,
-  getCachedVisibleColumns,
-  getVisibleColumnsForSave,
-  setCachedColumns,
-} from '@/lib/column-utils'
+import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
+import { getApiSortField } from '@/lib/column-utils'
+import { extractMeta, extractRows } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
-import {
-  computeFullVisibility,
-  parseColumnPreferences,
-  resetUserPreferences,
-  saveUserPreferences,
-} from '@/services/user-preferences'
 import { getTopPagesQueryOptions } from '@/services/page-insight/get-top-pages'
 
 const PER_PAGE = 20
-
-// Get cached column order from localStorage
-const getCachedColumnOrder = (): string[] => {
-  return getCachedVisibleColumns(TOP_PAGES_CONTEXT) || []
-}
+const CONTENT_FILTERS = ['page', 'resource_id', 'post_type', 'author']
 
 export const Route = createLazyFileRoute('/(page-insights)/top-pages')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  // Use global filters context for date range and filters (hybrid URL + preferences)
   const {
-    dateFrom,
-    dateTo,
-    compareDateFrom,
-    compareDateTo,
     filters: appliedFilters,
     page,
     setPage,
-    setDateRange,
-    applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
+    handlePageChange,
     isInitialized,
     apiDateParams,
   } = useGlobalFilters()
 
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'views', desc: true }])
-
-  const wp = WordPress.getInstance()
-  const columns = useMemo(() => createTopPagesColumns(), [])
-
-  // Content-specific filters only (zero extra query cost - tables already joined by PageGroupBy)
-  const CONTENT_FILTERS = ['page', 'resource_id', 'post_type', 'author']
-
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp
-      .getFilterFieldsByGroup('views')
-      .filter((field) => CONTENT_FILTERS.includes(field.name)) as FilterField[]
-  }, [wp])
-
-  // Handle date range updates from DateRangePicker
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range, values.rangeCompare)
-    },
-    [setDateRange]
-  )
-
-  // Determine sort parameters from sorting state
-  const orderBy = sorting.length > 0 ? sorting[0].id : 'views'
-  const order = sorting.length > 0 && sorting[0].desc ? 'desc' : 'asc'
-
-  // Get all hideable column IDs from the columns definition
-  const allColumnIds = useMemo(() => {
-    return columns.filter((col) => col.enableHiding !== false).map((col) => col.accessorKey as string)
-  }, [columns])
-
-  // Track column order state
-  const [columnOrder, setColumnOrder] = useState<string[]>(() => getCachedColumnOrder())
-
-  // Track API columns for query optimization (state so changes trigger refetch)
-  const [apiColumns, setApiColumns] = useState<string[]>(() => {
-    return getCachedApiColumns(allColumnIds, TOP_PAGES_COLUMN_CONFIG) || TOP_PAGES_DEFAULT_API_COLUMNS
+  const { sorting, handleSortingChange, orderBy, order } = useUrlSortSync({
+    defaultSort: [{ id: 'views', desc: true }],
+    onPageReset: () => setPage(1),
   })
 
-  // Track if preferences have been applied
-  const hasAppliedPrefs = useRef(false)
-  const computedVisibilityRef = useRef<VisibilityState | null>(null)
-  const computedColumnOrderRef = useRef<string[] | null>(null)
+  // Map column ID to API field name for sorting
+  const apiOrderBy = getApiSortField(orderBy, TOP_PAGES_COLUMN_CONFIG)
 
-  // Track current visibility for save operations
-  const currentVisibilityRef = useRef<VisibilityState>({})
+  // Table ref for Options drawer column management
+  const tableRef = useRef<Table<TopPage> | null>(null)
 
-  // Track if initial preference sync has been done
-  const hasInitialPrefSync = useRef(false)
+  // Get comparison date label for tooltip display
+  const { label: comparisonLabel } = useComparisonDateLabel()
 
-  // Stable empty visibility state
-  const emptyVisibilityRef = useRef<VisibilityState>({})
+  const wp = WordPress.getInstance()
+  // Base columns for preferences hook (stable definition for column IDs)
+  const baseColumns = useMemo(() => createTopPagesColumns({ comparisonLabel }), [comparisonLabel])
+
+  const customFilterFields = useMemo<FilterField[]>(() => {
+    return wp.getFilterFieldsByGroup('views').filter((field) => CONTENT_FILTERS.includes(field.name)) as FilterField[]
+  }, [wp])
 
   // Fetch data from API
   const {
     data: response,
+    isLoading,
     isFetching,
     isError,
     error,
@@ -127,7 +81,7 @@ function RouteComponent() {
     ...getTopPagesQueryOptions({
       page,
       per_page: PER_PAGE,
-      order_by: orderBy,
+      order_by: apiOrderBy,
       order: order as 'asc' | 'desc',
       date_from: apiDateParams.date_from,
       date_to: apiDateParams.date_to,
@@ -135,165 +89,94 @@ function RouteComponent() {
       previous_date_to: apiDateParams.previous_date_to,
       filters: appliedFilters || [],
       context: TOP_PAGES_CONTEXT,
-      columns: apiColumns,
+      columns: TOP_PAGES_DEFAULT_API_COLUMNS,
     }),
     placeholderData: keepPreviousData,
     enabled: isInitialized,
   })
 
-  // Compute initial visibility only once when API returns preferences
-  const initialColumnVisibility = useMemo(() => {
-    if (hasAppliedPrefs.current && computedVisibilityRef.current) {
-      return computedVisibilityRef.current
-    }
+  // Use the preferences hook for column management
+  const {
+    defaultColumnOrder,
+    columnOrder,
+    initialColumnVisibility,
+    comparisonColumns,
+    handleColumnVisibilityChange,
+    handleColumnOrderChange,
+    handleComparisonColumnsChange,
+    handleColumnPreferencesReset,
+  } = useDataTablePreferences({
+    context: TOP_PAGES_CONTEXT,
+    columns: baseColumns,
+    defaultHiddenColumns: TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
+    defaultApiColumns: TOP_PAGES_DEFAULT_API_COLUMNS,
+    columnConfig: TOP_PAGES_COLUMN_CONFIG,
+    sorting,
+    defaultSortColumn: 'views',
+    preferencesFromApi: response?.data?.meta?.preferences?.columns,
+    hasApiResponse: !!response?.data,
+    defaultComparisonColumns: TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
+    comparisonColumnsFromApi: (response?.data?.meta?.preferences as { comparison_columns?: string[] } | undefined)?.comparison_columns,
+  })
 
-    if (!response?.data) {
-      const cachedVisibility = getCachedVisibility(TOP_PAGES_CONTEXT, allColumnIds)
-      if (cachedVisibility) {
-        return cachedVisibility
-      }
-      return emptyVisibilityRef.current
-    }
+  // Options drawer with column management - config is passed once and returned for drawer
+  const options = useTableOptions({
+    filterGroup: 'views',
+    table: tableRef.current,
+    initialColumnOrder: defaultColumnOrder,
+    columnOrder,
+    defaultHiddenColumns: TOP_PAGES_DEFAULT_HIDDEN_COLUMNS,
+    initialColumnVisibility,
+    comparableColumns: TOP_PAGES_COMPARABLE_COLUMNS,
+    comparisonColumns,
+    defaultComparisonColumns: TOP_PAGES_DEFAULT_COMPARISON_COLUMNS,
+    onColumnVisibilityChange: handleColumnVisibilityChange,
+    onColumnOrderChange: handleColumnOrderChange,
+    onComparisonColumnsChange: handleComparisonColumnsChange,
+    onReset: handleColumnPreferencesReset,
+  })
 
-    const prefs = response.data.meta?.preferences?.columns
-
-    if (!prefs || prefs.length === 0) {
-      const defaultVisibility = TOP_PAGES_DEFAULT_HIDDEN_COLUMNS.reduce(
-        (acc, col) => ({ ...acc, [col]: false }),
-        {} as VisibilityState
-      )
-      hasAppliedPrefs.current = true
-      computedVisibilityRef.current = defaultVisibility
-      currentVisibilityRef.current = defaultVisibility
-      computedColumnOrderRef.current = []
-      return defaultVisibility
-    }
-
-    const { visibleColumnsSet, columnOrder: newOrder } = parseColumnPreferences(prefs)
-    const visibility = computeFullVisibility(visibleColumnsSet, allColumnIds)
-
-    hasAppliedPrefs.current = true
-    computedVisibilityRef.current = visibility
-    currentVisibilityRef.current = visibility
-    computedColumnOrderRef.current = newOrder
-
-    return visibility
-  }, [response?.data, allColumnIds])
-
-  // Sync column order when preferences are computed
-  useEffect(() => {
-    if (hasAppliedPrefs.current && computedVisibilityRef.current && !hasInitialPrefSync.current) {
-      hasInitialPrefSync.current = true
-      if (computedColumnOrderRef.current && computedColumnOrderRef.current.length > 0) {
-        setColumnOrder(computedColumnOrderRef.current)
-      }
-    }
-  }, [initialColumnVisibility])
-
-  // Helper to compare two arrays for equality
-  const arraysEqual = useCallback((a: string[], b: string[]): boolean => {
-    if (a.length !== b.length) return false
-    return a.every((val, idx) => val === b[idx])
-  }, [])
-
-  // Handle column visibility changes
-  const handleColumnVisibilityChange = useCallback(
-    (visibility: VisibilityState) => {
-      currentVisibilityRef.current = visibility
-      const visibleColumns = getVisibleColumnsForSave(visibility, columnOrder, allColumnIds)
-      saveUserPreferences({ context: TOP_PAGES_CONTEXT, columns: visibleColumns })
-      setCachedColumns(TOP_PAGES_CONTEXT, visibleColumns)
-      const currentSortColumn = sorting.length > 0 ? sorting[0].id : 'views'
-      const newApiColumns = computeApiColumns(visibility, allColumnIds, TOP_PAGES_COLUMN_CONFIG, currentSortColumn)
-      setApiColumns((prev) => (arraysEqual(prev, newApiColumns) ? prev : newApiColumns))
-    },
-    [columnOrder, sorting, allColumnIds, arraysEqual]
+  // Final columns with comparison settings applied
+  const columns = useMemo(
+    () => createTopPagesColumns({ comparisonLabel, comparisonColumns }),
+    [comparisonLabel, comparisonColumns]
   )
-
-  // Handle column order changes
-  const handleColumnOrderChange = useCallback(
-    (order: string[]) => {
-      setColumnOrder(order)
-      const visibleColumns = getVisibleColumnsForSave(currentVisibilityRef.current, order, allColumnIds)
-      saveUserPreferences({ context: TOP_PAGES_CONTEXT, columns: visibleColumns })
-      setCachedColumns(TOP_PAGES_CONTEXT, visibleColumns)
-    },
-    [allColumnIds]
-  )
-
-  // Handle reset to default
-  const handleColumnPreferencesReset = useCallback(() => {
-    setColumnOrder([])
-    const defaultVisibility = TOP_PAGES_DEFAULT_HIDDEN_COLUMNS.reduce(
-      (acc, col) => ({ ...acc, [col]: false }),
-      {} as VisibilityState
-    )
-    computedVisibilityRef.current = defaultVisibility
-    currentVisibilityRef.current = defaultVisibility
-    setApiColumns((prev) => (arraysEqual(prev, TOP_PAGES_DEFAULT_API_COLUMNS) ? prev : TOP_PAGES_DEFAULT_API_COLUMNS))
-    resetUserPreferences({ context: TOP_PAGES_CONTEXT })
-    clearCachedColumns(TOP_PAGES_CONTEXT)
-  }, [arraysEqual])
 
   // Transform API data to component interface
   const tableData = useMemo(() => {
-    if (!response?.data?.data?.rows) return []
-    return response.data.data.rows.map(transformTopPageData)
+    return extractRows(response).map(transformTopPageData)
   }, [response])
 
-  // Get pagination info from meta
-  const totalRows = response?.data?.meta?.total_rows ?? 0
-  const totalPages = response?.data?.meta?.total_pages || Math.ceil(totalRows / PER_PAGE) || 1
+  const meta = extractMeta(response)
+  const totalRows = meta?.totalRows ?? 0
+  const totalPages = meta?.totalPages ?? 1
 
-  // Handle sorting changes
-  const handleSortingChange = useCallback(
-    (newSorting: SortingState) => {
-      setSorting(newSorting)
-      setPage(1)
-    },
-    [setPage]
-  )
-
-  // Handle page changes
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      setPage(newPage)
-    },
-    [setPage]
-  )
+  const showSkeleton = isLoading && !response
 
   return (
     <div className="min-w-0">
-      {/* Header row with title and filter button */}
-      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Top Pages', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          {filterFields.length > 0 && isInitialized && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
-          )}
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            onUpdate={handleDateRangeUpdate}
-            showCompare={true}
-            align="end"
-          />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('Top Pages', 'wp-statistics')}
+        filterGroup="views"
+        optionsTriggerProps={options.triggerProps}
+        customFilterFields={customFilterFields}
+      />
 
-      <div className="p-2">
-        {/* Applied filters row */}
-        {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
-        )}
+      {/* Options Drawer with Column Management */}
+      <TableOptionsDrawer {...options} />
+
+      <div className="p-3">
+        <NoticeContainer className="mb-2" currentRoute="top-pages" />
 
         {isError ? (
           <div className="p-2 text-center">
             <ErrorMessage message={__('Failed to load top pages', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{error?.message}</p>
           </div>
+        ) : showSkeleton ? (
+          <PanelSkeleton titleWidth="w-24">
+            <TableSkeleton rows={10} columns={6} />
+          </PanelSkeleton>
         ) : (
           <DataTable
             columns={columns}
@@ -307,7 +190,6 @@ function RouteComponent() {
             onPageChange={handlePageChange}
             totalRows={totalRows}
             rowLimit={PER_PAGE}
-            showColumnManagement={true}
             showPagination={true}
             isFetching={isFetching}
             hiddenColumns={TOP_PAGES_DEFAULT_HIDDEN_COLUMNS}
@@ -316,8 +198,14 @@ function RouteComponent() {
             onColumnVisibilityChange={handleColumnVisibilityChange}
             onColumnOrderChange={handleColumnOrderChange}
             onColumnPreferencesReset={handleColumnPreferencesReset}
+            comparableColumns={TOP_PAGES_COMPARABLE_COLUMNS}
+            comparisonColumns={comparisonColumns}
+            defaultComparisonColumns={TOP_PAGES_DEFAULT_COMPARISON_COLUMNS}
+            onComparisonColumnsChange={handleComparisonColumnsChange}
             emptyStateMessage={__('No pages found for the selected period', 'wp-statistics')}
             stickyHeader={true}
+            borderless
+            tableRef={tableRef}
           />
         )}
       </div>

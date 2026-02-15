@@ -188,14 +188,17 @@ class Test_InvalidDataGenerator extends SimulatorTestCase
     }
 
     /**
-     * Test path traversal payloads in malformed data
+     * Test path traversal payloads exist in default malformed strings
      */
     public function test_malformed_includes_path_traversal(): void
     {
         $generator = $this->createInvalidGenerator();
 
+        // Test that path traversal patterns are generated over many iterations
+        // The generator has ~25% chance per call (1 of 4 fields has path traversal)
+        // With 200 iterations, probability of NOT finding is (0.75)^200 ≈ 0
         $found = false;
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             $result = $generator->generateMalformedData();
             if (strpos($result['value'], '..') !== false || strpos($result['value'], 'etc/passwd') !== false) {
                 $found = true;

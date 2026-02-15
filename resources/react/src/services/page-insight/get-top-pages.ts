@@ -1,17 +1,31 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import type { Filter } from '@/components/custom/filter-bar'
+import { type ApiFilters,transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
+import { createListParams,queryKeys } from '@/lib/query-keys'
 import { WordPress } from '@/lib/wordpress'
+
+// Re-export ApiFilters for backward compatibility
+export type { ApiFilters }
 
 export interface TopPageRecord {
   page_uri: string
   page_title: string
   page_wp_id: number | null
+  page_type?: string
+  resource_id?: number | string | null
   visitors: number
   views: number
   bounce_rate: number | null
   avg_time_on_page: number | null
+  published_date: string | null
+  previous?: {
+    visitors?: number
+    views?: number
+    bounce_rate?: number
+    avg_time_on_page?: number
+  }
 }
 
 export interface GetTopPagesResponse {
@@ -37,9 +51,6 @@ export interface GetTopPagesResponse {
   }
 }
 
-// API filter format: { filter_key: { operator: value } }
-export type ApiFilters = Record<string, Record<string, string | string[]>>
-
 export interface GetTopPagesParams {
   page: number
   per_page: number
@@ -54,33 +65,6 @@ export interface GetTopPagesParams {
   columns?: string[]
 }
 
-// Extract the field name from filter ID
-const extractFilterKey = (filterId: string): string => {
-  return filterId.split('-')[0]
-}
-
-// Transform UI filters to API format
-const transformFiltersToApi = (filters: Filter[]): ApiFilters => {
-  const apiFilters: ApiFilters = {}
-
-  for (const filter of filters) {
-    const filterKey = extractFilterKey(filter.id)
-    const operator = filter.rawOperator || filter.operator
-    const rawValue = filter.rawValue ?? filter.value
-    const value: string | string[] = Array.isArray(rawValue)
-      ? rawValue
-      : typeof rawValue === 'number'
-        ? String(rawValue)
-        : rawValue
-
-    apiFilters[filterKey] = {
-      [operator]: value,
-    }
-  }
-
-  return apiFilters
-}
-
 // Map frontend column names to API column names
 const columnMapping: Record<string, string> = {
   page: 'page_uri',
@@ -88,18 +72,11 @@ const columnMapping: Record<string, string> = {
   views: 'views',
   bounceRate: 'bounce_rate',
   sessionDuration: 'avg_time_on_page',
+  publishedDate: 'published_date',
 }
 
 // Default columns when no specific columns are provided
-const DEFAULT_COLUMNS = [
-  'page_uri',
-  'page_title',
-  'page_wp_id',
-  'visitors',
-  'views',
-  'bounce_rate',
-  'avg_time_on_page',
-]
+const DEFAULT_COLUMNS = ['page_uri', 'page_title', 'page_wp_id', 'page_type', 'resource_id', 'visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_date']
 
 export const getTopPagesQueryOptions = ({
   page,
@@ -124,12 +101,21 @@ export const getTopPagesQueryOptions = ({
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['top-pages', page, per_page, apiOrderBy, order, date_from, date_to, previous_date_from, previous_date_to, apiFilters, context, apiColumns],
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- hasCompare is derived from compareDateFrom/compareDateTo which are in the key
+    queryKey: queryKeys.pageInsights.topPages(
+      createListParams(date_from, date_to, page, per_page, apiOrderBy, order, {
+        compareDateFrom: previous_date_from,
+        compareDateTo: previous_date_to,
+        filters: apiFilters,
+        context,
+        columns: apiColumns,
+      })
+    ),
     queryFn: () =>
       clientRequest.post<GetTopPagesResponse>(
         '',
         {
-          sources: ['visitors', 'views', 'bounce_rate', 'avg_time_on_page'],
+          sources: ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_content'],
           group_by: ['page'],
           columns: apiColumns,
           date_from,

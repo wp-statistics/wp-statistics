@@ -49,15 +49,16 @@ class Ip
      * @var array
      */
     public static array $ipMethodsServer = [
+        'HTTP_CF_CONNECTING_IP',
+        'HTTP_INCAP_CLIENT_IP',
         'HTTP_X_FORWARDED_FOR',
         'HTTP_X_FORWARDED',
         'HTTP_FORWARDED_FOR',
         'HTTP_FORWARDED',
-        'REMOTE_ADDR',
         'HTTP_CLIENT_IP',
         'HTTP_X_CLUSTER_CLIENT_IP',
         'HTTP_X_REAL_IP',
-        'HTTP_INCAP_CLIENT_IP'
+        'REMOTE_ADDR',
     ];
 
     /**
@@ -68,13 +69,6 @@ class Ip
     public static string $defaultIpMethod = 'sequential';
 
     /**
-     * Hash IP prefix.
-     *
-     * @var string
-     */
-    public static string $hashIpPrefix = '#hash#';
-
-    /**
      * Cached IP method for the current request.
      *
      * @var string|null
@@ -82,20 +76,19 @@ class Ip
     private static $cachedIpMethod = null;
 
     /**
-     * Returns all available detection headers.
+     * Get IP from the first available header in the sequential list.
      *
-     * @return array
+     * @return string|false The IP address or false if none found.
      */
-    public static function getDetectionHeaders()
+    private static function getIpFromHeaders()
     {
-        $headers = self::$ipMethodsServer;
-        $method  = self::getMethod();
-
-        if (isset($_SERVER[$method])) {
-            $headers[] = $method;
+        foreach (self::$ipMethodsServer as $method) {
+            if (isset($_SERVER[$method])) {
+                return $_SERVER[$method];
+            }
         }
 
-        return array_unique($headers);
+        return false;
     }
 
     /**
@@ -110,19 +103,13 @@ class Ip
         $ipMethod = self::getMethod();
 
         if ($ipMethod === 'sequential') {
-            foreach (self::$ipMethodsServer as $method) {
-                if (isset($_SERVER[$method])) {
-                    $ip = $_SERVER[$method];
-                    break;
-                }
-            }
+            $ip = self::getIpFromHeaders();
         } else {
             $ip = $_SERVER[$ipMethod] ?? false;
 
-            // Ensure backward compatibility for IP handling
             if (empty($ip)) {
-                // If the IP address is not available, set the IP method to the default value for the next visitor
-                Option::updateValue('ip_method', self::$defaultIpMethod);
+                // If the configured header is absent, fall back to sequential for this request
+                $ip = self::getIpFromHeaders();
             }
         }
 
@@ -179,18 +166,19 @@ class Ip
     }
 
     /**
-     * Gets or creates the daily salt for IP hashing.
+     * Gets or creates the salt for IP hashing, rotated based on the configured interval.
      *
-     * @return string The daily salt string.
+     * @return string The salt string.
      */
     public static function getSalt()
     {
-        $date      = date('Y-m-d');
-        $dailySalt = Option::getValue('daily_salt', []);
+        $interval      = Option::getValue('hash_rotation_interval', 'daily');
+        $currentPeriod = self::getCurrentPeriod($interval);
+        $dailySalt     = Option::getValue('daily_salt', []);
 
-        if (isset($dailySalt['date']) && $dailySalt['date'] !== $date) {
+        if (isset($dailySalt['date']) && $dailySalt['date'] !== $currentPeriod) {
             $dailySalt = [
-                'date' => $date,
+                'date' => $currentPeriod,
                 'salt' => hash('sha256', wp_generate_password())
             ];
             Option::updateValue('daily_salt', $dailySalt);
@@ -198,7 +186,7 @@ class Ip
 
         if (!$dailySalt || !is_array($dailySalt)) {
             $dailySalt = [
-                'date' => $date,
+                'date' => $currentPeriod,
                 'salt' => hash('sha256', wp_generate_password())
             ];
             Option::updateValue('daily_salt', $dailySalt);
@@ -208,13 +196,34 @@ class Ip
     }
 
     /**
+     * Returns the current period identifier based on the rotation interval.
+     *
+     * @param string $interval One of 'daily', 'weekly', 'monthly', 'disabled'.
+     * @return string Period identifier string.
+     */
+    private static function getCurrentPeriod($interval)
+    {
+        switch ($interval) {
+            case 'weekly':
+                return date('o-W');
+            case 'monthly':
+                return date('Y-m');
+            case 'disabled':
+                return 'permanent';
+            case 'daily':
+            default:
+                return date('Y-m-d');
+        }
+    }
+
+    /**
      * Generates a hashed version of an IP address using a daily salt.
      *
      * This method creates a secure hash of the IP address combined with user agent
      * and a daily rotating salt for privacy protection.
      *
      * @param string|null $ip Optional. The IP address to hash. If null, uses current user IP.
-     * @return string The hashed IP address without prefix (40 characters).
+     * @return string The hashed IP address without prefix (20 characters).
      */
     public static function hash($ip = null)
     {
@@ -222,11 +231,12 @@ class Ip
             $ip = self::getCurrent();
         }
 
-        $salt      = self::getSalt();
-        $userAgent = UserAgent::getHttpUserAgent();
+        $salt         = self::getSalt();
+        $userAgent    = UserAgent::getHttpUserAgent();
+        $anonymizedIp = wp_privacy_anonymize_ip($ip);
 
-        $hash          = hash('sha256', $salt . $ip . $userAgent);
-        $truncatedHash = substr($hash, 0, 40);
+        $hash          = hash('sha256', $salt . $anonymizedIp . $userAgent);
+        $truncatedHash = substr($hash, 0, 20);
 
 
         /**
@@ -238,51 +248,20 @@ class Ip
     }
 
     /**
-     * Check if IP is hashed.
-     *
-     * @param string $ip The IP address to check.
-     * @return bool True if IP is hashed, false otherwise.
-     */
-    public static function isHashed(string $ip)
-    {
-        return substr($ip, 0, strlen(self::$hashIpPrefix)) === self::$hashIpPrefix;
-    }
-
-    /**
      * Get IP address for storage in database.
      *
-     * This method processes the IP address according to privacy settings,
-     * applying anonymization and/or hashing as configured.
+     * Returns the raw IP when store_ip is enabled, or null when disabled.
+     * The hash column handles visitor dedup separately.
      *
-     * @return string
+     * @return string|null
      */
-    public static function getAnonymized()
+    public static function getStorableIp()
     {
-        $userIp = self::getCurrent();
-
-        // Use default IP if no valid IP address found
-        if (empty($userIp)) {
-            return self::$defaultIp;
+        if (!Option::getValue('store_ip') || IntegrationHelper::shouldTrackAnonymously()) {
+            return null;
         }
 
-        /**
-         * Anonymize IP if enabled for privacy & GDPR compliance.
-         *
-         * @example 192.168.1.1 -> 192.168.1.0
-         * @example 2001:db8::1 -> 2001:db8::
-         */
-        if (Option::getValue('anonymize_ips') || IntegrationHelper::shouldTrackAnonymously()) {
-            $userIp = wp_privacy_anonymize_ip($userIp);
-        }
-
-        /**
-         * Hash IP if enabled in settings.
-         */
-        if (Option::getValue('hash_ips') || IntegrationHelper::shouldTrackAnonymously()) {
-            $userIp = self::hash($userIp);
-        }
-
-        return sanitize_text_field($userIp);
+        return sanitize_text_field(self::getCurrent());
     }
 
     /**
@@ -311,6 +290,16 @@ class Ip
                         $isWithinRange = true;
                         break;
                     }
+
+                    // Handle wildcard patterns (e.g., 192.168.*.*)
+                    if (strpos($range, '*') !== false) {
+                        $pattern = '/^' . str_replace('\\*', '\\d+', preg_quote($range, '/')) . '$/';
+                        if (preg_match($pattern, $ip)) {
+                            $isWithinRange = true;
+                            break;
+                        }
+                    }
+
                     continue;
                 }
 
@@ -420,7 +409,28 @@ class Ip
 
         $ipMethod = Option::getValue('ip_method', self::$defaultIpMethod);
 
-        if (!in_array($ipMethod, self::$ipMethodsServer, true) && $ipMethod !== self::$defaultIpMethod) {
+        // Handle custom header: resolve to the actual header name
+        if ($ipMethod === 'custom') {
+            $customHeader = Option::getValue('user_custom_header_ip_method', '');
+            $ipMethod     = !empty($customHeader) ? strtoupper(sanitize_text_field($customHeader)) : self::$defaultIpMethod;
+        }
+
+        /**
+         * Filters the resolved IP detection method before validation.
+         *
+         * Allows overriding the $_SERVER key used for IP detection.
+         * Return 'sequential' for automatic detection, or a specific
+         * $_SERVER key like 'HTTP_X_CUSTOM_IP'.
+         *
+         * @param string $ipMethod The resolved IP detection method.
+         */
+        $ipMethod = apply_filters('wp_statistics_ip_detection_method', $ipMethod);
+
+        // Validate: must be in known list, 'sequential', or a valid custom header (HTTP_ + alphanumeric/underscores)
+        if ($ipMethod !== self::$defaultIpMethod
+            && !in_array($ipMethod, self::$ipMethodsServer, true)
+            && !preg_match('/^HTTP_[A-Z0-9_]+$/', $ipMethod)
+        ) {
             Option::updateValue('ip_method', self::$defaultIpMethod);
             self::$cachedIpMethod = self::$defaultIpMethod;
             return self::$defaultIpMethod;

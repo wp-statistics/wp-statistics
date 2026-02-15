@@ -2,8 +2,7 @@
 
 use WP_Statistics\Components\Menu;
 use WP_Statistics\Service\Messaging\MessagingFactory;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
-use WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider;
+use WP_Statistics\Service\EmailReport\WebsitePerformanceDataProvider;
 use WP_Statistics\Utils\Format;
 
 if (!defined('ABSPATH')) {
@@ -31,36 +30,7 @@ $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-s
         </a>
    </td></tr></tbody></table>';
 
-$privacyBox      = '';
-$privacyAuditData = new PrivacyAuditDataProvider();
-$complianceStatus = $privacyAuditData->getComplianceStatus();
-if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceStatus['summary']) && intval($complianceStatus['summary']['action_required'])) {
-    $privacyBox = '<table style="background-color: #B266200D;border-radius: 12px;margin-bottom: 24px;">
-                <tbody>
-                   <tr>
-                        <td style="padding: 20px">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td style="vertical-align: top;padding-'.$text_align_reverse.': 16px"> <img src="' . esc_url(WP_STATISTICS_URL . '/public/images/mail/alert-line.png') . '" width="24" height="24" style="vertical-align: middle"></td>
-                                        <td>
-                                            <p style="color:#B26620;padding:0;margin:0;margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 19.92px">' . __('Attention required!', 'wp-statistics') . '</p>
-                                            <p style="color:#B26620;padding:0;margin:0;margin-bottom: 12px;font-size: 14px;font-weight: 400;line-height: 16.41px">' .
-                                        sprintf(
-                                        // translators: %s: Count of non-compliance items.
-                                            __('There are %d items that need to be addressed to ensure compliance with privacy laws.', 'wp-statistics'),
-                                            intval($complianceStatus['summary']['action_required'])
-                                        ) . '</p>
-                                            <a href="' . esc_url(Menu::getAdminUrl('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/public/images/mail/arrow-brown-'.$text_align_reverse.'.png') . '" width="6.67" height="10.91" style="vertical-align: middle;margin-'.$text_align.':6px" alt=""></a>
-                                        </td>
-                                    </tr>   
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>';
-}
+$privacyBox = '';
 
 $tipOfEmail = MessagingFactory::getReportEmailTip();
 

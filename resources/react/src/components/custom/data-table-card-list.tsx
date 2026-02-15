@@ -36,20 +36,11 @@ export function DataTableCardList<TData>({
   const rows = table.getRowModel().rows
 
   if (!rows.length && !isFetching) {
-    return (
-      <div className="p-8 text-center text-sm text-neutral-500">
-        {emptyStateMessage}
-      </div>
-    )
+    return <div className="p-8 text-center text-sm text-neutral-500">{emptyStateMessage}</div>
   }
 
   return (
-    <div
-      className={cn(
-        'space-y-2 p-3 relative',
-        isFetching && 'opacity-50 pointer-events-none'
-      )}
-    >
+    <div className={cn('space-y-2 p-3 relative', isFetching && 'opacity-50 pointer-events-none')}>
       {isFetching && (
         <div className="absolute inset-0 flex items-center justify-center z-10 bg-white/30">
           <Loader2 className="h-5 w-5 animate-spin text-neutral-400" />

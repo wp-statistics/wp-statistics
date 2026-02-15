@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\EmailReport;
 
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
+use WP_Statistics\Utils\Math;
 
 /**
  * Email Report Data Provider
@@ -170,22 +171,22 @@ class EmailReportDataProvider
         return [
             'visitors' => [
                 'value'  => $currentVisitors,
-                'change' => $this->calculatePercentageChange($currentVisitors, $prevVisitors),
+                'change' => Math::percentageChange($prevVisitors, $currentVisitors, 1, 'hundred'),
                 'label'  => __('Visitors', 'wp-statistics'),
             ],
             'views' => [
                 'value'  => $currentViews,
-                'change' => $this->calculatePercentageChange($currentViews, $prevViews),
+                'change' => Math::percentageChange($prevViews, $currentViews, 1, 'hundred'),
                 'label'  => __('Views', 'wp-statistics'),
             ],
             'referrals' => [
                 'value'  => $referralsCount,
-                'change' => $this->calculatePercentageChange($referralsCount, $prevReferralsCount),
+                'change' => Math::percentageChange($prevReferralsCount, $referralsCount, 1, 'hundred'),
                 'label'  => __('Referrals', 'wp-statistics'),
             ],
             'contents' => [
                 'value'  => $contentsCount,
-                'change' => $this->calculatePercentageChange($contentsCount, $prevContentsCount),
+                'change' => Math::percentageChange($prevContentsCount, $contentsCount, 1, 'hundred'),
                 'label'  => __('Published', 'wp-statistics'),
             ],
         ];
@@ -225,22 +226,6 @@ class EmailReportDataProvider
         );
 
         return intval($count);
-    }
-
-    /**
-     * Calculate percentage change between two values.
-     *
-     * @param int|float $current  Current value
-     * @param int|float $previous Previous value
-     * @return float Percentage change
-     */
-    private function calculatePercentageChange($current, $previous)
-    {
-        if ($previous == 0) {
-            return $current > 0 ? 100 : 0;
-        }
-
-        return round((($current - $previous) / $previous) * 100, 1);
     }
 
     /**

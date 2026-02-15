@@ -25,7 +25,7 @@ declare global {
   type OperatorType = 'single' | 'multiple' | 'range'
 
   // Filter groups
-  type FilterGroup = 'visitors' | 'views'
+  type FilterGroup = 'visitors' | 'views' | 'content' | 'geographic' | 'referrals' | 'devices' | 'individual-content' | 'categories' | 'individual-category' | 'individual-author'
 
   // Dropdown option
   interface FilterOption<T extends string | number = string | number> {
@@ -118,6 +118,8 @@ declare global {
     date_to?: string
     previous_date_from?: string
     previous_date_to?: string
+    /** Period preset name (e.g., 'yesterday', 'last30') for dynamic date resolution */
+    period?: string
     filters?: PersistedUrlFilter[]
     updated_at?: string
   }
@@ -152,6 +154,7 @@ declare global {
     actionLabel?: string | null
     helpUrl?: string | null
     priority: number
+    pages?: string[] // Routes where notice should appear (empty = all pages)
   }
 
   // Notice data configuration
@@ -189,9 +192,16 @@ declare global {
       filterAction: string
       userPreferencesAction: string
       trackLoggedInUsers: boolean
-      hashIps: boolean
+      storeIp: boolean
+      userIp: string
+      accessLevel: 'none' | 'own_content' | 'view_stats' | 'view_all' | 'manage'
+      userId: number
       userPreferences?: UserPreferences
       currentPage: string
+      userCountry?: string
+      userCountryName?: string
+      dateFormat: string
+      startOfWeek: number // 0 = Sunday, 1 = Monday, etc.
     }
     header: Record<
       string,

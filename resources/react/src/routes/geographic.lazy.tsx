@@ -1,9 +1,9 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute,Navigate } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/geographic')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/geographic"!</div>
+  return <Navigate to="/geographic-overview" replace />
 }

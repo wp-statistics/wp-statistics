@@ -1,36 +1,54 @@
 import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 
-import { Panel, PanelAction, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
+import { Panel, PanelAction, PanelActions, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
 
+import { BarListContent } from './bar-list-content'
+import { BarListHeader } from './bar-list-header'
 import { HorizontalBar } from './horizontal-bar'
 
-interface HorizontalBarItem {
+export interface HorizontalBarItem {
   icon?: React.ReactNode
   label: string
   value: string | number
-  percentage: string | number
+  percentage?: string | number
   fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
-  tooltipTitle?: string
   tooltipSubtitle?: string
+  /** Date range comparison header for tooltip */
+  comparisonDateLabel?: string
+  /** Internal link route path */
+  linkTo?: string
+  /** Internal link route params */
+  linkParams?: Record<string, string>
 }
 
 interface HorizontalBarListProps {
   title: string
   items: HorizontalBarItem[]
-  link: {
+  link?: {
     title?: string
     action(): void
   }
   loading?: boolean
+  showComparison?: boolean // Whether to show percentage change indicators
+  columnHeaders?: {
+    left: string
+    right: string
+  }
+  footerLeft?: React.ReactNode
+  headerRight?: React.ReactNode
 }
 
-export function HorizontalBarList({ title, items, link, loading = false }: HorizontalBarListProps) {
+export function HorizontalBarList({ title, items, link, loading = false, showComparison = true, columnHeaders, footerLeft, headerRight }: HorizontalBarListProps) {
+  // Ensure items is always an array
+  const safeItems = items || []
+
   return (
     <Panel className="h-full flex flex-col">
       <PanelHeader>
         <PanelTitle>{title}</PanelTitle>
+        {headerRight && <PanelActions>{headerRight}</PanelActions>}
       </PanelHeader>
 
       <PanelContent className="flex-1">
@@ -38,35 +56,42 @@ export function HorizontalBarList({ title, items, link, loading = false }: Horiz
           <div className="flex h-32 flex-1 flex-col items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
-        ) : items.length === 0 ? (
-          <div className="flex h-full flex-1 flex-col items-center justify-center text-center">
-            <p className="text-sm text-neutral-500">No data available for the selected period</p>
-          </div>
         ) : (
-          <div className="flex flex-col gap-3">
-            {items.map((item, index) => (
-              <HorizontalBar
-                key={index}
-                icon={item.icon}
-                label={item.label}
-                value={item.value}
-                percentage={item.percentage}
-                fillPercentage={item.fillPercentage}
-                isNegative={item.isNegative}
-                tooltipTitle={item.tooltipTitle}
-                tooltipSubtitle={item.tooltipSubtitle}
-                isFirst={index === 0}
-              />
-            ))}
-          </div>
+          <>
+            {columnHeaders && (
+              <BarListHeader left={columnHeaders.left} right={columnHeaders.right} />
+            )}
+            <BarListContent isEmpty={safeItems.length === 0}>
+              {safeItems.map((item, index) => (
+                <HorizontalBar
+                  key={`${item.label}-${index}`}
+                  icon={item.icon}
+                  label={item.label}
+                  value={item.value}
+                  percentage={item.percentage}
+                  fillPercentage={item.fillPercentage}
+                  isNegative={item.isNegative}
+                  tooltipSubtitle={item.tooltipSubtitle}
+                  comparisonDateLabel={item.comparisonDateLabel}
+                  linkTo={item.linkTo}
+                  linkParams={item.linkParams}
+                  isFirst={index === 0}
+                  showComparison={showComparison}
+                />
+              ))}
+            </BarListContent>
+          </>
         )}
       </PanelContent>
 
-      {items.length !== 0 && (
-        <PanelFooter>
-          <PanelAction onClick={link.action}>
-            {link.title || __('View Entry Pages', 'wp-statistics')}
-          </PanelAction>
+      {(footerLeft || (link && safeItems.length !== 0)) && (
+        <PanelFooter className="justify-between">
+          <div>{footerLeft}</div>
+          <div>
+            {link && safeItems.length !== 0 && (
+              <PanelAction onClick={link.action}>{link.title || __('See all', 'wp-statistics')}</PanelAction>
+            )}
+          </div>
         </PanelFooter>
       )}
     </Panel>

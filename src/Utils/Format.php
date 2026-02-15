@@ -48,6 +48,29 @@ class Format
     }
 
     /**
+     * Format a number compactly with i18n support (e.g. 1234 -> "1.2K").
+     *
+     * @param int $number
+     * @return string
+     */
+    public static function compactNumber(int $number): string
+    {
+        if ($number < 1000) {
+            return number_format_i18n($number);
+        }
+
+        if ($number < 10000) {
+            return number_format_i18n($number / 1000, 1) . 'K';
+        }
+
+        if ($number < 1000000) {
+            return number_format_i18n($number / 1000, $number < 100000 ? 1 : 0) . 'K';
+        }
+
+        return number_format_i18n($number / 1000000, 1) . 'M';
+    }
+
+    /**
      * Anonymise a semantic version by stripping the patch segment.
      *
      * @param string $version

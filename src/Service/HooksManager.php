@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service;
 
 use WP_Statistics\Components\AssetNameObfuscator;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\UrlBuilder;
 
 class HooksManager
@@ -24,14 +24,15 @@ class HooksManager
      */
     public function addActionLinks($links)
     {
-        $isPremium = (bool)LicenseHelper::isPremiumLicenseAvailable();
-
         $settingsUrl = UrlBuilder::settings('general');
 
         $customLinks = [
             '<a href="' . esc_url($settingsUrl) . '">' . esc_html__('Settings', 'wp-statistics') . '</a>',
             '<a target="_blank" href="https://wp-statistics.com/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Docs', 'wp-statistics') . '</a>',
         ];
+
+        // TODO: Check premium status from wp-statistics-premium plugin
+        $isPremium = function_exists('is_plugin_active') && is_plugin_active('wp-statistics-premium/wp-statistics-premium.php');
 
         if (!$isPremium) {
             $premiumLink = '<a class="wps-premium-link-btn" target="_blank" href="https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Get Premium', 'wp-statistics') . '</a>';
@@ -64,6 +65,10 @@ class HooksManager
      */
     public function serveObfuscatedAsset()
     {
+        if (!Option::getValue('bypass_ad_blockers', false)) {
+            return;
+        }
+
         $assetNameObfuscator = new AssetNameObfuscator();
         $dynamicAssetKey     = $assetNameObfuscator->getDynamicAssetKey();
 

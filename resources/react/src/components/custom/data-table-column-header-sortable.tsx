@@ -15,13 +15,17 @@ export function DataTableColumnHeaderSortable<TData, TValue>({
   const isRightAlign = className?.includes('text-right')
 
   if (!column.getCanSort()) {
-    return <span className={cn('uppercase', className)}>{title}</span>
+    return <span className={cn('', className)}>{title}</span>
   }
 
   return (
     <button
       type="button"
-      className={cn('inline-flex items-center gap-1 uppercase hover:text-foreground transition-colors', isRightAlign && 'w-full justify-end', className)}
+      className={cn(
+        'inline-flex items-center gap-1  hover:text-foreground transition-colors',
+        isRightAlign && 'w-full justify-end',
+        className
+      )}
       onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       aria-label={`Sort by ${title}${column.getIsSorted() ? (column.getIsSorted() === 'asc' ? ', currently ascending' : ', currently descending') : ''}`}
     >

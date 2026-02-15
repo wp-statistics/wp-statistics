@@ -5,10 +5,11 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import {
   EntryPageCell,
   LastVisitCell,
+  LocationCell,
   NumericCell,
   PageCell,
   ReferrerCell,
@@ -23,12 +24,13 @@ import type { ViewRecord } from '@/services/visitor-insight/get-views'
 /**
  * Context identifier for user preferences
  */
-export const VIEWS_CONTEXT = 'views_data_table'
+export const VIEWS_CONTEXT = 'views'
 
 /**
- * Columns hidden by default (none for views)
+ * Columns hidden by default
+ * entryPage is hidden as it's redundant with the page column
  */
-export const VIEWS_DEFAULT_HIDDEN_COLUMNS: string[] = []
+export const VIEWS_DEFAULT_HIDDEN_COLUMNS: string[] = ['location', 'entryPage']
 
 /**
  * Column configuration for API column optimization
@@ -51,10 +53,11 @@ export const VIEWS_COLUMN_CONFIG: ColumnConfig = {
       'user_email',
       'user_role',
     ],
-    page: ['entry_page', 'entry_page_title'],
+    page: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title'],
+    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     totalViews: ['total_views'],
+    location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
   context: VIEWS_CONTEXT,
 }
@@ -67,7 +70,7 @@ export const VIEWS_DEFAULT_API_COLUMNS = getDefaultApiColumns(VIEWS_COLUMN_CONFI
 /**
  * View data interface for the table
  */
-export type ViewData = {
+export interface ViewData {
   lastVisit: string
   visitorInfo: {
     country: { code: string; name: string; region: string; city: string }
@@ -80,6 +83,9 @@ export type ViewData = {
   page: {
     title: string
     url: string
+    type?: string
+    wpId?: number | null
+    resourceId?: number | null
   }
   referrer: {
     domain?: string
@@ -92,6 +98,9 @@ export type ViewData = {
     hasQueryString: boolean
     queryString?: string
     utmCampaign?: string
+    type?: string
+    wpId?: number | null
+    resourceId?: number | null
   }
   totalViews: number
 }
@@ -120,20 +129,24 @@ export function transformViewData(record: ViewRecord): ViewData {
         name: record.browser_name || 'Unknown',
         version: record.browser_version || '',
       },
-      user: record.user_id && record.user_login
-        ? {
-            username: record.user_login,
-            id: record.user_id,
-            email: record.user_email || '',
-            role: record.user_role || '',
-          }
-        : undefined,
+      user:
+        record.user_id && record.user_login
+          ? {
+              username: record.user_login,
+              id: record.user_id,
+              email: record.user_email || '',
+              role: record.user_role || '',
+            }
+          : undefined,
       ipAddress: record.ip_address || undefined,
       hash: record.visitor_hash || undefined,
     },
     page: {
       title: record.entry_page_title || record.entry_page || 'Unknown',
       url: record.entry_page || '/',
+      type: record.entry_page_type || undefined,
+      wpId: record.entry_page_wp_id ?? null,
+      resourceId: record.entry_page_resource_id ?? null,
     },
     referrer: {
       domain: record.referrer_domain || undefined,
@@ -146,6 +159,9 @@ export function transformViewData(record: ViewRecord): ViewData {
       hasQueryString: entryPageData.hasQueryString,
       queryString: entryPageData.queryString,
       utmCampaign: entryPageData.utmCampaign,
+      type: record.entry_page_type || undefined,
+      wpId: record.entry_page_wp_id ?? null,
+      resourceId: record.entry_page_resource_id ?? null,
     },
     totalViews: record.total_views || 0,
   }
@@ -153,75 +169,112 @@ export function transformViewData(record: ViewRecord): ViewData {
 
 /**
  * Create column definitions for the Views table
+ * Order: visitorInfo → page → lastVisit → totalViews → referrer → entryPage (hidden)
  */
 export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewData>[] {
   return [
-    {
-      accessorKey: 'lastVisit',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
-      size: COLUMN_SIZES.lastVisit,
-      cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
-      meta: {
-        priority: 'primary',
-        cardPosition: 'header',
-        mobileLabel: 'Last Visit',
-      },
-    },
+    // Primary columns - visible by default
     {
       accessorKey: 'visitorInfo',
-      header: 'Visitor Info',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.visitorInfo,
+      enableSorting: false,
       cell: ({ row }) => {
         const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
         return (
           <VisitorInfoCell
-            data={{
-              country: {
-                code: visitorInfo.country.code,
-                name: visitorInfo.country.name,
-                region: visitorInfo.country.region,
-                city: visitorInfo.country.city,
-              },
-              os: { icon: visitorInfo.os.icon, name: visitorInfo.os.name },
-              browser: { icon: visitorInfo.browser.icon, name: visitorInfo.browser.name, version: visitorInfo.browser.version },
-              user: visitorInfo.user
-                ? {
-                    id: visitorInfo.user.id,
-                    username: visitorInfo.user.username,
-                    email: visitorInfo.user.email,
-                    role: visitorInfo.user.role,
-                  }
-                : undefined,
-              identifier: visitorInfo.hash || visitorInfo.ipAddress,
-            }}
+            data={{ ...visitorInfo, identifier: visitorInfo.hash || visitorInfo.ipAddress }}
             config={config}
           />
         )
       },
       meta: {
+        title: 'Visitor Info',
         priority: 'primary',
         cardPosition: 'header',
         mobileLabel: 'Visitor',
       },
     },
     {
-      accessorKey: 'page',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Page" />,
-      size: COLUMN_SIZES.page,
+      accessorKey: 'location',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      size: COLUMN_SIZES.location,
+      enableSorting: false,
+      enableHiding: true,
       cell: ({ row }) => {
-        const page = row.getValue('page') as ViewData['page']
-        return <PageCell data={{ title: page.title, url: page.url }} maxLength={35} />
+        const visitorInfo = row.getValue('visitorInfo') as ViewData['visitorInfo']
+        return (
+          <LocationCell
+            data={{
+              countryCode: visitorInfo.country.code,
+              countryName: visitorInfo.country.name,
+              regionName: visitorInfo.country.region || undefined,
+              cityName: visitorInfo.country.city || undefined,
+            }}
+            pluginUrl={config.pluginUrl}
+            linkTo="/country/$countryCode"
+            linkParams={{ countryCode: visitorInfo.country.code }}
+          />
+        )
       },
       meta: {
+        title: 'Location',
+        priority: 'secondary',
+      },
+    },
+    {
+      accessorKey: 'page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      size: COLUMN_SIZES.page,
+      enableSorting: false,
+      cell: ({ row }) => {
+        const page = row.getValue('page') as ViewData['page']
+        return (
+          <PageCell
+            data={{
+              title: page.title,
+              url: page.url,
+              pageType: page.type,
+              pageWpId: page.wpId,
+              resourceId: page.resourceId,
+            }}
+            maxLength={35}
+          />
+        )
+      },
+      meta: {
+        title: 'Page',
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: 'Page',
+      },
+    },
+    {
+      accessorKey: 'lastVisit',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      size: COLUMN_SIZES.lastVisit,
+      cell: ({ row }) => <LastVisitCell date={new Date(row.getValue('lastVisit'))} />,
+      meta: {
+        title: 'Last Visit',
+        priority: 'primary',
+        cardPosition: 'header',
+      },
+    },
+    {
+      accessorKey: 'totalViews',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
+      size: COLUMN_SIZES.views,
+      cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
+      meta: {
+        title: 'Views',
+        priority: 'primary',
+        cardPosition: 'body',
       },
     },
     {
       accessorKey: 'referrer',
-      header: 'Referrer',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.referrer,
+      enableSorting: false,
       cell: ({ row }) => {
         const referrer = row.getValue('referrer') as ViewData['referrer']
         return (
@@ -235,14 +288,16 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
         )
       },
       meta: {
+        title: 'Referrer',
         priority: 'secondary',
-        mobileLabel: 'Referrer',
       },
     },
+    // Hidden by default
     {
       accessorKey: 'entryPage',
-      header: 'Entry Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.entryPage,
+      enableSorting: false,
       cell: ({ row }) => {
         const entryPage = row.getValue('entryPage') as ViewData['entryPage']
         return (
@@ -253,25 +308,18 @@ export function createViewsColumns(config: VisitorInfoConfig): ColumnDef<ViewDat
               hasQueryString: entryPage.hasQueryString,
               queryString: entryPage.queryString,
               utmCampaign: entryPage.utmCampaign,
+              pageType: entryPage.type,
+              pageWpId: entryPage.wpId,
+              resourceId: entryPage.resourceId,
             }}
             maxLength={35}
           />
         )
       },
       meta: {
+        title: 'Entry Page',
         priority: 'secondary',
         mobileLabel: 'Entry',
-      },
-    },
-    {
-      accessorKey: 'totalViews',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
-      size: COLUMN_SIZES.views,
-      cell: ({ row }) => <NumericCell value={row.getValue('totalViews') as number} />,
-      meta: {
-        priority: 'primary',
-        cardPosition: 'body',
-        mobileLabel: 'Views',
       },
     },
   ]

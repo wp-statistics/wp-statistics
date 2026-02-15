@@ -18,18 +18,15 @@ class Manager
     private static $tablesSchema = [
         'parameters'              => [
             'columns'     => [
-                'ID'              => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'session_id'      => 'bigint(20) UNSIGNED NOT NULL',
-                'resource_uri_id' => 'bigint(20) UNSIGNED NOT NULL',
-                'view_id'         => 'bigint(20) UNSIGNED NOT NULL',
-                'parameter'       => 'varchar(64)',
-                'value'           => 'varchar(255)',
+                'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+                'session_id' => 'bigint(20) UNSIGNED NOT NULL',
+                'parameter'  => 'varchar(64)',
+                'value'      => 'varchar(255)',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY session_id (session_id)',
-                'KEY resource_uri_id (resource_uri_id)',
-                'KEY view_id (view_id)',
+                'UNIQUE KEY session_param (session_id, parameter)',
             ],
         ],
         'resources'               => [
@@ -50,6 +47,7 @@ class Manager
                 'KEY resource_type (resource_type)',
                 'KEY resource_id (resource_id)',
                 'KEY language (language)',
+                'KEY idx_resource_lookup (resource_id, resource_type, is_deleted)',
             ],
         ],
         'views'                   => [
@@ -190,19 +188,20 @@ class Manager
         'visitors'                => [
             'columns'     => [
                 'ID'         => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
-                'hash'       => 'varchar(128)',
+                'hash'       => 'varchar(20)',
+                'ip'         => 'varchar(128) DEFAULT NULL',
                 'created_at' => 'datetime NOT NULL',
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
                 'KEY hash (hash)',
+                'KEY ip (ip)',
             ],
         ],
         'sessions'                => [
             'columns'     => [
                 'ID'                        => 'bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
                 'visitor_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
-                'ip'                        => 'varchar(128) DEFAULT NULL',
                 'referrer_id'               => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'country_id'                => 'bigint(20) UNSIGNED DEFAULT NULL',
                 'city_id'                   => 'bigint(20) UNSIGNED DEFAULT NULL',
@@ -223,7 +222,6 @@ class Manager
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
-                'KEY ip (ip)',
                 'KEY visitor_id (visitor_id)',
                 'KEY country_id (country_id)',
                 'KEY city_id (city_id)',

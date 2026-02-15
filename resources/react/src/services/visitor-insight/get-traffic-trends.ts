@@ -4,7 +4,7 @@ import { clientRequest } from '@/lib/client-request'
 
 export const getVisitorInsightTrafficTrendsQueryOptions = ({ range, hasPreviousData = true }: TrafficTrendsParams) => {
   return queryOptions({
-    queryKey: ['vi-traffic-trends'],
+    queryKey: ['vi-traffic-trends', range, hasPreviousData],
     queryFn: () =>
       clientRequest.get<TrafficTrendsResponse>('', {
         params: {

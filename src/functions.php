@@ -24,11 +24,11 @@ use WP_Statistics\Bootstrap;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Ip;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Components\Country;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Service\Logger\LoggerFactory;
 use WP_Statistics\Utils\Page;
@@ -1134,14 +1134,5 @@ function wp_statistics_referrer($time = null, $range = [], $output = '')
  */
 function wp_statistics_needs_consent()
 {
-    // Get the current status of the consent requirement
-    $status = RequireConsent::getStatus();
-
-    // Check if consent is required
-    if ($status == 'warning') {
-        return true; // Consent is required
-    }
-
-    // Return false if consent is not required
-    return false;
+    return (bool) Option::getValue('consent_level_integration');
 }
