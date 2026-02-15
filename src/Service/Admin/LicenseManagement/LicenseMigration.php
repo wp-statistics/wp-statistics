@@ -66,7 +66,7 @@ class LicenseMigration
      */
     public static function hasLicensesAlreadyMigrated()
     {
-        return Option::getGroup('jobs', 'licenses_migrated');
+        return Option::getGroupValue('jobs', 'licenses_migrated');
     }
 
     /**

@@ -66,7 +66,7 @@ class IncompleteGeoIpUpdater extends ExtendedBackgroundProcess
 
     public function is_initiated()
     {
-        return Option::getGroup('jobs', 'update_geoip_process_initiated');
+        return Option::getGroupValue('jobs', 'update_geoip_process_initiated');
     }
 
     /**

@@ -86,25 +86,6 @@ class Option extends Singleton
     }
 
     /**
-     * Add option value using context-appropriate function.
-     *
-     * Uses add_site_option() for network admin context,
-     * add_option() for everything else.
-     *
-     * @param string $optionName Option name.
-     * @param mixed  $value      Value to store.
-     * @return bool
-     */
-    private static function addOptionValue($optionName, $value)
-    {
-        if (self::isNetworkContext()) {
-            return add_site_option($optionName, $value);
-        }
-
-        return add_option($optionName, $value);
-    }
-
-    /**
      * Delete option value using context-appropriate function.
      *
      * Uses delete_site_option() for network admin context,
@@ -285,31 +266,6 @@ class Option extends Singleton
     }
 
     /**
-     * Check if all option requirements are met.
-     *
-     * Verifies that all required options have their expected values.
-     *
-     * @param array $optionConfig The option configuration array.
-     * @param string $conditionKey The key to check for requirements (default: 'require').
-     * @return bool True if all requirements are met, false otherwise.
-     */
-    public static function meetsRequirements($optionConfig = [], $conditionKey = 'require')
-    {
-        if (empty($optionConfig[$conditionKey]) || !is_array($optionConfig[$conditionKey])) {
-            return true;
-        }
-
-        foreach ($optionConfig[$conditionKey] as $optionKey => $shouldBeEnabled) {
-            $actualValue = self::getValue($optionKey);
-            if (($shouldBeEnabled && !$actualValue) || (!$shouldBeEnabled && $actualValue)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Get addon option name.
      *
      * @param string $addonName The name of the addon.
@@ -362,6 +318,39 @@ class Option extends Singleton
     {
         $settingName = self::getAddonName($addonName);
         update_option($settingName, $options);
+    }
+
+    /**
+     * Get all values stored in addon option.
+     *
+     * Alias for getAddon() for backward compatibility with addons.
+     *
+     * @param string $addonName The name of the addon.
+     * @return array|false Array of addon option values or false if not found.
+     */
+    public static function getAddonOptions(string $addonName = '')
+    {
+        return self::getAddon($addonName);
+    }
+
+    /**
+     * Update a single value in addon option.
+     *
+     * Convenience method for updating a single addon setting without
+     * needing to manage the full options array manually.
+     *
+     * @param string $optionName The option name to update.
+     * @param mixed  $value      The new value.
+     * @param string $addonName  The name of the addon.
+     * @return void
+     */
+    public static function updateAddonOption(string $optionName, $value, string $addonName = '')
+    {
+        $options = self::getAddon($addonName);
+        $options = is_array($options) ? $options : [];
+
+        $options[$optionName] = $value;
+        self::updateAddon($options, $addonName);
     }
 
     /**
@@ -435,26 +424,6 @@ class Option extends Singleton
 
         $options[$optionKey] = $value;
         self::updateOptionValue($settingName, $options);
-    }
-
-    /**
-     * Add a single value to new group option.
-     *
-     * Automatically uses network options when in network admin context.
-     *
-     * @param string $optionKey The option key to add.
-     * @param mixed $value The value for the new option.
-     * @param string $group The group name.
-     * @return void
-     */
-    public static function addGroup(string $optionKey, $value, string $group)
-    {
-        $settingName = self::getGroupName($group);
-        $options     = self::getOptionValue($settingName, []);
-        $options     = is_array($options) ? $options : [];
-
-        $options[$optionKey] = $value;
-        self::addOptionValue($settingName, $options);
     }
 
     /**
