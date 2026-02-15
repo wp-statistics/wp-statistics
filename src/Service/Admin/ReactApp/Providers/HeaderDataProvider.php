@@ -4,8 +4,6 @@ namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-use WP_Statistics\Service\Admin\Notification\NotificationFactory;
 use WP_Statistics\Utils\User;
 
 /**
@@ -35,20 +33,9 @@ class HeaderDataProvider implements LocalizeDataProviderInterface
         $hasManageCap = $manageCap && current_user_can($manageCap);
 
         $data = [
-            'notifications' => [
-                'isActive' => Option::getValue('display_notifications', true),
-                'items'    => NotificationFactory::getAllNotifications(),
-                'icon'     => 'Bell',
-                'label'    => esc_html__('Notifications', 'wp-statistics'),
-            ],
-            'privacyAudit' => [
-                'isActive' => apply_filters('wp_statistics_enable_help_icon', true) && $hasManageCap,
-                'url'      => '#',
-                'icon'     => 'ShieldCheck',
-                'label'    => esc_html__('Privacy Audit', 'wp-statistics'),
-            ],
             'premiumBadge' => [
-                'isActive' => LicenseHelper::isValidLicenseAvailable(),
+                // TODO: Check premium status from wp-statistics-premium plugin
+                'isActive' => is_plugin_active('wp-statistics-premium/wp-statistics-premium.php'),
                 'url'      => esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'),
                 'icon'     => 'Crown',
                 'label'    => esc_html__('Upgrade To Premium', 'wp-statistics'),

@@ -58,6 +58,12 @@ class ToolsAreaDefinitions
                 'order'     => 60,
                 'component' => 'BackupsPage',
             ],
+            'privacy-audit' => [
+                'label'     => __('Privacy Audit', 'wp-statistics'),
+                'icon'      => 'shieldCheck',
+                'order'     => 70,
+                'component' => 'PrivacyAuditPage',
+            ],
         ];
     }
 }

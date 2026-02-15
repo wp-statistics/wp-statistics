@@ -39,6 +39,11 @@ const RootLayout = () => {
   const isToolsPage = routerState.location.pathname.startsWith('/tools')
   const isNetworkAdmin = wp.isNetworkAdmin()
 
+  // Full-width pages (no sidebar) — pending React implementation
+  const isFullWidthPage = ['/premium', '/help'].some(
+    (path) => routerState.location.pathname === path || routerState.location.pathname.startsWith(path + '/')
+  )
+
   // Route guard: restrict access based on user level
   const accessLevel = wp.getAccessLevel()
   const pathname = routerState.location.pathname
@@ -82,7 +87,7 @@ const RootLayout = () => {
   )
 
   // Determine which sidebar to show
-  const sidebar = isNetworkAdmin
+  const sidebar = isNetworkAdmin || isFullWidthPage
     ? null
     : isSettingsPage
       ? <SecondarySidebar items={dynamicSettingsNav} />

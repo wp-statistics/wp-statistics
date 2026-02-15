@@ -82,7 +82,8 @@ describe('data-table-helpers', () => {
         role: 'subscriber',
       })
 
-      expect(result.identifier).toBe('abc123hash')
+      // ipAddress is preferred over hash (ipAddress || hash)
+      expect(result.identifier).toBe('192.168.1.1')
     })
 
     it('sets user to undefined when no userId', () => {
@@ -105,21 +106,21 @@ describe('data-table-helpers', () => {
       expect(typeof result.user?.id).toBe('number')
     })
 
-    it('uses hash as identifier when available', () => {
+    it('uses ipAddress as identifier when available', () => {
       const result = createVisitorInfoData(fullVisitor)
-      expect(result.identifier).toBe('abc123hash')
+      expect(result.identifier).toBe('192.168.1.1')
     })
 
-    it('falls back to ipAddress when no hash', () => {
-      const result = createVisitorInfoData(minimalVisitor)
-      expect(result.identifier).toBe('10.0.0.1')
+    it('falls back to hash when no ipAddress', () => {
+      const result = createVisitorInfoData(anonymousVisitor)
+      expect(result.identifier).toBe('xyz789hash')
     })
 
-    it('prefers hash over ipAddress', () => {
+    it('prefers ipAddress over hash', () => {
       const result = createVisitorInfoData(fullVisitor)
-      // fullVisitor has both hash and ipAddress, should use hash
-      expect(result.identifier).toBe('abc123hash')
-      expect(result.identifier).not.toBe('192.168.1.1')
+      // fullVisitor has both hash and ipAddress, should use ipAddress
+      expect(result.identifier).toBe('192.168.1.1')
+      expect(result.identifier).not.toBe('abc123hash')
     })
 
     it('handles empty strings in location fields', () => {

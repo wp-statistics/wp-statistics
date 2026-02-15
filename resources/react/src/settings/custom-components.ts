@@ -143,3 +143,12 @@ registerSettingsComponent(
     }))
   )
 )
+
+registerSettingsComponent(
+  'PrivacyAuditPage',
+  lazy(() =>
+    import('@/components/tools/tabs/privacy-audit-page').then((m) => ({
+      default: m.PrivacyAuditPage,
+    }))
+  )
+)

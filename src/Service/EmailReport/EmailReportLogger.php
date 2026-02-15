@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\EmailReport;
 
-use WP_Statistics\Components\Option;
-
 /**
  * Email Report Logger
  *
@@ -16,9 +14,9 @@ use WP_Statistics\Components\Option;
 class EmailReportLogger
 {
     /**
-     * Option key for email log storage
+     * Full option key for email log storage (stored in wp_options).
      */
-    private const OPTION_KEY = 'email_report_log';
+    private const OPTION_KEY = 'wps_email_report_log';
 
     /**
      * Maximum number of log entries to keep
@@ -54,7 +52,7 @@ class EmailReportLogger
         // Keep only last N entries
         $log = array_slice($log, 0, self::MAX_ENTRIES);
 
-        Option::updateOption(self::OPTION_KEY, $log);
+        update_option(self::OPTION_KEY, $log);
     }
 
     /**
@@ -64,7 +62,7 @@ class EmailReportLogger
      */
     public function getLog(): array
     {
-        $log = Option::getOption(self::OPTION_KEY);
+        $log = get_option(self::OPTION_KEY);
 
         if (!is_array($log)) {
             return [];
@@ -193,7 +191,7 @@ class EmailReportLogger
      */
     public function clear(): void
     {
-        Option::deleteOption(self::OPTION_KEY);
+        delete_option(self::OPTION_KEY);
     }
 
     /**

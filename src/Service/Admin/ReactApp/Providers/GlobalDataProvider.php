@@ -9,7 +9,6 @@ use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\AnalyticsQuery;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\FilterOptions;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\UserPreferences;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 use WP_Statistics\Utils\Taxonomy;
 use WP_Statistics\Utils\User;
@@ -33,7 +32,8 @@ class GlobalDataProvider implements LocalizeDataProviderInterface
     public function getData()
     {
         $data = [
-            'isPremium'             => LicenseHelper::isPremiumLicenseAvailable(),
+            // TODO: Check premium status from wp-statistics-premium plugin
+            'isPremium'             => is_plugin_active('wp-statistics-premium/wp-statistics-premium.php'),
             'ajaxUrl'               => admin_url('admin-ajax.php'),
             'nonce'                 => wp_create_nonce('wp_statistics_dashboard_nonce'),
             'pluginUrl'             => WP_STATISTICS_URL,

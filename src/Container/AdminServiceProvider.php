@@ -8,17 +8,16 @@ use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\CommandPalette\CommandPaletteHandler;
 use WP_Statistics\Service\Admin\ReactApp\ReactAppManager;
 use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Network\NetworkMenuManager;
-use WP_Statistics\Service\Admin\Notification\NotificationManager;
-use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
 use WP_Statistics\Service\Admin\Tools\Endpoints\ToolsEndpoints;
 use WP_Statistics\Service\Admin\Notice\NoticeManager;
 use WP_Statistics\Service\Admin\Notice\Notices\DiagnosticNotice;
 use WP_Statistics\Service\EmailReport\EmailReportManager;
-use WP_Statistics\Service\Admin\Dashboard\DashboardWidgetManager;
+use WP_Statistics\Service\Admin\WordPressIntegration\DashboardWidgetManager;
+use WP_Statistics\Service\Admin\WordPressIntegration\EditorMetabox;
+use WP_Statistics\Service\Admin\WordPressIntegration\StatsColumnManager;
 use WP_Statistics\Service\ImportExport\ImportExportManager;
 
 /**
@@ -73,24 +72,9 @@ class AdminServiceProvider implements ServiceProvider
             return SiteHealthTests::instance();
         });
 
-        // License Management (add-ons licensing and updates)
-        $container->register('license_management', function () {
-            return new LicenseManagementManager();
-        });
-
-        // Posts Manager (hits column, post meta tracking)
-        $container->register('posts', function () {
-            return new PostsManager();
-        });
-
         // Filter Manager (AJAX filter handling)
         $container->register('filters', function () {
             return new FilterManager();
-        });
-
-        // Notification Manager (admin notifications)
-        $container->register('notifications', function () {
-            return new NotificationManager();
         });
 
         // Anonymized Usage Data Manager (opt-in telemetry)
@@ -118,6 +102,16 @@ class AdminServiceProvider implements ServiceProvider
         // Dashboard Widget (WordPress admin dashboard summary)
         $container->register('dashboard_widget', function () {
             return new DashboardWidgetManager();
+        });
+
+        // Editor Metabox (stats summary in post editor)
+        $container->register('editor_metabox', function () {
+            return new EditorMetabox();
+        });
+
+        // Stats Columns (views column in post/user list tables)
+        $container->register('stats_columns', function () {
+            return new StatsColumnManager();
         });
 
         // Access Level Enforcer (restricts analytics queries by user role)
@@ -154,15 +148,14 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('command_palette');
             $container->get('site_health_info');
             $container->get('site_health_tests');
-            $container->get('license_management');
-            $container->get('posts');
             $container->get('filters');
-            $container->get('notifications');
             $container->get('anonymized_data');
             $container->get('import_export');
             $container->get('tools_endpoints');
             $container->get('network_menu');
             $container->get('dashboard_widget');
+            $container->get('editor_metabox');
+            $container->get('stats_columns');
             $container->get('notice_manager');
         }
     }

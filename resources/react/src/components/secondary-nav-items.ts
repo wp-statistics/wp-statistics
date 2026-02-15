@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { Activity, Ban, Bell, Clock, Database, Info, type LucideIcon, Monitor, Settings, Shield, Stethoscope, Upload, Users, Wrench } from 'lucide-react'
+import { Activity, Ban, Bell, Clock, Database, Info, type LucideIcon, Monitor, Settings, Shield, ShieldCheck, Stethoscope, Upload, Users, Wrench } from 'lucide-react'
 
 import { getSettingsTabs } from '@/registry/settings-registry'
 import type { SettingsConfig } from '@/services/settings-config'
@@ -27,6 +27,7 @@ const iconMap: Record<string, LucideIcon> = {
   clock: Clock,
   activity: Activity,
   upload: Upload,
+  shieldCheck: ShieldCheck,
 }
 
 /**
@@ -60,4 +61,5 @@ export const toolsNavItems: SecondaryNavItem[] = [
   { title: __('Background Jobs', 'wp-statistics'), url: '/tools/background-jobs', icon: Activity },
   { title: __('Import / Export', 'wp-statistics'), url: '/tools/import-export', icon: Upload },
   { title: __('Backups', 'wp-statistics'), url: '/tools/backups', icon: Database },
+  { title: __('Privacy Audit', 'wp-statistics'), url: '/tools/privacy-audit', icon: ShieldCheck },
 ]

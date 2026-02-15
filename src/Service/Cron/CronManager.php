@@ -7,9 +7,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Cron\Events\DatabaseMaintenanceEvent;
 use WP_Statistics\Service\Cron\Events\GeoIPUpdateEvent;
 use WP_Statistics\Service\Cron\Events\DailySummaryEvent;
-use WP_Statistics\Service\Cron\Events\LicenseEvent;
 use WP_Statistics\Service\Cron\Events\ReferralsDatabaseEvent;
-use WP_Statistics\Service\Cron\Events\NotificationEvent;
 use WP_Statistics\Service\Cron\Events\EmailReportEvent;
 
 /**
@@ -78,9 +76,7 @@ class CronManager
             'database_maintenance' => DatabaseMaintenanceEvent::class,
             'geoip_update'         => GeoIPUpdateEvent::class,
             'daily_summary'        => DailySummaryEvent::class,
-            'license'              => LicenseEvent::class,
             'referrals_database'   => ReferralsDatabaseEvent::class,
-            'notification'         => NotificationEvent::class,
             'email_report'         => EmailReportEvent::class,
         ];
 
@@ -209,14 +205,6 @@ class CronManager
             'wp_statistics_queue_daily_summary' => [
                 'label'      => __('Daily Summary', 'wp-statistics'),
                 'recurrence' => 'daily',
-            ],
-            'wp_statistics_licenses_hook' => [
-                'label'      => __('License Migration', 'wp-statistics'),
-                'recurrence' => 'daily',
-            ],
-            'wp_statistics_check_licenses_status' => [
-                'label'      => __('License Status Check', 'wp-statistics'),
-                'recurrence' => 'twicedaily',
             ],
             'wp_statistics_referrals_db_hook' => [
                 'label'      => __('Referrals Database', 'wp-statistics'),

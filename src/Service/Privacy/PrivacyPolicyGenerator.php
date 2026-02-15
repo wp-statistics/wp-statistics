@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Privacy;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
-use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 
 /**
  * Privacy Policy Generator for WP Statistics v15.
@@ -73,7 +72,7 @@ class PrivacyPolicyGenerator
      */
     private function getConsentSection()
     {
-        if (RequireConsent::getStatus() !== 'success') {
+        if (!Option::getValue('consent_level_integration')) {
             return '';
         }
 

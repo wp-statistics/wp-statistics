@@ -3,10 +3,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { LineChart, type LineChartDataPoint, type LineChartMetric } from '@components/custom/line-chart'
 
-// Mock recharts to avoid SVG rendering issues in tests
+// Mock recharts - component uses ComposedChart, not LineChart
 vi.mock('recharts', () => ({
-  LineChart: ({ children }: { children: React.ReactNode }) => <div data-testid="recharts-line-chart">{children}</div>,
+  ComposedChart: ({ children }: { children: React.ReactNode }) => <div data-testid="recharts-line-chart">{children}</div>,
   Line: ({ dataKey }: { dataKey: string }) => <div data-testid={`line-${dataKey}`} />,
+  Bar: ({ dataKey }: { dataKey: string }) => <div data-testid={`bar-${dataKey}`} />,
   XAxis: () => <div data-testid="x-axis" />,
   YAxis: () => <div data-testid="y-axis" />,
   CartesianGrid: () => <div data-testid="cartesian-grid" />,
@@ -20,6 +21,34 @@ vi.mock('@components/ui/chart', () => ({
     </div>
   ),
   ChartTooltip: () => <div data-testid="chart-tooltip" />,
+}))
+
+// Mock Panel components
+vi.mock('@components/ui/panel', () => ({
+  Panel: ({ children, className }: { children: React.ReactNode; className?: string }) => (
+    <div data-testid="panel" className={className}>{children}</div>
+  ),
+  PanelHeader: ({ children, className }: { children: React.ReactNode; className?: string }) => (
+    <div data-testid="panel-header" className={className}>{children}</div>
+  ),
+  PanelTitle: ({ children }: { children: React.ReactNode }) => <h3>{children}</h3>,
+  PanelContent: ({ children }: { children: React.ReactNode }) => <div data-testid="panel-content">{children}</div>,
+  PanelActions: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+}))
+
+// Mock Select components
+vi.mock('@components/ui/select', () => ({
+  Select: ({ children, value }: { children: React.ReactNode; value?: string }) => (
+    <div data-testid="select" data-value={value}>{children}</div>
+  ),
+  SelectTrigger: ({ children, className }: { children: React.ReactNode; className?: string }) => (
+    <button role="combobox" className={className}>{children}</button>
+  ),
+  SelectValue: () => <span />,
+  SelectContent: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  SelectItem: ({ children, value }: { children: React.ReactNode; value: string }) => (
+    <div data-value={value}>{children}</div>
+  ),
 }))
 
 // Mock useBreakpoint hook

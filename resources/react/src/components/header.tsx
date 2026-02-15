@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import { Bell,Menu, ShieldCheck } from 'lucide-react'
 
 import { Logo } from '@/components/ui/logo'
@@ -11,6 +12,7 @@ const hasNotifications = true
 export function Header() {
   const { isMobileOrTablet } = useBreakpoint()
   const { toggleSidebar } = useSidebar()
+  const navigate = useNavigate()
 
   return (
     <header className="bg-header h-[var(--header-height)] px-3 lg:px-4 flex items-center gap-3 shrink-0 border-b border-sidebar-border">
@@ -42,6 +44,7 @@ export function Header() {
             }
           `}
           aria-label={`Privacy status: ${privacyStatus}`}
+          onClick={() => void navigate({ to: '/tools/privacy-audit' })}
         >
           <ShieldCheck className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
         </button>

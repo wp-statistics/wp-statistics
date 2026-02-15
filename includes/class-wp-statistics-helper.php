@@ -2087,11 +2087,11 @@ class Helper
      *
      * @return array
      *
-     * @deprecated 14.10.1 Use `WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider()` instead.
+     * @deprecated 14.10.1 Use `WP_Statistics\Service\EmailReport\WebsitePerformanceDataProvider()` instead.
      */
     public static function getWebsitePerformanceSummary($startDate, $endDate = '')
     {
-        _deprecated_function(__METHOD__, '14.10.1', 'WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider()');
+        _deprecated_function(__METHOD__, '14.10.1', 'WP_Statistics\Service\EmailReport\WebsitePerformanceDataProvider()');
 
         return [];
     }

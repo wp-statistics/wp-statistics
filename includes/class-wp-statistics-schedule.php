@@ -8,9 +8,6 @@ use WP_Statistics\Components\Event;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
-use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
 
 /**
  * Legacy Schedule class for backward compatibility.
@@ -81,13 +78,8 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 
-        // Schedule license migration
-        if (!wp_next_scheduled('wp_statistics_licenses_hook') && !LicenseMigration::hasLicensesAlreadyMigrated()) {
-            wp_schedule_event(time(), 'daily', 'wp_statistics_licenses_hook');
-        }
-
-        // Remove license migration schedule if licenses have been migrated before
-        if (wp_next_scheduled('wp_statistics_licenses_hook') && LicenseMigration::hasLicensesAlreadyMigrated()) {
+        // Cleanup legacy license hooks if still scheduled
+        if (wp_next_scheduled('wp_statistics_licenses_hook')) {
             wp_unschedule_event(wp_next_scheduled('wp_statistics_licenses_hook'), 'wp_statistics_licenses_hook');
         }
 
@@ -116,9 +108,10 @@ class Schedule
         // using the 'wp_statistics_email_report' hook.
         // Legacy 'wp_statistics_report_hook' is deprecated and will be removed.
 
-        add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
-
-        Event::schedule('wp_statistics_check_licenses_status', time(), 'weekly', [$this, 'check_licenses_status']);
+        // Cleanup legacy license status check if still scheduled
+        if (wp_next_scheduled('wp_statistics_check_licenses_status')) {
+            wp_unschedule_event(wp_next_scheduled('wp_statistics_check_licenses_status'), 'wp_statistics_check_licenses_status');
+        }
     }
 
     /**
@@ -200,11 +193,6 @@ class Schedule
         ];
 
         return apply_filters('wp_statistics_cron_schedules', $schedules);
-    }
-
-    public static function check_licenses_status()
-    {
-        LicenseHelper::checkLicensesStatus();
     }
 
     /**
@@ -359,17 +347,6 @@ class Schedule
         Event::reschedule($event, $newTime);
     }
 
-    /**
-     * Calls `LicenseMigration->migrateOldLicenses()` and migrates old licenses to the new structure.
-     *
-     * @return void
-     */
-    public function migrateOldLicenses()
-    {
-        $apiCommunicator  = new ApiCommunicator();
-        $licenseMigration = new LicenseMigration($apiCommunicator);
-        $licenseMigration->migrateOldLicenses();
-    }
 }
 
 new Schedule;

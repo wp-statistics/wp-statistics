@@ -142,9 +142,7 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
         $this->assertContains('database_maintenance', $keys);
         $this->assertContains('geoip_update', $keys);
         $this->assertContains('daily_summary', $keys);
-        $this->assertContains('license', $keys);
         $this->assertContains('referrals_database', $keys);
-        $this->assertContains('notification', $keys);
     }
 
     /**

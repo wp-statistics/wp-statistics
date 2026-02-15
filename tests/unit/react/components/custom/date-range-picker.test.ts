@@ -7,8 +7,19 @@ vi.mock('@/lib/wordpress', () => ({
   WordPress: {
     getInstance: () => ({
       getStartOfWeek: () => 1, // Monday = 1
+      getTimezone: () => ({ string: null, gmtOffset: 0 }),
     }),
   },
+}))
+
+// Mock wp-date to use system time (no timezone offset) so tests stay deterministic
+vi.mock('@/lib/wp-date', () => ({
+  getWpToday: () => {
+    const d = new Date()
+    d.setHours(0, 0, 0, 0)
+    return d
+  },
+  getWpCurrentYear: () => new Date().getFullYear(),
 }))
 
 describe('date-range-picker utilities', () => {

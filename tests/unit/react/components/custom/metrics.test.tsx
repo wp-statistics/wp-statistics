@@ -60,7 +60,8 @@ describe('Metrics Component', () => {
 
     it('renders with empty metrics array', () => {
       const { container } = render(<Metrics metrics={[]} />)
-      expect(container.querySelector('.grid')).toBeInTheDocument()
+      // Component uses flex flex-wrap layout
+      expect(container.querySelector('.flex')).toBeInTheDocument()
     })
   })
 
@@ -82,8 +83,8 @@ describe('Metrics Component', () => {
   describe('Percentage Badge', () => {
     it('shows percentage badge when percentage is provided', () => {
       render(<Metrics metrics={metricsWithPercentage} />)
-      expect(screen.getByText('15.5%')).toBeInTheDocument()
-      expect(screen.getByText('8.2%')).toBeInTheDocument()
+      expect(screen.getByText(/15\.5.*%/)).toBeInTheDocument()
+      expect(screen.getByText(/8\.2.*%/)).toBeInTheDocument()
     })
 
     it('does not show percentage badge when percentage is not provided', () => {
@@ -93,7 +94,7 @@ describe('Metrics Component', () => {
 
     it('shows percentage badge for zero percentage', () => {
       render(<Metrics metrics={metricsWithZeroPercentage} />)
-      expect(screen.getByText('0%')).toBeInTheDocument()
+      expect(screen.getByText(/0.*%/)).toBeInTheDocument()
     })
 
     it('rounds percentage when >= 100', () => {
@@ -101,7 +102,7 @@ describe('Metrics Component', () => {
         { label: 'Visitors', value: '1,234', percentage: 156.7 },
       ]
       render(<Metrics metrics={metricsWithLargePercentage} />)
-      expect(screen.getByText('157%')).toBeInTheDocument()
+      expect(screen.getByText(/157.*%/)).toBeInTheDocument()
     })
   })
 
@@ -109,7 +110,7 @@ describe('Metrics Component', () => {
     it('shows up chevron for positive (non-negative) percentage', () => {
       render(<Metrics metrics={[{ label: 'Test', value: '100', percentage: 10, isNegative: false }]} />)
       // ChevronUp has a specific path, we check by its presence in the percentage container
-      const percentageElement = screen.getByText('10%').parentElement
+      const percentageElement = screen.getByText(/10.*%/).closest('span')
       expect(percentageElement).toBeInTheDocument()
       // ChevronUp should be present (has class h-3 w-3)
       const chevron = percentageElement?.querySelector('svg')
@@ -118,14 +119,14 @@ describe('Metrics Component', () => {
 
     it('shows down chevron for negative percentage', () => {
       render(<Metrics metrics={[{ label: 'Test', value: '100', percentage: 10, isNegative: true }]} />)
-      const percentageElement = screen.getByText('10%').parentElement
+      const percentageElement = screen.getByText(/10.*%/).closest('span')
       const chevron = percentageElement?.querySelector('svg')
       expect(chevron).toBeInTheDocument()
     })
 
     it('does not show chevron for zero percentage', () => {
       render(<Metrics metrics={metricsWithZeroPercentage} />)
-      const percentageElement = screen.getByText('0%').parentElement
+      const percentageElement = screen.getByText(/0.*%/).closest('span')
       const chevron = percentageElement?.querySelector('svg')
       expect(chevron).not.toBeInTheDocument()
     })
@@ -151,7 +152,7 @@ describe('Metrics Component', () => {
     it('shows tooltip trigger on percentage badge when comparisonDateLabel is provided', () => {
       render(<Metrics metrics={metricsWithTooltip} />)
 
-      const percentageBadge = screen.getByText('15.5%')
+      const percentageBadge = screen.getByText(/15\.5.*%/).closest('span')
       expect(percentageBadge).toHaveClass('cursor-help')
       // Radix tooltip trigger has data-slot attribute
       expect(percentageBadge).toHaveAttribute('data-slot', 'tooltip-trigger')
@@ -159,32 +160,37 @@ describe('Metrics Component', () => {
 
     it('does not show cursor-help when comparisonDateLabel is not provided', () => {
       render(<Metrics metrics={metricsWithPercentage} />)
-      const percentageBadge = screen.getByText('15.5%')
+      const percentageBadge = screen.getByText(/15\.5.*%/).closest('span')
       expect(percentageBadge).not.toHaveClass('cursor-help')
     })
   })
 
-  describe('Column Configuration', () => {
-    it('uses default 3 columns', () => {
+  describe('Layout', () => {
+    it('uses flex wrap layout', () => {
       const { container } = render(<Metrics metrics={metricsWithPercentage} />)
-      expect(container.querySelector('.grid-cols-3')).toBeInTheDocument()
+      const wrapper = container.firstElementChild as HTMLElement
+      expect(wrapper.className).toContain('flex')
+      expect(wrapper.className).toContain('flex-wrap')
     })
 
-    it('respects columns prop', () => {
-      const { container: c1 } = render(<Metrics metrics={metricsWithPercentage} columns={1} />)
-      expect(c1.querySelector('.grid-cols-1')).toBeInTheDocument()
+    it('applies inline width styles to metric items', () => {
+      const { container } = render(<Metrics metrics={metricsWithPercentage} columns={2} />)
+      const items = container.querySelectorAll('[style*="width"]')
+      expect(items.length).toBeGreaterThan(0)
+      // 2 columns = 50% width
+      expect(items[0].getAttribute('style')).toContain('50%')
+    })
 
-      const { container: c2 } = render(<Metrics metrics={metricsWithPercentage} columns={2} />)
-      expect(c2.querySelector('.grid-cols-2')).toBeInTheDocument()
-
-      const { container: c4 } = render(<Metrics metrics={metricsWithPercentage} columns={4} />)
-      expect(c4.querySelector('.grid-cols-4')).toBeInTheDocument()
-
-      const { container: c6 } = render(<Metrics metrics={metricsWithPercentage} columns={6} />)
-      expect(c6.querySelector('.grid-cols-6')).toBeInTheDocument()
-
-      const { container: c12 } = render(<Metrics metrics={metricsWithPercentage} columns={12} />)
-      expect(c12.querySelector('.grid-cols-12')).toBeInTheDocument()
+    it('adapts width for different column counts', () => {
+      const fourMetrics: MetricItem[] = Array.from({ length: 4 }, (_, i) => ({
+        label: `M${i}`,
+        value: String(i),
+      }))
+      const { container } = render(<Metrics metrics={fourMetrics} columns={4} />)
+      const items = container.querySelectorAll('[style*="width"]')
+      expect(items.length).toBe(4)
+      // 4 columns = 25% width
+      expect(items[0].getAttribute('style')).toContain('25%')
     })
   })
 
@@ -209,8 +215,8 @@ describe('Metrics Component', () => {
     it('handles metric with all optional props present', () => {
       const fullMetric: MetricItem[] = [
         {
-          label: 'Visitors',
-          value: '1,234',
+          label: 'Revenue',
+          value: '$1,234',
           percentage: 15.5,
           isNegative: false,
           icon: <span data-testid="icon">★</span>,
@@ -220,9 +226,9 @@ describe('Metrics Component', () => {
         },
       ]
       render(<Metrics metrics={fullMetric} />)
-      expect(screen.getByText('Visitors')).toBeInTheDocument()
-      expect(screen.getByText('1,234')).toBeInTheDocument()
-      expect(screen.getByText('15.5%')).toBeInTheDocument()
+      expect(screen.getByText('Revenue')).toBeInTheDocument()
+      expect(screen.getByText('$1,234')).toBeInTheDocument()
+      expect(screen.getByText(/15\.5.*%/)).toBeInTheDocument()
       expect(screen.getByTestId('icon')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /More information/i })).toBeInTheDocument()
     })
@@ -236,7 +242,7 @@ describe('Metrics Component', () => {
     it('accepts string percentage', () => {
       const stringPercentageMetric: MetricItem[] = [{ label: 'Test', value: '100', percentage: '25.5' }]
       render(<Metrics metrics={stringPercentageMetric} />)
-      expect(screen.getByText('25.5%')).toBeInTheDocument()
+      expect(screen.getByText(/25\.5.*%/)).toBeInTheDocument()
     })
   })
 

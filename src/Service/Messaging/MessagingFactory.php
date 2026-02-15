@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Messaging;
 
-use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Messaging\Provider\MailProvider;
 use WP_Statistics\Service\Messaging\Provider\SmsProvider;
@@ -129,15 +128,13 @@ class MessagingFactory
                 );
             }
 
-            if (!Addons::isActive('advanced-reporting')) {
-                $emailTitle .= sprintf(
-                    '<p style="margin-bottom:12px;margin-top:4px;font-size:14px;font-weight:400;line-height:16.41px;color:#56585A;">%1$s</p>' .
-                    '<p style="margin:0"><a href="%2$s" title="%3$s" style="color:#56585A;font-size:16px;font-weight:500;line-height:18.75px;text-decoration:none">%3$s</a></p>',
-                    esc_html($reportDate),
-                    esc_url(get_site_url()),
-                    esc_html(get_bloginfo('name'))
-                );
-            }
+            $emailTitle .= sprintf(
+                '<p style="margin-bottom:12px;margin-top:4px;font-size:14px;font-weight:400;line-height:16.41px;color:#56585A;">%1$s</p>' .
+                '<p style="margin:0"><a href="%2$s" title="%3$s" style="color:#56585A;font-size:16px;font-weight:500;line-height:18.75px;text-decoration:none">%3$s</a></p>',
+                esc_html($reportDate),
+                esc_url(get_site_url()),
+                esc_html(get_bloginfo('name'))
+            );
         }
 
         // Optional header / footer free‑content
