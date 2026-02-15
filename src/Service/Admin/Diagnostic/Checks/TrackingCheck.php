@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Diagnostic\Checks;
 
+use Exception;
+use WP_Statistics\Components\RemoteRequest;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticResult;
 use WP_Statistics\Service\Tracking\TrackerControllerFactory;
 use WP_Statistics\Components\Option;
@@ -100,27 +102,25 @@ class TrackingCheck extends AbstractCheck
     {
         $url = rest_url($route);
 
+        $request   = new RemoteRequest($url, 'GET', [], [
+            'timeout' => self::TIMEOUT,
+        ]);
         $startTime = microtime(true);
 
-        $response = wp_remote_get($url, [
-            'timeout'   => self::TIMEOUT,
-            'sslverify' => false,
-        ]);
-
-        $duration = round((microtime(true) - $startTime) * 1000);
-
-        if (is_wp_error($response)) {
+        try {
+            $request->execute(false, false);
+        } catch (Exception $e) {
             return $this->fail(
-                $response->get_error_message(),
+                $e->getMessage(),
                 [
-                    'endpoint'   => 'REST API',
-                    'url'        => $url,
-                    'error_code' => $response->get_error_code(),
+                    'endpoint' => 'REST API',
+                    'url'      => $url,
                 ]
             );
         }
 
-        $code = wp_remote_retrieve_response_code($response);
+        $duration = round((microtime(true) - $startTime) * 1000);
+        $code     = $request->getResponseCode();
 
         // REST endpoint should return 200 or 400 (missing params is OK)
         if (!in_array($code, [200, 400], true)) {
@@ -169,30 +169,28 @@ class TrackingCheck extends AbstractCheck
     {
         $url = admin_url('admin-ajax.php');
 
-        $startTime = microtime(true);
-
-        $response = wp_remote_post($url, [
-            'timeout'   => self::TIMEOUT,
-            'sslverify' => false,
-            'body'      => [
+        $request   = new RemoteRequest($url, 'POST', [], [
+            'timeout' => self::TIMEOUT,
+            'body'    => [
                 'action' => 'wp_statistics_tracker',
             ],
         ]);
+        $startTime = microtime(true);
 
-        $duration = round((microtime(true) - $startTime) * 1000);
-
-        if (is_wp_error($response)) {
+        try {
+            $request->execute(false, false);
+        } catch (Exception $e) {
             return $this->fail(
-                $response->get_error_message(),
+                $e->getMessage(),
                 [
-                    'endpoint'   => 'AJAX',
-                    'url'        => $url,
-                    'error_code' => $response->get_error_code(),
+                    'endpoint' => 'AJAX',
+                    'url'      => $url,
                 ]
             );
         }
 
-        $code = wp_remote_retrieve_response_code($response);
+        $duration = round((microtime(true) - $startTime) * 1000);
+        $code     = $request->getResponseCode();
 
         if ($code !== 200) {
             return $this->fail(
