@@ -19,7 +19,7 @@ class BackgroundProcessFactory
     {
         $updateIncompleteVisitorsLocations = WP_Statistics()->getBackgroundProcess('update_unknown_visitor_geoip');
 
-        if ($updateIncompleteVisitorsLocations->is_active()) {
+        if (!$updateIncompleteVisitorsLocations || $updateIncompleteVisitorsLocations->is_active()) {
             return;
         }
 
@@ -67,7 +67,7 @@ class BackgroundProcessFactory
         $provider        = GeolocationFactory::getProviderInstance();
         $downloadProcess = WP_Statistics()->getBackgroundProcess('geolocation_database_download');
 
-        if ($downloadProcess->is_active()) {
+        if (!$downloadProcess || $downloadProcess->is_active()) {
             return;
         }
 
@@ -87,7 +87,7 @@ class BackgroundProcessFactory
 
         $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
 
-        if ($updateIncompleteVisitorsSourceChannels->is_active()) {
+        if (!$updateIncompleteVisitorsSourceChannels || $updateIncompleteVisitorsSourceChannels->is_active()) {
             return;
         }
 
@@ -130,7 +130,7 @@ class BackgroundProcessFactory
     {
         $calculateDailySummary = WP_Statistics()->getBackgroundProcess('calculate_daily_summary');
 
-        if ($calculateDailySummary->is_active()) {
+        if (!$calculateDailySummary || $calculateDailySummary->is_active()) {
             return;
         }
 
@@ -190,7 +190,7 @@ class BackgroundProcessFactory
     {
         $calculateDailySummaryTotal = WP_Statistics()->getBackgroundProcess('calculate_daily_summary_total');
 
-        if ($calculateDailySummaryTotal->is_active()) {
+        if (!$calculateDailySummaryTotal || $calculateDailySummaryTotal->is_active()) {
             return;
         }
 
@@ -211,7 +211,7 @@ class BackgroundProcessFactory
     {
         $updateResource = WP_Statistics()->getBackgroundProcess('update_resouce_cache_fields');
 
-        if ($updateResource->is_active()) {
+        if (!$updateResource || $updateResource->is_active()) {
             return;
         }
 

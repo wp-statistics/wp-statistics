@@ -104,7 +104,7 @@ class TrackingCheck extends AbstractCheck
 
         $response = wp_remote_get($url, [
             'timeout'   => self::TIMEOUT,
-            'sslverify' => apply_filters('https_local_ssl_verify', false),
+            'sslverify' => false,
         ]);
 
         $duration = round((microtime(true) - $startTime) * 1000);
@@ -173,7 +173,7 @@ class TrackingCheck extends AbstractCheck
 
         $response = wp_remote_post($url, [
             'timeout'   => self::TIMEOUT,
-            'sslverify' => apply_filters('https_local_ssl_verify', false),
+            'sslverify' => false,
             'body'      => [
                 'action' => 'wp_statistics_tracker',
             ],

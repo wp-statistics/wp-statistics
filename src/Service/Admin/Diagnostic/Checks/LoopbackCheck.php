@@ -94,7 +94,7 @@ class LoopbackCheck extends AbstractCheck
         $response = wp_remote_post($url, [
             'timeout'   => self::TIMEOUT,
             'blocking'  => true,
-            'sslverify' => apply_filters('https_local_ssl_verify', false),
+            'sslverify' => false,
             'body'      => [
                 'action' => $fullAction,
                 'nonce'  => wp_create_nonce($fullAction),
