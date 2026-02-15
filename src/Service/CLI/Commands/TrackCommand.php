@@ -8,14 +8,14 @@ use WP_Statistics\Service\Analytics\VisitorProfile;
 use Exception;
 
 /**
- * Record a hit manually.
+ * Track a hit manually.
  *
  * @since 15.0.0
  */
-class RecordCommand
+class TrackCommand
 {
     /**
-     * Record a hit.
+     * Track a hit.
      *
      * ## OPTIONS
      *
@@ -39,19 +39,19 @@ class RecordCommand
      *
      * ## EXAMPLES
      *
-     *      # Record a hit for a specific URL
-     *      $ wp statistics record --url="https://example.com"
+     *      # Track a hit for a specific URL
+     *      $ wp statistics track --url="https://example.com"
      *
-     *      # Record a hit for a specific URL and IP address
-     *      $ wp statistics record --url="https://example.com" --ip="123.456.789.0"
+     *      # Track a hit for a specific URL and IP address
+     *      $ wp statistics track --url="https://example.com" --ip="123.456.789.0"
      *
-     *      # Record a hit with additional user agent and referrer
-     *      $ wp statistics record --url="https://example.com" --ip="123.456.789.0" \
+     *      # Track a hit with additional user agent and referrer
+     *      $ wp statistics track --url="https://example.com" --ip="123.456.789.0" \
      *        --user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)" \
      *        --referrer="https://referrer.com"
      *
-     *      # Record a hit with full details
-     *      $ wp statistics record --url="https://example.com" --ip="123.456.789.0" \
+     *      # Track a hit with full details
+     *      $ wp statistics track --url="https://example.com" --ip="123.456.789.0" \
      *        --user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)" \
      *        --referrer="https://referrer.com" --user_id="1" --request_uri="/example-post"
      *
@@ -60,7 +60,7 @@ class RecordCommand
      *      #!/bin/bash
      *      for i in {1..10}
      *      do
-     *         wp statistics record --url="https://example.com" --ip="192.168.1.$i" \
+     *         wp statistics track --url="https://example.com" --ip="192.168.1.$i" \
      *           --user_agent="Mozilla/5.0" --referrer="https://referrer.com"
      *      done
      *
@@ -110,7 +110,7 @@ class RecordCommand
         // Record the hit
         try {
             Hits::record($visitorProfile);
-            WP_CLI::success('Hit recorded successfully.');
+            WP_CLI::success('Hit tracked successfully.');
         } catch (Exception $e) {
             WP_CLI::error(sprintf('Exclusion matched: %s', $e->getMessage()));
         }
