@@ -19,7 +19,10 @@ use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidColumnException;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
-use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
+use WP_Statistics\Components\DateRange;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\TimeZone;
 
 /**
  * Facade for analytics query operations.
@@ -346,26 +349,29 @@ class AnalyticsQueryHandler
         $filters   = $queryData['filters'] ?? [];
         $compare   = $queryData['compare'] ?? $globalCompare;
 
-        // Build args for chart provider
-        $args = [
-            'date' => [
-                'from' => $queryData['date_from'] ?? $dateFrom,
-                'to'   => $queryData['date_to'] ?? $dateTo,
-            ],
-            'prev_data' => $compare,
-            'filters'   => $filters,
+        $date = [
+            'from' => $queryData['date_from'] ?? $dateFrom,
+            'to'   => $queryData['date_to'] ?? $dateTo,
         ];
 
-        // Get the appropriate chart data provider
+        // Determine query parameters based on chart type
         switch ($chartType) {
             case 'search_engine_chart':
-                $chartData = ChartDataProviderFactory::searchEngineChart($args)->getData();
+                $groupBy        = ['referrer', 'date'];
+                $channelFilter  = $this->resolveChannelFilter($filters, ['search', 'paid']);
+                $queryFilters   = ['referrer_channel' => $channelFilter];
+                $labelField     = 'referrer_name';
                 break;
             case 'social_media_chart':
-                $chartData = ChartDataProviderFactory::socialMediaChart($args)->getData();
+                $groupBy        = ['referrer', 'date'];
+                $channelFilter  = $this->resolveChannelFilter($filters, ['social', 'paid_social']);
+                $queryFilters   = ['referrer_channel' => $channelFilter];
+                $labelField     = 'referrer_name';
                 break;
             case 'source_category_chart':
-                $chartData = ChartDataProviderFactory::sourceCategoryChart($args)->getData();
+                $groupBy        = ['referrer_channel', 'date'];
+                $queryFilters   = [];
+                $labelField     = 'referrer_channel';
                 break;
             default:
                 throw new \InvalidArgumentException(
@@ -373,7 +379,178 @@ class AnalyticsQueryHandler
                 );
         }
 
+        $chartData = $this->buildReferralChartData(
+            $date,
+            $compare,
+            $groupBy,
+            $queryFilters,
+            $labelField,
+            $chartType === 'source_category_chart'
+        );
+
         return $this->transformChartProviderResponse($chartData, $compare);
+    }
+
+    /**
+     * Resolve channel filter from external filters or use defaults.
+     *
+     * @param array $filters   External filters from the query.
+     * @param array $defaults  Default channel values.
+     * @return array Channel filter for the query.
+     */
+    private function resolveChannelFilter(array $filters, array $defaults): array
+    {
+        if (isset($filters['referrer_channel']) && is_array($filters['referrer_channel'])) {
+            $cf = $filters['referrer_channel'];
+            if (isset($cf['in'])) {
+                return $cf;
+            }
+            if (isset($cf['is'])) {
+                return ['in' => [$cf['is']]];
+            }
+        }
+
+        return ['in' => $defaults];
+    }
+
+    /**
+     * Build chart data for referral-type charts (search engines, social media, source categories).
+     *
+     * Queries visitor data grouped by a label field + date, picks the top 3 series,
+     * and builds labels/datasets in the internal chart format.
+     *
+     * @param array  $date              Date range ['from' => ..., 'to' => ...].
+     * @param bool   $compare           Whether to include previous period comparison.
+     * @param array  $groupBy           Group-by fields for the query.
+     * @param array  $queryFilters      Additional filters for the query.
+     * @param string $labelField        Row field to use as the series label.
+     * @param bool   $useChannelNames   Whether to resolve channel display names.
+     * @return array Chart data structure.
+     */
+    private function buildReferralChartData(
+        array $date,
+        bool $compare,
+        array $groupBy,
+        array $queryFilters,
+        string $labelField,
+        bool $useChannelNames = false
+    ): array {
+        $thisPeriod      = !empty($date['from']) ? $date : DateRange::get();
+        $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
+
+        $chartData = [
+            'data' => ['labels' => [], 'datasets' => []],
+        ];
+
+        // Labels
+        $chartData['data']['labels'] = $this->buildDateLabels($thisPeriodDates);
+
+        // Current period query
+        $result = $this->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => $groupBy,
+            'filters'   => $queryFilters,
+            'date_from' => $thisPeriod['from'] ?? null,
+            'date_to'   => $thisPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $rows          = $result['data']['rows'] ?? [];
+        $parsedData    = [];
+        $periodTotal   = array_fill_keys($thisPeriodDates, 0);
+
+        foreach ($rows as $row) {
+            $visitors = intval($row['visitors'] ?? 0);
+            $name     = $row[$labelField] ?? '';
+            $rowDate  = $row['date'] ?? '';
+
+            if (empty($name) || empty($rowDate)) {
+                continue;
+            }
+
+            if ($useChannelNames) {
+                $name = SourceChannels::getName($name) ?: ucfirst($name);
+            }
+
+            $parsedData[$name][$rowDate] = ($parsedData[$name][$rowDate] ?? 0) + $visitors;
+            $periodTotal[$rowDate]       = ($periodTotal[$rowDate] ?? 0) + $visitors;
+        }
+
+        // Sort by total, take top 3
+        uasort($parsedData, fn($a, $b) => array_sum($b) - array_sum($a));
+        $topData = array_slice($parsedData, 0, 3, true);
+
+        foreach ($topData as $label => $seriesData) {
+            $seriesData = array_merge(array_fill_keys($thisPeriodDates, 0), $seriesData);
+            ksort($seriesData);
+            $chartData['data']['datasets'][] = [
+                'label' => ucfirst($label),
+                'data'  => array_values($seriesData),
+                'slug'  => null,
+            ];
+        }
+
+        $chartData['data']['datasets'][] = [
+            'label' => esc_html__('Total', 'wp-statistics'),
+            'data'  => array_values($periodTotal),
+            'slug'  => 'total',
+        ];
+
+        // Previous period
+        if ($compare) {
+            $prevPeriod      = DateRange::getPrevPeriod($thisPeriod);
+            $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
+
+            $chartData['previousData'] = ['labels' => [], 'datasets' => []];
+            $chartData['previousData']['labels'] = $this->buildDateLabels($prevPeriodDates);
+
+            $prevResult = $this->handle([
+                'sources'   => ['visitors'],
+                'group_by'  => $groupBy,
+                'filters'   => $queryFilters,
+                'date_from' => $prevPeriod['from'] ?? null,
+                'date_to'   => $prevPeriod['to'] ?? null,
+                'format'    => 'table',
+                'per_page'  => 1000,
+            ]);
+
+            $prevRows  = $prevResult['data']['rows'] ?? [];
+            $prevTotal = array_fill_keys($prevPeriodDates, 0);
+
+            foreach ($prevRows as $row) {
+                $visitors = intval($row['visitors'] ?? 0);
+                $rowDate  = $row['date'] ?? '';
+                if (!empty($rowDate) && isset($prevTotal[$rowDate])) {
+                    $prevTotal[$rowDate] += $visitors;
+                }
+            }
+
+            $chartData['previousData']['datasets'][] = [
+                'label' => esc_html__('Total', 'wp-statistics'),
+                'data'  => array_values($prevTotal),
+                'slug'  => '',
+            ];
+        }
+
+        return $chartData;
+    }
+
+    /**
+     * Build date labels for chart axes.
+     *
+     * @param array $dates List of date strings.
+     * @return array
+     */
+    private function buildDateLabels(array $dates): array
+    {
+        return array_map(function ($date) {
+            return [
+                'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                'date'           => date_i18n('Y-m-d', strtotime($date)),
+                'day'            => date_i18n('D', strtotime($date)),
+            ];
+        }, $dates);
     }
 
     /**
