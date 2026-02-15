@@ -1,8 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { CircleHelp } from 'lucide-react'
-
-import { Panel } from '@/components/ui/panel'
+import { Construction } from 'lucide-react'
 
 export const Route = createLazyFileRoute('/help')({
   component: HelpPage,
@@ -11,20 +9,12 @@ export const Route = createLazyFileRoute('/help')({
 // TODO: Implement full help center page
 function HelpPage() {
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <Panel className="p-12 text-center">
-        <div className="space-y-4">
-          <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
-            <CircleHelp className="w-8 h-8 text-primary" strokeWidth={1.5} />
-          </div>
-          <h1 className="text-2xl font-semibold text-neutral-800">
-            {__('Help Center', 'wp-statistics')}
-          </h1>
-          <p className="text-muted-foreground max-w-md mx-auto">
-            {__('Find documentation, troubleshooting guides, and support resources for WP Statistics.', 'wp-statistics')}
-          </p>
-        </div>
-      </Panel>
+    <div className="flex flex-col items-center justify-center py-24 text-center">
+      <Construction className="h-12 w-12 text-muted-foreground/50 mb-4" />
+      <h3 className="text-lg font-medium mb-1">{__('Coming Soon', 'wp-statistics')}</h3>
+      <p className="text-sm text-muted-foreground max-w-md">
+        {__('Find documentation, troubleshooting guides, and support resources for WP Statistics.', 'wp-statistics')}
+      </p>
     </div>
   )
 }

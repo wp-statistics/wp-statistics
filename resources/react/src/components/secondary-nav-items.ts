@@ -57,9 +57,9 @@ export const settingsNavItems: SecondaryNavItem[] = [
 export const toolsNavItems: SecondaryNavItem[] = [
   { title: __('System Info', 'wp-statistics'), url: '/tools/system-info', icon: Info },
   { title: __('Diagnostics', 'wp-statistics'), url: '/tools/diagnostics', icon: Stethoscope },
+  { title: __('Privacy Audit', 'wp-statistics'), url: '/tools/privacy-audit', icon: ShieldCheck },
   { title: __('Scheduled Tasks', 'wp-statistics'), url: '/tools/scheduled-tasks', icon: Clock },
   { title: __('Background Jobs', 'wp-statistics'), url: '/tools/background-jobs', icon: Activity },
   { title: __('Import / Export', 'wp-statistics'), url: '/tools/import-export', icon: Upload },
   { title: __('Backups', 'wp-statistics'), url: '/tools/backups', icon: Database },
-  { title: __('Privacy Audit', 'wp-statistics'), url: '/tools/privacy-audit', icon: ShieldCheck },
 ]

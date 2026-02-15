@@ -61,7 +61,7 @@ class ToolsAreaDefinitions
             'privacy-audit' => [
                 'label'     => __('Privacy Audit', 'wp-statistics'),
                 'icon'      => 'shieldCheck',
-                'order'     => 70,
+                'order'     => 25,
                 'component' => 'PrivacyAuditPage',
             ],
         ];
