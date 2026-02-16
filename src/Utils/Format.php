@@ -71,6 +71,31 @@ class Format
     }
 
     /**
+     * Format number in abbreviated notation (e.g. 1500 -> "1.5K", 2300000 -> "2.3M").
+     *
+     * Uses simple rounding. For numbers below 1000, returns number_format().
+     *
+     * @param int|float $number Number to format.
+     * @return string Abbreviated format.
+     */
+    public static function abbreviateNumber($number)
+    {
+        $thresholds = [
+            'B' => 1000000000,
+            'M' => 1000000,
+            'K' => 1000,
+        ];
+
+        foreach ($thresholds as $suffix => $threshold) {
+            if ($number >= $threshold) {
+                return round($number / $threshold, 1) . $suffix;
+            }
+        }
+
+        return number_format($number);
+    }
+
+    /**
      * Anonymise a semantic version by stripping the patch segment.
      *
      * @param string $version

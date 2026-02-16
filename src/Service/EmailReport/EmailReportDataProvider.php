@@ -459,21 +459,4 @@ class EmailReportDataProvider
          */
         return apply_filters('wp_statistics_email_report_data', $data, $this->period);
     }
-
-    /**
-     * Format number for display (K, M notation)
-     *
-     * @param int $number
-     * @return string
-     */
-    public static function formatNumber($number)
-    {
-        if ($number >= 1000000) {
-            return round($number / 1000000, 1) . 'M';
-        }
-        if ($number >= 1000) {
-            return round($number / 1000, 1) . 'K';
-        }
-        return number_format($number);
-    }
 }

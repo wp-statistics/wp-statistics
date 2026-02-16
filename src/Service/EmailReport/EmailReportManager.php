@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\EmailReport;
 
 use WP_Statistics\Components\Option;
-use WP_Statistics\Components\Template;
+use WP_Statistics\Components\View;
 use WP_Statistics\Service\Messaging\Provider\MailProvider;
 use WP_Statistics\Service\Messaging\MessagingService;
 
@@ -94,7 +94,7 @@ class EmailReportManager
      */
     public function getTemplatePath()
     {
-        $templatePath = WP_STATISTICS_DIR . 'src/Service/Messaging/Templates/Emails/report.php';
+        $templatePath = WP_STATISTICS_DIR . 'views/emails/report.php';
 
         /**
          * Filter the email report template path.
@@ -130,11 +130,7 @@ class EmailReportManager
 
         // Render template
         $templatePath = $this->getTemplatePath();
-
-        ob_start();
-        extract($data);
-        include $templatePath;
-        $html = ob_get_clean();
+        $html         = View::renderFile($templatePath, $data);
 
         /**
          * Filter the rendered email report HTML.

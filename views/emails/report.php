@@ -25,25 +25,14 @@
  * @since 15.0.0
  */
 
+use WP_Statistics\Utils\Format;
+
 // Set defaults
 $primary_color = isset($primary_color) ? $primary_color : '#404BF2';
 $is_rtl        = isset($is_rtl) ? $is_rtl : is_rtl();
 $dir           = $is_rtl ? 'rtl' : 'ltr';
 $align         = $is_rtl ? 'right' : 'left';
 $align_opp     = $is_rtl ? 'left' : 'right';
-
-// Helper function for number formatting
-if (!function_exists('wps_format_number')) {
-    function wps_format_number($number) {
-        if ($number >= 1000000) {
-            return round($number / 1000000, 1) . 'M';
-        }
-        if ($number >= 1000) {
-            return round($number / 1000, 1) . 'K';
-        }
-        return number_format($number);
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo esc_attr(get_locale()); ?>" dir="<?php echo esc_attr($dir); ?>" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -314,7 +303,7 @@ if (!function_exists('wps_format_number')) {
                             <?php foreach ($metrics as $key => $metric) : ?>
                             <td class="metric-cell" style="padding: 16px; text-align: center; border: 1px solid #e4e4e7; vertical-align: top; width: 25%;">
                                 <div class="metric-value" style="font-size: 24px; font-weight: 700; color: #18181b;">
-                                    <?php echo esc_html(wps_format_number($metric['value'])); ?>
+                                    <?php echo esc_html(Format::abbreviateNumber($metric['value'])); ?>
                                 </div>
                                 <div class="metric-label" style="font-size: 11px; color: #71717a; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px;">
                                     <?php echo esc_html($metric['label']); ?>
@@ -358,7 +347,7 @@ if (!function_exists('wps_format_number')) {
                                 <?php endif; ?>
                             </td>
                             <td class="list-stat" style="text-align: <?php echo esc_attr($align_opp); ?>; font-size: 14px; font-weight: 600; color: #18181b; padding: 12px 0;">
-                                <?php echo esc_html(wps_format_number($page['views'])); ?>
+                                <?php echo esc_html(Format::abbreviateNumber($page['views'])); ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -382,7 +371,7 @@ if (!function_exists('wps_format_number')) {
                                 <?php echo esc_html($referrer['domain']); ?>
                             </td>
                             <td class="list-stat" style="text-align: <?php echo esc_attr($align_opp); ?>; font-size: 14px; font-weight: 600; color: #18181b; padding: 12px 0;">
-                                <?php echo esc_html(wps_format_number($referrer['visitors'])); ?>
+                                <?php echo esc_html(Format::abbreviateNumber($referrer['visitors'])); ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
