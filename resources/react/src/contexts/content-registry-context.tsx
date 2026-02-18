@@ -49,10 +49,25 @@ export interface RegisteredReport<TData = unknown, TRecord = unknown> {
   config: ReportConfig<TData, TRecord>
 }
 
+// Export config types
+export interface ExportCsvConfig {
+  sources: string[]
+  group_by: string[]
+  context?: string
+  columns?: string[]
+}
+
+export interface ExportConfig {
+  reportSlug: string
+  csvConfig?: ExportCsvConfig
+  pdfTargetSelector?: string
+}
+
 // Registry storage
 const widgetRegistry = new Map<string, Map<string, RegisteredWidget>>()
 const pageContentRegistry = new Map<string, RegisteredPageContent>()
 const reportRegistry = new Map<string, RegisteredReport>()
+const exportConfigRegistry = new Map<string, ExportConfig>()
 
 // Registry API
 const contentRegistry = {
@@ -90,6 +105,25 @@ const contentRegistry = {
   },
   getReport<TData = unknown, TRecord = unknown>(pageId: string): RegisteredReport<TData, TRecord> | null {
     return (reportRegistry.get(pageId) as RegisteredReport<TData, TRecord>) ?? null
+  },
+
+  // Export configs
+  registerExportConfig(pageId: string, config: ExportConfig): void {
+    exportConfigRegistry.set(pageId, config)
+  },
+  getExportConfig(pageId: string): ExportConfig | undefined {
+    return exportConfigRegistry.get(pageId)
+  },
+
+  // Export drawer renderer (set once by premium)
+  exportDrawerRenderer: null as ((config: ExportConfig) => React.ReactNode) | null,
+  registerExportDrawerRenderer(renderer: (config: ExportConfig) => React.ReactNode): void {
+    contentRegistry.exportDrawerRenderer = renderer
+  },
+  renderExportDrawerContent(pageId: string): React.ReactNode {
+    const config = exportConfigRegistry.get(pageId)
+    if (!config || !contentRegistry.exportDrawerRenderer) return null
+    return contentRegistry.exportDrawerRenderer(config)
   },
 }
 

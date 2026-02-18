@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import type { LockedFilter } from '@/components/custom/filter-panel'
+import { useContentRegistry } from '@/contexts/content-registry-context'
 import {
   type MetricConfig,
   PageOptionsProvider,
@@ -96,6 +97,8 @@ export function OverviewOptionsDrawer({
   setIsOpen,
   resetToDefaults,
 }: OverviewOptionsDrawerProps | OverviewOptionsDrawerSpreadProps) {
+  const registry = useContentRegistry()
+
   return (
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={resetToDefaults}>
       {/* Main menu entries */}
@@ -108,6 +111,7 @@ export function OverviewOptionsDrawer({
       )}
       <WidgetsMenuEntry />
       <MetricsMenuEntry />
+      {registry.renderExportDrawerContent(config.pageId)}
 
       {/* Detail views */}
       {!config.hideDateRange && <DateRangeDetailView />}

@@ -366,7 +366,7 @@ export function DataTable<TData, TValue>({
           emptyStateMessage={emptyStateMessage}
           isFetching={isFetching}
         />
-        {showPagination && (totalRows ?? 0) > 0 && <DataTableMobilePagination table={table} totalRows={totalRows!} />}
+        {showPagination && (totalRows ?? 0) > 0 && <div data-pdf-hide><DataTableMobilePagination table={table} totalRows={totalRows!} /></div>}
       </Panel>
     )
   }
@@ -461,7 +461,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       {(showPagination || fullReportLink) && (
-        <PanelFooter className="flex items-center justify-between">
+        <PanelFooter className="flex items-center justify-between" data-pdf-hide>
           {/* Left: Empty for alignment */}
           <div />
 

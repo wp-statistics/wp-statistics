@@ -166,6 +166,14 @@ class AnalyticsQueryHandler
             $result = $this->addComparison($query, $result);
         }
 
+        // Pass export columns to the export formatter if present
+        if (!empty($request['export_columns']) && $query->getFormat() === 'export') {
+            $formatter = $this->getFormatter('export');
+            if ($formatter instanceof ExportFormatter) {
+                $formatter->setExportColumns($request['export_columns']);
+            }
+        }
+
         // Build response
         $response = $this->buildResponse($query, $result);
 

@@ -12,6 +12,7 @@ import '@/contexts/content-registry-context'
 
 import type { ReportConfig } from '@/components/report-page-renderer'
 import type {
+  ExportConfig,
   PageContentProps,
   RegisteredPageContent,
   RegisteredWidget,
@@ -38,5 +39,15 @@ export function registerPageContent(
   window.dispatchEvent(new CustomEvent('wps:content-registered', { detail: { pageId } }))
 }
 
+export function registerExportConfig(pageId: string, config: ExportConfig): void {
+  window.wpsContentRegistry!.registerExportConfig(pageId, config)
+}
+
+export function registerExportDrawerRenderer(
+  renderer: (config: ExportConfig) => React.ReactNode
+): void {
+  window.wpsContentRegistry!.registerExportDrawerRenderer(renderer)
+}
+
 export type { ReportConfig } from '@/components/report-page-renderer'
-export type { PageContentProps,RegisteredWidget, WidgetRenderProps } from '@/contexts/content-registry-context'
+export type { ExportConfig, PageContentProps, RegisteredWidget, WidgetRenderProps } from '@/contexts/content-registry-context'

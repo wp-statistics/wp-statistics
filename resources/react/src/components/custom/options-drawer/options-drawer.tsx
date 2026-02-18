@@ -6,7 +6,7 @@ import { createContext, type ReactNode, useContext,useEffect, useState } from 'r
 
 import { cn } from '@/lib/utils'
 
-export type OptionsView = 'main' | 'widgets' | 'metrics' | 'filters' | 'columns' | 'date-range' | 'page-filters'
+export type OptionsView = 'main' | 'widgets' | 'metrics' | 'filters' | 'columns' | 'date-range' | 'page-filters' | 'export'
 
 interface OptionsDrawerProps {
   open: boolean
@@ -19,6 +19,7 @@ interface OptionsDrawerContextValue {
   currentView: OptionsView
   setCurrentView: (view: OptionsView) => void
   goBack: () => void
+  closeDrawer: () => void
 }
 
 // Context for drill-down navigation
@@ -47,6 +48,8 @@ const getViewTitle = (view: OptionsView): string => {
       return __('Date Range', 'wp-statistics')
     case 'page-filters':
       return __('Page Filters', 'wp-statistics')
+    case 'export':
+      return __('Export', 'wp-statistics')
     default:
       return __('Options', 'wp-statistics')
   }
@@ -109,7 +112,7 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
   if (!isVisible) return null
 
   return (
-    <OptionsDrawerContext.Provider value={{ currentView, setCurrentView, goBack }}>
+    <OptionsDrawerContext.Provider value={{ currentView, setCurrentView, goBack, closeDrawer: handleClose }}>
       {/* Overlay - positioned under WP admin bar + plugin header */}
       <div
         className={cn(

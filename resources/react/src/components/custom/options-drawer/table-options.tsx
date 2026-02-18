@@ -1,9 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 
+import { useLocation } from '@tanstack/react-router'
 import type { Table, VisibilityState } from '@tanstack/react-table'
 import { useState } from 'react'
 
 import type { LockedFilter } from '@/components/custom/filter-panel'
+import { useContentRegistry } from '@/contexts/content-registry-context'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 
 import { ColumnsDetailView, ColumnsMenuEntry } from './columns-section'
@@ -155,6 +157,10 @@ export function TableOptionsDrawer<TData>({
   isOpen,
   setIsOpen,
 }: TableOptionsDrawerProps<TData> | TableOptionsDrawerSpreadProps<TData>) {
+  const registry = useContentRegistry()
+  const location = useLocation()
+  const pageId = location.pathname.split('/').pop() || ''
+
   return (
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={config.onReset}>
       {/* Main menu entries */}
@@ -170,6 +176,7 @@ export function TableOptionsDrawer<TData>({
         defaultHiddenColumns={config.defaultHiddenColumns}
         initialColumnVisibility={config.initialColumnVisibility}
       />
+      {registry.renderExportDrawerContent(pageId)}
 
       {/* Detail views */}
       <DateRangeDetailView />

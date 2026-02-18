@@ -3,8 +3,8 @@ import { __ } from '@wordpress/i18n'
 import { Megaphone } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import { Panel } from '@/components/ui/panel'
 import { NoticeContainer } from '@/components/ui/notice-container'
+import { Panel } from '@/components/ui/panel'
 import { useContentRegistry } from '@/contexts/content-registry-context'
 
 export const Route = createLazyFileRoute('/(referrals)/campaigns')({
