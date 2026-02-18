@@ -552,7 +552,7 @@ function SingleCategoryReportContent() {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div data-pdf-hide>
+            <div className="contents" data-pdf-hide>
               <BackButton defaultTo="/categories" label={__('Back to Categories', 'wp-statistics')} />
             </div>
             <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={categoryTitle}>
