@@ -1,6 +1,5 @@
 import { __ } from '@wordpress/i18n'
 import {
-  AlertTriangle,
   Calendar,
   Database,
   Download,
@@ -17,14 +16,7 @@ import * as React from 'react'
 import { SettingsCard } from '@/components/settings-ui'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
@@ -307,52 +299,38 @@ export function BackupsPage() {
       </SettingsCard>
 
       {/* Delete Confirmation Dialog */}
-      <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
-              {__('Delete Backup', 'wp-statistics')}
-            </DialogTitle>
-            <DialogDescription>
-              {__('Are you sure you want to delete this backup? This action cannot be undone.', 'wp-statistics')}
-              <br />
-              <span className="font-medium">{deleteTarget}</span>
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteTarget(null)}>
-              {__('Cancel', 'wp-statistics')}
-            </Button>
-            <Button variant="destructive" onClick={deleteBackup}>
-              {__('Delete', 'wp-statistics')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={!!deleteTarget}
+        onOpenChange={() => setDeleteTarget(null)}
+        title={__('Delete Backup', 'wp-statistics')}
+        description={
+          <>
+            {__('Are you sure you want to delete this backup? This action cannot be undone.', 'wp-statistics')}
+            <br />
+            <span className="font-medium">{deleteTarget}</span>
+          </>
+        }
+        confirmLabel={__('Delete', 'wp-statistics')}
+        onConfirm={deleteBackup}
+      />
 
       {/* Restore Confirmation Dialog */}
-      <Dialog open={!!restoreTarget} onOpenChange={() => setRestoreTarget(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <RotateCcw className="h-5 w-5 text-primary" />
-              {__('Restore Backup', 'wp-statistics')}
-            </DialogTitle>
-            <DialogDescription>
-              {__('This will restore the data from this backup. Existing data with the same IDs may be updated.', 'wp-statistics')}
-              <br />
-              <span className="font-medium">{restoreTarget}</span>
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setRestoreTarget(null)}>
-              {__('Cancel', 'wp-statistics')}
-            </Button>
-            <Button onClick={restoreBackup}>{__('Restore', 'wp-statistics')}</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={!!restoreTarget}
+        onOpenChange={() => setRestoreTarget(null)}
+        title={__('Restore Backup', 'wp-statistics')}
+        description={
+          <>
+            {__('This will restore the data from this backup. Existing data with the same IDs may be updated.', 'wp-statistics')}
+            <br />
+            <span className="font-medium">{restoreTarget}</span>
+          </>
+        }
+        confirmLabel={__('Restore', 'wp-statistics')}
+        onConfirm={restoreBackup}
+        variant="default"
+        icon={RotateCcw}
+      />
     </div>
   )
 }

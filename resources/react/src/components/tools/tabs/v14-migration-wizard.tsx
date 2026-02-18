@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { NoticeBanner } from '@/components/ui/notice-banner'
+import { RadioCardGroup, type RadioCardOption } from '@/components/ui/radio-card-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
@@ -41,6 +42,40 @@ function getTimePeriodOptions() {
     { value: '730', label: __('Last 2 Years', 'wp-statistics') },
   ]
 }
+
+const migrationOptions: RadioCardOption[] = [
+  {
+    value: 'all',
+    icon: (
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
+        <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+      </div>
+    ),
+    label: __('Migrate All Data', 'wp-statistics'),
+    description: __('Transfer all your existing statistics to the new v15 schema. Your historical data will be preserved and converted.', 'wp-statistics'),
+    badge: __('Recommended', 'wp-statistics'),
+  },
+  {
+    value: 'selective',
+    icon: (
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
+        <RefreshCw className="h-5 w-5 text-blue-600" />
+      </div>
+    ),
+    label: __('Selective Migration', 'wp-statistics'),
+    description: __('Choose which data types to migrate. Useful if you only want specific data or have limited storage.', 'wp-statistics'),
+  },
+  {
+    value: 'fresh',
+    icon: (
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30">
+        <XCircle className="h-5 w-5 text-amber-600" />
+      </div>
+    ),
+    label: __('Fresh Start', 'wp-statistics'),
+    description: __('Start with a clean database. Old v14 tables will be archived (not deleted) and can be restored later if needed.', 'wp-statistics'),
+  },
+]
 
 export function V14MigrationWizard({ importStatus, setImportStatus }: V14MigrationWizardProps) {
   const [migrationMode, setMigrationMode] = React.useState<MigrationMode>('all')
@@ -178,98 +213,16 @@ export function V14MigrationWizard({ importStatus, setImportStatus }: V14Migrati
       {/* Migration Options */}
       <div className="space-y-3">
         <Label>{__('Migration Strategy', 'wp-statistics')}</Label>
-        <div className="grid gap-3">
-          {/* Option: Migrate All */}
-          <label
-            className={cn(
-              'relative flex items-start gap-4 rounded-lg border-2 p-4 cursor-pointer transition-all',
-              migrationMode === 'all' ? 'border-primary bg-primary/5' : 'border-muted hover:border-muted-foreground/30'
-            )}
-          >
-            <input
-              type="radio"
-              name="migration-mode"
-              value="all"
-              checked={migrationMode === 'all'}
-              onChange={() => setMigrationMode('all')}
-              className="sr-only"
-            />
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
-              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <span className="font-medium">{__('Migrate All Data', 'wp-statistics')}</span>
-                <span className="text-xs bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 px-2 py-0.5 rounded">{__('Recommended', 'wp-statistics')}</span>
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">
-                {__('Transfer all your existing statistics to the new v15 schema. Your historical data will be preserved and converted.', 'wp-statistics')}
-              </p>
-            </div>
-            {migrationMode === 'all' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
-          </label>
-
-          {/* Option: Selective Migration */}
-          <label
-            className={cn(
-              'relative flex items-start gap-4 rounded-lg border-2 p-4 cursor-pointer transition-all',
-              migrationMode === 'selective'
-                ? 'border-primary bg-primary/5'
-                : 'border-muted hover:border-muted-foreground/30'
-            )}
-          >
-            <input
-              type="radio"
-              name="migration-mode"
-              value="selective"
-              checked={migrationMode === 'selective'}
-              onChange={() => setMigrationMode('selective')}
-              className="sr-only"
-            />
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
-              <RefreshCw className="h-5 w-5 text-blue-600" />
-            </div>
-            <div className="flex-1">
-              <span className="font-medium">{__('Selective Migration', 'wp-statistics')}</span>
-              <p className="text-sm text-muted-foreground mt-1">
-                {__('Choose which data types to migrate. Useful if you only want specific data or have limited storage.', 'wp-statistics')}
-              </p>
-            </div>
-            {migrationMode === 'selective' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
-          </label>
-
-          {/* Option: Fresh Start */}
-          <label
-            className={cn(
-              'relative flex items-start gap-4 rounded-lg border-2 p-4 cursor-pointer transition-all',
-              migrationMode === 'fresh'
-                ? 'border-primary bg-primary/5'
-                : 'border-muted hover:border-muted-foreground/30'
-            )}
-          >
-            <input
-              type="radio"
-              name="migration-mode"
-              value="fresh"
-              checked={migrationMode === 'fresh'}
-              onChange={() => {
-                setMigrationMode('fresh')
-                setConfirmFreshStart(false)
-              }}
-              className="sr-only"
-            />
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30">
-              <XCircle className="h-5 w-5 text-amber-600" />
-            </div>
-            <div className="flex-1">
-              <span className="font-medium">{__('Fresh Start', 'wp-statistics')}</span>
-              <p className="text-sm text-muted-foreground mt-1">
-                {__('Start with a clean database. Old v14 tables will be archived (not deleted) and can be restored later if needed.', 'wp-statistics')}
-              </p>
-            </div>
-            {migrationMode === 'fresh' && <CheckCircle2 className="absolute top-4 right-4 h-5 w-5 text-primary" />}
-          </label>
-        </div>
+        <RadioCardGroup
+          name="migration-mode"
+          value={migrationMode}
+          onValueChange={(v) => {
+            setMigrationMode(v as MigrationMode)
+            if (v === 'fresh') setConfirmFreshStart(false)
+          }}
+          options={migrationOptions}
+          indicator="check"
+        />
       </div>
 
       {/* Selective Migration: Table Selection & Time Period */}

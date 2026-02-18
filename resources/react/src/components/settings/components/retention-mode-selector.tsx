@@ -1,41 +1,47 @@
 import { Link } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { Archive, Infinity as InfinityIcon, Info, Trash2 } from 'lucide-react'
-import * as React from 'react'
+import { Archive, Infinity as InfinityIcon, Info, type LucideIcon,Trash2 } from 'lucide-react'
 
 import { SettingsInfoBox } from '@/components/settings-ui'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { RadioCardGroup, type RadioCardOption } from '@/components/ui/radio-card-group'
 import type { UseSettingsReturn } from '@/hooks/use-settings'
 import { cn } from '@/lib/utils'
 
 type RetentionMode = 'forever' | 'delete' | 'archive'
 
-interface RetentionOption {
-  value: RetentionMode
-  icon: React.ReactNode
-  title: string
-  description: string
-}
+const retentionIcon = (Icon: LucideIcon) =>
+  ({ isSelected }: { isSelected: boolean }) => (
+    <div
+      className={cn(
+        'mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg',
+        isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+      )}
+    >
+      <Icon className="h-5 w-5" />
+    </div>
+  )
 
-const retentionOptions: RetentionOption[] = [
+const retentionOptions: RadioCardOption[] = [
   {
     value: 'forever',
-    icon: <InfinityIcon className="h-5 w-5" />,
-    title: __('Keep forever', 'wp-statistics'),
+    icon: retentionIcon(InfinityIcon),
+    label: __('Keep forever', 'wp-statistics'),
     description: __('Store all data indefinitely (may increase database size over time)', 'wp-statistics'),
   },
   {
     value: 'delete',
-    icon: <Trash2 className="h-5 w-5" />,
-    title: __('Delete after X days', 'wp-statistics'),
+    icon: retentionIcon(Trash2),
+    label: __('Delete after X days', 'wp-statistics'),
     description: __('Permanently remove all data older than specified days', 'wp-statistics'),
   },
   {
     value: 'archive',
-    icon: <Archive className="h-5 w-5" />,
-    title: __('Archive after X days', 'wp-statistics'),
+    icon: retentionIcon(Archive),
+    label: __('Archive after X days', 'wp-statistics'),
     description: __('Create automatic backups, then delete raw data (recommended)', 'wp-statistics'),
+    badge: __('Recommended', 'wp-statistics'),
   },
 ]
 
@@ -52,55 +58,13 @@ export function RetentionModeSelector({ settings }: { settings: UseSettingsRetur
 
   return (
     <>
-      <div className="grid gap-3">
-        {retentionOptions.map((option) => (
-          <button
-            key={option.value}
-            type="button"
-            onClick={() => setRetentionMode(option.value)}
-            className={cn(
-              'flex items-start gap-4 rounded-lg border p-4 text-left transition-colors',
-              retentionMode === option.value ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'
-            )}
-          >
-            <div
-              className={cn(
-                'mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg',
-                retentionMode === option.value
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted text-muted-foreground'
-              )}
-            >
-              {option.icon}
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <span className={cn('font-medium', retentionMode === option.value && 'text-primary')}>
-                  {option.title}
-                </span>
-                {option.value === 'archive' && (
-                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
-                    {__('Recommended', 'wp-statistics')}
-                  </span>
-                )}
-              </div>
-              <p className="mt-1 text-sm text-muted-foreground">{option.description}</p>
-            </div>
-            <div
-              className={cn(
-                'mt-1 h-4 w-4 rounded-full border-2',
-                retentionMode === option.value ? 'border-primary bg-primary' : 'border-muted-foreground/50'
-              )}
-            >
-              {retentionMode === option.value && (
-                <div className="h-full w-full flex items-center justify-center">
-                  <div className="h-1.5 w-1.5 rounded-full bg-white" />
-                </div>
-              )}
-            </div>
-          </button>
-        ))}
-      </div>
+      <RadioCardGroup
+        name="retention-mode"
+        value={retentionMode}
+        onValueChange={(v) => setRetentionMode(v as RetentionMode)}
+        options={retentionOptions}
+        indicator="radio"
+      />
 
       {retentionMode !== 'forever' && (
         <div className="space-y-2 rounded-lg border bg-muted/30 p-4">

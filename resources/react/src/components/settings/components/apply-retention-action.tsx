@@ -1,24 +1,16 @@
 import { __ } from '@wordpress/i18n'
-import { AlertTriangle, Loader2, Trash2 } from 'lucide-react'
+import { Loader2, Trash2 } from 'lucide-react'
 import * as React from 'react'
 
 import { SettingsActionField } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import type { UseSettingsReturn } from '@/hooks/use-settings'
 import { useToast } from '@/hooks/use-toast'
 import { WordPress } from '@/lib/wordpress'
 
 /**
  * "Apply Retention Policy Now" action button with confirmation dialog.
- * Reads retention mode/days from the parent settings context.
  * Registered as a `type: 'component'` field in the data-management danger-zone card.
  */
 export function ApplyRetentionAction({ settings }: { settings: UseSettingsReturn }) {
@@ -94,30 +86,21 @@ export function ApplyRetentionAction({ settings }: { settings: UseSettingsReturn
         </Button>
       </SettingsActionField>
 
-      <Dialog open={showPurgeDialog} onOpenChange={setShowPurgeDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
-              {__('Apply Retention Policy', 'wp-statistics')}
-            </DialogTitle>
-            <DialogDescription>
-              {retentionMode === 'delete'
-                ? __('This will permanently delete data older than', 'wp-statistics')
-                : __('This will archive and then delete data older than', 'wp-statistics')}{' '}
-              {retentionDays} {__('days. This action cannot be undone.', 'wp-statistics')}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowPurgeDialog(false)}>
-              {__('Cancel', 'wp-statistics')}
-            </Button>
-            <Button variant="destructive" onClick={applyRetentionNow}>
-              {__('Apply Now', 'wp-statistics')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={showPurgeDialog}
+        onOpenChange={setShowPurgeDialog}
+        title={__('Apply Retention Policy', 'wp-statistics')}
+        description={
+          <>
+            {retentionMode === 'delete'
+              ? __('This will permanently delete data older than', 'wp-statistics')
+              : __('This will archive and then delete data older than', 'wp-statistics')}{' '}
+            {retentionDays} {__('days. This action cannot be undone.', 'wp-statistics')}
+          </>
+        }
+        confirmLabel={__('Apply Now', 'wp-statistics')}
+        onConfirm={applyRetentionNow}
+      />
     </>
   )
 }

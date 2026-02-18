@@ -1,17 +1,10 @@
 import { __ } from '@wordpress/i18n'
-import { AlertTriangle, Loader2, RotateCcw } from 'lucide-react'
+import { Loader2, RotateCcw } from 'lucide-react'
 import * as React from 'react'
 
 import { SettingsActionField } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { useToast } from '@/hooks/use-toast'
 import { WordPress } from '@/lib/wordpress'
 
@@ -78,27 +71,14 @@ export function RestoreDefaultsAction() {
         </Button>
       </SettingsActionField>
 
-      <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
-              {__('Restore Default Settings', 'wp-statistics')}
-            </DialogTitle>
-            <DialogDescription>
-              {__('Are you sure you want to restore all settings to defaults? This cannot be undone.', 'wp-statistics')}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowResetDialog(false)}>
-              {__('Cancel', 'wp-statistics')}
-            </Button>
-            <Button variant="destructive" onClick={handleRestoreDefaults}>
-              {__('Restore Defaults', 'wp-statistics')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={showResetDialog}
+        onOpenChange={setShowResetDialog}
+        title={__('Restore Default Settings', 'wp-statistics')}
+        description={__('Are you sure you want to restore all settings to defaults? This cannot be undone.', 'wp-statistics')}
+        confirmLabel={__('Restore Defaults', 'wp-statistics')}
+        onConfirm={handleRestoreDefaults}
+      />
     </>
   )
 }

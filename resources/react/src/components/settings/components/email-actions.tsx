@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
+import { SettingsActionField } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
 import type { UseSettingsReturn } from '@/hooks/use-settings'
 import { useToast } from '@/hooks/use-toast'
@@ -74,15 +75,20 @@ export function EmailActions({ settings }: { settings: UseSettingsReturn }) {
   }
 
   return (
-    <div className="flex gap-2">
-      <Button variant="outline" className="flex-1" onClick={handlePreviewEmail} disabled={isPreviewLoading}>
-        {isPreviewLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        {__('Preview Email', 'wp-statistics')}
-      </Button>
-      <Button variant="outline" className="flex-1" onClick={handleSendTestEmail} disabled={isSendingTest}>
-        {isSendingTest && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        {__('Send Test Email', 'wp-statistics')}
-      </Button>
-    </div>
+    <SettingsActionField
+      label={__('Email Actions', 'wp-statistics')}
+      description={__('Preview or send a test email to verify your configuration.', 'wp-statistics')}
+    >
+      <div className="flex gap-2">
+        <Button variant="outline" size="sm" onClick={handlePreviewEmail} disabled={isPreviewLoading}>
+          {isPreviewLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {__('Preview Email', 'wp-statistics')}
+        </Button>
+        <Button variant="outline" size="sm" onClick={handleSendTestEmail} disabled={isSendingTest}>
+          {isSendingTest && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {__('Send Test Email', 'wp-statistics')}
+        </Button>
+      </div>
+    </SettingsActionField>
   )
 }

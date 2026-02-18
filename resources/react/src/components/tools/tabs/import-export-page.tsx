@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
+import { RadioCardGroup } from '@/components/ui/radio-card-group'
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { callImportExportApi } from '@/services/tools'
 
@@ -298,33 +298,19 @@ export function ImportExportPage() {
             <>
               <div className="space-y-3">
                 <Label>{__('Import Source', 'wp-statistics')}</Label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                  {adapters.map((adapter) => (
-                    <label
-                      key={adapter.key}
-                      className={cn(
-                        'relative flex flex-col items-center gap-2 rounded-lg border-2 p-4 cursor-pointer transition-all hover:bg-muted/50',
-                        selectedAdapter === adapter.key
-                          ? 'border-primary bg-primary/5'
-                          : 'border-muted hover:border-muted-foreground/30'
-                      )}
-                    >
-                      <input
-                        type="radio"
-                        name="import-source"
-                        value={adapter.key}
-                        checked={selectedAdapter === adapter.key}
-                        onChange={(e) => setSelectedAdapter(e.target.value)}
-                        className="sr-only"
-                      />
-                      {getAdapterLogo(adapter.key, 'h-10 w-10')}
-                      <span className="text-xs font-medium text-center leading-tight">{adapter.label}</span>
-                      {selectedAdapter === adapter.key && (
-                        <CheckCircle2 className="absolute top-2 right-2 h-4 w-4 text-primary" />
-                      )}
-                    </label>
-                  ))}
-                </div>
+                <RadioCardGroup
+                  name="import-source"
+                  value={selectedAdapter}
+                  onValueChange={setSelectedAdapter}
+                  options={adapters.map((adapter) => ({
+                    value: adapter.key,
+                    icon: getAdapterLogo(adapter.key, 'h-10 w-10'),
+                    label: adapter.label,
+                  }))}
+                  variant="compact"
+                  indicator="check"
+                  className="grid-cols-2 sm:grid-cols-3 md:grid-cols-5"
+                />
                 {selectedAdapterInfo && (
                   <p className="text-xs text-muted-foreground">
                     {__('Supported formats:', 'wp-statistics')} {selectedAdapterInfo.extensions.join(', ').toUpperCase() || __('Database migration', 'wp-statistics')}
