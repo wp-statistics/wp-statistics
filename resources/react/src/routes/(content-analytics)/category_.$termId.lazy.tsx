@@ -552,12 +552,14 @@ function SingleCategoryReportContent() {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <BackButton defaultTo="/categories" label={__('Back to Categories', 'wp-statistics')} />
+            <div data-pdf-hide>
+              <BackButton defaultTo="/categories" label={__('Back to Categories', 'wp-statistics')} />
+            </div>
             <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={categoryTitle}>
               {showSkeleton ? __('Loading...', 'wp-statistics') : categoryTitle}
             </h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3" data-pdf-hide>
             <DateRangePicker
               initialDateFrom={dateFrom}
               initialDateTo={dateTo}

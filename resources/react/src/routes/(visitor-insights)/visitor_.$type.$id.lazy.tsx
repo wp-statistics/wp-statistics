@@ -50,6 +50,7 @@ import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { pickMetrics } from '@/constants/metric-definitions'
+import { useContentRegistry } from '@/contexts/content-registry-context'
 import { type WidgetConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
@@ -135,6 +136,8 @@ function SingleVisitorOptionsDrawer({
   onColumnOrderChange: (order: string[]) => void
   onColumnReset: () => void
 }) {
+  const registry = useContentRegistry()
+
   return (
     <OptionsDrawer open={isOpen} onOpenChange={setIsOpen} onReset={resetToDefaults}>
       {/* Main menu entries */}
@@ -145,6 +148,7 @@ function SingleVisitorOptionsDrawer({
         table={sessionTableRef.current}
         defaultHiddenColumns={SESSION_DEFAULT_HIDDEN_COLUMNS}
       />
+      {registry.renderExportDrawerContent('single-visitor')}
 
       {/* Detail views */}
       <DateRangeDetailView />
@@ -523,12 +527,14 @@ function SingleVisitorReportContent({ type, id }: SingleVisitorReportContentProp
       <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <BackButton defaultTo="/visitors" label={__('Back to Visitors', 'wp-statistics')} />
+            <div data-pdf-hide>
+              <BackButton defaultTo="/visitors" label={__('Back to Visitors', 'wp-statistics')} />
+            </div>
             <h1 className="text-2xl font-semibold text-neutral-800">
               {showSkeleton ? __('Loading...', 'wp-statistics') : __('Visitor Report', 'wp-statistics')}
             </h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3" data-pdf-hide>
             <DateRangePicker
               initialDateFrom={dateFrom}
               initialDateTo={dateTo}

@@ -420,7 +420,9 @@ function SingleUrlReportContent() {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
-            <BackButton defaultTo="/top-pages" label={__('Back to Top Pages', 'wp-statistics')} />
+            <div data-pdf-hide>
+              <BackButton defaultTo="/top-pages" label={__('Back to Top Pages', 'wp-statistics')} />
+            </div>
             <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={pageTitle}>
               {showSkeleton ? __('Loading...', 'wp-statistics') : pageTitle}
             </h1>
@@ -441,7 +443,7 @@ function SingleUrlReportContent() {
               </a>
             )}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3" data-pdf-hide>
             <div className="hidden lg:flex">
               {filterFields.length > 0 && isInitialized && (
                 <FilterButton
