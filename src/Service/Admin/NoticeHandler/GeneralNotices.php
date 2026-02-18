@@ -9,7 +9,6 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
-use WP_STATISTICS\Schedule;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Traits\TransientCacheTrait;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
@@ -31,7 +30,6 @@ class GeneralNotices
         'detectCachePlugins',
         'performanceAndCleanUp',
         'memoryLimitCheck',
-        'emailReportSchedule',
         'checkCloudflareGeolocatin',
         'checkDbSchemaIssue'
     ];
@@ -199,50 +197,6 @@ class GeneralNotices
         Notice::addNotice(
             esc_html__('Your server memory limit is too low. Please contact your hosting provider to increase the memory limit.', 'wp-statistics'),
             'memory_limit_check',
-            'warning'
-        );
-    }
-
-    /**
-     * Notifies users about invalid email report schedules.
-     *
-     * @return void
-     */
-    public function emailReportSchedule()
-    {
-        if (Notice::isNoticeDismissed('email_report_schedule')) {
-            return;
-        }
-
-        if (Option::getValue('time_report') == '0') {
-            return;
-        }
-
-        if (!wp_next_scheduled('wp_statistics_report_hook')) {
-            return;
-        }
-
-        $timeReports       = Option::getValue('time_report');
-        $schedulesInterval = Schedule::getSchedules();
-
-        if (isset($schedulesInterval[$timeReports])) {
-            return;
-        }
-
-        Notice::addNotice(
-            sprintf(
-            /* translators: %1$s: URL to the update settings page */
-                wp_kses(
-                    __('Please update your email report schedule due to new changes in our latest release: <a href="%1$s">Update Settings</a>.', 'wp-statistics'),
-                    [
-                        'a' => [
-                            'href' => []
-                        ]
-                    ]
-                ),
-                esc_url(Menus::admin_url('settings', ['tab' => 'notifications-settings']))
-            ),
-            'email_report_schedule',
             'warning'
         );
     }

@@ -468,8 +468,6 @@ class Admin_Assets
             $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, null, false);
         }
 
-        // Rest-API Meta Box Url
-        $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;
         $list['setting_url']         = Menus::admin_url('settings');
         $list['admin_url']           = admin_url();
         $list['ajax_url']            = admin_url('admin-ajax.php');

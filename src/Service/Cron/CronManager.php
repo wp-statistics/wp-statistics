@@ -8,7 +8,6 @@ use WP_Statistics\Service\Cron\Events\DatabaseMaintenanceEvent;
 use WP_Statistics\Service\Cron\Events\GeoIPUpdateEvent;
 use WP_Statistics\Service\Cron\Events\DailySummaryEvent;
 use WP_Statistics\Service\Cron\Events\ReferralsDatabaseEvent;
-use WP_Statistics\Service\Cron\Events\EmailReportEvent;
 
 /**
  * Cron Manager for WP Statistics v15.
@@ -77,7 +76,6 @@ class CronManager
             'geoip_update'         => GeoIPUpdateEvent::class,
             'daily_summary'        => DailySummaryEvent::class,
             'referrals_database'   => ReferralsDatabaseEvent::class,
-            'email_report'         => EmailReportEvent::class,
         ];
 
         $this->defaultsRegistered = true;
@@ -197,10 +195,6 @@ class CronManager
             'wp_statistics_geoip_hook' => [
                 'label'      => __('GeoIP Database Update', 'wp-statistics'),
                 'recurrence' => 'monthly',
-            ],
-            'wp_statistics_email_report' => [
-                'label'      => __('Email Report', 'wp-statistics'),
-                'recurrence' => 'daily',
             ],
             'wp_statistics_queue_daily_summary' => [
                 'label'      => __('Daily Summary', 'wp-statistics'),
@@ -341,8 +335,6 @@ class CronManager
     {
         // Map settings to events that need rescheduling
         $settingsToEvents = [
-            'time_report'                      => 'email_report',
-            'email_list'                       => 'email_report',
             'schedule_dbmaint'                 => 'database_maintenance',
             'geoip_location_detection_method'  => 'geoip_update',
         ];
@@ -395,19 +387,4 @@ class CronManager
         }
     }
 
-    /**
-     * Get the email report event.
-     *
-     * @return Events\EmailReportEvent|null
-     */
-    public function getEmailReportEvent(): ?Events\EmailReportEvent
-    {
-        $event = $this->getEvent('email_report');
-
-        if ($event instanceof Events\EmailReportEvent) {
-            return $event;
-        }
-
-        return null;
-    }
 }

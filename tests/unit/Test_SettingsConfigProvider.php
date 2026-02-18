@@ -88,7 +88,11 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
 
         foreach ($declarativeTabs as $tabId => $tab) {
             $this->assertArrayHasKey($tabId, $config['cards'], "Declarative tab '{$tabId}' should have cards");
-            $this->assertNotEmpty($config['cards'][$tabId], "Declarative tab '{$tabId}' cards should not be empty");
+
+            // Notifications tab has empty cards (being rewritten)
+            if ($tabId !== 'notifications') {
+                $this->assertNotEmpty($config['cards'][$tabId], "Declarative tab '{$tabId}' cards should not be empty");
+            }
         }
     }
 
@@ -105,7 +109,13 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
 
         foreach ($settingsTabs as $tabId => $tab) {
             $this->assertArrayHasKey($tabId, $config['cards'], "Settings tab '{$tabId}' should have cards");
-            $this->assertNotEmpty($config['cards'][$tabId], "Settings tab '{$tabId}' cards should not be empty");
+
+            // Notifications tab has empty cards (being rewritten)
+            if ($tabId === 'notifications') {
+                $this->assertEmpty($config['cards'][$tabId], "Notifications tab cards should be empty");
+            } else {
+                $this->assertNotEmpty($config['cards'][$tabId], "Settings tab '{$tabId}' cards should not be empty");
+            }
         }
     }
 
@@ -339,7 +349,13 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
         foreach ($expectedTabs as $tabId) {
             $this->assertArrayHasKey($tabId, $all, "Missing tab '{$tabId}'");
             $this->assertArrayHasKey('cards', $all[$tabId], "Tab '{$tabId}' should have 'cards'");
-            $this->assertNotEmpty($all[$tabId]['cards'], "Tab '{$tabId}' cards should not be empty");
+
+            // Notifications tab has empty cards (being rewritten)
+            if ($tabId === 'notifications') {
+                $this->assertEmpty($all[$tabId]['cards'], "Notifications tab cards should be empty");
+            } else {
+                $this->assertNotEmpty($all[$tabId]['cards'], "Tab '{$tabId}' cards should not be empty");
+            }
         }
     }
 
@@ -361,15 +377,8 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
         $this->assertNotEmpty($fields);
         $this->assertArrayHasKey('store_ip', $fields);
 
-        // Notifications tab
-        $fields = $all['notifications']['cards']['email-reports']['fields'];
-        $this->assertNotEmpty($fields);
-        $this->assertArrayHasKey('time_report', $fields);
-        $this->assertArrayHasKey('email_list', $fields);
-
-        $fields = $all['notifications']['cards']['email-content']['fields'];
-        $this->assertNotEmpty($fields);
-        $this->assertArrayHasKey('content_report', $fields);
+        // Notifications tab — cards are empty (being rewritten)
+        $this->assertEmpty($all['notifications']['cards']);
 
         // Exclusions tab
         $fields = $all['exclusions']['cards']['page-exclusions']['fields'];

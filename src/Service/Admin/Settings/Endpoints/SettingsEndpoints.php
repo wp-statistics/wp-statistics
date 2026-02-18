@@ -5,7 +5,6 @@ namespace WP_Statistics\Service\Admin\Settings\Endpoints;
 use WP_Statistics\Abstracts\BaseEndpoint;
 use WP_Statistics\Service\Admin\Settings\SettingsConfigProvider;
 use WP_Statistics\Service\Admin\Settings\SettingsService;
-use WP_Statistics\Service\EmailReport\EmailReportManager;
 use WP_Statistics\Utils\Request;
 use Exception;
 
@@ -15,7 +14,6 @@ use Exception;
  * Thin routing layer — all business logic delegated to:
  * - SettingsService (read/write settings)
  * - SettingsConfigProvider (page config)
- * - EmailReportManager (email preview/send)
  *
  * Uses a single `wp_statistics_settings` action with `sub_action` parameter.
  *
@@ -36,8 +34,6 @@ class SettingsEndpoints extends BaseEndpoint
             'save'          => 'saveSettings',
             'get_tab'       => 'getTabSettings',
             'save_tab'      => 'saveTabSettings',
-            'email_preview' => 'generateEmailPreview',
-            'email_send'    => 'sendTestEmail',
         ];
     }
 
@@ -122,47 +118,6 @@ class SettingsEndpoints extends BaseEndpoint
         wp_send_json_success([
             'message' => __('Settings saved successfully.', 'wp-statistics'),
             'tab'     => $tab,
-        ]);
-    }
-
-    /**
-     * Generate email preview HTML.
-     */
-    protected function generateEmailPreview(): void
-    {
-        $period = sanitize_key(Request::get('period', 'weekly'));
-
-        $manager = new EmailReportManager();
-
-        wp_send_json_success([
-            'html' => $manager->render($period),
-        ]);
-    }
-
-    /**
-     * Send a test email.
-     */
-    protected function sendTestEmail(): void
-    {
-        $email  = sanitize_email(Request::get('email', ''));
-        $period = sanitize_key(Request::get('period', 'weekly'));
-
-        if (empty($email) || !is_email($email)) {
-            throw new Exception(__('Please provide a valid email address.', 'wp-statistics'));
-        }
-
-        $manager = new EmailReportManager();
-
-        if (!$manager->sendTest($email, $period)) {
-            throw new Exception(__('Failed to send test email. Please check your email configuration.', 'wp-statistics'));
-        }
-
-        wp_send_json_success([
-            'message' => sprintf(
-                /* translators: %s: Email address */
-                __('Test email sent to %s', 'wp-statistics'),
-                $email
-            ),
         ]);
     }
 

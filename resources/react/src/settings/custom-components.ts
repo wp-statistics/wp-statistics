@@ -17,15 +17,6 @@ import { registerSettingsComponent } from '@/registry/settings-registry'
 // ── Settings field-level components ─────────────────────────────────
 
 registerSettingsComponent(
-  'EmailActions',
-  lazy(() =>
-    import('@/components/settings/components/email-actions').then((m) => ({
-      default: m.EmailActions,
-    }))
-  )
-)
-
-registerSettingsComponent(
   'RestoreDefaultsAction',
   lazy(() =>
     import('@/components/settings/components/restore-defaults-action').then((m) => ({

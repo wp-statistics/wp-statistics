@@ -14,7 +14,6 @@ use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
 use WP_Statistics\Service\Admin\Tools\Endpoints\ToolsEndpoints;
 use WP_Statistics\Service\Admin\Notice\NoticeManager;
 use WP_Statistics\Service\Admin\Notice\Notices\DiagnosticNotice;
-use WP_Statistics\Service\EmailReport\EmailReportManager;
 use WP_Statistics\Service\Admin\WordPressIntegration\DashboardWidgetManager;
 use WP_Statistics\Service\Admin\WordPressIntegration\EditorMetabox;
 use WP_Statistics\Service\Admin\WordPressIntegration\StatsColumnManager;
@@ -50,11 +49,6 @@ class AdminServiceProvider implements ServiceProvider
         // - Localized data providers
         $container->register('react_app', function () {
             return new ReactAppManager();
-        });
-
-        // Email Report Manager
-        $container->register('email_reports', function () {
-            return new EmailReportManager();
         });
 
         // Command Palette (WordPress Cmd+K integration)
@@ -144,7 +138,6 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('access_enforcer');
             $container->get('admin_menu');
             $container->get('react_app');
-            $container->get('email_reports');
             $container->get('command_palette');
             $container->get('site_health_info');
             $container->get('site_health_tests');

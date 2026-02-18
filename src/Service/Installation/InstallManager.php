@@ -309,9 +309,6 @@ class InstallManager
             if (Option::getValue('display_notifications') === false) {
                 Option::updateValue('display_notifications', true);
             }
-            if (Option::getValue('show_privacy_issues_in_report') === false) {
-                Option::updateValue('show_privacy_issues_in_report', false);
-            }
         }
 
         // Migrate legacy access settings to tier-based access levels (15.1)

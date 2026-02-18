@@ -232,11 +232,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('show_hits') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('show_hits') ? 'Enabled' : 'Disabled',
             ],
-            'reportFrequency'                => [
-                'label' => esc_html__('Report Frequency', 'wp-statistics'),
-                'value' => Option::getValue('time_report') ? Option::getValue('time_report') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('time_report') ? Option::getValue('time_report') : 'Disabled',
-            ],
             'userRoleExclusions'             => [
                 'label' => esc_html__('User Role Exclusions', 'wp-statistics'),
                 'value' => $userRoleExclusions ? implode(', ', $userRoleExclusions) : __('Not Set', 'wp-statistics'),
