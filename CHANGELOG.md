@@ -1,3 +1,6 @@
+= 14.16.2 - 2025-02-19 =
+- **Fix:** Minor improvements and fix version.
+
 = 14.16.1 - 2025-02-09 =
 - **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
 - **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
