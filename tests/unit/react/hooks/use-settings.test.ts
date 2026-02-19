@@ -139,6 +139,30 @@ describe('useSettings', () => {
       const count = result.current.getValue<number>('count', 0)
       expect(count).toBe(42)
     })
+
+    it('should treat false as missing when default is non-boolean', async () => {
+      mockGetTabSettings.mockResolvedValue({ textField: false })
+
+      const { result } = renderHook(() => useSettings({ tab: 'general' }))
+
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      expect(result.current.getValue('textField', '')).toBe('')
+    })
+
+    it('should keep false when default is boolean', async () => {
+      mockGetTabSettings.mockResolvedValue({ featureFlag: false })
+
+      const { result } = renderHook(() => useSettings({ tab: 'general' }))
+
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(false)
+      })
+
+      expect(result.current.getValue('featureFlag', false)).toBe(false)
+    })
   })
 
   describe('setValue', () => {

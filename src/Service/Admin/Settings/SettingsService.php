@@ -23,6 +23,13 @@ class SettingsService
     private $allowedKeysByTab = null;
 
     /**
+     * Cached defaults per tab (core + filtered extension field defaults).
+     *
+     * @var array<string, array<string, mixed>>|null
+     */
+    private $defaultsByTab = null;
+
+    /**
      * Get settings for a specific tab.
      *
      * @param string $tab Tab key (e.g. 'general', 'privacy').
@@ -30,19 +37,13 @@ class SettingsService
      */
     public function getTabSettings(string $tab): array
     {
-        $keys     = $this->getAllowedKeysForTab($tab);
-        $defaults = Option::getDefaults();
-        $options  = Option::get(); // Single load — avoids per-key get_option() overhead
+        $keys      = $this->getAllowedKeysForTab($tab);
+        $defaults  = $this->getDefaultsForTab($tab);
+        $options   = Option::get(); // Single load — avoids per-key get_option() overhead
         $settings = [];
 
         foreach ($keys as $key) {
-            $default = array_key_exists($key, $defaults) ? $defaults[$key] : null;
-
-            if (array_key_exists($key, $options)) {
-                $settings[$key] = apply_filters("wp_statistics_option_{$key}", $options[$key]);
-            } else {
-                $settings[$key] = $default !== null ? $default : false;
-            }
+            $settings[$key] = $this->resolveSettingValue($key, $options, $defaults);
         }
 
         // Include available roles so the UI can render them dynamically
@@ -62,22 +63,16 @@ class SettingsService
     {
         $provider = new SettingsConfigProvider();
         $tabs     = $provider->getSettingsAreaTabKeys();
-        $defaults = Option::getDefaults();
         $options  = Option::get(); // Single load for all tabs
 
         $settings = [];
         foreach ($tabs as $tab) {
-            $keys    = $this->getAllowedKeysForTab($tab);
-            $tabData = [];
+            $keys        = $this->getAllowedKeysForTab($tab);
+            $tabDefaults = $this->getDefaultsForTab($tab);
+            $tabData     = [];
 
             foreach ($keys as $key) {
-                $default = array_key_exists($key, $defaults) ? $defaults[$key] : null;
-
-                if (array_key_exists($key, $options)) {
-                    $tabData[$key] = apply_filters("wp_statistics_option_{$key}", $options[$key]);
-                } else {
-                    $tabData[$key] = $default !== null ? $default : false;
-                }
+                $tabData[$key] = $this->resolveSettingValue($key, $options, $tabDefaults);
             }
 
             if ($tab === 'access' || $tab === 'exclusions') {
@@ -191,5 +186,123 @@ class SettingsService
         }
 
         return $this->allowedKeysByTab[$tab] ?? [];
+    }
+
+    /**
+     * Get resolved defaults for a specific tab.
+     *
+     * Combines:
+     * - Core defaults (Option::getDefaults), constrained by allowed keys.
+     * - Field-level defaults from filtered settings config (extensions/premium).
+     *
+     * @param string $tab AJAX tab key.
+     * @return array<string, mixed>
+     */
+    private function getDefaultsForTab(string $tab): array
+    {
+        if ($this->defaultsByTab === null) {
+            $this->defaultsByTab = $this->buildDefaultsByTab();
+        }
+
+        return $this->defaultsByTab[$tab] ?? [];
+    }
+
+    /**
+     * Build defaults map for all settings tabs.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function buildDefaultsByTab(): array
+    {
+        $provider         = new SettingsConfigProvider();
+        $config           = $provider->getConfig();
+        $coreDefaults     = Option::getDefaults();
+        $allowedKeysByTab = $this->getAllowedKeysByTabMap();
+        $defaultsByTab    = [];
+
+        // Seed each settings tab with core defaults for allowed keys.
+        foreach ($allowedKeysByTab as $tabKey => $keys) {
+            if (!isset($defaultsByTab[$tabKey])) {
+                $defaultsByTab[$tabKey] = [];
+            }
+
+            foreach ($keys as $key) {
+                if (array_key_exists($key, $coreDefaults)) {
+                    $defaultsByTab[$tabKey][$key] = $coreDefaults[$key];
+                }
+            }
+        }
+
+        // Overlay field-level defaults from filtered config (includes premium/third-party).
+        foreach ($config['fields'] ?? [] as $path => $fields) {
+            $parts = explode('/', (string) $path, 2);
+            $tabId = $parts[0] ?? '';
+            $tab   = $config['tabs'][$tabId] ?? null;
+
+            if (!$tab || ($tab['area'] ?? null) !== 'settings') {
+                continue;
+            }
+
+            $tabKey = $tab['tab_key'] ?? $tabId;
+            if (!isset($defaultsByTab[$tabKey])) {
+                $defaultsByTab[$tabKey] = [];
+            }
+
+            foreach ($fields as $field) {
+                if (empty($field['setting_key']) || !array_key_exists('default', $field)) {
+                    continue;
+                }
+
+                $defaultsByTab[$tabKey][$field['setting_key']] = $field['default'];
+            }
+        }
+
+        return $defaultsByTab;
+    }
+
+    /**
+     * Resolve a settings value using stored options and tab defaults.
+     *
+     * - Missing keys fallback to default if available, else false (legacy behavior).
+     * - Legacy normalization: if stored value is false but default is non-boolean,
+     *   return the typed default to avoid leaking sentinel false into text/array fields.
+     *
+     * @param string               $key      Setting key.
+     * @param array<string, mixed> $options  Stored options.
+     * @param array<string, mixed> $defaults Tab defaults.
+     * @return mixed
+     */
+    private function resolveSettingValue(string $key, array $options, array $defaults)
+    {
+        $hasDefault = array_key_exists($key, $defaults);
+        $default    = $hasDefault ? $defaults[$key] : null;
+
+        if (array_key_exists($key, $options)) {
+            $rawValue = $options[$key];
+            $value    = apply_filters("wp_statistics_option_{$key}", $rawValue);
+
+            if ($rawValue === false && $value === false && $hasDefault && !is_bool($default)) {
+                return $default;
+            }
+
+            return $value;
+        }
+
+        return $hasDefault ? $default : false;
+    }
+
+    /**
+     * Get or build the allowed keys map for all tabs.
+     *
+     * @return array<string, string[]>
+     */
+    private function getAllowedKeysByTabMap(): array
+    {
+        if ($this->allowedKeysByTab === null) {
+            $provider               = new SettingsConfigProvider();
+            $this->allowedKeysByTab = $provider->getAllowedKeysByTab();
+        }
+
+        return $this->allowedKeysByTab;
     }
 }

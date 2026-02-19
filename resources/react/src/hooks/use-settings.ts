@@ -62,6 +62,11 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
       if (value === undefined || value === null) {
         return defaultValue as T
       }
+      // Legacy backend sentinels can store false for missing non-boolean fields.
+      // When a non-boolean default is provided, treat false as "missing".
+      if (value === false && defaultValue !== undefined && defaultValue !== null && typeof defaultValue !== 'boolean') {
+        return defaultValue as T
+      }
       return value as T
     },
     [settings]

@@ -311,6 +311,58 @@ class Test_SettingsService extends WP_UnitTestCase
         $this->assertFalse($settings['bypass_ad_blockers']);
     }
 
+    public function test_batch_read_uses_filter_added_field_default_for_missing_value()
+    {
+        add_filter('wp_statistics_settings_fields', function ($fields, $tabId, $cardId) {
+            if ($tabId === 'general' && $cardId === 'tracking') {
+                $fields['premium_text_setting_field'] = [
+                    'type'        => 'input',
+                    'setting_key' => 'premium_text_setting',
+                    'label'       => 'Premium Text',
+                    'default'     => '',
+                    'order'       => 999,
+                ];
+            }
+
+            return $fields;
+        }, 10, 3);
+
+        $options = Option::get();
+        unset($options['premium_text_setting']);
+        update_option('wp_statistics', $options);
+
+        $service  = new SettingsService();
+        $settings = $service->getTabSettings('general');
+
+        $this->assertArrayHasKey('premium_text_setting', $settings);
+        $this->assertSame('', $settings['premium_text_setting']);
+    }
+
+    public function test_batch_read_normalizes_legacy_false_to_filter_added_non_boolean_default()
+    {
+        add_filter('wp_statistics_settings_fields', function ($fields, $tabId, $cardId) {
+            if ($tabId === 'general' && $cardId === 'tracking') {
+                $fields['premium_text_setting_field'] = [
+                    'type'        => 'input',
+                    'setting_key' => 'premium_text_setting',
+                    'label'       => 'Premium Text',
+                    'default'     => '',
+                    'order'       => 999,
+                ];
+            }
+
+            return $fields;
+        }, 10, 3);
+
+        Option::updateValue('premium_text_setting', false);
+
+        $service  = new SettingsService();
+        $settings = $service->getTabSettings('general');
+
+        $this->assertArrayHasKey('premium_text_setting', $settings);
+        $this->assertSame('', $settings['premium_text_setting']);
+    }
+
     public function test_get_all_settings_batch_returns_same_as_per_tab()
     {
         $service = new SettingsService();
