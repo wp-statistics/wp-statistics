@@ -79,6 +79,24 @@ registerSettingsComponent(
   )
 )
 
+registerSettingsComponent(
+  'EmailReportContentInfo',
+  lazy(() =>
+    import('@/components/settings/components/email-report-content-info').then((m) => ({
+      default: m.EmailReportContentInfo,
+    }))
+  )
+)
+
+registerSettingsComponent(
+  'EmailReportScheduleInfo',
+  lazy(() =>
+    import('@/components/settings/components/email-report-schedule-info').then((m) => ({
+      default: m.EmailReportScheduleInfo,
+    }))
+  )
+)
+
 // ── Tools tab components ─────────────────────────────────────────────
 
 registerSettingsComponent(

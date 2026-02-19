@@ -2,12 +2,12 @@
 
 namespace WP_Statistics\Service\Cron;
 
-use WP_Statistics\Components\Event;
-use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Cron\Events\DatabaseMaintenanceEvent;
 use WP_Statistics\Service\Cron\Events\GeoIPUpdateEvent;
 use WP_Statistics\Service\Cron\Events\DailySummaryEvent;
 use WP_Statistics\Service\Cron\Events\ReferralsDatabaseEvent;
+use WP_Statistics\Service\Cron\Events\EmailReportEvent;
 
 /**
  * Cron Manager for WP Statistics v15.
@@ -56,7 +56,7 @@ class CronManager
         add_action('init', [$this, 'scheduleEvents']);
 
         // Listen for settings changes to reschedule events
-        add_action('wp_statistics_settings_updated', [$this, 'onSettingsUpdated']);
+        add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
     }
 
     /**
@@ -76,6 +76,7 @@ class CronManager
             'geoip_update'         => GeoIPUpdateEvent::class,
             'daily_summary'        => DailySummaryEvent::class,
             'referrals_database'   => ReferralsDatabaseEvent::class,
+            'email_report'         => EmailReportEvent::class,
         ];
 
         $this->defaultsRegistered = true;
@@ -187,6 +188,11 @@ class CronManager
     public static function getScheduledEvents()
     {
         $events = [];
+        $emailReportRecurrence = Option::getValue('email_reports_frequency', 'weekly');
+        if (!is_string($emailReportRecurrence) || !in_array($emailReportRecurrence, ['daily', 'weekly', 'monthly'], true)) {
+            $emailReportRecurrence = 'weekly';
+        }
+
         $hooks  = [
             'wp_statistics_dbmaint_hook' => [
                 'label'      => __('Database Maintenance', 'wp-statistics'),
@@ -207,6 +213,10 @@ class CronManager
             'wp_statistics_daily_cron_hook' => [
                 'label'      => __('Daily Tasks', 'wp-statistics'),
                 'recurrence' => 'daily',
+            ],
+            'wp_statistics_email_report' => [
+                'label'      => __('Email Report', 'wp-statistics'),
+                'recurrence' => $emailReportRecurrence,
             ],
         ];
 
@@ -324,6 +334,21 @@ class CronManager
     }
 
     /**
+     * Bridge for wp_statistics_settings_saved action.
+     *
+     * Converts the (tab, settings) signature into the settings-key list
+     * that onSettingsUpdated() expects.
+     *
+     * @param string $tab      Settings tab that was saved.
+     * @param array  $settings Key-value pairs that were saved.
+     * @return void
+     */
+    public function onSettingsSaved(string $tab, array $settings): void
+    {
+        $this->onSettingsUpdated(array_keys($settings));
+    }
+
+    /**
      * Handle settings update - reschedule affected events.
      *
      * Only resolves the specific events that need rescheduling.
@@ -337,6 +362,9 @@ class CronManager
         $settingsToEvents = [
             'schedule_dbmaint'                 => 'database_maintenance',
             'geoip_location_detection_method'  => 'geoip_update',
+            'email_reports_enabled'            => 'email_report',
+            'email_reports_frequency'          => 'email_report',
+            'email_reports_delivery_hour'      => 'email_report',
         ];
 
         $eventsToReschedule = [];
