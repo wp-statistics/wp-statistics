@@ -246,7 +246,6 @@ class EmailReportDataProvider
                 'browsers'          => [],
                 'operating_systems' => [],
             ],
-            'search_terms'        => [],
             'report_title'        => $reportTitle,
             'report_period'       => $reportPeriod,
         ];

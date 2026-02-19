@@ -73,6 +73,7 @@ class EmailReportRenderer
 
         $vars = array_merge($colors, [
             'show_comparison' => apply_filters('wp_statistics_email_report_show_comparison', true),
+            'is_rtl'          => is_rtl(),
         ]);
 
         switch ($section) {
@@ -138,16 +139,6 @@ class EmailReportRenderer
                     __('Country', 'wp-statistics'),
                     __('Visitors', 'wp-statistics'),
                     $data['top_countries'] ?? []
-                );
-
-            case 'search-terms':
-                return $this->renderDataTableSection(
-                    $viewPath,
-                    $vars,
-                    __('Top Search Terms', 'wp-statistics'),
-                    __('Term', 'wp-statistics'),
-                    __('Searches', 'wp-statistics'),
-                    $data['search_terms'] ?? []
                 );
 
             case 'devices':

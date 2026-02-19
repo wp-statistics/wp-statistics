@@ -2,16 +2,20 @@
 /**
  * Device breakdown section for email reports.
  *
- * Renders compact subtables for device types, browsers, and operating systems.
+ * Compact progress-bar lists for device types, browsers, and operating systems.
+ * Bar widths represent absolute share percentage (honest data).
  *
  * @var string $title             Section title.
  * @var array  $device_breakdown  ['types' => [], 'browsers' => [], 'operating_systems' => []].
+ * @var string $primary_color     Primary brand color.
  * @var string $muted_color       Muted text color.
  */
 
 $title            = $title ?? '';
 $deviceBreakdown  = is_array($device_breakdown ?? null) ? $device_breakdown : [];
+$primary_color    = $primary_color ?? '#1e40af';
 $muted_color      = $muted_color ?? '#6b7280';
+$is_rtl           = $is_rtl ?? false;
 
 $types            = is_array($deviceBreakdown['types'] ?? null) ? $deviceBreakdown['types'] : [];
 $browsers         = is_array($deviceBreakdown['browsers'] ?? null) ? $deviceBreakdown['browsers'] : [];
@@ -21,43 +25,43 @@ if (empty($types) && empty($browsers) && empty($operatingSystems)) {
     return;
 }
 
-$renderSubtable = static function (string $subtitle, array $rows, string $mutedColor): string {
+$renderProgressList = static function (string $subtitle, array $rows, string $primaryColor, string $mutedColor): string {
     if (empty($rows)) {
         return '';
     }
 
-    $hasShareColumn = (bool) array_filter($rows, static function ($row) {
-        return is_array($row) && array_key_exists('share_percent', $row) && $row['share_percent'] !== null && $row['share_percent'] !== '';
-    });
-
     ob_start();
     ?>
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:12px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-        <tr style="background-color:#f9fafb;">
-            <td colspan="<?php echo esc_attr($hasShareColumn ? '4' : '3'); ?>" style="padding:8px 12px;font-size:12px;font-weight:600;color:#111827;"><?php echo esc_html($subtitle); ?></td>
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:16px;">
+        <tr>
+            <td style="padding:0 0 8px;font-size:12px;font-weight:600;color:<?php echo esc_attr($mutedColor); ?>;" class="email-text-muted"><?php echo esc_html($subtitle); ?></td>
         </tr>
-        <tr style="background-color:#f9fafb;">
-            <td style="padding:6px 12px;font-size:11px;font-weight:600;color:<?php echo esc_attr($mutedColor); ?>;width:32px;">#</td>
-            <td style="padding:6px 12px;font-size:11px;font-weight:600;color:<?php echo esc_attr($mutedColor); ?>;"><?php esc_html_e('Label', 'wp-statistics'); ?></td>
-            <td style="padding:6px 12px;font-size:11px;font-weight:600;color:<?php echo esc_attr($mutedColor); ?>;text-align:right;"><?php esc_html_e('Visitors', 'wp-statistics'); ?></td>
-            <?php if ($hasShareColumn) : ?>
-            <td style="padding:6px 12px;font-size:11px;font-weight:600;color:<?php echo esc_attr($mutedColor); ?>;text-align:right;"><?php esc_html_e('Share', 'wp-statistics'); ?></td>
-            <?php endif; ?>
-        </tr>
-        <?php foreach ($rows as $index => $row) :
-            $bg = ($index % 2 === 0) ? '#ffffff' : '#f9fafb';
-            $border = ($index < count($rows) - 1) ? 'border-bottom:1px solid #f3f4f6;' : '';
-            $share = isset($row['share_percent']) && is_numeric($row['share_percent']) ? floatval($row['share_percent']) : null;
+        <?php foreach ($rows as $row) :
+            $label = isset($row['label']) ? (string) $row['label'] : '';
+            $share = isset($row['share_percent']) && is_numeric($row['share_percent']) ? floatval($row['share_percent']) : 0;
+            $barWidth = max(intval($share), 1);
         ?>
-        <tr style="background-color:<?php echo esc_attr($bg); ?>;">
-            <td style="padding:8px 12px;font-size:12px;color:<?php echo esc_attr($mutedColor); ?>;<?php echo $border; ?>"><?php echo esc_html($index + 1); ?></td>
-            <td style="padding:8px 12px;font-size:12px;color:#374151;<?php echo $border; ?>"><?php echo esc_html($row['label'] ?? ''); ?></td>
-            <td style="padding:8px 12px;font-size:12px;color:#111827;text-align:right;font-weight:500;<?php echo $border; ?>"><?php echo esc_html($row['value'] ?? '0'); ?></td>
-            <?php if ($hasShareColumn) : ?>
-            <td style="padding:8px 12px;font-size:12px;color:<?php echo esc_attr($mutedColor); ?>;text-align:right;<?php echo $border; ?>">
-                <?php echo $share === null ? '&ndash;' : esc_html(number_format_i18n($share, 1) . '%'); ?>
+        <tr>
+            <td style="padding:6px 0;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <td style="font-size:13px;font-weight:500;color:#374151;padding-bottom:4px;" class="email-text"><?php echo esc_html($label); ?></td>
+                        <td style="font-size:13px;font-weight:600;color:#111827;text-align:right;padding-bottom:4px;" class="email-text">
+                            <?php echo esc_html(number_format_i18n($share, 1) . '%'); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding:0;">
+                            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f3f4f6;border-radius:4px;">
+                                <tr>
+                                    <td width="<?php echo esc_attr($barWidth); ?>%" style="background-color:<?php echo esc_attr($primaryColor); ?>;height:8px;border-radius:4px;font-size:1px;">&nbsp;</td>
+                                    <td style="font-size:1px;">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
             </td>
-            <?php endif; ?>
         </tr>
         <?php endforeach; ?>
     </table>
@@ -65,21 +69,23 @@ $renderSubtable = static function (string $subtitle, array $rows, string $mutedC
     return (string) ob_get_clean();
 };
 ?>
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:24px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:28px;">
     <?php if (!empty($title)) : ?>
     <tr>
-        <td style="padding:0 0 12px;font-size:14px;font-weight:600;color:#111827;"><?php echo esc_html($title); ?></td>
+        <td style="padding:0 0 14px;font-size:14px;font-weight:600;color:#111827;" class="email-text">
+            <?php echo esc_html($title); ?>
+        </td>
     </tr>
     <?php endif; ?>
     <tr>
         <td>
             <?php
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo $renderSubtable(__('Types', 'wp-statistics'), $types, $muted_color);
+            echo $renderProgressList(__('Types', 'wp-statistics'), $types, $primary_color, $muted_color);
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo $renderSubtable(__('Browsers', 'wp-statistics'), $browsers, $muted_color);
+            echo $renderProgressList(__('Browsers', 'wp-statistics'), $browsers, $primary_color, $muted_color);
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo $renderSubtable(__('Operating Systems', 'wp-statistics'), $operatingSystems, $muted_color);
+            echo $renderProgressList(__('Operating Systems', 'wp-statistics'), $operatingSystems, $primary_color, $muted_color);
             ?>
         </td>
     </tr>
