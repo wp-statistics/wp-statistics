@@ -110,12 +110,7 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
         foreach ($settingsTabs as $tabId => $tab) {
             $this->assertArrayHasKey($tabId, $config['cards'], "Settings tab '{$tabId}' should have cards");
 
-            // Notifications tab has empty cards (being rewritten)
-            if ($tabId === 'notifications') {
-                $this->assertEmpty($config['cards'][$tabId], "Notifications tab cards should be empty");
-            } else {
-                $this->assertNotEmpty($config['cards'][$tabId], "Settings tab '{$tabId}' cards should not be empty");
-            }
+            $this->assertNotEmpty($config['cards'][$tabId], "Settings tab '{$tabId}' cards should not be empty");
         }
     }
 
@@ -350,12 +345,7 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
             $this->assertArrayHasKey($tabId, $all, "Missing tab '{$tabId}'");
             $this->assertArrayHasKey('cards', $all[$tabId], "Tab '{$tabId}' should have 'cards'");
 
-            // Notifications tab has empty cards (being rewritten)
-            if ($tabId === 'notifications') {
-                $this->assertEmpty($all[$tabId]['cards'], "Notifications tab cards should be empty");
-            } else {
-                $this->assertNotEmpty($all[$tabId]['cards'], "Tab '{$tabId}' cards should not be empty");
-            }
+            $this->assertNotEmpty($all[$tabId]['cards'], "Tab '{$tabId}' cards should not be empty");
         }
     }
 
@@ -377,8 +367,10 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
         $this->assertNotEmpty($fields);
         $this->assertArrayHasKey('store_ip', $fields);
 
-        // Notifications tab — cards are empty (being rewritten)
-        $this->assertEmpty($all['notifications']['cards']);
+        // Notifications tab
+        $fields = $all['notifications']['cards']['email-reports']['fields'];
+        $this->assertNotEmpty($fields);
+        $this->assertArrayHasKey('email_reports_enabled', $fields);
 
         // Exclusions tab
         $fields = $all['exclusions']['cards']['page-exclusions']['fields'];

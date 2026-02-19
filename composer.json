@@ -17,7 +17,7 @@
     "deliciousbrains/wp-background-processing": "^1.4"
   },
   "require-dev": {
-    "veronalabs/wp-scoper": "^1.0"
+    "veronalabs/wp-scoper": "^1.1"
   },
   "config": {
     "platform-check": false,

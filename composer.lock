@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a434d78221fa384a124898c75fdab953",
+    "content-hash": "2779694b6a6a187007470938b6b76a5a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1440,16 +1440,16 @@
         },
         {
             "name": "veronalabs/wp-scoper",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/veronalabs/wp-scoper.git",
-                "reference": "196e0030dbd4f69e24ca61b8a97072a34b1d30d3"
+                "reference": "fa8291522d3cb68fbfed8d0312141d71613df7dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/veronalabs/wp-scoper/zipball/196e0030dbd4f69e24ca61b8a97072a34b1d30d3",
-                "reference": "196e0030dbd4f69e24ca61b8a97072a34b1d30d3",
+                "url": "https://api.github.com/repos/veronalabs/wp-scoper/zipball/fa8291522d3cb68fbfed8d0312141d71613df7dd",
+                "reference": "fa8291522d3cb68fbfed8d0312141d71613df7dd",
                 "shasum": ""
             },
             "require": {
@@ -1488,9 +1488,9 @@
             "description": "A Composer plugin that prefixes namespaces in WordPress plugin dependencies to prevent conflicts",
             "support": {
                 "issues": "https://github.com/veronalabs/wp-scoper/issues",
-                "source": "https://github.com/veronalabs/wp-scoper/tree/v1.0.0"
+                "source": "https://github.com/veronalabs/wp-scoper/tree/v1.1.0"
             },
-            "time": "2026-02-19T08:27:34+00:00"
+            "time": "2026-02-19T09:13:55+00:00"
         }
     ],
     "aliases": [],
