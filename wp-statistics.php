@@ -48,7 +48,11 @@ require_once __DIR__ . '/src/constants.php';
 | Load Composer Autoloader
 |--------------------------------------------------------------------------
 */
-require_once __DIR__ . '/src/Dependencies/autoload.php';
+if (file_exists(__DIR__ . '/packages/autoload.php')) {
+    require_once __DIR__ . '/packages/autoload.php';
+} else {
+    return;
+}
 
 /*
 |--------------------------------------------------------------------------

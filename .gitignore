@@ -60,6 +60,9 @@ tests/e2e/screenshots/
 tests/test-results/
 playwright-report/
 
+# Scoped Dependencies
+/packages/
+
 # AI / Claude Code
 .claude/
 .mcp.json

@@ -43,7 +43,8 @@
         "mustangostang/spyc",
         "deliciousbrains/wp-background-processing"
       ],
-      "target_directory": "src/Dependencies",
+      "target_directory": "packages",
+      "delete_vendor_packages": true,
       "class_prefix": "WP_Statistics_",
       "exclude_directories": ["views", "templates", "resources"]
     }
