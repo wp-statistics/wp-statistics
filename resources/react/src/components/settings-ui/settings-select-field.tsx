@@ -9,7 +9,7 @@ interface SettingsSelectFieldProps {
   description?: string
   layout?: 'inline' | 'stacked'
   nested?: boolean
-  value: string
+  value: string | number
   onValueChange: (value: string) => void
   placeholder?: string
   options: Array<{ value: string; label: string }>
@@ -26,9 +26,11 @@ export function SettingsSelectField({
   placeholder,
   options,
 }: SettingsSelectFieldProps) {
+  const normalizedValue = value === undefined || value === null ? '' : String(value)
+
   return (
     <SettingsField id={id} label={label} description={description} layout={layout} nested={nested}>
-      <Select value={value} onValueChange={onValueChange}>
+      <Select value={normalizedValue} onValueChange={onValueChange}>
         <SelectTrigger id={id} className={cn(layout === 'inline' ? 'w-[200px]' : 'w-full max-w-sm')}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
