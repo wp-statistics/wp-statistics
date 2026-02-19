@@ -6,12 +6,12 @@
  */
 
 /**
- * Abstract WP_Statistics_WP_Background_Process class.
+ * Abstract WP_Background_Process class.
  *
  * @abstract
- * @extends WP_Statistics_WP_Async_Request
+ * @extends \WP_Statistics_WP_Async_Request
  */
-abstract class WP_Statistics_WP_Background_Process extends WP_Statistics_WP_Async_Request {
+abstract class WP_Statistics_WP_Background_Process extends \WP_Statistics_WP_Async_Request {
 	/**
 	 * The default query arg name used for passing the chain ID to new processes.
 	 */
@@ -84,7 +84,7 @@ abstract class WP_Statistics_WP_Background_Process extends WP_Statistics_WP_Asyn
 	/**
 	 * Initiate new background process.
 	 *
-	 * @param bool|array $allowed_batch_data_classes Optional. Array of class WP_Statistics_names that can be unserialized. Default true (any class).
+	 * @param bool|array $allowed_batch_data_classes Optional. Array of class names that can be unserialized. Default true (any class).
 	 */
 	public function __construct( $allowed_batch_data_classes = true ) {
 		parent::__construct();
@@ -863,7 +863,7 @@ abstract class WP_Statistics_WP_Background_Process extends WP_Statistics_WP_Asyn
 	 * Maybe unserialize data, but not if an object.
 	 *
 	 * @param mixed      $data            Data to be unserialized.
-	 * @param bool|array $allowed_classes Array of class WP_Statistics_names that can be unserialized.
+	 * @param bool|array $allowed_classes Array of class names that can be unserialized.
 	 *
 	 * @return mixed
 	 */
