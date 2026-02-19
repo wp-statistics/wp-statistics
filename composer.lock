@@ -1440,16 +1440,16 @@
         },
         {
             "name": "veronalabs/wp-scoper",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/veronalabs/wp-scoper.git",
-                "reference": "adf463afd3fb2a7ddecf023848ab9cea71442aae"
+                "reference": "7f2a3030c279b1e69892cb5ac80dc7c951b328aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/veronalabs/wp-scoper/zipball/adf463afd3fb2a7ddecf023848ab9cea71442aae",
-                "reference": "adf463afd3fb2a7ddecf023848ab9cea71442aae",
+                "url": "https://api.github.com/repos/veronalabs/wp-scoper/zipball/7f2a3030c279b1e69892cb5ac80dc7c951b328aa",
+                "reference": "7f2a3030c279b1e69892cb5ac80dc7c951b328aa",
                 "shasum": ""
             },
             "require": {
@@ -1488,9 +1488,9 @@
             "description": "A Composer plugin that prefixes namespaces in WordPress plugin dependencies to prevent conflicts",
             "support": {
                 "issues": "https://github.com/veronalabs/wp-scoper/issues",
-                "source": "https://github.com/veronalabs/wp-scoper/tree/v1.1.1"
+                "source": "https://github.com/veronalabs/wp-scoper/tree/v1.2.0"
             },
-            "time": "2026-02-19T09:41:58+00:00"
+            "time": "2026-02-19T14:43:23+00:00"
         }
     ],
     "aliases": [],
