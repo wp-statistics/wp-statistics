@@ -115,7 +115,7 @@ export function BackgroundJobsPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-6">
         <PanelSkeleton titleWidth="w-36">
           <TableSkeleton rows={5} columns={3} />
         </PanelSkeleton>
@@ -124,7 +124,7 @@ export function BackgroundJobsPage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Background Jobs Card */}
       <SettingsCard
         title={__('Background Jobs', 'wp-statistics')}

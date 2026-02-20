@@ -109,7 +109,7 @@ export function ScheduledTasksPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-6">
         <Skeleton className="h-16 w-full rounded-lg" />
         <PanelSkeleton titleWidth="w-36">
           <TableSkeleton rows={6} columns={5} />
@@ -119,7 +119,7 @@ export function ScheduledTasksPage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <NoticeBanner
         title={__('About Scheduled Tasks', 'wp-statistics')}
         message={__('These tasks run automatically via WordPress cron. Some tasks may be disabled based on your plugin settings. You can manually trigger any task using the "Run Now" button.', 'wp-statistics')}

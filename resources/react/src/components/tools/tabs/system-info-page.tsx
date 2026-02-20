@@ -122,7 +122,7 @@ export function SystemInfoPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-6">
         <PanelSkeleton titleWidth="w-36">
           <MetricsSkeleton count={5} columns={3} />
         </PanelSkeleton>
@@ -134,7 +134,7 @@ export function SystemInfoPage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Load Error */}
       {loadError && (
         <NoticeBanner

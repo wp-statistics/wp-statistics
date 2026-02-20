@@ -29,7 +29,7 @@ export function SettingsPage({ settings, saveDescription, children }: SettingsPa
 
   if (settings.isLoading) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-6">
         <PanelSkeleton titleWidth="w-40">
           <TableSkeleton rows={4} columns={2} showHeader={false} />
         </PanelSkeleton>
@@ -41,7 +41,7 @@ export function SettingsPage({ settings, saveDescription, children }: SettingsPa
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {children}
 
       {settings.error && <NoticeBanner id="settings-error" message={settings.error} type="error" dismissible={false} />}

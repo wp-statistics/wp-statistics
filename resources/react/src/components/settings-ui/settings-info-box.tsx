@@ -9,7 +9,7 @@ interface SettingsInfoBoxProps {
 
 export function SettingsInfoBox({ title, icon: Icon, children }: SettingsInfoBoxProps) {
   return (
-    <div className="rounded-lg border bg-muted/50 px-4 py-3">
+    <div className="rounded-lg border bg-muted/50 px-4 py-3.5">
       {(title || Icon) && (
         <div className="flex items-center gap-2 mb-2">
           {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}

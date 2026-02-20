@@ -269,7 +269,7 @@ export function DiagnosticsPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-6">
         <Skeleton className="h-16 w-full rounded-lg" />
         <PanelSkeleton titleWidth="w-40">
           <div className="space-y-3">
@@ -283,7 +283,7 @@ export function DiagnosticsPage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Info Box */}
       <NoticeBanner
         title={__('System Diagnostics', 'wp-statistics')}

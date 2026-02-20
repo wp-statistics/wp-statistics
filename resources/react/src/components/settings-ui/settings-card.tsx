@@ -18,7 +18,7 @@ export function SettingsCard({ title, description, icon: Icon, variant = 'defaul
   const isDanger = variant === 'danger'
 
   return (
-    <Card className={cn(isDanger && 'border-destructive/50 bg-destructive/5')}>
+    <Card className={cn('gap-4', isDanger && 'border-destructive/50 bg-destructive/5')}>
       <CardHeader>
         <CardTitle className={cn('flex items-center gap-2 text-base', isDanger && 'text-destructive')}>
           {isDanger ? <AlertTriangle className="h-5 w-5" /> : Icon ? <Icon className="h-5 w-5" /> : null}
@@ -27,7 +27,7 @@ export function SettingsCard({ title, description, icon: Icon, variant = 'defaul
         {description && <CardDescription>{description}</CardDescription>}
         {action && <CardAction>{action}</CardAction>}
       </CardHeader>
-      <CardContent className="-mt-3 space-y-4">{children}</CardContent>
+      <CardContent className="space-y-5">{children}</CardContent>
     </Card>
   )
 }

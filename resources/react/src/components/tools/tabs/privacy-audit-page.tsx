@@ -6,7 +6,7 @@ import { SettingsCard } from '@/components/settings-ui'
 // TODO: Implement privacy audit checks (IP hashing, consent, data retention, etc.)
 export function PrivacyAuditPage() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <SettingsCard
         title={__('Privacy Audit', 'wp-statistics')}
         icon={ShieldCheck}

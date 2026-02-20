@@ -174,7 +174,7 @@ export function BackupsPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-6">
         <Skeleton className="h-16 w-full rounded-lg" />
         <PanelSkeleton titleWidth="w-28">
           <TableSkeleton rows={4} columns={5} />
@@ -184,7 +184,7 @@ export function BackupsPage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Info Box */}
       <NoticeBanner
         title={__('About Backups', 'wp-statistics')}

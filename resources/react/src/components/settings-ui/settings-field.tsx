@@ -16,14 +16,14 @@ export function SettingsField({ id, label, description, layout = 'inline', neste
   const content =
     layout === 'inline' ? (
       <div className="flex items-center justify-between">
-        <div className="space-y-0.5">
+        <div className="space-y-1">
           <Label htmlFor={id}>{label}</Label>
           {description && <p className="text-xs text-muted-foreground">{description}</p>}
         </div>
         {children}
       </div>
     ) : (
-      <div className="space-y-2">
+      <div className="space-y-3">
         <Label htmlFor={id}>{label}</Label>
         {children}
         {description && <p className="text-xs text-muted-foreground">{description}</p>}
@@ -31,7 +31,7 @@ export function SettingsField({ id, label, description, layout = 'inline', neste
     )
 
   if (nested) {
-    return <div className={cn('-mt-2 ml-6 pl-4 border-l-2 border-muted')}>{content}</div>
+    return <div className={cn('ml-6 pl-4 border-l-2 border-muted')}>{content}</div>
   }
 
   return content

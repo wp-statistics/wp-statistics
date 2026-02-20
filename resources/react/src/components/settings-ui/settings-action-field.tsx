@@ -10,7 +10,7 @@ export function SettingsActionField({ label, description, children }: SettingsAc
   return (
     <div className="border-t pt-4">
       <div className="flex items-center justify-between">
-        <div className="space-y-0.5">
+        <div className="space-y-1">
           <Label>{label}</Label>
           {description && <p className="text-xs text-muted-foreground">{description}</p>}
         </div>
