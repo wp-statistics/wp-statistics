@@ -66,3 +66,5 @@ playwright-report/
 # AI / Claude Code
 .claude/
 .mcp.json
+
+/dist

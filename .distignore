@@ -13,8 +13,10 @@
 # Node.js & Build Tools
 # ============================================
 /node_modules
+/dist
 package.json
 package-lock.json
+pnpm-lock.yaml
 
 # ============================================
 # Testing
@@ -59,6 +61,7 @@ composer.lock
 /resources/json/geojson
 /.storybook
 /storybook-static
+/.tanstack
 
 # ============================================
 # Documentation (not needed in production)
@@ -69,6 +72,8 @@ CONTRIBUTING.md
 security.md
 changelog.txt
 blueprint.json
+/blueprints
+/docs
 
 # ============================================
 # Environment & Configuration Files
@@ -79,6 +84,9 @@ blueprint.json
 .distignore
 .editorconfig
 .gitignore
+.DS_Store
+.prettierignore
+.prettierrc
 
 # ============================================
 # AI & IDE Tools
@@ -87,3 +95,5 @@ blueprint.json
 /.cursor
 /.vscode
 .mcp.json
+CLAUDE.md
+AGENTS.md

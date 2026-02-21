@@ -76,6 +76,7 @@
       "@test:react",
       "@lint",
       "@format:check"
-    ]
+    ],
+    "dist": "bash bin/build-zip.sh"
   }
 }

@@ -77,5 +77,17 @@ Having trouble with a bug? Please [create an issue](https://github.com/wp-statis
 3. Make sure the Date and Time are set correctly in WordPress.
 4. Go to the plugin settings page and configure as required (note this will also include downloading the GeoIP database for the first time).
 
+## Building Distribution ZIP
+
+To create a clean plugin ZIP for distribution (without development files):
+
+```bash
+composer dist
+```
+
+This creates `dist/wp-statistics.zip`, excluding files listed in `.distignore`.
+
+**Prerequisites:** Run `composer install --no-dev` and build assets (`npm run build`) before creating the ZIP.
+
 ## Development Guide
 For more information on how to contribute to WP Statistics, please refer to the [Development Guide](https://github.com/wp-statistics/wp-statistics/wiki)
