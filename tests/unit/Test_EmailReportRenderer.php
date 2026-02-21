@@ -23,7 +23,7 @@ class Test_EmailReportRenderer extends WP_UnitTestCase
     public function test_new_section_slugs_render_when_data_exists()
     {
         add_filter('wp_statistics_email_report_sections', function () {
-            return ['engagement-overview', 'top-entry-pages', 'top-exit-pages', 'top-countries', 'devices', 'search-terms'];
+            return ['engagement-overview', 'top-entry-pages', 'top-exit-pages', 'top-countries', 'devices'];
         });
 
         $renderer = new EmailReportRenderer();
@@ -45,9 +45,6 @@ class Test_EmailReportRenderer extends WP_UnitTestCase
                 'browsers'          => [['label' => 'Chrome', 'value' => '50']],
                 'operating_systems' => [['label' => 'Windows', 'value' => '45']],
             ],
-            'search_terms'     => [
-                ['label' => 'pricing', 'value' => '24'],
-            ],
         ]);
 
         $this->assertStringContainsString('Engagement Overview', $output);
@@ -55,13 +52,12 @@ class Test_EmailReportRenderer extends WP_UnitTestCase
         $this->assertStringContainsString('Top Exit Pages', $output);
         $this->assertStringContainsString('Top Countries', $output);
         $this->assertStringContainsString('Device Breakdown', $output);
-        $this->assertStringContainsString('Top Search Terms', $output);
     }
 
     public function test_new_section_slugs_render_empty_when_data_missing()
     {
         add_filter('wp_statistics_email_report_sections', function () {
-            return ['engagement-overview', 'top-entry-pages', 'top-exit-pages', 'top-countries', 'devices', 'search-terms'];
+            return ['engagement-overview', 'top-entry-pages', 'top-exit-pages', 'top-countries', 'devices'];
         });
 
         $renderer = new EmailReportRenderer();
@@ -75,7 +71,6 @@ class Test_EmailReportRenderer extends WP_UnitTestCase
                 'browsers'          => [],
                 'operating_systems' => [],
             ],
-            'search_terms'     => [],
         ]);
 
         $this->assertSame('', trim($output));
