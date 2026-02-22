@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\Diagnostic\Checks;
 
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticResult;
-use WP_Statistics\Service\Geolocation\Provider\MaxMindGeoIPProvider;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Components\Option;
 
 /**
@@ -23,19 +23,19 @@ class GeoIpCheck extends AbstractCheck
     /**
      * GeoIP provider instance.
      *
-     * @var MaxMindGeoIPProvider|null
+     * @var object|null
      */
     private $provider = null;
 
     /**
      * Get the GeoIP provider instance.
      *
-     * @return MaxMindGeoIPProvider
+     * @return object
      */
-    private function getProvider(): MaxMindGeoIPProvider
+    private function getProvider()
     {
         if ($this->provider === null) {
-            $this->provider = new MaxMindGeoIPProvider();
+            $this->provider = GeolocationFactory::getProviderInstance();
         }
         return $this->provider;
     }
@@ -85,16 +85,8 @@ class GeoIpCheck extends AbstractCheck
      */
     public function run(): DiagnosticResult
     {
-        // Check if GeoIP is disabled
-        if (Option::getValue('geoip') === false) {
-            return $this->pass(
-                __('GeoIP is disabled in settings.', 'wp-statistics'),
-                ['status' => 'disabled']
-            );
-        }
-
         // Check if using Cloudflare geolocation instead
-        if (Option::getValue('geoip_cloudflare')) {
+        if (Option::getValue('geoip_location_detection_method') === 'cf') {
             return $this->pass(
                 __('Using Cloudflare geolocation (no database required).', 'wp-statistics'),
                 ['provider' => 'cloudflare']

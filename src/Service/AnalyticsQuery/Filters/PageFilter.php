@@ -67,7 +67,7 @@ class PageFilter extends AbstractFilter
      *
      * @var array Groups: views
      */
-    protected $groups = ['views'];
+    protected $groups = ['views', 'referrals'];
 
     /**
      * {@inheritdoc}

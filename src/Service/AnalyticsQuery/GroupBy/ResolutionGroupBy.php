@@ -9,9 +9,9 @@ namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
  */
 class ResolutionGroupBy extends AbstractGroupBy
 {
-    protected $name         = 'resolution';
+    protected $name         = 'screen_resolution';
     protected $column       = "CONCAT(resolutions.width, 'x', resolutions.height)";
-    protected $alias        = 'resolution';
+    protected $alias        = 'screen_resolution';
     protected $extraColumns = [
         'resolutions.ID AS resolution_id',
         'resolutions.width AS resolution_width',

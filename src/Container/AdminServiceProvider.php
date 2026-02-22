@@ -2,22 +2,21 @@
 
 namespace WP_Statistics\Container;
 
-use WP_Statistics\Service\Admin\AdminBar;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevelEnforcer;
 use WP_Statistics\Service\Admin\AdminMenuManager;
 use WP_Statistics\Service\Admin\AnonymizedUsageData\AnonymizedUsageDataManager;
 use WP_Statistics\Service\Admin\CommandPalette\CommandPaletteHandler;
 use WP_Statistics\Service\Admin\ReactApp\ReactAppManager;
 use WP_Statistics\Service\Admin\FilterHandler\FilterManager;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\Network\NetworkMenuManager;
-use WP_Statistics\Service\Admin\Notification\NotificationManager;
-use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
 use WP_Statistics\Service\Admin\Tools\Endpoints\ToolsEndpoints;
 use WP_Statistics\Service\Admin\Notice\NoticeManager;
 use WP_Statistics\Service\Admin\Notice\Notices\DiagnosticNotice;
-use WP_Statistics\Service\EmailReport\EmailReportManager;
+use WP_Statistics\Service\Admin\WordPressIntegration\DashboardWidgetManager;
+use WP_Statistics\Service\Admin\WordPressIntegration\EditorMetabox;
+use WP_Statistics\Service\Admin\WordPressIntegration\StatsColumnManager;
 use WP_Statistics\Service\ImportExport\ImportExportManager;
 
 /**
@@ -37,11 +36,6 @@ class AdminServiceProvider implements ServiceProvider
      */
     public function register(ServiceContainer $container): void
     {
-        // Admin Bar - works on both frontend and admin
-        $container->register('admin_bar', function () {
-            return new AdminBar();
-        });
-
         // Admin Menu Manager
         $container->register('admin_menu', function () {
             return new AdminMenuManager();
@@ -55,11 +49,6 @@ class AdminServiceProvider implements ServiceProvider
         // - Localized data providers
         $container->register('react_app', function () {
             return new ReactAppManager();
-        });
-
-        // Email Report Manager
-        $container->register('email_reports', function () {
-            return new EmailReportManager();
         });
 
         // Command Palette (WordPress Cmd+K integration)
@@ -77,24 +66,9 @@ class AdminServiceProvider implements ServiceProvider
             return SiteHealthTests::instance();
         });
 
-        // License Management (add-ons licensing and updates)
-        $container->register('license_management', function () {
-            return new LicenseManagementManager();
-        });
-
-        // Posts Manager (hits column, post meta tracking)
-        $container->register('posts', function () {
-            return new PostsManager();
-        });
-
         // Filter Manager (AJAX filter handling)
         $container->register('filters', function () {
             return new FilterManager();
-        });
-
-        // Notification Manager (admin notifications)
-        $container->register('notifications', function () {
-            return new NotificationManager();
         });
 
         // Anonymized Usage Data Manager (opt-in telemetry)
@@ -119,6 +93,26 @@ class AdminServiceProvider implements ServiceProvider
             return new NetworkMenuManager();
         });
 
+        // Dashboard Widget (WordPress admin dashboard summary)
+        $container->register('dashboard_widget', function () {
+            return new DashboardWidgetManager();
+        });
+
+        // Editor Metabox (stats summary in post editor)
+        $container->register('editor_metabox', function () {
+            return new EditorMetabox();
+        });
+
+        // Stats Columns (views column in post/user list tables)
+        $container->register('stats_columns', function () {
+            return new StatsColumnManager();
+        });
+
+        // Access Level Enforcer (restricts analytics queries by user role)
+        $container->register('access_enforcer', function () {
+            return new AccessLevelEnforcer();
+        });
+
         // Global Notice Manager (admin notices for React and non-React pages)
         $container->register('notice_manager', function () {
             // Initialize the notice manager
@@ -139,25 +133,22 @@ class AdminServiceProvider implements ServiceProvider
      */
     public function boot(ServiceContainer $container): void
     {
-        // Admin bar is loaded on both frontend and admin
-        $container->get('admin_bar');
-
         // Admin-only services
         if (is_admin()) {
+            $container->get('access_enforcer');
             $container->get('admin_menu');
             $container->get('react_app');
-            $container->get('email_reports');
             $container->get('command_palette');
             $container->get('site_health_info');
             $container->get('site_health_tests');
-            $container->get('license_management');
-            $container->get('posts');
             $container->get('filters');
-            $container->get('notifications');
             $container->get('anonymized_data');
             $container->get('import_export');
             $container->get('tools_endpoints');
             $container->get('network_menu');
+            $container->get('dashboard_widget');
+            $container->get('editor_metabox');
+            $container->get('stats_columns');
             $container->get('notice_manager');
         }
     }

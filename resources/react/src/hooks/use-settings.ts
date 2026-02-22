@@ -1,12 +1,13 @@
 import * as React from 'react'
 
 import { getTabSettings, saveTabSettings, type SettingsTab } from '@/services/settings'
+import { settingsCache } from '@/services/settings-config'
 
 interface UseSettingsOptions {
   tab: SettingsTab
 }
 
-interface UseSettingsReturn {
+export interface UseSettingsReturn {
   settings: Record<string, unknown>
   isLoading: boolean
   isSaving: boolean
@@ -32,6 +33,15 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
     setError(null)
 
     try {
+      // Check preloaded cache (seeded from get_config response with all settings tabs)
+      const cached = settingsCache.get(tab)
+      if (cached) {
+        setSettings(cached)
+        setIsLoading(false)
+        return
+      }
+
+      // Cache miss — tools tabs or after a save invalidation
       const data = await getTabSettings(tab)
       setSettings(data)
     } catch (err) {
@@ -47,9 +57,14 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
 
   // Get a value from settings
   const getValue = React.useCallback(
-    <T,>(key: string, defaultValue?: T): T => {
+    <T>(key: string, defaultValue?: T): T => {
       const value = settings[key]
       if (value === undefined || value === null) {
+        return defaultValue as T
+      }
+      // Legacy backend sentinels can store false for missing non-boolean fields.
+      // When a non-boolean default is provided, treat false as "missing".
+      if (value === false && defaultValue !== undefined && defaultValue !== null && typeof defaultValue !== 'boolean') {
         return defaultValue as T
       }
       return value as T
@@ -76,6 +91,8 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
         setError(result.message || 'Failed to save settings')
         return false
       }
+      // Invalidate preloaded cache so next reload fetches fresh data
+      settingsCache.delete(tab)
       return true
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save settings')
@@ -100,11 +117,7 @@ export function useSettings({ tab }: UseSettingsOptions): UseSettingsReturn {
 /**
  * Hook to manage a single setting value with auto-save
  */
-export function useSetting<T>(
-  settings: UseSettingsReturn,
-  key: string,
-  defaultValue: T
-): [T, (value: T) => void] {
+export function useSetting<T>(settings: UseSettingsReturn, key: string, defaultValue: T): [T, (value: T) => void] {
   const value = settings.getValue(key, defaultValue)
 
   const setValue = React.useCallback(

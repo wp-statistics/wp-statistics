@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\AnalyticsQuery\Sources;
 
 use WP_Statistics\Service\AnalyticsQuery\Contracts\SourceInterface;
+use WP_Statistics\Service\AnalyticsQuery\Helpers\PublishedContentHelper;
 
 /**
  * Abstract base class for sources.
@@ -52,6 +53,34 @@ abstract class AbstractSource implements SourceInterface
      * @var string|null
      */
     protected $requirement = null;
+
+    /**
+     * Query context (group_by dimension names).
+     *
+     * @var array
+     */
+    protected $context = [];
+
+    /**
+     * Active filters with their values.
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
+     * Query start date (Y-m-d format).
+     *
+     * @var string|null
+     */
+    protected $dateFrom = null;
+
+    /**
+     * Query end date (Y-m-d format).
+     *
+     * @var string|null
+     */
+    protected $dateTo = null;
 
     /**
      * {@inheritdoc}
@@ -119,5 +148,41 @@ abstract class AbstractSource implements SourceInterface
     public function supportsSummaryTable(): bool
     {
         return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setContext(array $groupBy, array $filters = [], ?string $dateFrom = null, ?string $dateTo = null): void
+    {
+        $this->context = $groupBy;
+        $this->filters = $filters;
+        $this->dateFrom = $dateFrom;
+        $this->dateTo = $dateTo;
+    }
+
+    /**
+     * Check if context includes a dimension.
+     *
+     * @param string $dimension The dimension name to check.
+     * @return bool
+     */
+    protected function hasContextDimension(string $dimension): bool
+    {
+        return in_array($dimension, $this->context, true);
+    }
+
+    /**
+     * Get post_type SQL clause based on filters.
+     *
+     * If post_type filter is set, uses that value.
+     * Otherwise, uses all public queryable types from WordPress.
+     *
+     * @param string $column The column to filter (e.g., 'p.post_type')
+     * @return string SQL clause like "p.post_type IN ('post', 'page', 'product')"
+     */
+    protected function getPostTypeClause(string $column): string
+    {
+        return PublishedContentHelper::getPostTypeClause($column, $this->filters);
     }
 }

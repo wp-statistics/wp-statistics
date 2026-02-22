@@ -60,7 +60,7 @@ function createLogger(options: LoggerOptions = {}) {
      */
     warn: (message: string, ...args: unknown[]): void => {
       if (!enabled) return
-      // eslint-disable-next-line no-console
+       
       console.warn(formatMessage('warn', message), ...args)
     },
 
@@ -72,7 +72,7 @@ function createLogger(options: LoggerOptions = {}) {
     error: (message: string, error?: unknown, ...args: unknown[]): void => {
       // Always log errors, even in production (or send to error reporting)
       const errorDetails = error instanceof Error ? error.message : error
-      // eslint-disable-next-line no-console
+       
       console.error(formatMessage('error', message), errorDetails, ...args)
     },
 

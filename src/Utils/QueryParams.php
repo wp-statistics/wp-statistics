@@ -45,6 +45,9 @@ class QueryParams
     /**
      * Built‑in default allow‑list shipped with the plugin.
      *
+     * Only UTM parameters are tracked. source/ref are consolidated into
+     * utm_source during recording.
+     *
      * @param string $type 'array' or any other value for newline string.
      * @return array|string
      */
@@ -59,9 +62,14 @@ class QueryParams
             'utm_content',
             'utm_term',
             'utm_id',
-            's',
-            'p'
         ];
+
+        /**
+         * Filter the default tracked query parameters allow-list.
+         *
+         * @param array $allowList Default parameter names.
+         */
+        $allowList = apply_filters('wp_statistics_default_tracked_query_params', $allowList);
 
         return ($type === 'array')
             ? $allowList
@@ -99,6 +107,45 @@ class QueryParams
          *
          */
         return apply_filters('wp_reserved_terms', $terms);
+    }
+
+    /**
+     * Ad‑platform and tracking noise parameters that should always be stripped.
+     *
+     * These are never functional URL components — they are click IDs injected
+     * by advertising platforms and analytics tools. Stripping them prevents
+     * URL fragmentation without losing useful data.
+     *
+     * @return array
+     */
+    public static function getNoiseParamsList()
+    {
+        $list = [
+            'fbclid',
+            'gclid',
+            'gad_source',
+            'dclid',
+            'gbraid',
+            'wbraid',
+            'msclkid',
+            'twclid',
+            'li_fat_id',
+            'ttclid',
+            'yclid',
+            'mc_cid',
+            'mc_eid',
+            '_ga',
+            '_gl',
+            '_hsenc',
+            '_hsmi',
+        ];
+
+        /**
+         * Filter the list of noise query parameters that are always stripped from URLs.
+         *
+         * @param array $list Noise parameter names.
+         */
+        return apply_filters('wp_statistics_noise_query_params', $list);
     }
 
     /**

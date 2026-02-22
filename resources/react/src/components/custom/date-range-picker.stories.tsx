@@ -43,11 +43,10 @@ export const Default: Story = {
     await expect(triggerButton).toBeInTheDocument()
     await userEvent.click(triggerButton)
 
-    // Verify popover content is visible
+    // Verify popover content is visible (wait for portal to render)
     const body = within(document.body)
-    await expect(body.getByText('Today')).toBeInTheDocument()
-    await expect(body.getByText('Yesterday')).toBeInTheDocument()
-    await expect(body.getByText('Last 7 Days')).toBeInTheDocument()
+    const todayButton = await body.findByRole('button', { name: /select date range: today/i })
+    await expect(todayButton).toBeInTheDocument()
 
     // Close by clicking cancel
     await userEvent.click(body.getByRole('button', { name: /cancel/i }))
@@ -105,15 +104,15 @@ export const WithCompare: Story = {
 
     const body = within(document.body)
 
-    // Find the compare toggle/checkbox
-    const compareSwitch = body.getByRole('switch')
-    await expect(compareSwitch).toBeInTheDocument()
+    // Find the compare toggle checkbox
+    const compareCheckbox = body.getByRole('checkbox')
+    await expect(compareCheckbox).toBeInTheDocument()
 
     // Toggle compare off
-    await userEvent.click(compareSwitch)
+    await userEvent.click(compareCheckbox)
 
     // Toggle compare back on
-    await userEvent.click(compareSwitch)
+    await userEvent.click(compareCheckbox)
 
     // Cancel to close
     await userEvent.click(body.getByRole('button', { name: /cancel/i }))

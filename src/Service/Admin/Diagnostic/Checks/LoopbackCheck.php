@@ -2,7 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\Diagnostic\Checks;
 
+use Exception;
 use WP_Statistics\Components\Ajax;
+use WP_Statistics\Components\RemoteRequest;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticResult;
 
 /**
@@ -89,34 +91,33 @@ class LoopbackCheck extends AbstractCheck
         // Full action name with prefix for the request
         $fullAction = 'wp_statistics_' . self::TEST_ACTION;
 
-        $startTime = microtime(true);
-
-        $response = wp_remote_post($url, [
-            'timeout'   => self::TIMEOUT,
-            'blocking'  => true,
-            'sslverify' => apply_filters('https_local_ssl_verify', false),
-            'body'      => [
+        $request = new RemoteRequest($url, 'POST', [], [
+            'timeout'  => self::TIMEOUT,
+            'blocking' => true,
+            'body'     => [
                 'action' => $fullAction,
                 'nonce'  => wp_create_nonce($fullAction),
             ],
         ]);
 
-        $duration = round((microtime(true) - $startTime) * 1000); // ms
+        $startTime = microtime(true);
 
-        // Check for WP_Error
-        if (is_wp_error($response)) {
+        try {
+            $request->execute(false, false);
+        } catch (Exception $e) {
             return $this->fail(
-                $response->get_error_message(),
+                $e->getMessage(),
                 [
-                    'error_code'    => $response->get_error_code(),
-                    'error_message' => $response->get_error_message(),
+                    'error_message' => $e->getMessage(),
                     'url'           => $url,
                 ]
             );
         }
 
+        $duration = round((microtime(true) - $startTime) * 1000); // ms
+
         // Check HTTP response code
-        $code = wp_remote_retrieve_response_code($response);
+        $code = $request->getResponseCode();
         if ($code !== 200) {
             return $this->fail(
                 sprintf(
@@ -132,7 +133,7 @@ class LoopbackCheck extends AbstractCheck
         }
 
         // Check response body
-        $body = wp_remote_retrieve_body($response);
+        $body = $request->getResponseBody();
         if (strpos($body, self::EXPECTED_RESPONSE) === false) {
             return $this->fail(
                 __('Loopback request succeeded but returned unexpected response.', 'wp-statistics'),

@@ -51,11 +51,11 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const menuItems = [
-  { title: 'Home', icon: Home, url: '#' },
-  { title: 'Inbox', icon: Inbox, url: '#' },
-  { title: 'Calendar', icon: Calendar, url: '#' },
-  { title: 'Search', icon: Search, url: '#' },
-  { title: 'Settings', icon: Settings, url: '#' },
+  { title: 'Home', icon: Home, url: '/home' },
+  { title: 'Inbox', icon: Inbox, url: '/inbox' },
+  { title: 'Calendar', icon: Calendar, url: '/calendar' },
+  { title: 'Search', icon: Search, url: '/search' },
+  { title: 'Settings', icon: Settings, url: '/settings' },
 ]
 
 export const Default: Story = {
@@ -176,17 +176,17 @@ export const WithSubMenu: Story = {
                       <SidebarMenuSub>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#">Overview</a>
+                            <a href="/dashboard/overview">Overview</a>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#">Analytics</a>
+                            <a href="/dashboard/analytics">Analytics</a>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#">Reports</a>
+                            <a href="/dashboard/reports">Reports</a>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       </SidebarMenuSub>
@@ -220,7 +220,15 @@ export const WithSubMenu: Story = {
 }
 
 // Badge component for menu items (same as used in nav-main.tsx)
-const MenuBadge = ({ count, live = false, isActive = false }: { count: number; live?: boolean; isActive?: boolean }) => {
+const MenuBadge = ({
+  count,
+  live = false,
+  isActive = false,
+}: {
+  count: number
+  live?: boolean
+  isActive?: boolean
+}) => {
   if (count <= 0) return null
 
   // Format large numbers with commas
@@ -233,7 +241,7 @@ const MenuBadge = ({ count, live = false, isActive = false }: { count: number; l
           <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 animate-live-pulse" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
         </span>
-        <span className={`text-[12px] font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-white/70'}`}>
+        <span className={`text-xs font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-white/70'}`}>
           {formattedCount}
         </span>
       </span>
@@ -269,14 +277,14 @@ export const WithBadges: Story = {
                       <SidebarMenuSub>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#" className="flex items-center justify-between">
+                            <a href="/visitors/all" className="flex items-center justify-between">
                               <span>All Visitors</span>
                             </a>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild className="overflow-visible">
-                            <a href="#" className="overflow-visible">
+                            <a href="/visitors/online" className="overflow-visible">
                               <span>Online Visitors</span>
                               <MenuBadge count={24793} live />
                             </a>
@@ -284,7 +292,7 @@ export const WithBadges: Story = {
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton asChild>
-                            <a href="#" className="flex items-center justify-between">
+                            <a href="/visitors/top" className="flex items-center justify-between">
                               <span>Top Visitors</span>
                             </a>
                           </SidebarMenuSubButton>
@@ -318,7 +326,10 @@ export const WithBadges: Story = {
       </Sidebar>
       <SidebarInset>
         <main className="p-4">
-          <p>Sidebar with count badges on menu items. Badges show blue rounded pills with counts, displaying "99+" for large numbers.</p>
+          <p>
+            Sidebar with count badges on menu items. Badges show blue rounded pills with counts, displaying "99+" for
+            large numbers.
+          </p>
         </main>
       </SidebarInset>
     </SidebarProvider>

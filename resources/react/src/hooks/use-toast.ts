@@ -49,7 +49,7 @@ function generateId() {
 }
 
 // Simple global state for toasts
-let listeners: Array<(state: ToastState) => void> = []
+const listeners: Array<(state: ToastState) => void> = []
 let memoryState: ToastState = { toasts: [] }
 
 function dispatch(action: ToastAction) {

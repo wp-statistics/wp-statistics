@@ -53,7 +53,7 @@ abstract class BaseAssets
      *
      * @var string
      */
-    private $assetDir = 'public/legacy';
+    private $assetDir = 'public/entries';
 
     /**
      * Set the asset directory

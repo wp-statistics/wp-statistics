@@ -49,12 +49,19 @@ class FilterBuilder
                 }
             }
 
-            // Handle boolean special case (logged_in)
+            // Handle boolean special case (logged_in filter on user_id column)
+            // For user_id: NULL or 0 = guest, > 0 = logged-in
             if ($type === 'boolean') {
-                if ($value) {
-                    $conditions[] = "$column IS NOT NULL";
+                $boolValue = $value;
+                // Extract value from operator syntax: { "is": "0" }
+                if (is_array($value) && !isset($value[0])) {
+                    $boolValue = current($value);
+                }
+
+                if ($boolValue) {
+                    $conditions[] = "($column IS NOT NULL AND $column != 0)";
                 } else {
-                    $conditions[] = "$column IS NULL";
+                    $conditions[] = "($column IS NULL OR $column = 0)";
                 }
                 continue;
             }
@@ -207,6 +214,18 @@ class FilterBuilder
                         self::sanitize($operand[0], 'date'),
                         self::sanitize($operand[1], 'date'),
                     ],
+                ];
+
+            case 'is_not_empty':
+                return [
+                    'condition' => "($column IS NOT NULL AND $column != '')",
+                    'params'    => null,
+                ];
+
+            case 'is_empty':
+                return [
+                    'condition' => "($column IS NULL OR $column = '')",
+                    'params'    => null,
                 ];
 
             default:

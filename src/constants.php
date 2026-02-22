@@ -18,8 +18,24 @@ if (!function_exists('get_plugin_data')) {
 $pluginDir = dirname(__DIR__);
 
 // Set plugin path and URL constants
-define('WP_STATISTICS_URL', plugin_dir_url($pluginDir . '/wp-statistics.php'));
-define('WP_STATISTICS_DIR', $pluginDir . '/');
-define('WP_STATISTICS_MAIN_FILE', WP_STATISTICS_DIR . 'wp-statistics.php');
-define('WP_STATISTICS_UPLOADS_DIR', 'wp-statistics');
-define('WP_STATISTICS_SITE_URL', 'https://wp-statistics.com');
+// These use if-checks to allow Premium plugin to define them first
+if (!defined('WP_STATISTICS_URL')) {
+    define('WP_STATISTICS_URL', plugin_dir_url($pluginDir . '/wp-statistics.php'));
+}
+if (!defined('WP_STATISTICS_DIR')) {
+    define('WP_STATISTICS_DIR', $pluginDir . '/');
+}
+if (!defined('WP_STATISTICS_MAIN_FILE')) {
+    define('WP_STATISTICS_MAIN_FILE', WP_STATISTICS_DIR . 'wp-statistics.php');
+}
+if (!defined('WP_STATISTICS_UPLOADS_DIR')) {
+    define('WP_STATISTICS_UPLOADS_DIR', 'wp-statistics');
+}
+if (!defined('WP_STATISTICS_SITE_URL')) {
+    define('WP_STATISTICS_SITE_URL', 'https://wp-statistics.com');
+}
+
+// Plugin version
+if (!defined('WP_STATISTICS_VERSION')) {
+    define('WP_STATISTICS_VERSION', '15.0');
+}

@@ -2,8 +2,9 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
+use WP_Statistics\Service\Cron\DatabaseMaintenanceManager;
 use WP_Statistics\Service\Database\DatabaseSchema;
-use WP_Statistics\Service\Options\OptionManager;
+use WP_Statistics\Components\Option;
 
 /**
  * Database Maintenance Cron Event.
@@ -47,8 +48,8 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
     public function shouldSchedule(): bool
     {
         // Schedule if retention mode is not 'forever'
-        $mode = OptionManager::get('data_retention_mode', 'forever');
-        return $mode !== 'forever' && (bool) OptionManager::get('schedule_dbmaint');
+        $mode = Option::getValue('data_retention_mode', 'forever');
+        return $mode !== 'forever' && (bool) Option::getValue('schedule_dbmaint');
     }
 
     /**
@@ -58,8 +59,8 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
      */
     public function execute(): void
     {
-        $mode = OptionManager::get('data_retention_mode', 'forever');
-        $days = (int) OptionManager::get('data_retention_days', 180);
+        $mode = Option::getValue('data_retention_mode', 'forever');
+        $days = (int) Option::getValue('data_retention_days', 180);
 
         if ($mode === 'forever' || $days <= 0) {
             return; // No action needed
@@ -261,44 +262,25 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
     /**
      * Delete all data older than cutoff date.
      *
+     * Uses DatabaseMaintenanceManager for consistent maintenance operations.
+     *
      * @param string $cutoffDate Cutoff date (Y-m-d format).
      * @return array Counts of deleted records per table.
      */
     public function deleteOldData(string $cutoffDate): array
     {
-        global $wpdb;
-
-        $results = [];
-
-        // Tables and their date columns for deletion
-        $tablesToPurge = [
-            'views'    => 'viewed_at',
-            'sessions' => 'ended_at',
-            'visitors' => 'first_visit_at',
+        // Delete data from each table using the manager (without optimize yet)
+        $results = [
+            'views'    => DatabaseMaintenanceManager::deleteViewsOlderThan($cutoffDate, false),
+            'sessions' => DatabaseMaintenanceManager::deleteSessionsOlderThan($cutoffDate, false),
+            'visitors' => DatabaseMaintenanceManager::deleteVisitorsOlderThan($cutoffDate, false),
         ];
 
-        foreach ($tablesToPurge as $tableKey => $dateColumn) {
-            $tableName = DatabaseSchema::table($tableKey);
-
-            if (!DatabaseSchema::tableExists($tableName)) {
-                continue;
-            }
-
-            $count = $wpdb->query(
-                $wpdb->prepare(
-                    "DELETE FROM `{$tableName}` WHERE `{$dateColumn}` < %s",
-                    $cutoffDate . ' 00:00:00'
-                )
-            );
-
-            $results[$tableKey] = $count !== false ? $count : 0;
-        }
-
-        // Also clean up orphaned records
-        $this->cleanupOrphanedRecords();
+        // Clean up orphaned records
+        DatabaseMaintenanceManager::cleanupAllOrphanedRecords(false, false);
 
         // Optimize tables after deletion
-        $this->optimizeTables(array_keys($tablesToPurge));
+        $this->optimizeTables(['views', 'sessions', 'visitors']);
 
         return $results;
     }
@@ -307,49 +289,30 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
      * Archive old data by keeping summaries and deleting raw data.
      *
      * Summary tables (summary, summary_totals) are preserved.
-     * Raw data tables (views, sessions, visitors) are cleaned.
+     * Raw data tables (views, sessions) are cleaned.
+     *
+     * Uses DatabaseMaintenanceManager for consistent maintenance operations.
      *
      * @param string $cutoffDate Cutoff date (Y-m-d format).
      * @return array Counts of archived/deleted records per table.
      */
     public function archiveOldData(string $cutoffDate): array
     {
-        global $wpdb;
-
-        $results = [];
-
         // First ensure summary data exists for the period being archived
         // (The daily aggregation cron should have already done this)
 
-        // Tables to archive (delete raw data, keep summaries)
+        // Delete views and sessions (but not visitors - they're archived)
         // Note: summary and summary_totals are NOT included - they're preserved
-        $tablesToArchive = [
-            'views'    => 'viewed_at',
-            'sessions' => 'ended_at',
+        $results = [
+            'views'    => DatabaseMaintenanceManager::deleteViewsOlderThan($cutoffDate, false),
+            'sessions' => DatabaseMaintenanceManager::deleteSessionsOlderThan($cutoffDate, false),
         ];
 
-        foreach ($tablesToArchive as $tableKey => $dateColumn) {
-            $tableName = DatabaseSchema::table($tableKey);
-
-            if (!DatabaseSchema::tableExists($tableName)) {
-                continue;
-            }
-
-            $count = $wpdb->query(
-                $wpdb->prepare(
-                    "DELETE FROM `{$tableName}` WHERE `{$dateColumn}` < %s",
-                    $cutoffDate . ' 00:00:00'
-                )
-            );
-
-            $results[$tableKey] = $count !== false ? $count : 0;
-        }
-
         // Clean up orphaned visitors (no sessions left)
-        $results['orphaned_visitors'] = $this->cleanupOrphanedVisitors();
+        $results['orphaned_visitors'] = DatabaseMaintenanceManager::deleteOrphanedVisitors(false);
 
         // Optimize tables after deletion
-        $this->optimizeTables(array_keys($tablesToArchive));
+        $this->optimizeTables(['views', 'sessions', 'visitors']);
 
         return $results;
     }
@@ -357,59 +320,25 @@ class DatabaseMaintenanceEvent extends AbstractCronEvent
     /**
      * Clean up orphaned records across tables.
      *
+     * @deprecated Use DatabaseMaintenanceManager::cleanupAllOrphanedRecords() instead.
+     *
      * @return void
      */
     private function cleanupOrphanedRecords(): void
     {
-        global $wpdb;
-
-        // Delete sessions without visitors
-        $sessionsTable = DatabaseSchema::table('sessions');
-        $visitorsTable = DatabaseSchema::table('visitors');
-
-        if (DatabaseSchema::tableExists($sessionsTable) && DatabaseSchema::tableExists($visitorsTable)) {
-            $wpdb->query(
-                "DELETE s FROM `{$sessionsTable}` s
-                 LEFT JOIN `{$visitorsTable}` v ON s.visitor_id = v.id
-                 WHERE v.id IS NULL"
-            );
-        }
-
-        // Delete views without sessions
-        $viewsTable = DatabaseSchema::table('views');
-
-        if (DatabaseSchema::tableExists($viewsTable) && DatabaseSchema::tableExists($sessionsTable)) {
-            $wpdb->query(
-                "DELETE vw FROM `{$viewsTable}` vw
-                 LEFT JOIN `{$sessionsTable}` s ON vw.session_id = s.id
-                 WHERE s.id IS NULL"
-            );
-        }
+        DatabaseMaintenanceManager::cleanupAllOrphanedRecords(false, false);
     }
 
     /**
      * Clean up orphaned visitors (those with no sessions).
      *
+     * @deprecated Use DatabaseMaintenanceManager::deleteOrphanedVisitors() instead.
+     *
      * @return int Number of visitors deleted.
      */
     private function cleanupOrphanedVisitors(): int
     {
-        global $wpdb;
-
-        $visitorsTable = DatabaseSchema::table('visitors');
-        $sessionsTable = DatabaseSchema::table('sessions');
-
-        if (!DatabaseSchema::tableExists($visitorsTable) || !DatabaseSchema::tableExists($sessionsTable)) {
-            return 0;
-        }
-
-        $count = $wpdb->query(
-            "DELETE v FROM `{$visitorsTable}` v
-             LEFT JOIN `{$sessionsTable}` s ON v.id = s.visitor_id
-             WHERE s.id IS NULL"
-        );
-
-        return $count !== false ? $count : 0;
+        return DatabaseMaintenanceManager::deleteOrphanedVisitors(false);
     }
 
     /**

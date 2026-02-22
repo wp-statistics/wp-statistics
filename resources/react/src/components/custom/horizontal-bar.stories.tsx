@@ -31,7 +31,7 @@ export const Default: Story = {
   args: {
     icon: '🇬🇪',
     label: 'Georgia',
-    value: '1K',
+    value: 1000,
     percentage: '15',
     isNegative: true,
   },
@@ -40,8 +40,8 @@ export const Default: Story = {
 
     // Verify bar displays correct content
     await expect(canvas.getByText('Georgia')).toBeInTheDocument()
-    await expect(canvas.getByText('1K')).toBeInTheDocument()
-    await expect(canvas.getByText('15%')).toBeInTheDocument()
+    await expect(canvas.getByText('1k')).toBeInTheDocument()
+    await expect(canvas.getByText(/15%/)).toBeInTheDocument()
   },
 }
 

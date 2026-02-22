@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Tracking\Core;
 
+use Exception;
 use WP_Statistics\Abstracts\BaseTracking;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Entity\EntityFactory;
@@ -12,7 +13,7 @@ use WP_Statistics\Utils\Request;
 /**
  * Handles hit tracking for visitors, including page views, REST API activity, and login tracking.
  *
- * Integrates with the exclusion system to respect rules such as DNT, user roles, and IP blocks, and etc.
+ * Integrates with the exclusion system to respect rules such as user roles and IP blocks.
  */
 class Hits extends BaseTracking
 {
@@ -94,9 +95,11 @@ class Hits extends BaseTracking
         $exclusion      = $this->checkAndThrowIfExcluded($visitorProfile);
 
         $resourceUriId = Request::get('resourceUriId', 0);
-        $resourceId    = Request::get('resource_id', 0);
+        $resourceId    = Request::get('resource_id', null);
 
-        if (empty($resourceUriId) || empty($resourceId)) {
+        // resourceUriId must be positive (auto-increment ID)
+        // resource_id can be 0 for special pages like 404, search, home
+        if (empty($resourceUriId) || $resourceId === null) {
             throw new Exception(esc_html__('Missing or invalid resource identifiers: resourceId and/or resourceUriId.', 'wp-statistics'), 200);
             return;
         }
@@ -134,8 +137,7 @@ class Hits extends BaseTracking
         EntityFactory::view($visitorProfile)
             ->record();
 
-        EntityFactory::parameter($visitorProfile)
-            ->record();
+        // UTM parameters are now recorded in Session::record() on session creation
 
         return $exclusion;
     }

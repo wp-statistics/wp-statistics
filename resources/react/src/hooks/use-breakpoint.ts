@@ -2,7 +2,7 @@ import * as React from 'react'
 
 // Breakpoint values matching Tailwind defaults
 const BREAKPOINTS = {
-  md: 768,  // Mobile/Tablet boundary
+  md: 768, // Mobile/Tablet boundary
   lg: 1024, // Tablet/Desktop boundary
 } as const
 
@@ -48,9 +48,7 @@ export function useBreakpoint(): BreakpointState {
 
     // Use matchMedia for better performance
     const mqMobile = window.matchMedia(`(max-width: ${BREAKPOINTS.md - 1}px)`)
-    const mqTablet = window.matchMedia(
-      `(min-width: ${BREAKPOINTS.md}px) and (max-width: ${BREAKPOINTS.lg - 1}px)`
-    )
+    const mqTablet = window.matchMedia(`(min-width: ${BREAKPOINTS.md}px) and (max-width: ${BREAKPOINTS.lg - 1}px)`)
 
     const handleChange = () => updateBreakpoint()
 

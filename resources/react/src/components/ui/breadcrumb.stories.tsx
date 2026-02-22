@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { ChevronRight, Slash } from 'lucide-react'
+import { Slash } from 'lucide-react'
 
 import {
   Breadcrumb,

@@ -1,0 +1,31 @@
+name: Notify Premium Repository
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  trigger-premium-build:
+    name: Trigger Premium Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Version from Tag
+        id: version
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Triggering Premium build for version: $VERSION"
+
+      - name: Trigger Premium Repository Build
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PRO_REPO_PAT }}
+          repository: wp-statistics/wp-statistics-premium
+          event-type: free-release
+          client-payload: '{"version": "${{ steps.version.outputs.version }}"}'
+
+      - name: Log Success
+        run: |
+          echo "Successfully triggered Premium build for ${{ steps.version.outputs.version }}"

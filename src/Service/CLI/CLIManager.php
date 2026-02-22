@@ -2,11 +2,10 @@
 
 namespace WP_Statistics\Service\CLI;
 
-use WP_Statistics\Service\CLI\Commands\SummaryCommand;
-use WP_Statistics\Service\CLI\Commands\OnlineCommand;
-use WP_Statistics\Service\CLI\Commands\VisitorsCommand;
-use WP_Statistics\Service\CLI\Commands\ReinitializeCommand;
-use WP_Statistics\Service\CLI\Commands\RecordCommand;
+use WP_Statistics\Service\CLI\Commands\AnalyticsCommand;
+use WP_Statistics\Service\CLI\Commands\DatabaseCommand;
+use WP_Statistics\Service\CLI\Commands\DiagnosticCommand;
+use WP_Statistics\Service\CLI\Commands\TrackCommand;
 
 /**
  * CLI Manager for WP Statistics v15.
@@ -15,20 +14,23 @@ use WP_Statistics\Service\CLI\Commands\RecordCommand;
  *
  * ## EXAMPLES
  *
- *      # Show summary of statistics
- *      $ wp statistics summary
+ *      # Query analytics data
+ *      $ wp statistics analytics query --source=visitors,views --group-by=date
  *
- *      # Get list of users online
- *      $ wp statistics online
+ *      # List available data sources
+ *      $ wp statistics analytics list-sources
  *
- *      # Show list of last visitors
- *      $ wp statistics visitors
+ *      # Run diagnostic checks
+ *      $ wp statistics diagnostic run
+ *
+ *      # Show database tables
+ *      $ wp statistics db tables
  *
  *      # Reinitialize database
- *      $ wp statistics reinitialize
+ *      $ wp statistics db reinitialize
  *
- *      # Record a hit
- *      $ wp statistics record --url="https://example.com"
+ *      # Track a hit
+ *      $ wp statistics track --url="https://example.com"
  *
  * @since 15.0.0
  */
@@ -46,10 +48,12 @@ class CLIManager
         }
 
         \WP_CLI::add_command('statistics', __CLASS__);
-        \WP_CLI::add_command('statistics summary', SummaryCommand::class);
-        \WP_CLI::add_command('statistics online', OnlineCommand::class);
-        \WP_CLI::add_command('statistics visitors', VisitorsCommand::class);
-        \WP_CLI::add_command('statistics reinitialize', ReinitializeCommand::class);
-        \WP_CLI::add_command('statistics record', RecordCommand::class);
+
+        // Analytics: register class for subcommands (query, list-sources, list-groups, list-filters)
+        \WP_CLI::add_command('statistics analytics', AnalyticsCommand::class);
+
+        \WP_CLI::add_command('statistics diagnostic', DiagnosticCommand::class);
+        \WP_CLI::add_command('statistics db', DatabaseCommand::class);
+        \WP_CLI::add_command('statistics track', TrackCommand::class);
     }
 }

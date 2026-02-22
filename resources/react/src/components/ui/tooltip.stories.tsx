@@ -37,7 +37,7 @@ export const Default: Story = {
     await userEvent.hover(trigger)
 
     // Wait for tooltip to appear
-    const tooltip = await within(document.body).findByText('Add to library')
+    const tooltip = await within(document.body).findByRole('tooltip')
     await expect(tooltip).toBeInTheDocument()
 
     // Unhover

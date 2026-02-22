@@ -1,16 +1,19 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
-import { ErrorMessage } from '@/components/custom/error-message'
-import { FilterBar } from '@/components/custom/filter-bar'
-import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { GlobalMap } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
+import {
+  type OverviewOptionsConfig,
+  OverviewOptionsDrawer,
+  OverviewOptionsProvider,
+  useOverviewOptions,
+} from '@/components/custom/options-drawer'
+import { ReportPageHeader } from '@/components/custom/report-page-header'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import {
@@ -20,13 +23,42 @@ import {
   PanelSkeleton,
   TableSkeleton,
 } from '@/components/ui/skeletons'
+import { pickMetrics } from '@/constants/metric-definitions'
+import { type WidgetConfig } from '@/contexts/page-options-context'
+import { useChartData } from '@/hooks/use-chart-data'
+import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
+import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
-import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration } from '@/lib/utils'
+import { transformToBarList } from '@/lib/bar-list-helpers'
+import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 import { getVisitorOverviewQueryOptions } from '@/services/visitor-insight/get-visitor-overview'
 
 import { OverviewTopVisitors } from './-components/overview/overview-top-visitors'
+
+// Widget configuration for this page
+const WIDGET_CONFIGS: WidgetConfig[] = [
+  { id: 'metrics', label: __('Metrics Overview', 'wp-statistics'), defaultVisible: true },
+  { id: 'traffic-trends', label: __('Traffic Trends', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-referrers', label: __('Top Referrers', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-countries', label: __('Top Countries', 'wp-statistics'), defaultVisible: true },
+  { id: 'device-type', label: __('Device Type', 'wp-statistics'), defaultVisible: true },
+  { id: 'operating-systems', label: __('Operating Systems', 'wp-statistics'), defaultVisible: true },
+  { id: 'top-visitors', label: __('Top Visitors', 'wp-statistics'), defaultVisible: true },
+  { id: 'global-map', label: __('Global Visitor Distribution', 'wp-statistics'), defaultVisible: true },
+]
+
+// Metric configuration for this page
+const METRIC_CONFIGS = pickMetrics('visitors', 'views', 'sessionDuration', 'viewsPerSession', 'topCountry', 'topReferrer', 'topSearchTerm', 'loggedInShare')
+
+// Options configuration for this page
+const OPTIONS_CONFIG: OverviewOptionsConfig = {
+  pageId: 'visitors-overview',
+  filterGroup: 'visitors',
+  widgetConfigs: WIDGET_CONFIGS,
+  metricConfigs: METRIC_CONFIGS,
+}
 
 export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview')({
   component: RouteComponent,
@@ -39,27 +71,34 @@ export const Route = createLazyFileRoute('/(visitor-insights)/visitors-overview'
 })
 
 function RouteComponent() {
+  return (
+    <OverviewOptionsProvider config={OPTIONS_CONFIG}>
+      <VisitorsOverviewContent />
+    </OverviewOptionsProvider>
+  )
+}
+
+function VisitorsOverviewContent() {
   // Use global filters context for date range and filters (hybrid URL + preferences)
   const {
     dateFrom,
     dateTo,
-    compareDateFrom,
-    compareDateTo,
     filters: appliedFilters,
-    setDateRange,
-    applyFilters: handleApplyFilters,
-    removeFilter: handleRemoveFilter,
     isInitialized,
+    isCompareEnabled,
     apiDateParams,
   } = useGlobalFilters()
 
+  const navigate = useNavigate()
+
+  // Page options for widget/metric visibility
+  const { isWidgetVisible, isMetricVisible } = usePageOptions()
+
+  // Options drawer - config is passed once and returned for drawer
+  const options = useOverviewOptions(OPTIONS_CONFIG)
+
   const wp = WordPress.getInstance()
   const pluginUrl = wp.getPluginUrl()
-
-  // Get filter fields for 'visitors' group from localized data
-  const filterFields = useMemo<FilterField[]>(() => {
-    return wp.getFilterFieldsByGroup('visitors') as FilterField[]
-  }, [wp])
 
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily')
 
@@ -92,14 +131,6 @@ function RouteComponent() {
     setIsTimeframeOnlyChange(true)
     setTimeframe(newTimeframe)
   }, [])
-
-  // Handle date range updates from DateRangePicker
-  const handleDateRangeUpdate = useCallback(
-    (values: { range: DateRange; rangeCompare?: DateRange }) => {
-      setDateRange(values.range, values.rangeCompare)
-    },
-    [setDateRange]
-  )
 
   // Batch query for all overview data (only when filters are initialized)
   const {
@@ -148,96 +179,22 @@ function RouteComponent() {
   const operatingSystemsTotals = batchResponse?.data?.items?.operating_systems?.data?.totals
   const topReferrersData = batchResponse?.data?.items?.top_referrers?.data?.rows || []
   const topReferrersTotals = batchResponse?.data?.items?.top_referrers?.data?.totals
-  const countriesMapData = batchResponse?.data?.items?.countries_map?.data?.rows || []
+  const countriesMapRows = batchResponse?.data?.items?.countries_map?.data?.rows
 
-
-  // Transform chart format response to data points for LineChart component
-  // Chart format: { labels: string[], datasets: [{ key, data, comparison? }] }
-  // Previous data comes as separate datasets with key like "visitors_previous" and comparison: true
-  // Note: API may return values as strings, so we parse them to numbers
-  const chartData = useMemo(() => {
-    if (!trafficTrendsResponse?.labels || !trafficTrendsResponse?.datasets) return []
-
-    const labels = trafficTrendsResponse.labels
-    const datasets = trafficTrendsResponse.datasets
-
-    // Separate current and previous datasets
-    const currentDatasets = datasets.filter((d) => !d.comparison)
-    const previousDatasets = datasets.filter((d) => d.comparison)
-
-    return labels.map((label, index) => {
-      const point: Record<string, string | number> = { date: label }
-
-      // Add current period data
-      currentDatasets.forEach((dataset) => {
-        point[dataset.key] = Number(dataset.data[index]) || 0
-      })
-
-      // Add previous period data (datasets have keys like "visitors_previous")
-      previousDatasets.forEach((dataset) => {
-        // Convert "visitors_previous" to "visitorsPrevious"
-        const baseKey = dataset.key.replace('_previous', '')
-        point[`${baseKey}Previous`] = Number(dataset.data[index]) || 0
-      })
-
-      return point
-    })
-  }, [trafficTrendsResponse])
-
-  // Calculate totals from chart datasets
-  // Note: API may return values as strings, so we parse them to numbers
-  const chartTotals = useMemo(() => {
-    if (!trafficTrendsResponse?.datasets) {
-      return { visitors: 0, visitorsPrevious: 0, views: 0, viewsPrevious: 0 }
-    }
-
-    const datasets = trafficTrendsResponse.datasets
-    const visitorsDataset = datasets.find((d) => d.key === 'visitors' && !d.comparison)
-    const visitorsPrevDataset = datasets.find((d) => d.key === 'visitors_previous' && d.comparison)
-    const viewsDataset = datasets.find((d) => d.key === 'views' && !d.comparison)
-    const viewsPrevDataset = datasets.find((d) => d.key === 'views_previous' && d.comparison)
-
-    return {
-      visitors: visitorsDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      visitorsPrevious: visitorsPrevDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      views: viewsDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-      viewsPrevious: viewsPrevDataset?.data?.reduce((sum, v) => sum + Number(v), 0) || 0,
-    }
-  }, [trafficTrendsResponse])
-
-  const trafficTrendsMetrics = [
-    {
-      key: 'visitors',
-      label: 'Visitors',
-      color: 'var(--chart-1)',
-      enabled: true,
-      value:
-        chartTotals.visitors >= 1000
-          ? `${formatDecimal(chartTotals.visitors / 1000)}k`
-          : formatDecimal(chartTotals.visitors),
-      previousValue:
-        chartTotals.visitorsPrevious >= 1000
-          ? `${formatDecimal(chartTotals.visitorsPrevious / 1000)}k`
-          : formatDecimal(chartTotals.visitorsPrevious),
-    },
-    {
-      key: 'views',
-      label: 'Views',
-      color: 'var(--chart-2)',
-      enabled: true,
-      value:
-        chartTotals.views >= 1000 ? `${formatDecimal(chartTotals.views / 1000)}k` : formatDecimal(chartTotals.views),
-      previousValue:
-        chartTotals.viewsPrevious >= 1000
-          ? `${formatDecimal(chartTotals.viewsPrevious / 1000)}k`
-          : formatDecimal(chartTotals.viewsPrevious),
-    },
-  ]
+  // Transform chart data using shared hook
+  const { data: chartData, metrics: trafficTrendsMetrics } = useChartData(trafficTrendsResponse, {
+    metrics: [
+      { key: 'visitors', label: __('Visitors', 'wp-statistics'), color: 'var(--chart-1)' },
+      { key: 'views', label: __('Views', 'wp-statistics'), color: 'var(--chart-2)' },
+    ],
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
 
   // Transform countries map data for GlobalMap component
   const globalMapData = useMemo(
     () => ({
-      countries: countriesMapData
+      countries: (countriesMapRows || [])
         .filter((item) => item.country_code && item.country_name)
         .map((item) => ({
           code: item.country_code.toLowerCase(),
@@ -246,11 +203,13 @@ function RouteComponent() {
           views: Number(item.views) || 0,
         })),
     }),
-    [countriesMapData]
+    [countriesMapRows]
   )
 
   // Use the shared percentage calculation hook
   const calcPercentage = usePercentageCalc()
+  // Get comparison date label for tooltips
+  const { label: comparisonDateLabel } = useComparisonDateLabel()
 
   // Build metrics from batch response (flat format - totals at top level)
   // Layout: 4 columns, 2 rows
@@ -262,15 +221,15 @@ function RouteComponent() {
     if (!totals) return []
 
     // Extract current and previous values from { current, previous } structure
-    const visitors = Number(totals.visitors?.current) || 0
-    const views = Number(totals.views?.current) || 0
-    const avgSessionDuration = Number(totals.avg_session_duration?.current) || 0
-    const pagesPerSession = Number(totals.pages_per_session?.current) || 0
+    const visitors = getTotalValue(totals.visitors)
+    const views = getTotalValue(totals.views)
+    const avgSessionDuration = getTotalValue(totals.avg_session_duration)
+    const pagesPerSession = getTotalValue(totals.pages_per_session)
 
-    const prevVisitors = Number(totals.visitors?.previous) || 0
-    const prevViews = Number(totals.views?.previous) || 0
-    const prevAvgSessionDuration = Number(totals.avg_session_duration?.previous) || 0
-    const prevPagesPerSession = Number(totals.pages_per_session?.previous) || 0
+    const prevVisitors = getTotalValue(totals.visitors?.previous)
+    const prevViews = getTotalValue(totals.views?.previous)
+    const prevAvgSessionDuration = getTotalValue(totals.avg_session_duration?.previous)
+    const prevPagesPerSession = getTotalValue(totals.pages_per_session?.previous)
 
     // Context metrics (second row)
     const topCountryName = metricsTopCountry?.items?.[0]?.country_name
@@ -283,89 +242,109 @@ function RouteComponent() {
     const loggedInShare = calcSharePercentage(loggedInVisitors, visitors)
     const prevLoggedInShare = calcSharePercentage(prevLoggedInVisitors, prevVisitors)
 
-    return [
+    // Build all metrics with IDs for filtering
+    const allMetrics = [
       // Row 1: Numeric metrics with comparison
       {
+        id: 'visitors',
         label: __('Visitors', 'wp-statistics'),
         value: formatCompactNumber(visitors),
-        ...calcPercentage(visitors, prevVisitors),
-        tooltipContent: __('Total number of unique visitors', 'wp-statistics'),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(visitors, prevVisitors),
+              comparisonDateLabel,
+              previousValue: formatCompactNumber(prevVisitors),
+            }
+          : {}),
       },
       {
+        id: 'views',
         label: __('Views', 'wp-statistics'),
         value: formatCompactNumber(views),
-        ...calcPercentage(views, prevViews),
-        tooltipContent: __('Total page views', 'wp-statistics'),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(views, prevViews),
+              comparisonDateLabel,
+              previousValue: formatCompactNumber(prevViews),
+            }
+          : {}),
       },
       {
+        id: 'session-duration',
         label: __('Session Duration', 'wp-statistics'),
         value: formatDuration(avgSessionDuration),
-        ...calcPercentage(avgSessionDuration, prevAvgSessionDuration),
-        tooltipContent: __('Average duration of a user session', 'wp-statistics'),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(avgSessionDuration, prevAvgSessionDuration),
+              comparisonDateLabel,
+              previousValue: formatDuration(prevAvgSessionDuration),
+            }
+          : {}),
       },
       {
+        id: 'views-per-session',
         label: __('Views/Session', 'wp-statistics'),
         value: formatDecimal(pagesPerSession),
-        ...calcPercentage(pagesPerSession, prevPagesPerSession),
-        tooltipContent: __('Average pages viewed per session', 'wp-statistics'),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(pagesPerSession, prevPagesPerSession),
+              comparisonDateLabel,
+              previousValue: formatDecimal(prevPagesPerSession),
+            }
+          : {}),
       },
       // Row 2: Context metrics (strings use '-' when empty)
       {
+        id: 'top-country',
         label: __('Top Country', 'wp-statistics'),
         value: topCountryName || '-',
-        tooltipContent: __('Country with the most visitors', 'wp-statistics'),
       },
       {
+        id: 'top-referrer',
         label: __('Top Referrer', 'wp-statistics'),
         value: topReferrerName || '-',
-        tooltipContent: __('Top traffic source', 'wp-statistics'),
       },
       {
+        id: 'top-search-term',
         label: __('Top Search Term', 'wp-statistics'),
         value: topSearchTerm || '-',
-        tooltipContent: __('Most popular search term', 'wp-statistics'),
       },
       {
+        id: 'logged-in-share',
         label: __('Logged-in Share', 'wp-statistics'),
         value: `${formatDecimal(loggedInShare)}%`,
-        ...calcPercentage(loggedInShare, prevLoggedInShare),
-        tooltipContent: __('Percentage of logged-in visitors', 'wp-statistics'),
+        ...(isCompareEnabled
+          ? {
+              ...calcPercentage(loggedInShare, prevLoggedInShare),
+              comparisonDateLabel,
+              previousValue: `${formatDecimal(prevLoggedInShare)}%`,
+            }
+          : {}),
       },
     ]
-  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn])
+
+    // Filter metrics based on visibility
+    return allMetrics.filter((metric) => isMetricVisible(metric.id))
+  }, [metricsResponse, metricsTopCountry, metricsTopReferrer, metricsTopSearch, metricsLoggedIn, isCompareEnabled, comparisonDateLabel, isMetricVisible, calcPercentage])
 
   return (
     <div className="min-w-0">
-      {/* Header row with title, date picker, and filter button */}
-      <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-input">
-        <h1 className="text-xl font-semibold text-neutral-800">{__('Visitor Insights', 'wp-statistics')}</h1>
-        <div className="flex items-center gap-3">
-          {filterFields.length > 0 && isInitialized && (
-            <FilterButton fields={filterFields} appliedFilters={appliedFilters || []} onApplyFilters={handleApplyFilters} />
-          )}
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            showCompare={true}
-            onUpdate={handleDateRangeUpdate}
-            align="end"
-          />
-        </div>
-      </div>
+      <ReportPageHeader
+        title={__('Visitors Overview', 'wp-statistics')}
+        filterGroup="visitors"
+        optionsTriggerProps={options.triggerProps}
+      />
 
-      <div className="p-2">
-        {/* Notices */}
-        <NoticeContainer className="mb-2" />
+      {/* Options Drawer */}
+      <OverviewOptionsDrawer {...options} />
+
+      <div className="p-3">
+        <NoticeContainer className="mb-3" currentRoute="visitors-overview" />
 
         {/* Applied filters row (separate from button) */}
-        {appliedFilters && appliedFilters.length > 0 && (
-          <FilterBar filters={appliedFilters} onRemoveFilter={handleRemoveFilter} className="mb-2" />
-        )}
 
         {showSkeleton || showFullPageLoading ? (
-          <div className="grid gap-2 grid-cols-12">
+          <div className="grid gap-3 grid-cols-12">
             {/* Metrics skeleton */}
             <div className="col-span-12">
               <PanelSkeleton showTitle={false}>
@@ -406,185 +385,178 @@ function RouteComponent() {
             </div>
           </div>
         ) : (
-          <div className="grid gap-2 grid-cols-12">
-            <div className="col-span-12">
-              <Panel>
-                <Metrics metrics={overviewMetrics} columns={4} />
-              </Panel>
-            </div>
+          <div className="grid gap-3 grid-cols-12">
+            {isWidgetVisible('metrics') && overviewMetrics.length > 0 && (
+              <div className="col-span-12">
+                <Panel>
+                  <Metrics metrics={overviewMetrics} />
+                </Panel>
+              </div>
+            )}
 
-            <div className="col-span-12">
-              <LineChart
-                title="Traffic Trends"
-                data={chartData}
-                metrics={trafficTrendsMetrics}
-                showPreviousPeriod={true}
-                timeframe={timeframe}
-                onTimeframeChange={handleTimeframeChange}
-                loading={isChartRefetching}
-              />
-            </div>
+            {isWidgetVisible('traffic-trends') && (
+              <div className="col-span-12">
+                <LineChart
+                  title="Traffic Trends"
+                  data={chartData}
+                  metrics={trafficTrendsMetrics}
+                  showPreviousPeriod={isCompareEnabled}
+                  timeframe={timeframe}
+                  onTimeframeChange={handleTimeframeChange}
+                  loading={isChartRefetching}
+                  compareDateTo={apiDateParams.previous_date_to}
+                  dateTo={apiDateParams.date_to}
+                />
+              </div>
+            )}
 
-            <div className="col-span-12">
-              <HorizontalBarList
-                title={__('Top Referrers', 'wp-statistics')}
-                items={(() => {
-                  const totalVisitors = Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1
-                  return topReferrersData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
-                    const displayName =
-                      item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics')
+            {isWidgetVisible('top-referrers') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Referrers', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Referrer', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(topReferrersData, {
+                    label: (item) =>
+                      item.referrer_name || item.referrer_domain || item.referrer_channel || __('Direct', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topReferrersTotals?.visitors?.current ?? topReferrersTotals?.visitors) || 1,
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    action: () => navigate({ to: '/referrers' }),
+                  }}
+                />
+              </div>
+            )}
 
-                    return {
-                      label: displayName,
-                      value: currentValue,
-                      percentage,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
-                      tooltipTitle: displayName,
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                    }
-                  })
-                })()}
-                link={{
-                  title: __('View Referrers', 'wp-statistics'),
-                  action: () => console.log('View all referrers'),
-                }}
-              />
-            </div>
+            {isWidgetVisible('top-countries') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Top Countries', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Country', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(topCountriesData, {
+                    label: (item) => item.country_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
+                        alt={item.country_name || ''}
+                        className="w-4 h-3"
+                      />
+                    ),
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                    linkTo: () => '/country/$countryCode',
+                    linkParams: (item) => ({ countryCode: item.country_code?.toLowerCase() || '000' }),
+                  })}
+                  link={{
+                    action: () => navigate({ to: '/countries' }),
+                  }}
+                />
+              </div>
+            )}
 
-            <div className="col-span-12 lg:col-span-4">
-              <HorizontalBarList
-                title={__('Top Countries', 'wp-statistics')}
-                items={(() => {
-                  const totalVisitors = Number(topCountriesTotals?.visitors?.current ?? topCountriesTotals?.visitors) || 1
-                  return topCountriesData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
+            {isWidgetVisible('device-type') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Device Type', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('Device', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(deviceTypeData, {
+                    label: (item) => item.device_type_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(deviceTypeTotals?.visitors?.current ?? deviceTypeTotals?.visitors) || 1,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/device/${(item.device_type_name || 'desktop').toLowerCase()}.svg`}
+                        alt={item.device_type_name || ''}
+                        className="w-4 h-3"
+                      />
+                    ),
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    action: () => navigate({ to: '/browsers' }),
+                  }}
+                />
+              </div>
+            )}
 
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/flags/${item.country_code?.toLowerCase() || '000'}.svg`}
-                          alt={item.country_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.country_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      percentage,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
-                      tooltipTitle: item.country_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                    }
-                  })
-                })()}
-                link={{
-                  title: __('View Countries', 'wp-statistics'),
-                  action: () => console.log('View all countries'),
-                }}
-              />
-            </div>
+            {isWidgetVisible('operating-systems') && (
+              <div className="col-span-12 lg:col-span-6">
+                <HorizontalBarList
+                  title={__('Operating Systems', 'wp-statistics')}
+                  showComparison={isCompareEnabled}
+                  columnHeaders={{
+                    left: __('OS', 'wp-statistics'),
+                    right: __('Visitors', 'wp-statistics'),
+                  }}
+                  items={transformToBarList(operatingSystemsData, {
+                    label: (item) => item.os_name || __('Unknown', 'wp-statistics'),
+                    value: (item) => Number(item.visitors) || 0,
+                    previousValue: (item) => Number(item.previous?.visitors) || 0,
+                    total: Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1,
+                    icon: (item) => (
+                      <img
+                        src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+                        alt={item.os_name || ''}
+                        className="w-4 h-3"
+                      />
+                    ),
+                    isCompareEnabled,
+                    comparisonDateLabel,
+                  })}
+                  link={{
+                    action: () => navigate({ to: '/operating-systems' }),
+                  }}
+                />
+              </div>
+            )}
 
-            <div className="col-span-12 lg:col-span-4">
-              <HorizontalBarList
-                title={__('Device Type', 'wp-statistics')}
-                items={(() => {
-                  const totalVisitors = Number(deviceTypeTotals?.visitors?.current ?? deviceTypeTotals?.visitors) || 1
-                  return deviceTypeData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
-                    const iconName = (item.device_type_name || 'desktop').toLowerCase()
+            {isWidgetVisible('top-visitors') && (
+              <div className="col-span-12">
+                <OverviewTopVisitors data={batchResponse?.data?.items?.top_visitors?.data?.rows} isFetching={isFetching} />
+              </div>
+            )}
 
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/device/${iconName}.svg`}
-                          alt={item.device_type_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.device_type_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      percentage,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
-                      tooltipTitle: item.device_type_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                    }
-                  })
-                })()}
-                link={{
-                  title: __('View Device Types', 'wp-statistics'),
-                  action: () => console.log('View all device types'),
-                }}
-              />
-            </div>
-
-            <div className="col-span-12 lg:col-span-4">
-              <HorizontalBarList
-                title={__('Operating Systems', 'wp-statistics')}
-                items={(() => {
-                  const totalVisitors = Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1
-                  return operatingSystemsData.map((item) => {
-                    const currentValue = Number(item.visitors) || 0
-                    const previousValue = Number(item.previous?.visitors) || 0
-                    const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
-                    const iconName = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
-
-                    return {
-                      icon: (
-                        <img
-                          src={`${pluginUrl}public/images/operating-system/${iconName}.svg`}
-                          alt={item.os_name || ''}
-                          className="w-4 h-3"
-                        />
-                      ),
-                      label: item.os_name || __('Unknown', 'wp-statistics'),
-                      value: currentValue,
-                      percentage,
-                      fillPercentage: calcSharePercentage(currentValue, totalVisitors),
-                      isNegative,
-                      tooltipTitle: item.os_name || '',
-                      tooltipSubtitle: `${__('Previous: ', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-                    }
-                  })
-                })()}
-                link={{
-                  title: __('View Operating Systems', 'wp-statistics'),
-                  action: () => console.log('View all operating systems'),
-                }}
-              />
-            </div>
-
-            <div className="col-span-12">
-              <OverviewTopVisitors data={batchResponse?.data?.items?.top_visitors?.data?.rows} />
-            </div>
-
-            <div className="col-span-12">
-              <GlobalMap
-                data={globalMapData}
-                isLoading={isLoading}
-                dateFrom={apiDateParams.date_from}
-                dateTo={apiDateParams.date_to}
-                metric="Visitors"
-                showZoomControls={true}
-                showLegend={true}
-                pluginUrl={pluginUrl}
-                title={__('Global Visitor Distribution', 'wp-statistics')}
-                enableCityDrilldown={true}
-                enableMetricToggle={true}
-                availableMetrics={[
-                  { value: 'visitors', label: 'Visitors' },
-                  { value: 'views', label: 'Views' },
-                ]}
-              />
-            </div>
+            {isWidgetVisible('global-map') && (
+              <div className="col-span-12">
+                <GlobalMap
+                  data={globalMapData}
+                  isLoading={isLoading}
+                  dateFrom={apiDateParams.date_from}
+                  dateTo={apiDateParams.date_to}
+                  metric="Visitors"
+                  showZoomControls={true}
+                  showLegend={true}
+                  pluginUrl={pluginUrl}
+                  title={__('Global Visitor Distribution', 'wp-statistics')}
+                  enableCityDrilldown={true}
+                  enableMetricToggle={true}
+                  availableMetrics={[
+                    { value: 'visitors', label: 'Visitors' },
+                    { value: 'views', label: 'Views' },
+                  ]}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -14,7 +14,7 @@ function FilterChip({ label, operator, value, onRemove, className }: FilterChipP
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-sm bg-chip px-2.5 py-2 text-xs text-secondary-foreground font-normal border border-input hover:bg-chip/80',
+        'inline-flex items-center gap-1.5 rounded-md bg-chip px-2.5 py-2 text-xs text-secondary-foreground font-normal border border-input hover:bg-chip/80',
         className
       )}
     >
@@ -25,7 +25,7 @@ function FilterChip({ label, operator, value, onRemove, className }: FilterChipP
       <button
         type="button"
         onClick={onRemove}
-        className="flex h-4 w-4 items-center justify-center rounded-full text-secondary-foreground cursor-pointer"
+        className="flex h-4 w-4 items-center justify-center rounded-full text-secondary-foreground"
         aria-label={`Remove ${label} filter`}
       >
         <X className="h-3 w-3" />

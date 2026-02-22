@@ -4,42 +4,12 @@ namespace WP_Statistics\BackgroundProcess;
 
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Utils\Query;
 
 class BackgroundProcessFactory
 {
-    /**
-     * Process word count for posts.
-     *
-     * @return void
-     */
-    public static function processWordCountForPosts()
-    {
-        $calculatePostWordsCount = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
-
-        if ($calculatePostWordsCount->is_active()) {
-            return;
-        }
-
-        $wordCount               = new WordCountService();
-        $postsWithoutWordCount   = $wordCount->getPostsWithoutWordCountMeta();
-
-        $batchSize = 100;
-        $batches   = array_chunk($postsWithoutWordCount, $batchSize);
-
-        foreach ($batches as $batch) {
-            $calculatePostWordsCount->push_to_queue(['posts' => $batch]);
-        }
-
-        // Mark as processed
-        Option::updateGroup('word_count_process_initiated', true, 'jobs');
-
-        $calculatePostWordsCount->save()->dispatch();
-    }
-
     /**
      * Batch update incomplete GeoIP info for visitors.
      *
@@ -49,11 +19,12 @@ class BackgroundProcessFactory
     {
         $updateIncompleteVisitorsLocations = WP_Statistics()->getBackgroundProcess('update_unknown_visitor_geoip');
 
-        if ($updateIncompleteVisitorsLocations->is_active()) {
+        if (!$updateIncompleteVisitorsLocations || $updateIncompleteVisitorsLocations->is_active()) {
             return;
         }
 
         $privateCountry                 = GeolocationFactory::getProviderInstance()->getPrivateCountryCode();
+        // Only include visitors with real IP addresses (contain . or :) that can be geolocated
         $visitorsWithIncompleteLocation = Query::select(['ID'])
             ->from('visitor')
             ->whereRaw(
@@ -63,7 +34,7 @@ class BackgroundProcessFactory
             OR continent = ''
             OR continent IS NULL
             OR (continent = location))
-            AND ip NOT LIKE '#hash#%%'",
+            AND (ip LIKE '%%.%%' OR ip LIKE '%%:%%')",
                 [$privateCountry]
             )
             ->getAll();
@@ -96,7 +67,7 @@ class BackgroundProcessFactory
         $provider        = GeolocationFactory::getProviderInstance();
         $downloadProcess = WP_Statistics()->getBackgroundProcess('geolocation_database_download');
 
-        if ($downloadProcess->is_active()) {
+        if (!$downloadProcess || $downloadProcess->is_active()) {
             return;
         }
 
@@ -116,7 +87,7 @@ class BackgroundProcessFactory
 
         $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
 
-        if ($updateIncompleteVisitorsSourceChannels->is_active()) {
+        if (!$updateIncompleteVisitorsSourceChannels || $updateIncompleteVisitorsSourceChannels->is_active()) {
             return;
         }
 
@@ -159,7 +130,7 @@ class BackgroundProcessFactory
     {
         $calculateDailySummary = WP_Statistics()->getBackgroundProcess('calculate_daily_summary');
 
-        if ($calculateDailySummary->is_active()) {
+        if (!$calculateDailySummary || $calculateDailySummary->is_active()) {
             return;
         }
 
@@ -219,7 +190,7 @@ class BackgroundProcessFactory
     {
         $calculateDailySummaryTotal = WP_Statistics()->getBackgroundProcess('calculate_daily_summary_total');
 
-        if ($calculateDailySummaryTotal->is_active()) {
+        if (!$calculateDailySummaryTotal || $calculateDailySummaryTotal->is_active()) {
             return;
         }
 
@@ -240,7 +211,7 @@ class BackgroundProcessFactory
     {
         $updateResource = WP_Statistics()->getBackgroundProcess('update_resouce_cache_fields');
 
-        if ($updateResource->is_active()) {
+        if (!$updateResource || $updateResource->is_active()) {
             return;
         }
 

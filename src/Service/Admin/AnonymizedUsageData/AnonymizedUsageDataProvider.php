@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Admin\AnonymizedUsageData;
 
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_STATISTICS\DB;
 use WP_Statistics\Components\Option;
 
@@ -278,21 +277,12 @@ class AnonymizedUsageDataProvider
      *          - 'type' (string): The type of the license.
      *          - 'products' (array): The products associated with the license.
      */
+    /**
+     * @deprecated License info no longer collected via addon system.
+     */
     public static function getLicensesInfo()
     {
-        $rawLicenses = LicenseHelper::getLicenses('all');
-        $licenses    = [];
-
-        foreach ($rawLicenses as $k => $v) {
-            $licenses[] = [
-                'status'        => $v['status'],
-                'type'          => $v['type'],
-                'products'      => $v['products'],
-                'license_level' => $v['sku'] == 'premium' ? 'premium' : 'non-premium',
-            ];
-        }
-
-        return $licenses;
+        return [];
     }
 
     /**

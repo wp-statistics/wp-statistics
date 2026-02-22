@@ -7,6 +7,13 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Query;
 
+/**
+ * Model class for event tracking analytics.
+ *
+ * @deprecated 15.0.0 Use AnalyticsQueryHandler with events source instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
+ * @since 15.0.0
+ */
 class EventsModel extends BaseModel
 {
     public function countEvents($args = [])

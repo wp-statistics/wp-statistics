@@ -4,7 +4,7 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Components\Option;
+use WP_Statistics\Entity\EntityFactory;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
 
@@ -40,11 +40,6 @@ class Session extends BaseEntity
             $newViews = ((int)$activeSession->total_views) + 1;
             $userId   = empty($activeSession->user_id) ? $this->profile->getUserId() : $activeSession->user_id;
 
-            $newData = [];
-            if (Option::getValue('attribution_model') === 'last-touch') {
-                $newData['referrer_id'] = $this->profile->getReferrerId();
-            }
-
             $newData = [
                 'total_views' => $newViews,
                 'user_id'     => $userId,
@@ -58,7 +53,6 @@ class Session extends BaseEntity
 
         $sessionId = (int)RecordFactory::session()->insert([
             'visitor_id'                => $visitorId,
-            'ip'                        => $this->profile->getProcessedIPForStorage(),
             'referrer_id'               => $this->profile->getReferrerId(),
             'country_id'                => $this->profile->getCountryId(),
             'city_id'                   => $this->profile->getCityId(),
@@ -77,6 +71,10 @@ class Session extends BaseEntity
         ]);
 
         $this->profile->setSessionId($sessionId);
+
+        // Record UTM parameters for this new session (first-touch attribution)
+        EntityFactory::parameter($this->profile)->record();
+
         return $this;
     }
 

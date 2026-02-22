@@ -89,10 +89,6 @@ class Exclusion extends Singleton
                 'message' => esc_html__('Admin Page', 'wp-statistics'),
                 'method'  => 'exclusionAdminPage',
             ],
-            'referrer_spam'   => [
-                'message' => esc_html__('Referrer Spam', 'wp-statistics'),
-                'method'  => 'exclusionReferrerSpam',
-            ],
             'feed'            => [
                 'message' => esc_html__('Feed', 'wp-statistics'),
                 'method'  => 'exclusionFeed',
@@ -120,10 +116,6 @@ class Exclusion extends Singleton
             'xmlrpc'          => [
                 'message' => esc_html__('XML-RPC', 'wp-statistics'),
                 'method'  => 'exclusionXmlRpc',
-            ],
-            'cross_site'      => [
-                'message' => esc_html__('Cross Site Request', 'wp-statistics'),
-                'method'  => 'exclusionCrossSite',
             ],
             'pre_flight'      => [
                 'message' => esc_html__('Pre-flight Request', 'wp-statistics'),
@@ -291,7 +283,7 @@ class Exclusion extends Singleton
      */
     public static function exclusionFeed($visitorProfile)
     {
-        !empty(self::$options['exclude_feeds']) && is_feed();
+        return !empty(self::$options['exclude_feeds']) && is_feed();
     }
 
     /**
@@ -354,7 +346,7 @@ class Exclusion extends Singleton
 
         if ($currentUser) {
             foreach ($currentUser->roles as $role) {
-                if (!empty(self::$options['exclude_' . str_replace(' ', '_', strtolower($role))])) {
+                if (!empty(self::$options['exclude_' . $role])) {
                     return true;
                 }
             }
@@ -402,7 +394,10 @@ class Exclusion extends Singleton
             $url = trim(urldecode(trim($url, '/\\')));
 
             if (strpos($url, '*') !== false) {
-                $patterns[] = '/^' . str_replace('\\*', '.*', preg_quote($url, '/', '/'))
+                if (trim($url, '* ') === '') {
+                    continue;
+                }
+                $patterns[] = '/^' . str_replace('\\*', '.*', preg_quote($url, '/'))
                     . '$/i';
             } elseif (strlen($url) > 2) {
                 $patterns[] = '/^' . preg_quote($url, '/') . '$/i';
@@ -410,32 +405,6 @@ class Exclusion extends Singleton
         }
 
         return $patterns;
-    }
-
-    /**
-     * Excludes referrer spam based on configured list.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True when referrer contains a spam entry.
-     */
-    public static function exclusionReferrerSpam($visitorProfile)
-    {
-        if (empty(self::$options['referrerspam'])) {
-            return false;
-        }
-
-        $referrer = $visitorProfile->getReferrer();
-        $spamList = explode("\n", self::$options['referrerspamlist'] ?? '');
-
-        foreach ($spamList as $spamEntry) {
-            $spamEntry = trim($spamEntry);
-
-            if (strlen($spamEntry) > 3 && stripos($referrer, $spamEntry) !== false) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -510,7 +479,7 @@ class Exclusion extends Singleton
         foreach ($ipRanges as $subnet) {
             $subnet = trim($subnet);
 
-            if (strlen($subnet) > 6 && Ip::isInRange([$subnet])) {
+            if (strlen($subnet) > 2 && Ip::isInRange([$subnet])) {
                 return true;
             }
         }
@@ -600,14 +569,14 @@ class Exclusion extends Singleton
         static $includedCountries = null;
 
         if ($excludedCountries === null) {
-            $excludedCountries = array_flip(array_filter(
+            $excludedCountries = array_flip(array_filter(array_map('trim',
                 explode("\n", strtoupper(str_replace("\r\n", "\n", self::$options['excluded_countries'] ?? '')))
-            ));
+            )));
         }
 
         if ($includedCountries === null) {
             $countriesString   = strtoupper(str_replace("\r\n", "\n", self::$options['included_countries'] ?? ''));
-            $includedCountries = $countriesString === '' ? [] : array_flip(array_filter(explode("\n", $countriesString)));
+            $includedCountries = $countriesString === '' ? [] : array_flip(array_filter(array_map('trim', explode("\n", $countriesString))));
         }
 
         if (empty($excludedCountries) && empty($includedCountries)) {

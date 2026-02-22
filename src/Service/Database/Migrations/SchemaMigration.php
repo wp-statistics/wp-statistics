@@ -57,6 +57,10 @@ class SchemaMigration extends AbstractMigrationOperation
         '15.0.0'  => [
             'addResourceUriIdAndSessionIdToEvents',
             'addSessionIdEventNameIndexToEvents',
+            'addResourceLookupIndex',
+        ],
+        '15.0.1'  => [
+            'addIpColumnToVisitors',
         ],
     ];
 
@@ -194,6 +198,53 @@ class SchemaMigration extends AbstractMigrationOperation
                 ])
                 ->execute();
         } catch (\Throwable $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds composite index on (resource_id, resource_type, is_deleted) to the 'resources' table
+     * for fast lookups when filtering by WordPress post ID and type.
+     *
+     * @return void
+     * @since 15.0.0
+     */
+    public function addResourceLookupIndex()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('repair')
+                ->setName('resources')
+                ->setArgs([
+                    'indexDefinition' => 'KEY `idx_resource_lookup` (`resource_id`,`resource_type`,`is_deleted`)',
+                ])
+                ->execute();
+        } catch (\Throwable $e) {
+            $this->setErrorStatus($e->getMessage());
+        }
+    }
+
+    /**
+     * Adds `ip` column to the 'visitors' table for storing hashed IP addresses.
+     *
+     * @return void
+     * @since 15.0.1
+     */
+    public function addIpColumnToVisitors()
+    {
+        $this->ensureConnection();
+
+        try {
+            DatabaseFactory::table('update')
+                ->setName('visitors')
+                ->setArgs([
+                    'add' => [
+                        'ip' => 'varchar(128) DEFAULT NULL',
+                    ]
+                ])
+                ->execute();
+        } catch (Exception $e) {
             $this->setErrorStatus($e->getMessage());
         }
     }

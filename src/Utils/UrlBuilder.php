@@ -81,58 +81,76 @@ class UrlBuilder
     }
 
     /**
-     * Build page analytics URL.
+     * Build single content analytics URL.
      *
-     * @param int $pageId The WordPress page/post ID.
-     * @return string The page analytics URL.
+     * @param int   $postId The WordPress page/post ID.
+     * @param array $params Optional query parameters (e.g., date range).
+     * @return string The content analytics URL.
      */
-    public static function pageAnalytics(int $pageId): string
+    public static function contentAnalytics(int $postId, array $params = []): string
     {
-        return self::reactRoute("page-analytics/{$pageId}");
+        return self::custom("content/{$postId}", $params);
     }
 
     /**
-     * Build author analytics URL.
+     * Build single author analytics URL.
      *
-     * @param int $authorId The WordPress author/user ID.
+     * @param int   $authorId The WordPress author/user ID.
+     * @param array $params   Optional query parameters (e.g., date range).
      * @return string The author analytics URL.
      */
-    public static function authorAnalytics(int $authorId): string
+    public static function authorAnalytics(int $authorId, array $params = []): string
     {
-        return self::reactRoute("author-analytics/{$authorId}");
+        return self::custom("author/{$authorId}", $params);
     }
 
     /**
-     * Build category analytics URL.
+     * Build single category/term analytics URL.
      *
-     * @param int $categoryId The WordPress category/term ID.
+     * @param int   $termId The WordPress category/term ID.
+     * @param array $params Optional query parameters (e.g., date range).
      * @return string The category analytics URL.
      */
-    public static function categoryAnalytics(int $categoryId): string
+    public static function categoryAnalytics(int $termId, array $params = []): string
     {
-        return self::reactRoute("category-analytics/{$categoryId}");
+        return self::custom("category/{$termId}", $params);
     }
 
     /**
-     * Build geographic analytics URL.
+     * Build single resource analytics URL (for URI-based resources).
+     *
+     * @param int   $resourceId The resource ID from the pages table.
+     * @param array $params     Optional query parameters (e.g., date range).
+     * @return string The resource analytics URL.
+     */
+    public static function resourceAnalytics(int $resourceId, array $params = []): string
+    {
+        return self::custom("url/{$resourceId}", $params);
+    }
+
+    /**
+     * Build single country analytics URL.
      *
      * @param string $countryCode The ISO country code.
-     * @return string The geographic analytics URL.
+     * @param array  $params      Optional query parameters (e.g., date range).
+     * @return string The country analytics URL.
      */
-    public static function geoAnalytics(string $countryCode): string
+    public static function countryAnalytics(string $countryCode, array $params = []): string
     {
-        return self::reactRoute("geographic/{$countryCode}");
+        return self::custom("country/{$countryCode}", $params);
     }
 
     /**
      * Build visitor profile URL.
      *
-     * @param string $visitorHash The visitor's unique hash identifier.
+     * @param string $type       The visitor identifier type ('hash' or 'id').
+     * @param string $identifier The visitor's unique identifier.
+     * @param array  $params     Optional query parameters.
      * @return string The visitor profile URL.
      */
-    public static function visitorProfile(string $visitorHash): string
+    public static function visitorProfile(string $type, string $identifier, array $params = []): string
     {
-        return self::reactRoute("visitor/{$visitorHash}");
+        return self::custom("visitor/{$type}/{$identifier}", $params);
     }
 
     /**

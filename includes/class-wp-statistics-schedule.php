@@ -8,9 +8,6 @@ use WP_Statistics\Components\Event;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
-use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
 
 /**
  * Legacy Schedule class for backward compatibility.
@@ -56,16 +53,6 @@ class Schedule
     {
         if (!Request::isFrom('admin')) {
 
-            // Add the referrerspam update schedule if it doesn't exist and it should be.
-            if (!wp_next_scheduled('wp_statistics_referrerspam_hook') && Option::get('schedule_referrerspam')) {
-                wp_schedule_event(time(), 'weekly', 'wp_statistics_referrerspam_hook');
-            }
-
-            // Remove the referrerspam update schedule if it does exist and it should shouldn't.
-            if (wp_next_scheduled('wp_statistics_referrerspam_hook') && !Option::get('schedule_referrerspam')) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_referrerspam_hook'), 'wp_statistics_referrerspam_hook');
-            }
-
             // Add the database maintenance schedule if it doesn't exist and it should be.
             if (!wp_next_scheduled('wp_statistics_dbmaint_hook') && Option::get('schedule_dbmaint')) {
                 wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_hook');
@@ -91,33 +78,15 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 
-        // Schedule license migration
-        if (!wp_next_scheduled('wp_statistics_licenses_hook') && !LicenseMigration::hasLicensesAlreadyMigrated()) {
-            wp_schedule_event(time(), 'daily', 'wp_statistics_licenses_hook');
-        }
-
-        // Remove license migration schedule if licenses have been migrated before
-        if (wp_next_scheduled('wp_statistics_licenses_hook') && LicenseMigration::hasLicensesAlreadyMigrated()) {
+        // Cleanup legacy license hooks if still scheduled
+        if (wp_next_scheduled('wp_statistics_licenses_hook')) {
             wp_unschedule_event(wp_next_scheduled('wp_statistics_licenses_hook'), 'wp_statistics_licenses_hook');
         }
 
-        // Add the GeoIP update schedule if it doesn't exist and it should be.
-        if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
-            wp_schedule_event(self::getSchedules()['monthly']['next_schedule'], 'monthly', 'wp_statistics_geoip_hook');
-        }
-
-        // Remove the GeoIP update schedule if it does exist and it should shouldn't.
-        if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
-            wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
-        }
-
+        // Note: GeoIP scheduling is now handled by CronManager/GeoIPUpdateEvent.
+        // Legacy scheduling removed — the v15 system always auto-updates when not using Cloudflare.
         $locationDetection = Option::get('geoip_location_detection_method', 'maxmind');
 
-        if (wp_next_scheduled('wp_statistics_geoip_hook') && 'cf' === $locationDetection) {
-            wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
-        }
-
-        //Construct Event
         if (in_array($locationDetection, ['maxmind', 'dbip'], true)) {
             add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
         }
@@ -139,9 +108,10 @@ class Schedule
         // using the 'wp_statistics_email_report' hook.
         // Legacy 'wp_statistics_report_hook' is deprecated and will be removed.
 
-        add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
-
-        Event::schedule('wp_statistics_check_licenses_status', time(), 'weekly', [$this, 'check_licenses_status']);
+        // Cleanup legacy license status check if still scheduled
+        if (wp_next_scheduled('wp_statistics_check_licenses_status')) {
+            wp_unschedule_event(wp_next_scheduled('wp_statistics_check_licenses_status'), 'wp_statistics_check_licenses_status');
+        }
     }
 
     /**
@@ -223,11 +193,6 @@ class Schedule
         ];
 
         return apply_filters('wp_statistics_cron_schedules', $schedules);
-    }
-
-    public static function check_licenses_status()
-    {
-        LicenseHelper::checkLicensesStatus();
     }
 
     /**
@@ -382,17 +347,6 @@ class Schedule
         Event::reschedule($event, $newTime);
     }
 
-    /**
-     * Calls `LicenseMigration->migrateOldLicenses()` and migrates old licenses to the new structure.
-     *
-     * @return void
-     */
-    public function migrateOldLicenses()
-    {
-        $apiCommunicator  = new ApiCommunicator();
-        $licenseMigration = new LicenseMigration($apiCommunicator);
-        $licenseMigration->migrateOldLicenses();
-    }
 }
 
 new Schedule;

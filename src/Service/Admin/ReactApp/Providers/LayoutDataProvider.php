@@ -2,7 +2,10 @@
 
 namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
+use WP_Statistics\Components\Country;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
+use WP_Statistics\Utils\User;
 
 /**
  * Provider for layout configuration data.
@@ -43,10 +46,6 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                     'visitors'         => [
                         'label' => esc_html__('Visitors', 'wp-statistics'),
                         'slug'  => 'visitors'
-                    ],
-                    'views'            => [
-                        'label' => esc_html__('Views', 'wp-statistics'),
-                        'slug'  => 'views'
                     ],
                     'onlineVisitors'   => [
                         'label' => esc_html__('Online Visitors', 'wp-statistics'),
@@ -156,16 +155,27 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                 ]
             ],
             'geographic'        => [
-                'icon'  => 'Earth',
-                'label' => esc_html__('Geographics', 'wp-statistics'),
-                'slug'  => 'geographic'
+                'icon'     => 'Earth',
+                'label'    => esc_html__('Geographics', 'wp-statistics'),
+                'slug'     => 'geographic',
+                'subPages' => $this->getGeographicSubPages()
             ],
             'devices'           => [
-                'icon'  => 'MonitorSmartphone',
-                'label' => esc_html__('Devices', 'wp-statistics'),
-                'slug'  => 'devices'
+                'icon'     => 'MonitorSmartphone',
+                'label'    => esc_html__('Devices', 'wp-statistics'),
+                'slug'     => 'devices',
+                'subPages' => [
+                    'devicesOverview'   => ['label' => esc_html__('Devices Overview', 'wp-statistics'), 'slug' => 'devices-overview'],
+                    'browsers'          => ['label' => esc_html__('Browsers', 'wp-statistics'), 'slug' => 'browsers'],
+                    'operatingSystems'  => ['label' => esc_html__('Operating Systems', 'wp-statistics'), 'slug' => 'operating-systems'],
+                    'deviceCategories'  => ['label' => esc_html__('Device Categories', 'wp-statistics'), 'slug' => 'device-categories'],
+                    'screenResolutions' => ['label' => esc_html__('Screen Resolutions', 'wp-statistics'), 'slug' => 'screen-resolutions'],
+                ]
             ]
         ];
+
+        // Filter sidebar based on user access level
+        $items['sidebar'] = $this->filterSidebarByAccessLevel($items['sidebar']);
 
         /**
          * Filter layout data before sending to React.
@@ -186,6 +196,99 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
     public function getKey()
     {
         return 'layout';
+    }
+
+    /**
+     * Filter sidebar items based on user's access level.
+     *
+     * - own_content: Only overview and contentAnalytics (filtered to own posts)
+     * - view_stats: Everything except PII sub-pages (visitors, onlineVisitors, topVisitors, loggedInUsers)
+     * - view_all / manage: No filtering
+     *
+     * @param array $sidebar Sidebar configuration.
+     * @return array Filtered sidebar.
+     */
+    private function filterSidebarByAccessLevel(array $sidebar): array
+    {
+        $level = User::getAccessLevel();
+
+        // view_all and manage see everything
+        if (AccessLevel::isAtLeast($level, AccessLevel::VIEW_ALL)) {
+            return $sidebar;
+        }
+
+        // own_content: only overview + content analytics
+        if ($level === AccessLevel::OWN_CONTENT) {
+            $allowed = ['overview', 'contentAnalytics'];
+            return array_intersect_key($sidebar, array_flip($allowed));
+        }
+
+        // view_stats: remove PII sub-pages from visitorInsights
+        if ($level === AccessLevel::VIEW_STATS) {
+            $piiSubPages = ['visitors', 'onlineVisitors', 'topVisitors', 'loggedInUsers'];
+
+            if (isset($sidebar['visitorInsights']['subPages'])) {
+                $sidebar['visitorInsights']['subPages'] = array_diff_key(
+                    $sidebar['visitorInsights']['subPages'],
+                    array_flip($piiSubPages)
+                );
+            }
+
+            // Also remove referredVisitors (shows individual visitor data)
+            if (isset($sidebar['referrals']['subPages']['referredVisitors'])) {
+                unset($sidebar['referrals']['subPages']['referredVisitors']);
+            }
+
+            return $sidebar;
+        }
+
+        // none: empty sidebar (shouldn't normally reach here)
+        return [];
+    }
+
+    /**
+     * Get geographic sub-pages with conditional country regions.
+     *
+     * @return array
+     */
+    private function getGeographicSubPages()
+    {
+        $subPages = [
+            'geographicOverview' => [
+                'label' => esc_html__('Geographic Overview', 'wp-statistics'),
+                'slug'  => 'geographic-overview'
+            ],
+            'countries'          => [
+                'label' => esc_html__('Countries', 'wp-statistics'),
+                'slug'  => 'countries'
+            ],
+            'europeanCountries'  => [
+                'label' => esc_html__('European Countries', 'wp-statistics'),
+                'slug'  => 'european-countries'
+            ],
+            'usStates'           => [
+                'label' => esc_html__('US States', 'wp-statistics'),
+                'slug'  => 'us-states'
+            ],
+        ];
+
+        // Add country regions if a country is detected and it's not US
+        $countryCode = Country::getByTimeZone();
+        if (!empty($countryCode) && $countryCode !== 'US') {
+            $countryName              = Country::getName($countryCode);
+            $subPages['countryRegions'] = [
+                // translators: %s is the country name
+                'label' => sprintf(esc_html__('Regions of %s', 'wp-statistics'), $countryName),
+                'slug'  => 'country-regions'
+            ];
+        }
+
+        $subPages['cities'] = [
+            'label' => esc_html__('Cities', 'wp-statistics'),
+            'slug'  => 'cities'
+        ];
+
+        return $subPages;
     }
 }
 

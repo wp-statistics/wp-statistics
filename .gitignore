@@ -32,6 +32,9 @@ Temporary Items
 node_modules
 package-lock.json
 
+# Composer
+vendor/
+
 # Environment files (keep .env.example)
 .env
 .env.local
@@ -57,6 +60,11 @@ tests/e2e/screenshots/
 tests/test-results/
 playwright-report/
 
+# Scoped Dependencies
+/packages/
+
 # AI / Claude Code
 .claude/
 .mcp.json
+
+/dist

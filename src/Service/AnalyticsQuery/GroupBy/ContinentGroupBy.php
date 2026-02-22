@@ -13,7 +13,7 @@ class ContinentGroupBy extends AbstractGroupBy
     protected $column       = 'countries.continent';
     protected $alias        = 'continent_name';
     protected $extraColumns = [
-        'countries.continent_code AS continent_code',
+        'countries.continent_code AS continent',
     ];
     protected $joins        = [
         'table' => 'countries',

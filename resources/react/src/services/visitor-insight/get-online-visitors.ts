@@ -7,6 +7,7 @@ export interface OnlineVisitor {
   visitor_id: number
   visitor_hash: string
   ip_address: string
+  first_visit?: string
   last_visit: string
   total_views: number
   total_sessions: number
@@ -25,6 +26,13 @@ export interface OnlineVisitor {
   referrer_domain: string | null
   referrer_channel: string
   entry_page: string
+  entry_page_type?: string | null
+  entry_page_wp_id?: number | null
+  entry_page_resource_id?: number | null
+  exit_page?: string
+  exit_page_type?: string | null
+  exit_page_wp_id?: number | null
+  exit_page_resource_id?: number | null
   visitors?: number
 }
 
@@ -67,7 +75,7 @@ export interface GetOnlineVisitorsParams {
 const columnMapping: Record<string, string> = {
   visitorInfo: 'visitor_id',
   onlineFor: 'total_sessions',
-  page: 'entry_page',
+  page: 'exit_page',
   totalViews: 'total_views',
   entryPage: 'entry_page',
   referrer: 'referrer_domain',
@@ -79,6 +87,7 @@ const DEFAULT_COLUMNS = [
   'visitor_id',
   'visitor_hash',
   'ip_address',
+  'first_visit',
   'last_visit',
   'total_views',
   'total_sessions',
@@ -97,7 +106,19 @@ const DEFAULT_COLUMNS = [
   'referrer_domain',
   'referrer_channel',
   'entry_page',
+  'entry_page_type',
+  'entry_page_wp_id',
+  'entry_page_resource_id',
+  'exit_page',
+  'exit_page_type',
+  'exit_page_wp_id',
+  'exit_page_resource_id',
 ]
+
+// Format dates to ISO string (YYYY-MM-DDTHH:mm:ss)
+const formatDate = (date: Date) => {
+  return date.toISOString().slice(0, 19)
+}
 
 export const getOnlineVisitorsQueryOptions = ({
   page = 1,
@@ -108,25 +129,22 @@ export const getOnlineVisitorsQueryOptions = ({
   context,
   columns,
 }: GetOnlineVisitorsParams = {}) => {
-  // Calculate date range for "online" visitors (last N minutes)
-  const now = new Date()
-  const dateFrom = new Date(now.getTime() - timeRangeMinutes * 60 * 1000)
-  const dateTo = now
-
-  // Format dates to ISO string (YYYY-MM-DDTHH:mm:ss)
-  const formatDate = (date: Date) => {
-    return date.toISOString().slice(0, 19)
-  }
-
   // Map frontend column name to API column name
   const apiOrderBy = columnMapping[order_by] || order_by
   // Use provided columns or default to all columns
   const apiColumns = columns && columns.length > 0 ? columns : DEFAULT_COLUMNS
 
   return queryOptions({
-    queryKey: ['online-visitors', page, per_page, order_by, order, timeRangeMinutes, context, apiColumns],
-    queryFn: () =>
-      clientRequest.post<GetOnlineVisitorsResponse>(
+    queryKey: ['online-visitors', page, per_page, apiOrderBy, order, timeRangeMinutes, context, apiColumns],
+    queryFn: () => {
+      // Calculate date range INSIDE queryFn so it's fresh on each actual fetch
+      // This prevents StrictMode double-mount from creating different request bodies
+      // Use UTC directly since database stores times in UTC
+      const now = new Date()
+      const dateFrom = new Date(now.getTime() - timeRangeMinutes * 60 * 1000)
+      const dateTo = now
+
+      return clientRequest.post<GetOnlineVisitorsResponse>(
         '',
         {
           sources: ['visitors'],
@@ -146,7 +164,8 @@ export const getOnlineVisitorsQueryOptions = ({
             action: WordPress.getInstance().getAnalyticsAction(),
           },
         }
-      ),
+      )
+    },
     staleTime: 15 * 1000, // 15 seconds
     refetchOnWindowFocus: true,
     refetchInterval: 30 * 1000,

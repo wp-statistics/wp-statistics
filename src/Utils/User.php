@@ -4,6 +4,7 @@ namespace WP_Statistics\Utils;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Models\UserModel;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 
 /**
  * Utility class for retrieving and managing WordPress user data.
@@ -307,7 +308,56 @@ class User
     }
 
     /**
+     * Get the current user's access level.
+     *
+     * Checks all user roles and returns the highest access level.
+     * Admins and multisite super admins always get MANAGE.
+     *
+     * @return string One of the AccessLevel constants.
+     */
+    public static function getAccessLevel(): string
+    {
+        if (!self::isLoggedIn()) {
+            return AccessLevel::NONE;
+        }
+
+        // Super admins and administrators always get manage
+        if (self::isAdmin()) {
+            return AccessLevel::MANAGE;
+        }
+
+        $user = wp_get_current_user();
+        if (!$user || empty($user->roles)) {
+            return AccessLevel::NONE;
+        }
+
+        // Check all user roles, take the highest level
+        $highestLevel = AccessLevel::NONE;
+        foreach ($user->roles as $roleSlug) {
+            $roleLevel = AccessLevel::getLevelForRole($roleSlug);
+            if (AccessLevel::compare($roleLevel, $highestLevel) > 0) {
+                $highestLevel = $roleLevel;
+            }
+        }
+
+        return $highestLevel;
+    }
+
+    /**
+     * Check if the current user has at least the specified access level.
+     *
+     * @param string $required Required minimum level (AccessLevel constant).
+     * @return bool
+     */
+    public static function hasAccessLevel(string $required): bool
+    {
+        return AccessLevel::isAtLeast(self::getAccessLevel(), $required);
+    }
+
+    /**
      * Determine whether the current user has the specified permission.
+     *
+     * Delegates to the new access level system while maintaining backward compatibility.
      *
      * @param string $permissionType One of 'manage', 'read', or 'both'.
      * @param bool $returnCapability When true, return the capability slug instead of a boolean.
@@ -315,41 +365,20 @@ class User
      */
     public static function hasAccess(string $permissionType = 'both', bool $returnCapability = false)
     {
-        // Default capability option keys and fallbacks
-        $capabilityMap = [
-            'manage' => ['manage_capability', 'manage_options'],
-            'read'   => ['read_capability', 'manage_options'],
+        // Map legacy permission types to access levels
+        $levelMap = [
+            'manage' => AccessLevel::MANAGE,
+            'read'   => AccessLevel::OWN_CONTENT,
+            'both'   => AccessLevel::OWN_CONTENT,
         ];
 
-        // Validate permission type
-        if (!isset($capabilityMap[$permissionType])) {
-            $permissionType = 'both';
-        }
-
-        // Resolve configured capability
-        [$optionKey, $fallback] = $capabilityMap[$permissionType] ?? ['manage_capability', 'manage_options'];
-        $capability  = Option::getValue($optionKey, $fallback);
-        $resolvedCap = self::getExistingCapability($capability);
+        $requiredLevel = $levelMap[$permissionType] ?? AccessLevel::OWN_CONTENT;
 
         if ($returnCapability) {
-            return $resolvedCap;
+            return AccessLevel::getMinimumCapabilityForLevel($requiredLevel);
         }
 
-        // Single-type check
-        if (in_array($permissionType, ['manage', 'read'], true)) {
-            return (bool)current_user_can($resolvedCap);
-        }
-
-        // 'both' - return true if any passes
-        foreach (['manage', 'read'] as $type) {
-            [$optKey, $fb] = $capabilityMap[$type];
-            $cap = Option::getValue($optKey, $fb);
-            if (current_user_can(self::getExistingCapability($cap))) {
-                return true;
-            }
-        }
-
-        return false;
+        return self::hasAccessLevel($requiredLevel);
     }
 
     /**

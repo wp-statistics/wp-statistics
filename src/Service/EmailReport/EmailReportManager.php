@@ -3,258 +3,149 @@
 namespace WP_Statistics\Service\EmailReport;
 
 use WP_Statistics\Components\Option;
-use WP_Statistics\Components\Template;
+use WP_Statistics\Service\Messaging\MessagingHelper;
 use WP_Statistics\Service\Messaging\Provider\MailProvider;
-use WP_Statistics\Service\Messaging\MessagingService;
 
 /**
- * Email Report Manager
+ * Orchestrates the email report flow: gather data, render HTML, send email.
  *
- * Simplified service for email reporting.
- * Uses MailProvider for sending and a single unified template.
- *
- * @package WP_Statistics\Service\EmailReport
  * @since 15.0.0
  */
 class EmailReportManager
 {
     /**
-     * Email report logger instance
+     * Send the scheduled email report.
      *
-     * @var EmailReportLogger
+     * @return bool True on success.
      */
-    private $logger;
-
-    /**
-     * Primary brand color
-     *
-     * @var string
-     */
-    private $primaryColor = '#404BF2';
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function sendReport(): bool
     {
-        $this->logger = new EmailReportLogger();
-    }
+        $frequency = Option::getValue('email_reports_frequency', 'weekly');
 
-    /**
-     * Get email subject based on period
-     *
-     * @param string $period Period type (daily, weekly, biweekly, monthly)
-     * @return string
-     */
-    public function getSubject($period)
-    {
-        $siteName = get_bloginfo('name');
-        $periodLabels = [
-            'daily'    => __('Daily', 'wp-statistics'),
-            'weekly'   => __('Weekly', 'wp-statistics'),
-            'biweekly' => __('Bi-Weekly', 'wp-statistics'),
-            'monthly'  => __('Monthly', 'wp-statistics'),
-        ];
-
-        $periodLabel = isset($periodLabels[$period]) ? $periodLabels[$period] : $periodLabels['weekly'];
-
-        $subject = sprintf(
-            /* translators: 1: Period label (Daily/Weekly/etc.), 2: Site name */
-            __('%1$s Statistics Report - %2$s', 'wp-statistics'),
-            $periodLabel,
-            $siteName
-        );
+        $dataProvider = new EmailReportDataProvider();
+        $data         = $dataProvider->gather($frequency);
 
         /**
-         * Filter the email report subject.
+         * Filter email report color palette.
          *
          * @since 15.0.0
-         * @param string $subject The email subject.
-         * @param string $period  The report period.
+         * @param array $colors Color palette array.
          */
-        return apply_filters('wp_statistics_email_report_subject', $subject, $period);
-    }
+        $renderer = new EmailReportRenderer();
+        $colors   = apply_filters('wp_statistics_email_report_colors', $renderer->getDefaultColors());
+        $content  = $renderer->render($data, $colors);
 
-    /**
-     * Get report data for template
-     *
-     * @param string $period Period type (daily, weekly, biweekly, monthly)
-     * @return array
-     */
-    public function getData($period)
-    {
-        $dataProvider = new EmailReportDataProvider($period);
-        return $dataProvider->toArray();
-    }
+        if (trim(wp_strip_all_tags($content)) === '') {
+            return false;
+        }
 
-    /**
-     * Get the email template path
-     *
-     * @return string
-     */
-    public function getTemplatePath()
-    {
-        $templatePath = WP_STATISTICS_DIR . 'src/Service/Messaging/Templates/Emails/report.php';
+        $recipients = $this->getRecipients();
 
-        /**
-         * Filter the email report template path.
-         *
-         * @since 15.0.0
-         * @param string $templatePath The template file path.
-         */
-        return apply_filters('wp_statistics_email_report_template', $templatePath);
-    }
-
-    /**
-     * Render email HTML
-     *
-     * @param string $period Period type (daily, weekly, biweekly, monthly)
-     * @return string
-     */
-    public function render($period = 'weekly')
-    {
-        $data = $this->getData($period);
-
-        // Add template-specific variables
-        $data['primary_color'] = $this->primaryColor;
-        $data['is_rtl']        = is_rtl();
-
-        /**
-         * Filter the email report template variables.
-         *
-         * @since 15.0.0
-         * @param array  $data   Template variables.
-         * @param string $period The report period.
-         */
-        $data = apply_filters('wp_statistics_email_report_template_vars', $data, $period);
-
-        // Render template
-        $templatePath = $this->getTemplatePath();
-
-        ob_start();
-        extract($data);
-        include $templatePath;
-        $html = ob_get_clean();
-
-        /**
-         * Filter the rendered email report HTML.
-         *
-         * @since 15.0.0
-         * @param string $html   The rendered HTML.
-         * @param string $period The report period.
-         * @param array  $data   The template data.
-         */
-        return apply_filters('wp_statistics_email_report_html', $html, $period, $data);
-    }
-
-    /**
-     * Send email report
-     *
-     * @param array  $recipients Email addresses
-     * @param string $period     Period type (daily, weekly, biweekly, monthly)
-     * @return bool
-     */
-    public function send($recipients, $period = 'weekly')
-    {
         if (empty($recipients)) {
             return false;
         }
 
+        $dashboardUrl = admin_url('admin.php?page=wp-statistics');
+        $settingsUrl  = admin_url('admin.php?page=wp-statistics#/settings/notifications');
+
         /**
-         * Action fired before sending email report.
+         * Filter custom logo URL for the email report.
          *
          * @since 15.0.0
-         * @param array  $recipients The email recipients.
-         * @param string $period     The report period.
+         * @param string $logoUrl Logo URL or empty for default.
          */
-        do_action('wp_statistics_email_report_before_send', $recipients, $period);
+        $customLogo = apply_filters('wp_statistics_email_report_logo', '');
 
-        $html    = $this->render($period);
-        $subject = $this->getSubject($period);
+        /**
+         * Filter the "From" name for email reports.
+         *
+         * @since 15.0.0
+         * @param string $fromName From name or empty for default.
+         */
+        $fromName = apply_filters('wp_statistics_email_report_from_name', '');
 
-        try {
-            $mailProvider = MessagingService::make(MailProvider::class)->provider();
+        /**
+         * Filter the reply-to email address for email reports.
+         *
+         * @since 15.0.0
+         * @param string $replyTo Reply-to email address or empty.
+         */
+        $replyTo = apply_filters('wp_statistics_email_report_reply_to', '');
 
-            $result = $mailProvider
-                ->setTo($recipients)
-                ->setSubject($subject)
-                ->setBody($html)
-                ->sendAsHtml(true)
-                ->send();
+        /**
+         * Filter the footer text for email reports.
+         *
+         * @since 15.0.0
+         * @param string $footerText Footer text or empty.
+         */
+        $footerText = apply_filters('wp_statistics_email_report_footer_text', '');
 
-            /**
-             * Action fired after sending email report.
-             *
-             * @since 15.0.0
-             * @param bool   $result     Whether the send was successful.
-             * @param array  $recipients The email recipients.
-             * @param string $period     The report period.
-             */
-            do_action('wp_statistics_email_report_after_send', $result, $recipients, $period);
+        $templateVars = [
+            'content'       => $content,
+            'primary_color' => $colors['primary_color'] ?? '#1e40af',
+            'report_title'  => $data['report_title'],
+            'report_period' => $data['report_period'],
+            'dashboard_url' => $dashboardUrl,
+            'settings_url'  => $settingsUrl,
+        ];
 
-            return $result;
-
-        } catch (\Exception $e) {
-            /**
-             * Action fired after sending email report (on failure).
-             *
-             * @since 15.0.0
-             * @param bool   $result     Whether the send was successful (false).
-             * @param array  $recipients The email recipients.
-             * @param string $period     The report period.
-             */
-            do_action('wp_statistics_email_report_after_send', false, $recipients, $period);
-
-            return false;
-        }
-    }
-
-    /**
-     * Send test email to single recipient
-     *
-     * @param string $email  Email address
-     * @param string $period Period type (daily, weekly, biweekly, monthly)
-     * @return bool
-     */
-    public function sendTest($email, $period = 'weekly')
-    {
-        if (!is_email($email)) {
-            return false;
+        if (!empty($customLogo)) {
+            $templateVars['logo_image'] = $customLogo;
         }
 
-        return $this->send([$email], $period);
-    }
-
-    /**
-     * Get logger instance
-     *
-     * @return EmailReportLogger
-     */
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-
-    /**
-     * Set primary color
-     *
-     * @param string $color Hex color code
-     * @return void
-     */
-    public function setPrimaryColor($color)
-    {
-        if (preg_match('/^#[a-fA-F0-9]{6}$/', $color)) {
-            $this->primaryColor = $color;
+        if (!empty($footerText)) {
+            $templateVars['footer_text'] = $footerText;
         }
+
+        $mail = new MailProvider();
+        $mail->init()
+            ->setTo($recipients)
+            ->setSubject($data['report_title'] . ' — ' . get_bloginfo('name'))
+            ->setTemplate(true, $templateVars);
+
+        if (!empty($fromName)) {
+            $adminEmail = get_option('admin_email');
+            $mail->setFrom("{$fromName} <{$adminEmail}>");
+        }
+
+        if (!empty($replyTo) && is_email($replyTo)) {
+            $mail->setHeaders(["Reply-To: {$replyTo}"]);
+        }
+
+        /**
+         * Filter BCC setting for email reports.
+         *
+         * @since 15.0.0
+         * @param bool $useBcc Whether to send as BCC.
+         */
+        $useBcc = apply_filters('wp_statistics_email_report_bcc', false);
+
+        if ($useBcc && count($recipients) > 1) {
+            $primaryRecipient = array_shift($recipients);
+            $mail->setTo([$primaryRecipient]);
+            $mail->setBcc($recipients);
+        }
+
+        return $mail->send();
     }
 
     /**
-     * Get primary color
+     * Get recipient email addresses.
      *
-     * @return string
+     * @return string[]
      */
-    public function getPrimaryColor()
+    private function getRecipients(): array
     {
-        return $this->primaryColor;
+        $email = MessagingHelper::getEmailNotification();
+
+        $recipients = !empty($email) ? [$email] : [];
+
+        /**
+         * Filter email report recipients.
+         *
+         * @since 15.0.0
+         * @param string[] $recipients List of email addresses.
+         */
+        return apply_filters('wp_statistics_email_report_recipients', $recipients);
     }
 }

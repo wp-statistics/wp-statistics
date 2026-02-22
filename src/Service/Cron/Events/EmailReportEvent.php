@@ -2,272 +2,122 @@
 
 namespace WP_Statistics\Service\Cron\Events;
 
-use WP_Statistics\Components\Event;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Cron\CronSchedules;
 use WP_Statistics\Service\EmailReport\EmailReportManager;
-use WP_Statistics\Service\EmailReport\EmailReportLogger;
 
 /**
- * Email Report Cron Event.
- *
- * Handles scheduled email report delivery.
+ * Scheduled event for sending periodic email reports.
  *
  * @since 15.0.0
  */
 class EmailReportEvent extends AbstractCronEvent
 {
     /**
-     * @var string
+     * Allowed recurrence values for this event.
+     *
+     * @var string[]
      */
+    private const ALLOWED_RECURRENCES = ['daily', 'weekly', 'monthly'];
+
     protected $hook = 'wp_statistics_email_report';
-
-    /**
-     * @var string
-     */
     protected $recurrence = 'weekly';
-
-    /**
-     * @var string
-     */
     protected $description = 'Email Report';
 
     /**
-     * Email report manager instance.
-     *
-     * @var EmailReportManager|null
-     */
-    private $manager = null;
-
-    /**
-     * Email report logger instance.
-     *
-     * @var EmailReportLogger|null
-     */
-    private $logger = null;
-
-    /**
-     * Check if email reports should be scheduled.
+     * Only schedule if email reports are enabled.
      *
      * @return bool
      */
     public function shouldSchedule(): bool
     {
-        $timeReport = Option::get('time_report', '0');
-        return !empty($timeReport) && $timeReport !== '0';
+        return (bool) Option::getValue('email_reports_enabled', false);
     }
 
     /**
-     * Get the recurrence interval based on settings.
+     * Get recurrence from settings.
      *
      * @return string
      */
     public function getRecurrence(): string
     {
-        $frequency = Option::get('time_report', 'weekly');
+        $recurrence = Option::getValue('email_reports_frequency', 'weekly');
 
-        $validFrequencies = ['daily', 'weekly', 'biweekly', 'monthly'];
-        if (!in_array($frequency, $validFrequencies, true)) {
-            return 'weekly';
+        if (!is_string($recurrence) || !in_array($recurrence, self::ALLOWED_RECURRENCES, true)) {
+            $recurrence = 'weekly';
         }
 
-        return $frequency;
+        $this->recurrence = $recurrence;
+
+        return $this->recurrence;
     }
 
     /**
-     * Get the next schedule time for email reports.
+     * Schedule at an appropriate time based on frequency.
      *
-     * @return int Timestamp based on frequency (8:00 AM).
+     * @return int
      */
     protected function getNextScheduleTime(): int
     {
-        $schedules = CronSchedules::getSchedules();
+        $timezone  = wp_timezone();
+        $now       = new \DateTimeImmutable('now', $timezone);
         $frequency = $this->getRecurrence();
+        $hour      = max(0, min(23, (int) Option::getValue('email_reports_delivery_hour', 8)));
+        $todayAtHour = $now->setTime($hour, 0);
 
-        return $schedules[$frequency]['next_schedule'] ?? time();
+        switch ($frequency) {
+            case 'daily':
+                $next = $todayAtHour <= $now ? $todayAtHour->modify('+1 day') : $todayAtHour;
+                return $next->getTimestamp();
+
+            case 'monthly':
+                $firstOfMonth = $now->modify('first day of this month')->setTime($hour, 0);
+                $next = $firstOfMonth <= $now ? $firstOfMonth->modify('first day of next month') : $firstOfMonth;
+                return $next->getTimestamp();
+
+            case 'weekly':
+            default:
+                $startOfWeek = (int) get_option('start_of_week', 0);
+                if ($startOfWeek < 0 || $startOfWeek > 6) {
+                    $startOfWeek = 0;
+                }
+                $todayDow   = (int) $now->format('w');
+                $daysUntil  = ($startOfWeek - $todayDow + 7) % 7;
+                $candidate  = $now->modify("+{$daysUntil} days")->setTime($hour, 0);
+                $next       = $candidate <= $now ? $candidate->modify('+7 days') : $candidate;
+                return $next->getTimestamp();
+        }
     }
 
     /**
-     * Schedule the event with dynamic recurrence.
+     * Ensure the current recurrence value is applied before scheduling.
      *
      * @return void
      */
     protected function schedule(): void
     {
-        $timestamp  = $this->getNextScheduleTime();
-        $recurrence = $this->getRecurrence();
-
-        wp_schedule_event($timestamp, $recurrence, $this->hook);
+        $this->getRecurrence();
+        parent::schedule();
     }
 
     /**
-     * Execute the email report send.
-     *
-     * @return void
-     */
-    public function execute(): void
-    {
-        if (!$this->shouldSchedule()) {
-            return;
-        }
-
-        $recipients = $this->getRecipients();
-        if (empty($recipients)) {
-            $this->log(false, [], 'No recipients configured');
-            return;
-        }
-
-        $frequency = $this->getRecurrence();
-        $manager   = $this->getManager();
-
-        try {
-            $result = $manager->send($recipients, $frequency);
-            $this->log($result, $recipients, $result ? null : 'Send failed');
-        } catch (\Throwable $e) {
-            $this->log(false, $recipients, $e->getMessage());
-
-            // Log to WP Statistics error log
-            \WP_Statistics()->log('Email Report Error: ' . $e->getMessage(), 'error');
-        }
-    }
-
-    /**
-     * Get email recipients.
-     *
-     * @return array
-     */
-    private function getRecipients(): array
-    {
-        $emailList = Option::get('email_list', '');
-
-        if (empty($emailList)) {
-            // Default to admin email
-            return [get_option('admin_email')];
-        }
-
-        // Parse comma-separated email list
-        $emails = array_map('trim', explode(',', $emailList));
-        $emails = array_filter($emails, 'is_email');
-
-        return $emails;
-    }
-
-    /**
-     * Get EmailReportManager instance.
-     *
-     * @return EmailReportManager
-     */
-    private function getManager(): EmailReportManager
-    {
-        if ($this->manager === null) {
-            $this->manager = new EmailReportManager();
-        }
-
-        return $this->manager;
-    }
-
-    /**
-     * Set EmailReportManager instance (for dependency injection).
-     *
-     * @param EmailReportManager $manager
-     * @return void
-     */
-    public function setManager(EmailReportManager $manager): void
-    {
-        $this->manager = $manager;
-    }
-
-    /**
-     * Get EmailReportLogger instance.
-     *
-     * @return EmailReportLogger
-     */
-    private function getLogger(): EmailReportLogger
-    {
-        if ($this->logger === null) {
-            // Use manager's logger for consistency
-            $this->logger = $this->getManager()->getLogger();
-        }
-
-        return $this->logger;
-    }
-
-    /**
-     * Set EmailReportLogger instance (for dependency injection).
-     *
-     * @param EmailReportLogger $logger
-     * @return void
-     */
-    public function setLogger(EmailReportLogger $logger): void
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * Log email send result.
-     *
-     * @param bool $success
-     * @param array $recipients
-     * @param string|null $error
-     * @return void
-     */
-    private function log(bool $success, array $recipients, ?string $error = null): void
-    {
-        $logger = $this->getLogger();
-
-        $logger->log([
-            'success'    => $success,
-            'recipients' => $recipients,
-            'frequency'  => $this->getRecurrence(),
-            'error'      => $error,
-        ]);
-    }
-
-    /**
-     * Get event information for admin display.
+     * Keep event info in sync with the selected recurrence.
      *
      * @return array
      */
     public function getInfo(): array
     {
-        $info = parent::getInfo();
-
-        // Add email-specific info
-        $info['recipients']    = $this->getRecipients();
-        $info['frequency']     = $this->getRecurrence();
-        $info['last_sent']     = $this->getLogger()->getLastSent();
-
-        return $info;
+        $this->getRecurrence();
+        return parent::getInfo();
     }
 
     /**
-     * Check if the event needs rescheduling due to frequency change.
-     *
-     * @return bool
-     */
-    public function needsReschedule(): bool
-    {
-        if (!$this->isScheduled()) {
-            return $this->shouldSchedule();
-        }
-
-        $event = Event::get($this->hook);
-        if (!$event) {
-            return true;
-        }
-
-        return $event->schedule !== $this->getRecurrence();
-    }
-
-    /**
-     * Reschedule if needed (check frequency change).
+     * Execute: send the email report.
      *
      * @return void
      */
-    public function maybeReschedule(): void
+    public function execute(): void
     {
-        if ($this->needsReschedule()) {
-            $this->reschedule();
-        }
+        $manager = new EmailReportManager();
+        $manager->sendReport();
     }
 }

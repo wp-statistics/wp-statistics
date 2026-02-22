@@ -388,9 +388,10 @@ class LegacyV14Adapter extends AbstractImportAdapter
             foreach ($visitors as $v14Visitor) {
                 $transformed = $this->transformVisitorRow((array)$v14Visitor);
 
-                // Create visitor record
+                // Create visitor record (IP is stored in visitors table as of v15)
                 $visitorData = [
                     'hash'       => $transformed['hash'] ?? '',
+                    'ip'         => $transformed['ip'] ?? null,
                     'created_at' => $transformed['created_at'] ?? current_time('mysql'),
                 ];
 
@@ -570,7 +571,6 @@ class LegacyV14Adapter extends AbstractImportAdapter
     {
         $session = [
             'visitor_id'   => $visitorId,
-            'ip'           => $transformed['ip'] ?? null,
             'total_views'  => $transformed['total_views'] ?? 1,
             'started_at'   => $transformed['created_at'] ?? current_time('mysql'),
             'user_id'      => $transformed['user_id'] ?? null,

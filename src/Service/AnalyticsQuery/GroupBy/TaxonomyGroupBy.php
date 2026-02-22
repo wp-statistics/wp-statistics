@@ -6,11 +6,12 @@ namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
  * Taxonomy group by - groups by taxonomy term (category, tag, custom taxonomy).
  *
  * Uses cached_terms field from resources table which stores comma-separated term IDs.
- * Joins with WordPress term tables to get term names and filter by taxonomy type.
+ * Joins with WordPress term tables to get term names.
  *
  * Usage:
  * - group_by: ['taxonomy']
- * - filters: ['taxonomy_type' => 'category'] or ['taxonomy_type' => 'post_tag']
+ * - Use with taxonomy_type filter to restrict to specific taxonomy:
+ *   filters: ['taxonomy_type' => ['is' => 'category']] or ['taxonomy_type' => ['is' => 'post_tag']]
  *
  * @since 15.0.0
  */
@@ -24,6 +25,18 @@ class TaxonomyGroupBy extends AbstractGroupBy
         'terms.slug AS term_slug',
         'term_taxonomy.taxonomy AS taxonomy_type',
     ];
+
+    /**
+     * Columns added by postProcess (not in SQL, but valid for column selection).
+     *
+     * @var array
+     */
+    protected $postProcessedColumns = [
+        'taxonomy_label',
+        'term_link',
+        'term_description',
+        'term_count',
+    ];
     protected $joins        = [
         [
             'table' => 'resource_uris',
@@ -33,20 +46,13 @@ class TaxonomyGroupBy extends AbstractGroupBy
         [
             'table' => 'resources',
             'alias' => 'resources',
-            'on'    => 'resource_uris.resource_id = resources.ID',
+            'on'    => 'resource_uris.resource_id = resources.ID AND resources.is_deleted = 0',
             'type'  => 'LEFT',
         ],
     ];
     protected $groupBy      = 'terms.term_id';
     protected $filter       = 'resources.cached_terms IS NOT NULL AND resources.cached_terms != \'\'';
     protected $requirement  = 'views';
-
-    /**
-     * Default taxonomy type to filter by.
-     *
-     * @var string
-     */
-    protected $taxonomyType = 'category';
 
     /**
      * Get JOINs including WordPress term tables.
@@ -81,33 +87,7 @@ class TaxonomyGroupBy extends AbstractGroupBy
     }
 
     /**
-     * Get filter including taxonomy type restriction.
-     *
-     * @return string|null
-     */
-    public function getFilter(): ?string
-    {
-        $baseFilter = parent::getFilter();
-
-        // Add taxonomy type filter (default: category)
-        // This can be overridden via request filters['taxonomy_type']
-        return $baseFilter . " AND term_taxonomy.taxonomy = '{$this->taxonomyType}'";
-    }
-
-    /**
-     * Set taxonomy type to filter by.
-     *
-     * @param string $taxonomyType Taxonomy name (e.g., 'category', 'post_tag').
-     * @return self
-     */
-    public function setTaxonomyType(string $taxonomyType): self
-    {
-        $this->taxonomyType = $taxonomyType;
-        return $this;
-    }
-
-    /**
-     * Post-process rows to add term link and count.
+     * Post-process rows to add term link, count, and taxonomy label.
      *
      * @param array $rows Query result rows.
      * @param \wpdb $wpdb WordPress database object.
@@ -117,9 +97,25 @@ class TaxonomyGroupBy extends AbstractGroupBy
     {
         foreach ($rows as &$row) {
             if (!empty($row['term_id']) && !empty($row['taxonomy_type'])) {
+                // Add term link
                 $row['term_link'] = get_term_link((int) $row['term_id'], $row['taxonomy_type']);
                 if (is_wp_error($row['term_link'])) {
                     $row['term_link'] = '';
+                }
+
+                // Add taxonomy label (human-readable name)
+                $taxonomyObject = get_taxonomy($row['taxonomy_type']);
+                if ($taxonomyObject) {
+                    $row['taxonomy_label'] = $taxonomyObject->labels->singular_name;
+                } else {
+                    $row['taxonomy_label'] = $row['taxonomy_type'];
+                }
+
+                // Add term description and count
+                $term = get_term((int) $row['term_id'], $row['taxonomy_type']);
+                if ($term && !is_wp_error($term)) {
+                    $row['term_description'] = $term->description;
+                    $row['term_count']       = $term->count;
                 }
             }
         }

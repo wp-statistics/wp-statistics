@@ -3,9 +3,7 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -33,7 +31,7 @@ class Device extends BaseEntity
             return $this;
         }
 
-        $deviceType = $this->userAgent->getDevice();
+        $deviceType = ucwords($this->userAgent->getDevice());
         $record     = RecordFactory::deviceType()->get(['name' => $deviceType]);
 
         $id = !empty($record) && isset($record->ID)
@@ -81,10 +79,6 @@ class Device extends BaseEntity
             return $this;
         }
 
-        if (!(Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously())) {
-            return $this;
-        }
-
         if (!$this->userAgent) {
             return $this;
         }
@@ -108,10 +102,6 @@ class Device extends BaseEntity
     public function recordBrowserVersion()
     {
         if (!$this->isActive('device_browser_versions')) {
-            return $this;
-        }
-
-        if (!(Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously())) {
             return $this;
         }
 

@@ -1,7 +1,9 @@
 /**
  * VisitorInfoCell - Displays visitor information with country flag, OS, browser, and user/identifier
+ * Includes linking to single visitor report page.
  */
 
+import { Link, useLocation } from '@tanstack/react-router'
 import { memo } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -12,115 +14,142 @@ import type { VisitorInfoConfig, VisitorInfoData } from '../types'
 interface VisitorInfoCellProps {
   data: VisitorInfoData
   config: VisitorInfoConfig
+  /** Disable linking to single visitor page (e.g., when already on that page) */
+  disableLink?: boolean
 }
 
 /**
- * Format hash display: strip #hash# prefix and show first 6 chars
+ * Format hash display: show first 6 chars
  */
 function formatHashDisplay(value: string): string {
-  const cleanHash = value.replace(/^#hash#/i, '')
-  return cleanHash.substring(0, 6)
+  return value.substring(0, 6)
 }
 
 /**
- * Get identifier display based on hash settings
+ * Check if a string looks like an IP address (contains . or :)
  */
-function getIdentifierDisplay(
-  identifier: string | undefined,
-  hashEnabled: boolean
-): string | undefined {
-  if (!identifier) return undefined
-
-  if (hashEnabled) {
-    // hashEnabled = true → show first 6 chars of hash
-    if (identifier.startsWith('#hash#')) {
-      return formatHashDisplay(identifier)
-    }
-    return formatHashDisplay(identifier)
-  }
-  // hashEnabled = false → show full IP address
-  return identifier
+function isIpAddress(value: string): boolean {
+  return value.includes('.') || value.includes(':')
 }
 
-export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config }: VisitorInfoCellProps) {
+/**
+ * Get identifier display - data-driven based on value content
+ */
+function getIdentifierDisplay(identifier: string | undefined): string | undefined {
+  if (!identifier) return undefined
+  return isIpAddress(identifier) ? identifier : formatHashDisplay(identifier)
+}
+
+/**
+ * Get the link destination for a visitor based on available identifiers.
+ *
+ * Routing priority:
+ * 1. Logged-in user → /visitor/user/{id}
+ * 2. Real IP (IP contains . or :) → /visitor/ip/{ip}
+ * 3. Hash visitor (default) → /visitor/hash/{hash}
+ */
+function getVisitorLink(
+  data: VisitorInfoData
+): { type: 'user' | 'ip' | 'hash'; id: string } | null {
+  // 1. Logged-in user takes priority
+  if (data.user?.id) {
+    return { type: 'user', id: String(data.user.id) }
+  }
+
+  // 2. Real IP - real IPs contain . or :
+  if (data.ipAddress && isIpAddress(data.ipAddress)) {
+    return { type: 'ip', id: data.ipAddress }
+  }
+
+  // 3. Hash visitor (default)
+  if (data.visitorHash) {
+    return { type: 'hash', id: data.visitorHash }
+  }
+
+  return null
+}
+
+export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config, disableLink = false }: VisitorInfoCellProps) {
   const { country, os, browser, user, identifier } = data
-  const { pluginUrl, trackLoggedInEnabled, hashEnabled } = config
+  const { pluginUrl } = config
+
+  // Get current route pathname for back navigation
+  const { pathname } = useLocation()
+
+  // Get visitor link info
+  const visitorLink = !disableLink ? getVisitorLink(data) : null
 
   // Build location text for tooltip
   const locationParts = [country.city, country.name].filter(Boolean)
   const locationText = locationParts.join(', ') || country.name
 
-  // Determine what to show
-  const showUserBadge = trackLoggedInEnabled && user
-  const identifierDisplay = getIdentifierDisplay(identifier, hashEnabled)
+  // Build full tooltip content
+  const browserInfo = browser.version ? `${browser.name} ${browser.version}` : browser.name
+  const tooltipContent = [locationText, browserInfo, os.name].filter(Boolean).join(' · ')
+
+  // Determine what to show - always show user badge if user exists (has user_id)
+  const showUserBadge = !!user
+  const identifierDisplay = getIdentifierDisplay(identifier)
 
   return (
-    <div className="flex flex-col gap-0.5 group/visitor">
-      {/* Row 1: Icons - muted by default, reveal on hover */}
-      <div className="flex items-center gap-1">
-        {/* Country Flag */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button className="flex items-center opacity-70 grayscale-[30%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150" aria-label={`Country: ${country.name}`}>
-              <img
-                src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
-                alt={country.name}
-                className="w-3.5 h-3.5 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>{locationText}</TooltipContent>
-        </Tooltip>
+    <div className="flex flex-col gap-0.5">
+      {/* Row 1: Flag + Browser/OS text with single tooltip */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="flex items-center gap-1.5 cursor-default">
+            <img
+              src={`${pluginUrl}public/images/flags/${country.code || '000'}.svg`}
+              alt={country.name}
+              className="w-3.5 h-3.5 object-contain shrink-0"
+            />
+            <span className="text-xs text-muted-foreground truncate">
+              {browser.name} · {os.name}
+            </span>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <div className="flex flex-col">
+            <span>{tooltipContent}</span>
+            {user?.role && <span>{user.role}</span>}
+          </div>
+        </TooltipContent>
+      </Tooltip>
 
-        {/* OS Icon */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150" aria-label={`Operating system: ${os.name}`}>
-              <img
-                src={`${pluginUrl}public/images/operating-system/${os.icon}.svg`}
-                alt={os.name}
-                className="w-3 h-3 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>{os.name}</TooltipContent>
-        </Tooltip>
-
-        {/* Browser Icon */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button className="flex items-center opacity-60 grayscale-[40%] group-hover/visitor:opacity-100 group-hover/visitor:grayscale-0 transition-all duration-150" aria-label={`Browser: ${browser.name} ${browser.version}`}>
-              <img
-                src={`${pluginUrl}public/images/browser/${browser.icon}.svg`}
-                alt={browser.name}
-                className="w-3 h-3 object-contain"
-              />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>
-            {browser.name} {browser.version}
-          </TooltipContent>
-        </Tooltip>
-      </div>
-
-      {/* Row 2: User Badge or Identifier */}
+      {/* Row 2: User Badge or Identifier (clickable link to single visitor page) */}
       {showUserBadge ? (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Badge variant="secondary" className="text-[10px] font-normal py-0 px-1 h-4 w-fit">
+        visitorLink ? (
+          <Link
+            to="/visitor/$type/$id"
+            params={{ type: visitorLink.type, id: visitorLink.id }}
+            search={{ from: pathname }}
+            className="w-fit"
+          >
+            <Badge
+              variant="secondary"
+              className="text-[11px] font-normal py-0 px-1 h-4 w-fit cursor-pointer hover:bg-neutral-200 transition-colors"
+            >
               {user!.username} #{user!.id}
             </Badge>
-          </TooltipTrigger>
-          <TooltipContent>
-            {user!.email}
-            {user!.role && ` · ${user!.role}`}
-          </TooltipContent>
-        </Tooltip>
-      ) : (
-        identifierDisplay && (
-          <span className="text-[10px] text-neutral-400 font-mono tracking-wide">{identifierDisplay}</span>
+          </Link>
+        ) : (
+          <Badge variant="secondary" className="text-[11px] font-normal py-0 px-1 h-4 w-fit">
+            {user!.username} #{user!.id}
+          </Badge>
         )
-      )}
+      ) : identifierDisplay ? (
+        visitorLink ? (
+          <Link
+            to="/visitor/$type/$id"
+            params={{ type: visitorLink.type, id: visitorLink.id }}
+            search={{ from: pathname }}
+            className="text-[11px] text-neutral-500 font-mono tracking-wide hover:text-primary hover:underline cursor-pointer"
+          >
+            {identifierDisplay}
+          </Link>
+        ) : (
+          <span className="text-[11px] text-neutral-500 font-mono tracking-wide">{identifierDisplay}</span>
+        )
+      ) : null}
     </div>
   )
 })

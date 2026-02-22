@@ -22,8 +22,8 @@
  * </PanelSkeleton>
  */
 
-export { MetricsSkeleton, type MetricsSkeletonProps } from './metrics-skeleton'
-export { ChartSkeleton, type ChartSkeletonProps } from './chart-skeleton'
 export { BarListSkeleton, type BarListSkeletonProps } from './bar-list-skeleton'
-export { TableSkeleton, type TableSkeletonProps } from './table-skeleton'
+export { ChartSkeleton, type ChartSkeletonProps } from './chart-skeleton'
+export { MetricsSkeleton, type MetricsSkeletonProps } from './metrics-skeleton'
 export { PanelSkeleton, type PanelSkeletonProps } from './panel-skeleton'
+export { TableSkeleton, type TableSkeletonProps } from './table-skeleton'

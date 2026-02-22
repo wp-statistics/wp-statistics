@@ -7,7 +7,6 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Database\DatabaseFactory;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Utils\Url;
 use WP_STATISTICS\Helper;
 
@@ -23,7 +22,7 @@ use WP_STATISTICS\Helper;
  *
  * Migration guide:
  * - Visitor::get_pages_by_visitor_id()  -> VisitorsModel queries
- * - Visitor::getCoefficient()           -> OptionManager::get('coefficient')
+ * - Visitor::getCoefficient()           -> Option::getValue('coefficient')
  * - Visitor data processing             -> VisitorProfile class
  */
 class Visitor
@@ -156,7 +155,6 @@ class Visitor
                 'region'         => $visitorProfile->getRegion(),
                 'continent'      => $visitorProfile->getContinent(),
                 'user_id'        => $visitorProfile->getUserId(),
-                'UAString'       => ((Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                 'hits'           => 1,
                 'honeypot'       => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
                 'first_page'     => $args['page_id'],

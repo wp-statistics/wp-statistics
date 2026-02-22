@@ -35,16 +35,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install PHP dependencies
-        run: composer install --no-dev --optimize-autoloader --no-interaction
+        run: composer install --no-dev --no-scripts --optimize-autoloader --no-interaction
 
       - name: Install Node dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build assets
-        run: npm run build
+        run: pnpm build
 
       - name: Create plugin ZIP
         run: |
@@ -98,12 +102,23 @@ jobs:
       - name: Install Playwright
         run: npx playwright install chromium
 
+      - name: Extract plugin
+        run: |
+          mkdir -p dist/wp-statistics
+          unzip dist/wp-statistics.zip -d dist/wp-statistics
+
       - name: Run Playground smoke test
         run: |
-          npx @wp-now/wp-now start --path=dist/wp-statistics.zip &
-          sleep 10
-          curl -f http://localhost:8881/wp-admin/ || exit 1
-          echo "✅ Playground single site test passed"
+          npx @wp-now/wp-now start --path=dist/wp-statistics --skip-browser &
+          sleep 15
+          # Check if server responds with 200 OK
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8881/wp-admin/)
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "✅ Playground single site test passed (HTTP $HTTP_STATUS)"
+          else
+            echo "❌ Server returned HTTP $HTTP_STATUS"
+            exit 1
+          fi
 
   playground-multisite:
     name: Playground (Multisite)

@@ -63,7 +63,7 @@ class UserRoleFilter extends AbstractFilter
      *
      * @var array Groups: visitors
      */
-    protected $groups = ['visitors', 'views'];
+    protected $groups = ['visitors', 'views', 'individual-content'];
 
     /**
      * {@inheritdoc}

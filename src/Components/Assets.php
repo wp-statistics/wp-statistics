@@ -56,12 +56,11 @@ class Assets
      * @param string $version Script version number.
      * @param string $strategy Loading strategy.
      * @param bool $isInPublic Whether the asset is in the public directory.
-     * @param bool $isLegacy Whether the asset is in the public/legacy directory.
      *
      * @return  void
      * @example Assets::script('admin', 'dist/admin.js', ['jquery'], ['foo' => 'bar'], true, false, WP_STATISTICS_URL, '1.0.0');
      */
-    public static function script($handle, $src, $deps = [], $localize = [], $inFooter = false, $obfuscate = false, $pluginUrl = null, $version = '', $strategy = '', $isInPublic = false, $isLegacy = false)
+    public static function script($handle, $src, $deps = [], $localize = [], $inFooter = false, $obfuscate = false, $pluginUrl = null, $version = '', $strategy = '', $isInPublic = false)
     {
         $strategy = apply_filters("wp_statistics_{$handle}_loading_strategy", $strategy);
         $object   = self::getObject($handle);
@@ -80,11 +79,7 @@ class Assets
         }
 
         if ($isInPublic) {
-            self::$asset_dir = 'public/frontend';
-        }
-
-        if ($isInPublic && $isLegacy) {
-            self::$asset_dir = 'public/legacy';
+            self::$asset_dir = 'public/entries/tracker';
         }
 
         wp_enqueue_script($handle, self::getSrc($src, $obfuscate, $pluginUrl), $deps, $version, $args);
@@ -189,7 +184,7 @@ class Assets
     public static function getSrc($src, $obfuscate = false, $plugin_url = null, $isInPublic = false)
     {
         // Determine asset directory based on location
-        $asset_dir = $isInPublic ? 'public/frontend' : self::$asset_dir;
+        $asset_dir = $isInPublic ? 'public/entries/tracker' : self::$asset_dir;
 
         if ($obfuscate) {
             $file = $plugin_url ? FileSystem::urlToDir($plugin_url) : self::$plugin_dir;

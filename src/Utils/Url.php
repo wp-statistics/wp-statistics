@@ -216,6 +216,7 @@ class Url
     public static function getRelativePath($url)
     {
         $trackingParams = QueryParams::getAllowedList('array', true);
+        $noiseParams    = QueryParams::getNoiseParamsList();
 
         $parts = wp_parse_url($url);
 
@@ -223,8 +224,17 @@ class Url
         if (!empty($parts['query'])) {
             parse_str($parts['query'], $query);
 
+            // Normalize keys to lowercase so stripping works regardless of URL casing
+            $query = array_change_key_case($query, CASE_LOWER);
+
+            // Strip tracked params (stored separately in parameters table)
             foreach ($trackingParams as $param) {
-                unset($query[$param]);
+                unset($query[strtolower($param)]);
+            }
+
+            // Strip noise params (ad-platform identifiers, never useful)
+            foreach ($noiseParams as $param) {
+                unset($query[strtolower($param)]);
             }
         }
 

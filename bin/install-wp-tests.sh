@@ -19,9 +19,16 @@ WP_CORE_DIR=${WP_CORE_DIR-$TMPDIR/wordpress}
 
 download() {
     if [ `which curl` ]; then
-        curl -s "$1" > "$2";
+        # -f: fail on 4xx/5xx, -S: show errors (even with -s), -L: follow redirects
+        curl -fsSL "$1" > "$2" || {
+            echo "Error: failed to download $1"
+            exit 1
+        }
     elif [ `which wget` ]; then
-        wget -nv -O "$2" "$1"
+        wget -q -O "$2" "$1" || {
+            echo "Error: failed to download $1"
+            exit 1
+        }
     else
         echo "Error: Neither curl nor wget is installed."
         exit 1
@@ -53,9 +60,11 @@ elif [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
 	WP_TESTS_TAG="trunk"
 else
 	# http serves a single offer, whereas https serves multiple. we only want one
-	download http://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
+	# WordPress endpoints may redirect; download() follows redirects.
+	download https://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
 	grep '[0-9]+\.[0-9]+(\.[0-9]+)?' /tmp/wp-latest.json
-	LATEST_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+	# The version-check payload contains many versions; pick the first (latest) entry.
+	LATEST_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//' | head -n 1)
 	if [[ -z "$LATEST_VERSION" ]]; then
 		echo "Latest WordPress version could not be found"
 		exit 1
@@ -115,14 +124,13 @@ install_test_suite() {
 		local ioption='-i'
 	fi
 
-	# set up testing suite if it doesn't yet exist
-	if [ ! -d $WP_TESTS_DIR ]; then
-		# set up testing suite
-		mkdir -p $WP_TESTS_DIR
-		rm -rf $WP_TESTS_DIR/{includes,data}
+	# set up (or repair) testing suite if it's missing/incomplete
+	if [ ! -f "$WP_TESTS_DIR/includes/functions.php" ] || [ ! -d "$WP_TESTS_DIR/data" ]; then
+		mkdir -p "$WP_TESTS_DIR"
+		rm -rf "$WP_TESTS_DIR"/includes "$WP_TESTS_DIR"/data
         check_svn_installed
-		svn export --quiet --ignore-externals https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/includes/ $WP_TESTS_DIR/includes
-		svn export --quiet --ignore-externals https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/data/ $WP_TESTS_DIR/data
+		svn export --quiet --ignore-externals "https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/includes/" "$WP_TESTS_DIR/includes"
+		svn export --quiet --ignore-externals "https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/data/" "$WP_TESTS_DIR/data"
 	fi
 
 	if [ ! -f wp-tests-config.php ]; then

@@ -28,7 +28,6 @@ WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
 - 100% data ownership. Data is entirely created and stored on your server
 - Enhance IP Hashing with Random Daily Salt Mechanism
 - Features to export and delete data for GDPR
-- Respect for User Privacy with Do Not Track (DNT)
 - Privacy Audit Tool for compliance with privacy laws
 
 Your site won't need to have a cookie popup since WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
@@ -77,6 +76,18 @@ Having trouble with a bug? Please [create an issue](https://github.com/wp-statis
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Make sure the Date and Time are set correctly in WordPress.
 4. Go to the plugin settings page and configure as required (note this will also include downloading the GeoIP database for the first time).
+
+## Building Distribution ZIP
+
+To create a clean plugin ZIP for distribution (without development files):
+
+```bash
+composer dist
+```
+
+This creates `dist/wp-statistics.zip`, excluding files listed in `.distignore`.
+
+**Prerequisites:** Run `composer install --no-dev` and build assets (`npm run build`) before creating the ZIP.
 
 ## Development Guide
 For more information on how to contribute to WP Statistics, please refer to the [Development Guide](https://github.com/wp-statistics/wp-statistics/wiki)

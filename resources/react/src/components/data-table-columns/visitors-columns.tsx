@@ -5,12 +5,14 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import {
+  createLocationData,
   createVisitorInfoData,
   DurationCell,
   JourneyCell,
   LastVisitCell,
+  LocationCell,
   NumericCell,
   ReferrerCell,
   StatusCell,
@@ -21,17 +23,25 @@ import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { parseDateTimeString } from '@/lib/wp-date'
 import type { VisitorRecord } from '@/services/visitor-insight/get-visitors'
 
 /**
  * Context identifier for user preferences
  */
-export const VISITORS_CONTEXT = 'visitors_data_table'
+export const VISITORS_CONTEXT = 'visitors'
 
 /**
  * Columns hidden by default (can be shown via column management)
  */
-export const VISITORS_DEFAULT_HIDDEN_COLUMNS = ['viewsPerSession', 'bounceRate', 'visitorStatus']
+export const VISITORS_DEFAULT_HIDDEN_COLUMNS = [
+  'location',
+  'totalSessions',
+  'journey',
+  'viewsPerSession',
+  'bounceRate',
+  'visitorStatus',
+]
 
 /**
  * Column configuration for API column optimization
@@ -56,13 +66,14 @@ export const VISITORS_COLUMN_CONFIG: ColumnConfig = {
       'user_role',
     ],
     referrer: ['referrer_domain', 'referrer_channel'],
-    journey: ['entry_page', 'entry_page_title', 'exit_page', 'exit_page_title'],
+    journey: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id', 'exit_page', 'exit_page_title', 'exit_page_type', 'exit_page_wp_id', 'exit_page_resource_id'],
     totalViews: ['total_views'],
     totalSessions: ['total_sessions'],
     sessionDuration: ['avg_session_duration'],
     viewsPerSession: ['pages_per_session'],
     bounceRate: ['bounce_rate'],
     visitorStatus: ['visitor_status', 'first_visit'],
+    location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
   context: VISITORS_CONTEXT,
 }
@@ -100,9 +111,15 @@ export interface Visitor {
   entryPageTitle: string
   entryPageHasQuery?: boolean
   entryPageQueryString?: string
+  entryPageType?: string
+  entryPageWpId?: number | null
+  entryPageResourceId?: number | null
   utmCampaign?: string
   exitPage: string
   exitPageTitle: string
+  exitPageType?: string
+  exitPageWpId?: number | null
+  exitPageResourceId?: number | null
   totalViews: number
   totalSessions: number
   sessionDuration: number
@@ -119,8 +136,8 @@ export function transformVisitorData(record: VisitorRecord): Visitor {
 
   return {
     id: `visitor-${record.visitor_id}`,
-    lastVisit: new Date(record.last_visit),
-    firstVisit: record.first_visit ? new Date(record.first_visit) : new Date(record.last_visit),
+    lastVisit: parseDateTimeString(record.last_visit),
+    firstVisit: record.first_visit ? parseDateTimeString(record.first_visit) : parseDateTimeString(record.last_visit),
     country: record.country_name || 'Unknown',
     countryCode: (record.country_code || '000').toLowerCase(),
     region: record.region_name || '',
@@ -142,9 +159,15 @@ export function transformVisitorData(record: VisitorRecord): Visitor {
     entryPageTitle: entryPageData.title,
     entryPageHasQuery: entryPageData.hasQueryString,
     entryPageQueryString: entryPageData.queryString,
+    entryPageType: record.entry_page_type || undefined,
+    entryPageWpId: record.entry_page_wp_id ?? null,
+    entryPageResourceId: record.entry_page_resource_id ?? null,
     utmCampaign: entryPageData.utmCampaign,
     exitPage: record.exit_page || '/',
     exitPageTitle: record.exit_page_title || record.exit_page || 'Unknown',
+    exitPageType: record.exit_page_type || undefined,
+    exitPageWpId: record.exit_page_wp_id ?? null,
+    exitPageResourceId: record.exit_page_resource_id ?? null,
     totalViews: Number(record.total_views) || 0,
     totalSessions: Number(record.total_sessions) || 0,
     sessionDuration: Math.round(Number(record.avg_session_duration) || 0),
@@ -162,66 +185,89 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
     // Primary columns
     {
       accessorKey: 'visitorInfo',
-      header: () => 'Visitor Info',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.visitorInfo,
-      cell: ({ row }) => (
-        <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />
-      ),
+      enableSorting: false,
+      cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
       meta: {
+        title: 'Visitor Info',
         priority: 'primary',
         cardPosition: 'header',
         mobileLabel: 'Visitor',
       },
     },
     {
+      accessorKey: 'location',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      size: COLUMN_SIZES.location,
+      enableSorting: false,
+      enableHiding: true,
+      cell: ({ row }) => {
+        const data = createLocationData(row.original)
+        return (
+          <LocationCell
+            data={data}
+            pluginUrl={config.pluginUrl}
+            linkTo="/country/$countryCode"
+            linkParams={{ countryCode: data.countryCode }}
+          />
+        )
+      },
+      meta: {
+        title: 'Location',
+        priority: 'secondary',
+      },
+    },
+    {
       accessorKey: 'lastVisit',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.lastVisit,
       cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
       meta: {
+        title: 'Last Visit',
         priority: 'primary',
         cardPosition: 'header',
-        mobileLabel: 'Last Visit',
       },
     },
     {
       accessorKey: 'totalViews',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.views,
       cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
       meta: {
+        title: 'Views',
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: 'Views',
       },
     },
     {
       accessorKey: 'totalSessions',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Sessions" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.sessions,
       cell: ({ row }) => <NumericCell value={row.original.totalSessions} />,
       meta: {
+        title: 'Sessions',
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: 'Sessions',
       },
     },
     {
       accessorKey: 'sessionDuration',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Duration" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.duration,
       cell: ({ row }) => <DurationCell seconds={row.original.sessionDuration} />,
       meta: {
+        title: 'Duration',
         priority: 'primary',
         cardPosition: 'body',
-        mobileLabel: 'Duration',
       },
     },
     // Secondary columns
     {
       accessorKey: 'referrer',
-      header: () => 'Referrer',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.referrer,
+      enableSorting: false,
       cell: ({ row }) => (
         <ReferrerCell
           data={{
@@ -231,14 +277,15 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
         />
       ),
       meta: {
+        title: 'Referrer',
         priority: 'secondary',
-        mobileLabel: 'Referrer',
       },
     },
     {
       accessorKey: 'journey',
-      header: () => 'Journey',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.journey,
+      enableSorting: false,
       cell: ({ row }) => {
         const visitor = row.original
         const isBounce = visitor.entryPage === visitor.exitPage
@@ -249,10 +296,16 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
                 title: visitor.entryPageTitle,
                 url: visitor.entryPage,
                 utmCampaign: visitor.utmCampaign,
+                pageType: visitor.entryPageType,
+                pageWpId: visitor.entryPageWpId,
+                resourceId: visitor.entryPageResourceId,
               },
               exitPage: {
                 title: visitor.exitPageTitle,
                 url: visitor.exitPage,
+                pageType: visitor.exitPageType,
+                pageWpId: visitor.exitPageWpId,
+                resourceId: visitor.exitPageResourceId,
               },
               isBounce,
             }}
@@ -260,44 +313,43 @@ export function createVisitorsColumns(config: VisitorInfoConfig): ColumnDef<Visi
         )
       },
       meta: {
+        title: 'Journey',
         priority: 'secondary',
-        mobileLabel: 'Journey',
       },
     },
     // Hidden by default columns
     {
       accessorKey: 'viewsPerSession',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Per Session" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.viewsPerSession,
       enableHiding: true,
       cell: ({ row }) => <NumericCell value={row.original.viewsPerSession} decimals={1} />,
       meta: {
+        title: 'Per Session',
         priority: 'secondary',
-        mobileLabel: 'Per Session',
       },
     },
     {
       accessorKey: 'bounceRate',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Bounce" className="text-right" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
       size: COLUMN_SIZES.bounceRate,
       enableHiding: true,
       cell: ({ row }) => <NumericCell value={row.original.bounceRate} suffix="%" />,
       meta: {
+        title: 'Bounce',
         priority: 'secondary',
-        mobileLabel: 'Bounce',
       },
     },
     {
       accessorKey: 'visitorStatus',
-      header: () => 'Status',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: COLUMN_SIZES.status,
       enableHiding: true,
-      cell: ({ row }) => (
-        <StatusCell status={row.original.visitorStatus} firstVisit={row.original.firstVisit} />
-      ),
+      enableSorting: false,
+      cell: ({ row }) => <StatusCell status={row.original.visitorStatus} firstVisit={row.original.firstVisit} />,
       meta: {
+        title: 'Status',
         priority: 'secondary',
-        mobileLabel: 'Status',
       },
     },
   ]

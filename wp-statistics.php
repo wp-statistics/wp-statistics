@@ -8,27 +8,62 @@
  * Author: VeronaLabs
  * Author URI: https://veronalabs.com/
  * Text Domain: wp-statistics
- * Domain Path: /languages
+ * Domain Path: /resources/languages
  * Requires at least: 5.3
  * Requires PHP: 7.4
  * License: GPL-2.0+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-# Exit if accessed directly
-if (!defined('ABSPATH')) exit;
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+    exit;
+}
 
-# Load Plugin Constants
+/*
+|--------------------------------------------------------------------------
+| Premium Compatibility Check
+|--------------------------------------------------------------------------
+|
+| If WP Statistics Premium is active, it includes all Free features.
+| Free should stay dormant and display a notice to deactivate.
+|
+*/
+require_once __DIR__ . '/src/premium-compatibility.php';
+
+if (wp_statistics_is_premium_active()) {
+    wp_statistics_init_premium_compatibility(__FILE__);
+    return;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Load Constants
+|--------------------------------------------------------------------------
+*/
 require_once __DIR__ . '/src/constants.php';
 
-# Set another useful plugin define.
-define('WP_STATISTICS_VERSION', '15.0');
+/*
+|--------------------------------------------------------------------------
+| Load Composer Autoloader
+|--------------------------------------------------------------------------
+*/
+if (file_exists(__DIR__ . '/packages/autoload.php')) {
+    require_once __DIR__ . '/packages/autoload.php';
+} else {
+    return;
+}
 
-# Load Composer autoloader
-require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
+/*
+|--------------------------------------------------------------------------
+| Load Global Functions
+|--------------------------------------------------------------------------
+*/
+require_once __DIR__ . '/src/functions.php';
 
-# Load global functions
-require_once WP_STATISTICS_DIR . 'src/functions.php';
-
-# Initialize plugin
+/*
+|--------------------------------------------------------------------------
+| Initialize Plugin
+|--------------------------------------------------------------------------
+*/
 WP_Statistics\Bootstrap::init();

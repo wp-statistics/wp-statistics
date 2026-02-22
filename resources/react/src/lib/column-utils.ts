@@ -81,10 +81,9 @@ export const getVisibleColumnsForSave = (
  * Get default API columns (all columns visible)
  */
 export const getDefaultApiColumns = (config: ColumnConfig): string[] => {
-  return [
-    ...config.baseColumns,
-    ...Object.values(config.columnDependencies).flat(),
-  ].filter((col, index, arr) => arr.indexOf(col) === index)
+  return [...config.baseColumns, ...Object.values(config.columnDependencies).flat()].filter(
+    (col, index, arr) => arr.indexOf(col) === index
+  )
 }
 
 /**
@@ -95,12 +94,16 @@ export const getCacheKey = (context: string): string => {
 }
 
 /**
+ * Get cache key for comparison columns in localStorage
+ */
+export const getComparisonCacheKey = (context: string): string => {
+  return `wp_statistics_comparison_${context}`
+}
+
+/**
  * Get cached API columns from localStorage
  */
-export const getCachedApiColumns = (
-  allColumnIds: string[],
-  config: ColumnConfig
-): string[] | null => {
+export const getCachedApiColumns = (allColumnIds: string[], config: ColumnConfig): string[] | null => {
   try {
     const cacheKey = getCacheKey(config.context)
     const cached = localStorage.getItem(cacheKey)
@@ -164,10 +167,7 @@ export const getCachedVisibleColumns = (context: string): string[] | null => {
  * Get cached visibility state for TanStack Table
  * Returns a Record where visible columns are true and hidden columns are false
  */
-export const getCachedVisibility = (
-  context: string,
-  allColumnIds: string[]
-): Record<string, boolean> | null => {
+export const getCachedVisibility = (context: string, allColumnIds: string[]): Record<string, boolean> | null => {
   const cachedColumns = getCachedVisibleColumns(context)
   if (!cachedColumns) return null
 
@@ -177,4 +177,57 @@ export const getCachedVisibility = (
     visibility[col] = cachedColumns.includes(col)
   })
   return visibility
+}
+
+/**
+ * Get cached comparison columns from localStorage
+ */
+export const getCachedComparisonColumns = (context: string): string[] | null => {
+  try {
+    const cacheKey = getComparisonCacheKey(context)
+    const cached = localStorage.getItem(cacheKey)
+    if (!cached) return null
+    const comparisonColumns = JSON.parse(cached) as string[]
+    if (!Array.isArray(comparisonColumns)) return null
+    return comparisonColumns
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Save comparison columns to localStorage cache
+ */
+export const setCachedComparisonColumns = (context: string, comparisonColumns: string[]): void => {
+  try {
+    const cacheKey = getComparisonCacheKey(context)
+    localStorage.setItem(cacheKey, JSON.stringify(comparisonColumns))
+  } catch {
+    // Ignore storage errors
+  }
+}
+
+/**
+ * Clear cached comparison columns from localStorage
+ */
+export const clearCachedComparisonColumns = (context: string): void => {
+  try {
+    const cacheKey = getComparisonCacheKey(context)
+    localStorage.removeItem(cacheKey)
+  } catch {
+    // Ignore storage errors
+  }
+}
+
+/**
+ * Get the API field name for sorting based on column ID
+ * Uses the first dependency field from columnDependencies as the sort field
+ * Returns the columnId if no mapping exists (assumes it matches API field)
+ */
+export const getApiSortField = (columnId: string, config: ColumnConfig): string => {
+  const dependencies = config.columnDependencies[columnId]
+  if (dependencies && dependencies.length > 0) {
+    return dependencies[0]
+  }
+  return columnId
 }

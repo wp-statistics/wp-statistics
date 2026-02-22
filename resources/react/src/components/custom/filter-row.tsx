@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { useQuery } from '@tanstack/react-query'
 import { __ } from '@wordpress/i18n'
 import { Loader2, Trash2 } from 'lucide-react'
@@ -199,15 +201,6 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
 
   const rangeError = getRangeError()
 
-  const handleMultipleValueChange = (value: string) => {
-    const currentValues = getArrayValue(filter.value)
-    if (currentValues.includes(value)) {
-      onUpdate({ ...filter, value: currentValues.filter((v) => v !== value) })
-    } else {
-      onUpdate({ ...filter, value: [...currentValues, value] })
-    }
-  }
-
   const handleSearchableSelect = (value: string, label: string) => {
     const currentLabels = filter.valueLabels || {}
 
@@ -249,6 +242,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
     // Use wider inputs for date type to show full date (YYYY-MM-DD)
     const inputClassName = inputType === 'date' ? 'w-32' : 'w-16'
     const errorClassName = rangeError ? 'border-destructive focus-visible:ring-destructive' : ''
+    const errorId = rangeError ? `range-error-${filter.id}` : undefined
 
     return (
       <div className="flex flex-col gap-1">
@@ -258,18 +252,24 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={rangeValue.min}
             onChange={(e) => handleRangeValueChange('min', e.target.value)}
             placeholder={__('Min', 'wp-statistics')}
+            aria-label={__('Minimum value', 'wp-statistics')}
+            aria-describedby={errorId}
+            aria-invalid={!!rangeError}
             className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
-          <span className="text-xs text-neutral-400">{__('to', 'wp-statistics')}</span>
+          <span className="text-xs text-neutral-500">{__('to', 'wp-statistics')}</span>
           <Input
             type={inputType}
             value={rangeValue.max}
             onChange={(e) => handleRangeValueChange('max', e.target.value)}
             placeholder={__('Max', 'wp-statistics')}
+            aria-label={__('Maximum value', 'wp-statistics')}
+            aria-describedby={errorId}
+            aria-invalid={!!rangeError}
             className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
         </div>
-        {rangeError && <span className="text-[10px] text-destructive">{rangeError}</span>}
+        {rangeError && <span id={errorId} role="alert" className="text-[11px] text-destructive">{rangeError}</span>}
       </div>
     )
   }
@@ -347,14 +347,13 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={hasValues ? '' : __('Search...', 'wp-statistics')}
+              aria-label={__('Search filter values', 'wp-statistics')}
               className="flex-1 min-w-[60px] h-5 text-xs bg-transparent border-0 outline-none placeholder:text-muted-foreground"
             />
           )}
 
           {/* Loading indicator */}
-          {isSearching && (
-            <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground shrink-0" />
-          )}
+          {isSearching && <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground shrink-0" />}
         </div>
 
         {/* Search results dropdown */}
@@ -418,6 +417,91 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
     // Handle based on input type
     switch (selectedField.inputType) {
       case 'dropdown': {
+        // Check if operator type is multiple (in, not_in)
+        if (operatorType === 'multiple') {
+          const currentValues = getArrayValue(filter.value)
+          const valueLabels = filter.valueLabels || {}
+
+          const handleMultiDropdownSelect = (value: string, label: string) => {
+            const currentLabels = filter.valueLabels || {}
+            if (currentValues.includes(value)) {
+              // Remove value and its label
+              const newLabels = { ...currentLabels }
+              delete newLabels[value]
+              onUpdate({
+                ...filter,
+                value: currentValues.filter((v) => v !== value),
+                valueLabels: Object.keys(newLabels).length > 0 ? newLabels : undefined,
+              })
+            } else {
+              // Add value and its label
+              onUpdate({
+                ...filter,
+                value: [...currentValues, value],
+                valueLabels: { ...currentLabels, [value]: label },
+              })
+            }
+          }
+
+          // Render multi-select dropdown with tags
+          return (
+            <div className="relative flex-1">
+              <div className="flex flex-wrap items-center gap-1 min-h-[32px] px-2 py-1 bg-white rounded-md shadow-sm">
+                {/* Selected tags */}
+                {currentValues.map((val) => (
+                  <span
+                    key={val}
+                    className="inline-flex items-center gap-0.5 rounded bg-primary/10 px-1.5 py-0.5 text-[11px] font-medium text-primary"
+                  >
+                    {valueLabels[val] || selectedField.options?.find((o) => String(o.value) === val)?.label || val}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const option = selectedField.options?.find((o) => String(o.value) === val)
+                        handleMultiDropdownSelect(val, option?.label || val)
+                      }}
+                      aria-label={`Remove ${valueLabels[val] || val} from filter`}
+                      className="hover:text-destructive cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+
+                {/* Dropdown to add more values */}
+                <Select
+                  value=""
+                  onValueChange={(value) => {
+                    const option = selectedField.options?.find((o) => String(o.value) === value)
+                    handleMultiDropdownSelect(value, option?.label || value)
+                  }}
+                >
+                  <SelectTrigger className="h-6 text-xs border-0 bg-transparent shadow-none min-w-[80px] flex-1 focus:ring-0">
+                    <SelectValue
+                      placeholder={
+                        currentValues.length > 0
+                          ? __('Add more...', 'wp-statistics')
+                          : __('Select values', 'wp-statistics')
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[200px] overflow-y-auto">
+                    {selectedField.options?.map((option) => (
+                      <SelectItem key={String(option.value)} value={String(option.value)}>
+                        <span className="flex items-center gap-2">
+                          <span>{currentValues.includes(String(option.value)) ? '✓' : '○'}</span>
+                          {option.label}
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )
+        }
+
+        // Single select dropdown
         const handleDropdownChange = (value: string) => {
           const option = selectedField.options?.find((o) => String(o.value) === value)
           handleSingleValueChange(value, option?.label)
@@ -444,6 +528,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
+            aria-label={__('Filter value', 'wp-statistics')}
             className="h-8 text-xs border-0 bg-white shadow-sm min-w-[80px] flex-1"
           />
         )
@@ -454,6 +539,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Select date', 'wp-statistics')}
+            aria-label={__('Filter date', 'wp-statistics')}
             className="h-8 text-xs border-0 bg-white shadow-sm min-w-[120px] flex-1"
           />
         )
@@ -465,6 +551,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             value={getSingleValue(filter.value)}
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
+            aria-label={__('Filter value', 'wp-statistics')}
             className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1"
           />
         )

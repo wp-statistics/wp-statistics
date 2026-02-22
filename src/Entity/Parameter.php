@@ -8,19 +8,20 @@ use WP_Statistics\Utils\QueryParams;
 use WP_Statistics\Utils\Uri;
 
 /**
- * Entity for detecting and recording view parameters from the request URI.
+ * Entity for recording UTM parameters at the session level.
  *
- * This includes parameters attached to the current resource URL, excluding known tracking parameters.
+ * Parameters are recorded once per session (first-touch attribution).
+ * Consolidates source/ref into utm_source for unified campaign tracking.
  *
  * @since 15.0.0
  */
 class Parameter extends BaseEntity
 {
     /**
-     * Detect and record URL query parameters related to the current view.
+     * Record UTM parameters for the current session.
      *
-     * Removes known tracking parameters such as utm_source, ref, etc.
-     * and saves the clean parameters associated with session, resourceUri, and view.
+     * This method should only be called when creating a new session
+     * to ensure first-touch attribution.
      *
      * @return $this
      */
@@ -30,21 +31,17 @@ class Parameter extends BaseEntity
             return $this;
         }
 
-        $sessionId     = $this->profile->getSessionId();
-        $resourceUriId = $this->profile->getResourceUriId();
-        $viewId        = $this->profile->getViewId();
+        $sessionId = $this->profile->getSessionId();
 
-        if (!$sessionId || !$resourceUriId || !$viewId) {
+        if (!$sessionId) {
             return $this;
         }
 
-        $allowedParams = QueryParams::getAllowedList('array', true);
-        $resoueceUri   = Uri::getByVisitor($this->profile);
-
+        $resourceUri = Uri::getByVisitor($this->profile);
         $queryParams = [];
 
-        if (strpos($resoueceUri, '?') !== false) {
-            list(, $queryString) = explode('?', $resoueceUri, 2);
+        if (strpos($resourceUri, '?') !== false) {
+            list(, $queryString) = explode('?', $resourceUri, 2);
             parse_str($queryString, $queryParams);
         }
 
@@ -52,31 +49,50 @@ class Parameter extends BaseEntity
             return $this;
         }
 
-        $filteredParams = array_intersect_key($queryParams, array_flip($allowedParams));
+        // Normalize query param keys to lowercase for case-insensitive matching
+        $queryParams = array_change_key_case($queryParams, CASE_LOWER);
 
-        if (empty($filteredParams)) {
-            return $this;
+        // Consolidate source/ref into utm_source (priority: utm_source > source > ref)
+        $utmSource = $queryParams['utm_source']
+            ?? $queryParams['source']
+            ?? $queryParams['ref']
+            ?? null;
+
+        // Core UTM params to store (source/ref consolidated into utm_source)
+        $paramsToStore = [
+            'utm_source'   => $utmSource,
+            'utm_medium'   => $queryParams['utm_medium'] ?? null,
+            'utm_campaign' => $queryParams['utm_campaign'] ?? null,
+            'utm_content'  => $queryParams['utm_content'] ?? null,
+            'utm_term'     => $queryParams['utm_term'] ?? null,
+            'utm_id'       => $queryParams['utm_id'] ?? null,
+        ];
+
+        // Params already handled above (skip when processing custom allow-list)
+        $handledParams = [
+            'utm_source', 'utm_medium', 'utm_campaign',
+            'utm_content', 'utm_term', 'utm_id',
+            'source', 'ref',
+        ];
+
+        // Store custom allow-list params not already handled by UTM consolidation
+        $allowList = QueryParams::getAllowedList('array', true);
+        foreach ($allowList as $param) {
+            $paramLower = strtolower($param);
+            if (!in_array($paramLower, $handledParams, true) && isset($queryParams[$paramLower]) && is_string($queryParams[$paramLower]) && $queryParams[$paramLower] !== '') {
+                $paramsToStore[$paramLower] = $queryParams[$paramLower];
+            }
         }
 
-        foreach ($filteredParams as $key => $value) {
-            $existingRecord = RecordFactory::parameter()->get([
-                'session_id'      => $sessionId,
-                'view_id'         => $viewId,
-                'resource_uri_id' => $resourceUriId,
-                'parameter'       => $key
-            ]);
-
-            if (!empty($existingRecord)) {
-                continue;
+        // Insert each non-null parameter
+        foreach ($paramsToStore as $key => $value) {
+            if ($value !== null && $value !== '' && is_string($value)) {
+                RecordFactory::parameter()->insert([
+                    'session_id' => $sessionId,
+                    'parameter'  => strtolower($key),
+                    'value'      => sanitize_text_field(mb_substr($value, 0, 255)),
+                ]);
             }
-
-            RecordFactory::parameter()->insert([
-                'session_id'      => $sessionId,
-                'resource_uri_id' => $resourceUriId,
-                'view_id'         => $viewId,
-                'parameter'       => sanitize_text_field($key),
-                'value'           => sanitize_textarea_field($value),
-            ]);
         }
 
         return $this;

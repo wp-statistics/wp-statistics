@@ -46,11 +46,26 @@ class SessionDecorator
     /**
      * Get IP address.
      *
+     * IP is now stored on the visitors table, not sessions.
+     * This method first checks if IP was joined in the query,
+     * otherwise fetches it from the visitor record.
+     *
      * @return string|null
      */
     public function getIp()
     {
-        return $this->session->ip ?? null;
+        // Check if IP was provided via query join (e.g., from OnlineModel)
+        if (isset($this->session->ip)) {
+            return $this->session->ip;
+        }
+
+        // Fetch from visitor record if visitor_id exists
+        if (!empty($this->session->visitor_id)) {
+            $visitor = $this->getVisitor();
+            return $visitor->getRawIP();
+        }
+
+        return null;
     }
 
     /**
@@ -325,29 +340,38 @@ class SessionDecorator
     }
 
     /**
-     * Get a parameter decorator scoped to the current session and a resource.
+     * Get all UTM parameters for this session as a query string.
      *
-     * @param int $resourceId Resource ID to filter by.
-     * @return ParameterDecorator
+     * Parameters are stored at the session level (first-touch attribution).
+     *
+     * @return string Query string of UTM parameters (e.g., "utm_source=google&utm_campaign=test")
      */
-    public function getParameter($resourceId)
+    public function getUtmQueryString()
     {
-        if (empty($this->session->ID) || empty($resourceId)) {
-            return new ParameterDecorator(null);
+        if (empty($this->session->ID)) {
+            return '';
         }
 
-        $record = RecordFactory::parameter()->get([
-            'session_id'      => $this->session->ID,
-            'resource_uri_id' => $resourceId,
-        ]);
+        $records = RecordFactory::parameter()->getAllBySessionId($this->session->ID);
 
-        return new ParameterDecorator($record);
+        if (empty($records)) {
+            return '';
+        }
+
+        $params = [];
+        foreach ($records as $record) {
+            if (!empty($record->parameter) && !empty($record->value)) {
+                $params[$record->parameter] = $record->value;
+            }
+        }
+
+        return empty($params) ? '' : http_build_query($params);
     }
 
     /**
      * Is the visitor's IP hashed?
      *
-     * @return string|null
+     * @return bool
      */
     public function isHashedIP()
     {

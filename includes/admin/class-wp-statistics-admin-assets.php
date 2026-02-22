@@ -6,8 +6,6 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Service\Assets\AssetsFactory;
-use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 /**
  * Legacy Admin_Assets class for backward compatibility.
@@ -18,11 +16,6 @@ use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
  *
  * This class is maintained for backward compatibility with add-ons.
  * New code should use the AssetsFactory service from the v15 architecture.
- *
- * Migration guide:
- * - Admin_Assets styles/scripts -> AssetsFactory::Legacy() for legacy pages
- * - Asset registration          -> Use Assets component
- * - Localization data           -> AssetsFactory handles this
  */
 class Admin_Assets
 {
@@ -45,7 +38,7 @@ class Admin_Assets
      *
      * @var string
      */
-    public static $asset_dir = 'public/legacy';
+    public static $asset_dir = 'public/entries';
 
     /**
      * Basic Of Plugin Url in WordPress
@@ -67,11 +60,8 @@ class Admin_Assets
      */
     public function __construct()
     {
-        AssetsFactory::Legacy();
-
-        // add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
-        // add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
-        // add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
+        // Legacy admin asset loading removed in v15.
+        // React admin app and standalone entries handle all assets.
     }
 
 
@@ -171,7 +161,7 @@ class Admin_Assets
         }
 
         //Load Jquery VMap Css
-        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors')) {
             wp_enqueue_style(self::$prefix . '-jqvmap', self::url('jqvmap/jqvmap.min.css'), array(), '1.5.1');
         }
 
@@ -186,7 +176,7 @@ class Admin_Assets
         }
 
         // Load RangeDatePicker
-        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
+        if (Menus::in_plugin_page() || Menus::in_page('pages')) {
             wp_enqueue_style(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
             wp_enqueue_style(self::$prefix . '-customize', self::url('datepicker/customize.css'), array(), '1.0.0');
         }
@@ -208,17 +198,12 @@ class Admin_Assets
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
         }
 
-        // Load mini-chart
-        if (Helper::isAdminBarShowing()) {
-            Assets::script('mini-chart', 'js/mini-chart.min.js', [], [], true, false, null, '', '', true);
-        }
-
         if (Menus::in_page('author-analytics')) {
             wp_enqueue_script(self::$prefix . '-chart-matrix.js', self::url('chartjs/chart-matrix.min.js'), [], '2.0.8', true);
         }
 
         // Load Jquery VMap Js Library
-        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || Menus::in_page('geographic') || Menus::in_page('visitors')) {
             wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
         }
@@ -249,7 +234,7 @@ class Admin_Assets
 
         // Load Admin Js
         if (
-            Menus::in_plugin_page() || (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
+            Menus::in_plugin_page() ||
             (in_array($hook, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($hook, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
@@ -269,7 +254,7 @@ class Admin_Assets
         }
 
         // Add RangeDatePicker
-        if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
+        if (Menus::in_plugin_page() || Menus::in_page('pages')) {
             wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
         }
@@ -370,7 +355,7 @@ class Admin_Assets
             'word'                         => __('Search Term', 'wp-statistics'),
             'browser'                      => __('Visitor\'s Browser', 'wp-statistics'),
             'city'                         => __('Visitor\'s City', 'wp-statistics'),
-            'ip'                           => Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
+            'ip'                           => !Option::get('store_ip') ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
             'ip_hash'                      => __('IP Address/Hash', 'wp-statistics'),
             'ip_hash_placeholder'          => __('Enter IP (e.g., 192.168.1.1) or hash (#...)', 'wp-statistics'),
             'referring_site'               => __('Referring Site', 'wp-statistics'),
@@ -483,8 +468,6 @@ class Admin_Assets
             $list['post_creation_date'] = get_post_time(DateTime::$defaultDateFormat, false, null, false);
         }
 
-        // Rest-API Meta Box Url
-        $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;
         $list['setting_url']         = Menus::admin_url('settings');
         $list['admin_url']           = admin_url();
         $list['ajax_url']            = admin_url('admin-ajax.php');
@@ -494,8 +477,6 @@ class Admin_Assets
 
         // For developers: WordPress debugging mode.
         $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
-
-        $list['meta_boxes'] = MetaboxHelper::getScreenMetaboxes();
 
         /**
          * Filter: wp_statistics_admin_assets
@@ -509,9 +490,7 @@ class Admin_Assets
      * Checks if any of the conditions for enqueuing Chart.js library are met.
      *
      * Conditions are:
-     * - Mini Chart add-on is enabled and admin bar button is showing.
      * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
-     * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
      * - User is currently in edit post page and `disable_editor` is disabled.
      * - User is currently in edit post page and `latest_visitors_metabox` is enabled.
      *
@@ -523,8 +502,7 @@ class Admin_Assets
     {
         global $pagenow;
 
-        return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
-            (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
+        return Menus::in_plugin_page() ||
             (in_array($pagenow, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1');
     }

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { expect, userEvent, within } from 'storybook/test'
+import { expect, within } from 'storybook/test'
 
 import type { MetricItem } from './metrics'
 import { Metrics } from './metrics'
@@ -125,8 +125,9 @@ export const Default: Story = {
     await expect(canvas.getByText('Views')).toBeInTheDocument()
     await expect(canvas.getByText('3,940')).toBeInTheDocument()
 
-    // Verify percentage indicators exist
-    await expect(canvas.getByText('1.2%')).toBeInTheDocument()
+    // Verify percentage indicators exist (multiple metrics share 1.2%)
+    const percentages = canvas.getAllByText('1.2%')
+    await expect(percentages.length).toBeGreaterThan(0)
   },
 }
 

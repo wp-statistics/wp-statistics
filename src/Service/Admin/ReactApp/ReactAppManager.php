@@ -6,6 +6,7 @@ use WP_Statistics\Service\Assets\AssetsFactory;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\AnalyticsQuery;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\FilterOptions;
+use WP_Statistics\Service\Admin\Dashboard\Endpoints\GetTermInfo;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\UserPreferences;
 use WP_Statistics\Service\Admin\Settings\Endpoints\SettingsEndpoints;
 use WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager;
@@ -93,17 +94,15 @@ class ReactAppManager
         $this->ajax = (new AjaxManager())
             ->registerGlobalEndpointClass(AnalyticsQuery::class, 'analytics')
             ->registerGlobalEndpointClass(FilterOptions::class, 'get_filter_options')
-            ->registerGlobalEndpointClass(UserPreferences::class, 'user_preferences');
+            ->registerGlobalEndpointClass(UserPreferences::class, 'user_preferences')
+            ->registerGlobalEndpointClass(GetTermInfo::class, 'get_term_info');
     }
 
     /**
      * Initialize Settings AJAX endpoints.
      *
-     * Registers settings-specific endpoints:
-     * - wp_statistics_settings_get: Get all settings
-     * - wp_statistics_settings_save: Save settings
-     * - wp_statistics_email_preview: Generate email preview
-     * - wp_statistics_email_send_test: Send test email
+     * Registers single wp_statistics_settings endpoint with sub_action routing:
+     * get_config, get, save, get_tab, save_tab
      *
      * @return void
      */

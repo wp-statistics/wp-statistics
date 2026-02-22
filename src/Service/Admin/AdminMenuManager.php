@@ -2,22 +2,20 @@
 
 namespace WP_Statistics\Service\Admin;
 
-use WP_Statistics\Components\Option;
-use WP_Statistics\Utils\User;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Components\View;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditPage;
-use WP_Statistics\Service\Admin\HelpCenter\HelpCenterPage;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerPage;
 
 /**
  * V15 Admin Menu Manager.
  *
- * Registers v15 React-based admin menus plus legacy PHP pages:
+ * Registers v15 React-based admin menus:
  * - Dashboard (main menu) - React SPA
  * - Settings (submenu) - React SPA hash route
- * - Add-ons - Legacy PHP page
- * - Privacy Audit - Legacy PHP page
- * - Help Center - Legacy PHP page
+ * - Tools (submenu) - React SPA hash route
+ * - Upgrade to Premium (submenu) - React SPA hash route (TODO: implement React page)
+ * - Help (submenu) - React SPA hash route (TODO: implement React page)
+ *
+ * Privacy Audit is under Tools → Privacy Audit (#/tools/privacy-audit).
  *
  * @since 15.0.0
  */
@@ -32,13 +30,6 @@ class AdminMenuManager
      * Legacy menu slug prefix for v14-style pages.
      */
     private const LEGACY_SLUG_PREFIX = 'wps_';
-
-    /**
-     * Page instances.
-     */
-    private $privacyAuditPage;
-    private $helpCenterPage;
-    private $addonsPage;
 
     /**
      * Constructor - registers admin menu hooks.
@@ -66,8 +57,8 @@ class AdminMenuManager
      */
     public function registerMenus()
     {
-        $readCapability   = User::getExistingCapability(Option::getValue('read_capability', 'manage_options'));
-        $manageCapability = User::getExistingCapability(Option::getValue('manage_capability', 'manage_options'));
+        $readCapability   = AccessLevel::getMinimumCapabilityForLevel(AccessLevel::OWN_CONTENT);
+        $manageCapability = AccessLevel::getMinimumCapabilityForLevel(AccessLevel::MANAGE);
 
         // Main Dashboard menu (position 3 = between Dashboard and Posts)
         add_menu_page(
@@ -80,57 +71,46 @@ class AdminMenuManager
             3
         );
 
-        // Settings submenu - links to same page with hash route (no page reload)
+        // Settings submenu - React SPA hash route
         add_submenu_page(
             self::MENU_SLUG,
             __('Settings', 'wp-statistics'),
             __('Settings', 'wp-statistics'),
             $manageCapability,
             self::MENU_SLUG . '#/settings/general',
-            null // No callback - it's just a link
+            null
         );
 
-        // Tools submenu - links to same page with hash route (no page reload)
+        // Tools submenu - React SPA hash route
         add_submenu_page(
             self::MENU_SLUG,
             __('Tools', 'wp-statistics'),
             __('Tools', 'wp-statistics'),
             $manageCapability,
             self::MENU_SLUG . '#/tools/system-info',
-            null // No callback - it's just a link
+            null
         );
 
-        // Add-ons page (legacy PHP)
-        $this->addonsPage = new LicenseManagerPage();
+        // Upgrade to Premium submenu - React SPA hash route
+        // TODO: Implement React page for premium features management
         add_submenu_page(
             self::MENU_SLUG,
-            __('Add-ons', 'wp-statistics'),
-            '<span class="wps-text-warning">' . __('Add-ons', 'wp-statistics') . '</span>',
+            __('Upgrade to Premium', 'wp-statistics'),
+            sprintf('<span style="color:#F18D2A;">%s</span>', __('Upgrade to Premium', 'wp-statistics')),
             $manageCapability,
-            self::getLegacySlug('plugins'),
-            [$this->addonsPage, 'view']
+            self::MENU_SLUG . '#/premium',
+            null
         );
 
-        // Privacy Audit page (legacy PHP)
-        $this->privacyAuditPage = new PrivacyAuditPage();
-        add_submenu_page(
-            self::MENU_SLUG,
-            __('Privacy Audit', 'wp-statistics'),
-            __('Privacy Audit', 'wp-statistics'),
-            $manageCapability,
-            self::getLegacySlug('privacy-audit'),
-            [$this->privacyAuditPage, 'view']
-        );
-
-        // Help Center page (legacy PHP)
-        $this->helpCenterPage = new HelpCenterPage();
+        // Help submenu - React SPA hash route
+        // TODO: Implement React page for help center
         add_submenu_page(
             self::MENU_SLUG,
             __('Help', 'wp-statistics'),
             __('Help', 'wp-statistics'),
             $manageCapability,
-            self::getLegacySlug('help'),
-            [$this->helpCenterPage, 'view']
+            self::MENU_SLUG . '#/help',
+            null
         );
 
         // Fix submenu labels and URLs
@@ -157,23 +137,16 @@ class AdminMenuManager
                 $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/overview');
             }
 
-            // Fix Settings URL (WordPress adds admin.php?page= prefix)
-            if (strpos($item[2], '#/settings') !== false) {
-                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/settings/general');
-            }
-
-            // Fix Tools URL
-            if (strpos($item[2], '#/tools') !== false) {
-                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/tools/system-info');
+            // Fix hash route URLs (WordPress adds admin.php?page= prefix)
+            if (strpos($item[2], '#/') !== false) {
+                $hash = substr($item[2], strpos($item[2], '#/'));
+                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . $hash);
             }
         }
     }
 
     /**
      * Get the menu icon for admin menu.
-     *
-     * Uses a WordPress dashicons icon for consistent styling
-     * with the admin menu's different states (inactive, hover, active).
      *
      * @return string Dashicons class name
      */

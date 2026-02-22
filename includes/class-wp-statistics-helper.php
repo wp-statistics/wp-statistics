@@ -91,6 +91,34 @@ class Helper
     }
 
     /**
+     * Whether WP Statistics should show its admin bar widget.
+     *
+     * Backward compatibility shim used by legacy add-ons (e.g. wp-statistics-mini-chart)
+     * to decide whether to enqueue assets for the admin bar UI.
+     *
+     * @return bool
+     */
+    public static function isAdminBarShowing()
+    {
+        if (!function_exists('is_admin_bar_showing') || !is_admin_bar_showing()) {
+            return false;
+        }
+
+        // WP Statistics toggle for admin bar widget.
+        if (!\WP_STATISTICS\Option::get('menu_bar', true)) {
+            return false;
+        }
+
+        // Mirror v15 access gating (AdminBarManager::shouldShow()) as closely as possible.
+        // Fallback to legacy read access if AccessLevel isn't available.
+        if (class_exists('\\WP_Statistics\\Service\\Admin\\AccessControl\\AccessLevel') && class_exists('\\WP_Statistics\\Utils\\User')) {
+            return \WP_Statistics\Utils\User::hasAccessLevel(\WP_Statistics\Service\Admin\AccessControl\AccessLevel::OWN_CONTENT);
+        }
+
+        return (bool) \WP_STATISTICS\User::Access('read');
+    }
+
+    /**
      * Returns true if the request belongs to "Bypass Ad Blockers" feature.
      *
      * @return  bool
@@ -258,24 +286,11 @@ class Helper
      *
      * @param string $type 'array' or 'list' (newline-separated string).
      * @return array|string
-     * @since 15.0.0 Changed to use JSON file instead of PHP.
+     * @deprecated No longer ships a default robot list. DeviceDetector handles bot detection.
      */
     public static function get_robots_list($type = 'list')
     {
-        $jsonFile = WP_STATISTICS_DIR . 'resources/json/robots-list.json';
-
-        if (file_exists($jsonFile)) {
-            $contents = file_get_contents($jsonFile);
-            $list     = json_decode($contents, true);
-
-            if (!is_array($list)) {
-                $list = [];
-            }
-        } else {
-            $list = [];
-        }
-
-        return ($type == 'array' ? $list : implode("\n", $list));
+        return ($type == 'array' ? [] : '');
     }
 
     /**
@@ -1464,20 +1479,6 @@ class Helper
         return "{$mainVersion}.{$anonymousSubVersion}";
     }
 
-    /**
-     * Do not track browser detection
-     *
-     * @return bool
-     */
-    public static function dntEnabled()
-    {
-        if (Option::get('do_not_track')) {
-            return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) or (function_exists('getallheaders') && isset(getallheaders()['DNT']) && getallheaders()['DNT'] == 1);
-        }
-
-        return false;
-    }
-
     public static function getRequestUri()
     {
         if (self::is_rest_request() and isset($_REQUEST['page_uri'])) {
@@ -1788,10 +1789,6 @@ class Helper
                 'title'   => __('Real-Time Stats', 'wp-statistics'),
                 'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. <div style="margin-top: 16px"><a href="https://wp-statistics.com/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=realtime" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/public/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt="Read more"></a></div>'), 'wp-statistics'),
             ],
-            [
-                'title'   => __('Mini Chart', 'wp-statistics'),
-                'content' => __(sprintf('Track your content\'s performance with mini charts. Quick access to traffic data is provided by an admin bar. The chart type and color can be customized according to your preferences. Analyze your content\'s performance and make informed decisions to enhance its success. <div style="margin-top: 16px"><a href="https://wp-statistics.com/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=email&utm_campaign=mini-chart" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/public/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
-            ],
         ];
 
         return $tips[array_rand($tips)];
@@ -1845,23 +1842,6 @@ class Helper
         }
 
         return $dateTimeFormat;
-    }
-
-    /**
-     * Checks if the WordPress admin bar is showing and can current user see it?
-     *
-     * @return  boolean
-     */
-    public static function isAdminBarShowing()
-    {
-        $showAdminBar = (Option::get('menu_bar') && is_admin_bar_showing() && User::Access());
-
-        /**
-         * Filters whether to show the WordPress admin bar.
-         *
-         * @example add_filter('wp_statistics_show_admin_bar', '__return_false');
-         */
-        return apply_filters('wp_statistics_show_admin_bar', $showAdminBar);
     }
 
     /**
@@ -2107,11 +2087,11 @@ class Helper
      *
      * @return array
      *
-     * @deprecated 14.10.1 Use `WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider()` instead.
+     * @deprecated 14.10.1 Use `WP_Statistics\Service\EmailReport\WebsitePerformanceDataProvider()` instead.
      */
     public static function getWebsitePerformanceSummary($startDate, $endDate = '')
     {
-        _deprecated_function(__METHOD__, '14.10.1', 'WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider()');
+        _deprecated_function(__METHOD__, '14.10.1', 'WP_Statistics\Service\EmailReport\WebsitePerformanceDataProvider()');
 
         return [];
     }

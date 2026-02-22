@@ -588,14 +588,14 @@ class VisitorProfile
     public function getProcessedIPForStorage()
     {
         return $this->getCachedData('processedIPForStorage', function () {
-            return Ip::getAnonymized();
+            return Ip::getStorableIp();
         });
     }
 
     /**
      * Get the hashed IP address for storage in the visitor table.
      *
-     * Returns a pure SHA-256 hash (40 characters) without any prefix.
+     * Returns a truncated SHA-256 hash (20 characters) without any prefix.
      * The hash is generated using a daily rotating salt combined with
      * the visitor's IP address and user agent for privacy protection.
      *
@@ -787,13 +787,13 @@ class VisitorProfile
     /**
      * Get the user ID of the visitor, with caching for better performance.
      *
-     * @return int The user ID or 0 if anonymous tracking is enabled.
+     * @return int|null The user ID or null if anonymous tracking is enabled.
      */
     public function getUserId()
     {
         return $this->getCachedData('userId', function () {
             if (!Option::getValue('visitors_log') || IntegrationHelper::shouldTrackAnonymously()) {
-                return 0;
+                return null;
             } else {
                 return User::getId();
             }

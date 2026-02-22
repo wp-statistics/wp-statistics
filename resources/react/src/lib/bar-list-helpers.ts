@@ -1,6 +1,5 @@
-import type { ReactNode } from 'react'
-
 import { __ } from '@wordpress/i18n'
+import type { ReactNode } from 'react'
 
 import { calcPercentage } from '@/hooks/use-percentage-calc'
 import { calcSharePercentage } from '@/lib/utils'
@@ -17,89 +16,114 @@ export interface HorizontalBarItem {
   isNegative?: boolean
   tooltipTitle?: string
   tooltipSubtitle?: string
+  /** Date range comparison header for tooltip */
+  comparisonDateLabel?: string
+  /** Internal link route path */
+  linkTo?: string
+  /** Internal link route params */
+  linkParams?: Record<string, string>
 }
 
 /**
- * Input data structure for creating a bar list item
+ * Options for transformToBarList - flexible transformation with accessor functions
  */
-export interface BarListItemInput {
-  /** Display name/label for the item */
-  name: string
-  /** Current period value */
-  currentValue: number
-  /** Previous period value for comparison */
-  previousValue: number
-  /** Total visitors/views for calculating fill percentage */
-  totalValue: number
-  /** Optional icon element */
-  icon?: ReactNode
+export interface TransformBarListOptions<T> {
+  /** Accessor for item label */
+  label: (item: T) => string
+  /** Accessor for current value */
+  value: (item: T) => number
+  /** Accessor for previous period value (for comparison) */
+  previousValue?: (item: T) => number
+  /** Total value for calculating fill percentages */
+  total: number
+  /** Optional icon generator */
+  icon?: (item: T) => ReactNode
+  /** Custom tooltip subtitle generator (receives item and previous value) */
+  tooltipSubtitle?: (item: T, previousValue: number) => string
+  /** Whether comparison mode is enabled */
+  isCompareEnabled?: boolean
+  /** Comparison date label for tooltip header */
+  comparisonDateLabel?: string
+  /** Internal link route path generator */
+  linkTo?: (item: T) => string
+  /** Internal link route params generator */
+  linkParams?: (item: T) => Record<string, string>
 }
 
 /**
- * createBarListItem - Factory function for HorizontalBarList items
+ * transformToBarList - Flexible transformation from API data to HorizontalBarList items
  *
- * Transforms raw data into the format expected by HorizontalBarList component.
- * Handles percentage calculation, fill percentage, and tooltip generation.
+ * Uses accessor functions for type-safe field mapping. Handles comparison mode toggle.
  *
- * @param input - Data for creating the bar list item
- * @returns Formatted HorizontalBarItem
- *
- * @example
- * const items = countriesData.map(country => createBarListItem({
- *   name: country.country_name,
- *   currentValue: country.visitors,
- *   previousValue: country.previous?.visitors || 0,
- *   totalValue: totalVisitors,
- *   icon: <FlagIcon code={country.code} />
- * }))
- */
-export function createBarListItem(input: BarListItemInput): HorizontalBarItem {
-  const { name, currentValue, previousValue, totalValue, icon } = input
-  const { percentage, isNegative } = calcPercentage(currentValue, previousValue)
-
-  return {
-    label: name,
-    value: currentValue,
-    percentage,
-    fillPercentage: calcSharePercentage(currentValue, totalValue),
-    isNegative,
-    icon,
-    tooltipTitle: name,
-    tooltipSubtitle: `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
-  }
-}
-
-/**
- * createBarListItems - Batch create bar list items from array data
- *
- * Convenience function for mapping an array of data to HorizontalBarItems.
- *
- * @param items - Array of items with required fields
- * @param totalValue - Total value for calculating fill percentages
- * @param getIcon - Optional function to generate icon for each item
+ * @param items - Array of API response items
+ * @param options - Transformation options with accessor functions
  * @returns Array of HorizontalBarItems
  *
  * @example
- * const barItems = createBarListItems(
- *   devicesData,
- *   totalVisitors,
- *   (item) => <DeviceIcon type={item.device_type_name} />
- * )
+ * // Countries with flags
+ * transformToBarList(countriesData, {
+ *   label: (item) => item.country_name || 'Unknown',
+ *   value: (item) => Number(item.visitors) || 0,
+ *   previousValue: (item) => Number(item.previous?.visitors) || 0,
+ *   total: totalVisitors,
+ *   icon: (item) => <FlagIcon code={item.country_code} />,
+ *   isCompareEnabled,
+ *   comparisonDateLabel,
+ * })
+ *
+ * @example
+ * // Cities with custom tooltip
+ * transformToBarList(citiesData, {
+ *   label: (item) => item.city_name || 'Unknown',
+ *   value: (item) => Number(item.visitors) || 0,
+ *   previousValue: (item) => Number(item.previous?.visitors) || 0,
+ *   total: totalVisitors,
+ *   tooltipSubtitle: (item, prev) => `${item.country_name} • Previous: ${prev.toLocaleString()}`,
+ *   isCompareEnabled,
+ *   comparisonDateLabel,
+ * })
  */
-export function createBarListItems<T extends {
-  name: string
-  visitors: number
-  previous?: { visitors?: number }
-}>(
-  items: T[],
-  totalValue: number,
-  getIcon?: (item: T) => ReactNode
-): HorizontalBarItem[] {
-  return items.map(item => createBarListItem({
-    name: item.name,
-    currentValue: Number(item.visitors) || 0,
-    previousValue: Number(item.previous?.visitors) || 0,
-    totalValue,
-    icon: getIcon?.(item),
-  }))
+export function transformToBarList<T>(items: T[], options: TransformBarListOptions<T>): HorizontalBarItem[] {
+  const {
+    label: getLabel,
+    value: getValue,
+    previousValue: getPreviousValue,
+    total,
+    icon: getIcon,
+    tooltipSubtitle: getTooltipSubtitle,
+    isCompareEnabled = false,
+    comparisonDateLabel,
+    linkTo: getLinkTo,
+    linkParams: getLinkParams,
+  } = options
+
+  return items.map((item) => {
+    const labelText = getLabel(item)
+    const currentValue = getValue(item)
+    const previousValue = getPreviousValue?.(item) ?? 0
+
+    // Build comparison props if enabled
+    const comparisonProps =
+      isCompareEnabled && getPreviousValue
+        ? {
+            ...calcPercentage(currentValue, previousValue),
+            tooltipSubtitle: getTooltipSubtitle
+              ? getTooltipSubtitle(item, previousValue)
+              : `${__('Previous:', 'wp-statistics')} ${previousValue.toLocaleString()}`,
+            comparisonDateLabel,
+          }
+        : {}
+
+    return {
+      icon: getIcon?.(item),
+      label: labelText,
+      value: currentValue,
+      fillPercentage: calcSharePercentage(currentValue, total),
+      tooltipTitle: labelText,
+      linkTo: getLinkTo?.(item),
+      linkParams: getLinkParams?.(item),
+      ...comparisonProps,
+    }
+  })
 }
+

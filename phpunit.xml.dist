@@ -5,11 +5,13 @@
       <html outputDirectory="tests/coverage"/>
     </report>
   </coverage>
-  <!-- Define the testsuite -->
+  <!-- Define the testsuites -->
   <testsuites>
-    <testsuite name="Unit Tests">
-      <!-- Find test files prefixed with 'Test_' -->
-      <directory prefix="Test_" suffix=".php">./tests/</directory>
+    <testsuite name="unit">
+      <directory prefix="Test_" suffix=".php">./tests/unit/</directory>
+    </testsuite>
+    <testsuite name="integration">
+      <directory prefix="Test_" suffix=".php">./tests/integration/</directory>
     </testsuite>
   </testsuites>
   <!-- Enable logging for coverage and testdox HTML/text output -->

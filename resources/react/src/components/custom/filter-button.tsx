@@ -1,9 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { __ } from '@wordpress/i18n'
-import { ChevronRight, Filter } from 'lucide-react'
+import { Filter, X } from 'lucide-react'
 import { useState } from 'react'
 
 import type { Filter as AppliedFilter } from '@/components/custom/filter-bar'
-import { FilterPanel, generateFilterId } from '@/components/custom/filter-panel'
+import { FilterPanel, generateFilterId, type LockedFilter } from '@/components/custom/filter-panel'
 import {
   type FilterField,
   type FilterRowData,
@@ -26,6 +28,9 @@ export interface FilterButtonProps {
   appliedFilters: AppliedFilter[]
   onApplyFilters: (filters: AppliedFilter[]) => void
   className?: string
+  filterGroup?: string
+  /** Locked filters displayed as read-only rows in the filter panel */
+  lockedFilters?: LockedFilter[]
 }
 
 // Get display string for operator from WordPress localized data
@@ -92,7 +97,7 @@ const hasValidValue = (value: FilterValue, operator: FilterOperator): boolean =>
   return getSingleValue(value) !== ''
 }
 
-function FilterButton({ fields, appliedFilters, onApplyFilters, className }: FilterButtonProps) {
+function FilterButton({ fields, appliedFilters, onApplyFilters, className, filterGroup, lockedFilters }: FilterButtonProps) {
   const [open, setOpen] = useState(false)
   const [pendingFilters, setPendingFilters] = useState<FilterRowData[]>([])
 
@@ -215,22 +220,49 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
     setOpen(false)
   }
 
-  const filterCount = appliedFilters.length
+  // Count editable filters and locked filters separately
+  const editableFilterCount = appliedFilters.length
+  const lockedFilterCount = lockedFilters?.length || 0
+  const totalFilterCount = editableFilterCount + lockedFilterCount
+
+  const handleClearClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    // Only clear editable filters, locked filters remain
+    onApplyFilters([])
+  }
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn('h-8 text-xs', { 'border-indigo-200 bg-indigo-50 text-primary': !!filterCount }, className)}
-          size="sm"
-        >
-          <Filter className="h-3.5 w-3.5" />
-          {__('Filters', 'wp-statistics')}
-          {filterCount > 0 && (
-            <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-primary-foreground">{filterCount}</span>
+          className={cn(
+            'h-8 text-xs font-medium border-neutral-200 hover:bg-neutral-50',
+            { 'border-indigo-200 bg-indigo-50 text-primary': totalFilterCount > 0 },
+            className
           )}
-          <ChevronRight className="h-3.5 w-3.5" />
+        >
+          <Filter className={cn('h-3.5 w-3.5', totalFilterCount > 0 ? '' : 'text-neutral-500')} />
+          {totalFilterCount > 0 ? (
+            <>
+              {__('Filters:', 'wp-statistics')} {totalFilterCount}
+              {/* Only show clear button if there are editable filters to clear */}
+              {editableFilterCount > 0 && (
+                <span
+                  role="button"
+                  tabIndex={0}
+                  onClick={handleClearClick}
+                  onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleClearClick(e as unknown as React.MouseEvent)}
+                  className="ml-1 p-0.5 rounded-full hover:bg-primary/20 transition-colors"
+                  aria-label={__('Clear all filters', 'wp-statistics')}
+                >
+                  <X className="h-3 w-3" />
+                </span>
+              )}
+            </>
+          ) : (
+            __('Filters', 'wp-statistics')
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
@@ -240,6 +272,8 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
           onFiltersChange={setPendingFilters}
           onApply={handleApply}
           onClearAll={handleClearAll}
+          filterGroup={filterGroup}
+          lockedFilters={lockedFilters}
         />
       </PopoverContent>
     </Popover>
@@ -247,4 +281,4 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className }: Fil
 }
 
 export { FilterButton, formatValueForDisplay, generateFilterId, getOperatorDisplay, getOperatorLabel, hasValidValue }
-export type { FilterField, FilterRowData, FilterValue, RangeValue }
+export type { FilterField, FilterRowData, FilterValue, LockedFilter, RangeValue }

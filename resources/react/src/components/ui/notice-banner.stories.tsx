@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Stethoscope, Zap, Shield, Bell } from 'lucide-react'
+import { Bell,Shield, Stethoscope, Zap } from 'lucide-react'
 
 import { NoticeBanner } from './notice-banner'
 
@@ -89,7 +89,8 @@ export const Info: Story = {
 export const Neutral: Story = {
   args: {
     title: 'System Diagnostics',
-    message: 'These checks help identify potential issues that may affect WP Statistics functionality. Lightweight checks run automatically, while others require manual execution to avoid performance impact.',
+    message:
+      'These checks help identify potential issues that may affect WP Statistics functionality. Lightweight checks run automatically, while others require manual execution to avoid performance impact.',
     type: 'neutral',
     icon: Stethoscope,
     dismissible: false,

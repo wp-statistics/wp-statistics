@@ -85,7 +85,7 @@ export const WithLabel: Story = {
 }
 
 export const Controlled: Story = {
-  render: () => {
+  render: function ControlledStory() {
     const [checked, setChecked] = useState(false)
     return (
       <div className="flex flex-col items-center gap-4">
@@ -93,9 +93,7 @@ export const Controlled: Story = {
           <Switch id="controlled" checked={checked} onCheckedChange={setChecked} />
           <Label htmlFor="controlled">Dark Mode</Label>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Status: {checked ? 'Enabled' : 'Disabled'}
-        </p>
+        <p className="text-sm text-muted-foreground">Status: {checked ? 'Enabled' : 'Disabled'}</p>
       </div>
     )
   },

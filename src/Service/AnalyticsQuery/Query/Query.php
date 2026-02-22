@@ -104,6 +104,15 @@ class Query implements QueryInterface
     private $previousDateTo;
 
     /**
+     * Comparison mode for period calculation.
+     *
+     * Supported modes: 'previous_period', 'previous_period_dow', 'same_period_last_year', 'custom'.
+     *
+     * @var string|null
+     */
+    private $comparisonMode;
+
+    /**
      * Custom date column for filtering.
      *
      * @var string|null
@@ -178,6 +187,7 @@ class Query implements QueryInterface
      * @param bool        $compare          Whether comparison is enabled.
      * @param string|null $previousDateFrom Custom previous period start date.
      * @param string|null $previousDateTo   Custom previous period end date.
+     * @param string|null $comparisonMode   Comparison mode for period calculation.
      * @param string|null $dateColumn       Custom date column for filtering.
      * @param bool        $aggregateOthers  Whether to aggregate remaining items as "Other".
      * @param int|null    $originalPerPage  Original per_page when aggregate_others is enabled.
@@ -199,6 +209,7 @@ class Query implements QueryInterface
         bool $compare = false,
         ?string $previousDateFrom = null,
         ?string $previousDateTo = null,
+        ?string $comparisonMode = null,
         ?string $dateColumn = null,
         bool $aggregateOthers = false,
         ?int $originalPerPage = null,
@@ -219,6 +230,7 @@ class Query implements QueryInterface
         $this->compare          = $compare;
         $this->previousDateFrom = $previousDateFrom;
         $this->previousDateTo   = $previousDateTo;
+        $this->comparisonMode   = $comparisonMode;
         $this->dateColumn       = $dateColumn;
         $this->aggregateOthers  = $aggregateOthers;
         $this->originalPerPage  = $originalPerPage;
@@ -356,6 +368,16 @@ class Query implements QueryInterface
     }
 
     /**
+     * Get comparison mode for period calculation.
+     *
+     * @return string|null
+     */
+    public function getComparisonMode(): ?string
+    {
+        return $this->comparisonMode;
+    }
+
+    /**
      * Get custom date column for filtering.
      *
      * @return string|null
@@ -476,6 +498,7 @@ class Query implements QueryInterface
             'compare'            => $this->compare,
             'previous_date_from' => $this->previousDateFrom,
             'previous_date_to'   => $this->previousDateTo,
+            'comparison_mode'    => $this->comparisonMode,
             'aggregate_others'   => $this->aggregateOthers,
             '_original_per_page' => $this->originalPerPage,
             'show_totals'        => $this->showTotals,
@@ -507,6 +530,7 @@ class Query implements QueryInterface
             $this->compare,
             $this->previousDateFrom,
             $this->previousDateTo,
+            $this->comparisonMode,
             $this->dateColumn,
             $this->aggregateOthers,
             $this->originalPerPage,
@@ -537,6 +561,7 @@ class Query implements QueryInterface
             false,
             null,  // No previous dates needed when comparison is disabled
             null,
+            null,  // No comparison mode needed when comparison is disabled
             $this->dateColumn,
             $this->aggregateOthers,
             $this->originalPerPage,
@@ -544,6 +569,40 @@ class Query implements QueryInterface
             $this->format,
             $this->columns,
             false  // Previous period queries don't need count
+        );
+    }
+
+    /**
+     * Create a new query without pagination limits.
+     *
+     * Used for comparison queries where we need all rows to match against
+     * current period results, not just the top N of the previous period.
+     *
+     * @return self
+     */
+    public function withoutPagination(): self
+    {
+        return new self(
+            $this->sources,
+            $this->groupBy,
+            $this->filters,
+            $this->dateFrom,
+            $this->dateTo,
+            $this->orderBy,
+            $this->order,
+            1,
+            1000,
+            $this->compare,
+            $this->previousDateFrom,
+            $this->previousDateTo,
+            $this->comparisonMode,
+            $this->dateColumn,
+            $this->aggregateOthers,
+            $this->originalPerPage,
+            $this->showTotals,
+            $this->format,
+            $this->columns,
+            false
         );
     }
 
@@ -580,6 +639,7 @@ class Query implements QueryInterface
             $data['compare'] ?? false,
             $data['previous_date_from'] ?? null,
             $data['previous_date_to'] ?? null,
+            $data['comparison_mode'] ?? null,
             $data['date_column'] ?? null,
             !empty($data['aggregate_others']),
             isset($data['_original_per_page']) ? (int) $data['_original_per_page'] : null,

@@ -2,142 +2,79 @@
 
 namespace WP_Statistics\Service\Admin\Tools\Endpoints;
 
-use WP_Statistics\Components\Ajax;
-use WP_Statistics\Components\Option;
+use WP_Statistics\Abstracts\BaseEndpoint;
 use WP_Statistics\Utils\Request;
-use WP_Statistics\Utils\User;
 use WP_Statistics\Service\Cron\CronManager;
-use WP_Statistics\Service\Database\DatabaseSchema;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
-use WP_Statistics\BackgroundProcess\BackgroundProcessMonitor;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticManager;
+use WP_Statistics\Service\Admin\Tools\SystemInfoService;
+use WP_Statistics\Service\Admin\Tools\BackgroundJobRegistry;
+use WP_Statistics\Service\Admin\Tools\OptionInspectionService;
 use Exception;
 
 /**
  * Tools AJAX Endpoints for the React SPA.
  *
- * Provides a centralized endpoint with sub-actions for:
- * - System information (database tables, plugin info)
- * - Scheduled tasks management
- * - Schema health check and repair
+ * Thin routing layer — business logic delegated to:
+ * - SystemInfoService (table info, plugin versions)
+ * - BackgroundJobRegistry (job definitions + status)
+ * - OptionInspectionService (options, transients, user meta)
+ * - CronManager, SchemaMaintainer, DiagnosticManager (existing services)
  *
  * Uses `wp_statistics_tools` action with `sub_action` parameter.
  *
  * @since 15.0.0
  */
-class ToolsEndpoints
+class ToolsEndpoints extends BaseEndpoint
 {
-    /**
-     * Available sub-actions and their handler methods.
-     *
-     * @var array<string, string>
-     */
-    private $subActions = [
-        'system_info'           => 'getSystemInfo',
-        'scheduled_tasks'       => 'getScheduledTasks',
-        'run_task'              => 'runScheduledTask',
-        'schema_check'          => 'checkSchema',
-        'schema_repair'         => 'repairSchema',
-        'background_jobs'       => 'getBackgroundJobs',
-        'options_transients'    => 'getOptionsAndTransients',
-        'diagnostics'           => 'getDiagnostics',
-        'diagnostics_run'       => 'runDiagnostics',
-        'diagnostics_run_check' => 'runDiagnosticCheck',
-        'diagnostics_repair'    => 'repairDiagnostic',
-    ];
-
-    /**
-     * Register AJAX handlers.
-     *
-     * @return void
-     */
-    public function register(): void
+    protected function getActionName(): string
     {
-        // Single centralized endpoint with sub_action parameter
-        Ajax::register('tools', [$this, 'handleRequest'], false);
+        return 'tools';
     }
 
-    /**
-     * Handle incoming tools requests and route to appropriate sub-action.
-     *
-     * @return void
-     */
-    public function handleRequest(): void
+    protected function getSubActions(): array
     {
-        try {
-            $this->verifyRequest();
+        return [
+            'system_info'           => 'getSystemInfo',
+            'scheduled_tasks'       => 'getScheduledTasks',
+            'run_task'              => 'runScheduledTask',
+            'schema_check'          => 'checkSchema',
+            'schema_repair'         => 'repairSchema',
+            'background_jobs'       => 'getBackgroundJobs',
+            'options_transients'    => 'getOptionsAndTransients',
+            'diagnostics'           => 'getDiagnostics',
+            'diagnostics_run'       => 'runDiagnostics',
+            'diagnostics_run_check' => 'runDiagnosticCheck',
+            'diagnostics_repair'    => 'repairDiagnostic',
+        ];
+    }
 
-            $subAction = sanitize_key(Request::get('sub_action', ''));
-
-            if (empty($subAction)) {
-                throw new Exception(__('Sub-action is required.', 'wp-statistics'));
-            }
-
-            if (!isset($this->subActions[$subAction])) {
-                throw new Exception(
-                    sprintf(__('Invalid sub-action: %s', 'wp-statistics'), $subAction)
-                );
-            }
-
-            $method = $this->subActions[$subAction];
-            $this->$method();
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'code'    => 'tools_error',
-                'message' => $e->getMessage(),
-            ]);
-        }
+    protected function getErrorCode(): string
+    {
+        return 'tools_error';
     }
 
     /**
      * Get system information including database tables.
-     *
-     * @return void
      */
-    private function getSystemInfo(): void
+    protected function getSystemInfo(): void
     {
-        $tables = [];
-
-        foreach (DatabaseSchema::getAllTables(true) as $key => $tableName) {
-            $tableInfo = DatabaseSchema::getTableInfo($key);
-
-            $tables[] = [
-                'key'         => $key,
-                'name'        => $tableName,
-                'description' => DatabaseSchema::getTableDescription($key),
-                'records'     => DatabaseSchema::getRowCount($key),
-                'size'        => isset($tableInfo['Data_length'])
-                    ? size_format($tableInfo['Data_length'] + ($tableInfo['Index_length'] ?? 0))
-                    : '-',
-                'engine'      => $tableInfo['Engine'] ?? '-',
-                'isLegacy'    => DatabaseSchema::isLegacyTable($key),
-                'isAddon'     => DatabaseSchema::isAddonTable($key),
-                'addonName'   => DatabaseSchema::getAddonName($key),
-            ];
-        }
+        $service = new SystemInfoService();
 
         wp_send_json_success([
-            'tables' => $tables,
-            'plugin' => [
-                'version'    => WP_STATISTICS_VERSION,
-                'db_version' => get_option('wp_statistics_db_version', '-'),
-                'php'        => PHP_VERSION,
-                'mysql'      => $GLOBALS['wpdb']->db_version(),
-                'wp'         => get_bloginfo('version'),
-            ],
+            'tables' => $service->getTables(),
+            'plugin' => $service->getPluginInfo(),
         ]);
     }
 
     /**
      * Get scheduled tasks information.
-     *
-     * @return void
      */
-    private function getScheduledTasks(): void
+    protected function getScheduledTasks(): void
     {
         $events = CronManager::getScheduledEvents();
+        $tasks  = [];
 
-        $tasks = [];
         foreach ($events as $hook => $event) {
             $tasks[] = [
                 'hook'       => $hook,
@@ -157,10 +94,9 @@ class ToolsEndpoints
     /**
      * Run a scheduled task manually.
      *
-     * @return void
      * @throws Exception If hook is invalid.
      */
-    private function runScheduledTask(): void
+    protected function runScheduledTask(): void
     {
         $hook = sanitize_text_field(Request::get('hook', ''));
 
@@ -168,13 +104,11 @@ class ToolsEndpoints
             throw new Exception(__('Task hook is required.', 'wp-statistics'));
         }
 
-        // Validate hook exists in our registered events
         $events = CronManager::getScheduledEvents();
         if (!isset($events[$hook])) {
             throw new Exception(__('Invalid task hook.', 'wp-statistics'));
         }
 
-        // Execute the cron event
         do_action($hook);
 
         wp_send_json_success([
@@ -184,10 +118,8 @@ class ToolsEndpoints
 
     /**
      * Check database schema for issues.
-     *
-     * @return void
      */
-    private function checkSchema(): void
+    protected function checkSchema(): void
     {
         $results = SchemaMaintainer::check();
 
@@ -200,10 +132,8 @@ class ToolsEndpoints
 
     /**
      * Repair database schema issues.
-     *
-     * @return void
      */
-    private function repairSchema(): void
+    protected function repairSchema(): void
     {
         $results = SchemaMaintainer::repair();
 
@@ -217,209 +147,41 @@ class ToolsEndpoints
 
     /**
      * Get background jobs status.
-     *
-     * Returns information about all registered background processes
-     * including their current status and progress.
-     *
-     * @return void
      */
-    private function getBackgroundJobs(): void
+    protected function getBackgroundJobs(): void
     {
-        // Define known background jobs with metadata
-        $jobDefinitions = [
-            'calculate_post_words_count' => [
-                'label'       => __('Post Word Count', 'wp-statistics'),
-                'description' => __('Calculates word count for posts without this meta.', 'wp-statistics'),
-                'optionKey'   => 'word_count_process_initiated',
-            ],
-            'update_unknown_visitor_geoip' => [
-                'label'       => __('Visitor GeoIP Update', 'wp-statistics'),
-                'description' => __('Updates location data for visitors with incomplete GeoIP info.', 'wp-statistics'),
-                'optionKey'   => 'update_geoip_process_initiated',
-            ],
-            'geolocation_database_download' => [
-                'label'       => __('GeoIP Database Download', 'wp-statistics'),
-                'description' => __('Downloads and updates the GeoIP database.', 'wp-statistics'),
-                'optionKey'   => null,
-            ],
-            'update_visitors_source_channel' => [
-                'label'       => __('Source Channel Update', 'wp-statistics'),
-                'description' => __('Updates source channel data for visitors.', 'wp-statistics'),
-                'optionKey'   => 'update_source_channel_process_initiated',
-            ],
-            'calculate_daily_summary' => [
-                'label'       => __('Daily Summary', 'wp-statistics'),
-                'description' => __('Calculates daily metrics summary for resources.', 'wp-statistics'),
-                'optionKey'   => 'calculate_daily_summary_initiated',
-            ],
-            'calculate_daily_summary_total' => [
-                'label'       => __('Daily Summary Totals', 'wp-statistics'),
-                'description' => __('Calculates site-wide daily summary totals.', 'wp-statistics'),
-                'optionKey'   => 'calculate_daily_summary_total_initiated',
-            ],
-            'update_resouce_cache_fields' => [
-                'label'       => __('Resource Cache Update', 'wp-statistics'),
-                'description' => __('Updates cache fields for all resources.', 'wp-statistics'),
-                'optionKey'   => 'update_resouce_cache_fields_initiated',
-            ],
-        ];
-
-        $jobs = [];
-
-        foreach ($jobDefinitions as $key => $definition) {
-            // Get progress from BackgroundProcessMonitor
-            $progress = BackgroundProcessMonitor::getStatus($key);
-
-            // Determine job status
-            $status = 'idle';
-            if ($progress['total'] > 0 && $progress['remain'] > 0) {
-                $status = 'running';
-            } elseif ($progress['total'] > 0 && $progress['remain'] === 0 && $progress['completed'] > 0) {
-                $status = 'idle'; // Completed
-            }
-
-            // Check if job was initiated via option
-            $isInitiated = false;
-            if (!empty($definition['optionKey'])) {
-                $isInitiated = Option::getGroupValue('jobs', $definition['optionKey'], false);
-            }
-
-            // Build job info
-            $jobs[] = [
-                'key'         => $key,
-                'label'       => $definition['label'],
-                'description' => $definition['description'],
-                'status'      => $status,
-                'progress'    => $status === 'running' ? [
-                    'total'      => $progress['total'],
-                    'completed'  => $progress['completed'],
-                    'remain'     => $progress['remain'],
-                    'percentage' => $progress['percentage'],
-                ] : null,
-            ];
-        }
+        $registry = new BackgroundJobRegistry();
 
         wp_send_json_success([
-            'jobs' => $jobs,
+            'jobs' => $registry->getAll(),
         ]);
     }
 
     /**
      * Get WordPress options and transients used by WP Statistics.
-     *
-     * @return void
      */
-    private function getOptionsAndTransients(): void
+    protected function getOptionsAndTransients(): void
     {
-        global $wpdb;
-
-        // Get main plugin options
-        $mainOptions   = get_option('wp_statistics', []);
-        $optionsList   = [];
-
-        if (is_array($mainOptions)) {
-            foreach ($mainOptions as $key => $value) {
-                $optionsList[] = [
-                    'key'   => $key,
-                    'value' => $this->formatOptionValue($value),
-                    'group' => 'main',
-                ];
-            }
-        }
-
-        // Get grouped options
-        $groupedOptions = [
-            'wp_statistics_db'    => 'db',
-            'wp_statistics_jobs'  => 'jobs',
-            'wp_statistics_cache' => 'cache',
-        ];
-
-        foreach ($groupedOptions as $optionName => $group) {
-            $groupData = get_option($optionName, []);
-            if (is_array($groupData)) {
-                foreach ($groupData as $key => $value) {
-                    $optionsList[] = [
-                        'key'   => $key,
-                        'value' => $this->formatOptionValue($value),
-                        'group' => $group,
-                    ];
-                }
-            }
-        }
-
-        // Get version/installation options
-        $versionOptions = [
-            'wp_statistics_plugin_version'    => get_option('wp_statistics_plugin_version', '-'),
-            'wp_statistics_db_version'        => get_option('wp_statistics_db_version', '-'),
-            'wp_statistics_is_fresh'          => get_option('wp_statistics_is_fresh', '-'),
-            'wp_statistics_installation_time' => get_option('wp_statistics_installation_time', '-'),
-        ];
-
-        foreach ($versionOptions as $key => $value) {
-            $optionsList[] = [
-                'key'   => str_replace('wp_statistics_', '', $key),
-                'value' => $this->formatOptionValue($value),
-                'group' => 'version',
-            ];
-        }
-
-        // Get transients
-        $transients    = [];
-        $transientRows = $wpdb->get_results(
-            "SELECT option_name, option_value
-             FROM {$wpdb->options}
-             WHERE option_name LIKE '_transient_wp_statistics%'
-             OR option_name LIKE '_transient_wps_%'
-             LIMIT 100"
-        );
-
-        foreach ($transientRows as $row) {
-            $name = str_replace('_transient_', '', $row->option_name);
-            $transients[] = [
-                'name'  => $name,
-                'value' => $this->formatOptionValue(maybe_unserialize($row->option_value)),
-            ];
-        }
+        $service = new OptionInspectionService();
 
         wp_send_json_success([
-            'options'    => $optionsList,
-            'transients' => $transients,
+            'options'    => $service->getOptions(),
+            'transients' => $service->getTransients(),
+            'user_meta'  => $service->getUserMeta(get_current_user_id()),
         ]);
     }
 
     /**
      * Get diagnostic check results.
-     *
-     * Returns cached results for lightweight checks and last results for heavy checks.
-     *
-     * @return void
      */
-    private function getDiagnostics(): void
+    protected function getDiagnostics(): void
     {
         $manager = new DiagnosticManager();
-
-        $results       = $manager->getResults();
-        $lastFullCheck = $manager->getLastFullCheckTime();
-
-        $checks = [];
-        foreach ($results as $key => $result) {
-            $check = $manager->getCheck($key);
-            $checks[] = [
-                'key'         => $result->key,
-                'label'       => $result->label,
-                'description' => $check ? $check->getDescription() : '',
-                'status'      => $result->status,
-                'message'     => $result->message,
-                'details'     => $result->details,
-                'helpUrl'     => $result->helpUrl,
-                'timestamp'   => $result->timestamp,
-                'isLightweight' => $check ? $check->isLightweight() : false,
-            ];
-        }
+        $results = $manager->getResults();
 
         wp_send_json_success([
-            'checks'        => $checks,
-            'lastFullCheck' => $lastFullCheck,
+            'checks'        => $this->formatDiagnosticResults($manager, $results),
+            'lastFullCheck' => $manager->getLastFullCheckTime(),
             'hasIssues'     => $manager->hasIssues(),
             'failCount'     => count($manager->getFailedChecks()),
             'warningCount'  => count($manager->getWarningChecks()),
@@ -428,32 +190,14 @@ class ToolsEndpoints
 
     /**
      * Run all diagnostic checks fresh.
-     *
-     * @return void
      */
-    private function runDiagnostics(): void
+    protected function runDiagnostics(): void
     {
         $manager = new DiagnosticManager();
         $results = $manager->runAll(true);
 
-        $checks = [];
-        foreach ($results as $key => $result) {
-            $check = $manager->getCheck($key);
-            $checks[] = [
-                'key'         => $result->key,
-                'label'       => $result->label,
-                'description' => $check ? $check->getDescription() : '',
-                'status'      => $result->status,
-                'message'     => $result->message,
-                'details'     => $result->details,
-                'helpUrl'     => $result->helpUrl,
-                'timestamp'   => $result->timestamp,
-                'isLightweight' => $check ? $check->isLightweight() : false,
-            ];
-        }
-
         wp_send_json_success([
-            'checks'        => $checks,
+            'checks'        => $this->formatDiagnosticResults($manager, $results),
             'lastFullCheck' => time(),
             'hasIssues'     => $manager->hasIssues(),
             'failCount'     => count($manager->getFailedChecks()),
@@ -464,10 +208,9 @@ class ToolsEndpoints
     /**
      * Run a single diagnostic check.
      *
-     * @return void
      * @throws Exception If check key is invalid.
      */
-    private function runDiagnosticCheck(): void
+    protected function runDiagnosticCheck(): void
     {
         $key = sanitize_key(Request::get('check', ''));
 
@@ -482,33 +225,58 @@ class ToolsEndpoints
         }
 
         $result = $manager->runCheck($key);
-        $check  = $manager->getCheck($key);
 
         wp_send_json_success([
-            'check' => [
-                'key'         => $result->key,
-                'label'       => $result->label,
-                'description' => $check ? $check->getDescription() : '',
-                'status'      => $result->status,
-                'message'     => $result->message,
-                'details'     => $result->details,
-                'helpUrl'     => $result->helpUrl,
-                'timestamp'   => $result->timestamp,
-                'isLightweight' => $check ? $check->isLightweight() : false,
-            ],
+            'check' => $this->formatDiagnosticResult($manager, $result),
         ]);
+    }
+
+    /**
+     * Format a collection of diagnostic results for JSON response.
+     *
+     * @param DiagnosticManager $manager
+     * @param iterable          $results
+     * @return array
+     */
+    protected function formatDiagnosticResults(DiagnosticManager $manager, iterable $results): array
+    {
+        $checks = [];
+        foreach ($results as $key => $result) {
+            $checks[] = $this->formatDiagnosticResult($manager, $result);
+        }
+        return $checks;
+    }
+
+    /**
+     * Format a single diagnostic result for JSON response.
+     *
+     * @param DiagnosticManager $manager
+     * @param object            $result
+     * @return array
+     */
+    protected function formatDiagnosticResult(DiagnosticManager $manager, object $result): array
+    {
+        $check = $manager->getCheck($result->key);
+
+        return [
+            'key'           => $result->key,
+            'label'         => $result->label,
+            'description'   => $check ? $check->getDescription() : '',
+            'status'        => $result->status,
+            'message'       => $result->message,
+            'details'       => $result->details,
+            'helpUrl'       => $result->helpUrl,
+            'timestamp'     => $result->timestamp,
+            'isLightweight' => $check ? $check->isLightweight() : false,
+        ];
     }
 
     /**
      * Repair a diagnostic check.
      *
-     * Currently supports:
-     * - schema: Repairs database schema issues
-     *
-     * @return void
      * @throws Exception If check key is invalid or repair not supported.
      */
-    private function repairDiagnostic(): void
+    protected function repairDiagnostic(): void
     {
         $key = sanitize_key(Request::get('check', ''));
 
@@ -516,7 +284,6 @@ class ToolsEndpoints
             throw new Exception(__('Check key is required.', 'wp-statistics'));
         }
 
-        // Map check keys to repair actions
         $repairActions = [
             'schema' => 'repairSchema',
         ];
@@ -525,52 +292,7 @@ class ToolsEndpoints
             throw new Exception(__('This check does not support repair.', 'wp-statistics'));
         }
 
-        // Call the repair method
         $method = $repairActions[$key];
         $this->$method();
-    }
-
-    /**
-     * Format option value for display.
-     *
-     * @param mixed $value The value to format.
-     * @return string Formatted value.
-     */
-    private function formatOptionValue($value): string
-    {
-        if (is_array($value) || is_object($value)) {
-            return wp_json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        }
-
-        if (is_bool($value)) {
-            return $value ? 'true' : 'false';
-        }
-
-        if ($value === null || $value === '') {
-            return '-';
-        }
-
-        return (string) $value;
-    }
-
-    /**
-     * Verify the AJAX request.
-     *
-     * @throws Exception If verification fails.
-     * @return void
-     */
-    private function verifyRequest(): void
-    {
-        if (!Request::isFrom('ajax')) {
-            throw new Exception(__('Invalid request.', 'wp-statistics'));
-        }
-
-        if (!User::hasAccess('manage')) {
-            throw new Exception(__('You do not have permission to perform this action.', 'wp-statistics'));
-        }
-
-        if (!check_ajax_referer('wp_statistics_dashboard_nonce', 'wps_nonce', false)) {
-            throw new Exception(__('Security check failed. Please refresh the page and try again.', 'wp-statistics'));
-        }
     }
 }

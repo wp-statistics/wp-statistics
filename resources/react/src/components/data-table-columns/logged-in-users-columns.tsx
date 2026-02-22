@@ -5,12 +5,14 @@
 
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeaderSortable } from '@/components/custom/data-table-column-header-sortable'
-import { type Filter, getOperatorDisplay, type FilterField } from '@/components/custom/filter-button'
+import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
+import { type Filter, type FilterField,getOperatorDisplay } from '@/components/custom/filter-button'
 import {
+  createLocationData,
   createVisitorInfoData,
   EntryPageCell,
   LastVisitCell,
+  LocationCell,
   NumericCell,
   PageCell,
   ReferrerCell,
@@ -21,17 +23,19 @@ import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { type ColumnConfig, getDefaultApiColumns } from '@/lib/column-utils'
 import { formatReferrerChannel } from '@/lib/filter-utils'
 import { parseEntryPage } from '@/lib/url-utils'
+import { parseDateTimeString } from '@/lib/wp-date'
 import type { LoggedInUser as LoggedInUserRecord } from '@/services/visitor-insight/get-logged-in-users'
 
 /**
  * Context identifier for user preferences
  */
-export const LOGGED_IN_USERS_CONTEXT = 'logged_in_users_data_table'
+export const LOGGED_IN_USERS_CONTEXT = 'logged_in_users'
 
 /**
- * Columns hidden by default (none for logged-in users)
+ * Columns hidden by default
+ * entryPage is hidden as it's redundant with the page column
  */
-export const LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS: string[] = []
+export const LOGGED_IN_USERS_DEFAULT_HIDDEN_COLUMNS: string[] = ['location', 'entryPage']
 
 /**
  * Column configuration for API column optimization
@@ -54,10 +58,11 @@ export const LOGGED_IN_USERS_COLUMN_CONFIG: ColumnConfig = {
       'user_role',
     ],
     lastVisit: ['last_visit'],
-    page: ['entry_page', 'entry_page_title'],
+    page: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     referrer: ['referrer_domain', 'referrer_channel'],
-    entryPage: ['entry_page', 'entry_page_title'],
+    entryPage: ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
     totalViews: ['total_views'],
+    location: ['country_code', 'country_name', 'region_name', 'city_name'],
   },
   context: LOGGED_IN_USERS_CONTEXT,
 }
@@ -92,8 +97,14 @@ export interface LoggedInUser {
   entryPageTitle: string
   entryPageHasQuery?: boolean
   entryPageQueryString?: string
+  entryPageType?: string
+  entryPageWpId?: number | null
+  entryPageResourceId?: number | null
   page: string
   pageTitle: string
+  pageType?: string
+  pageWpId?: number | null
+  pageResourceId?: number | null
   totalViews: number
 }
 
@@ -106,7 +117,7 @@ export function transformLoggedInUserData(record: LoggedInUserRecord): LoggedInU
 
   return {
     id: `user-${record.visitor_id}`,
-    lastVisit: new Date(record.last_visit),
+    lastVisit: parseDateTimeString(record.last_visit),
     country: record.country_name || 'Unknown',
     countryCode: (record.country_code || '000').toLowerCase(),
     region: record.region_name || '',
@@ -126,8 +137,14 @@ export function transformLoggedInUserData(record: LoggedInUserRecord): LoggedInU
     entryPageTitle: entryPageData.title,
     entryPageHasQuery: entryPageData.hasQueryString,
     entryPageQueryString: entryPageData.queryString,
+    entryPageType: record.entry_page_type || undefined,
+    entryPageWpId: record.entry_page_wp_id ?? null,
+    entryPageResourceId: record.entry_page_resource_id ?? null,
     page: record.entry_page || '/',
     pageTitle: record.entry_page_title || record.entry_page || 'Unknown',
+    pageType: record.entry_page_type || undefined,
+    pageWpId: record.entry_page_wp_id ?? null,
+    pageResourceId: record.entry_page_resource_id ?? null,
     totalViews: record.total_views || 0,
   }
 }
@@ -152,34 +169,92 @@ export function getLoggedInUsersDefaultFilters(filterFields: FilterField[]): Fil
 
 /**
  * Create column definitions for the Logged-in Users table
+ * Order: visitorInfo → lastVisit → page → totalViews → referrer → entryPage (hidden)
  */
 export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef<LoggedInUser>[] {
   return [
+    // Primary columns - visible by default
     {
       accessorKey: 'visitorInfo',
-      header: 'Visitor Info',
-      cell: ({ row }) => (
-        <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />
-      ),
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      enableSorting: false,
+      cell: ({ row }) => <VisitorInfoCell data={createVisitorInfoData(row.original)} config={config} />,
+      meta: {
+        title: 'Visitor Info',
+        priority: 'primary',
+        cardPosition: 'header',
+        mobileLabel: 'Visitor',
+      },
+    },
+    {
+      accessorKey: 'location',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      size: COLUMN_SIZES.location,
+      enableSorting: false,
+      enableHiding: true,
+      cell: ({ row }) => {
+        const data = createLocationData(row.original)
+        return (
+          <LocationCell
+            data={data}
+            pluginUrl={config.pluginUrl}
+            linkTo="/country/$countryCode"
+            linkParams={{ countryCode: data.countryCode }}
+          />
+        )
+      },
+      meta: {
+        title: 'Location',
+        priority: 'secondary',
+      },
     },
     {
       accessorKey: 'lastVisit',
-      header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Last Visit" />,
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       cell: ({ row }) => <LastVisitCell date={row.original.lastVisit} />,
+      meta: {
+        title: 'Last Visit',
+        priority: 'primary',
+        cardPosition: 'header',
+      },
     },
     {
       accessorKey: 'page',
-      header: 'Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      enableSorting: false,
       cell: ({ row }) => (
         <PageCell
-          data={{ title: row.original.pageTitle, url: row.original.page }}
+          data={{
+            title: row.original.pageTitle,
+            url: row.original.page,
+            pageType: row.original.pageType,
+            pageWpId: row.original.pageWpId,
+            resourceId: row.original.pageResourceId,
+          }}
           maxLength={35}
         />
       ),
+      meta: {
+        title: 'Page',
+        priority: 'primary',
+        cardPosition: 'body',
+      },
+    },
+    {
+      accessorKey: 'totalViews',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} className="text-right" />,
+      size: COLUMN_SIZES.views,
+      cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
+      meta: {
+        title: 'Views',
+        priority: 'primary',
+        cardPosition: 'body',
+      },
     },
     {
       accessorKey: 'referrer',
-      header: 'Referrer',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      enableSorting: false,
       cell: ({ row }) => (
         <ReferrerCell
           data={{
@@ -189,10 +264,16 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
           maxLength={25}
         />
       ),
+      meta: {
+        title: 'Referrer',
+        priority: 'secondary',
+      },
     },
+    // Hidden by default
     {
       accessorKey: 'entryPage',
-      header: () => 'Entry Page',
+      header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+      enableSorting: false,
       cell: ({ row }) => {
         const user = row.original
         return (
@@ -202,19 +283,19 @@ export function createLoggedInUsersColumns(config: VisitorInfoConfig): ColumnDef
               url: user.entryPage,
               hasQueryString: user.entryPageHasQuery,
               queryString: user.entryPageQueryString,
+              pageType: user.entryPageType,
+              pageWpId: user.entryPageWpId,
+              resourceId: user.entryPageResourceId,
             }}
             maxLength={35}
           />
         )
       },
-    },
-    {
-      accessorKey: 'totalViews',
-      header: ({ column }) => (
-        <DataTableColumnHeaderSortable column={column} title="Views" className="text-right" />
-      ),
-      size: COLUMN_SIZES.views,
-      cell: ({ row }) => <NumericCell value={row.original.totalViews} />,
+      meta: {
+        title: 'Entry Page',
+        priority: 'secondary',
+        mobileLabel: 'Entry',
+      },
     },
   ]
 }

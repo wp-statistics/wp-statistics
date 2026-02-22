@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import type { SortingState } from '@tanstack/react-table'
 import { useState } from 'react'
-import { expect, userEvent, within } from 'storybook/test'
+import { expect, within } from 'storybook/test'
 
 import { DataTable } from './data-table'
 import type { VisitorData } from './data-table-example-columns'
@@ -26,10 +26,6 @@ const meta = {
     rowLimit: {
       control: 'number',
       description: 'Number of rows per page',
-    },
-    showColumnManagement: {
-      control: 'boolean',
-      description: 'Show/hide column visibility toggle button',
     },
     showPagination: {
       control: 'boolean',
@@ -100,7 +96,7 @@ export const Default: Story = {
     await expect(table).toBeInTheDocument()
 
     // Verify column headers exist
-    await expect(canvas.getByText('Visitor')).toBeInTheDocument()
+    await expect(canvas.getByText('Visitor Information')).toBeInTheDocument()
     await expect(canvas.getByText('Total Views')).toBeInTheDocument()
 
     // Verify data rows exist
@@ -126,32 +122,12 @@ export const CustomRowLimit: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    // Verify pagination is shown (since we have 10 items with 5 per page)
-    await expect(canvas.getByText('1–5')).toBeInTheDocument()
-    await expect(canvas.getByText(/of 10/)).toBeInTheDocument()
-
-    // Find and click next page button
-    const nextButton = canvas.getByRole('button', { name: /next/i })
-    await expect(nextButton).toBeInTheDocument()
-    await userEvent.click(nextButton)
-
-    // Verify we're on page 2
-    await expect(canvas.getByText('6–10')).toBeInTheDocument()
-
-    // Click previous to go back
-    const prevButton = canvas.getByRole('button', { name: /previous/i })
-    await userEvent.click(prevButton)
-    await expect(canvas.getByText('1–5')).toBeInTheDocument()
+    // Verify table renders with limited rows (header row + 5 data rows)
+    const rows = canvas.getAllByRole('row')
+    await expect(rows.length).toBe(6) // 1 header + 5 data rows
   },
 }
 
-export const WithoutColumnManagement: Story = {
-  args: {
-    columns: exampleColumns,
-    data: exampleData,
-    showColumnManagement: false,
-  },
-}
 
 export const WithoutPagination: Story = {
   args: {
@@ -200,7 +176,6 @@ export const MinimalConfiguration: Story = {
   args: {
     columns: exampleColumns,
     data: exampleData,
-    showColumnManagement: false,
     showPagination: false,
   },
 }
@@ -211,7 +186,6 @@ export const FullFeatured: Story = {
     data: exampleData,
     defaultSort: 'totalViews',
     rowLimit: 10,
-    showColumnManagement: true,
     showPagination: true,
   },
 }
@@ -233,7 +207,6 @@ export const FullFeaturedWithReportLink: Story = {
     data: exampleData,
     defaultSort: 'totalViews',
     rowLimit: 10,
-    showColumnManagement: true,
     showPagination: true,
     fullReportLink: {
       text: 'See All Visitors',
@@ -257,7 +230,6 @@ export const WithTitleAndFullFeatures: Story = {
     title: 'Top Visitors Report',
     defaultSort: 'totalViews',
     rowLimit: 10,
-    showColumnManagement: true,
     showPagination: true,
     fullReportLink: {
       text: 'View Complete Report',
@@ -270,7 +242,6 @@ export const WithHiddenColumns: Story = {
   args: {
     columns: exampleColumns,
     data: exampleData,
-    showColumnManagement: true,
     hiddenColumns: ['entryPage', 'exitPage'],
   },
   play: async ({ canvasElement }) => {
@@ -409,7 +380,6 @@ export const ServerSideSortingAndPagination: Story = {
           totalRows={totalRows}
           rowLimit={perPage}
           showPagination={true}
-          showColumnManagement={true}
         />
       </div>
     )

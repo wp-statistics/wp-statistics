@@ -16,3 +16,6 @@ export function createQueryClient(): QueryClient {
     },
   })
 }
+
+// Singleton instance for use across the app and exports
+export const queryClient = createQueryClient()

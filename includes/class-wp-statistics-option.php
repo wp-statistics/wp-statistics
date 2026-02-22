@@ -5,18 +5,10 @@ namespace WP_STATISTICS;
 /**
  * Legacy Option class for backward compatibility.
  *
- * @deprecated 15.0.0 Use \WP_Statistics\Service\Options\OptionManager instead.
- * @see \WP_Statistics\Service\Options\OptionManager
- *
  * This class is maintained for backward compatibility with add-ons.
- * New code should use the OptionManager class from the v15 architecture.
+ * New code should use \WP_Statistics\Components\Option instead.
  *
- * Migration guide:
- * - Option::get($key)           -> OptionManager::get($key)
- * - Option::update($key, $val)  -> OptionManager::set($key, $val)
- * - Option::getOptions()        -> OptionManager::getAll()
- * - Option::getByAddon()        -> OptionManager::getAddon()
- * - Option::getOptionGroup()    -> OptionManager::getGroup()
+ * @see \WP_Statistics\Components\Option
  */
 class Option
 {
@@ -43,62 +35,6 @@ class Option
     public static function get_option_name($name)
     {
         return self::$opt_prefix . $name;
-    }
-
-    /**
-     * WP Statistics Default Option
-     *
-     * @return array
-     */
-    public static function defaultOption()
-    {
-
-        $options = array(
-            'robotlist'                       => Helper::get_robots_list(),
-            'query_params_allow_list'         => Helper::get_default_query_params_allow_list('string'),
-            'anonymize_ips'                   => true,
-            'hash_ips'                        => true,
-            'geoip'                           => true,
-            'useronline'                      => true,
-            'pages'                           => true,
-            'menu_bar'                        => true,
-            'coefficient'                     => Visitor::getCoefficient(),
-            'email_list'                      => get_bloginfo('admin_email'),
-            'use_cache_plugin'                => true,
-            'time_report'                     => '0',
-            'send_report'                     => 'mail',
-            'geoip_license_type'              => 'js-deliver',
-            'geoip_license_key'               => '',
-            'geoip_dbip_license_key_option'   => '',
-            'content_report'                  => '',
-            'email_free_content_header'       => '',
-            'email_free_content_footer'       => '',
-            'update_geoip'                    => true,
-            'privacy_audit'                   => true,
-            'store_ua'                        => false,
-            'consent_level_integration'       => 'disabled',
-            'anonymous_tracking'              => false,
-            'do_not_track'                    => false,
-            'exclude_administrator'           => true,
-            'referrerspam'                    => true,
-            'map_type'                        => 'jqvmap',
-            'ip_method'                       => 'sequential',
-            'exclude_loginpage'               => true,
-            'exclude_404s'                    => false,
-            'exclude_feeds'                   => true,
-            'schedule_dbmaint'                => true,
-            'schedule_dbmaint_days'           => '180',
-            'charts_previous_period'          => true,
-            'attribution_model'               => 'first-touch',
-            'geoip_location_detection_method' => 'maxmind',
-            'delete_data_on_uninstall'        => false,
-            'share_anonymous_data'            => false,
-            'display_notifications'           => true,
-            'word_count_analytics'            => true,
-            'show_privacy_issues_in_report'   => false,
-        );
-
-        return $options;
     }
 
     /**

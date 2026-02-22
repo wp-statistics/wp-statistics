@@ -2,15 +2,13 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
 
+use WP_Statistics\Components\DateTime;
+
 /**
  * Visitor group by - groups by visitor.
  *
- * Returns visitor data with attribution-aware session-level fields.
- * Session-level data (referrer, country, device, etc.) is attributed based on:
- * - First Touch: data from the visitor's FIRST session
- * - Last Touch: data from the visitor's MOST RECENT session
- *
- * Aggregate data (total sessions, total views) is NOT affected by attribution.
+ * Returns visitor data with session-level fields from the visitor's first session.
+ * Aggregate data (total sessions, total views) spans all sessions.
  *
  * @since 15.0.0
  */
@@ -22,12 +20,12 @@ class VisitorGroupBy extends AbstractGroupBy
     protected $groupBy = 'visitors.ID';
 
     /**
-     * Base extra columns that are not affected by attribution.
+     * Base extra columns.
      *
      * @var array
      */
     protected $baseExtraColumns = [
-        'visitors.hash AS visitor_hash',
+        'LEFT(visitors.hash, 6) AS visitor_hash',
         'MIN(sessions.started_at) AS first_visit',
         'MAX(sessions.started_at) AS last_visit',
         'COUNT(DISTINCT sessions.ID) AS total_sessions',
@@ -52,26 +50,38 @@ class VisitorGroupBy extends AbstractGroupBy
     ];
 
     /**
-     * Get SELECT columns with attribution support.
+     * Datetime fields that need UTC to site timezone conversion.
+     *
+     * @var array
+     */
+    protected $datetimeFields = ['first_visit', 'last_visit'];
+
+    /**
+     * Columns added by postProcess (not in SQL, but valid for column selection).
+     *
+     * @var array
+     */
+    protected $postProcessedColumns = ['first_visit_formatted', 'last_visit_formatted'];
+
+    /**
+     * Get SELECT columns.
      *
      * Returns base columns + attributed_session_id. The QueryExecutor will
      * fetch session attributes (country, browser, etc.) in a second query
      * and merge them into the results.
      *
-     * @param string $attribution      Attribution model ('first_touch' or 'last_touch').
-     * @param array  $requestedColumns Optional list of requested column aliases to filter which columns to include.
+     * @param array $requestedColumns Optional list of requested column aliases to filter which columns to include.
      * @return array
      */
-    public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array
+    public function getSelectColumns(array $requestedColumns = []): array
     {
         $columns = [$this->column . ' AS ' . $this->alias];
 
         // Add base extra columns conditionally based on requested columns
         $columns = array_merge($columns, $this->getBaseExtraColumns($requestedColumns));
 
-        // Add attributed_session_id - QueryExecutor will use this to fetch session attributes
-        $aggFunc = $attribution === 'last_touch' ? 'MAX' : 'MIN';
-        $columns[] = "CAST(SUBSTRING_INDEX({$aggFunc}(CONCAT(sessions.started_at, '||', sessions.ID)), '||', -1) AS UNSIGNED) AS attributed_session_id";
+        // Add attributed_session_id - use MIN to get the first session
+        $columns[] = "CAST(SUBSTRING_INDEX(MIN(CONCAT(sessions.started_at, '||', sessions.ID)), '||', -1) AS UNSIGNED) AS attributed_session_id";
 
         return $columns;
     }
@@ -87,9 +97,9 @@ class VisitorGroupBy extends AbstractGroupBy
         $includeAll = empty($requestedColumns);
         $columns = [];
 
-        // visitor_hash
+        // visitor_hash (truncated to 6 chars for display)
         if ($includeAll || in_array('visitor_hash', $requestedColumns, true)) {
-            $columns[] = 'visitors.hash AS visitor_hash';
+            $columns[] = 'LEFT(visitors.hash, 6) AS visitor_hash';
         }
 
         // first_visit
@@ -161,8 +171,14 @@ class VisitorGroupBy extends AbstractGroupBy
             'referrer_channel',
             'entry_page',
             'entry_page_title',
+            'entry_page_type',
+            'entry_page_wp_id',
+            'entry_page_resource_id',
             'exit_page',
             'exit_page_title',
+            'exit_page_type',
+            'exit_page_wp_id',
+            'exit_page_resource_id',
         ];
     }
 
@@ -179,7 +195,8 @@ class VisitorGroupBy extends AbstractGroupBy
     public function postProcess(array $rows, \wpdb $wpdb): array
     {
         if (empty($rows) || !isset($rows[0]['attributed_session_id'])) {
-            return $rows;
+            $rows = $this->convertDatetimeFields($rows);
+            return $this->addFormattedDateFields($rows);
         }
 
         $sessionIds = array_filter(array_column($rows, 'attributed_session_id'));
@@ -192,6 +209,33 @@ class VisitorGroupBy extends AbstractGroupBy
         // Remove the temporary attributed_session_id column from output
         foreach ($rows as &$row) {
             unset($row['attributed_session_id']);
+        }
+
+        $rows = $this->convertDatetimeFields($rows);
+        return $this->addFormattedDateFields($rows);
+    }
+
+    /**
+     * Add formatted date fields for first_visit and last_visit.
+     *
+     * @param array $rows Query result rows.
+     * @return array Rows with formatted date fields added.
+     */
+    private function addFormattedDateFields(array $rows): array
+    {
+        foreach ($rows as &$row) {
+            if (!empty($row['first_visit'])) {
+                $row['first_visit_formatted'] = DateTime::format($row['first_visit'], [
+                    'include_time' => false,
+                    'short_month'  => true,
+                ]);
+            }
+            if (!empty($row['last_visit'])) {
+                $row['last_visit_formatted'] = DateTime::format($row['last_visit'], [
+                    'include_time' => false,
+                    'short_month'  => true,
+                ]);
+            }
         }
 
         return $rows;
@@ -215,7 +259,7 @@ class VisitorGroupBy extends AbstractGroupBy
                 sessions.user_id,
                 attr_user.user_login,
                 attr_user.user_email,
-                sessions.ip AS ip_address,
+                visitors.ip AS ip_address,
                 attr_country.code AS country_code,
                 attr_country.name AS country_name,
                 attr_city.city_name,
@@ -228,10 +272,17 @@ class VisitorGroupBy extends AbstractGroupBy
                 attr_referrer.channel AS referrer_channel,
                 entry_page_uri.uri AS entry_page,
                 entry_page_resource.cached_title AS entry_page_title,
+                entry_page_resource.resource_type AS entry_page_type,
+                entry_page_resource.resource_id AS entry_page_wp_id,
+                entry_page_resource.ID AS entry_page_resource_id,
                 exit_page_uri.uri AS exit_page,
                 exit_page_resource.cached_title AS exit_page_title,
+                exit_page_resource.resource_type AS exit_page_type,
+                exit_page_resource.resource_id AS exit_page_wp_id,
+                exit_page_resource.ID AS exit_page_resource_id,
                 attr_user_role.meta_value AS user_role_raw
             FROM {$tablePrefix}sessions sessions
+            LEFT JOIN {$tablePrefix}visitors visitors ON sessions.visitor_id = visitors.ID
             LEFT JOIN {$wpdb->users} attr_user ON sessions.user_id = attr_user.ID
             LEFT JOIN {$wpdb->usermeta} attr_user_role ON sessions.user_id = attr_user_role.user_id AND attr_user_role.meta_key = '{$wpdb->prefix}capabilities'
             LEFT JOIN {$tablePrefix}countries attr_country ON sessions.country_id = attr_country.ID
@@ -346,8 +397,14 @@ class VisitorGroupBy extends AbstractGroupBy
             'referrer_channel' => null,
             'entry_page'       => null,
             'entry_page_title' => null,
+            'entry_page_type'  => null,
+            'entry_page_wp_id' => null,
+            'entry_page_resource_id' => null,
             'exit_page'        => null,
             'exit_page_title'  => null,
+            'exit_page_type'   => null,
+            'exit_page_wp_id'  => null,
+            'exit_page_resource_id' => null,
         ];
     }
 }

@@ -2,7 +2,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@compo
 import type { ColumnDef } from '@tanstack/react-table'
 import { Info } from 'lucide-react'
 
-import { DataTableColumnHeaderSortable } from './data-table-column-header-sortable'
+import { DataTableColumnHeader } from './data-table-column-header'
 
 // Example visitor data type based on the screenshot
 export type VisitorData = {
@@ -22,7 +22,7 @@ export type VisitorData = {
 export const exampleColumns: ColumnDef<VisitorData>[] = [
   {
     accessorKey: 'totalViews',
-    header: ({ column }) => <DataTableColumnHeaderSortable column={column} title="Total Views" />,
+    header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} title="Total Views" />,
     cell: ({ row }) => {
       return <div>{row.getValue('totalViews')}</div>
     },
@@ -36,7 +36,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
             {visitorInfo.flags.map((flag, index) => (
-              <span key={index} className="inline-flex items-center h-3 text-xs leading-3">
+              <span key={`${flag}-${index}`} className="inline-flex items-center h-3 text-xs leading-3">
                 {flag}
               </span>
             ))}
@@ -54,7 +54,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
       return (
         <div>
           <div>{referrer.domain}</div>
-          <div className="text-[10px] text-neutral-500 uppercase">{referrer.traffic}</div>
+          <div className="text-xs text-neutral-500">{referrer.traffic}</div>
         </div>
       )
     },
