@@ -15,7 +15,7 @@ interface SettingsFieldProps {
 export function SettingsField({ id, label, description, layout = 'inline', nested, children }: SettingsFieldProps) {
   const content =
     layout === 'inline' ? (
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
           <Label htmlFor={id}>{label}</Label>
           {description && <p className="text-xs text-muted-foreground">{description}</p>}
@@ -23,7 +23,7 @@ export function SettingsField({ id, label, description, layout = 'inline', neste
         {children}
       </div>
     ) : (
-      <div className="space-y-3">
+      <div className="space-y-2">
         <Label htmlFor={id}>{label}</Label>
         {children}
         {description && <p className="text-xs text-muted-foreground">{description}</p>}
