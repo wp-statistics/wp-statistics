@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 6.9
-Stable tag: 14.16.2
+Stable tag: 14.16.3
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -146,7 +146,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.16.2 - 2025-02-19 =
+= 14.16.3 - 2025-02-23 =
 - **Fix:** Minor improvements and fix version.
 
 = 14.16.1 - 2025-02-09 =
