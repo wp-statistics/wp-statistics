@@ -1,3 +1,4 @@
+import * as React from 'react'
 import type { Decorator } from '@storybook/react'
 
 // Mock filter operators
