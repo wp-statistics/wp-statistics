@@ -6,10 +6,11 @@
 #   composer dist          # Via composer script
 #   bash bin/build-zip.sh  # Direct execution
 #
-# Prerequisites:
-#   - .distignore file in the plugin root
-#   - composer install --no-dev (already run)
-#   - npm run build or equivalent (already run)
+# This script runs the full build pipeline:
+#   1. composer install --no-dev --optimize-autoloader
+#   2. pnpm install (if package.json exists)
+#   3. pnpm build (auto-detects build script from package.json)
+#   4. Creates ZIP using .distignore
 #
 
 set -e
@@ -45,6 +46,45 @@ if [ ! -f "$PLUGIN_DIR/.distignore" ]; then
     exit 1
 fi
 
+cd "$PLUGIN_DIR"
+
+# ---- Step 1: Install PHP dependencies ----
+echo "Step 1: Installing PHP dependencies..."
+composer install --no-dev --optimize-autoloader
+echo ""
+
+# ---- Step 2: Install Node.js dependencies ----
+if [ -f "$PLUGIN_DIR/package.json" ]; then
+    echo "Step 2: Installing Node.js dependencies..."
+    pnpm install
+    echo ""
+
+    # ---- Step 3: Build assets ----
+    # Auto-detect the build command from package.json scripts
+    BUILD_CMD=$(node -e "
+        const s = require('./package.json').scripts || {};
+        const cmds = ['build', 'build-assets', 'g', 'dev'];
+        const found = cmds.find(c => s[c]);
+        if (found) console.log(found);
+    " 2>/dev/null)
+
+    if [ -n "$BUILD_CMD" ]; then
+        echo "Step 3: Building assets (pnpm $BUILD_CMD)..."
+        pnpm "$BUILD_CMD"
+        echo ""
+    else
+        echo "Step 3: Skipped (no build script found in package.json)"
+        echo ""
+    fi
+else
+    echo "Step 2: Skipped (no package.json found)"
+    echo "Step 3: Skipped (no package.json found)"
+    echo ""
+fi
+
+# ---- Step 4: Create distribution ZIP ----
+echo "Step 4: Creating distribution ZIP..."
+
 # Clean previous build
 rm -rf "${BUILD_DIR:?}/$PLUGIN_SLUG"
 mkdir -p "$BUILD_DIR/$PLUGIN_SLUG"
@@ -67,4 +107,5 @@ zip -rq "$OUTPUT_DIR/$ZIP_NAME" "$PLUGIN_SLUG/"
 rm -rf "${BUILD_DIR:?}/$PLUGIN_SLUG"
 
 ZIP_SIZE=$(du -h "$OUTPUT_DIR/$ZIP_NAME" | cut -f1)
+echo ""
 echo "Created: $OUTPUT_DIR/$ZIP_NAME ($ZIP_SIZE)"
