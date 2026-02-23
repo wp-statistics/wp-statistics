@@ -122,7 +122,7 @@ export function transformLoggedInUserData(record: LoggedInUserRecord): LoggedInU
     countryCode: (record.country_code || '000').toLowerCase(),
     region: record.region_name || '',
     city: record.city_name || '',
-    os: (record.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    os: (record.os_name || 'unknown').toLowerCase().replace(/[\s/]+/g, '_'),
     osName: record.os_name || 'Unknown',
     browser: (record.browser_name || 'unknown').toLowerCase(),
     browserName: record.browser_name || 'Unknown',

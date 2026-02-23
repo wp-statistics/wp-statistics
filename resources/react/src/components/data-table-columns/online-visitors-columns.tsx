@@ -135,7 +135,7 @@ export function transformOnlineVisitorData(apiVisitor: APIOnlineVisitor): Online
     countryCode: (apiVisitor.country_code || '000').toLowerCase(),
     region: apiVisitor.region_name || '',
     city: apiVisitor.city_name || '',
-    os: (apiVisitor.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_'),
+    os: (apiVisitor.os_name || 'unknown').toLowerCase().replace(/[\s/]+/g, '_'),
     osName: apiVisitor.os_name || 'Unknown',
     browser: (apiVisitor.browser_name || 'unknown').toLowerCase(),
     browserName: apiVisitor.browser_name || 'Unknown',

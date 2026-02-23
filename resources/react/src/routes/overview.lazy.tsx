@@ -484,7 +484,7 @@ function createWidgetRenderers(): Record<string, (widgetId: string) => React.Rea
         labelAccessor={(item) => item.os_name || __('Unknown', 'wp-statistics')}
         iconAccessor={(item) => (
           <img
-            src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+            src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/[\s/]+/g, '_')}.svg`}
             alt={item.os_name || ''}
             className="w-4 h-3"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}

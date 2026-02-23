@@ -515,7 +515,7 @@ function VisitorsOverviewContent() {
                     total: Number(operatingSystemsTotals?.visitors?.current ?? operatingSystemsTotals?.visitors) || 1,
                     icon: (item) => (
                       <img
-                        src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+                        src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/[\s/]+/g, '_')}.svg`}
                         alt={item.os_name || ''}
                         className="w-4 h-3"
                       />

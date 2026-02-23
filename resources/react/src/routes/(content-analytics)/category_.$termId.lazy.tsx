@@ -786,7 +786,7 @@ function SingleCategoryReportContent() {
                     comparisonDateLabel,
                     icon: (item) => (
                       <img
-                        src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')}.svg`}
+                        src={`${pluginUrl}public/images/operating-system/${(item.os_name || 'unknown').toLowerCase().replace(/[\s/]+/g, '_')}.svg`}
                         alt={item.os_name || ''}
                         className="h-4 w-4 shrink-0"
                       />

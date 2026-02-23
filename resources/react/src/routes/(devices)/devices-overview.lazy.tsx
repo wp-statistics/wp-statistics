@@ -46,7 +46,7 @@ const browserIcon = (item: { browser_name?: string }) => {
 }
 
 const osIcon = (item: { os_name?: string }) => {
-  const slug = (item.os_name || 'unknown').toLowerCase().replace(/\s+/g, '_')
+  const slug = (item.os_name || 'unknown').toLowerCase().replace(/[\s/]+/g, '_')
   return (
     <img
       src={`${pluginUrl}public/images/operating-system/${slug}.svg`}

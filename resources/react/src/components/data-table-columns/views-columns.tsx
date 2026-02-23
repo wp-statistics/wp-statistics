@@ -121,7 +121,7 @@ export function transformViewData(record: ViewRecord): ViewData {
         city: record.city_name || '',
       },
       os: {
-        icon: record.os_name?.toLowerCase().replace(/\s+/g, '_') || 'unknown',
+        icon: record.os_name?.toLowerCase().replace(/[\s/]+/g, '_') || 'unknown',
         name: record.os_name || 'Unknown',
       },
       browser: {
