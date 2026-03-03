@@ -6,7 +6,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Components\Option;
 use ErrorException;
 use Exception;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Bootstrap;
 
 /**
  * Handles IP address detection, validation, and anonymization for visitor tracking.
@@ -257,7 +257,7 @@ class Ip
      */
     public static function getStorableIp()
     {
-        if (!Option::getValue('store_ip') || IntegrationHelper::shouldTrackAnonymously()) {
+        if (!Option::getValue('store_ip') || Bootstrap::get('consent')->shouldTrackAnonymously()) {
             return null;
         }
 

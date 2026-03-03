@@ -1,70 +1,120 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const consentIntegration = WP_Statistics_Tracker_Object.option.consentIntegration.name;
+/**
+ * WP Statistics Consent Adapter Registry
+ *
+ * Each consent provider registers a small adapter that knows how to check
+ * for consent. The tracker doesn't need to know about specific providers.
+ */
+if (!window.WpStatisticsConsentAdapters) {
+    window.WpStatisticsConsentAdapters = {};
+}
 
-    // If there's no consent integration
-    if (!consentIntegration) {
-        WpStatisticsUserTracker.init();
-        WpStatisticsEventTracker.init();
+/**
+ * None — no consent management, track immediately.
+ */
+WpStatisticsConsentAdapters['none'] = {
+    init: function (config, callback) {
+        callback();
     }
+};
 
-    // If WP Consent API integration is enabled
-    if (consentIntegration === 'wp_consent_api') {
-        handleWpConsentApiIntegration();
-    }
+/**
+ * WP Consent API — check wp_has_consent(), listen for changes.
+ */
+WpStatisticsConsentAdapters['wp_consent_api'] = {
+    init: function (config, callback) {
+        var consentLevel     = config.consentLevel;
+        var trackAnonymously = config.trackAnonymously;
+        var initialized      = false;
 
-    // If Real Cookie Banner integration is enabled
-    if (consentIntegration === 'real_cookie_banner') {
-        handleRealCookieBannerIntegration();
-    }
-});
+        function initOnce() {
+            if (!initialized) {
+                initialized = true;
+                callback();
+            }
+        }
 
+        // If tracking anonymously or consent already granted, init immediately
+        if (trackAnonymously || consentLevel === 'disabled' || (typeof wp_has_consent === 'function' && wp_has_consent(consentLevel))) {
+            initOnce();
+        } else if (!trackAnonymously && consentLevel !== 'disabled' && typeof wp_has_consent !== 'function') {
+            console.warn('WP Statistics: wp_has_consent() not available. Tracker will not initialize until consent API loads.');
+        }
 
-function handleWpConsentApiIntegration() {
-    const consentLevel      = WP_Statistics_Tracker_Object.option.consentIntegration.status['consent_level'];
-    const trackAnonymously  = WP_Statistics_Tracker_Object.option.consentIntegration.status['track_anonymously'];
-
-    if (trackAnonymously || consentLevel == 'disabled' || wp_has_consent(consentLevel)) {
-        WpStatisticsUserTracker.init();
-        WpStatisticsEventTracker.init();
-    }
-
-    document.addEventListener("wp_listen_for_consent_change", function (e) {
-        const changedConsentCategory = e.detail;
-        for (let key in changedConsentCategory) {
-            if (changedConsentCategory.hasOwnProperty(key)) {
-                if (key === consentLevel && changedConsentCategory[key] === 'allow') {
-                    WpStatisticsUserTracker.init();
-                    WpStatisticsEventTracker.init();
-
-                    // When trackAnonymously is enabled, the init() call above will get ignored (since it's already initialized before)
-                    // So, in this specific case, we can call checkHitRequestConditions() manually
-                    // This will insert a new record for the user (who just gave consent to us) and prevent other scripts (e.g. event.js) from malfunctioning
-                    if (trackAnonymously) {
+        // Listen for consent changes
+        document.addEventListener('wp_listen_for_consent_change', function (e) {
+            var changedConsentCategory = e.detail;
+            for (var key in changedConsentCategory) {
+                if (changedConsentCategory.hasOwnProperty(key) && key === consentLevel && changedConsentCategory[key] === 'allow') {
+                    if (!initialized) {
+                        initOnce();
+                    } else if (trackAnonymously) {
+                        // Already initialized anonymously, now consent granted — re-record
                         WpStatisticsUserTracker.checkHitRequestConditions();
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
+};
 
-function handleRealCookieBannerIntegration() {
-    (window.consentApi?.consent("wp-statistics") || Promise.resolve())
-        .then(() => {
-            // In case the user has given consent
+/**
+ * Real Cookie Banner — use consentApi promise.
+ */
+WpStatisticsConsentAdapters['real_cookie_banner'] = {
+    init: function (config, callback) {
+        if (!window.consentApi || typeof window.consentApi.consent !== 'function') {
+            console.warn('WP Statistics: Real Cookie Banner consentApi not found. Tracking disabled until consent API loads.');
+            return;
+        }
+
+        window.consentApi.consent('wp-statistics')
+            .then(function () {
+                callback();
+            })
+            .catch(function (e) {
+                console.log('WP Statistics: RCB base consent not given, checking data processing consent.', e);
+                try {
+                    var dataProcessing = window.consentApi.consentSync('wp-statistics-with-data-processing');
+                    if (dataProcessing && dataProcessing.cookie != null && dataProcessing.cookieOptIn) {
+                        callback();
+                    }
+                } catch (err) {
+                    console.warn('WP Statistics: Error checking RCB data processing consent.', err);
+                }
+            });
+    }
+};
+
+/**
+ * Borlabs Cookie — Borlabs blocks the script itself, so if we're running, consent is given.
+ */
+WpStatisticsConsentAdapters['borlabs_cookie'] = {
+    init: function (config, callback) {
+        callback();
+    }
+};
+
+/**
+ * Main tracker initialization.
+ */
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof WP_Statistics_Tracker_Object === 'undefined' || !WP_Statistics_Tracker_Object.option) {
+        console.error('WP Statistics: Tracker configuration (WP_Statistics_Tracker_Object) is missing. Tracking disabled.');
+        return;
+    }
+
+    var config = WP_Statistics_Tracker_Object.option.consent || {};
+    var mode   = config.mode || 'none';
+
+    var adapter = WpStatisticsConsentAdapters[mode];
+
+    if (adapter) {
+        adapter.init(config, function () {
             WpStatisticsUserTracker.init();
             WpStatisticsEventTracker.init();
-        })
-        .catch(() => {
-            // In case the user has not given base consent,
-            // check if they have given consent for data processing service
-            const dataProcessing = window.consentApi?.consentSync("wp-statistics-with-data-processing");
-
-            if (dataProcessing.cookie != null && dataProcessing.cookieOptIn) {
-                WpStatisticsUserTracker.init();
-                WpStatisticsEventTracker.init();
-            } else {
-                console.log("WP Statistics: Real Cookie Banner consent is not given to track visitor information.");
-            }
         });
-}
+    } else {
+        // Unknown mode — fail closed, do not track
+        console.warn('WP Statistics: Unknown consent mode "' + mode + '". Tracking disabled.');
+    }
+});

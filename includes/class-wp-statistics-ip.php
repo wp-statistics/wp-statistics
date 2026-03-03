@@ -6,7 +6,7 @@ use ErrorException;
 use Exception;
 use WP_Statistics;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Bootstrap;
 
 /**
  * Legacy IP class for backward compatibility.
@@ -192,7 +192,7 @@ class IP
      */
     public static function getStoreIP()
     {
-        if (!Option::get('store_ip') || IntegrationHelper::shouldTrackAnonymously()) {
+        if (!Option::get('store_ip') || Bootstrap::get('consent')->shouldTrackAnonymously()) {
             return null;
         }
 

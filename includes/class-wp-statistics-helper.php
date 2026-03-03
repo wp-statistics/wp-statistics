@@ -11,7 +11,7 @@ use WP_Statistics_Mail;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Bootstrap;
 
 /**
  * Legacy Helper class for backward compatibility.
@@ -1883,16 +1883,13 @@ class Helper
      *
      * In this case, we have to track user's information anonymously.
      *
-     * @deprecated use `IntegrationHelper::shouldTrackAnonymously()` method
+     * @deprecated Use Bootstrap::get('consent')->shouldTrackAnonymously() instead.
      *
      * @return  bool
      */
     public static function shouldTrackAnonymously()
     {
-        $isConsentGiven    = IntegrationHelper::isConsentGiven();
-        $anonymousTracking = IntegrationHelper::shouldTrackAnonymously();
-
-        return !$isConsentGiven && $anonymousTracking;
+        return Bootstrap::get('consent')->shouldTrackAnonymously();
     }
 
     /**

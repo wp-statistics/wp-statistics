@@ -14,6 +14,7 @@ use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
 use WP_Statistics\Service\CustomEvent\CustomEventHandler;
 use WP_Statistics\Service\Ajax\AjaxDispatcher;
 use WP_Statistics\Service\Admin\AdminBar\AdminBarManager;
+use WP_Statistics\Service\Consent\ConsentManager;
 
 /**
  * Core Service Provider.
@@ -35,6 +36,11 @@ class CoreServiceProvider implements ServiceProvider
         // HooksManager - registered as singleton (already instantiated early)
         $container->register('hooks', function () {
             return new HooksManager();
+        });
+
+        // Consent Manager - lazy loaded
+        $container->register('consent', function () {
+            return new ConsentManager();
         });
 
         // Tracking - lazy loaded
@@ -94,6 +100,9 @@ class CoreServiceProvider implements ServiceProvider
      */
     public function boot(ServiceContainer $container): void
     {
+        // Initialize consent manager (before tracking, so consent state is ready)
+        $container->get('consent');
+
         // Initialize tracking controller
         $container->get('tracking');
 

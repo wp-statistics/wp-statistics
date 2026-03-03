@@ -11,7 +11,7 @@ use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Traits\TransientCacheTrait;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Bootstrap;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_Statistics\Utils\Url;
@@ -69,30 +69,32 @@ class GeneralNotices
      */
     private function detectConsentIntegrations()
     {
-        if (Option::getValue('consent_integration')) return;
+        $consentManager = Bootstrap::get('consent');
+        $notices = $consentManager->getDetectionNotices();
 
-        $integrations = IntegrationHelper::getAllIntegrations();
+        foreach ($notices as $provider) {
+            $noticeKey = $provider->getKey() . '_detection_notice';
 
-        foreach ($integrations as $integration) {
-            if (!$integration->isActive()) continue;
-
-            $notice = $integration->detectionNotice();
-
-            if (empty($notice) || Notice::isNoticeDismissed($notice['key'])) continue;
+            if (Notice::isNoticeDismissed($noticeKey)) {
+                continue;
+            }
 
             $message = wp_kses(
                 sprintf(
                     '<div><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
                     esc_html__('WP Statistics', 'wp-statistics'),
-                    esc_html($notice['title']),
-                    esc_html($notice['description']),
+                    esc_html__('Consent Plugin Detected', 'wp-statistics'),
+                    sprintf(
+                        esc_html__('We\'ve detected %s on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin.', 'wp-statistics'),
+                        '<b>' . esc_html($provider->getName()) . '</b>'
+                    ),
                     esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
                     esc_html__('Activate integration ›', 'wp-statistics')
                 ),
                 ['div' => ['class' => []], 'b' => ['class' => []], 'p' => [], 'a' => ['href' => []]]
             );
 
-            Notice::addNotice($message, $notice['key']);
+            Notice::addNotice($message, $noticeKey);
         }
     }
 

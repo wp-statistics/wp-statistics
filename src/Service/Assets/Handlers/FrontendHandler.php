@@ -5,7 +5,8 @@ use WP_Statistics\Abstracts\BaseAssets;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Bootstrap;
+use WP_Statistics\Service\Consent\ConsentManager;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
@@ -58,24 +59,15 @@ class FrontendHandler extends BaseAssets
         $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], TrackerHelper::getHitsDefaultParams());
         $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 
-        $requestUrl = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
-        $hitParams  = !empty($params['hitParams']) ? $params['hitParams'] : [];
+        $requestUrl     = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
+        $hitParams      = !empty($params['hitParams']) ? $params['hitParams'] : [];
+        $consentManager = Bootstrap::get('consent');
 
         $jsArgs = array(
             'requestUrl'          => $requestUrl,
             'ajaxUrl'             => admin_url('admin-ajax.php'),
             'hitParams'           => $hitParams,
-            'option'              => [
-                'userOnline'           => Option::getValue('useronline'),
-                'bypassAdBlockers'     => Option::getValue('bypass_ad_blockers', false),
-                'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
-                'isPreview'            => is_preview(),
-
-                // legacy params for backward compatibility (with older versions of DataPlus)
-                'trackAnonymously'     => IntegrationHelper::shouldTrackAnonymously(),
-                'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
-                'consentLevel'         => Option::getValue('consent_level_integration', 'disabled'),
-            ],
+            'option'              => $this->buildOptionArgs($consentManager),
             'resourceUriId'       => ResourcesFactory::getCurrentResourceUri()->getId(),
             'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
             'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
@@ -87,13 +79,32 @@ class FrontendHandler extends BaseAssets
         }
 
         // Add tracker.js dependencies
-        $dependencies = [];
-        $integration = IntegrationHelper::getActiveIntegration();
-        if ($integration) {
-            $dependencies = $integration->getJsHandles();
-        }
+        $dependencies = $consentManager->getJsDependencies();
 
         Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
+    }
+
+    /**
+     * Build option arguments for the tracker script.
+     *
+     * @return array
+     */
+    private function buildOptionArgs(ConsentManager $consentManager): array
+    {
+        $trackerConfig = $consentManager->getTrackerConfig();
+
+        return [
+            'userOnline'           => Option::getValue('useronline'),
+            'bypassAdBlockers'     => Option::getValue('bypass_ad_blockers', false),
+            'consent'              => $trackerConfig,
+            'consentIntegration'   => $consentManager->getIntegrationStatus(),
+            'isPreview'            => is_preview(),
+
+            // legacy params for backward compatibility (with older versions of DataPlus)
+            'trackAnonymously'     => $consentManager->shouldTrackAnonymously(),
+            'isWpConsentApiActive' => $consentManager->getActiveProvider()->getKey() === 'wp_consent_api',
+            'consentLevel'         => $trackerConfig['consentLevel'] ?? 'disabled',
+        ];
     }
 
     /**

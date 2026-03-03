@@ -6,7 +6,7 @@ use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Components\Event;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Bootstrap;
 use WP_Statistics\Utils\Query;
 
 /**
@@ -346,12 +346,11 @@ class InstallManager
         $integration = Option::getValue('consent_integration');
         $consentLevel = Option::getValue('consent_level_integration', 'disabled');
 
-        if (class_exists(IntegrationHelper::class)) {
-            $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
+        $consentManager = Bootstrap::get('consent');
+        $wpConsentApi   = $consentManager->getProvider('wp_consent_api');
 
-            if ($isWpConsentApiActive && empty($integration) && $consentLevel !== 'disabled') {
-                Option::updateValue('consent_integration', 'wp_consent_api');
-            }
+        if ($wpConsentApi && $wpConsentApi->isAvailable() && empty($integration) && $consentLevel !== 'disabled') {
+            Option::updateValue('consent_integration', 'wp_consent_api');
         }
     }
 }
