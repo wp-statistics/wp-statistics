@@ -18,7 +18,7 @@ class WpConsentApiProvider extends AbstractConsentProvider
 
     public function isSelectable(): bool
     {
-        return $this->isAvailable() && !empty($this->getCompatiblePlugins());
+        return $this->isAvailable();
     }
 
     public function shouldShowNotice(): bool

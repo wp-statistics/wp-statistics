@@ -21,6 +21,7 @@ class ConsentManager
     {
         $this->registerBuiltInProviders();
         $this->applyProvidersFilter();
+        $this->registerAvailableProviders();
         $this->resolveActiveProvider();
         $this->registerDeactivationHook();
     }
@@ -60,6 +61,27 @@ class ConsentManager
         }
     }
 
+    /**
+     * Register all available providers.
+     *
+     * Runs register() on every provider whose plugin is active, matching the
+     * development branch behavior where IntegrationsManager called register()
+     * on all active integrations. This allows providers like Borlabs Cookie to
+     * auto-activate before the active provider is resolved.
+     */
+    private function registerAvailableProviders(): void
+    {
+        foreach ($this->providers as $provider) {
+            if ($provider instanceof NoneConsentProvider) {
+                continue;
+            }
+
+            if ($provider->isAvailable()) {
+                $provider->register();
+            }
+        }
+    }
+
     private function resolveActiveProvider(): void
     {
         $key      = Option::getValue('consent_integration', '');
@@ -78,8 +100,6 @@ class ConsentManager
                 ));
             }
         }
-
-        $this->activeProvider->register();
     }
 
     private function registerDeactivationHook(): void

@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Consent\Providers;
 
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
 use WP_Statistics\Service\Consent\ConsentStatus;
 use WP_Statistics\Utils\Query;
@@ -35,7 +36,17 @@ class BorlabsCookieProvider extends AbstractConsentProvider
 
     public function register(): void
     {
-        // No hooks to register — Borlabs handles script blocking itself.
+        $isServiceActive = $this->isServiceInstalled();
+
+        // If Borlabs is configured but the WP Statistics service was removed, clear the integration
+        if (Option::getValue('consent_integration') === $this->key && !$isServiceActive) {
+            Option::updateValue('consent_integration', '');
+        }
+
+        // If the WP Statistics service is active in Borlabs, auto-activate the integration
+        if ($isServiceActive) {
+            Option::updateValue('consent_integration', $this->key);
+        }
     }
 
     public function isServiceInstalled(): bool
