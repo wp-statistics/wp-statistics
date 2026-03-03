@@ -44,7 +44,8 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
 
     public function test_has_consent_returns_false_when_default_consent_level()
     {
-        // Default consent level is 'functional' and wp_has_consent() is unavailable in test env.
+        // Default consent level is 'functional' (not 'disabled'), so hasConsent() delegates
+        // to wp_has_consent(), which does not exist in the test environment -- returns false.
         $this->assertFalse($this->provider->hasConsent());
     }
 
