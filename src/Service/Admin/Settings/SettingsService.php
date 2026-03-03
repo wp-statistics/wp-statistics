@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Settings;
 
 use WP_Statistics\Bootstrap;
 use WP_Statistics\Components\Option;
+use WP_Statistics\Service\Consent\ConsentManager;
 use WP_Statistics\Service\Consent\Providers\WpConsentApiProvider;
 use InvalidArgumentException;
 
@@ -190,7 +191,7 @@ class SettingsService
     public static function getConsentProvidersMeta(): array
     {
         $consentManager = Bootstrap::get('consent');
-        if (!$consentManager) {
+        if (!$consentManager instanceof ConsentManager) {
             return [];
         }
 
