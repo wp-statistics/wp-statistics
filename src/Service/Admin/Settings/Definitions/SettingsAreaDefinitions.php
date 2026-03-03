@@ -234,20 +234,11 @@ class SettingsAreaDefinitions
                         'order'       => 20,
                         'fields'      => [
                             'consent_integration' => [
-                                'type'        => 'select',
+                                'type'        => 'component',
+                                'component'   => 'ConsentIntegrationField',
                                 'setting_key' => 'consent_integration',
-                                'label'       => __('Consent Plugin Integration', 'wp-statistics'),
-                                'description' => __('Integrate with supported consent management plugins.', 'wp-statistics'),
                                 'default'     => 'none',
-                                'options'     => [
-                                    ['value' => 'none', 'label' => __('None', 'wp-statistics')],
-                                    ['value' => 'wp_consent_api', 'label' => __('Via WP Consent API', 'wp-statistics')],
-                                    ['value' => 'complianz', 'label' => __('Complianz', 'wp-statistics')],
-                                    ['value' => 'cookieyes', 'label' => __('CookieYes', 'wp-statistics')],
-                                    ['value' => 'real_cookie_banner', 'label' => __('Real Cookie Banner', 'wp-statistics')],
-                                    ['value' => 'borlabs_cookie', 'label' => __('Borlabs Cookie', 'wp-statistics')],
-                                ],
-                                'order' => 10,
+                                'order'       => 10,
                             ],
                             'consent_level_integration' => [
                                 'type'         => 'select',

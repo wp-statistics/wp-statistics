@@ -2,7 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\Settings;
 
+use WP_Statistics\Bootstrap;
 use WP_Statistics\Components\Option;
+use WP_Statistics\Service\Consent\Providers\WpConsentApiProvider;
 use InvalidArgumentException;
 
 /**
@@ -51,6 +53,10 @@ class SettingsService
             $settings['_roles'] = self::getAvailableRoles();
         }
 
+        if ($tab === 'privacy') {
+            $settings['_consent_providers'] = self::getConsentProvidersMeta();
+        }
+
         return $settings;
     }
 
@@ -77,6 +83,10 @@ class SettingsService
 
             if ($tab === 'access' || $tab === 'exclusions') {
                 $tabData['_roles'] = self::getAvailableRoles();
+            }
+
+            if ($tab === 'privacy') {
+                $tabData['_consent_providers'] = self::getConsentProvidersMeta();
             }
 
             $settings[$tab] = $tabData;
@@ -170,6 +180,37 @@ class SettingsService
         }
 
         return $roles;
+    }
+
+    /**
+     * Get consent provider metadata for the settings UI.
+     *
+     * @return array<int, array{key: string, name: string, available: bool, selectable: bool, compatible_plugins?: string[]}>
+     */
+    public static function getConsentProvidersMeta(): array
+    {
+        $consentManager = Bootstrap::get('consent');
+        if (!$consentManager) {
+            return [];
+        }
+
+        $result = [];
+        foreach ($consentManager->getProviders() as $provider) {
+            $entry = [
+                'key'        => $provider->getKey(),
+                'name'       => $provider->getName(),
+                'available'  => $provider->isAvailable(),
+                'selectable' => $provider->isSelectable(),
+            ];
+
+            if ($provider instanceof WpConsentApiProvider) {
+                $entry['compatible_plugins'] = array_values($provider->getCompatiblePlugins());
+            }
+
+            $result[] = $entry;
+        }
+
+        return $result;
     }
 
     /**
