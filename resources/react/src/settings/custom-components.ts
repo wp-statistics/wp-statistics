@@ -35,6 +35,15 @@ registerSettingsComponent(
 )
 
 registerSettingsComponent(
+  'ConsentIntegrationField',
+  lazy(() =>
+    import('@/components/settings/components/consent-integration-field').then((m) => ({
+      default: m.ConsentIntegrationField,
+    }))
+  )
+)
+
+registerSettingsComponent(
   'ExcludeIpField',
   lazy(() =>
     import('@/components/settings/components/exclude-ip-field').then((m) => ({
