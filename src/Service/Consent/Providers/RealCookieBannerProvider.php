@@ -31,6 +31,9 @@ class RealCookieBannerProvider extends AbstractConsentProvider
 
     public function getConsentStatus(): ConsentStatus
     {
+        // Intentionally fail closed: if the RCB consent function is unavailable
+        // (e.g. plugin partially loaded or deactivated), do not track.
+        // This differs from the development branch which fails open (returns true).
         if (!function_exists('wp_rcb_consent_given')) {
             return ConsentStatus::none();
         }

@@ -23,12 +23,13 @@ class Test_RealCookieBannerProvider extends WP_UnitTestCase
 
     public function test_consent_status_is_none_when_function_missing()
     {
+        // Intentionally fail closed when wp_rcb_consent_given() is unavailable
         $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::none()));
     }
 
     public function test_has_consent_fails_closed_when_function_missing()
     {
-        // wp_rcb_consent_given() does not exist — should fail closed
+        // wp_rcb_consent_given() does not exist — fail closed (don't track)
         $this->assertFalse($this->provider->hasConsent());
     }
 
