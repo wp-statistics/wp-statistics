@@ -41,7 +41,7 @@ class BorlabsCookieProvider extends AbstractConsentProvider
         $currentIntegration = Option::getValue('consent_integration', 'none');
 
         // If another provider is explicitly configured, don't interfere
-        if ($currentIntegration !== 'none' && $currentIntegration !== $this->key) {
+        if ($currentIntegration !== 'none' && $currentIntegration !== '' && $currentIntegration !== $this->key) {
             return;
         }
 
