@@ -194,8 +194,12 @@ class SiteHealthInfo extends Singleton
             ],
             'wpConsentLevelIntegration'      => [
                 'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),
-                'value' => Option::getValue('consent_level_integration') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('consent_level_integration') ? 'Enabled' : 'Disabled',
+                'value' => ($consentIntegration = Option::getValue('consent_integration', 'none')) !== 'none' && $consentIntegration !== ''
+                    ? ucfirst(str_replace('-', ' ', Option::getValue('consent_level_integration', 'functional')))
+                    : __('Not configured', 'wp-statistics'),
+                'debug' => ($consentIntegration !== 'none' && $consentIntegration !== '')
+                    ? Option::getValue('consent_level_integration', 'functional')
+                    : 'Not configured',
             ],
             'anonymousTracking'              => [
                 'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
