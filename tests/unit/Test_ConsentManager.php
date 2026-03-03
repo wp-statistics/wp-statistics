@@ -15,7 +15,7 @@ class Test_ConsentManager extends WP_UnitTestCase
         parent::setUp();
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
-            ['consent_integration' => '']
+            ['consent_integration' => 'none']
         ));
     }
 
@@ -182,5 +182,90 @@ class Test_ConsentManager extends WP_UnitTestCase
         $notices = $manager->getDetectionNotices();
 
         $this->assertIsArray($notices);
+    }
+
+    public function test_detection_notices_not_suppressed_when_integration_is_none_sentinel()
+    {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['consent_integration' => 'none']
+        ));
+
+        $noticeProvider = new class implements ConsentProviderInterface {
+            public function getKey(): string
+            {
+                return 'custom_notice_provider';
+            }
+
+            public function getName(): string
+            {
+                return 'Custom Notice Provider';
+            }
+
+            public function isAvailable(): bool
+            {
+                return true;
+            }
+
+            public function isSelectable(): bool
+            {
+                return true;
+            }
+
+            public function shouldShowNotice(): bool
+            {
+                return true;
+            }
+
+            public function getConsentStatus(): ConsentStatus
+            {
+                return ConsentStatus::full();
+            }
+
+            public function hasConsent(): bool
+            {
+                return true;
+            }
+
+            public function trackAnonymously(): bool
+            {
+                return false;
+            }
+
+            public function register(): void
+            {
+            }
+
+            public function getJsHandles(): array
+            {
+                return [];
+            }
+
+            public function getJsConfig(): array
+            {
+                return ['mode' => 'custom_notice_provider'];
+            }
+
+            public function getStatus(): array
+            {
+                return ['has_consent' => true, 'track_anonymously' => false];
+            }
+        };
+
+        add_filter('wp_statistics_consent_providers', function ($providers) use ($noticeProvider) {
+            $providers[] = $noticeProvider;
+            return $providers;
+        });
+
+        $manager = new ConsentManager();
+        $notices = $manager->getDetectionNotices();
+
+        $keys = array_map(function ($provider) {
+            return $provider->getKey();
+        }, $notices);
+
+        $this->assertContains('custom_notice_provider', $keys);
+
+        remove_all_filters('wp_statistics_consent_providers');
     }
 }

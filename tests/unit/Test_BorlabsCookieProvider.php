@@ -23,6 +23,11 @@ class Test_BorlabsCookieProvider extends WP_UnitTestCase
 
     public function test_consent_status_is_full()
     {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['anonymous_tracking' => false]
+        ));
+
         $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::full()));
     }
 
@@ -32,8 +37,24 @@ class Test_BorlabsCookieProvider extends WP_UnitTestCase
         $this->assertTrue($this->provider->hasConsent());
     }
 
-    public function test_never_tracks_anonymously()
+    public function test_tracks_anonymously_when_option_enabled()
     {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['anonymous_tracking' => true]
+        ));
+
+        $this->assertTrue($this->provider->trackAnonymously());
+        $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::anonymous()));
+    }
+
+    public function test_does_not_track_anonymously_when_option_disabled()
+    {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['anonymous_tracking' => false]
+        ));
+
         $this->assertFalse($this->provider->trackAnonymously());
     }
 

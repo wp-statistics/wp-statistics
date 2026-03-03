@@ -84,7 +84,7 @@ class ConsentManager
 
     private function resolveActiveProvider(): void
     {
-        $key      = Option::getValue('consent_integration', '');
+        $key      = Option::getValue('consent_integration', 'none');
         $provider = $this->getProvider($key);
 
         if ($provider && $provider->isAvailable()) {
@@ -92,7 +92,7 @@ class ConsentManager
         } else {
             $this->activeProvider = $this->providers['none'] ?? new NoneConsentProvider();
 
-            if (!empty($key) && $key !== 'none') {
+            if ($key !== 'none' && $key !== '') {
                 error_log(sprintf(
                     'WP Statistics: Consent provider "%s" is configured but %s. Falling back to "none".',
                     $key,
@@ -105,7 +105,10 @@ class ConsentManager
     private function registerDeactivationHook(): void
     {
         add_action('update_option_active_plugins', function () {
-            $key      = Option::getValue('consent_integration', '');
+            $key = Option::getValue('consent_integration', 'none');
+            if ($key === '') {
+                $key = 'none';
+            }
             $provider = $this->getProvider($key);
 
             if (!$provider || $provider instanceof NoneConsentProvider) {
@@ -113,7 +116,7 @@ class ConsentManager
             }
 
             if (!$provider->isAvailable()) {
-                Option::updateValue('consent_integration', '');
+                Option::updateValue('consent_integration', 'none');
             }
         });
     }
@@ -188,7 +191,7 @@ class ConsentManager
      */
     public function getDetectionNotices(): array
     {
-        if (Option::getValue('consent_integration')) {
+        if (!($this->activeProvider instanceof NoneConsentProvider)) {
             return [];
         }
 

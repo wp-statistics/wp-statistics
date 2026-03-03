@@ -31,15 +31,17 @@ class BorlabsCookieProvider extends AbstractConsentProvider
 
     public function getConsentStatus(): ConsentStatus
     {
-        return ConsentStatus::full();
+        return Option::getValue('anonymous_tracking', false)
+            ? ConsentStatus::anonymous()
+            : ConsentStatus::full();
     }
 
     public function register(): void
     {
-        $currentIntegration = Option::getValue('consent_integration', '');
+        $currentIntegration = Option::getValue('consent_integration', 'none');
 
         // If another provider is explicitly configured, don't interfere
-        if (!empty($currentIntegration) && $currentIntegration !== $this->key) {
+        if ($currentIntegration !== 'none' && $currentIntegration !== $this->key) {
             return;
         }
 
@@ -47,7 +49,7 @@ class BorlabsCookieProvider extends AbstractConsentProvider
 
         // If Borlabs was the active integration but the service was removed, clear it
         if ($currentIntegration === $this->key && !$isServiceActive) {
-            Option::updateValue('consent_integration', '');
+            Option::updateValue('consent_integration', 'none');
             return;
         }
 

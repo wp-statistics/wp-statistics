@@ -49,7 +49,7 @@ class WpConsentApiProvider extends AbstractConsentProvider
 
     public function getConsentLevel(): string
     {
-        return Option::getValue('consent_level_integration', 'disabled');
+        return Option::getValue('consent_level_integration', 'functional');
     }
 
     public function hasConsent(): bool

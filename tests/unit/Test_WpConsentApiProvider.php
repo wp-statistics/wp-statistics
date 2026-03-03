@@ -42,10 +42,10 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
         $this->assertFalse($this->provider->hasConsent());
     }
 
-    public function test_has_consent_returns_true_when_default_consent_level()
+    public function test_has_consent_returns_false_when_default_consent_level()
     {
-        // Default consent level is 'disabled', so hasConsent should return true
-        $this->assertTrue($this->provider->hasConsent());
+        // Default consent level is 'functional' and wp_has_consent() is unavailable in test env.
+        $this->assertFalse($this->provider->hasConsent());
     }
 
     public function test_track_anonymously_reads_option()
@@ -91,9 +91,9 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
         $this->assertIsArray($plugins);
     }
 
-    public function test_consent_level_defaults_to_disabled()
+    public function test_consent_level_defaults_to_functional()
     {
-        $this->assertEquals('disabled', $this->provider->getConsentLevel());
+        $this->assertEquals('functional', $this->provider->getConsentLevel());
     }
 
     public function test_consent_level_reads_option()

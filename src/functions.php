@@ -1134,5 +1134,12 @@ function wp_statistics_referrer($time = null, $range = [], $output = '')
  */
 function wp_statistics_needs_consent()
 {
-    return (bool) Option::getValue('consent_level_integration');
+    $needsConsent = (bool) Option::getValue('store_ip', false) || (bool) Option::getValue('visitors_log', false);
+
+    /**
+     * Filters whether consent is required based on current privacy-impacting settings.
+     *
+     * @param bool $needsConsent Whether consent is required.
+     */
+    return (bool) apply_filters('wp_statistics_needs_consent', $needsConsent);
 }

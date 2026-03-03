@@ -71,6 +71,16 @@ class Test_SettingsSanitizer extends WP_UnitTestCase
         $this->assertStringNotContainsString("\n", $result);
     }
 
+    public function test_consent_integration_keeps_none_value()
+    {
+        $this->assertSame('none', SettingsSanitizer::sanitize('consent_integration', 'none'));
+    }
+
+    public function test_consent_integration_keeps_provider_key()
+    {
+        $this->assertSame('wp_consent_api', SettingsSanitizer::sanitize('consent_integration', 'wp_consent_api'));
+    }
+
     public function test_textarea_keys_are_hardcoded()
     {
         $keys = SettingsSanitizer::getTextareaKeys();

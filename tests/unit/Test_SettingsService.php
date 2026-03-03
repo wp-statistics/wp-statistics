@@ -79,6 +79,16 @@ class Test_SettingsService extends WP_UnitTestCase
         $this->assertArrayHasKey('consent_integration', $settings);
     }
 
+    public function test_privacy_tab_keeps_none_consent_integration_value()
+    {
+        Option::updateValue('consent_integration', 'none');
+
+        $service  = new SettingsService();
+        $settings = $service->getTabSettings('privacy');
+
+        $this->assertSame('none', $settings['consent_integration']);
+    }
+
     public function test_get_all_settings_returns_keyed_by_tab()
     {
         $service  = new SettingsService();
@@ -103,6 +113,17 @@ class Test_SettingsService extends WP_UnitTestCase
         ]);
 
         $this->assertTrue(Option::getValue('visitors_log'));
+    }
+
+    public function test_save_privacy_tab_keeps_none_consent_integration_value()
+    {
+        $service = new SettingsService();
+
+        $service->saveTabSettings('privacy', [
+            'consent_integration' => 'none',
+        ]);
+
+        $this->assertSame('none', Option::getValue('consent_integration'));
     }
 
     public function test_save_rejects_disallowed_keys()

@@ -103,7 +103,7 @@ class FrontendHandler extends BaseAssets
             // legacy params for backward compatibility (with older versions of DataPlus)
             'trackAnonymously'     => $consentManager->shouldTrackAnonymously(),
             'isWpConsentApiActive' => $consentManager->getActiveProvider()->getKey() === 'wp_consent_api',
-            'consentLevel'         => $trackerConfig['consentLevel'] ?? 'disabled',
+            'consentLevel'         => $trackerConfig['consentLevel'] ?? 'functional',
         ];
     }
 

@@ -245,7 +245,7 @@ class SettingsAreaDefinitions
                                 'setting_key'  => 'consent_level_integration',
                                 'label'        => __('Consent Category', 'wp-statistics'),
                                 'description'  => __('Select the consent category WP Statistics should track.', 'wp-statistics'),
-                                'default'      => 'disabled',
+                                'default'      => 'functional',
                                 'nested'       => true,
                                 'visible_when' => [
                                     'consent_integration' => 'wp_consent_api',
