@@ -529,6 +529,16 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
         $this->assertTrue(wp_statistics_needs_consent());
     }
 
+    public function test_wpStatisticsNeedsConsentCanBeForcedTrueByFilter()
+    {
+        \WP_Statistics\Components\Option::updateValue('store_ip', false);
+        \WP_Statistics\Components\Option::updateValue('visitors_log', false);
+
+        add_filter('wp_statistics_needs_consent', '__return_true');
+        $this->assertTrue(wp_statistics_needs_consent());
+        remove_all_filters('wp_statistics_needs_consent');
+    }
+
     public function test_wpStatisticsNeedsConsentCanBeOverriddenByFilter()
     {
         add_filter('wp_statistics_needs_consent', '__return_false');
