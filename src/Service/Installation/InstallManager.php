@@ -347,9 +347,13 @@ class InstallManager
         $consentLevel = Option::getValue('consent_level_integration', 'functional');
 
         $consentManager = Bootstrap::get('consent');
-        $wpConsentApi   = $consentManager->getProvider('wp_consent_api');
+        if (!$consentManager) {
+            return;
+        }
 
-        if ($wpConsentApi && $wpConsentApi->isAvailable() && $integration === 'none' && $consentLevel !== 'disabled') {
+        $wpConsentApi = $consentManager->getProvider('wp_consent_api');
+
+        if ($wpConsentApi && $wpConsentApi->isAvailable() && in_array($integration, ['none', ''], true) && $consentLevel !== 'disabled') {
             Option::updateValue('consent_integration', 'wp_consent_api');
         }
     }
