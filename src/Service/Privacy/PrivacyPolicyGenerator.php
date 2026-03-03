@@ -72,7 +72,8 @@ class PrivacyPolicyGenerator
      */
     private function getConsentSection()
     {
-        if (!Option::getValue('consent_level_integration')) {
+        $integration = Option::getValue('consent_integration', 'none');
+        if ($integration === 'none' || $integration === '') {
             return '';
         }
 
