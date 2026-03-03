@@ -70,6 +70,17 @@ class Test_BorlabsCookieProvider extends WP_UnitTestCase
         $this->assertEmpty($handles);
     }
 
+    public function test_has_consent_with_anonymous_tracking()
+    {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['anonymous_tracking' => true]
+        ));
+
+        // getConsentStatus() → anonymous() → shouldTrack() → true
+        $this->assertTrue($this->provider->hasConsent());
+    }
+
     public function test_is_service_installed_returns_false_without_borlabs()
     {
         // ServiceRepository class doesn't exist in test env
