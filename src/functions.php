@@ -1120,11 +1120,12 @@ function wp_statistics_referrer($time = null, $range = [], $output = '')
 /**
  * Check if user consent is required for collecting statistics.
  *
- * Evaluates privacy settings to determine whether explicit user consent
- * is needed before collecting and storing visitor data. Useful for GDPR
- * compliance when implementing consent management.
+ * Evaluates privacy-impacting settings (IP storage via `store_ip` and
+ * visitor logging via `visitors_log`) to determine whether explicit user
+ * consent is needed before collecting and storing visitor data. Useful
+ * for GDPR compliance when implementing consent management.
  *
- * @return bool True if consent is required (privacy settings not fully configured), false otherwise.
+ * @return bool True if privacy-impacting settings (IP storage, visitor logging) are enabled, false otherwise.
  * @since 14.10.1
  *
  * @example
@@ -1138,6 +1139,8 @@ function wp_statistics_needs_consent()
 
     /**
      * Filters whether consent is required based on current privacy-impacting settings.
+     *
+     * @since 14.10.1
      *
      * @param bool $needsConsent Whether consent is required.
      */
