@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
-use WP_Statistics\Service\Consent\ConsentStatus;
 use WP_Statistics\Utils\Query;
 
 class BorlabsCookieProvider extends AbstractConsentProvider
@@ -29,11 +28,14 @@ class BorlabsCookieProvider extends AbstractConsentProvider
         return $this->isAvailable() && $this->isServiceInstalled();
     }
 
-    public function getConsentStatus(): ConsentStatus
+    public function hasConsent(): bool
     {
-        return Option::getValue('anonymous_tracking', false)
-            ? ConsentStatus::anonymous()
-            : ConsentStatus::full();
+        return true; // Borlabs blocks the script; if running, consent was given
+    }
+
+    public function trackAnonymously(): bool
+    {
+        return (bool) Option::getValue('anonymous_tracking', false);
     }
 
     public function register(): void

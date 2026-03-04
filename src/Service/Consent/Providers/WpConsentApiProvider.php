@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
-use WP_Statistics\Service\Consent\ConsentStatus;
 
 class WpConsentApiProvider extends AbstractConsentProvider
 {
@@ -24,22 +23,6 @@ class WpConsentApiProvider extends AbstractConsentProvider
     public function shouldShowNotice(): bool
     {
         return $this->isAvailable() && !empty($this->getCompatiblePlugins());
-    }
-
-    public function getConsentStatus(): ConsentStatus
-    {
-        $anonymousTracking = $this->trackAnonymously();
-        $hasConsent        = $this->hasConsent();
-
-        if ($hasConsent && !$anonymousTracking) {
-            return ConsentStatus::full();
-        }
-
-        if ($anonymousTracking) {
-            return ConsentStatus::anonymous();
-        }
-
-        return ConsentStatus::none();
     }
 
     public function trackAnonymously(): bool
