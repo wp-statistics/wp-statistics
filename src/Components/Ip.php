@@ -257,7 +257,7 @@ class Ip
      */
     public static function getStorableIp()
     {
-        if (!Option::getValue('store_ip') || Bootstrap::get('consent')->shouldTrackAnonymously()) {
+        if (!Option::getValue('store_ip') || Bootstrap::get('consent')->shouldAnonymize()) {
             return null;
         }
 

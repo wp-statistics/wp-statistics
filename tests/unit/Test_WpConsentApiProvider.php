@@ -1,6 +1,5 @@
 <?php
 
-use WP_Statistics\Service\Consent\ConsentStatus;
 use WP_Statistics\Service\Consent\Providers\WpConsentApiProvider;
 
 /**
@@ -105,47 +104,5 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
         ));
 
         $this->assertEquals('functional', $this->provider->getConsentLevel());
-    }
-
-    public function test_consent_status_full_when_disabled_no_anon()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_level_integration' => 'disabled', 'anonymous_tracking' => false]
-        ));
-
-        $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::full()));
-    }
-
-    public function test_consent_status_anonymous_when_disabled_with_anon()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_level_integration' => 'disabled', 'anonymous_tracking' => true]
-        ));
-
-        $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::anonymous()));
-    }
-
-    public function test_consent_status_none_when_no_consent_no_anon()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_level_integration' => 'statistics', 'anonymous_tracking' => false]
-        ));
-
-        // wp_has_consent() not available in test env → hasConsent() returns false
-        $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::none()));
-    }
-
-    public function test_consent_status_anonymous_when_no_consent_with_anon()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_level_integration' => 'statistics', 'anonymous_tracking' => true]
-        ));
-
-        // wp_has_consent() not available → hasConsent() returns false, but anon is true
-        $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::anonymous()));
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use WP_Statistics\Service\Consent\ConsentStatus;
 use WP_Statistics\Service\Consent\Providers\BorlabsCookieProvider;
 
 /**
@@ -21,16 +20,6 @@ class Test_BorlabsCookieProvider extends WP_UnitTestCase
         $this->assertEquals('borlabs_cookie', $this->provider->getKey());
     }
 
-    public function test_consent_status_is_full()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['anonymous_tracking' => false]
-        ));
-
-        $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::full()));
-    }
-
     public function test_always_has_consent()
     {
         // Borlabs blocks the script; if it runs, consent is given
@@ -45,7 +34,6 @@ class Test_BorlabsCookieProvider extends WP_UnitTestCase
         ));
 
         $this->assertTrue($this->provider->trackAnonymously());
-        $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::anonymous()));
     }
 
     public function test_does_not_track_anonymously_when_option_disabled()
@@ -68,17 +56,6 @@ class Test_BorlabsCookieProvider extends WP_UnitTestCase
     {
         $handles = $this->provider->getJsHandles();
         $this->assertEmpty($handles);
-    }
-
-    public function test_has_consent_with_anonymous_tracking()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['anonymous_tracking' => true]
-        ));
-
-        // getConsentStatus() → anonymous() → shouldTrack() → true
-        $this->assertTrue($this->provider->hasConsent());
     }
 
     public function test_is_service_installed_returns_false_without_borlabs()

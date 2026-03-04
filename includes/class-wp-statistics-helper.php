@@ -1883,13 +1883,13 @@ class Helper
      *
      * In this case, we have to track user's information anonymously.
      *
-     * @deprecated Use Bootstrap::get('consent')->shouldTrackAnonymously() instead.
+     * @deprecated Use Bootstrap::get('consent')->shouldAnonymize() instead.
      *
      * @return  bool
      */
     public static function shouldTrackAnonymously()
     {
-        return Bootstrap::get('consent')->shouldTrackAnonymously();
+        return Bootstrap::get('consent')->shouldAnonymize();
     }
 
     /**

@@ -27,7 +27,7 @@ class WpConsentApiProvider extends AbstractConsentProvider
 
     public function trackAnonymously(): bool
     {
-        return Option::getValue('anonymous_tracking', false) != false;
+        return (bool) Option::getValue('anonymous_tracking', false);
     }
 
     public function getConsentLevel(): string

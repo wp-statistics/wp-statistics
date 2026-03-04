@@ -10,6 +10,10 @@ use WP_Statistics\Service\Consent\Providers\BorlabsCookieProvider;
 
 class ConsentManager
 {
+    public const FULL      = 'full';
+    public const ANONYMOUS = 'anonymous';
+    public const NONE      = 'none';
+
     /**
      * @var ConsentProviderInterface[]
      */
@@ -144,19 +148,32 @@ class ConsentManager
         return $this->activeProvider;
     }
 
-    public function getConsentStatus(): ConsentStatus
+    public function getConsentStatus(): string
     {
-        return $this->activeProvider->getConsentStatus();
+        if ($this->activeProvider->trackAnonymously()) {
+            return self::ANONYMOUS;
+        }
+
+        if ($this->activeProvider->hasConsent()) {
+            return self::FULL;
+        }
+
+        return self::NONE;
+    }
+
+    public function shouldTrack(): bool
+    {
+        return $this->getConsentStatus() !== self::NONE;
+    }
+
+    public function shouldAnonymize(): bool
+    {
+        return $this->getConsentStatus() === self::ANONYMOUS;
     }
 
     public function hasConsent(): bool
     {
         return $this->activeProvider->hasConsent();
-    }
-
-    public function shouldTrackAnonymously(): bool
-    {
-        return $this->activeProvider->trackAnonymously();
     }
 
     public function getTrackerConfig(): array

@@ -15,19 +15,6 @@ abstract class AbstractConsentProvider implements ConsentProviderInterface
 
     abstract public function getJsConfig(): array;
 
-    public function getConsentStatus(): ConsentStatus
-    {
-        if ($this->hasConsent() && !$this->trackAnonymously()) {
-            return ConsentStatus::full();
-        }
-
-        if ($this->trackAnonymously()) {
-            return ConsentStatus::anonymous();
-        }
-
-        return ConsentStatus::none();
-    }
-
     public function getKey(): string
     {
         return $this->key;

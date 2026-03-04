@@ -192,7 +192,7 @@ class IP
      */
     public static function getStoreIP()
     {
-        if (!Option::get('store_ip') || Bootstrap::get('consent')->shouldTrackAnonymously()) {
+        if (!Option::get('store_ip') || Bootstrap::get('consent')->shouldAnonymize()) {
             return null;
         }
 

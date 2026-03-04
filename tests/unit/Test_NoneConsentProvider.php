@@ -1,6 +1,5 @@
 <?php
 
-use WP_Statistics\Service\Consent\ConsentStatus;
 use WP_Statistics\Service\Consent\Providers\NoneConsentProvider;
 
 /**
@@ -19,11 +18,6 @@ class Test_NoneConsentProvider extends WP_UnitTestCase
     public function test_key_is_none()
     {
         $this->assertEquals('none', $this->provider->getKey());
-    }
-
-    public function test_consent_status_is_full()
-    {
-        $this->assertTrue($this->provider->getConsentStatus()->equals(ConsentStatus::full()));
     }
 
     public function test_always_has_consent()
