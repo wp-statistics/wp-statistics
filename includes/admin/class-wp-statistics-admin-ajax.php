@@ -309,7 +309,7 @@ class Ajax
 
     public function dismiss_notices_action_callback()
     {
-        if (!Request::isFrom('ajax')) exit;
+        if (!Request::isFrom('ajax') || !User::Access('manage')) exit;
 
         check_ajax_referer('wp_rest', 'wps_nonce');
 
