@@ -33,8 +33,22 @@ WpStatisticsConsentAdapters['wp_consent_api'] = {
             }
         }
 
+        /**
+         * Check if a consent type has been configured (optin/optout).
+         * wp_has_consent() returns true when consent_type is unset, assuming
+         * "no consent management exists." But since we're in the wp_consent_api
+         * adapter, we know a consent plugin should be active. If consent_type
+         * isn't set yet (e.g., CookieYes only sets it on banner interaction,
+         * not on page refresh), we must not trust wp_has_consent().
+         */
+        function isConsentTypeConfigured() {
+            return (typeof window.wp_consent_type !== 'undefined' && window.wp_consent_type) ||
+                (typeof window.wp_fallback_consent_type !== 'undefined' && !!window.wp_fallback_consent_type);
+        }
+
         // If tracking anonymously or consent already granted, init immediately
-        if (trackAnonymously || consentLevel === 'disabled' || (typeof wp_has_consent === 'function' && wp_has_consent(consentLevel))) {
+        if (trackAnonymously || consentLevel === 'disabled' ||
+            (typeof wp_has_consent === 'function' && isConsentTypeConfigured() && wp_has_consent(consentLevel))) {
             initOnce();
         } else if (!trackAnonymously && consentLevel !== 'disabled' && typeof wp_has_consent !== 'function') {
             console.warn('WP Statistics: wp_has_consent() not available. Tracker will not initialize until consent API loads.');
