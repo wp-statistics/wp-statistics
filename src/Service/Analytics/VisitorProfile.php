@@ -792,7 +792,7 @@ class VisitorProfile
     public function getUserId()
     {
         return $this->getCachedData('userId', function () {
-            if (!Option::getValue('visitors_log') || Bootstrap::get('consent')->shouldAnonymize()) {
+            if (!Option::getValue('visitors_log') || Bootstrap::get('consent')->getActiveProvider()->shouldAnonymize()) {
                 return null;
             } else {
                 return User::getId();

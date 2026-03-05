@@ -11,6 +11,11 @@ abstract class AbstractConsentProvider implements ConsentProviderInterface
 
     abstract public function getTrackingLevel(): string;
 
+    public function shouldAnonymize(): bool
+    {
+        return $this->getTrackingLevel() === TrackingLevel::ANONYMOUS;
+    }
+
     public function getJsConfig(): array
     {
         return ['mode' => $this->key];

@@ -185,16 +185,6 @@ class ConsentManager
         return $this->activeProvider;
     }
 
-    public function getTrackingLevel(): string
-    {
-        return $this->activeProvider->getTrackingLevel();
-    }
-
-    public function shouldAnonymize(): bool
-    {
-        return $this->getTrackingLevel() === TrackingLevel::ANONYMOUS;
-    }
-
     public function getTrackerConfig(): array
     {
         return $this->activeProvider->getJsConfig();
