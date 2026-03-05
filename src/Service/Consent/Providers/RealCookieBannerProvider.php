@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
+use WP_Statistics\Service\Consent\TrackingLevel;
 
 class RealCookieBannerProvider extends AbstractConsentProvider
 {
@@ -28,29 +29,24 @@ class RealCookieBannerProvider extends AbstractConsentProvider
         }
     }
 
-    public function hasConsent(): bool
+    public function getTrackingLevel(): string
     {
-        // Fail closed: if the RCB function is unavailable
-        // (e.g. plugin partially loaded or deactivated), do not track.
         if (!function_exists('wp_rcb_consent_given')) {
-            return false;
-        }
-
-        return !empty(wp_rcb_consent_given('wp-statistics')['cookieOptIn'])
-            || !empty(wp_rcb_consent_given('wp-statistics-with-data-processing')['cookieOptIn']);
-    }
-
-    public function trackAnonymously(): bool
-    {
-        // Fail closed: see hasConsent() rationale.
-        if (!function_exists('wp_rcb_consent_given')) {
-            return false;
+            return TrackingLevel::NONE;
         }
 
         $base           = !empty(wp_rcb_consent_given('wp-statistics')['cookieOptIn']);
         $dataProcessing = !empty(wp_rcb_consent_given('wp-statistics-with-data-processing')['cookieOptIn']);
 
-        return $base && !$dataProcessing;
+        if ($base && !$dataProcessing) {
+            return TrackingLevel::ANONYMOUS;
+        }
+
+        if ($base || $dataProcessing) {
+            return TrackingLevel::FULL;
+        }
+
+        return TrackingLevel::NONE;
     }
 
     public function handleIntegration($integration): void

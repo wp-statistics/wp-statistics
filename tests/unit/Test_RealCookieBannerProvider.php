@@ -1,6 +1,6 @@
 <?php
 
-use WP_Statistics\Service\Consent\ConsentStatus;
+use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Consent\Providers\RealCookieBannerProvider;
 
 /**
@@ -21,15 +21,10 @@ class Test_RealCookieBannerProvider extends WP_UnitTestCase
         $this->assertEquals('real_cookie_banner', $this->provider->getKey());
     }
 
-    public function test_has_consent_fails_closed_when_function_missing()
+    public function test_tracking_level_none_when_function_missing()
     {
         // wp_rcb_consent_given() does not exist — fail closed (don't track)
-        $this->assertFalse($this->provider->hasConsent());
-    }
-
-    public function test_track_anonymously_returns_false_when_function_missing()
-    {
-        $this->assertFalse($this->provider->trackAnonymously());
+        $this->assertSame(TrackingLevel::NONE, $this->provider->getTrackingLevel());
     }
 
     public function test_js_config_mode_is_real_cookie_banner()
@@ -42,13 +37,5 @@ class Test_RealCookieBannerProvider extends WP_UnitTestCase
     {
         $handles = $this->provider->getJsHandles();
         $this->assertContains('real-cookie-banner-pro-banner', $handles);
-    }
-
-    public function test_status_includes_required_keys()
-    {
-        $status = $this->provider->getStatus();
-        $this->assertInstanceOf(ConsentStatus::class, $status);
-        $this->assertIsBool($status->hasConsent);
-        $this->assertIsBool($status->trackAnonymously);
     }
 }

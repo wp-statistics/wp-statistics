@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
+use WP_Statistics\Service\Consent\TrackingLevel;
 
 class NoneConsentProvider extends AbstractConsentProvider
 {
@@ -28,13 +29,8 @@ class NoneConsentProvider extends AbstractConsentProvider
         return false;
     }
 
-    public function hasConsent(): bool
+    public function getTrackingLevel(): string
     {
-        return true;
-    }
-
-    public function trackAnonymously(): bool
-    {
-        return false;
+        return TrackingLevel::FULL;
     }
 }

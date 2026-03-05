@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
-use WP_Statistics\Service\Consent\ConsentStatus;
+use WP_Statistics\Service\Consent\TrackingLevel;
 
 class WpConsentApiProvider extends AbstractConsentProvider
 {
@@ -26,19 +26,23 @@ class WpConsentApiProvider extends AbstractConsentProvider
         return Option::getValue('consent_level_integration', 'functional');
     }
 
-    public function hasConsent(): bool
+    public function getTrackingLevel(): string
     {
+        if (Option::getValue('anonymous_tracking', false)) {
+            return TrackingLevel::ANONYMOUS;
+        }
+
         $consentLevel = $this->getConsentLevel();
 
         if ($consentLevel === 'disabled') {
-            return true;
+            return TrackingLevel::FULL;
         }
 
         if (!function_exists('wp_has_consent')) {
-            return false;
+            return TrackingLevel::NONE;
         }
 
-        return wp_has_consent($consentLevel);
+        return wp_has_consent($consentLevel) ? TrackingLevel::FULL : TrackingLevel::NONE;
     }
 
     public function register(): void
@@ -47,21 +51,12 @@ class WpConsentApiProvider extends AbstractConsentProvider
         add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
     }
 
-    public function getStatus(): ConsentStatus
-    {
-        return new ConsentStatus(
-            $this->hasConsent(),
-            $this->trackAnonymously(),
-            $this->getConsentLevel(),
-        );
-    }
-
     public function getJsConfig(): array
     {
         return [
             'mode'             => 'wp_consent_api',
             'consentLevel'     => $this->getConsentLevel(),
-            'trackAnonymously' => $this->trackAnonymously(),
+            'trackAnonymously' => (bool) Option::getValue('anonymous_tracking', false),
         ];
     }
 

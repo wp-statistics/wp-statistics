@@ -1,6 +1,6 @@
 <?php
 
-use WP_Statistics\Service\Consent\ConsentStatus;
+use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Consent\Providers\NoneConsentProvider;
 
 /**
@@ -21,14 +21,9 @@ class Test_NoneConsentProvider extends WP_UnitTestCase
         $this->assertEquals('none', $this->provider->getKey());
     }
 
-    public function test_always_has_consent()
+    public function test_tracking_level_is_full()
     {
-        $this->assertTrue($this->provider->hasConsent());
-    }
-
-    public function test_never_tracks_anonymously()
-    {
-        $this->assertFalse($this->provider->trackAnonymously());
+        $this->assertSame(TrackingLevel::FULL, $this->provider->getTrackingLevel());
     }
 
     public function test_is_always_available()
@@ -52,11 +47,4 @@ class Test_NoneConsentProvider extends WP_UnitTestCase
         $this->assertEquals('none', $config['mode']);
     }
 
-    public function test_status_has_consent_true()
-    {
-        $status = $this->provider->getStatus();
-        $this->assertInstanceOf(ConsentStatus::class, $status);
-        $this->assertTrue($status->hasConsent);
-        $this->assertFalse($status->trackAnonymously);
-    }
 }

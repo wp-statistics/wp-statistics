@@ -1,5 +1,6 @@
 <?php
 
+use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Consent\Providers\BorlabsCookieProvider;
 
 /**
@@ -20,30 +21,20 @@ class Test_BorlabsCookieProvider extends WP_UnitTestCase
         $this->assertEquals('borlabs_cookie', $this->provider->getKey());
     }
 
-    public function test_always_has_consent()
+    public function test_tracking_level_full_by_default()
     {
         // Borlabs blocks the script; if it runs, consent is given
-        $this->assertTrue($this->provider->hasConsent());
+        $this->assertSame(TrackingLevel::FULL, $this->provider->getTrackingLevel());
     }
 
-    public function test_tracks_anonymously_when_option_enabled()
+    public function test_tracking_level_anonymous_when_option_enabled()
     {
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
             ['anonymous_tracking' => true]
         ));
 
-        $this->assertTrue($this->provider->trackAnonymously());
-    }
-
-    public function test_does_not_track_anonymously_when_option_disabled()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['anonymous_tracking' => false]
-        ));
-
-        $this->assertFalse($this->provider->trackAnonymously());
+        $this->assertSame(TrackingLevel::ANONYMOUS, $this->provider->getTrackingLevel());
     }
 
     public function test_js_config_mode_is_borlabs_cookie()
