@@ -14,5 +14,5 @@ interface ConsentProviderInterface
     public function register(): void;
     public function getJsHandles(): array;
     public function getJsConfig(): array;
-    public function getStatus(): array;
+    public function getStatus(): ConsentStatus;
 }

@@ -101,7 +101,7 @@ class CoreServiceProvider implements ServiceProvider
     public function boot(ServiceContainer $container): void
     {
         // Initialize consent manager (before tracking, so consent state is ready)
-        $container->get('consent');
+        $container->get('consent')->boot();
 
         // Initialize tracking controller
         $container->get('tracking');

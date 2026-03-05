@@ -52,11 +52,11 @@ abstract class AbstractConsentProvider implements ConsentProviderInterface
         return [];
     }
 
-    public function getStatus(): array
+    public function getStatus(): ConsentStatus
     {
-        return [
-            'has_consent'       => $this->hasConsent(),
-            'track_anonymously' => $this->trackAnonymously(),
-        ];
+        return new ConsentStatus(
+            $this->hasConsent(),
+            $this->trackAnonymously(),
+        );
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use WP_Statistics\Service\Consent\ConsentStatus;
 use WP_Statistics\Service\Consent\Providers\NoneConsentProvider;
 
 /**
@@ -54,7 +55,8 @@ class Test_NoneConsentProvider extends WP_UnitTestCase
     public function test_status_has_consent_true()
     {
         $status = $this->provider->getStatus();
-        $this->assertTrue($status['has_consent']);
-        $this->assertFalse($status['track_anonymously']);
+        $this->assertInstanceOf(ConsentStatus::class, $status);
+        $this->assertTrue($status->hasConsent);
+        $this->assertFalse($status->trackAnonymously);
     }
 }

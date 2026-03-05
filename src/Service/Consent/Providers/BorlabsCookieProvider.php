@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Consent\Providers;
 
-use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
 use WP_Statistics\Utils\Query;
 
@@ -35,25 +34,7 @@ class BorlabsCookieProvider extends AbstractConsentProvider
 
     public function register(): void
     {
-        $currentIntegration = Option::getValue('consent_integration', 'none');
-
-        // If another provider is explicitly configured, don't interfere
-        if ($currentIntegration !== 'none' && $currentIntegration !== '' && $currentIntegration !== $this->key) {
-            return;
-        }
-
-        $isServiceActive = $this->isServiceInstalled();
-
-        // If Borlabs was the active integration but the service was removed, clear it
-        if ($currentIntegration === $this->key && !$isServiceActive) {
-            Option::updateValue('consent_integration', 'none');
-            return;
-        }
-
-        // Auto-activate when no provider is configured and Borlabs service is active
-        if ($isServiceActive) {
-            Option::updateValue('consent_integration', $this->key);
-        }
+        // No hooks needed — auto-activation is handled by ConsentManager::detectAutoActivation().
     }
 
     public function isServiceInstalled(): bool
@@ -76,5 +57,4 @@ class BorlabsCookieProvider extends AbstractConsentProvider
         $this->serviceInstalled = !empty($row);
         return $this->serviceInstalled;
     }
-
 }

@@ -2,6 +2,8 @@
 
 use WP_Statistics\Service\Consent\ConsentManager;
 use WP_Statistics\Service\Consent\ConsentProviderInterface;
+use WP_Statistics\Service\Consent\ConsentStatus;
+use WP_Statistics\Service\Consent\Providers\BorlabsCookieProvider;
 use WP_Statistics\Service\Consent\Providers\NoneConsentProvider;
 
 /**
@@ -18,9 +20,17 @@ class Test_ConsentManager extends WP_UnitTestCase
         ));
     }
 
+    private function createManager(): ConsentManager
+    {
+        $manager = new ConsentManager();
+        $manager->boot();
+
+        return $manager;
+    }
+
     public function test_get_providers_returns_all_built_in_providers()
     {
-        $manager   = new ConsentManager();
+        $manager   = $this->createManager();
         $providers = $manager->getProviders();
 
         $this->assertArrayHasKey('none', $providers);
@@ -31,7 +41,7 @@ class Test_ConsentManager extends WP_UnitTestCase
 
     public function test_active_provider_defaults_to_none()
     {
-        $manager  = new ConsentManager();
+        $manager  = $this->createManager();
         $provider = $manager->getActiveProvider();
 
         $this->assertInstanceOf(NoneConsentProvider::class, $provider);
@@ -45,7 +55,7 @@ class Test_ConsentManager extends WP_UnitTestCase
         ));
 
         // WP Consent API plugin is not active in test env
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $this->assertInstanceOf(NoneConsentProvider::class, $manager->getActiveProvider());
     }
 
@@ -56,32 +66,32 @@ class Test_ConsentManager extends WP_UnitTestCase
             ['consent_integration' => 'nonexistent_provider']
         ));
 
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $this->assertInstanceOf(NoneConsentProvider::class, $manager->getActiveProvider());
     }
 
     public function test_get_consent_status_returns_full_for_none_provider()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $this->assertSame(ConsentManager::FULL, $manager->getConsentStatus());
     }
 
     public function test_has_consent_delegates_to_active_provider()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         // NoneConsentProvider always returns true
         $this->assertTrue($manager->hasConsent());
     }
 
     public function test_should_anonymize_defaults_false()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $this->assertFalse($manager->shouldAnonymize());
     }
 
     public function test_should_track_returns_true_for_none_provider()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $this->assertTrue($manager->shouldTrack());
     }
 
@@ -121,7 +131,7 @@ class Test_ConsentManager extends WP_UnitTestCase
         $mock->method('isAvailable')->willReturn(true);
         $mock->method('getJsConfig')->willReturn(['mode' => 'mock']);
         $mock->method('getJsHandles')->willReturn([]);
-        $mock->method('getStatus')->willReturn([]);
+        $mock->method('getStatus')->willReturn(new ConsentStatus($hasConsent, $trackAnonymously));
 
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
@@ -134,6 +144,7 @@ class Test_ConsentManager extends WP_UnitTestCase
         });
 
         $manager = new ConsentManager();
+        $manager->boot();
 
         remove_all_filters('wp_statistics_consent_providers');
 
@@ -142,13 +153,13 @@ class Test_ConsentManager extends WP_UnitTestCase
 
     public function test_get_provider_returns_null_for_unknown_key()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $this->assertNull($manager->getProvider('nonexistent'));
     }
 
     public function test_get_provider_returns_provider_for_known_key()
     {
-        $manager  = new ConsentManager();
+        $manager  = $this->createManager();
         $provider = $manager->getProvider('none');
 
         $this->assertInstanceOf(ConsentProviderInterface::class, $provider);
@@ -157,7 +168,7 @@ class Test_ConsentManager extends WP_UnitTestCase
 
     public function test_get_tracker_config_returns_array_with_mode()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $config  = $manager->getTrackerConfig();
 
         $this->assertIsArray($config);
@@ -166,7 +177,7 @@ class Test_ConsentManager extends WP_UnitTestCase
 
     public function test_register_provider_adds_to_registry()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
 
         $mock = $this->createMock(ConsentProviderInterface::class);
         $mock->method('getKey')->willReturn('custom_provider');
@@ -178,7 +189,7 @@ class Test_ConsentManager extends WP_UnitTestCase
 
     public function test_get_js_dependencies_returns_array()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $deps    = $manager->getJsDependencies();
 
         $this->assertIsArray($deps);
@@ -191,7 +202,7 @@ class Test_ConsentManager extends WP_UnitTestCase
             return [];
         });
 
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $this->assertNotNull($manager->getProvider('none'));
         $this->assertInstanceOf(NoneConsentProvider::class, $manager->getProvider('none'));
 
@@ -204,7 +215,7 @@ class Test_ConsentManager extends WP_UnitTestCase
             return null;
         });
 
-        $manager   = new ConsentManager();
+        $manager   = $this->createManager();
         $providers = $manager->getProviders();
 
         // Should still have all built-in providers
@@ -216,11 +227,148 @@ class Test_ConsentManager extends WP_UnitTestCase
 
     public function test_integration_status_returns_null_name_for_none_provider()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $status  = $manager->getIntegrationStatus();
 
         $this->assertNull($status['name']);
-        $this->assertEmpty($status['status']);
+        $this->assertInstanceOf(ConsentStatus::class, $status['status']);
+        $this->assertTrue($status['status']->hasConsent);
+        $this->assertFalse($status['status']->trackAnonymously);
+    }
+
+    public function test_integration_status_returns_provider_name_and_status_for_active_provider()
+    {
+        $manager = $this->buildManagerWithMockProvider(true, false);
+        $status  = $manager->getIntegrationStatus();
+
+        $this->assertSame('mock_provider', $status['name']);
+        $this->assertInstanceOf(ConsentStatus::class, $status['status']);
+        $this->assertTrue($status['status']->hasConsent);
+        $this->assertFalse($status['status']->trackAnonymously);
+    }
+
+    public function test_active_provider_is_none_before_boot()
+    {
+        $manager = new ConsentManager();
+
+        $this->assertInstanceOf(NoneConsentProvider::class, $manager->getActiveProvider());
+        $this->assertTrue($manager->hasConsent());
+    }
+
+    public function test_consent_status_full_when_mock_provider_has_consent()
+    {
+        $manager = $this->buildManagerWithMockProvider(true, false);
+
+        $this->assertSame(ConsentManager::FULL, $manager->getConsentStatus());
+        $this->assertTrue($manager->shouldTrack());
+        $this->assertFalse($manager->shouldAnonymize());
+    }
+
+    public function test_boot_is_idempotent()
+    {
+        $manager = $this->createManager();
+        $manager->boot(); // second call
+
+        // Should still work correctly without duplicate hooks
+        $this->assertInstanceOf(NoneConsentProvider::class, $manager->getActiveProvider());
+    }
+
+    private function buildMockBorlabs(bool $available, bool $serviceInstalled): BorlabsCookieProvider
+    {
+        $mock = $this->getMockBuilder(BorlabsCookieProvider::class)
+            ->onlyMethods(['isAvailable', 'isServiceInstalled'])
+            ->getMock();
+        $mock->method('isAvailable')->willReturn($available);
+        $mock->method('isServiceInstalled')->willReturn($serviceInstalled);
+
+        return $mock;
+    }
+
+    private function createManagerWithBorlabsMock(BorlabsCookieProvider $borlabsMock): ConsentManager
+    {
+        add_filter('wp_statistics_consent_providers', function ($providers) use ($borlabsMock) {
+            $providers['borlabs_cookie'] = $borlabsMock;
+            return $providers;
+        });
+
+        $manager = new ConsentManager();
+        $manager->boot();
+
+        remove_all_filters('wp_statistics_consent_providers');
+
+        return $manager;
+    }
+
+    public function test_detect_auto_activation_activates_borlabs_when_service_installed()
+    {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['consent_integration' => 'none']
+        ));
+
+        $this->createManagerWithBorlabsMock($this->buildMockBorlabs(true, true));
+
+        $opts = get_option('wp_statistics', []);
+        $this->assertSame('borlabs_cookie', $opts['consent_integration']);
+    }
+
+    public function test_detect_auto_activation_clears_borlabs_when_service_uninstalled()
+    {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['consent_integration' => 'borlabs_cookie']
+        ));
+
+        $this->createManagerWithBorlabsMock($this->buildMockBorlabs(true, false));
+
+        $opts = get_option('wp_statistics', []);
+        $this->assertSame('none', $opts['consent_integration']);
+    }
+
+    public function test_detect_auto_activation_does_not_override_explicit_provider()
+    {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['consent_integration' => 'wp_consent_api']
+        ));
+
+        $this->createManagerWithBorlabsMock($this->buildMockBorlabs(true, true));
+
+        $opts = get_option('wp_statistics', []);
+        $this->assertSame('wp_consent_api', $opts['consent_integration']);
+    }
+
+    public function test_detect_auto_activation_skips_when_borlabs_removed_by_filter()
+    {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['consent_integration' => 'none']
+        ));
+
+        add_filter('wp_statistics_consent_providers', function ($providers) {
+            unset($providers['borlabs_cookie']);
+            return $providers;
+        });
+
+        $manager = $this->createManager();
+
+        $opts = get_option('wp_statistics', []);
+        $this->assertSame('none', $opts['consent_integration']);
+
+        remove_all_filters('wp_statistics_consent_providers');
+    }
+
+    public function test_detect_auto_activation_skips_when_borlabs_not_available()
+    {
+        update_option('wp_statistics', array_merge(
+            get_option('wp_statistics', []),
+            ['consent_integration' => 'none']
+        ));
+
+        $this->createManagerWithBorlabsMock($this->buildMockBorlabs(false, false));
+
+        $opts = get_option('wp_statistics', []);
+        $this->assertSame('none', $opts['consent_integration']);
     }
 
     public function test_detection_notices_empty_when_integration_configured()
@@ -230,13 +378,13 @@ class Test_ConsentManager extends WP_UnitTestCase
             ['consent_integration' => 'wp_consent_api']
         ));
 
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $this->assertEmpty($manager->getDetectionNotices());
     }
 
     public function test_detection_notices_returns_array()
     {
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $notices = $manager->getDetectionNotices();
 
         $this->assertIsArray($notices);
@@ -299,9 +447,9 @@ class Test_ConsentManager extends WP_UnitTestCase
                 return ['mode' => 'custom_notice_provider'];
             }
 
-            public function getStatus(): array
+            public function getStatus(): ConsentStatus
             {
-                return ['has_consent' => true, 'track_anonymously' => false];
+                return new ConsentStatus(true, false);
             }
         };
 
@@ -310,7 +458,7 @@ class Test_ConsentManager extends WP_UnitTestCase
             return $providers;
         });
 
-        $manager = new ConsentManager();
+        $manager = $this->createManager();
         $notices = $manager->getDetectionNotices();
 
         $keys = array_map(function ($provider) {

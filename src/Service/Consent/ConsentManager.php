@@ -21,11 +21,24 @@ class ConsentManager
 
     private ConsentProviderInterface $activeProvider;
 
+    private bool $booted = false;
+
     public function __construct()
     {
         $this->registerBuiltInProviders();
         $this->applyProvidersFilter();
+        $this->activeProvider = $this->providers['none'] ?? new NoneConsentProvider();
+    }
+
+    public function boot(): void
+    {
+        if ($this->booted) {
+            return;
+        }
+
+        $this->booted = true;
         $this->registerAvailableProviders();
+        $this->detectAutoActivation();
         $this->resolveActiveProvider();
         $this->registerDeactivationHook();
     }
@@ -83,6 +96,34 @@ class ConsentManager
             if ($provider->isAvailable()) {
                 $provider->register();
             }
+        }
+    }
+
+    private function detectAutoActivation(): void
+    {
+        $borlabs = $this->getProvider('borlabs_cookie');
+        if (!$borlabs instanceof BorlabsCookieProvider || !$borlabs->isAvailable()) {
+            return;
+        }
+
+        $currentIntegration = Option::getValue('consent_integration', 'none');
+
+        // If another provider is explicitly configured, don't interfere
+        if ($currentIntegration !== 'none' && $currentIntegration !== '' && $currentIntegration !== 'borlabs_cookie') {
+            return;
+        }
+
+        $isServiceActive = $borlabs->isServiceInstalled();
+
+        // If Borlabs was the active integration but the service was removed, clear it
+        if ($currentIntegration === 'borlabs_cookie' && !$isServiceActive) {
+            Option::updateValue('consent_integration', 'none');
+            return;
+        }
+
+        // Auto-activate when no provider is configured and Borlabs service is active
+        if (($currentIntegration === 'none' || $currentIntegration === '') && $isServiceActive) {
+            Option::updateValue('consent_integration', 'borlabs_cookie');
         }
     }
 
@@ -193,12 +234,8 @@ class ConsentManager
     {
         $provider = $this->activeProvider;
 
-        if ($provider instanceof NoneConsentProvider) {
-            return ['name' => null, 'status' => []];
-        }
-
         return [
-            'name'   => $provider->getKey(),
+            'name'   => $provider instanceof NoneConsentProvider ? null : $provider->getKey(),
             'status' => $provider->getStatus(),
         ];
     }

@@ -1,5 +1,6 @@
 <?php
 
+use WP_Statistics\Service\Consent\ConsentStatus;
 use WP_Statistics\Service\Consent\Providers\RealCookieBannerProvider;
 
 /**
@@ -46,7 +47,8 @@ class Test_RealCookieBannerProvider extends WP_UnitTestCase
     public function test_status_includes_required_keys()
     {
         $status = $this->provider->getStatus();
-        $this->assertArrayHasKey('has_consent', $status);
-        $this->assertArrayHasKey('track_anonymously', $status);
+        $this->assertInstanceOf(ConsentStatus::class, $status);
+        $this->assertIsBool($status->hasConsent);
+        $this->assertIsBool($status->trackAnonymously);
     }
 }

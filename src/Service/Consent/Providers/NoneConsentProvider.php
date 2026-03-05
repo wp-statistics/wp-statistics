@@ -37,5 +37,4 @@ class NoneConsentProvider extends AbstractConsentProvider
     {
         return false;
     }
-
 }

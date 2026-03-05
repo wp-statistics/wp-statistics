@@ -1,5 +1,6 @@
 <?php
 
+use WP_Statistics\Service\Consent\ConsentStatus;
 use WP_Statistics\Service\Consent\Providers\WpConsentApiProvider;
 
 /**
@@ -80,9 +81,10 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
     public function test_status_includes_consent_level()
     {
         $status = $this->provider->getStatus();
-        $this->assertArrayHasKey('consent_level', $status);
-        $this->assertArrayHasKey('has_consent', $status);
-        $this->assertArrayHasKey('track_anonymously', $status);
+        $this->assertInstanceOf(ConsentStatus::class, $status);
+        $this->assertNotNull($status->consentLevel);
+        $this->assertIsBool($status->hasConsent);
+        $this->assertIsBool($status->trackAnonymously);
     }
 
     public function test_get_compatible_plugins_returns_array()

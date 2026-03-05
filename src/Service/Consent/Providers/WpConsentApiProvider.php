@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
+use WP_Statistics\Service\Consent\ConsentStatus;
 
 class WpConsentApiProvider extends AbstractConsentProvider
 {
@@ -46,13 +47,13 @@ class WpConsentApiProvider extends AbstractConsentProvider
         add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
     }
 
-    public function getStatus(): array
+    public function getStatus(): ConsentStatus
     {
-        return [
-            'has_consent'       => $this->hasConsent(),
-            'consent_level'     => $this->getConsentLevel(),
-            'track_anonymously' => $this->trackAnonymously(),
-        ];
+        return new ConsentStatus(
+            $this->hasConsent(),
+            $this->trackAnonymously(),
+            $this->getConsentLevel(),
+        );
     }
 
     public function getJsConfig(): array
