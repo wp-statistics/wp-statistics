@@ -15,19 +15,9 @@ class WpConsentApiProvider extends AbstractConsentProvider
         return esc_html__('WP Consent API', 'wp-statistics');
     }
 
-    public function isSelectable(): bool
-    {
-        return $this->isAvailable();
-    }
-
     public function shouldShowNotice(): bool
     {
         return $this->isAvailable() && !empty($this->getCompatiblePlugins());
-    }
-
-    public function trackAnonymously(): bool
-    {
-        return (bool) Option::getValue('anonymous_tracking', false);
     }
 
     public function getConsentLevel(): string

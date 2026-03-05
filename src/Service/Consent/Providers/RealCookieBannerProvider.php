@@ -65,11 +65,6 @@ class RealCookieBannerProvider extends AbstractConsentProvider
         }
     }
 
-    public function getJsConfig(): array
-    {
-        return ['mode' => 'real_cookie_banner'];
-    }
-
     public function getJsHandles(): array
     {
         return ['real-cookie-banner-pro-banner'];

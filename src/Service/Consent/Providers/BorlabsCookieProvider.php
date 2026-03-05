@@ -33,11 +33,6 @@ class BorlabsCookieProvider extends AbstractConsentProvider
         return true; // Borlabs blocks the script; if running, consent was given
     }
 
-    public function trackAnonymously(): bool
-    {
-        return (bool) Option::getValue('anonymous_tracking', false);
-    }
-
     public function register(): void
     {
         $currentIntegration = Option::getValue('consent_integration', 'none');
@@ -82,8 +77,4 @@ class BorlabsCookieProvider extends AbstractConsentProvider
         return $this->serviceInstalled;
     }
 
-    public function getJsConfig(): array
-    {
-        return ['mode' => 'borlabs_cookie'];
-    }
 }

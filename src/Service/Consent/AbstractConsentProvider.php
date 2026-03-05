@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Consent;
 
+use WP_Statistics\Components\Option;
+
 abstract class AbstractConsentProvider implements ConsentProviderInterface
 {
     protected string $key = '';
@@ -11,9 +13,15 @@ abstract class AbstractConsentProvider implements ConsentProviderInterface
 
     abstract public function hasConsent(): bool;
 
-    abstract public function trackAnonymously(): bool;
+    public function trackAnonymously(): bool
+    {
+        return (bool) Option::getValue('anonymous_tracking', false);
+    }
 
-    abstract public function getJsConfig(): array;
+    public function getJsConfig(): array
+    {
+        return ['mode' => $this->key];
+    }
 
     public function getKey(): string
     {

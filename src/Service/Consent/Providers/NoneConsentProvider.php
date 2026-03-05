@@ -38,8 +38,4 @@ class NoneConsentProvider extends AbstractConsentProvider
         return false;
     }
 
-    public function getJsConfig(): array
-    {
-        return ['mode' => 'none'];
-    }
 }
