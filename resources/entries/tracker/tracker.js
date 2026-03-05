@@ -34,21 +34,51 @@ WpStatisticsConsentAdapters['wp_consent_api'] = {
         }
 
         /**
-         * Check if a consent type has been configured (optin/optout).
-         * wp_has_consent() returns true when consent_type is unset, assuming
-         * "no consent management exists." But since we're in the wp_consent_api
-         * adapter, we know a consent plugin should be active. If consent_type
-         * isn't set yet (e.g., CookieYes only sets it on banner interaction,
-         * not on page refresh), we must not trust wp_has_consent().
+         * When consent_type is not configured (e.g., CookieYes only sets it on
+         * banner interaction, not on page refresh), wp_has_consent() defaults to
+         * true — assuming no consent management exists. Since we're in the
+         * wp_consent_api adapter, we know a consent plugin IS active. Fall back
+         * to reading the consent cookie directly to determine the stored decision.
+         *
+         * Returns: 'allow', 'deny', or '' (no cookie / no consent_api).
          */
-        function isConsentTypeConfigured() {
-            return (typeof window.wp_consent_type !== 'undefined' && window.wp_consent_type) ||
+        function getConsentCookieValue() {
+            if (typeof consent_api === 'undefined' || !consent_api.cookie_prefix) {
+                return '';
+            }
+            var cookieName = consent_api.cookie_prefix + '_' + consentLevel + '=';
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length);
+                }
+            }
+            return '';
+        }
+
+        function hasConsentSafe() {
+            var consentTypeConfigured =
+                (typeof window.wp_consent_type !== 'undefined' && window.wp_consent_type) ||
                 (typeof window.wp_fallback_consent_type !== 'undefined' && !!window.wp_fallback_consent_type);
+
+            // When consent_type is configured, wp_has_consent() works correctly
+            if (consentTypeConfigured) {
+                return wp_has_consent(consentLevel);
+            }
+
+            // consent_type not configured — read the cookie directly
+            var cookieValue = getConsentCookieValue();
+            if (cookieValue === 'allow') return true;
+            if (cookieValue === 'deny') return false;
+
+            // No cookie set — user hasn't decided yet, don't track
+            return false;
         }
 
         // If tracking anonymously or consent already granted, init immediately
         if (trackAnonymously || consentLevel === 'disabled' ||
-            (typeof wp_has_consent === 'function' && isConsentTypeConfigured() && wp_has_consent(consentLevel))) {
+            (typeof wp_has_consent === 'function' && hasConsentSafe())) {
             initOnce();
         } else if (!trackAnonymously && consentLevel !== 'disabled' && typeof wp_has_consent !== 'function') {
             console.warn('WP Statistics: wp_has_consent() not available. Tracker will not initialize until consent API loads.');
