@@ -28,12 +28,21 @@ interface ConsentProvider {
 export function ConsentIntegrationField({ settings }: { settings: UseSettingsReturn }) {
   const providers = settings.getValue('_consent_providers', []) as ConsentProvider[]
   const value = settings.getValue('consent_integration', 'none') as string
+  const selectedProvider = providers.find((p) => p.key === value)
 
-  const wpConsentApi = providers.find((p) => p.key === 'wp_consent_api')
-  const compatiblePlugins = wpConsentApi?.compatible_plugins ?? []
+  // Borlabs physically blocks the tracking script until consent is given.
+  // When its service is installed (selectable), the user cannot switch to "None"
+  // without breaking tracking.
+  const isForcedIntegration = selectedProvider?.key === 'borlabs_cookie' && selectedProvider.selectable
+
   const isWpConsentSelected = value === 'wp_consent_api'
-  const showWarning = isWpConsentSelected && compatiblePlugins.length === 0
-  const showCompatiblePlugins = isWpConsentSelected && compatiblePlugins.length > 0
+  const wpConsentProvider = providers.find((p) => p.key === 'wp_consent_api')
+  const compatiblePlugins = wpConsentProvider?.compatible_plugins ?? []
+
+  const isOptionDisabled = (provider: ConsentProvider): boolean => {
+    if (provider.key === 'none') return isForcedIntegration
+    return !provider.selectable
+  }
 
   const getLabel = (provider: ConsentProvider): string => {
     if (provider.key === 'wp_consent_api') {
@@ -59,14 +68,14 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
                 <SelectItem
                   key={provider.key}
                   value={provider.key}
-                  disabled={provider.key !== 'none' && !provider.selectable}
+                  disabled={isOptionDisabled(provider)}
                 >
                   {getLabel(provider)}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          {showCompatiblePlugins && (
+          {isWpConsentSelected && compatiblePlugins.length > 0 && (
             <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800 dark:hover:bg-emerald-900/30">
               <CircleCheck className="mr-1 h-3 w-3" />
               {sprintf(
@@ -77,7 +86,7 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
           )}
         </div>
       </SettingsField>
-      {showWarning && (
+      {isWpConsentSelected && compatiblePlugins.length === 0 && (
         <NoticeBanner
           type="warning"
           message={__(
@@ -85,6 +94,17 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
             'wp-statistics'
           )}
           helpUrl="https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=plugin&utm_medium=link&utm_campaign=settings"
+          dismissible={false}
+        />
+      )}
+      {selectedProvider && isForcedIntegration && (
+        <NoticeBanner
+          type="info"
+          message={sprintf(
+            __('%s has been automatically detected with the WP-Statistics service enabled. To disable this integration, remove the WP-Statistics service from %s settings.', 'wp-statistics'),
+            selectedProvider.name,
+            selectedProvider.name
+          )}
           dismissible={false}
         />
       )}

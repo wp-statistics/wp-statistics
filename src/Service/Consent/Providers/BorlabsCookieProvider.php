@@ -19,6 +19,11 @@ class BorlabsCookieProvider extends AbstractConsentProvider
         return esc_html__('Borlabs Cookie', 'wp-statistics');
     }
 
+    /**
+     * When true, the integration is forced — Borlabs physically blocks the tracking script,
+     * so the user cannot select "None" without breaking tracking. The settings UI uses this
+     * to disable the "None" option and show an explanatory notice.
+     */
     public function isSelectable(): bool
     {
         return $this->isAvailable() && $this->isServiceInstalled();
