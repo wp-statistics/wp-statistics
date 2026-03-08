@@ -101,7 +101,7 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
         <NoticeBanner
           type="info"
           message={sprintf(
-            __('%s has been automatically detected with the WP-Statistics service enabled. To disable this integration, remove the WP-Statistics service from %s settings.', 'wp-statistics'),
+            __('Consent is automatically managed by %s. You can change this in %s settings.', 'wp-statistics'),
             selectedProvider.name,
             selectedProvider.name
           )}
