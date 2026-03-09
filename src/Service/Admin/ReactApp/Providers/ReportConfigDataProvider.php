@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
+use WP_Statistics\Components\Country;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 
 /**
@@ -41,6 +42,133 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
     private function getBuiltinReports()
     {
         return [
+            'devices-overview' => [
+                'type'             => 'overview',
+                'pageId'           => 'devices-overview',
+                'title'            => __('Devices Overview', 'wp-statistics'),
+                'filterGroup'      => 'devices',
+                'hideFilters'      => true,
+                'showFilterButton' => false,
+                'queries'          => [
+                    [
+                        'id'          => 'metrics_top_browser',
+                        'sources'     => ['visitors'],
+                        'group_by'    => ['browser'],
+                        'columns'     => ['browser_name', 'visitors'],
+                        'per_page'    => 1,
+                        'order_by'    => 'visitors',
+                        'order'       => 'DESC',
+                        'format'      => 'flat',
+                        'show_totals' => false,
+                        'compare'     => false,
+                    ],
+                    [
+                        'id'          => 'metrics_top_os',
+                        'sources'     => ['visitors'],
+                        'group_by'    => ['os'],
+                        'columns'     => ['os_name', 'visitors'],
+                        'per_page'    => 1,
+                        'order_by'    => 'visitors',
+                        'order'       => 'DESC',
+                        'format'      => 'flat',
+                        'show_totals' => false,
+                        'compare'     => false,
+                    ],
+                    [
+                        'id'          => 'metrics_top_device',
+                        'sources'     => ['visitors'],
+                        'group_by'    => ['device_type'],
+                        'columns'     => ['device_type_name', 'visitors'],
+                        'per_page'    => 1,
+                        'order_by'    => 'visitors',
+                        'order'       => 'DESC',
+                        'format'      => 'flat',
+                        'show_totals' => false,
+                        'compare'     => false,
+                    ],
+                    [
+                        'id'          => 'top_browsers',
+                        'sources'     => ['visitors'],
+                        'group_by'    => ['browser'],
+                        'columns'     => ['browser_name', 'visitors'],
+                        'per_page'    => 5,
+                        'order_by'    => 'visitors',
+                        'order'       => 'DESC',
+                        'format'      => 'table',
+                        'show_totals' => true,
+                    ],
+                    [
+                        'id'          => 'top_operating_systems',
+                        'sources'     => ['visitors'],
+                        'group_by'    => ['os'],
+                        'columns'     => ['os_name', 'visitors'],
+                        'per_page'    => 5,
+                        'order_by'    => 'visitors',
+                        'order'       => 'DESC',
+                        'format'      => 'table',
+                        'show_totals' => true,
+                    ],
+                    [
+                        'id'          => 'top_device_categories',
+                        'sources'     => ['visitors'],
+                        'group_by'    => ['device_type'],
+                        'columns'     => ['device_type_name', 'visitors'],
+                        'per_page'    => 5,
+                        'order_by'    => 'visitors',
+                        'order'       => 'DESC',
+                        'format'      => 'table',
+                        'show_totals' => true,
+                    ],
+                ],
+                'metrics'          => [
+                    ['id' => 'top-browser', 'label' => __('Top Browser', 'wp-statistics'), 'queryId' => 'metrics_top_browser', 'valueField' => 'browser_name'],
+                    ['id' => 'top-operating-system', 'label' => __('Top Operating System', 'wp-statistics'), 'queryId' => 'metrics_top_os', 'valueField' => 'os_name'],
+                    ['id' => 'top-device-category', 'label' => __('Top Device Category', 'wp-statistics'), 'queryId' => 'metrics_top_device', 'valueField' => 'device_type_name'],
+                ],
+                'widgets'          => [
+                    ['id' => 'metrics', 'type' => 'metrics', 'label' => __('Metrics Overview', 'wp-statistics'), 'defaultSize' => 12],
+                    [
+                        'id'            => 'top-browsers',
+                        'type'          => 'bar-list',
+                        'label'         => __('Top Browsers', 'wp-statistics'),
+                        'defaultSize'   => 6,
+                        'queryId'       => 'top_browsers',
+                        'labelField'    => 'browser_name',
+                        'valueField'    => 'visitors',
+                        'iconType'      => 'browser',
+                        'iconSlugField' => 'browser_name',
+                        'columnHeaders' => ['left' => __('Browser', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+                        'link'          => ['to' => '/browsers'],
+                    ],
+                    [
+                        'id'            => 'top-operating-systems',
+                        'type'          => 'bar-list',
+                        'label'         => __('Top Operating Systems', 'wp-statistics'),
+                        'defaultSize'   => 6,
+                        'queryId'       => 'top_operating_systems',
+                        'labelField'    => 'os_name',
+                        'valueField'    => 'visitors',
+                        'iconType'      => 'os',
+                        'iconSlugField' => 'os_name',
+                        'columnHeaders' => ['left' => __('Operating System', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+                        'link'          => ['to' => '/operating-systems'],
+                    ],
+                    [
+                        'id'            => 'top-device-categories',
+                        'type'          => 'bar-list',
+                        'label'         => __('Top Device Categories', 'wp-statistics'),
+                        'defaultSize'   => 6,
+                        'queryId'       => 'top_device_categories',
+                        'labelField'    => 'device_type_name',
+                        'valueField'    => 'visitors',
+                        'columnHeaders' => ['left' => __('Device Category', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+                        'link'          => ['to' => '/device-categories'],
+                    ],
+                ],
+            ],
+
+            'geographic-overview' => $this->getGeographicOverviewConfig(),
+
             'device-categories' => [
                 'title'            => __('Device Categories', 'wp-statistics'),
                 'context'          => 'device-categories',
@@ -613,6 +741,285 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'columns'  => ['referrer_channel'],
                 ],
             ],
+        ];
+    }
+
+    /**
+     * Geographic overview page config.
+     *
+     * Conditionally includes top-regions widget based on user's timezone country.
+     *
+     * @return array
+     */
+    private function getGeographicOverviewConfig()
+    {
+        $userCountry     = Country::getByTimeZone();
+        $userCountryName = !empty($userCountry) ? Country::getName($userCountry) : '';
+        $showRegions     = !empty($userCountry) && $userCountry !== 'US';
+
+        // Build queries — conditionally include top_regions for non-US users
+        $queries = [
+            [
+                'id'          => 'metrics_top_country',
+                'sources'     => ['visitors'],
+                'group_by'    => ['country'],
+                'columns'     => ['country_code', 'country_name', 'visitors'],
+                'per_page'    => 1,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'flat',
+                'show_totals' => false,
+                'compare'     => false,
+            ],
+            [
+                'id'          => 'metrics_top_region',
+                'sources'     => ['visitors'],
+                'group_by'    => ['region'],
+                'columns'     => ['region_name', 'visitors'],
+                'per_page'    => 1,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'flat',
+                'show_totals' => false,
+                'compare'     => false,
+            ],
+            [
+                'id'          => 'metrics_top_city',
+                'sources'     => ['visitors'],
+                'group_by'    => ['city'],
+                'columns'     => ['city_name', 'visitors'],
+                'per_page'    => 1,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'flat',
+                'show_totals' => false,
+                'compare'     => false,
+            ],
+            [
+                'id'          => 'countries_map',
+                'sources'     => ['visitors', 'views'],
+                'group_by'    => ['country'],
+                'columns'     => ['country_code', 'country_name', 'visitors', 'views'],
+                'per_page'    => 250,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'table',
+                'show_totals' => true,
+                'compare'     => false,
+            ],
+            [
+                'id'          => 'top_countries',
+                'sources'     => ['visitors'],
+                'group_by'    => ['country'],
+                'columns'     => ['country_code', 'country_name', 'visitors'],
+                'per_page'    => 5,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'table',
+                'show_totals' => true,
+            ],
+            [
+                'id'          => 'top_cities',
+                'sources'     => ['visitors'],
+                'group_by'    => ['city'],
+                'columns'     => ['city_name', 'country_code', 'country_name', 'visitors'],
+                'per_page'    => 5,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'table',
+                'show_totals' => true,
+            ],
+            [
+                'id'          => 'top_european_countries',
+                'sources'     => ['visitors'],
+                'group_by'    => ['country'],
+                'columns'     => ['country_code', 'country_name', 'visitors'],
+                'filters'     => [
+                    [
+                        'key'      => 'continent',
+                        'operator' => 'is',
+                        'value'    => 'EU',
+                    ],
+                ],
+                'per_page'    => 5,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'table',
+                'show_totals' => true,
+            ],
+            [
+                'id'          => 'top_us_states',
+                'sources'     => ['visitors'],
+                'group_by'    => ['region'],
+                'columns'     => ['region_name', 'country_code', 'country_name', 'visitors'],
+                'filters'     => [
+                    [
+                        'key'      => 'country',
+                        'operator' => 'is',
+                        'value'    => 'US',
+                    ],
+                ],
+                'per_page'    => 5,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'table',
+                'show_totals' => true,
+            ],
+            [
+                'id'          => 'visitors_by_continent',
+                'sources'     => ['visitors'],
+                'group_by'    => ['continent'],
+                'columns'     => ['continent', 'continent_name', 'visitors'],
+                'per_page'    => 7,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'table',
+                'show_totals' => true,
+            ],
+        ];
+
+        // Add top_regions query when user country is detected and not US
+        if ($showRegions) {
+            $queries[] = [
+                'id'          => 'top_regions',
+                'sources'     => ['visitors'],
+                'group_by'    => ['region'],
+                'columns'     => ['region_name', 'country_code', 'country_name', 'visitors'],
+                'filters'     => [
+                    [
+                        'key'      => 'country',
+                        'operator' => 'is',
+                        'value'    => $userCountry,
+                    ],
+                ],
+                'per_page'    => 5,
+                'order_by'    => 'visitors',
+                'order'       => 'DESC',
+                'format'      => 'table',
+                'show_totals' => true,
+            ];
+        }
+
+        // Build widgets
+        $widgets = [
+            ['id' => 'metrics', 'type' => 'metrics', 'label' => __('Metrics Overview', 'wp-statistics'), 'defaultSize' => 12],
+            [
+                'id'          => 'global-map',
+                'type'        => 'map',
+                'label'       => __('Global Visitor Distribution', 'wp-statistics'),
+                'defaultSize' => 12,
+                'queryId'     => 'countries_map',
+                'mapConfig'   => [
+                    'title'              => __('Global Visitor Distribution', 'wp-statistics'),
+                    'metric'             => 'visitors',
+                    'enableCityDrilldown' => true,
+                    'enableMetricToggle' => true,
+                    'availableMetrics'   => [
+                        ['value' => 'visitors', 'label' => __('Visitors', 'wp-statistics')],
+                        ['value' => 'views', 'label' => __('Views', 'wp-statistics')],
+                    ],
+                ],
+            ],
+            [
+                'id'            => 'top-countries',
+                'type'          => 'bar-list',
+                'label'         => __('Top Countries', 'wp-statistics'),
+                'defaultSize'   => 6,
+                'queryId'       => 'top_countries',
+                'labelField'    => 'country_name',
+                'valueField'    => 'visitors',
+                'iconType'      => 'country',
+                'iconSlugField' => 'country_code',
+                'columnHeaders' => ['left' => __('Country', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+                'linkTo'        => '/country/$countryCode',
+                'linkParamField' => 'country_code',
+                'link'          => ['to' => '/countries'],
+            ],
+            [
+                'id'            => 'top-cities',
+                'type'          => 'bar-list',
+                'label'         => __('Top Cities', 'wp-statistics'),
+                'defaultSize'   => 6,
+                'queryId'       => 'top_cities',
+                'labelField'    => 'city_name',
+                'valueField'    => 'visitors',
+                'iconType'      => 'country',
+                'iconSlugField' => 'country_code',
+                'columnHeaders' => ['left' => __('City', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+                'link'          => ['to' => '/cities'],
+            ],
+            [
+                'id'            => 'european-countries',
+                'type'          => 'bar-list',
+                'label'         => __('Top European Countries', 'wp-statistics'),
+                'defaultSize'   => 6,
+                'queryId'       => 'top_european_countries',
+                'labelField'    => 'country_name',
+                'valueField'    => 'visitors',
+                'iconType'      => 'country',
+                'iconSlugField' => 'country_code',
+                'columnHeaders' => ['left' => __('Country', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+                'linkTo'        => '/country/$countryCode',
+                'linkParamField' => 'country_code',
+                'link'          => ['to' => '/european-countries'],
+            ],
+            [
+                'id'            => 'us-states',
+                'type'          => 'bar-list',
+                'label'         => __('Top US States', 'wp-statistics'),
+                'defaultSize'   => 6,
+                'queryId'       => 'top_us_states',
+                'labelField'    => 'region_name',
+                'valueField'    => 'visitors',
+                'columnHeaders' => ['left' => __('State', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+                'link'          => ['to' => '/us-states'],
+            ],
+            [
+                'id'            => 'visitors-by-continent',
+                'type'          => 'bar-list',
+                'label'         => __('Visitors by Continent', 'wp-statistics'),
+                'defaultSize'   => 6,
+                'queryId'       => 'visitors_by_continent',
+                'labelField'    => 'continent_name',
+                'valueField'    => 'visitors',
+                'columnHeaders' => ['left' => __('Continent', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+            ],
+        ];
+
+        // Add top-regions widget when user country is detected and not US
+        if ($showRegions) {
+            $topRegionsLabel = $userCountryName
+                // translators: %s is the country name
+                ? sprintf(__('Top Regions of %s', 'wp-statistics'), $userCountryName)
+                : __('Top Regions', 'wp-statistics');
+
+            $widgets[] = [
+                'id'            => 'top-regions',
+                'type'          => 'bar-list',
+                'label'         => $topRegionsLabel,
+                'defaultSize'   => 6,
+                'queryId'       => 'top_regions',
+                'labelField'    => 'region_name',
+                'valueField'    => 'visitors',
+                'columnHeaders' => ['left' => __('Region', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+                'link'          => ['to' => '/country-regions'],
+            ];
+        }
+
+        return [
+            'type'             => 'overview',
+            'pageId'           => 'geographic-overview',
+            'title'            => __('Geographic Overview', 'wp-statistics'),
+            'filterGroup'      => 'geographic',
+            'hideFilters'      => true,
+            'showFilterButton' => false,
+            'queries'          => $queries,
+            'metrics'          => [
+                ['id' => 'topCountry', 'label' => __('Top Country', 'wp-statistics'), 'queryId' => 'metrics_top_country', 'valueField' => 'country_name'],
+                ['id' => 'topRegion', 'label' => __('Top Region', 'wp-statistics'), 'queryId' => 'metrics_top_region', 'valueField' => 'region_name'],
+                ['id' => 'topCity', 'label' => __('Top City', 'wp-statistics'), 'queryId' => 'metrics_top_city', 'valueField' => 'city_name'],
+            ],
+            'widgets'          => $widgets,
         ];
     }
 }

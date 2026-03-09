@@ -227,8 +227,60 @@ declare global {
     compareMetricKey?: string
   }
 
+  // Overview page icon types
+  type OverviewIconType = 'browser' | 'os' | 'country' | 'device'
+
+  // Overview metric definition (extracts a text value from a flat query result)
+  interface PhpOverviewMetric {
+    id: string
+    label: string
+    queryId: string
+    valueField: string
+  }
+
+  // Overview map widget config
+  interface PhpMapWidgetConfig {
+    title: string
+    metric?: string
+    enableCityDrilldown?: boolean
+    enableMetricToggle?: boolean
+    availableMetrics?: Array<{ value: string; label: string }>
+  }
+
+  // Overview widget definition
+  interface PhpOverviewWidget {
+    id: string
+    label: string
+    type: 'metrics' | 'bar-list' | 'map'
+    defaultSize: number
+    queryId?: string
+    labelField?: string
+    valueField?: string
+    iconType?: OverviewIconType
+    iconSlugField?: string
+    columnHeaders?: { left: string; right: string }
+    link?: { to: string }
+    linkTo?: string
+    linkParamField?: string
+    mapConfig?: PhpMapWidgetConfig
+  }
+
+  // Overview page definition
+  interface PhpOverviewDefinition {
+    type: 'overview'
+    pageId: string
+    title: string
+    filterGroup: string
+    hideFilters?: boolean
+    showFilterButton?: boolean
+    queries: PhpBatchQuery[]
+    metrics: PhpOverviewMetric[]
+    widgets: PhpOverviewWidget[]
+  }
+
   // PHP-defined report definition
   interface PhpReportDefinition {
+    type?: 'table'
     title: string
     context: string
     filterGroup: string
@@ -311,7 +363,7 @@ declare global {
     filters: FiltersConfig
     network: NetworkData
     notices?: NoticeData
-    reports?: Record<string, PhpReportDefinition>
+    reports?: Record<string, PhpReportDefinition | PhpOverviewDefinition>
   }
 }
 
