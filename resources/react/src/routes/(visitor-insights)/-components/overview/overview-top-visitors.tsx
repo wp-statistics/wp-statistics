@@ -8,7 +8,7 @@ import {
   transformTopVisitorData,
 } from '@/components/data-table-columns/top-visitors-columns'
 import { WordPress } from '@/lib/wordpress'
-import type { TopVisitorRow } from '@/services/visitor-insight/get-visitor-overview'
+import type { TopVisitorRecord as TopVisitorRow } from '@/services/visitor-insight/get-top-visitors'
 
 interface OverviewTopVisitorsProps {
   data?: TopVisitorRow[]

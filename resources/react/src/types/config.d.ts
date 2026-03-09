@@ -217,6 +217,8 @@ declare global {
     format?: string
     columns?: string[]
     compare?: boolean
+    /** When true, group_by is replaced based on the current timeframe (daily→date, weekly→week, monthly→month) */
+    timeframeGroupBy?: boolean
     [key: string]: unknown
   }
 
@@ -230,12 +232,33 @@ declare global {
   // Overview page icon types
   type OverviewIconType = 'browser' | 'os' | 'country' | 'device'
 
-  // Overview metric definition (extracts a text value from a flat query result)
+  // Overview metric definition
   interface PhpOverviewMetric {
     id: string
     label: string
     queryId: string
     valueField: string
+    /** 'items' reads from items[0][field], 'totals' reads from totals[field], 'computed' uses computed config */
+    source?: 'items' | 'totals' | 'computed'
+    /** Format applied to the metric value */
+    format?: 'text' | 'compact_number' | 'duration' | 'decimal' | 'percentage'
+    /** For computed metrics (e.g. share percentage = numerator/denominator * 100) */
+    computed?: {
+      type: 'share_percentage'
+      numeratorQueryId: string
+      numeratorField: string
+      denominatorQueryId: string
+      denominatorField: string
+    }
+    /** Apply decodeText to the resolved value */
+    decode?: boolean
+  }
+
+  // Chart widget config for overview pages
+  interface PhpChartWidgetConfig {
+    metrics: Array<{ key: string; label: string; color: string }>
+    /** When true, shows daily/weekly/monthly timeframe selector */
+    timeframeSupport?: boolean
   }
 
   // Overview map widget config
@@ -247,14 +270,21 @@ declare global {
     availableMetrics?: Array<{ value: string; label: string }>
   }
 
+  // Label transform types for bar-list widgets
+  type BarListLabelTransform = 'source-category'
+
   // Overview widget definition
   interface PhpOverviewWidget {
     id: string
     label: string
-    type: 'metrics' | 'bar-list' | 'map'
+    type: 'metrics' | 'bar-list' | 'map' | 'chart' | 'registered'
     defaultSize: number
     queryId?: string
     labelField?: string
+    /** Fallback fields tried in order when labelField is empty */
+    labelFallbackFields?: string[]
+    /** Named label transform applied to the resolved label value */
+    labelTransform?: BarListLabelTransform
     valueField?: string
     iconType?: OverviewIconType
     iconSlugField?: string
@@ -262,7 +292,10 @@ declare global {
     link?: { to: string }
     linkTo?: string
     linkParamField?: string
+    /** Named link resolver applied per-item (e.g. 'analytics-route' for dynamic page links) */
+    linkType?: 'analytics-route'
     mapConfig?: PhpMapWidgetConfig
+    chartConfig?: PhpChartWidgetConfig
   }
 
   // Overview page definition

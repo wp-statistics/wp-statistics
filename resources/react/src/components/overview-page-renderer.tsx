@@ -9,10 +9,11 @@
 import { keepPreviousData, queryOptions, useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { GlobalMap, type GlobalMapData } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
+import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import {
   type OverviewOptionsConfig,
@@ -21,17 +22,22 @@ import {
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
+import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
+import { useContentRegistry } from '@/contexts/content-registry-context'
 import type { MetricConfig, WidgetConfig } from '@/contexts/page-options-context'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
+import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { clientRequest } from '@/lib/client-request'
-import { getTotalValue } from '@/lib/utils'
+import { getAnalyticsRoute } from '@/lib/url-utils'
+import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
 
 const pluginUrl = WordPress.getInstance().getPluginUrl()
@@ -64,6 +70,12 @@ const ICON_RENDERERS: Record<OverviewIconType, (item: Record<string, unknown>, s
   },
 }
 
+// ------- Label transforms -------
+
+const LABEL_TRANSFORMS: Record<BarListLabelTransform, (value: string) => string> = {
+  'source-category': getChannelDisplayName,
+}
+
 // ------- Batch query types -------
 
 interface BatchQueryResult {
@@ -81,6 +93,21 @@ interface OverviewBatchResponse {
   items: Record<string, BatchQueryResult>
 }
 
+// ------- Timeframe helpers -------
+
+type Timeframe = 'daily' | 'weekly' | 'monthly'
+
+const TIMEFRAME_TO_GROUP_BY: Record<Timeframe, string> = {
+  daily: 'date',
+  weekly: 'week',
+  monthly: 'month',
+}
+
+/** Check if any chart widget in config has timeframeSupport */
+function hasTimeframeSupport(config: PhpOverviewDefinition): boolean {
+  return config.widgets.some((w) => w.type === 'chart' && w.chartConfig?.timeframeSupport)
+}
+
 // ------- Query factory -------
 
 function createOverviewQueryOptions(
@@ -91,6 +118,7 @@ function createOverviewQueryOptions(
     compareDateFrom?: string
     compareDateTo?: string
     filters: unknown[]
+    timeframe?: Timeframe
   }
 ) {
   const hasCompare = !!(params.compareDateFrom && params.compareDateTo)
@@ -99,11 +127,14 @@ function createOverviewQueryOptions(
       ? transformFiltersToApi(params.filters as Parameters<typeof transformFiltersToApi>[0])
       : {}
   const hasFilters = Object.keys(apiFilters).length > 0
+  const dateGroupBy = TIMEFRAME_TO_GROUP_BY[params.timeframe || 'daily']
 
   // Set compare on queries that don't explicitly specify it
+  // Replace group_by for queries with timeframeGroupBy flag
   const queries = config.queries.map((q) => ({
     ...q,
     compare: q.compare !== undefined ? q.compare : hasCompare,
+    ...(q.timeframeGroupBy && { group_by: [dateGroupBy] }),
   }))
 
   return queryOptions({
@@ -116,6 +147,7 @@ function createOverviewQueryOptions(
       params.compareDateTo,
       hasCompare,
       hasFilters ? apiFilters : null,
+      params.timeframe || null,
     ],
     queryFn: () =>
       clientRequest.post<OverviewBatchResponse>(
@@ -189,15 +221,45 @@ function OverviewContent({
   config: PhpOverviewDefinition
   optionsConfig: OverviewOptionsConfig
 }) {
-  const { filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams } = useGlobalFilters()
+  const { dateFrom, dateTo, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams } = useGlobalFilters()
   const { isWidgetVisible, isMetricVisible } = usePageOptions()
   const options = useOverviewOptions(optionsConfig)
   const navigate = useNavigate()
   const { label: comparisonDateLabel } = useComparisonDateLabel()
+  const calcPercentage = usePercentageCalc()
+
+  // Get JS-registered widgets for this page (from premium modules or core)
+  const { getWidgetsForPage } = useContentRegistry()
+  const registeredWidgets = getWidgetsForPage(config.pageId)
+
+  // Timeframe state (only used when a chart widget has timeframeSupport)
+  const supportsTimeframe = hasTimeframeSupport(config)
+  const [timeframe, setTimeframe] = useState<Timeframe>('daily')
+  const [isTimeframeOnlyChange, setIsTimeframeOnlyChange] = useState(false)
+  const prevFiltersRef = useRef<string>(JSON.stringify(appliedFilters))
+  const prevDateFromRef = useRef<Date | undefined>(dateFrom)
+  const prevDateToRef = useRef<Date | undefined>(dateTo)
+
+  useEffect(() => {
+    if (!supportsTimeframe) return
+    const currentFilters = JSON.stringify(appliedFilters)
+    if (currentFilters !== prevFiltersRef.current || dateFrom !== prevDateFromRef.current || dateTo !== prevDateToRef.current) {
+      setIsTimeframeOnlyChange(false)
+    }
+    prevFiltersRef.current = currentFilters
+    prevDateFromRef.current = dateFrom
+    prevDateToRef.current = dateTo
+  }, [supportsTimeframe, appliedFilters, dateFrom, dateTo])
+
+  const handleTimeframeChange = useCallback((newTimeframe: Timeframe) => {
+    setIsTimeframeOnlyChange(true)
+    setTimeframe(newTimeframe)
+  }, [])
 
   const {
     data: batchResponse,
     isLoading,
+    isFetching,
   } = useQuery({
     ...createOverviewQueryOptions(config, {
       dateFrom: apiDateParams.date_from,
@@ -205,6 +267,7 @@ function OverviewContent({
       compareDateFrom: apiDateParams.previous_date_from,
       compareDateTo: apiDateParams.previous_date_to,
       filters: appliedFilters || [],
+      timeframe: supportsTimeframe ? timeframe : undefined,
     }),
     retry: false,
     placeholderData: keepPreviousData,
@@ -212,20 +275,79 @@ function OverviewContent({
   })
 
   const showSkeleton = isLoading && !batchResponse
+  const isChartRefetching = supportsTimeframe && isFetching && !isLoading && isTimeframeOnlyChange
 
-  // Build metrics from flat query results
+  // Build metrics from query results (supports items-based, totals-based, and computed)
   const overviewMetrics = useMemo(() => {
     const items = batchResponse?.data?.items
     if (!items) return []
     return config.metrics
       .filter((m) => isMetricVisible(m.id))
       .map((m) => {
-        const value = items[m.queryId]?.items?.[0]?.[m.valueField]
-        return { id: m.id, label: m.label, value: value != null ? String(value) : '-' }
-      })
-  }, [batchResponse, config.metrics, isMetricVisible])
+        const queryResult = items[m.queryId]
+        let rawValue: unknown
+        let rawPrevious: unknown
 
-  // Pre-compute map data for map widgets (memoized to avoid re-creating on every render)
+        if (m.source === 'computed' && m.computed?.type === 'share_percentage') {
+          // Computed: ratio of numerator/denominator from different queries
+          const numQuery = items[m.computed.numeratorQueryId]
+          const denQuery = items[m.computed.denominatorQueryId]
+          const numTotals = numQuery?.totals?.[m.computed.numeratorField]
+          const denTotals = denQuery?.totals?.[m.computed.denominatorField]
+          const numCurrent = getTotalValue(numTotals)
+          const denCurrent = getTotalValue(denTotals)
+          rawValue = calcSharePercentage(numCurrent, denCurrent)
+          const numPrev = getTotalValue((numTotals as Record<string, unknown>)?.previous)
+          const denPrev = getTotalValue((denTotals as Record<string, unknown>)?.previous)
+          rawPrevious = calcSharePercentage(numPrev, denPrev)
+        } else if (m.source === 'totals') {
+          // Read from totals (supports {current, previous} structure)
+          const totalsValue = queryResult?.totals?.[m.valueField]
+          rawValue = getTotalValue(totalsValue)
+          rawPrevious = getTotalValue((totalsValue as Record<string, unknown>)?.previous)
+        } else {
+          // Default: read from items[0]
+          rawValue = queryResult?.items?.[0]?.[m.valueField]
+          if (m.decode && typeof rawValue === 'string') {
+            rawValue = decodeText(rawValue)
+          }
+        }
+
+        // Format the value based on format type
+        const formatValue = (val: unknown): string => {
+          if (val == null) return '-'
+          const num = Number(val)
+          switch (m.format) {
+            case 'compact_number': return formatCompactNumber(num)
+            case 'duration': return formatDuration(num)
+            case 'decimal': return formatDecimal(num)
+            case 'percentage': return `${formatDecimal(num)}%`
+            default: return String(val)
+          }
+        }
+
+        const formatted = formatValue(rawValue)
+
+        // Build comparison props for totals-based/computed numeric metrics
+        const hasComparison = (m.source === 'totals' || m.source === 'computed') && isCompareEnabled && rawPrevious != null
+        if (hasComparison) {
+          const current = Number(rawValue) || 0
+          const previous = Number(rawPrevious) || 0
+          return {
+            id: m.id,
+            label: m.label,
+            value: formatted,
+            ...calcPercentage(current, previous),
+            comparisonDateLabel,
+            previousValue: formatValue(previous),
+          }
+        }
+
+        return { id: m.id, label: m.label, value: formatted }
+      })
+  }, [batchResponse, config.metrics, isMetricVisible, isCompareEnabled, calcPercentage, comparisonDateLabel])
+
+  // Pre-compute map data for map widgets
   const mapDataByWidgetId = useMemo(() => {
     const items = batchResponse?.data?.items
     if (!items) return {}
@@ -280,6 +402,22 @@ function OverviewContent({
                 )
               }
 
+              if (widget.type === 'chart' && widget.queryId && widget.chartConfig) {
+                return (
+                  <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12'}>
+                    <ChartWidget
+                      widget={widget}
+                      queryResult={batchResponse?.data?.items?.[widget.queryId]}
+                      isCompareEnabled={isCompareEnabled}
+                      timeframe={timeframe}
+                      onTimeframeChange={widget.chartConfig.timeframeSupport ? handleTimeframeChange : undefined}
+                      loading={isChartRefetching}
+                      apiDateParams={apiDateParams}
+                    />
+                  </div>
+                )
+              }
+
               if (widget.type === 'map' && widget.mapConfig) {
                 const mapData = mapDataByWidgetId[widget.id]
                 if (!mapData) return null
@@ -308,6 +446,31 @@ function OverviewContent({
                 const rows = queryResult?.data?.rows || []
                 const totals = queryResult?.data?.totals
 
+                // Build link resolvers based on linkType or linkTo+linkParamField
+                let linkResolvers: Record<string, unknown> = {}
+                if (widget.linkType === 'analytics-route') {
+                  linkResolvers = {
+                    linkTo: (item: Record<string, unknown>) => {
+                      const route = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number, undefined, item.resource_id as number)
+                      return route?.to
+                    },
+                    linkParams: (item: Record<string, unknown>) => {
+                      const route = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number, undefined, item.resource_id as number)
+                      return route?.params
+                    },
+                  }
+                } else if (widget.linkTo && widget.linkParamField) {
+                  const paramMatch = widget.linkTo.match(/\$(\w+)/)
+                  const paramName = paramMatch?.[1]
+                  linkResolvers = {
+                    linkTo: (item: Record<string, unknown>) => item[widget.linkParamField!] ? widget.linkTo! : undefined,
+                    linkParams: (item: Record<string, unknown>) => {
+                      const value = String(item[widget.linkParamField!] || '').toLowerCase()
+                      return paramName ? { [paramName]: value } : {}
+                    },
+                  }
+                }
+
                 return (
                   <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12 lg:col-span-6'}>
                     <HorizontalBarList
@@ -315,7 +478,21 @@ function OverviewContent({
                       showComparison={isCompareEnabled}
                       columnHeaders={widget.columnHeaders}
                       items={transformToBarList(rows, {
-                        label: (item) => String(item[widget.labelField!] || __('Unknown', 'wp-statistics')),
+                        label: (item) => {
+                          // Resolve label: try labelField, then fallback fields
+                          let raw = widget.labelField ? item[widget.labelField] : undefined
+                          if (!raw && widget.labelFallbackFields) {
+                            for (const field of widget.labelFallbackFields) {
+                              raw = item[field]
+                              if (raw) break
+                            }
+                          }
+                          const label = String(raw || __('Unknown', 'wp-statistics'))
+                          // Apply named transform if specified
+                          return widget.labelTransform
+                            ? LABEL_TRANSFORMS[widget.labelTransform](label)
+                            : label
+                        },
                         value: (item) => Number(item[widget.valueField!]) || 0,
                         previousValue: (item) => {
                           const prev = item.previous as Record<string, unknown> | undefined
@@ -332,20 +509,35 @@ function OverviewContent({
                             : undefined,
                         isCompareEnabled,
                         comparisonDateLabel,
-                        ...(widget.linkTo &&
-                          widget.linkParamField && {
-                            linkTo: () => widget.linkTo!,
-                            linkParams: (item) => {
-                              const value = String(item[widget.linkParamField!] || '').toLowerCase()
-                              const paramMatch = widget.linkTo!.match(/\$(\w+)/)
-                              return paramMatch ? { [paramMatch[1]]: value } : {}
-                            },
-                          }),
+                        ...linkResolvers,
                       })}
                       link={widget.link ? { action: () => navigate({ to: widget.link!.to }) } : undefined}
                     />
                   </div>
                 )
+              }
+
+              // Registered widgets: insert JS-registered widgets at this position
+              if (widget.type === 'registered') {
+                return registeredWidgets.map((rw) => {
+                  if (!isWidgetVisible(rw.id)) return null
+                  const widgetData = batchResponse?.data?.items?.[rw.queryId]
+                  const data = (widgetData as { data?: { rows?: unknown[] } })?.data?.rows || []
+                  const totals = (widgetData as { data?: { totals?: Record<string, unknown> } })?.data?.totals || {}
+                  return (
+                    <div key={rw.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12'}>
+                      {rw.render({
+                        data,
+                        totals,
+                        isCompareEnabled,
+                        comparisonDateLabel,
+                        isFetching,
+                        navigate,
+                        getTotalFromResponse: (t, key) => getTotalValue(t?.[key]),
+                      })}
+                    </div>
+                  )
+                })
               }
 
               return null
@@ -356,6 +548,52 @@ function OverviewContent({
     </div>
   )
 }
+
+// ------- Chart Widget -------
+
+function ChartWidget({
+  widget,
+  queryResult,
+  isCompareEnabled,
+  timeframe,
+  onTimeframeChange,
+  loading,
+  apiDateParams,
+}: {
+  widget: PhpOverviewWidget
+  queryResult: BatchQueryResult | undefined
+  isCompareEnabled: boolean
+  timeframe: Timeframe
+  onTimeframeChange?: (tf: Timeframe) => void
+  loading: boolean
+  apiDateParams: { date_to: string; previous_date_to?: string }
+}) {
+  const { data: chartData, metrics } = useChartData(queryResult, {
+    metrics: widget.chartConfig!.metrics.map((m) => ({
+      key: m.key,
+      label: m.label,
+      color: m.color,
+    })),
+    showPreviousValues: isCompareEnabled,
+    preserveNull: true,
+  })
+
+  return (
+    <LineChart
+      title={widget.label}
+      data={chartData}
+      metrics={metrics}
+      showPreviousPeriod={isCompareEnabled}
+      timeframe={timeframe}
+      onTimeframeChange={onTimeframeChange}
+      loading={loading}
+      dateTo={apiDateParams.date_to}
+      compareDateTo={apiDateParams.previous_date_to}
+    />
+  )
+}
+
+// ------- Skeleton -------
 
 function OverviewSkeleton({ config }: { config: PhpOverviewDefinition }) {
   const metricsCount = config.metrics.length
@@ -368,6 +606,15 @@ function OverviewSkeleton({ config }: { config: PhpOverviewDefinition }) {
             <div key={w.id} className="col-span-12">
               <PanelSkeleton showTitle={false}>
                 <MetricsSkeleton count={metricsCount} columns={metricsCount} />
+              </PanelSkeleton>
+            </div>
+          )
+        }
+        if (w.type === 'chart') {
+          return (
+            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12'}>
+              <PanelSkeleton titleWidth="w-32">
+                <ChartSkeleton height={256} showTitle={false} />
               </PanelSkeleton>
             </div>
           )
@@ -386,6 +633,15 @@ function OverviewSkeleton({ config }: { config: PhpOverviewDefinition }) {
             <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12 lg:col-span-6'}>
               <PanelSkeleton>
                 <BarListSkeleton items={5} showIcon={!!w.iconType} />
+              </PanelSkeleton>
+            </div>
+          )
+        }
+        if (w.type === 'registered') {
+          return (
+            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12'}>
+              <PanelSkeleton>
+                <BarListSkeleton items={5} />
               </PanelSkeleton>
             </div>
           )
