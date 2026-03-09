@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-import { Activity, Ban, Bell, Clock, Database, Info, type LucideIcon, Monitor, Settings, Shield, ShieldCheck, Stethoscope, Upload, Users, Wrench } from 'lucide-react'
+import { Activity, Ban, Bell, Clock, Database, Info, type LucideIcon, Monitor, Plug, Settings, Shield, ShieldCheck, Stethoscope, Upload, Users, Wrench } from 'lucide-react'
 
 import { getSettingsTabs } from '@/registry/settings-registry'
 import type { SettingsConfig } from '@/services/settings-config'
@@ -28,6 +28,7 @@ const iconMap: Record<string, LucideIcon> = {
   activity: Activity,
   upload: Upload,
   shieldCheck: ShieldCheck,
+  plug: Plug,
 }
 
 /**
