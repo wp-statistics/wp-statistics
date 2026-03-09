@@ -303,6 +303,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'bounceRate',
+                        'dataField'   => 'bounce_rate',
                         'title'       => __('Bounce Rate', 'wp-statistics'),
                         'type'        => 'percentage',
                         'priority'    => 'secondary',
@@ -314,6 +315,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'sessionDuration',
+                        'dataField'   => 'avg_session_duration',
                         'title'       => __('Avg. Duration', 'wp-statistics'),
                         'type'        => 'duration',
                         'priority'    => 'secondary',
@@ -382,11 +384,12 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'cardPosition' => 'header',
                     ],
                     [
-                        'key'      => 'name',
-                        'title'    => __('Source Name', 'wp-statistics'),
-                        'type'     => 'text',
-                        'priority' => 'secondary',
-                        'sortable' => false,
+                        'key'       => 'name',
+                        'dataField' => 'referrer_name',
+                        'title'     => __('Source Name', 'wp-statistics'),
+                        'type'      => 'text',
+                        'priority'  => 'secondary',
+                        'sortable'  => false,
                         'cardPosition' => 'body',
                     ],
                     [
@@ -411,6 +414,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'sessionDuration',
+                        'dataField'   => 'avg_session_duration',
                         'title'       => __('Avg. Duration', 'wp-statistics'),
                         'type'        => 'duration',
                         'priority'    => 'secondary',
@@ -421,6 +425,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'bounceRate',
+                        'dataField'   => 'bounce_rate',
                         'title'       => __('Bounce Rate', 'wp-statistics'),
                         'type'        => 'percentage',
                         'priority'    => 'secondary',
@@ -432,6 +437,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'pagesPerSession',
+                        'dataField'   => 'pages_per_session',
                         'title'       => __('Pages/Session', 'wp-statistics'),
                         'type'        => 'numeric',
                         'priority'    => 'secondary',
@@ -519,6 +525,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'          => 'name',
+                        'dataField'    => 'referrer_name',
                         'title'        => __('Source Name', 'wp-statistics'),
                         'type'         => 'text',
                         'priority'     => 'secondary',
@@ -547,6 +554,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'sessionDuration',
+                        'dataField'   => 'avg_session_duration',
                         'title'       => __('Avg. Duration', 'wp-statistics'),
                         'type'        => 'duration',
                         'priority'    => 'secondary',
@@ -557,6 +565,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'bounceRate',
+                        'dataField'   => 'bounce_rate',
                         'title'       => __('Bounce Rate', 'wp-statistics'),
                         'type'        => 'percentage',
                         'priority'    => 'secondary',
@@ -568,6 +577,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'pagesPerSession',
+                        'dataField'   => 'pages_per_session',
                         'title'       => __('Pages/Session', 'wp-statistics'),
                         'type'        => 'numeric',
                         'priority'    => 'secondary',
@@ -680,6 +690,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'sessionDuration',
+                        'dataField'   => 'avg_session_duration',
                         'title'       => __('Avg. Duration', 'wp-statistics'),
                         'type'        => 'duration',
                         'priority'    => 'secondary',
@@ -690,6 +701,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'bounceRate',
+                        'dataField'   => 'bounce_rate',
                         'title'       => __('Bounce Rate', 'wp-statistics'),
                         'type'        => 'percentage',
                         'priority'    => 'secondary',
@@ -701,6 +713,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     [
                         'key'         => 'pagesPerSession',
+                        'dataField'   => 'pages_per_session',
                         'title'       => __('Pages/Session', 'wp-statistics'),
                         'type'        => 'numeric',
                         'priority'    => 'secondary',
@@ -745,6 +758,251 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'context'  => 'source-categories',
                     'columns'  => ['referrer_channel'],
                 ],
+            ],
+
+            '404-pages' => [
+                'title'            => __('404 Pages', 'wp-statistics'),
+                'context'          => '404_pages',
+                'filterGroup'      => 'views',
+                'hideFilters'      => true,
+                'dataSource'       => [
+                    'queryId' => '404_pages',
+                    'queries' => [
+                        [
+                            'id'          => '404_pages',
+                            'sources'     => ['views'],
+                            'group_by'    => ['page'],
+                            'columns'     => ['page_uri', 'views'],
+                            'format'      => 'table',
+                            'show_totals' => false,
+                            'compare'     => false,
+                            'filters'     => [['key' => 'post_type', 'operator' => 'is', 'value' => '404']],
+                        ],
+                    ],
+                ],
+                'columns'          => [
+                    [
+                        'key'          => 'page_uri',
+                        'title'        => __('URL', 'wp-statistics'),
+                        'type'         => 'uri',
+                        'priority'     => 'primary',
+                        'sortable'     => false,
+                        'cardPosition' => 'header',
+                    ],
+                    [
+                        'key'          => 'views',
+                        'title'        => __('Views', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'priority'     => 'primary',
+                        'sortable'     => false,
+                        'size'         => 'views',
+                        'cardPosition' => 'body',
+                    ],
+                ],
+                'defaultSort'       => ['id' => 'views', 'desc' => true],
+                'perPage'           => 20,
+                'emptyStateMessage' => __('No 404 pages found for the selected period', 'wp-statistics'),
+            ],
+
+            'operating-systems' => [
+                'title'            => __('Operating Systems', 'wp-statistics'),
+                'context'          => 'operating-systems',
+                'filterGroup'      => 'visitors',
+                'dataSource'       => [
+                    'queryId' => 'operating_systems',
+                    'queries' => [
+                        [
+                            'id'          => 'operating_systems',
+                            'sources'     => ['visitors'],
+                            'group_by'    => ['os'],
+                            'columns'     => ['os_name', 'os_id', 'visitors'],
+                            'format'      => 'table',
+                            'show_totals' => false,
+                        ],
+                    ],
+                ],
+                'columns'          => [
+                    [
+                        'key'          => 'os_name',
+                        'title'        => __('Operating System', 'wp-statistics'),
+                        'type'         => 'text',
+                        'priority'     => 'primary',
+                        'sortable'     => false,
+                        'cardPosition' => 'header',
+                    ],
+                    [
+                        'key'          => 'visitors',
+                        'title'        => __('Visitors', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'priority'     => 'primary',
+                        'comparable'   => true,
+                        'previousKey'  => 'previous.visitors',
+                        'size'         => 'views',
+                        'cardPosition' => 'body',
+                    ],
+                ],
+                'defaultSort'       => ['id' => 'visitors', 'desc' => true],
+                'perPage'           => 25,
+                'emptyStateMessage' => __('No operating systems found for the selected period', 'wp-statistics'),
+            ],
+
+            'cities' => [
+                'title'                => __('Cities', 'wp-statistics'),
+                'context'              => 'cities',
+                'filterGroup'          => 'visitors',
+                'dataSource'           => [
+                    'queryId' => 'cities',
+                    'queries' => [
+                        [
+                            'id'          => 'cities',
+                            'sources'     => ['visitors', 'views'],
+                            'group_by'    => ['city'],
+                            'format'      => 'table',
+                            'show_totals' => false,
+                        ],
+                    ],
+                    'columnMapping' => [
+                        'country' => 'country_name',
+                    ],
+                ],
+                'columns'              => [
+                    [
+                        'key'          => 'city_name',
+                        'title'        => __('City', 'wp-statistics'),
+                        'type'         => 'text',
+                        'priority'     => 'primary',
+                        'sortable'     => false,
+                        'cardPosition' => 'header',
+                    ],
+                    [
+                        'key'          => 'city_region_name',
+                        'title'        => __('Region', 'wp-statistics'),
+                        'type'         => 'text',
+                        'priority'     => 'secondary',
+                        'sortable'     => false,
+                        'cardPosition' => 'body',
+                    ],
+                    [
+                        'key'            => 'country',
+                        'title'          => __('Country', 'wp-statistics'),
+                        'type'           => 'location',
+                        'priority'       => 'secondary',
+                        'sortable'       => false,
+                        'cardPosition'   => 'body',
+                        'linkTo'         => '/country/$countryCode',
+                        'linkParamField' => 'country_code',
+                    ],
+                    [
+                        'key'          => 'visitors',
+                        'title'        => __('Visitors', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'priority'     => 'primary',
+                        'comparable'   => true,
+                        'previousKey'  => 'previous.visitors',
+                        'size'         => 'views',
+                        'cardPosition' => 'body',
+                    ],
+                    [
+                        'key'          => 'views',
+                        'title'        => __('Views', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'priority'     => 'primary',
+                        'comparable'   => true,
+                        'previousKey'  => 'previous.views',
+                        'size'         => 'views',
+                        'cardPosition' => 'body',
+                    ],
+                ],
+                'defaultSort'          => ['id' => 'visitors', 'desc' => true],
+                'perPage'              => 25,
+                'defaultHiddenColumns' => [],
+                'columnConfig'         => [
+                    'baseColumns'        => ['city_id', 'city_name'],
+                    'columnDependencies' => [
+                        'city_name'        => ['city_id', 'city_name'],
+                        'city_region_name' => ['city_region_name'],
+                        'country'          => ['country_code', 'country_name'],
+                        'visitors'         => ['visitors'],
+                        'views'            => ['views'],
+                    ],
+                ],
+                'defaultApiColumns'    => [
+                    'city_id',
+                    'city_name',
+                    'city_region_name',
+                    'country_code',
+                    'country_name',
+                    'visitors',
+                    'views',
+                ],
+                'emptyStateMessage'    => __('No cities found for the selected period', 'wp-statistics'),
+            ],
+
+            'timezones' => [
+                'title'                => __('Timezones', 'wp-statistics'),
+                'context'              => 'timezones',
+                'filterGroup'          => 'visitors',
+                'dataSource'           => [
+                    'queryId' => 'timezones',
+                    'queries' => [
+                        [
+                            'id'          => 'timezones',
+                            'sources'     => ['visitors', 'views'],
+                            'group_by'    => ['timezone'],
+                            'format'      => 'table',
+                            'show_totals' => false,
+                        ],
+                    ],
+                ],
+                'columns'              => [
+                    [
+                        'key'          => 'timezone_name',
+                        'title'        => __('Timezone', 'wp-statistics'),
+                        'type'         => 'text',
+                        'priority'     => 'primary',
+                        'sortable'     => false,
+                        'cardPosition' => 'header',
+                    ],
+                    [
+                        'key'          => 'visitors',
+                        'title'        => __('Visitors', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'priority'     => 'primary',
+                        'comparable'   => true,
+                        'previousKey'  => 'previous.visitors',
+                        'size'         => 'views',
+                        'cardPosition' => 'body',
+                    ],
+                    [
+                        'key'          => 'views',
+                        'title'        => __('Views', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'priority'     => 'primary',
+                        'comparable'   => true,
+                        'previousKey'  => 'previous.views',
+                        'size'         => 'views',
+                        'cardPosition' => 'body',
+                    ],
+                ],
+                'defaultSort'          => ['id' => 'visitors', 'desc' => true],
+                'perPage'              => 25,
+                'defaultHiddenColumns' => [],
+                'columnConfig'         => [
+                    'baseColumns'        => ['timezone_id', 'timezone_name', 'timezone_offset'],
+                    'columnDependencies' => [
+                        'timezone_name' => ['timezone_id', 'timezone_name', 'timezone_offset'],
+                        'visitors'      => ['visitors'],
+                        'views'         => ['views'],
+                    ],
+                ],
+                'defaultApiColumns'    => [
+                    'timezone_id',
+                    'timezone_name',
+                    'timezone_offset',
+                    'visitors',
+                    'views',
+                ],
+                'emptyStateMessage'    => __('No timezones found for the selected period', 'wp-statistics'),
             ],
         ];
     }

@@ -8,7 +8,7 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
-import { DurationCell, LocationCell, NumericCell, PageCell, ReferrerCell } from '@/components/data-table-columns'
+import { DurationCell, LocationCell, NumericCell, PageCell, ReferrerCell, UriCell } from '@/components/data-table-columns'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { WordPress } from '@/lib/wordpress'
@@ -42,6 +42,8 @@ export function createColumnsFromConfig(
     const isComparable = col.comparable === true
     const isSortable = col.sortable !== false
     const size = col.size ? COLUMN_SIZES[col.size as keyof typeof COLUMN_SIZES] : undefined
+    // API field name to read from row data (defaults to column key)
+    const field = col.dataField || col.key
 
     const base: Partial<ColumnDef<Record<string, unknown>>> = {
       accessorKey: col.key,
@@ -85,7 +87,7 @@ export function createColumnsFromConfig(
           ),
           ...(size ? {} : { size: COLUMN_SIZES.views }),
           cell: ({ row }) => {
-            const value = Number(row.original[col.key]) || 0
+            const value = Number(row.original[field]) || 0
             const previousValue =
               isComparable && showComparison(col.key) && previousKey
                 ? Number(getNestedValue(row.original, previousKey)) || undefined
@@ -111,7 +113,7 @@ export function createColumnsFromConfig(
           ),
           ...(size ? {} : { size: COLUMN_SIZES.bounceRate }),
           cell: ({ row }) => {
-            const value = Number(row.original[col.key]) || 0
+            const value = Number(row.original[field]) || 0
             const previousValue =
               isComparable && showComparison(col.key) && previousKey
                 ? Number(getNestedValue(row.original, previousKey)) || undefined
@@ -138,7 +140,7 @@ export function createColumnsFromConfig(
           ),
           ...(size ? {} : { size: COLUMN_SIZES.duration }),
           cell: ({ row }) => {
-            const seconds = Number(row.original[col.key]) || 0
+            const seconds = Number(row.original[field]) || 0
             const previousSeconds =
               isComparable && showComparison(col.key) && previousKey
                 ? Number(getNestedValue(row.original, previousKey)) || undefined
@@ -229,8 +231,17 @@ export function createColumnsFromConfig(
           header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
           cell: ({ row }) => (
             <span className="truncate text-xs font-medium text-neutral-700">
-              {getChannelDisplayName(String(row.original[col.key] ?? ''))}
+              {getChannelDisplayName(String(row.original[field] ?? ''))}
             </span>
+          ),
+        } as ColumnDef<Record<string, unknown>>
+
+      case 'uri':
+        return {
+          ...base,
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => (
+            <UriCell uri={String(row.original[field] ?? '')} />
           ),
         } as ColumnDef<Record<string, unknown>>
 
@@ -241,7 +252,7 @@ export function createColumnsFromConfig(
           header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
           cell: ({ row }) => (
             <span className="truncate text-xs font-medium text-neutral-700">
-              {String(row.original[col.key] ?? '')}
+              {String(row.original[field] ?? '')}
             </span>
           ),
         } as ColumnDef<Record<string, unknown>>

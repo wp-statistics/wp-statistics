@@ -167,8 +167,10 @@ declare global {
   // PHP-defined report column
   interface PhpReportColumn {
     key: string
+    /** API field name to read from row data (defaults to key if omitted) */
+    dataField?: string
     title: string
-    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category'
+    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category' | 'uri'
     priority?: 'primary' | 'secondary' | 'hidden'
     cardPosition?: 'header' | 'body' | 'footer'
     mobileLabel?: string
