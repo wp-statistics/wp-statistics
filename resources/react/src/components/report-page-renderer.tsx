@@ -97,6 +97,7 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
     previous_date_from?: string
     previous_date_to?: string
     filters: unknown[]
+    apiFilters?: Record<string, unknown>
   }>
   /** Column factory - creates column definitions */
   columns: ColumnFactory<TData>
@@ -368,9 +369,6 @@ export function ReportPageRenderer<TData, TRecord>({
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute={routeName || context} />
 
-        {/* Before table slot */}
-        {beforeTable && !showSkeleton && !isError && beforeTable(slotProps)}
-
         {isError ? (
           <div className="p-2 text-center">
             <ErrorMessage message={__('Failed to load data', 'wp-statistics')} />
@@ -388,35 +386,38 @@ export function ReportPageRenderer<TData, TRecord>({
             </PanelSkeleton>
           </div>
         ) : (
-          <DataTable
-            columns={columns as ColumnDef<TData>[]}
-            data={tableData}
-            sorting={sorting}
-            onSortingChange={handleSortingChange}
-            manualSorting={true}
-            manualPagination={true}
-            pageCount={totalPages}
-            page={page}
-            onPageChange={handlePageChange}
-            totalRows={totalRows}
-            rowLimit={perPage}
-            showPagination={true}
-            isFetching={isFetching}
-            hiddenColumns={defaultHiddenColumns}
-            initialColumnVisibility={initialColumnVisibility}
-            columnOrder={columnOrder.length > 0 ? columnOrder : undefined}
-            onColumnVisibilityChange={handleColumnVisibilityChange}
-            onColumnOrderChange={handleColumnOrderChange}
-            onColumnPreferencesReset={handleColumnPreferencesReset}
-            comparableColumns={comparableColumns}
-            comparisonColumns={comparisonColumns}
-            defaultComparisonColumns={defaultComparisonColumns}
-            onComparisonColumnsChange={handleComparisonColumnsChange}
-            emptyStateMessage={emptyStateMessage}
-            stickyHeader={true}
-            borderless
-            tableRef={tableRef}
-          />
+          <div className="space-y-3">
+            {beforeTable && beforeTable(slotProps)}
+            <DataTable
+              columns={columns as ColumnDef<TData>[]}
+              data={tableData}
+              sorting={sorting}
+              onSortingChange={handleSortingChange}
+              manualSorting={true}
+              manualPagination={true}
+              pageCount={totalPages}
+              page={page}
+              onPageChange={handlePageChange}
+              totalRows={totalRows}
+              rowLimit={perPage}
+              showPagination={true}
+              isFetching={isFetching}
+              hiddenColumns={defaultHiddenColumns}
+              initialColumnVisibility={initialColumnVisibility}
+              columnOrder={columnOrder.length > 0 ? columnOrder : undefined}
+              onColumnVisibilityChange={handleColumnVisibilityChange}
+              onColumnOrderChange={handleColumnOrderChange}
+              onColumnPreferencesReset={handleColumnPreferencesReset}
+              comparableColumns={comparableColumns}
+              comparisonColumns={comparisonColumns}
+              defaultComparisonColumns={defaultComparisonColumns}
+              onComparisonColumnsChange={handleComparisonColumnsChange}
+              emptyStateMessage={emptyStateMessage}
+              stickyHeader={true}
+              borderless
+              tableRef={tableRef}
+            />
+          </div>
         )}
 
         {/* After table slot */}

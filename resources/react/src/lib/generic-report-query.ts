@@ -82,12 +82,16 @@ export function createGenericQueryOptions(
     // Map frontend column ID to API sort field
     const mappedOrderBy = dataSource.columnMapping?.[params.order_by] || params.order_by
 
-    // Transform UI filters to API format and merge with custom API filters
-    const uiFilters = params.filters
-      ? transformFiltersToApi(params.filters as Parameters<typeof transformFiltersToApi>[0])
+    // Transform UI filters to API format and merge with custom API filters (short-circuit when empty)
+    const hasUiFilters = !!(params.filters && params.filters.length > 0)
+    const hasApiFilters = !!(params.apiFilters && Object.keys(params.apiFilters).length > 0)
+    const hasFilters = hasUiFilters || hasApiFilters
+    const allFilters = hasFilters
+      ? {
+          ...(hasUiFilters ? transformFiltersToApi(params.filters as Parameters<typeof transformFiltersToApi>[0]) : {}),
+          ...params.apiFilters,
+        }
       : {}
-    const allFilters = { ...uiFilters, ...params.apiFilters }
-    const hasFilters = Object.keys(allFilters).length > 0
 
     if (isBatch) {
       const mainQueryId = dataSource.queryId || dataSource.queries![0].id
@@ -148,10 +152,11 @@ export function createGenericQueryOptions(
 
           // Normalize: extract main query result into standard shape
           // so extractRows/extractMeta work with default paths.
-          // Preserve all batch items for slots (e.g., chart) via _batchItems.
+          // Preserve non-main batch items for slots (e.g., chart) via _batchItems.
           const mainResult = response.data.items[mainQueryId]
+          const { [mainQueryId]: _, ...remainingItems } = response.data.items
           if (!mainResult) {
-            return { ...response, data: { success: false, data: { rows: [], total: 0 }, meta: undefined, _batchItems: response.data.items } }
+            return { ...response, data: { success: false, data: { rows: [], total: 0 }, meta: undefined, _batchItems: remainingItems } }
           }
 
           return {
@@ -160,7 +165,7 @@ export function createGenericQueryOptions(
               success: mainResult.success,
               data: mainResult.data,
               meta: mainResult.meta,
-              _batchItems: response.data.items,
+              _batchItems: remainingItems,
             },
           }
         },

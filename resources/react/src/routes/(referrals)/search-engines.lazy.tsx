@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
 import { SearchTypeSelect } from '@/components/custom/search-type-select'
 import { ReportPageRenderer } from '@/components/report-page-renderer'
@@ -21,8 +20,6 @@ function RouteComponent() {
     getApiFilter,
   } = useSearchTypeFilter()
 
-  const apiFilter = useMemo(() => getApiFilter(), [getApiFilter])
-
   if (!report?.config) return null
 
   return (
@@ -39,7 +36,7 @@ function RouteComponent() {
           </div>
         ),
       }}
-      apiFilters={apiFilter}
+      apiFilters={getApiFilter()}
     />
   )
 }

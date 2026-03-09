@@ -11,29 +11,12 @@ import { useMemo } from 'react'
 
 import { LineChart } from '@/components/custom/line-chart'
 import type { SlotRenderProps } from '@/components/report-page-renderer'
+import { chartColors } from '@/constants/design-tokens'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { formatChartValue, transformChartResponse } from '@/lib/chart-utils'
-import type { LineChartDataPoint, LineChartMetric } from '@/types/chart'
+import type { ChartApiResponse, ChartDataset, LineChartMetric } from '@/types/chart'
 
-const CHART_COLORS = [
-  'var(--chart-1)',
-  'var(--chart-2)',
-  'var(--chart-3)',
-  'var(--chart-4)',
-]
-
-interface ChartDataset {
-  key: string
-  label: string
-  data: (number | null)[]
-  comparison?: boolean
-}
-
-interface ChartResponse {
-  datasets: ChartDataset[]
-  labels: string[]
-  previousLabels?: string[]
-}
+const CHART_COLORS = [chartColors.chart1, chartColors.chart2, chartColors.chart3, chartColors.chart4]
 
 /**
  * Create a beforeTable slot function that renders a LineChart
@@ -55,17 +38,42 @@ function ChartSlotComponent({
   const { isCompareEnabled, apiDateParams } = useGlobalFilters()
 
   const chartResponse = useMemo(() => {
-    const resp = rawResponse as { data?: { _batchItems?: Record<string, ChartResponse> } } | undefined
-    return resp?.data?._batchItems?.[chartConfig.queryId] as ChartResponse | undefined
+    const resp = rawResponse as { data?: { _batchItems?: Record<string, ChartApiResponse> } } | undefined
+    return resp?.data?._batchItems?.[chartConfig.queryId] as ChartApiResponse | undefined
   }, [rawResponse, chartConfig.queryId])
 
-  const { chartData, chartMetrics } = useMemo(() => {
-    if (!chartResponse?.datasets) {
-      return { chartData: [] as LineChartDataPoint[], chartMetrics: [] as LineChartMetric[] }
-    }
+  if (!chartResponse?.datasets) return null
 
-    const currentDatasets = chartResponse.datasets.filter((ds) => !ds.comparison)
-    const previousDatasets = chartResponse.datasets.filter((ds) => ds.comparison)
+  return (
+    <ChartContent
+      chartResponse={chartResponse}
+      chartConfig={chartConfig}
+      compareMetricKey={compareMetricKey}
+      isCompareEnabled={isCompareEnabled}
+      apiDateParams={apiDateParams}
+    />
+  )
+}
+
+function ChartContent({
+  chartResponse,
+  chartConfig,
+  compareMetricKey,
+  isCompareEnabled,
+  apiDateParams,
+}: {
+  chartResponse: ChartApiResponse
+  chartConfig: PhpChartConfig
+  compareMetricKey: string
+  isCompareEnabled: boolean
+  apiDateParams: { previous_date_to?: string; date_to: string }
+}) {
+  const { chartData, chartMetrics } = useMemo(() => {
+    const currentDatasets: ChartDataset[] = []
+    const previousDatasets: ChartDataset[] = []
+    for (const ds of chartResponse.datasets) {
+      ;(ds.comparison ? previousDatasets : currentDatasets).push(ds)
+    }
 
     const metrics: LineChartMetric[] = currentDatasets.map((ds, index) => {
       const total = ds.data.reduce((sum, v) => sum + (v !== null ? Number(v) : 0), 0)
@@ -94,19 +102,15 @@ function ChartSlotComponent({
     return { chartData: data, chartMetrics: metrics }
   }, [chartResponse, isCompareEnabled, compareMetricKey])
 
-  if (!chartResponse?.datasets) return null
-
   return (
-    <div className="mb-3">
-      <LineChart
-        title={chartConfig.title}
-        data={chartData}
-        metrics={chartMetrics}
-        showPreviousPeriod={isCompareEnabled}
-        compareDateTo={apiDateParams.previous_date_to}
-        dateTo={apiDateParams.date_to}
-        borderless
-      />
-    </div>
+    <LineChart
+      title={chartConfig.title}
+      data={chartData}
+      metrics={chartMetrics}
+      showPreviousPeriod={isCompareEnabled}
+      compareDateTo={apiDateParams.previous_date_to}
+      dateTo={apiDateParams.date_to}
+      borderless
+    />
   )
 }
