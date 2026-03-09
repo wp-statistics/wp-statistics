@@ -164,6 +164,92 @@ declare global {
     nonce: string
   }
 
+  // PHP-defined report column
+  interface PhpReportColumn {
+    key: string
+    title: string
+    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio'
+    priority?: 'primary' | 'secondary' | 'hidden'
+    cardPosition?: 'header' | 'body' | 'footer'
+    mobileLabel?: string
+    sortable?: boolean
+    comparable?: boolean
+    previousKey?: string
+    size?: string
+    // For location type
+    linkTo?: string
+    linkParamField?: string
+    // For computed-ratio type
+    numerator?: string
+    denominator?: string
+    previousNumerator?: string
+    previousDenominator?: string
+    decimals?: number
+  }
+
+  // PHP-defined widget config
+  interface PhpReportWidget {
+    pageId: string
+    id: string
+    label: string
+    queryId: string
+    type: 'bar-list'
+    labelField: string
+    valueField: string
+    previousValueField?: string
+    link?: { title: string; to: string }
+    columnHeaders?: { left: string; right: string }
+  }
+
+  // PHP-defined export config
+  interface PhpReportExport {
+    sources: string[]
+    group_by: string[]
+    context?: string
+    columns?: string[]
+  }
+
+  // PHP-defined batch query item
+  interface PhpBatchQuery {
+    id: string
+    sources: string[]
+    group_by: string[]
+    format: string
+    columns?: string[]
+    compare?: boolean
+    [key: string]: unknown
+  }
+
+  // PHP-defined report definition
+  interface PhpReportDefinition {
+    title: string
+    context: string
+    filterGroup: string
+    dataSource: {
+      sources?: string[]
+      group_by?: string[]
+      // Batch query support
+      queryId?: string
+      queries?: PhpBatchQuery[]
+      // Column name mapping: frontend column ID → API sort field
+      columnMapping?: Record<string, string>
+    }
+    columns: PhpReportColumn[]
+    defaultSort?: { id: string; desc: boolean }
+    perPage?: number
+    emptyStateMessage?: string
+    routeName?: string
+    defaultHiddenColumns?: string[]
+    customFilters?: string[]
+    columnConfig?: {
+      baseColumns: string[]
+      columnDependencies: Record<string, string[]>
+    }
+    defaultApiColumns?: string[]
+    widget?: PhpReportWidget
+    export?: PhpReportExport
+  }
+
   interface wpsReact {
     layout: {
       sidebar: Record<
@@ -216,6 +302,7 @@ declare global {
     filters: FiltersConfig
     network: NetworkData
     notices?: NoticeData
+    reports?: Record<string, PhpReportDefinition>
   }
 }
 

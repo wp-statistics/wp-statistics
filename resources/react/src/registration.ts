@@ -51,3 +51,8 @@ export function registerExportDrawerRenderer(
 
 export type { ReportConfig } from '@/components/report-page-renderer'
 export type { ExportConfig, PageContentProps, RegisteredWidget, WidgetRenderProps } from '@/contexts/content-registry-context'
+
+// Register PHP-defined reports at boot time (before React renders)
+// JS modules imported later can override by re-registering the same slug
+import { registerPhpReports } from '@/lib/register-php-reports'
+registerPhpReports()
