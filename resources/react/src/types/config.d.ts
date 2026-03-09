@@ -168,7 +168,7 @@ declare global {
   interface PhpReportColumn {
     key: string
     title: string
-    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio'
+    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category'
     priority?: 'primary' | 'secondary' | 'hidden'
     cardPosition?: 'header' | 'body' | 'footer'
     mobileLabel?: string
@@ -209,15 +209,22 @@ declare global {
     columns?: string[]
   }
 
-  // PHP-defined batch query item
+  // PHP-defined batch query item (sources/group_by optional for chart queries)
   interface PhpBatchQuery {
     id: string
-    sources: string[]
-    group_by: string[]
-    format: string
+    sources?: string[]
+    group_by?: string[]
+    format?: string
     columns?: string[]
     compare?: boolean
     [key: string]: unknown
+  }
+
+  // PHP-defined chart config (for chart-above-table reports)
+  interface PhpChartConfig {
+    queryId: string
+    title: string
+    compareMetricKey?: string
   }
 
   // PHP-defined report definition
@@ -246,6 +253,8 @@ declare global {
       columnDependencies: Record<string, string[]>
     }
     defaultApiColumns?: string[]
+    hideFilters?: boolean
+    chart?: PhpChartConfig
     widget?: PhpReportWidget
     export?: PhpReportExport
   }

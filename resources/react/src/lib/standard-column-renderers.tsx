@@ -9,6 +9,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { DurationCell, LocationCell, NumericCell, PageCell, ReferrerCell } from '@/components/data-table-columns'
+import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { WordPress } from '@/lib/wordpress'
 
@@ -221,6 +222,17 @@ export function createColumnsFromConfig(
           },
         } as ColumnDef<Record<string, unknown>>
       }
+
+      case 'source-category':
+        return {
+          ...base,
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => (
+            <span className="truncate text-xs font-medium text-neutral-700">
+              {getChannelDisplayName(String(row.original[col.key] ?? ''))}
+            </span>
+          ),
+        } as ColumnDef<Record<string, unknown>>
 
       case 'text':
       default:

@@ -9,6 +9,7 @@
  */
 
 import { createGenericQueryOptions } from '@/lib/generic-report-query'
+import { createChartSlot } from '@/lib/standard-chart-renderer'
 import { createColumnsFromConfig } from '@/lib/standard-column-renderers'
 import { createBarListWidgetRenderer } from '@/lib/standard-widget-renderers'
 import { WordPress } from '@/lib/wordpress'
@@ -55,6 +56,9 @@ export function registerPhpReports(): void {
       columnConfig,
       defaultApiColumns: config.defaultApiColumns,
       customFilters: config.customFilters,
+      hideFilters: config.hideFilters,
+      // Chart slot (renders LineChart above table from batch response data)
+      ...(config.chart && { beforeTable: createChartSlot(config.chart) }),
     })
 
     // Register widget if defined

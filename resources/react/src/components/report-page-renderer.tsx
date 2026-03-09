@@ -29,7 +29,7 @@ import {
   useTableOptions,
 } from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
@@ -71,6 +71,7 @@ export interface SlotRenderProps<TData = unknown> {
   data: TData[]
   isLoading: boolean
   isFetching: boolean
+  rawResponse: unknown
 }
 
 /**
@@ -119,6 +120,8 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
   emptyStateMessage?: string
   /** Custom filters (subset of filter group) */
   customFilters?: string[]
+  /** Hide the filter button entirely */
+  hideFilters?: boolean
 
   // Level 2: Slot components for customization
   /** Component rendered before the table */
@@ -131,6 +134,8 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
 
 interface ReportPageRendererProps<TData = unknown, TRecord = unknown> {
   config: ReportConfig<TData, TRecord>
+  /** Additional API filters merged into query requests */
+  apiFilters?: Record<string, unknown>
 }
 
 /**
@@ -138,6 +143,7 @@ interface ReportPageRendererProps<TData = unknown, TRecord = unknown> {
  */
 export function ReportPageRenderer<TData, TRecord>({
   config,
+  apiFilters,
 }: ReportPageRendererProps<TData, TRecord>) {
   const {
     title,
@@ -156,6 +162,7 @@ export function ReportPageRenderer<TData, TRecord>({
     defaultApiColumns = [],
     emptyStateMessage = __('No data found for the selected period', 'wp-statistics'),
     customFilters,
+    hideFilters: hideFiltersConfig,
     beforeTable,
     afterTable,
     headerActions,
@@ -229,6 +236,7 @@ export function ReportPageRenderer<TData, TRecord>({
       previous_date_from: apiDateParams.previous_date_from,
       previous_date_to: apiDateParams.previous_date_to,
       filters: appliedFilters || [],
+      ...(apiFilters && { apiFilters }),
     }),
     placeholderData: keepPreviousData,
     enabled: isInitialized,
@@ -305,6 +313,7 @@ export function ReportPageRenderer<TData, TRecord>({
     data: tableData,
     isLoading,
     isFetching,
+    rawResponse: response,
   }
 
   return (
@@ -313,7 +322,7 @@ export function ReportPageRenderer<TData, TRecord>({
         <h1 className="text-2xl font-semibold text-neutral-800">{title}</h1>
         <div className="flex items-center gap-3" data-pdf-hide>
           <div className="hidden lg:flex">
-            {filterFields.length > 0 && isInitialized && (
+            {!hideFiltersConfig && filterFields.length > 0 && isInitialized && (
               <FilterButton
                 fields={filterFields}
                 appliedFilters={appliedFilters || []}
@@ -368,9 +377,16 @@ export function ReportPageRenderer<TData, TRecord>({
             <p className="text-sm text-muted-foreground">{(error as Error)?.message}</p>
           </div>
         ) : showSkeleton ? (
-          <PanelSkeleton titleWidth="w-24">
-            <TableSkeleton rows={10} columns={4} />
-          </PanelSkeleton>
+          <div className="space-y-3">
+            {beforeTable && (
+              <PanelSkeleton titleWidth="w-32">
+                <ChartSkeleton height={256} showTitle={false} />
+              </PanelSkeleton>
+            )}
+            <PanelSkeleton titleWidth="w-24">
+              <TableSkeleton rows={10} columns={4} />
+            </PanelSkeleton>
+          </div>
         ) : (
           <DataTable
             columns={columns as ColumnDef<TData>[]}
