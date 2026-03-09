@@ -145,7 +145,6 @@ function createOverviewQueryOptions(
       params.dateTo,
       params.compareDateFrom,
       params.compareDateTo,
-      hasCompare,
       hasFilters ? apiFilters : null,
       params.timeframe || null,
     ],
