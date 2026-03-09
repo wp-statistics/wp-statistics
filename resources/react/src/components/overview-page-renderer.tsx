@@ -11,11 +11,14 @@ import { useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { BackButton } from '@/components/custom/back-button'
+import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { GlobalMap, type GlobalMapData } from '@/components/custom/global-map'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
 import {
+  OptionsDrawerTrigger,
   type OverviewOptionsConfig,
   OverviewOptionsDrawer,
   OverviewOptionsProvider,
@@ -103,15 +106,18 @@ const TIMEFRAME_TO_GROUP_BY: Record<Timeframe, string> = {
   monthly: 'month',
 }
 
+/** Config type accepted by the renderer: overview or detail */
+type PageConfig = PhpOverviewDefinition | PhpDetailDefinition
+
 /** Check if any chart widget in config has timeframeSupport */
-function hasTimeframeSupport(config: PhpOverviewDefinition): boolean {
+function hasTimeframeSupport(config: PageConfig): boolean {
   return config.widgets.some((w) => w.type === 'chart' && w.chartConfig?.timeframeSupport)
 }
 
 // ------- Query factory -------
 
 function createOverviewQueryOptions(
-  config: PhpOverviewDefinition,
+  config: PageConfig,
   params: {
     dateFrom: string
     dateTo: string
@@ -119,6 +125,8 @@ function createOverviewQueryOptions(
     compareDateTo?: string
     filters: unknown[]
     timeframe?: Timeframe
+    /** Entity filter for detail pages (e.g., { key: 'country', operator: 'is', value: 'US' }) */
+    entityFilter?: { key: string; operator: string; value: string }
   }
 ) {
   const hasCompare = !!(params.compareDateFrom && params.compareDateTo)
@@ -131,16 +139,21 @@ function createOverviewQueryOptions(
 
   // Set compare on queries that don't explicitly specify it
   // Replace group_by for queries with timeframeGroupBy flag
+  // Inject entity filter into each query for detail pages
   const queries = config.queries.map((q) => ({
     ...q,
     compare: q.compare !== undefined ? q.compare : hasCompare,
     ...(q.timeframeGroupBy && { group_by: [dateGroupBy] }),
+    ...(params.entityFilter && {
+      filters: [...(q.filters as unknown[] || []), params.entityFilter],
+    }),
   }))
 
   return queryOptions({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps -- apiFilters is included conditionally, queries is static config
     queryKey: [
       config.pageId,
+      params.entityFilter?.value || null,
       params.dateFrom,
       params.dateTo,
       params.compareDateFrom,
@@ -173,7 +186,13 @@ function createOverviewQueryOptions(
 
 // ------- Component -------
 
-export function OverviewPageRenderer({ config }: { config: PhpOverviewDefinition }) {
+export function OverviewPageRenderer({
+  config,
+  routeParams,
+}: {
+  config: PageConfig
+  routeParams?: Record<string, string>
+}) {
   const widgetConfigs: WidgetConfig[] = useMemo(
     () =>
       config.widgets.map((w) => ({
@@ -208,7 +227,7 @@ export function OverviewPageRenderer({ config }: { config: PhpOverviewDefinition
 
   return (
     <OverviewOptionsProvider config={optionsConfig}>
-      <OverviewContent config={config} optionsConfig={optionsConfig} />
+      <OverviewContent config={config} optionsConfig={optionsConfig} routeParams={routeParams} />
     </OverviewOptionsProvider>
   )
 }
@@ -216,11 +235,13 @@ export function OverviewPageRenderer({ config }: { config: PhpOverviewDefinition
 function OverviewContent({
   config,
   optionsConfig,
+  routeParams,
 }: {
-  config: PhpOverviewDefinition
+  config: PageConfig
   optionsConfig: OverviewOptionsConfig
+  routeParams?: Record<string, string>
 }) {
-  const { dateFrom, dateTo, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams } = useGlobalFilters()
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams, handleDateRangeUpdate } = useGlobalFilters()
   const { isWidgetVisible, isMetricVisible } = usePageOptions()
   const options = useOverviewOptions(optionsConfig)
   const navigate = useNavigate()
@@ -255,6 +276,13 @@ function OverviewContent({
     setTimeframe(newTimeframe)
   }, [])
 
+  // Build entity filter for detail pages
+  const detailConfig = config.type === 'detail' ? config : undefined
+  const entityValue = detailConfig?.entityParam ? routeParams?.[detailConfig.entityParam] : undefined
+  const entityFilter = detailConfig && entityValue
+    ? { key: detailConfig.filterField, operator: 'is', value: entityValue }
+    : undefined
+
   const {
     data: batchResponse,
     isLoading,
@@ -267,6 +295,7 @@ function OverviewContent({
       compareDateTo: apiDateParams.previous_date_to,
       filters: appliedFilters || [],
       timeframe: supportsTimeframe ? timeframe : undefined,
+      entityFilter,
     }),
     retry: false,
     placeholderData: keepPreviousData,
@@ -287,7 +316,7 @@ function OverviewContent({
         let rawValue: unknown
         let rawPrevious: unknown
 
-        if (m.source === 'computed' && m.computed?.type === 'share_percentage') {
+        if (m.source === 'computed' && m.computed) {
           // Computed: ratio of numerator/denominator from different queries
           const numQuery = items[m.computed.numeratorQueryId]
           const denQuery = items[m.computed.denominatorQueryId]
@@ -295,18 +324,24 @@ function OverviewContent({
           const denTotals = denQuery?.totals?.[m.computed.denominatorField]
           const numCurrent = getTotalValue(numTotals)
           const denCurrent = getTotalValue(denTotals)
-          rawValue = calcSharePercentage(numCurrent, denCurrent)
           const numPrev = getTotalValue((numTotals as Record<string, unknown>)?.previous)
           const denPrev = getTotalValue((denTotals as Record<string, unknown>)?.previous)
-          rawPrevious = calcSharePercentage(numPrev, denPrev)
+          if (m.computed.type === 'ratio') {
+            rawValue = denCurrent > 0 ? numCurrent / denCurrent : 0
+            rawPrevious = denPrev > 0 ? numPrev / denPrev : 0
+          } else {
+            rawValue = calcSharePercentage(numCurrent, denCurrent)
+            rawPrevious = calcSharePercentage(numPrev, denPrev)
+          }
         } else if (m.source === 'totals') {
           // Read from totals (supports {current, previous} structure)
           const totalsValue = queryResult?.totals?.[m.valueField]
           rawValue = getTotalValue(totalsValue)
           rawPrevious = getTotalValue((totalsValue as Record<string, unknown>)?.previous)
         } else {
-          // Default: read from items[0]
-          rawValue = queryResult?.items?.[0]?.[m.valueField]
+          // Default: read from items[0] (flat format) or data.rows[0] (table format)
+          const firstRow = queryResult?.items?.[0] || queryResult?.data?.rows?.[0]
+          rawValue = firstRow?.[m.valueField]
           if (m.decode && typeof rawValue === 'string') {
             rawValue = decodeText(rawValue)
           }
@@ -369,14 +404,47 @@ function OverviewContent({
     return result
   }, [batchResponse, config.widgets])
 
+  // Extract entity display name from response (for detail pages)
+  const entityTitle = useMemo(() => {
+    if (!detailConfig?.entityInfo) return config.title
+    const infoResult = batchResponse?.data?.items?.[detailConfig.entityInfo.queryId]
+    const rows = infoResult?.data?.rows || infoResult?.items
+    const firstRow = Array.isArray(rows) ? rows[0] : undefined
+    return firstRow?.[detailConfig.entityInfo.nameField] as string || config.title
+  }, [batchResponse, detailConfig, config.title])
+
   return (
     <div className="min-w-0">
-      <ReportPageHeader
-        title={config.title}
-        filterGroup={config.filterGroup as FilterGroup}
-        optionsTriggerProps={options.triggerProps}
-        showFilterButton={config.showFilterButton ?? !config.hideFilters}
-      />
+      {detailConfig ? (
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-3">
+            <BackButton defaultTo={detailConfig.backLink || '/'} label={detailConfig.backLabel} />
+            <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={entityTitle}>
+              {showSkeleton ? __('Loading...', 'wp-statistics') : entityTitle}
+            </h1>
+          </div>
+          <div className="flex items-center gap-3" data-pdf-hide>
+            <DateRangePicker
+              initialDateFrom={dateFrom}
+              initialDateTo={dateTo}
+              initialCompareFrom={compareDateFrom}
+              initialCompareTo={compareDateTo}
+              initialPeriod={period}
+              showCompare={true}
+              onUpdate={handleDateRangeUpdate}
+              align="end"
+            />
+            <OptionsDrawerTrigger {...options.triggerProps} />
+          </div>
+        </div>
+      ) : (
+        <ReportPageHeader
+          title={config.title}
+          filterGroup={config.filterGroup as FilterGroup}
+          optionsTriggerProps={options.triggerProps}
+          showFilterButton={config.showFilterButton ?? !config.hideFilters}
+        />
+      )}
 
       <OverviewOptionsDrawer {...options} />
 
@@ -497,7 +565,9 @@ function OverviewContent({
                           const prev = item.previous as Record<string, unknown> | undefined
                           return prev ? Number(prev[widget.valueField!]) || 0 : 0
                         },
-                        total: getTotalValue(totals?.[widget.valueField!]) || 1,
+                        total: getTotalValue(totals?.[widget.valueField!])
+                          || rows.reduce((sum: number, row: Record<string, unknown>) => sum + (Number(row[widget.valueField!]) || 0), 0)
+                          || 1,
                         icon:
                           widget.iconType && widget.iconSlugField
                             ? (item) =>
@@ -594,7 +664,7 @@ function ChartWidget({
 
 // ------- Skeleton -------
 
-function OverviewSkeleton({ config }: { config: PhpOverviewDefinition }) {
+function OverviewSkeleton({ config }: { config: PageConfig }) {
   const metricsCount = config.metrics.length
 
   return (

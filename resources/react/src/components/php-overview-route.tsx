@@ -1,6 +1,6 @@
 /**
- * Route component for PHP-configured overview pages.
- * Reads the overview config by slug from window.wps_react.reports
+ * Route component for PHP-configured overview and detail pages.
+ * Reads the config by slug from window.wps_react.reports
  * and renders via OverviewPageRenderer.
  */
 
@@ -10,14 +10,23 @@ import { OverviewPageRenderer } from '@/components/overview-page-renderer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { WordPress } from '@/lib/wordpress'
 
-export function PhpOverviewRoute({ slug, fallbackTitle }: { slug: string; fallbackTitle: string }) {
-  const reports = WordPress.getInstance().getData<Record<string, PhpReportDefinition | PhpOverviewDefinition>>(
+export function PhpOverviewRoute({
+  slug,
+  fallbackTitle,
+  routeParams,
+}: {
+  slug: string
+  fallbackTitle: string
+  /** Route params for detail pages (e.g., { countryCode: 'US' }) */
+  routeParams?: Record<string, string>
+}) {
+  const reports = WordPress.getInstance().getData<Record<string, PhpReportDefinition | PhpOverviewDefinition | PhpDetailDefinition>>(
     'reports'
   )
   const config = reports?.[slug]
 
-  if (config?.type === 'overview') {
-    return <OverviewPageRenderer config={config} />
+  if (config?.type === 'overview' || config?.type === 'detail') {
+    return <OverviewPageRenderer config={config} routeParams={routeParams} />
   }
 
   return (

@@ -242,9 +242,9 @@ declare global {
     source?: 'items' | 'totals' | 'computed'
     /** Format applied to the metric value */
     format?: 'text' | 'compact_number' | 'duration' | 'decimal' | 'percentage'
-    /** For computed metrics (e.g. share percentage = numerator/denominator * 100) */
+    /** For computed metrics: 'share_percentage' = n/d*100, 'ratio' = n/d */
     computed?: {
-      type: 'share_percentage'
+      type: 'share_percentage' | 'ratio'
       numeratorQueryId: string
       numeratorField: string
       denominatorQueryId: string
@@ -306,6 +306,31 @@ declare global {
     filterGroup: string
     hideFilters?: boolean
     showFilterButton?: boolean
+    queries: PhpBatchQuery[]
+    metrics: PhpOverviewMetric[]
+    widgets: PhpOverviewWidget[]
+  }
+
+  // Detail (single-entity) page definition
+  interface PhpDetailDefinition {
+    type: 'detail'
+    pageId: string
+    title: string
+    filterGroup: string
+    hideFilters?: boolean
+    /** Route param name that holds the entity ID (e.g., 'countryCode') */
+    entityParam: string
+    /** API filter field name for the entity (e.g., 'country') */
+    filterField: string
+    /** Route path to navigate back to (e.g., '/countries') */
+    backLink?: string
+    /** Back button label text */
+    backLabel?: string
+    /** Config for extracting entity display name from query results */
+    entityInfo?: {
+      queryId: string
+      nameField: string
+    }
     queries: PhpBatchQuery[]
     metrics: PhpOverviewMetric[]
     widgets: PhpOverviewWidget[]
@@ -396,7 +421,7 @@ declare global {
     filters: FiltersConfig
     network: NetworkData
     notices?: NoticeData
-    reports?: Record<string, PhpReportDefinition | PhpOverviewDefinition>
+    reports?: Record<string, PhpReportDefinition | PhpOverviewDefinition | PhpDetailDefinition>
   }
 }
 

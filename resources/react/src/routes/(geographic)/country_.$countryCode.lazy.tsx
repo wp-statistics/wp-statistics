@@ -1,11 +1,11 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { LockIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
 
+import { PhpOverviewRoute } from '@/components/php-overview-route'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
-import { useContentRegistry } from '@/contexts/content-registry-context'
+import { WordPress } from '@/lib/wordpress'
 
 export const Route = createLazyFileRoute('/(geographic)/country_/$countryCode')({
   component: RouteComponent,
@@ -45,31 +45,20 @@ function LockedState() {
 
 function RouteComponent() {
   const { countryCode } = Route.useParams()
-  const { getPageContent } = useContentRegistry()
-  const [, forceUpdate] = useState(0)
+  const reports = WordPress.getInstance().getData<Record<string, { type?: string }>>('reports')
 
-  useEffect(() => {
-    const handleContentRegistered = (event: CustomEvent) => {
-      if (event.detail?.pageId === 'single-country') {
-        forceUpdate((n) => n + 1)
-      }
-    }
-    window.addEventListener('wps:content-registered', handleContentRegistered as EventListener)
-    return () => {
-      window.removeEventListener('wps:content-registered', handleContentRegistered as EventListener)
-    }
-  }, [])
-
-  // Check if premium has registered content for this page
-  const pageContent = getPageContent('single-country')
-  if (pageContent?.render) {
-    const premiumContent = pageContent.render({ countryCode })
-    if (premiumContent) {
-      return <div className="min-w-0">{premiumContent}</div>
-    }
+  // Premium: PHP config registered by SingleCountry module
+  if (reports?.['single-country']?.type === 'detail') {
+    return (
+      <PhpOverviewRoute
+        slug="single-country"
+        fallbackTitle={__('Country Report', 'wp-statistics')}
+        routeParams={{ countryCode }}
+      />
+    )
   }
 
-  // Show locked state for free users
+  // Free: show locked state
   return (
     <div className="min-w-0">
       <div className="flex items-center justify-between px-4 py-3">

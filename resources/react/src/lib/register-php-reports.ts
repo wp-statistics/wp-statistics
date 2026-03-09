@@ -20,8 +20,8 @@ export function registerPhpReports(): void {
   if (!reports || Object.keys(reports).length === 0) return
 
   for (const [slug, config] of Object.entries(reports)) {
-    // Skip overview configs (handled by OverviewPageRenderer)
-    if (config.type === 'overview') continue
+    // Skip overview/detail configs (handled by OverviewPageRenderer via PhpOverviewRoute)
+    if (config.type === 'overview' || config.type === 'detail') continue
 
     // Skip if already registered by JS (JS always wins)
     if (window.wpsContentRegistry?.getReport(slug)) continue
