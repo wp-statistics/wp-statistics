@@ -67,5 +67,6 @@ playwright-report/
 .claude/
 .mcp.json
 CLAUDE.md
+.worktrees/
 
 /dist
