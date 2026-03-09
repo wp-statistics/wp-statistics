@@ -240,24 +240,6 @@ class SettingsAreaDefinitions
                                 'default'     => 'none',
                                 'order'       => 10,
                             ],
-                            'consent_level_integration' => [
-                                'type'         => 'select',
-                                'setting_key'  => 'consent_level_integration',
-                                'label'        => __('Consent Category', 'wp-statistics'),
-                                'description'  => __('Select the consent category WP Statistics should track.', 'wp-statistics'),
-                                'default'      => 'functional',
-                                'nested'       => true,
-                                'visible_when' => [
-                                    'consent_integration' => 'wp_consent_api',
-                                ],
-                                'options' => [
-                                    ['value' => 'functional', 'label' => __('Functional', 'wp-statistics')],
-                                    ['value' => 'statistics-anonymous', 'label' => __('Statistics-Anonymous', 'wp-statistics')],
-                                    ['value' => 'statistics', 'label' => __('Statistics', 'wp-statistics')],
-                                    ['value' => 'marketing', 'label' => __('Marketing', 'wp-statistics')],
-                                ],
-                                'order' => 20,
-                            ],
                             'anonymous_tracking' => [
                                 'type'         => 'toggle',
                                 'setting_key'  => 'anonymous_tracking',
@@ -266,7 +248,7 @@ class SettingsAreaDefinitions
                                 'default'      => false,
                                 'nested'       => true,
                                 'visible_when' => [
-                                    'consent_integration' => ['!=', 'none'],
+                                    'consent_integration' => 'borlabs_cookie',
                                 ],
                                 'order' => 30,
                             ],

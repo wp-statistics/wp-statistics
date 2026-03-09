@@ -461,8 +461,6 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
         $this->assertFalse($defaults['store_ip']);
         $this->assertArrayHasKey('consent_integration', $defaults);
         $this->assertSame('none', $defaults['consent_integration']);
-        $this->assertArrayHasKey('consent_level_integration', $defaults);
-        $this->assertSame('functional', $defaults['consent_level_integration']);
         $this->assertArrayHasKey('privacy_audit', $defaults);
         $this->assertTrue($defaults['privacy_audit']);
         $this->assertArrayHasKey('geoip_location_detection_method', $defaults);

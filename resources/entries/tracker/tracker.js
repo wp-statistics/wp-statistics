@@ -18,13 +18,12 @@ WpStatisticsConsentAdapters['none'] = {
 };
 
 /**
- * WP Consent API — check wp_has_consent(), listen for changes.
+ * WP Consent API — check wp_has_consent() for statistics / statistics-anonymous,
+ * listen for consent changes on both categories.
  */
 WpStatisticsConsentAdapters['wp_consent_api'] = {
     init: function (config, callback) {
-        var consentLevel     = config.consentLevel;
-        var trackAnonymously = config.trackAnonymously;
-        var initialized      = false;
+        var initialized = false;
 
         function initOnce() {
             if (!initialized) {
@@ -33,68 +32,31 @@ WpStatisticsConsentAdapters['wp_consent_api'] = {
             }
         }
 
-        /**
-         * When consent_type is not configured (e.g., CookieYes only sets it on
-         * banner interaction, not on page refresh), wp_has_consent() defaults to
-         * true — assuming no consent management exists. Since we're in the
-         * wp_consent_api adapter, we know a consent plugin IS active. Fall back
-         * to reading the consent cookie directly to determine the stored decision.
-         *
-         * Returns: 'allow', 'deny', or '' (no cookie / no consent_api).
-         */
-        function getConsentCookieValue() {
-            if (typeof consent_api === 'undefined' || !consent_api.cookie_prefix) {
-                return '';
-            }
-            var cookieName = consent_api.cookie_prefix + '_' + consentLevel + '=';
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                if (cookie.indexOf(cookieName) === 0) {
-                    return cookie.substring(cookieName.length);
-                }
-            }
-            return '';
+        // When consent_type is not configured (e.g., CookieYes before banner
+        // interaction), wp_has_consent() defaults to true. Set the fallback to
+        // 'optin' so it defaults to deny — the safe behavior when we know a
+        // consent plugin is active.
+        if (typeof window.wp_consent_type === 'undefined' && typeof window.wp_fallback_consent_type === 'undefined') {
+            window.wp_fallback_consent_type = 'optin';
         }
 
-        function hasConsentSafe() {
-            var consentTypeConfigured =
-                (typeof window.wp_consent_type !== 'undefined' && window.wp_consent_type) ||
-                (typeof window.wp_fallback_consent_type !== 'undefined' && !!window.wp_fallback_consent_type);
-
-            // When consent_type is configured, wp_has_consent() works correctly
-            if (consentTypeConfigured) {
-                return wp_has_consent(consentLevel);
+        if (typeof wp_has_consent === 'function') {
+            if (wp_has_consent('statistics') || wp_has_consent('statistics-anonymous')) {
+                initOnce();
             }
-
-            // consent_type not configured — read the cookie directly
-            var cookieValue = getConsentCookieValue();
-            if (cookieValue === 'allow') return true;
-            if (cookieValue === 'deny') return false;
-
-            // No cookie set — user hasn't decided yet, don't track
-            return false;
+        } else {
+            console.warn('WP Statistics: wp_has_consent() is not available. Tracker will wait for consent change events.');
         }
 
-        // If tracking anonymously or consent already granted, init immediately
-        if (trackAnonymously || consentLevel === 'disabled' ||
-            (typeof wp_has_consent === 'function' && hasConsentSafe())) {
-            initOnce();
-        } else if (!trackAnonymously && consentLevel !== 'disabled' && typeof wp_has_consent !== 'function') {
-            console.warn('WP Statistics: wp_has_consent() not available. Tracker will not initialize until consent API loads.');
-        }
-
-        // Listen for consent changes
+        // Listen for consent changes on both categories
         document.addEventListener('wp_listen_for_consent_change', function (e) {
-            var changedConsentCategory = e.detail;
-            for (var key in changedConsentCategory) {
-                if (changedConsentCategory.hasOwnProperty(key) && key === consentLevel && changedConsentCategory[key] === 'allow') {
-                    if (!initialized) {
-                        initOnce();
-                    } else if (trackAnonymously) {
-                        // Already initialized anonymously, now consent granted — re-record
-                        WpStatisticsUserTracker.checkHitRequestConditions();
-                    }
+            var changed = e.detail;
+            if (changed && (changed['statistics'] === 'allow' || changed['statistics-anonymous'] === 'allow')) {
+                if (!initialized) {
+                    initOnce();
+                } else {
+                    // Consent upgraded (e.g., anonymous → full) — re-record
+                    WpStatisticsUserTracker.checkHitRequestConditions();
                 }
             }
         });

@@ -21,50 +21,65 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
         $this->assertEquals('wp_consent_api', $this->provider->getKey());
     }
 
-    public function test_tracking_level_full_when_consent_level_is_disabled()
+    public function test_tracking_level_none_when_wp_has_consent_missing()
     {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_level_integration' => 'disabled']
-        ));
-
-        $this->assertSame(TrackingLevel::FULL, $this->provider->getTrackingLevel());
-    }
-
-    public function test_tracking_level_none_when_function_missing()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_level_integration' => 'statistics']
-        ));
-
-        // wp_has_consent() does not exist in test env — should fail closed
         $this->assertSame(TrackingLevel::NONE, $this->provider->getTrackingLevel());
     }
 
-    public function test_tracking_level_none_when_default_consent_level()
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function test_tracking_level_full_when_statistics_consent_given()
     {
-        // Default consent level is 'functional' (not 'disabled'), so getTrackingLevel() delegates
-        // to wp_has_consent(), which does not exist in the test environment -- returns NONE.
-        $this->assertSame(TrackingLevel::NONE, $this->provider->getTrackingLevel());
+        require_once __DIR__ . '/../bootstrap.php';
+
+        function wp_has_consent($category) {
+            return $category === 'statistics';
+        }
+
+        $provider = new WpConsentApiProvider();
+        $this->assertSame(TrackingLevel::FULL, $provider->getTrackingLevel());
     }
 
-    public function test_tracking_level_anonymous_when_option_enabled()
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function test_tracking_level_anonymous_when_only_statistics_anonymous_consent_given()
     {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['anonymous_tracking' => true]
-        ));
+        require_once __DIR__ . '/../bootstrap.php';
 
-        $this->assertSame(TrackingLevel::ANONYMOUS, $this->provider->getTrackingLevel());
+        function wp_has_consent($category) {
+            return $category === 'statistics-anonymous';
+        }
+
+        $provider = new WpConsentApiProvider();
+        $this->assertSame(TrackingLevel::ANONYMOUS, $provider->getTrackingLevel());
     }
 
-    public function test_js_config_contains_mode()
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function test_tracking_level_none_when_no_consent_given()
+    {
+        require_once __DIR__ . '/../bootstrap.php';
+
+        function wp_has_consent($category) {
+            return false;
+        }
+
+        $provider = new WpConsentApiProvider();
+        $this->assertSame(TrackingLevel::NONE, $provider->getTrackingLevel());
+    }
+
+    public function test_js_config_contains_only_mode()
     {
         $config = $this->provider->getJsConfig();
         $this->assertEquals('wp_consent_api', $config['mode']);
-        $this->assertArrayHasKey('consentLevel', $config);
-        $this->assertArrayHasKey('trackAnonymously', $config);
+        $this->assertArrayNotHasKey('consentLevel', $config);
+        $this->assertArrayNotHasKey('trackAnonymously', $config);
     }
 
     public function test_js_handles_includes_wp_consent_api()
@@ -77,20 +92,5 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
     {
         $plugins = $this->provider->getCompatiblePlugins();
         $this->assertIsArray($plugins);
-    }
-
-    public function test_consent_level_defaults_to_functional()
-    {
-        $this->assertEquals('functional', $this->provider->getConsentLevel());
-    }
-
-    public function test_consent_level_reads_option()
-    {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_level_integration' => 'functional']
-        ));
-
-        $this->assertEquals('functional', $this->provider->getConsentLevel());
     }
 }

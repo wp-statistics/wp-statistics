@@ -344,7 +344,6 @@ class InstallManager
     private static function migrateConsentSettings(): void
     {
         $integration = Option::getValue('consent_integration', 'none');
-        $consentLevel = Option::getValue('consent_level_integration', 'functional');
 
         $consentManager = Bootstrap::get('consent');
         if (!$consentManager) {
@@ -353,7 +352,7 @@ class InstallManager
 
         $wpConsentApi = $consentManager->getProvider('wp_consent_api');
 
-        if ($wpConsentApi && $wpConsentApi->isAvailable() && in_array($integration, ['none', ''], true) && $consentLevel !== 'disabled') {
+        if ($wpConsentApi && $wpConsentApi->isAvailable() && in_array($integration, ['none', ''], true)) {
             Option::updateValue('consent_integration', 'wp_consent_api');
         }
     }

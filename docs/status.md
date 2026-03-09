@@ -82,7 +82,7 @@ This document tracks the migration status of all features from v14 to v15.
 | Feature | v14 | v15 | Notes |
 | --- | --- | --- | --- |
 | Privacy Policy Generator | ✅ Built-in | ✅ Implemented | `PrivacyPolicyGenerator`, option-based checks |
-| Consent Integration | ✅ WP Consent Level API | ✅ Implemented | `consent_level_integration` option |
+| Consent Integration | ✅ WP Consent Level API | ✅ Implemented | Consent-driven: `statistics` → full, `statistics-anonymous` → anonymous |
 | Data Export/Erasure | ✅ WordPress privacy tools | ✅ Implemented | WordPress hooks |
 | IP Anonymization | ✅ Hash-based | ✅ Same | `store_ip` option |
 | Privacy Audit | ✅ Full audit system (20+ classes) | 🚧 Pending React | Moved to Tools tab `#/tools/privacy-audit`, placeholder page created |

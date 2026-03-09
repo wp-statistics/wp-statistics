@@ -192,15 +192,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('store_ip') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('store_ip') ? 'Enabled' : 'Disabled',
             ],
-            'wpConsentLevelIntegration'      => [
-                'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),
-                'value' => ($consentIntegration = Option::getValue('consent_integration', 'none')) !== 'none' && $consentIntegration !== ''
-                    ? ucfirst(str_replace('-', ' ', Option::getValue('consent_level_integration', 'functional')))
-                    : __('Not configured', 'wp-statistics'),
-                'debug' => ($consentIntegration !== 'none' && $consentIntegration !== '')
-                    ? Option::getValue('consent_level_integration', 'functional')
-                    : 'Not configured',
-            ],
             'anonymousTracking'              => [
                 'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
                 'value' => Option::getValue('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
