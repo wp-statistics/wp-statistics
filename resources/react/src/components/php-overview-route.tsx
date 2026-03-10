@@ -14,6 +14,7 @@ import { WordPress } from '@/lib/wordpress'
 export function PhpOverviewRoute({
   slug,
   fallbackTitle,
+  title: titleOverride,
   routeParams,
   apiFilters,
   headerActions,
@@ -21,6 +22,8 @@ export function PhpOverviewRoute({
 }: {
   slug: string
   fallbackTitle: string
+  /** Override the PHP config title (e.g., dynamic taxonomy label) */
+  title?: string
   /** Route params for detail pages (e.g., { countryCode: 'US' }) */
   routeParams?: Record<string, string>
   /** Additional API filters (e.g., from PostTypeSelect) */
@@ -36,7 +39,7 @@ export function PhpOverviewRoute({
   const config = reports?.[slug]
 
   if (config?.type === 'overview' || config?.type === 'detail') {
-    return <OverviewPageRenderer config={config} routeParams={routeParams} apiFilters={apiFilters} headerActions={headerActions} pageFilters={pageFilters} />
+    return <OverviewPageRenderer config={config} title={titleOverride} routeParams={routeParams} apiFilters={apiFilters} headerActions={headerActions} pageFilters={pageFilters} />
   }
 
   return (

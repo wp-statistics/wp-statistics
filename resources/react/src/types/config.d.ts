@@ -295,6 +295,12 @@ declare global {
     valueSuffix?: string
     showComparison?: boolean
     maxItems?: number
+    /** "See all" link for this tab */
+    link?: { href: string; title: string }
+    /** Compute a ratio value instead of reading valueField directly */
+    computedField?: { numerator: string; denominator: string }
+    /** How to format the value (default: 'compact_number') */
+    valueFormat?: 'compact_number' | 'decimal'
   }
 
   // Tabbed bar-list config
@@ -303,6 +309,14 @@ declare global {
     linkType?: 'analytics-route'
     labelField?: string
     labelFallbackField?: string
+    /** Render author avatar icons from this field */
+    iconType?: 'author-avatar'
+    /** Field containing the icon URL (e.g., 'author_avatar') */
+    iconField?: string
+    /** Per-item link pattern (e.g., '/author/$authorId') */
+    linkTo?: string
+    /** Field for the link param value (e.g., 'author_id') */
+    linkParamField?: string
   }
 
   // Overview widget definition
@@ -332,6 +346,13 @@ declare global {
     trafficSummaryConfig?: PhpTrafficSummaryConfig
   }
 
+  // Default filter injected into API and shown as removable pill
+  interface PhpDefaultFilter {
+    field: string
+    operator: string
+    value: string
+  }
+
   // Overview page definition
   interface PhpOverviewDefinition {
     type: 'overview'
@@ -340,6 +361,8 @@ declare global {
     filterGroup: string
     hideFilters?: boolean
     showFilterButton?: boolean
+    /** Default filters shown as removable pills (e.g., post_type=post) */
+    defaultFilters?: PhpDefaultFilter[]
     queries: PhpBatchQuery[]
     metrics: PhpOverviewMetric[]
     widgets: PhpOverviewWidget[]

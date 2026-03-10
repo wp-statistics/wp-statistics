@@ -47,6 +47,7 @@ import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { clientRequest } from '@/lib/client-request'
+import { extractFilterField, getCompatibleFilters } from '@/lib/filter-utils'
 import type { FixedDatePeriod } from '@/lib/fixed-date-ranges'
 import { getFixedDatePeriods } from '@/lib/fixed-date-ranges'
 import { getAnalyticsRoute } from '@/lib/url-utils'
@@ -61,6 +62,11 @@ const COL_SPAN: Record<number, string> = {
   6: 'col-span-12 lg:col-span-6',
   8: 'col-span-12 lg:col-span-8',
   12: 'col-span-12',
+}
+
+// Extract dynamic param name from a TanStack Router path (e.g., '/author/$authorId' → 'authorId')
+function extractRouteParamName(routePath: string): string {
+  return routePath.match(/\$(\w+)/)?.[1] || 'id'
 }
 
 // Icon render functions by type
@@ -218,12 +224,15 @@ function createOverviewQueryOptions(
 
 export function OverviewPageRenderer({
   config,
+  title: titleOverride,
   routeParams,
   apiFilters,
   headerActions,
   pageFilters,
 }: {
   config: PageConfig
+  /** Override the PHP config title (e.g., dynamic taxonomy label) */
+  title?: string
   routeParams?: Record<string, string>
   /** Additional API filters merged at top level (e.g., from PostTypeSelect) */
   apiFilters?: Record<string, Record<string, string | string[]>>
@@ -267,19 +276,21 @@ export function OverviewPageRenderer({
 
   return (
     <OverviewOptionsProvider config={optionsConfig}>
-      <OverviewContent config={config} optionsConfig={optionsConfig} routeParams={routeParams} apiFilters={apiFilters} headerActions={headerActions} />
+      <OverviewContent config={config} title={titleOverride} optionsConfig={optionsConfig} routeParams={routeParams} apiFilters={apiFilters} headerActions={headerActions} />
     </OverviewOptionsProvider>
   )
 }
 
 function OverviewContent({
   config,
+  title: titleOverride,
   optionsConfig,
   routeParams,
   apiFilters: externalApiFilters,
   headerActions,
 }: {
   config: PageConfig
+  title?: string
   optionsConfig: OverviewOptionsConfig
   routeParams?: Record<string, string>
   apiFilters?: Record<string, Record<string, string | string[]>>
@@ -300,12 +311,93 @@ function OverviewContent({
   const detailConfig = config.type === 'detail' ? config : undefined
   const entityValue = detailConfig?.entityParam ? routeParams?.[detailConfig.entityParam] : undefined
 
-  // Filter fields for detail page filter button
+  // Filter fields for filter button (detail pages or overview pages with showFilterButton)
   const wp = WordPress.getInstance()
+  const overviewConfig = config.type === 'overview' ? config : undefined
+  const needsFilterFields = detailConfig?.showFilterButton || overviewConfig?.showFilterButton
   const filterFields = useMemo<FilterField[]>(() => {
-    if (!detailConfig?.showFilterButton) return []
+    if (!needsFilterFields) return []
     return wp.getFilterFieldsByGroup(config.filterGroup) as FilterField[]
-  }, [detailConfig?.showFilterButton, config.filterGroup, wp])
+  }, [needsFilterFields, config.filterGroup, wp])
+
+  // Default filters (e.g., post_type=post on content/authors pages)
+  const defaultFilterConfigs = overviewConfig?.defaultFilters
+  const [defaultFiltersRemoved, setDefaultFiltersRemoved] = useState<Set<string>>(new Set())
+
+  // Build display objects for default filters from PHP config + filter field definitions
+  const defaultFilterDisplayObjects = useMemo(() => {
+    if (!defaultFilterConfigs?.length || !filterFields.length) return []
+    return defaultFilterConfigs.map((df) => {
+      const field = filterFields.find((f) => f.name === df.field)
+      const option = field?.options?.find((o) => String(o.value) === df.value)
+      return {
+        id: `${df.field}-default`,
+        label: field?.label || df.field,
+        operator: '=',
+        rawOperator: df.operator,
+        value: option?.label || df.value,
+        rawValue: df.value,
+      }
+    })
+  }, [defaultFilterConfigs, filterFields])
+
+  // Compatible filters (global filters filtered to this page's filter group)
+  const compatibleFilters = useMemo(() => {
+    if (!filterFields.length) return appliedFilters || []
+    return getCompatibleFilters(appliedFilters || [], filterFields as Parameters<typeof getCompatibleFilters>[1])
+  }, [appliedFilters, filterFields])
+
+  // Merge default filters with compatible filters for API and display
+  const filtersForApi = useMemo(() => {
+    if (!defaultFilterDisplayObjects.length) return compatibleFilters
+    const userFieldNames = new Set(compatibleFilters.map((f) => extractFilterField(f.id)))
+    const activeDefaults = defaultFilterDisplayObjects.filter(
+      (df) => !userFieldNames.has(extractFilterField(df.id)) && !defaultFiltersRemoved.has(df.id)
+    )
+    return [...compatibleFilters, ...activeDefaults]
+  }, [compatibleFilters, defaultFilterDisplayObjects, defaultFiltersRemoved])
+
+  // Wrap applyFilters to detect default filter removal
+  const handleApplyWithDefaults = useCallback(
+    (newFilters: typeof appliedFilters) => {
+      if (defaultFilterDisplayObjects.length) {
+        // Check if any default filter was removed
+        const newFieldNames = new Set((newFilters || []).map((f) => extractFilterField(f.id)))
+        const hadFieldNames = new Set(filtersForApi.map((f) => extractFilterField(f.id)))
+        for (const df of defaultFilterDisplayObjects) {
+          const fieldName = extractFilterField(df.id)
+          if (hadFieldNames.has(fieldName) && !newFieldNames.has(fieldName)) {
+            setDefaultFiltersRemoved((prev) => new Set(prev).add(df.id))
+          }
+        }
+        // Strip default filters before applying to global state
+        const globalFilters = newFilters?.filter((f) => {
+          const fieldName = extractFilterField(f.id)
+          const rawValue = (f as Record<string, unknown>).rawValue ?? (f as Record<string, unknown>).value
+          return !defaultFilterConfigs?.some((dc) => dc.field === fieldName && String(rawValue) === dc.value)
+        }) ?? []
+        handleApplyFilters(globalFilters)
+      } else {
+        handleApplyFilters(newFilters)
+      }
+    },
+    [defaultFilterDisplayObjects, defaultFilterConfigs, filtersForApi, handleApplyFilters]
+  )
+
+  // Reset removed state when user adds a filter for a default field
+  useEffect(() => {
+    if (!defaultFilterDisplayObjects.length) return
+    const userFieldNames = new Set(compatibleFilters.map((f) => extractFilterField(f.id)))
+    for (const df of defaultFilterDisplayObjects) {
+      if (userFieldNames.has(extractFilterField(df.id)) && defaultFiltersRemoved.has(df.id)) {
+        setDefaultFiltersRemoved((prev) => {
+          const next = new Set(prev)
+          next.delete(df.id)
+          return next
+        })
+      }
+    }
+  }, [compatibleFilters, defaultFilterDisplayObjects, defaultFiltersRemoved])
 
   // Timeframe state (only used when a chart widget has timeframeSupport)
   const supportsTimeframe = hasTimeframeSupport(config)
@@ -349,12 +441,13 @@ function OverviewContent({
   )
   const tsApiFilters = useMemo(() => {
     if (!trafficSummaryWidget) return {}
+    const filters = defaultFilterConfigs?.length ? filtersForApi : (appliedFilters || [])
     const transformed =
-      (appliedFilters || []).length > 0
-        ? transformFiltersToApi(appliedFilters as Parameters<typeof transformFiltersToApi>[0])
+      filters.length > 0
+        ? transformFiltersToApi(filters as Parameters<typeof transformFiltersToApi>[0])
         : {}
     return { ...transformed, ...externalApiFilters }
-  }, [trafficSummaryWidget, appliedFilters, externalApiFilters])
+  }, [trafficSummaryWidget, appliedFilters, filtersForApi, defaultFilterConfigs, externalApiFilters])
 
   const trafficSummaryQueryDefs = useMemo(
     () =>
@@ -409,7 +502,7 @@ function OverviewContent({
       dateTo: apiDateParams.date_to,
       compareDateFrom: apiDateParams.previous_date_from,
       compareDateTo: apiDateParams.previous_date_to,
-      filters: appliedFilters || [],
+      filters: defaultFilterConfigs?.length ? filtersForApi : (appliedFilters || []),
       timeframe: supportsTimeframe ? timeframe : undefined,
       entityFilter,
       apiFilters: externalApiFilters,
@@ -659,11 +752,17 @@ function OverviewContent({
         </div>
       ) : (
         <ReportPageHeader
-          title={config.title}
+          title={titleOverride || config.title}
           filterGroup={config.filterGroup as FilterGroup}
           optionsTriggerProps={options.triggerProps}
           showFilterButton={config.showFilterButton ?? !config.hideFilters}
-        />
+          {...(defaultFilterConfigs?.length && {
+            overrideAppliedFilters: filtersForApi,
+            overrideApplyFilters: handleApplyWithDefaults,
+          })}
+        >
+          {headerActions}
+        </ReportPageHeader>
       )}
 
       <OverviewOptionsDrawer {...options} />
@@ -747,13 +846,12 @@ function OverviewContent({
                     },
                   }
                 } else if (widget.linkTo && widget.linkParamField) {
-                  const paramMatch = widget.linkTo.match(/\$(\w+)/)
-                  const paramName = paramMatch?.[1]
+                  const paramName = extractRouteParamName(widget.linkTo)
                   linkResolvers = {
                     linkTo: (item: Record<string, unknown>) => item[widget.linkParamField!] ? widget.linkTo! : undefined,
                     linkParams: (item: Record<string, unknown>) => {
                       const value = String(item[widget.linkParamField!] || '').toLowerCase()
-                      return paramName ? { [paramName]: value } : {}
+                      return { [paramName]: value }
                     },
                   }
                 }
@@ -944,15 +1042,27 @@ function TabbedBarListWidget({
         // Skip tab entirely if filtered to empty
         if (tabRows.length === 0 && tabConfig.filterField) return null
 
-        // Sort rows
+        // Compute ratio values when computedField is set
+        const hasComputed = !!tabConfig.computedField
+        if (hasComputed) {
+          tabRows = tabRows.map((row) => ({
+            ...row,
+            _computed: Number(row[tabConfig.computedField!.denominator]) > 0
+              ? Number(row[tabConfig.computedField!.numerator]) / Number(row[tabConfig.computedField!.denominator])
+              : 0,
+          }))
+        }
+
+        // Sort rows (use _computed for computed fields when sortBy matches)
+        const sortField = hasComputed && tabConfig.sortBy === '_computed' ? '_computed' : tabConfig.sortBy
         tabRows.sort((a, b) => {
           let aVal: number, bVal: number
           if (tabConfig.sortType === 'date') {
-            aVal = new Date(String(a[tabConfig.sortBy] || 0)).getTime()
-            bVal = new Date(String(b[tabConfig.sortBy] || 0)).getTime()
+            aVal = new Date(String(a[sortField] || 0)).getTime()
+            bVal = new Date(String(b[sortField] || 0)).getTime()
           } else {
-            aVal = Number(a[tabConfig.sortBy]) || 0
-            bVal = Number(b[tabConfig.sortBy]) || 0
+            aVal = Number(a[sortField]) || 0
+            bVal = Number(b[sortField]) || 0
           }
           return tabConfig.sortDesc === false ? aVal - bVal : bVal - aVal
         })
@@ -963,30 +1073,47 @@ function TabbedBarListWidget({
           id: tabConfig.id,
           label: tabConfig.label,
           columnHeaders: tabConfig.columnHeaders,
+          ...(tabConfig.link && { link: tabConfig.link }),
           content: (
             <BarListContent isEmpty={tabRows.length === 0}>
               {tabRows.map((item, idx) => {
-                const value = Number(item[tabConfig.valueField]) || 0
+                // Resolve value: computed ratio or direct field
+                const value = hasComputed ? (Number(item._computed) || 0) : (Number(item[tabConfig.valueField]) || 0)
                 const prevValue = Number((item.previous as Record<string, unknown>)?.[tabConfig.valueField]) || 0
-                const showComp = tabConfig.showComparison !== false && isCompareEnabled
+                const showComp = tabConfig.showComparison !== false && isCompareEnabled && !hasComputed
                 const comparison = showComp ? calcPercentage(value, prevValue) : null
 
+                // Resolve per-item link
                 let linkTo: string | undefined
                 let linkParams: Record<string, string> | undefined
                 if (config.linkType === 'analytics-route') {
                   const route = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number)
                   linkTo = route?.to
                   linkParams = route?.params
+                } else if (config.linkTo && config.linkParamField) {
+                  linkTo = config.linkTo
+                  linkParams = { [extractRouteParamName(config.linkTo)]: String(item[config.linkParamField] || '') }
+                }
+
+                // Resolve icon (author avatar)
+                let icon: React.ReactNode | undefined
+                if (config.iconType === 'author-avatar' && config.iconField) {
+                  const avatarUrl = String(item[config.iconField] || '')
+                  icon = avatarUrl
+                    ? <img src={avatarUrl} alt="" className="h-6 w-6 rounded-full object-cover" />
+                    : <div className="h-6 w-6 rounded-full bg-neutral-200" />
                 }
 
                 const label = String(item[labelField] || item[labelFallback] || '/')
+                const formatFn = tabConfig.valueFormat === 'decimal' ? formatDecimal : formatCompactNumber
                 const valueLabel = tabConfig.valueSuffix
-                  ? `${formatCompactNumber(value)} ${tabConfig.valueSuffix}`
-                  : formatCompactNumber(value)
+                  ? `${formatFn(value)} ${tabConfig.valueSuffix}`
+                  : formatFn(value)
 
                 return (
                   <HorizontalBar
-                    key={`${String(item[labelFallback] || idx)}-${idx}`}
+                    key={`${String(item[labelFallback] || item[labelField] || idx)}-${idx}`}
+                    icon={icon}
                     label={label}
                     value={valueLabel}
                     percentage={comparison?.percentage}
