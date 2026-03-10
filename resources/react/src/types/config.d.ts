@@ -170,7 +170,7 @@ declare global {
     /** API field name to read from row data (defaults to key if omitted) */
     dataField?: string
     title: string
-    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category' | 'uri' | 'author' | 'term' | 'date'
+    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category' | 'uri' | 'author' | 'term' | 'date' | 'visitor-info' | 'last-visit' | 'visitor-status' | 'journey' | 'entry-page'
     priority?: 'primary' | 'secondary' | 'hidden'
     cardPosition?: 'header' | 'body' | 'footer'
     mobileLabel?: string
@@ -459,6 +459,10 @@ declare global {
     }
     defaultApiColumns?: string[]
     hideFilters?: boolean
+    /** Locked filters shown as read-only in filter panel (e.g., "User Type is Logged-in") */
+    lockedFilters?: Array<{ id: string; label: string; operator: string; value: string }>
+    /** Hardcoded filters always appended to API requests (invisible, non-removable) */
+    hardcodedFilters?: Array<{ id: string; label: string; operator: string; rawOperator: string; value: string; rawValue: string }>
     /** Columns that show comparison by default (defaults to all comparable columns if omitted) */
     defaultComparisonColumns?: string[]
     chart?: PhpChartConfig

@@ -23,6 +23,7 @@ import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import type { LockedFilter } from '@/components/custom/filter-panel'
 import {
   OptionsDrawerTrigger,
   type PageFilterConfig,
@@ -124,6 +125,10 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
   customFilters?: string[]
   /** Hide the filter button entirely */
   hideFilters?: boolean
+  /** Locked filters displayed as read-only rows in filter panel */
+  lockedFilters?: LockedFilter[]
+  /** Hardcoded filters always merged into API requests */
+  hardcodedFilters?: Array<{ id: string; label: string; operator: string; rawOperator: string; value: string; rawValue: string }>
   /** Page-specific filter dropdowns (shown in Options drawer on mobile) */
   pageFilters?: PageFilterConfig[]
   /** Whether the data query is enabled (default: true). When false, table shows empty state without fetching. */
@@ -169,6 +174,8 @@ export function ReportPageRenderer<TData, TRecord>({
     emptyStateMessage = __('No data found for the selected period', 'wp-statistics'),
     customFilters,
     hideFilters: hideFiltersConfig,
+    lockedFilters,
+    hardcodedFilters,
     pageFilters,
     enabled: queryEnabled = true,
     beforeTable,
@@ -226,6 +233,13 @@ export function ReportPageRenderer<TData, TRecord>({
     [setDateRange]
   )
 
+  // Merge hardcoded filters with user-applied filters
+  const mergedFilters = useMemo(() => {
+    const base = appliedFilters || []
+    if (!hardcodedFilters || hardcodedFilters.length === 0) return base
+    return [...hardcodedFilters, ...base]
+  }, [hardcodedFilters, appliedFilters])
+
   // Fetch data from API
   const {
     data: response,
@@ -243,7 +257,7 @@ export function ReportPageRenderer<TData, TRecord>({
       date_to: apiDateParams.date_to,
       previous_date_from: apiDateParams.previous_date_from,
       previous_date_to: apiDateParams.previous_date_to,
-      filters: appliedFilters || [],
+      filters: mergedFilters,
       ...(apiFilters && { apiFilters }),
     }),
     placeholderData: keepPreviousData,
@@ -279,6 +293,7 @@ export function ReportPageRenderer<TData, TRecord>({
   const options = useTableOptions({
     filterGroup,
     table: tableRef.current,
+    lockedFilters,
     pageFilters,
     initialColumnOrder: defaultColumnOrder,
     columnOrder,
@@ -337,6 +352,7 @@ export function ReportPageRenderer<TData, TRecord>({
                 appliedFilters={appliedFilters || []}
                 onApplyFilters={handleApplyFilters}
                 filterGroup={filterGroup}
+                lockedFilters={lockedFilters}
               />
             )}
           </div>

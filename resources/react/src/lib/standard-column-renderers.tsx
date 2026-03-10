@@ -8,10 +8,12 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
-import { AuthorCell, DurationCell, LocationCell, NumericCell, PageCell, ReferrerCell, TermCell, UriCell } from '@/components/data-table-columns'
+import { AuthorCell, DurationCell, EntryPageCell, JourneyCell, LastVisitCell, LocationCell, NumericCell, PageCell, ReferrerCell, StatusCell, TermCell, UriCell, VisitorInfoCell } from '@/components/data-table-columns'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
+import { parseEntryPage } from '@/lib/url-utils'
 import { WordPress } from '@/lib/wordpress'
+import { parseDateTimeString } from '@/lib/wp-date'
 
 const DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
   month: 'short',
@@ -291,6 +293,136 @@ export function createColumnsFromConfig(
             return <span className="text-xs text-neutral-700 whitespace-nowrap">{DATE_FORMATTER.format(date)}</span>
           },
         } as ColumnDef<Record<string, unknown>>
+
+      case 'visitor-info': {
+        const wp = WordPress.getInstance()
+        return {
+          ...base,
+          ...(size ? {} : { size: 220 }),
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => {
+            const r = row.original
+            return (
+              <VisitorInfoCell
+                data={{
+                  country: {
+                    code: String(r.country_code || '000').toLowerCase(),
+                    name: String(r.country_name || ''),
+                    city: String(r.city_name || ''),
+                  },
+                  os: {
+                    icon: String(r.os_name || 'unknown').toLowerCase().replace(/[\s/]+/g, '_'),
+                    name: String(r.os_name || 'Unknown'),
+                  },
+                  browser: {
+                    icon: String(r.browser_name || 'unknown').toLowerCase(),
+                    name: String(r.browser_name || 'Unknown'),
+                    version: String(r.browser_version || ''),
+                  },
+                  user: r.user_id
+                    ? {
+                        id: Number(r.user_id),
+                        username: String(r.user_login || ''),
+                        role: String(r.user_role || ''),
+                      }
+                    : undefined,
+                  identifier: String(r.visitor_ip || r.visitor_hash || ''),
+                  visitorHash: String(r.visitor_hash || ''),
+                  ipAddress: String(r.visitor_ip || ''),
+                }}
+                config={{ pluginUrl: wp.getPluginUrl(), trackLoggedInEnabled: wp.isTrackLoggedInEnabled(), storeIpEnabled: wp.isStoreIpEnabled() }}
+              />
+            )
+          },
+        } as ColumnDef<Record<string, unknown>>
+      }
+
+      case 'last-visit':
+        return {
+          ...base,
+          ...(size ? {} : { size: 100 }),
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => {
+            const raw = String(row.original[field] || '')
+            if (!raw) return <span className="text-xs text-neutral-400">&mdash;</span>
+            return <LastVisitCell date={parseDateTimeString(raw)} />
+          },
+        } as ColumnDef<Record<string, unknown>>
+
+      case 'visitor-status':
+        return {
+          ...base,
+          ...(size ? {} : { size: 90 }),
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => {
+            const r = row.original
+            const status = (String(r.visitor_status || 'returning')) as 'new' | 'returning'
+            const firstVisitStr = String(r.first_visit || r.last_visit || '')
+            return <StatusCell status={status} firstVisit={parseDateTimeString(firstVisitStr)} />
+          },
+        } as ColumnDef<Record<string, unknown>>
+
+      case 'journey': {
+        return {
+          ...base,
+          ...(size ? {} : { size: 200 }),
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => {
+            const r = row.original
+            const entryParsed = parseEntryPage(String(r.entry_page || '/'), String(r.entry_page_title || ''))
+            return (
+              <JourneyCell
+                data={{
+                  entryPage: {
+                    title: entryParsed.title,
+                    url: String(r.entry_page || '/'),
+                    hasQueryString: entryParsed.hasQueryString,
+                    queryString: entryParsed.queryString,
+                    utmCampaign: entryParsed.utmCampaign,
+                    pageType: r.entry_page_type as string | undefined,
+                    pageWpId: r.entry_page_wp_id as number | null,
+                    resourceId: r.entry_page_resource_id as number | null,
+                  },
+                  exitPage: {
+                    title: String(r.exit_page_title || r.exit_page || '/'),
+                    url: String(r.exit_page || '/'),
+                    pageType: r.exit_page_type as string | undefined,
+                    pageWpId: r.exit_page_wp_id as number | null,
+                    resourceId: r.exit_page_resource_id as number | null,
+                  },
+                  isBounce: String(r.entry_page || '') === String(r.exit_page || '') && Number(r.total_views) <= 1,
+                }}
+              />
+            )
+          },
+        } as ColumnDef<Record<string, unknown>>
+      }
+
+      case 'entry-page': {
+        return {
+          ...base,
+          ...(size ? {} : { size: 200 }),
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => {
+            const r = row.original
+            const parsed = parseEntryPage(String(r[field] || '/'), String(r[`${field}_title`] || ''))
+            return (
+              <EntryPageCell
+                data={{
+                  title: parsed.title,
+                  url: String(r[field] || '/'),
+                  hasQueryString: parsed.hasQueryString,
+                  queryString: parsed.queryString,
+                  utmCampaign: parsed.utmCampaign,
+                  pageType: r[`${field}_type`] as string | undefined,
+                  pageWpId: r[`${field}_wp_id`] as number | null,
+                  resourceId: r[`${field}_resource_id`] as number | null,
+                }}
+              />
+            )
+          },
+        } as ColumnDef<Record<string, unknown>>
+      }
 
       case 'text':
       default:
