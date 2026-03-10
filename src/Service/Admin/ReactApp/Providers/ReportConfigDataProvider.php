@@ -1004,6 +1004,534 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
                 'emptyStateMessage'    => __('No timezones found for the selected period', 'wp-statistics'),
             ],
+
+            'us-states'           => $this->getUsStatesConfig(),
+            'european-countries'  => $this->getEuropeanCountriesConfig(),
+            'country-regions'     => $this->getCountryRegionsConfig(),
+            'social-media'        => $this->getSocialMediaConfig(),
+        ];
+    }
+
+    /**
+     * US States report config.
+     *
+     * @return array
+     */
+    private function getUsStatesConfig()
+    {
+        return [
+            'title'                => __('US States', 'wp-statistics'),
+            'context'              => 'us-states',
+            'filterGroup'          => 'visitors',
+            'dataSource'           => [
+                'queryId' => 'us_states',
+                'queries' => [
+                    [
+                        'id'          => 'us_states',
+                        'sources'     => ['visitors', 'views', 'bounce_rate', 'avg_session_duration'],
+                        'group_by'    => ['region'],
+                        'format'      => 'table',
+                        'show_totals' => false,
+                        'filters'     => [['key' => 'country', 'operator' => 'is', 'value' => 'US']],
+                    ],
+                ],
+                'columnMapping' => [
+                    'region'          => 'region_name',
+                    'bounceRate'      => 'bounce_rate',
+                    'sessionDuration' => 'avg_session_duration',
+                ],
+            ],
+            'columns'              => [
+                [
+                    'key'          => 'region',
+                    'dataField'    => 'region_name',
+                    'title'        => __('State', 'wp-statistics'),
+                    'type'         => 'text',
+                    'priority'     => 'primary',
+                    'sortable'     => false,
+                    'cardPosition' => 'header',
+                ],
+                [
+                    'key'          => 'visitors',
+                    'title'        => __('Visitors', 'wp-statistics'),
+                    'type'         => 'numeric',
+                    'priority'     => 'primary',
+                    'comparable'   => true,
+                    'previousKey'  => 'previous.visitors',
+                    'size'         => 'views',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'          => 'views',
+                    'title'        => __('Views', 'wp-statistics'),
+                    'type'         => 'numeric',
+                    'priority'     => 'primary',
+                    'comparable'   => true,
+                    'previousKey'  => 'previous.views',
+                    'size'         => 'views',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'                 => 'viewsPerVisitor',
+                    'title'               => __('Views/Visitor', 'wp-statistics'),
+                    'type'                => 'computed-ratio',
+                    'priority'            => 'secondary',
+                    'sortable'            => false,
+                    'comparable'          => true,
+                    'mobileLabel'         => __('V/Visitor', 'wp-statistics'),
+                    'numerator'           => 'views',
+                    'denominator'         => 'visitors',
+                    'previousNumerator'   => 'previous.views',
+                    'previousDenominator' => 'previous.visitors',
+                    'decimals'            => 1,
+                ],
+                [
+                    'key'         => 'bounceRate',
+                    'dataField'   => 'bounce_rate',
+                    'title'       => __('Bounce Rate', 'wp-statistics'),
+                    'type'        => 'percentage',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.bounce_rate',
+                    'size'        => 'bounceRate',
+                    'mobileLabel' => __('Bounce', 'wp-statistics'),
+                    'decimals'    => 0,
+                ],
+                [
+                    'key'         => 'sessionDuration',
+                    'dataField'   => 'avg_session_duration',
+                    'title'       => __('Avg. Duration', 'wp-statistics'),
+                    'type'        => 'duration',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.avg_session_duration',
+                    'size'        => 'duration',
+                    'mobileLabel' => __('Duration', 'wp-statistics'),
+                ],
+            ],
+            'defaultSort'          => ['id' => 'visitors', 'desc' => true],
+            'perPage'              => 25,
+            'defaultHiddenColumns' => ['bounceRate', 'sessionDuration'],
+            'columnConfig'         => [
+                'baseColumns'        => ['region_code', 'region_name'],
+                'columnDependencies' => [
+                    'region'          => ['region_code', 'region_name'],
+                    'visitors'        => ['visitors'],
+                    'views'           => ['views'],
+                    'viewsPerVisitor' => ['visitors', 'views'],
+                    'bounceRate'      => ['bounce_rate'],
+                    'sessionDuration' => ['avg_session_duration'],
+                ],
+            ],
+            'defaultApiColumns'    => [
+                'region_code',
+                'region_name',
+                'visitors',
+                'views',
+                'bounce_rate',
+                'avg_session_duration',
+            ],
+            'emptyStateMessage'    => __('No US states found for the selected period', 'wp-statistics'),
+        ];
+    }
+
+    /**
+     * European Countries report config.
+     *
+     * @return array
+     */
+    private function getEuropeanCountriesConfig()
+    {
+        return [
+            'title'                => __('European Countries', 'wp-statistics'),
+            'context'              => 'european-countries',
+            'filterGroup'          => 'visitors',
+            'dataSource'           => [
+                'queryId' => 'countries',
+                'queries' => [
+                    [
+                        'id'          => 'countries',
+                        'sources'     => ['visitors', 'views', 'bounce_rate', 'avg_session_duration'],
+                        'group_by'    => ['country'],
+                        'format'      => 'table',
+                        'show_totals' => false,
+                        'filters'     => [['key' => 'continent', 'operator' => 'is', 'value' => 'EU']],
+                    ],
+                ],
+                'columnMapping' => [
+                    'country'         => 'country_name',
+                    'bounceRate'      => 'bounce_rate',
+                    'sessionDuration' => 'avg_session_duration',
+                ],
+            ],
+            'columns'              => [
+                [
+                    'key'            => 'country',
+                    'title'          => __('Country', 'wp-statistics'),
+                    'type'           => 'location',
+                    'priority'       => 'primary',
+                    'sortable'       => false,
+                    'cardPosition'   => 'header',
+                    'linkTo'         => '/country/$countryCode',
+                    'linkParamField' => 'country_code',
+                ],
+                [
+                    'key'          => 'visitors',
+                    'title'        => __('Visitors', 'wp-statistics'),
+                    'type'         => 'numeric',
+                    'priority'     => 'primary',
+                    'comparable'   => true,
+                    'previousKey'  => 'previous.visitors',
+                    'size'         => 'views',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'          => 'views',
+                    'title'        => __('Views', 'wp-statistics'),
+                    'type'         => 'numeric',
+                    'priority'     => 'primary',
+                    'comparable'   => true,
+                    'previousKey'  => 'previous.views',
+                    'size'         => 'views',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'                 => 'viewsPerVisitor',
+                    'title'               => __('Views/Visitor', 'wp-statistics'),
+                    'type'                => 'computed-ratio',
+                    'priority'            => 'secondary',
+                    'sortable'            => false,
+                    'comparable'          => true,
+                    'mobileLabel'         => __('V/Visitor', 'wp-statistics'),
+                    'numerator'           => 'views',
+                    'denominator'         => 'visitors',
+                    'previousNumerator'   => 'previous.views',
+                    'previousDenominator' => 'previous.visitors',
+                    'decimals'            => 1,
+                ],
+                [
+                    'key'         => 'bounceRate',
+                    'dataField'   => 'bounce_rate',
+                    'title'       => __('Bounce Rate', 'wp-statistics'),
+                    'type'        => 'percentage',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.bounce_rate',
+                    'size'        => 'bounceRate',
+                    'mobileLabel' => __('Bounce', 'wp-statistics'),
+                    'decimals'    => 0,
+                ],
+                [
+                    'key'         => 'sessionDuration',
+                    'dataField'   => 'avg_session_duration',
+                    'title'       => __('Avg. Duration', 'wp-statistics'),
+                    'type'        => 'duration',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.avg_session_duration',
+                    'size'        => 'duration',
+                    'mobileLabel' => __('Duration', 'wp-statistics'),
+                ],
+            ],
+            'defaultSort'          => ['id' => 'visitors', 'desc' => true],
+            'perPage'              => 25,
+            'defaultHiddenColumns' => ['bounceRate', 'sessionDuration'],
+            'columnConfig'         => [
+                'baseColumns'        => ['country_code', 'country_name'],
+                'columnDependencies' => [
+                    'country'         => ['country_code', 'country_name'],
+                    'visitors'        => ['visitors'],
+                    'views'           => ['views'],
+                    'viewsPerVisitor' => ['visitors', 'views'],
+                    'bounceRate'      => ['bounce_rate'],
+                    'sessionDuration' => ['avg_session_duration'],
+                ],
+            ],
+            'defaultApiColumns'    => [
+                'country_code',
+                'country_name',
+                'visitors',
+                'views',
+                'bounce_rate',
+                'avg_session_duration',
+            ],
+            'emptyStateMessage'    => __('No European countries found for the selected period', 'wp-statistics'),
+        ];
+    }
+
+    /**
+     * Country Regions report config.
+     *
+     * Shows regions for the user's timezone country.
+     *
+     * @return array
+     */
+    private function getCountryRegionsConfig()
+    {
+        $userCountry     = Country::getByTimeZone();
+        $userCountryName = !empty($userCountry) ? Country::getName($userCountry) : '';
+
+        return [
+            'title'                => !empty($userCountryName)
+                ? sprintf(__('Regions of %s', 'wp-statistics'), $userCountryName)
+                : __('Regions', 'wp-statistics'),
+            'context'              => 'country-regions',
+            'filterGroup'          => 'visitors',
+            'dataSource'           => [
+                'queryId' => 'country_regions',
+                'queries' => [
+                    [
+                        'id'          => 'country_regions',
+                        'sources'     => ['visitors', 'views', 'bounce_rate', 'avg_session_duration'],
+                        'group_by'    => ['region'],
+                        'format'      => 'table',
+                        'show_totals' => false,
+                        'filters'     => !empty($userCountry)
+                            ? [['key' => 'country', 'operator' => 'is', 'value' => $userCountry]]
+                            : [],
+                    ],
+                ],
+                'columnMapping' => [
+                    'region'          => 'region_name',
+                    'bounceRate'      => 'bounce_rate',
+                    'sessionDuration' => 'avg_session_duration',
+                ],
+            ],
+            'columns'              => [
+                [
+                    'key'          => 'region',
+                    'dataField'    => 'region_name',
+                    'title'        => __('Region', 'wp-statistics'),
+                    'type'         => 'text',
+                    'priority'     => 'primary',
+                    'sortable'     => false,
+                    'cardPosition' => 'header',
+                ],
+                [
+                    'key'          => 'visitors',
+                    'title'        => __('Visitors', 'wp-statistics'),
+                    'type'         => 'numeric',
+                    'priority'     => 'primary',
+                    'comparable'   => true,
+                    'previousKey'  => 'previous.visitors',
+                    'size'         => 'views',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'          => 'views',
+                    'title'        => __('Views', 'wp-statistics'),
+                    'type'         => 'numeric',
+                    'priority'     => 'primary',
+                    'comparable'   => true,
+                    'previousKey'  => 'previous.views',
+                    'size'         => 'views',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'                 => 'viewsPerVisitor',
+                    'title'               => __('Views/Visitor', 'wp-statistics'),
+                    'type'                => 'computed-ratio',
+                    'priority'            => 'secondary',
+                    'sortable'            => false,
+                    'comparable'          => true,
+                    'mobileLabel'         => __('V/Visitor', 'wp-statistics'),
+                    'numerator'           => 'views',
+                    'denominator'         => 'visitors',
+                    'previousNumerator'   => 'previous.views',
+                    'previousDenominator' => 'previous.visitors',
+                    'decimals'            => 1,
+                ],
+                [
+                    'key'         => 'bounceRate',
+                    'dataField'   => 'bounce_rate',
+                    'title'       => __('Bounce Rate', 'wp-statistics'),
+                    'type'        => 'percentage',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.bounce_rate',
+                    'size'        => 'bounceRate',
+                    'mobileLabel' => __('Bounce', 'wp-statistics'),
+                    'decimals'    => 0,
+                ],
+                [
+                    'key'         => 'sessionDuration',
+                    'dataField'   => 'avg_session_duration',
+                    'title'       => __('Avg. Duration', 'wp-statistics'),
+                    'type'        => 'duration',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.avg_session_duration',
+                    'size'        => 'duration',
+                    'mobileLabel' => __('Duration', 'wp-statistics'),
+                ],
+            ],
+            'defaultSort'          => ['id' => 'visitors', 'desc' => true],
+            'perPage'              => 25,
+            'defaultHiddenColumns' => ['bounceRate', 'sessionDuration'],
+            'columnConfig'         => [
+                'baseColumns'        => ['region_code', 'region_name'],
+                'columnDependencies' => [
+                    'region'          => ['region_code', 'region_name'],
+                    'visitors'        => ['visitors'],
+                    'views'           => ['views'],
+                    'viewsPerVisitor' => ['visitors', 'views'],
+                    'bounceRate'      => ['bounce_rate'],
+                    'sessionDuration' => ['avg_session_duration'],
+                ],
+            ],
+            'defaultApiColumns'    => [
+                'region_code',
+                'region_name',
+                'visitors',
+                'views',
+                'bounce_rate',
+                'avg_session_duration',
+            ],
+            'emptyStateMessage'    => __('No regions found for the selected period', 'wp-statistics'),
+        ];
+    }
+
+    /**
+     * Social Media report config.
+     *
+     * @return array
+     */
+    private function getSocialMediaConfig()
+    {
+        return [
+            'title'                => __('Social Media', 'wp-statistics'),
+            'context'              => 'social-media',
+            'filterGroup'          => 'referrals',
+            'dataSource'           => [
+                'queryId' => 'table',
+                'queries' => [
+                    [
+                        'id'    => 'chart',
+                        'chart' => 'social_media_chart',
+                    ],
+                    [
+                        'id'          => 'table',
+                        'sources'     => ['visitors', 'views', 'avg_session_duration', 'bounce_rate', 'pages_per_session'],
+                        'group_by'    => ['referrer'],
+                        'format'      => 'table',
+                        'show_totals' => false,
+                        'compare'     => true,
+                    ],
+                ],
+                'columnMapping' => [
+                    'domain'          => 'referrer_domain',
+                    'name'            => 'referrer_name',
+                    'sessionDuration' => 'avg_session_duration',
+                    'bounceRate'      => 'bounce_rate',
+                    'pagesPerSession' => 'pages_per_session',
+                ],
+            ],
+            'columns'              => [
+                [
+                    'key'          => 'domain',
+                    'title'        => __('Domain', 'wp-statistics'),
+                    'type'         => 'referrer',
+                    'priority'     => 'primary',
+                    'sortable'     => false,
+                    'cardPosition' => 'header',
+                ],
+                [
+                    'key'          => 'name',
+                    'dataField'    => 'referrer_name',
+                    'title'        => __('Source Name', 'wp-statistics'),
+                    'type'         => 'text',
+                    'priority'     => 'secondary',
+                    'sortable'     => false,
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'          => 'visitors',
+                    'title'        => __('Visitors', 'wp-statistics'),
+                    'type'         => 'numeric',
+                    'priority'     => 'primary',
+                    'comparable'   => true,
+                    'previousKey'  => 'previous.visitors',
+                    'size'         => 'views',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'          => 'views',
+                    'title'        => __('Views', 'wp-statistics'),
+                    'type'         => 'numeric',
+                    'priority'     => 'primary',
+                    'comparable'   => true,
+                    'previousKey'  => 'previous.views',
+                    'size'         => 'views',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'         => 'sessionDuration',
+                    'dataField'   => 'avg_session_duration',
+                    'title'       => __('Avg. Duration', 'wp-statistics'),
+                    'type'        => 'duration',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.avg_session_duration',
+                    'size'        => 'duration',
+                    'cardPosition' => 'body',
+                ],
+                [
+                    'key'         => 'bounceRate',
+                    'dataField'   => 'bounce_rate',
+                    'title'       => __('Bounce Rate', 'wp-statistics'),
+                    'type'        => 'percentage',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.bounce_rate',
+                    'size'        => 'bounceRate',
+                    'cardPosition' => 'body',
+                    'decimals'    => 0,
+                ],
+                [
+                    'key'         => 'pagesPerSession',
+                    'dataField'   => 'pages_per_session',
+                    'title'       => __('Pages/Session', 'wp-statistics'),
+                    'type'        => 'numeric',
+                    'priority'    => 'secondary',
+                    'comparable'  => true,
+                    'previousKey' => 'previous.pages_per_session',
+                    'size'        => 'viewsPerSession',
+                    'cardPosition' => 'body',
+                    'decimals'    => 1,
+                ],
+            ],
+            'defaultSort'          => ['id' => 'visitors', 'desc' => true],
+            'perPage'              => 25,
+            'defaultHiddenColumns' => ['sessionDuration', 'bounceRate', 'pagesPerSession'],
+            'columnConfig'         => [
+                'baseColumns'        => ['referrer_id', 'referrer_domain', 'referrer_name', 'referrer_channel'],
+                'columnDependencies' => [
+                    'domain'          => ['referrer_domain', 'referrer_channel'],
+                    'name'            => ['referrer_name'],
+                    'visitors'        => ['visitors'],
+                    'views'           => ['views'],
+                    'sessionDuration' => ['avg_session_duration'],
+                    'bounceRate'      => ['bounce_rate'],
+                    'pagesPerSession' => ['pages_per_session'],
+                ],
+            ],
+            'defaultApiColumns'    => [
+                'referrer_id',
+                'referrer_domain',
+                'referrer_name',
+                'referrer_channel',
+                'visitors',
+                'views',
+                'avg_session_duration',
+                'bounce_rate',
+                'pages_per_session',
+            ],
+            'chart'                => [
+                'queryId'          => 'chart',
+                'title'            => __('Social Media', 'wp-statistics'),
+                'compareMetricKey' => 'total',
+            ],
+            'emptyStateMessage'    => __('No social media referrers found for the selected period', 'wp-statistics'),
         ];
     }
 
