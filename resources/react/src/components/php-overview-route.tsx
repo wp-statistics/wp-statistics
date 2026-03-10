@@ -24,7 +24,7 @@ export function PhpOverviewRoute({
   /** Route params for detail pages (e.g., { countryCode: 'US' }) */
   routeParams?: Record<string, string>
   /** Additional API filters (e.g., from PostTypeSelect) */
-  apiFilters?: Record<string, Record<string, string>>
+  apiFilters?: Record<string, Record<string, string | string[]>>
   /** Extra elements rendered in the detail page header */
   headerActions?: React.ReactNode
   /** Page-specific filter configs for the Options drawer */

@@ -3,13 +3,8 @@ import { queryOptions } from '@tanstack/react-query'
 import type { Filter } from '@/components/custom/filter-bar'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
-import type { FixedDatePeriod } from '@/lib/fixed-date-ranges'
+import type { FixedDatePeriod, FixedDatePeriodId } from '@/lib/fixed-date-ranges'
 import { WordPress } from '@/lib/wordpress'
-import {
-  extractTrafficSummaryData,
-  type TrafficSummaryPeriodData,
-  type TrafficSummaryPeriodResponse,
-} from '@/services/content-analytics/get-single-content'
 
 import type {
   BrowserRow,
@@ -25,6 +20,60 @@ import type {
 interface MetricValue {
   current: number | string
   previous?: number | string
+}
+
+// Traffic summary types (inlined from single-content)
+export interface TrafficSummaryPeriodData {
+  visitors: number
+  views: number
+  previous?: {
+    visitors: number
+    views: number
+  }
+}
+
+interface TrafficSummaryPeriodResponse {
+  success: boolean
+  totals: {
+    visitors?: MetricValue | number | string
+    views?: MetricValue | number | string
+  }
+}
+
+export function extractTrafficSummaryData(
+  response: { data?: { items?: { traffic_summary?: TrafficSummaryPeriodResponse } } } | undefined,
+  periodId: FixedDatePeriodId
+): TrafficSummaryPeriodData | null {
+  const summaryResponse = response?.data?.items?.traffic_summary
+  if (!summaryResponse?.success) return null
+
+  const totals = summaryResponse.totals
+  if (!totals) return null
+
+  const rawVisitors = totals.visitors
+  const visitors = typeof rawVisitors === 'number' || typeof rawVisitors === 'string'
+    ? Number(rawVisitors) || 0
+    : Number(rawVisitors?.current) || 0
+
+  const rawViews = totals.views
+  const views = typeof rawViews === 'number' || typeof rawViews === 'string'
+    ? Number(rawViews) || 0
+    : Number(rawViews?.current) || 0
+
+  const result: TrafficSummaryPeriodData = { visitors, views }
+
+  if (periodId !== 'total' && totals.visitors?.previous !== undefined) {
+    result.previous = {
+      visitors: typeof totals.visitors.previous === 'number'
+        ? totals.visitors.previous
+        : Number(totals.visitors.previous) || 0,
+      views: typeof totals.views?.previous === 'number'
+        ? totals.views.previous
+        : Number(totals.views?.previous) || 0,
+    }
+  }
+
+  return result
 }
 
 // Totals structure for flat format (no comments for URL pages)
@@ -274,7 +323,7 @@ export const getSingleUrlQueryOptions = ({
   })
 }
 
-// Re-export shared types for consumers
+// Re-export with URL-specific aliases for consumers
 export type { TrafficSummaryPeriodData as UrlTrafficSummaryPeriodData }
 export { extractTrafficSummaryData as extractUrlTrafficSummaryData }
 

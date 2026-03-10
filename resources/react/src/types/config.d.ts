@@ -360,6 +360,8 @@ declare global {
     backLink?: string
     /** Back button label text */
     backLabel?: string
+    /** Show filter button in the detail page header */
+    showFilterButton?: boolean
     /** Config for extracting entity display name from query results */
     entityInfo?: {
       queryId: string
@@ -370,6 +372,10 @@ declare global {
       fallbackParam?: string
       /** Response field to read the name from */
       fallbackNameField?: string
+    }
+    /** Query providing entity metadata for PostMetaBar (post author, dates, terms) */
+    entityMeta?: {
+      queryId: string
     }
     queries: PhpBatchQuery[]
     metrics: PhpOverviewMetric[]

@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { BackButton } from '@/components/custom/back-button'
 import { BarListContent } from '@/components/custom/bar-list-content'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
+import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import { GlobalMap, type GlobalMapData } from '@/components/custom/global-map'
 import { HorizontalBar } from '@/components/custom/horizontal-bar'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
@@ -26,6 +27,7 @@ import {
   OverviewOptionsProvider,
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
+import { PostMetaBar, type TermInfo } from '@/components/custom/post-meta-bar'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import { SimpleTable, type SimpleTableColumn } from '@/components/custom/simple-table'
 import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
@@ -152,7 +154,7 @@ function createOverviewQueryOptions(
     /** Entity filter for detail pages (e.g., { key: 'country', operator: 'is', value: 'US' }) */
     entityFilter?: { key: string; operator: string; value: string }
     /** Additional API filters merged at top level (e.g., { post_type: { is: 'post' } }) */
-    apiFilters?: Record<string, Record<string, string>>
+    apiFilters?: Record<string, Record<string, string | string[]>>
   }
 ) {
   const hasCompare = !!(params.compareDateFrom && params.compareDateTo)
@@ -223,7 +225,7 @@ export function OverviewPageRenderer({
   config: PageConfig
   routeParams?: Record<string, string>
   /** Additional API filters merged at top level (e.g., from PostTypeSelect) */
-  apiFilters?: Record<string, Record<string, string>>
+  apiFilters?: Record<string, Record<string, string | string[]>>
   /** Extra elements rendered in the detail page header (e.g., PostTypeSelect) */
   headerActions?: React.ReactNode
   /** Page-specific filter configs shown in the Options drawer (e.g., PostTypeSelect on mobile) */
@@ -279,10 +281,10 @@ function OverviewContent({
   config: PageConfig
   optionsConfig: OverviewOptionsConfig
   routeParams?: Record<string, string>
-  apiFilters?: Record<string, Record<string, string>>
+  apiFilters?: Record<string, Record<string, string | string[]>>
   headerActions?: React.ReactNode
 }) {
-  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams, handleDateRangeUpdate } = useGlobalFilters()
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams, handleDateRangeUpdate, applyFilters: handleApplyFilters } = useGlobalFilters()
   const { isWidgetVisible, isMetricVisible } = usePageOptions()
   const options = useOverviewOptions(optionsConfig)
   const navigate = useNavigate()
@@ -292,6 +294,17 @@ function OverviewContent({
   // Get JS-registered widgets for this page (from premium modules or core)
   const { getWidgetsForPage } = useContentRegistry()
   const registeredWidgets = getWidgetsForPage(config.pageId)
+
+  // Build entity filter for detail pages
+  const detailConfig = config.type === 'detail' ? config : undefined
+  const entityValue = detailConfig?.entityParam ? routeParams?.[detailConfig.entityParam] : undefined
+
+  // Filter fields for detail page filter button
+  const wp = WordPress.getInstance()
+  const filterFields = useMemo<FilterField[]>(() => {
+    if (!detailConfig?.showFilterButton) return []
+    return wp.getFilterFieldsByGroup(config.filterGroup) as FilterField[]
+  }, [detailConfig?.showFilterButton, config.filterGroup, wp])
 
   // Timeframe state (only used when a chart widget has timeframeSupport)
   const supportsTimeframe = hasTimeframeSupport(config)
@@ -317,9 +330,6 @@ function OverviewContent({
     setTimeframe(newTimeframe)
   }, [])
 
-  // Build entity filter for detail pages
-  const detailConfig = config.type === 'detail' ? config : undefined
-  const entityValue = detailConfig?.entityParam ? routeParams?.[detailConfig.entityParam] : undefined
   const entityFilter = useMemo(
     () => detailConfig && entityValue
       ? { key: detailConfig.filterField, operator: 'is', value: entityValue }
@@ -510,14 +520,21 @@ function OverviewContent({
     return result
   }, [batchResponse, config.widgets])
 
+  // Extract entity metadata row (for PostMetaBar on content detail pages)
+  // Also serves as source for entityTitleFromQuery when entityInfo.queryId matches
+  const entityMetaRow = useMemo((): Record<string, unknown> | null => {
+    const queryId = detailConfig?.entityMeta?.queryId ?? detailConfig?.entityInfo?.queryId
+    if (!queryId) return null
+    const result = batchResponse?.data?.items?.[queryId]
+    const rows = result?.data?.rows || result?.items
+    return (Array.isArray(rows) ? (rows[0] as Record<string, unknown>) : null) ?? null
+  }, [batchResponse, detailConfig])
+
   // Extract entity display name from response (for detail pages)
   const entityTitleFromQuery = useMemo(() => {
-    if (!detailConfig?.entityInfo) return null
-    const infoResult = batchResponse?.data?.items?.[detailConfig.entityInfo.queryId]
-    const rows = infoResult?.data?.rows || infoResult?.items
-    const firstRow = Array.isArray(rows) ? rows[0] : undefined
-    return (firstRow?.[detailConfig.entityInfo.nameField] as string) || null
-  }, [batchResponse, detailConfig])
+    if (!detailConfig?.entityInfo?.nameField || !entityMetaRow) return null
+    return (entityMetaRow[detailConfig.entityInfo.nameField] as string) || null
+  }, [entityMetaRow, detailConfig])
 
   // AJAX fallback for entity name when analytics data is empty (e.g., new category with no traffic)
   const entityInfoFallback = detailConfig?.entityInfo
@@ -544,27 +561,51 @@ function OverviewContent({
   return (
     <div className="min-w-0">
       {detailConfig ? (
-        <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-3">
-            <BackButton defaultTo={detailConfig.backLink || '/'} label={detailConfig.backLabel} />
-            <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={entityTitle}>
-              {showSkeleton ? __('Loading...', 'wp-statistics') : entityTitle}
-            </h1>
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="contents" data-pdf-hide>
+                <BackButton defaultTo={detailConfig.backLink || '/'} label={detailConfig.backLabel} />
+              </div>
+              <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={entityTitle}>
+                {showSkeleton ? __('Loading...', 'wp-statistics') : entityTitle}
+              </h1>
+            </div>
+            <div className="flex items-center gap-3" data-pdf-hide>
+              {detailConfig.showFilterButton && filterFields.length > 0 && isInitialized && (
+                <div className="hidden lg:flex">
+                  <FilterButton
+                    fields={filterFields}
+                    appliedFilters={appliedFilters || []}
+                    onApplyFilters={handleApplyFilters}
+                    filterGroup={config.filterGroup}
+                  />
+                </div>
+              )}
+              {headerActions}
+              <DateRangePicker
+                initialDateFrom={dateFrom}
+                initialDateTo={dateTo}
+                initialCompareFrom={compareDateFrom}
+                initialCompareTo={compareDateTo}
+                initialPeriod={period}
+                showCompare={true}
+                onUpdate={handleDateRangeUpdate}
+                align="end"
+              />
+              <OptionsDrawerTrigger {...options.triggerProps} />
+            </div>
           </div>
-          <div className="flex items-center gap-3" data-pdf-hide>
-            {headerActions}
-            <DateRangePicker
-              initialDateFrom={dateFrom}
-              initialDateTo={dateTo}
-              initialCompareFrom={compareDateFrom}
-              initialCompareTo={compareDateTo}
-              initialPeriod={period}
-              showCompare={true}
-              onUpdate={handleDateRangeUpdate}
-              align="end"
+          {!showSkeleton && entityMetaRow && (
+            <PostMetaBar
+              authorName={entityMetaRow.author_name as string}
+              postTypeLabel={entityMetaRow.post_type_label as string}
+              publishedDate={entityMetaRow.published_date as string}
+              modifiedDate={entityMetaRow.modified_date as string}
+              terms={entityMetaRow.cached_terms as TermInfo[]}
+              className="mt-2 ml-9"
             />
-            <OptionsDrawerTrigger {...options.triggerProps} />
-          </div>
+          )}
         </div>
       ) : (
         <ReportPageHeader

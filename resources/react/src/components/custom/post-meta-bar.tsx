@@ -5,7 +5,14 @@ import { Fragment, type ReactNode } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import type { TermInfo } from '@/services/content-analytics/get-single-content'
+
+// Term/taxonomy data from API
+export interface TermInfo {
+  term_id: number
+  name: string
+  slug: string
+  taxonomy: string
+}
 
 interface PostMetaBarProps {
   authorName?: string | null
