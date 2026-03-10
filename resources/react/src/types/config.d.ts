@@ -344,6 +344,8 @@ declare global {
     title: string
     context: string
     filterGroup: string
+    /** Whether this report's data query should be enabled (default: true) */
+    enabled?: boolean
     dataSource: {
       sources?: string[]
       group_by?: string[]

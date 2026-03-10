@@ -18,6 +18,7 @@ function RouteComponent() {
     onChange: onSocialTypeChange,
     options: socialTypeOptions,
     getApiFilter,
+    pageFilterConfig,
   } = useSocialTypeFilter()
 
   if (!report?.config) return null
@@ -26,6 +27,7 @@ function RouteComponent() {
     <ReportPageRenderer
       config={{
         ...report.config,
+        pageFilters: [pageFilterConfig],
         headerActions: () => (
           <div className="hidden lg:flex">
             <SocialTypeSelect

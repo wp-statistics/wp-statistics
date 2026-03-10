@@ -18,6 +18,7 @@ function RouteComponent() {
     onChange: onSearchTypeChange,
     options: searchTypeOptions,
     getApiFilter,
+    pageFilterConfig,
   } = useSearchTypeFilter()
 
   if (!report?.config) return null
@@ -26,6 +27,7 @@ function RouteComponent() {
     <ReportPageRenderer
       config={{
         ...report.config,
+        pageFilters: [pageFilterConfig],
         headerActions: () => (
           <div className="hidden lg:flex">
             <SearchTypeSelect

@@ -41,6 +41,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
      */
     private function getBuiltinReports()
     {
+        $userCountry = Country::getByTimeZone();
+
         return [
             'devices-overview' => [
                 'type'             => 'overview',
@@ -167,7 +169,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
             ],
 
-            'geographic-overview' => $this->getGeographicOverviewConfig(),
+            'geographic-overview' => $this->getGeographicOverviewConfig($userCountry),
 
             'referrals-overview' => $this->getReferralsOverviewConfig(),
 
@@ -1007,7 +1009,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
 
             'us-states'           => $this->getUsStatesConfig(),
             'european-countries'  => $this->getEuropeanCountriesConfig(),
-            'country-regions'     => $this->getCountryRegionsConfig(),
+            'country-regions'     => $this->getCountryRegionsConfig($userCountry),
             'social-media'        => $this->getSocialMediaConfig(),
         ];
     }
@@ -1266,9 +1268,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
      *
      * @return array
      */
-    private function getCountryRegionsConfig()
+    private function getCountryRegionsConfig($userCountry)
     {
-        $userCountry     = Country::getByTimeZone();
         $userCountryName = !empty($userCountry) ? Country::getName($userCountry) : '';
 
         return [
@@ -1277,6 +1278,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 : __('Regions', 'wp-statistics'),
             'context'              => 'country-regions',
             'filterGroup'          => 'visitors',
+            'enabled'              => !empty($userCountry),
             'dataSource'           => [
                 'queryId' => 'country_regions',
                 'queries' => [
@@ -1542,9 +1544,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
      *
      * @return array
      */
-    private function getGeographicOverviewConfig()
+    private function getGeographicOverviewConfig($userCountry)
     {
-        $userCountry     = Country::getByTimeZone();
         $userCountryName = !empty($userCountry) ? Country::getName($userCountry) : '';
         $showRegions     = !empty($userCountry) && $userCountry !== 'US';
 

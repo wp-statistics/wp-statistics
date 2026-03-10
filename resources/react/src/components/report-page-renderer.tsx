@@ -25,6 +25,7 @@ import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import {
   OptionsDrawerTrigger,
+  type PageFilterConfig,
   TableOptionsDrawer,
   useTableOptions,
 } from '@/components/custom/options-drawer'
@@ -123,6 +124,10 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
   customFilters?: string[]
   /** Hide the filter button entirely */
   hideFilters?: boolean
+  /** Page-specific filter dropdowns (shown in Options drawer on mobile) */
+  pageFilters?: PageFilterConfig[]
+  /** Whether the data query is enabled (default: true). When false, table shows empty state without fetching. */
+  enabled?: boolean
 
   // Level 2: Slot components for customization
   /** Component rendered before the table */
@@ -164,6 +169,8 @@ export function ReportPageRenderer<TData, TRecord>({
     emptyStateMessage = __('No data found for the selected period', 'wp-statistics'),
     customFilters,
     hideFilters: hideFiltersConfig,
+    pageFilters,
+    enabled: queryEnabled = true,
     beforeTable,
     afterTable,
     headerActions,
@@ -240,7 +247,7 @@ export function ReportPageRenderer<TData, TRecord>({
       ...(apiFilters && { apiFilters }),
     }),
     placeholderData: keepPreviousData,
-    enabled: isInitialized,
+    enabled: isInitialized && queryEnabled,
   })
 
   // Use the preferences hook for column management (only if columnConfig provided)
@@ -272,6 +279,7 @@ export function ReportPageRenderer<TData, TRecord>({
   const options = useTableOptions({
     filterGroup,
     table: tableRef.current,
+    pageFilters,
     initialColumnOrder: defaultColumnOrder,
     columnOrder,
     defaultHiddenColumns,
@@ -352,6 +360,7 @@ export function ReportPageRenderer<TData, TRecord>({
         config={{
           filterGroup,
           table: tableRef.current,
+          pageFilters,
           initialColumnOrder: columnOrder,
           defaultHiddenColumns,
           comparableColumns,

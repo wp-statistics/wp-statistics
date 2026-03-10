@@ -60,6 +60,7 @@ export function registerPhpReports(): void {
       defaultApiColumns: config.defaultApiColumns,
       customFilters: config.customFilters,
       hideFilters: config.hideFilters,
+      enabled: config.enabled,
       // Chart slot (renders LineChart above table from batch response data)
       ...(config.chart && { beforeTable: createChartSlot(config.chart) }),
     })
