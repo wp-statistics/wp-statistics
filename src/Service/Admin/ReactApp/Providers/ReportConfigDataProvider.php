@@ -1393,6 +1393,76 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
                 'emptyStateMessage'    => __('No categories found for the selected period', 'wp-statistics'),
             ],
+
+            'author-pages' => [
+                'title'            => __('Author Pages', 'wp-statistics'),
+                'context'          => 'page-insights',
+                'filterGroup'      => 'content',
+                'dataSource'       => [
+                    'queryId' => 'author_pages',
+                    'queries' => [
+                        [
+                            'id'          => 'author_pages',
+                            'sources'     => ['views'],
+                            'group_by'    => ['page'],
+                            'format'      => 'table',
+                            'show_totals' => false,
+                            'filters'     => [['key' => 'post_type', 'operator' => 'is', 'value' => 'author_archive']],
+                        ],
+                    ],
+                ],
+                'columns'          => [
+                    [
+                        'key'          => 'page',
+                        'title'        => __('Author', 'wp-statistics'),
+                        'type'         => 'page-link',
+                        'sortable'     => false,
+                        'priority'     => 'primary',
+                        'cardPosition' => 'header',
+                    ],
+                    [
+                        'key'          => 'views',
+                        'title'        => __('Views', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'sortable'     => false,
+                        'priority'     => 'primary',
+                        'cardPosition' => 'body',
+                    ],
+                ],
+                'defaultSort'      => ['id' => 'views', 'desc' => true],
+                'emptyStateMessage' => __('No author pages found for the selected period', 'wp-statistics'),
+            ],
+
+            'category-pages' => [
+                'title'            => __('Category Pages', 'wp-statistics'),
+                'context'          => 'page-insights',
+                'filterGroup'      => 'categories',
+                'hideFilters'      => true,
+                'dataSource'       => [
+                    'sources'  => ['views'],
+                    'group_by' => ['page'],
+                ],
+                'columns'          => [
+                    [
+                        'key'          => 'page',
+                        'title'        => __('Term Page', 'wp-statistics'),
+                        'type'         => 'page-link',
+                        'sortable'     => false,
+                        'priority'     => 'primary',
+                        'cardPosition' => 'header',
+                    ],
+                    [
+                        'key'          => 'views',
+                        'title'        => __('Views', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'sortable'     => false,
+                        'priority'     => 'primary',
+                        'cardPosition' => 'body',
+                    ],
+                ],
+                'defaultSort'       => ['id' => 'views', 'desc' => true],
+                'emptyStateMessage' => __('No term pages found for the selected period', 'wp-statistics'),
+            ],
         ];
     }
 
