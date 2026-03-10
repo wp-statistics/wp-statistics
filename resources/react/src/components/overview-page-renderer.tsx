@@ -12,8 +12,10 @@ import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { BackButton } from '@/components/custom/back-button'
+import { BarListContent } from '@/components/custom/bar-list-content'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { GlobalMap, type GlobalMapData } from '@/components/custom/global-map'
+import { HorizontalBar } from '@/components/custom/horizontal-bar'
 import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
 import { LineChart } from '@/components/custom/line-chart'
 import { Metrics } from '@/components/custom/metrics'
@@ -25,6 +27,7 @@ import {
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
+import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
@@ -127,14 +130,17 @@ function createOverviewQueryOptions(
     timeframe?: Timeframe
     /** Entity filter for detail pages (e.g., { key: 'country', operator: 'is', value: 'US' }) */
     entityFilter?: { key: string; operator: string; value: string }
+    /** Additional API filters merged at top level (e.g., { post_type: { is: 'post' } }) */
+    apiFilters?: Record<string, Record<string, string>>
   }
 ) {
   const hasCompare = !!(params.compareDateFrom && params.compareDateTo)
-  const apiFilters =
+  const transformedFilters =
     params.filters.length > 0
       ? transformFiltersToApi(params.filters as Parameters<typeof transformFiltersToApi>[0])
       : {}
-  const hasFilters = Object.keys(apiFilters).length > 0
+  const mergedFilters = { ...transformedFilters, ...params.apiFilters }
+  const hasFilters = Object.keys(mergedFilters).length > 0
   const dateGroupBy = TIMEFRAME_TO_GROUP_BY[params.timeframe || 'daily']
 
   // Set compare on queries that don't explicitly specify it
@@ -150,7 +156,7 @@ function createOverviewQueryOptions(
   }))
 
   return queryOptions({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- apiFilters is included conditionally, queries is static config
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- mergedFilters is included conditionally, queries is static config
     queryKey: [
       config.pageId,
       params.entityFilter?.value || null,
@@ -158,7 +164,7 @@ function createOverviewQueryOptions(
       params.dateTo,
       params.compareDateFrom,
       params.compareDateTo,
-      hasFilters ? apiFilters : null,
+      hasFilters ? mergedFilters : null,
       params.timeframe || null,
     ],
     queryFn: () =>
@@ -172,7 +178,7 @@ function createOverviewQueryOptions(
             previous_date_from: params.compareDateFrom,
             previous_date_to: params.compareDateTo,
           }),
-          ...(hasFilters && { filters: apiFilters }),
+          ...(hasFilters && { filters: mergedFilters }),
           queries,
         },
         {
@@ -189,9 +195,18 @@ function createOverviewQueryOptions(
 export function OverviewPageRenderer({
   config,
   routeParams,
+  apiFilters,
+  headerActions,
+  pageFilters,
 }: {
   config: PageConfig
   routeParams?: Record<string, string>
+  /** Additional API filters merged at top level (e.g., from PostTypeSelect) */
+  apiFilters?: Record<string, Record<string, string>>
+  /** Extra elements rendered in the detail page header (e.g., PostTypeSelect) */
+  headerActions?: React.ReactNode
+  /** Page-specific filter configs shown in the Options drawer (e.g., PostTypeSelect on mobile) */
+  pageFilters?: import('@/components/custom/options-drawer').PageFilterConfig[]
 }) {
   const widgetConfigs: WidgetConfig[] = useMemo(
     () =>
@@ -221,13 +236,14 @@ export function OverviewPageRenderer({
       widgetConfigs,
       metricConfigs,
       hideFilters: config.hideFilters,
+      ...(pageFilters && { pageFilters }),
     }),
-    [config.pageId, config.filterGroup, config.hideFilters, widgetConfigs, metricConfigs]
+    [config.pageId, config.filterGroup, config.hideFilters, widgetConfigs, metricConfigs, pageFilters]
   )
 
   return (
     <OverviewOptionsProvider config={optionsConfig}>
-      <OverviewContent config={config} optionsConfig={optionsConfig} routeParams={routeParams} />
+      <OverviewContent config={config} optionsConfig={optionsConfig} routeParams={routeParams} apiFilters={apiFilters} headerActions={headerActions} />
     </OverviewOptionsProvider>
   )
 }
@@ -236,10 +252,14 @@ function OverviewContent({
   config,
   optionsConfig,
   routeParams,
+  apiFilters: externalApiFilters,
+  headerActions,
 }: {
   config: PageConfig
   optionsConfig: OverviewOptionsConfig
   routeParams?: Record<string, string>
+  apiFilters?: Record<string, Record<string, string>>
+  headerActions?: React.ReactNode
 }) {
   const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams, handleDateRangeUpdate } = useGlobalFilters()
   const { isWidgetVisible, isMetricVisible } = usePageOptions()
@@ -296,6 +316,7 @@ function OverviewContent({
       filters: appliedFilters || [],
       timeframe: supportsTimeframe ? timeframe : undefined,
       entityFilter,
+      apiFilters: externalApiFilters,
     }),
     retry: false,
     placeholderData: keepPreviousData,
@@ -424,6 +445,7 @@ function OverviewContent({
             </h1>
           </div>
           <div className="flex items-center gap-3" data-pdf-hide>
+            {headerActions}
             <DateRangePicker
               initialDateFrom={dateFrom}
               initialDateTo={dateTo}
@@ -586,6 +608,22 @@ function OverviewContent({
                 )
               }
 
+              if (widget.type === 'tabbed-bar-list' && widget.queryId && widget.tabbedBarListConfig) {
+                const queryResult = batchResponse?.data?.items?.[widget.queryId]
+                const rows = (queryResult?.data?.rows || []) as Record<string, unknown>[]
+                return (
+                  <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12'}>
+                    <TabbedBarListWidget
+                      widget={widget}
+                      rows={rows}
+                      isCompareEnabled={isCompareEnabled}
+                      calcPercentage={calcPercentage}
+                      comparisonDateLabel={comparisonDateLabel}
+                    />
+                  </div>
+                )
+              }
+
               // Registered widgets: insert JS-registered widgets at this position
               if (widget.type === 'registered') {
                 return registeredWidgets.map((rw) => {
@@ -642,6 +680,7 @@ function ChartWidget({
       key: m.key,
       label: m.label,
       color: m.color,
+      ...(m.type && { type: m.type }),
     })),
     showPreviousValues: isCompareEnabled,
     preserveNull: true,
@@ -660,6 +699,107 @@ function ChartWidget({
       compareDateTo={apiDateParams.previous_date_to}
     />
   )
+}
+
+// ------- Tabbed Bar-List Widget -------
+
+function TabbedBarListWidget({
+  widget,
+  rows,
+  isCompareEnabled,
+  calcPercentage,
+  comparisonDateLabel,
+}: {
+  widget: PhpOverviewWidget
+  rows: Record<string, unknown>[]
+  isCompareEnabled: boolean
+  calcPercentage: (current: number, previous: number) => { percentage: string; isNegative: boolean }
+  comparisonDateLabel: string
+}) {
+  const config = widget.tabbedBarListConfig!
+  const labelField = config.labelField || 'page_title'
+  const labelFallback = config.labelFallbackField || 'page_uri'
+
+  const tabs = useMemo((): TabbedPanelTab[] => {
+    return config.tabs
+      .map((tabConfig) => {
+        let tabRows = [...rows]
+
+        // Filter rows if specified (e.g., comments > 0)
+        if (tabConfig.filterField && tabConfig.filterMinValue !== undefined) {
+          tabRows = tabRows.filter((row) => Number(row[tabConfig.filterField!]) >= tabConfig.filterMinValue!)
+        }
+
+        // Skip tab entirely if filtered to empty
+        if (tabRows.length === 0 && tabConfig.filterField) return null
+
+        // Sort rows
+        tabRows.sort((a, b) => {
+          let aVal: number, bVal: number
+          if (tabConfig.sortType === 'date') {
+            aVal = new Date(String(a[tabConfig.sortBy] || 0)).getTime()
+            bVal = new Date(String(b[tabConfig.sortBy] || 0)).getTime()
+          } else {
+            aVal = Number(a[tabConfig.sortBy]) || 0
+            bVal = Number(b[tabConfig.sortBy]) || 0
+          }
+          return tabConfig.sortDesc === false ? aVal - bVal : bVal - aVal
+        })
+
+        tabRows = tabRows.slice(0, tabConfig.maxItems || 5)
+
+        return {
+          id: tabConfig.id,
+          label: tabConfig.label,
+          columnHeaders: tabConfig.columnHeaders,
+          content: (
+            <BarListContent isEmpty={tabRows.length === 0}>
+              {tabRows.map((item, idx) => {
+                const value = Number(item[tabConfig.valueField]) || 0
+                const prevValue = Number((item.previous as Record<string, unknown>)?.[tabConfig.valueField]) || 0
+                const showComp = tabConfig.showComparison !== false && isCompareEnabled
+                const comparison = showComp ? calcPercentage(value, prevValue) : null
+
+                let linkTo: string | undefined
+                let linkParams: Record<string, string> | undefined
+                if (config.linkType === 'analytics-route') {
+                  const route = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number)
+                  linkTo = route?.to
+                  linkParams = route?.params
+                }
+
+                const label = String(item[labelField] || item[labelFallback] || '/')
+                const valueLabel = tabConfig.valueSuffix
+                  ? `${formatCompactNumber(value)} ${tabConfig.valueSuffix}`
+                  : formatCompactNumber(value)
+
+                return (
+                  <HorizontalBar
+                    key={`${String(item[labelFallback] || idx)}-${idx}`}
+                    label={label}
+                    value={valueLabel}
+                    percentage={comparison?.percentage}
+                    isNegative={comparison?.isNegative}
+                    tooltipSubtitle={
+                      showComp ? `${__('Previous:', 'wp-statistics')} ${formatCompactNumber(prevValue)}` : undefined
+                    }
+                    comparisonDateLabel={comparisonDateLabel}
+                    showComparison={showComp}
+                    showBar={false}
+                    highlightFirst={false}
+                    linkTo={linkTo}
+                    linkParams={linkParams}
+                  />
+                )
+              })}
+            </BarListContent>
+          ),
+        }
+      })
+      .filter((t): t is TabbedPanelTab => t !== null)
+  }, [rows, config, isCompareEnabled, calcPercentage, comparisonDateLabel, labelField, labelFallback])
+
+  return <TabbedPanel title={widget.label} tabs={tabs} defaultTab={config.tabs[0]?.id} />
 }
 
 // ------- Skeleton -------
@@ -702,6 +842,15 @@ function OverviewSkeleton({ config }: { config: PageConfig }) {
             <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12 lg:col-span-6'}>
               <PanelSkeleton>
                 <BarListSkeleton items={5} showIcon={!!w.iconType} />
+              </PanelSkeleton>
+            </div>
+          )
+        }
+        if (w.type === 'tabbed-bar-list') {
+          return (
+            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12'}>
+              <PanelSkeleton>
+                <BarListSkeleton items={5} />
               </PanelSkeleton>
             </div>
           )

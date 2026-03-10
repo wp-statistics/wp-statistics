@@ -6,6 +6,7 @@
 
 import { __ } from '@wordpress/i18n'
 
+import type { PageFilterConfig } from '@/components/custom/options-drawer'
 import { OverviewPageRenderer } from '@/components/overview-page-renderer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { WordPress } from '@/lib/wordpress'
@@ -14,11 +15,20 @@ export function PhpOverviewRoute({
   slug,
   fallbackTitle,
   routeParams,
+  apiFilters,
+  headerActions,
+  pageFilters,
 }: {
   slug: string
   fallbackTitle: string
   /** Route params for detail pages (e.g., { countryCode: 'US' }) */
   routeParams?: Record<string, string>
+  /** Additional API filters (e.g., from PostTypeSelect) */
+  apiFilters?: Record<string, Record<string, string>>
+  /** Extra elements rendered in the detail page header */
+  headerActions?: React.ReactNode
+  /** Page-specific filter configs for the Options drawer */
+  pageFilters?: PageFilterConfig[]
 }) {
   const reports = WordPress.getInstance().getData<Record<string, PhpReportDefinition | PhpOverviewDefinition | PhpDetailDefinition>>(
     'reports'
@@ -26,7 +36,7 @@ export function PhpOverviewRoute({
   const config = reports?.[slug]
 
   if (config?.type === 'overview' || config?.type === 'detail') {
-    return <OverviewPageRenderer config={config} routeParams={routeParams} />
+    return <OverviewPageRenderer config={config} routeParams={routeParams} apiFilters={apiFilters} headerActions={headerActions} pageFilters={pageFilters} />
   }
 
   return (

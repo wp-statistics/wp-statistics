@@ -258,7 +258,7 @@ declare global {
 
   // Chart widget config for overview pages
   interface PhpChartWidgetConfig {
-    metrics: Array<{ key: string; label: string; color: string }>
+    metrics: Array<{ key: string; label: string; color: string; type?: 'line' | 'bar' }>
     /** When true, shows daily/weekly/monthly timeframe selector */
     timeframeSupport?: boolean
   }
@@ -275,11 +275,35 @@ declare global {
   // Label transform types for bar-list widgets
   type BarListLabelTransform = 'source-category'
 
+  // Tabbed bar-list tab config
+  interface PhpTabbedBarListTab {
+    id: string
+    label: string
+    columnHeaders: { left: string; right: string }
+    sortBy: string
+    sortDesc?: boolean
+    sortType?: 'numeric' | 'date'
+    filterField?: string
+    filterMinValue?: number
+    valueField: string
+    valueSuffix?: string
+    showComparison?: boolean
+    maxItems?: number
+  }
+
+  // Tabbed bar-list config
+  interface PhpTabbedBarListConfig {
+    tabs: PhpTabbedBarListTab[]
+    linkType?: 'analytics-route'
+    labelField?: string
+    labelFallbackField?: string
+  }
+
   // Overview widget definition
   interface PhpOverviewWidget {
     id: string
     label: string
-    type: 'metrics' | 'bar-list' | 'map' | 'chart' | 'registered'
+    type: 'metrics' | 'bar-list' | 'map' | 'chart' | 'registered' | 'tabbed-bar-list'
     defaultSize: number
     queryId?: string
     labelField?: string
@@ -298,6 +322,7 @@ declare global {
     linkType?: 'analytics-route'
     mapConfig?: PhpMapWidgetConfig
     chartConfig?: PhpChartWidgetConfig
+    tabbedBarListConfig?: PhpTabbedBarListConfig
   }
 
   // Overview page definition
