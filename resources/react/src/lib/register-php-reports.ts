@@ -52,7 +52,7 @@ export function registerPhpReports(): void {
       defaultSort: config.defaultSort || { id: 'views', desc: true },
       perPage: config.perPage || 20,
       comparableColumns,
-      defaultComparisonColumns: comparableColumns,
+      defaultComparisonColumns: config.defaultComparisonColumns || comparableColumns,
       emptyStateMessage: config.emptyStateMessage,
       // New fields
       defaultHiddenColumns: config.defaultHiddenColumns,

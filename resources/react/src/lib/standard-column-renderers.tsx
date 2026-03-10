@@ -8,10 +8,16 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
-import { DurationCell, LocationCell, NumericCell, PageCell, ReferrerCell, UriCell } from '@/components/data-table-columns'
+import { AuthorCell, DurationCell, LocationCell, NumericCell, PageCell, ReferrerCell, TermCell, UriCell } from '@/components/data-table-columns'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { WordPress } from '@/lib/wordpress'
+
+const DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+})
 
 /**
  * Resolve a dot-path like 'previous.sessions' from a record object
@@ -243,6 +249,47 @@ export function createColumnsFromConfig(
           cell: ({ row }) => (
             <UriCell uri={String(row.original[field] ?? '')} />
           ),
+        } as ColumnDef<Record<string, unknown>>
+
+      case 'author':
+        return {
+          ...base,
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => (
+            <AuthorCell
+              authorId={Number(row.original.author_id) || 0}
+              authorName={String(row.original.author_name || '')}
+              authorAvatar={row.original.author_avatar ? String(row.original.author_avatar) : null}
+            />
+          ),
+        } as ColumnDef<Record<string, unknown>>
+
+      case 'term':
+        return {
+          ...base,
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => (
+            <TermCell
+              termId={Number(row.original.term_id) || 0}
+              termName={String(row.original.term_name || '')}
+            />
+          ),
+        } as ColumnDef<Record<string, unknown>>
+
+      case 'date':
+        return {
+          ...base,
+          header: ({ column, table }) => (
+            <DataTableColumnHeader column={column} table={table} className="text-right" />
+          ),
+          ...(size ? {} : { size: 100 }),
+          cell: ({ row }) => {
+            const raw = row.original[field]
+            if (!raw) return <span className="text-xs text-neutral-400">—</span>
+            const date = new Date(String(raw))
+            if (isNaN(date.getTime())) return <span className="text-xs text-neutral-400">—</span>
+            return <span className="text-xs text-neutral-700 whitespace-nowrap">{DATE_FORMATTER.format(date)}</span>
+          },
         } as ColumnDef<Record<string, unknown>>
 
       case 'text':

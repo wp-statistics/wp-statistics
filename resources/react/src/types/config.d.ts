@@ -170,7 +170,7 @@ declare global {
     /** API field name to read from row data (defaults to key if omitted) */
     dataField?: string
     title: string
-    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category' | 'uri'
+    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category' | 'uri' | 'author' | 'term' | 'date'
     priority?: 'primary' | 'secondary' | 'hidden'
     cardPosition?: 'header' | 'body' | 'footer'
     mobileLabel?: string
@@ -368,6 +368,8 @@ declare global {
     }
     defaultApiColumns?: string[]
     hideFilters?: boolean
+    /** Columns that show comparison by default (defaults to all comparable columns if omitted) */
+    defaultComparisonColumns?: string[]
     chart?: PhpChartConfig
     widget?: PhpReportWidget
     export?: PhpReportExport
