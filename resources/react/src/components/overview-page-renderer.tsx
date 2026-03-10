@@ -39,7 +39,7 @@ import { getChannelDisplayName } from '@/components/data-table-columns/source-ca
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { useContentRegistry } from '@/contexts/content-registry-context'
+import { type RegisteredWidget,useContentRegistry } from '@/contexts/content-registry-context'
 import type { MetricConfig, WidgetConfig } from '@/contexts/page-options-context'
 import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
@@ -98,6 +98,10 @@ const LABEL_TRANSFORMS: Record<BarListLabelTransform, (value: string) => string>
   'source-category': getChannelDisplayName,
 }
 
+// Stable reference for registered widget render props (avoids per-render lambda allocation)
+const getTotalFromResponse = (t: Record<string, unknown> | undefined, key: string): number =>
+  getTotalValue(t?.[key])
+
 // ------- Batch query types -------
 
 interface TrafficSummaryPeriodResponse {
@@ -134,6 +138,30 @@ interface OverviewBatchResponse {
 
 /** Config type accepted by the renderer: overview or detail */
 type PageConfig = PhpOverviewDefinition | PhpDetailDefinition
+
+/** Shared context passed to all widget renderers */
+interface WidgetRenderContext {
+  batchItems: Record<string, BatchQueryResult>
+  isCompareEnabled: boolean
+  comparisonDateLabel: string
+  navigate: ReturnType<typeof useNavigate>
+  calcPercentage: (current: number, previous: number) => { percentage: string; isNegative: boolean }
+  isWidgetVisible: (id: string) => boolean
+  isFetching: boolean
+  // Chart-specific
+  timeframe: Timeframe
+  onTimeframeChange?: (tf: Timeframe) => void
+  isChartRefetching: boolean
+  apiDateParams: { date_from: string; date_to: string; previous_date_from?: string; previous_date_to?: string }
+  // Map-specific
+  mapDataByWidgetId: Record<string, GlobalMapData>
+  isLoading: boolean
+  // Traffic-summary-specific
+  fixedDatePeriods: FixedDatePeriod[]
+  trafficSummaryQueries: { data: unknown; isLoading: boolean }[]
+  // Registered widgets
+  registeredWidgets: RegisteredWidget[]
+}
 
 /** Check if any chart widget in config has timeframeSupport */
 function hasTimeframeSupport(config: PageConfig): boolean {
@@ -693,6 +721,26 @@ function OverviewContent({
       .filter((w): w is PhpOverviewWidget => !!w)
   }, [overviewConfig?.widgetCategories, config.widgets, isWidgetVisible, getOrderedVisibleWidgets])
 
+  // Shared context for widget renderers (not memoized — consumed in same render cycle)
+  const widgetCtx: WidgetRenderContext = {
+    batchItems: batchResponse?.data?.items || {},
+    isCompareEnabled,
+    comparisonDateLabel,
+    navigate,
+    calcPercentage,
+    isWidgetVisible,
+    isFetching,
+    timeframe,
+    onTimeframeChange: supportsTimeframe ? handleTimeframeChange : undefined,
+    isChartRefetching,
+    apiDateParams,
+    mapDataByWidgetId,
+    isLoading,
+    fixedDatePeriods,
+    trafficSummaryQueries,
+    registeredWidgets,
+  }
+
   return (
     <div className="min-w-0">
       {detailConfig ? (
@@ -796,198 +844,18 @@ function OverviewContent({
           <>
             <div className="grid gap-3 grid-cols-12">
               {orderedWidgets.map((widget) => {
-              const size = getWidgetSize(widget.id)
-              const colSpan = COL_SPAN[size] || COL_SPAN[widget.defaultSize] || 'col-span-12'
-              const contextMenu = widget.allowedSizes
-                ? <WidgetContextMenu widgetId={widget.id} allowedSizes={widget.allowedSizes} />
-                : undefined
+                const size = getWidgetSize(widget.id)
+                const colSpan = COL_SPAN[size] || COL_SPAN[widget.defaultSize] || 'col-span-12'
+                const contextMenu = widget.allowedSizes
+                  ? <WidgetContextMenu widgetId={widget.id} allowedSizes={widget.allowedSizes} />
+                  : undefined
 
-              if (widget.type === 'metrics') {
-                if (overviewMetrics.length === 0) return null
-                return (
-                  <div key={widget.id} className={colSpan}>
-                    <Panel className="h-full">
-                      {contextMenu && (
-                        <div className="flex items-center justify-end px-4 pt-3 pb-1">
-                          {contextMenu}
-                        </div>
-                      )}
-                      <Metrics metrics={overviewMetrics} columns={contextMenu ? 'auto' : undefined} />
-                    </Panel>
-                  </div>
-                )
-              }
-
-              if (widget.type === 'chart' && widget.queryId && widget.chartConfig) {
-                return (
-                  <div key={widget.id} className={colSpan}>
-                    <ChartWidget
-                      widget={widget}
-                      queryResult={batchResponse?.data?.items?.[widget.queryId]}
-                      isCompareEnabled={isCompareEnabled}
-                      timeframe={timeframe}
-                      onTimeframeChange={widget.chartConfig.timeframeSupport ? handleTimeframeChange : undefined}
-                      loading={isChartRefetching}
-                      apiDateParams={apiDateParams}
-                      headerRight={contextMenu}
-                    />
-                  </div>
-                )
-              }
-
-              if (widget.type === 'map' && widget.mapConfig) {
-                const mapData = mapDataByWidgetId[widget.id]
-                if (!mapData) return null
-                return (
-                  <div key={widget.id} className={colSpan}>
-                    <GlobalMap
-                      data={mapData}
-                      isLoading={isLoading}
-                      dateFrom={apiDateParams.date_from}
-                      dateTo={apiDateParams.date_to}
-                      metric={widget.mapConfig.metric}
-                      showZoomControls={true}
-                      showLegend={true}
-                      pluginUrl={pluginUrl}
-                      title={widget.mapConfig.title}
-                      enableCityDrilldown={widget.mapConfig.enableCityDrilldown}
-                      enableMetricToggle={widget.mapConfig.enableMetricToggle}
-                      availableMetrics={widget.mapConfig.availableMetrics}
-                    />
-                  </div>
-                )
-              }
-
-              if (widget.type === 'bar-list' && widget.queryId) {
-                const queryResult = batchResponse?.data?.items?.[widget.queryId]
-                const rows = queryResult?.data?.rows || []
-                const totals = queryResult?.data?.totals
-
-                // Build link resolvers based on linkType or linkTo+linkParamField
-                let linkResolvers: Record<string, unknown> = {}
-                if (widget.linkType === 'analytics-route') {
-                  linkResolvers = {
-                    linkTo: (item: Record<string, unknown>) => {
-                      const route = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number, undefined, item.resource_id as number)
-                      return route?.to
-                    },
-                    linkParams: (item: Record<string, unknown>) => {
-                      const route = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number, undefined, item.resource_id as number)
-                      return route?.params
-                    },
-                  }
-                } else if (widget.linkTo && widget.linkParamField) {
-                  const paramName = extractRouteParamName(widget.linkTo)
-                  linkResolvers = {
-                    linkTo: (item: Record<string, unknown>) => item[widget.linkParamField!] ? widget.linkTo! : undefined,
-                    linkParams: (item: Record<string, unknown>) => {
-                      const value = String(item[widget.linkParamField!] || '').toLowerCase()
-                      return { [paramName]: value }
-                    },
-                  }
-                }
-
-                return (
-                  <div key={widget.id} className={colSpan}>
-                    <HorizontalBarList
-                      title={widget.label}
-                      showComparison={isCompareEnabled}
-                      columnHeaders={widget.columnHeaders}
-                      items={transformToBarList(rows, {
-                        label: (item) => {
-                          // Resolve label: try labelField, then fallback fields
-                          let raw = widget.labelField ? item[widget.labelField] : undefined
-                          if (!raw && widget.labelFallbackFields) {
-                            for (const field of widget.labelFallbackFields) {
-                              raw = item[field]
-                              if (raw) break
-                            }
-                          }
-                          const label = String(raw || __('Unknown', 'wp-statistics'))
-                          // Apply named transform if specified
-                          return widget.labelTransform
-                            ? LABEL_TRANSFORMS[widget.labelTransform](label)
-                            : label
-                        },
-                        value: (item) => Number(item[widget.valueField!]) || 0,
-                        previousValue: (item) => {
-                          const prev = item.previous as Record<string, unknown> | undefined
-                          return prev ? Number(prev[widget.valueField!]) || 0 : 0
-                        },
-                        total: getTotalValue(totals?.[widget.valueField!])
-                          || rows.reduce((sum: number, row: Record<string, unknown>) => sum + (Number(row[widget.valueField!]) || 0), 0)
-                          || 1,
-                        icon:
-                          widget.iconType && widget.iconSlugField
-                            ? (item) =>
-                                ICON_RENDERERS[widget.iconType!](
-                                  item as Record<string, unknown>,
-                                  widget.iconSlugField!
-                                )
-                            : undefined,
-                        isCompareEnabled,
-                        comparisonDateLabel,
-                        ...linkResolvers,
-                      })}
-                      link={widget.link ? { action: () => navigate({ to: widget.link!.to }) } : undefined}
-                      headerRight={contextMenu}
-                    />
-                  </div>
-                )
-              }
-
-              if (widget.type === 'tabbed-bar-list' && widget.queryId && widget.tabbedBarListConfig) {
-                const queryResult = batchResponse?.data?.items?.[widget.queryId]
-                const rows = (queryResult?.data?.rows || []) as Record<string, unknown>[]
-                return (
-                  <div key={widget.id} className={colSpan}>
-                    <TabbedBarListWidget
-                      widget={widget}
-                      rows={rows}
-                      isCompareEnabled={isCompareEnabled}
-                      calcPercentage={calcPercentage}
-                      comparisonDateLabel={comparisonDateLabel}
-                    />
-                  </div>
-                )
-              }
-
-              if (widget.type === 'traffic-summary' && widget.trafficSummaryConfig) {
-                return (
-                  <div key={widget.id} className={colSpan}>
-                    <TrafficSummaryWidget
-                      widget={widget}
-                      periods={fixedDatePeriods}
-                      queries={trafficSummaryQueries}
-                    />
-                  </div>
-                )
-              }
-
-              // Registered widgets: insert JS-registered widgets at this position
-              if (widget.type === 'registered') {
-                return registeredWidgets.map((rw) => {
-                  if (!isWidgetVisible(rw.id)) return null
-                  const widgetData = batchResponse?.data?.items?.[rw.queryId]
-                  const data = (widgetData as { data?: { rows?: unknown[] } })?.data?.rows || []
-                  const totals = (widgetData as { data?: { totals?: Record<string, unknown> } })?.data?.totals || {}
-                  return (
-                    <div key={rw.id} className={colSpan}>
-                      {rw.render({
-                        data,
-                        totals,
-                        isCompareEnabled,
-                        comparisonDateLabel,
-                        isFetching,
-                        navigate,
-                        getTotalFromResponse: (t, key) => getTotalValue(t?.[key]),
-                      })}
-                    </div>
-                  )
+                return renderWidget(widget, {
+                  colSpan,
+                  contextMenu,
+                  overviewMetrics,
+                  ctx: widgetCtx,
                 })
-              }
-
-              return null
               })}
             </div>
 
@@ -1000,6 +868,240 @@ function OverviewContent({
         )}
       </div>
     </div>
+  )
+}
+
+// ------- Widget Renderers -------
+
+/** Dispatch a widget to its renderer. Returns null for unknown types. */
+function renderWidget(
+  widget: PhpOverviewWidget,
+  opts: {
+    colSpan: string
+    contextMenu: React.ReactNode | undefined
+    overviewMetrics: Array<Record<string, unknown>>
+    ctx: WidgetRenderContext
+  },
+): React.ReactNode {
+  const { colSpan, contextMenu, overviewMetrics, ctx } = opts
+
+  switch (widget.type) {
+    case 'metrics': {
+      if (overviewMetrics.length === 0) return null
+      return (
+        <div key={widget.id} className={colSpan}>
+          <Panel className="h-full">
+            {contextMenu && (
+              <div className="flex items-center justify-end px-4 pt-3 pb-1">
+                {contextMenu}
+              </div>
+            )}
+            <Metrics metrics={overviewMetrics} columns={contextMenu ? 'auto' : undefined} />
+          </Panel>
+        </div>
+      )
+    }
+
+    case 'chart':
+      if (!widget.queryId || !widget.chartConfig) return null
+      return (
+        <div key={widget.id} className={colSpan}>
+          <ChartWidget
+            widget={widget}
+            queryResult={ctx.batchItems[widget.queryId]}
+            isCompareEnabled={ctx.isCompareEnabled}
+            timeframe={ctx.timeframe}
+            onTimeframeChange={widget.chartConfig.timeframeSupport ? ctx.onTimeframeChange : undefined}
+            loading={ctx.isChartRefetching}
+            apiDateParams={ctx.apiDateParams}
+            headerRight={contextMenu}
+          />
+        </div>
+      )
+
+    case 'map':
+      if (!widget.mapConfig) return null
+      return (
+        <div key={widget.id} className={colSpan}>
+          <MapWidget widget={widget} ctx={ctx} />
+        </div>
+      )
+
+    case 'bar-list':
+      if (!widget.queryId) return null
+      return (
+        <div key={widget.id} className={colSpan}>
+          <BarListWidget widget={widget} ctx={ctx} contextMenu={contextMenu} />
+        </div>
+      )
+
+    case 'tabbed-bar-list':
+      if (!widget.queryId || !widget.tabbedBarListConfig) return null
+      return (
+        <div key={widget.id} className={colSpan}>
+          <TabbedBarListWidget
+            widget={widget}
+            rows={(ctx.batchItems[widget.queryId]?.data?.rows || []) as Record<string, unknown>[]}
+            isCompareEnabled={ctx.isCompareEnabled}
+            calcPercentage={ctx.calcPercentage}
+            comparisonDateLabel={ctx.comparisonDateLabel}
+          />
+        </div>
+      )
+
+    case 'traffic-summary':
+      if (!widget.trafficSummaryConfig) return null
+      return (
+        <div key={widget.id} className={colSpan}>
+          <TrafficSummaryWidget
+            widget={widget}
+            periods={ctx.fixedDatePeriods}
+            queries={ctx.trafficSummaryQueries}
+          />
+        </div>
+      )
+
+    case 'registered':
+      return <RegisteredWidgetsRenderer key={widget.id} colSpan={colSpan} ctx={ctx} />
+
+    default:
+      return null
+  }
+}
+
+// ------- Map Widget -------
+
+function MapWidget({ widget, ctx }: { widget: PhpOverviewWidget; ctx: WidgetRenderContext }) {
+  const mapData = ctx.mapDataByWidgetId[widget.id]
+  if (!mapData) return null
+  return (
+    <GlobalMap
+      data={mapData}
+      isLoading={ctx.isLoading}
+      dateFrom={ctx.apiDateParams.date_from}
+      dateTo={ctx.apiDateParams.date_to}
+      metric={widget.mapConfig!.metric}
+      showZoomControls={true}
+      showLegend={true}
+      pluginUrl={pluginUrl}
+      title={widget.mapConfig!.title}
+      enableCityDrilldown={widget.mapConfig!.enableCityDrilldown}
+      enableMetricToggle={widget.mapConfig!.enableMetricToggle}
+      availableMetrics={widget.mapConfig!.availableMetrics}
+    />
+  )
+}
+
+// ------- Bar-List Widget -------
+
+function BarListWidget({
+  widget,
+  ctx,
+  contextMenu,
+}: {
+  widget: PhpOverviewWidget
+  ctx: WidgetRenderContext
+  contextMenu?: React.ReactNode
+}) {
+  const navigate = ctx.navigate
+  const queryResult = ctx.batchItems[widget.queryId!]
+  const rows = queryResult?.data?.rows || []
+  const totals = queryResult?.data?.totals
+
+  const linkResolvers = useMemo(() => {
+    if (widget.linkType === 'analytics-route') {
+      // Cache per-item route lookup to avoid calling getAnalyticsRoute twice per row
+      let lastItem: Record<string, unknown> | null = null
+      let lastRoute: ReturnType<typeof getAnalyticsRoute> = undefined
+      const resolveRoute = (item: Record<string, unknown>) => {
+        if (item !== lastItem) {
+          lastItem = item
+          lastRoute = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number, undefined, item.resource_id as number)
+        }
+        return lastRoute
+      }
+      return {
+        linkTo: (item: Record<string, unknown>) => resolveRoute(item)?.to,
+        linkParams: (item: Record<string, unknown>) => resolveRoute(item)?.params,
+      }
+    }
+    if (widget.linkTo && widget.linkParamField) {
+      const paramName = extractRouteParamName(widget.linkTo)
+      return {
+        linkTo: (item: Record<string, unknown>) => item[widget.linkParamField!] ? widget.linkTo! : undefined,
+        linkParams: (item: Record<string, unknown>) => {
+          const value = String(item[widget.linkParamField!] || '').toLowerCase()
+          return { [paramName]: value }
+        },
+      }
+    }
+    return {}
+  }, [widget.linkType, widget.linkTo, widget.linkParamField])
+
+  return (
+    <HorizontalBarList
+      title={widget.label}
+      showComparison={ctx.isCompareEnabled}
+      columnHeaders={widget.columnHeaders}
+      items={transformToBarList(rows, {
+        label: (item) => {
+          let raw = widget.labelField ? item[widget.labelField] : undefined
+          if (!raw && widget.labelFallbackFields) {
+            for (const field of widget.labelFallbackFields) {
+              raw = item[field]
+              if (raw) break
+            }
+          }
+          const label = String(raw || __('Unknown', 'wp-statistics'))
+          return widget.labelTransform ? LABEL_TRANSFORMS[widget.labelTransform](label) : label
+        },
+        value: (item) => Number(item[widget.valueField!]) || 0,
+        previousValue: (item) => {
+          const prev = item.previous as Record<string, unknown> | undefined
+          return prev ? Number(prev[widget.valueField!]) || 0 : 0
+        },
+        total: getTotalValue(totals?.[widget.valueField!])
+          || rows.reduce((sum: number, row: Record<string, unknown>) => sum + (Number(row[widget.valueField!]) || 0), 0)
+          || 1,
+        icon:
+          widget.iconType && widget.iconSlugField
+            ? (item) => ICON_RENDERERS[widget.iconType!](item as Record<string, unknown>, widget.iconSlugField!)
+            : undefined,
+        isCompareEnabled: ctx.isCompareEnabled,
+        comparisonDateLabel: ctx.comparisonDateLabel,
+        ...linkResolvers,
+      })}
+      link={widget.link ? { action: () => navigate({ to: widget.link!.to }) } : undefined}
+      headerRight={contextMenu}
+    />
+  )
+}
+
+// ------- Registered Widgets -------
+
+function RegisteredWidgetsRenderer({ colSpan, ctx }: { colSpan: string; ctx: WidgetRenderContext }) {
+  return (
+    <>
+      {ctx.registeredWidgets.map((rw) => {
+        if (!ctx.isWidgetVisible(rw.id)) return null
+        const widgetData = ctx.batchItems[rw.queryId]
+        const data = (widgetData as { data?: { rows?: unknown[] } })?.data?.rows || []
+        const totals = (widgetData as { data?: { totals?: Record<string, unknown> } })?.data?.totals || {}
+        return (
+          <div key={rw.id} className={colSpan}>
+            {rw.render({
+              data,
+              totals,
+              isCompareEnabled: ctx.isCompareEnabled,
+              comparisonDateLabel: ctx.comparisonDateLabel,
+              isFetching: ctx.isFetching,
+              navigate: ctx.navigate,
+              getTotalFromResponse,
+            })}
+          </div>
+        )
+      })}
+    </>
   )
 }
 
