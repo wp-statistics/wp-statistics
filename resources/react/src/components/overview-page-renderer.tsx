@@ -9,6 +9,7 @@
 import { keepPreviousData, queryOptions, useQueries, useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
+import { ExternalLink } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { BackButton } from '@/components/custom/back-button'
@@ -533,7 +534,13 @@ function OverviewContent({
   // Extract entity display name from response (for detail pages)
   const entityTitleFromQuery = useMemo(() => {
     if (!detailConfig?.entityInfo?.nameField || !entityMetaRow) return null
-    return (entityMetaRow[detailConfig.entityInfo.nameField] as string) || null
+    const name = entityMetaRow[detailConfig.entityInfo.nameField] as string
+    if (name) return name
+    // Fall back to alternate field (e.g., page_uri when page_title is empty)
+    if (detailConfig.entityInfo.nameFallbackField) {
+      return (entityMetaRow[detailConfig.entityInfo.nameFallbackField] as string) || null
+    }
+    return null
   }, [entityMetaRow, detailConfig])
 
   // AJAX fallback for entity name when analytics data is empty (e.g., new category with no traffic)
@@ -558,18 +565,61 @@ function OverviewContent({
     return config.title
   }, [entityTitleFromQuery, entityInfoFallback, entityInfoFallbackResponse, config.title])
 
+  // Title badge (e.g., page type label for URL pages) — reads from entityMetaRow
+  const titleBadgeLabel = (() => {
+    if (!detailConfig?.titleBadge || !entityMetaRow) return null
+    const value = String(entityMetaRow[detailConfig.titleBadge.field] || '')
+    return detailConfig.titleBadge.labels[value] || value || null
+  })()
+
+  // External link (permalink for URL pages) — reads from entityMetaRow
+  const externalLinkUrl = (!detailConfig?.externalLink || !entityMetaRow)
+    ? null
+    : (entityMetaRow[detailConfig.externalLink.field] as string) || null
+
+  // Content redirect guard: redirect linkable content types to content report
+  const contentRedirectConfig = detailConfig?.contentRedirect
+  useEffect(() => {
+    if (showSkeleton || !contentRedirectConfig || !entityMetaRow) return
+    const wpId = entityMetaRow[contentRedirectConfig.wpIdField] as number | null
+    const pageType = String(entityMetaRow[contentRedirectConfig.typeField] || 'unknown')
+    if (wpId && !contentRedirectConfig.excludeTypes.includes(pageType)) {
+      navigate({
+        to: contentRedirectConfig.targetRoute,
+        params: { [contentRedirectConfig.targetParam]: String(wpId) },
+        replace: true,
+      })
+    }
+  }, [showSkeleton, contentRedirectConfig, entityMetaRow, navigate])
+
   return (
     <div className="min-w-0">
       {detailConfig ? (
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 min-w-0">
               <div className="contents" data-pdf-hide>
                 <BackButton defaultTo={detailConfig.backLink || '/'} label={detailConfig.backLabel} />
               </div>
               <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={entityTitle}>
                 {showSkeleton ? __('Loading...', 'wp-statistics') : entityTitle}
               </h1>
+              {!showSkeleton && titleBadgeLabel && (
+                <span className="inline-flex items-center rounded-md bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-600 shrink-0">
+                  {titleBadgeLabel}
+                </span>
+              )}
+              {!showSkeleton && externalLinkUrl && (
+                <a
+                  href={externalLinkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1 rounded-md hover:bg-neutral-100 transition-colors shrink-0"
+                  aria-label={__('Open page', 'wp-statistics')}
+                >
+                  <ExternalLink className="h-4 w-4 text-neutral-400" />
+                </a>
+              )}
             </div>
             <div className="flex items-center gap-3" data-pdf-hide>
               {detailConfig.showFilterButton && filterFields.length > 0 && isInitialized && (

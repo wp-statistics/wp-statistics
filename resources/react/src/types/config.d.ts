@@ -366,6 +366,8 @@ declare global {
     entityInfo?: {
       queryId: string
       nameField: string
+      /** Fallback field when nameField is empty (e.g., 'page_uri') */
+      nameFallbackField?: string
       /** AJAX action to call when name is not found in query results */
       fallbackAction?: string
       /** Request parameter name for the entity value (default: 'id') */
@@ -376,6 +378,28 @@ declare global {
     /** Query providing entity metadata for PostMetaBar (post author, dates, terms) */
     entityMeta?: {
       queryId: string
+    }
+    /** Badge shown next to the entity title (e.g., page type label). Reads from entityMetaRow. */
+    titleBadge?: {
+      field: string
+      labels: Record<string, string>
+    }
+    /** External link icon shown when the entity has a permalink. Reads from entityMetaRow. */
+    externalLink?: {
+      field: string
+    }
+    /** Redirect guard: redirect to content report when entity is a linkable content type. Reads from entityMetaRow. */
+    contentRedirect?: {
+      /** Field containing the WordPress post ID */
+      wpIdField: string
+      /** Field containing the page type */
+      typeField: string
+      /** Page types that should NOT redirect (stay on URL report) */
+      excludeTypes: string[]
+      /** Target route pattern (e.g., '/content/$postId') */
+      targetRoute: string
+      /** Route param name for the target */
+      targetParam: string
     }
     queries: PhpBatchQuery[]
     metrics: PhpOverviewMetric[]
