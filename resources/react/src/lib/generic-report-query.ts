@@ -10,6 +10,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { type ApiFilters, transformFiltersToApi } from '@/lib/api-filter-transform'
 import { clientRequest } from '@/lib/client-request'
+import { type Timeframe,TIMEFRAME_TO_GROUP_BY } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
 
 interface GenericReportParams {
@@ -23,6 +24,7 @@ interface GenericReportParams {
   previous_date_to?: string
   filters?: unknown[]
   apiFilters?: ApiFilters
+  timeframe?: Timeframe
 }
 
 interface GenericReportResponse {
@@ -96,6 +98,8 @@ export function createGenericQueryOptions(
     if (isBatch) {
       const mainQueryId = dataSource.queryId || dataSource.queries![0].id
 
+      const timeframeGroupBy = TIMEFRAME_TO_GROUP_BY[params.timeframe || 'daily']
+
       return queryOptions({
         // eslint-disable-next-line @tanstack/query/exhaustive-deps -- dataSource.queries is a static config closed over at factory creation time
         queryKey: [
@@ -110,23 +114,41 @@ export function createGenericQueryOptions(
           params.previous_date_to,
           mainQueryId,
           hasFilters ? allFilters : null,
+          params.timeframe || null,
         ],
         queryFn: async () => {
           // Build batch queries with pagination/sorting injected into the main query
+          // For chart-format queries: override group_by based on timeframe, inject compare + comparison dates
           const queries = dataSource.queries!.map((q) => {
+            // Inject filters into every sub-query (backend doesn't propagate top-level filters)
+            const base = {
+              ...q,
+              ...(hasFilters && { filters: allFilters }),
+            }
             if (q.id === mainQueryId) {
               return {
-                ...q,
+                ...base,
                 page: params.page,
                 per_page: params.per_page,
                 order_by: mappedOrderBy,
                 order: params.order.toUpperCase(),
                 compare: q.compare !== undefined ? q.compare : hasCompare,
                 ...(reportConfig?.context && { context: reportConfig.context }),
-                ...(reportConfig?.defaultApiColumns && { columns: reportConfig.defaultApiColumns }),
               }
             }
-            return q
+            // Chart queries: apply timeframe group_by and comparison dates
+            if (q.format === 'chart') {
+              return {
+                ...base,
+                group_by: [timeframeGroupBy],
+                compare: q.compare !== undefined ? q.compare : hasCompare,
+                ...(hasCompare && {
+                  previous_date_from: params.previous_date_from,
+                  previous_date_to: params.previous_date_to,
+                }),
+              }
+            }
+            return base
           })
 
           const response = await clientRequest.post<BatchResponse>(
@@ -139,7 +161,6 @@ export function createGenericQueryOptions(
                 previous_date_from: params.previous_date_from,
                 previous_date_to: params.previous_date_to,
               }),
-              ...(hasFilters && { filters: allFilters }),
               queries,
             },
             {

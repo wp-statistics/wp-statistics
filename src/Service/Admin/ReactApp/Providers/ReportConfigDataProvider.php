@@ -1475,6 +1475,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'visitors'            => $this->getVisitorsConfig(),
             'top-visitors'        => $this->getTopVisitorsConfig(),
             'referred-visitors'   => $this->getReferredVisitorsConfig(),
+            'logged-in-users'     => $this->getLoggedInUsersConfig(),
         ];
     }
 
@@ -4859,11 +4860,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ['key' => 'visitorStatus', 'title' => esc_html__('Status', 'wp-statistics'), 'type' => 'visitor-status', 'dataField' => 'visitor_status', 'priority' => 'secondary'],
             ],
             'defaultHiddenColumns' => ['location', 'totalSessions', 'journey', 'viewsPerSession', 'bounceRate', 'visitorStatus'],
-            'defaultApiColumns'    => ['visitor_id', 'visitor_hash', 'visitor_ip', 'last_visit', 'first_visit', 'total_views', 'avg_session_duration'],
+            'defaultApiColumns'    => ['visitor_id', 'visitor_hash', 'ip_address', 'last_visit', 'first_visit', 'total_views', 'avg_session_duration'],
             'columnConfig' => [
                 'baseColumns'        => ['visitor_id', 'visitor_hash'],
                 'columnDependencies' => [
-                    'visitorInfo'     => ['visitor_ip', 'country_code', 'country_name', 'region_name', 'city_name', 'os_name', 'browser_name', 'browser_version', 'device_type_name', 'user_id', 'user_login', 'user_email', 'user_role'],
+                    'visitorInfo'     => ['ip_address', 'country_code', 'country_name', 'region_name', 'city_name', 'os_name', 'browser_name', 'browser_version', 'device_type_name', 'user_id', 'user_login', 'user_email', 'user_role'],
                     'lastVisit'       => ['last_visit', 'first_visit'],
                     'totalViews'      => ['total_views'],
                     'totalSessions'   => ['total_sessions'],
@@ -4910,14 +4911,14 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             ['key' => 'lastVisit', 'title' => esc_html__('Last Visit', 'wp-statistics'), 'type' => 'last-visit', 'dataField' => 'last_visit', 'priority' => 'primary'],
             ['key' => 'referrer', 'title' => esc_html__('Referrer', 'wp-statistics'), 'type' => 'referrer', 'priority' => 'secondary'],
             ['key' => 'entryPage', 'title' => esc_html__('Entry Page', 'wp-statistics'), 'type' => 'entry-page', 'dataField' => 'entry_page', 'priority' => 'secondary'],
-            ['key' => 'exitPage', 'title' => esc_html__('Exit Page', 'wp-statistics'), 'type' => 'page-link', 'dataField' => 'exit_page', 'priority' => 'secondary'],
+            ['key' => 'exitPage', 'title' => esc_html__('Exit Page', 'wp-statistics'), 'type' => 'entry-page', 'dataField' => 'exit_page', 'priority' => 'secondary'],
             ['key' => 'viewsPerSession', 'title' => esc_html__('Views/Session', 'wp-statistics'), 'type' => 'numeric', 'dataField' => 'pages_per_session', 'priority' => 'secondary', 'decimals' => 1, 'comparable' => true, 'previousKey' => 'previous.pages_per_session'],
             ['key' => 'bounceRate', 'title' => esc_html__('Bounce Rate', 'wp-statistics'), 'type' => 'percentage', 'dataField' => 'bounce_rate', 'priority' => 'secondary', 'comparable' => true, 'previousKey' => 'previous.bounce_rate'],
             ['key' => 'visitorStatus', 'title' => esc_html__('Status', 'wp-statistics'), 'type' => 'visitor-status', 'dataField' => 'visitor_status', 'priority' => 'secondary'],
         ];
 
         $config['defaultHiddenColumns'] = ['location', 'referrer', 'entryPage', 'exitPage', 'viewsPerSession', 'bounceRate', 'visitorStatus'];
-        $config['defaultApiColumns']    = ['visitor_id', 'visitor_hash', 'visitor_ip', 'total_views', 'total_sessions', 'avg_session_duration'];
+        $config['defaultApiColumns']    = ['visitor_id', 'visitor_hash', 'ip_address', 'total_views', 'total_sessions', 'avg_session_duration'];
 
         // Replace journey dependency with entry/exit page dependencies
         unset($config['columnConfig']['columnDependencies']['journey']);
@@ -4959,6 +4960,108 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'rawValue'    => 'direct',
             ],
         ];
+        return $config;
+    }
+
+    /**
+     * Logged-in Users report config.
+     *
+     * Extends the visitors config with logged-in user specific columns,
+     * locked/hardcoded filters, and a chart for traffic trends.
+     *
+     * @return array
+     */
+    private function getLoggedInUsersConfig()
+    {
+        $config = $this->getVisitorsConfig();
+
+        $config['title']       = esc_html__('Logged-in Users', 'wp-statistics');
+        $config['context']     = 'logged_in_users';
+
+        // Replace columns — logged-in users has page instead of journey, no sessions column
+        $config['columns'] = [
+            ['key' => 'visitorInfo', 'title' => esc_html__('Visitor', 'wp-statistics'), 'type' => 'visitor-info', 'dataField' => 'visitor_id', 'priority' => 'primary'],
+            ['key' => 'location', 'title' => esc_html__('Location', 'wp-statistics'), 'type' => 'location', 'priority' => 'secondary', 'linkTo' => '/country/$countryCode', 'linkParamField' => 'country_code'],
+            ['key' => 'lastVisit', 'title' => esc_html__('Last Visit', 'wp-statistics'), 'type' => 'last-visit', 'dataField' => 'last_visit', 'priority' => 'primary'],
+            ['key' => 'page', 'title' => esc_html__('Page', 'wp-statistics'), 'type' => 'entry-page', 'dataField' => 'entry_page', 'priority' => 'primary'],
+            ['key' => 'totalViews', 'title' => esc_html__('Views', 'wp-statistics'), 'type' => 'numeric', 'dataField' => 'total_views', 'priority' => 'primary', 'comparable' => true, 'previousKey' => 'previous.total_views'],
+            ['key' => 'referrer', 'title' => esc_html__('Referrer', 'wp-statistics'), 'type' => 'referrer', 'priority' => 'secondary'],
+            ['key' => 'entryPage', 'title' => esc_html__('Entry Page', 'wp-statistics'), 'type' => 'entry-page', 'dataField' => 'entry_page', 'priority' => 'secondary'],
+        ];
+
+        $config['defaultHiddenColumns'] = ['location', 'entryPage'];
+        $config['defaultApiColumns']    = ['visitor_id', 'visitor_hash', 'ip_address', 'last_visit', 'total_views', 'entry_page', 'entry_page_title'];
+
+        // Replace column dependencies — no journey, sessions, bounceRate, viewsPerSession, visitorStatus
+        $config['columnConfig']['columnDependencies'] = [
+            'visitorInfo'  => ['ip_address', 'country_code', 'country_name', 'region_name', 'city_name', 'os_name', 'browser_name', 'browser_version', 'device_type_name', 'user_id', 'user_login', 'user_email', 'user_role'],
+            'lastVisit'    => ['last_visit'],
+            'page'         => ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
+            'referrer'     => ['referrer_domain', 'referrer_channel'],
+            'entryPage'    => ['entry_page', 'entry_page_title', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
+            'totalViews'   => ['total_views'],
+            'location'     => ['region_name', 'city_name'],
+        ];
+
+        // Use batch queries: table + chart
+        $config['dataSource'] = [
+            'queryId'       => 'logged_in_users',
+            'queries'       => [
+                [
+                    'id'       => 'logged_in_users',
+                    'sources'  => ['visitors'],
+                    'group_by' => ['visitor'],
+                    'format'   => 'table',
+                ],
+                [
+                    'id'       => 'logged_in_trends',
+                    'sources'  => ['visitors'],
+                    'group_by' => ['date'],
+                    'format'   => 'chart',
+                ],
+            ],
+            'columnMapping' => [
+                'visitorInfo' => 'visitor_id',
+                'lastVisit'   => 'last_visit',
+                'page'        => 'entry_page',
+                'referrer'    => 'referrer_domain',
+                'entryPage'   => 'entry_page',
+                'totalViews'  => 'total_views',
+            ],
+        ];
+
+        // Chart config
+        $config['chart'] = [
+            'queryId' => 'logged_in_trends',
+            'metrics' => [
+                ['key' => 'visitors', 'label' => esc_html__('Visitors', 'wp-statistics'), 'color' => 'var(--chart-1)'],
+            ],
+        ];
+
+        // Locked filter (displayed as read-only in filter panel)
+        $config['lockedFilters'] = [
+            [
+                'id'       => 'logged_in-locked',
+                'label'    => esc_html__('User Type', 'wp-statistics'),
+                'operator' => esc_html__('is', 'wp-statistics'),
+                'value'    => esc_html__('Logged-in', 'wp-statistics'),
+            ],
+        ];
+
+        // Hardcoded filter (always applied to API requests)
+        $config['hardcodedFilters'] = [
+            [
+                'id'          => 'logged_in-hardcoded',
+                'label'       => esc_html__('User Type', 'wp-statistics'),
+                'operator'    => esc_html__('is', 'wp-statistics'),
+                'rawOperator' => 'is',
+                'value'       => esc_html__('Logged-in', 'wp-statistics'),
+                'rawValue'    => '1',
+            ],
+        ];
+
+        $config['emptyStateMessage'] = esc_html__('No logged-in users found for the selected period', 'wp-statistics');
+
         return $config;
     }
 }

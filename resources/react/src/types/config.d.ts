@@ -227,8 +227,9 @@ declare global {
   // PHP-defined chart config (for chart-above-table reports)
   interface PhpChartConfig {
     queryId: string
-    title: string
+    title?: string
     compareMetricKey?: string
+    metrics?: Array<{ key: string; label: string; color: string }>
   }
 
   // Overview page icon types

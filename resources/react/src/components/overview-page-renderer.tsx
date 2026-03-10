@@ -50,6 +50,7 @@ import { clientRequest } from '@/lib/client-request'
 import { extractFilterField, getCompatibleFilters } from '@/lib/filter-utils'
 import type { FixedDatePeriod } from '@/lib/fixed-date-ranges'
 import { getFixedDatePeriods } from '@/lib/fixed-date-ranges'
+import { type Timeframe,TIMEFRAME_TO_GROUP_BY } from '@/lib/response-helpers'
 import { getAnalyticsRoute } from '@/lib/url-utils'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
@@ -127,16 +128,6 @@ interface BatchQueryResult {
 interface OverviewBatchResponse {
   success: boolean
   items: Record<string, BatchQueryResult>
-}
-
-// ------- Timeframe helpers -------
-
-type Timeframe = 'daily' | 'weekly' | 'monthly'
-
-const TIMEFRAME_TO_GROUP_BY: Record<Timeframe, string> = {
-  daily: 'date',
-  weekly: 'week',
-  monthly: 'month',
 }
 
 /** Config type accepted by the renderer: overview or detail */

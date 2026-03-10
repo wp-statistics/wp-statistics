@@ -14,6 +14,7 @@ import type { SlotRenderProps } from '@/components/report-page-renderer'
 import { chartColors } from '@/constants/design-tokens'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { calculateChartTotals, formatChartValue, transformChartResponse } from '@/lib/chart-utils'
+import { extractBatchItem } from '@/lib/response-helpers'
 import type { ChartApiResponse, LineChartMetric } from '@/types/chart'
 
 const CHART_COLORS = [chartColors.chart1, chartColors.chart2, chartColors.chart3, chartColors.chart4]
@@ -37,8 +38,7 @@ function ChartSlotComponent({
 }: SlotRenderProps & { chartConfig: PhpChartConfig; compareMetricKey: string }) {
   const { isCompareEnabled, apiDateParams } = useGlobalFilters()
 
-  const chartResponse = (rawResponse as { data?: { _batchItems?: Record<string, ChartApiResponse> } })
-    ?.data?._batchItems?.[chartConfig.queryId] as ChartApiResponse | undefined
+  const chartResponse = extractBatchItem<ChartApiResponse>(rawResponse, chartConfig.queryId)
 
   const { chartData, chartMetrics } = useMemo(() => {
     if (!chartResponse?.datasets) return { chartData: [], chartMetrics: [] }

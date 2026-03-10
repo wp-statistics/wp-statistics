@@ -6,6 +6,14 @@
  * @package WP_Statistics
  */
 
+export type Timeframe = 'daily' | 'weekly' | 'monthly'
+
+export const TIMEFRAME_TO_GROUP_BY: Record<Timeframe, string> = {
+  daily: 'date',
+  weekly: 'week',
+  monthly: 'month',
+}
+
 /**
  * Safely extract rows from API response with type validation
  *
@@ -63,4 +71,12 @@ export function extractMeta(
     }
   }
   return null
+}
+
+/**
+ * Extract a named item from a batch response's _batchItems.
+ * Used to pull chart or other sub-query results from normalized batch responses.
+ */
+export function extractBatchItem<T = unknown>(response: unknown, queryId: string): T | undefined {
+  return (response as { data?: { _batchItems?: Record<string, T> } })?.data?._batchItems?.[queryId]
 }

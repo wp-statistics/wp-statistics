@@ -17,13 +17,14 @@ import type { QueryKey } from '@tanstack/react-query'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import type { ColumnDef, Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { type ReactNode,useCallback, useMemo, useRef } from 'react'
+import { type ReactNode, useCallback, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import type { LockedFilter } from '@/components/custom/filter-panel'
+import { LineChart } from '@/components/custom/line-chart'
 import {
   OptionsDrawerTrigger,
   type PageFilterConfig,
@@ -32,13 +33,15 @@ import {
 } from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import type { ColumnConfig } from '@/lib/column-utils'
-import { extractMeta, extractRows } from '@/lib/response-helpers'
+import { extractBatchItem, extractMeta, extractRows, type Timeframe } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
+import type { ChartApiResponse } from '@/types/chart'
 
 /**
  * Query options factory function type
@@ -133,6 +136,8 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
   pageFilters?: PageFilterConfig[]
   /** Whether the data query is enabled (default: true). When false, table shows empty state without fetching. */
   enabled?: boolean
+  /** Chart config for built-in chart-above-table rendering (with metrics + timeframe support) */
+  chart?: PhpChartConfig
 
   // Level 2: Slot components for customization
   /** Component rendered before the table */
@@ -178,10 +183,16 @@ export function ReportPageRenderer<TData, TRecord>({
     hardcodedFilters,
     pageFilters,
     enabled: queryEnabled = true,
+    chart: chartConfig,
     beforeTable,
     afterTable,
     headerActions,
   } = config
+
+  // Built-in chart: render when chart config has metrics and no custom beforeTable override
+  const hasBuiltInChart = !!chartConfig?.metrics && !beforeTable
+
+  const [timeframe, setTimeframe] = useState<Timeframe>('daily')
 
   const {
     dateFrom,
@@ -259,6 +270,7 @@ export function ReportPageRenderer<TData, TRecord>({
       previous_date_to: apiDateParams.previous_date_to,
       filters: mergedFilters,
       ...(apiFilters && { apiFilters }),
+      ...(hasBuiltInChart && { timeframe }),
     }),
     placeholderData: keepPreviousData,
     enabled: isInitialized && queryEnabled,
@@ -331,6 +343,26 @@ export function ReportPageRenderer<TData, TRecord>({
   )
 
   const showSkeleton = isLoading && !response
+  const isCompareEnabled = !!(apiDateParams.previous_date_from && apiDateParams.previous_date_to)
+
+  // Built-in chart data extraction (only when chart config with metrics exists)
+  const chartResponse = hasBuiltInChart
+    ? extractBatchItem<ChartApiResponse>(response, chartConfig!.queryId)
+    : undefined
+
+  const chartMetricConfigs = useMemo(
+    () => chartConfig?.metrics?.map((m) => ({ key: m.key, label: m.label, color: m.color })) ?? [],
+    [chartConfig?.metrics]
+  )
+
+  const { data: chartData, metrics: chartMetrics } = useChartData(
+    hasBuiltInChart ? chartResponse : undefined,
+    {
+      metrics: chartMetricConfigs,
+      showPreviousValues: isCompareEnabled,
+      preserveNull: true,
+    }
+  )
 
   // Slot render props
   const slotProps: SlotRenderProps<TData> = {
@@ -401,7 +433,7 @@ export function ReportPageRenderer<TData, TRecord>({
           </div>
         ) : showSkeleton ? (
           <div className="space-y-3">
-            {beforeTable && (
+            {(hasBuiltInChart || beforeTable) && (
               <PanelSkeleton titleWidth="w-32">
                 <ChartSkeleton height={256} showTitle={false} />
               </PanelSkeleton>
@@ -412,6 +444,20 @@ export function ReportPageRenderer<TData, TRecord>({
           </div>
         ) : (
           <div className="space-y-3">
+            {hasBuiltInChart && (
+              <LineChart
+                title={chartConfig!.title || __('Traffic Trends', 'wp-statistics')}
+                data={chartData}
+                metrics={chartMetrics}
+                showPreviousPeriod={isCompareEnabled}
+                timeframe={timeframe}
+                onTimeframeChange={setTimeframe}
+                loading={isFetching && !isLoading}
+                borderless
+                dateTo={apiDateParams.date_to}
+                compareDateTo={apiDateParams.previous_date_to}
+              />
+            )}
             {beforeTable && beforeTable(slotProps)}
             <DataTable
               columns={columns as ColumnDef<TData>[]}
