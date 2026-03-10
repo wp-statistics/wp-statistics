@@ -63,6 +63,7 @@ export function registerPhpReports(): void {
       lockedFilters: config.lockedFilters,
       hardcodedFilters: config.hardcodedFilters,
       enabled: config.enabled,
+      headerFilter: config.headerFilter,
       // Chart support: metrics-based charts use built-in ReportPageRenderer chart,
       // legacy charts (no metrics) use createChartSlot as beforeTable slot
       ...(config.chart && config.chart.metrics

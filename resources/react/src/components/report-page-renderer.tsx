@@ -138,6 +138,8 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
   enabled?: boolean
   /** Chart config for built-in chart-above-table rendering (with metrics + timeframe support) */
   chart?: PhpChartConfig
+  /** Header filter dropdown config — consumed by PhpReportRoute, not by this renderer */
+  headerFilter?: PhpHeaderFilter
 
   // Level 2: Slot components for customization
   /** Component rendered before the table */
@@ -398,7 +400,7 @@ export function ReportPageRenderer<TData, TRecord>({
             showCompare={true}
             align="end"
           />
-          {headerActions?.()}
+          {headerActions && <div className="hidden lg:flex">{headerActions()}</div>}
           <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>

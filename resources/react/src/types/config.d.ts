@@ -483,6 +483,17 @@ declare global {
     chart?: PhpChartConfig
     widget?: PhpReportWidget
     export?: PhpReportExport
+    /** Header filter dropdown config (e.g., search type, social type, taxonomy selector) */
+    headerFilter?: PhpHeaderFilter
+  }
+
+  // Header filter config for report pages with a filter dropdown in the header
+  interface PhpHeaderFilter {
+    type: 'search-type' | 'social-type' | 'taxonomy'
+    /** For taxonomy: filter out non-premium taxonomies (default: false) */
+    premiumOnly?: boolean
+    /** API filter field name for taxonomy (e.g., 'taxonomy_type', 'post_type') */
+    apiFilterField?: string
   }
 
   interface wpsReact {

@@ -283,6 +283,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'title'               => __('Search Engines', 'wp-statistics'),
                 'context'             => 'search-engines',
                 'filterGroup'         => 'referrals',
+                'headerFilter'        => ['type' => 'search-type'],
                 'dataSource'          => [
                     'queryId'       => 'table',
                     'queries'       => [
@@ -897,6 +898,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'context'              => 'top_categories',
                 'filterGroup'          => 'content',
                 'hideFilters'          => true,
+                'headerFilter'         => [
+                    'type'           => 'taxonomy',
+                    'premiumOnly'    => true,
+                    'apiFilterField' => 'taxonomy_type',
+                ],
                 'dataSource'           => [
                     'sources'       => ['visitors', 'views', 'published_content', 'bounce_rate', 'avg_time_on_page'],
                     'group_by'      => ['taxonomy'],
@@ -1033,6 +1039,10 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'context'          => 'page-insights',
                 'filterGroup'      => 'categories',
                 'hideFilters'      => true,
+                'headerFilter'     => [
+                    'type'           => 'taxonomy',
+                    'apiFilterField' => 'post_type',
+                ],
                 'dataSource'       => [
                     'sources'  => ['views'],
                     'group_by' => ['page'],
@@ -1308,6 +1318,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'title'                => __('Social Media', 'wp-statistics'),
             'context'              => 'social-media',
             'filterGroup'          => 'referrals',
+            'headerFilter'         => ['type' => 'social-type'],
             'dataSource'           => [
                 'queryId' => 'table',
                 'queries' => [
