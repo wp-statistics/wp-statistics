@@ -26,9 +26,6 @@ const OWN_CONTENT_ALLOWED_PREFIXES = [
   '/author/',
   '/top-authors',
   '/top-categories',
-  '/page-analytics',
-  '/category-analytics',
-  '/author-analytics',
 ]
 
 const RootLayout = () => {

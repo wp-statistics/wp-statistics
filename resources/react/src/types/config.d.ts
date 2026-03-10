@@ -320,12 +320,22 @@ declare global {
     linkParamField?: string
   }
 
+  // Widget category for WidgetCatalog
+  interface PhpWidgetCategory {
+    label: string
+    widgets: string[]
+  }
+
   // Overview widget definition
   interface PhpOverviewWidget {
     id: string
     label: string
     type: 'metrics' | 'bar-list' | 'map' | 'chart' | 'registered' | 'tabbed-bar-list' | 'traffic-summary'
     defaultSize: number
+    /** Allowed resize options — when present, shows WidgetContextMenu */
+    allowedSizes?: (4 | 6 | 8 | 12)[]
+    /** Whether widget is visible by default (default: true) */
+    defaultVisible?: boolean
     queryId?: string
     labelField?: string
     /** Fallback fields tried in order when labelField is empty */
@@ -361,9 +371,13 @@ declare global {
     title: string
     filterGroup: string
     hideFilters?: boolean
+    /** Hide date range from options drawer (overview uses global date from header) */
+    hideDateRange?: boolean
     showFilterButton?: boolean
     /** Default filters shown as removable pills (e.g., post_type=post) */
     defaultFilters?: PhpDefaultFilter[]
+    /** Widget categories for WidgetCatalog (add/remove widgets) */
+    widgetCategories?: PhpWidgetCategory[]
     queries: PhpBatchQuery[]
     metrics: PhpOverviewMetric[]
     widgets: PhpOverviewWidget[]

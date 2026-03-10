@@ -32,6 +32,8 @@ import { PostMetaBar, type TermInfo } from '@/components/custom/post-meta-bar'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
 import { SimpleTable, type SimpleTableColumn } from '@/components/custom/simple-table'
 import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
+import { WidgetCatalog } from '@/components/custom/widget-catalog'
+import { WidgetContextMenu } from '@/components/custom/widget-context-menu'
 import { NumericCell } from '@/components/data-table-columns'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
@@ -237,8 +239,9 @@ export function OverviewPageRenderer({
       config.widgets.map((w) => ({
         id: w.id,
         label: w.label,
-        defaultVisible: true,
+        defaultVisible: w.defaultVisible ?? true,
         defaultSize: (w.defaultSize || 12) as 4 | 6 | 8 | 12,
+        ...(w.allowedSizes && { allowedSizes: w.allowedSizes }),
       })),
     [config.widgets]
   )
@@ -253,6 +256,8 @@ export function OverviewPageRenderer({
     [config.metrics]
   )
 
+  const overviewConfig = config.type === 'overview' ? config : undefined
+
   const optionsConfig: OverviewOptionsConfig = useMemo(
     () => ({
       pageId: config.pageId,
@@ -260,9 +265,10 @@ export function OverviewPageRenderer({
       widgetConfigs,
       metricConfigs,
       hideFilters: config.hideFilters,
+      ...(overviewConfig?.hideDateRange && { hideDateRange: true }),
       ...(pageFilters && { pageFilters }),
     }),
-    [config.pageId, config.filterGroup, config.hideFilters, widgetConfigs, metricConfigs, pageFilters]
+    [config.pageId, config.filterGroup, config.hideFilters, overviewConfig?.hideDateRange, widgetConfigs, metricConfigs, pageFilters]
   )
 
   return (
@@ -288,7 +294,7 @@ function OverviewContent({
   headerActions?: React.ReactNode
 }) {
   const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams, handleDateRangeUpdate, applyFilters: handleApplyFilters } = useGlobalFilters()
-  const { isWidgetVisible, isMetricVisible } = usePageOptions()
+  const { isWidgetVisible, isMetricVisible, getWidgetSize, getOrderedVisibleWidgets } = usePageOptions()
   const options = useOverviewOptions(optionsConfig)
   const navigate = useNavigate()
   const { label: comparisonDateLabel } = useComparisonDateLabel()
@@ -676,6 +682,17 @@ function OverviewContent({
     }
   }, [showSkeleton, contentRedirectConfig, entityMetaRow, navigate])
 
+  // Widget ordering and sizing (supports WidgetCatalog reordering on overview pages)
+  const orderedWidgets = useMemo(() => {
+    if (!overviewConfig?.widgetCategories) {
+      return config.widgets.filter((w) => isWidgetVisible(w.id))
+    }
+    const widgetMap = new Map(config.widgets.map((w) => [w.id, w]))
+    return getOrderedVisibleWidgets()
+      .map((wc) => widgetMap.get(wc.id))
+      .filter((w): w is PhpOverviewWidget => !!w)
+  }, [overviewConfig?.widgetCategories, config.widgets, isWidgetVisible, getOrderedVisibleWidgets])
+
   return (
     <div className="min-w-0">
       {detailConfig ? (
@@ -741,6 +758,18 @@ function OverviewContent({
             />
           )}
         </div>
+      ) : overviewConfig?.widgetCategories ? (
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-neutral-800">
+              {titleOverride || config.title}
+            </h1>
+            <div className="flex items-center gap-3" data-pdf-hide>
+              <WidgetCatalog categories={overviewConfig.widgetCategories} />
+              <OptionsDrawerTrigger {...options.triggerProps} />
+            </div>
+          </div>
+        </div>
       ) : (
         <ReportPageHeader
           title={titleOverride || config.title}
@@ -764,16 +793,26 @@ function OverviewContent({
         {showSkeleton ? (
           <OverviewSkeleton config={config} />
         ) : (
-          <div className="grid gap-3 grid-cols-12">
-            {config.widgets.map((widget) => {
-              if (!isWidgetVisible(widget.id)) return null
+          <>
+            <div className="grid gap-3 grid-cols-12">
+              {orderedWidgets.map((widget) => {
+              const size = getWidgetSize(widget.id)
+              const colSpan = COL_SPAN[size] || COL_SPAN[widget.defaultSize] || 'col-span-12'
+              const contextMenu = widget.allowedSizes
+                ? <WidgetContextMenu widgetId={widget.id} allowedSizes={widget.allowedSizes} />
+                : undefined
 
               if (widget.type === 'metrics') {
                 if (overviewMetrics.length === 0) return null
                 return (
-                  <div key={widget.id} className="col-span-12">
-                    <Panel>
-                      <Metrics metrics={overviewMetrics} />
+                  <div key={widget.id} className={colSpan}>
+                    <Panel className="h-full">
+                      {contextMenu && (
+                        <div className="flex items-center justify-end px-4 pt-3 pb-1">
+                          {contextMenu}
+                        </div>
+                      )}
+                      <Metrics metrics={overviewMetrics} columns={contextMenu ? 'auto' : undefined} />
                     </Panel>
                   </div>
                 )
@@ -781,7 +820,7 @@ function OverviewContent({
 
               if (widget.type === 'chart' && widget.queryId && widget.chartConfig) {
                 return (
-                  <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12'}>
+                  <div key={widget.id} className={colSpan}>
                     <ChartWidget
                       widget={widget}
                       queryResult={batchResponse?.data?.items?.[widget.queryId]}
@@ -790,6 +829,7 @@ function OverviewContent({
                       onTimeframeChange={widget.chartConfig.timeframeSupport ? handleTimeframeChange : undefined}
                       loading={isChartRefetching}
                       apiDateParams={apiDateParams}
+                      headerRight={contextMenu}
                     />
                   </div>
                 )
@@ -799,7 +839,7 @@ function OverviewContent({
                 const mapData = mapDataByWidgetId[widget.id]
                 if (!mapData) return null
                 return (
-                  <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12'}>
+                  <div key={widget.id} className={colSpan}>
                     <GlobalMap
                       data={mapData}
                       isLoading={isLoading}
@@ -848,7 +888,7 @@ function OverviewContent({
                 }
 
                 return (
-                  <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12 lg:col-span-6'}>
+                  <div key={widget.id} className={colSpan}>
                     <HorizontalBarList
                       title={widget.label}
                       showComparison={isCompareEnabled}
@@ -890,6 +930,7 @@ function OverviewContent({
                         ...linkResolvers,
                       })}
                       link={widget.link ? { action: () => navigate({ to: widget.link!.to }) } : undefined}
+                      headerRight={contextMenu}
                     />
                   </div>
                 )
@@ -899,7 +940,7 @@ function OverviewContent({
                 const queryResult = batchResponse?.data?.items?.[widget.queryId]
                 const rows = (queryResult?.data?.rows || []) as Record<string, unknown>[]
                 return (
-                  <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12'}>
+                  <div key={widget.id} className={colSpan}>
                     <TabbedBarListWidget
                       widget={widget}
                       rows={rows}
@@ -913,7 +954,7 @@ function OverviewContent({
 
               if (widget.type === 'traffic-summary' && widget.trafficSummaryConfig) {
                 return (
-                  <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12 lg:col-span-4'}>
+                  <div key={widget.id} className={colSpan}>
                     <TrafficSummaryWidget
                       widget={widget}
                       periods={fixedDatePeriods}
@@ -931,7 +972,7 @@ function OverviewContent({
                   const data = (widgetData as { data?: { rows?: unknown[] } })?.data?.rows || []
                   const totals = (widgetData as { data?: { totals?: Record<string, unknown> } })?.data?.totals || {}
                   return (
-                    <div key={rw.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12'}>
+                    <div key={rw.id} className={colSpan}>
                       {rw.render({
                         data,
                         totals,
@@ -947,8 +988,15 @@ function OverviewContent({
               }
 
               return null
-            })}
-          </div>
+              })}
+            </div>
+
+            {overviewConfig?.widgetCategories && orderedWidgets.length < config.widgets.length && (
+              <div className="mt-4 flex justify-center" data-pdf-hide>
+                <WidgetCatalog categories={overviewConfig.widgetCategories} />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
@@ -965,6 +1013,7 @@ function ChartWidget({
   onTimeframeChange,
   loading,
   apiDateParams,
+  headerRight,
 }: {
   widget: PhpOverviewWidget
   queryResult: BatchQueryResult | undefined
@@ -973,6 +1022,7 @@ function ChartWidget({
   onTimeframeChange?: (tf: Timeframe) => void
   loading: boolean
   apiDateParams: { date_to: string; previous_date_to?: string }
+  headerRight?: React.ReactNode
 }) {
   const { data: chartData, metrics } = useChartData(queryResult, {
     metrics: widget.chartConfig!.metrics.map((m) => ({
@@ -997,6 +1047,7 @@ function ChartWidget({
       loading={loading}
       dateTo={apiDateParams.date_to}
       compareDateTo={apiDateParams.previous_date_to}
+      headerRight={headerRight}
     />
   )
 }

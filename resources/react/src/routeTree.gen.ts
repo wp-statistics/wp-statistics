@@ -57,14 +57,9 @@ import { Route as contentAnalyticsAuthorAuthorIdRouteImport } from './routes/(co
 import { Route as visitorInsightsVisitorTypeIdRouteImport } from './routes/(visitor-insights)/visitor_.$type.$id'
 import { Route as referralsUtmUtmTypeUtmValueRouteImport } from './routes/(referrals)/utm_.$utmType.$utmValue'
 
-const PageAnalyticsLazyRouteImport = createFileRoute('/page-analytics')()
 const OverviewLazyRouteImport = createFileRoute('/overview')()
 const GeographicLazyRouteImport = createFileRoute('/geographic')()
 const DevicesLazyRouteImport = createFileRoute('/devices')()
-const CategoryAnalyticsLazyRouteImport = createFileRoute(
-  '/category-analytics',
-)()
-const AuthorAnalyticsLazyRouteImport = createFileRoute('/author-analytics')()
 const ToolsTabIdLazyRouteImport = createFileRoute('/tools/$tabId')()
 const SettingsTabIdLazyRouteImport = createFileRoute('/settings/$tabId')()
 const visitorInsightsSearchTermsLazyRouteImport = createFileRoute(
@@ -92,13 +87,6 @@ const referralsCampaignsLazyRouteImport = createFileRoute(
   '/(referrals)/campaigns',
 )()
 
-const PageAnalyticsLazyRoute = PageAnalyticsLazyRouteImport.update({
-  id: '/page-analytics',
-  path: '/page-analytics',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/page-analytics.lazy').then((d) => d.Route),
-)
 const OverviewLazyRoute = OverviewLazyRouteImport.update({
   id: '/overview',
   path: '/overview',
@@ -114,20 +102,6 @@ const DevicesLazyRoute = DevicesLazyRouteImport.update({
   path: '/devices',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/devices.lazy').then((d) => d.Route))
-const CategoryAnalyticsLazyRoute = CategoryAnalyticsLazyRouteImport.update({
-  id: '/category-analytics',
-  path: '/category-analytics',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/category-analytics.lazy').then((d) => d.Route),
-)
-const AuthorAnalyticsLazyRoute = AuthorAnalyticsLazyRouteImport.update({
-  id: '/author-analytics',
-  path: '/author-analytics',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/author-analytics.lazy').then((d) => d.Route),
-)
 const PremiumRoute = PremiumRouteImport.update({
   id: '/premium',
   path: '/premium',
@@ -640,12 +614,9 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
-  '/author-analytics': typeof AuthorAnalyticsLazyRoute
-  '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
-  '/page-analytics': typeof PageAnalyticsLazyRoute
   '/authors': typeof contentAnalyticsAuthorsRoute
   '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
@@ -701,12 +672,9 @@ export interface FileRoutesByTo {
   '/help': typeof HelpRoute
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
-  '/author-analytics': typeof AuthorAnalyticsLazyRoute
-  '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
-  '/page-analytics': typeof PageAnalyticsLazyRoute
   '/authors': typeof contentAnalyticsAuthorsRoute
   '/categories': typeof contentAnalyticsCategoriesRoute
   '/content': typeof contentAnalyticsContentRoute
@@ -765,12 +733,9 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
-  '/author-analytics': typeof AuthorAnalyticsLazyRoute
-  '/category-analytics': typeof CategoryAnalyticsLazyRoute
   '/devices': typeof DevicesLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
-  '/page-analytics': typeof PageAnalyticsLazyRoute
   '/(content-analytics)/authors': typeof contentAnalyticsAuthorsRoute
   '/(content-analytics)/categories': typeof contentAnalyticsCategoriesRoute
   '/(content-analytics)/content': typeof contentAnalyticsContentRoute
@@ -830,12 +795,9 @@ export interface FileRouteTypes {
     | '/help'
     | '/network-overview'
     | '/premium'
-    | '/author-analytics'
-    | '/category-analytics'
     | '/devices'
     | '/geographic'
     | '/overview'
-    | '/page-analytics'
     | '/authors'
     | '/categories'
     | '/content'
@@ -891,12 +853,9 @@ export interface FileRouteTypes {
     | '/help'
     | '/network-overview'
     | '/premium'
-    | '/author-analytics'
-    | '/category-analytics'
     | '/devices'
     | '/geographic'
     | '/overview'
-    | '/page-analytics'
     | '/authors'
     | '/categories'
     | '/content'
@@ -954,12 +913,9 @@ export interface FileRouteTypes {
     | '/help'
     | '/network-overview'
     | '/premium'
-    | '/author-analytics'
-    | '/category-analytics'
     | '/devices'
     | '/geographic'
     | '/overview'
-    | '/page-analytics'
     | '/(content-analytics)/authors'
     | '/(content-analytics)/categories'
     | '/(content-analytics)/content'
@@ -1018,12 +974,9 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   NetworkOverviewRoute: typeof NetworkOverviewRoute
   PremiumRoute: typeof PremiumRoute
-  AuthorAnalyticsLazyRoute: typeof AuthorAnalyticsLazyRoute
-  CategoryAnalyticsLazyRoute: typeof CategoryAnalyticsLazyRoute
   DevicesLazyRoute: typeof DevicesLazyRoute
   GeographicLazyRoute: typeof GeographicLazyRoute
   OverviewLazyRoute: typeof OverviewLazyRoute
-  PageAnalyticsLazyRoute: typeof PageAnalyticsLazyRoute
   contentAnalyticsAuthorsRoute: typeof contentAnalyticsAuthorsRoute
   contentAnalyticsCategoriesRoute: typeof contentAnalyticsCategoriesRoute
   contentAnalyticsContentRoute: typeof contentAnalyticsContentRoute
@@ -1073,13 +1026,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/page-analytics': {
-      id: '/page-analytics'
-      path: '/page-analytics'
-      fullPath: '/page-analytics'
-      preLoaderRoute: typeof PageAnalyticsLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/overview': {
       id: '/overview'
       path: '/overview'
@@ -1099,20 +1045,6 @@ declare module '@tanstack/react-router' {
       path: '/devices'
       fullPath: '/devices'
       preLoaderRoute: typeof DevicesLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/category-analytics': {
-      id: '/category-analytics'
-      path: '/category-analytics'
-      fullPath: '/category-analytics'
-      preLoaderRoute: typeof CategoryAnalyticsLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/author-analytics': {
-      id: '/author-analytics'
-      path: '/author-analytics'
-      fullPath: '/author-analytics'
-      preLoaderRoute: typeof AuthorAnalyticsLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/premium': {
@@ -1538,12 +1470,9 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   NetworkOverviewRoute: NetworkOverviewRoute,
   PremiumRoute: PremiumRoute,
-  AuthorAnalyticsLazyRoute: AuthorAnalyticsLazyRoute,
-  CategoryAnalyticsLazyRoute: CategoryAnalyticsLazyRoute,
   DevicesLazyRoute: DevicesLazyRoute,
   GeographicLazyRoute: GeographicLazyRoute,
   OverviewLazyRoute: OverviewLazyRoute,
-  PageAnalyticsLazyRoute: PageAnalyticsLazyRoute,
   contentAnalyticsAuthorsRoute: contentAnalyticsAuthorsRoute,
   contentAnalyticsCategoriesRoute: contentAnalyticsCategoriesRoute,
   contentAnalyticsContentRoute: contentAnalyticsContentRoute,
