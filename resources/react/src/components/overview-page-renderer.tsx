@@ -6,7 +6,7 @@
  * widget grid rendering, skeleton loading.
  */
 
-import { keepPreviousData, queryOptions, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, queryOptions, useQueries, useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -27,7 +27,9 @@ import {
   useOverviewOptions,
 } from '@/components/custom/options-drawer'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
+import { SimpleTable, type SimpleTableColumn } from '@/components/custom/simple-table'
 import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
+import { NumericCell } from '@/components/data-table-columns'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
@@ -42,6 +44,8 @@ import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
 import { transformToBarList } from '@/lib/bar-list-helpers'
 import { clientRequest } from '@/lib/client-request'
+import type { FixedDatePeriod } from '@/lib/fixed-date-ranges'
+import { getFixedDatePeriods } from '@/lib/fixed-date-ranges'
 import { getAnalyticsRoute } from '@/lib/url-utils'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
@@ -83,6 +87,23 @@ const LABEL_TRANSFORMS: Record<BarListLabelTransform, (value: string) => string>
 }
 
 // ------- Batch query types -------
+
+interface TrafficSummaryPeriodResponse {
+  success: boolean
+  items: {
+    traffic_summary?: {
+      success: boolean
+      totals: Record<string, { current: number | string; previous?: number | string }>
+    }
+  }
+}
+
+interface TrafficSummaryRow {
+  label: string
+  values: Record<string, number>
+  previousValues?: Record<string, number>
+  comparisonLabel?: string
+}
 
 interface BatchQueryResult {
   success?: boolean
@@ -299,9 +320,73 @@ function OverviewContent({
   // Build entity filter for detail pages
   const detailConfig = config.type === 'detail' ? config : undefined
   const entityValue = detailConfig?.entityParam ? routeParams?.[detailConfig.entityParam] : undefined
-  const entityFilter = detailConfig && entityValue
-    ? { key: detailConfig.filterField, operator: 'is', value: entityValue }
-    : undefined
+  const entityFilter = useMemo(
+    () => detailConfig && entityValue
+      ? { key: detailConfig.filterField, operator: 'is', value: entityValue }
+      : undefined,
+    [detailConfig, entityValue]
+  )
+
+  // Traffic summary: parallel fixed-period queries (independent from main batch)
+  const trafficSummaryWidget = useMemo(
+    () => config.widgets.find((w) => w.type === 'traffic-summary'),
+    [config.widgets]
+  )
+  const fixedDatePeriods = useMemo(
+    () => (trafficSummaryWidget ? getFixedDatePeriods() : []),
+    [trafficSummaryWidget]
+  )
+  const tsApiFilters = useMemo(() => {
+    if (!trafficSummaryWidget) return {}
+    const transformed =
+      (appliedFilters || []).length > 0
+        ? transformFiltersToApi(appliedFilters as Parameters<typeof transformFiltersToApi>[0])
+        : {}
+    return { ...transformed, ...externalApiFilters }
+  }, [trafficSummaryWidget, appliedFilters, externalApiFilters])
+
+  const trafficSummaryQueryDefs = useMemo(
+    () =>
+      fixedDatePeriods.map((period) => {
+        const hasCompare = !!(period.compareDateFrom && period.compareDateTo)
+        const tsConfig = trafficSummaryWidget?.trafficSummaryConfig
+        const hasFilters = Object.keys(tsApiFilters).length > 0
+        return {
+          queryKey: [config.pageId, 'traffic-summary', entityFilter, period.id, period.dateFrom, period.dateTo, period.compareDateFrom, period.compareDateTo, tsApiFilters],
+          queryFn: () =>
+            clientRequest.post<TrafficSummaryPeriodResponse>(
+              '',
+              {
+                date_from: period.dateFrom,
+                date_to: period.dateTo,
+                compare: hasCompare,
+                ...(hasCompare && {
+                  previous_date_from: period.compareDateFrom,
+                  previous_date_to: period.compareDateTo,
+                }),
+                ...(hasFilters && { filters: tsApiFilters }),
+                queries: [
+                  {
+                    id: 'traffic_summary',
+                    sources: tsConfig?.sources || ['visitors', 'views'],
+                    group_by: [],
+                    ...(entityFilter && { filters: [entityFilter] }),
+                    format: 'flat',
+                    show_totals: true,
+                    compare: hasCompare,
+                  },
+                ],
+              },
+              { params: { action: WordPress.getInstance().getAnalyticsAction() } }
+            ),
+          staleTime: 5 * 60 * 1000,
+          enabled: isInitialized && !!trafficSummaryWidget,
+          placeholderData: keepPreviousData,
+        }
+      }),
+    [fixedDatePeriods, trafficSummaryWidget, tsApiFilters, entityFilter, isInitialized, config.pageId]
+  )
+  const trafficSummaryQueries = useQueries({ queries: trafficSummaryQueryDefs })
 
   const {
     data: batchResponse,
@@ -426,13 +511,35 @@ function OverviewContent({
   }, [batchResponse, config.widgets])
 
   // Extract entity display name from response (for detail pages)
-  const entityTitle = useMemo(() => {
-    if (!detailConfig?.entityInfo) return config.title
+  const entityTitleFromQuery = useMemo(() => {
+    if (!detailConfig?.entityInfo) return null
     const infoResult = batchResponse?.data?.items?.[detailConfig.entityInfo.queryId]
     const rows = infoResult?.data?.rows || infoResult?.items
     const firstRow = Array.isArray(rows) ? rows[0] : undefined
-    return firstRow?.[detailConfig.entityInfo.nameField] as string || config.title
-  }, [batchResponse, detailConfig, config.title])
+    return (firstRow?.[detailConfig.entityInfo.nameField] as string) || null
+  }, [batchResponse, detailConfig])
+
+  // AJAX fallback for entity name when analytics data is empty (e.g., new category with no traffic)
+  const entityInfoFallback = detailConfig?.entityInfo
+  const { data: entityInfoFallbackResponse } = useQuery({
+    queryKey: [config.pageId, 'entity-info-fallback', entityValue, entityInfoFallback],
+    queryFn: () =>
+      clientRequest.post<{ success: boolean; data: Record<string, string> }>(
+        '',
+        { [entityInfoFallback!.fallbackParam || 'id']: entityValue! },
+        { params: { action: entityInfoFallback!.fallbackAction! } }
+      ),
+    staleTime: Infinity,
+    enabled: !!entityValue && !!entityInfoFallback?.fallbackAction && !entityTitleFromQuery,
+  })
+
+  const entityTitle = useMemo(() => {
+    if (entityTitleFromQuery) return entityTitleFromQuery
+    if (entityInfoFallback?.fallbackNameField && entityInfoFallbackResponse?.data?.data) {
+      return entityInfoFallbackResponse.data.data[entityInfoFallback.fallbackNameField] || config.title
+    }
+    return config.title
+  }, [entityTitleFromQuery, entityInfoFallback, entityInfoFallbackResponse, config.title])
 
   return (
     <div className="min-w-0">
@@ -624,6 +731,18 @@ function OverviewContent({
                 )
               }
 
+              if (widget.type === 'traffic-summary' && widget.trafficSummaryConfig) {
+                return (
+                  <div key={widget.id} className={COL_SPAN[widget.defaultSize] || 'col-span-12 lg:col-span-4'}>
+                    <TrafficSummaryWidget
+                      widget={widget}
+                      periods={fixedDatePeriods}
+                      queries={trafficSummaryQueries}
+                    />
+                  </div>
+                )
+              }
+
               // Registered widgets: insert JS-registered widgets at this position
               if (widget.type === 'registered') {
                 return registeredWidgets.map((rw) => {
@@ -688,6 +807,7 @@ function ChartWidget({
 
   return (
     <LineChart
+      className="h-full"
       title={widget.label}
       data={chartData}
       metrics={metrics}
@@ -855,6 +975,15 @@ function OverviewSkeleton({ config }: { config: PageConfig }) {
             </div>
           )
         }
+        if (w.type === 'traffic-summary') {
+          return (
+            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12 lg:col-span-4'}>
+              <PanelSkeleton titleWidth="w-32">
+                <MetricsSkeleton count={5} columns={3} />
+              </PanelSkeleton>
+            </div>
+          )
+        }
         if (w.type === 'registered') {
           return (
             <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12'}>
@@ -867,5 +996,77 @@ function OverviewSkeleton({ config }: { config: PageConfig }) {
         return null
       })}
     </div>
+  )
+}
+
+// ------- Traffic Summary Widget -------
+
+function TrafficSummaryWidget({
+  widget,
+  periods,
+  queries,
+}: {
+  widget: PhpOverviewWidget
+  periods: FixedDatePeriod[]
+  queries: { data: unknown; isLoading: boolean }[]
+}) {
+  const config = widget.trafficSummaryConfig!
+  const isLoading = queries.some((q) => q.isLoading)
+
+  const columns = useMemo(
+    (): SimpleTableColumn<TrafficSummaryRow>[] => [
+      {
+        key: 'period',
+        header: __('Time Period', 'wp-statistics'),
+        cell: (row) => <span className="font-medium">{row.label}</span>,
+      },
+      ...config.metrics.map((metric) => ({
+        key: metric.key,
+        header: metric.label,
+        align: 'right' as const,
+        cell: (row: TrafficSummaryRow) => (
+          <NumericCell
+            value={row.values[metric.key] || 0}
+            previousValue={row.previousValues?.[metric.key]}
+            comparisonLabel={row.comparisonLabel}
+          />
+        ),
+      })),
+    ],
+    [config.metrics]
+  )
+
+  const data = useMemo(
+    (): TrafficSummaryRow[] =>
+      periods.map((period, i) => {
+        const response = queries[i]?.data as
+          | { data?: TrafficSummaryPeriodResponse }
+          | undefined
+        const totals = response?.data?.items?.traffic_summary?.totals
+        const values: Record<string, number> = {}
+        const previousValues: Record<string, number> = {}
+
+        for (const metric of config.metrics) {
+          const val = totals?.[metric.key]
+          values[metric.key] = Number(val?.current) || 0
+          if (period.id !== 'total' && val?.previous !== undefined) {
+            previousValues[metric.key] = Number(val.previous) || 0
+          }
+        }
+
+        return {
+          label: period.label,
+          values,
+          previousValues:
+            Object.keys(previousValues).length > 0 ? previousValues : undefined,
+          comparisonLabel: period.comparisonLabel,
+        }
+      }),
+     
+    [periods, queries, config.metrics]
+  )
+
+  return (
+    <SimpleTable title={widget.label} columns={columns} data={data} isLoading={isLoading} />
   )
 }

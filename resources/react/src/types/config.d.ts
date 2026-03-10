@@ -275,6 +275,12 @@ declare global {
   // Label transform types for bar-list widgets
   type BarListLabelTransform = 'source-category'
 
+  // Traffic summary widget config
+  interface PhpTrafficSummaryConfig {
+    metrics: Array<{ key: string; label: string }>
+    sources: string[]
+  }
+
   // Tabbed bar-list tab config
   interface PhpTabbedBarListTab {
     id: string
@@ -303,7 +309,7 @@ declare global {
   interface PhpOverviewWidget {
     id: string
     label: string
-    type: 'metrics' | 'bar-list' | 'map' | 'chart' | 'registered' | 'tabbed-bar-list'
+    type: 'metrics' | 'bar-list' | 'map' | 'chart' | 'registered' | 'tabbed-bar-list' | 'traffic-summary'
     defaultSize: number
     queryId?: string
     labelField?: string
@@ -323,6 +329,7 @@ declare global {
     mapConfig?: PhpMapWidgetConfig
     chartConfig?: PhpChartWidgetConfig
     tabbedBarListConfig?: PhpTabbedBarListConfig
+    trafficSummaryConfig?: PhpTrafficSummaryConfig
   }
 
   // Overview page definition
@@ -357,6 +364,12 @@ declare global {
     entityInfo?: {
       queryId: string
       nameField: string
+      /** AJAX action to call when name is not found in query results */
+      fallbackAction?: string
+      /** Request parameter name for the entity value (default: 'id') */
+      fallbackParam?: string
+      /** Response field to read the name from */
+      fallbackNameField?: string
     }
     queries: PhpBatchQuery[]
     metrics: PhpOverviewMetric[]
