@@ -15,6 +15,13 @@ import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useSearchTypeFilter } from '@/hooks/use-search-type-filter'
 import { useSocialTypeFilter } from '@/hooks/use-social-type-filter'
 import { useTaxonomyFilter } from '@/hooks/use-taxonomy-filter'
+import { getHeaderFilterRenderer, type HeaderFilterRendererProps, registerHeaderFilter } from '@/lib/header-filter-registry'
+
+// Register built-in header filter renderers
+registerHeaderFilter('search-type', WithSearchTypeFilter)
+registerHeaderFilter('social-type', WithSocialTypeFilter)
+registerHeaderFilter('taxonomy', WithTaxonomyFilter)
+registerHeaderFilter('group-by-select', WithGroupBySelectFilter)
 
 /**
  * Route component for PHP-configured reports.
@@ -46,23 +53,17 @@ export function PhpReportRoute({ slug, fallbackTitle, headerActions }: { slug: s
 
   const { headerFilter } = report.config
 
-  if (headerFilter?.type === 'search-type') {
-    return <WithSearchTypeFilter config={report.config} />
-  }
-  if (headerFilter?.type === 'social-type') {
-    return <WithSocialTypeFilter config={report.config} />
-  }
-  if (headerFilter?.type === 'taxonomy') {
-    return <WithTaxonomyFilter config={report.config} headerFilter={headerFilter} />
-  }
-  if (headerFilter?.type === 'group-by-select') {
-    return <WithGroupBySelectFilter config={report.config} headerFilter={headerFilter} />
+  if (headerFilter) {
+    const FilterRenderer = getHeaderFilterRenderer(headerFilter.type)
+    if (FilterRenderer) {
+      return <FilterRenderer config={report.config} headerFilter={headerFilter} />
+    }
   }
 
   return <ReportPageRenderer config={{ ...report.config, ...(headerActions && { headerActions }) }} />
 }
 
-function WithSearchTypeFilter({ config }: { config: ReportConfig }) {
+function WithSearchTypeFilter({ config }: HeaderFilterRendererProps) {
   const { setPage } = useGlobalFilters()
   const { value, onChange, options, getApiFilter, pageFilterConfig } = useSearchTypeFilter()
 
@@ -88,7 +89,7 @@ function WithSearchTypeFilter({ config }: { config: ReportConfig }) {
   )
 }
 
-function WithSocialTypeFilter({ config }: { config: ReportConfig }) {
+function WithSocialTypeFilter({ config }: HeaderFilterRendererProps) {
   const { setPage } = useGlobalFilters()
   const { value, onChange, options, getApiFilter, pageFilterConfig } = useSocialTypeFilter()
 

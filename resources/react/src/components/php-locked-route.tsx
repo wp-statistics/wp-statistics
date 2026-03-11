@@ -5,7 +5,7 @@
 
 import { __ } from '@wordpress/i18n'
 import { LockIcon, type LucideIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 
 import { OverviewPageRenderer } from '@/components/overview-page-renderer'
 import { ReportPageRenderer } from '@/components/report-page-renderer'
@@ -25,16 +25,14 @@ interface PhpLockedRouteProps {
   routeParams?: Record<string, string>
 }
 
-export function PhpLockedRoute({
-  slug,
-  title,
-  description,
-  icon: Icon = LockIcon,
-  buttonText = __('Upgrade to Premium', 'wp-statistics'),
-  utmCampaign,
-  premiumText = __('This feature requires the Premium addon.', 'wp-statistics'),
-  routeParams,
-}: PhpLockedRouteProps) {
+/**
+ * Resolve premium page content from all available sources.
+ * Returns the rendered content or null if nothing is registered.
+ */
+function usePremiumContent(
+  slug: string,
+  routeParams?: Record<string, string>,
+): ReactNode | null {
   const { getPageContent, getReport } = useContentRegistry()
   const [, forceUpdate] = useState(0)
 
@@ -48,18 +46,20 @@ export function PhpLockedRoute({
     }
   }, [slug])
 
+  // 1. JS-registered report (table report via registerReport)
   const registeredReport = getReport(slug)
   if (registeredReport?.config) {
     return <ReportPageRenderer config={registeredReport.config} />
   }
 
-  // Check for overview/detail PHP config (not registered via registerReport, read directly from PHP data)
+  // 2. PHP-configured overview/detail page
   const reports = WordPress.getInstance().getData<Record<string, PhpReportDefinition | PhpOverviewDefinition | PhpDetailDefinition>>('reports')
   const phpConfig = reports?.[slug]
   if (phpConfig?.type === 'overview' || phpConfig?.type === 'detail') {
     return <OverviewPageRenderer config={phpConfig} routeParams={routeParams} />
   }
 
+  // 3. Legacy page content (custom render function)
   const pageContent = getPageContent(slug)
   if (pageContent?.render) {
     const premiumContent = pageContent.render(routeParams)
@@ -67,6 +67,22 @@ export function PhpLockedRoute({
       return <div className="min-w-0">{premiumContent}</div>
     }
   }
+
+  return null
+}
+
+export function PhpLockedRoute({
+  slug,
+  title,
+  description,
+  icon: Icon = LockIcon,
+  buttonText = __('Upgrade to Premium', 'wp-statistics'),
+  utmCampaign,
+  premiumText = __('This feature requires the Premium addon.', 'wp-statistics'),
+  routeParams,
+}: PhpLockedRouteProps) {
+  const premiumContent = usePremiumContent(slug, routeParams)
+  if (premiumContent) return premiumContent
 
   return (
     <div className="min-w-0">

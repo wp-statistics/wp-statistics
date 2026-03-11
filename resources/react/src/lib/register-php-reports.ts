@@ -15,6 +15,20 @@ import { createBarListWidgetRenderer } from '@/lib/standard-widget-renderers'
 import { WordPress } from '@/lib/wordpress'
 import { registerExportConfig, registerReport, registerWidget } from '@/registration'
 
+/**
+ * Apply sensible defaults to PHP-defined columns so PHP configs can be shorter.
+ * Explicit values always win (spread last).
+ */
+function applyColumnDefaults(col: PhpReportColumn): PhpReportColumn {
+  return {
+    priority: 'primary',
+    sortable: true,
+    ...(col.type === 'numeric' && !col.size ? { size: 'views' } : {}),
+    ...(col.comparable && !col.previousKey ? { previousKey: `previous.${col.dataField || col.key}` } : {}),
+    ...col,
+  }
+}
+
 export function registerPhpReports(): void {
   const reports = WordPress.getInstance().getData<Record<string, PhpReportDefinition>>('reports')
   if (!reports || Object.keys(reports).length === 0) return
@@ -25,6 +39,9 @@ export function registerPhpReports(): void {
 
     // Skip if already registered by JS (JS always wins)
     if (window.wpsContentRegistry?.getReport(slug)) continue
+
+    // Apply column defaults so PHP configs can omit common boilerplate
+    const columns = config.columns.map(applyColumnDefaults)
 
     // Build columnConfig with context for the query factory
     const columnConfig = config.columnConfig
@@ -38,7 +55,7 @@ export function registerPhpReports(): void {
     })
 
     // Collect comparable columns from config
-    const comparableColumns = config.columns
+    const comparableColumns = columns
       .filter((col) => col.comparable)
       .map((col) => col.key)
 
@@ -48,7 +65,7 @@ export function registerPhpReports(): void {
       filterGroup: config.filterGroup,
       routeName: config.routeName || slug,
       queryOptions: queryOptionsFn,
-      columns: (options) => createColumnsFromConfig(config.columns, { ...options, expandable: !!config.expandableRows }),
+      columns: (options) => createColumnsFromConfig(columns, { ...options, expandable: !!config.expandableRows }),
       transformData: (record: Record<string, unknown>) => record,
       defaultSort: config.defaultSort || { id: 'views', desc: true },
       perPage: config.perPage || 20,

@@ -54,12 +54,12 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'hideFilters'      => true,
                 'showFilterButton' => false,
                 'queries'          => [
-                    $this->topOneQuery('metrics_top_browser', ['browser'], ['browser_name', 'visitors']),
-                    $this->topOneQuery('metrics_top_os', ['os'], ['os_name', 'visitors']),
-                    $this->topOneQuery('metrics_top_device', ['device_type'], ['device_type_name', 'visitors']),
-                    $this->topBrowsersQuery(),
-                    $this->topOsQuery(),
-                    $this->topDeviceCategoriesQuery(),
+                    ReportConfigBuilders::topOneQuery('metrics_top_browser', ['browser'], ['browser_name', 'visitors']),
+                    ReportConfigBuilders::topOneQuery('metrics_top_os', ['os'], ['os_name', 'visitors']),
+                    ReportConfigBuilders::topOneQuery('metrics_top_device', ['device_type'], ['device_type_name', 'visitors']),
+                    ReportConfigBuilders::topBrowsersQuery(),
+                    ReportConfigBuilders::topOsQuery(),
+                    ReportConfigBuilders::topDeviceCategoriesQuery(),
                 ],
                 'metrics'          => [
                     ['id' => 'top-browser', 'label' => __('Top Browser', 'wp-statistics'), 'queryId' => 'metrics_top_browser', 'valueField' => 'browser_name'],
@@ -68,9 +68,9 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
                 'widgets'          => [
                     ['id' => 'metrics', 'type' => 'metrics', 'label' => __('Metrics Overview', 'wp-statistics'), 'defaultSize' => 12],
-                    $this->topBrowsersWidget(['defaultSize' => 6]),
-                    $this->topOsWidget(['defaultSize' => 6]),
-                    $this->topDeviceCategoriesWidget(['defaultSize' => 6]),
+                    ReportConfigBuilders::topBrowsersWidget(['defaultSize' => 6]),
+                    ReportConfigBuilders::topOsWidget(['defaultSize' => 6]),
+                    ReportConfigBuilders::topDeviceCategoriesWidget(['defaultSize' => 6]),
                 ],
             ],
 
@@ -111,7 +111,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable' => false,
                         'cardPosition' => 'header',
                     ],
-                    $this->visitorsColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
                 ],
                 'defaultSort'       => ['id' => 'visitors', 'desc' => true],
                 'perPage'           => 25,
@@ -165,11 +165,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'linkTo'         => '/country/$countryCode',
                         'linkParamField' => 'country_code',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
-                    $this->viewsPerVisitorColumn(),
-                    $this->bounceRateColumn(),
-                    $this->sessionDurationColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
+                    ReportConfigBuilders::viewsPerVisitorColumn(),
+                    ReportConfigBuilders::bounceRateColumn(),
+                    ReportConfigBuilders::sessionDurationColumn(),
                 ],
                 'defaultSort'         => ['id' => 'visitors', 'desc' => true],
                 'perPage'             => 25,
@@ -238,11 +238,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'  => false,
                         'cardPosition' => 'body',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
-                    $this->sessionDurationColumn(['cardPosition' => 'body']),
-                    $this->bounceRateColumn(['cardPosition' => 'body']),
-                    $this->pagesPerSessionColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
+                    ReportConfigBuilders::sessionDurationColumn(['cardPosition' => 'body']),
+                    ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
+                    ReportConfigBuilders::pagesPerSessionColumn(),
                 ],
                 'defaultSort'         => ['id' => 'visitors', 'desc' => true],
                 'perPage'             => 25,
@@ -329,11 +329,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'     => false,
                         'cardPosition' => 'body',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
-                    $this->sessionDurationColumn(['cardPosition' => 'body']),
-                    $this->bounceRateColumn(['cardPosition' => 'body']),
-                    $this->pagesPerSessionColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
+                    ReportConfigBuilders::sessionDurationColumn(['cardPosition' => 'body']),
+                    ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
+                    ReportConfigBuilders::pagesPerSessionColumn(),
                 ],
                 'defaultSort'         => ['id' => 'visitors', 'desc' => true],
                 'perPage'             => 25,
@@ -415,11 +415,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'     => false,
                         'cardPosition' => 'header',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
-                    $this->sessionDurationColumn(['cardPosition' => 'body']),
-                    $this->bounceRateColumn(['cardPosition' => 'body']),
-                    $this->pagesPerSessionColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
+                    ReportConfigBuilders::sessionDurationColumn(['cardPosition' => 'body']),
+                    ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
+                    ReportConfigBuilders::pagesPerSessionColumn(),
                 ],
                 'defaultSort'         => ['id' => 'visitors', 'desc' => true],
                 'perPage'             => 25,
@@ -527,7 +527,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'     => false,
                         'cardPosition' => 'header',
                     ],
-                    $this->visitorsColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
                 ],
                 'defaultSort'       => ['id' => 'visitors', 'desc' => true],
                 'perPage'           => 25,
@@ -560,7 +560,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'     => false,
                         'cardPosition' => 'header',
                     ],
-                    $this->visitorsColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
                 ],
                 'defaultSort'       => ['id' => 'visitors', 'desc' => true],
                 'perPage'           => 25,
@@ -630,8 +630,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'linkTo'         => '/country/$countryCode',
                         'linkParamField' => 'country_code',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
                 ],
                 'defaultSort'          => ['id' => 'visitors', 'desc' => true],
                 'perPage'              => 25,
@@ -683,8 +683,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'     => false,
                         'cardPosition' => 'header',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
                 ],
                 'defaultSort'          => ['id' => 'visitors', 'desc' => true],
                 'perPage'              => 25,
@@ -771,8 +771,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'     => false,
                         'cardPosition' => 'header',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
                     [
                         'key'                 => 'viewsPerVisitor',
                         'title'               => __('Views/Visitor', 'wp-statistics'),
@@ -868,8 +868,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'     => false,
                         'cardPosition' => 'header',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
                     [
                         'key'          => 'published',
                         'dataField'    => 'published_content',
@@ -971,8 +971,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'sortable'     => false,
                         'cardPosition' => 'header',
                     ],
-                    $this->visitorsColumn(),
-                    $this->viewsColumn(),
+                    ReportConfigBuilders::visitorsColumn(),
+                    ReportConfigBuilders::viewsColumn(),
                     [
                         'key'          => 'published',
                         'dataField'    => 'published_content',
@@ -1176,11 +1176,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'sortable'     => false,
                     'cardPosition' => 'header',
                 ],
-                $this->visitorsColumn(),
-                $this->viewsColumn(),
-                $this->viewsPerVisitorColumn(),
-                $this->bounceRateColumn(),
-                $this->sessionDurationColumn(),
+                ReportConfigBuilders::visitorsColumn(),
+                ReportConfigBuilders::viewsColumn(),
+                ReportConfigBuilders::viewsPerVisitorColumn(),
+                ReportConfigBuilders::bounceRateColumn(),
+                ReportConfigBuilders::sessionDurationColumn(),
             ],
             'defaultSort'          => ['id' => 'visitors', 'desc' => true],
             'perPage'              => 25,
@@ -1248,11 +1248,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'linkTo'         => '/country/$countryCode',
                     'linkParamField' => 'country_code',
                 ],
-                $this->visitorsColumn(),
-                $this->viewsColumn(),
-                $this->viewsPerVisitorColumn(),
-                $this->bounceRateColumn(),
-                $this->sessionDurationColumn(),
+                ReportConfigBuilders::visitorsColumn(),
+                ReportConfigBuilders::viewsColumn(),
+                ReportConfigBuilders::viewsPerVisitorColumn(),
+                ReportConfigBuilders::bounceRateColumn(),
+                ReportConfigBuilders::sessionDurationColumn(),
             ],
             'defaultSort'          => ['id' => 'visitors', 'desc' => true],
             'perPage'              => 25,
@@ -1328,11 +1328,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'sortable'     => false,
                     'cardPosition' => 'header',
                 ],
-                $this->visitorsColumn(),
-                $this->viewsColumn(),
-                $this->viewsPerVisitorColumn(),
-                $this->bounceRateColumn(),
-                $this->sessionDurationColumn(),
+                ReportConfigBuilders::visitorsColumn(),
+                ReportConfigBuilders::viewsColumn(),
+                ReportConfigBuilders::viewsPerVisitorColumn(),
+                ReportConfigBuilders::bounceRateColumn(),
+                ReportConfigBuilders::sessionDurationColumn(),
             ],
             'defaultSort'          => ['id' => 'visitors', 'desc' => true],
             'perPage'              => 25,
@@ -1414,11 +1414,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'sortable'     => false,
                     'cardPosition' => 'body',
                 ],
-                $this->visitorsColumn(),
-                $this->viewsColumn(),
-                $this->sessionDurationColumn(['cardPosition' => 'body']),
-                $this->bounceRateColumn(['cardPosition' => 'body']),
-                $this->pagesPerSessionColumn(),
+                ReportConfigBuilders::visitorsColumn(),
+                ReportConfigBuilders::viewsColumn(),
+                ReportConfigBuilders::sessionDurationColumn(['cardPosition' => 'body']),
+                ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
+                ReportConfigBuilders::pagesPerSessionColumn(),
             ],
             'defaultSort'          => ['id' => 'visitors', 'desc' => true],
             'perPage'              => 25,
@@ -1469,16 +1469,16 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
 
         // Build queries — conditionally include top_regions for non-US users
         $queries = [
-            $this->topOneQuery('metrics_top_country', ['country'], ['country_code', 'country_name', 'visitors']),
-            $this->topOneQuery('metrics_top_region', ['region'], ['region_name', 'visitors']),
-            $this->topOneQuery('metrics_top_city', ['city'], ['city_name', 'visitors']),
-            $this->topCountriesQuery('countries_map', [
+            ReportConfigBuilders::topOneQuery('metrics_top_country', ['country'], ['country_code', 'country_name', 'visitors']),
+            ReportConfigBuilders::topOneQuery('metrics_top_region', ['region'], ['region_name', 'visitors']),
+            ReportConfigBuilders::topOneQuery('metrics_top_city', ['city'], ['city_name', 'visitors']),
+            ReportConfigBuilders::topCountriesQuery('countries_map', [
                 'sources' => ['visitors', 'views'],
                 'columns' => ['country_code', 'country_name', 'visitors', 'views'],
                 'per_page' => 250,
                 'compare' => false,
             ]),
-            $this->topCountriesQuery(),
+            ReportConfigBuilders::topCountriesQuery(),
             [
                 'id'          => 'top_cities',
                 'sources'     => ['visitors'],
@@ -1490,12 +1490,12 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'format'      => 'table',
                 'show_totals' => true,
             ],
-            $this->topCountriesQuery('top_european_countries', [
+            ReportConfigBuilders::topCountriesQuery('top_european_countries', [
                 'filters' => [
                     ['key' => 'continent', 'operator' => 'is', 'value' => 'EU'],
                 ],
             ]),
-            $this->topByVisitorsQuery('top_us_states', ['region'], ['region_name', 'country_code', 'country_name', 'visitors'], [
+            ReportConfigBuilders::topByVisitorsQuery('top_us_states', ['region'], ['region_name', 'country_code', 'country_name', 'visitors'], [
                 'filters' => [['key' => 'country', 'operator' => 'is', 'value' => 'US']],
             ]),
             [
@@ -1513,7 +1513,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
 
         // Add top_regions query when user country is detected and not US
         if ($showRegions) {
-            $queries[] = $this->topByVisitorsQuery('top_regions', ['region'], ['region_name', 'country_code', 'country_name', 'visitors'], [
+            $queries[] = ReportConfigBuilders::topByVisitorsQuery('top_regions', ['region'], ['region_name', 'country_code', 'country_name', 'visitors'], [
                 'filters' => [['key' => 'country', 'operator' => 'is', 'value' => $userCountry]],
             ]);
         }
@@ -1521,7 +1521,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
         // Build widgets
         $widgets = [
             ['id' => 'metrics', 'type' => 'metrics', 'label' => __('Metrics Overview', 'wp-statistics'), 'defaultSize' => 12],
-            $this->mapWidget('countries_map', [
+            ReportConfigBuilders::mapWidget('countries_map', [
                 'id'        => 'global-map',
                 'label'     => __('Global Visitor Distribution', 'wp-statistics'),
                 'mapConfig' => [
@@ -1535,7 +1535,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                 ],
             ]),
-            $this->topCountriesWidget(['defaultSize' => 6]),
+            ReportConfigBuilders::topCountriesWidget(['defaultSize' => 6]),
             [
                 'id'            => 'top-cities',
                 'type'          => 'bar-list',
@@ -1549,7 +1549,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'columnHeaders' => ['left' => __('City', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
                 'link'          => ['to' => '/cities'],
             ],
-            $this->topCountriesWidget([
+            ReportConfigBuilders::topCountriesWidget([
                 'id'          => 'european-countries',
                 'label'       => __('Top European Countries', 'wp-statistics'),
                 'defaultSize' => 6,
@@ -1630,11 +1630,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'filterGroup' => 'visitors',
             'queries'     => [
                 // Aggregate metrics (totals-based with comparison)
-                $this->metricsQuery('metrics', ['visitors', 'views', 'sessions', 'avg_session_duration', 'bounce_rate', 'pages_per_session']),
+                ReportConfigBuilders::metricsQuery('metrics', ['visitors', 'views', 'sessions', 'avg_session_duration', 'bounce_rate', 'pages_per_session']),
                 // Top Country (items-based)
-                $this->topOneQuery('metrics_top_country', ['country'], ['country_name', 'visitors']),
+                ReportConfigBuilders::topOneQuery('metrics_top_country', ['country'], ['country_name', 'visitors']),
                 // Top Referrer (items-based)
-                $this->topOneQuery('metrics_top_referrer', ['referrer'], ['referrer_name', 'visitors']),
+                ReportConfigBuilders::topOneQuery('metrics_top_referrer', ['referrer'], ['referrer_name', 'visitors']),
                 // Top Search Term (items-based)
                 [
                     'id'          => 'metrics_top_search',
@@ -1649,23 +1649,23 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'compare'     => false,
                 ],
                 // Logged-in visitors (for share percentage computation)
-                $this->metricsQuery('metrics_logged_in', ['visitors'], [
+                ReportConfigBuilders::metricsQuery('metrics_logged_in', ['visitors'], [
                     'filters' => [['key' => 'logged_in', 'operator' => 'is', 'value' => '1']],
                 ]),
                 // Traffic trends chart (timeframe-dependent group_by)
-                $this->trafficTrendsQuery(),
+                ReportConfigBuilders::trafficTrendsQuery(),
                 // Top Countries
-                $this->topCountriesQuery(),
+                ReportConfigBuilders::topCountriesQuery(),
                 // Device Type
-                $this->topDeviceCategoriesQuery('device_type', [
+                ReportConfigBuilders::topDeviceCategoriesQuery('device_type', [
                     'columns' => ['device_type_name', 'device_type_id', 'visitors'],
                 ]),
                 // Operating Systems
-                $this->topOsQuery('operating_systems', [
+                ReportConfigBuilders::topOsQuery('operating_systems', [
                     'columns' => ['os_name', 'os_id', 'visitors'],
                 ]),
                 // Top Referrers
-                $this->topReferrersQuery(),
+                ReportConfigBuilders::topReferrersQuery(),
                 // Top Visitors (DataTable widget rendered via JS registration)
                 [
                     'id'          => 'top_visitors',
@@ -1729,12 +1729,12 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             ],
             'widgets'     => [
                 ['id' => 'metrics', 'type' => 'metrics', 'label' => __('Metrics Overview', 'wp-statistics'), 'defaultSize' => 12],
-                $this->trafficTrendsWidget(),
-                $this->topReferrersWidget([
+                ReportConfigBuilders::trafficTrendsWidget(),
+                ReportConfigBuilders::topReferrersWidget([
                     'defaultSize'         => 6,
                     'labelFallbackFields' => ['referrer_domain', 'referrer_channel'],
                 ]),
-                $this->topCountriesWidget([
+                ReportConfigBuilders::topCountriesWidget([
                     'defaultSize' => 6,
                 ]),
                 [
@@ -1800,7 +1800,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'filterGroup' => 'views',
             'queries'     => [
                 // Aggregate metrics
-                $this->metricsQuery('metrics', ['visitors', 'views', 'bounce_rate', 'avg_time_on_page']),
+                ReportConfigBuilders::metricsQuery('metrics', ['visitors', 'views', 'bounce_rate', 'avg_time_on_page']),
                 // Top Page (items-based)
                 [
                     'id'          => 'metrics_top_page',
@@ -1970,7 +1970,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'filterGroup'      => 'referrals',
             'queries'          => [
                 // Referred visitors count (excludes direct traffic)
-                $this->metricsQuery('metrics', ['visitors'], ['filters' => [$notDirectFilter]]),
+                ReportConfigBuilders::metricsQuery('metrics', ['visitors'], ['filters' => [$notDirectFilter]]),
                 // Top referrer name
                 [
                     'id'          => 'metrics_top_referrer',
@@ -2028,9 +2028,9 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'compare'     => false,
                 ],
                 // Traffic trends chart (timeframe-dependent group_by)
-                $this->trafficTrendsQuery('traffic_trends', ['filters' => [$notDirectFilter]]),
+                ReportConfigBuilders::trafficTrendsQuery('traffic_trends', ['filters' => [$notDirectFilter]]),
                 // Top referrers list
-                $this->topReferrersQuery('top_referrers', ['filters' => [$notDirectFilter]]),
+                ReportConfigBuilders::topReferrersQuery('top_referrers', ['filters' => [$notDirectFilter]]),
                 // Top source categories
                 [
                     'id'          => 'top_source_categories',
@@ -2071,11 +2071,11 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => true,
                 ],
                 // Top countries
-                $this->topCountriesQuery('top_countries', ['filters' => [$notDirectFilter]]),
+                ReportConfigBuilders::topCountriesQuery('top_countries', ['filters' => [$notDirectFilter]]),
                 // Top operating systems
-                $this->topOsQuery('top_operating_systems', ['filters' => [$notDirectFilter]]),
+                ReportConfigBuilders::topOsQuery('top_operating_systems', ['filters' => [$notDirectFilter]]),
                 // Top device categories
-                $this->topDeviceCategoriesQuery('top_device_categories', ['filters' => [$notDirectFilter]]),
+                ReportConfigBuilders::topDeviceCategoriesQuery('top_device_categories', ['filters' => [$notDirectFilter]]),
             ],
             'metrics'          => [
                 ['id' => 'referredVisitors', 'label' => __('Referred Visitors', 'wp-statistics'), 'queryId' => 'metrics', 'valueField' => 'visitors', 'source' => 'totals', 'format' => 'compact_number'],
@@ -2086,7 +2086,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             ],
             'widgets'          => [
                 ['id' => 'metrics', 'type' => 'metrics', 'label' => __('Metrics Overview', 'wp-statistics'), 'defaultSize' => 12],
-                $this->trafficTrendsWidget(),
+                ReportConfigBuilders::trafficTrendsWidget(),
                 [
                     'id'                  => 'top-referrers',
                     'type'                => 'bar-list',
@@ -2208,8 +2208,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => false,
                     'compare'     => true,
                 ],
-                $this->metricsQuery('category_metrics', ['visitors', 'views', 'published_content', 'bounce_rate', 'avg_time_on_page']),
-                $this->trafficTrendsQuery(),
+                ReportConfigBuilders::metricsQuery('category_metrics', ['visitors', 'views', 'published_content', 'bounce_rate', 'avg_time_on_page']),
+                ReportConfigBuilders::trafficTrendsQuery(),
                 [
                     'id'          => 'top_content',
                     'sources'     => ['visitors', 'views', 'comments'],
@@ -2222,7 +2222,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => false,
                     'compare'     => true,
                 ],
-                $this->topReferrersQuery('top_referrers', [
+                ReportConfigBuilders::topReferrersQuery('top_referrers', [
                     'filters' => [
                         ['key' => 'referrer_domain', 'operator' => 'is_not_empty', 'value' => ''],
                     ],
@@ -2244,10 +2244,10 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => true,
                     'compare'     => true,
                 ],
-                $this->topCountriesQuery('top_countries', ['compare' => true]),
-                $this->topBrowsersQuery('top_browsers', ['compare' => true]),
-                $this->topOsQuery('top_operating_systems', ['compare' => true]),
-                $this->topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
+                ReportConfigBuilders::topCountriesQuery('top_countries', ['compare' => true]),
+                ReportConfigBuilders::topBrowsersQuery('top_browsers', ['compare' => true]),
+                ReportConfigBuilders::topOsQuery('top_operating_systems', ['compare' => true]),
+                ReportConfigBuilders::topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
             ],
             'metrics'     => [
                 [
@@ -2298,7 +2298,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'type'        => 'metrics',
                     'defaultSize' => 12,
                 ],
-                $this->trafficTrendsWidget(['label' => __('Performance', 'wp-statistics'), 'defaultSize' => 8]),
+                ReportConfigBuilders::trafficTrendsWidget(['label' => __('Performance', 'wp-statistics'), 'defaultSize' => 8]),
                 [
                     'id'                    => 'traffic-summary',
                     'label'                 => __('Traffic Summary', 'wp-statistics'),
@@ -2469,7 +2469,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'queryId' => 'post_info',
             ],
             'queries'          => [
-                $this->metricsQuery('content_metrics', ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'entry_page', 'exit_page', 'exit_rate', 'comments']),
+                ReportConfigBuilders::metricsQuery('content_metrics', ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'entry_page', 'exit_page', 'exit_rate', 'comments']),
                 [
                     'id'          => 'post_info',
                     'sources'     => ['views'],
@@ -2480,8 +2480,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => false,
                     'compare'     => false,
                 ],
-                $this->trafficTrendsQuery(),
-                $this->topReferrersQuery('top_referrers', [
+                ReportConfigBuilders::trafficTrendsQuery(),
+                ReportConfigBuilders::topReferrersQuery('top_referrers', [
                     'filters' => [
                         ['key' => 'referrer_domain', 'operator' => 'is_not_empty', 'value' => ''],
                     ],
@@ -2503,10 +2503,10 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => true,
                     'compare'     => true,
                 ],
-                $this->topCountriesQuery('top_countries', ['compare' => true]),
-                $this->topBrowsersQuery('top_browsers', ['compare' => true]),
-                $this->topOsQuery('top_operating_systems', ['compare' => true]),
-                $this->topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
+                ReportConfigBuilders::topCountriesQuery('top_countries', ['compare' => true]),
+                ReportConfigBuilders::topBrowsersQuery('top_browsers', ['compare' => true]),
+                ReportConfigBuilders::topOsQuery('top_operating_systems', ['compare' => true]),
+                ReportConfigBuilders::topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
             ],
             'metrics'          => [
                 [
@@ -2581,7 +2581,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'type'        => 'metrics',
                     'defaultSize' => 12,
                 ],
-                $this->trafficTrendsWidget(['defaultSize' => 8]),
+                ReportConfigBuilders::trafficTrendsWidget(['defaultSize' => 8]),
                 [
                     'id'                   => 'traffic-summary',
                     'label'                => __('Traffic Summary', 'wp-statistics'),
@@ -2725,7 +2725,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'targetParam'  => 'postId',
             ],
             'queries'          => [
-                $this->metricsQuery('url_metrics', ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'entry_page', 'exit_page', 'exit_rate']),
+                ReportConfigBuilders::metricsQuery('url_metrics', ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'entry_page', 'exit_page', 'exit_rate']),
                 [
                     'id'          => 'url_info',
                     'sources'     => ['views'],
@@ -2736,8 +2736,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => false,
                     'compare'     => false,
                 ],
-                $this->trafficTrendsQuery(),
-                $this->topReferrersQuery('top_referrers', [
+                ReportConfigBuilders::trafficTrendsQuery(),
+                ReportConfigBuilders::topReferrersQuery('top_referrers', [
                     'filters' => [
                         ['key' => 'referrer_domain', 'operator' => 'is_not_empty', 'value' => ''],
                     ],
@@ -2759,10 +2759,10 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => true,
                     'compare'     => true,
                 ],
-                $this->topCountriesQuery('top_countries', ['compare' => true]),
-                $this->topBrowsersQuery('top_browsers', ['compare' => true]),
-                $this->topOsQuery('top_operating_systems', ['compare' => true]),
-                $this->topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
+                ReportConfigBuilders::topCountriesQuery('top_countries', ['compare' => true]),
+                ReportConfigBuilders::topBrowsersQuery('top_browsers', ['compare' => true]),
+                ReportConfigBuilders::topOsQuery('top_operating_systems', ['compare' => true]),
+                ReportConfigBuilders::topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
             ],
             'metrics'          => [
                 [
@@ -2829,7 +2829,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'type'        => 'metrics',
                     'defaultSize' => 12,
                 ],
-                $this->trafficTrendsWidget(['defaultSize' => 8]),
+                ReportConfigBuilders::trafficTrendsWidget(['defaultSize' => 8]),
                 [
                     'id'                   => 'traffic-summary',
                     'label'                => __('Traffic Summary', 'wp-statistics'),
@@ -2936,7 +2936,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ['field' => 'post_type', 'operator' => 'is', 'value' => 'post'],
             ],
             'queries'          => [
-                $this->metricsQuery('author_metrics', ['published_content', 'active_authors', 'visitors', 'views']),
+                ReportConfigBuilders::metricsQuery('author_metrics', ['published_content', 'active_authors', 'visitors', 'views']),
                 [
                     'id'       => 'top_authors',
                     'sources'  => ['visitors', 'views', 'published_content', 'comments'],
@@ -3065,8 +3065,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ['field' => 'post_type', 'operator' => 'is', 'value' => 'post'],
             ],
             'queries'          => [
-                $this->metricsQuery('content_metrics', ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_content', 'comments']),
-                $this->trafficTrendsQuery('traffic_trends', [
+                ReportConfigBuilders::metricsQuery('content_metrics', ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_content', 'comments']),
+                ReportConfigBuilders::trafficTrendsQuery('traffic_trends', [
                     'sources' => ['visitors', 'views', 'published_content'],
                 ]),
                 [
@@ -3081,7 +3081,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'order'    => 'DESC',
                     'columns'  => ['page_uri', 'page_title', 'page_wp_id', 'page_type', 'visitors', 'views', 'comments', 'published_date'],
                 ],
-                $this->topReferrersQuery('top_referrers', [
+                ReportConfigBuilders::topReferrersQuery('top_referrers', [
                     'filters' => [['key' => 'referrer_domain', 'operator' => 'is_not_empty', 'value' => '']],
                     'compare' => true,
                 ]),
@@ -3101,10 +3101,10 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => true,
                     'compare'     => true,
                 ],
-                $this->topCountriesQuery('top_countries', ['compare' => true]),
-                $this->topBrowsersQuery('top_browsers', ['compare' => true]),
-                $this->topOsQuery('top_operating_systems', ['compare' => true]),
-                $this->topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
+                ReportConfigBuilders::topCountriesQuery('top_countries', ['compare' => true]),
+                ReportConfigBuilders::topBrowsersQuery('top_browsers', ['compare' => true]),
+                ReportConfigBuilders::topOsQuery('top_operating_systems', ['compare' => true]),
+                ReportConfigBuilders::topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
             ],
             'metrics'          => [
                 ['id' => 'published-content', 'label' => __('Published Content', 'wp-statistics'), 'queryId' => 'content_metrics', 'valueField' => 'published_content', 'source' => 'totals', 'format' => 'compact_number'],
@@ -3146,7 +3146,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             ],
             'widgets'          => [
                 ['id' => 'metrics', 'type' => 'metrics', 'label' => __('Metrics Overview', 'wp-statistics'), 'defaultSize' => 12],
-                $this->trafficTrendsWidget([
+                ReportConfigBuilders::trafficTrendsWidget([
                     'label'       => __('Content Performance', 'wp-statistics'),
                     'chartConfig' => [
                         'metrics' => [
@@ -3293,8 +3293,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'hideFilters'      => true,
             'showFilterButton' => false,
             'queries'          => [
-                $this->metricsQuery('category_metrics', ['published_content', 'visitors', 'views', 'bounce_rate', 'avg_time_on_page']),
-                $this->trafficTrendsQuery('traffic_trends', [
+                ReportConfigBuilders::metricsQuery('category_metrics', ['published_content', 'visitors', 'views', 'bounce_rate', 'avg_time_on_page']),
+                ReportConfigBuilders::trafficTrendsQuery('traffic_trends', [
                     'sources' => ['visitors', 'views', 'published_content'],
                 ]),
                 [
@@ -3333,7 +3333,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => true,
                     'compare'  => true,
                 ],
-                $this->topReferrersQuery('top_referrers', [
+                ReportConfigBuilders::topReferrersQuery('top_referrers', [
                     'filters' => [['key' => 'referrer_domain', 'operator' => 'is_not_empty', 'value' => '']],
                     'compare' => true,
                 ]),
@@ -3353,10 +3353,10 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'show_totals' => true,
                     'compare'     => true,
                 ],
-                $this->topCountriesQuery('top_countries', ['compare' => true]),
-                $this->topBrowsersQuery('top_browsers', ['compare' => true]),
-                $this->topOsQuery('top_operating_systems', ['compare' => true]),
-                $this->topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
+                ReportConfigBuilders::topCountriesQuery('top_countries', ['compare' => true]),
+                ReportConfigBuilders::topBrowsersQuery('top_browsers', ['compare' => true]),
+                ReportConfigBuilders::topOsQuery('top_operating_systems', ['compare' => true]),
+                ReportConfigBuilders::topDeviceCategoriesQuery('top_device_categories', ['compare' => true]),
             ],
             'metrics'          => [
                 ['id' => 'published-content', 'label' => __('Published Content', 'wp-statistics'), 'queryId' => 'category_metrics', 'valueField' => 'published_content', 'source' => 'totals', 'format' => 'compact_number'],
@@ -3367,7 +3367,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             ],
             'widgets'          => [
                 ['id' => 'metrics', 'type' => 'metrics', 'label' => __('Metrics Overview', 'wp-statistics'), 'defaultSize' => 12],
-                $this->trafficTrendsWidget([
+                ReportConfigBuilders::trafficTrendsWidget([
                     'label'       => __('Performance', 'wp-statistics'),
                     'chartConfig' => [
                         'metrics' => [
@@ -4108,7 +4108,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'format'      => 'flat',
                     'show_totals' => true,
                 ],
-                $this->trafficTrendsQuery(),
+                ReportConfigBuilders::trafficTrendsQuery(),
                 [
                     'id'          => 'top_pages',
                     'sources'     => ['views', 'visitors'],
@@ -4120,8 +4120,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'format'      => 'table',
                     'show_totals' => true,
                 ],
-                $this->topReferrersQuery(),
-                $this->topCountriesQuery(),
+                ReportConfigBuilders::topReferrersQuery(),
+                ReportConfigBuilders::topCountriesQuery(),
                 [
                     'id'          => 'top_search_engines',
                     'sources'     => ['visitors'],
@@ -4146,7 +4146,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'format'      => 'table',
                     'show_totals' => true,
                 ],
-                $this->topBrowsersQuery('top_browsers', ['columns' => ['browser_name', 'browser_id', 'visitors']]),
+                ReportConfigBuilders::topBrowsersQuery('top_browsers', ['columns' => ['browser_name', 'browser_id', 'visitors']]),
                 [
                     'id'          => 'top_visitors',
                     'sources'     => ['visitors'],
@@ -4169,8 +4169,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'format'      => 'table',
                     'show_totals' => true,
                 ],
-                $this->topOsQuery('top_os', ['columns' => ['os_name', 'os_id', 'visitors']]),
-                $this->topDeviceCategoriesQuery('top_device_categories', ['columns' => ['device_type_name', 'device_type_id', 'visitors']]),
+                ReportConfigBuilders::topOsQuery('top_os', ['columns' => ['os_name', 'os_id', 'visitors']]),
+                ReportConfigBuilders::topDeviceCategoriesQuery('top_device_categories', ['columns' => ['device_type_name', 'device_type_id', 'visitors']]),
             ],
             'metrics'          => [
                 [
@@ -4238,7 +4238,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'defaultSize'    => 12,
                     'allowedSizes'   => [4, 6, 8, 12],
                 ],
-                $this->trafficTrendsWidget(['allowedSizes' => [6, 8, 12]]),
+                ReportConfigBuilders::trafficTrendsWidget(['allowedSizes' => [6, 8, 12]]),
                 [
                     'id'                  => 'top-pages',
                     'label'               => __('Top Pages', 'wp-statistics'),
@@ -4256,8 +4256,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     'link'                => ['to' => '/top-pages'],
                 ],
-                $this->topReferrersWidget(['defaultSize' => 6, 'allowedSizes' => [4, 6, 8, 12]]),
-                $this->topCountriesWidget(['defaultSize' => 6, 'allowedSizes' => [4, 6, 8, 12]]),
+                ReportConfigBuilders::topReferrersWidget(['defaultSize' => 6, 'allowedSizes' => [4, 6, 8, 12]]),
+                ReportConfigBuilders::topCountriesWidget(['defaultSize' => 6, 'allowedSizes' => [4, 6, 8, 12]]),
                 [
                     'id'                  => 'top-search-engines',
                     'label'               => __('Top Search Engines', 'wp-statistics'),
@@ -4274,7 +4274,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     'link'                => ['to' => '/search-engines'],
                 ],
-                $this->topBrowsersWidget(['defaultSize' => 6, 'defaultVisible' => false, 'allowedSizes' => [4, 6, 8, 12]]),
+                ReportConfigBuilders::topBrowsersWidget(['defaultSize' => 6, 'defaultVisible' => false, 'allowedSizes' => [4, 6, 8, 12]]),
                 [
                     'id'                  => 'top-visitors',
                     'label'               => __('Top Visitors', 'wp-statistics'),
@@ -4329,8 +4329,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     'link'           => ['to' => '/cities'],
                 ],
-                $this->topOsWidget(['id' => 'top-os', 'queryId' => 'top_os', 'defaultSize' => 6, 'defaultVisible' => false, 'allowedSizes' => [4, 6, 8, 12]]),
-                $this->topDeviceCategoriesWidget(['defaultSize' => 6, 'defaultVisible' => false, 'allowedSizes' => [4, 6, 8, 12], 'iconType' => 'device', 'iconSlugField' => 'device_type_name']),
+                ReportConfigBuilders::topOsWidget(['id' => 'top-os', 'queryId' => 'top_os', 'defaultSize' => 6, 'defaultVisible' => false, 'allowedSizes' => [4, 6, 8, 12]]),
+                ReportConfigBuilders::topDeviceCategoriesWidget(['defaultSize' => 6, 'defaultVisible' => false, 'allowedSizes' => [4, 6, 8, 12], 'iconType' => 'device', 'iconSlugField' => 'device_type_name']),
             ],
             'widgetCategories' => [
                 [
@@ -4357,318 +4357,4 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
         ];
     }
 
-    // -----------------------------------------------------------------------
-    // Reusable query builders
-    // -----------------------------------------------------------------------
-
-    /**
-     * Build a "top N by visitors" query for any dimension.
-     */
-    private function topByVisitorsQuery(string $id, array $groupBy, array $columns, array $overrides = []): array
-    {
-        return array_merge([
-            'id'          => $id,
-            'sources'     => ['visitors'],
-            'group_by'    => $groupBy,
-            'columns'     => $columns,
-            'per_page'    => 5,
-            'order_by'    => 'visitors',
-            'order'       => 'DESC',
-            'format'      => 'table',
-            'show_totals' => true,
-        ], $overrides);
-    }
-
-    private function topCountriesQuery(string $id = 'top_countries', array $overrides = []): array
-    {
-        return $this->topByVisitorsQuery($id, ['country'], ['country_code', 'country_name', 'visitors'], $overrides);
-    }
-
-    private function topBrowsersQuery(string $id = 'top_browsers', array $overrides = []): array
-    {
-        return $this->topByVisitorsQuery($id, ['browser'], ['browser_name', 'visitors'], $overrides);
-    }
-
-    private function topOsQuery(string $id = 'top_operating_systems', array $overrides = []): array
-    {
-        return $this->topByVisitorsQuery($id, ['os'], ['os_name', 'visitors'], $overrides);
-    }
-
-    private function topDeviceCategoriesQuery(string $id = 'top_device_categories', array $overrides = []): array
-    {
-        return $this->topByVisitorsQuery($id, ['device_type'], ['device_type_name', 'visitors'], $overrides);
-    }
-
-    private function topReferrersQuery(string $id = 'top_referrers', array $overrides = []): array
-    {
-        return $this->topByVisitorsQuery($id, ['referrer'], ['referrer_domain', 'referrer_name', 'referrer_channel', 'visitors'], $overrides);
-    }
-
-    /**
-     * Build a traffic trends chart query.
-     */
-    private function trafficTrendsQuery(string $id = 'traffic_trends', array $overrides = []): array
-    {
-        return array_merge([
-            'id'               => $id,
-            'sources'          => ['visitors', 'views'],
-            'group_by'         => ['date'],
-            'format'           => 'chart',
-            'show_totals'      => false,
-            'compare'          => true,
-            'timeframeGroupBy' => true,
-        ], $overrides);
-    }
-
-    /**
-     * Build a flat metrics query (aggregates with comparison support).
-     */
-    private function metricsQuery(string $id, array $sources, array $overrides = []): array
-    {
-        return array_merge([
-            'id'          => $id,
-            'sources'     => $sources,
-            'group_by'    => [],
-            'format'      => 'flat',
-            'show_totals' => true,
-            'compare'     => true,
-        ], $overrides);
-    }
-
-    /**
-     * Build a "top 1" metric query (single row, no comparison).
-     */
-    private function topOneQuery(string $id, array $groupBy, array $columns): array
-    {
-        return [
-            'id'          => $id,
-            'sources'     => ['visitors'],
-            'group_by'    => $groupBy,
-            'columns'     => $columns,
-            'per_page'    => 1,
-            'order_by'    => 'visitors',
-            'order'       => 'DESC',
-            'format'      => 'flat',
-            'show_totals' => false,
-            'compare'     => false,
-        ];
-    }
-
-    // -----------------------------------------------------------------------
-    // Reusable widget builders
-    // -----------------------------------------------------------------------
-
-    private function topCountriesWidget(array $overrides = []): array
-    {
-        return array_merge([
-            'id'             => 'top-countries',
-            'type'           => 'bar-list',
-            'label'          => __('Top Countries', 'wp-statistics'),
-            'defaultSize'    => 4,
-            'queryId'        => 'top_countries',
-            'labelField'     => 'country_name',
-            'valueField'     => 'visitors',
-            'iconType'       => 'country',
-            'iconSlugField'  => 'country_code',
-            'linkTo'         => '/country/$countryCode',
-            'linkParamField' => 'country_code',
-            'columnHeaders'  => ['left' => __('Country', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
-            'link'           => ['to' => '/countries'],
-        ], $overrides);
-    }
-
-    private function topBrowsersWidget(array $overrides = []): array
-    {
-        return array_merge([
-            'id'            => 'top-browsers',
-            'type'          => 'bar-list',
-            'label'         => __('Top Browsers', 'wp-statistics'),
-            'defaultSize'   => 4,
-            'queryId'       => 'top_browsers',
-            'labelField'    => 'browser_name',
-            'valueField'    => 'visitors',
-            'iconType'      => 'browser',
-            'iconSlugField' => 'browser_name',
-            'columnHeaders' => ['left' => __('Browser', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
-            'link'          => ['to' => '/browsers'],
-        ], $overrides);
-    }
-
-    private function topOsWidget(array $overrides = []): array
-    {
-        return array_merge([
-            'id'            => 'top-operating-systems',
-            'type'          => 'bar-list',
-            'label'         => __('Top Operating Systems', 'wp-statistics'),
-            'defaultSize'   => 4,
-            'queryId'       => 'top_operating_systems',
-            'labelField'    => 'os_name',
-            'valueField'    => 'visitors',
-            'iconType'      => 'os',
-            'iconSlugField' => 'os_name',
-            'columnHeaders' => ['left' => __('Operating System', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
-            'link'          => ['to' => '/operating-systems'],
-        ], $overrides);
-    }
-
-    private function topDeviceCategoriesWidget(array $overrides = []): array
-    {
-        return array_merge([
-            'id'            => 'top-device-categories',
-            'type'          => 'bar-list',
-            'label'         => __('Top Device Categories', 'wp-statistics'),
-            'defaultSize'   => 4,
-            'queryId'       => 'top_device_categories',
-            'labelField'    => 'device_type_name',
-            'valueField'    => 'visitors',
-            'columnHeaders' => ['left' => __('Device Category', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
-            'link'          => ['to' => '/device-categories'],
-        ], $overrides);
-    }
-
-    private function topReferrersWidget(array $overrides = []): array
-    {
-        return array_merge([
-            'id'                  => 'top-referrers',
-            'type'                => 'bar-list',
-            'label'               => __('Top Referrers', 'wp-statistics'),
-            'defaultSize'         => 4,
-            'queryId'             => 'top_referrers',
-            'labelField'          => 'referrer_name',
-            'labelFallbackFields' => ['referrer_domain'],
-            'valueField'          => 'visitors',
-            'columnHeaders'       => ['left' => __('Referrer', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
-            'link'                => ['to' => '/referrers'],
-        ], $overrides);
-    }
-
-    private function trafficTrendsWidget(array $overrides = []): array
-    {
-        return array_merge([
-            'id'          => 'traffic-trends',
-            'type'        => 'chart',
-            'label'       => __('Traffic Trends', 'wp-statistics'),
-            'defaultSize' => 12,
-            'queryId'     => 'traffic_trends',
-            'chartConfig' => [
-                'metrics'          => [
-                    ['key' => 'visitors', 'label' => __('Visitors', 'wp-statistics'), 'color' => 'var(--chart-1)'],
-                    ['key' => 'views', 'label' => __('Views', 'wp-statistics'), 'color' => 'var(--chart-2)'],
-                ],
-                'timeframeSupport' => true,
-            ],
-        ], $overrides);
-    }
-
-    private function mapWidget(string $queryId = 'top_countries', array $overrides = []): array
-    {
-        return array_merge([
-            'id'          => 'map',
-            'label'       => __('Map', 'wp-statistics'),
-            'type'        => 'map',
-            'defaultSize' => 12,
-            'queryId'     => $queryId,
-            'mapConfig'   => [
-                'title'  => __('Visitors', 'wp-statistics'),
-                'metric' => 'visitors',
-            ],
-        ], $overrides);
-    }
-
-    // -----------------------------------------------------------------------
-    // Reusable table column builders
-    // -----------------------------------------------------------------------
-
-    private function visitorsColumn(array $overrides = []): array
-    {
-        return array_merge([
-            'key'          => 'visitors',
-            'title'        => __('Visitors', 'wp-statistics'),
-            'type'         => 'numeric',
-            'priority'     => 'primary',
-            'comparable'   => true,
-            'previousKey'  => 'previous.visitors',
-            'size'         => 'views',
-            'cardPosition' => 'body',
-        ], $overrides);
-    }
-
-    private function viewsColumn(array $overrides = []): array
-    {
-        return array_merge([
-            'key'          => 'views',
-            'title'        => __('Views', 'wp-statistics'),
-            'type'         => 'numeric',
-            'priority'     => 'primary',
-            'comparable'   => true,
-            'previousKey'  => 'previous.views',
-            'size'         => 'views',
-            'cardPosition' => 'body',
-        ], $overrides);
-    }
-
-    private function bounceRateColumn(array $overrides = []): array
-    {
-        return array_merge([
-            'key'          => 'bounceRate',
-            'dataField'    => 'bounce_rate',
-            'title'        => __('Bounce Rate', 'wp-statistics'),
-            'type'         => 'percentage',
-            'priority'     => 'secondary',
-            'comparable'   => true,
-            'previousKey'  => 'previous.bounce_rate',
-            'size'         => 'bounceRate',
-            'mobileLabel'  => __('Bounce', 'wp-statistics'),
-            'decimals'     => 0,
-        ], $overrides);
-    }
-
-    private function sessionDurationColumn(array $overrides = []): array
-    {
-        return array_merge([
-            'key'          => 'sessionDuration',
-            'dataField'    => 'avg_session_duration',
-            'title'        => __('Avg. Duration', 'wp-statistics'),
-            'type'         => 'duration',
-            'priority'     => 'secondary',
-            'comparable'   => true,
-            'previousKey'  => 'previous.avg_session_duration',
-            'size'         => 'duration',
-            'mobileLabel'  => __('Duration', 'wp-statistics'),
-        ], $overrides);
-    }
-
-    private function viewsPerVisitorColumn(array $overrides = []): array
-    {
-        return array_merge([
-            'key'                 => 'viewsPerVisitor',
-            'title'               => __('Views/Visitor', 'wp-statistics'),
-            'type'                => 'computed-ratio',
-            'priority'            => 'secondary',
-            'sortable'            => false,
-            'comparable'          => true,
-            'mobileLabel'         => __('V/Visitor', 'wp-statistics'),
-            'numerator'           => 'views',
-            'denominator'         => 'visitors',
-            'previousNumerator'   => 'previous.views',
-            'previousDenominator' => 'previous.visitors',
-            'decimals'            => 1,
-        ], $overrides);
-    }
-
-    private function pagesPerSessionColumn(array $overrides = []): array
-    {
-        return array_merge([
-            'key'          => 'pagesPerSession',
-            'dataField'    => 'pages_per_session',
-            'title'        => __('Pages/Session', 'wp-statistics'),
-            'type'         => 'numeric',
-            'priority'     => 'secondary',
-            'comparable'   => true,
-            'previousKey'  => 'previous.pages_per_session',
-            'size'         => 'viewsPerSession',
-            'cardPosition' => 'body',
-            'decimals'     => 1,
-        ], $overrides);
-    }
 }

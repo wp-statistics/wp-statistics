@@ -55,6 +55,7 @@ import { extractFilterField, getCompatibleFilters } from '@/lib/filter-utils'
 import { getFixedDatePeriods } from '@/lib/fixed-date-ranges'
 import { type Timeframe, TIMEFRAME_TO_GROUP_BY } from '@/lib/response-helpers'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
+import { getWidgetRenderer, registerWidgetRenderer, type WidgetRenderOpts } from '@/lib/widget-renderer-registry'
 import { WordPress } from '@/lib/wordpress'
 
 // Tailwind col-span classes by widget size (must be static for Tailwind JIT)
@@ -801,108 +802,104 @@ function OverviewContent({
 
 // ------- Widget Renderers -------
 
+// Register built-in widget renderers
+registerWidgetRenderer('metrics', (widget, { colSpan, contextMenu, overviewMetrics }) => {
+  if (overviewMetrics.length === 0) return null
+  return (
+    <div key={widget.id} className={colSpan}>
+      <Panel className="h-full">
+        {contextMenu && (
+          <div className="flex items-center justify-end px-4 pt-3 pb-1">
+            {contextMenu}
+          </div>
+        )}
+        <Metrics metrics={overviewMetrics} columns={contextMenu ? 'auto' : undefined} />
+      </Panel>
+    </div>
+  )
+})
+
+registerWidgetRenderer('chart', (widget, { colSpan, contextMenu, ctx }) => {
+  if (!widget.queryId || !widget.chartConfig) return null
+  return (
+    <div key={widget.id} className={colSpan}>
+      <ChartWidget
+        widget={widget}
+        queryResult={ctx.batchItems[widget.queryId]}
+        isCompareEnabled={ctx.isCompareEnabled}
+        timeframe={ctx.timeframe}
+        onTimeframeChange={widget.chartConfig.timeframeSupport ? ctx.onTimeframeChange : undefined}
+        loading={ctx.isChartRefetching}
+        apiDateParams={ctx.apiDateParams}
+        headerRight={contextMenu}
+      />
+    </div>
+  )
+})
+
+registerWidgetRenderer('map', (widget, { colSpan, ctx }) => {
+  if (!widget.mapConfig) return null
+  return (
+    <div key={widget.id} className={colSpan}>
+      <MapWidget widget={widget} ctx={ctx} />
+    </div>
+  )
+})
+
+registerWidgetRenderer('bar-list', (widget, { colSpan, ctx, contextMenu }) => {
+  if (!widget.queryId) return null
+  return (
+    <div key={widget.id} className={colSpan}>
+      <BarListWidget widget={widget} ctx={ctx} contextMenu={contextMenu} />
+    </div>
+  )
+})
+
+registerWidgetRenderer('tabbed-bar-list', (widget, { colSpan, ctx }) => {
+  if (!widget.queryId || !widget.tabbedBarListConfig) return null
+  return (
+    <div key={widget.id} className={colSpan}>
+      <TabbedBarListWidget
+        widget={widget}
+        rows={(ctx.batchItems[widget.queryId]?.data?.rows || []) as Record<string, unknown>[]}
+        batchItems={ctx.batchItems as Record<string, { data?: { rows?: Record<string, unknown>[] } }>}
+        isCompareEnabled={ctx.isCompareEnabled}
+        calcPercentage={ctx.calcPercentage}
+        comparisonDateLabel={ctx.comparisonDateLabel}
+      />
+    </div>
+  )
+})
+
+registerWidgetRenderer('traffic-summary', (widget, { colSpan, ctx }) => {
+  if (!widget.trafficSummaryConfig) return null
+  return (
+    <div key={widget.id} className={colSpan}>
+      <TrafficSummaryWidget
+        widget={widget}
+        periods={ctx.fixedDatePeriods}
+        queries={ctx.trafficSummaryQueries}
+      />
+    </div>
+  )
+})
+
+registerWidgetRenderer('data-table', (widget, { colSpan, ctx }) => {
+  if (!widget.queryId || !widget.dataTableConfig) return null
+  return (
+    <div key={widget.id} className={colSpan}>
+      <DataTableWidget widget={widget} ctx={ctx} />
+    </div>
+  )
+})
+
+registerWidgetRenderer('registered', (widget, { colSpan, ctx }) => {
+  return <RegisteredWidgetsRenderer key={widget.id} colSpan={colSpan} ctx={ctx} />
+})
+
 /** Dispatch a widget to its renderer. Returns null for unknown types. */
-function renderWidget(
-  widget: PhpOverviewWidget,
-  opts: {
-    colSpan: string
-    contextMenu: React.ReactNode | undefined
-    overviewMetrics: Array<Record<string, unknown>>
-    ctx: WidgetRenderContext
-  },
-): React.ReactNode {
-  const { colSpan, contextMenu, overviewMetrics, ctx } = opts
-
-  switch (widget.type) {
-    case 'metrics': {
-      if (overviewMetrics.length === 0) return null
-      return (
-        <div key={widget.id} className={colSpan}>
-          <Panel className="h-full">
-            {contextMenu && (
-              <div className="flex items-center justify-end px-4 pt-3 pb-1">
-                {contextMenu}
-              </div>
-            )}
-            <Metrics metrics={overviewMetrics} columns={contextMenu ? 'auto' : undefined} />
-          </Panel>
-        </div>
-      )
-    }
-
-    case 'chart':
-      if (!widget.queryId || !widget.chartConfig) return null
-      return (
-        <div key={widget.id} className={colSpan}>
-          <ChartWidget
-            widget={widget}
-            queryResult={ctx.batchItems[widget.queryId]}
-            isCompareEnabled={ctx.isCompareEnabled}
-            timeframe={ctx.timeframe}
-            onTimeframeChange={widget.chartConfig.timeframeSupport ? ctx.onTimeframeChange : undefined}
-            loading={ctx.isChartRefetching}
-            apiDateParams={ctx.apiDateParams}
-            headerRight={contextMenu}
-          />
-        </div>
-      )
-
-    case 'map':
-      if (!widget.mapConfig) return null
-      return (
-        <div key={widget.id} className={colSpan}>
-          <MapWidget widget={widget} ctx={ctx} />
-        </div>
-      )
-
-    case 'bar-list':
-      if (!widget.queryId) return null
-      return (
-        <div key={widget.id} className={colSpan}>
-          <BarListWidget widget={widget} ctx={ctx} contextMenu={contextMenu} />
-        </div>
-      )
-
-    case 'tabbed-bar-list':
-      if (!widget.queryId || !widget.tabbedBarListConfig) return null
-      return (
-        <div key={widget.id} className={colSpan}>
-          <TabbedBarListWidget
-            widget={widget}
-            rows={(ctx.batchItems[widget.queryId]?.data?.rows || []) as Record<string, unknown>[]}
-            batchItems={ctx.batchItems as Record<string, { data?: { rows?: Record<string, unknown>[] } }>}
-            isCompareEnabled={ctx.isCompareEnabled}
-            calcPercentage={ctx.calcPercentage}
-            comparisonDateLabel={ctx.comparisonDateLabel}
-          />
-        </div>
-      )
-
-    case 'traffic-summary':
-      if (!widget.trafficSummaryConfig) return null
-      return (
-        <div key={widget.id} className={colSpan}>
-          <TrafficSummaryWidget
-            widget={widget}
-            periods={ctx.fixedDatePeriods}
-            queries={ctx.trafficSummaryQueries}
-          />
-        </div>
-      )
-
-    case 'data-table':
-      if (!widget.queryId || !widget.dataTableConfig) return null
-      return (
-        <div key={widget.id} className={colSpan}>
-          <DataTableWidget widget={widget} ctx={ctx} />
-        </div>
-      )
-
-    case 'registered':
-      return <RegisteredWidgetsRenderer key={widget.id} colSpan={colSpan} ctx={ctx} />
-
-    default:
-      return null
-  }
+function renderWidget(widget: PhpOverviewWidget, opts: WidgetRenderOpts): React.ReactNode {
+  const renderer = getWidgetRenderer(widget.type)
+  return renderer ? renderer(widget, opts) : null
 }
 
