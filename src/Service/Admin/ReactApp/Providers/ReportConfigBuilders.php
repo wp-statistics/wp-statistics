@@ -176,6 +176,8 @@ class ReportConfigBuilders
             'queryId'       => 'top_device_categories',
             'labelField'    => 'device_type_name',
             'valueField'    => 'visitors',
+            'iconType'      => 'device',
+            'iconSlugField' => 'device_type_name',
             'columnHeaders' => ['left' => __('Device Category', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
             'link'          => ['to' => '/device-categories'],
         ], $overrides);
@@ -227,6 +229,127 @@ class ReportConfigBuilders
                 'title'  => __('Visitors', 'wp-statistics'),
                 'metric' => 'visitors',
             ],
+        ], $overrides);
+    }
+
+    /**
+     * Build a "top search engines" query (referrer with search channel filter).
+     */
+    public static function topSearchEnginesQuery(string $id = 'top_search_engines', array $overrides = []): array
+    {
+        return self::topByVisitorsQuery($id, ['referrer'], ['referrer_domain', 'referrer_name', 'visitors'], array_merge([
+            'filters' => [
+                ['key' => 'referrer_domain', 'operator' => 'is_not_empty', 'value' => ''],
+                ['key' => 'referrer_channel', 'operator' => 'contains', 'value' => 'search'],
+            ],
+            'compare' => true,
+        ], $overrides));
+    }
+
+    public static function metricsOverviewWidget(array $overrides = []): array
+    {
+        return array_merge([
+            'id'          => 'metrics',
+            'type'        => 'metrics',
+            'label'       => __('Metrics Overview', 'wp-statistics'),
+            'defaultSize' => 12,
+        ], $overrides);
+    }
+
+    public static function topSearchEnginesWidget(array $overrides = []): array
+    {
+        return array_merge([
+            'id'                  => 'top-search-engines',
+            'type'                => 'bar-list',
+            'label'               => __('Top Search Engines', 'wp-statistics'),
+            'defaultSize'         => 6,
+            'queryId'             => 'top_search_engines',
+            'labelField'          => 'referrer_name',
+            'labelFallbackFields' => ['referrer_domain'],
+            'valueField'          => 'visitors',
+            'columnHeaders'       => ['left' => __('Search Engine', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
+            'link'                => ['to' => '/search-engines'],
+        ], $overrides);
+    }
+
+    public static function trafficSummaryWidget(array $overrides = []): array
+    {
+        return array_merge([
+            'id'                   => 'traffic-summary',
+            'label'                => __('Traffic Summary', 'wp-statistics'),
+            'type'                 => 'traffic-summary',
+            'defaultSize'          => 4,
+            'trafficSummaryConfig' => [
+                'sources' => ['visitors', 'views'],
+                'metrics' => [
+                    ['key' => 'visitors', 'label' => __('Visitors', 'wp-statistics')],
+                    ['key' => 'views', 'label' => __('Views', 'wp-statistics')],
+                ],
+            ],
+        ], $overrides);
+    }
+
+    // -----------------------------------------------------------------------
+    // Metric builders
+    // -----------------------------------------------------------------------
+
+    public static function visitorsMetric(string $queryId, array $overrides = []): array
+    {
+        return array_merge([
+            'id'         => 'visitors',
+            'label'      => __('Visitors', 'wp-statistics'),
+            'queryId'    => $queryId,
+            'valueField' => 'visitors',
+            'source'     => 'totals',
+            'format'     => 'compact_number',
+        ], $overrides);
+    }
+
+    public static function viewsMetric(string $queryId, array $overrides = []): array
+    {
+        return array_merge([
+            'id'         => 'views',
+            'label'      => __('Views', 'wp-statistics'),
+            'queryId'    => $queryId,
+            'valueField' => 'views',
+            'source'     => 'totals',
+            'format'     => 'compact_number',
+        ], $overrides);
+    }
+
+    public static function bounceRateMetric(string $queryId, array $overrides = []): array
+    {
+        return array_merge([
+            'id'         => 'bounce-rate',
+            'label'      => __('Bounce Rate', 'wp-statistics'),
+            'queryId'    => $queryId,
+            'valueField' => 'bounce_rate',
+            'source'     => 'totals',
+            'format'     => 'percentage',
+        ], $overrides);
+    }
+
+    public static function avgTimeOnPageMetric(string $queryId, array $overrides = []): array
+    {
+        return array_merge([
+            'id'         => 'avg-time-on-page',
+            'label'      => __('Avg. Time on Page', 'wp-statistics'),
+            'queryId'    => $queryId,
+            'valueField' => 'avg_time_on_page',
+            'source'     => 'totals',
+            'format'     => 'duration',
+        ], $overrides);
+    }
+
+    public static function sessionDurationMetric(string $queryId, array $overrides = []): array
+    {
+        return array_merge([
+            'id'         => 'session-duration',
+            'label'      => __('Session Duration', 'wp-statistics'),
+            'queryId'    => $queryId,
+            'valueField' => 'avg_session_duration',
+            'source'     => 'totals',
+            'format'     => 'duration',
         ], $overrides);
     }
 
@@ -282,7 +405,7 @@ class ReportConfigBuilders
     }
 
     // -----------------------------------------------------------------------
-    // Column builders
+    // Column builders (table columns)
     // -----------------------------------------------------------------------
 
     public static function visitorsColumn(array $overrides = []): array
