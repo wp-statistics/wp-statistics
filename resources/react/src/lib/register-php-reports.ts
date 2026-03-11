@@ -34,6 +34,7 @@ export function registerPhpReports(): void {
     const queryOptionsFn = createGenericQueryOptions(slug, config.dataSource, {
       context: config.context,
       defaultApiColumns: config.defaultApiColumns,
+      ...(config.realtime && { realtime: { windowMinutes: config.realtime.windowMinutes } }),
     })
 
     // Collect comparable columns from config
@@ -65,6 +66,7 @@ export function registerPhpReports(): void {
       enabled: config.enabled,
       headerFilter: config.headerFilter,
       expandableRows: config.expandableRows,
+      realtime: config.realtime,
       // Chart support: metrics-based charts use built-in ReportPageRenderer chart,
       // legacy charts (no metrics) use createChartSlot as beforeTable slot
       ...(config.chart && config.chart.metrics

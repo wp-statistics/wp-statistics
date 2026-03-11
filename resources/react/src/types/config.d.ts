@@ -187,6 +187,8 @@ declare global {
     previousNumerator?: string
     previousDenominator?: string
     decimals?: number
+    /** For duration type: compute duration from two datetime fields instead of reading seconds */
+    computeFrom?: { startField: string; endField: string }
   }
 
   // PHP-defined widget config
@@ -517,6 +519,11 @@ declare global {
     headerFilter?: PhpHeaderFilter
     /** Expandable rows config for sub-row drill-down (e.g., browser → versions) */
     expandableRows?: PhpExpandableRowsConfig
+    /** Realtime mode: rolling window with auto-refresh, no date range picker */
+    realtime?: {
+      windowMinutes: number
+      refetchIntervalSeconds: number
+    }
   }
 
   // Header filter config for report pages with a filter dropdown in the header

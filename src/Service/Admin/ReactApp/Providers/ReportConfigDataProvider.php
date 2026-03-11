@@ -1127,6 +1127,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'content-overview'    => $this->getContentOverviewConfig(),
             'categories-overview' => $this->getCategoriesOverviewConfig(),
 
+            'online-visitors'     => $this->getOnlineVisitorsConfig(),
             'visitors'            => $this->getVisitorsConfig(),
             'top-visitors'        => $this->getTopVisitorsConfig(),
             'referred-visitors'   => $this->getReferredVisitorsConfig(),
@@ -3565,6 +3566,75 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'columnHeaders' => ['left' => __('Device', 'wp-statistics'), 'right' => __('Visitors', 'wp-statistics')],
                 ],
             ],
+        ];
+    }
+
+    /**
+     * Online Visitors report config.
+     *
+     * Realtime rolling-window report: no date range picker, auto-refreshes every 30s.
+     *
+     * @return array
+     */
+    private function getOnlineVisitorsConfig()
+    {
+        return [
+            'type'        => 'table',
+            'title'       => esc_html__('Online Visitors', 'wp-statistics'),
+            'context'     => 'online_visitors',
+            'filterGroup' => 'visitors',
+            'hideFilters' => true,
+            'perPage'     => 50,
+            'defaultSort' => ['id' => 'lastVisit', 'desc' => true],
+            'realtime'    => [
+                'windowMinutes'          => 5,
+                'refetchIntervalSeconds' => 30,
+            ],
+            'dataSource' => [
+                'sources'       => ['visitors'],
+                'group_by'      => ['online_visitor'],
+                'columnMapping' => [
+                    'visitorInfo' => 'visitor_id',
+                    'onlineFor'   => 'total_sessions',
+                    'page'        => 'exit_page',
+                    'totalViews'  => 'total_views',
+                    'entryPage'   => 'entry_page',
+                    'referrer'    => 'referrer_domain',
+                    'lastVisit'   => 'last_visit',
+                ],
+            ],
+            'columns' => [
+                ['key' => 'visitorInfo', 'title' => esc_html__('Visitor Info', 'wp-statistics'), 'type' => 'visitor-info', 'dataField' => 'visitor_id', 'sortable' => false, 'priority' => 'primary', 'cardPosition' => 'header', 'mobileLabel' => esc_html__('Visitor', 'wp-statistics')],
+                ['key' => 'page', 'title' => esc_html__('Page', 'wp-statistics'), 'type' => 'entry-page', 'dataField' => 'exit_page', 'sortable' => false, 'priority' => 'primary', 'cardPosition' => 'header', 'mobileLabel' => esc_html__('Page', 'wp-statistics')],
+                ['key' => 'onlineFor', 'title' => esc_html__('Online', 'wp-statistics'), 'type' => 'duration', 'priority' => 'primary', 'cardPosition' => 'body', 'mobileLabel' => esc_html__('Online', 'wp-statistics'), 'computeFrom' => ['startField' => 'first_visit', 'endField' => 'last_visit']],
+                ['key' => 'totalViews', 'title' => esc_html__('Views', 'wp-statistics'), 'type' => 'numeric', 'dataField' => 'total_views', 'priority' => 'primary', 'cardPosition' => 'body', 'mobileLabel' => esc_html__('Views', 'wp-statistics')],
+                ['key' => 'referrer', 'title' => esc_html__('Referrer', 'wp-statistics'), 'type' => 'referrer', 'sortable' => false, 'priority' => 'secondary', 'mobileLabel' => esc_html__('Referrer', 'wp-statistics')],
+                ['key' => 'entryPage', 'title' => esc_html__('Entry Page', 'wp-statistics'), 'type' => 'entry-page', 'dataField' => 'entry_page', 'sortable' => false, 'priority' => 'secondary', 'mobileLabel' => esc_html__('Entry', 'wp-statistics')],
+                ['key' => 'lastVisit', 'title' => esc_html__('Last Visit', 'wp-statistics'), 'type' => 'last-visit', 'dataField' => 'last_visit', 'priority' => 'secondary', 'mobileLabel' => esc_html__('Last Visit', 'wp-statistics')],
+            ],
+            'defaultHiddenColumns' => ['entryPage', 'lastVisit'],
+            'defaultApiColumns'    => [
+                'visitor_id', 'visitor_hash', 'ip_address', 'first_visit', 'last_visit',
+                'total_views', 'total_sessions', 'country_code', 'country_name',
+                'region_name', 'city_name', 'os_name', 'browser_name', 'browser_version',
+                'device_type_name', 'user_id', 'user_login', 'user_email', 'user_role',
+                'referrer_domain', 'referrer_channel', 'entry_page', 'entry_page_type',
+                'entry_page_wp_id', 'entry_page_resource_id', 'exit_page', 'exit_page_type',
+                'exit_page_wp_id', 'exit_page_resource_id',
+            ],
+            'columnConfig' => [
+                'baseColumns'        => ['visitor_id', 'visitor_hash'],
+                'columnDependencies' => [
+                    'visitorInfo' => ['ip_address', 'country_code', 'country_name', 'region_name', 'city_name', 'os_name', 'browser_name', 'browser_version', 'user_id', 'user_login', 'user_email', 'user_role'],
+                    'onlineFor'   => ['first_visit', 'last_visit'],
+                    'page'        => ['exit_page', 'exit_page_type', 'exit_page_wp_id', 'exit_page_resource_id'],
+                    'totalViews'  => ['total_views'],
+                    'entryPage'   => ['entry_page', 'entry_page_type', 'entry_page_wp_id', 'entry_page_resource_id'],
+                    'referrer'    => ['referrer_domain', 'referrer_channel'],
+                    'lastVisit'   => ['last_visit'],
+                ],
+            ],
+            'emptyStateMessage' => esc_html__('No visitors are currently online', 'wp-statistics'),
         ];
     }
 

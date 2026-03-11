@@ -143,6 +143,11 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
   headerFilter?: PhpHeaderFilter
   /** Expandable rows config for sub-row drill-down (e.g., browser → versions) */
   expandableRows?: PhpExpandableRowsConfig
+  /** Realtime mode: rolling window with auto-refresh, no date range picker */
+  realtime?: {
+    windowMinutes: number
+    refetchIntervalSeconds: number
+  }
 
   // Level 2: Slot components for customization
   /** Component rendered before the table */
@@ -193,6 +198,7 @@ export function ReportPageRenderer<TData, TRecord>({
     enabled: queryEnabled = true,
     chart: chartConfig,
     expandableRows,
+    realtime,
     beforeTable,
     afterTable,
     headerActions,
@@ -275,15 +281,21 @@ export function ReportPageRenderer<TData, TRecord>({
       order: order as 'asc' | 'desc',
       date_from: apiDateParams.date_from,
       date_to: apiDateParams.date_to,
-      previous_date_from: apiDateParams.previous_date_from,
-      previous_date_to: apiDateParams.previous_date_to,
+      ...(!realtime && {
+        previous_date_from: apiDateParams.previous_date_from,
+        previous_date_to: apiDateParams.previous_date_to,
+      }),
       filters: mergedFilters,
       ...(apiFilters && { apiFilters }),
       ...(hasBuiltInChart && { timeframe }),
       ...(queryOverrides && { queryOverrides }),
     }),
-    placeholderData: keepPreviousData,
-    enabled: isInitialized && queryEnabled,
+    placeholderData: realtime ? undefined : keepPreviousData,
+    enabled: !!realtime || (isInitialized && queryEnabled),
+    ...(realtime && {
+      staleTime: 15 * 1000,
+      refetchInterval: realtime.refetchIntervalSeconds * 1000,
+    }),
   })
 
   // Use the preferences hook for column management (only if columnConfig provided)
@@ -398,16 +410,18 @@ export function ReportPageRenderer<TData, TRecord>({
               />
             )}
           </div>
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            onUpdate={handleDateRangeUpdate}
-            showCompare={true}
-            align="end"
-          />
+          {!realtime && (
+            <DateRangePicker
+              initialDateFrom={dateFrom}
+              initialDateTo={dateTo}
+              initialCompareFrom={compareDateFrom}
+              initialCompareTo={compareDateTo}
+              initialPeriod={period}
+              onUpdate={handleDateRangeUpdate}
+              showCompare={true}
+              align="end"
+            />
+          )}
           {headerActions && <div className="hidden lg:flex">{headerActions()}</div>}
           <OptionsDrawerTrigger {...options.triggerProps} />
         </div>

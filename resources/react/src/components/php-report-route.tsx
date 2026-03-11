@@ -1,6 +1,6 @@
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
-import { useCallback, useMemo } from 'react'
+import { type ReactNode, useCallback, useMemo } from 'react'
 
 import type { PageFilterConfig } from '@/components/custom/options-drawer'
 import { SearchTypeSelect } from '@/components/custom/search-type-select'
@@ -24,7 +24,7 @@ import { useTaxonomyFilter } from '@/hooks/use-taxonomy-filter'
  * When the config includes a headerFilter, delegates to a filter-aware
  * wrapper that injects the appropriate select component and API filters.
  */
-export function PhpReportRoute({ slug, fallbackTitle }: { slug: string; fallbackTitle: string }) {
+export function PhpReportRoute({ slug, fallbackTitle, headerActions }: { slug: string; fallbackTitle: string; headerActions?: () => ReactNode }) {
   const { getReport } = useContentRegistry()
   const report = getReport(slug)
 
@@ -59,7 +59,7 @@ export function PhpReportRoute({ slug, fallbackTitle }: { slug: string; fallback
     return <WithGroupBySelectFilter config={report.config} headerFilter={headerFilter} />
   }
 
-  return <ReportPageRenderer config={report.config} />
+  return <ReportPageRenderer config={{ ...report.config, ...(headerActions && { headerActions }) }} />
 }
 
 function WithSearchTypeFilter({ config }: { config: ReportConfig }) {

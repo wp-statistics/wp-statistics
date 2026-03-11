@@ -13,6 +13,9 @@ import { clientRequest } from '@/lib/client-request'
 import { type Timeframe,TIMEFRAME_TO_GROUP_BY } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
 
+/** Format a Date to ISO datetime string without timezone (YYYY-MM-DDTHH:mm:ss) */
+const formatIsoDateTime = (d: Date) => d.toISOString().slice(0, 19)
+
 interface GenericReportParams {
   page: number
   per_page: number
@@ -72,6 +75,8 @@ interface DataSourceConfig {
 interface ReportQueryConfig {
   context?: string
   defaultApiColumns?: string[]
+  /** When set, dates are computed from a rolling window inside queryFn (not from global filters) */
+  realtime?: { windowMinutes: number }
 }
 
 export function createGenericQueryOptions(
@@ -192,6 +197,58 @@ export function createGenericQueryOptions(
               _batchItems: remainingItems,
             },
           }
+        },
+      })
+    }
+
+    // Realtime format: compute rolling window dates inside queryFn, exclude dates from cache key
+    if (reportConfig?.realtime) {
+      const windowMs = reportConfig.realtime.windowMinutes * 60 * 1000
+
+      return queryOptions({
+        // eslint-disable-next-line @tanstack/query/exhaustive-deps -- reportConfig.context is a static config closed over at factory creation time
+        queryKey: [
+          slug,
+          params.page,
+          params.per_page,
+          mappedOrderBy,
+          params.order,
+          'realtime',
+          reportConfig.realtime.windowMinutes,
+          dataSource.sources,
+          dataSource.group_by,
+          hasFilters ? allFilters : null,
+          params.queryOverrides || null,
+        ],
+        queryFn: () => {
+          // Compute dates inside queryFn so they're fresh on each refetch
+          const now = new Date()
+          const dateFrom = new Date(now.getTime() - windowMs)
+
+          return clientRequest.post<GenericReportResponse>(
+            '',
+            {
+              sources: dataSource.sources,
+              group_by: dataSource.group_by,
+              date_from: formatIsoDateTime(dateFrom),
+              date_to: formatIsoDateTime(now),
+              compare: false,
+              ...(hasFilters && { filters: allFilters }),
+              page: params.page,
+              per_page: params.per_page,
+              order_by: mappedOrderBy,
+              order: params.order.toUpperCase(),
+              format: 'table',
+              show_totals: false,
+              ...(reportConfig.context && { context: reportConfig.context }),
+              ...params.queryOverrides,
+            },
+            {
+              params: {
+                action: WordPress.getInstance().getAnalyticsAction(),
+              },
+            }
+          )
         },
       })
     }

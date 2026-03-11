@@ -144,6 +144,7 @@ export function createColumnsFromConfig(
 
       case 'duration': {
         const previousKey = col.previousKey
+        const computeFrom = col.computeFrom
         return {
           ...base,
           header: ({ column, table }) => (
@@ -151,7 +152,16 @@ export function createColumnsFromConfig(
           ),
           ...(size ? {} : { size: COLUMN_SIZES.duration }),
           cell: ({ row }) => {
-            const seconds = Number(row.original[field]) || 0
+            let seconds: number
+            if (computeFrom) {
+              const start = new Date(String(row.original[computeFrom.startField] || ''))
+              const end = new Date(String(row.original[computeFrom.endField] || ''))
+              seconds = isNaN(start.getTime()) || isNaN(end.getTime())
+                ? 0
+                : Math.max(0, Math.floor((end.getTime() - start.getTime()) / 1000))
+            } else {
+              seconds = Number(row.original[field]) || 0
+            }
             const previousSeconds =
               isComparable && showComparison(col.key) && previousKey
                 ? Number(getNestedValue(row.original, previousKey)) || undefined
