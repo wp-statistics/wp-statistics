@@ -3311,30 +3311,9 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ReportConfigBuilders::topDeviceCategoriesQuery('top_device_categories', ['columns' => ['device_type_name', 'device_type_id', 'visitors']]),
             ],
             'metrics'          => [
-                [
-                    'id'         => 'visitors',
-                    'label'      => __('Visitors', 'wp-statistics'),
-                    'queryId'    => 'metrics',
-                    'valueField' => 'visitors',
-                    'source'     => 'totals',
-                    'format'     => 'compact_number',
-                ],
-                [
-                    'id'         => 'views',
-                    'label'      => __('Views', 'wp-statistics'),
-                    'queryId'    => 'metrics',
-                    'valueField' => 'views',
-                    'source'     => 'totals',
-                    'format'     => 'compact_number',
-                ],
-                [
-                    'id'         => 'session-duration',
-                    'label'      => __('Session Duration', 'wp-statistics'),
-                    'queryId'    => 'metrics',
-                    'valueField' => 'avg_session_duration',
-                    'source'     => 'totals',
-                    'format'     => 'duration',
-                ],
+                ReportConfigBuilders::visitorsMetric('metrics'),
+                ReportConfigBuilders::viewsMetric('metrics'),
+                ReportConfigBuilders::sessionDurationMetric('metrics'),
                 [
                     'id'         => 'views-per-session',
                     'label'      => __('Views/Session', 'wp-statistics'),
@@ -3343,14 +3322,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'source'     => 'totals',
                     'format'     => 'decimal',
                 ],
-                [
-                    'id'         => 'bounce-rate',
-                    'label'      => __('Bounce Rate', 'wp-statistics'),
-                    'queryId'    => 'metrics',
-                    'valueField' => 'bounce_rate',
-                    'source'     => 'totals',
-                    'format'     => 'percentage',
-                ],
+                ReportConfigBuilders::bounceRateMetric('metrics'),
                 [
                     'id'         => 'online-visitors',
                     'label'      => __('Online Visitors', 'wp-statistics'),
@@ -3369,13 +3341,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
             ],
             'widgets'          => [
-                [
-                    'id'             => 'metrics-overview',
-                    'label'          => __('Metrics Overview', 'wp-statistics'),
-                    'type'           => 'metrics',
-                    'defaultSize'    => 12,
-                    'allowedSizes'   => [4, 6, 8, 12],
-                ],
+                ReportConfigBuilders::metricsOverviewWidget(['id' => 'metrics-overview', 'allowedSizes' => [4, 6, 8, 12]]),
                 ReportConfigBuilders::trafficTrendsWidget(['allowedSizes' => [6, 8, 12]]),
                 [
                     'id'                  => 'top-pages',
@@ -3396,22 +3362,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
                 ReportConfigBuilders::topReferrersWidget(['defaultSize' => 6, 'allowedSizes' => [4, 6, 8, 12]]),
                 ReportConfigBuilders::topCountriesWidget(['defaultSize' => 6, 'allowedSizes' => [4, 6, 8, 12]]),
-                [
-                    'id'                  => 'top-search-engines',
-                    'label'               => __('Top Search Engines', 'wp-statistics'),
-                    'type'                => 'bar-list',
-                    'defaultSize'         => 6,
-                    'allowedSizes'        => [4, 6, 8, 12],
-                    'queryId'             => 'top_search_engines',
-                    'labelField'          => 'referrer_name',
-                    'labelFallbackFields' => ['referrer_domain'],
-                    'valueField'          => 'visitors',
-                    'columnHeaders'       => [
-                        'left'  => __('Search Engine', 'wp-statistics'),
-                        'right' => __('Visitors', 'wp-statistics'),
-                    ],
-                    'link'                => ['to' => '/search-engines'],
-                ],
+                ReportConfigBuilders::topSearchEnginesWidget(['allowedSizes' => [4, 6, 8, 12]]),
                 ReportConfigBuilders::topBrowsersWidget(['defaultSize' => 6, 'defaultVisible' => false, 'allowedSizes' => [4, 6, 8, 12]]),
                 [
                     'id'                  => 'top-visitors',
