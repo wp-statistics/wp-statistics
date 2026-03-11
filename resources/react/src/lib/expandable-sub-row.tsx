@@ -33,15 +33,19 @@ export function ExpandableSubRow({ row, config, apiDateParams }: ExpandableSubRo
     value: String(parentRow[f.valueField] || ''),
   }))
 
-  const hasCompare = !!(apiDateParams.previous_date_from && apiDateParams.previous_date_to)
+  // Support date override (e.g., all-time dates for session page views)
+  const dateOverride = config.subQuery.dateOverride
+  const effectiveDateFrom = dateOverride?.dateFrom || apiDateParams.date_from
+  const effectiveDateTo = dateOverride?.dateTo || apiDateParams.date_to
+  const hasCompare = !dateOverride && !!(apiDateParams.previous_date_from && apiDateParams.previous_date_to)
 
   const { data: response, isLoading } = useQuery({
     queryKey: [
       'expandable-sub-row',
       config.parentIdField,
       parentRow[config.parentIdField],
-      apiDateParams.date_from,
-      apiDateParams.date_to,
+      effectiveDateFrom,
+      effectiveDateTo,
       apiDateParams.previous_date_from,
       apiDateParams.previous_date_to,
       hasCompare,
@@ -57,8 +61,8 @@ export function ExpandableSubRow({ row, config, apiDateParams }: ExpandableSubRo
       clientRequest.post<SubQueryResponse>(
         '',
         {
-          date_from: apiDateParams.date_from,
-          date_to: apiDateParams.date_to,
+          date_from: effectiveDateFrom,
+          date_to: effectiveDateTo,
           compare: hasCompare,
           ...(hasCompare && {
             previous_date_from: apiDateParams.previous_date_from,
@@ -82,6 +86,8 @@ export function ExpandableSubRow({ row, config, apiDateParams }: ExpandableSubRo
         { params: { action: WordPress.getInstance().getAnalyticsAction() } }
       ),
     placeholderData: keepPreviousData,
+    // When dateOverride is set (e.g., all-time dates), data is effectively static — cache longer
+    ...(dateOverride && { staleTime: 5 * 60 * 1000 }),
   })
 
   const rows = response?.data?.items?.sub_data?.data?.rows || []

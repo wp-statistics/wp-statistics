@@ -46,6 +46,8 @@ export interface WidgetRenderContext {
   trafficSummaryQueries: { data: unknown; isLoading: boolean }[]
   // Registered widgets
   registeredWidgets: RegisteredWidget[]
+  // Route params (for detail pages, passed through to registered widgets)
+  routeParams?: Record<string, string>
 }
 
 export interface TrafficSummaryPeriodResponse {

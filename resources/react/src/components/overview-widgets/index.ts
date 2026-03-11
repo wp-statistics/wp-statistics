@@ -1,6 +1,7 @@
 export { BarListWidget } from './bar-list-widget'
 export { ChartWidget } from './chart-widget'
 export { extractRouteParamName, ICON_RENDERERS } from './constants'
+export { DataTableWidget } from './data-table-widget'
 export { MapWidget } from './map-widget'
 export { OverviewSkeleton } from './overview-skeleton'
 export { RegisteredWidgetsRenderer } from './registered-widgets-renderer'

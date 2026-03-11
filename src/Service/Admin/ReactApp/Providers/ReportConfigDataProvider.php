@@ -1132,6 +1132,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'top-visitors'        => $this->getTopVisitorsConfig(),
             'referred-visitors'   => $this->getReferredVisitorsConfig(),
             'logged-in-users'     => $this->getLoggedInUsersConfig(),
+
+            'single-visitor'      => $this->getSingleVisitorConfig(),
         ];
     }
 
@@ -3635,6 +3637,205 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
             ],
             'emptyStateMessage' => esc_html__('No visitors are currently online', 'wp-statistics'),
+        ];
+    }
+
+    /**
+     * Single Visitor detail page config.
+     *
+     * Shows detailed analytics for an individual visitor.
+     * Supports 3 visitor types: user, ip, hash.
+     *
+     * @return array
+     */
+    private function getSingleVisitorConfig()
+    {
+        return [
+            'type'              => 'detail',
+            'pageId'            => 'single-visitor',
+            'title'             => __('Visitor Report', 'wp-statistics'),
+            'filterGroup'       => 'individual-visitor',
+            'hideFilters'       => true,
+            'entityParam'       => 'id',
+            'filterField'       => 'user_id',
+            'filterFieldMapParam' => 'type',
+            'filterFieldMap'    => [
+                'user' => ['field' => 'user_id'],
+                'ip'   => ['field' => 'ip'],
+                'hash' => ['field' => 'visitor_hash', 'operator' => 'starts_with'],
+            ],
+            'backLink'          => '/visitors',
+            'backLabel'         => __('Back to Visitors', 'wp-statistics'),
+            'queries'           => [
+                // Visitor info: uses all-time date range to show first_visit/last_visit accurately
+                [
+                    'id'          => 'visitor_info',
+                    'sources'     => ['visitors'],
+                    'group_by'    => ['visitor'],
+                    'columns'     => [
+                        'user_id', 'user_login', 'user_email', 'user_role',
+                        'ip_address', 'visitor_hash',
+                        'first_visit', 'last_visit', 'total_sessions', 'total_views',
+                        'country_code', 'country_name', 'region_name', 'city_name',
+                        'browser_name', 'browser_version', 'os_name', 'device_type_name',
+                    ],
+                    'format'      => 'table',
+                    'per_page'    => 1,
+                    'order_by'    => 'last_visit',
+                    'order'       => 'DESC',
+                    'show_totals' => false,
+                    'compare'     => false,
+                    'date_from'   => '2000-01-01',
+                    'date_to'     => '2099-12-31',
+                ],
+                // Visitor metrics: aggregate totals for the selected date range
+                [
+                    'id'          => 'visitor_metrics',
+                    'sources'     => ['sessions', 'views', 'bounce_rate', 'avg_session_duration', 'pages_per_session'],
+                    'group_by'    => [],
+                    'format'      => 'flat',
+                    'show_totals' => true,
+                    'compare'     => true,
+                ],
+                // Traffic trends: chart of sessions and views over time
+                [
+                    'id'               => 'traffic_trends',
+                    'sources'          => ['sessions', 'views'],
+                    'group_by'         => ['date'],
+                    'format'           => 'chart',
+                    'show_totals'      => false,
+                    'compare'          => true,
+                    'timeframeGroupBy' => true,
+                ],
+                // Sessions: individual session rows
+                [
+                    'id'          => 'sessions',
+                    'sources'     => ['sessions'],
+                    'group_by'    => ['session'],
+                    'columns'     => [
+                        'session_id', 'session_start', 'session_end', 'session_duration',
+                        'page_count', 'entry_page', 'entry_page_title',
+                        'exit_page', 'exit_page_title',
+                        'referrer_domain', 'referrer_name', 'referrer_channel',
+                    ],
+                    'format'      => 'table',
+                    'per_page'    => 10,
+                    'order_by'    => 'session_start',
+                    'order'       => 'DESC',
+                    'show_totals' => false,
+                    'compare'     => false,
+                ],
+                // Top pages: grouped by page, ordered by views
+                [
+                    'id'          => 'top_pages',
+                    'sources'     => ['sessions', 'views'],
+                    'group_by'    => ['page'],
+                    'columns'     => ['page_uri', 'page_title', 'page_wp_id', 'views'],
+                    'format'      => 'table',
+                    'per_page'    => 5,
+                    'order_by'    => 'views',
+                    'order'       => 'DESC',
+                    'show_totals' => false,
+                    'compare'     => true,
+                ],
+                // Top referrers: grouped by referrer domain
+                [
+                    'id'          => 'top_referrers',
+                    'sources'     => ['sessions'],
+                    'group_by'    => ['referrer'],
+                    'columns'     => ['referrer_domain', 'referrer_name', 'referrer_channel', 'sessions'],
+                    'format'      => 'table',
+                    'per_page'    => 5,
+                    'order_by'    => 'sessions',
+                    'order'       => 'DESC',
+                    'show_totals' => false,
+                    'compare'     => true,
+                ],
+            ],
+            'metrics'           => [
+                ['id' => 'sessions',         'label' => __('Total Sessions', 'wp-statistics'),       'queryId' => 'visitor_metrics', 'valueField' => 'sessions',              'source' => 'totals', 'format' => 'compact_number'],
+                ['id' => 'views',            'label' => __('Total Page Views', 'wp-statistics'),     'queryId' => 'visitor_metrics', 'valueField' => 'views',                 'source' => 'totals', 'format' => 'compact_number'],
+                ['id' => 'bounce-rate',      'label' => __('Bounce Rate', 'wp-statistics'),          'queryId' => 'visitor_metrics', 'valueField' => 'bounce_rate',            'source' => 'totals', 'format' => 'percentage'],
+                ['id' => 'session-duration', 'label' => __('Avg Session Duration', 'wp-statistics'), 'queryId' => 'visitor_metrics', 'valueField' => 'avg_session_duration',   'source' => 'totals', 'format' => 'duration'],
+                ['id' => 'pages-per-session','label' => __('Pages per Session', 'wp-statistics'),    'queryId' => 'visitor_metrics', 'valueField' => 'pages_per_session',      'source' => 'totals', 'format' => 'decimal'],
+            ],
+            'widgets'           => [
+                ['id' => 'registered',        'type' => 'registered',        'label' => __('Visitor Profile', 'wp-statistics'),   'defaultSize' => 12],
+                ['id' => 'metrics',           'type' => 'metrics',           'label' => __('Metrics Overview', 'wp-statistics'),   'defaultSize' => 12],
+                [
+                    'id'          => 'activity-timeline',
+                    'type'        => 'chart',
+                    'label'       => __('Activity Timeline', 'wp-statistics'),
+                    'queryId'     => 'traffic_trends',
+                    'defaultSize' => 12,
+                    'chartConfig' => [
+                        'metrics'          => [
+                            ['key' => 'sessions', 'label' => __('Sessions', 'wp-statistics'), 'color' => 'var(--chart-1)'],
+                            ['key' => 'views',    'label' => __('Views', 'wp-statistics'),    'color' => 'var(--chart-2)'],
+                        ],
+                        'timeframeSupport' => true,
+                    ],
+                ],
+                [
+                    'id'              => 'session-history',
+                    'type'            => 'data-table',
+                    'label'           => __('Session History', 'wp-statistics'),
+                    'queryId'         => 'sessions',
+                    'defaultSize'     => 12,
+                    'dataTableConfig' => [
+                        'columns'        => [
+                            ['key' => 'session_start', 'title' => __('Date/Time', 'wp-statistics'),  'type' => 'text', 'dataField' => 'session_start_formatted', 'priority' => 'primary', 'cardPosition' => 'header', 'mobileLabel' => __('Time', 'wp-statistics')],
+                            ['key' => 'session_duration', 'title' => __('Duration', 'wp-statistics'),   'type' => 'duration', 'priority' => 'primary', 'cardPosition' => 'body'],
+                            ['key' => 'page_count',       'title' => __('Pages', 'wp-statistics'),      'type' => 'numeric',  'priority' => 'primary', 'cardPosition' => 'body', 'size' => 'views'],
+                            ['key' => 'entry_page',       'title' => __('Entry Page', 'wp-statistics'), 'type' => 'entry-page', 'sortable' => false, 'priority' => 'primary', 'cardPosition' => 'body'],
+                            ['key' => 'exit_page',        'title' => __('Exit Page', 'wp-statistics'),  'type' => 'entry-page', 'dataField' => 'exit_page', 'sortable' => false, 'priority' => 'primary', 'cardPosition' => 'body'],
+                            ['key' => 'referrer_domain',  'title' => __('Referrer', 'wp-statistics'),   'type' => 'referrer',  'sortable' => false, 'priority' => 'secondary', 'cardPosition' => 'footer'],
+                        ],
+                        'expandableRows' => [
+                            'parentIdField' => 'session_id',
+                            'subQuery'      => [
+                                'sources'      => ['views'],
+                                'group_by'     => ['page_view'],
+                                'columns'      => ['page_uri', 'page_title', 'time_on_page', 'timestamp'],
+                                'filters'      => [['key' => 'session_id', 'operator' => 'is', 'valueField' => 'session_id']],
+                                'order_by'     => 'timestamp',
+                                'order'        => 'DESC',
+                                'per_page'     => 100,
+                                'dateOverride' => ['dateFrom' => '2000-01-01', 'dateTo' => '2099-12-31'],
+                            ],
+                            'subColumns'    => [
+                                ['key' => 'page_title',   'title' => __('Page', 'wp-statistics'),         'type' => 'text'],
+                                ['key' => 'time_on_page', 'title' => __('Time on Page', 'wp-statistics'), 'type' => 'numeric'],
+                                ['key' => 'timestamp',    'title' => __('Time', 'wp-statistics'),         'type' => 'text'],
+                            ],
+                            'emptyMessage'  => __('No page views recorded', 'wp-statistics'),
+                        ],
+                        'emptyMessage' => __('No sessions found for this visitor.', 'wp-statistics'),
+                    ],
+                ],
+                [
+                    'id'            => 'top-pages',
+                    'type'          => 'bar-list',
+                    'label'         => __('Top Pages Visited', 'wp-statistics'),
+                    'queryId'       => 'top_pages',
+                    'defaultSize'   => 6,
+                    'labelField'    => 'page_title',
+                    'labelFallbackFields' => ['page_uri'],
+                    'valueField'    => 'views',
+                    'columnHeaders' => ['left' => __('Page', 'wp-statistics'), 'right' => __('Views', 'wp-statistics')],
+                ],
+                [
+                    'id'            => 'top-referrers',
+                    'type'          => 'bar-list',
+                    'label'         => __('Referral Sources', 'wp-statistics'),
+                    'queryId'       => 'top_referrers',
+                    'defaultSize'   => 6,
+                    'labelField'    => 'referrer_name',
+                    'labelFallbackFields' => ['referrer_domain'],
+                    'valueField'    => 'sessions',
+                    'columnHeaders' => ['left' => __('Source', 'wp-statistics'), 'right' => __('Sessions', 'wp-statistics')],
+                ],
+            ],
         ];
     }
 

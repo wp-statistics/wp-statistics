@@ -334,7 +334,7 @@ declare global {
   interface PhpOverviewWidget {
     id: string
     label: string
-    type: 'metrics' | 'bar-list' | 'map' | 'chart' | 'registered' | 'tabbed-bar-list' | 'traffic-summary'
+    type: 'metrics' | 'bar-list' | 'map' | 'chart' | 'registered' | 'tabbed-bar-list' | 'traffic-summary' | 'data-table'
     defaultSize: number
     /** Allowed resize options — when present, shows WidgetContextMenu */
     allowedSizes?: (4 | 6 | 8 | 12)[]
@@ -359,6 +359,12 @@ declare global {
     chartConfig?: PhpChartWidgetConfig
     tabbedBarListConfig?: PhpTabbedBarListConfig
     trafficSummaryConfig?: PhpTrafficSummaryConfig
+    /** Config for data-table widget type (renders DataTable within overview grid) */
+    dataTableConfig?: {
+      columns: PhpReportColumn[]
+      expandableRows?: PhpExpandableRowsConfig
+      emptyMessage?: string
+    }
   }
 
   // Default filter injected into API and shown as removable pill
@@ -400,6 +406,10 @@ declare global {
     filterField: string
     /** Route param name containing the dynamic filter field (overrides filterField when present) */
     filterFieldParam?: string
+    /** Map route param values to filter field/operator (e.g., visitor type → filter config) */
+    filterFieldMap?: Record<string, { field: string; operator?: string }>
+    /** Route param name to look up in filterFieldMap */
+    filterFieldMapParam?: string
     /** Route path to navigate back to (e.g., '/countries') */
     backLink?: string
     /** Back button label text */
@@ -463,6 +473,8 @@ declare global {
       order_by: string
       order: 'ASC' | 'DESC'
       per_page?: number
+      /** Override date range for sub-query (e.g., all-time dates for session page views) */
+      dateOverride?: { dateFrom: string; dateTo: string }
     }
     /** Columns for the expanded mini-table */
     subColumns: Array<{

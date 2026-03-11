@@ -31,6 +31,7 @@ import { WidgetContextMenu } from '@/components/custom/widget-context-menu'
 import {
   BarListWidget,
   ChartWidget,
+  DataTableWidget,
   MapWidget,
   type OverviewBatchResponse,
   OverviewSkeleton,
@@ -352,20 +353,29 @@ function OverviewContent({
     setTimeframe(newTimeframe)
   }, [])
 
-  // Resolve the filter field: use filterFieldParam (dynamic from route params) or fixed filterField
-  const resolvedFilterField = useMemo(() => {
-    if (!detailConfig) return undefined
-    if (detailConfig.filterFieldParam && routeParams?.[detailConfig.filterFieldParam]) {
-      return routeParams[detailConfig.filterFieldParam]
+  // Resolve the filter field and operator: supports filterFieldMap, filterFieldParam, or fixed filterField
+  const { resolvedFilterField, resolvedOperator } = useMemo(() => {
+    if (!detailConfig) return { resolvedFilterField: undefined, resolvedOperator: 'is' }
+    // filterFieldMap: map route param value to { field, operator }
+    if (detailConfig.filterFieldMap && detailConfig.filterFieldMapParam) {
+      const paramValue = routeParams?.[detailConfig.filterFieldMapParam]
+      const mapping = paramValue ? detailConfig.filterFieldMap[paramValue] : undefined
+      if (mapping) {
+        return { resolvedFilterField: mapping.field, resolvedOperator: mapping.operator || 'is' }
+      }
     }
-    return detailConfig.filterField
+    // filterFieldParam: read the filter field name from a route param
+    if (detailConfig.filterFieldParam && routeParams?.[detailConfig.filterFieldParam]) {
+      return { resolvedFilterField: routeParams[detailConfig.filterFieldParam], resolvedOperator: 'is' }
+    }
+    return { resolvedFilterField: detailConfig.filterField, resolvedOperator: 'is' }
   }, [detailConfig, routeParams])
 
   const entityFilter = useMemo(
     () => detailConfig && entityValue && resolvedFilterField
-      ? { key: resolvedFilterField, operator: 'is', value: entityValue }
+      ? { key: resolvedFilterField, operator: resolvedOperator, value: entityValue }
       : undefined,
-    [detailConfig, entityValue, resolvedFilterField]
+    [detailConfig, entityValue, resolvedFilterField, resolvedOperator]
   )
 
   // Traffic summary: parallel fixed-period queries (independent from main batch)
@@ -656,6 +666,7 @@ function OverviewContent({
     fixedDatePeriods,
     trafficSummaryQueries,
     registeredWidgets,
+    routeParams,
   }
 
   return (
@@ -876,6 +887,14 @@ function renderWidget(
             periods={ctx.fixedDatePeriods}
             queries={ctx.trafficSummaryQueries}
           />
+        </div>
+      )
+
+    case 'data-table':
+      if (!widget.queryId || !widget.dataTableConfig) return null
+      return (
+        <div key={widget.id} className={colSpan}>
+          <DataTableWidget widget={widget} ctx={ctx} />
         </div>
       )
 

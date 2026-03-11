@@ -24,6 +24,7 @@ export function RegisteredWidgetsRenderer({ colSpan, ctx }: { colSpan: string; c
               isFetching: ctx.isFetching,
               navigate: ctx.navigate,
               getTotalFromResponse,
+              routeParams: ctx.routeParams,
             })}
           </div>
         )
