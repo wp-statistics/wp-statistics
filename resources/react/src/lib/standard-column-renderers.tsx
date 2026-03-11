@@ -6,6 +6,7 @@
  */
 
 import type { ColumnDef } from '@tanstack/react-table'
+import { ChevronRight } from 'lucide-react'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { AuthorCell, DurationCell, EntryPageCell, JourneyCell, LastVisitCell, LocationCell, NumericCell, PageCell, ReferrerCell, StatusCell, TermCell, UriCell, VisitorInfoCell } from '@/components/data-table-columns'
@@ -41,12 +42,14 @@ export function createColumnsFromConfig(
   options: {
     comparisonLabel?: string
     comparisonColumns?: string[]
+    /** When true, first column gets an expand/collapse chevron toggle */
+    expandable?: boolean
   }
 ): ColumnDef<Record<string, unknown>>[] {
-  const { comparisonLabel, comparisonColumns = [] } = options
+  const { comparisonLabel, comparisonColumns = [], expandable } = options
   const showComparison = (columnId: string) => comparisonColumns.includes(columnId)
 
-  return columnDefs.map((col) => {
+  const columns = columnDefs.map((col) => {
     const isComparable = col.comparable === true
     const isSortable = col.sortable !== false
     const size = col.size ? COLUMN_SIZES[col.size as keyof typeof COLUMN_SIZES] : undefined
@@ -437,4 +440,30 @@ export function createColumnsFromConfig(
         } as ColumnDef<Record<string, unknown>>
     }
   })
+
+  // Wrap first column's cell with expand/collapse toggle when expandable rows are enabled
+  if (expandable && columns.length > 0) {
+    const first = columns[0]
+    const originalCell = first.cell
+    first.cell = (props) => {
+      const { row } = props
+      return (
+        <div className="flex items-center gap-2">
+          {row.getCanExpand() ? (
+            <button
+              onClick={(e) => { e.stopPropagation(); row.toggleExpanded() }}
+              className="flex items-center justify-center w-5 h-5 shrink-0 text-neutral-400 hover:text-neutral-600"
+            >
+              <ChevronRight className={`h-3.5 w-3.5 transition-transform ${row.getIsExpanded() ? 'rotate-90' : ''}`} />
+            </button>
+          ) : (
+            <span className="w-5 shrink-0" />
+          )}
+          {typeof originalCell === 'function' ? (originalCell as (info: typeof props) => React.ReactNode)(props) : null}
+        </div>
+      )
+    }
+  }
+
+  return columns
 }

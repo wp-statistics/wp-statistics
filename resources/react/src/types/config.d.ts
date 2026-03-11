@@ -286,6 +286,8 @@ declare global {
   interface PhpTabbedBarListTab {
     id: string
     label: string
+    /** Per-tab query ID (reads from a different batch query per tab) */
+    queryId?: string
     columnHeaders: { left: string; right: string }
     sortBy: string
     sortDesc?: boolean
@@ -394,6 +396,8 @@ declare global {
     entityParam: string
     /** API filter field name for the entity (e.g., 'country') */
     filterField: string
+    /** Route param name containing the dynamic filter field (overrides filterField when present) */
+    filterFieldParam?: string
     /** Route path to navigate back to (e.g., '/countries') */
     backLink?: string
     /** Back button label text */
@@ -444,6 +448,32 @@ declare global {
     widgets: PhpOverviewWidget[]
   }
 
+  // Expandable rows config for report pages with sub-row drill-down (e.g., browser → versions)
+  interface PhpExpandableRowsConfig {
+    /** Field on parent row used as the filter value for sub-query */
+    parentIdField: string
+    /** Sub-query definition */
+    subQuery: {
+      sources: string[]
+      group_by: string[]
+      columns?: string[]
+      filters: Array<{ key: string; operator: string; valueField: string }>
+      order_by: string
+      order: 'ASC' | 'DESC'
+      per_page?: number
+    }
+    /** Columns for the expanded mini-table */
+    subColumns: Array<{
+      key: string
+      title: string
+      type: 'text' | 'numeric'
+      comparable?: boolean
+      previousKey?: string
+    }>
+    /** Empty state message */
+    emptyMessage?: string
+  }
+
   // PHP-defined report definition
   interface PhpReportDefinition {
     type?: 'table'
@@ -485,15 +515,25 @@ declare global {
     export?: PhpReportExport
     /** Header filter dropdown config (e.g., search type, social type, taxonomy selector) */
     headerFilter?: PhpHeaderFilter
+    /** Expandable rows config for sub-row drill-down (e.g., browser → versions) */
+    expandableRows?: PhpExpandableRowsConfig
   }
 
   // Header filter config for report pages with a filter dropdown in the header
   interface PhpHeaderFilter {
-    type: 'search-type' | 'social-type' | 'taxonomy'
+    type: 'search-type' | 'social-type' | 'taxonomy' | 'group-by-select'
     /** For taxonomy: filter out non-premium taxonomies (default: false) */
     premiumOnly?: boolean
     /** API filter field name for taxonomy (e.g., 'taxonomy_type', 'post_type') */
     apiFilterField?: string
+    /** For group-by-select: select options with label and group_by override */
+    options?: Array<{ value: string; label: string; groupBy: string[] }>
+    /** For group-by-select: URL search param name (default: 'group_by_type') */
+    urlParam?: string
+    /** For group-by-select: default selected value (defaults to first option) */
+    defaultValue?: string
+    /** For group-by-select: label shown in options drawer */
+    filterLabel?: string
   }
 
   interface wpsReact {

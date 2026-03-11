@@ -47,7 +47,7 @@ export function registerPhpReports(): void {
       filterGroup: config.filterGroup,
       routeName: config.routeName || slug,
       queryOptions: queryOptionsFn,
-      columns: (options) => createColumnsFromConfig(config.columns, options),
+      columns: (options) => createColumnsFromConfig(config.columns, { ...options, expandable: !!config.expandableRows }),
       transformData: (record: Record<string, unknown>) => record,
       defaultSort: config.defaultSort || { id: 'views', desc: true },
       perPage: config.perPage || 20,
@@ -64,6 +64,7 @@ export function registerPhpReports(): void {
       hardcodedFilters: config.hardcodedFilters,
       enabled: config.enabled,
       headerFilter: config.headerFilter,
+      expandableRows: config.expandableRows,
       // Chart support: metrics-based charts use built-in ReportPageRenderer chart,
       // legacy charts (no metrics) use createChartSlot as beforeTable slot
       ...(config.chart && config.chart.metrics

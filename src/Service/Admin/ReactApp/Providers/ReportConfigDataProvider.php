@@ -534,6 +534,56 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'emptyStateMessage' => __('No operating systems found for the selected period', 'wp-statistics'),
             ],
 
+            'browsers' => [
+                'title'            => __('Browsers', 'wp-statistics'),
+                'context'          => 'browsers',
+                'filterGroup'      => 'visitors',
+                'dataSource'       => [
+                    'queryId' => 'browsers',
+                    'queries' => [
+                        [
+                            'id'          => 'browsers',
+                            'sources'     => ['visitors'],
+                            'group_by'    => ['browser'],
+                            'columns'     => ['browser_name', 'browser_id', 'visitors'],
+                            'format'      => 'table',
+                            'show_totals' => false,
+                        ],
+                    ],
+                ],
+                'columns'          => [
+                    [
+                        'key'          => 'browser_name',
+                        'title'        => __('Browser', 'wp-statistics'),
+                        'type'         => 'text',
+                        'priority'     => 'primary',
+                        'sortable'     => false,
+                        'cardPosition' => 'header',
+                    ],
+                    $this->visitorsColumn(),
+                ],
+                'defaultSort'       => ['id' => 'visitors', 'desc' => true],
+                'perPage'           => 25,
+                'emptyStateMessage' => __('No browsers found for the selected period', 'wp-statistics'),
+                'expandableRows'    => [
+                    'parentIdField' => 'browser_id',
+                    'subQuery'      => [
+                        'sources'  => ['visitors'],
+                        'group_by' => ['browser_version'],
+                        'columns'  => ['browser_version', 'visitors'],
+                        'filters'  => [['key' => 'browser', 'operator' => 'is', 'valueField' => 'browser_id']],
+                        'order_by' => 'visitors',
+                        'order'    => 'DESC',
+                        'per_page' => 50,
+                    ],
+                    'subColumns'    => [
+                        ['key' => 'browser_version', 'title' => __('Version', 'wp-statistics'), 'type' => 'text'],
+                        ['key' => 'visitors', 'title' => __('Visitors', 'wp-statistics'), 'type' => 'numeric'],
+                    ],
+                    'emptyMessage'  => __('No version data available', 'wp-statistics'),
+                ],
+            ],
+
             'cities' => [
                 'title'                => __('Cities', 'wp-statistics'),
                 'context'              => 'cities',

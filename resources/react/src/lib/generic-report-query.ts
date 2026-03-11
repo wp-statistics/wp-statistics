@@ -25,6 +25,8 @@ interface GenericReportParams {
   filters?: unknown[]
   apiFilters?: ApiFilters
   timeframe?: Timeframe
+  /** Query overrides merged into the main query (e.g., group_by override) */
+  queryOverrides?: Record<string, unknown>
 }
 
 interface GenericReportResponse {
@@ -115,6 +117,7 @@ export function createGenericQueryOptions(
           mainQueryId,
           hasFilters ? allFilters : null,
           params.timeframe || null,
+          params.queryOverrides || null,
         ],
         queryFn: async () => {
           // Build batch queries with pagination/sorting injected into the main query
@@ -134,6 +137,7 @@ export function createGenericQueryOptions(
                 order: params.order.toUpperCase(),
                 compare: q.compare !== undefined ? q.compare : hasCompare,
                 ...(reportConfig?.context && { context: reportConfig.context }),
+                ...params.queryOverrides,
               }
             }
             // Chart queries: apply timeframe group_by and comparison dates
@@ -208,6 +212,7 @@ export function createGenericQueryOptions(
         dataSource.sources,
         dataSource.group_by,
         hasFilters ? allFilters : null,
+        params.queryOverrides || null,
       ],
       queryFn: () =>
         clientRequest.post<GenericReportResponse>(
@@ -230,6 +235,7 @@ export function createGenericQueryOptions(
             format: 'table',
             show_totals: false,
             ...(reportConfig?.context && { context: reportConfig.context }),
+            ...params.queryOverrides,
           },
           {
             params: {

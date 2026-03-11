@@ -39,6 +39,7 @@ import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import type { ColumnConfig } from '@/lib/column-utils'
+import { ExpandableSubRow } from '@/lib/expandable-sub-row'
 import { extractBatchItem, extractMeta, extractRows, type Timeframe } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
 import type { ChartApiResponse } from '@/types/chart'
@@ -140,6 +141,8 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
   chart?: PhpChartConfig
   /** Header filter dropdown config — consumed by PhpReportRoute, not by this renderer */
   headerFilter?: PhpHeaderFilter
+  /** Expandable rows config for sub-row drill-down (e.g., browser → versions) */
+  expandableRows?: PhpExpandableRowsConfig
 
   // Level 2: Slot components for customization
   /** Component rendered before the table */
@@ -154,6 +157,8 @@ interface ReportPageRendererProps<TData = unknown, TRecord = unknown> {
   config: ReportConfig<TData, TRecord>
   /** Additional API filters merged into query requests */
   apiFilters?: Record<string, unknown>
+  /** Query overrides merged into the data source query (e.g., group_by override from UTM type selector) */
+  queryOverrides?: Record<string, unknown>
 }
 
 /**
@@ -162,6 +167,7 @@ interface ReportPageRendererProps<TData = unknown, TRecord = unknown> {
 export function ReportPageRenderer<TData, TRecord>({
   config,
   apiFilters,
+  queryOverrides,
 }: ReportPageRendererProps<TData, TRecord>) {
   const {
     title,
@@ -186,6 +192,7 @@ export function ReportPageRenderer<TData, TRecord>({
     pageFilters,
     enabled: queryEnabled = true,
     chart: chartConfig,
+    expandableRows,
     beforeTable,
     afterTable,
     headerActions,
@@ -273,6 +280,7 @@ export function ReportPageRenderer<TData, TRecord>({
       filters: mergedFilters,
       ...(apiFilters && { apiFilters }),
       ...(hasBuiltInChart && { timeframe }),
+      ...(queryOverrides && { queryOverrides }),
     }),
     placeholderData: keepPreviousData,
     enabled: isInitialized && queryEnabled,
@@ -489,6 +497,16 @@ export function ReportPageRenderer<TData, TRecord>({
               stickyHeader={true}
               borderless
               tableRef={tableRef}
+              {...(expandableRows && {
+                getRowCanExpand: () => true,
+                renderSubComponent: ({ row }: { row: import('@tanstack/react-table').Row<TData> }) => (
+                  <ExpandableSubRow
+                    row={row as unknown as import('@tanstack/react-table').Row<Record<string, unknown>>}
+                    config={expandableRows}
+                    apiDateParams={apiDateParams}
+                  />
+                ),
+              })}
             />
           </div>
         )}

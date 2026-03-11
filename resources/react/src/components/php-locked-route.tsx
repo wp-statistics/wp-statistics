@@ -7,10 +7,12 @@ import { __ } from '@wordpress/i18n'
 import { LockIcon, type LucideIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
+import { OverviewPageRenderer } from '@/components/overview-page-renderer'
 import { ReportPageRenderer } from '@/components/report-page-renderer'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
 import { useContentRegistry } from '@/contexts/content-registry-context'
+import { WordPress } from '@/lib/wordpress'
 
 interface PhpLockedRouteProps {
   slug: string
@@ -49,6 +51,13 @@ export function PhpLockedRoute({
   const registeredReport = getReport(slug)
   if (registeredReport?.config) {
     return <ReportPageRenderer config={registeredReport.config} />
+  }
+
+  // Check for overview/detail PHP config (not registered via registerReport, read directly from PHP data)
+  const reports = WordPress.getInstance().getData<Record<string, PhpReportDefinition | PhpOverviewDefinition | PhpDetailDefinition>>('reports')
+  const phpConfig = reports?.[slug]
+  if (phpConfig?.type === 'overview' || phpConfig?.type === 'detail') {
+    return <OverviewPageRenderer config={phpConfig} routeParams={routeParams} />
   }
 
   const pageContent = getPageContent(slug)

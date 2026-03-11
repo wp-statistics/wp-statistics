@@ -13,13 +13,9 @@ import { ExternalLink } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { BackButton } from '@/components/custom/back-button'
-import { BarListContent } from '@/components/custom/bar-list-content'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
-import { GlobalMap, type GlobalMapData } from '@/components/custom/global-map'
-import { HorizontalBar } from '@/components/custom/horizontal-bar'
-import { HorizontalBarList } from '@/components/custom/horizontal-bar-list'
-import { LineChart } from '@/components/custom/line-chart'
+import type { GlobalMapData } from '@/components/custom/global-map'
 import { Metrics } from '@/components/custom/metrics'
 import {
   OptionsDrawerTrigger,
@@ -30,34 +26,35 @@ import {
 } from '@/components/custom/options-drawer'
 import { PostMetaBar, type TermInfo } from '@/components/custom/post-meta-bar'
 import { ReportPageHeader } from '@/components/custom/report-page-header'
-import { SimpleTable, type SimpleTableColumn } from '@/components/custom/simple-table'
-import { TabbedPanel, type TabbedPanelTab } from '@/components/custom/tabbed-panel'
 import { WidgetCatalog } from '@/components/custom/widget-catalog'
 import { WidgetContextMenu } from '@/components/custom/widget-context-menu'
-import { NumericCell } from '@/components/data-table-columns'
-import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
+import {
+  BarListWidget,
+  ChartWidget,
+  MapWidget,
+  type OverviewBatchResponse,
+  OverviewSkeleton,
+  RegisteredWidgetsRenderer,
+  TabbedBarListWidget,
+  type TrafficSummaryPeriodResponse,
+  TrafficSummaryWidget,
+  type WidgetRenderContext,
+} from '@/components/overview-widgets'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
-import { BarListSkeleton, ChartSkeleton, MetricsSkeleton, PanelSkeleton } from '@/components/ui/skeletons'
-import { type RegisteredWidget,useContentRegistry } from '@/contexts/content-registry-context'
+import { useContentRegistry } from '@/contexts/content-registry-context'
 import type { MetricConfig, WidgetConfig } from '@/contexts/page-options-context'
-import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
 import { transformFiltersToApi } from '@/lib/api-filter-transform'
-import { transformToBarList } from '@/lib/bar-list-helpers'
 import { clientRequest } from '@/lib/client-request'
 import { extractFilterField, getCompatibleFilters } from '@/lib/filter-utils'
-import type { FixedDatePeriod } from '@/lib/fixed-date-ranges'
 import { getFixedDatePeriods } from '@/lib/fixed-date-ranges'
-import { type Timeframe,TIMEFRAME_TO_GROUP_BY } from '@/lib/response-helpers'
-import { getAnalyticsRoute } from '@/lib/url-utils'
+import { type Timeframe, TIMEFRAME_TO_GROUP_BY } from '@/lib/response-helpers'
 import { calcSharePercentage, decodeText, formatCompactNumber, formatDecimal, formatDuration, getTotalValue } from '@/lib/utils'
 import { WordPress } from '@/lib/wordpress'
-
-const pluginUrl = WordPress.getInstance().getPluginUrl()
 
 // Tailwind col-span classes by widget size (must be static for Tailwind JIT)
 const COL_SPAN: Record<number, string> = {
@@ -67,101 +64,8 @@ const COL_SPAN: Record<number, string> = {
   12: 'col-span-12',
 }
 
-// Extract dynamic param name from a TanStack Router path (e.g., '/author/$authorId' → 'authorId')
-function extractRouteParamName(routePath: string): string {
-  return routePath.match(/\$(\w+)/)?.[1] || 'id'
-}
-
-// Icon render functions by type
-const ICON_RENDERERS: Record<OverviewIconType, (item: Record<string, unknown>, slugField: string) => React.ReactNode> = {
-  browser: (item, field) => {
-    const slug = String(item[field] || 'unknown').toLowerCase().replace(/\s+/g, '_')
-    return <img src={`${pluginUrl}public/images/browser/${slug}.svg`} alt={String(item[field] || '')} className="h-4 w-4" />
-  },
-  os: (item, field) => {
-    const slug = String(item[field] || 'unknown').toLowerCase().replace(/[\s/]+/g, '_')
-    return <img src={`${pluginUrl}public/images/operating-system/${slug}.svg`} alt={String(item[field] || '')} className="h-4 w-4" />
-  },
-  country: (item) => {
-    const code = String(item.country_code || '000').toLowerCase()
-    return <img src={`${pluginUrl}public/images/flags/${code}.svg`} alt={String(item.country_name || '')} className="w-4 h-3" />
-  },
-  device: (item, field) => {
-    const slug = String(item[field] || 'desktop').toLowerCase()
-    return <img src={`${pluginUrl}public/images/device/${slug}.svg`} alt={String(item[field] || '')} className="h-4 w-4" />
-  },
-}
-
-// ------- Label transforms -------
-
-const LABEL_TRANSFORMS: Record<BarListLabelTransform, (value: string) => string> = {
-  'source-category': getChannelDisplayName,
-}
-
-// Stable reference for registered widget render props (avoids per-render lambda allocation)
-const getTotalFromResponse = (t: Record<string, unknown> | undefined, key: string): number =>
-  getTotalValue(t?.[key])
-
-// ------- Batch query types -------
-
-interface TrafficSummaryPeriodResponse {
-  success: boolean
-  items: {
-    traffic_summary?: {
-      success: boolean
-      totals: Record<string, { current: number | string; previous?: number | string }>
-    }
-  }
-}
-
-interface TrafficSummaryRow {
-  label: string
-  values: Record<string, number>
-  previousValues?: Record<string, number>
-  comparisonLabel?: string
-}
-
-interface BatchQueryResult {
-  success?: boolean
-  items?: Array<Record<string, unknown>>
-  totals?: Record<string, unknown>
-  data?: {
-    rows: Record<string, unknown>[]
-    totals?: Record<string, unknown>
-  }
-}
-
-interface OverviewBatchResponse {
-  success: boolean
-  items: Record<string, BatchQueryResult>
-}
-
 /** Config type accepted by the renderer: overview or detail */
 type PageConfig = PhpOverviewDefinition | PhpDetailDefinition
-
-/** Shared context passed to all widget renderers */
-interface WidgetRenderContext {
-  batchItems: Record<string, BatchQueryResult>
-  isCompareEnabled: boolean
-  comparisonDateLabel: string
-  navigate: ReturnType<typeof useNavigate>
-  calcPercentage: (current: number, previous: number) => { percentage: string; isNegative: boolean }
-  isWidgetVisible: (id: string) => boolean
-  isFetching: boolean
-  // Chart-specific
-  timeframe: Timeframe
-  onTimeframeChange?: (tf: Timeframe) => void
-  isChartRefetching: boolean
-  apiDateParams: { date_from: string; date_to: string; previous_date_from?: string; previous_date_to?: string }
-  // Map-specific
-  mapDataByWidgetId: Record<string, GlobalMapData>
-  isLoading: boolean
-  // Traffic-summary-specific
-  fixedDatePeriods: FixedDatePeriod[]
-  trafficSummaryQueries: { data: unknown; isLoading: boolean }[]
-  // Registered widgets
-  registeredWidgets: RegisteredWidget[]
-}
 
 /** Check if any chart widget in config has timeframeSupport */
 function hasTimeframeSupport(config: PageConfig): boolean {
@@ -448,11 +352,20 @@ function OverviewContent({
     setTimeframe(newTimeframe)
   }, [])
 
+  // Resolve the filter field: use filterFieldParam (dynamic from route params) or fixed filterField
+  const resolvedFilterField = useMemo(() => {
+    if (!detailConfig) return undefined
+    if (detailConfig.filterFieldParam && routeParams?.[detailConfig.filterFieldParam]) {
+      return routeParams[detailConfig.filterFieldParam]
+    }
+    return detailConfig.filterField
+  }, [detailConfig, routeParams])
+
   const entityFilter = useMemo(
-    () => detailConfig && entityValue
-      ? { key: detailConfig.filterField, operator: 'is', value: entityValue }
+    () => detailConfig && entityValue && resolvedFilterField
+      ? { key: resolvedFilterField, operator: 'is', value: entityValue }
       : undefined,
-    [detailConfig, entityValue]
+    [detailConfig, entityValue, resolvedFilterField]
   )
 
   // Traffic summary: parallel fixed-period queries (independent from main batch)
@@ -680,8 +593,12 @@ function OverviewContent({
     if (entityInfoFallback?.fallbackNameField && entityInfoFallbackResponse?.data?.data) {
       return entityInfoFallbackResponse.data.data[entityInfoFallback.fallbackNameField] || config.title
     }
+    // When no entityInfo is configured, use the decoded entity value as the title (e.g., UTM value)
+    if (entityValue && !detailConfig?.entityInfo) {
+      return decodeText(entityValue) || entityValue
+    }
     return config.title
-  }, [entityTitleFromQuery, entityInfoFallback, entityInfoFallbackResponse, config.title])
+  }, [entityTitleFromQuery, entityInfoFallback, entityInfoFallbackResponse, config.title, entityValue, detailConfig])
 
   // Title badge (e.g., page type label for URL pages) — reads from entityMetaRow
   const titleBadgeLabel = (() => {
@@ -942,6 +859,7 @@ function renderWidget(
           <TabbedBarListWidget
             widget={widget}
             rows={(ctx.batchItems[widget.queryId]?.data?.rows || []) as Record<string, unknown>[]}
+            batchItems={ctx.batchItems as Record<string, { data?: { rows?: Record<string, unknown>[] } }>}
             isCompareEnabled={ctx.isCompareEnabled}
             calcPercentage={ctx.calcPercentage}
             comparisonDateLabel={ctx.comparisonDateLabel}
@@ -969,466 +887,3 @@ function renderWidget(
   }
 }
 
-// ------- Map Widget -------
-
-function MapWidget({ widget, ctx }: { widget: PhpOverviewWidget; ctx: WidgetRenderContext }) {
-  const mapData = ctx.mapDataByWidgetId[widget.id]
-  if (!mapData) return null
-  return (
-    <GlobalMap
-      data={mapData}
-      isLoading={ctx.isLoading}
-      dateFrom={ctx.apiDateParams.date_from}
-      dateTo={ctx.apiDateParams.date_to}
-      metric={widget.mapConfig!.metric}
-      showZoomControls={true}
-      showLegend={true}
-      pluginUrl={pluginUrl}
-      title={widget.mapConfig!.title}
-      enableCityDrilldown={widget.mapConfig!.enableCityDrilldown}
-      enableMetricToggle={widget.mapConfig!.enableMetricToggle}
-      availableMetrics={widget.mapConfig!.availableMetrics}
-    />
-  )
-}
-
-// ------- Bar-List Widget -------
-
-function BarListWidget({
-  widget,
-  ctx,
-  contextMenu,
-}: {
-  widget: PhpOverviewWidget
-  ctx: WidgetRenderContext
-  contextMenu?: React.ReactNode
-}) {
-  const navigate = ctx.navigate
-  const queryResult = ctx.batchItems[widget.queryId!]
-  const rows = queryResult?.data?.rows || []
-  const totals = queryResult?.data?.totals
-
-  const linkResolvers = useMemo(() => {
-    if (widget.linkType === 'analytics-route') {
-      // Cache per-item route lookup to avoid calling getAnalyticsRoute twice per row
-      let lastItem: Record<string, unknown> | null = null
-      let lastRoute: ReturnType<typeof getAnalyticsRoute> = undefined
-      const resolveRoute = (item: Record<string, unknown>) => {
-        if (item !== lastItem) {
-          lastItem = item
-          lastRoute = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number, undefined, item.resource_id as number)
-        }
-        return lastRoute
-      }
-      return {
-        linkTo: (item: Record<string, unknown>) => resolveRoute(item)?.to,
-        linkParams: (item: Record<string, unknown>) => resolveRoute(item)?.params,
-      }
-    }
-    if (widget.linkTo && widget.linkParamField) {
-      const paramName = extractRouteParamName(widget.linkTo)
-      return {
-        linkTo: (item: Record<string, unknown>) => item[widget.linkParamField!] ? widget.linkTo! : undefined,
-        linkParams: (item: Record<string, unknown>) => {
-          const value = String(item[widget.linkParamField!] || '').toLowerCase()
-          return { [paramName]: value }
-        },
-      }
-    }
-    return {}
-  }, [widget.linkType, widget.linkTo, widget.linkParamField])
-
-  return (
-    <HorizontalBarList
-      title={widget.label}
-      showComparison={ctx.isCompareEnabled}
-      columnHeaders={widget.columnHeaders}
-      items={transformToBarList(rows, {
-        label: (item) => {
-          let raw = widget.labelField ? item[widget.labelField] : undefined
-          if (!raw && widget.labelFallbackFields) {
-            for (const field of widget.labelFallbackFields) {
-              raw = item[field]
-              if (raw) break
-            }
-          }
-          const label = String(raw || __('Unknown', 'wp-statistics'))
-          return widget.labelTransform ? LABEL_TRANSFORMS[widget.labelTransform](label) : label
-        },
-        value: (item) => Number(item[widget.valueField!]) || 0,
-        previousValue: (item) => {
-          const prev = item.previous as Record<string, unknown> | undefined
-          return prev ? Number(prev[widget.valueField!]) || 0 : 0
-        },
-        total: getTotalValue(totals?.[widget.valueField!])
-          || rows.reduce((sum: number, row: Record<string, unknown>) => sum + (Number(row[widget.valueField!]) || 0), 0)
-          || 1,
-        icon:
-          widget.iconType && widget.iconSlugField
-            ? (item) => ICON_RENDERERS[widget.iconType!](item as Record<string, unknown>, widget.iconSlugField!)
-            : undefined,
-        isCompareEnabled: ctx.isCompareEnabled,
-        comparisonDateLabel: ctx.comparisonDateLabel,
-        ...linkResolvers,
-      })}
-      link={widget.link ? { action: () => navigate({ to: widget.link!.to }) } : undefined}
-      headerRight={contextMenu}
-    />
-  )
-}
-
-// ------- Registered Widgets -------
-
-function RegisteredWidgetsRenderer({ colSpan, ctx }: { colSpan: string; ctx: WidgetRenderContext }) {
-  return (
-    <>
-      {ctx.registeredWidgets.map((rw) => {
-        if (!ctx.isWidgetVisible(rw.id)) return null
-        const widgetData = ctx.batchItems[rw.queryId]
-        const data = (widgetData as { data?: { rows?: unknown[] } })?.data?.rows || []
-        const totals = (widgetData as { data?: { totals?: Record<string, unknown> } })?.data?.totals || {}
-        return (
-          <div key={rw.id} className={colSpan}>
-            {rw.render({
-              data,
-              totals,
-              isCompareEnabled: ctx.isCompareEnabled,
-              comparisonDateLabel: ctx.comparisonDateLabel,
-              isFetching: ctx.isFetching,
-              navigate: ctx.navigate,
-              getTotalFromResponse,
-            })}
-          </div>
-        )
-      })}
-    </>
-  )
-}
-
-// ------- Chart Widget -------
-
-function ChartWidget({
-  widget,
-  queryResult,
-  isCompareEnabled,
-  timeframe,
-  onTimeframeChange,
-  loading,
-  apiDateParams,
-  headerRight,
-}: {
-  widget: PhpOverviewWidget
-  queryResult: BatchQueryResult | undefined
-  isCompareEnabled: boolean
-  timeframe: Timeframe
-  onTimeframeChange?: (tf: Timeframe) => void
-  loading: boolean
-  apiDateParams: { date_to: string; previous_date_to?: string }
-  headerRight?: React.ReactNode
-}) {
-  const { data: chartData, metrics } = useChartData(queryResult, {
-    metrics: widget.chartConfig!.metrics.map((m) => ({
-      key: m.key,
-      label: m.label,
-      color: m.color,
-      ...(m.type && { type: m.type }),
-    })),
-    showPreviousValues: isCompareEnabled,
-    preserveNull: true,
-  })
-
-  return (
-    <LineChart
-      className="h-full"
-      title={widget.label}
-      data={chartData}
-      metrics={metrics}
-      showPreviousPeriod={isCompareEnabled}
-      timeframe={timeframe}
-      onTimeframeChange={onTimeframeChange}
-      loading={loading}
-      dateTo={apiDateParams.date_to}
-      compareDateTo={apiDateParams.previous_date_to}
-      headerRight={headerRight}
-    />
-  )
-}
-
-// ------- Tabbed Bar-List Widget -------
-
-function TabbedBarListWidget({
-  widget,
-  rows,
-  isCompareEnabled,
-  calcPercentage,
-  comparisonDateLabel,
-}: {
-  widget: PhpOverviewWidget
-  rows: Record<string, unknown>[]
-  isCompareEnabled: boolean
-  calcPercentage: (current: number, previous: number) => { percentage: string; isNegative: boolean }
-  comparisonDateLabel: string
-}) {
-  const config = widget.tabbedBarListConfig!
-  const labelField = config.labelField || 'page_title'
-  const labelFallback = config.labelFallbackField || 'page_uri'
-
-  const tabs = useMemo((): TabbedPanelTab[] => {
-    return config.tabs
-      .map((tabConfig) => {
-        let tabRows = [...rows]
-
-        // Filter rows if specified (e.g., comments > 0)
-        if (tabConfig.filterField && tabConfig.filterMinValue !== undefined) {
-          tabRows = tabRows.filter((row) => Number(row[tabConfig.filterField!]) >= tabConfig.filterMinValue!)
-        }
-
-        // Skip tab entirely if filtered to empty
-        if (tabRows.length === 0 && tabConfig.filterField) return null
-
-        // Compute ratio values when computedField is set
-        const hasComputed = !!tabConfig.computedField
-        if (hasComputed) {
-          tabRows = tabRows.map((row) => ({
-            ...row,
-            _computed: Number(row[tabConfig.computedField!.denominator]) > 0
-              ? Number(row[tabConfig.computedField!.numerator]) / Number(row[tabConfig.computedField!.denominator])
-              : 0,
-          }))
-        }
-
-        // Sort rows (use _computed for computed fields when sortBy matches)
-        const sortField = hasComputed && tabConfig.sortBy === '_computed' ? '_computed' : tabConfig.sortBy
-        tabRows.sort((a, b) => {
-          let aVal: number, bVal: number
-          if (tabConfig.sortType === 'date') {
-            aVal = new Date(String(a[sortField] || 0)).getTime()
-            bVal = new Date(String(b[sortField] || 0)).getTime()
-          } else {
-            aVal = Number(a[sortField]) || 0
-            bVal = Number(b[sortField]) || 0
-          }
-          return tabConfig.sortDesc === false ? aVal - bVal : bVal - aVal
-        })
-
-        tabRows = tabRows.slice(0, tabConfig.maxItems || 5)
-
-        return {
-          id: tabConfig.id,
-          label: tabConfig.label,
-          columnHeaders: tabConfig.columnHeaders,
-          ...(tabConfig.link && { link: tabConfig.link }),
-          content: (
-            <BarListContent isEmpty={tabRows.length === 0}>
-              {tabRows.map((item, idx) => {
-                // Resolve value: computed ratio or direct field
-                const value = hasComputed ? (Number(item._computed) || 0) : (Number(item[tabConfig.valueField]) || 0)
-                const prevValue = Number((item.previous as Record<string, unknown>)?.[tabConfig.valueField]) || 0
-                const showComp = tabConfig.showComparison !== false && isCompareEnabled && !hasComputed
-                const comparison = showComp ? calcPercentage(value, prevValue) : null
-
-                // Resolve per-item link
-                let linkTo: string | undefined
-                let linkParams: Record<string, string> | undefined
-                if (config.linkType === 'analytics-route') {
-                  const route = getAnalyticsRoute(item.page_type as string, item.page_wp_id as number)
-                  linkTo = route?.to
-                  linkParams = route?.params
-                } else if (config.linkTo && config.linkParamField) {
-                  linkTo = config.linkTo
-                  linkParams = { [extractRouteParamName(config.linkTo)]: String(item[config.linkParamField] || '') }
-                }
-
-                // Resolve icon (author avatar)
-                let icon: React.ReactNode | undefined
-                if (config.iconType === 'author-avatar' && config.iconField) {
-                  const avatarUrl = String(item[config.iconField] || '')
-                  icon = avatarUrl
-                    ? <img src={avatarUrl} alt="" className="h-6 w-6 rounded-full object-cover" />
-                    : <div className="h-6 w-6 rounded-full bg-neutral-200" />
-                }
-
-                const label = String(item[labelField] || item[labelFallback] || '/')
-                const formatFn = tabConfig.valueFormat === 'decimal' ? formatDecimal : formatCompactNumber
-                const valueLabel = tabConfig.valueSuffix
-                  ? `${formatFn(value)} ${tabConfig.valueSuffix}`
-                  : formatFn(value)
-
-                return (
-                  <HorizontalBar
-                    key={`${String(item[labelFallback] || item[labelField] || idx)}-${idx}`}
-                    icon={icon}
-                    label={label}
-                    value={valueLabel}
-                    percentage={comparison?.percentage}
-                    isNegative={comparison?.isNegative}
-                    tooltipSubtitle={
-                      showComp ? `${__('Previous:', 'wp-statistics')} ${formatCompactNumber(prevValue)}` : undefined
-                    }
-                    comparisonDateLabel={comparisonDateLabel}
-                    showComparison={showComp}
-                    showBar={false}
-                    highlightFirst={false}
-                    linkTo={linkTo}
-                    linkParams={linkParams}
-                  />
-                )
-              })}
-            </BarListContent>
-          ),
-        }
-      })
-      .filter((t): t is TabbedPanelTab => t !== null)
-  }, [rows, config, isCompareEnabled, calcPercentage, comparisonDateLabel, labelField, labelFallback])
-
-  return <TabbedPanel title={widget.label} tabs={tabs} defaultTab={config.tabs[0]?.id} />
-}
-
-// ------- Skeleton -------
-
-function OverviewSkeleton({ config }: { config: PageConfig }) {
-  const metricsCount = config.metrics.length
-
-  return (
-    <div className="grid gap-3 grid-cols-12">
-      {config.widgets.map((w) => {
-        if (w.type === 'metrics') {
-          return (
-            <div key={w.id} className="col-span-12">
-              <PanelSkeleton showTitle={false}>
-                <MetricsSkeleton count={metricsCount} columns={metricsCount} />
-              </PanelSkeleton>
-            </div>
-          )
-        }
-        if (w.type === 'chart') {
-          return (
-            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12'}>
-              <PanelSkeleton titleWidth="w-32">
-                <ChartSkeleton height={256} showTitle={false} />
-              </PanelSkeleton>
-            </div>
-          )
-        }
-        if (w.type === 'map') {
-          return (
-            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12'}>
-              <PanelSkeleton titleWidth="w-40">
-                <ChartSkeleton height={256} showTitle={false} />
-              </PanelSkeleton>
-            </div>
-          )
-        }
-        if (w.type === 'bar-list') {
-          return (
-            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12 lg:col-span-6'}>
-              <PanelSkeleton>
-                <BarListSkeleton items={5} showIcon={!!w.iconType} />
-              </PanelSkeleton>
-            </div>
-          )
-        }
-        if (w.type === 'tabbed-bar-list') {
-          return (
-            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12'}>
-              <PanelSkeleton>
-                <BarListSkeleton items={5} />
-              </PanelSkeleton>
-            </div>
-          )
-        }
-        if (w.type === 'traffic-summary') {
-          return (
-            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12 lg:col-span-4'}>
-              <PanelSkeleton titleWidth="w-32">
-                <MetricsSkeleton count={5} columns={3} />
-              </PanelSkeleton>
-            </div>
-          )
-        }
-        if (w.type === 'registered') {
-          return (
-            <div key={w.id} className={COL_SPAN[w.defaultSize] || 'col-span-12'}>
-              <PanelSkeleton>
-                <BarListSkeleton items={5} />
-              </PanelSkeleton>
-            </div>
-          )
-        }
-        return null
-      })}
-    </div>
-  )
-}
-
-// ------- Traffic Summary Widget -------
-
-function TrafficSummaryWidget({
-  widget,
-  periods,
-  queries,
-}: {
-  widget: PhpOverviewWidget
-  periods: FixedDatePeriod[]
-  queries: { data: unknown; isLoading: boolean }[]
-}) {
-  const config = widget.trafficSummaryConfig!
-  const isLoading = queries.some((q) => q.isLoading)
-
-  const columns = useMemo(
-    (): SimpleTableColumn<TrafficSummaryRow>[] => [
-      {
-        key: 'period',
-        header: __('Time Period', 'wp-statistics'),
-        cell: (row) => <span className="font-medium">{row.label}</span>,
-      },
-      ...config.metrics.map((metric) => ({
-        key: metric.key,
-        header: metric.label,
-        align: 'right' as const,
-        cell: (row: TrafficSummaryRow) => (
-          <NumericCell
-            value={row.values[metric.key] || 0}
-            previousValue={row.previousValues?.[metric.key]}
-            comparisonLabel={row.comparisonLabel}
-          />
-        ),
-      })),
-    ],
-    [config.metrics]
-  )
-
-  const data = useMemo(
-    (): TrafficSummaryRow[] =>
-      periods.map((period, i) => {
-        const response = queries[i]?.data as
-          | { data?: TrafficSummaryPeriodResponse }
-          | undefined
-        const totals = response?.data?.items?.traffic_summary?.totals
-        const values: Record<string, number> = {}
-        const previousValues: Record<string, number> = {}
-
-        for (const metric of config.metrics) {
-          const val = totals?.[metric.key]
-          values[metric.key] = Number(val?.current) || 0
-          if (period.id !== 'total' && val?.previous !== undefined) {
-            previousValues[metric.key] = Number(val.previous) || 0
-          }
-        }
-
-        return {
-          label: period.label,
-          values,
-          previousValues:
-            Object.keys(previousValues).length > 0 ? previousValues : undefined,
-          comparisonLabel: period.comparisonLabel,
-        }
-      }),
-     
-    [periods, queries, config.metrics]
-  )
-
-  return (
-    <SimpleTable title={widget.label} columns={columns} data={data} isLoading={isLoading} />
-  )
-}

@@ -1,3 +1,4 @@
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { useCallback, useMemo } from 'react'
 
@@ -8,6 +9,7 @@ import { TaxonomySelect } from '@/components/custom/taxonomy-select'
 import type { ReportConfig } from '@/components/report-page-renderer'
 import { ReportPageRenderer } from '@/components/report-page-renderer'
 import { NoticeContainer } from '@/components/ui/notice-container'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useContentRegistry } from '@/contexts/content-registry-context'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useSearchTypeFilter } from '@/hooks/use-search-type-filter'
@@ -52,6 +54,9 @@ export function PhpReportRoute({ slug, fallbackTitle }: { slug: string; fallback
   }
   if (headerFilter?.type === 'taxonomy') {
     return <WithTaxonomyFilter config={report.config} headerFilter={headerFilter} />
+  }
+  if (headerFilter?.type === 'group-by-select') {
+    return <WithGroupBySelectFilter config={report.config} headerFilter={headerFilter} />
   }
 
   return <ReportPageRenderer config={report.config} />
@@ -146,6 +151,84 @@ function WithTaxonomyFilter({
         headerActions: () => <TaxonomySelect value={value} onValueChange={handleChange} />,
       }}
       apiFilters={{ [apiFilterField]: { is: value } }}
+    />
+  )
+}
+
+function WithGroupBySelectFilter({
+  config,
+  headerFilter,
+}: {
+  config: ReportConfig
+  headerFilter: PhpHeaderFilter
+}) {
+  const { setPage } = useGlobalFilters()
+  const navigate = useNavigate()
+  const search = useSearch({ strict: false }) as Record<string, unknown>
+
+  const filterOptions = useMemo(() => headerFilter.options || [], [headerFilter.options])
+  const urlParam = headerFilter.urlParam || 'group_by_type'
+  const defaultValue = headerFilter.defaultValue || filterOptions[0]?.value || ''
+  const value = (search[urlParam] as string) || defaultValue
+
+  const groupBy = useMemo(() => {
+    const selectedOption = filterOptions.find((o) => o.value === value)
+    return selectedOption?.groupBy || [value]
+  }, [filterOptions, value])
+
+  const handleChange = useCallback(
+    (newValue: string) => {
+      navigate({
+        search: (prev) => {
+          const cleaned = Object.fromEntries(
+            Object.entries(prev as Record<string, unknown>).filter(([key]) => key !== urlParam)
+          )
+          if (newValue !== defaultValue) {
+            return { ...cleaned, [urlParam]: newValue }
+          }
+          return cleaned
+        },
+        replace: true,
+      })
+      setPage(1)
+    },
+    [navigate, urlParam, defaultValue, setPage]
+  )
+
+  const pageFilterConfig = useMemo<PageFilterConfig>(
+    () => ({
+      id: urlParam,
+      label: headerFilter.filterLabel || __('Type', 'wp-statistics'),
+      value,
+      options: filterOptions.map((o) => ({ value: o.value, label: o.label })),
+      onChange: handleChange,
+    }),
+    [urlParam, headerFilter.filterLabel, value, filterOptions, handleChange]
+  )
+
+  const queryOverrides = useMemo(() => ({ group_by: groupBy }), [groupBy])
+
+  return (
+    <ReportPageRenderer
+      config={{
+        ...config,
+        pageFilters: [pageFilterConfig],
+        headerActions: () => (
+          <Select value={value} onValueChange={handleChange}>
+            <SelectTrigger className="h-8 px-3 text-xs font-medium bg-background border border-neutral-200 rounded-md hover:bg-neutral-50">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {filterOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ),
+      }}
+      queryOverrides={queryOverrides}
     />
   )
 }
