@@ -29,6 +29,20 @@ function applyColumnDefaults(col: PhpReportColumn): PhpReportColumn {
   }
 }
 
+/**
+ * Auto-derive columnMapping from columns' dataField when not explicitly provided.
+ * Only includes entries where key differs from dataField (identity mappings are redundant).
+ */
+function deriveColumnMapping(columns: PhpReportColumn[]): Record<string, string> | undefined {
+  const mapping: Record<string, string> = {}
+  for (const col of columns) {
+    if (col.dataField && col.dataField !== col.key) {
+      mapping[col.key] = col.dataField
+    }
+  }
+  return Object.keys(mapping).length > 0 ? mapping : undefined
+}
+
 export function registerPhpReports(): void {
   const reports = WordPress.getInstance().getData<Record<string, PhpReportDefinition>>('reports')
   if (!reports || Object.keys(reports).length === 0) return
@@ -43,12 +57,18 @@ export function registerPhpReports(): void {
     // Apply column defaults so PHP configs can omit common boilerplate
     const columns = config.columns.map(applyColumnDefaults)
 
+    // Auto-derive columnMapping from columns when not explicitly provided
+    const autoMapping = !config.dataSource.columnMapping ? deriveColumnMapping(columns) : undefined
+    const dataSource = autoMapping
+      ? { ...config.dataSource, columnMapping: autoMapping }
+      : config.dataSource
+
     // Build columnConfig with context for the query factory
     const columnConfig = config.columnConfig
       ? { ...config.columnConfig, context: config.context }
       : undefined
 
-    const queryOptionsFn = createGenericQueryOptions(slug, config.dataSource, {
+    const queryOptionsFn = createGenericQueryOptions(slug, dataSource, {
       context: config.context,
       defaultApiColumns: config.defaultApiColumns,
       ...(config.realtime && { realtime: { windowMinutes: config.realtime.windowMinutes } }),
@@ -67,8 +87,8 @@ export function registerPhpReports(): void {
       queryOptions: queryOptionsFn,
       columns: (options) => createColumnsFromConfig(columns, { ...options, expandable: !!config.expandableRows }),
       transformData: (record: Record<string, unknown>) => record,
-      defaultSort: config.defaultSort || { id: 'views', desc: true },
-      perPage: config.perPage || 20,
+      defaultSort: config.defaultSort || { id: 'visitors', desc: true },
+      perPage: config.perPage || 25,
       comparableColumns,
       defaultComparisonColumns: config.defaultComparisonColumns || comparableColumns,
       emptyStateMessage: config.emptyStateMessage,
@@ -104,13 +124,16 @@ export function registerPhpReports(): void {
       })
     }
 
-    // Register export config if defined
+    // Register export config if defined (sources/group_by auto-derived from dataSource when omitted)
     if (config.export) {
+      const mainQuery = dataSource.queries
+        ? dataSource.queries.find((q) => q.id === dataSource.queryId) || dataSource.queries[0]
+        : undefined
       registerExportConfig(slug, {
         reportSlug: slug,
         csvConfig: {
-          sources: config.export.sources,
-          group_by: config.export.group_by,
+          sources: config.export.sources || mainQuery?.sources || dataSource.sources || [],
+          group_by: config.export.group_by || mainQuery?.group_by || dataSource.group_by || [],
           ...(config.export.context && { context: config.export.context }),
           ...(config.export.columns && { columns: config.export.columns }),
         },

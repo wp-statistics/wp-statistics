@@ -205,10 +205,10 @@ declare global {
     columnHeaders?: { left: string; right: string }
   }
 
-  // PHP-defined export config
+  // PHP-defined export config (sources/group_by auto-derived from dataSource when omitted)
   interface PhpReportExport {
-    sources: string[]
-    group_by: string[]
+    sources?: string[]
+    group_by?: string[]
     context?: string
     columns?: string[]
   }

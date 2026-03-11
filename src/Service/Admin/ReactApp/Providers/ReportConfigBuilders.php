@@ -231,6 +231,57 @@ class ReportConfigBuilders
     }
 
     // -----------------------------------------------------------------------
+    // Column optimization helper
+    // -----------------------------------------------------------------------
+
+    /**
+     * Generate columnConfig + defaultApiColumns from a columns array.
+     *
+     * Auto-derives column dependencies from each column's dataField, numerator/denominator,
+     * and linkParamField. Columns with complex implicit dependencies (e.g., location, referrer)
+     * can provide overrides via $overrideDeps.
+     *
+     * @param array $columns       The columns array (same format as report 'columns' config).
+     * @param array $baseColumns   Base API columns always fetched (e.g., primary key fields).
+     * @param array $overrideDeps  Override dependencies for specific column keys.
+     *                             Example: ['country' => ['country_code', 'country_name']]
+     * @return array With keys 'columnConfig' and 'defaultApiColumns'.
+     */
+    public static function columnOptimization(array $columns, array $baseColumns = [], array $overrideDeps = []): array
+    {
+        $deps    = [];
+        $apiCols = $baseColumns;
+
+        foreach ($columns as $col) {
+            $key = $col['key'];
+
+            if (isset($overrideDeps[$key])) {
+                $fields = $overrideDeps[$key];
+            } elseif (isset($col['numerator'])) {
+                $fields = [$col['numerator'], $col['denominator']];
+            } else {
+                $field  = $col['dataField'] ?? $key;
+                $fields = [$field];
+            }
+
+            if (isset($col['linkParamField']) && !in_array($col['linkParamField'], $fields)) {
+                $fields[] = $col['linkParamField'];
+            }
+
+            $deps[$key] = $fields;
+            array_push($apiCols, ...$fields);
+        }
+
+        return [
+            'columnConfig'      => [
+                'baseColumns'        => $baseColumns,
+                'columnDependencies' => $deps,
+            ],
+            'defaultApiColumns' => array_values(array_unique($apiCols)),
+        ];
+    }
+
+    // -----------------------------------------------------------------------
     // Column builders
     // -----------------------------------------------------------------------
 

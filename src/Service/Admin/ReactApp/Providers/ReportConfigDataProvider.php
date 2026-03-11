@@ -113,12 +113,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     ReportConfigBuilders::visitorsColumn(),
                 ],
-                'defaultSort'       => ['id' => 'visitors', 'desc' => true],
-                'perPage'           => 25,
                 'emptyStateMessage' => __('No device categories found for the selected period', 'wp-statistics'),
                 'export'            => [
-                    'sources'  => ['visitors'],
-                    'group_by' => ['device_type'],
                     'columns'  => ['device_type_name'],
                 ],
             ],
@@ -145,14 +141,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                             'compare'  => false,
                         ],
                     ],
-                    'columnMapping' => [
-                        'country'         => 'country_name',
-                        'visitors'        => 'visitors',
-                        'views'           => 'views',
-                        'viewsPerVisitor' => 'visitors',
-                        'bounceRate'      => 'bounce_rate',
-                        'sessionDuration' => 'avg_session_duration',
-                    ],
                 ],
                 'columns'             => [
                     [
@@ -171,8 +159,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ReportConfigBuilders::bounceRateColumn(),
                     ReportConfigBuilders::sessionDurationColumn(),
                 ],
-                'defaultSort'         => ['id' => 'visitors', 'desc' => true],
-                'perPage'             => 25,
                 'defaultHiddenColumns' => ['bounceRate', 'sessionDuration'],
                 'columnConfig'        => [
                     'baseColumns'        => ['country_code', 'country_name'],
@@ -195,8 +181,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
                 'emptyStateMessage'   => __('No countries found for the selected period', 'wp-statistics'),
                 'export'              => [
-                    'sources'  => ['visitors', 'views', 'bounce_rate', 'avg_session_duration'],
-                    'group_by' => ['country'],
                     'context'  => 'countries',
                     'columns'  => ['country_code', 'country_name'],
                 ],
@@ -209,16 +193,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'dataSource'          => [
                     'sources'       => ['visitors', 'views', 'avg_session_duration', 'bounce_rate', 'pages_per_session'],
                     'group_by'      => ['referrer'],
-                    'columnMapping' => [
-                        'domain'          => 'referrer_domain',
-                        'name'            => 'referrer_name',
-                        'channel'         => 'referrer_channel',
-                        'visitors'        => 'visitors',
-                        'views'           => 'views',
-                        'sessionDuration' => 'avg_session_duration',
-                        'bounceRate'      => 'bounce_rate',
-                        'pagesPerSession' => 'pages_per_session',
-                    ],
                 ],
                 'columns'             => [
                     [
@@ -244,8 +218,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
                     ReportConfigBuilders::pagesPerSessionColumn(),
                 ],
-                'defaultSort'         => ['id' => 'visitors', 'desc' => true],
-                'perPage'             => 25,
                 'defaultHiddenColumns' => ['sessionDuration', 'bounceRate', 'pagesPerSession'],
                 'columnConfig'        => [
                     'baseColumns'        => ['referrer_id', 'referrer_domain', 'referrer_name', 'referrer_channel'],
@@ -272,8 +244,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
                 'emptyStateMessage'   => __('No referrers found for the selected period', 'wp-statistics'),
                 'export'              => [
-                    'sources'  => ['visitors', 'views', 'avg_session_duration', 'bounce_rate', 'pages_per_session'],
-                    'group_by' => ['referrer'],
                     'context'  => 'referrers',
                     'columns'  => ['referrer_domain', 'referrer_name', 'referrer_channel'],
                 ],
@@ -300,16 +270,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                             'compare'     => true,
                         ],
                     ],
-                    'columnMapping' => [
-                        'domain'          => 'referrer_domain',
-                        'name'            => 'referrer_name',
-                        'channel'         => 'referrer_channel',
-                        'visitors'        => 'visitors',
-                        'views'           => 'views',
-                        'sessionDuration' => 'avg_session_duration',
-                        'bounceRate'      => 'bounce_rate',
-                        'pagesPerSession' => 'pages_per_session',
-                    ],
                 ],
                 'columns'             => [
                     [
@@ -335,8 +295,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
                     ReportConfigBuilders::pagesPerSessionColumn(),
                 ],
-                'defaultSort'         => ['id' => 'visitors', 'desc' => true],
-                'perPage'             => 25,
                 'defaultHiddenColumns' => ['sessionDuration', 'bounceRate', 'pagesPerSession'],
                 'columnConfig'        => [
                     'baseColumns'        => ['referrer_id', 'referrer_domain', 'referrer_name', 'referrer_channel'],
@@ -368,8 +326,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
                 'emptyStateMessage'   => __('No search engine referrers found for the selected period', 'wp-statistics'),
                 'export'              => [
-                    'sources'  => ['visitors', 'views', 'avg_session_duration', 'bounce_rate', 'pages_per_session'],
-                    'group_by' => ['referrer'],
                     'context'  => 'search-engines',
                     'columns'  => ['referrer_domain', 'referrer_name', 'referrer_channel'],
                 ],
@@ -399,12 +355,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                             'compare'     => true,
                         ],
                     ],
-                    'columnMapping' => [
-                        'sourceCategory'  => 'referrer_channel',
-                        'sessionDuration' => 'avg_session_duration',
-                        'bounceRate'      => 'bounce_rate',
-                        'pagesPerSession' => 'pages_per_session',
-                    ],
                 ],
                 'columns'             => [
                     [
@@ -421,8 +371,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
                     ReportConfigBuilders::pagesPerSessionColumn(),
                 ],
-                'defaultSort'         => ['id' => 'visitors', 'desc' => true],
-                'perPage'             => 25,
                 'defaultHiddenColumns' => ['sessionDuration', 'bounceRate', 'pagesPerSession'],
                 'columnConfig'        => [
                     'baseColumns'        => ['referrer_channel'],
@@ -450,8 +398,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
                 'emptyStateMessage'   => __('No source categories found for the selected period', 'wp-statistics'),
                 'export'              => [
-                    'sources'  => ['visitors', 'views', 'avg_session_duration', 'bounce_rate', 'pages_per_session'],
-                    'group_by' => ['referrer_channel'],
                     'context'  => 'source-categories',
                     'columns'  => ['referrer_channel'],
                 ],
@@ -529,8 +475,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     ReportConfigBuilders::visitorsColumn(),
                 ],
-                'defaultSort'       => ['id' => 'visitors', 'desc' => true],
-                'perPage'           => 25,
                 'emptyStateMessage' => __('No operating systems found for the selected period', 'wp-statistics'),
             ],
 
@@ -562,8 +506,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ],
                     ReportConfigBuilders::visitorsColumn(),
                 ],
-                'defaultSort'       => ['id' => 'visitors', 'desc' => true],
-                'perPage'           => 25,
                 'emptyStateMessage' => __('No browsers found for the selected period', 'wp-statistics'),
                 'expandableRows'    => [
                     'parentIdField' => 'browser_id',
@@ -599,9 +541,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                             'show_totals' => false,
                         ],
                     ],
-                    'columnMapping' => [
-                        'country' => 'country_name',
-                    ],
                 ],
                 'columns'              => [
                     [
@@ -633,8 +572,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ReportConfigBuilders::visitorsColumn(),
                     ReportConfigBuilders::viewsColumn(),
                 ],
-                'defaultSort'          => ['id' => 'visitors', 'desc' => true],
-                'perPage'              => 25,
                 'defaultHiddenColumns' => [],
                 'columnConfig'         => [
                     'baseColumns'        => ['city_id', 'city_name'],
@@ -686,8 +623,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     ReportConfigBuilders::visitorsColumn(),
                     ReportConfigBuilders::viewsColumn(),
                 ],
-                'defaultSort'          => ['id' => 'visitors', 'desc' => true],
-                'perPage'              => 25,
                 'defaultHiddenColumns' => [],
                 'columnConfig'         => [
                     'baseColumns'        => ['timezone_id', 'timezone_name', 'timezone_offset'],
@@ -756,11 +691,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'dataSource'           => [
                     'sources'       => ['visitors', 'views', 'bounce_rate', 'avg_time_on_page', 'published_content'],
                     'group_by'      => ['page'],
-                    'columnMapping' => [
-                        'bounceRate'      => 'bounce_rate',
-                        'sessionDuration' => 'avg_time_on_page',
-                        'publishedDate'   => 'published_date',
-                    ],
                 ],
                 'columns'              => [
                     [
@@ -853,11 +783,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'dataSource'           => [
                     'sources'       => ['visitors', 'views', 'published_content', 'bounce_rate', 'avg_time_on_page'],
                     'group_by'      => ['author'],
-                    'columnMapping' => [
-                        'published'       => 'published_content',
-                        'bounceRate'      => 'bounce_rate',
-                        'sessionDuration' => 'avg_time_on_page',
-                    ],
                 ],
                 'columns'              => [
                     [
@@ -956,11 +881,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'dataSource'           => [
                     'sources'       => ['visitors', 'views', 'published_content', 'bounce_rate', 'avg_time_on_page'],
                     'group_by'      => ['taxonomy'],
-                    'columnMapping' => [
-                        'published'       => 'published_content',
-                        'bounceRate'      => 'bounce_rate',
-                        'sessionDuration' => 'avg_time_on_page',
-                    ],
                 ],
                 'columns'              => [
                     [
@@ -1144,7 +1064,24 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
      */
     private function getUsStatesConfig()
     {
-        return [
+        $columns = [
+            [
+                'key'          => 'region',
+                'dataField'    => 'region_name',
+                'title'        => __('State', 'wp-statistics'),
+                'type'         => 'text',
+                'priority'     => 'primary',
+                'sortable'     => false,
+                'cardPosition' => 'header',
+            ],
+            ReportConfigBuilders::visitorsColumn(),
+            ReportConfigBuilders::viewsColumn(),
+            ReportConfigBuilders::viewsPerVisitorColumn(),
+            ReportConfigBuilders::bounceRateColumn(),
+            ReportConfigBuilders::sessionDurationColumn(),
+        ];
+
+        return array_merge([
             'title'                => __('US States', 'wp-statistics'),
             'context'              => 'us-states',
             'filterGroup'          => 'visitors',
@@ -1160,52 +1097,13 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'filters'     => [['key' => 'country', 'operator' => 'is', 'value' => 'US']],
                     ],
                 ],
-                'columnMapping' => [
-                    'region'          => 'region_name',
-                    'bounceRate'      => 'bounce_rate',
-                    'sessionDuration' => 'avg_session_duration',
-                ],
             ],
-            'columns'              => [
-                [
-                    'key'          => 'region',
-                    'dataField'    => 'region_name',
-                    'title'        => __('State', 'wp-statistics'),
-                    'type'         => 'text',
-                    'priority'     => 'primary',
-                    'sortable'     => false,
-                    'cardPosition' => 'header',
-                ],
-                ReportConfigBuilders::visitorsColumn(),
-                ReportConfigBuilders::viewsColumn(),
-                ReportConfigBuilders::viewsPerVisitorColumn(),
-                ReportConfigBuilders::bounceRateColumn(),
-                ReportConfigBuilders::sessionDurationColumn(),
-            ],
-            'defaultSort'          => ['id' => 'visitors', 'desc' => true],
-            'perPage'              => 25,
+            'columns'              => $columns,
             'defaultHiddenColumns' => ['bounceRate', 'sessionDuration'],
-            'columnConfig'         => [
-                'baseColumns'        => ['region_code', 'region_name'],
-                'columnDependencies' => [
-                    'region'          => ['region_code', 'region_name'],
-                    'visitors'        => ['visitors'],
-                    'views'           => ['views'],
-                    'viewsPerVisitor' => ['visitors', 'views'],
-                    'bounceRate'      => ['bounce_rate'],
-                    'sessionDuration' => ['avg_session_duration'],
-                ],
-            ],
-            'defaultApiColumns'    => [
-                'region_code',
-                'region_name',
-                'visitors',
-                'views',
-                'bounce_rate',
-                'avg_session_duration',
-            ],
             'emptyStateMessage'    => __('No US states found for the selected period', 'wp-statistics'),
-        ];
+        ], ReportConfigBuilders::columnOptimization($columns, ['region_code', 'region_name'], [
+            'region' => ['region_code', 'region_name'],
+        ]));
     }
 
     /**
@@ -1215,7 +1113,25 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
      */
     private function getEuropeanCountriesConfig()
     {
-        return [
+        $columns = [
+            [
+                'key'            => 'country',
+                'title'          => __('Country', 'wp-statistics'),
+                'type'           => 'location',
+                'priority'       => 'primary',
+                'sortable'       => false,
+                'cardPosition'   => 'header',
+                'linkTo'         => '/country/$countryCode',
+                'linkParamField' => 'country_code',
+            ],
+            ReportConfigBuilders::visitorsColumn(),
+            ReportConfigBuilders::viewsColumn(),
+            ReportConfigBuilders::viewsPerVisitorColumn(),
+            ReportConfigBuilders::bounceRateColumn(),
+            ReportConfigBuilders::sessionDurationColumn(),
+        ];
+
+        return array_merge([
             'title'                => __('European Countries', 'wp-statistics'),
             'context'              => 'european-countries',
             'filterGroup'          => 'visitors',
@@ -1231,53 +1147,13 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'filters'     => [['key' => 'continent', 'operator' => 'is', 'value' => 'EU']],
                     ],
                 ],
-                'columnMapping' => [
-                    'country'         => 'country_name',
-                    'bounceRate'      => 'bounce_rate',
-                    'sessionDuration' => 'avg_session_duration',
-                ],
             ],
-            'columns'              => [
-                [
-                    'key'            => 'country',
-                    'title'          => __('Country', 'wp-statistics'),
-                    'type'           => 'location',
-                    'priority'       => 'primary',
-                    'sortable'       => false,
-                    'cardPosition'   => 'header',
-                    'linkTo'         => '/country/$countryCode',
-                    'linkParamField' => 'country_code',
-                ],
-                ReportConfigBuilders::visitorsColumn(),
-                ReportConfigBuilders::viewsColumn(),
-                ReportConfigBuilders::viewsPerVisitorColumn(),
-                ReportConfigBuilders::bounceRateColumn(),
-                ReportConfigBuilders::sessionDurationColumn(),
-            ],
-            'defaultSort'          => ['id' => 'visitors', 'desc' => true],
-            'perPage'              => 25,
+            'columns'              => $columns,
             'defaultHiddenColumns' => ['bounceRate', 'sessionDuration'],
-            'columnConfig'         => [
-                'baseColumns'        => ['country_code', 'country_name'],
-                'columnDependencies' => [
-                    'country'         => ['country_code', 'country_name'],
-                    'visitors'        => ['visitors'],
-                    'views'           => ['views'],
-                    'viewsPerVisitor' => ['visitors', 'views'],
-                    'bounceRate'      => ['bounce_rate'],
-                    'sessionDuration' => ['avg_session_duration'],
-                ],
-            ],
-            'defaultApiColumns'    => [
-                'country_code',
-                'country_name',
-                'visitors',
-                'views',
-                'bounce_rate',
-                'avg_session_duration',
-            ],
             'emptyStateMessage'    => __('No European countries found for the selected period', 'wp-statistics'),
-        ];
+        ], ReportConfigBuilders::columnOptimization($columns, ['country_code', 'country_name'], [
+            'country' => ['country_code', 'country_name'],
+        ]));
     }
 
     /**
@@ -1291,7 +1167,24 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
     {
         $userCountryName = !empty($userCountry) ? Country::getName($userCountry) : '';
 
-        return [
+        $columns = [
+            [
+                'key'          => 'region',
+                'dataField'    => 'region_name',
+                'title'        => __('Region', 'wp-statistics'),
+                'type'         => 'text',
+                'priority'     => 'primary',
+                'sortable'     => false,
+                'cardPosition' => 'header',
+            ],
+            ReportConfigBuilders::visitorsColumn(),
+            ReportConfigBuilders::viewsColumn(),
+            ReportConfigBuilders::viewsPerVisitorColumn(),
+            ReportConfigBuilders::bounceRateColumn(),
+            ReportConfigBuilders::sessionDurationColumn(),
+        ];
+
+        return array_merge([
             'title'                => !empty($userCountryName)
                 ? sprintf(__('Regions of %s', 'wp-statistics'), $userCountryName)
                 : __('Regions', 'wp-statistics'),
@@ -1312,52 +1205,13 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                             : [],
                     ],
                 ],
-                'columnMapping' => [
-                    'region'          => 'region_name',
-                    'bounceRate'      => 'bounce_rate',
-                    'sessionDuration' => 'avg_session_duration',
-                ],
             ],
-            'columns'              => [
-                [
-                    'key'          => 'region',
-                    'dataField'    => 'region_name',
-                    'title'        => __('Region', 'wp-statistics'),
-                    'type'         => 'text',
-                    'priority'     => 'primary',
-                    'sortable'     => false,
-                    'cardPosition' => 'header',
-                ],
-                ReportConfigBuilders::visitorsColumn(),
-                ReportConfigBuilders::viewsColumn(),
-                ReportConfigBuilders::viewsPerVisitorColumn(),
-                ReportConfigBuilders::bounceRateColumn(),
-                ReportConfigBuilders::sessionDurationColumn(),
-            ],
-            'defaultSort'          => ['id' => 'visitors', 'desc' => true],
-            'perPage'              => 25,
+            'columns'              => $columns,
             'defaultHiddenColumns' => ['bounceRate', 'sessionDuration'],
-            'columnConfig'         => [
-                'baseColumns'        => ['region_code', 'region_name'],
-                'columnDependencies' => [
-                    'region'          => ['region_code', 'region_name'],
-                    'visitors'        => ['visitors'],
-                    'views'           => ['views'],
-                    'viewsPerVisitor' => ['visitors', 'views'],
-                    'bounceRate'      => ['bounce_rate'],
-                    'sessionDuration' => ['avg_session_duration'],
-                ],
-            ],
-            'defaultApiColumns'    => [
-                'region_code',
-                'region_name',
-                'visitors',
-                'views',
-                'bounce_rate',
-                'avg_session_duration',
-            ],
             'emptyStateMessage'    => __('No regions found for the selected period', 'wp-statistics'),
-        ];
+        ], ReportConfigBuilders::columnOptimization($columns, ['region_code', 'region_name'], [
+            'region' => ['region_code', 'region_name'],
+        ]));
     }
 
     /**
@@ -1367,7 +1221,32 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
      */
     private function getSocialMediaConfig()
     {
-        return [
+        $columns = [
+            [
+                'key'          => 'domain',
+                'title'        => __('Domain', 'wp-statistics'),
+                'type'         => 'referrer',
+                'priority'     => 'primary',
+                'sortable'     => false,
+                'cardPosition' => 'header',
+            ],
+            [
+                'key'          => 'name',
+                'dataField'    => 'referrer_name',
+                'title'        => __('Source Name', 'wp-statistics'),
+                'type'         => 'text',
+                'priority'     => 'secondary',
+                'sortable'     => false,
+                'cardPosition' => 'body',
+            ],
+            ReportConfigBuilders::visitorsColumn(),
+            ReportConfigBuilders::viewsColumn(),
+            ReportConfigBuilders::sessionDurationColumn(['cardPosition' => 'body']),
+            ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
+            ReportConfigBuilders::pagesPerSessionColumn(),
+        ];
+
+        return array_merge([
             'title'                => __('Social Media', 'wp-statistics'),
             'context'              => 'social-media',
             'filterGroup'          => 'referrals',
@@ -1388,71 +1267,18 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'compare'     => true,
                     ],
                 ],
-                'columnMapping' => [
-                    'domain'          => 'referrer_domain',
-                    'name'            => 'referrer_name',
-                    'sessionDuration' => 'avg_session_duration',
-                    'bounceRate'      => 'bounce_rate',
-                    'pagesPerSession' => 'pages_per_session',
-                ],
             ],
-            'columns'              => [
-                [
-                    'key'          => 'domain',
-                    'title'        => __('Domain', 'wp-statistics'),
-                    'type'         => 'referrer',
-                    'priority'     => 'primary',
-                    'sortable'     => false,
-                    'cardPosition' => 'header',
-                ],
-                [
-                    'key'          => 'name',
-                    'dataField'    => 'referrer_name',
-                    'title'        => __('Source Name', 'wp-statistics'),
-                    'type'         => 'text',
-                    'priority'     => 'secondary',
-                    'sortable'     => false,
-                    'cardPosition' => 'body',
-                ],
-                ReportConfigBuilders::visitorsColumn(),
-                ReportConfigBuilders::viewsColumn(),
-                ReportConfigBuilders::sessionDurationColumn(['cardPosition' => 'body']),
-                ReportConfigBuilders::bounceRateColumn(['cardPosition' => 'body']),
-                ReportConfigBuilders::pagesPerSessionColumn(),
-            ],
-            'defaultSort'          => ['id' => 'visitors', 'desc' => true],
-            'perPage'              => 25,
+            'columns'              => $columns,
             'defaultHiddenColumns' => ['sessionDuration', 'bounceRate', 'pagesPerSession'],
-            'columnConfig'         => [
-                'baseColumns'        => ['referrer_id', 'referrer_domain', 'referrer_name', 'referrer_channel'],
-                'columnDependencies' => [
-                    'domain'          => ['referrer_domain', 'referrer_channel'],
-                    'name'            => ['referrer_name'],
-                    'visitors'        => ['visitors'],
-                    'views'           => ['views'],
-                    'sessionDuration' => ['avg_session_duration'],
-                    'bounceRate'      => ['bounce_rate'],
-                    'pagesPerSession' => ['pages_per_session'],
-                ],
-            ],
-            'defaultApiColumns'    => [
-                'referrer_id',
-                'referrer_domain',
-                'referrer_name',
-                'referrer_channel',
-                'visitors',
-                'views',
-                'avg_session_duration',
-                'bounce_rate',
-                'pages_per_session',
-            ],
             'chart'                => [
                 'queryId'          => 'chart',
                 'title'            => __('Social Media', 'wp-statistics'),
                 'compareMetricKey' => 'total',
             ],
             'emptyStateMessage'    => __('No social media referrers found for the selected period', 'wp-statistics'),
-        ];
+        ], ReportConfigBuilders::columnOptimization($columns, ['referrer_id', 'referrer_domain', 'referrer_name', 'referrer_channel'], [
+            'domain' => ['referrer_domain', 'referrer_channel'],
+        ]));
     }
 
     /**
@@ -3593,17 +3419,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'refetchIntervalSeconds' => 30,
             ],
             'dataSource' => [
-                'sources'       => ['visitors'],
-                'group_by'      => ['online_visitor'],
-                'columnMapping' => [
-                    'visitorInfo' => 'visitor_id',
-                    'onlineFor'   => 'total_sessions',
-                    'page'        => 'exit_page',
-                    'totalViews'  => 'total_views',
-                    'entryPage'   => 'entry_page',
-                    'referrer'    => 'referrer_domain',
-                    'lastVisit'   => 'last_visit',
-                ],
+                'sources'  => ['visitors'],
+                'group_by' => ['online_visitor'],
             ],
             'columns' => [
                 ['key' => 'visitorInfo', 'title' => esc_html__('Visitor Info', 'wp-statistics'), 'type' => 'visitor-info', 'dataField' => 'visitor_id', 'sortable' => false, 'priority' => 'primary', 'cardPosition' => 'header', 'mobileLabel' => esc_html__('Visitor', 'wp-statistics')],
@@ -3851,21 +3668,10 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
             'title'       => esc_html__('Visitors', 'wp-statistics'),
             'context'     => 'visitors',
             'filterGroup' => 'visitors',
-            'perPage'     => 25,
             'defaultSort' => ['id' => 'lastVisit', 'desc' => true],
             'dataSource'  => [
-                'sources'       => ['visitors', 'avg_session_duration', 'bounce_rate', 'pages_per_session', 'visitor_status'],
-                'group_by'      => ['visitor'],
-                'columnMapping' => [
-                    'lastVisit'       => 'last_visit',
-                    'visitorInfo'     => 'visitor_id',
-                    'totalViews'      => 'total_views',
-                    'totalSessions'   => 'total_sessions',
-                    'sessionDuration' => 'avg_session_duration',
-                    'viewsPerSession' => 'pages_per_session',
-                    'bounceRate'      => 'bounce_rate',
-                    'visitorStatus'   => 'visitor_status',
-                ],
+                'sources'  => ['visitors', 'avg_session_duration', 'bounce_rate', 'pages_per_session', 'visitor_status'],
+                'group_by' => ['visitor'],
             ],
             'columns' => [
                 ['key' => 'visitorInfo', 'title' => esc_html__('Visitor', 'wp-statistics'), 'type' => 'visitor-info', 'dataField' => 'visitor_id', 'priority' => 'primary'],
@@ -4026,8 +3832,8 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
 
         // Use batch queries: table + chart
         $config['dataSource'] = [
-            'queryId'       => 'logged_in_users',
-            'queries'       => [
+            'queryId'  => 'logged_in_users',
+            'queries'  => [
                 [
                     'id'       => 'logged_in_users',
                     'sources'  => ['visitors'],
@@ -4040,14 +3846,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'group_by' => ['date'],
                     'format'   => 'chart',
                 ],
-            ],
-            'columnMapping' => [
-                'visitorInfo' => 'visitor_id',
-                'lastVisit'   => 'last_visit',
-                'page'        => 'entry_page',
-                'referrer'    => 'referrer_domain',
-                'entryPage'   => 'entry_page',
-                'totalViews'  => 'total_views',
             ],
         ];
 
