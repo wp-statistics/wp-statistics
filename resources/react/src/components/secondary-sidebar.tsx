@@ -9,10 +9,10 @@ interface SecondarySidebarProps extends React.ComponentProps<typeof Sidebar> {
 export function SecondarySidebar({ items, ...props }: SecondarySidebarProps) {
   return (
     <Sidebar variant="sidebar" collapsible="icon" {...props}>
-      <SidebarContent className="pb-12">
+      <SidebarContent>
         <NavMain items={items} />
       </SidebarContent>
-      <SidebarFooter className="fixed bottom-0 left-(--wp-admin-sidebar-width) z-20 w-(--sidebar-width) shrink-0 bg-sidebar transition-[width] duration-200 ease-linear group-data-[collapsible=icon]:w-(--sidebar-width-icon)">
+      <SidebarFooter>
         <SidebarTrigger className="ms-auto" />
       </SidebarFooter>
     </Sidebar>
