@@ -10,7 +10,8 @@
     "**/mini-chart.js",
     "**/tracker.js",
     "**/exports.ts",
-    "**/custom-components.ts"
+    "**/custom-components.ts",
+    "**/registration.ts"
   ],
   "scripts": {
     "build": "npm run build:entries && npm run build:blocks && npm run build:react",

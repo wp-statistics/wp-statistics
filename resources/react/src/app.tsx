@@ -1,3 +1,5 @@
+// Register PHP-defined reports before React renders
+import './registration'
 // Register custom React components for PHP-driven settings/tools tabs
 import './settings/custom-components'
 
