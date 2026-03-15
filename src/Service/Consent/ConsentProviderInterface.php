@@ -9,8 +9,6 @@ interface ConsentProviderInterface
     public function isAvailable(): bool;
     public function isSelectable(): bool;
     public function shouldShowNotice(): bool;
-    public function getTrackingLevel(): string;
-    public function shouldAnonymize(): bool;
     public function register(): void;
     public function getJsHandles(): array;
     public function getJsConfig(): array;

@@ -189,31 +189,30 @@ class ConsentManager
     /**
      * Get the effective tracking level.
      *
-     * The JS tracker sends a tracking_level flag reflecting the client-side
-     * consent check. The client may only restrict the level (full → anonymous
-     * or none), never elevate it beyond what the server-side provider allows.
-     * This prevents spoofed requests from bypassing consent.
+     * The JS tracker is the source of truth for consent. It checks the
+     * consent provider's browser API directly and sends the result as
+     * tracking_level in the hit payload.
      *
-     * Falls back to the server-side provider for non-tracking contexts
-     * (admin UI, cron, etc.) where no client flag is present.
+     * When no valid client flag is present: defaults to FULL if no consent
+     * provider is configured (no consent needed), or NONE if a consent
+     * provider is active (fail-closed to prevent tracking without consent).
      *
      * @return string
      */
     public function getTrackingLevel(): string
     {
-        $serverLevel = $this->activeProvider->getTrackingLevel();
         $clientLevel = Request::get('tracking_level', '');
 
-        if (!in_array($clientLevel, [TrackingLevel::FULL, TrackingLevel::ANONYMOUS, TrackingLevel::NONE], true)) {
-            return $serverLevel;
+        if (in_array($clientLevel, TrackingLevel::all(), true)) {
+            return $clientLevel;
         }
 
-        // Client may only restrict, never elevate
-        $hierarchy = [TrackingLevel::NONE => 0, TrackingLevel::ANONYMOUS => 1, TrackingLevel::FULL => 2];
+        // Fail-closed when consent provider is active
+        if (!($this->activeProvider instanceof NoneConsentProvider)) {
+            return TrackingLevel::NONE;
+        }
 
-        return ($hierarchy[$clientLevel] ?? 2) <= ($hierarchy[$serverLevel] ?? 2)
-            ? $clientLevel
-            : $serverLevel;
+        return TrackingLevel::FULL;
     }
 
     /**

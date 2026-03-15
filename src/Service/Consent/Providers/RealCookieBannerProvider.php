@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
-use WP_Statistics\Service\Consent\TrackingLevel;
 
 class RealCookieBannerProvider extends AbstractConsentProvider
 {
@@ -27,26 +26,6 @@ class RealCookieBannerProvider extends AbstractConsentProvider
         if (function_exists('wp_rcb_invalidate_templates_cache')) {
             wp_rcb_invalidate_templates_cache();
         }
-    }
-
-    public function getTrackingLevel(): string
-    {
-        if (!function_exists('wp_rcb_consent_given')) {
-            return TrackingLevel::NONE;
-        }
-
-        $base           = !empty(wp_rcb_consent_given('wp-statistics')['cookieOptIn']);
-        $dataProcessing = !empty(wp_rcb_consent_given('wp-statistics-with-data-processing')['cookieOptIn']);
-
-        if ($base && !$dataProcessing) {
-            return TrackingLevel::ANONYMOUS;
-        }
-
-        if ($base || $dataProcessing) {
-            return TrackingLevel::FULL;
-        }
-
-        return TrackingLevel::NONE;
     }
 
     public function handleIntegration($integration): void

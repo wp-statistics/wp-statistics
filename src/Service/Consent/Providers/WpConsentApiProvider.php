@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
-use WP_Statistics\Service\Consent\TrackingLevel;
 
 class WpConsentApiProvider extends AbstractConsentProvider
 {
@@ -18,23 +17,6 @@ class WpConsentApiProvider extends AbstractConsentProvider
     public function shouldShowNotice(): bool
     {
         return $this->isAvailable() && !empty($this->getCompatiblePlugins());
-    }
-
-    public function getTrackingLevel(): string
-    {
-        if (!function_exists('wp_has_consent')) {
-            return TrackingLevel::NONE;
-        }
-
-        if (wp_has_consent('statistics')) {
-            return TrackingLevel::FULL;
-        }
-
-        if (wp_has_consent('statistics-anonymous')) {
-            return TrackingLevel::ANONYMOUS;
-        }
-
-        return TrackingLevel::NONE;
     }
 
     public function register(): void

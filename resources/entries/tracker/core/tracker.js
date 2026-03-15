@@ -5,7 +5,7 @@
  */
 
 import { applyFilters, doAction, addAction } from './hooks.js';
-import { getConfig, isPreview } from './config.js';
+import { getConfig, isPreview, getTrackingLevels } from './config.js';
 import { registerConsentAdapter } from './consent.js';
 import * as hit from '../trackers/hit.js';
 import * as engagement from '../trackers/engagement.js';
@@ -29,9 +29,10 @@ export function init() {
     registerConsentAdapter();
 
     // Check tracking level
-    var trackingLevel = applyFilters('trackingLevel', 'full');
+    var levels = getTrackingLevels();
+    var trackingLevel = applyFilters('trackingLevel', levels.full);
 
-    if (trackingLevel === 'none') {
+    if (trackingLevel === levels.none) {
         // Wait for consent to be granted
         addAction('consentChanged', onConsentChanged);
         return;
@@ -42,8 +43,9 @@ export function init() {
 }
 
 function onConsentChanged() {
-    var trackingLevel = applyFilters('trackingLevel', 'full');
-    if (trackingLevel === 'none') return;
+    var levels = getTrackingLevels();
+    var trackingLevel = applyFilters('trackingLevel', levels.full);
+    if (trackingLevel === levels.none) return;
 
     startTracking(trackingLevel);
 }
@@ -68,25 +70,21 @@ function startTracking(trackingLevel) {
 }
 
 function initEngagement() {
-    // Initialize engagement tracker (uses default 30s activityTimeout)
     engagement.init();
 
-    // Initialize batch queue
     queue.init({
         maxQueueSize: 10,
         flushInterval: 60000,
     });
 
-    // Start periodic flush
     queue.startPeriodicFlush();
 }
 
 function onSpaNavigation() {
-    // Re-check consent (may have changed)
-    var trackingLevel = applyFilters('trackingLevel', 'full');
-    if (trackingLevel === 'none') return;
+    var levels = getTrackingLevels();
+    var trackingLevel = applyFilters('trackingLevel', levels.full);
+    if (trackingLevel === levels.none) return;
 
-    // Send hit for new page
     hit.send(trackingLevel).then(function (success) {
         if (success) {
             doAction('trackerInit');

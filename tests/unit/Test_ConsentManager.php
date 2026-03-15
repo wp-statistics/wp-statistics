@@ -18,6 +18,14 @@ class Test_ConsentManager extends WP_UnitTestCase
             get_option('wp_statistics', []),
             ['consent_integration' => 'none']
         ));
+        // Clear any tracking_level from previous tests
+        unset($_REQUEST['tracking_level'], $_POST['tracking_level'], $_GET['tracking_level']);
+    }
+
+    public function tearDown(): void
+    {
+        unset($_REQUEST['tracking_level'], $_POST['tracking_level'], $_GET['tracking_level']);
+        parent::tearDown();
     }
 
     private function createManager(): ConsentManager
@@ -70,40 +78,51 @@ class Test_ConsentManager extends WP_UnitTestCase
         $this->assertInstanceOf(NoneConsentProvider::class, $manager->getActiveProvider());
     }
 
-    public function test_tracking_level_returns_full_for_none_provider()
+    public function test_tracking_level_defaults_to_full_without_request_param()
     {
         $manager = $this->createManager();
-        $this->assertSame(TrackingLevel::FULL, $manager->getActiveProvider()->getTrackingLevel());
+        $this->assertSame(TrackingLevel::FULL, $manager->getTrackingLevel());
     }
 
-    public function test_should_anonymize_defaults_false()
+    public function test_should_anonymize_false_when_full()
     {
+        $_REQUEST['tracking_level'] = TrackingLevel::FULL;
         $manager = $this->createManager();
-        $this->assertFalse($manager->getActiveProvider()->shouldAnonymize());
+        $this->assertFalse($manager->shouldAnonymize());
     }
 
-    public function test_tracking_level_anonymous_when_provider_tracks_anonymously()
+    public function test_should_anonymize_true_when_anonymous()
     {
-        $manager = $this->buildManagerWithMockProvider(TrackingLevel::ANONYMOUS);
-
-        $this->assertSame(TrackingLevel::ANONYMOUS, $manager->getActiveProvider()->getTrackingLevel());
-        $this->assertTrue($manager->getActiveProvider()->shouldAnonymize());
+        $_REQUEST['tracking_level'] = TrackingLevel::ANONYMOUS;
+        $manager = $this->createManager();
+        $this->assertTrue($manager->shouldAnonymize());
     }
 
-    public function test_tracking_level_none_when_no_consent()
+    public function test_should_anonymize_true_when_none()
     {
-        $manager = $this->buildManagerWithMockProvider(TrackingLevel::NONE);
-
-        $this->assertSame(TrackingLevel::NONE, $manager->getActiveProvider()->getTrackingLevel());
-        $this->assertFalse($manager->getActiveProvider()->shouldAnonymize());
+        $_REQUEST['tracking_level'] = TrackingLevel::NONE;
+        $manager = $this->createManager();
+        $this->assertTrue($manager->shouldAnonymize());
     }
 
-    private function buildManagerWithMockProvider(string $trackingLevel): ConsentManager
+    public function test_tracking_level_reads_from_request()
+    {
+        $_REQUEST['tracking_level'] = TrackingLevel::ANONYMOUS;
+        $manager = $this->createManager();
+        $this->assertSame(TrackingLevel::ANONYMOUS, $manager->getTrackingLevel());
+    }
+
+    public function test_tracking_level_ignores_invalid_request_value()
+    {
+        $_REQUEST['tracking_level'] = 'invalid_value';
+        $manager = $this->createManager();
+        $this->assertSame(TrackingLevel::FULL, $manager->getTrackingLevel());
+    }
+
+    private function buildManagerWithMockProvider(): ConsentManager
     {
         $mock = $this->createMock(ConsentProviderInterface::class);
         $mock->method('getKey')->willReturn('mock_provider');
-        $mock->method('getTrackingLevel')->willReturn($trackingLevel);
-        $mock->method('shouldAnonymize')->willReturn($trackingLevel === TrackingLevel::ANONYMOUS);
         $mock->method('isAvailable')->willReturn(true);
         $mock->method('getJsConfig')->willReturn(['mode' => 'mock']);
         $mock->method('getJsHandles')->willReturn([]);
@@ -203,15 +222,6 @@ class Test_ConsentManager extends WP_UnitTestCase
         $manager = new ConsentManager();
 
         $this->assertInstanceOf(NoneConsentProvider::class, $manager->getActiveProvider());
-        $this->assertSame(TrackingLevel::FULL, $manager->getActiveProvider()->getTrackingLevel());
-    }
-
-    public function test_tracking_level_full_when_mock_provider_has_consent()
-    {
-        $manager = $this->buildManagerWithMockProvider(TrackingLevel::FULL);
-
-        $this->assertSame(TrackingLevel::FULL, $manager->getActiveProvider()->getTrackingLevel());
-        $this->assertFalse($manager->getActiveProvider()->shouldAnonymize());
     }
 
     public function test_boot_is_idempotent()
@@ -370,16 +380,6 @@ class Test_ConsentManager extends WP_UnitTestCase
             public function shouldShowNotice(): bool
             {
                 return true;
-            }
-
-            public function getTrackingLevel(): string
-            {
-                return \WP_Statistics\Service\Consent\TrackingLevel::FULL;
-            }
-
-            public function shouldAnonymize(): bool
-            {
-                return false;
             }
 
             public function register(): void

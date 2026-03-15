@@ -7,6 +7,7 @@ use WP_Statistics\Components\Option;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Bootstrap;
 use WP_Statistics\Service\Consent\ConsentManager;
+use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
@@ -120,6 +121,7 @@ class FrontendHandler extends BaseAssets
             'userOnline'           => Option::getValue('useronline'),
             'bypassAdBlockers'     => Option::getValue('bypass_ad_blockers', false),
             'anonymousTracking'    => (bool) Option::getValue('anonymous_tracking', false),
+            'trackingLevel'        => TrackingLevel::all(),
             'consent'              => $trackerConfig,
             'isPreview'            => is_preview(),
         ];

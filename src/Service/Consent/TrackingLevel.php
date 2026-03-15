@@ -11,4 +11,13 @@ final class TrackingLevel
     private function __construct()
     {
     }
+
+    public static function all(): array
+    {
+        return [
+            'full'      => self::FULL,
+            'anonymous' => self::ANONYMOUS,
+            'none'      => self::NONE,
+        ];
+    }
 }

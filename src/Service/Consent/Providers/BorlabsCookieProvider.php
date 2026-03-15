@@ -2,9 +2,7 @@
 
 namespace WP_Statistics\Service\Consent\Providers;
 
-use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
-use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Utils\Query;
 
 class BorlabsCookieProvider extends AbstractConsentProvider
@@ -32,21 +30,6 @@ class BorlabsCookieProvider extends AbstractConsentProvider
     public function shouldShowNotice(): bool
     {
         return $this->isAvailable() && $this->isServiceInstalled();
-    }
-
-    public function getTrackingLevel(): string
-    {
-        // Borlabs blocks the script; if running, consent was given
-        if (Option::getValue('anonymous_tracking', false)) {
-            return TrackingLevel::ANONYMOUS;
-        }
-
-        return TrackingLevel::FULL;
-    }
-
-    public function register(): void
-    {
-        // No hooks needed — auto-activation is handled by ConsentManager::detectAutoActivation().
     }
 
     public function isServiceInstalled(): bool

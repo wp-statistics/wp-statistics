@@ -64,6 +64,14 @@ export function getConsentConfig() {
     return getOption('consent', {});
 }
 
+export function getTrackingLevels() {
+    var levels = getOption('trackingLevel', null);
+    if (!levels) {
+        return { full: 'full', anonymous: 'anonymous', none: 'none' };
+    }
+    return levels;
+}
+
 export function isAnonymousTracking() {
     return !!getOption('anonymousTracking', false);
 }

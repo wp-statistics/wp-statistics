@@ -7,7 +7,7 @@
 
 import { sendXhr } from '../transport/send.js';
 import { getHitEndpoint } from '../transport/endpoint.js';
-import { getHitParams, getResourceUriId } from '../core/config.js';
+import { getHitParams, getResourceUriId, getTrackingLevels } from '../core/config.js';
 import { applyFilters, doAction } from '../core/hooks.js';
 import { base64Encode } from '../utils/base64.js';
 import { collectLocaleInfo } from '../utils/locale.js';
@@ -40,7 +40,7 @@ export function send(trackingLevel) {
                 referred: getReferred(),
                 resourceUri: encodedPath,
                 page_uri: encodedPath,
-                tracking_level: trackingLevel || 'none',
+                tracking_level: trackingLevel || getTrackingLevels().none,
                 timezone: localeInfo.timezone,
                 language: localeInfo.language,
                 languageFullName: localeInfo.languageFullName,
