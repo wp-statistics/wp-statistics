@@ -119,8 +119,8 @@ class FrontendHandler extends BaseAssets
         return [
             'userOnline'           => Option::getValue('useronline'),
             'bypassAdBlockers'     => Option::getValue('bypass_ad_blockers', false),
+            'anonymousTracking'    => (bool) Option::getValue('anonymous_tracking', false),
             'consent'              => $trackerConfig,
-            'consentIntegration'   => $consentManager->getIntegrationStatus(),
             'isPreview'            => is_preview(),
         ];
     }

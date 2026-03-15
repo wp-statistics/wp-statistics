@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Consent;
 
 use WP_Statistics\Components\Option;
+use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Consent\Providers\NoneConsentProvider;
 use WP_Statistics\Service\Consent\Providers\WpConsentApiProvider;
 use WP_Statistics\Service\Consent\Providers\RealCookieBannerProvider;
@@ -185,6 +186,46 @@ class ConsentManager
         return $this->activeProvider;
     }
 
+    /**
+     * Get the effective tracking level.
+     *
+     * The JS tracker sends a tracking_level flag reflecting the client-side
+     * consent check. The client may only restrict the level (full → anonymous
+     * or none), never elevate it beyond what the server-side provider allows.
+     * This prevents spoofed requests from bypassing consent.
+     *
+     * Falls back to the server-side provider for non-tracking contexts
+     * (admin UI, cron, etc.) where no client flag is present.
+     *
+     * @return string
+     */
+    public function getTrackingLevel(): string
+    {
+        $serverLevel = $this->activeProvider->getTrackingLevel();
+        $clientLevel = Request::get('tracking_level', '');
+
+        if (!in_array($clientLevel, [TrackingLevel::FULL, TrackingLevel::ANONYMOUS, TrackingLevel::NONE], true)) {
+            return $serverLevel;
+        }
+
+        // Client may only restrict, never elevate
+        $hierarchy = [TrackingLevel::NONE => 0, TrackingLevel::ANONYMOUS => 1, TrackingLevel::FULL => 2];
+
+        return ($hierarchy[$clientLevel] ?? 2) <= ($hierarchy[$serverLevel] ?? 2)
+            ? $clientLevel
+            : $serverLevel;
+    }
+
+    /**
+     * Whether to anonymize visitor data based on effective tracking level.
+     *
+     * @return bool
+     */
+    public function shouldAnonymize(): bool
+    {
+        return $this->getTrackingLevel() !== TrackingLevel::FULL;
+    }
+
     public function getTrackerConfig(): array
     {
         return $this->activeProvider->getJsConfig();
@@ -196,15 +237,14 @@ class ConsentManager
     }
 
     /**
-     * Full status for settings UI and diagnostics.
+     * Integration info for settings UI and diagnostics.
      */
     public function getIntegrationStatus(): array
     {
         $provider = $this->activeProvider;
 
         return [
-            'name'   => $provider instanceof NoneConsentProvider ? null : $provider->getKey(),
-            'status' => $provider->getTrackingLevel(),
+            'name' => $provider instanceof NoneConsentProvider ? null : $provider->getKey(),
         ];
     }
 

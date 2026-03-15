@@ -38,22 +38,22 @@ export function init() {
     }
 
     // Consent is available — start tracking
-    startTracking();
+    startTracking(trackingLevel);
 }
 
 function onConsentChanged() {
     var trackingLevel = applyFilters('trackingLevel', 'full');
     if (trackingLevel === 'none') return;
 
-    startTracking();
+    startTracking(trackingLevel);
 }
 
-function startTracking() {
+function startTracking(trackingLevel) {
     if (hasInitialized) return;
     hasInitialized = true;
 
-    // Send page hit
-    hit.send().then(function (success) {
+    // Send page hit with tracking level
+    hit.send(trackingLevel).then(function (success) {
         if (!success) return;
 
         // Initialize engagement tracking
@@ -87,7 +87,7 @@ function onSpaNavigation() {
     if (trackingLevel === 'none') return;
 
     // Send hit for new page
-    hit.send().then(function (success) {
+    hit.send(trackingLevel).then(function (success) {
         if (success) {
             doAction('trackerInit');
         }

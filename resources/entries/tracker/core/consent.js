@@ -9,7 +9,7 @@
  */
 
 import { addFilter, doAction } from './hooks.js';
-import { getConsentConfig } from './config.js';
+import { getConsentConfig, isAnonymousTracking } from './config.js';
 
 export function registerConsentAdapter() {
     var config = getConsentConfig();
@@ -23,8 +23,7 @@ export function registerConsentAdapter() {
             registerRealCookieBanner();
             break;
         case 'borlabs_cookie':
-            // Borlabs blocks the script itself — if running, consent is given
-            // No filter needed, default 'full' passes through
+            registerBorlabsCookie();
             break;
         case 'none':
         default:
@@ -40,7 +39,7 @@ function registerWpConsentApi() {
         window.wp_fallback_consent_type = 'optin';
     }
 
-    addFilter('trackingLevel', function (level) {
+    addFilter('trackingLevel', function () {
         if (typeof window.wp_has_consent !== 'function') {
             console.warn('WP Statistics: wp_has_consent() is not available. Blocking tracking until consent change.');
             return 'none';
@@ -66,10 +65,11 @@ function registerWpConsentApi() {
 }
 
 function registerRealCookieBanner() {
-    var consentGranted = false;
+    // Tracks resolved consent: 'none' | 'anonymous' | 'full'
+    var resolvedLevel = 'none';
 
-    addFilter('trackingLevel', function (level) {
-        return consentGranted ? 'full' : 'none';
+    addFilter('trackingLevel', function () {
+        return resolvedLevel;
     });
 
     if (!window.consentApi || typeof window.consentApi.consent !== 'function') {
@@ -77,21 +77,53 @@ function registerRealCookieBanner() {
         return;
     }
 
+    // Check data processing consent synchronously (grants full tracking)
+    var dpConsent = null;
+    try {
+        dpConsent = window.consentApi.consentSync('wp-statistics-with-data-processing');
+    } catch (e) {
+        console.warn('WP Statistics: Error checking RCB data processing consent.', e);
+    }
+
+    if (dpConsent && dpConsent.cookie != null && dpConsent.cookieOptIn) {
+        // Set level immediately — tracker.js will read it via applyFilters
+        // on the same call stack. No consentChanged needed here.
+        resolvedLevel = 'full';
+        return;
+    }
+
+    // Check base consent synchronously (grants anonymous tracking)
+    var baseConsent = null;
+    try {
+        baseConsent = window.consentApi.consentSync('wp-statistics');
+    } catch (e) {
+        console.warn('WP Statistics: Error checking RCB base consent.', e);
+    }
+
+    if (baseConsent && baseConsent.cookie != null && baseConsent.cookieOptIn) {
+        resolvedLevel = 'anonymous';
+        return;
+    }
+
+    // Neither resolved synchronously — listen for async consent
     window.consentApi.consent('wp-statistics')
         .then(function () {
-            consentGranted = true;
+            resolvedLevel = 'anonymous';
             doAction('consentChanged');
         })
-        .catch(function () {
-            // Try data processing consent as fallback
-            try {
-                var dataProcessing = window.consentApi.consentSync('wp-statistics-with-data-processing');
-                if (dataProcessing && dataProcessing.cookie != null && dataProcessing.cookieOptIn) {
-                    consentGranted = true;
-                    doAction('consentChanged');
-                }
-            } catch (err) {
-                console.warn('WP Statistics: Error checking RCB data processing consent.', err);
+        .catch(function (err) {
+            // Consent not given or API error — stay at 'none'
+            if (err) {
+                console.debug('WP Statistics: RCB consent not given or error:', err);
             }
         });
+}
+
+function registerBorlabsCookie() {
+    // Borlabs blocks the script entirely if consent is not given.
+    // If this code is running, consent was granted.
+    // The admin's anonymous_tracking option controls the level.
+    addFilter('trackingLevel', function () {
+        return isAnonymousTracking() ? 'anonymous' : 'full';
+    });
 }

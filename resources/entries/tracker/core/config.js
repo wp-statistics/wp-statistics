@@ -64,6 +64,10 @@ export function getConsentConfig() {
     return getOption('consent', {});
 }
 
+export function isAnonymousTracking() {
+    return !!getOption('anonymousTracking', false);
+}
+
 export function getMuPluginUrl() {
     const cfg = getConfig();
     return (cfg && cfg.muPluginUrl) ? cfg.muPluginUrl : '';

@@ -26,7 +26,7 @@ function getReferred() {
     return base64Encode(document.referrer);
 }
 
-export function send() {
+export function send(trackingLevel) {
     return new Promise(function (resolve) {
         try {
             var url = getHitEndpoint();
@@ -40,6 +40,7 @@ export function send() {
                 referred: getReferred(),
                 resourceUri: encodedPath,
                 page_uri: encodedPath,
+                tracking_level: trackingLevel || 'none',
                 timezone: localeInfo.timezone,
                 language: localeInfo.language,
                 languageFullName: localeInfo.languageFullName,
