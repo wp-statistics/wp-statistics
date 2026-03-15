@@ -1,5 +1,2 @@
-# AST-GREP Configuration for Analytics Source Validation
-# Prevents metric mismatch issues by validating correct metric usage based on report context
-
 ruleDirs:
-  - ./rules
+  - rules

@@ -13,6 +13,8 @@ use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
 use WP_Statistics\Service\CustomEvent\CustomEventHandler;
 use WP_Statistics\Service\Ajax\AjaxDispatcher;
+use WP_Statistics\Service\Admin\AdminBar\AdminBarManager;
+use WP_Statistics\Service\Consent\ConsentManager;
 
 /**
  * Core Service Provider.
@@ -34,6 +36,11 @@ class CoreServiceProvider implements ServiceProvider
         // HooksManager - registered as singleton (already instantiated early)
         $container->register('hooks', function () {
             return new HooksManager();
+        });
+
+        // Consent Manager - lazy loaded
+        $container->register('consent', function () {
+            return new ConsentManager();
         });
 
         // Tracking - lazy loaded
@@ -76,6 +83,11 @@ class CoreServiceProvider implements ServiceProvider
             return new AjaxDispatcher();
         });
 
+        // Admin Bar Stats - shows on both admin and frontend
+        $container->register('admin_bar', function () {
+            return new AdminBarManager();
+        });
+
         // Aliases for common access patterns
         $container->alias('tracker', 'tracking');
     }
@@ -88,6 +100,9 @@ class CoreServiceProvider implements ServiceProvider
      */
     public function boot(ServiceContainer $container): void
     {
+        // Initialize consent manager (before tracking, so consent state is ready)
+        $container->get('consent')->boot();
+
         // Initialize tracking controller
         $container->get('tracking');
 
@@ -121,5 +136,8 @@ class CoreServiceProvider implements ServiceProvider
 
         // Initialize AJAX dispatcher (must be after tracking to collect all handlers)
         $container->get('ajax');
+
+        // Initialize admin bar stats
+        $container->get('admin_bar');
     }
 }

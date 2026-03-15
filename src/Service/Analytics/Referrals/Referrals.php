@@ -2,7 +2,6 @@
 namespace WP_Statistics\Service\Analytics\Referrals;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Uri;
 use WP_Statistics\Utils\Url;
@@ -23,11 +22,7 @@ class Referrals
 
         if (Helper::is_rest_request() && Request::has('referred')) {
             $referrer = Request::get('referred', '', 'raw');
-
-            if (Option::getValue('use_cache_plugin')) {
-                $referrer = base64_decode($referrer);
-            }
-
+            $referrer = base64_decode($referrer);
             $referrer = urldecode($referrer);
         }
 

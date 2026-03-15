@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { Decorator } from '@storybook/react'
+import * as React from 'react'
 
 /**
  * Decorator that provides QueryClient context for Storybook

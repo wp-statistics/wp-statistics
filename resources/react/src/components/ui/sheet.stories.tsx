@@ -72,18 +72,18 @@ export const LeftSide: Story = {
           <SheetDescription>Browse through the menu items.</SheetDescription>
         </SheetHeader>
         <nav className="grid gap-2 py-4">
-          <a href="#" className="block px-2 py-1 text-sm hover:bg-accent rounded">
+          <button type="button" className="block px-2 py-1 text-sm hover:bg-accent rounded text-left">
             Dashboard
-          </a>
-          <a href="#" className="block px-2 py-1 text-sm hover:bg-accent rounded">
+          </button>
+          <button type="button" className="block px-2 py-1 text-sm hover:bg-accent rounded text-left">
             Analytics
-          </a>
-          <a href="#" className="block px-2 py-1 text-sm hover:bg-accent rounded">
+          </button>
+          <button type="button" className="block px-2 py-1 text-sm hover:bg-accent rounded text-left">
             Settings
-          </a>
-          <a href="#" className="block px-2 py-1 text-sm hover:bg-accent rounded">
+          </button>
+          <button type="button" className="block px-2 py-1 text-sm hover:bg-accent rounded text-left">
             Help
-          </a>
+          </button>
         </nav>
       </SheetContent>
     </Sheet>

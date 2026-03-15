@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\AnalyticsQuery\GroupBy;
 
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\AnalyticsQuery\Contracts\GroupByInterface;
 
 /**
@@ -75,6 +76,20 @@ abstract class AbstractGroupBy implements GroupByInterface
     protected $requirement = null;
 
     /**
+     * Columns added by postProcess (not in SQL, but valid for column selection).
+     *
+     * @var array
+     */
+    protected $postProcessedColumns = [];
+
+    /**
+     * Datetime fields that need UTC to site timezone conversion.
+     *
+     * @var array
+     */
+    protected $datetimeFields = [];
+
+    /**
      * {@inheritdoc}
      */
     public function getName(): string
@@ -101,7 +116,7 @@ abstract class AbstractGroupBy implements GroupByInterface
     /**
      * {@inheritdoc}
      */
-    public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array
+    public function getSelectColumns(array $requestedColumns = []): array
     {
         $columns = [$this->column . ' AS ' . $this->alias];
 
@@ -192,10 +207,43 @@ abstract class AbstractGroupBy implements GroupByInterface
     }
 
     /**
+     * Get columns that are added by postProcess (not in SQL).
+     *
+     * @return array Array of post-processed column names.
+     */
+    public function getPostProcessedColumns(): array
+    {
+        return $this->postProcessedColumns;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function postProcess(array $rows, \wpdb $wpdb): array
     {
+        return $this->convertDatetimeFields($rows);
+    }
+
+    /**
+     * Convert UTC datetime fields to site timezone.
+     *
+     * @param array $rows Query result rows.
+     * @return array Rows with converted datetime fields.
+     */
+    protected function convertDatetimeFields(array $rows): array
+    {
+        if (empty($this->datetimeFields) || empty($rows)) {
+            return $rows;
+        }
+
+        foreach ($rows as &$row) {
+            foreach ($this->datetimeFields as $field) {
+                if (!empty($row[$field])) {
+                    $row[$field] = DateTime::convertUtc($row[$field], false);
+                }
+            }
+        }
+
         return $rows;
     }
 }

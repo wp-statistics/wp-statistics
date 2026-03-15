@@ -1,12 +1,16 @@
 import * as React from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { type DateFieldConfig,getFieldConfigs, getNavigationFields, parseDateFormat } from '@/lib/date-format'
 import { cn } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
+import { getWpToday } from '@/lib/wp-date'
 
 interface DateInputProps {
   value?: Date
   onChange: (date: Date) => void
   className?: string
+  onFocus?: () => void
 }
 
 interface DateParts {
@@ -15,9 +19,9 @@ interface DateParts {
   year: number | string
 }
 
-const DateInput: React.FC<DateInputProps> = ({ value, onChange, className }) => {
+const DateInput: React.FC<DateInputProps> = ({ value, onChange, className, onFocus }) => {
   const [date, setDate] = useState<DateParts>(() => {
-    const d = value ? new Date(value) : new Date()
+    const d = value ? new Date(value) : getWpToday()
     return {
       day: d.getDate(),
       month: d.getMonth() + 1,
@@ -25,13 +29,21 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, className }) => 
     }
   })
 
-  const monthRef = useRef<HTMLInputElement | null>(null)
-  const dayRef = useRef<HTMLInputElement | null>(null)
-  const yearRef = useRef<HTMLInputElement | null>(null)
+  // Get date format from WordPress settings (only order, separator is always '-')
+  const dateFormat = WordPress.getInstance().getDateFormat()
+  const { order } = useMemo(() => parseDateFormat(dateFormat), [dateFormat])
+  const fieldConfigs = useMemo(() => getFieldConfigs(order), [order])
+
+  // Create refs for all three fields
+  const fieldRefs = useRef<Record<string, HTMLInputElement | null>>({
+    day: null,
+    month: null,
+    year: null,
+  })
   const initialDate = useRef<DateParts>(date)
 
   useEffect(() => {
-    const d = value ? new Date(value) : new Date()
+    const d = value ? new Date(value) : getWpToday()
     const newDate = {
       day: d.getDate(),
       month: d.getMonth() + 1,
@@ -71,21 +83,23 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, className }) => 
     }
   }
 
-  const handleBlur = (field: keyof DateParts) => (e: React.FocusEvent<HTMLInputElement>): void => {
-    if (!e.target.value) {
-      setDate(initialDate.current)
-      return
-    }
+  const handleBlur =
+    (field: keyof DateParts) =>
+    (e: React.FocusEvent<HTMLInputElement>): void => {
+      if (!e.target.value) {
+        setDate(initialDate.current)
+        return
+      }
 
-    const newValue = Number(e.target.value)
-    const isValid = validateDate(field, newValue)
+      const newValue = Number(e.target.value)
+      const isValid = validateDate(field, newValue)
 
-    if (!isValid) {
-      setDate(initialDate.current)
-    } else {
-      initialDate.current = { ...date, [field]: newValue }
+      if (!isValid) {
+        setDate(initialDate.current)
+      } else {
+        initialDate.current = { ...date, [field]: newValue }
+      }
     }
-  }
 
   const handleKeyDown = (field: keyof DateParts) => (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.metaKey || e.ctrlKey) {
@@ -113,14 +127,16 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, className }) => 
       }
     }
 
+    // Dynamic navigation based on field order
+    const { prev, next } = getNavigationFields(field as 'day' | 'month' | 'year', order)
+
     if (e.key === 'ArrowRight') {
       if (
         e.currentTarget.selectionStart === e.currentTarget.value.length ||
         (e.currentTarget.selectionStart === 0 && e.currentTarget.selectionEnd === e.currentTarget.value.length)
       ) {
         e.preventDefault()
-        if (field === 'month') dayRef.current?.focus()
-        if (field === 'day') yearRef.current?.focus()
+        if (next) fieldRefs.current[next]?.focus()
       }
     } else if (e.key === 'ArrowLeft') {
       if (
@@ -128,49 +144,39 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange, className }) => 
         (e.currentTarget.selectionStart === 0 && e.currentTarget.selectionEnd === e.currentTarget.value.length)
       ) {
         e.preventDefault()
-        if (field === 'day') monthRef.current?.focus()
-        if (field === 'year') dayRef.current?.focus()
+        if (prev) fieldRefs.current[prev]?.focus()
       }
     }
   }
 
+  const handleContainerFocus = () => {
+    onFocus?.()
+  }
+
+  const renderField = (config: DateFieldConfig, index: number) => (
+    <React.Fragment key={config.field}>
+      {index > 0 && <span className="-mx-px opacity-20">-</span>}
+      <input
+        type="text"
+        ref={(el) => {
+          fieldRefs.current[config.field] = el
+        }}
+        maxLength={config.maxLength}
+        value={date[config.field].toString()}
+        onChange={handleInputChange(config.field)}
+        onKeyDown={handleKeyDown(config.field)}
+        onBlur={handleBlur(config.field)}
+        onFocus={handleContainerFocus}
+        className={cn(config.width, 'border-none bg-transparent p-0 text-center outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-sm')}
+        placeholder={config.placeholder}
+        aria-label={config.field}
+      />
+    </React.Fragment>
+  )
+
   return (
     <div className={cn('flex items-center rounded-md border bg-background px-1 text-sm', className)}>
-      <input
-        type="text"
-        ref={monthRef}
-        maxLength={2}
-        value={date.month.toString()}
-        onChange={handleInputChange('month')}
-        onKeyDown={handleKeyDown('month')}
-        onBlur={handleBlur('month')}
-        className="w-6 border-none bg-transparent p-0 text-center outline-none"
-        placeholder="M"
-      />
-      <span className="-mx-px opacity-20">/</span>
-      <input
-        type="text"
-        ref={dayRef}
-        maxLength={2}
-        value={date.day.toString()}
-        onChange={handleInputChange('day')}
-        onKeyDown={handleKeyDown('day')}
-        onBlur={handleBlur('day')}
-        className="w-7 border-none bg-transparent p-0 text-center outline-none"
-        placeholder="D"
-      />
-      <span className="-mx-px opacity-20">/</span>
-      <input
-        type="text"
-        ref={yearRef}
-        maxLength={4}
-        value={date.year.toString()}
-        onChange={handleInputChange('year')}
-        onKeyDown={handleKeyDown('year')}
-        onBlur={handleBlur('year')}
-        className="w-12 border-none bg-transparent p-0 text-center outline-none"
-        placeholder="YYYY"
-      />
+      {fieldConfigs.map((config, index) => renderField(config, index))}
     </div>
   )
 }

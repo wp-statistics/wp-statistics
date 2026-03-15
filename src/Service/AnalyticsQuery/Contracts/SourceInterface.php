@@ -68,4 +68,15 @@ interface SourceInterface
      * @return bool
      */
     public function supportsSummaryTable(): bool;
+
+    /**
+     * Set query context for context-aware expressions.
+     *
+     * @param array       $groupBy  Array of group_by dimension names
+     * @param array       $filters  Array of active filters with their values
+     * @param string|null $dateFrom Start date for the query (Y-m-d format)
+     * @param string|null $dateTo   End date for the query (Y-m-d format)
+     * @return void
+     */
+    public function setContext(array $groupBy, array $filters = [], ?string $dateFrom = null, ?string $dateTo = null): void;
 }

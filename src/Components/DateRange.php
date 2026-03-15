@@ -3,13 +3,17 @@
 namespace WP_Statistics\Components;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
 use WP_Statistics\Utils\Request;
-use WP_Statistics\Utils\User;
 
 class DateRange
 {
     public static $defaultPeriod = '30days';
-    const USER_DATE_RANGE_META_KEY = 'wp_statistics_user_date_filter';
+
+    /**
+     * Context key for storing date filter in UserPreferencesManager.
+     */
+    const DATE_FILTER_CONTEXT = 'date_filter';
 
     public static function validate($period)
     {
@@ -29,7 +33,7 @@ class DateRange
     }
 
     /**
-     * Stores the given date range in the user's meta data.
+     * Stores the given date range in the user's preferences.
      *
      * @param array $range An array containing 'from' and 'to' date strings.
      */
@@ -56,18 +60,23 @@ class DateRange
             $period = $range;
         }
 
-        User::saveMeta(self::USER_DATE_RANGE_META_KEY, $period);
+        $preferencesManager = new UserPreferencesManager();
+        $preferencesManager->save(self::DATE_FILTER_CONTEXT, ['period' => $period]);
     }
 
     /**
-     * Retrieves the period stored in the user's meta data, or from request object.
+     * Retrieves the period stored in the user's preferences, or from request object.
      *
-     * @return string|array Could be a period name like '30days' or an array containing 'from' and 'to' date strings.
+     * @return array Array with 'type', 'value', and 'range' keys.
      */
     public static function retrieve()
     {
-        $result  = [];
-        $period  = User::getMeta(self::USER_DATE_RANGE_META_KEY, true);
+        $result = [];
+
+        // Get stored period from UserPreferencesManager
+        $preferencesManager = new UserPreferencesManager();
+        $preferences = $preferencesManager->get(self::DATE_FILTER_CONTEXT);
+        $period = $preferences['period'] ?? null;
 
         if (!self::validate($period)) {
             $period = self::$defaultPeriod;

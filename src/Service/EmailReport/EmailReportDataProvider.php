@@ -2,493 +2,302 @@
 
 namespace WP_Statistics\Service\EmailReport;
 
-use WP_Statistics\Components\DateRange;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
+use WP_Statistics\Utils\Math;
 
 /**
- * Email Report Data Provider
+ * Gathers analytics data for email reports via batch queries.
  *
- * Provides all data needed for the email report template.
- * Uses AnalyticsQueryHandler for all metrics and data.
- *
- * @package WP_Statistics\Service\EmailReport
  * @since 15.0.0
  */
 class EmailReportDataProvider
 {
     /**
-     * Period type (daily, weekly, biweekly, monthly)
+     * Gather report data for the given frequency.
      *
-     * @var string
+     * @param string $frequency 'daily', 'weekly', or 'monthly'.
+     * @return array Structured report data.
      */
-    private $period;
-
-    /**
-     * Date range for the period
-     *
-     * @var array
-     */
-    private $dateRange;
-
-    /**
-     * Previous date range for comparison
-     *
-     * @var array
-     */
-    private $prevDateRange;
-
-    /**
-     * Analytics query handler
-     *
-     * @var AnalyticsQueryHandler
-     */
-    private $queryHandler;
-
-    /**
-     * Constructor
-     *
-     * @param string $period Period type (daily, weekly, biweekly, monthly)
-     */
-    public function __construct($period = 'weekly')
+    public function gather(string $frequency): array
     {
-        $this->period        = $period;
-        $this->dateRange     = $this->calculateDateRange($period);
-        $this->prevDateRange = $this->calculatePrevDateRange($period);
-        $this->queryHandler  = new AnalyticsQueryHandler(false); // Disable cache for email reports
-    }
+        $dates = $this->calculateDateRange($frequency);
 
-    /**
-     * Calculate date range based on period using DateRange component.
-     *
-     * @param string $period Period type
-     * @return array ['from' => 'Y-m-d', 'to' => 'Y-m-d']
-     */
-    private function calculateDateRange($period)
-    {
-        $dateRangeName = $this->mapPeriodToDateRange($period);
-
-        return DateRange::get($dateRangeName, true);
-    }
-
-    /**
-     * Calculate previous date range for comparison.
-     *
-     * @param string $period Period type
-     * @return array ['from' => 'Y-m-d', 'to' => 'Y-m-d']
-     */
-    private function calculatePrevDateRange($period)
-    {
-        $dateRangeName = $this->mapPeriodToDateRange($period);
-
-        return DateRange::getPrevPeriod($dateRangeName, true);
-    }
-
-    /**
-     * Map email report period to DateRange component period name.
-     *
-     * @param string $period Period type (daily, weekly, biweekly, monthly)
-     * @return string DateRange period name
-     */
-    private function mapPeriodToDateRange($period)
-    {
-        $mapping = [
-            'daily'    => 'yesterday',
-            'weekly'   => '7days',
-            'biweekly' => '14days',
-            'monthly'  => 'last_month',
-        ];
-
-        return $mapping[$period] ?? '7days';
-    }
-
-    /**
-     * Get metrics data (visitors, views, referrals, contents with percentage changes)
-     *
-     * @return array
-     */
-    public function getMetrics()
-    {
-        // Get current period metrics
-        $currentResult = $this->queryHandler->handle([
-            'sources'   => ['visitors', 'views'],
-            'date_from' => $this->dateRange['from'],
-            'date_to'   => $this->dateRange['to'],
-            'format'    => 'flat',
-        ]);
-
-        // Get previous period metrics for comparison
-        $prevResult = $this->queryHandler->handle([
-            'sources'   => ['visitors', 'views'],
-            'date_from' => $this->prevDateRange['from'],
-            'date_to'   => $this->prevDateRange['to'],
-            'format'    => 'flat',
-        ]);
-
-        // Get referrals count (visitors with referrer)
-        $referralsResult = $this->queryHandler->handle([
-            'sources'   => ['visitors'],
-            'group_by'  => ['referrer'],
-            'date_from' => $this->dateRange['from'],
-            'date_to'   => $this->dateRange['to'],
-            'format'    => 'flat',
-            'per_page'  => 1000,
-        ]);
-
-        $prevReferralsResult = $this->queryHandler->handle([
-            'sources'   => ['visitors'],
-            'group_by'  => ['referrer'],
-            'date_from' => $this->prevDateRange['from'],
-            'date_to'   => $this->prevDateRange['to'],
-            'format'    => 'flat',
-            'per_page'  => 1000,
-        ]);
-
-        // Calculate referrals total (sum of visitors from all referrers)
-        $referralsCount     = $currentResult['data']['totals']['visitors'] ?? 0;
-        $prevReferralsCount = $prevResult['data']['totals']['visitors'] ?? 0;
-
-        // Use grouped referrer data for proper referral count
-        if (!empty($referralsResult['data']['rows'])) {
-            $referralsCount = array_sum(array_column($referralsResult['data']['rows'], 'visitors'));
-        }
-        if (!empty($prevReferralsResult['data']['rows'])) {
-            $prevReferralsCount = array_sum(array_column($prevReferralsResult['data']['rows'], 'visitors'));
-        }
-
-        // Get published contents count
-        $contentsCount     = $this->getPublishedContentsCount($this->dateRange);
-        $prevContentsCount = $this->getPublishedContentsCount($this->prevDateRange);
-
-        // Extract current values
-        $currentVisitors = $currentResult['data']['totals']['visitors'] ?? 0;
-        $currentViews    = $currentResult['data']['totals']['views'] ?? 0;
-
-        // Extract previous values
-        $prevVisitors = $prevResult['data']['totals']['visitors'] ?? 0;
-        $prevViews    = $prevResult['data']['totals']['views'] ?? 0;
-
-        return [
-            'visitors' => [
-                'value'  => $currentVisitors,
-                'change' => $this->calculatePercentageChange($currentVisitors, $prevVisitors),
-                'label'  => __('Visitors', 'wp-statistics'),
+        $queries = [
+            [
+                'id'      => 'current_metrics',
+                'sources' => ['visitors', 'views'],
+                'format'  => 'flat',
             ],
-            'views' => [
-                'value'  => $currentViews,
-                'change' => $this->calculatePercentageChange($currentViews, $prevViews),
-                'label'  => __('Views', 'wp-statistics'),
+            [
+                'id'        => 'daily_chart',
+                'sources'   => ['visitors'],
+                'group_by'  => ['date'],
+                'format'    => 'table',
+                'per_page'  => 31,
+                'order_by'  => 'date',
+                'order'     => 'ASC',
             ],
-            'referrals' => [
-                'value'  => $referralsCount,
-                'change' => $this->calculatePercentageChange($referralsCount, $prevReferralsCount),
-                'label'  => __('Referrals', 'wp-statistics'),
+            [
+                'id'       => 'top_pages',
+                'sources'  => ['views'],
+                'group_by' => ['page'],
+                'columns'  => ['page_title', 'page_uri', 'views'],
+                'format'   => 'table',
+                'per_page' => 10,
+                'order_by' => 'views',
+                'order'    => 'DESC',
             ],
-            'contents' => [
-                'value'  => $contentsCount,
-                'change' => $this->calculatePercentageChange($contentsCount, $prevContentsCount),
-                'label'  => __('Published', 'wp-statistics'),
+            [
+                'id'       => 'top_referrers',
+                'sources'  => ['visitors'],
+                'group_by' => ['referrer'],
+                'columns'  => ['referrer_domain', 'visitors'],
+                'format'   => 'table',
+                'per_page' => 5,
+                'order_by' => 'visitors',
+                'order'    => 'DESC',
             ],
-        ];
-    }
-
-    /**
-     * Get published contents count for a date range.
-     *
-     * @param array $dateRange Date range with 'from' and 'to' keys
-     * @return int
-     */
-    private function getPublishedContentsCount($dateRange)
-    {
-        global $wpdb;
-
-        $postTypes = get_post_types(['public' => true]);
-        unset($postTypes['attachment']);
-
-        if (empty($postTypes)) {
-            return 0;
-        }
-
-        $placeholders = implode(',', array_fill(0, count($postTypes), '%s'));
-        $params       = array_merge(
-            array_values($postTypes),
-            [$dateRange['from'] . ' 00:00:00', $dateRange['to'] . ' 23:59:59']
-        );
-
-        $count = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT COUNT(*) FROM {$wpdb->posts}
-                 WHERE post_type IN ({$placeholders})
-                 AND post_status = 'publish'
-                 AND post_date BETWEEN %s AND %s",
-                $params
-            )
-        );
-
-        return intval($count);
-    }
-
-    /**
-     * Calculate percentage change between two values.
-     *
-     * @param int|float $current  Current value
-     * @param int|float $previous Previous value
-     * @return float Percentage change
-     */
-    private function calculatePercentageChange($current, $previous)
-    {
-        if ($previous == 0) {
-            return $current > 0 ? 100 : 0;
-        }
-
-        return round((($current - $previous) / $previous) * 100, 1);
-    }
-
-    /**
-     * Get top pages
-     *
-     * @param int $limit Number of pages to return
-     * @return array
-     */
-    public function getTopPages($limit = 5)
-    {
-        $result = $this->queryHandler->handle([
-            'sources'   => ['views', 'visitors'],
-            'group_by'  => ['page'],
-            'date_from' => $this->dateRange['from'],
-            'date_to'   => $this->dateRange['to'],
-            'format'    => 'table',
-            'per_page'  => $limit,
-        ]);
-
-        $pages = [];
-
-        if (!empty($result['data']['rows'])) {
-            foreach ($result['data']['rows'] as $row) {
-                $pageId = $row['page_id'] ?? 0;
-                $title  = $row['page_title'] ?? '';
-
-                // Get URL from page_id or page_url
-                $url = '';
-                if (!empty($pageId)) {
-                    $url = get_permalink($pageId);
-                } elseif (!empty($row['page_url'])) {
-                    $url = home_url($row['page_url']);
-                }
-
-                $pages[] = [
-                    'title'    => $title ?: __('(No title)', 'wp-statistics'),
-                    'url'      => $url,
-                    'views'    => intval($row['views'] ?? 0),
-                    'visitors' => intval($row['visitors'] ?? 0),
-                ];
-            }
-        }
-
-        return $pages;
-    }
-
-    /**
-     * Get top referrers
-     *
-     * @param int $limit Number of referrers to return
-     * @return array
-     */
-    public function getTopReferrers($limit = 5)
-    {
-        $result = $this->queryHandler->handle([
-            'sources'   => ['visitors'],
-            'group_by'  => ['referrer'],
-            'date_from' => $this->dateRange['from'],
-            'date_to'   => $this->dateRange['to'],
-            'format'    => 'table',
-            'per_page'  => $limit,
-        ]);
-
-        $referrers = [];
-
-        if (!empty($result['data']['rows'])) {
-            foreach ($result['data']['rows'] as $row) {
-                $referrerUrl = $row['referrer'] ?? '';
-
-                if (empty($referrerUrl)) {
-                    continue;
-                }
-
-                $domain = wp_parse_url($referrerUrl, PHP_URL_HOST);
-                $domain = $domain ? str_replace('www.', '', $domain) : $referrerUrl;
-
-                $referrers[] = [
-                    'domain'   => $domain,
-                    'url'      => $referrerUrl,
-                    'visitors' => intval($row['visitors'] ?? 0),
-                ];
-            }
-        }
-
-        return $referrers;
-    }
-
-    /**
-     * Get top author by views
-     *
-     * @return string|null Author name or null
-     */
-    public function getTopAuthor()
-    {
-        $result = $this->queryHandler->handle([
-            'sources'   => ['views'],
-            'group_by'  => ['author'],
-            'date_from' => $this->dateRange['from'],
-            'date_to'   => $this->dateRange['to'],
-            'format'    => 'table',
-            'per_page'  => 1,
-        ]);
-
-        if (!empty($result['data']['rows'][0]['author_name'])) {
-            return $result['data']['rows'][0]['author_name'];
-        }
-
-        return null;
-    }
-
-    /**
-     * Get top category by views
-     *
-     * @return string|null Category name or null
-     */
-    public function getTopCategory()
-    {
-        $result = $this->queryHandler->handle([
-            'sources'   => ['views'],
-            'group_by'  => ['taxonomy'],
-            'filters'   => ['taxonomy_type' => ['is' => 'category']],
-            'date_from' => $this->dateRange['from'],
-            'date_to'   => $this->dateRange['to'],
-            'format'    => 'table',
-            'per_page'  => 1,
-        ]);
-
-        if (!empty($result['data']['rows'][0]['term_name'])) {
-            return $result['data']['rows'][0]['term_name'];
-        }
-
-        return null;
-    }
-
-    /**
-     * Get top post by views
-     *
-     * @return string|null Post title or null
-     */
-    public function getTopPost()
-    {
-        $result = $this->queryHandler->handle([
-            'sources'   => ['views'],
-            'group_by'  => ['page'],
-            'date_from' => $this->dateRange['from'],
-            'date_to'   => $this->dateRange['to'],
-            'format'    => 'table',
-            'per_page'  => 1,
-        ]);
-
-        if (!empty($result['data']['rows'][0]['page_title'])) {
-            return $result['data']['rows'][0]['page_title'];
-        }
-
-        return null;
-    }
-
-    /**
-     * Get date range
-     *
-     * @return array ['from' => 'Y-m-d', 'to' => 'Y-m-d']
-     */
-    public function getDateRange()
-    {
-        return $this->dateRange;
-    }
-
-    /**
-     * Get formatted period label
-     *
-     * @return string
-     */
-    public function getFormattedPeriod()
-    {
-        $from = date_i18n(get_option('date_format'), strtotime($this->dateRange['from']));
-        $to   = date_i18n(get_option('date_format'), strtotime($this->dateRange['to']));
-
-        if ($from === $to) {
-            return $from;
-        }
-
-        return sprintf('%s - %s', $from, $to);
-    }
-
-    /**
-     * Get period label
-     *
-     * @return string
-     */
-    public function getPeriodLabel()
-    {
-        $labels = [
-            'daily'    => __('Daily', 'wp-statistics'),
-            'weekly'   => __('Weekly', 'wp-statistics'),
-            'biweekly' => __('Bi-Weekly', 'wp-statistics'),
-            'monthly'  => __('Monthly', 'wp-statistics'),
-        ];
-
-        return $labels[$this->period] ?? $labels['weekly'];
-    }
-
-    /**
-     * Get all data for template as array
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $data = [
-            'site_name'     => get_bloginfo('name'),
-            'site_url'      => home_url(),
-            'period'        => $this->period,
-            'period_label'  => $this->getPeriodLabel(),
-            'date_range'    => $this->getFormattedPeriod(),
-            'metrics'       => $this->getMetrics(),
-            'top_pages'     => $this->getTopPages(5),
-            'top_referrers' => $this->getTopReferrers(5),
-            'top_author'    => $this->getTopAuthor(),
-            'top_category'  => $this->getTopCategory(),
-            'top_post'      => $this->getTopPost(),
-            'dashboard_url' => admin_url('admin.php?page=wps_overview_page'),
-            'settings_url'  => admin_url('admin.php?page=wps_settings_page'),
         ];
 
         /**
-         * Filter the email report data before template rendering.
+         * Filter the email report batch queries.
          *
          * @since 15.0.0
-         * @param array  $data   The report data array.
-         * @param string $period The report period (daily, weekly, biweekly, monthly).
+         * @param array  $queries   Batch query array.
+         * @param string $frequency Report frequency.
+         * @param array  $dates     Date range info.
          */
-        return apply_filters('wp_statistics_email_report_data', $data, $this->period);
+        $queries = apply_filters('wp_statistics_email_report_queries', $queries, $frequency, $dates);
+        $queries = is_array($queries) ? $queries : [];
+
+        $handler = new AnalyticsQueryHandler(true);
+        $batch   = $handler->handleBatch(
+            $queries,
+            $dates['date_from'],
+            $dates['date_to'],
+            [],
+            true,
+            null,
+            $dates['prev_from'],
+            $dates['prev_to']
+        );
+
+        $items = is_array($batch['items'] ?? null) ? $batch['items'] : [];
+        $data  = $this->processResults($items, $dates, $frequency);
+
+        /**
+         * Filter processed email report data.
+         *
+         * Allows premium modules/extensions to map additional batch query
+         * responses into email-renderable sections.
+         *
+         * @since 15.0.0
+         * @param array  $data      Processed email report data.
+         * @param array  $items     Raw batch query items keyed by query ID.
+         * @param array  $dates     Date range info.
+         * @param string $frequency Report frequency.
+         */
+        return apply_filters('wp_statistics_email_report_data', $data, $items, $dates, $frequency);
     }
 
     /**
-     * Format number for display (K, M notation)
+     * Calculate date ranges based on frequency.
      *
-     * @param int $number
+     * @param string $frequency
+     * @return array Keys: date_from, date_to, prev_from, prev_to.
+     */
+    private function calculateDateRange(string $frequency): array
+    {
+        $timezone = wp_timezone();
+        $now      = new \DateTimeImmutable('now', $timezone);
+
+        switch ($frequency) {
+            case 'daily':
+                $dateFrom = $now->modify('-1 day')->format('Y-m-d');
+                $dateTo   = $dateFrom;
+                $prevFrom = $now->modify('-2 days')->format('Y-m-d');
+                $prevTo   = $prevFrom;
+                break;
+
+            case 'monthly':
+                $firstOfThisMonth = $now->modify('first day of this month');
+                $lastMonth        = $firstOfThisMonth->modify('-1 month');
+                $dateFrom         = $lastMonth->format('Y-m-d');
+                $dateTo           = $firstOfThisMonth->modify('-1 day')->format('Y-m-d');
+                $prevMonth        = $lastMonth->modify('-1 month');
+                $prevFrom         = $prevMonth->format('Y-m-d');
+                $prevTo           = $lastMonth->modify('-1 day')->format('Y-m-d');
+                break;
+
+            case 'weekly':
+            default:
+                $dateFrom = $now->modify('-7 days')->format('Y-m-d');
+                $dateTo   = $now->modify('-1 day')->format('Y-m-d');
+                $prevFrom = $now->modify('-14 days')->format('Y-m-d');
+                $prevTo   = $now->modify('-8 days')->format('Y-m-d');
+                break;
+        }
+
+        return [
+            'date_from' => $dateFrom,
+            'date_to'   => $dateTo,
+            'prev_from' => $prevFrom,
+            'prev_to'   => $prevTo,
+        ];
+    }
+
+    /**
+     * Process batch results into structured report data.
+     *
+     * @param array  $items     Batch response items from AnalyticsQueryHandler.
+     * @param array  $dates     Date range info.
+     * @param string $frequency Report frequency.
+     * @return array
+     */
+    private function processResults(array $items, array $dates, string $frequency): array
+    {
+        // KPI metrics
+        $kpis    = [];
+        $metrics = $this->getItemTotals($items['current_metrics'] ?? []);
+
+        if (!empty($metrics)) {
+            foreach ($metrics as $key => $totals) {
+                if (!is_array($totals)) {
+                    continue;
+                }
+
+                $current  = (float) ($totals['current'] ?? 0);
+                $previous = (float) ($totals['previous'] ?? 0);
+                $change   = (int) Math::percentageChange($previous, $current, 0, 'zero');
+
+                $label = $key === 'visitors'
+                    ? __('Visitors', 'wp-statistics')
+                    : __('Page Views', 'wp-statistics');
+
+                $kpis[] = [
+                    'label'          => $label,
+                    'value'          => number_format_i18n($current),
+                    'change_percent' => $change,
+                ];
+            }
+        }
+
+        // Daily chart data
+        $dailyChart = [];
+        $chartData  = $this->getQueryRows($items, 'daily_chart');
+        foreach ($chartData as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $dateLabel    = isset($row['date']) ? date_i18n('D', strtotime($row['date'])) : '';
+            $dailyChart[] = [
+                'label' => $dateLabel,
+                'value' => intval($row['visitors'] ?? 0),
+            ];
+        }
+
+        // Top pages
+        $topPages = [];
+        $pageRows = $this->getQueryRows($items, 'top_pages');
+        foreach ($pageRows as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $topPages[] = [
+                'label' => $row['page_title'] ?? ($row['page_uri'] ?? ''),
+                'value' => number_format_i18n(intval($row['views'] ?? 0)),
+                'url'   => !empty($row['page_uri']) ? home_url($row['page_uri']) : '',
+            ];
+        }
+
+        // Top referrers
+        $topReferrers = [];
+        $refRows      = $this->getQueryRows($items, 'top_referrers');
+        foreach ($refRows as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $topReferrers[] = [
+                'label' => $row['referrer_domain'] ?? __('Direct', 'wp-statistics'),
+                'value' => number_format_i18n(intval($row['visitors'] ?? 0)),
+            ];
+        }
+
+        // Report title and period
+        $reportTitle = $this->getReportTitle($frequency);
+        $dateFormat  = get_option('date_format', 'F j, Y');
+        $periodFrom  = date_i18n($dateFormat, strtotime($dates['date_from']));
+        $periodTo    = date_i18n($dateFormat, strtotime($dates['date_to']));
+        $reportPeriod = ($dates['date_from'] === $dates['date_to'])
+            ? $periodFrom
+            : $periodFrom . ' – ' . $periodTo;
+
+        return [
+            'kpis'                => $kpis,
+            'daily_chart'         => $dailyChart,
+            'top_pages'           => $topPages,
+            'top_referrers'       => $topReferrers,
+            'engagement_kpis'     => [],
+            'top_entry_pages'     => [],
+            'top_exit_pages'      => [],
+            'top_countries'       => [],
+            'device_breakdown'    => [
+                'types'             => [],
+                'browsers'          => [],
+                'operating_systems' => [],
+            ],
+            'report_title'        => $reportTitle,
+            'report_period'       => $reportPeriod,
+        ];
+    }
+
+    /**
+     * Get table rows for a query item.
+     *
+     * @param array  $items   Batch query items.
+     * @param string $queryId Query item ID.
+     * @return array
+     */
+    private function getQueryRows(array $items, string $queryId): array
+    {
+        $rows = $items[$queryId]['data']['rows'] ?? [];
+        return is_array($rows) ? $rows : [];
+    }
+
+    /**
+     * Get totals payload for a query item.
+     *
+     * Supports both flat (`totals`) and table (`data.totals`) responses.
+     *
+     * @param array $item Query item payload.
+     * @return array
+     */
+    private function getItemTotals(array $item): array
+    {
+        if (!is_array($item)) {
+            return [];
+        }
+
+        $totals = $item['totals'] ?? ($item['data']['totals'] ?? []);
+        return is_array($totals) ? $totals : [];
+    }
+
+    /**
+     * Get localized report title based on frequency.
+     *
+     * @param string $frequency
      * @return string
      */
-    public static function formatNumber($number)
+    private function getReportTitle(string $frequency): string
     {
-        if ($number >= 1000000) {
-            return round($number / 1000000, 1) . 'M';
+        switch ($frequency) {
+            case 'daily':
+                return __('Daily Performance Report', 'wp-statistics');
+            case 'monthly':
+                return __('Monthly Performance Report', 'wp-statistics');
+            case 'weekly':
+            default:
+                return __('Weekly Performance Report', 'wp-statistics');
         }
-        if ($number >= 1000) {
-            return round($number / 1000, 1) . 'K';
-        }
-        return number_format($number);
     }
 }

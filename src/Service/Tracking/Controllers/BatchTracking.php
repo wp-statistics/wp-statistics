@@ -68,10 +68,6 @@ class BatchTracking extends BaseTrackerController
      */
     public function register()
     {
-        if (!Option::getValue('use_cache_plugin')) {
-            return;
-        }
-
         // Always register AJAX callback for batch tracking
         add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
     }

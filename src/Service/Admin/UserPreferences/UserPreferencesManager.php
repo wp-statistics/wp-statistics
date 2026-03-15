@@ -55,7 +55,16 @@ class UserPreferencesManager
         // Sanitize the data
         $sanitizedData = $this->sanitizeData($data);
 
-        // Add timestamp
+        // Check if data has actually changed (excluding timestamp)
+        $existingData = $allPreferences[$context] ?? [];
+        unset($existingData['updated_at']);
+
+        if ($existingData === $sanitizedData) {
+            // Data unchanged, return success without saving
+            return true;
+        }
+
+        // Add timestamp only when data changes
         $sanitizedData['updated_at'] = current_time('mysql');
 
         // Update the specific context
@@ -77,44 +86,8 @@ class UserPreferencesManager
         }
 
         $allPreferences = $this->getAll();
-        $preferences = $allPreferences[$context] ?? null;
 
-        // Normalize keys for backward compatibility (sanitize_key() used to lowercase everything)
-        if (is_array($preferences)) {
-            $preferences = $this->normalizeKeys($preferences);
-        }
-
-        return $preferences;
-    }
-
-    /**
-     * Normalize preference keys for backward compatibility.
-     *
-     * Converts known lowercase keys to their expected camelCase form.
-     * This handles preferences saved before the sanitize_key() fix.
-     *
-     * @param array $data Preferences data.
-     * @return array Normalized preferences data.
-     */
-    private function normalizeKeys(array $data): array
-    {
-        // Map of lowercase keys to their expected camelCase form
-        $keyMap = [
-            'visiblewidgets' => 'visibleWidgets',
-            'widgetorder'    => 'widgetOrder',
-            'column_order'   => 'column_order', // snake_case is intentional
-            'updated_at'     => 'updated_at',   // snake_case is intentional
-        ];
-
-        $normalized = [];
-        foreach ($data as $key => $value) {
-            $lowercaseKey = strtolower($key);
-            // Use the mapped key if it exists, otherwise keep the original
-            $normalizedKey = $keyMap[$lowercaseKey] ?? $key;
-            $normalized[$normalizedKey] = is_array($value) ? $this->normalizeKeys($value) : $value;
-        }
-
-        return $normalized;
+        return $allPreferences[$context] ?? null;
     }
 
     /**
@@ -192,7 +165,7 @@ class UserPreferencesManager
     /**
      * Validate context name.
      *
-     * Context WP_Statistics_names must be alphanumeric with underscores only.
+     * Context names must be alphanumeric with underscores and hyphens only.
      *
      * @param string $context Context name to validate.
      * @return bool True if valid.
@@ -203,8 +176,8 @@ class UserPreferencesManager
             return false;
         }
 
-        // Only allow alphanumeric characters and underscores
-        return (bool) preg_match('/^[a-zA-Z0-9_]+$/', $context);
+        // Only allow alphanumeric characters, underscores, and hyphens
+        return (bool) preg_match('/^[a-zA-Z0-9_-]+$/', $context);
     }
 
     /**

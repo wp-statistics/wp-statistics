@@ -75,14 +75,14 @@ gc_collect_cycles();
 $memBefore = get_memory_usage_kb();
 $timeBefore = microtime(true);
 
-$emailEvent = $cronManager->getEvent('email_report');
+$dbMaintenanceEvent = $cronManager->getEvent('database_maintenance');
 
 $timeAfter = microtime(true);
 $memAfter = get_memory_usage_kb();
 
 $events = get_private_property($cronManager, 'events');
 
-echo "   After accessing 'email_report':\n";
+echo "   After accessing 'database_maintenance':\n";
 echo "   Events instantiated:      " . count($events) . "\n";
 echo "   Access time:              " . number_format(($timeAfter - $timeBefore) * 1000, 3) . " ms\n";
 echo "   Additional memory:        " . number_format($memAfter - $memBefore, 2) . " KB\n\n";

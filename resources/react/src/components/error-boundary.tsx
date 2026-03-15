@@ -97,7 +97,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               </p>
               {process.env.NODE_ENV === 'development' && error && (
                 <details className="text-xs text-muted-foreground">
-                  <summary className="cursor-pointer hover:text-foreground">Error details</summary>
+                  <summary className="hover:text-foreground">Error details</summary>
                   <pre className="mt-2 overflow-auto rounded bg-muted p-2 text-xs">
                     {error.message}
                     {error.stack && (

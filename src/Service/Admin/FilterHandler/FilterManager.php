@@ -230,17 +230,28 @@ class FilterManager
         return $channels;
     }
 
+    /**
+     * Retrieves a list of WordPress users who have visited (logged-in visitors).
+     *
+     * Uses v15 sessions table where user_id is stored.
+     *
+     * @param string $search Search term for filtering by email or username.
+     * @return array Array of user options with 'id' and 'text'.
+     */
     public function getUser($search) {
         global $wpdb;
 
         $args = [];
 
-        // Base query
-        $query = "SELECT visitors.user_id, users.user_login, users.user_email
-                  FROM `" . DB::table('visitor') . "` AS visitors
-                  JOIN `" . $wpdb->users . "` AS users
-                  ON visitors.user_id = users.ID
-                  WHERE visitors.user_id > 0";
+        // v15: user_id is now on the sessions table, not visitors
+        $sessionsTable = DB::table('sessions');
+
+        // Base query - get distinct logged-in users from sessions
+        $query = "SELECT sessions.user_id, users.user_login, users.user_email
+                  FROM `{$sessionsTable}` AS sessions
+                  JOIN `{$wpdb->users}` AS users
+                  ON sessions.user_id = users.ID
+                  WHERE sessions.user_id IS NOT NULL AND sessions.user_id > 0";
 
         // If search term is provided, filter by email or username
         if (!empty($search)) {
@@ -248,7 +259,7 @@ class FilterManager
             $query .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
         }
 
-        $query .= " GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;";
+        $query .= " GROUP BY sessions.user_id ORDER BY sessions.user_id DESC LIMIT 50;";
 
         // Prepare and execute the query
         if (!empty($search)) {

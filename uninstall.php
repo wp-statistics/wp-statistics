@@ -17,12 +17,11 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 }
 
 // Load Composer autoloader
-$autoloader = __DIR__ . '/vendor/autoload.php';
-if (!file_exists($autoloader)) {
+if (file_exists(__DIR__ . '/packages/autoload.php')) {
+    require_once __DIR__ . '/packages/autoload.php';
+} else {
     return;
 }
-
-require_once $autoloader;
 
 // Run the uninstaller
 if (class_exists('WP_Statistics\Service\Installation\Uninstaller')) {

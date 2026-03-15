@@ -3,6 +3,7 @@
  * Reduces duplication in column files by providing common data transformations.
  */
 
+import type { LocationData } from './cells/location-cell'
 import type { VisitorInfoData } from './types'
 
 /**
@@ -39,7 +40,7 @@ export interface BaseVisitorFields {
  *     os: { icon: visitor.os, name: visitor.osName },
  *     browser: { icon: visitor.browser, name: visitor.browserName, version: visitor.browserVersion },
  *     user: visitor.userId && visitor.username ? { ... } : undefined,
- *     identifier: visitor.hash || visitor.ipAddress,
+ *     identifier: visitor.ipAddress || visitor.hash,
  *   }}
  *   config={config}
  * />
@@ -73,6 +74,22 @@ export function createVisitorInfoData(visitor: BaseVisitorFields): VisitorInfoDa
             role: visitor.userRole,
           }
         : undefined,
-    identifier: visitor.hash || visitor.ipAddress,
+    identifier: visitor.ipAddress || visitor.hash,
+    // Include hash and IP for single visitor page linking
+    visitorHash: visitor.hash,
+    ipAddress: visitor.ipAddress,
+  }
+}
+
+/**
+ * Creates the data object for LocationCell from visitor fields.
+ * Uses smart fallback: city > region > country only.
+ */
+export function createLocationData(visitor: BaseVisitorFields): LocationData {
+  return {
+    countryCode: visitor.countryCode,
+    countryName: visitor.country,
+    regionName: visitor.region || undefined,
+    cityName: visitor.city || undefined,
   }
 }

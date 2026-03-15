@@ -75,7 +75,7 @@ class OnlineModel extends BaseModel
         $result = Query::select([
             'sessions.ID AS online_id',
             'sessions.visitor_id AS ID',
-            'sessions.ip',
+            'visitors.ip',
             'sessions.started_at AS created',
             'sessions.ended_at AS timestamp',
             'sessions.total_views AS hits',
@@ -87,7 +87,6 @@ class OnlineModel extends BaseModel
             'device_browser_versions.version',
             'device_oss.name AS platform',
             'device_types.name AS device',
-            'device_models.name AS model',
             'countries.code AS location',
             'countries.name AS country_name',
             'cities.region_name AS region',
@@ -104,7 +103,6 @@ class OnlineModel extends BaseModel
             ->join('device_browser_versions', ['sessions.device_browser_version_id', 'device_browser_versions.ID'], [], 'LEFT')
             ->join('device_oss', ['sessions.device_os_id', 'device_oss.ID'], [], 'LEFT')
             ->join('device_types', ['sessions.device_type_id', 'device_types.ID'], [], 'LEFT')
-            ->join('device_models', ['sessions.device_model_id', 'device_models.ID'], [], 'LEFT')
             ->join('countries', ['sessions.country_id', 'countries.ID'], [], 'LEFT')
             ->join('cities', ['sessions.city_id', 'cities.ID'], [], 'LEFT')
             ->join('users', ['sessions.user_id', 'users.ID'], [], 'LEFT')

@@ -304,11 +304,20 @@ window.__vite_plugin_react_preamble_installed__ = true
         $manifestContent = file_get_contents($manifestPath);
         $decodedContent  = json_decode($manifestContent, true);
 
-        if (empty($decodedContent['src/main.tsx'])) {
+        // Find main entry - key may be 'src/main.tsx' or full resolved path
+        $mainEntry = null;
+        foreach ($decodedContent as $key => $entry) {
+            if (str_ends_with($key, 'main.tsx') && isset($entry['isEntry']) && $entry['isEntry']) {
+                $mainEntry = $entry;
+                break;
+            }
+        }
+
+        if ($mainEntry === null) {
             return;
         }
 
-        $this->manifestMainJs  = $decodedContent['src/main.tsx']['file'] ?? '';
-        $this->manifestMainCss = $decodedContent['src/main.tsx']['css'] ?? [];
+        $this->manifestMainJs  = $mainEntry['file'] ?? '';
+        $this->manifestMainCss = $mainEntry['css'] ?? [];
     }
 }

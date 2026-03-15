@@ -216,4 +216,164 @@ class Test_UserPreferencesEndpoint extends WP_UnitTestCase
         $this->assertArrayHasKey('visitors_overview', $preferences);
         $this->assertEquals(['widget_1', 'widget_2', 'widget_3'], $preferences['visitors_overview']);
     }
+
+    /**
+     * Test save unified context with all preference types.
+     *
+     * Validates the new schema where columns, widgets, and metrics
+     * can all be saved to the same context.
+     */
+    public function test_save_unified_context_schema()
+    {
+        $_POST = [
+            'action_type' => 'save',
+            'context'     => 'visitors_overview',
+            'data'        => json_encode([
+                'columns'      => ['date', 'visitors', 'views'],
+                'widgets'      => [
+                    'traffic_summary' => true,
+                    'top_referrers'   => false,
+                ],
+                'widget_order' => ['traffic_summary', 'visitor_map'],
+                'metrics'      => [
+                    'visitors' => true,
+                    'views'    => true,
+                ],
+                'metric_order' => ['visitors', 'views'],
+            ]),
+        ];
+
+        $response = $this->endpoint->handleQuery();
+
+        $this->assertTrue($response['success']);
+
+        // Verify all data was saved correctly
+        $manager = new UserPreferencesManager($this->testUserId);
+        $preferences = $manager->get('visitors_overview');
+
+        $this->assertArrayHasKey('columns', $preferences);
+        $this->assertArrayHasKey('widgets', $preferences);
+        $this->assertArrayHasKey('widget_order', $preferences);
+        $this->assertArrayHasKey('metrics', $preferences);
+        $this->assertArrayHasKey('metric_order', $preferences);
+
+        // Verify data integrity
+        $this->assertEquals(['date', 'visitors', 'views'], $preferences['columns']);
+        $this->assertTrue($preferences['widgets']['traffic_summary']);
+        $this->assertFalse($preferences['widgets']['top_referrers']);
+    }
+
+    /**
+     * Test save with route-based context names (using hyphens).
+     *
+     * Context names can use hyphens (route-style) or underscores.
+     */
+    public function test_save_with_hyphenated_context()
+    {
+        $_POST = [
+            'action_type' => 'save',
+            'context'     => 'visitors-overview',
+            'data'        => json_encode(['columns' => ['date', 'visitors']]),
+        ];
+
+        $response = $this->endpoint->handleQuery();
+
+        $this->assertTrue($response['success']);
+
+        // Verify saved with hyphenated context
+        $manager = new UserPreferencesManager($this->testUserId);
+        $preferences = $manager->get('visitors-overview');
+
+        $this->assertNotNull($preferences);
+        $this->assertEquals(['date', 'visitors'], $preferences['columns']);
+    }
+
+    /**
+     * Test no premium context restriction in endpoint.
+     *
+     * After simplification, any valid context format should be accepted.
+     * Premium feature locking is handled by frontend UI, not backend validation.
+     */
+    public function test_no_premium_context_restriction()
+    {
+        // These contexts were previously restricted to premium
+        $premiumContexts = [
+            'visitors_overview' => ['widgets' => ['widget1' => true]],
+            'page_insights_overview' => ['metrics' => ['metric1' => true]],
+        ];
+
+        foreach ($premiumContexts as $context => $data) {
+            // Reset request cache
+            RequestUtil::resetRequestDataCache();
+
+            $_POST = [
+                'action_type' => 'save',
+                'context'     => $context,
+                'data'        => json_encode($data),
+            ];
+
+            $response = $this->endpoint->handleQuery();
+
+            $this->assertTrue(
+                $response['success'],
+                "Context '{$context}' should be accepted without premium validation"
+            );
+        }
+    }
+
+    /**
+     * Test reset clears all preference types from context.
+     */
+    public function test_reset_clears_unified_context()
+    {
+        // First save comprehensive preferences
+        $manager = new UserPreferencesManager($this->testUserId);
+        $manager->save('visitors_overview', [
+            'columns'      => ['date', 'visitors'],
+            'widgets'      => ['widget1' => true],
+            'metrics'      => ['metric1' => true],
+        ]);
+
+        // Verify they exist
+        $this->assertTrue($manager->exists('visitors_overview'));
+
+        // Reset via endpoint
+        $_POST = [
+            'action_type' => 'reset',
+            'context'     => 'visitors_overview',
+        ];
+
+        $response = $this->endpoint->handleQuery();
+
+        $this->assertTrue($response['success']);
+
+        // Verify completely cleared
+        $this->assertNull($manager->get('visitors_overview'));
+        $this->assertFalse($manager->exists('visitors_overview'));
+    }
+
+    /**
+     * Test data as array instead of JSON string.
+     *
+     * The endpoint should accept both JSON strings and arrays for the data parameter.
+     */
+    public function test_save_with_array_data()
+    {
+        $_POST = [
+            'action_type' => 'save',
+            'context'     => 'test_context',
+            'data'        => [
+                'columns' => ['date', 'visitors'],
+            ],
+        ];
+
+        $response = $this->endpoint->handleQuery();
+
+        $this->assertTrue($response['success']);
+
+        $manager = new UserPreferencesManager($this->testUserId);
+        $preferences = $manager->get('test_context');
+
+        $this->assertEquals(['date', 'visitors'], $preferences['columns']);
+    }
 }

@@ -211,10 +211,11 @@ class SessionModel extends BaseModel
 
         $query = Query::select(['COUNT(DISTINCT IFNULL(sessions.visitor_id, sessions.ID)) AS total_visitors'])
             ->from('sessions')
+            ->join('visitors', ['sessions.visitor_id', 'visitors.ID'], [], 'LEFT')
             ->where('sessions.started_at', '>=', $args['date']['from'] . ' 00:00:00')
             ->where('sessions.started_at', '<=', $args['date']['to'] . ' 23:59:59')
             ->where('sessions.user_id', '=', $args['user_id'])
-            ->where('sessions.ip', 'LIKE', "%{$args['ip']}%");
+            ->where('visitors.ip', 'LIKE', "%{$args['ip']}%");
 
         if ($args['agent'] !== '') {
             $query->join('device_browsers', ['sessions.device_browser_id', 'device_browsers.ID'])
@@ -378,10 +379,11 @@ class SessionModel extends BaseModel
 
         $query = Query::select(['SUM(sessions.total_views) AS total_hits'])
             ->from('sessions')
+            ->join('visitors', ['sessions.visitor_id', 'visitors.ID'], [], 'LEFT')
             ->where('sessions.started_at', '>=', $args['date']['from'] . ' 00:00:00')
             ->where('sessions.started_at', '<=', $args['date']['to'] . ' 23:59:59')
             ->where('sessions.user_id', '=', $args['user_id'])
-            ->where('sessions.ip', 'LIKE', "%{$args['ip']}%");
+            ->where('visitors.ip', 'LIKE', "%{$args['ip']}%");
 
         if (!empty($args['agent'])) {
             $query->join('device_browsers', ['sessions.device_browser_id', 'device_browsers.ID'])

@@ -3,10 +3,11 @@ import './data-table-types' // Import to extend ColumnMeta
 import { Button } from '@components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
 import { cn } from '@lib/utils'
-import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table'
+import type { ColumnDef, ColumnFiltersState, Row, SortingState, Table as TanStackTable, VisibilityState } from '@tanstack/react-table'
 import {
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -18,9 +19,9 @@ import * as React from 'react'
 
 import { useIsMobile } from '@/hooks/use-mobile'
 
+import { EmptyState } from '../ui/empty-state'
 import { Panel, PanelAction, PanelFooter, PanelHeader, PanelTitle } from '../ui/panel'
 import { DataTableCardList } from './data-table-card-list'
-import { DataTableColumnToggle } from './data-table-column-toggle'
 import { DataTableMobileHeader } from './data-table-mobile-header'
 import { DataTableMobilePagination } from './data-table-mobile-pagination'
 
@@ -35,7 +36,6 @@ interface DataTableProps<TData, TValue> {
   title?: string
   defaultSort?: string
   rowLimit?: number
-  showColumnManagement?: boolean
   showPagination?: boolean
   fullReportLink?: FullReportLink
   hiddenColumns?: string[]
@@ -58,10 +58,22 @@ interface DataTableProps<TData, TValue> {
   onColumnVisibilityChange?: (visibility: VisibilityState) => void
   onColumnOrderChange?: (order: string[]) => void
   onColumnPreferencesReset?: () => void
+  // Comparison column preferences
+  comparableColumns?: string[]
+  comparisonColumns?: string[]
+  defaultComparisonColumns?: string[]
+  onComparisonColumnsChange?: (columns: string[]) => void
   // Mobile card view
   mobileCardEnabled?: boolean
   // Sticky header for scrollable tables
   stickyHeader?: boolean
+  // Borderless panel variant for single-widget report pages
+  borderless?: boolean
+  // Ref to expose the table instance for external use (e.g., column management in drawer)
+  tableRef?: React.MutableRefObject<TanStackTable<TData> | null>
+  // Expandable rows
+  renderSubComponent?: (props: { row: Row<TData> }) => React.ReactNode
+  getRowCanExpand?: (row: Row<TData>) => boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -70,7 +82,6 @@ export function DataTable<TData, TValue>({
   title,
   defaultSort,
   rowLimit = 50,
-  showColumnManagement = true,
   showPagination = true,
   fullReportLink,
   hiddenColumns = [],
@@ -90,13 +101,25 @@ export function DataTable<TData, TValue>({
   // Column preferences
   initialColumnVisibility,
   columnOrder,
-  onColumnVisibilityChange,
+  onColumnVisibilityChange: _onColumnVisibilityChange,
   onColumnOrderChange,
-  onColumnPreferencesReset,
+  onColumnPreferencesReset: _onColumnPreferencesReset,
+  // Comparison column preferences
+  comparableColumns: _comparableColumns,
+  comparisonColumns,
+  defaultComparisonColumns: _defaultComparisonColumns,
+  onComparisonColumnsChange,
   // Mobile card view
   mobileCardEnabled = true,
   // Sticky header
   stickyHeader = false,
+  // Borderless panel
+  borderless = false,
+  // Table ref
+  tableRef,
+  // Expandable rows
+  renderSubComponent,
+  getRowCanExpand,
 }: DataTableProps<TData, TValue>) {
   const isMobile = useIsMobile()
 
@@ -109,7 +132,7 @@ export function DataTable<TData, TValue>({
         label:
           typeof col.header === 'string'
             ? col.header
-            : col.meta?.mobileLabel || (col as { accessorKey?: string }).accessorKey || col.id || '',
+            : col.meta?.title || col.meta?.mobileLabel || (col as { accessorKey?: string }).accessorKey || col.id || '',
       }))
       .filter((col) => col.id)
   }, [columns])
@@ -120,7 +143,6 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(() =>
     hiddenColumns.reduce((acc, col) => ({ ...acc, [col]: false }), {})
   )
-  const [rowSelection, setRowSelection] = React.useState({})
   const [internalColumnOrder, setInternalColumnOrder] = React.useState<string[]>([])
   const internalColumnOrderRef = React.useRef<string[]>([])
 
@@ -137,9 +159,15 @@ export function DataTable<TData, TValue>({
       hasAppliedInitialVisibility.current = true
     }
     // Handle reset: if visibility changes after being initially applied (e.g., reset to defaults)
-    else if (hasAppliedInitialVisibility.current && currentKeys > 0 && prevKeys > 0 && initialColumnVisibility !== prevInitialVisibilityRef.current) {
+    else if (
+      hasAppliedInitialVisibility.current &&
+      currentKeys > 0 &&
+      prevKeys > 0 &&
+      initialColumnVisibility !== prevInitialVisibilityRef.current
+    ) {
       // Check if this is a reset (visibility changed significantly)
-      const visibilityChanged = JSON.stringify(initialColumnVisibility) !== JSON.stringify(prevInitialVisibilityRef.current)
+      const visibilityChanged =
+        JSON.stringify(initialColumnVisibility) !== JSON.stringify(prevInitialVisibilityRef.current)
       if (visibilityChanged) {
         setColumnVisibility(initialColumnVisibility!)
       }
@@ -163,7 +191,12 @@ export function DataTable<TData, TValue>({
       hasAppliedInitialColumnOrder.current = true
     }
     // Handle reset: if columnOrder prop becomes empty/undefined after being set
-    else if (hasAppliedInitialColumnOrder.current && (!columnOrder || columnOrder.length === 0) && prevColumnOrderRef.current && prevColumnOrderRef.current.length > 0) {
+    else if (
+      hasAppliedInitialColumnOrder.current &&
+      (!columnOrder || columnOrder.length === 0) &&
+      prevColumnOrderRef.current &&
+      prevColumnOrderRef.current.length > 0
+    ) {
       setInternalColumnOrder([])
       internalColumnOrderRef.current = []
       hasAppliedInitialColumnOrder.current = false
@@ -192,7 +225,8 @@ export function DataTable<TData, TValue>({
   // Handle column order changes from the table
   const handleColumnOrderChange = React.useCallback(
     (updaterOrValue: string[] | ((old: string[]) => string[])) => {
-      const newValue = typeof updaterOrValue === 'function' ? updaterOrValue(internalColumnOrderRef.current) : updaterOrValue
+      const newValue =
+        typeof updaterOrValue === 'function' ? updaterOrValue(internalColumnOrderRef.current) : updaterOrValue
       setInternalColumnOrder(newValue)
       internalColumnOrderRef.current = newValue
       if (onColumnOrderChange) {
@@ -202,21 +236,38 @@ export function DataTable<TData, TValue>({
     [onColumnOrderChange]
   )
 
+  // Handler for toggling comparison on a column from the header dropdown
+  const handleToggleComparison = React.useCallback(
+    (columnId: string) => {
+      if (!onComparisonColumnsChange || !comparisonColumns) return
+      const isCurrentlyEnabled = comparisonColumns.includes(columnId)
+      const newComparisonColumns = isCurrentlyEnabled
+        ? comparisonColumns.filter((id) => id !== columnId)
+        : [...comparisonColumns, columnId]
+      onComparisonColumnsChange(newComparisonColumns)
+    },
+    [comparisonColumns, onComparisonColumnsChange]
+  )
+
   const table = useReactTable({
     data,
     columns,
     onSortingChange: handleSortingChange,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
     getPaginationRowModel: manualPagination ? undefined : getPaginationRowModel(),
     getSortedRowModel: manualSorting ? undefined : getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getRowCanExpand,
     onColumnVisibilityChange: setColumnVisibility,
     onColumnOrderChange: handleColumnOrderChange,
-    onRowSelectionChange: setRowSelection,
     manualSorting,
     manualPagination,
     pageCount: manualPagination ? externalPageCount : undefined,
+    meta: {
+      toggleComparison: handleToggleComparison,
+    },
     initialState: {
       pagination: {
         pageSize: rowLimit,
@@ -227,7 +278,6 @@ export function DataTable<TData, TValue>({
       columnFilters,
       columnVisibility,
       columnOrder: internalColumnOrder.length > 0 ? internalColumnOrder : undefined,
-      rowSelection,
       pagination: {
         pageIndex,
         pageSize: rowLimit,
@@ -244,6 +294,13 @@ export function DataTable<TData, TValue>({
         }
       : undefined,
   })
+
+  // Expose table instance via ref if provided
+  React.useEffect(() => {
+    if (tableRef) {
+      tableRef.current = table
+    }
+  }, [table, tableRef])
 
   // Extract values for memoization dependencies
   const currentPageIndex = table.getState().pagination.pageIndex
@@ -295,7 +352,7 @@ export function DataTable<TData, TValue>({
   // Mobile card view
   if (isMobile && mobileCardEnabled) {
     return (
-      <Panel className="overflow-hidden min-w-0">
+      <Panel variant={borderless ? 'borderless' : 'default'} className="overflow-hidden min-w-0">
         <DataTableMobileHeader
           title={title}
           sorting={sorting}
@@ -309,18 +366,16 @@ export function DataTable<TData, TValue>({
           emptyStateMessage={emptyStateMessage}
           isFetching={isFetching}
         />
-        {showPagination && (
-          <DataTableMobilePagination table={table} totalRows={totalRows} />
-        )}
+        {showPagination && (totalRows ?? 0) > 0 && <div data-pdf-hide><DataTableMobilePagination table={table} totalRows={totalRows!} /></div>}
       </Panel>
     )
   }
 
   // Desktop/tablet table view
   return (
-    <Panel className="min-w-0 overflow-hidden">
+    <Panel variant={borderless ? 'borderless' : 'default'} className="min-w-0 overflow-hidden">
       {title && (
-        <PanelHeader className="pb-0">
+        <PanelHeader>
           <PanelTitle>{title}</PanelTitle>
           {isFetching && <Loader2 className="h-4 w-4 animate-spin text-neutral-400" />}
         </PanelHeader>
@@ -337,16 +392,24 @@ export function DataTable<TData, TValue>({
             <Loader2 className="h-5 w-5 animate-spin text-neutral-400" />
           </div>
         )}
-        <Table className="min-w-max">
+        <Table className={cn('min-w-max', stickyHeader && 'border-separate border-spacing-0')}>
           <TableHeader className={cn(stickyHeader && 'sticky top-0 z-10')}>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-0 bg-white hover:bg-white">
+              <TableRow key={headerGroup.id} className="border-b-0 bg-white hover:bg-white">
                 {headerGroup.headers.map((header, index) => {
                   const size = header.column.columnDef.size
+                  const align = (header.column.columnDef.meta as { align?: 'left' | 'right' | 'center' } | undefined)
+                    ?.align
                   return (
                     <TableHead
                       key={header.id}
-                      className={cn('h-8 bg-white', index === 0 ? 'pl-4' : '', index === headerGroup.headers.length - 1 ? 'pr-4' : '')}
+                      className={cn(
+                        'h-8 bg-white border-t border-b border-neutral-200',
+                        index === 0 ? 'pl-4 border-l-0' : '',
+                        index === headerGroup.headers.length - 1 ? 'pr-4 border-r-0' : '',
+                        align === 'right' && 'text-right',
+                        align === 'center' && 'text-center'
+                      )}
                       style={size ? { width: size, minWidth: size, maxWidth: size } : undefined}
                     >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -359,105 +422,96 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row, rowIndex) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                  className={cn(
-                    'border-0 transition-colors',
-                    rowIndex % 2 === 0 ? 'bg-white hover:bg-neutral-50' : 'bg-neutral-50/50 hover:bg-neutral-100/70'
+                <React.Fragment key={row.id}>
+                  <TableRow
+                    className={cn(
+                      'border-0 transition-colors',
+                      rowIndex % 2 === 0 ? 'bg-white hover:bg-neutral-50' : 'bg-neutral-50/50 hover:bg-neutral-100/70'
+                    )}
+                  >
+                    {row.getVisibleCells().map((cell, cellIndex) => (
+                      <TableCell
+                        key={cell.id}
+                        className={cn(
+                          cellIndex === 0 ? 'pl-4' : '',
+                          cellIndex === row.getVisibleCells().length - 1 ? 'pr-4' : ''
+                        )}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {row.getIsExpanded() && renderSubComponent && (
+                    <TableRow className="border-0 bg-neutral-50 hover:bg-neutral-50">
+                      <TableCell colSpan={row.getVisibleCells().length} className="p-0">
+                        {renderSubComponent({ row })}
+                      </TableCell>
+                    </TableRow>
                   )}
-                >
-                  {row.getVisibleCells().map((cell, cellIndex) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        cellIndex === 0 ? 'pl-4' : '',
-                        cellIndex === row.getVisibleCells().length - 1 ? 'pr-4' : ''
-                      )}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                </React.Fragment>
               ))
             ) : (
-              <TableRow className="border-0">
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center text-sm text-neutral-500 pl-4"
-                >
-                  {isFetching ? null : emptyStateMessage}
+              <TableRow className="border-0 hover:bg-transparent">
+                <TableCell colSpan={columns.length} className="p-0">
+                  {isFetching ? null : <EmptyState title={emptyStateMessage} className="py-8" />}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      {(showColumnManagement || showPagination || fullReportLink) && (
-        <PanelFooter className="grid grid-cols-3 items-center">
-          {/* Left: Column toggle */}
-          <div className="justify-self-start">
-            {showColumnManagement && (
-              <DataTableColumnToggle
-                table={table}
-                initialColumnOrder={columnOrder}
-                defaultHiddenColumns={hiddenColumns}
-                onColumnVisibilityChange={onColumnVisibilityChange}
-                onColumnOrderChange={onColumnOrderChange}
-                onReset={onColumnPreferencesReset}
-              />
-            )}
-          </div>
+      {(showPagination || fullReportLink) && (
+        <PanelFooter className="flex items-center justify-between" data-pdf-hide>
+          {/* Left: Empty for alignment */}
+          <div />
 
           {/* Center: Pagination */}
-          <div className="justify-self-center">
-            {showPagination && (
-              <div className="flex items-center gap-0.5">
-                <Button
-                  variant="ghost"
-                  onClick={handlePreviousPage}
-                  disabled={!table.getCanPreviousPage()}
-                  className="h-7 px-2 text-xs"
-                >
-                  <ChevronLeft className="h-3.5 w-3.5" />
-                  Prev
-                </Button>
-                {paginationPages.map((page, index) => {
-                  const currentPage = currentPageIndex + 1
-                  return typeof page === 'number' ? (
-                    <Button
-                      key={index}
-                      variant={currentPage === page ? 'default' : 'ghost'}
-                      size="icon"
-                      onClick={() => handleSetPageIndex(page - 1)}
-                      className="h-7 w-7 text-xs"
-                    >
-                      {page}
-                    </Button>
-                  ) : (
-                    <span key={index} className="px-1 text-neutral-400 text-xs">
-                      {page}
-                    </span>
-                  )
-                })}
-                <Button
-                  variant="ghost"
-                  onClick={handleNextPage}
-                  disabled={!table.getCanNextPage()}
-                  className="h-7 px-2 text-xs"
-                >
-                  Next
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </Button>
-              </div>
-            )}
-          </div>
+          {showPagination && (totalRows ?? 0) > 0 && (
+            <div className="flex items-center gap-0.5">
+              <Button
+                variant="ghost"
+                onClick={handlePreviousPage}
+                disabled={!table.getCanPreviousPage()}
+                className="h-7 px-2 text-xs"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+                Prev
+              </Button>
+              {paginationPages.map((page, index) => {
+                const currentPage = currentPageIndex + 1
+                return typeof page === 'number' ? (
+                  <Button
+                    key={`page-${page}`}
+                    variant={currentPage === page ? 'default' : 'ghost'}
+                    size="icon"
+                    onClick={() => handleSetPageIndex(page - 1)}
+                    className="h-7 w-7 text-xs"
+                  >
+                    {page}
+                  </Button>
+                ) : (
+                  <span key={`ellipsis-${index}`} className="px-1 text-neutral-400 text-xs">
+                    {page}
+                  </span>
+                )
+              })}
+              <Button
+                variant="ghost"
+                onClick={handleNextPage}
+                disabled={!table.getCanNextPage()}
+                className="h-7 px-2 text-xs"
+              >
+                Next
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          )}
 
           {/* Right: Full report link */}
-          <div className="justify-self-end">
+          <div>
             {fullReportLink && (
               <PanelAction onClick={fullReportLink.action}>
-                {fullReportLink.text || __('View Full Report', 'wp-statistics')}
+                {fullReportLink.text || __('See all', 'wp-statistics')}
               </PanelAction>
             )}
           </div>

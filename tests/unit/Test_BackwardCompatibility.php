@@ -505,6 +505,50 @@ class Test_BackwardCompatibility extends WP_UnitTestCase
         $this->assertIsBool($result, 'wp_statistics_needs_consent() should return a boolean');
     }
 
+    public function test_wpStatisticsNeedsConsentReturnsFalseWhenNoPrivacyRiskSettingsEnabled()
+    {
+        \WP_Statistics\Components\Option::updateValue('store_ip', false);
+        \WP_Statistics\Components\Option::updateValue('visitors_log', false);
+
+        $this->assertFalse(wp_statistics_needs_consent());
+    }
+
+    public function test_wpStatisticsNeedsConsentReturnsTrueWhenStoreIpEnabled()
+    {
+        \WP_Statistics\Components\Option::updateValue('store_ip', true);
+        \WP_Statistics\Components\Option::updateValue('visitors_log', false);
+
+        $this->assertTrue(wp_statistics_needs_consent());
+    }
+
+    public function test_wpStatisticsNeedsConsentReturnsTrueWhenVisitorsLogEnabled()
+    {
+        \WP_Statistics\Components\Option::updateValue('store_ip', false);
+        \WP_Statistics\Components\Option::updateValue('visitors_log', true);
+
+        $this->assertTrue(wp_statistics_needs_consent());
+    }
+
+    public function test_wpStatisticsNeedsConsentCanBeForcedTrueByFilter()
+    {
+        \WP_Statistics\Components\Option::updateValue('store_ip', false);
+        \WP_Statistics\Components\Option::updateValue('visitors_log', false);
+
+        add_filter('wp_statistics_needs_consent', '__return_true');
+        $this->assertTrue(wp_statistics_needs_consent());
+        remove_all_filters('wp_statistics_needs_consent');
+    }
+
+    public function test_wpStatisticsNeedsConsentCanBeOverriddenByFilter()
+    {
+        add_filter('wp_statistics_needs_consent', '__return_false');
+        \WP_Statistics\Components\Option::updateValue('store_ip', true);
+
+        $this->assertFalse(wp_statistics_needs_consent());
+
+        remove_all_filters('wp_statistics_needs_consent');
+    }
+
     /**
      * Test legacy and v15 Option classes return same values.
      */

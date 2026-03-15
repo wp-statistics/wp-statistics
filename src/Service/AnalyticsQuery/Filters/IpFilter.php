@@ -19,9 +19,9 @@ class IpFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: sessions.ip
+     * @var string Column path: visitors.ip
      */
-    protected $column = 'sessions.ip';
+    protected $column = 'visitors.ip';
 
     /**
      * Value type for sanitization.

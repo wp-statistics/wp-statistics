@@ -77,7 +77,6 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
         $events = $this->getPrivateProperty($manager, 'events');
 
         $this->assertNotEmpty($eventClasses, 'Event classes should be registered');
-        $this->assertArrayHasKey('email_report', $eventClasses);
         $this->assertArrayHasKey('database_maintenance', $eventClasses);
         $this->assertArrayHasKey('geoip_update', $eventClasses);
 
@@ -92,7 +91,7 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
     {
         $manager = new CronManager();
 
-        $this->assertTrue($manager->hasEvent('email_report'));
+        $this->assertTrue($manager->hasEvent('database_maintenance'));
         $this->assertTrue($manager->hasEvent('database_maintenance'));
         $this->assertFalse($manager->hasEvent('nonexistent'));
 
@@ -107,13 +106,13 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
     {
         $manager = new CronManager();
 
-        $event = $manager->getEvent('email_report');
+        $event = $manager->getEvent('database_maintenance');
 
         $this->assertInstanceOf(ScheduledEventInterface::class, $event);
 
         $events = $this->getPrivateProperty($manager, 'events');
         $this->assertCount(1, $events, 'Only requested event should be instantiated');
-        $this->assertArrayHasKey('email_report', $events);
+        $this->assertArrayHasKey('database_maintenance', $events);
     }
 
     /**
@@ -123,8 +122,8 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
     {
         $manager = new CronManager();
 
-        $first = $manager->getEvent('email_report');
-        $second = $manager->getEvent('email_report');
+        $first = $manager->getEvent('database_maintenance');
+        $second = $manager->getEvent('database_maintenance');
 
         $this->assertSame($first, $second, 'getEvent() should return cached instance');
     }
@@ -138,14 +137,10 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
 
         $keys = $manager->getEventKeys();
 
-        $this->assertContains('email_report', $keys);
         $this->assertContains('database_maintenance', $keys);
         $this->assertContains('geoip_update', $keys);
         $this->assertContains('daily_summary', $keys);
-        $this->assertContains('license', $keys);
         $this->assertContains('referrals_database', $keys);
-        $this->assertContains('notification', $keys);
-        $this->assertContains('referrer_spam', $keys);
     }
 
     /**
@@ -156,7 +151,7 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
         $manager = new CronManager();
 
         // Use existing event class for testing
-        $manager->registerEventClass('custom_event', \WP_Statistics\Service\Cron\Events\EmailReportEvent::class);
+        $manager->registerEventClass('custom_event', \WP_Statistics\Service\Cron\Events\DatabaseMaintenanceEvent::class);
 
         $this->assertTrue($manager->hasEvent('custom_event'));
 

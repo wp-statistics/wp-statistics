@@ -19,6 +19,10 @@ use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidDateRangeException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidFormatException;
 use WP_Statistics\Service\AnalyticsQuery\Exceptions\InvalidColumnException;
 use WP_Statistics\Service\Admin\UserPreferences\UserPreferencesManager;
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
+use WP_Statistics\Components\DateRange;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\TimeZone;
 
 /**
  * Facade for analytics query operations.
@@ -162,6 +166,14 @@ class AnalyticsQueryHandler
             $result = $this->addComparison($query, $result);
         }
 
+        // Pass export columns to the export formatter if present
+        if (!empty($request['export_columns']) && $query->getFormat() === 'export') {
+            $formatter = $this->getFormatter('export');
+            if ($formatter instanceof ExportFormatter) {
+                $formatter->setExportColumns($request['export_columns']);
+            }
+        }
+
         // Build response
         $response = $this->buildResponse($query, $result);
 
@@ -287,7 +299,12 @@ class AnalyticsQueryHandler
             }
 
             try {
-                $result            = $this->handle($queryData);
+                // Check if this is a chart provider query
+                if (isset($queryData['chart'])) {
+                    $result = $this->handleChartProviderQuery($queryData, $dateFrom, $dateTo, $globalCompare);
+                } else {
+                    $result = $this->handle($queryData);
+                }
                 $results[$queryId] = $result;
             } catch (\Exception $e) {
                 $errors[$queryId] = [
@@ -316,6 +333,308 @@ class AnalyticsQueryHandler
         }
 
         return $response;
+    }
+
+    /**
+     * Handle a chart provider query.
+     *
+     * Routes to specialized chart data providers for complex chart data
+     * that cannot be easily expressed via standard sources/group_by.
+     *
+     * @param array       $queryData    Query data with 'chart' parameter.
+     * @param string|null $dateFrom     Global date_from.
+     * @param string|null $dateTo       Global date_to.
+     * @param bool        $globalCompare Global compare flag.
+     * @return array Chart data in frontend-compatible format.
+     */
+    private function handleChartProviderQuery(
+        array $queryData,
+        ?string $dateFrom,
+        ?string $dateTo,
+        bool $globalCompare
+    ): array {
+        $chartType = $queryData['chart'];
+        $filters   = $queryData['filters'] ?? [];
+        $compare   = $queryData['compare'] ?? $globalCompare;
+
+        $date = [
+            'from' => $queryData['date_from'] ?? $dateFrom,
+            'to'   => $queryData['date_to'] ?? $dateTo,
+        ];
+
+        // Determine query parameters based on chart type
+        switch ($chartType) {
+            case 'search_engine_chart':
+                $groupBy        = ['referrer', 'date'];
+                $channelFilter  = $this->resolveChannelFilter($filters, ['search', 'paid']);
+                $queryFilters   = ['referrer_channel' => $channelFilter];
+                $labelField     = 'referrer_name';
+                break;
+            case 'social_media_chart':
+                $groupBy        = ['referrer', 'date'];
+                $channelFilter  = $this->resolveChannelFilter($filters, ['social', 'paid_social']);
+                $queryFilters   = ['referrer_channel' => $channelFilter];
+                $labelField     = 'referrer_name';
+                break;
+            case 'source_category_chart':
+                $groupBy        = ['referrer_channel', 'date'];
+                $queryFilters   = [];
+                $labelField     = 'referrer_channel';
+                break;
+            default:
+                throw new \InvalidArgumentException(
+                    sprintf(__('Unknown chart type: %s', 'wp-statistics'), $chartType)
+                );
+        }
+
+        $chartData = $this->buildReferralChartData(
+            $date,
+            $compare,
+            $groupBy,
+            $queryFilters,
+            $labelField,
+            $chartType === 'source_category_chart'
+        );
+
+        return $this->transformChartProviderResponse($chartData, $compare);
+    }
+
+    /**
+     * Resolve channel filter from external filters or use defaults.
+     *
+     * @param array $filters   External filters from the query.
+     * @param array $defaults  Default channel values.
+     * @return array Channel filter for the query.
+     */
+    private function resolveChannelFilter(array $filters, array $defaults): array
+    {
+        if (isset($filters['referrer_channel']) && is_array($filters['referrer_channel'])) {
+            $cf = $filters['referrer_channel'];
+            if (isset($cf['in'])) {
+                return $cf;
+            }
+            if (isset($cf['is'])) {
+                return ['in' => [$cf['is']]];
+            }
+        }
+
+        return ['in' => $defaults];
+    }
+
+    /**
+     * Build chart data for referral-type charts (search engines, social media, source categories).
+     *
+     * Queries visitor data grouped by a label field + date, picks the top 3 series,
+     * and builds labels/datasets in the internal chart format.
+     *
+     * @param array  $date              Date range ['from' => ..., 'to' => ...].
+     * @param bool   $compare           Whether to include previous period comparison.
+     * @param array  $groupBy           Group-by fields for the query.
+     * @param array  $queryFilters      Additional filters for the query.
+     * @param string $labelField        Row field to use as the series label.
+     * @param bool   $useChannelNames   Whether to resolve channel display names.
+     * @return array Chart data structure.
+     */
+    private function buildReferralChartData(
+        array $date,
+        bool $compare,
+        array $groupBy,
+        array $queryFilters,
+        string $labelField,
+        bool $useChannelNames = false
+    ): array {
+        $thisPeriod      = !empty($date['from']) ? $date : DateRange::get();
+        $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
+
+        $chartData = [
+            'data' => ['labels' => [], 'datasets' => []],
+        ];
+
+        // Labels
+        $chartData['data']['labels'] = $this->buildDateLabels($thisPeriodDates);
+
+        // Current period query
+        $result = $this->handle([
+            'sources'   => ['visitors'],
+            'group_by'  => $groupBy,
+            'filters'   => $queryFilters,
+            'date_from' => $thisPeriod['from'] ?? null,
+            'date_to'   => $thisPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $rows          = $result['data']['rows'] ?? [];
+        $parsedData    = [];
+        $periodTotal   = array_fill_keys($thisPeriodDates, 0);
+
+        foreach ($rows as $row) {
+            $visitors = intval($row['visitors'] ?? 0);
+            $name     = $row[$labelField] ?? '';
+            $rowDate  = $row['date'] ?? '';
+
+            if (empty($name) || empty($rowDate)) {
+                continue;
+            }
+
+            if ($useChannelNames) {
+                $name = SourceChannels::getName($name) ?: ucfirst($name);
+            }
+
+            $parsedData[$name][$rowDate] = ($parsedData[$name][$rowDate] ?? 0) + $visitors;
+            $periodTotal[$rowDate]       = ($periodTotal[$rowDate] ?? 0) + $visitors;
+        }
+
+        // Sort by total, take top 3
+        uasort($parsedData, fn($a, $b) => array_sum($b) - array_sum($a));
+        $topData = array_slice($parsedData, 0, 3, true);
+
+        foreach ($topData as $label => $seriesData) {
+            $seriesData = array_merge(array_fill_keys($thisPeriodDates, 0), $seriesData);
+            ksort($seriesData);
+            $chartData['data']['datasets'][] = [
+                'label' => ucfirst($label),
+                'data'  => array_values($seriesData),
+                'slug'  => null,
+            ];
+        }
+
+        $chartData['data']['datasets'][] = [
+            'label' => esc_html__('Total', 'wp-statistics'),
+            'data'  => array_values($periodTotal),
+            'slug'  => 'total',
+        ];
+
+        // Previous period
+        if ($compare) {
+            $prevPeriod      = DateRange::getPrevPeriod($thisPeriod);
+            $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
+
+            $chartData['previousData'] = ['labels' => [], 'datasets' => []];
+            $chartData['previousData']['labels'] = $this->buildDateLabels($prevPeriodDates);
+
+            $prevResult = $this->handle([
+                'sources'   => ['visitors'],
+                'group_by'  => $groupBy,
+                'filters'   => $queryFilters,
+                'date_from' => $prevPeriod['from'] ?? null,
+                'date_to'   => $prevPeriod['to'] ?? null,
+                'format'    => 'table',
+                'per_page'  => 1000,
+            ]);
+
+            $prevRows  = $prevResult['data']['rows'] ?? [];
+            $prevTotal = array_fill_keys($prevPeriodDates, 0);
+
+            foreach ($prevRows as $row) {
+                $visitors = intval($row['visitors'] ?? 0);
+                $rowDate  = $row['date'] ?? '';
+                if (!empty($rowDate) && isset($prevTotal[$rowDate])) {
+                    $prevTotal[$rowDate] += $visitors;
+                }
+            }
+
+            $chartData['previousData']['datasets'][] = [
+                'label' => esc_html__('Total', 'wp-statistics'),
+                'data'  => array_values($prevTotal),
+                'slug'  => '',
+            ];
+        }
+
+        return $chartData;
+    }
+
+    /**
+     * Build date labels for chart axes.
+     *
+     * @param array $dates List of date strings.
+     * @return array
+     */
+    private function buildDateLabels(array $dates): array
+    {
+        return array_map(function ($date) {
+            return [
+                'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
+                'date'           => date_i18n('Y-m-d', strtotime($date)),
+                'day'            => date_i18n('D', strtotime($date)),
+            ];
+        }, $dates);
+    }
+
+    /**
+     * Transform chart provider response to frontend-compatible format.
+     *
+     * Converts from LineChartResponseTrait format:
+     * {
+     *   'data' => ['labels' => [...], 'datasets' => [['label' => 'X', 'data' => [...], 'slug' => 'x']]],
+     *   'previousData' => ['labels' => [...], 'datasets' => [...]]
+     * }
+     *
+     * To ChartApiResponse format:
+     * {
+     *   'success' => true,
+     *   'labels' => [...],
+     *   'previousLabels' => [...],
+     *   'datasets' => [
+     *     ['key' => 'x', 'label' => 'X', 'data' => [...], 'comparison' => false],
+     *     ['key' => 'x_previous', 'label' => 'X', 'data' => [...], 'comparison' => true]
+     *   ]
+     * }
+     *
+     * @param array $chartData Raw chart provider response.
+     * @param bool  $compare   Whether comparison is enabled.
+     * @return array Transformed response.
+     */
+    private function transformChartProviderResponse(array $chartData, bool $compare): array
+    {
+        $result = [
+            'success'  => true,
+            'labels'   => [],
+            'datasets' => [],
+        ];
+
+        // Extract labels (formatted dates to simple date strings)
+        if (!empty($chartData['data']['labels'])) {
+            $result['labels'] = array_map(function ($label) {
+                // If label is array with 'date' key, extract it
+                return is_array($label) ? ($label['date'] ?? $label['formatted_date'] ?? '') : $label;
+            }, $chartData['data']['labels']);
+        }
+
+        // Extract previous period labels
+        if ($compare && !empty($chartData['previousData']['labels'])) {
+            $result['previousLabels'] = array_map(function ($label) {
+                return is_array($label) ? ($label['date'] ?? $label['formatted_date'] ?? '') : $label;
+            }, $chartData['previousData']['labels']);
+        }
+
+        // Transform current period datasets
+        if (!empty($chartData['data']['datasets'])) {
+            foreach ($chartData['data']['datasets'] as $dataset) {
+                $key = !empty($dataset['slug']) ? $dataset['slug'] : sanitize_title($dataset['label']);
+                $result['datasets'][] = [
+                    'key'        => $key,
+                    'label'      => $dataset['label'],
+                    'data'       => $dataset['data'],
+                    'comparison' => false,
+                ];
+            }
+        }
+
+        // Transform previous period datasets (only for Total in search engine chart)
+        if ($compare && !empty($chartData['previousData']['datasets'])) {
+            foreach ($chartData['previousData']['datasets'] as $dataset) {
+                $key = !empty($dataset['slug']) ? $dataset['slug'] : sanitize_title($dataset['label']);
+                $result['datasets'][] = [
+                    'key'        => $key . '_previous',
+                    'label'      => $dataset['label'],
+                    'data'       => $dataset['data'],
+                    'comparison' => true,
+                ];
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -590,15 +909,18 @@ class AnalyticsQueryHandler
     /**
      * Normalize filters from frontend array format to backend key-value format.
      *
-     * Converts [{key, operator, value}] to {key: value} or {key: {operator: value}}.
+     * Supports multiple input formats:
+     * 1. [{key, operator, value}] - array of filter objects
+     * 2. {filterKey: {operator: value}} - already normalized format
+     * 3. {filterKey: {value: X, operator: Y}} - alternative object format
+     * 4. {filterKey: value} - simple equality
      *
      * @param array $filters Filters in frontend or backend format.
      * @return array Filters in backend key-value format.
      */
     private function normalizeFilters(array $filters): array
     {
-        // If empty or already in key-value format, return as-is
-        if (empty($filters) || !isset($filters[0])) {
+        if (empty($filters)) {
             return $filters;
         }
 
@@ -622,27 +944,64 @@ class AnalyticsQueryHandler
             'gte'                    => 'gte',
             'lt'                     => 'lt',
             'lte'                    => 'lte',
+            'is_not_empty'           => 'is_not_empty',
+            'is_empty'               => 'is_empty',
         ];
 
+        // Check if this is an indexed array of filter objects: [{key, operator, value}]
+        if (isset($filters[0])) {
+            $normalized = [];
+
+            foreach ($filters as $filter) {
+                $key      = $filter['key'] ?? null;
+                $operator = $filter['operator'] ?? 'equal';
+                $value    = $filter['value'] ?? null;
+
+                if ($key === null) {
+                    continue;
+                }
+
+                $mappedOperator = $operatorMap[$operator] ?? $operator;
+
+                // Simple equality can be stored directly as value
+                if ($mappedOperator === 'is') {
+                    $normalized[$key] = $value;
+                } else {
+                    $normalized[$key] = [$mappedOperator => $value];
+                }
+            }
+
+            return $normalized;
+        }
+
+        // Handle associative array format: {filterKey: value} or {filterKey: {operator: value}}
+        // Also handle {filterKey: {value: X, operator: Y}} format
         $normalized = [];
 
-        foreach ($filters as $filter) {
-            $key      = $filter['key'] ?? null;
-            $operator = $filter['operator'] ?? 'equal';
-            $value    = $filter['value'] ?? null;
-
-            if ($key === null) {
+        foreach ($filters as $filterKey => $filterValue) {
+            // If value is not an array, it's a simple equality
+            if (!is_array($filterValue)) {
+                $normalized[$filterKey] = $filterValue;
                 continue;
             }
 
-            $mappedOperator = $operatorMap[$operator] ?? $operator;
+            // Check for {value: X, operator: Y} format
+            if (isset($filterValue['operator']) && array_key_exists('value', $filterValue)) {
+                $operator = $filterValue['operator'];
+                $value    = $filterValue['value'];
 
-            // Simple equality can be stored directly as value
-            if ($mappedOperator === 'is') {
-                $normalized[$key] = $value;
-            } else {
-                $normalized[$key] = [$mappedOperator => $value];
+                $mappedOperator = $operatorMap[$operator] ?? $operator;
+
+                if ($mappedOperator === 'is') {
+                    $normalized[$filterKey] = $value;
+                } else {
+                    $normalized[$filterKey] = [$mappedOperator => $value];
+                }
+                continue;
             }
+
+            // Already in {operator: value} format, pass through
+            $normalized[$filterKey] = $filterValue;
         }
 
         return $normalized;
@@ -658,7 +1017,7 @@ class AnalyticsQueryHandler
      */
     private function validateColumns(array $columns, array $sources, array $groupBy): void
     {
-        // Build list of valid column WP_Statistics_names (sources + group_by aliases + extra column aliases)
+        // Build list of valid column WP_Statistics_names (sources + group_by aliases + extra column aliases + post-processed columns)
         $validColumns = $sources;
 
         foreach ($groupBy as $groupByName) {
@@ -667,6 +1026,8 @@ class AnalyticsQueryHandler
                 $validColumns[] = $groupByObj->getAlias();
                 // Also include extra column aliases (e.g., country_code from country group_by)
                 $validColumns = array_merge($validColumns, $groupByObj->getExtraColumnAliases());
+                // Include post-processed columns (e.g., comments, thumbnail_url from page group_by)
+                $validColumns = array_merge($validColumns, $groupByObj->getPostProcessedColumns());
             } else {
                 $validColumns[] = $groupByName;
             }
@@ -880,22 +1241,78 @@ class AnalyticsQueryHandler
     {
         $totals = [];
 
+        // Calculated metrics that should be derived from base values, not summed
+        $calculatedMetrics = ['pages_per_session', 'avg_time_on_page', 'avg_session_duration', 'bounce_rate'];
+
         // Initialize totals
         foreach ($sources as $source) {
             $totals[$source] = 0;
         }
 
-        // Sum up values from all rows
+        // Sum up values from all rows (skip calculated metrics for now)
         foreach ($rows as $row) {
             foreach ($sources as $source) {
+                if (in_array($source, $calculatedMetrics, true)) {
+                    continue; // Skip calculated metrics during summing
+                }
                 if (isset($row[$source])) {
                     $totals[$source] += (float) $row[$source];
                 }
             }
         }
 
+        // Recalculate derived metrics from totals
+        // For aggregate queries (single row), use the row's calculated value directly
+        // since it's already correct from the SQL AVG/etc function.
+        $isSingleRow = count($rows) === 1;
+
+        if (in_array('pages_per_session', $sources, true)) {
+            if ($isSingleRow && isset($rows[0]['pages_per_session'])) {
+                $totals['pages_per_session'] = (float) $rows[0]['pages_per_session'];
+            } else {
+                $views = $totals['views'] ?? 0;
+                $sessions = $totals['sessions'] ?? 0;
+                $totals['pages_per_session'] = $sessions > 0 ? round($views / $sessions, 2) : 0;
+            }
+        }
+
+        if (in_array('avg_time_on_page', $sources, true)) {
+            if ($isSingleRow && isset($rows[0]['avg_time_on_page'])) {
+                // For aggregate queries, use the SQL AVG result directly
+                $totals['avg_time_on_page'] = (float) $rows[0]['avg_time_on_page'];
+            } else {
+                // For multi-row queries, recalculate from total_duration if available
+                $views = $totals['views'] ?? 0;
+                $totalDuration = $totals['total_duration'] ?? 0;
+                $totals['avg_time_on_page'] = $views > 0 ? round($totalDuration / $views, 2) : 0;
+            }
+        }
+
+        if (in_array('avg_session_duration', $sources, true)) {
+            if ($isSingleRow && isset($rows[0]['avg_session_duration'])) {
+                $totals['avg_session_duration'] = (float) $rows[0]['avg_session_duration'];
+            } else {
+                $sessions = $totals['sessions'] ?? 0;
+                $totalDuration = $totals['total_duration'] ?? 0;
+                $totals['avg_session_duration'] = $sessions > 0 ? round($totalDuration / $sessions, 2) : 0;
+            }
+        }
+
+        if (in_array('bounce_rate', $sources, true)) {
+            if ($isSingleRow && isset($rows[0]['bounce_rate'])) {
+                $totals['bounce_rate'] = (float) $rows[0]['bounce_rate'];
+            } else {
+                $sessions = $totals['sessions'] ?? 0;
+                $bounces = $totals['bounces'] ?? 0;
+                $totals['bounce_rate'] = $sessions > 0 ? round(($bounces / $sessions) * 100, 1) : 0;
+            }
+        }
+
         // Round totals to appropriate precision
         foreach ($sources as $source) {
+            if (in_array($source, $calculatedMetrics, true)) {
+                continue; // Already handled above
+            }
             $sourceObj = $this->sourceRegistry->get($source);
             if ($sourceObj && $sourceObj->getType() === 'integer') {
                 $totals[$source] = (int) round($totals[$source]);
@@ -920,31 +1337,37 @@ class AnalyticsQueryHandler
         $groupBy    = $query->getGroupBy();
         $showTotals = $query->showTotals();
 
-        // Use custom previous period if provided, otherwise calculate automatically
+        // Use custom previous period if provided, otherwise calculate based on comparison mode
         if ($query->hasCustomPreviousPeriod()) {
             $previousPeriod = [
                 'from' => $query->getPreviousDateFrom(),
                 'to'   => $query->getPreviousDateTo(),
             ];
         } else {
-            // Calculate previous period automatically
-            $previousPeriod = $this->comparisonHandler->calculatePreviousPeriod(
+            // Calculate previous period based on comparison mode (defaults to 'previous_period')
+            $comparisonMode = $query->getComparisonMode() ?? ComparisonHandler::MODE_PREVIOUS_PERIOD;
+            $previousPeriod = $this->comparisonHandler->calculateComparisonPeriod(
                 $query->getDateFrom(),
-                $query->getDateTo()
+                $query->getDateTo(),
+                $comparisonMode
             );
         }
 
         // Create query for previous period
         $prevQuery = $query->withDateRange($previousPeriod['from'], $previousPeriod['to'])
-                          ->withoutComparison();
+                          ->withoutComparison()
+                          ->withoutPagination();
 
         // Execute previous period query
         $prevResult = $this->executeQuery($prevQuery);
 
-        // Set up comparison handler
+        // Set up comparison handler with date ranges for filling missing dates
         $this->comparisonHandler
             ->setSources($sources)
-            ->setGroupBy($groupBy);
+            ->setGroupBy($groupBy)
+            ->setFilters($query->getFilters())
+            ->setCurrentPeriodRange($query->getDateFrom(), $query->getDateTo())
+            ->setPreviousPeriodRange($previousPeriod['from'], $previousPeriod['to']);
 
         // Merge comparison into rows
         if (!empty($groupBy)) {
