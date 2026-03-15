@@ -3,35 +3,15 @@ import { resolve } from 'path'
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, cpSync, existsSync } from 'fs'
 import { join } from 'path'
 
-// Custom plugin for tracker scripts (bundles frontend tracker files via virtual module)
-function inlineTrackerScripts() {
+// Custom plugin to wrap tracker output in an IIFE for isolation
+function wrapTrackerIIFE() {
   return {
-    name: 'inline-tracker',
-    resolveId(id) {
-      if (id === 'virtual:tracker') {
-        return id
-      }
-    },
-    load(id) {
-      if (id === 'virtual:tracker') {
-        const files = [
-          './resources/entries/tracker/engagement-tracker.js',
-          './resources/entries/tracker/batch-queue.js',
-          './resources/entries/tracker/user-tracker.js',
-          './resources/entries/tracker/event-tracker.js',
-          './resources/entries/tracker/tracker.js',
-        ]
-        const code = files
-          .map((file) => {
-            try {
-              return readFileSync(file, 'utf-8')
-            } catch (e) {
-              console.warn(`Could not read file: ${file}`)
-              return ''
-            }
-          })
-          .join('\n')
-        return code
+    name: 'wrap-tracker-iife',
+    generateBundle(_, bundle) {
+      for (const [name, chunk] of Object.entries(bundle)) {
+        if (name.includes('tracker') && chunk.type === 'chunk') {
+          chunk.code = `(function(){${chunk.code}})();`
+        }
       }
     },
   }
@@ -127,7 +107,7 @@ export default defineConfig({
   plugins: [
     cleanOutputDir(),
     copyImageAssets(),
-    inlineTrackerScripts(),
+    wrapTrackerIIFE(),
     copyJsonAssets(),
   ],
 

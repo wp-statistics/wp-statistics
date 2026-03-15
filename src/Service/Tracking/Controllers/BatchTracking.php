@@ -61,15 +61,20 @@ class BatchTracking extends BaseTrackerController
     }
 
     /**
-     * Register AJAX endpoint for batch tracking.
+     * Register batch tracking endpoint.
+     *
+     * Uses AJAX when bypass_ad_blockers is enabled, REST API otherwise.
      *
      * @return void
      * @since 15.0.0
      */
     public function register()
     {
-        // Always register AJAX callback for batch tracking
-        add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
+        if (Option::getValue('bypass_ad_blockers', false)) {
+            add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
+        } else {
+            add_action('rest_api_init', [$this, 'registerRoutes']);
+        }
     }
 
     /**
@@ -159,7 +164,8 @@ class BatchTracking extends BaseTrackerController
 
         try {
             // Get batch_data from POST request (JSON string)
-            $batchData = isset($_POST['batch_data']) ? sanitize_text_field(wp_unslash($_POST['batch_data'])) : '';
+            // Note: wp_unslash only — sanitize_text_field corrupts JSON
+            $batchData = isset($_POST['batch_data']) ? wp_unslash($_POST['batch_data']) : '';
 
             if (empty($batchData)) {
                 throw new Exception(__('Missing batch data', 'wp-statistics'), 400);
@@ -197,7 +203,7 @@ class BatchTracking extends BaseTrackerController
      * @return array Processing result with counts
      * @since 15.0.0
      */
-    protected function processEvents($data)
+    public function processEvents($data)
     {
         $processed = 0;
         $errors    = [];

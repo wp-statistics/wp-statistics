@@ -10,6 +10,7 @@ use WP_Statistics\Service\Consent\ConsentManager;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\TrackingFactory;
+use WP_Statistics\Service\Tracking\MuPlugin\MuPluginManager;
 /**
  * Frontend Assets Service
  * 
@@ -63,15 +64,37 @@ class FrontendHandler extends BaseAssets
         $hitParams      = !empty($params['hitParams']) ? $params['hitParams'] : [];
         $consentManager = Bootstrap::get('consent');
 
+        $muPluginUrl = '';
+        $batchUrl    = '';
+
+        try {
+            if (Option::getValue('mu_plugin_proxy', false)) {
+                $muPluginManager = new MuPluginManager();
+                if ($muPluginManager->isInstalled()) {
+                    $muPluginUrl = $muPluginManager->getEndpointUrl();
+                }
+            }
+        } catch (\Throwable $e) {
+            // Mu-plugin is optional — fall back to default endpoints
+        }
+
+        // Build batch URL based on delivery mode
+        if ($muPluginUrl) {
+            $batchUrl = $muPluginUrl;
+        } elseif (!Option::getValue('bypass_ad_blockers', false)) {
+            $batchUrl = rest_url('wp-statistics/v2/batch');
+        }
+
         $jsArgs = array(
             'requestUrl'          => $requestUrl,
             'ajaxUrl'             => admin_url('admin-ajax.php'),
             'hitParams'           => $hitParams,
             'option'              => $this->buildOptionArgs($consentManager),
             'resourceUriId'       => ResourcesFactory::getCurrentResourceUri()->getId(),
-            'jsCheckTime'         => apply_filters('wp_statistics_js_check_time_interval', 60000),
-            'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
+            'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'),
             'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
+            'muPluginUrl'         => $muPluginUrl,
+            'batchUrl'            => $batchUrl,
         );
 
         if (defined('WP_DEBUG') && WP_DEBUG) {

@@ -1,0 +1,84 @@
+/**
+ * WP Statistics Hit Tracker
+ *
+ * Sends the initial page hit request via XHR.
+ * Needs the response to gate engagement initialization.
+ */
+
+import { sendXhr } from '../transport/send.js';
+import { getHitEndpoint } from '../transport/endpoint.js';
+import { getHitParams, getResourceUriId } from '../core/config.js';
+import { applyFilters, doAction } from '../core/hooks.js';
+import { base64Encode } from '../utils/base64.js';
+import { collectLocaleInfo } from '../utils/locale.js';
+
+var hitRequestSuccessful = false;
+
+export function wasSuccessful() {
+    return hitRequestSuccessful;
+}
+
+function getPathAndQueryString() {
+    return base64Encode(window.location.pathname + window.location.search);
+}
+
+function getReferred() {
+    return base64Encode(document.referrer);
+}
+
+export function send() {
+    return new Promise(function (resolve) {
+        try {
+            var url = getHitEndpoint();
+            var localeInfo = collectLocaleInfo();
+            var hitParams = getHitParams();
+
+            var encodedPath = getPathAndQueryString();
+
+            var data = {
+                resourceUriId: getResourceUriId(),
+                referred: getReferred(),
+                resourceUri: encodedPath,
+                page_uri: encodedPath,
+                timezone: localeInfo.timezone,
+                language: localeInfo.language,
+                languageFullName: localeInfo.languageFullName,
+                screenWidth: localeInfo.screenWidth,
+                screenHeight: localeInfo.screenHeight,
+            };
+
+            // Merge hit params (signature, source_id, endpoint, etc.)
+            for (var key in hitParams) {
+                if (hitParams.hasOwnProperty(key)) {
+                    data[key] = hitParams[key];
+                }
+            }
+
+            // Allow plugins to modify hit data before send
+            data = applyFilters('hitData', data);
+
+            doAction('beforeHit', data);
+
+            var params = new URLSearchParams(data).toString();
+
+            sendXhr(url, params).then(function (response) {
+                hitRequestSuccessful = response.status !== false;
+                doAction('afterHit', response, hitRequestSuccessful);
+                resolve(hitRequestSuccessful);
+            }).catch(function (error) {
+                hitRequestSuccessful = false;
+                console.warn('WP Statistics: Hit request failed:', error.message);
+                doAction('afterHit', null, false);
+                resolve(false);
+            });
+        } catch (error) {
+            hitRequestSuccessful = false;
+            console.error('WP Statistics: Error sending hit request:', error);
+            resolve(false);
+        }
+    });
+}
+
+export function resetState() {
+    hitRequestSuccessful = false;
+}

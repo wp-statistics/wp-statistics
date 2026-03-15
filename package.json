@@ -8,7 +8,7 @@
     "*.css",
     "*.scss",
     "**/mini-chart.js",
-    "**/tracker.js",
+    "**/tracker/entry.js",
     "**/exports.ts",
     "**/custom-components.ts",
     "**/registration.ts"
