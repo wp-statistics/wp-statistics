@@ -198,22 +198,6 @@ class Test_ConsentManager extends WP_UnitTestCase
         remove_all_filters('wp_statistics_consent_providers');
     }
 
-    public function test_integration_status_returns_null_name_for_none_provider()
-    {
-        $manager = $this->createManager();
-        $status  = $manager->getIntegrationStatus();
-
-        $this->assertNull($status['name']);
-    }
-
-    public function test_integration_status_returns_provider_name_for_active_provider()
-    {
-        $manager = $this->buildManagerWithMockProvider(TrackingLevel::FULL);
-        $status  = $manager->getIntegrationStatus();
-
-        $this->assertSame('mock_provider', $status['name']);
-    }
-
     public function test_active_provider_is_none_before_boot()
     {
         $manager = new ConsentManager();

@@ -237,18 +237,6 @@ class ConsentManager
     }
 
     /**
-     * Integration info for settings UI and diagnostics.
-     */
-    public function getIntegrationStatus(): array
-    {
-        $provider = $this->activeProvider;
-
-        return [
-            'name' => $provider instanceof NoneConsentProvider ? null : $provider->getKey(),
-        ];
-    }
-
-    /**
      * Get detection notices for available but unconfigured providers.
      */
     public function getDetectionNotices(): array
