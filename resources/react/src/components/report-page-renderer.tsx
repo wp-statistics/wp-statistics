@@ -17,26 +17,32 @@ import type { QueryKey } from '@tanstack/react-query'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import type { ColumnDef, Table } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
-import { type ReactNode,useCallback, useMemo, useRef } from 'react'
+import { type ReactNode, useCallback, useMemo, useRef, useState } from 'react'
 
 import { DataTable } from '@/components/custom/data-table'
 import { type DateRange, DateRangePicker } from '@/components/custom/date-range-picker'
 import { ErrorMessage } from '@/components/custom/error-message'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
+import type { LockedFilter } from '@/components/custom/filter-panel'
+import { LineChart } from '@/components/custom/line-chart'
 import {
   OptionsDrawerTrigger,
+  type PageFilterConfig,
   TableOptionsDrawer,
   useTableOptions,
 } from '@/components/custom/options-drawer'
 import { NoticeContainer } from '@/components/ui/notice-container'
-import { PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { ChartSkeleton, PanelSkeleton, TableSkeleton } from '@/components/ui/skeletons'
+import { useChartData } from '@/hooks/use-chart-data'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
 import { useDataTablePreferences } from '@/hooks/use-data-table-preferences'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { useUrlSortSync } from '@/hooks/use-url-sort-sync'
 import type { ColumnConfig } from '@/lib/column-utils'
-import { extractMeta, extractRows } from '@/lib/response-helpers'
+import { ExpandableSubRow } from '@/lib/expandable-sub-row'
+import { extractBatchItem, extractMeta, extractRows, type Timeframe } from '@/lib/response-helpers'
 import { WordPress } from '@/lib/wordpress'
+import type { ChartApiResponse } from '@/types/chart'
 
 /**
  * Query options factory function type
@@ -71,6 +77,7 @@ export interface SlotRenderProps<TData = unknown> {
   data: TData[]
   isLoading: boolean
   isFetching: boolean
+  rawResponse: unknown
 }
 
 /**
@@ -96,6 +103,7 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
     previous_date_from?: string
     previous_date_to?: string
     filters: unknown[]
+    apiFilters?: Record<string, unknown>
   }>
   /** Column factory - creates column definitions */
   columns: ColumnFactory<TData>
@@ -119,6 +127,27 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
   emptyStateMessage?: string
   /** Custom filters (subset of filter group) */
   customFilters?: string[]
+  /** Hide the filter button entirely */
+  hideFilters?: boolean
+  /** Locked filters displayed as read-only rows in filter panel */
+  lockedFilters?: LockedFilter[]
+  /** Hardcoded filters always merged into API requests */
+  hardcodedFilters?: Array<{ id: string; label: string; operator: string; rawOperator: string; value: string; rawValue: string }>
+  /** Page-specific filter dropdowns (shown in Options drawer on mobile) */
+  pageFilters?: PageFilterConfig[]
+  /** Whether the data query is enabled (default: true). When false, table shows empty state without fetching. */
+  enabled?: boolean
+  /** Chart config for built-in chart-above-table rendering (with metrics + timeframe support) */
+  chart?: PhpChartConfig
+  /** Header filter dropdown config — consumed by PhpReportRoute, not by this renderer */
+  headerFilter?: PhpHeaderFilter
+  /** Expandable rows config for sub-row drill-down (e.g., browser → versions) */
+  expandableRows?: PhpExpandableRowsConfig
+  /** Realtime mode: rolling window with auto-refresh, no date range picker */
+  realtime?: {
+    windowMinutes: number
+    refetchIntervalSeconds: number
+  }
 
   // Level 2: Slot components for customization
   /** Component rendered before the table */
@@ -131,6 +160,10 @@ export interface ReportConfig<TData = unknown, TRecord = unknown> {
 
 interface ReportPageRendererProps<TData = unknown, TRecord = unknown> {
   config: ReportConfig<TData, TRecord>
+  /** Additional API filters merged into query requests */
+  apiFilters?: Record<string, unknown>
+  /** Query overrides merged into the data source query (e.g., group_by override from UTM type selector) */
+  queryOverrides?: Record<string, unknown>
 }
 
 /**
@@ -138,6 +171,8 @@ interface ReportPageRendererProps<TData = unknown, TRecord = unknown> {
  */
 export function ReportPageRenderer<TData, TRecord>({
   config,
+  apiFilters,
+  queryOverrides,
 }: ReportPageRendererProps<TData, TRecord>) {
   const {
     title,
@@ -156,10 +191,23 @@ export function ReportPageRenderer<TData, TRecord>({
     defaultApiColumns = [],
     emptyStateMessage = __('No data found for the selected period', 'wp-statistics'),
     customFilters,
+    hideFilters: hideFiltersConfig,
+    lockedFilters,
+    hardcodedFilters,
+    pageFilters,
+    enabled: queryEnabled = true,
+    chart: chartConfig,
+    expandableRows,
+    realtime,
     beforeTable,
     afterTable,
     headerActions,
   } = config
+
+  // Built-in chart: render when chart config has metrics and no custom beforeTable override
+  const hasBuiltInChart = !!chartConfig?.metrics && !beforeTable
+
+  const [timeframe, setTimeframe] = useState<Timeframe>('daily')
 
   const {
     dateFrom,
@@ -211,6 +259,13 @@ export function ReportPageRenderer<TData, TRecord>({
     [setDateRange]
   )
 
+  // Merge hardcoded filters with user-applied filters
+  const mergedFilters = useMemo(() => {
+    const base = appliedFilters || []
+    if (!hardcodedFilters || hardcodedFilters.length === 0) return base
+    return [...hardcodedFilters, ...base]
+  }, [hardcodedFilters, appliedFilters])
+
   // Fetch data from API
   const {
     data: response,
@@ -226,12 +281,21 @@ export function ReportPageRenderer<TData, TRecord>({
       order: order as 'asc' | 'desc',
       date_from: apiDateParams.date_from,
       date_to: apiDateParams.date_to,
-      previous_date_from: apiDateParams.previous_date_from,
-      previous_date_to: apiDateParams.previous_date_to,
-      filters: appliedFilters || [],
+      ...(!realtime && {
+        previous_date_from: apiDateParams.previous_date_from,
+        previous_date_to: apiDateParams.previous_date_to,
+      }),
+      filters: mergedFilters,
+      ...(apiFilters && { apiFilters }),
+      ...(hasBuiltInChart && { timeframe }),
+      ...(queryOverrides && { queryOverrides }),
     }),
-    placeholderData: keepPreviousData,
-    enabled: isInitialized,
+    placeholderData: realtime ? undefined : keepPreviousData,
+    enabled: !!realtime || (isInitialized && queryEnabled),
+    ...(realtime && {
+      staleTime: 15 * 1000,
+      refetchInterval: realtime.refetchIntervalSeconds * 1000,
+    }),
   })
 
   // Use the preferences hook for column management (only if columnConfig provided)
@@ -263,6 +327,8 @@ export function ReportPageRenderer<TData, TRecord>({
   const options = useTableOptions({
     filterGroup,
     table: tableRef.current,
+    lockedFilters,
+    pageFilters,
     initialColumnOrder: defaultColumnOrder,
     columnOrder,
     defaultHiddenColumns,
@@ -299,12 +365,33 @@ export function ReportPageRenderer<TData, TRecord>({
   )
 
   const showSkeleton = isLoading && !response
+  const isCompareEnabled = !!(apiDateParams.previous_date_from && apiDateParams.previous_date_to)
+
+  // Built-in chart data extraction (only when chart config with metrics exists)
+  const chartResponse = hasBuiltInChart
+    ? extractBatchItem<ChartApiResponse>(response, chartConfig!.queryId)
+    : undefined
+
+  const chartMetricConfigs = useMemo(
+    () => chartConfig?.metrics?.map((m) => ({ key: m.key, label: m.label, color: m.color })) ?? [],
+    [chartConfig?.metrics]
+  )
+
+  const { data: chartData, metrics: chartMetrics } = useChartData(
+    hasBuiltInChart ? chartResponse : undefined,
+    {
+      metrics: chartMetricConfigs,
+      showPreviousValues: isCompareEnabled,
+      preserveNull: true,
+    }
+  )
 
   // Slot render props
   const slotProps: SlotRenderProps<TData> = {
     data: tableData,
     isLoading,
     isFetching,
+    rawResponse: response,
   }
 
   return (
@@ -313,26 +400,29 @@ export function ReportPageRenderer<TData, TRecord>({
         <h1 className="text-2xl font-semibold text-neutral-800">{title}</h1>
         <div className="flex items-center gap-3" data-pdf-hide>
           <div className="hidden lg:flex">
-            {filterFields.length > 0 && isInitialized && (
+            {!hideFiltersConfig && filterFields.length > 0 && isInitialized && (
               <FilterButton
                 fields={filterFields}
                 appliedFilters={appliedFilters || []}
                 onApplyFilters={handleApplyFilters}
                 filterGroup={filterGroup}
+                lockedFilters={lockedFilters}
               />
             )}
           </div>
-          <DateRangePicker
-            initialDateFrom={dateFrom}
-            initialDateTo={dateTo}
-            initialCompareFrom={compareDateFrom}
-            initialCompareTo={compareDateTo}
-            initialPeriod={period}
-            onUpdate={handleDateRangeUpdate}
-            showCompare={true}
-            align="end"
-          />
-          {headerActions?.()}
+          {!realtime && (
+            <DateRangePicker
+              initialDateFrom={dateFrom}
+              initialDateTo={dateTo}
+              initialCompareFrom={compareDateFrom}
+              initialCompareTo={compareDateTo}
+              initialPeriod={period}
+              onUpdate={handleDateRangeUpdate}
+              showCompare={true}
+              align="end"
+            />
+          )}
+          {headerActions && <div className="hidden lg:flex">{headerActions()}</div>}
           <OptionsDrawerTrigger {...options.triggerProps} />
         </div>
       </div>
@@ -342,6 +432,7 @@ export function ReportPageRenderer<TData, TRecord>({
         config={{
           filterGroup,
           table: tableRef.current,
+          pageFilters,
           initialColumnOrder: columnOrder,
           defaultHiddenColumns,
           comparableColumns,
@@ -359,48 +450,79 @@ export function ReportPageRenderer<TData, TRecord>({
       <div className="p-3">
         <NoticeContainer className="mb-2" currentRoute={routeName || context} />
 
-        {/* Before table slot */}
-        {beforeTable && !showSkeleton && !isError && beforeTable(slotProps)}
-
         {isError ? (
           <div className="p-2 text-center">
             <ErrorMessage message={__('Failed to load data', 'wp-statistics')} />
             <p className="text-sm text-muted-foreground">{(error as Error)?.message}</p>
           </div>
         ) : showSkeleton ? (
-          <PanelSkeleton titleWidth="w-24">
-            <TableSkeleton rows={10} columns={4} />
-          </PanelSkeleton>
+          <div className="space-y-3">
+            {(hasBuiltInChart || beforeTable) && (
+              <PanelSkeleton titleWidth="w-32">
+                <ChartSkeleton height={256} showTitle={false} />
+              </PanelSkeleton>
+            )}
+            <PanelSkeleton titleWidth="w-24">
+              <TableSkeleton rows={10} columns={4} />
+            </PanelSkeleton>
+          </div>
         ) : (
-          <DataTable
-            columns={columns as ColumnDef<TData>[]}
-            data={tableData}
-            sorting={sorting}
-            onSortingChange={handleSortingChange}
-            manualSorting={true}
-            manualPagination={true}
-            pageCount={totalPages}
-            page={page}
-            onPageChange={handlePageChange}
-            totalRows={totalRows}
-            rowLimit={perPage}
-            showPagination={true}
-            isFetching={isFetching}
-            hiddenColumns={defaultHiddenColumns}
-            initialColumnVisibility={initialColumnVisibility}
-            columnOrder={columnOrder.length > 0 ? columnOrder : undefined}
-            onColumnVisibilityChange={handleColumnVisibilityChange}
-            onColumnOrderChange={handleColumnOrderChange}
-            onColumnPreferencesReset={handleColumnPreferencesReset}
-            comparableColumns={comparableColumns}
-            comparisonColumns={comparisonColumns}
-            defaultComparisonColumns={defaultComparisonColumns}
-            onComparisonColumnsChange={handleComparisonColumnsChange}
-            emptyStateMessage={emptyStateMessage}
-            stickyHeader={true}
-            borderless
-            tableRef={tableRef}
-          />
+          <div className="space-y-3">
+            {hasBuiltInChart && (
+              <LineChart
+                title={chartConfig!.title || __('Traffic Trends', 'wp-statistics')}
+                data={chartData}
+                metrics={chartMetrics}
+                showPreviousPeriod={isCompareEnabled}
+                timeframe={timeframe}
+                onTimeframeChange={setTimeframe}
+                loading={isFetching && !isLoading}
+                borderless
+                dateTo={apiDateParams.date_to}
+                compareDateTo={apiDateParams.previous_date_to}
+              />
+            )}
+            {beforeTable && beforeTable(slotProps)}
+            <DataTable
+              columns={columns as ColumnDef<TData>[]}
+              data={tableData}
+              sorting={sorting}
+              onSortingChange={handleSortingChange}
+              manualSorting={true}
+              manualPagination={true}
+              pageCount={totalPages}
+              page={page}
+              onPageChange={handlePageChange}
+              totalRows={totalRows}
+              rowLimit={perPage}
+              showPagination={true}
+              isFetching={isFetching}
+              hiddenColumns={defaultHiddenColumns}
+              initialColumnVisibility={initialColumnVisibility}
+              columnOrder={columnOrder.length > 0 ? columnOrder : undefined}
+              onColumnVisibilityChange={handleColumnVisibilityChange}
+              onColumnOrderChange={handleColumnOrderChange}
+              onColumnPreferencesReset={handleColumnPreferencesReset}
+              comparableColumns={comparableColumns}
+              comparisonColumns={comparisonColumns}
+              defaultComparisonColumns={defaultComparisonColumns}
+              onComparisonColumnsChange={handleComparisonColumnsChange}
+              emptyStateMessage={emptyStateMessage}
+              stickyHeader={true}
+              borderless
+              tableRef={tableRef}
+              {...(expandableRows && {
+                getRowCanExpand: () => true,
+                renderSubComponent: ({ row }: { row: import('@tanstack/react-table').Row<TData> }) => (
+                  <ExpandableSubRow
+                    row={row as unknown as import('@tanstack/react-table').Row<Record<string, unknown>>}
+                    config={expandableRows}
+                    apiDateParams={apiDateParams}
+                  />
+                ),
+              })}
+            />
+          </div>
         )}
 
         {/* After table slot */}

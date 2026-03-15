@@ -27,6 +27,10 @@ export interface ReportPageHeaderProps {
   customFilterFields?: FilterField[]
   /** Locked filters displayed as read-only rows in the filter panel */
   lockedFilters?: LockedFilter[]
+  /** Override applied filters displayed in FilterButton (e.g., with default filters merged in) */
+  overrideAppliedFilters?: Parameters<typeof FilterButton>[0]['appliedFilters']
+  /** Override the filter apply handler (e.g., to detect default filter removal) */
+  overrideApplyFilters?: Parameters<typeof FilterButton>[0]['onApplyFilters']
   /** Additional controls to render in the header (e.g., taxonomy selector) */
   children?: ReactNode
 }
@@ -54,6 +58,8 @@ export function ReportPageHeader({
   showFilterButton = true,
   customFilterFields,
   lockedFilters,
+  overrideAppliedFilters,
+  overrideApplyFilters,
   children,
 }: ReportPageHeaderProps) {
   const {
@@ -93,8 +99,8 @@ export function ReportPageHeader({
             {filterFields.length > 0 && isInitialized && (
               <FilterButton
                 fields={filterFields}
-                appliedFilters={compatibleFilters}
-                onApplyFilters={applyFilters}
+                appliedFilters={overrideAppliedFilters ?? compatibleFilters}
+                onApplyFilters={overrideApplyFilters ?? applyFilters}
                 filterGroup={filterGroup}
                 lockedFilters={lockedFilters}
               />

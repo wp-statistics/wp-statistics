@@ -20,8 +20,11 @@ export interface WidgetRenderProps {
   totals: Record<string, unknown>
   isCompareEnabled: boolean
   comparisonDateLabel: string
+  isFetching: boolean
   navigate: NavigateFunction
   getTotalFromResponse: (totals: Record<string, unknown> | undefined, key: string) => number
+  /** Route params from the current detail page (e.g., { type: 'user', id: '5' }) */
+  routeParams?: Record<string, string>
 }
 
 export interface RegisteredWidget {

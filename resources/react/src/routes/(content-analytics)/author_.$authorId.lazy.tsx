@@ -1,11 +1,15 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { LockIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 
+import type { PageFilterConfig } from '@/components/custom/options-drawer'
+import { PostTypeSelect } from '@/components/custom/post-type-select'
+import { PhpOverviewRoute } from '@/components/php-overview-route'
 import { NoticeContainer } from '@/components/ui/notice-container'
 import { Panel } from '@/components/ui/panel'
-import { useContentRegistry } from '@/contexts/content-registry-context'
+import { usePostTypeFilter } from '@/hooks/use-post-type-filter'
+import { WordPress } from '@/lib/wordpress'
 
 export const Route = createLazyFileRoute('/(content-analytics)/author_/$authorId')({
   component: RouteComponent,
@@ -45,31 +49,45 @@ function LockedState() {
 
 function RouteComponent() {
   const { authorId } = Route.useParams()
-  const { getPageContent } = useContentRegistry()
-  const [, forceUpdate] = useState(0)
+  const reports = WordPress.getInstance().getData<Record<string, { type?: string }>>('reports')
 
-  useEffect(() => {
-    const handleContentRegistered = (event: CustomEvent) => {
-      if (event.detail?.pageId === 'single-author') {
-        forceUpdate((n) => n + 1)
-      }
-    }
-    window.addEventListener('wps:content-registered', handleContentRegistered as EventListener)
-    return () => {
-      window.removeEventListener('wps:content-registered', handleContentRegistered as EventListener)
-    }
-  }, [])
+  const {
+    value: postType,
+    onChange: handlePostTypeChange,
+    pageFilterConfig: postTypeFilterConfig,
+  } = usePostTypeFilter({ defaultValue: 'post' })
 
-  // Check if premium has registered content for this page
-  const pageContent = getPageContent('single-author')
-  if (pageContent?.render) {
-    const premiumContent = pageContent.render({ authorId })
-    if (premiumContent) {
-      return <div className="min-w-0">{premiumContent}</div>
-    }
+  const apiFilters = useMemo(
+    () => (postType && postType !== 'all' ? { post_type: { is: postType } } : undefined),
+    [postType]
+  )
+
+  const pageFilters = useMemo<PageFilterConfig[]>(
+    () => [postTypeFilterConfig],
+    [postTypeFilterConfig]
+  )
+
+  // Premium: PHP config registered by SingleAuthor module
+  if (reports?.['single-author']?.type === 'detail') {
+    return (
+      <PhpOverviewRoute
+        slug="single-author"
+        fallbackTitle={__('Author Report', 'wp-statistics')}
+        routeParams={{ authorId }}
+        apiFilters={apiFilters}
+        pageFilters={pageFilters}
+        headerActions={
+          <PostTypeSelect
+            value={postType}
+            onValueChange={handlePostTypeChange}
+            showAll={false}
+          />
+        }
+      />
+    )
   }
 
-  // Show locked state for free users
+  // Free: show locked state
   return (
     <div className="min-w-0">
       <div className="flex items-center justify-between px-4 py-3">
