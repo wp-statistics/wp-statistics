@@ -258,11 +258,17 @@ class SettingsAreaDefinitions
                         'order'       => 20,
                         'fields'      => [
                             'consent_integration' => [
-                                'type'        => 'component',
-                                'component'   => 'ConsentIntegrationField',
+                                'type'        => 'toggle',
                                 'setting_key' => 'consent_integration',
-                                'default'     => '',
+                                'label'       => __('Consent Plugin Integration', 'wp-statistics'),
+                                'description' => __('When enabled, automatically detects and integrates with supported consent management plugins.', 'wp-statistics'),
+                                'default'     => false,
                                 'order'       => 10,
+                            ],
+                            'consent_integration_status' => [
+                                'type'      => 'component',
+                                'component' => 'ConsentIntegrationField',
+                                'order'     => 20,
                             ],
                             'anonymous_tracking' => [
                                 'type'         => 'toggle',
@@ -272,7 +278,7 @@ class SettingsAreaDefinitions
                                 'default'      => false,
                                 'nested'       => true,
                                 'visible_when' => [
-                                    'consent_integration' => 'borlabs_cookie',
+                                    '_active_consent_provider' => 'borlabs_cookie',
                                 ],
                                 'order' => 30,
                             ],

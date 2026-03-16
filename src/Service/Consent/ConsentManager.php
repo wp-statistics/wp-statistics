@@ -36,7 +36,6 @@ class ConsentManager
         $this->booted = true;
         $this->registerAvailableProviders();
         $this->resolveActiveProvider();
-        $this->registerDeactivationHook();
     }
 
     private function registerBuiltInProviders(): void
@@ -97,46 +96,14 @@ class ConsentManager
 
     private function resolveActiveProvider(): void
     {
-        $key = Option::getValue('consent_integration', '');
-
-        // Explicit selection by the user
-        if ($key !== '') {
-            $provider = $this->getProvider($key);
-
-            if ($provider && !($provider instanceof NoneConsentProvider) && $provider->isAvailable()) {
-                $this->activeProvider = $provider;
-                return;
-            }
-
-            // 'none' is an explicit opt-out — respect it
-            if ($key === 'none') {
-                return;
-            }
+        if (!Option::getValue('consent_integration', false)) {
+            return;
         }
 
-        // No explicit selection (fresh install or empty) — auto-activate the first available provider
         $available = $this->getAvailableProviders();
         if (!empty($available)) {
             $this->activeProvider = reset($available);
         }
-    }
-
-    private function registerDeactivationHook(): void
-    {
-        add_action('update_option_active_plugins', function () {
-            $key = Option::getValue('consent_integration', '');
-
-            // Only clear explicit selections when the provider's plugin is deactivated
-            if ($key === '' || $key === 'none') {
-                return;
-            }
-
-            $provider = $this->getProvider($key);
-
-            if ($provider && !$provider->isAvailable()) {
-                Option::updateValue('consent_integration', '');
-            }
-        });
     }
 
     public function registerProvider(ConsentProviderInterface $provider): void
@@ -232,27 +199,10 @@ class ConsentManager
     }
 
     /**
-     * Get detection notices for available but unconfigured providers.
+     * Get detection notices for available providers (used by admin notices).
      */
     public function getDetectionNotices(): array
     {
-        $key = Option::getValue('consent_integration', '');
-
-        // User has explicitly configured — no detection notices needed
-        if ($key !== '') {
-            return [];
-        }
-
-        $notices = [];
-        foreach ($this->providers as $provider) {
-            if ($provider instanceof NoneConsentProvider) {
-                continue;
-            }
-            if ($provider->shouldShowNotice()) {
-                $notices[] = $provider;
-            }
-        }
-
-        return $notices;
+        return array_values($this->getAvailableProviders());
     }
 }

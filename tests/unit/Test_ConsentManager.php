@@ -15,7 +15,7 @@ class Test_ConsentManager extends WP_UnitTestCase
         parent::setUp();
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
-            ['consent_integration' => 'none'] // explicit opt-out so built-in providers don't auto-activate
+            ['consent_integration' => false] // toggle off — no consent enforcement
         ));
         // Clear any tracking_level from previous tests
         unset($_REQUEST['tracking_level'], $_POST['tracking_level'], $_GET['tracking_level']);
@@ -268,12 +268,11 @@ class Test_ConsentManager extends WP_UnitTestCase
         return $manager;
     }
 
-    public function test_auto_activates_single_available_provider_when_unconfigured()
+    public function test_toggle_enabled_auto_activates_available_provider()
     {
-        // Empty string = never configured (fresh install)
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
-            ['consent_integration' => '']
+            ['consent_integration' => true]
         ));
 
         $mock = $this->createMockProvider('test_provider');
@@ -282,28 +281,11 @@ class Test_ConsentManager extends WP_UnitTestCase
         $this->assertSame('test_provider', $manager->getActiveProvider()->getKey());
     }
 
-    public function test_auto_activates_first_provider_when_multiple_available()
+    public function test_toggle_disabled_stays_on_none_provider()
     {
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
-            ['consent_integration' => '']
-        ));
-
-        $mock1 = $this->createMockProvider('provider_a');
-        $mock2 = $this->createMockProvider('provider_b');
-        $manager = $this->createManagerWithMockProviders([$mock1, $mock2]);
-
-        // Should pick the first available one
-        $active = $manager->getActiveProvider();
-        $this->assertNotInstanceOf(NoneConsentProvider::class, $active);
-    }
-
-    public function test_explicit_none_prevents_auto_activation()
-    {
-        // 'none' = user deliberately chose no consent integration
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_integration' => 'none']
+            ['consent_integration' => false]
         ));
 
         $mock = $this->createMockProvider('test_provider');
@@ -312,25 +294,26 @@ class Test_ConsentManager extends WP_UnitTestCase
         $this->assertInstanceOf(NoneConsentProvider::class, $manager->getActiveProvider());
     }
 
-    public function test_explicit_selection_is_respected()
+    public function test_toggle_enabled_picks_first_when_multiple_available()
     {
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
-            ['consent_integration' => 'provider_b']
+            ['consent_integration' => true]
         ));
 
         $mock1 = $this->createMockProvider('provider_a');
         $mock2 = $this->createMockProvider('provider_b');
         $manager = $this->createManagerWithMockProviders([$mock1, $mock2]);
 
-        $this->assertSame('provider_b', $manager->getActiveProvider()->getKey());
+        $active = $manager->getActiveProvider();
+        $this->assertNotInstanceOf(NoneConsentProvider::class, $active);
     }
 
-    public function test_falls_back_to_none_when_selected_provider_unavailable()
+    public function test_toggle_enabled_falls_back_to_none_when_no_provider_available()
     {
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
-            ['consent_integration' => 'unavailable_provider']
+            ['consent_integration' => true]
         ));
 
         $manager = $this->createManager();
@@ -354,44 +337,18 @@ class Test_ConsentManager extends WP_UnitTestCase
         $this->assertFalse($manager->hasConflictingProviders());
     }
 
-    public function test_detection_notices_empty_when_explicitly_configured()
+    public function test_detection_notices_returns_available_providers()
     {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_integration' => 'wp_consent_api']
-        ));
-
-        $manager = $this->createManager();
-        $this->assertEmpty($manager->getDetectionNotices());
-    }
-
-    public function test_detection_notices_empty_when_explicitly_none()
-    {
-        // 'none' is an explicit choice — no notices
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_integration' => 'none']
-        ));
-
-        $manager = $this->createManager();
-        $this->assertEmpty($manager->getDetectionNotices());
-    }
-
-    public function test_detection_notices_returns_array()
-    {
-        $manager = $this->createManager();
+        $mock = $this->createMockProvider('test_provider');
+        $manager = $this->createManagerWithMockProviders([$mock]);
         $notices = $manager->getDetectionNotices();
 
-        $this->assertIsArray($notices);
+        $this->assertCount(1, $notices);
+        $this->assertSame('test_provider', $notices[0]->getKey());
     }
 
-    public function test_detection_notices_shown_when_unconfigured()
+    public function test_detection_notices_includes_custom_provider()
     {
-        update_option('wp_statistics', array_merge(
-            get_option('wp_statistics', []),
-            ['consent_integration' => '']
-        ));
-
         $noticeProvider = new class implements ConsentProviderInterface {
             public function getKey(): string
             {
