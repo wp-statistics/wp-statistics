@@ -1,0 +1,117 @@
+<?php
+
+namespace WP_Statistics\Tests\Uri;
+
+use WP_UnitTestCase;
+use WP_Statistics\Utils\Uri;
+use WP_Statistics\Service\Analytics\VisitorProfile;
+
+/**
+ * Tests for Uri::getByVisitor() after simplification.
+ *
+ * Verifies that:
+ * - It uses the profile's resourceUri (not server-side page detection)
+ * - It no longer calls getCurrentPageType()
+ * - It properly truncates long URIs
+ * - It falls back to current URI when profile has none
+ *
+ * @since 15.0.0
+ */
+class Test_Uri extends WP_UnitTestCase
+{
+    /**
+     * getByVisitor() should return the resource URI from the profile.
+     */
+    public function test_returns_profile_resource_uri()
+    {
+        $profile = new VisitorProfile();
+        $profile->setResourceUri(base64_encode('/hello-world'));
+
+        $result = Uri::getByVisitor($profile);
+
+        $this->assertSame('/hello-world', $result);
+    }
+
+    /**
+     * URIs with query strings should be preserved.
+     */
+    public function test_preserves_query_string()
+    {
+        $profile = new VisitorProfile();
+        $profile->setResourceUri(base64_encode('/page?utm_source=google&utm_medium=cpc'));
+
+        $result = Uri::getByVisitor($profile);
+
+        $this->assertSame('/page?utm_source=google&utm_medium=cpc', $result);
+    }
+
+    /**
+     * URIs longer than 255 characters should be truncated.
+     */
+    public function test_truncates_to_255_characters()
+    {
+        $longUri = '/' . str_repeat('a', 300);
+        $profile = new VisitorProfile();
+        $profile->setResourceUri(base64_encode($longUri));
+
+        $result = Uri::getByVisitor($profile);
+
+        $this->assertSame(255, strlen($result));
+        $this->assertStringStartsWith('/' . str_repeat('a', 254), $result);
+    }
+
+    /**
+     * getByVisitor() should NOT call getCurrentPageType() anymore.
+     */
+    public function test_does_not_call_getCurrentPageType()
+    {
+        $profile = $this->createMock(VisitorProfile::class);
+        $profile->method('getResourceUri')->willReturn('/some-page');
+        $profile->expects($this->never())->method('getCurrentPageType');
+
+        $result = Uri::getByVisitor($profile);
+
+        $this->assertSame('/some-page', $result);
+    }
+
+    /**
+     * When profile has no resourceUri, should fall back to current request URI.
+     */
+    public function test_falls_back_when_resource_uri_empty()
+    {
+        $profile = new VisitorProfile();
+        // Don't set resourceUri — it will be empty
+
+        $result = Uri::getByVisitor($profile);
+
+        // Should return something from Uri::get() (server-side URI)
+        $this->assertIsString($result);
+        $this->assertLessThanOrEqual(255, strlen($result));
+    }
+
+    /**
+     * Root URI should work.
+     */
+    public function test_handles_root_uri()
+    {
+        $profile = new VisitorProfile();
+        $profile->setResourceUri(base64_encode('/'));
+
+        $result = Uri::getByVisitor($profile);
+
+        $this->assertSame('/', $result);
+    }
+
+    /**
+     * Unicode URIs should be handled.
+     */
+    public function test_handles_unicode_uri()
+    {
+        $profile = new VisitorProfile();
+        $profile->setResourceUri(base64_encode('/日本語/ページ'));
+
+        $result = Uri::getByVisitor($profile);
+
+        $this->assertSame('/日本語/ページ', $result);
+    }
+}

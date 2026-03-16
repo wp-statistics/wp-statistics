@@ -23,6 +23,10 @@ use WP_Statistics\Utils\Validator;
 final class TrackerHelper
 {
     /**
+     * Query parameter key that flags a REST request as a tracking hit.
+     */
+    public const HIT_REQUEST_KEY = 'wp_statistics_hit';
+    /**
      * Checks whether the current HTTP request is the special tracking‑pixel
      * request issued by the JavaScript front‑end to bypass ad‑blockers.
      *
@@ -137,22 +141,11 @@ final class TrackerHelper
      */
     public static function getRequestUri()
     {
-        if (Request::isRestApiCall() && isset($_REQUEST['page_uri'])) {
-            return base64_decode($_REQUEST['page_uri']);
+        if (isset($_REQUEST['page_uri'])) {
+            return sanitize_url(base64_decode(wp_unslash($_REQUEST['page_uri'])));
         }
 
         return sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
-    }
-
-    /**
-     * Determine if the request‑signature feature is active.
-     *
-     * @return bool True when enabled via the
-     *              'wp_statistics_request_signature_enabled' filter.
-     */
-    public static function isSignatureEnabled()
-    {
-        return apply_filters('wp_statistics_request_signature_enabled', true);
     }
 
     /**
@@ -168,15 +161,14 @@ final class TrackerHelper
         $params = [
             'resource_type' => $resource->getType(),
             'resource_id'   => $resource->getId(),
+            'user_id'       => get_current_user_id(),
         ];
 
-        // Append request signature when the feature is active.
-        if (self::isSignatureEnabled()) {
-            $params['signature'] = Signature::generate([
-                $params['resource_type'],
-                $params['resource_id'],
-            ]);
-        }
+        $params['signature'] = Signature::generate([
+            $params['resource_type'],
+            $params['resource_id'],
+            $params['user_id'],
+        ]);
 
         return $params;
     }

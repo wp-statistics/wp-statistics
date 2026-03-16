@@ -3,7 +3,6 @@
 namespace WP_Statistics\Abstracts;
 
 use Exception;
-use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Utils\Signature;
 
 /**
@@ -39,14 +38,11 @@ abstract class BaseTrackerController
      */
     protected function checkSignature()
     {
-        if (!TrackerHelper::isSignatureEnabled()) {
-            return;
-        }
-
         $signature = !empty($_REQUEST['signature']) ? sanitize_text_field($_REQUEST['signature']) : '';
         $payload   = [
             !empty($_REQUEST['resource_type']) ? sanitize_text_field($_REQUEST['resource_type']) : '',
             !empty($_REQUEST['resource_id']) ? (int)sanitize_text_field($_REQUEST['resource_id']) : 0,
+            absint($_REQUEST['user_id'] ?? 0),
         ];
 
         if (!Signature::check($payload, $signature)) {

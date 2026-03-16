@@ -1452,12 +1452,10 @@ class Helper
          * Signature
          * @version 14.9
          */
-        if (self::isRequestSignatureEnabled()) {
-            $params['signature'] = Signature::generate([
-                $get_page_type['type'],
-                (int)$get_page_type['id']
-            ]);
-        }
+        $params['signature'] = Signature::generate([
+            $get_page_type['type'],
+            (int)$get_page_type['id']
+        ]);
 
         return $params;
     }
@@ -1893,17 +1891,12 @@ class Helper
     }
 
     /**
-     * Checks if the WP Statistics request signature is enabled.
-     *
-     * This function uses the 'wp_statistics_request_signature_enabled' filter to determine if the request
-     * signature feature in WP Statistics is enabled. By default, it returns true, but this can be modified
-     * by using the filter in other parts of your theme or plugin.
-     *
-     * @return bool True if the request signature feature is enabled, otherwise false.
+     * @deprecated Signature is now always enforced. This method always returns true.
+     * @return bool Always true.
      */
     public static function isRequestSignatureEnabled()
     {
-        return apply_filters('wp_statistics_request_signature_enabled', true);
+        return true;
     }
 
     /**

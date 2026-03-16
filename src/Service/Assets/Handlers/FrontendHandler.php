@@ -10,7 +10,6 @@ use WP_Statistics\Service\Consent\ConsentProviderInterface;
 use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
-use WP_Statistics\Service\Tracking\TrackingFactory;
 use WP_Statistics\Service\Tracking\MuPlugin\MuPluginManager;
 /**
  * Frontend Assets Service
@@ -58,7 +57,7 @@ class FrontendHandler extends BaseAssets
      */
     public function scripts($hook = '')
     {
-        $params = array_merge([TrackingFactory::hits()->getRestHitsKey() => 1], TrackerHelper::getHitsDefaultParams());
+        $params = array_merge([TrackerHelper::HIT_REQUEST_KEY => 1], TrackerHelper::getHitsDefaultParams());
         $params = apply_filters('wp_statistics_js_localized_arguments', $params);
 
         $requestUrl     = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();

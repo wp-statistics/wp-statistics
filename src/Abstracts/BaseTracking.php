@@ -18,24 +18,6 @@ use Exception;
 abstract class BaseTracking
 {
     /**
-     * Key used to identify REST-based tracking requests.
-     * Subclasses can override this value.
-     *
-     * @var string
-     */
-    protected $restHitsKey = '';
-
-    /**
-     * Retrieve the REST hit request key for tracking identification.
-     *
-     * @return string The key used to detect REST API tracking calls.
-     */
-    public function getRestHitsKey()
-    {
-        return $this->restHitsKey;
-    }
-
-    /**
      * Ensure a valid VisitorProfile object is available.
      *
      * @param VisitorProfile|null $profile Optional profile instance to use.

@@ -7,17 +7,18 @@ use WP_Statistics\Utils\Environment;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Utils\Route;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_STATISTICS\Utils\Request;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Service\Tracking\TrackerHelper;
-use WP_Statistics\Utils\QueryParams;
+use WP_Statistics\Utils\Request;
 
 /**
  * Class Exclusion
  *
- * Handles visitor exclusion logic for tracking purposes.
+ * Handles visitor exclusion logic for JS tracker hit requests.
+ *
+ * All checks use client-provided request parameters (validated by signature)
+ * rather than server-side WordPress conditional tags, since hits arrive
+ * via REST/AJAX and the WordPress query loop is not set up.
  */
 class Exclusion extends Singleton
 {
@@ -45,6 +46,9 @@ class Exclusion extends Singleton
     /**
      * Cached result of the last exclusion check to prevent redundant processing.
      *
+     * Note: This is cached per-request. If record() is called multiple times
+     * in a single PHP request, the second call reuses the first result.
+     *
      * @var array{exclusion_match: bool, exclusion_reason: string}|null
      */
     private static $exclusionResult = null;
@@ -57,14 +61,6 @@ class Exclusion extends Singleton
     private static function getExclusionMap()
     {
         return [
-            'ajax'            => [
-                'message' => esc_html__('Ajax', 'wp-statistics'),
-                'method'  => 'exclusionAjax',
-            ],
-            'cronjob'         => [
-                'message' => esc_html__('Cron Job', 'wp-statistics'),
-                'method'  => 'exclusionCronjob',
-            ],
             'robot'           => [
                 'message' => esc_html__('Robot', 'wp-statistics'),
                 'method'  => 'exclusionRobot',
@@ -80,14 +76,6 @@ class Exclusion extends Singleton
             'self_referral'   => [
                 'message' => esc_html__('Self Referral', 'wp-statistics'),
                 'method'  => 'exclusionSelfReferral',
-            ],
-            'login_page'      => [
-                'message' => esc_html__('Login Page', 'wp-statistics'),
-                'method'  => 'exclusionLoginPage',
-            ],
-            'admin_page'      => [
-                'message' => esc_html__('Admin Page', 'wp-statistics'),
-                'method'  => 'exclusionAdminPage',
             ],
             'feed'            => [
                 'message' => esc_html__('Feed', 'wp-statistics'),
@@ -112,14 +100,6 @@ class Exclusion extends Singleton
             'robot_threshold' => [
                 'message' => esc_html__('Robot Threshold', 'wp-statistics'),
                 'method'  => 'exclusionRobotThreshold',
-            ],
-            'xmlrpc'          => [
-                'message' => esc_html__('XML-RPC', 'wp-statistics'),
-                'method'  => 'exclusionXmlRpc',
-            ],
-            'pre_flight'      => [
-                'message' => esc_html__('Pre-flight Request', 'wp-statistics'),
-                'method'  => 'exclusionPreFlight',
             ],
         ];
     }
@@ -242,52 +222,28 @@ class Exclusion extends Singleton
     }
 
     /**
-     * Exclude AJAX requests from tracking.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True when AJAX and not a bypass request.
-     */
-    public static function exclusionAjax($visitorProfile)
-    {
-        if (TrackerHelper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event')) {
-            return false;
-        }
-
-        return defined('DOING_AJAX') && DOING_AJAX;
-    }
-
-    /**
-     * Exclude WP-Cron jobs from tracking.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True when executing cron.
-     */
-    public static function exclusionCronjob($visitorProfile)
-    {
-        if (defined('DOING_CRON') && DOING_CRON === true) {
-            return true;
-        }
-
-        if (function_exists('wp_doing_cron') && wp_doing_cron() === true) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Exclude feed requests when configured.
      *
+     * Uses the client-provided resource_type parameter from the JS tracker
+     * instead of is_feed() which doesn't work during REST/AJAX requests.
+     *
      * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True when feed and feeds are excluded.
+     * @return bool True when resource is a feed and feeds are excluded.
      */
     public static function exclusionFeed($visitorProfile)
     {
-        return !empty(self::$options['exclude_feeds']) && is_feed();
+        if (empty(self::$options['exclude_feeds'])) {
+            return false;
+        }
+
+        return Request::get('resource_type', '') === 'feed';
     }
 
     /**
      * Exclude 404 responses when configured.
+     *
+     * Uses the client-provided resource_type parameter from the JS tracker
+     * instead of is_404() which doesn't work during REST/AJAX requests.
      *
      * @param VisitorProfile $visitorProfile Visitor profile instance.
      * @return bool True on 404 when exclusion enabled.
@@ -298,11 +254,7 @@ class Exclusion extends Singleton
             return false;
         }
 
-        if (Request::isRestApiCall() && ($_REQUEST['resource_type'] ?? '') === '404') {
-            return true;
-        }
-
-        return is_404();
+        return Request::get('resource_type', '') === '404';
     }
 
     /**
@@ -331,17 +283,19 @@ class Exclusion extends Singleton
     /**
      * Exclude users with specific roles or anonymous if configured.
      *
+     * Uses the user_id provided by the JS tracker (embedded in the page by PHP
+     * and included in the signature to prevent spoofing) since the plugin is cookieless.
+     *
      * @param VisitorProfile $visitorProfile Visitor profile instance.
      * @return bool True when user or anonymous matches exclusion.
      */
     public static function exclusionUserRole($visitorProfile)
     {
+        $userId      = absint(Request::get('user_id', 0));
         $currentUser = null;
 
-        if (request::isRestApiCall() && isset($GLOBALS['wp_statistics_user_id'])) {
-            $currentUser = get_user_by('id', $GLOBALS['wp_statistics_user_id']);
-        } elseif (is_user_logged_in()) {
-            $currentUser = wp_get_current_user();
+        if ($userId > 0) {
+            $currentUser = get_user_by('id', $userId);
         }
 
         if ($currentUser) {
@@ -429,40 +383,6 @@ class Exclusion extends Singleton
     }
 
     /**
-     * Excludes tracking on login page when configured.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True on login page if exclusion enabled.
-     */
-    public static function exclusionLoginPage($visitorProfile)
-    {
-        return !empty(self::$options['exclude_loginpage']) && Route::isLoginPage();
-    }
-
-    /**
-     * Excludes admin pages from tracking.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True when wp-admin detected in request URI.
-     */
-    public static function exclusionAdminPage($visitorProfile)
-    {
-        $requestUri = $visitorProfile->getRequestUri();
-
-        if (!isset($_SERVER['SERVER_NAME'], $requestUri)) {
-            return false;
-        }
-
-        $fullUrl = QueryParams::getFilterParams($_SERVER['SERVER_NAME'] . $requestUri);
-
-        if (TrackerHelper::isBypassAdBlockersRequest() || Request::compare('action', 'wp_statistics_event')) {
-            return false;
-        }
-
-        return stripos($fullUrl, 'wp-admin') !== false;
-    }
-
-    /**
      * Excludes IPs matching configured ranges.
      *
      * @param VisitorProfile $visitorProfile Visitor profile instance.
@@ -488,26 +408,27 @@ class Exclusion extends Singleton
     }
 
     /**
-     * Excludes broken file requests on 404 errors.
+     * Excludes broken file requests (404 errors for static files like images, CSS, JS).
+     *
+     * Uses the client-provided resource_type parameter from the JS tracker
+     * instead of is_404() which doesn't work during REST/AJAX requests.
      *
      * @param VisitorProfile $visitorProfile Visitor profile instance.
      * @return bool True when 404 and file extension present.
      */
     public static function exclusionBrokenFile($visitorProfile)
     {
-        if (!is_404()) {
+        if (Request::get('resource_type', '') !== '404') {
             return false;
         }
 
         $requestUri = $visitorProfile->getRequestUri();
 
-        if (!isset($_SERVER['HTTP_HOST'], $requestUri)) {
+        if (empty($requestUri)) {
             return false;
         }
 
-        $scheme    = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
-        $url       = "$scheme://{$_SERVER['HTTP_HOST']}{$requestUri}";
-        $path      = wp_parse_url($url, PHP_URL_PATH);
+        $path      = wp_parse_url($requestUri, PHP_URL_PATH);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
         if (empty($extension) || strtolower($extension) === 'php') {
@@ -594,35 +515,5 @@ class Exclusion extends Singleton
         }
 
         return !empty($includedCountries) && !isset($includedCountries[$countryCode]);
-    }
-
-    /**
-     * Excludes XML-RPC requests from tracking.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True on XML-RPC requests.
-     */
-    public static function exclusionXmlRpc($visitorProfile)
-    {
-        return defined('XMLRPC_REQUEST') && XMLRPC_REQUEST === true;
-    }
-
-    /**
-     * Excludes CORS pre-flight OPTIONS requests.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True when HTTP method is OPTIONS with CORS headers.
-     */
-    public static function exclusionPreFlight($visitorProfile)
-    {
-        if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
-            return false;
-        }
-
-        return isset(
-            $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'],
-            $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'],
-            $_SERVER['HTTP_ORIGIN']
-        );
     }
 }
