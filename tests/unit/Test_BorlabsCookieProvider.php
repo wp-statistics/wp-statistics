@@ -28,7 +28,7 @@ class Test_BorlabsCookieProvider extends WP_UnitTestCase
 
     public function test_js_handles_is_empty()
     {
-        $handles = $this->provider->getJsHandles();
+        $handles = $this->provider->getJsDependencies();
         $this->assertEmpty($handles);
     }
 

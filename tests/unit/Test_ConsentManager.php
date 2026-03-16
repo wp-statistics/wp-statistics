@@ -125,7 +125,7 @@ class Test_ConsentManager extends WP_UnitTestCase
         $mock->method('getKey')->willReturn('mock_provider');
         $mock->method('isAvailable')->willReturn(true);
         $mock->method('getJsConfig')->willReturn(['mode' => 'mock']);
-        $mock->method('getJsHandles')->willReturn([]);
+        $mock->method('getJsDependencies')->willReturn([]);
 
         update_option('wp_statistics', array_merge(
             get_option('wp_statistics', []),
@@ -160,10 +160,10 @@ class Test_ConsentManager extends WP_UnitTestCase
         $this->assertEquals('none', $provider->getKey());
     }
 
-    public function test_get_tracker_config_returns_array_with_mode()
+    public function test_active_provider_js_config_returns_array_with_mode()
     {
         $manager = $this->createManager();
-        $config  = $manager->getTrackerConfig();
+        $config  = $manager->getActiveProvider()->getJsConfig();
 
         $this->assertIsArray($config);
         $this->assertArrayHasKey('mode', $config);
@@ -181,12 +181,18 @@ class Test_ConsentManager extends WP_UnitTestCase
         $this->assertNotNull($manager->getProvider('custom_provider'));
     }
 
-    public function test_get_js_dependencies_returns_array()
+    public function test_active_provider_js_handles_returns_array()
     {
         $manager = $this->createManager();
-        $deps    = $manager->getJsDependencies();
+        $deps    = $manager->getActiveProvider()->getJsDependencies();
 
         $this->assertIsArray($deps);
+    }
+
+    public function test_active_provider_inline_script_returns_empty_for_none()
+    {
+        $manager = $this->createManager();
+        $this->assertSame('', $manager->getActiveProvider()->getInlineScript());
     }
 
     public function test_none_provider_always_preserved_after_filter()
@@ -386,7 +392,7 @@ class Test_ConsentManager extends WP_UnitTestCase
             {
             }
 
-            public function getJsHandles(): array
+            public function getJsDependencies(): array
             {
                 return [];
             }
@@ -394,6 +400,11 @@ class Test_ConsentManager extends WP_UnitTestCase
             public function getJsConfig(): array
             {
                 return ['mode' => 'custom_notice_provider'];
+            }
+
+            public function getInlineScript(): string
+            {
+                return '';
             }
         };
 

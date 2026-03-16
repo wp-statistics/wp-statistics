@@ -38,8 +38,13 @@ abstract class AbstractConsentProvider implements ConsentProviderInterface
     {
     }
 
-    public function getJsHandles(): array
+    public function getJsDependencies(): array
     {
         return [];
+    }
+
+    public function getInlineScript(): string
+    {
+        return '';
     }
 }

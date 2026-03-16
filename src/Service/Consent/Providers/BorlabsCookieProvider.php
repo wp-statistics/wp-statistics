@@ -52,4 +52,25 @@ class BorlabsCookieProvider extends AbstractConsentProvider
         $this->serviceInstalled = !empty($row);
         return $this->serviceInstalled;
     }
+
+    public function getInlineScript(): string
+    {
+        return <<<'JS'
+(function() {
+    var r = window.WpStatisticsConsentAdapters = window.WpStatisticsConsentAdapters || {};
+    if (!r.borlabs_cookie) {
+        r.borlabs_cookie = {
+            init: function(params) {
+                var levels = params.levels;
+                var addFilter = params.addFilter;
+
+                addFilter('trackingLevel', function() {
+                    return params.anonymousTracking ? levels.anonymous : levels.full;
+                });
+            }
+        };
+    }
+})();
+JS;
+    }
 }

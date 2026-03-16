@@ -225,16 +225,6 @@ class ConsentManager
         return $this->getTrackingLevel() !== TrackingLevel::FULL;
     }
 
-    public function getTrackerConfig(): array
-    {
-        return $this->activeProvider->getJsConfig();
-    }
-
-    public function getJsDependencies(): array
-    {
-        return $this->activeProvider->getJsHandles();
-    }
-
     /**
      * Get detection notices for available but unconfigured providers.
      */
