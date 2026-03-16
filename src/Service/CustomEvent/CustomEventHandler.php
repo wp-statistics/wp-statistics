@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\CustomEvent;
 
 use Exception;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
@@ -36,6 +37,10 @@ class CustomEventHandler
     {
         try {
             if (empty($eventName)) {
+                return;
+            }
+
+            if (!Option::getValue('event_tracking', false)) {
                 return;
             }
 

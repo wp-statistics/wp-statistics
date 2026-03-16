@@ -9,6 +9,9 @@ if (!window.WpStatisticsEventTracker) {
             if (this.hasEventsInitializedOnce || WP_Statistics_Tracker_Object.isLegacyEventLoaded) {
                 return;
             }
+            if (!WP_Statistics_Tracker_Object.option || !WP_Statistics_Tracker_Object.option.eventTracking) {
+                return;
+            }
             this.hasEventsInitializedOnce = true;
 
             // Capture click and download events when DataPlus is active

@@ -76,6 +76,10 @@ export function isAnonymousTracking() {
     return !!getOption('anonymousTracking', false);
 }
 
+export function isEventTrackingEnabled() {
+    return !!getOption('eventTracking', false);
+}
+
 export function getMuPluginUrl() {
     const cfg = getConfig();
     return (cfg && cfg.muPluginUrl) ? cfg.muPluginUrl : '';
