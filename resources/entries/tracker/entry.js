@@ -9,6 +9,15 @@ import { addFilter, applyFilters, addAction, doAction, removeFilter, removeActio
 import { init } from './core/tracker.js';
 import { getHitParams } from './core/config.js';
 import * as queue from './transport/queue.js';
+import wpConsentApiAdapter from './adapters/wp-consent-api.js';
+import realCookieBannerAdapter from './adapters/real-cookie-banner.js';
+import borlabsCookieAdapter from './adapters/borlabs-cookie.js';
+
+// Initialize consent adapter registry (preserve third-party registrations that loaded before us)
+var registry = window.WpStatisticsConsentAdapters = window.WpStatisticsConsentAdapters || {};
+if (!registry.wp_consent_api) registry.wp_consent_api = wpConsentApiAdapter;
+if (!registry.real_cookie_banner) registry.real_cookie_banner = realCookieBannerAdapter;
+if (!registry.borlabs_cookie) registry.borlabs_cookie = borlabsCookieAdapter;
 
 // Public API
 window.wp_statistics = {
