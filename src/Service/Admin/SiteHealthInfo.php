@@ -321,15 +321,7 @@ class SiteHealthInfo
             'debug' => !empty($consentIntegration) ? $consentIntegration : 'None',
         ];
 
-        if ($consentIntegration === 'wp_consent_api') {
-            $settings['wpConsentLevelIntegration'] = [
-                'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),
-                'value' => Option::get('consent_level_integration'),
-                'debug' => Option::get('consent_level_integration')
-            ];
-        }
-
-        if (in_array($consentIntegration, ['wp_consent_api', 'borlabs_cookie'])) {
+        if ($consentIntegration === 'borlabs_cookie') {
             $settings['anonymousTracking'] = [
                 'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
                 'value' => Option::get('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),

@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\Integrations\Plugins;
 
-use WP_STATISTICS\Option;
-
 abstract class AbstractIntegration
 {
     protected $key;
@@ -63,8 +61,7 @@ abstract class AbstractIntegration
     public function getStatus()
     {
         return [
-            'has_consent'       => $this->hasConsent(),
-            'track_anonymously' => $this->trackAnonymously()
+            'has_consent' => $this->hasConsent(),
         ];
     }
 
@@ -74,7 +71,7 @@ abstract class AbstractIntegration
      */
     public function trackAnonymously()
     {
-        return Option::get('anonymous_tracking', false) != false;
+        return false;
     }
 
     /**
