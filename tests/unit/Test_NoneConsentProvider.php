@@ -25,16 +25,6 @@ class Test_NoneConsentProvider extends WP_UnitTestCase
         $this->assertTrue($this->provider->isAvailable());
     }
 
-    public function test_is_always_selectable()
-    {
-        $this->assertTrue($this->provider->isSelectable());
-    }
-
-    public function test_should_not_show_notice()
-    {
-        $this->assertFalse($this->provider->shouldShowNotice());
-    }
-
     public function test_js_config_mode_is_none()
     {
         $config = $this->provider->getJsConfig();

@@ -24,16 +24,6 @@ abstract class AbstractConsentProvider implements ConsentProviderInterface
         return is_plugin_active($this->pluginPath);
     }
 
-    public function isSelectable(): bool
-    {
-        return $this->isAvailable();
-    }
-
-    public function shouldShowNotice(): bool
-    {
-        return $this->isAvailable();
-    }
-
     public function register(): void
     {
     }

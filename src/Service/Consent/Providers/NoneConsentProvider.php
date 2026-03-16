@@ -18,13 +18,4 @@ class NoneConsentProvider extends AbstractConsentProvider
         return true;
     }
 
-    public function isSelectable(): bool
-    {
-        return true;
-    }
-
-    public function shouldShowNotice(): bool
-    {
-        return false;
-    }
 }

@@ -14,11 +14,6 @@ class WpConsentApiProvider extends AbstractConsentProvider
         return esc_html__('WP Consent API', 'wp-statistics');
     }
 
-    public function shouldShowNotice(): bool
-    {
-        return $this->isAvailable() && !empty($this->getCompatiblePlugins());
-    }
-
     public function register(): void
     {
         $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);

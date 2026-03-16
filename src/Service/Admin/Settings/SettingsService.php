@@ -202,10 +202,9 @@ class SettingsService
         $result = [];
         foreach ($consentManager->getProviders() as $provider) {
             $entry = [
-                'key'        => $provider->getKey(),
-                'name'       => $provider->getName(),
-                'available'  => $provider->isAvailable(),
-                'selectable' => $provider->isSelectable(),
+                'key'       => $provider->getKey(),
+                'name'      => $provider->getName(),
+                'available' => $provider->isAvailable(),
             ];
 
             if ($provider instanceof WpConsentApiProvider) {

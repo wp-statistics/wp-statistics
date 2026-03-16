@@ -182,7 +182,7 @@ class ConsentManager
                 continue;
             }
 
-            if ($provider->shouldShowNotice()) {
+            if ($provider->isAvailable()) {
                 $available[$provider->getKey()] = $provider;
             }
         }

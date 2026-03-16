@@ -237,13 +237,11 @@ class Test_ConsentManager extends WP_UnitTestCase
         $this->assertInstanceOf(NoneConsentProvider::class, $manager->getActiveProvider());
     }
 
-    private function createMockProvider(string $key, bool $available = true, bool $selectable = true): ConsentProviderInterface
+    private function createMockProvider(string $key, bool $available = true): ConsentProviderInterface
     {
         $mock = $this->createMock(ConsentProviderInterface::class);
         $mock->method('getKey')->willReturn($key);
         $mock->method('isAvailable')->willReturn($available);
-        $mock->method('isSelectable')->willReturn($selectable);
-        $mock->method('shouldShowNotice')->willReturn($available);
         $mock->method('getJsConfig')->willReturn(['mode' => $key]);
         $mock->method('getJsDependencies')->willReturn([]);
         $mock->method('getInlineScript')->willReturn('');
@@ -361,16 +359,6 @@ class Test_ConsentManager extends WP_UnitTestCase
             }
 
             public function isAvailable(): bool
-            {
-                return true;
-            }
-
-            public function isSelectable(): bool
-            {
-                return true;
-            }
-
-            public function shouldShowNotice(): bool
             {
                 return true;
             }

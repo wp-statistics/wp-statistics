@@ -293,6 +293,9 @@ class InstallManager
                 ->execute();
         }
 
+        // Migrate consent_integration from string select to boolean toggle (15.0)
+        self::migrateConsentIntegrationToToggle();
+
         // Update privacy audit option (14.7)
         if (Option::getValue('privacy_audit') === false && version_compare($toVersion, '14.7', '>=')) {
             Option::updateValue('privacy_audit', true);
@@ -331,6 +334,26 @@ class InstallManager
         }
 
         AccessLevel::migrateFromLegacy();
+    }
+
+    /**
+     * Migrate consent_integration from string (select) to boolean (toggle).
+     *
+     * Old values: 'none', '', 'wp_consent_api', 'real_cookie_banner', 'borlabs_cookie'
+     * New values: true (enabled) or false (disabled)
+     */
+    private static function migrateConsentIntegrationToToggle(): void
+    {
+        $value = Option::getValue('consent_integration');
+
+        // Already migrated (boolean) or not set
+        if (is_bool($value) || $value === null) {
+            return;
+        }
+
+        // Any provider key string means it was actively enabled
+        $enabled = is_string($value) && $value !== '' && $value !== 'none';
+        Option::updateValue('consent_integration', $enabled);
     }
 
 

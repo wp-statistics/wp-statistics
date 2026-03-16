@@ -10,7 +10,6 @@ interface ConsentProvider {
   key: string
   name: string
   available: boolean
-  selectable: boolean
   compatible_plugins?: string[]
 }
 
