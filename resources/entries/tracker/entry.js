@@ -47,7 +47,10 @@ window.wp_statistics = {
 // Legacy global alias
 window.wp_statistics_event = window.wp_statistics.event;
 
-// Boot on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function () {
+// Boot when DOM is ready. The readyState check covers consent plugins
+// (e.g. Borlabs) that re-execute blocked scripts after page load.
+if (document.readyState !== 'loading') {
     init();
-});
+} else {
+    document.addEventListener('DOMContentLoaded', init);
+}
