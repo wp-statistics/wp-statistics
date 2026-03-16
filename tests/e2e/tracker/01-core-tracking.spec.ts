@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test'
 import {
   setConsentPlugin,
   setBypassAdBlockers,
+  setEventTracking,
   waitForHitRequest,
   waitForBatchRequest,
 } from '../tracker-helpers'
@@ -10,6 +11,11 @@ test.describe('Core Tracking', () => {
   test.beforeAll(() => {
     setConsentPlugin('none')
     setBypassAdBlockers(false)
+    setEventTracking(true)
+  })
+
+  test.afterAll(() => {
+    setEventTracking(false)
   })
 
   test('hit fires on page load', async ({ page }) => {

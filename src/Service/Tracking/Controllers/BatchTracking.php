@@ -120,7 +120,13 @@ class BatchTracking extends BaseTrackerController
     public function processBatch(WP_REST_Request $request)
     {
         try {
-            $body = $request->get_body();
+            $bodyParams = $request->get_body_params();
+            $body       = isset($bodyParams['batch_data']) ? $bodyParams['batch_data'] : null;
+
+            if (empty($body)) {
+                throw new Exception(__('Missing batch data', 'wp-statistics'), 400);
+            }
+
             $data = json_decode($body, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {

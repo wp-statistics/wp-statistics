@@ -98,6 +98,10 @@ export function setBypassAdBlockers(enabled: boolean): void {
   updateWpStatisticsOption('bypass_ad_blockers', enabled)
 }
 
+export function setEventTracking(enabled: boolean): void {
+  updateWpStatisticsOption('event_tracking', enabled)
+}
+
 export function setDirectFileEndpoint(enabled: boolean): void {
   updateWpStatisticsOption('mu_plugin_proxy', enabled)
   if (enabled) {
