@@ -42,9 +42,9 @@ class ConsentManager
     {
         $builtIn = [
             new NoneConsentProvider(),
-            new WpConsentApiProvider(),
-            new RealCookieBannerProvider(),
             new BorlabsCookieProvider(),
+            new RealCookieBannerProvider(),
+            new WpConsentApiProvider(),
         ];
 
         foreach ($builtIn as $provider) {
