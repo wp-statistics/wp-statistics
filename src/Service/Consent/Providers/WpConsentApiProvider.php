@@ -14,20 +14,56 @@ class WpConsentApiProvider extends AbstractConsentProvider
         return esc_html__('WP Consent API', 'wp-statistics');
     }
 
-    public function shouldShowNotice(): bool
-    {
-        return $this->isAvailable() && !empty($this->getCompatiblePlugins());
-    }
-
     public function register(): void
     {
         $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
         add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
     }
 
-    public function getJsHandles(): array
+    public function getJsDependencies(): array
     {
         return ['wp-consent-api'];
+    }
+
+    public function getInlineScript(): string
+    {
+        return <<<'JS'
+(function() {
+    var r = window.WpStatisticsConsentAdapters = window.WpStatisticsConsentAdapters || {};
+    if (!r.wp_consent_api) {
+        r.wp_consent_api = {
+            init: function(params) {
+                var levels = params.levels;
+                var addFilter = params.addFilter;
+                var doAction = params.doAction;
+
+                addFilter('trackingLevel', function() {
+                    if (typeof window.wp_has_consent !== 'function') {
+                        console.warn('WP Statistics: wp_has_consent() is not available. Blocking tracking until consent change.');
+                        return levels.none;
+                    }
+
+                    if (window.wp_has_consent('statistics')) {
+                        return levels.full;
+                    }
+                    if (window.wp_has_consent('statistics-anonymous')) {
+                        return levels.anonymous;
+                    }
+
+                    return levels.none;
+                });
+
+                document.addEventListener('wp_listen_for_consent_change', function(e) {
+                    var changed = e.detail;
+                    if (changed && (changed['statistics'] === 'allow' || changed['statistics-anonymous'] === 'allow')) {
+                        doAction('consentChanged');
+                    }
+                });
+            }
+        };
+    }
+})();
+JS;
     }
 
     public function getCompatiblePlugins(): array

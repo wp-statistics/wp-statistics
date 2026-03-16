@@ -28,7 +28,7 @@ class Test_RealCookieBannerProvider extends WP_UnitTestCase
 
     public function test_js_handles_includes_rcb_banner()
     {
-        $handles = $this->provider->getJsHandles();
+        $handles = $this->provider->getJsDependencies();
         $this->assertContains('real-cookie-banner-pro-banner', $handles);
     }
 }

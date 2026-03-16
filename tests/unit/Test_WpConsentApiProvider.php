@@ -30,7 +30,7 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
 
     public function test_js_handles_includes_wp_consent_api()
     {
-        $handles = $this->provider->getJsHandles();
+        $handles = $this->provider->getJsDependencies();
         $this->assertContains('wp-consent-api', $handles);
     }
 
@@ -38,5 +38,14 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
     {
         $plugins = $this->provider->getCompatiblePlugins();
         $this->assertIsArray($plugins);
+    }
+
+    public function test_inline_script_registers_adapter_on_global()
+    {
+        $script = $this->provider->getInlineScript();
+        $this->assertNotEmpty($script);
+        $this->assertStringContainsString('WpStatisticsConsentAdapters', $script);
+        $this->assertStringContainsString('wp_consent_api', $script);
+        $this->assertStringContainsString('wp_has_consent', $script);
     }
 }

@@ -6,7 +6,7 @@ use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler;
 use WP_Statistics\Bootstrap;
-use WP_Statistics\Service\Consent\ConsentManager;
+use WP_Statistics\Service\Consent\ConsentProviderInterface;
 use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Service\Tracking\TrackerHelper;
@@ -63,7 +63,7 @@ class FrontendHandler extends BaseAssets
 
         $requestUrl     = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
         $hitParams      = !empty($params['hitParams']) ? $params['hitParams'] : [];
-        $consentManager = Bootstrap::get('consent');
+        $activeProvider = Bootstrap::get('consent')->getActiveProvider();
 
         $muPluginUrl = '';
         $batchUrl    = '';
@@ -90,7 +90,7 @@ class FrontendHandler extends BaseAssets
             'requestUrl'          => $requestUrl,
             'ajaxUrl'             => admin_url('admin-ajax.php'),
             'hitParams'           => $hitParams,
-            'option'              => $this->buildOptionArgs($consentManager),
+            'option'              => $this->buildOptionArgs($activeProvider),
             'resourceUriId'       => ResourcesFactory::getCurrentResourceUri()->getId(),
             'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'),
             'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
@@ -103,9 +103,14 @@ class FrontendHandler extends BaseAssets
         }
 
         // Add tracker.js dependencies
-        $dependencies = $consentManager->getJsDependencies();
+        $dependencies = $activeProvider->getJsDependencies();
 
         Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
+
+        $inlineScript = $activeProvider->getInlineScript();
+        if ($inlineScript !== '') {
+            wp_add_inline_script('wp-statistics-tracker', $inlineScript, 'before');
+        }
     }
 
     /**
@@ -113,9 +118,9 @@ class FrontendHandler extends BaseAssets
      *
      * @return array
      */
-    private function buildOptionArgs(ConsentManager $consentManager): array
+    private function buildOptionArgs(ConsentProviderInterface $activeProvider): array
     {
-        $trackerConfig = $consentManager->getTrackerConfig();
+        $trackerConfig = $activeProvider->getJsConfig();
 
         return [
             'userOnline'           => Option::getValue('useronline'),
@@ -175,13 +180,14 @@ class FrontendHandler extends BaseAssets
 
         $hits_html = '<p>' . sprintf(__('Views: %s', 'wp-statistics'), $hits) . '</p>';
 
-        // Check hits position
-        if (Option::getValue('display_hits_position') == 'before_content') {
+        $position = Option::getValue('display_hits_position');
+
+        if ($position == 'before_content') {
             return $hits_html . $content;
-        } elseif (Option::getValue('display_hits_position') == 'after_content') {
+        } elseif ($position == 'after_content') {
             return $content . $hits_html;
-        } else {
-            return $content;
         }
+
+        return $content;
     }
 }
