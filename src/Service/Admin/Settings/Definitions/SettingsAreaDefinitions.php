@@ -261,7 +261,7 @@ class SettingsAreaDefinitions
                                 'type'        => 'component',
                                 'component'   => 'ConsentIntegrationField',
                                 'setting_key' => 'consent_integration',
-                                'default'     => 'none',
+                                'default'     => '',
                                 'order'       => 10,
                             ],
                             'anonymous_tracking' => [

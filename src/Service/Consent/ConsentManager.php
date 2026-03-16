@@ -35,7 +35,6 @@ class ConsentManager
 
         $this->booted = true;
         $this->registerAvailableProviders();
-        $this->detectAutoActivation();
         $this->resolveActiveProvider();
         $this->registerDeactivationHook();
     }
@@ -96,69 +95,46 @@ class ConsentManager
         }
     }
 
-    private function detectAutoActivation(): void
-    {
-        $borlabs = $this->getProvider('borlabs_cookie');
-        if (!$borlabs instanceof BorlabsCookieProvider || !$borlabs->isAvailable()) {
-            return;
-        }
-
-        $currentIntegration = Option::getValue('consent_integration', 'none');
-
-        // If another provider is explicitly configured, don't interfere
-        if ($currentIntegration !== 'none' && $currentIntegration !== '' && $currentIntegration !== 'borlabs_cookie') {
-            return;
-        }
-
-        $isServiceActive = $borlabs->isServiceInstalled();
-
-        // If Borlabs was the active integration but the service was removed, clear it
-        if ($currentIntegration === 'borlabs_cookie' && !$isServiceActive) {
-            Option::updateValue('consent_integration', 'none');
-            return;
-        }
-
-        // Auto-activate when no provider is configured and Borlabs service is active
-        if (($currentIntegration === 'none' || $currentIntegration === '') && $isServiceActive) {
-            Option::updateValue('consent_integration', 'borlabs_cookie');
-        }
-    }
-
     private function resolveActiveProvider(): void
     {
-        $key      = Option::getValue('consent_integration', 'none');
-        $provider = $this->getProvider($key);
+        $key = Option::getValue('consent_integration', '');
 
-        if ($provider && $provider->isAvailable()) {
-            $this->activeProvider = $provider;
-        } else {
-            $this->activeProvider = $this->providers['none'] ?? new NoneConsentProvider();
+        // Explicit selection by the user
+        if ($key !== '') {
+            $provider = $this->getProvider($key);
 
-            if ($key !== 'none' && $key !== '') {
-                error_log(sprintf(
-                    'WP Statistics: Consent provider "%s" is configured but %s. Falling back to "none".',
-                    $key,
-                    $provider ? 'not available' : 'not registered'
-                ));
+            if ($provider && !($provider instanceof NoneConsentProvider) && $provider->isAvailable()) {
+                $this->activeProvider = $provider;
+                return;
             }
+
+            // 'none' is an explicit opt-out — respect it
+            if ($key === 'none') {
+                return;
+            }
+        }
+
+        // No explicit selection (fresh install or empty) — auto-activate the first available provider
+        $available = $this->getAvailableProviders();
+        if (!empty($available)) {
+            $this->activeProvider = reset($available);
         }
     }
 
     private function registerDeactivationHook(): void
     {
         add_action('update_option_active_plugins', function () {
-            $key = Option::getValue('consent_integration', 'none');
-            if ($key === '') {
-                $key = 'none';
-            }
-            $provider = $this->getProvider($key);
+            $key = Option::getValue('consent_integration', '');
 
-            if (!$provider || $provider instanceof NoneConsentProvider) {
+            // Only clear explicit selections when the provider's plugin is deactivated
+            if ($key === '' || $key === 'none') {
                 return;
             }
 
-            if (!$provider->isAvailable()) {
-                Option::updateValue('consent_integration', 'none');
+            $provider = $this->getProvider($key);
+
+            if ($provider && !$provider->isAvailable()) {
+                Option::updateValue('consent_integration', '');
             }
         });
     }
@@ -226,11 +202,44 @@ class ConsentManager
     }
 
     /**
+     * Get all available (selectable) providers, excluding NoneConsentProvider.
+     *
+     * @return ConsentProviderInterface[]
+     */
+    public function getAvailableProviders(): array
+    {
+        $available = [];
+
+        foreach ($this->providers as $provider) {
+            if ($provider instanceof NoneConsentProvider) {
+                continue;
+            }
+
+            if ($provider->shouldShowNotice()) {
+                $available[$provider->getKey()] = $provider;
+            }
+        }
+
+        return $available;
+    }
+
+    /**
+     * Whether multiple consent providers are detected (potential conflict).
+     */
+    public function hasConflictingProviders(): bool
+    {
+        return count($this->getAvailableProviders()) > 1;
+    }
+
+    /**
      * Get detection notices for available but unconfigured providers.
      */
     public function getDetectionNotices(): array
     {
-        if (!($this->activeProvider instanceof NoneConsentProvider)) {
+        $key = Option::getValue('consent_integration', '');
+
+        // User has explicitly configured — no detection notices needed
+        if ($key !== '') {
             return [];
         }
 

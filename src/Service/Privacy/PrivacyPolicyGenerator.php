@@ -2,7 +2,9 @@
 
 namespace WP_Statistics\Service\Privacy;
 
+use WP_Statistics\Bootstrap;
 use WP_Statistics\Components\Option;
+use WP_Statistics\Service\Consent\Providers\NoneConsentProvider;
 use WP_Statistics\Utils\User;
 
 /**
@@ -72,8 +74,8 @@ class PrivacyPolicyGenerator
      */
     private function getConsentSection()
     {
-        $integration = Option::getValue('consent_integration', 'none');
-        if ($integration === 'none' || $integration === '') {
+        $consentManager = Bootstrap::get('consent');
+        if (!$consentManager || $consentManager->getActiveProvider() instanceof NoneConsentProvider) {
             return '';
         }
 

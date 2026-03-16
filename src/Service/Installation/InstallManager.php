@@ -293,9 +293,6 @@ class InstallManager
                 ->execute();
         }
 
-        // Update consent integration for backward compatibility
-        self::migrateConsentSettings();
-
         // Update privacy audit option (14.7)
         if (Option::getValue('privacy_audit') === false && version_compare($toVersion, '14.7', '>=')) {
             Option::updateValue('privacy_audit', true);
@@ -336,25 +333,5 @@ class InstallManager
         AccessLevel::migrateFromLegacy();
     }
 
-    /**
-     * Migrate consent settings for backward compatibility.
-     *
-     * @return void
-     */
-    private static function migrateConsentSettings(): void
-    {
-        $integration = Option::getValue('consent_integration', 'none');
-
-        $consentManager = Bootstrap::get('consent');
-        if (!$consentManager) {
-            return;
-        }
-
-        $wpConsentApi = $consentManager->getProvider('wp_consent_api');
-
-        if ($wpConsentApi && $wpConsentApi->isAvailable() && in_array($integration, ['none', ''], true)) {
-            Option::updateValue('consent_integration', 'wp_consent_api');
-        }
-    }
 
 }

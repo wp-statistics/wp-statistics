@@ -42,10 +42,6 @@ class WpConsentApiProvider extends AbstractConsentProvider
                 var addFilter = params.addFilter;
                 var doAction = params.doAction;
 
-                if (typeof window.wp_consent_type === 'undefined' && typeof window.wp_fallback_consent_type === 'undefined') {
-                    window.wp_fallback_consent_type = 'optin';
-                }
-
                 addFilter('trackingLevel', function() {
                     if (typeof window.wp_has_consent !== 'function') {
                         console.warn('WP Statistics: wp_has_consent() is not available. Blocking tracking until consent change.');
