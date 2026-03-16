@@ -125,28 +125,21 @@ class Ajax
      */
     public function update_geoip_database_action_callback()
     {
+        $this->checkAccess('manage');
 
-        if (Helper::is_request('ajax') and User::Access('manage')) {
-            // Check Refer Ajax
-            check_ajax_referer('wp_rest', 'wps_nonce');
+        $method   = Request::get('geoip_location_detection_method', 'maxmind');
+        $provider = MaxmindGeoIPProvider::class;
 
+        if ('dbip' === $method) {
+            $provider = DbIpProvider::class;
+        }
 
-            $method   = Request::get('geoip_location_detection_method', 'maxmind');
-            $provider = MaxmindGeoIPProvider::class;
+        $result = GeolocationFactory::downloadDatabase($provider);
 
-            if ('dbip' === $method) {
-                $provider = DbIpProvider::class;
-            }
-
-            $result = GeolocationFactory::downloadDatabase($provider);
-
-            if (is_wp_error($result)) {
-                esc_html_e($result->get_error_message());
-            } else {
-                esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
-            }
+        if (is_wp_error($result)) {
+            esc_html_e($result->get_error_message());
         } else {
-            esc_html_e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
         }
 
         exit;
@@ -157,30 +150,26 @@ class Ajax
      */
     public function admin_meta_box_action_callback()
     {
-        if (Helper::is_request('ajax') and User::Access('read')) {
+        $this->checkAccess('read');
 
-            // Check Refer Ajax
-            check_ajax_referer('wp_rest', 'wps_nonce');
+        $metaboxName = sanitize_text_field($_GET['name']);
 
-            $metaboxName = sanitize_text_field($_GET['name']);
+        // Check Exist MetaBox Name
+        if (in_array($metaboxName, array_keys(Meta_Box::getList())) and Meta_Box::metaBoxClassExist($metaboxName)) {
 
-            // Check Exist MetaBox Name
-            if (in_array($metaboxName, array_keys(Meta_Box::getList())) and Meta_Box::metaBoxClassExist($metaboxName)) {
-
-                $parameters = [];
-                foreach ($_GET as $key => $value) {
-                    if ($value && !in_array($key, ['action', 'wps_nonce', '_'])) {
-                        $parameters[$key] = sanitize_text_field($value);
-                    }
+            $parameters = [];
+            foreach ($_GET as $key => $value) {
+                if ($value && !in_array($key, ['action', 'wps_nonce', '_'])) {
+                    $parameters[$key] = sanitize_text_field($value);
                 }
-
-                $class = Meta_Box::getMetaBoxClass($metaboxName);
-
-                wp_send_json($class::get($parameters));
-
-            } else {
-                wp_send_json(array('code' => 'not_found_meta_box', 'message' => __('Invalid MetaBox Name in Request.', 'wp-statistics')), 400);
             }
+
+            $class = Meta_Box::getMetaBoxClass($metaboxName);
+
+            wp_send_json($class::get($parameters));
+
+        } else {
+            wp_send_json(array('code' => 'not_found_meta_box', 'message' => __('Invalid MetaBox Name in Request.', 'wp-statistics')), 400);
         }
 
         exit;
@@ -191,127 +180,110 @@ class Ajax
      */
     public function get_page_filter_items_action_callback()
     {
-        if (Helper::is_request('ajax') and User::Access('read')) {
+        $this->checkAccess('read');
 
-            check_ajax_referer('wp_rest', 'wps_nonce');
+        $paged         = Request::get('paged', 1, 'number');
+        $postType      = Request::get('post_type', array_values(Helper::get_list_post_type()));
+        $authorId      = Request::get('author_id', '', 'number');
+        $search        = Request::get('search', '');
+        $page          = Request::get('page');
+        $selectedPost  = Request::get('post_id', false, 'number');
+        $hideAllOption = Request::get('hide_all_option', false);
 
-            $paged         = Request::get('paged', 1, 'number');
-            $postType      = Request::get('post_type', array_values(Helper::get_list_post_type()));
-            $authorId      = Request::get('author_id', '', 'number');
-            $search        = Request::get('search', '');
-            $page          = Request::get('page');
-            $selectedPost  = Request::get('post_id', false, 'number');
-            $hideAllOption = Request::get('hide_all_option', false);
-
-            if (!$page) {
-                wp_send_json([
-                    'code'    => 'not_found_page',
-                    'message' => esc_html__('Invalid Page in Request.', 'wp-statistics')
-                ], 400);
-            }
-
-            $query = new \WP_Query([
-                'post_status'    => 'publish',
-                'posts_per_page' => 10,
-                'paged'          => $paged,
-                'post_type'      => $postType,
-                'author'         => $authorId,
-                's'              => $search
-            ]);
-
-            $posts = [];
-            if ($query->have_posts()) {
-                if (empty($hideAllOption) && $paged == 1 && empty($search)) {
-                    $allOption = [
-                        'id'   => Menus::admin_url($page),
-                        'text' => esc_html__('All', 'wp-statistics')
-                    ];
-
-                    if (!$selectedPost) {
-                        $allOption['selected'] = true;
-                    }
-
-                    $posts[] = $allOption;
-                }
-
-                while ($query->have_posts()) {
-                    $query->the_post();
-
-                    $option = [
-                        'id'   => get_the_ID(),
-                        'text' => get_the_title()
-                    ];
-
-                    if ($selectedPost == get_the_ID()) {
-                        $option['selected'] = true;
-                    }
-
-                    $posts[] = $option;
-                }
-            }
-
+        if (!$page) {
             wp_send_json([
-                'results'    => $posts,
-                'pagination' => [
-                    'more' => $query->max_num_pages > $paged ? true : false
-                ]
-            ]);
+                'code'    => 'not_found_page',
+                'message' => esc_html__('Invalid Page in Request.', 'wp-statistics')
+            ], 400);
         }
 
-        exit;
+        $query = new \WP_Query([
+            'post_status'    => 'publish',
+            'posts_per_page' => 10,
+            'paged'          => $paged,
+            'post_type'      => $postType,
+            'author'         => $authorId,
+            's'              => $search
+        ]);
+
+        $posts = [];
+        if ($query->have_posts()) {
+            if (empty($hideAllOption) && $paged == 1 && empty($search)) {
+                $allOption = [
+                    'id'   => Menus::admin_url($page),
+                    'text' => esc_html__('All', 'wp-statistics')
+                ];
+
+                if (!$selectedPost) {
+                    $allOption['selected'] = true;
+                }
+
+                $posts[] = $allOption;
+            }
+
+            while ($query->have_posts()) {
+                $query->the_post();
+
+                $option = [
+                    'id'   => get_the_ID(),
+                    'text' => get_the_title()
+                ];
+
+                if ($selectedPost == get_the_ID()) {
+                    $option['selected'] = true;
+                }
+
+                $posts[] = $option;
+            }
+        }
+
+        wp_send_json([
+            'results'    => $posts,
+            'pagination' => [
+                'more' => $query->max_num_pages > $paged ? true : false
+            ]
+        ]);
     }
 
     public function search_visitors_action_callback()
     {
-        if (Helper::is_request('ajax') and User::Access('read')) {
+        $this->checkAccess('read');
 
-            check_ajax_referer('wp_rest', 'wps_nonce');
+        $results = [];
+        $search  = Request::get('search', '');
 
-            $results = [];
-            $search  = Request::get('search', '');
+        $visitorsModel = new VisitorsModel();
+        $visitors      = $visitorsModel->searchVisitors([
+            'ip'       => $search,
+            'username' => $search,
+            'email'    => $search
+        ]);
 
-            $visitorsModel = new VisitorsModel();
-            $visitors      = $visitorsModel->searchVisitors([
-                'ip'       => $search,
-                'username' => $search,
-                'email'    => $search
-            ]);
+        foreach ($visitors as $visitor) {
+            $option = [
+                'id'   => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID]),
+                'text' => sprintf(esc_html__('Visitor (#%s)', 'wp-statistics'), $visitor->ID)
+            ];
 
-            foreach ($visitors as $visitor) {
-                $option = [
-                    'id'   => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID]),
-                    'text' => sprintf(esc_html__('Visitor (#%s)', 'wp-statistics'), $visitor->ID)
-                ];
-
-                $results[] = $option;
-            }
-
-            wp_send_json(['results' => $results]);
+            $results[] = $option;
         }
 
-        exit;
+        wp_send_json(['results' => $results]);
     }
 
     public function store_date_range_action_callback()
     {
-        if (Helper::is_request('ajax')) {
-            check_ajax_referer('wp_rest', 'wps_nonce');
+        $this->checkAccess('read');
 
-            $date = Request::get('date', [], 'array');
-            DateRange::store($date);
+        $date = Request::get('date', [], 'array');
+        DateRange::store($date);
 
-            wp_send_json_success(['message' => esc_html__('Date range has been stored successfully.', 'wp-statistics')]);
-
-        }
-
-        exit;
+        wp_send_json_success(['message' => esc_html__('Date range has been stored successfully.', 'wp-statistics')]);
     }
 
     public function dismiss_notices_action_callback()
     {
-        if (!Request::isFrom('ajax') || !User::Access('manage')) exit;
-
-        check_ajax_referer('wp_rest', 'wps_nonce');
+        $this->checkAccess('manage');
 
         $noticeId = Request::get('notice_id');
 
