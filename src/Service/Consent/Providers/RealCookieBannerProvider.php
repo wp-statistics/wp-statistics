@@ -53,7 +53,7 @@ class RealCookieBannerProvider extends AbstractConsentProvider
     if (!r.real_cookie_banner) {
         r.real_cookie_banner = {
             init: function(params) {
-                var levels = params.levels;
+                var levels = params.config.levels;
                 var addFilter = params.addFilter;
                 var doAction = params.doAction;
 

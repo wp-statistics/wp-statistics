@@ -26,11 +26,12 @@ export function registerConsentAdapter() {
         return;
     }
 
+    config.anonymousTracking = isAnonymousTracking();
+    config.levels = getTrackingLevels();
+
     adapter.init({
         config: config,
-        levels: getTrackingLevels(),
         addFilter: addFilter,
         doAction: doAction,
-        anonymousTracking: isAnonymousTracking()
     });
 }

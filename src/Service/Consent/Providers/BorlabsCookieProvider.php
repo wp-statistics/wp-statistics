@@ -51,11 +51,11 @@ class BorlabsCookieProvider extends AbstractConsentProvider
     if (!r.borlabs_cookie) {
         r.borlabs_cookie = {
             init: function(params) {
-                var levels = params.levels;
+                var levels = params.config.levels;
                 var addFilter = params.addFilter;
 
                 addFilter('trackingLevel', function() {
-                    return params.anonymousTracking ? levels.anonymous : levels.full;
+                    return params.config.anonymousTracking ? levels.anonymous : levels.full;
                 });
             }
         };

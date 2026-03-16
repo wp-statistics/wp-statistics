@@ -49,7 +49,7 @@ class WpConsentApiProvider extends AbstractConsentProvider
     if (!r.wp_consent_api) {
         r.wp_consent_api = {
             init: function(params) {
-                var levels = params.levels;
+                var levels = params.config.levels;
                 var addFilter = params.addFilter;
                 var doAction = params.doAction;
 
