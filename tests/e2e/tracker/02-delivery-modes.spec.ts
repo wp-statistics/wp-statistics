@@ -56,4 +56,5 @@ test.describe('Delivery Modes', () => {
       expect(config.batchUrl).toContain('wp-statistics/v2/batch')
     }
   })
+
 })

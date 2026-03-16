@@ -98,6 +98,18 @@ export function setBypassAdBlockers(enabled: boolean): void {
   updateWpStatisticsOption('bypass_ad_blockers', enabled)
 }
 
+export function setDirectFileEndpoint(enabled: boolean): void {
+  updateWpStatisticsOption('mu_plugin_proxy', enabled)
+  if (enabled) {
+    // Trigger a WP load to install the mu-plugin files via MuPluginManager::register()
+    try {
+      wpCli(`eval 'echo "mu_plugin_installed";'`)
+    } catch {
+      // non-critical — files may already be installed
+    }
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Request interceptors
 // ---------------------------------------------------------------------------

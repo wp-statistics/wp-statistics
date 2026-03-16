@@ -1,30 +1,43 @@
 import * as React from 'react'
 
+import { Badge } from '@/components/ui/badge'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 
 interface SettingsFieldProps {
   id: string
   label: string
+  badge?: string
   description?: string
   layout?: 'inline' | 'stacked'
   nested?: boolean
   children: React.ReactNode
 }
 
-export function SettingsField({ id, label, description, layout = 'inline', nested, children }: SettingsFieldProps) {
+export function SettingsField({ id, label, badge, description, layout = 'inline', nested, children }: SettingsFieldProps) {
+  const labelContent = (
+    <>
+      {label}
+      {badge && (
+        <Badge variant="secondary" className="ml-2 text-[10px] px-1.5 py-0">
+          {badge}
+        </Badge>
+      )}
+    </>
+  )
+
   const content =
     layout === 'inline' ? (
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
-          <Label htmlFor={id}>{label}</Label>
+          <Label htmlFor={id}>{labelContent}</Label>
           {description && <p className="text-xs text-muted-foreground">{description}</p>}
         </div>
         {children}
       </div>
     ) : (
       <div className="space-y-2">
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={id}>{labelContent}</Label>
         {children}
         {description && <p className="text-xs text-muted-foreground">{description}</p>}
       </div>

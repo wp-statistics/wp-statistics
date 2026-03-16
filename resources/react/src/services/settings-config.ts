@@ -26,6 +26,7 @@ export interface SettingsFieldConfig {
   type: 'toggle' | 'select' | 'input' | 'textarea' | 'number' | 'action' | 'notice' | 'component'
   setting_key?: string
   label?: string
+  badge?: string
   description?: string
   default?: unknown
   order: number

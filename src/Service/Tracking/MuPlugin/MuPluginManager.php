@@ -37,6 +37,9 @@ class MuPluginManager
      */
     public function register()
     {
+        // Always listen for settings changes so the toggle can enable/disable the feature
+        add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
+
         if (!Option::getValue('mu_plugin_proxy', false)) {
             return;
         }
@@ -45,6 +48,26 @@ class MuPluginManager
             if (!$this->reinstall()) {
                 error_log('WP Statistics: Failed to install mu-plugin. Check directory permissions for ' . ($this->getMuPluginsDir() ?: 'mu-plugins'));
             }
+        }
+    }
+
+    /**
+     * Handle mu-plugin install/uninstall when the setting changes.
+     *
+     * @param string $tab      Settings tab key.
+     * @param array  $settings Submitted settings.
+     * @return void
+     */
+    public function onSettingsSaved($tab, $settings)
+    {
+        if (!array_key_exists('mu_plugin_proxy', $settings)) {
+            return;
+        }
+
+        if (!empty($settings['mu_plugin_proxy'])) {
+            $this->reinstall();
+        } else {
+            $this->uninstall();
         }
     }
 
@@ -79,6 +102,7 @@ class MuPluginManager
         $endpointDest   = $muPluginsDir . '/' . self::ENDPOINT_FILE;
 
         if (!$this->copyFile($endpointSource, $endpointDest)) {
+            wp_delete_file($dest);
             return false;
         }
 
@@ -106,15 +130,20 @@ class MuPluginManager
             $muPluginsDir . '/' . self::ENDPOINT_FILE,
         ];
 
+        $allDeleted = true;
         foreach ($files as $file) {
             if (file_exists($file)) {
                 wp_delete_file($file);
+                if (file_exists($file)) {
+                    error_log('WP Statistics: Failed to delete mu-plugin file: ' . $file);
+                    $allDeleted = false;
+                }
             }
         }
 
         delete_option(self::VERSION_OPTION);
 
-        return true;
+        return $allDeleted;
     }
 
     /**

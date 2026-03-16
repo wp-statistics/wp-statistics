@@ -15,6 +15,7 @@ use WP_Statistics\Service\CustomEvent\CustomEventHandler;
 use WP_Statistics\Service\Ajax\AjaxDispatcher;
 use WP_Statistics\Service\Admin\AdminBar\AdminBarManager;
 use WP_Statistics\Service\Consent\ConsentManager;
+use WP_Statistics\Service\Tracking\MuPlugin\MuPluginManager;
 
 /**
  * Core Service Provider.
@@ -88,6 +89,11 @@ class CoreServiceProvider implements ServiceProvider
             return new AdminBarManager();
         });
 
+        // Mu-Plugin Manager - handles direct file endpoint install/uninstall
+        $container->register('mu_plugin', function () {
+            return new MuPluginManager();
+        });
+
         // Aliases for common access patterns
         $container->alias('tracker', 'tracking');
     }
@@ -139,5 +145,8 @@ class CoreServiceProvider implements ServiceProvider
 
         // Initialize admin bar stats
         $container->get('admin_bar');
+
+        // Initialize mu-plugin manager (auto-install/update + settings hook)
+        $container->get('mu_plugin')->register();
     }
 }
