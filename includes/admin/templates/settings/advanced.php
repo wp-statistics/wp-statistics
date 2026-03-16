@@ -376,13 +376,15 @@ add_thickbox();
                             'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>',
                             'geoip_location_detection_method': selectedLocationMethod,
                         },
-                        datatype: 'json',
-                    }).success(function (result) {
-                        geoip_clicked_button.classList.remove('wps-loading-button')
-                        jQuery(geoip_clicked_button).after("<div class='wps-alert wps-alert-box wps-alert__success'><span>" + result + "</span></div>")
-                    }).error(function (result) {
-                        geoip_clicked_button.classList.remove('wps-loading-button')
-                        jQuery(geoip_clicked_button).after("<div class='wps-alert wps-alert-box wps-alert__danger'><span>" + _e('Oops! Something went wrong. Please try again. For more details, check the <b>PHP Error Log</b>.', 'wp-statistics') + "</span></div>")
+                        dataType: 'json',
+                    }).done(function (result) {
+                        geoipClickedButton.classList.remove('wps-loading-button');
+                        var alertClass = result.success ? 'wps-alert__success' : 'wps-alert__danger';
+                        var message = result.data && result.data.message ? result.data.message : '';
+                        jQuery(geoipClickedButton).after("<div class='wps-alert wps-alert-box " + alertClass + "'><span>" + message + "</span></div>");
+                    }).fail(function () {
+                        geoipClickedButton.classList.remove('wps-loading-button');
+                        jQuery(geoipClickedButton).after("<div class='wps-alert wps-alert-box wps-alert__danger'><span><?php esc_html_e('Oops! Something went wrong. Please try again. For more details, check the PHP Error Log.', 'wp-statistics'); ?></span></div>");
                     });
                 });
             });

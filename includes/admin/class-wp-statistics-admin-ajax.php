@@ -137,12 +137,10 @@ class Ajax
         $result = GeolocationFactory::downloadDatabase($provider);
 
         if (is_wp_error($result)) {
-            esc_html_e($result->get_error_message());
-        } else {
-            esc_html_e('GeoIP Database successfully updated.', 'wp-statistics');
+            wp_send_json_error(['message' => $result->get_error_message()]);
         }
 
-        exit;
+        wp_send_json_success(['message' => esc_html__('GeoIP Database successfully updated.', 'wp-statistics')]);
     }
 
     /**
