@@ -12,18 +12,18 @@ import { Page, BrowserContext, Request } from '@playwright/test'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// Derive WP path from plugin directory structure: tests/e2e/ -> ../../ -> plugin root
-// The WP install is two levels above the plugin: wp-content/plugins/wp-statistics -> wp root
-const WP_PATH = resolve(__dirname, '..', '..', '..', '..', '..')
+// Plugin root — wp-env uses this as cwd to find .wp-env.json
+const PLUGIN_ROOT = resolve(__dirname, '..', '..')
 
 // ---------------------------------------------------------------------------
-// WP-CLI
+// WP-CLI (via wp-env Docker container)
 // ---------------------------------------------------------------------------
 
 export function wpCli(command: string): string {
-  return execSync(`wp ${command} --path="${WP_PATH}"`, {
+  return execSync(`npx wp-env run cli wp ${command}`, {
     encoding: 'utf-8',
     timeout: 30000,
+    cwd: PLUGIN_ROOT,
   }).trim()
 }
 
@@ -32,7 +32,7 @@ export function activatePlugin(slug: string): void {
     wpCli(`plugin activate ${slug}`)
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error)
-    if (msg.includes('already active')) return
+    if (msg.includes('already active') || msg.includes('could not be found')) return
     throw new Error(`Failed to activate plugin '${slug}': ${msg}`)
   }
 }
@@ -42,7 +42,7 @@ export function deactivatePlugin(slug: string): void {
     wpCli(`plugin deactivate ${slug}`)
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error)
-    if (msg.includes('already deactivated') || msg.includes('not active')) return
+    if (msg.includes('already deactivated') || msg.includes('not active') || msg.includes('could not be found')) return
     throw new Error(`Failed to deactivate plugin '${slug}': ${msg}`)
   }
 }

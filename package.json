@@ -44,7 +44,11 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
-    "test:e2e:report": "playwright show-report tests/e2e/reports"
+    "test:e2e:report": "playwright show-report tests/e2e/reports",
+    "test:e2e:start": "wp-env start",
+    "test:e2e:stop": "wp-env stop",
+    "test:e2e:clean": "wp-env clean all",
+    "test:e2e:destroy": "wp-env destroy"
   },
   "dependencies": {
     "@babel/core": "^7.24.7",
@@ -105,6 +109,7 @@
     "@vitejs/plugin-react": "^5.0.3",
     "@vitest/browser-playwright": "^4.0.16",
     "@vitest/coverage-v8": "^4.0.16",
+    "@wordpress/env": "^11.1.0",
     "@wordpress/i18n": "^6.7.0",
     "@wordpress/scripts": "^27.9.0",
     "autoprefixer": "^10.4.20",
