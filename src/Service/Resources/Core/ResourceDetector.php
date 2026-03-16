@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Resources\Core;
 
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Service\Integrations\Multilingual\MultilingualHelper;
 use WP_Statistics\Utils\Route;
 use WP_Statistics\Utils\Url;
 
@@ -109,14 +110,23 @@ class ResourceDetector
             $this->resourceId   = !empty($resourceData['id']) ? (int)$resourceData['id'] : 0;
             $this->resourceType = !empty($resourceData['type']) ? (string)$resourceData['type'] : null;
 
-            $this->record = RecordFactory::resource()->get([
-                'resource_id' => $this->resourceId,
+            $lookupArgs = [
+                'resource_id'   => $this->resourceId,
                 'resource_type' => $this->resourceType,
-            ], true);
-    
+            ];
+
+            if (!empty($this->language)) {
+                $lookupArgs['language'] = $this->language;
+            }
+
+            $this->record = RecordFactory::resource()->get($lookupArgs, true);
+
             if (!empty($this->record)) {
                 return;
             }
+        } else {
+            // Apply multilingual support when resourceId/resourceType are explicitly provided
+            $this->applyMultilingualSupportForExplicitResource();
         }
 
         $excludedTypes = [
@@ -153,7 +163,67 @@ class ResourceDetector
     private function getResourceData()
     {
         $data = $this->buildResourceData();
+        $data = $this->applyMultilingualSupport($data);
         return apply_filters('wp_statistics_resource_data', $data);
+    }
+
+    /**
+     * Apply multilingual support to resource data.
+     *
+     * Sets the current language code. Each translation is tracked as a separate
+     * resource with its own ID (IDs are NOT converted to original).
+     *
+     * @param array $data Resource data array.
+     *
+     * @return array Resource data (unchanged) with language property set.
+     */
+    private function applyMultilingualSupport($data)
+    {
+        if (!MultilingualHelper::isMultilingualActive()) {
+            return $data;
+        }
+
+        $this->language = MultilingualHelper::getCurrentLanguage();
+
+        // Convert the resource ID to the translated version for the current language
+        if (!empty($data['id']) && !empty($data['type'])) {
+            $publicTaxonomies = array_keys(get_taxonomies(['public' => true]));
+
+            if (in_array($data['type'], $publicTaxonomies, true)) {
+                $data['id'] = MultilingualHelper::getTranslatedTermId($data['id'], $data['type']);
+            } elseif (!in_array($data['type'], ['home', 'search', '404', 'archive', 'post_type_archive', 'author_archive', 'date_archive', 'feed', 'loginpage', 'unknown'], true)) {
+                $data['id'] = MultilingualHelper::getTranslatedPostId($data['id'], $data['type']);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Apply multilingual support when resourceId and resourceType are explicitly provided.
+     *
+     * Each translation is a separate resource - only sets language, doesn't convert IDs.
+     *
+     * @return void
+     */
+    private function applyMultilingualSupportForExplicitResource()
+    {
+        if (!MultilingualHelper::isMultilingualActive()) {
+            return;
+        }
+
+        $this->language = MultilingualHelper::getCurrentLanguage();
+
+        // Convert the resource ID to the translated version for the current language
+        if (!empty($this->resourceId) && !empty($this->resourceType)) {
+            $publicTaxonomies = array_keys(get_taxonomies(['public' => true]));
+
+            if (in_array($this->resourceType, $publicTaxonomies, true)) {
+                $this->resourceId = MultilingualHelper::getTranslatedTermId($this->resourceId, $this->resourceType);
+            } elseif (!in_array($this->resourceType, ['home', 'search', '404', 'archive', 'post_type_archive', 'author_archive', 'date_archive', 'feed', 'loginpage', 'unknown'], true)) {
+                $this->resourceId = MultilingualHelper::getTranslatedPostId($this->resourceId, $this->resourceType);
+            }
+        }
     }
 
     /**
@@ -446,6 +516,7 @@ class ResourceDetector
             }
 
             foreach ($termList as $termObj) {
+                // Each term translation is a separate resource - keep original term ID
                 $formattedTerms[] = $termObj->term_id;
             }
         }

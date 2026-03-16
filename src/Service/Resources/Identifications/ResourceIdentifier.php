@@ -166,6 +166,7 @@ class ResourceIdentifier
             'cached_author_id'   => $this->detector->getCachedAuthorId(),
             'cached_date'        => $this->detector->getCachedDate(),
             'resource_meta'      => $this->detector->getResourceMeta(),
+            'language'           => $this->detector->getLanguage(),
         ]);
 
         if (empty($insertId)) {
