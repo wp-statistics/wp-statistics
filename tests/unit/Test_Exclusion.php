@@ -73,7 +73,7 @@ class Test_Exclusion extends WP_UnitTestCase
     {
         $list = Exclusion::getExclusionList();
 
-        $removedKeys = ['ajax', 'cronjob', 'login_page', 'admin_page', 'xmlrpc', 'pre_flight'];
+        $removedKeys = ['ajax', 'cronjob', 'admin_page', 'xmlrpc', 'pre_flight'];
         foreach ($removedKeys as $key) {
             $this->assertNotContains($key, $list, "Removed key '{$key}' should not be in exclusion list");
         }
@@ -85,16 +85,16 @@ class Test_Exclusion extends WP_UnitTestCase
 
         // Note: PHP's array_keys() converts numeric string keys like '404' to int 404,
         // so we use loose comparison (in_array without strict) for the check.
-        $expectedKeys = ['robot', 'broken_file', 'ip_match', 'self_referral', 'feed', '404', 'excluded_url', 'user_role', 'geoip', 'robot_threshold'];
+        $expectedKeys = ['robot', 'broken_file', 'ip_match', 'self_referral', 'login_page', 'feed', '404', 'excluded_url', 'user_role', 'geoip', 'robot_threshold'];
         foreach ($expectedKeys as $key) {
             $this->assertTrue(in_array($key, $list), "Active key '{$key}' should be in exclusion list");
         }
     }
 
-    public function test_exclusion_map_has_exactly_10_checks()
+    public function test_exclusion_map_has_exactly_11_checks()
     {
         $list = Exclusion::getExclusionList();
-        $this->assertCount(10, $list);
+        $this->assertCount(11, $list);
     }
 
     // ─── Feed Exclusion ───────────────────────────────────────────────
@@ -145,6 +145,32 @@ class Test_Exclusion extends WP_UnitTestCase
         $_REQUEST['resource_type'] = 'Feed';
 
         $this->assertFalse(Exclusion::exclusionFeed(new VisitorProfile()));
+    }
+
+    // ─── Login Page Exclusion ─────────────────────────────────────────
+
+    public function test_exclusion_login_page_excludes_when_resource_type_is_loginpage()
+    {
+        $this->setOptions(['exclude_loginpage' => true]);
+        $_REQUEST['resource_type'] = 'loginpage';
+
+        $this->assertTrue(Exclusion::exclusionLoginPage(new VisitorProfile()));
+    }
+
+    public function test_exclusion_login_page_allows_when_option_disabled()
+    {
+        $this->setOptions(['exclude_loginpage' => false]);
+        $_REQUEST['resource_type'] = 'loginpage';
+
+        $this->assertFalse(Exclusion::exclusionLoginPage(new VisitorProfile()));
+    }
+
+    public function test_exclusion_login_page_allows_when_resource_type_is_not_loginpage()
+    {
+        $this->setOptions(['exclude_loginpage' => true]);
+        $_REQUEST['resource_type'] = 'page';
+
+        $this->assertFalse(Exclusion::exclusionLoginPage(new VisitorProfile()));
     }
 
     // ─── 404 Exclusion ────────────────────────────────────────────────

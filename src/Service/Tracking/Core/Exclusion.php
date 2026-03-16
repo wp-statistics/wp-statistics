@@ -77,6 +77,10 @@ class Exclusion extends Singleton
                 'message' => esc_html__('Self Referral', 'wp-statistics'),
                 'method'  => 'exclusionSelfReferral',
             ],
+            'login_page'      => [
+                'message' => esc_html__('Login Page', 'wp-statistics'),
+                'method'  => 'exclusionLoginPage',
+            ],
             'feed'            => [
                 'message' => esc_html__('Feed', 'wp-statistics'),
                 'method'  => 'exclusionFeed',
@@ -380,6 +384,23 @@ class Exclusion extends Singleton
             ],
             true
         );
+    }
+
+    /**
+     * Excludes login page visits when configured.
+     *
+     * Uses the client-provided resource_type parameter from the JS tracker.
+     *
+     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @return bool True on login page if exclusion enabled.
+     */
+    public static function exclusionLoginPage($visitorProfile)
+    {
+        if (empty(self::$options['exclude_loginpage'])) {
+            return false;
+        }
+
+        return Request::get('resource_type', '') === 'loginpage';
     }
 
     /**
