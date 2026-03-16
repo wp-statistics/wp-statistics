@@ -1,7 +1,6 @@
-import { __, sprintf } from '@wordpress/i18n'
-import { CircleCheck, ShieldCheck } from 'lucide-react'
+import { __ } from '@wordpress/i18n'
+import { ShieldCheck, TriangleAlert } from 'lucide-react'
 
-import { SettingsField } from '@/components/settings-ui/settings-field'
 import { Badge } from '@/components/ui/badge'
 import { NoticeBanner } from '@/components/ui/notice-banner'
 import type { UseSettingsReturn } from '@/hooks/use-settings'
@@ -12,6 +11,11 @@ interface ConsentProvider {
   available: boolean
   compatible_plugins?: string[]
 }
+
+const badgeGreen =
+  'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800 dark:hover:bg-emerald-900/30'
+const badgeAmber =
+  'bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800 dark:hover:bg-amber-900/30'
 
 /**
  * Consent integration status display.
@@ -28,38 +32,49 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
   const activeKey = settings.getValue('_active_consent_provider', 'none') as string
   const hasConflict = settings.getValue('_has_conflicting_providers', false) as boolean
 
-  const activeProvider = providers.find((p) => p.key === activeKey)
   const isNone = activeKey === 'none'
+  const availableProviders = providers.filter((p) => p.available && p.key !== 'none')
 
   const wpConsentProvider = providers.find((p) => p.key === 'wp_consent_api')
-  const isWpConsentActive = activeKey === 'wp_consent_api'
+  const wpConsentAvailable = wpConsentProvider?.available ?? false
   const compatiblePlugins = wpConsentProvider?.compatible_plugins ?? []
+  const wpConsentHasBanner = compatiblePlugins.length > 0
+
+  const getBadgeStyle = (provider: ConsentProvider): string => {
+    // WP Consent API without compatible banner → warning style
+    if (provider.key === 'wp_consent_api' && !wpConsentHasBanner) {
+      return badgeAmber
+    }
+    // In conflict scenario, active = green, others = amber
+    if (hasConflict) {
+      return provider.key === activeKey ? badgeGreen : badgeAmber
+    }
+    return badgeGreen
+  }
+
+  const getBadgeIcon = (provider: ConsentProvider) => {
+    if (provider.key === 'wp_consent_api' && !wpConsentHasBanner) {
+      return <TriangleAlert className="mr-1 h-3 w-3" />
+    }
+    return <ShieldCheck className="mr-1 h-3 w-3" />
+  }
 
   return (
-    <>
-      <SettingsField id="consent-integration-status">
+    <div className="-mt-2 space-y-3">
+      <div className="flex items-center gap-1.5 flex-wrap">
         {isNone ? (
           <Badge variant="outline" className="text-muted-foreground">
             {__('No consent plugin detected', 'wp-statistics')}
           </Badge>
         ) : (
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800 dark:hover:bg-emerald-900/30">
-              <ShieldCheck className="mr-1 h-3 w-3" />
-              {activeProvider?.name ?? activeKey}
+          availableProviders.map((provider) => (
+            <Badge key={provider.key} className={getBadgeStyle(provider)}>
+              {getBadgeIcon(provider)}
+              {provider.name}
             </Badge>
-            {isWpConsentActive && compatiblePlugins.length > 0 && (
-              <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800 dark:hover:bg-emerald-900/30">
-                <CircleCheck className="mr-1 h-3 w-3" />
-                {sprintf(
-                  __('Connected via %s', 'wp-statistics'),
-                  compatiblePlugins.join(', ')
-                )}
-              </Badge>
-            )}
-          </div>
+          ))
         )}
-      </SettingsField>
+      </div>
       {hasConflict && (
         <NoticeBanner
           type="warning"
@@ -70,7 +85,7 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
           dismissible={false}
         />
       )}
-      {isWpConsentActive && compatiblePlugins.length === 0 && (
+      {wpConsentAvailable && !wpConsentHasBanner && (
         <NoticeBanner
           type="warning"
           message={__(
@@ -81,6 +96,6 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
           dismissible={false}
         />
       )}
-    </>
+    </div>
   )
 }
