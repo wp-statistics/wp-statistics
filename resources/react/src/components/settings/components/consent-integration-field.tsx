@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n'
+import { __, sprintf } from '@wordpress/i18n'
 import { ShieldCheck, TriangleAlert } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
@@ -34,6 +34,7 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
 
   const isNone = activeKey === 'none'
   const availableProviders = providers.filter((p) => p.available && p.key !== 'none')
+  const supportedProviders = providers.filter((p) => p.key !== 'none')
 
   const wpConsentProvider = providers.find((p) => p.key === 'wp_consent_api')
   const wpConsentAvailable = wpConsentProvider?.available ?? false
@@ -61,20 +62,29 @@ export function ConsentIntegrationField({ settings }: { settings: UseSettingsRet
 
   return (
     <div className="-mt-2 space-y-3">
-      <div className="flex items-center gap-1.5 flex-wrap">
-        {isNone ? (
-          <Badge variant="outline" className="text-muted-foreground">
-            {__('No consent plugin detected', 'wp-statistics')}
-          </Badge>
-        ) : (
-          availableProviders.map((provider) => (
+      {isNone ? (
+        <NoticeBanner
+          type="warning"
+          message={
+            /* translators: %s: comma-separated list of supported plugin names (e.g. "Borlabs Cookie, Real Cookie Banner PRO, WP Consent API") */
+            sprintf(
+              __('No consent plugin detected. Install a supported plugin to enable consent-based tracking: %s.', 'wp-statistics'),
+              supportedProviders.map((p) => p.name).join(', ')
+            )
+          }
+          helpUrl="https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=plugin&utm_medium=link&utm_campaign=settings"
+          dismissible={false}
+        />
+      ) : (
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {availableProviders.map((provider) => (
             <Badge key={provider.key} className={getBadgeStyle(provider)}>
               {getBadgeIcon(provider)}
               {provider.name}
             </Badge>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
       {hasConflict && (
         <NoticeBanner
           type="warning"
