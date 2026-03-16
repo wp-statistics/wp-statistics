@@ -11,13 +11,29 @@ class WpConsentApiProvider extends AbstractConsentProvider
 
     public function getName(): string
     {
-        return esc_html__('WP Consent API', 'wp-statistics');
+        $name = esc_html__('WP Consent API', 'wp-statistics');
+
+        $active = $this->getCompatiblePlugins();
+        if (!empty($active)) {
+            /* translators: %1$s: base provider name (e.g. "WP Consent API"), %2$s: active plugin name(s) (e.g. "CookieYes") */
+            $name = sprintf(esc_html__('%1$s (via %2$s)', 'wp-statistics'), $name, implode(', ', $active));
+        }
+
+        return $name;
     }
 
     public function register(): void
     {
         $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
         add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
+    }
+
+    public function getJsConfig(): array
+    {
+        return [
+            'mode'             => $this->key,
+            'hasConsentBanner' => !empty($this->getCompatiblePlugins()),
+        ];
     }
 
     public function getJsDependencies(): array
@@ -36,6 +52,10 @@ class WpConsentApiProvider extends AbstractConsentProvider
                 var levels = params.levels;
                 var addFilter = params.addFilter;
                 var doAction = params.doAction;
+
+                if (!params.config.hasConsentBanner) {
+                    return;
+                }
 
                 if (!window.wp_consent_type && !window.wp_fallback_consent_type) {
                     window.wp_fallback_consent_type = 'optin';
