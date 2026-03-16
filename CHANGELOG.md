@@ -1,3 +1,8 @@
+= 14.16.4 - 2026-03-16 =
+- **Fix:** Improved permission checks on AJAX handlers for better security.
+- **Enhancement:** Updated Device Detector library (6.4.7 → 6.5.0) with latest browser, device, and bot detection rules.
+- **Enhancement:** Updated MaxMind DB Reader (1.12.1 → 1.13.1) and GeoIP2 libraries.
+
 = 14.16.3 - 2025-02-23 =
 - **Fix:** Minor improvements and fix version.
 

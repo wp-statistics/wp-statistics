@@ -20,6 +20,10 @@ class PrivacyAuditController
      */
     public function getPrivacyStatus_action_callback()
     {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(esc_html__('Unauthorized.', 'wp-statistics'), 403);
+        }
+
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         // Get the compliance, audit and faq list status
@@ -40,6 +44,10 @@ class PrivacyAuditController
      */
     public function updatePrivacyStatus_action_callback()
     {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(esc_html__('Unauthorized.', 'wp-statistics'), 403);
+        }
+
         try {
             check_ajax_referer('wp_rest', 'wps_nonce');
 
