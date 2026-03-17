@@ -7,9 +7,7 @@ use WP_Statistics\Components\Option;
 /**
  * Manages the mu-plugin proxy for high-performance tracking.
  *
- * Installs/uninstalls a mu-plugin that:
- * 1. Filters active plugins on tracking requests (optimization-code.php)
- * 2. Provides a SHORTINIT endpoint for minimal-bootstrap hit recording (endpoint.php)
+ * Installs/uninstalls a SHORTINIT endpoint for minimal-bootstrap hit recording.
  *
  * @since 15.0.0
  */
@@ -19,11 +17,6 @@ class MuPluginManager
      * Option key storing the installed mu-plugin version.
      */
     private const VERSION_OPTION = 'wp_statistics_mu_plugin_version';
-
-    /**
-     * Mu-plugin filename.
-     */
-    private const MU_PLUGIN_FILE = 'wp-statistics-optimizer.php';
 
     /**
      * Endpoint filename placed alongside the mu-plugin.
@@ -92,14 +85,6 @@ class MuPluginManager
         // Ensure mu-plugins directory exists
         if (!is_dir($muPluginsDir)) {
             wp_mkdir_p($muPluginsDir);
-        }
-
-        // Copy optimization code
-        $source = __DIR__ . '/optimization-code.php';
-        $dest   = $muPluginsDir . '/' . self::MU_PLUGIN_FILE;
-
-        if (!$this->copyFile($source, $dest)) {
-            return false;
         }
 
         // Copy polyfills
@@ -171,7 +156,6 @@ class MuPluginManager
         }
 
         $files = [
-            $muPluginsDir . '/' . self::MU_PLUGIN_FILE,
             $muPluginsDir . '/' . self::ENDPOINT_FILE,
             $muPluginsDir . '/' . self::POLYFILLS_FILE,
         ];
@@ -215,8 +199,7 @@ class MuPluginManager
             return false;
         }
 
-        return file_exists($muPluginsDir . '/' . self::MU_PLUGIN_FILE)
-            && file_exists($muPluginsDir . '/' . self::ENDPOINT_FILE)
+        return file_exists($muPluginsDir . '/' . self::ENDPOINT_FILE)
             && file_exists($muPluginsDir . '/' . self::POLYFILLS_FILE);
     }
 
