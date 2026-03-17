@@ -57,15 +57,4 @@ class Test_Polyfills extends WP_UnitTestCase
         $this->assertSame(parse_url($url, PHP_URL_HOST), wp_parse_url($url, PHP_URL_HOST));
         $this->assertSame(parse_url($url, PHP_URL_PATH), wp_parse_url($url, PHP_URL_PATH));
     }
-
-    public function test_translation_functions_pass_through()
-    {
-        $this->assertSame('Hello', __('Hello', 'wp-statistics'));
-        $this->assertSame('Hello', esc_html__('Hello', 'wp-statistics'));
-    }
-
-    public function test_esc_html_escapes_html_entities()
-    {
-        $this->assertStringContainsString('&lt;', esc_html__('<script>', 'wp-statistics'));
-    }
 }

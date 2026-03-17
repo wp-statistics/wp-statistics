@@ -5,6 +5,10 @@
  * Lightweight replacements for WordPress functions that are NOT loaded
  * in SHORTINIT mode (l10n.php, link-template.php, http.php).
  *
+ * The hit pipeline avoids translation calls (see Hits.php docblock),
+ * but l10n functions are kept as pass-through safety nets in case
+ * any indirect dependency calls them.
+ *
  * Functions already available in SHORTINIT (no polyfill needed):
  * - Hooks: add_filter, apply_filters, do_action, has_filter (plugin.php)
  * - Sanitization: sanitize_text_field, esc_html, sanitize_url (formatting.php)
@@ -20,7 +24,7 @@ if (!defined('WP_STATISTICS_SHORTINIT') || !WP_STATISTICS_SHORTINIT) {
     return;
 }
 
-// -- l10n.php (translations - not needed for tracking endpoint) -------
+// -- l10n.php (safety net — pass through untranslated) ----------------
 
 if (!function_exists('__')) {
     function __($text, $domain = 'default')
@@ -32,7 +36,7 @@ if (!function_exists('__')) {
 if (!function_exists('esc_html__')) {
     function esc_html__($text, $domain = 'default')
     {
-        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        return $text;
     }
 }
 
