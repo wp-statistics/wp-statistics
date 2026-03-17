@@ -305,7 +305,7 @@ class Test_Exclusion extends WP_UnitTestCase
     public function test_user_role_treats_nonexistent_user_id_as_anonymous()
     {
         $this->setOptions(['exclude_anonymous_users' => true]);
-        // get_user_by returns false → treated as anonymous
+        // User::getRolesById returns [] → treated as anonymous
         $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 999999])));
     }
 

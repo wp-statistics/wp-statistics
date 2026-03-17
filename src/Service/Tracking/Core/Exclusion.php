@@ -8,6 +8,7 @@ use WP_Statistics\Components\Singleton;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Utils\User;
 
 
 /**
@@ -290,15 +291,12 @@ class Exclusion extends Singleton
      */
     public static function exclusionUserRole($visitorProfile)
     {
-        $userId      = absint($visitorProfile->getRawUserId());
-        $currentUser = null;
+        $userId = absint($visitorProfile->getRawUserId());
 
         if ($userId > 0) {
-            $currentUser = get_user_by('id', $userId);
-        }
+            $roles = User::getRolesById($userId);
 
-        if ($currentUser) {
-            foreach ($currentUser->roles as $role) {
+            foreach ($roles as $role) {
                 if (!empty(self::$options['exclude_' . $role])) {
                     return true;
                 }

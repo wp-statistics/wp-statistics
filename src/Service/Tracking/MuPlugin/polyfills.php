@@ -52,46 +52,6 @@ if (!function_exists('wp_generate_password')) {
     }
 }
 
-if (!function_exists('get_user_by')) {
-    function get_user_by($field, $value)
-    {
-        if ($field !== 'id' && $field !== 'ID') {
-            return false;
-        }
-
-        global $wpdb;
-
-        $user = $wpdb->get_row(
-            $wpdb->prepare("SELECT ID, user_login FROM {$wpdb->users} WHERE ID = %d", $value)
-        );
-
-        if (!$user) {
-            return false;
-        }
-
-        $meta_key     = $wpdb->prefix . 'capabilities';
-        $capabilities = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = %d AND meta_key = %s",
-                $user->ID,
-                $meta_key
-            )
-        );
-
-        $roles = [];
-        if ($capabilities) {
-            $caps = maybe_unserialize($capabilities);
-            if (is_array($caps)) {
-                $roles = array_keys(array_filter($caps));
-            }
-        }
-
-        $user->roles = $roles;
-
-        return $user;
-    }
-}
-
 // ── link-template.php ────────────────────────────────────────────────
 
 if (!function_exists('home_url')) {

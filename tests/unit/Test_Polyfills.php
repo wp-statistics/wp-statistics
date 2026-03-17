@@ -2,10 +2,11 @@
 
 namespace WP_Statistics\Tests\Polyfills;
 
+use WP_Statistics\Utils\User;
 use WP_UnitTestCase;
 
 /**
- * Tests for SHORTINIT polyfill functions.
+ * Tests for SHORTINIT polyfill functions and User::getRolesById().
  *
  * These tests verify polyfill behavior by loading the polyfills file
  * in an environment where the real WordPress functions already exist.
@@ -41,20 +42,18 @@ class Test_Polyfills extends WP_UnitTestCase
         $this->assertSame(32, strlen($password32));
     }
 
-    public function test_get_user_by_returns_user_with_roles()
+    public function test_get_roles_by_id_returns_roles()
     {
         $userId = self::factory()->user->create(['role' => 'editor']);
 
-        $user = get_user_by('id', $userId);
+        $roles = User::getRolesById($userId);
 
-        $this->assertNotFalse($user);
-        $this->assertEquals($userId, $user->ID);
-        $this->assertContains('editor', $user->roles);
+        $this->assertContains('editor', $roles);
     }
 
-    public function test_get_user_by_returns_false_for_nonexistent_user()
+    public function test_get_roles_by_id_returns_empty_for_nonexistent_user()
     {
-        $this->assertFalse(get_user_by('id', 999999));
+        $this->assertSame([], User::getRolesById(999999));
     }
 
     public function test_home_url_returns_site_home()
