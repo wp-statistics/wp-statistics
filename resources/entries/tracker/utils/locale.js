@@ -12,7 +12,7 @@ export function collectLocaleInfo() {
     }
 
     if (!cachedLanguageFullName) {
-        var languageCode = navigator.language.split('-')[0];
+        var languageCode = (navigator.language || navigator.userLanguage || '').split('-')[0];
         cachedLanguageFullName = languageCode;
         try {
             cachedLanguageFullName = (new Intl.DisplayNames(['en'], { type: 'language' })).of(languageCode);
@@ -23,8 +23,8 @@ export function collectLocaleInfo() {
 
     return {
         timezone: cachedTimezone,
-        language: navigator.language || navigator.userLanguage,
-        languageFullName: cachedLanguageFullName,
+        languageCode: navigator.language || navigator.userLanguage,
+        languageName: cachedLanguageFullName,
         screenWidth: window.screen.width,
         screenHeight: window.screen.height,
     };

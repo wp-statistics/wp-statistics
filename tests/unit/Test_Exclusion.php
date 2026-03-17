@@ -29,12 +29,33 @@ class Test_Exclusion extends WP_UnitTestCase
     public function tearDown(): void
     {
         $this->resetExclusionState();
-        unset(
-            $_REQUEST['resource_type'],
-            $_REQUEST['user_id'],
-            $_REQUEST['page_uri']
-        );
         parent::tearDown();
+    }
+
+    /**
+     * Create a mocked VisitorProfile with optional resource type, user ID, and request URI.
+     */
+    private function mockProfile(array $overrides = [])
+    {
+        $profile = $this->createMock(VisitorProfile::class);
+
+        if (isset($overrides['resourceType'])) {
+            $profile->method('getResourceType')->willReturn($overrides['resourceType']);
+        } else {
+            $profile->method('getResourceType')->willReturn('');
+        }
+
+        if (isset($overrides['hitUserId'])) {
+            $profile->method('getHitUserId')->willReturn($overrides['hitUserId']);
+        } else {
+            $profile->method('getHitUserId')->willReturn(0);
+        }
+
+        if (isset($overrides['requestUri'])) {
+            $profile->method('getRequestUri')->willReturn($overrides['requestUri']);
+        }
+
+        return $profile;
     }
 
     /**
@@ -102,49 +123,37 @@ class Test_Exclusion extends WP_UnitTestCase
     public function test_exclusion_feed_excludes_when_resource_type_is_feed()
     {
         $this->setOptions(['exclude_feeds' => true]);
-        $_REQUEST['resource_type'] = 'feed';
-
-        $this->assertTrue(Exclusion::exclusionFeed(new VisitorProfile()));
+        $this->assertTrue(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'feed'])));
     }
 
     public function test_exclusion_feed_allows_when_option_disabled()
     {
         $this->setOptions(['exclude_feeds' => false]);
-        $_REQUEST['resource_type'] = 'feed';
-
-        $this->assertFalse(Exclusion::exclusionFeed(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'feed'])));
     }
 
     public function test_exclusion_feed_allows_when_option_empty()
     {
         $this->setOptions([]);
-        $_REQUEST['resource_type'] = 'feed';
-
-        $this->assertFalse(Exclusion::exclusionFeed(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'feed'])));
     }
 
     public function test_exclusion_feed_allows_when_resource_type_is_not_feed()
     {
         $this->setOptions(['exclude_feeds' => true]);
-        $_REQUEST['resource_type'] = 'post';
-
-        $this->assertFalse(Exclusion::exclusionFeed(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'post'])));
     }
 
     public function test_exclusion_feed_allows_when_resource_type_missing()
     {
         $this->setOptions(['exclude_feeds' => true]);
-        unset($_REQUEST['resource_type']);
-
-        $this->assertFalse(Exclusion::exclusionFeed(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile()));
     }
 
     public function test_exclusion_feed_is_case_sensitive()
     {
         $this->setOptions(['exclude_feeds' => true]);
-        $_REQUEST['resource_type'] = 'Feed';
-
-        $this->assertFalse(Exclusion::exclusionFeed(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'Feed'])));
     }
 
     // ─── Login Page Exclusion ─────────────────────────────────────────
@@ -152,25 +161,19 @@ class Test_Exclusion extends WP_UnitTestCase
     public function test_exclusion_login_page_excludes_when_resource_type_is_loginpage()
     {
         $this->setOptions(['exclude_loginpage' => true]);
-        $_REQUEST['resource_type'] = 'loginpage';
-
-        $this->assertTrue(Exclusion::exclusionLoginPage(new VisitorProfile()));
+        $this->assertTrue(Exclusion::exclusionLoginPage($this->mockProfile(['resourceType' => 'loginpage'])));
     }
 
     public function test_exclusion_login_page_allows_when_option_disabled()
     {
         $this->setOptions(['exclude_loginpage' => false]);
-        $_REQUEST['resource_type'] = 'loginpage';
-
-        $this->assertFalse(Exclusion::exclusionLoginPage(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionLoginPage($this->mockProfile(['resourceType' => 'loginpage'])));
     }
 
     public function test_exclusion_login_page_allows_when_resource_type_is_not_loginpage()
     {
         $this->setOptions(['exclude_loginpage' => true]);
-        $_REQUEST['resource_type'] = 'page';
-
-        $this->assertFalse(Exclusion::exclusionLoginPage(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionLoginPage($this->mockProfile(['resourceType' => 'page'])));
     }
 
     // ─── 404 Exclusion ────────────────────────────────────────────────
@@ -178,41 +181,31 @@ class Test_Exclusion extends WP_UnitTestCase
     public function test_exclusion_404_excludes_when_resource_type_is_404()
     {
         $this->setOptions(['exclude_404s' => true]);
-        $_REQUEST['resource_type'] = '404';
-
-        $this->assertTrue(Exclusion::exclusion404(new VisitorProfile()));
+        $this->assertTrue(Exclusion::exclusion404($this->mockProfile(['resourceType' => '404'])));
     }
 
     public function test_exclusion_404_allows_when_option_disabled()
     {
         $this->setOptions(['exclude_404s' => false]);
-        $_REQUEST['resource_type'] = '404';
-
-        $this->assertFalse(Exclusion::exclusion404(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusion404($this->mockProfile(['resourceType' => '404'])));
     }
 
     public function test_exclusion_404_allows_when_option_missing()
     {
         $this->setOptions([]);
-        $_REQUEST['resource_type'] = '404';
-
-        $this->assertFalse(Exclusion::exclusion404(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusion404($this->mockProfile(['resourceType' => '404'])));
     }
 
     public function test_exclusion_404_allows_when_resource_type_is_page()
     {
         $this->setOptions(['exclude_404s' => true]);
-        $_REQUEST['resource_type'] = 'page';
-
-        $this->assertFalse(Exclusion::exclusion404(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusion404($this->mockProfile(['resourceType' => 'page'])));
     }
 
     public function test_exclusion_404_allows_when_resource_type_missing()
     {
         $this->setOptions(['exclude_404s' => true]);
-        unset($_REQUEST['resource_type']);
-
-        $this->assertFalse(Exclusion::exclusion404(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusion404($this->mockProfile()));
     }
 
     // ─── Broken File Exclusion ────────────────────────────────────────
@@ -221,67 +214,51 @@ class Test_Exclusion extends WP_UnitTestCase
 
     public function test_broken_file_excludes_404_with_image_extension()
     {
-        $_REQUEST['resource_type'] = '404';
-        $_REQUEST['page_uri'] = base64_encode('/images/missing-photo.jpg');
-
-        $this->assertTrue(Exclusion::exclusionBrokenFile(new VisitorProfile()));
+        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/images/missing-photo.jpg']);
+        $this->assertTrue(Exclusion::exclusionBrokenFile($profile));
     }
 
     public function test_broken_file_excludes_404_with_css_extension()
     {
-        $_REQUEST['resource_type'] = '404';
-        $_REQUEST['page_uri'] = base64_encode('/assets/style.css');
-
-        $this->assertTrue(Exclusion::exclusionBrokenFile(new VisitorProfile()));
+        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/assets/style.css']);
+        $this->assertTrue(Exclusion::exclusionBrokenFile($profile));
     }
 
     public function test_broken_file_excludes_404_with_js_extension()
     {
-        $_REQUEST['resource_type'] = '404';
-        $_REQUEST['page_uri'] = base64_encode('/js/app.js');
-
-        $this->assertTrue(Exclusion::exclusionBrokenFile(new VisitorProfile()));
+        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/js/app.js']);
+        $this->assertTrue(Exclusion::exclusionBrokenFile($profile));
     }
 
     public function test_broken_file_allows_404_without_extension()
     {
-        $_REQUEST['resource_type'] = '404';
-        $_REQUEST['page_uri'] = base64_encode('/some/missing-page');
-
-        $this->assertFalse(Exclusion::exclusionBrokenFile(new VisitorProfile()));
+        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/some/missing-page']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
     }
 
     public function test_broken_file_allows_404_with_php_extension()
     {
-        $_REQUEST['resource_type'] = '404';
-        $_REQUEST['page_uri'] = base64_encode('/some/script.php');
-
-        $this->assertFalse(Exclusion::exclusionBrokenFile(new VisitorProfile()));
+        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/some/script.php']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
     }
 
     public function test_broken_file_allows_non_404_resource_type()
     {
-        $_REQUEST['resource_type'] = 'page';
-        $_REQUEST['page_uri'] = base64_encode('/images/photo.jpg');
-
-        $this->assertFalse(Exclusion::exclusionBrokenFile(new VisitorProfile()));
+        $profile = $this->mockProfile(['resourceType' => 'page', 'requestUri' => '/images/photo.jpg']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
     }
 
     public function test_broken_file_allows_when_resource_type_missing()
     {
-        unset($_REQUEST['resource_type']);
-        $_REQUEST['page_uri'] = base64_encode('/images/photo.jpg');
-
-        $this->assertFalse(Exclusion::exclusionBrokenFile(new VisitorProfile()));
+        $profile = $this->mockProfile(['requestUri' => '/images/photo.jpg']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
     }
 
     public function test_broken_file_allows_404_with_query_string_and_no_extension()
     {
-        $_REQUEST['resource_type'] = '404';
-        $_REQUEST['page_uri'] = base64_encode('/some/page?foo=bar.jpg');
-
         // The extension check is on the path, not the query string
-        $this->assertFalse(Exclusion::exclusionBrokenFile(new VisitorProfile()));
+        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/some/page?foo=bar.jpg']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
     }
 
     // ─── User Role Exclusion ──────────────────────────────────────────
@@ -290,80 +267,61 @@ class Test_Exclusion extends WP_UnitTestCase
     {
         $user = self::factory()->user->create_and_get(['role' => 'administrator']);
         $this->setOptions(['exclude_administrator' => true]);
-        $_REQUEST['user_id'] = $user->ID;
-
-        $this->assertTrue(Exclusion::exclusionUserRole(new VisitorProfile()));
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => $user->ID])));
     }
 
     public function test_user_role_excludes_editor_when_configured()
     {
         $user = self::factory()->user->create_and_get(['role' => 'editor']);
         $this->setOptions(['exclude_editor' => true]);
-        $_REQUEST['user_id'] = $user->ID;
-
-        $this->assertTrue(Exclusion::exclusionUserRole(new VisitorProfile()));
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => $user->ID])));
     }
 
     public function test_user_role_allows_non_excluded_role()
     {
         $user = self::factory()->user->create_and_get(['role' => 'subscriber']);
         $this->setOptions(['exclude_administrator' => true]);
-        $_REQUEST['user_id'] = $user->ID;
-
-        $this->assertFalse(Exclusion::exclusionUserRole(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => $user->ID])));
     }
 
     public function test_user_role_excludes_anonymous_when_configured()
     {
         $this->setOptions(['exclude_anonymous_users' => true]);
-        $_REQUEST['user_id'] = 0;
-
-        $this->assertTrue(Exclusion::exclusionUserRole(new VisitorProfile()));
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 0])));
     }
 
     public function test_user_role_allows_anonymous_when_not_configured()
     {
         $this->setOptions(['exclude_anonymous_users' => false]);
-        $_REQUEST['user_id'] = 0;
-
-        $this->assertFalse(Exclusion::exclusionUserRole(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 0])));
     }
 
     public function test_user_role_allows_anonymous_when_user_id_missing()
     {
         $this->setOptions(['exclude_anonymous_users' => false]);
-        unset($_REQUEST['user_id']);
-
-        $this->assertFalse(Exclusion::exclusionUserRole(new VisitorProfile()));
+        $this->assertFalse(Exclusion::exclusionUserRole($this->mockProfile()));
     }
 
     public function test_user_role_treats_nonexistent_user_id_as_anonymous()
     {
         $this->setOptions(['exclude_anonymous_users' => true]);
-        $_REQUEST['user_id'] = 999999; // Non-existent user
-
         // get_user_by returns false → treated as anonymous
-        $this->assertTrue(Exclusion::exclusionUserRole(new VisitorProfile()));
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 999999])));
     }
 
     public function test_user_role_handles_negative_user_id_safely()
     {
         $this->setOptions(['exclude_anonymous_users' => false]);
-        $_REQUEST['user_id'] = -5;
-
         // absint(-5) = 5, but user 5 likely doesn't exist in test → anonymous
-        // This should not crash or produce unexpected results
-        $result = Exclusion::exclusionUserRole(new VisitorProfile());
+        $result = Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => -5]));
         $this->assertIsBool($result);
     }
 
     public function test_user_role_handles_string_user_id()
     {
         $this->setOptions(['exclude_anonymous_users' => true]);
-        $_REQUEST['user_id'] = 'abc';
-
-        // absint('abc') = 0 → anonymous
-        $this->assertTrue(Exclusion::exclusionUserRole(new VisitorProfile()));
+        // absint(0) = 0 → anonymous
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 0])));
     }
 
     // ─── Excluded URL ─────────────────────────────────────────────────

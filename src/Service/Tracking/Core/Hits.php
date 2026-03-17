@@ -6,7 +6,7 @@ use Exception;
 use WP_Statistics\Abstracts\BaseTracking;
 use WP_Statistics\Entity\EntityFactory;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Utils\Request;
+use WP_Statistics\Service\Tracking\HitRequest;
 
 /**
  * Handles hit tracking for visitors via the JS tracker's REST/AJAX requests.
@@ -27,23 +27,15 @@ class Hits extends BaseTracking
     public function record($visitorProfile = null)
     {
         $visitorProfile = $this->resolveProfile($visitorProfile);
-        $exclusion      = $this->checkAndThrowIfExcluded($visitorProfile);
 
-        $resourceUriId = Request::get('resourceUriId', 0);
-        $resourceId    = Request::get('resource_id', null);
+        $hitRequest = HitRequest::create();
+        $visitorProfile->setHitRequest($hitRequest);
 
-        // resourceUriId must be positive (auto-increment ID)
-        // resource_id can be 0 for special pages like 404, search, home
-        if (empty($resourceUriId) || $resourceId === null) {
+        $exclusion = $this->checkAndThrowIfExcluded($visitorProfile);
+
+        if (empty($hitRequest->getResourceUriId()) || $hitRequest->getResourceId() === null) {
             throw new Exception(esc_html__('Missing or invalid resource identifiers: resourceId and/or resourceUriId.', 'wp-statistics'), 200);
-            return;
         }
-
-        $resourceUri = Request::get('resourceUri', '');
-
-        $visitorProfile->setResourceUriId($resourceUriId);
-        $visitorProfile->setResourceUri($resourceUri);
-        $visitorProfile->setResourceId($resourceId);
 
         EntityFactory::visitor($visitorProfile)
             ->record();
@@ -71,8 +63,6 @@ class Hits extends BaseTracking
 
         EntityFactory::view($visitorProfile)
             ->record();
-
-        // UTM parameters are now recorded in Session::record() on session creation
 
         return $exclusion;
     }

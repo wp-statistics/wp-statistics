@@ -9,7 +9,7 @@ use WP_Statistics\Components\Singleton;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Utils\Request;
+
 
 /**
  * Class Exclusion
@@ -240,7 +240,7 @@ class Exclusion extends Singleton
             return false;
         }
 
-        return Request::get('resource_type', '') === 'feed';
+        return $visitorProfile->getResourceType() === 'feed';
     }
 
     /**
@@ -258,7 +258,7 @@ class Exclusion extends Singleton
             return false;
         }
 
-        return Request::get('resource_type', '') === '404';
+        return $visitorProfile->getResourceType() === '404';
     }
 
     /**
@@ -295,7 +295,7 @@ class Exclusion extends Singleton
      */
     public static function exclusionUserRole($visitorProfile)
     {
-        $userId      = absint(Request::get('user_id', 0));
+        $userId      = absint($visitorProfile->getHitUserId());
         $currentUser = null;
 
         if ($userId > 0) {
@@ -400,7 +400,7 @@ class Exclusion extends Singleton
             return false;
         }
 
-        return Request::get('resource_type', '') === 'loginpage';
+        return $visitorProfile->getResourceType() === 'loginpage';
     }
 
     /**
@@ -439,7 +439,7 @@ class Exclusion extends Singleton
      */
     public static function exclusionBrokenFile($visitorProfile)
     {
-        if (Request::get('resource_type', '') !== '404') {
+        if ($visitorProfile->getResourceType() !== '404') {
             return false;
         }
 

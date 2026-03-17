@@ -57,12 +57,12 @@ final class TrackerHelper
     public static function validateHitRequest()
     {
         $isValid = Request::validate([
-            'resourceUriId'    => [
+            'resource_uri_id'  => [
                 'type'     => 'number',
                 'required' => true,
                 'nullable' => false
             ],
-            'resourceUri'    => [
+            'resource_uri'     => [
                 'required'        => true,
                 'nullable'        => true,
                 'type'            => 'string',
@@ -84,27 +84,27 @@ final class TrackerHelper
                 'required' => true,
                 'nullable' => false
             ],
-            'language'         => [
+            'language_code'    => [
                 'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
-            'languageFullName' => [
+            'language_name'    => [
                 'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
-            'screenWidth'      => [
+            'screen_width'     => [
                 'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
-            'screenHeight'     => [
+            'screen_height'    => [
                 'type'     => 'string',
                 'required' => true,
                 'nullable' => false
             ],
-            'referred'         => [
+            'referrer'         => [
                 'required' => true,
                 'nullable' => true,
                 'type'     => 'url',

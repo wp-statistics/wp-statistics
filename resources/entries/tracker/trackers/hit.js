@@ -36,16 +36,15 @@ export function send(trackingLevel) {
             var encodedPath = getPathAndQueryString();
 
             var data = {
-                resourceUriId: getResourceUriId(),
-                referred: getReferred(),
-                resourceUri: encodedPath,
-                page_uri: encodedPath,
+                resource_uri_id: getResourceUriId(),
+                referrer: getReferred(),
+                resource_uri: encodedPath,
                 tracking_level: trackingLevel || getTrackingLevels().none,
                 timezone: localeInfo.timezone,
-                language: localeInfo.language,
-                languageFullName: localeInfo.languageFullName,
-                screenWidth: localeInfo.screenWidth,
-                screenHeight: localeInfo.screenHeight,
+                language_code: localeInfo.languageCode,
+                language_name: localeInfo.languageName,
+                screen_width: localeInfo.screenWidth,
+                screen_height: localeInfo.screenHeight,
             };
 
             // Merge hit params (signature, source_id, endpoint, etc.)

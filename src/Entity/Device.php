@@ -4,7 +4,7 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Utils\Request;
+
 
 /**
  * Entity for detecting and recording visitor device information.
@@ -151,8 +151,8 @@ class Device extends BaseEntity
             return $this;
         }
 
-        $width  = (int)Request::get('screenWidth', 0);
-        $height = (int)Request::get('screenHeight', 0);
+        $width  = (int)$this->profile->getScreenWidth();
+        $height = (int)$this->profile->getScreenHeight();
 
         if ($height > 0) {
             $height = (int)(floor($height / 10) * 10);

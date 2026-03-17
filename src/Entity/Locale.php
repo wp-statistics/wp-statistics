@@ -5,7 +5,7 @@ namespace WP_Statistics\Entity;
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\Query;
-use WP_Statistics\Utils\Request;
+
 
 /**
  * Entity for detecting and recording visitor's locale information.
@@ -27,8 +27,8 @@ class Locale extends BaseEntity
             return $this;
         }
 
-        $language = Request::get('language', '');
-        $fullName = Request::get('languageFullName', '');
+        $language = $this->profile->getLanguageCode();
+        $fullName = $this->profile->getLanguageName();
 
         if (empty($language) || !is_string($language)) {
             return $this;
@@ -66,7 +66,7 @@ class Locale extends BaseEntity
             return $this;
         }
 
-        $tzName = Request::get('timezone', '');
+        $tzName = $this->profile->getTimezone();
 
         if (empty($tzName) || !is_string($tzName)) {
             $tz = new \DateTimeZone('UTC');
