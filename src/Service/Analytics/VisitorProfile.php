@@ -3,10 +3,9 @@
 namespace WP_Statistics\Service\Analytics;
 
 use WP_Statistics\Components\Ip;
-use WP_Statistics\Bootstrap;
+use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Traits\ObjectCacheTrait;
 use WP_Statistics\Utils\Page;
-use WP_Statistics\Utils\User;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
@@ -180,7 +179,7 @@ class VisitorProfile
         return $this->hitRequest ? $this->hitRequest->getResourceType() : '';
     }
 
-    public function getHitUserId(): int
+    public function getRawUserId(): int
     {
         return $this->hitRequest ? $this->hitRequest->getUserId() : 0;
     }
@@ -582,6 +581,10 @@ class VisitorProfile
     public function getProcessedIPForStorage()
     {
         return $this->getCachedData('processedIPForStorage', function () {
+            if ($this->hitRequest && $this->hitRequest->getTrackingLevel() !== TrackingLevel::FULL) {
+                return null;
+            }
+
             return Ip::getStorableIp();
         });
     }
@@ -814,18 +817,22 @@ class VisitorProfile
     }
 
     /**
-     * Get the user ID of the visitor, with caching for better performance.
+     * Get the user ID for the current visitor, cached for reuse.
      *
      * @return int|null The user ID or null if anonymous tracking is enabled.
      */
     public function getUserId()
     {
         return $this->getCachedData('userId', function () {
-            if (!Option::getValue('visitors_log') || Bootstrap::get('consent')->shouldAnonymize()) {
+            if (!Option::getValue('visitors_log')) {
                 return null;
             }
 
-            return User::getId();
+            if ($this->hitRequest && $this->hitRequest->getTrackingLevel() !== TrackingLevel::FULL) {
+                return null;
+            }
+
+            return $this->getRawUserId();
         });
     }
 

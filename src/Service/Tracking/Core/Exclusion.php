@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Tracking\Core;
 
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Utils\Environment;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Components\Option;
@@ -72,10 +71,6 @@ class Exclusion extends Singleton
             'ip_match'        => [
                 'message' => esc_html__('IP Match', 'wp-statistics'),
                 'method'  => 'exclusionIpMatch',
-            ],
-            'self_referral'   => [
-                'message' => esc_html__('Self Referral', 'wp-statistics'),
-                'method'  => 'exclusionSelfReferral',
             ],
             'login_page'      => [
                 'message' => esc_html__('Login Page', 'wp-statistics'),
@@ -295,7 +290,7 @@ class Exclusion extends Singleton
      */
     public static function exclusionUserRole($visitorProfile)
     {
-        $userId      = absint($visitorProfile->getHitUserId());
+        $userId      = absint($visitorProfile->getRawUserId());
         $currentUser = null;
 
         if ($userId > 0) {
@@ -363,27 +358,6 @@ class Exclusion extends Singleton
         }
 
         return $patterns;
-    }
-
-    /**
-     * Exclude self referrals from WordPress core.
-     *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
-     * @return bool True on core self-referral UA matches.
-     */
-    public static function exclusionSelfReferral($visitorProfile)
-    {
-        $userAgent = $visitorProfile->getHttpUserAgent();
-        $version   = Environment::getWordPressVersion();
-
-        return in_array(
-            $userAgent,
-            [
-                'WordPress/' . $version . '; ' . get_home_url(null, '/'),
-                'WordPress/' . $version . '; ' . get_home_url()
-            ],
-            true
-        );
     }
 
     /**

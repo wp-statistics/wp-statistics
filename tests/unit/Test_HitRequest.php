@@ -21,6 +21,7 @@ class Test_HitRequest extends WP_UnitTestCase
         'screen_height',
         'user_id',
         'signature',
+        'tracking_level',
     ];
 
     public function tearDown(): void

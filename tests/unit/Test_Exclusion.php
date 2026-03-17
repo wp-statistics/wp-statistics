@@ -46,9 +46,9 @@ class Test_Exclusion extends WP_UnitTestCase
         }
 
         if (isset($overrides['hitUserId'])) {
-            $profile->method('getHitUserId')->willReturn($overrides['hitUserId']);
+            $profile->method('getRawUserId')->willReturn($overrides['hitUserId']);
         } else {
-            $profile->method('getHitUserId')->willReturn(0);
+            $profile->method('getRawUserId')->willReturn(0);
         }
 
         if (isset($overrides['requestUri'])) {
@@ -106,16 +106,16 @@ class Test_Exclusion extends WP_UnitTestCase
 
         // Note: PHP's array_keys() converts numeric string keys like '404' to int 404,
         // so we use loose comparison (in_array without strict) for the check.
-        $expectedKeys = ['robot', 'broken_file', 'ip_match', 'self_referral', 'login_page', 'feed', '404', 'excluded_url', 'user_role', 'geoip', 'robot_threshold'];
+        $expectedKeys = ['robot', 'broken_file', 'ip_match', 'login_page', 'feed', '404', 'excluded_url', 'user_role', 'geoip', 'robot_threshold'];
         foreach ($expectedKeys as $key) {
             $this->assertTrue(in_array($key, $list), "Active key '{$key}' should be in exclusion list");
         }
     }
 
-    public function test_exclusion_map_has_exactly_11_checks()
+    public function test_exclusion_map_has_exactly_10_checks()
     {
         $list = Exclusion::getExclusionList();
-        $this->assertCount(11, $list);
+        $this->assertCount(10, $list);
     }
 
     // ─── Feed Exclusion ───────────────────────────────────────────────

@@ -5,6 +5,8 @@ namespace WP_Statistics\Service\Tracking;
 use Exception;
 use ErrorException;
 use WP_Statistics\Components\Ip;
+use WP_Statistics\Components\Option;
+use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Resources\ResourceResolver;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -34,6 +36,7 @@ final class HitRequest
     private string $screenWidth;
     private string $screenHeight;
     private int $userId;
+    private string $trackingLevel;
 
     private function __construct()
     {
@@ -59,6 +62,7 @@ final class HitRequest
         $instance->screenWidth   = $instance->requireString('screen_width');
         $instance->screenHeight  = $instance->requireString('screen_height');
         $instance->userId        = (int) Request::get('user_id', 0, 'number');
+        $instance->trackingLevel = $instance->parseTrackingLevel();
 
         $instance->verifySignature();
 
@@ -129,6 +133,28 @@ final class HitRequest
     private function parseResourceType(): string
     {
         return self::getWithFallback('resource_type', 'source_type', '');
+    }
+
+    /**
+     * Parse the tracking level from the request.
+     *
+     * The JS tracker sends the consent-derived tracking level as a request param.
+     * Falls back to FULL when no consent provider is configured, or NONE
+     * (fail-closed) when a provider is active but no valid level was sent.
+     */
+    private function parseTrackingLevel(): string
+    {
+        if (!Option::getValue('consent_integration', false)) {
+            return TrackingLevel::FULL;
+        }
+
+        $value = Request::get('tracking_level', '');
+
+        if (in_array($value, TrackingLevel::all(), true)) {
+            return $value;
+        }
+
+        return TrackingLevel::NONE;
     }
 
     private function parseReferrer(): string
@@ -271,4 +297,10 @@ final class HitRequest
     {
         return $this->userId;
     }
+
+    public function getTrackingLevel(): string
+    {
+        return $this->trackingLevel;
+    }
+
 }

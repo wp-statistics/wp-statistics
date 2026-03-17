@@ -31,6 +31,11 @@ class MuPluginManager
     private const ENDPOINT_FILE = 'wp-statistics-endpoint.php';
 
     /**
+     * Polyfills filename placed alongside the mu-plugin.
+     */
+    private const POLYFILLS_FILE = 'wp-statistics-polyfills.php';
+
+    /**
      * Hook into WordPress to auto-install/update when the option is enabled.
      *
      * @return void
@@ -97,12 +102,18 @@ class MuPluginManager
             return false;
         }
 
-        // Copy endpoint
-        $endpointSource = __DIR__ . '/endpoint.php';
-        $endpointDest   = $muPluginsDir . '/' . self::ENDPOINT_FILE;
+        // Copy polyfills
+        $polyfillsSource = __DIR__ . '/polyfills.php';
+        $polyfillsDest   = $muPluginsDir . '/' . self::POLYFILLS_FILE;
 
-        if (!$this->copyFile($endpointSource, $endpointDest)) {
-            wp_delete_file($dest);
+        if (!$this->copyFile($polyfillsSource, $polyfillsDest)) {
+            $this->uninstall();
+            return false;
+        }
+
+        // Bake endpoint template with actual paths
+        if (!$this->installEndpoint($muPluginsDir)) {
+            $this->uninstall();
             return false;
         }
 
@@ -110,6 +121,40 @@ class MuPluginManager
         update_option(self::VERSION_OPTION, WP_STATISTICS_VERSION);
 
         return true;
+    }
+
+    /**
+     * Read the endpoint template, replace placeholders, and write to mu-plugins.
+     *
+     * @param string $muPluginsDir Target mu-plugins directory.
+     * @return bool True on success, false on failure.
+     */
+    private function installEndpoint($muPluginsDir)
+    {
+        if (!$this->ensureFilesystem()) {
+            return false;
+        }
+
+        global $wp_filesystem;
+
+        $templatePath = __DIR__ . '/endpoint.php';
+        $content      = $wp_filesystem->get_contents($templatePath);
+
+        if ($content === false) {
+            return false;
+        }
+
+        $pluginDir = WP_STATISTICS_DIR;
+
+        $content = str_replace(
+            ['{{ABSPATH}}', '{{PLUGIN_DIR}}', '{{VERSION}}'],
+            [ABSPATH, $pluginDir, WP_STATISTICS_VERSION],
+            $content
+        );
+
+        $dest = $muPluginsDir . '/' . self::ENDPOINT_FILE;
+
+        return $wp_filesystem->put_contents($dest, $content, FS_CHMOD_FILE);
     }
 
     /**
@@ -128,6 +173,7 @@ class MuPluginManager
         $files = [
             $muPluginsDir . '/' . self::MU_PLUGIN_FILE,
             $muPluginsDir . '/' . self::ENDPOINT_FILE,
+            $muPluginsDir . '/' . self::POLYFILLS_FILE,
         ];
 
         $allDeleted = true;
@@ -170,7 +216,8 @@ class MuPluginManager
         }
 
         return file_exists($muPluginsDir . '/' . self::MU_PLUGIN_FILE)
-            && file_exists($muPluginsDir . '/' . self::ENDPOINT_FILE);
+            && file_exists($muPluginsDir . '/' . self::ENDPOINT_FILE)
+            && file_exists($muPluginsDir . '/' . self::POLYFILLS_FILE);
     }
 
     /**
@@ -206,20 +253,31 @@ class MuPluginManager
      * @param string $dest   Destination file path.
      * @return bool
      */
+    /**
+     * Ensure WP_Filesystem is initialized.
+     *
+     * @return bool
+     */
+    private function ensureFilesystem()
+    {
+        global $wp_filesystem;
+
+        if (!empty($wp_filesystem)) {
+            return true;
+        }
+
+        require_once ABSPATH . '/wp-admin/includes/file.php';
+
+        return WP_Filesystem() && !empty($wp_filesystem);
+    }
+
     private function copyFile($source, $dest)
     {
-        if (!file_exists($source)) {
+        if (!file_exists($source) || !$this->ensureFilesystem()) {
             return false;
         }
 
         global $wp_filesystem;
-
-        if (empty($wp_filesystem)) {
-            require_once ABSPATH . '/wp-admin/includes/file.php';
-            if (!WP_Filesystem() || empty($wp_filesystem)) {
-                return false;
-            }
-        }
 
         $content = $wp_filesystem->get_contents($source);
         if ($content === false) {
