@@ -201,9 +201,19 @@ class Test_HitRequest extends WP_UnitTestCase
 
     // ─── Validation ───────────────────────────────────────────────────
 
-    public function test_throws_when_resource_uri_id_missing()
+    public function test_resolves_resource_uri_id_when_missing()
     {
         $this->setValidRequest();
+        unset($_REQUEST['resource_uri_id']);
+
+        $hit = HitRequest::create();
+
+        $this->assertGreaterThanOrEqual(1, $hit->getResourceUriId());
+    }
+
+    public function test_throws_when_resource_uri_id_and_uri_both_missing()
+    {
+        $this->setValidRequest(['resource_uri' => '']);
         unset($_REQUEST['resource_uri_id']);
 
         $this->expectException(\ErrorException::class);

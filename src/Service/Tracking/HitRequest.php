@@ -5,18 +5,21 @@ namespace WP_Statistics\Service\Tracking;
 use Exception;
 use ErrorException;
 use WP_Statistics\Components\Ip;
+use WP_Statistics\Service\Resources\ResourceResolver;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
 use WP_Statistics\Utils\Validator;
 
 /**
- * Immutable container for all hit parameters sent by the JS tracker.
+ * Immutable container for all hit parameters sent by the JS tracker or headless clients.
  *
  * Created once per request via create(). Validates, sanitizes, and decodes
  * all values at construction time. Entities access these values through
  * VisitorProfile proxy getters — never from $_REQUEST directly.
  *
  * Supports backward-compatible fallbacks for legacy param names.
+ * When resource_uri_id is not provided, it is auto-resolved from
+ * resource_uri + resource_type + resource_id.
  */
 final class HitRequest
 {
@@ -48,8 +51,8 @@ final class HitRequest
         $instance->referrer      = $instance->parseReferrer();
         $instance->resourceId    = $instance->parseResourceId();
         $instance->resourceUri   = $instance->parseResourceUri();
-        $instance->resourceUriId = $instance->parseResourceUriId();
         $instance->resourceType  = $instance->parseResourceType();
+        $instance->resourceUriId = $instance->parseResourceUriId();
         $instance->timezone      = $instance->requireString('timezone');
         $instance->languageCode  = $instance->requireString('language_code');
         $instance->languageName  = $instance->requireString('language_name');
@@ -68,11 +71,31 @@ final class HitRequest
     {
         $value = (int) self::getWithFallback('resource_uri_id', 'resourceUriId', 0, 'number');
 
-        if ($value < 1) {
+        if ($value >= 1) {
+            return $value;
+        }
+
+        return $this->resolveResourceUriId();
+    }
+
+    /**
+     * Resolve resource_uri_id from request data when not explicitly provided.
+     *
+     * @throws ErrorException If resource_uri is empty (nothing to resolve from).
+     */
+    private function resolveResourceUriId(): int
+    {
+        if (empty($this->resourceUri)) {
+            self::fail('resource_uri');
+        }
+
+        $id = ResourceResolver::resolveUriId($this->resourceId, $this->resourceType, $this->resourceUri);
+
+        if ($id < 1) {
             self::fail('resource_uri_id');
         }
 
-        return $value;
+        return $id;
     }
 
     private function parseResourceId(): ?int
