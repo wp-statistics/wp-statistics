@@ -14,6 +14,11 @@
  * @since 15.0.0
  */
 
+// Only define polyfills in SHORTINIT mode — these must not override core functions during normal WordPress loads.
+if (!defined('SHORTINIT') || !SHORTINIT) {
+    return;
+}
+
 // ── l10n.php (translations — not needed for tracking endpoint) ───────
 
 if (!function_exists('__')) {
