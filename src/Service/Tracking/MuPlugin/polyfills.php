@@ -3,7 +3,7 @@
  * WP Statistics SHORTINIT Polyfills
  *
  * Lightweight replacements for WordPress functions that are NOT loaded
- * in SHORTINIT mode (pluggable.php, l10n.php, link-template.php, http.php).
+ * in SHORTINIT mode (l10n.php, link-template.php, http.php).
  *
  * Functions already available in SHORTINIT (no polyfill needed):
  * - Hooks: add_filter, apply_filters, do_action, has_filter (plugin.php)
@@ -33,15 +33,6 @@ if (!function_exists('esc_html__')) {
     function esc_html__($text, $domain = 'default')
     {
         return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-    }
-}
-
-// -- pluggable.php ----------------------------------------------------
-
-if (!function_exists('wp_generate_password')) {
-    function wp_generate_password($length = 12, $special_chars = true, $extra_special_chars = false)
-    {
-        return substr(base64_encode(random_bytes((int) ceil($length * 0.75))), 0, $length);
     }
 }
 

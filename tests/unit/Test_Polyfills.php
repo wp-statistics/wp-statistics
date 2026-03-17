@@ -24,15 +24,6 @@ class Test_Polyfills extends WP_UnitTestCase
         $this->assertTrue(Signature::check($payload, $sig));
     }
 
-    public function test_wp_generate_password_returns_correct_length()
-    {
-        $password = wp_generate_password(16, false, false);
-        $this->assertSame(16, strlen($password));
-
-        $password32 = wp_generate_password(32, false, false);
-        $this->assertSame(32, strlen($password32));
-    }
-
     public function test_get_roles_by_id_returns_roles()
     {
         $userId = self::factory()->user->create(['role' => 'editor']);

@@ -178,7 +178,7 @@ class Ip
         if (isset($dailySalt['date']) && $dailySalt['date'] !== $currentPeriod) {
             $dailySalt = [
                 'date' => $currentPeriod,
-                'salt' => hash('sha256', wp_generate_password())
+                'salt' => hash('sha256', random_bytes(32))
             ];
             Option::updateValue('daily_salt', $dailySalt);
         }
@@ -186,7 +186,7 @@ class Ip
         if (!$dailySalt || !is_array($dailySalt)) {
             $dailySalt = [
                 'date' => $currentPeriod,
-                'salt' => hash('sha256', wp_generate_password())
+                'salt' => hash('sha256', random_bytes(32))
             ];
             Option::updateValue('daily_salt', $dailySalt);
         }
