@@ -62,43 +62,43 @@ class Exclusion extends Singleton
     {
         return [
             'robot'           => [
-                'message' => esc_html__('Robot', 'wp-statistics'),
+                'message' => 'Robot',
                 'method'  => 'exclusionRobot',
             ],
             'broken_file'     => [
-                'message' => esc_html__('Broken Link', 'wp-statistics'),
+                'message' => 'Broken Link',
                 'method'  => 'exclusionBrokenFile',
             ],
             'ip_match'        => [
-                'message' => esc_html__('IP Match', 'wp-statistics'),
+                'message' => 'IP Match',
                 'method'  => 'exclusionIpMatch',
             ],
             'login_page'      => [
-                'message' => esc_html__('Login Page', 'wp-statistics'),
+                'message' => 'Login Page',
                 'method'  => 'exclusionLoginPage',
             ],
             'feed'            => [
-                'message' => esc_html__('Feed', 'wp-statistics'),
+                'message' => 'Feed',
                 'method'  => 'exclusionFeed',
             ],
             '404'             => [
-                'message' => esc_html__('404', 'wp-statistics'),
+                'message' => '404',
                 'method'  => 'exclusion404',
             ],
             'excluded_url'    => [
-                'message' => esc_html__('Excluded URL', 'wp-statistics'),
+                'message' => 'Excluded URL',
                 'method'  => 'exclusionExcludedUrl',
             ],
             'user_role'       => [
-                'message' => esc_html__('User Role', 'wp-statistics'),
+                'message' => 'User Role',
                 'method'  => 'exclusionUserRole',
             ],
             'geoip'           => [
-                'message' => esc_html__('Geolocation', 'wp-statistics'),
+                'message' => 'Geolocation',
                 'method'  => 'exclusionGeoIp',
             ],
             'robot_threshold' => [
-                'message' => esc_html__('Robot Threshold', 'wp-statistics'),
+                'message' => 'Robot Threshold',
                 'method'  => 'exclusionRobotThreshold',
             ],
         ];

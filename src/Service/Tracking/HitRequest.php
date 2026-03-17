@@ -213,7 +213,7 @@ final class HitRequest
         ];
 
         if (!Signature::check($payload, $signature)) {
-            throw new Exception(__('Invalid signature', 'wp-statistics'), 403);
+            throw new Exception('Invalid signature', 403);
         }
     }
 
@@ -236,7 +236,7 @@ final class HitRequest
         do_action('wp_statistics_invalid_hit_request', false, Ip::getCurrent());
 
         throw new ErrorException(
-            esc_html(sprintf(__('Invalid hit request: %s', 'wp-statistics'), $param)),
+            'Invalid hit request: ' . $param,
             400
         );
     }

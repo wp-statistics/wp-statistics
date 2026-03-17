@@ -124,13 +124,13 @@ class BatchTracking extends BaseTrackerController
             $body       = isset($bodyParams['batch_data']) ? $bodyParams['batch_data'] : null;
 
             if (empty($body)) {
-                throw new Exception(__('Missing batch data', 'wp-statistics'), 400);
+                throw new Exception('Missing batch data', 400);
             }
 
             $data = json_decode($body, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new Exception(__('Invalid JSON payload', 'wp-statistics'), 400);
+                throw new Exception('Invalid JSON payload', 400);
             }
 
             $result = $this->processEvents($data);
@@ -174,13 +174,13 @@ class BatchTracking extends BaseTrackerController
             $batchData = isset($_POST['batch_data']) ? wp_unslash($_POST['batch_data']) : '';
 
             if (empty($batchData)) {
-                throw new Exception(__('Missing batch data', 'wp-statistics'), 400);
+                throw new Exception('Missing batch data', 400);
             }
 
             $data = json_decode($batchData, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new Exception(__('Invalid JSON payload', 'wp-statistics'), 400);
+                throw new Exception('Invalid JSON payload', 400);
             }
 
             $result = $this->processEvents($data);
@@ -239,10 +239,7 @@ class BatchTracking extends BaseTrackerController
                     $processed++;
                 }
             } catch (Exception $e) {
-                $errors[] = sprintf(
-                    __('Session update failed: %s', 'wp-statistics'),
-                    $e->getMessage()
-                );
+                $errors[] = 'Session update failed: ' . $e->getMessage();
             }
         }
 
@@ -253,12 +250,7 @@ class BatchTracking extends BaseTrackerController
                     $this->processEvent($event);
                     $processed++;
                 } catch (Exception $e) {
-                    $errors[] = sprintf(
-                        __('Event %d (%s): %s', 'wp-statistics'),
-                        $index,
-                        $event['type'] ?? 'unknown',
-                        $e->getMessage()
-                    );
+                    $errors[] = 'Event ' . $index . ' (' . ($event['type'] ?? 'unknown') . '): ' . $e->getMessage();
                 }
             }
         }
@@ -280,7 +272,7 @@ class BatchTracking extends BaseTrackerController
     protected function processEvent($event)
     {
         if (empty($event['type'])) {
-            throw new Exception(__('Missing event type', 'wp-statistics'));
+            throw new Exception('Missing event type');
         }
 
         $eventData = $event['data'] ?? [];
