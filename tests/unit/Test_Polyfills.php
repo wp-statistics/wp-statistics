@@ -2,35 +2,26 @@
 
 namespace WP_Statistics\Tests\Polyfills;
 
+use WP_Statistics\Utils\Signature;
 use WP_Statistics\Utils\User;
 use WP_UnitTestCase;
 
 /**
- * Tests for SHORTINIT polyfill functions and User::getRolesById().
- *
- * These tests verify polyfill behavior by loading the polyfills file
- * in an environment where the real WordPress functions already exist.
- * Since each polyfill is guarded by function_exists(), the real functions
- * are tested here — but the logic being verified (e.g. wp_salt returning
- * AUTH_KEY . AUTH_SALT) matches the polyfill implementation.
+ * Tests for SHORTINIT polyfill functions, User::getRolesById(), and Signature.
  */
 class Test_Polyfills extends WP_UnitTestCase
 {
-    public function test_wp_salt_returns_non_empty_string()
+    public function test_signature_uses_auth_constants()
     {
-        $salt = wp_salt('auth');
-        $this->assertIsString($salt);
-        $this->assertNotEmpty($salt);
-    }
-
-    public function test_polyfill_wp_salt_constants_are_defined()
-    {
-        // The polyfill returns AUTH_KEY . AUTH_SALT when wp_salt() is not available.
-        // Verify the constants it relies on are defined (non-empty strings).
         $this->assertTrue(defined('AUTH_KEY'));
         $this->assertTrue(defined('AUTH_SALT'));
-        $this->assertIsString(AUTH_KEY);
-        $this->assertIsString(AUTH_SALT);
+
+        $payload = ['post', 1, 1];
+        $sig = Signature::generate($payload);
+
+        $this->assertIsString($sig);
+        $this->assertSame(32, strlen($sig)); // md5 hex length
+        $this->assertTrue(Signature::check($payload, $sig));
     }
 
     public function test_wp_generate_password_returns_correct_length()

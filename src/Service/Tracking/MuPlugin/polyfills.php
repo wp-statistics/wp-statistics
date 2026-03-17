@@ -20,7 +20,7 @@ if (!defined('WP_STATISTICS_SHORTINIT') || !WP_STATISTICS_SHORTINIT) {
     return;
 }
 
-// ── l10n.php (translations — not needed for tracking endpoint) ───────
+// -- l10n.php (translations - not needed for tracking endpoint) -------
 
 if (!function_exists('__')) {
     function __($text, $domain = 'default')
@@ -36,14 +36,7 @@ if (!function_exists('esc_html__')) {
     }
 }
 
-// ── pluggable.php ────────────────────────────────────────────────────
-
-if (!function_exists('wp_salt')) {
-    function wp_salt($scheme = 'auth')
-    {
-        return AUTH_KEY . AUTH_SALT;
-    }
-}
+// -- pluggable.php ----------------------------------------------------
 
 if (!function_exists('wp_generate_password')) {
     function wp_generate_password($length = 12, $special_chars = true, $extra_special_chars = false)
@@ -52,7 +45,7 @@ if (!function_exists('wp_generate_password')) {
     }
 }
 
-// ── link-template.php ────────────────────────────────────────────────
+// -- link-template.php ------------------------------------------------
 
 if (!function_exists('home_url')) {
     function home_url($path = '', $scheme = null)
@@ -67,7 +60,7 @@ if (!function_exists('home_url')) {
     }
 }
 
-// ── http.php ─────────────────────────────────────────────────────────
+// -- http.php ---------------------------------------------------------
 
 if (!function_exists('wp_parse_url')) {
     function wp_parse_url($url, $component = -1)
