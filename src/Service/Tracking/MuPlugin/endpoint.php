@@ -95,13 +95,8 @@ try {
     echo '{"status":true}';
 } catch (\Exception $e) {
     $code = $e->getCode();
-
-    if ($code === 200) {
-        echo '{"status":true}';
-        exit;
-    }
-
-    $fail($code >= 400 && $code < 600 ? $code : 500, $e->getMessage());
+    http_response_code($code ?: 500);
+    echo json_encode(['status' => false, 'data' => $e->getMessage()]);
 } catch (\Throwable $e) {
     $fail(500, 'Internal error');
 }
