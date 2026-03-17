@@ -5,6 +5,7 @@ namespace WP_Statistics\Tests\Uri;
 use WP_UnitTestCase;
 use WP_Statistics\Utils\Uri;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Tracking\HitRequest;
 
 /**
  * Tests for Uri::getByVisitor() after simplification.
@@ -19,13 +20,30 @@ use WP_Statistics\Service\Analytics\VisitorProfile;
  */
 class Test_Uri extends WP_UnitTestCase
 {
+    private $requestKeys = ['resource_uri', 'page_uri'];
+
+    public function tearDown(): void
+    {
+        foreach ($this->requestKeys as $key) {
+            unset($_REQUEST[$key]);
+        }
+        parent::tearDown();
+    }
+
+    private function profileWithResourceUri(string $uri): VisitorProfile
+    {
+        $_REQUEST['resource_uri'] = base64_encode($uri);
+        $profile = new VisitorProfile();
+        $profile->setHitRequest(HitRequest::create());
+        return $profile;
+    }
+
     /**
      * getByVisitor() should return the resource URI from the profile.
      */
     public function test_returns_profile_resource_uri()
     {
-        $profile = new VisitorProfile();
-        $profile->setResourceUri(base64_encode('/hello-world'));
+        $profile = $this->profileWithResourceUri('/hello-world');
 
         $result = Uri::getByVisitor($profile);
 
@@ -37,8 +55,7 @@ class Test_Uri extends WP_UnitTestCase
      */
     public function test_preserves_query_string()
     {
-        $profile = new VisitorProfile();
-        $profile->setResourceUri(base64_encode('/page?utm_source=google&utm_medium=cpc'));
+        $profile = $this->profileWithResourceUri('/page?utm_source=google&utm_medium=cpc');
 
         $result = Uri::getByVisitor($profile);
 
@@ -51,8 +68,7 @@ class Test_Uri extends WP_UnitTestCase
     public function test_truncates_to_255_characters()
     {
         $longUri = '/' . str_repeat('a', 300);
-        $profile = new VisitorProfile();
-        $profile->setResourceUri(base64_encode($longUri));
+        $profile = $this->profileWithResourceUri($longUri);
 
         $result = Uri::getByVisitor($profile);
 
@@ -80,7 +96,7 @@ class Test_Uri extends WP_UnitTestCase
     public function test_falls_back_when_resource_uri_empty()
     {
         $profile = new VisitorProfile();
-        // Don't set resourceUri — it will be empty
+        // Don't set HitRequest — getResourceUri() will return ''
 
         $result = Uri::getByVisitor($profile);
 
@@ -94,8 +110,7 @@ class Test_Uri extends WP_UnitTestCase
      */
     public function test_handles_root_uri()
     {
-        $profile = new VisitorProfile();
-        $profile->setResourceUri(base64_encode('/'));
+        $profile = $this->profileWithResourceUri('/');
 
         $result = Uri::getByVisitor($profile);
 
@@ -107,8 +122,7 @@ class Test_Uri extends WP_UnitTestCase
      */
     public function test_handles_unicode_uri()
     {
-        $profile = new VisitorProfile();
-        $profile->setResourceUri(base64_encode('/日本語/ページ'));
+        $profile = $this->profileWithResourceUri('/日本語/ページ');
 
         $result = Uri::getByVisitor($profile);
 
