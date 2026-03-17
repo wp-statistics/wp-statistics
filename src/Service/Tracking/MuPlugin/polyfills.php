@@ -14,8 +14,9 @@
  * @since 15.0.0
  */
 
-// Only define polyfills in SHORTINIT mode — these must not override core functions during normal WordPress loads.
-if (!defined('SHORTINIT') || !SHORTINIT) {
+// Only define polyfills when loaded by the WP Statistics SHORTINIT endpoint.
+// These lightweight stubs must never override core WordPress functions during normal requests.
+if (!defined('WP_STATISTICS_SHORTINIT') || !WP_STATISTICS_SHORTINIT) {
     return;
 }
 
