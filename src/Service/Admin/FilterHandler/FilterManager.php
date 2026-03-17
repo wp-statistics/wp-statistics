@@ -61,7 +61,7 @@ class FilterManager
     public function get_filters_action_callback()
     {
 
-        if (Helper::is_request('ajax') and isset($_REQUEST['page'])) {
+        if (Helper::is_request('ajax') && isset($_REQUEST['page']) && User::hasAccess('read')) {
 
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');

@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Notice;
 
 use WP_Statistics\Components\Ajax;
 use WP_Statistics\Service\Admin\Notice\Notices\NoticeInterface;
+use WP_Statistics\Utils\User;
 
 /**
  * Global Notice Manager.
@@ -345,6 +346,10 @@ class NoticeManager
      */
     public static function handleDismissAjax(): void
     {
+        if (!User::hasAccess('manage')) {
+            wp_send_json_error(['message' => __('Permission denied.', 'wp-statistics')], 403);
+        }
+
         check_ajax_referer('wp_statistics_dismiss_notice', '_wpnonce');
 
         $noticeId = isset($_POST['notice_id']) ? sanitize_key($_POST['notice_id']) : '';

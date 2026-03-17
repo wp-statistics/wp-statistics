@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 use Exception;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Utils\User;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
@@ -23,19 +24,23 @@ class PluginActions
     {
         $list[] = [
             'class'  => $this,
-            'action' => 'check_license'
+            'action' => 'check_license',
+            'public' => false
         ];
         $list[] = [
             'class'  => $this,
-            'action' => 'download_plugin'
+            'action' => 'download_plugin',
+            'public' => false
         ];
         $list[] = [
             'class'  => $this,
-            'action' => 'check_plugin'
+            'action' => 'check_plugin',
+            'public' => false
         ];
         $list[] = [
             'class'  => $this,
-            'action' => 'activate_plugin'
+            'action' => 'activate_plugin',
+            'public' => false
         ];
 
         return $list;
@@ -43,6 +48,10 @@ class PluginActions
 
     public function check_license_action_callback()
     {
+        if (!User::hasAccess('manage')) {
+            wp_send_json_error(['message' => __('Permission denied.', 'wp-statistics')], 403);
+        }
+
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         try {
@@ -69,6 +78,10 @@ class PluginActions
 
     public function download_plugin_action_callback()
     {
+        if (!User::hasAccess('manage')) {
+            wp_send_json_error(['message' => __('Permission denied.', 'wp-statistics')], 403);
+        }
+
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         try {
@@ -118,6 +131,10 @@ class PluginActions
      */
     public function check_plugin_action_callback()
     {
+        if (!User::hasAccess('manage')) {
+            wp_send_json_error(['message' => __('Permission denied.', 'wp-statistics')], 403);
+        }
+
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         try {
@@ -141,6 +158,10 @@ class PluginActions
 
     public function activate_plugin_action_callback()
     {
+        if (!User::hasAccess('manage')) {
+            wp_send_json_error(['message' => __('Permission denied.', 'wp-statistics')], 403);
+        }
+
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         try {
