@@ -43,6 +43,11 @@ if (!$wpdb->check_connection(false)) {
     $fail(503, 'Service unavailable');
 }
 
+// Load files that wp-settings.php normally loads after the SHORTINIT check
+// but that the tracking pipeline depends on at runtime.
+wp_plugin_directory_constants();
+require_once ABSPATH . WPINC . '/kses.php';
+
 // ── 3. Load polyfills + plugin bootstrap ────────────────────────────
 
 require __DIR__ . '/wp-statistics-polyfills.php';
@@ -55,10 +60,25 @@ if (!defined('WP_STATISTICS_DIR')) {
 if (!defined('WP_STATISTICS_VERSION')) {
     define('WP_STATISTICS_VERSION', '{{VERSION}}');
 }
+if (!defined('WP_STATISTICS_UPLOADS_DIR')) {
+    define('WP_STATISTICS_UPLOADS_DIR', 'wp-statistics');
+}
 
 require_once $pluginDir . 'includes/class-wp-statistics-db.php';
 require_once $pluginDir . 'packages/autoload.php';
-require_once $pluginDir . 'src/functions.php';
+
+// Stub for WP_Statistics() — only called by BaseRecord on DB insert failure.
+if (!function_exists('WP_Statistics')) {
+    function WP_Statistics()
+    {
+        return new class {
+            public function log($message, $level = 'info')
+            {
+                error_log('WP Statistics: ' . $message);
+            }
+        };
+    }
+}
 
 // ── 4. Handle request ───────────────────────────────────────────────
 

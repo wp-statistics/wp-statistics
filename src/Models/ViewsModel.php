@@ -396,7 +396,7 @@ class ViewsModel extends BaseModel
      */
     public function getLastViewBySessionId($args = [])
     {
-        $args = $this->parseArgs($args, [
+        $args = wp_parse_args($args, [
             'session_id' => 0
         ]);
 
