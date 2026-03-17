@@ -95,7 +95,7 @@ class RestApiTracking extends BaseTrackerController
     protected function getArgs()
     {
         return [
-            'resourceUriId' => [
+            'resource_uri_id' => [
                 'required' => true,
                 'type'     => 'string',
             ],

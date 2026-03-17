@@ -138,15 +138,15 @@ if (!window.WpStatisticsUserTracker) {
 
                 const params = new URLSearchParams({
                     ...WP_Statistics_Tracker_Object.hitParams,
-                    resourceUriId: WP_Statistics_Tracker_Object?.resourceUriId,
-                    referred: this.getReferred(),
-                    resourceUri: this.getPathAndQueryString(),
-                    page_uri: this.getPathAndQueryString(),
+                    resource_uri_id: WP_Statistics_Tracker_Object?.resource_uri_id,
+                    referrer: this.getReferred(),
+                    resource_uri: this.getPathAndQueryString(),
+                    tracking_level: 'full',
                     timezone: visitorLocaleInfo.timezone,
-                    language: visitorLocaleInfo.language,
-                    languageFullName: visitorLocaleInfo.languageFullName,
-                    screenWidth: visitorLocaleInfo.screenWidth,
-                    screenHeight: visitorLocaleInfo.screenHeight
+                    language_code: visitorLocaleInfo.language,
+                    language_name: visitorLocaleInfo.languageFullName,
+                    screen_width: visitorLocaleInfo.screenWidth,
+                    screen_height: visitorLocaleInfo.screenHeight
                 }).toString();
 
                 const xhr = new XMLHttpRequest();

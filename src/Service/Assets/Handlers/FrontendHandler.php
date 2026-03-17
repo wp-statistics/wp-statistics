@@ -91,7 +91,7 @@ class FrontendHandler extends BaseAssets
             'ajaxUrl'             => admin_url('admin-ajax.php'),
             'hitParams'           => $hitParams,
             'option'              => $this->buildOptionArgs($activeProvider),
-            'resourceUriId'       => ResourcesFactory::getCurrentResourceUri()->getId(),
+            'resource_uri_id'     => ResourcesFactory::getCurrentResourceUri()->getId(),
             'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'),
             'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
             'muPluginUrl'         => $muPluginUrl,

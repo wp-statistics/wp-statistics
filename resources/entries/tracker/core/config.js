@@ -49,7 +49,7 @@ export function getAjaxUrl() {
 
 export function getResourceUriId() {
     const cfg = getConfig();
-    return (cfg && cfg.resourceUriId) ? cfg.resourceUriId : '';
+    return (cfg && cfg.resource_uri_id) ? cfg.resource_uri_id : '';
 }
 
 export function isBypassAdBlockers() {
