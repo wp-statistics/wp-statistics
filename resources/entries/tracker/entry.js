@@ -7,7 +7,7 @@
 
 import { addFilter, applyFilters, addAction, doAction, removeFilter, removeAction } from './core/hooks.js';
 import { init } from './core/tracker.js';
-import { getHitParams, isEventTrackingEnabled } from './core/config.js';
+import { getResource, isEventTrackingEnabled } from './core/config.js';
 import * as queue from './transport/queue.js';
 
 // Public API
@@ -32,9 +32,8 @@ window.wp_statistics = {
         if (!data) data = {};
         data.timestamp = Date.now();
 
-        var hitParams = getHitParams();
-        if (!data.resource_id && hitParams.source_id) {
-            data.resource_id = hitParams.source_id;
+        if (!data.resource_id) {
+            data.resource_id = getResource('resourceId') || '';
         }
 
         queue.add('custom_event', {

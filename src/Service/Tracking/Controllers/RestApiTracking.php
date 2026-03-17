@@ -63,7 +63,7 @@ class RestApiTracking extends BaseTrackerController
     public function addLocalizedArguments($args)
     {
         $args['requestUrl'] = get_rest_url(null, $this->namespace);
-        $args['hitParams']  = array_merge($args, ['endpoint' => self::ENDPOINT_HIT]);
+        $args['hit']        = ['endpoint' => self::ENDPOINT_HIT];
 
         return $args;
     }

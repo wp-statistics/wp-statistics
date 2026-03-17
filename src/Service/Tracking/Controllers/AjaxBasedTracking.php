@@ -70,7 +70,7 @@ class AjaxBasedTracking extends BaseTrackerController
         $hitAction = 'wp_statistics_' . self::HIT_ACTION;
 
         $args['requestUrl'] = get_site_url();
-        $args['hitParams']  = array_merge($args, ['action' => $hitAction]);
+        $args['hit']        = ['action' => $hitAction];
 
         return $args;
     }

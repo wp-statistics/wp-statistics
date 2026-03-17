@@ -34,7 +34,29 @@ function getOption(key, fallback) {
 
 export function getHitParams() {
     const cfg = getConfig();
-    return (cfg && cfg.hitParams) ? cfg.hitParams : {};
+    return (cfg && cfg.hit) ? cfg.hit : {};
+}
+
+/**
+ * Get the current resource info.
+ *
+ * @param {string} [key] Optional key to return a specific field (e.g. 'resourceId', 'resourceType', 'resourceUriId').
+ * @returns {object|*} The full resource object, or the value of the requested key.
+ */
+export function getResource(key) {
+    const cfg = getConfig();
+    var resource = (cfg && cfg.resource) ? cfg.resource : {};
+
+    if (key) {
+        return resource[key] !== undefined ? resource[key] : '';
+    }
+
+    return resource;
+}
+
+export function getUserId() {
+    const cfg = getConfig();
+    return (cfg && cfg.userId) ? cfg.userId : 0;
 }
 
 export function getRequestUrl() {
@@ -45,11 +67,6 @@ export function getRequestUrl() {
 export function getAjaxUrl() {
     const cfg = getConfig();
     return (cfg && cfg.ajaxUrl) ? cfg.ajaxUrl : '';
-}
-
-export function getResourceUriId() {
-    const cfg = getConfig();
-    return (cfg && cfg.resource_uri_id) ? cfg.resource_uri_id : '';
 }
 
 export function isBypassAdBlockers() {

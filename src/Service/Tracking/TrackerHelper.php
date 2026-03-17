@@ -5,9 +5,7 @@ namespace WP_Statistics\Service\Tracking;
 use ErrorException;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Resources\ResourcesFactory;
 use WP_Statistics\Utils\Request;
-use WP_Statistics\Utils\Signature;
 use WP_Statistics\Utils\Validator;
 
 /**
@@ -148,28 +146,4 @@ final class TrackerHelper
         return sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
     }
 
-    /**
-     * Build the default query parameters sent by the front‑end hit pixel.
-     *
-     * @return array<string,int|string>
-     * @since  15.0.0
-     */
-    public static function getHitsDefaultParams()
-    {
-        $resource = ResourcesFactory::getCurrentResource();
-
-        $params = [
-            'resource_type' => $resource->getType(),
-            'resource_id'   => $resource->getId(),
-            'user_id'       => get_current_user_id(),
-        ];
-
-        $params['signature'] = Signature::generate([
-            $params['resource_type'],
-            $params['resource_id'],
-            $params['user_id'],
-        ]);
-
-        return $params;
-    }
 }

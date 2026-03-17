@@ -9,8 +9,8 @@ use WP_Statistics\Bootstrap;
 use WP_Statistics\Service\Consent\ConsentProviderInterface;
 use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Resources\ResourcesFactory;
-use WP_Statistics\Service\Tracking\TrackerHelper;
 use WP_Statistics\Service\Tracking\MuPlugin\MuPluginManager;
+use WP_Statistics\Utils\Signature;
 /**
  * Frontend Assets Service
  * 
@@ -58,11 +58,9 @@ class FrontendHandler extends BaseAssets
      */
     public function scripts($hook = '')
     {
-        $params = array_merge([TrackerHelper::HIT_REQUEST_KEY => 1], TrackerHelper::getHitsDefaultParams());
-        $params = apply_filters('wp_statistics_js_localized_arguments', $params);
-
+        $params         = apply_filters('wp_statistics_js_localized_arguments', []);
         $requestUrl     = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
-        $hitParams      = !empty($params['hitParams']) ? $params['hitParams'] : [];
+        $hitConfig      = !empty($params['hit']) ? $params['hit'] : [];
         $activeProvider = Bootstrap::get('consent')->getActiveProvider();
 
         $muPluginUrl = '';
@@ -86,12 +84,24 @@ class FrontendHandler extends BaseAssets
             $batchUrl = rest_url('wp-statistics/v2/batch');
         }
 
+        $resource     = ResourcesFactory::getCurrentResource();
+        $resourceType = $resource->getType();
+        $resourceId   = $resource->getId();
+        $userId       = get_current_user_id();
+
+        $hitConfig['signature'] = Signature::generate([$resourceType, (int) $resourceId, (int) $userId]);
+
         $jsArgs = array(
             'requestUrl'          => $requestUrl,
             'ajaxUrl'             => admin_url('admin-ajax.php'),
-            'hitParams'           => $hitParams,
+            'hit'                 => $hitConfig,
+            'resource'            => [
+                'resourceUriId' => ResourcesFactory::getCurrentResourceUri()->getId(),
+                'resourceType'  => $resourceType,
+                'resourceId'    => (int) $resourceId,
+            ],
+            'userId'              => (int) $userId,
             'option'              => $this->buildOptionArgs($activeProvider),
-            'resource_uri_id'     => ResourcesFactory::getCurrentResourceUri()->getId(),
             'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'),
             'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
             'muPluginUrl'         => $muPluginUrl,
