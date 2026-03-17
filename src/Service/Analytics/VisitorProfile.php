@@ -17,7 +17,7 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
 use WP_Statistics\Utils\Url;
 use WP_Statistics\Service\Tracking\HitRequest;
-use WP_Statistics\Service\Tracking\TrackerHelper;
+
 
 /**
  * @todo Replace object cache internally with ObjectCacheTrait
@@ -807,13 +807,9 @@ class VisitorProfile
     public function getRequestUri()
     {
         return $this->getCachedData('requestUri', function () {
-            if ($this->hitRequest) {
-                $resourceUri = $this->hitRequest->getResourceUri();
-                if (!empty($resourceUri)) {
-                    return sanitize_url($resourceUri);
-                }
-            }
-            return TrackerHelper::getRequestUri();
+            $uri = $this->getResourceUri();
+
+            return !empty($uri) ? $uri : sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
         });
     }
 
