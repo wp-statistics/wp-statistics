@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Tracking\TrackerHelper;
+
 use WP_Statistics\Service\Tracking\TrackingFactory;
 use Exception;
 use WP_REST_Server;
@@ -119,8 +119,6 @@ class RestApiTracking extends BaseTrackerController
         $statusCode = false;
 
         try {
-            $this->checkSignature();
-            TrackerHelper::validateHitRequest();
             TrackingFactory::hits()->record();
 
             $responseData['status'] = true;

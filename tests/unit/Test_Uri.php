@@ -6,6 +6,7 @@ use WP_UnitTestCase;
 use WP_Statistics\Utils\Uri;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Tracking\HitRequest;
+use WP_Statistics\Utils\Signature;
 
 /**
  * Tests for Uri::getByVisitor() after simplification.
@@ -20,7 +21,11 @@ use WP_Statistics\Service\Tracking\HitRequest;
  */
 class Test_Uri extends WP_UnitTestCase
 {
-    private $requestKeys = ['resource_uri', 'page_uri'];
+    private $requestKeys = [
+        'resource_uri_id', 'resource_id', 'resource_uri', 'resource_type',
+        'page_uri', 'timezone', 'language_code', 'language_name',
+        'screen_width', 'screen_height', 'user_id', 'signature',
+    ];
 
     public function tearDown(): void
     {
@@ -30,9 +35,36 @@ class Test_Uri extends WP_UnitTestCase
         parent::tearDown();
     }
 
+    private function setValidRequest(array $overrides = []): void
+    {
+        $defaults = [
+            'resource_uri_id' => '1',
+            'resource_id'     => '1',
+            'resource_uri'    => base64_encode('/test'),
+            'resource_type'   => 'post',
+            'timezone'        => 'UTC',
+            'language_code'   => 'en',
+            'language_name'   => 'English',
+            'screen_width'    => '1920',
+            'screen_height'   => '1080',
+            'user_id'         => '0',
+        ];
+
+        $params = array_merge($defaults, $overrides);
+        $params['signature'] = Signature::generate([
+            $params['resource_type'] ?? '',
+            (int) ($params['resource_id'] ?? 0),
+            (int) ($params['user_id'] ?? 0),
+        ]);
+
+        foreach ($params as $key => $value) {
+            $_REQUEST[$key] = $value;
+        }
+    }
+
     private function profileWithResourceUri(string $uri): VisitorProfile
     {
-        $_REQUEST['resource_uri'] = base64_encode($uri);
+        $this->setValidRequest(['resource_uri' => base64_encode($uri)]);
         $profile = new VisitorProfile();
         $profile->setHitRequest(HitRequest::create());
         return $profile;

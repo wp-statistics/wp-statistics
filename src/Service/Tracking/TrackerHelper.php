@@ -2,11 +2,7 @@
 
 namespace WP_Statistics\Service\Tracking;
 
-use ErrorException;
-use WP_Statistics\Components\Ip;
-use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\Request;
-use WP_Statistics\Utils\Validator;
 
 /**
  * Helper methods that are used exclusively by the tracking subsystem.
@@ -38,93 +34,6 @@ final class TrackerHelper
     {
         return (Request::compare('action', 'wp_statistics_hit_record'));
     }
-
-    /**
-     * Validates that the current HTTP request qualifies as a “hit” that can be
-     * persisted in the statistics database.
-     *
-     * Validation sequence:
-     * 1. Bypass requests are always accepted.
-     * 2. Reject CLI, cron and WP‑CLI invocations.
-     * 3. Reject WordPress admin, AJAX and REST API calls.
-     * 4. Accept only GET and HEAD request methods.
-     *
-     * @return bool True when the request is valid for hit logging.
-     * @since  15.0.0
-     */
-    public static function validateHitRequest()
-    {
-        $isValid = Request::validate([
-            'resource_uri_id'  => [
-                'type'     => 'number',
-                'required' => true,
-                'nullable' => false
-            ],
-            'resource_uri'     => [
-                'required'        => true,
-                'nullable'        => true,
-                'type'            => 'string',
-                'encoding'        => 'base64',
-                'invalid_pattern' => Validator::getThreatPatterns()
-            ],
-            'resource_type'    => [
-                'type'     => 'string',
-                'required' => false,
-                'nullable' => false
-            ],
-            'resource_id'      => [
-                'type'     => 'number',
-                'required' => true,
-                'nullable' => false
-            ],
-            'timezone'         => [
-                'type'     => 'string',
-                'required' => true,
-                'nullable' => false
-            ],
-            'language_code'    => [
-                'type'     => 'string',
-                'required' => true,
-                'nullable' => false
-            ],
-            'language_name'    => [
-                'type'     => 'string',
-                'required' => true,
-                'nullable' => false
-            ],
-            'screen_width'     => [
-                'type'     => 'string',
-                'required' => true,
-                'nullable' => false
-            ],
-            'screen_height'    => [
-                'type'     => 'string',
-                'required' => true,
-                'nullable' => false
-            ],
-            'referrer'         => [
-                'required' => true,
-                'nullable' => true,
-                'type'     => 'url',
-                'encoding' => 'base64'
-            ],
-        ]);
-
-        if (!$isValid) {
-            /**
-             * Trigger action after validating the hit request parameters.
-             *
-             * @param bool $isValid Indicates if the request parameters are valid.
-             * @param string $ipAddress The IP address of the requester.
-             */
-            do_action('wp_statistics_invalid_hit_request', $isValid, Ip::getCurrent());
-
-            throw new ErrorException(esc_html__('Invalid hit request.', 'wp-statistics'));
-        }
-
-        return true;
-    }
-
 
     /**
      * Returns the canonical request URI for the current hit.

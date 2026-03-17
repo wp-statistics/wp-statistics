@@ -2,13 +2,9 @@
 
 namespace WP_Statistics\Abstracts;
 
-use Exception;
-use WP_Statistics\Utils\Signature;
-
 /**
  * Abstract base class for WP Statistics tracking implementations.
- * Implements request signature validation and defines the structure
- * for tracking endpoint registration and routing.
+ * Defines the structure for tracking endpoint registration and routing.
  *
  * @since 15.0.0
  */
@@ -16,7 +12,6 @@ abstract class BaseTrackerController
 {
     /**
      * REST API endpoint slug for recording page hits.
-     * Used to register the /hit endpoint that handles tracking page views.
      *
      * @var string
      */
@@ -29,26 +24,6 @@ abstract class BaseTrackerController
      * @var string
      */
     protected $namespace = 'wp-statistics/v2';
-
-    /**
-     * Validate request signature for tracking authenticity.
-     *
-     * @throws Exception Invalid signature results in 403 status code
-     * @since 15.0.0
-     */
-    protected function checkSignature()
-    {
-        $signature = !empty($_REQUEST['signature']) ? sanitize_text_field($_REQUEST['signature']) : '';
-        $payload   = [
-            !empty($_REQUEST['resource_type']) ? sanitize_text_field($_REQUEST['resource_type']) : '',
-            !empty($_REQUEST['resource_id']) ? (int)sanitize_text_field($_REQUEST['resource_id']) : 0,
-            absint($_REQUEST['user_id'] ?? 0),
-        ];
-
-        if (!Signature::check($payload, $signature)) {
-            throw new Exception(__('Invalid signature', 'wp-statistics'), 403);
-        }
-    }
 
     /**
      * Register tracking endpoints.

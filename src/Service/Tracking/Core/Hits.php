@@ -33,10 +33,6 @@ class Hits extends BaseTracking
 
         $exclusion = $this->checkAndThrowIfExcluded($visitorProfile);
 
-        if (empty($hitRequest->getResourceUriId()) || $hitRequest->getResourceId() === null) {
-            throw new Exception(esc_html__('Missing or invalid resource identifiers: resourceId and/or resourceUriId.', 'wp-statistics'), 200);
-        }
-
         EntityFactory::visitor($visitorProfile)
             ->record();
 

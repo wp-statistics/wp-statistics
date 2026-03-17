@@ -2,17 +2,21 @@
 
 namespace WP_Statistics\Service\Tracking;
 
+use Exception;
+use ErrorException;
+use WP_Statistics\Components\Ip;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Utils\Signature;
+use WP_Statistics\Utils\Validator;
 
 /**
  * Immutable container for all hit parameters sent by the JS tracker.
  *
- * Created once per request via create(). All values are sanitized and decoded
- * at construction time. Entities access these values through VisitorProfile
- * proxy getters — they should never read hit params from $_REQUEST directly.
+ * Created once per request via create(). Validates, sanitizes, and decodes
+ * all values at construction time. Entities access these values through
+ * VisitorProfile proxy getters — never from $_REQUEST directly.
  *
- * Supports backward-compatible fallbacks: when the new snake_case param name
- * is not present, falls back to the old camelCase/legacy name.
+ * Supports backward-compatible fallbacks for legacy param names.
  */
 final class HitRequest
 {
@@ -33,55 +37,106 @@ final class HitRequest
     }
 
     /**
-     * Parse all hit parameters from the current HTTP request.
+     * Parse and validate all hit parameters from the current HTTP request.
      *
-     * For each param, tries the new snake_case name first, then falls back
-     * to the old name for backward compatibility with headless integrations.
+     * @throws ErrorException If required params are missing or invalid.
      */
     public static function create(): self
     {
         $instance = new self();
 
-        // resource_uri_id (new) -> resourceUriId (old)
-        $instance->resourceUriId = (int) self::getWithFallback('resource_uri_id', 'resourceUriId', 0, 'number');
+        $instance->referrer      = $instance->parseReferrer();
+        $instance->resourceId    = $instance->parseResourceId();
+        $instance->resourceUri   = $instance->parseResourceUri();
+        $instance->resourceUriId = $instance->parseResourceUriId();
+        $instance->resourceType  = $instance->parseResourceType();
+        $instance->timezone      = $instance->requireString('timezone');
+        $instance->languageCode  = $instance->requireString('language_code');
+        $instance->languageName  = $instance->requireString('language_name');
+        $instance->screenWidth   = $instance->requireString('screen_width');
+        $instance->screenHeight  = $instance->requireString('screen_height');
+        $instance->userId        = (int) Request::get('user_id', 0, 'number');
 
-        // resource_type (kept) -> source_type (legacy)
-        $instance->resourceType = self::getWithFallback('resource_type', 'source_type', '');
-
-        // timezone — unchanged
-        $instance->timezone = Request::get('timezone', '');
-
-        $instance->languageCode = Request::get('language_code', '');
-        $instance->languageName = Request::get('language_name', '');
-        $instance->screenWidth = Request::get('screen_width', '');
-        $instance->screenHeight = Request::get('screen_height', '');
-
-        // user_id — unchanged
-        $instance->userId = (int) Request::get('user_id', 0, 'number');
-
-        // resource_id (kept) -> source_id (legacy); null = not sent, 0 = valid
-        $raw = self::getWithFallback('resource_id', 'source_id', null, 'number');
-        $instance->resourceId = $raw !== null ? (int) $raw : null;
-
-        // resource_uri -> page_uri (legacy); base64 encoded
-        $rawUri = self::getWithFallback('resource_uri', 'page_uri', '');
-        $instance->resourceUri = !empty($rawUri) ? base64_decode($rawUri) : '';
-
-        // referrer (new) -> referred (old); base64 + URL encoded
-        $rawReferrer = self::getWithFallback('referrer', 'referred', '', 'raw');
-        $instance->referrer = !empty($rawReferrer) ? urldecode(base64_decode($rawReferrer)) : '';
+        $instance->verifySignature();
 
         return $instance;
     }
 
+    // ─── Parsers ──────────────────────────────────────────────────────
+
+    private function parseResourceUriId(): int
+    {
+        $value = (int) self::getWithFallback('resource_uri_id', 'resourceUriId', 0, 'number');
+
+        if ($value < 1) {
+            self::fail('resource_uri_id');
+        }
+
+        return $value;
+    }
+
+    private function parseResourceId(): ?int
+    {
+        $raw = self::getWithFallback('resource_id', 'source_id', null, 'number');
+
+        if ($raw === null) {
+            self::fail('resource_id');
+        }
+
+        return (int) $raw;
+    }
+
+    private function parseResourceUri(): string
+    {
+        $raw = self::getWithFallback('resource_uri', 'page_uri', '');
+
+        if (empty($raw)) {
+            return '';
+        }
+
+        $decoded = base64_decode($raw);
+
+        if ($this->containsThreats($decoded)) {
+            self::fail('resource_uri');
+        }
+
+        return $decoded;
+    }
+
+    private function parseResourceType(): string
+    {
+        return self::getWithFallback('resource_type', 'source_type', '');
+    }
+
+    private function parseReferrer(): string
+    {
+        $raw = self::getWithFallback('referrer', 'referred', '', 'raw');
+
+        if (empty($raw)) {
+            return '';
+        }
+
+        return urldecode(base64_decode($raw));
+    }
+
+    /**
+     * Read a required string param, failing if empty.
+     */
+    private function requireString(string $param): string
+    {
+        $value = Request::get($param, '');
+
+        if (empty($value) || !is_string($value)) {
+            self::fail($param);
+        }
+
+        return $value;
+    }
+
+    // ─── Helpers ──────────────────────────────────────────────────────
+
     /**
      * Try the new param name first, fall back to the old name.
-     *
-     * @param string $newName    New snake_case param name.
-     * @param string $oldName    Old camelCase/legacy param name.
-     * @param mixed  $default    Default if neither is present.
-     * @param string $sanitize   Sanitization type for Request::get().
-     * @return mixed
      */
     private static function getWithFallback(string $newName, string $oldName, $default, string $sanitize = 'string')
     {
@@ -93,6 +148,51 @@ final class HitRequest
 
         return Request::get($oldName, $default, $sanitize);
     }
+
+    /**
+     * Verify the request signature against the parsed params.
+     *
+     * @throws Exception 403 if signature is missing or doesn't match.
+     */
+    private function verifySignature(): void
+    {
+        $signature = Request::get('signature', '');
+        $payload   = [
+            $this->resourceType,
+            (int) $this->resourceId,
+            (int) $this->userId,
+        ];
+
+        if (!Signature::check($payload, $signature)) {
+            throw new Exception(__('Invalid signature', 'wp-statistics'), 403);
+        }
+    }
+
+    private function containsThreats(string $value): bool
+    {
+        foreach (Validator::getThreatPatterns() as $pattern) {
+            if (preg_match($pattern, $value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Fire the invalid hit action and throw.
+     */
+    private static function fail(string $param): void
+    {
+        do_action('wp_statistics_invalid_hit_request', false, Ip::getCurrent());
+
+        throw new ErrorException(
+            esc_html(sprintf(__('Invalid hit request: %s', 'wp-statistics'), $param)),
+            400
+        );
+    }
+
+    // ─── Getters ──────────────────────────────────────────────────────
 
     public function getResourceUriId(): int
     {
