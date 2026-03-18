@@ -4,7 +4,6 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Utils\Query;
 
 
 /**
@@ -88,28 +87,11 @@ class Locale extends BaseEntity
         $isDst         = (bool)$dt->format('I');
 
         $tzNameFinal = $tz->getName();
-        $record      = RecordFactory::timezone()->get(['name' => $tzNameFinal]);
 
-        if (!empty($record) && isset($record->ID)) {
-            // Update offset/DST if changed (e.g., DST transition)
-            if ($record->offset !== $offset || (int)$record->is_dst !== ($isDst ? 1 : 0)) {
-                Query::update('timezones')
-                    ->set([
-                        'offset' => $offset,
-                        'is_dst' => $isDst ? 1 : 0,
-                    ])
-                    ->where('ID', '=', $record->ID)
-                    ->execute();
-            }
-
-            return (int)$record->ID;
-        }
-
-        return (int)RecordFactory::timezone()->insert([
-            'name'   => $tzNameFinal,
-            'offset' => $offset,
-            'is_dst' => $isDst ? 1 : 0,
-        ]);
+        return (int) RecordFactory::timezone()->upsert(
+            ['name' => $tzNameFinal, 'offset' => $offset, 'is_dst' => $isDst ? 1 : 0],
+            ['offset' => $offset, 'is_dst' => $isDst ? 1 : 0]
+        );
     }
 
 }

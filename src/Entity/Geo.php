@@ -44,15 +44,9 @@ class Geo extends BaseEntity
             return 0;
         }
 
-        $record = RecordFactory::country()->get(['code' => $geo['country_code']]);
-
-        if (!empty($record) && isset($record->ID)) {
-            return (int)$record->ID;
-        }
-
         $continent = $this->visitor->getContinent();
 
-        return (int)RecordFactory::country()->insert([
+        return (int) RecordFactory::country()->upsert([
             'code'           => $geo['country_code'],
             'name'           => isset($geo['country']) ? $geo['country'] : '',
             'continent_code' => isset($geo['continent_code']) ? $geo['continent_code'] : '',

@@ -46,11 +46,8 @@ class Device extends BaseEntity
         }
 
         $deviceType = ucwords($this->userAgent->getDevice());
-        $record     = RecordFactory::deviceType()->get(['name' => $deviceType]);
 
-        return !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : (int)RecordFactory::deviceType()->insert(['name' => $deviceType]);
+        return (int) RecordFactory::deviceType()->upsert(['name' => $deviceType]);
     }
 
     /**
@@ -64,12 +61,9 @@ class Device extends BaseEntity
             return 0;
         }
 
-        $os     = $this->userAgent->getPlatform();
-        $record = RecordFactory::deviceOs()->get(['name' => $os]);
+        $os = $this->userAgent->getPlatform();
 
-        return !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : (int)RecordFactory::deviceOs()->insert(['name' => $os]);
+        return (int) RecordFactory::deviceOs()->upsert(['name' => $os]);
     }
 
     /**
@@ -84,11 +78,8 @@ class Device extends BaseEntity
         }
 
         $browser = $this->userAgent->getBrowser();
-        $record  = RecordFactory::deviceBrowser()->get(['name' => $browser]);
 
-        return !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : (int)RecordFactory::deviceBrowser()->insert(['name' => $browser]);
+        return (int) RecordFactory::deviceBrowser()->upsert(['name' => $browser]);
     }
 
     /**
@@ -104,17 +95,11 @@ class Device extends BaseEntity
         }
 
         $version = $this->userAgent->getVersion();
-        $record  = RecordFactory::deviceBrowserVersion()->get([
+
+        return (int) RecordFactory::deviceBrowserVersion()->upsert([
             'browser_id' => $browserId,
             'version'    => $version,
         ]);
-
-        return !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : (int)RecordFactory::deviceBrowserVersion()->insert([
-                'browser_id' => $browserId,
-                'version'    => $version,
-            ]);
     }
 
     /**
@@ -134,16 +119,9 @@ class Device extends BaseEntity
             $height = (int)(floor($height / 10) * 10);
         }
 
-        $record = RecordFactory::resolution()->get([
+        return (int) RecordFactory::resolution()->upsert([
             'width'  => $width,
             'height' => $height,
         ]);
-
-        return !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : (int)RecordFactory::resolution()->insert([
-                'width'  => $width,
-                'height' => $height,
-            ]);
     }
 }

@@ -18,20 +18,14 @@ class Tracker
     /**
      * Record a hit: visitor, device, geo, locale, referrer, session, view.
      *
-     * @return array Exclusion metadata.
      * @throws Exception If visitor is excluded by rules.
      */
-    public function record()
+    public function record(): void
     {
         $payload = Payload::parse();
         $visitor = new Visitor($payload);
 
-        $exclusion = Exclusions::check($visitor);
-
-        if (!empty($exclusion['exclusion_match'])) {
-            Exclusions::record($exclusion);
-            throw new Exception($exclusion['exclusion_reason'], 200);
-        }
+        $this->checkExclusions($visitor);
 
         $visitorId  = EntityFactory::visitor($visitor)->record();
         $deviceIds  = EntityFactory::device($visitor)->record();
@@ -44,7 +38,20 @@ class Tracker
         );
 
         EntityFactory::view($visitor)->record($sessionId);
+    }
 
-        return $exclusion;
+    /**
+     * Check exclusion rules and record/throw if visitor is excluded.
+     *
+     * @throws Exception If visitor matches an exclusion rule.
+     */
+    private function checkExclusions(Visitor $visitor): void
+    {
+        $exclusion = Exclusions::check($visitor);
+
+        if (!empty($exclusion['exclusion_match'])) {
+            Exclusions::record($exclusion);
+            throw new Exception($exclusion['exclusion_reason'], 200);
+        }
     }
 }
