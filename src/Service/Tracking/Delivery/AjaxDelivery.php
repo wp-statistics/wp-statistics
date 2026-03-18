@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Tracking\Delivery;
 
-use WP_Statistics\Abstracts\BaseDeliveryMethod;
 use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 use WP_Statistics\Service\Tracking\Pipeline\BatchProcessor;
 use WP_Statistics\Utils\Request;

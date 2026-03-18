@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Tracking;
 
-use WP_Statistics\Abstracts\BaseDeliveryMethod;
+use WP_Statistics\Service\Tracking\Delivery\BaseDeliveryMethod;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Tracking\Delivery\AjaxDelivery;
 use WP_Statistics\Service\Tracking\Delivery\DirectFileDelivery;

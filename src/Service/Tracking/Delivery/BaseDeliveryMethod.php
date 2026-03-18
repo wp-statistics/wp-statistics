@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Abstracts;
+namespace WP_Statistics\Service\Tracking\Delivery;
 
 /**
  * Abstract base for tracking delivery methods.
