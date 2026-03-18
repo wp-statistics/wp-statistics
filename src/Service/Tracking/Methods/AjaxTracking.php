@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Tracking\Methods;
 
+use WP_Statistics\Components\Ajax;
 use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 use WP_Statistics\Service\Tracking\Pipeline\BatchProcessor;
 use WP_Statistics\Utils\Request;
@@ -25,7 +26,8 @@ class AjaxTracking extends BaseTracking
      */
     public function register(): void
     {
-        add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
+        Ajax::register(self::HIT_ACTION, [$this, 'hitCallback']);
+        Ajax::register(self::BATCH_ACTION, [$this, 'batchCallback']);
     }
 
     /**
@@ -49,32 +51,9 @@ class AjaxTracking extends BaseTracking
     }
 
     /**
-     * Register hit and batch AJAX callbacks.
-     *
-     * @param array $list Existing AJAX endpoints list.
-     * @return array
-     */
-    public function registerAjaxCallbacks(array $list): array
-    {
-        $list[] = [
-            'class'  => $this,
-            'action' => self::HIT_ACTION,
-            'public' => true,
-        ];
-
-        $list[] = [
-            'class'  => $this,
-            'action' => self::BATCH_ACTION,
-            'public' => true,
-        ];
-
-        return $list;
-    }
-
-    /**
      * Handle hit recording via AJAX.
      */
-    public function hit_record_action_callback(): void
+    public function hitCallback(): void
     {
         if (!Request::isFrom('ajax')) {
             return;
@@ -91,7 +70,7 @@ class AjaxTracking extends BaseTracking
     /**
      * Handle batch request via AJAX.
      */
-    public function batch_action_callback(): void
+    public function batchCallback(): void
     {
         if (!Request::isFrom('ajax')) {
             return;
