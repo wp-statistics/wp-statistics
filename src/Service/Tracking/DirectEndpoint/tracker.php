@@ -1,6 +1,6 @@
 <?php
 /**
- * WP Statistics Direct File Endpoint
+ * WP Statistics Direct File Tracker
  *
  * SHORTINIT-compatible hit recording for maximum performance.
  * This file is a template — DirectEndpointManager bakes absolute paths
@@ -48,9 +48,52 @@ if (!$wpdb->check_connection(false)) {
 wp_plugin_directory_constants();
 require_once ABSPATH . WPINC . '/kses.php';
 
-// ── 3. Load polyfills + plugin bootstrap ────────────────────────────
+// ── 3. Polyfills ────────────────────────────────────────────────────
+//
+// Lightweight replacements for WordPress functions NOT loaded in
+// SHORTINIT mode (l10n.php, link-template.php, http.php).
+//
+// Functions already available (no polyfill needed):
+// - Hooks: add_filter, apply_filters, do_action, has_filter
+// - Sanitization: sanitize_text_field, esc_html, sanitize_url
+// - Options: get_option, update_option
+// - Utilities: wp_parse_args, absint, wp_privacy_anonymize_ip
 
-require __DIR__ . '/wp-statistics-polyfills.php';
+if (!function_exists('__')) {
+    function __($text, $domain = 'default')
+    {
+        return $text;
+    }
+}
+
+if (!function_exists('esc_html__')) {
+    function esc_html__($text, $domain = 'default')
+    {
+        return $text;
+    }
+}
+
+if (!function_exists('home_url')) {
+    function home_url($path = '', $scheme = null)
+    {
+        $home = get_option('home');
+
+        if ($path && is_string($path)) {
+            return rtrim($home, '/') . '/' . ltrim($path, '/');
+        }
+
+        return $home;
+    }
+}
+
+if (!function_exists('wp_parse_url')) {
+    function wp_parse_url($url, $component = -1)
+    {
+        return parse_url($url, $component);
+    }
+}
+
+// ── 4. Plugin bootstrap ─────────────────────────────────────────────
 
 $pluginDir = '{{PLUGIN_DIR}}';
 
@@ -80,13 +123,13 @@ if (!function_exists('WP_Statistics')) {
     }
 }
 
-// ── 4. Handle request ───────────────────────────────────────────────
+// ── 5. Handle request ───────────────────────────────────────────────
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $fail(405, 'Method not allowed');
 }
 
-// ── 5. Record hit ───────────────────────────────────────────────────
+// ── 6. Record hit ───────────────────────────────────────────────────
 
 use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 

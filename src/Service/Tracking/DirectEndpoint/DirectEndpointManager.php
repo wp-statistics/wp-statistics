@@ -17,17 +17,13 @@ class DirectEndpointManager
     private const VERSION_OPTION = 'wp_statistics_mu_plugin_version';
 
     /**
-     * Endpoint filename placed alongside the mu-plugin.
+     * Tracker filename installed into mu-plugins.
      */
-    public const ENDPOINT_FILE = 'wp-statistics-endpoint.php';
+    public const ENDPOINT_FILE = 'wp-statistics-tracker.php';
+
 
     /**
-     * Polyfills filename placed alongside the mu-plugin.
-     */
-    private const POLYFILLS_FILE = 'wp-statistics-polyfills.php';
-
-    /**
-     * Auto-install or update the mu-plugin files if needed.
+     * Auto-install or update the mu-plugin if needed.
      *
      * @return void
      */
@@ -41,7 +37,7 @@ class DirectEndpointManager
     }
 
     /**
-     * Install the mu-plugin files.
+     * Install the mu-plugin file.
      *
      * @return bool True on success, false on failure.
      */
@@ -53,27 +49,15 @@ class DirectEndpointManager
             return false;
         }
 
-        // Ensure mu-plugins directory exists
         if (!is_dir($muPluginsDir)) {
             wp_mkdir_p($muPluginsDir);
         }
 
-        // Copy polyfills
-        $polyfillsSource = __DIR__ . '/polyfills.php';
-        $polyfillsDest   = $muPluginsDir . '/' . self::POLYFILLS_FILE;
-
-        if (!$this->copyFile($polyfillsSource, $polyfillsDest)) {
-            $this->uninstall();
-            return false;
-        }
-
-        // Bake endpoint template with actual paths
         if (!$this->installEndpoint($muPluginsDir)) {
             $this->uninstall();
             return false;
         }
 
-        // Store installed version
         update_option(self::VERSION_OPTION, WP_STATISTICS_VERSION);
 
         return true;
@@ -93,7 +77,7 @@ class DirectEndpointManager
 
         global $wp_filesystem;
 
-        $templatePath = __DIR__ . '/endpoint.php';
+        $templatePath = __DIR__ . '/tracker.php';
         $content      = $wp_filesystem->get_contents($templatePath);
 
         if ($content === false) {
@@ -114,7 +98,7 @@ class DirectEndpointManager
     }
 
     /**
-     * Uninstall the mu-plugin files.
+     * Uninstall the mu-plugin file.
      *
      * @return bool True on success, false on failure.
      */
@@ -126,25 +110,20 @@ class DirectEndpointManager
             return false;
         }
 
-        $files = [
-            $muPluginsDir . '/' . self::ENDPOINT_FILE,
-            $muPluginsDir . '/' . self::POLYFILLS_FILE,
-        ];
+        $file = $muPluginsDir . '/' . self::ENDPOINT_FILE;
 
-        $allDeleted = true;
-        foreach ($files as $file) {
+        if (file_exists($file)) {
+            wp_delete_file($file);
             if (file_exists($file)) {
-                wp_delete_file($file);
-                if (file_exists($file)) {
-                    error_log('WP Statistics: Failed to delete mu-plugin file: ' . $file);
-                    $allDeleted = false;
-                }
+                error_log('WP Statistics: Failed to delete mu-plugin file: ' . $file);
+                delete_option(self::VERSION_OPTION);
+                return false;
             }
         }
 
         delete_option(self::VERSION_OPTION);
 
-        return $allDeleted;
+        return true;
     }
 
     /**
@@ -170,12 +149,11 @@ class DirectEndpointManager
             return false;
         }
 
-        return file_exists($muPluginsDir . '/' . self::ENDPOINT_FILE)
-            && file_exists($muPluginsDir . '/' . self::POLYFILLS_FILE);
+        return file_exists($muPluginsDir . '/' . self::ENDPOINT_FILE);
     }
 
     /**
-     * Delete old and install new mu-plugin files.
+     * Delete old and install new mu-plugin file.
      *
      * @return bool
      */
@@ -201,13 +179,6 @@ class DirectEndpointManager
     }
 
     /**
-     * Copy a file using WP_Filesystem.
-     *
-     * @param string $source Source file path.
-     * @param string $dest   Destination file path.
-     * @return bool
-     */
-    /**
      * Ensure WP_Filesystem is initialized.
      *
      * @return bool
@@ -224,21 +195,4 @@ class DirectEndpointManager
 
         return WP_Filesystem() && !empty($wp_filesystem);
     }
-
-    private function copyFile($source, $dest)
-    {
-        if (!file_exists($source) || !$this->ensureFilesystem()) {
-            return false;
-        }
-
-        global $wp_filesystem;
-
-        $content = $wp_filesystem->get_contents($source);
-        if ($content === false) {
-            return false;
-        }
-
-        return $wp_filesystem->put_contents($dest, $content, FS_CHMOD_FILE);
-    }
-
 }
