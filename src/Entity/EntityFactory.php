@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Entity;
 
-use WP_Statistics\Service\Tracking\Pipeline\Visitor as VisitorData;
+use WP_Statistics\Service\Tracking\Core\Visitor as VisitorData;
 
 /**
  * Factory class to create entity instances tied to a VisitorData.

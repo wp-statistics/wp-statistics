@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_Statistics\Service\Tracking\Pipeline\Visitor;
+use WP_Statistics\Service\Tracking\Core\Visitor;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
 
 /**

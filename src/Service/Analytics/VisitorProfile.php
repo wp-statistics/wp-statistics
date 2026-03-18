@@ -15,7 +15,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
 use WP_Statistics\Utils\Url;
-use WP_Statistics\Service\Tracking\Pipeline\Payload;
+use WP_Statistics\Service\Tracking\Core\Payload;
 
 
 /**

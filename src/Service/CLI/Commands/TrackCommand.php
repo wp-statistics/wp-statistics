@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\CLI\Commands;
 
 use WP_CLI;
-use WP_Statistics\Service\Tracking\Pipeline\Tracker;
+use WP_Statistics\Service\Tracking\Core\Tracker;
 use WP_Statistics\Utils\Signature;
 use Exception;
 

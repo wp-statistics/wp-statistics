@@ -3,7 +3,7 @@
 namespace WP_Statistics\Tests\Tracker;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Pipeline\Tracker;
+use WP_Statistics\Service\Tracking\Core\Tracker;
 
 /**
  * Tests for the Tracker class after dead code removal.

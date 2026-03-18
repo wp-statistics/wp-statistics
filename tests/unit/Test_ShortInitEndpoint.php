@@ -3,8 +3,8 @@
 namespace WP_Statistics\Tests\ShortInitEndpoint;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Pipeline\Tracker;
-use WP_Statistics\Service\Tracking\Pipeline\Payload;
+use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Service\Tracking\Core\Payload;
 use WP_Statistics\Utils\Signature;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Option;

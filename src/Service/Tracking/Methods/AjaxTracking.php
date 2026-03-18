@@ -3,8 +3,8 @@
 namespace WP_Statistics\Service\Tracking\Methods;
 
 use WP_Statistics\Components\Ajax;
-use WP_Statistics\Service\Tracking\Pipeline\Tracker;
-use WP_Statistics\Service\Tracking\Pipeline\BatchProcessor;
+use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Service\Tracking\Core\BatchProcessor;
 use WP_Statistics\Utils\Request;
 use Exception;
 

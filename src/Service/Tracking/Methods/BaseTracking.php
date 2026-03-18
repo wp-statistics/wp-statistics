@@ -28,4 +28,14 @@ abstract class BaseTracking
      * Diagnostic route string for health checks.
      */
     abstract public function getRoute(): ?string;
+
+    /**
+     * Called when this method becomes the active tracking method.
+     */
+    public function activate(): void {}
+
+    /**
+     * Called when this method is no longer the active tracking method.
+     */
+    public function deactivate(): void {}
 }

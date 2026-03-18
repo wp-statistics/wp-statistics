@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Tracking\Methods;
 
-use WP_Statistics\Service\Tracking\Pipeline\Tracker;
-use WP_Statistics\Service\Tracking\Pipeline\BatchProcessor;
+use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Service\Tracking\Core\BatchProcessor;
 use Exception;
 use WP_REST_Server;
 use WP_REST_Request;

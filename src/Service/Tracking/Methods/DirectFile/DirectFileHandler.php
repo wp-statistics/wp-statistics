@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\DirectEndpoint;
+namespace WP_Statistics\Service\Tracking\Methods\DirectFile;
 
 /**
  * Manages the mu-plugin proxy for high-performance tracking.
@@ -9,7 +9,7 @@ namespace WP_Statistics\Service\Tracking\DirectEndpoint;
  *
  * @since 15.0.0
  */
-class DirectEndpointManager
+class DirectFileHandler
 {
     /**
      * Option key storing the installed mu-plugin version.

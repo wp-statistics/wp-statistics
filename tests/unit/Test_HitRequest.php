@@ -3,7 +3,7 @@
 namespace WP_Statistics\Tests\Payload;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Pipeline\Payload;
+use WP_Statistics\Service\Tracking\Core\Payload;
 use WP_Statistics\Utils\Signature;
 
 class Test_Payload extends WP_UnitTestCase

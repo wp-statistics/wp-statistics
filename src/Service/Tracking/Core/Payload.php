@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Pipeline;
+namespace WP_Statistics\Service\Tracking\Core;
 
 use Exception;
 use ErrorException;

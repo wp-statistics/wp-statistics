@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Methods;
+namespace WP_Statistics\Service\Tracking\Methods\DirectFile;
 
-use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
+use WP_Statistics\Service\Tracking\Methods\BaseTracking;
 
 /**
  * Direct File tracking method.
@@ -15,13 +15,13 @@ use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 class DirectFileTracking extends BaseTracking
 {
     /**
-     * @var DirectEndpointManager
+     * @var DirectFileHandler
      */
-    private $endpointManager;
+    private $handler;
 
     public function __construct()
     {
-        $this->endpointManager = new DirectEndpointManager();
+        $this->handler = new DirectFileHandler();
     }
 
     /**
@@ -29,7 +29,7 @@ class DirectFileTracking extends BaseTracking
      */
     public function register(): void
     {
-        $this->endpointManager->ensureInstalled();
+        $this->handler->ensureInstalled();
     }
 
     /**
@@ -39,8 +39,8 @@ class DirectFileTracking extends BaseTracking
     {
         return [
             'baseUrl'          => content_url(),
-            'hitEndpoint'      => '/mu-plugins/' . DirectEndpointManager::ENDPOINT_FILE,
-            'batchEndpoint'    => '/mu-plugins/' . DirectEndpointManager::ENDPOINT_FILE,
+            'hitEndpoint'      => '/mu-plugins/' . DirectFileHandler::ENDPOINT_FILE,
+            'batchEndpoint'    => '/mu-plugins/' . DirectFileHandler::ENDPOINT_FILE,
         ];
     }
 
@@ -50,5 +50,21 @@ class DirectFileTracking extends BaseTracking
     public function getRoute(): ?string
     {
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function activate(): void
+    {
+        $this->handler->reinstall();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function deactivate(): void
+    {
+        $this->handler->uninstall();
     }
 }

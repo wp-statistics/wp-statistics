@@ -3,9 +3,9 @@
 namespace WP_Statistics\Tests\Exclusion;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Pipeline\Exclusions;
-use WP_Statistics\Service\Tracking\Pipeline\Visitor;
-use WP_Statistics\Service\Tracking\Pipeline\Payload;
+use WP_Statistics\Service\Tracking\Core\Exclusions;
+use WP_Statistics\Service\Tracking\Core\Visitor;
+use WP_Statistics\Service\Tracking\Core\Payload;
 use ReflectionClass;
 
 /**

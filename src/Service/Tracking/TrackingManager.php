@@ -5,9 +5,8 @@ namespace WP_Statistics\Service\Tracking;
 use WP_Statistics\Service\Tracking\Methods\BaseTracking;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Tracking\Methods\AjaxTracking;
-use WP_Statistics\Service\Tracking\Methods\DirectFileTracking;
+use WP_Statistics\Service\Tracking\Methods\DirectFile\DirectFileTracking;
 use WP_Statistics\Service\Tracking\Methods\RestTracking;
-use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 
 /**
  * Central manager for the three tracking methods:
@@ -99,13 +98,15 @@ class TrackingManager
             return;
         }
 
-        $endpointManager = new DirectEndpointManager();
+        $newKey = $settings['tracking_method'];
+        $newKey = isset(self::METHODS[$newKey]) ? $newKey : self::DEFAULT_METHOD;
 
-        if ($settings['tracking_method'] === 'direct_file') {
-            $endpointManager->reinstall();
-        } else {
-            $endpointManager->uninstall();
-        }
+        // Deactivate the current method, activate the new one.
+        $this->trackingMethod->deactivate();
+
+        $this->trackingOption = $newKey;
+        $this->trackingMethod = $this->getActiveMethod();
+        $this->trackingMethod->activate();
     }
 
     // ── Internal ───────────────────────────────────────────────────
