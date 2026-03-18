@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Delivery;
+namespace WP_Statistics\Service\Tracking\Methods;
 
 use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 use WP_Statistics\Service\Tracking\Pipeline\BatchProcessor;
@@ -15,7 +15,7 @@ use Exception;
  *
  * @since 15.0.0
  */
-class AjaxDelivery extends BaseDeliveryMethod
+class AjaxTracking extends BaseTracking
 {
     public const HIT_ACTION   = 'hit_record';
     public const BATCH_ACTION = 'batch';

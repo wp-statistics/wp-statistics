@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Delivery;
+namespace WP_Statistics\Service\Tracking\Methods;
 
 /**
  * Abstract base for tracking delivery methods.
@@ -10,7 +10,7 @@ namespace WP_Statistics\Service\Tracking\Delivery;
  *
  * @since 15.0.0
  */
-abstract class BaseDeliveryMethod
+abstract class BaseTracking
 {
     /**
      * Register the delivery method's endpoints with WordPress.

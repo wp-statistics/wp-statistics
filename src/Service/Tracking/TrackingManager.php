@@ -2,21 +2,21 @@
 
 namespace WP_Statistics\Service\Tracking;
 
-use WP_Statistics\Service\Tracking\Delivery\BaseDeliveryMethod;
+use WP_Statistics\Service\Tracking\Methods\BaseTracking;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Tracking\Delivery\AjaxDelivery;
-use WP_Statistics\Service\Tracking\Delivery\DirectFileDelivery;
-use WP_Statistics\Service\Tracking\Delivery\RestDelivery;
+use WP_Statistics\Service\Tracking\Methods\AjaxTracking;
+use WP_Statistics\Service\Tracking\Methods\DirectFileTracking;
+use WP_Statistics\Service\Tracking\Methods\RestTracking;
 use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 
 /**
- * Central manager for the three tracking delivery methods:
+ * Central manager for the three tracking tracking methods:
  *
  *  1. REST API    — default, uses /wp-json/wp-statistics/v2/hit
  *  2. AJAX        — routes through admin-ajax.php (bypasses ad blockers)
  *  3. Direct File — SHORTINIT mu-plugin endpoint (highest performance)
  *
- * Each method implements BaseDeliveryMethod. The manager creates
+ * Each method implements BaseTracking. The manager creates
  * the active one and delegates — no method-specific branching here.
  *
  * @since 15.0.0
@@ -24,20 +24,20 @@ use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 class TrackingManager
 {
     /**
-     * Method key → delivery class.
+     * Method key → tracking method class.
      */
     private const METHODS = [
-        'rest'        => RestDelivery::class,
-        'ajax'        => AjaxDelivery::class,
-        'direct_file' => DirectFileDelivery::class,
+        'rest'        => RestTracking::class,
+        'ajax'        => AjaxTracking::class,
+        'direct_file' => DirectFileTracking::class,
     ];
 
     private const DEFAULT_METHOD = 'rest';
 
     /**
-     * The active delivery method.
+     * The active tracking method.
      *
-     * @var BaseDeliveryMethod
+     * @var BaseTracking
      */
     private $activeMethod;
 
@@ -55,7 +55,7 @@ class TrackingManager
     }
 
     /**
-     * Register the active tracking delivery method.
+     * Register the active tracking tracking method.
      *
      * Called once during plugin boot.
      */
@@ -129,24 +129,24 @@ class TrackingManager
 
     // ── Internal ───────────────────────────────────────────────────
 
-    private function createActiveMethod(): BaseDeliveryMethod
+    private function createActiveMethod(): BaseTracking
     {
         $class          = self::METHODS[$this->method];
-        $deliveryMethod = new $class();
+        $method = new $class();
 
         /**
-         * Filter the active delivery method instance.
+         * Filter the active tracking method instance.
          *
-         * @param BaseDeliveryMethod $deliveryMethod The default delivery method.
-         * @return BaseDeliveryMethod The filtered delivery method.
+         * @param BaseTracking $method The default tracking method.
+         * @return BaseTracking The filtered tracking method.
          * @since 15.0.0
          */
-        $deliveryMethod = apply_filters('wp_statistics_tracker_controller', $deliveryMethod);
+        $method = apply_filters('wp_statistics_tracker_controller', $method);
 
-        if (!($deliveryMethod instanceof BaseDeliveryMethod)) {
-            throw new \Exception('Custom delivery method must extend BaseDeliveryMethod');
+        if (!($method instanceof BaseTracking)) {
+            throw new \Exception('Custom tracking method must extend BaseTracking');
         }
 
-        return $deliveryMethod;
+        return $method;
     }
 }

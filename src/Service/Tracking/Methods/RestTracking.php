@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Delivery;
+namespace WP_Statistics\Service\Tracking\Methods;
 
 use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 use WP_Statistics\Service\Tracking\Pipeline\BatchProcessor;
@@ -15,7 +15,7 @@ use WP_REST_Request;
  *
  * @since 15.0.0
  */
-class RestDelivery extends BaseDeliveryMethod
+class RestTracking extends BaseTracking
 {
     private const API_NAMESPACE  = 'wp-statistics/v2';
     private const ENDPOINT_HIT   = 'hit';
