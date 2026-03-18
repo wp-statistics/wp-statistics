@@ -1,9 +1,10 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Controllers;
+namespace WP_Statistics\Service\Tracking\Delivery;
 
-use WP_Statistics\Abstracts\BaseTrackerController;
-use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Abstracts\BaseDeliveryMethod;
+use WP_Statistics\Service\Tracking\Pipeline\Tracker;
+use WP_Statistics\Service\Tracking\Pipeline\BatchProcessor;
 use WP_Statistics\Utils\Request;
 use Exception;
 
@@ -15,7 +16,7 @@ use Exception;
  *
  * @since 15.0.0
  */
-class AjaxBasedTracking extends BaseTrackerController
+class AjaxDelivery extends BaseDeliveryMethod
 {
     public const HIT_ACTION   = 'hit_record';
     public const BATCH_ACTION = 'batch';

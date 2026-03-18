@@ -43,7 +43,7 @@ class Session extends BaseEntity
 
         if ($activeSession && isset($activeSession->ID)) {
             $newViews = ((int)$activeSession->total_views) + 1;
-            $userId   = empty($activeSession->user_id) ? $this->context->getUserId() : $activeSession->user_id;
+            $userId   = empty($activeSession->user_id) ? $this->visitor->getUserId() : $activeSession->user_id;
 
             $newData = [
                 'total_views' => $newViews,
@@ -70,12 +70,12 @@ class Session extends BaseEntity
             'resolution_id'             => $deviceIds['resolution_id'],
             'language_id'               => $localeIds['language_id'],
             'timezone_id'               => $localeIds['timezone_id'],
-            'user_id'                   => $this->context->getUserId(),
+            'user_id'                   => $this->visitor->getUserId(),
             'started_at'                => DateTime::getUtc(),
         ]);
 
         // Record UTM parameters for this new session (first-touch attribution)
-        EntityFactory::parameter($this->context)->record($sessionId);
+        EntityFactory::parameter($this->visitor)->record($sessionId);
 
         return $sessionId;
     }

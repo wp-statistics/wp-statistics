@@ -2,13 +2,13 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_Statistics\Service\Tracking\Core\HitContext;
+use WP_Statistics\Service\Tracking\Pipeline\Visitor;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
 
 /**
  * Base entity class for tracking-related entities.
  *
- * Provides a common constructor accepting a read-only HitContext,
+ * Provides a common constructor accepting a read-only Visitor,
  * and initializes a UserAgentService when available.
  */
 abstract class BaseEntity
@@ -16,9 +16,9 @@ abstract class BaseEntity
     /**
      * Read-only context for the current hit.
      *
-     * @var HitContext
+     * @var Visitor
      */
-    protected $context;
+    protected $visitor;
 
     /**
      * Service for retrieving user agent details (browser/device).
@@ -31,12 +31,12 @@ abstract class BaseEntity
     /**
      * BaseEntity constructor.
      *
-     * @param HitContext $context Read-only context for the current hit.
+     * @param Visitor $visitor Read-only context for the current hit.
      */
-    public function __construct(HitContext $context)
+    public function __construct(Visitor $visitor)
     {
-        $this->context   = $context;
-        $this->userAgent = $context->getUserAgent();
+        $this->visitor   = $visitor;
+        $this->userAgent = $visitor->getUserAgent();
     }
 
     /**

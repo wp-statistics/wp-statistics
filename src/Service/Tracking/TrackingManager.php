@@ -2,11 +2,11 @@
 
 namespace WP_Statistics\Service\Tracking;
 
-use WP_Statistics\Abstracts\BaseTrackerController;
+use WP_Statistics\Abstracts\BaseDeliveryMethod;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Tracking\Controllers\AjaxBasedTracking;
-use WP_Statistics\Service\Tracking\Controllers\DirectFileTracking;
-use WP_Statistics\Service\Tracking\Controllers\RestApiTracking;
+use WP_Statistics\Service\Tracking\Delivery\AjaxDelivery;
+use WP_Statistics\Service\Tracking\Delivery\DirectFileDelivery;
+use WP_Statistics\Service\Tracking\Delivery\RestDelivery;
 use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 
 /**
@@ -16,7 +16,7 @@ use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
  *  2. AJAX        — routes through admin-ajax.php (bypasses ad blockers)
  *  3. Direct File — SHORTINIT mu-plugin endpoint (highest performance)
  *
- * Each method implements BaseTrackerController. The manager creates
+ * Each method implements BaseDeliveryMethod. The manager creates
  * the active one and delegates — no method-specific branching here.
  *
  * @since 15.0.0
@@ -27,9 +27,9 @@ class TrackingManager
      * Method key → controller class.
      */
     private const METHODS = [
-        'rest'        => RestApiTracking::class,
-        'ajax'        => AjaxBasedTracking::class,
-        'direct_file' => DirectFileTracking::class,
+        'rest'        => RestDelivery::class,
+        'ajax'        => AjaxDelivery::class,
+        'direct_file' => DirectFileDelivery::class,
     ];
 
     private const DEFAULT_METHOD = 'rest';
@@ -37,7 +37,7 @@ class TrackingManager
     /**
      * The active delivery method.
      *
-     * @var BaseTrackerController
+     * @var BaseDeliveryMethod
      */
     private $activeMethod;
 
@@ -129,7 +129,7 @@ class TrackingManager
 
     // ── Internal ───────────────────────────────────────────────────
 
-    private function createActiveMethod(): BaseTrackerController
+    private function createActiveMethod(): BaseDeliveryMethod
     {
         $class      = self::METHODS[$this->method];
         $controller = new $class();
@@ -137,14 +137,14 @@ class TrackingManager
         /**
          * Filter the tracking controller instance.
          *
-         * @param BaseTrackerController $controller The default tracking controller.
-         * @return BaseTrackerController The filtered tracking controller.
+         * @param BaseDeliveryMethod $controller The default tracking controller.
+         * @return BaseDeliveryMethod The filtered tracking controller.
          * @since 15.0.0
          */
         $controller = apply_filters('wp_statistics_tracker_controller', $controller);
 
-        if (!($controller instanceof BaseTrackerController)) {
-            throw new \Exception('Custom tracker controller must extend BaseTrackerController');
+        if (!($controller instanceof BaseDeliveryMethod)) {
+            throw new \Exception('Custom tracker controller must extend BaseDeliveryMethod');
         }
 
         return $controller;

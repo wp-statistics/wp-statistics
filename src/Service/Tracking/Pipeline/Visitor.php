@@ -1,11 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Core;
+namespace WP_Statistics\Service\Tracking\Pipeline;
 
 use WP_Statistics\Components\Ip;
-use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
@@ -17,7 +15,7 @@ use WP_Statistics\Utils\Url;
  * Read-only context for the hit pipeline.
  *
  * Combines:
- * - Browser input (via HitRequest — immutable)
+ * - Browser input (via Payload — immutable)
  * - Server-resolved data (IP, geolocation, user agent, referrer — lazy/cached)
  *
  * Does NOT store record IDs — those flow as explicit return values
@@ -25,21 +23,21 @@ use WP_Statistics\Utils\Url;
  *
  * @since 15.1.0
  */
-final class HitContext
+final class Visitor
 {
-    private HitRequest $request;
+    private Payload $payload;
     private array $cache = [];
 
-    public function __construct(HitRequest $request)
+    public function __construct(Payload $payload)
     {
-        $this->request = $request;
+        $this->payload = $payload;
     }
 
     // ── Browser input ───────────────────────────────────────────────
 
-    public function getRequest(): HitRequest
+    public function getRequest(): Payload
     {
-        return $this->request;
+        return $this->payload;
     }
 
     // ── Server-resolved data (lazy, cached) ─────────────────────────
@@ -49,15 +47,15 @@ final class HitContext
         return $this->cached('ip', fn() => Ip::getCurrent());
     }
 
-    public function getIpHash(): string
+    public function getHashedIp(): string
     {
-        return $this->cached('ipHash', fn() => Ip::hash());
+        return $this->cached('hashedIp', fn() => Ip::hash());
     }
 
     public function getStorableIp(): ?string
     {
         return $this->cached('storableIp', function () {
-            if ($this->request->getTrackingLevel() !== TrackingLevel::FULL) {
+            if ($this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
                 return null;
             }
             return Ip::getStorableIp();
@@ -107,7 +105,7 @@ final class HitContext
     public function getReferrer(): ?string
     {
         return $this->cached('referrer', function () {
-            $raw = $this->request->getReferrer();
+            $raw = $this->payload->getReferrer();
             if (empty($raw) || Url::isInternal($raw)) {
                 return null;
             }
@@ -128,9 +126,9 @@ final class HitContext
     public function getSource(): SourceDetector
     {
         return $this->cached('source', function () {
-            $raw      = $this->request->getReferrer();
+            $raw      = $this->payload->getReferrer();
             $referrer = (empty($raw) || Url::isInternal($raw)) ? '' : $raw;
-            return new SourceDetector($referrer, $this->request->getResourceUri());
+            return new SourceDetector($referrer, $this->payload->getResourceUri());
         });
     }
 
@@ -140,20 +138,10 @@ final class HitContext
             if (!Option::getValue('visitors_log')) {
                 return null;
             }
-            if ($this->request->getTrackingLevel() !== TrackingLevel::FULL) {
+            if ($this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
                 return null;
             }
-            return $this->request->getUserId();
-        });
-    }
-
-    public function isIpActiveToday()
-    {
-        return $this->cached('isIpActiveToday', function () {
-            return RecordFactory::visitor()->get([
-                'hash'             => $this->getIpHash(),
-                'DATE(created_at)' => DateTime::get(),
-            ]);
+            return $this->payload->getUserId();
         });
     }
 

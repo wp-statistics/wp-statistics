@@ -10,7 +10,7 @@ namespace WP_Statistics\Abstracts;
  *
  * @since 15.0.0
  */
-abstract class BaseTrackerController
+abstract class BaseDeliveryMethod
 {
     /**
      * Register the delivery method's endpoints with WordPress.

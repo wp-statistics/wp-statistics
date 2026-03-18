@@ -1,9 +1,10 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Controllers;
+namespace WP_Statistics\Service\Tracking\Delivery;
 
-use WP_Statistics\Abstracts\BaseTrackerController;
-use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Abstracts\BaseDeliveryMethod;
+use WP_Statistics\Service\Tracking\Pipeline\Tracker;
+use WP_Statistics\Service\Tracking\Pipeline\BatchProcessor;
 use Exception;
 use WP_REST_Server;
 use WP_REST_Request;
@@ -15,7 +16,7 @@ use WP_REST_Request;
  *
  * @since 15.0.0
  */
-class RestApiTracking extends BaseTrackerController
+class RestDelivery extends BaseDeliveryMethod
 {
     private const API_NAMESPACE  = 'wp-statistics/v2';
     private const ENDPOINT_HIT   = 'hit';

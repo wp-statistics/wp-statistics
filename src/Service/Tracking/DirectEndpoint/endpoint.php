@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // ── 5. Record hit ───────────────────────────────────────────────────
 
-use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 
 try {
     (new Tracker())->record();

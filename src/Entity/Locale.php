@@ -36,14 +36,14 @@ class Locale extends BaseEntity
      */
     private function recordLanguage(): int
     {
-        $language = $this->context->getRequest()->getLanguageCode();
-        $fullName = $this->context->getRequest()->getLanguageName();
+        $language = $this->visitor->getRequest()->getLanguageCode();
+        $fullName = $this->visitor->getRequest()->getLanguageName();
 
         if (empty($language) || !is_string($language)) {
             return 0;
         }
 
-        $region = $this->context->getRegionCode();
+        $region = $this->visitor->getRegionCode();
         $record = RecordFactory::language()->get(['code' => $language, 'region' => $region]);
 
         if (!empty($record) && isset($record->ID)) {
@@ -67,7 +67,7 @@ class Locale extends BaseEntity
      */
     private function recordTimezone(): int
     {
-        $tzName = $this->context->getRequest()->getTimezone();
+        $tzName = $this->visitor->getRequest()->getTimezone();
 
         if (empty($tzName) || !is_string($tzName)) {
             $tz = new \DateTimeZone('UTC');

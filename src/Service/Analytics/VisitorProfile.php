@@ -15,7 +15,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
 use WP_Statistics\Utils\Url;
-use WP_Statistics\Service\Tracking\Core\HitRequest;
+use WP_Statistics\Service\Tracking\Pipeline\Payload;
 
 
 /**
@@ -136,17 +136,17 @@ class VisitorProfile
     /**
      * Parsed hit request parameters.
      *
-     * @var HitRequest|null
+     * @var Payload|null
      */
-    private ?HitRequest $hitRequest = null;
+    private ?Payload $payload = null;
 
     public function __construct()
     {
     }
 
-    public function setHitRequest(HitRequest $hitRequest): void
+    public function setPayload(Payload $payload): void
     {
-        $this->hitRequest = $hitRequest;
+        $this->hitRequest = $payload;
     }
 
     public function getTimezone(): string

@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Controllers;
+namespace WP_Statistics\Service\Tracking\Delivery;
 
-use WP_Statistics\Abstracts\BaseTrackerController;
+use WP_Statistics\Abstracts\BaseDeliveryMethod;
 use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 
 /**
@@ -13,7 +13,7 @@ use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
  *
  * @since 15.1.0
  */
-class DirectFileTracking extends BaseTrackerController
+class DirectFileDelivery extends BaseDeliveryMethod
 {
     /**
      * @var DirectEndpointManager

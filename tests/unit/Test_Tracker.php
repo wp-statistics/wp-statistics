@@ -3,8 +3,7 @@
 namespace WP_Statistics\Tests\Tracker;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Core\Tracker;
-use WP_Statistics\Abstracts\BaseTracking;
+use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 
 /**
  * Tests for the Tracker class after dead code removal.
@@ -56,14 +55,6 @@ class Test_Tracker extends WP_UnitTestCase
         $tracker = new Tracker();
         $this->assertFalse(method_exists($tracker, 'isRestHit'));
         $this->assertFalse(method_exists($tracker, 'getRestParams'));
-    }
-
-    /**
-     * BaseTracking should not have getRestHitsKey anymore.
-     */
-    public function test_base_tracking_rest_key_removed()
-    {
-        $this->assertFalse(method_exists(BaseTracking::class, 'getRestHitsKey'));
     }
 
     /**

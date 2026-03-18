@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\CLI\Commands;
 
 use WP_CLI;
-use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 use WP_Statistics\Utils\Signature;
 use Exception;
 
@@ -79,7 +79,7 @@ class TrackCommand
             $_SERVER['HTTP_USER_AGENT'] = $assoc_args['user_agent'];
         }
 
-        // Build the $_REQUEST params expected by HitRequest::create()
+        // Build the $_REQUEST params expected by Payload::parse()
         $resourceType = 'post';
         $resourceId   = 1;
         $userId       = isset($assoc_args['user_id']) ? (int) $assoc_args['user_id'] : 0;

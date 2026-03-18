@@ -30,7 +30,7 @@ class Visitor extends BaseEntity
             return 0;
         }
 
-        $hash = $this->context->getIpHash();
+        $hash = $this->visitor->getHashedIp();
 
         if (empty($hash)) {
             return 0;
@@ -42,7 +42,7 @@ class Visitor extends BaseEntity
             ? (int)$record->ID
             : RecordFactory::visitor()->insert([
                 'hash'       => $hash,
-                'ip'         => $this->context->getStorableIp(),
+                'ip'         => $this->visitor->getStorableIp(),
                 'created_at' => DateTime::getUtc(),
             ]);
 

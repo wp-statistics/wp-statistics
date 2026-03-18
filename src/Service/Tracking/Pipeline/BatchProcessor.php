@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Controllers;
+namespace WP_Statistics\Service\Tracking\Pipeline;
 
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Ip;

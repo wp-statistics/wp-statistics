@@ -3,8 +3,8 @@
 namespace WP_Statistics\Tests\ShortInitEndpoint;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Core\Hits;
-use WP_Statistics\Service\Tracking\Core\HitRequest;
+use WP_Statistics\Service\Tracking\Pipeline\Hits;
+use WP_Statistics\Service\Tracking\Pipeline\Payload;
 use WP_Statistics\Utils\Signature;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Option;
@@ -16,7 +16,7 @@ use WP_Statistics\Service\Consent\TrackingLevel;
  * Verifies that the hit pipeline works correctly without the full
  * Bootstrap container — simulating the direct file endpoint conditions.
  *
- * Runs in separate processes because Exclusion::check() caches its
+ * Runs in separate processes because Exclusions::check() caches its
  * result in a static property that persists across tests.
  *
  * @runTestsInSeparateProcesses
@@ -115,7 +115,7 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionCode(403);
-        HitRequest::create();
+        Payload::parse();
     }
 
     public function test_missing_required_param_throws_400()
@@ -124,7 +124,7 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
         unset($_REQUEST['timezone']);
 
         $this->expectException(\ErrorException::class);
-        HitRequest::create();
+        Payload::parse();
     }
 
     public function test_salt_rotation_works()
@@ -169,7 +169,7 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
         Option::updateValue('consent_integration', true);
         $this->setValidRequest(['tracking_level' => 'full']);
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('full', $hit->getTrackingLevel());
         $this->assertFalse($hit->getTrackingLevel() !== TrackingLevel::FULL);
@@ -180,7 +180,7 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
         Option::updateValue('consent_integration', true);
         $this->setValidRequest(['tracking_level' => 'anonymous']);
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('anonymous', $hit->getTrackingLevel());
         $this->assertTrue($hit->getTrackingLevel() !== TrackingLevel::FULL);
@@ -191,7 +191,7 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
         Option::updateValue('consent_integration', false);
         $this->setValidRequest();
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('full', $hit->getTrackingLevel());
     }
@@ -201,7 +201,7 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
         Option::updateValue('consent_integration', true);
         $this->setValidRequest();
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('none', $hit->getTrackingLevel());
         $this->assertTrue($hit->getTrackingLevel() !== TrackingLevel::FULL);
@@ -212,7 +212,7 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
         Option::updateValue('consent_integration', false);
         $this->setValidRequest(['tracking_level' => 'garbage']);
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('full', $hit->getTrackingLevel());
     }

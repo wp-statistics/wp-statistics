@@ -35,7 +35,7 @@ class Parameter extends BaseEntity
             return;
         }
 
-        $resourceUri = $this->context->getRequest()->getResourceUri();
+        $resourceUri = $this->visitor->getRequest()->getResourceUri();
 
         if (empty($resourceUri)) {
             return;

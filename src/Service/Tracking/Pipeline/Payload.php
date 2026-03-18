@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Core;
+namespace WP_Statistics\Service\Tracking\Pipeline;
 
 use Exception;
 use ErrorException;
@@ -17,13 +17,13 @@ use WP_Statistics\Utils\Validator;
  *
  * Created once per request via create(). Validates, sanitizes, and decodes
  * all values at construction time. Entities access these values through
- * HitContext — never from $_REQUEST directly.
+ * Visitor — never from $_REQUEST directly.
  *
  * Supports backward-compatible fallbacks for legacy param names.
  * When resource_uri_id is not provided, it is auto-resolved from
  * resource_uri + resource_type + resource_id.
  */
-final class HitRequest
+final class Payload
 {
     private int $resourceUriId;
     private ?int $resourceId;
@@ -47,7 +47,7 @@ final class HitRequest
      *
      * @throws ErrorException If required params are missing or invalid.
      */
-    public static function create(): self
+    public static function parse(): self
     {
         $instance = new self();
 

@@ -127,8 +127,8 @@ class Device extends BaseEntity
      */
     private function recordResolution(): int
     {
-        $width  = (int)$this->context->getRequest()->getScreenWidth();
-        $height = (int)$this->context->getRequest()->getScreenHeight();
+        $width  = (int)$this->visitor->getRequest()->getScreenWidth();
+        $height = (int)$this->visitor->getRequest()->getScreenHeight();
 
         if ($height > 0) {
             $height = (int)(floor($height / 10) * 10);

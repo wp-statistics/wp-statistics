@@ -2,12 +2,12 @@
 
 namespace WP_Statistics\Entity;
 
-use WP_Statistics\Service\Tracking\Core\HitContext;
+use WP_Statistics\Service\Tracking\Pipeline\Visitor;
 
 /**
- * Factory class to create entity instances tied to a HitContext.
+ * Factory class to create entity instances tied to a Visitor.
  *
- * Each method initializes and returns a corresponding entity using a given HitContext instance.
+ * Each method initializes and returns a corresponding entity using a given Visitor instance.
  *
  * @since 15.0.0
  */
@@ -16,88 +16,88 @@ class EntityFactory
     /**
      * Create a new Device entity for the given context.
      *
-     * @param HitContext $context Hit context instance.
+     * @param Visitor $visitor Hit context instance.
      * @return Device
      */
-    public static function device(HitContext $context)
+    public static function device(Visitor $visitor)
     {
-        return new Device($context);
+        return new Device($visitor);
     }
 
     /**
      * Create a new Visitor entity for the given context.
      *
-     * @param HitContext $context Hit context instance.
+     * @param Visitor $visitor Hit context instance.
      * @return Visitor
      */
-    public static function visitor(HitContext $context)
+    public static function visitor(Visitor $visitor)
     {
-        return new Visitor($context);
+        return new Visitor($visitor);
     }
 
     /**
      * Create a new Session entity for the given context.
      *
-     * @param HitContext $context Hit context instance.
+     * @param Visitor $visitor Hit context instance.
      * @return Session
      */
-    public static function session(HitContext $context)
+    public static function session(Visitor $visitor)
     {
-        return new Session($context);
+        return new Session($visitor);
     }
 
     /**
      * Create a new Geo entity for the given context.
      *
-     * @param HitContext $context Hit context instance.
+     * @param Visitor $visitor Hit context instance.
      * @return Geo
      */
-    public static function geo(HitContext $context)
+    public static function geo(Visitor $visitor)
     {
-        return new Geo($context);
+        return new Geo($visitor);
     }
 
     /**
      * Create a new Locale entity for the given context.
      *
-     * @param HitContext $context Hit context instance.
+     * @param Visitor $visitor Hit context instance.
      * @return Locale
      */
-    public static function locale(HitContext $context)
+    public static function locale(Visitor $visitor)
     {
-        return new Locale($context);
+        return new Locale($visitor);
     }
 
     /**
      * Create a new Referrer entity for the given context.
      *
-     * @param HitContext $context Hit context instance.
+     * @param Visitor $visitor Hit context instance.
      * @return Referrer
      */
-    public static function referrer(HitContext $context)
+    public static function referrer(Visitor $visitor)
     {
-        return new Referrer($context);
+        return new Referrer($visitor);
     }
 
     /**
      * Create a new View entity for the given context.
      *
-     * @param HitContext $context Hit context instance.
+     * @param Visitor $visitor Hit context instance.
      * @return View
      */
-    public static function view(HitContext $context)
+    public static function view(Visitor $visitor)
     {
-        return new View($context);
+        return new View($visitor);
     }
 
     /**
      * Create a new Parameter entity for the given context.
      *
-     * @param HitContext $context Hit context instance.
+     * @param Visitor $visitor Hit context instance.
      * @return Parameter
      */
-    public static function parameter(HitContext $context)
+    public static function parameter(Visitor $visitor)
     {
-        return new Parameter($context);
+        return new Parameter($visitor);
     }
 }

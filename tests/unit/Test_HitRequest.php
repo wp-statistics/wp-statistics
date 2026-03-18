@@ -1,12 +1,12 @@
 <?php
 
-namespace WP_Statistics\Tests\HitRequest;
+namespace WP_Statistics\Tests\Payload;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Core\HitRequest;
+use WP_Statistics\Service\Tracking\Pipeline\Payload;
 use WP_Statistics\Utils\Signature;
 
-class Test_HitRequest extends WP_UnitTestCase
+class Test_Payload extends WP_UnitTestCase
 {
     private $requestKeys = [
         'resource_uri_id', 'resourceUriId',
@@ -82,7 +82,7 @@ class Test_HitRequest extends WP_UnitTestCase
             'user_id'         => '5',
         ]);
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame(42, $hit->getResourceUriId());
         $this->assertSame(7, $hit->getResourceId());
@@ -101,7 +101,7 @@ class Test_HitRequest extends WP_UnitTestCase
     {
         $this->setValidRequest(['resource_id' => '0']);
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame(0, $hit->getResourceId());
     }
@@ -112,7 +112,7 @@ class Test_HitRequest extends WP_UnitTestCase
             'referrer' => base64_encode('https://example.com/search?q=hello%20world'),
         ]);
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('https://example.com/search?q=hello world', $hit->getReferrer());
     }
@@ -121,7 +121,7 @@ class Test_HitRequest extends WP_UnitTestCase
     {
         $this->setValidRequest(['referrer' => '']);
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('', $hit->getReferrer());
     }
@@ -134,31 +134,31 @@ class Test_HitRequest extends WP_UnitTestCase
         unset($_REQUEST['resource_uri_id']);
         $_REQUEST['resourceUriId'] = '42';
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame(42, $hit->getResourceUriId());
     }
 
     public function test_falls_back_to_source_type()
     {
-        // Signature must match what HitRequest will parse: source_type='page'
+        // Signature must match what Payload will parse: source_type='page'
         $this->setValidRequest(['resource_type' => 'page']);
         unset($_REQUEST['resource_type']);
         $_REQUEST['source_type'] = 'page';
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('page', $hit->getResourceType());
     }
 
     public function test_falls_back_to_source_id()
     {
-        // Signature must match what HitRequest will parse: source_id=3
+        // Signature must match what Payload will parse: source_id=3
         $this->setValidRequest(['resource_id' => '3']);
         unset($_REQUEST['resource_id']);
         $_REQUEST['source_id'] = '3';
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame(3, $hit->getResourceId());
     }
@@ -169,7 +169,7 @@ class Test_HitRequest extends WP_UnitTestCase
         unset($_REQUEST['referrer']);
         $_REQUEST['referred'] = base64_encode('https://old.com');
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('https://old.com', $hit->getReferrer());
     }
@@ -180,7 +180,7 @@ class Test_HitRequest extends WP_UnitTestCase
         unset($_REQUEST['resource_uri']);
         $_REQUEST['page_uri'] = base64_encode('/from-page-uri');
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame('/from-page-uri', $hit->getResourceUri());
     }
@@ -194,7 +194,7 @@ class Test_HitRequest extends WP_UnitTestCase
         $_REQUEST['resourceUriId'] = '99';
         $_REQUEST['referred']      = base64_encode('https://old.com');
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertSame(10, $hit->getResourceUriId());
         $this->assertSame('https://new.com', $hit->getReferrer());
@@ -207,7 +207,7 @@ class Test_HitRequest extends WP_UnitTestCase
         $this->setValidRequest();
         unset($_REQUEST['resource_uri_id']);
 
-        $hit = HitRequest::create();
+        $hit = Payload::parse();
 
         $this->assertGreaterThanOrEqual(1, $hit->getResourceUriId());
     }
@@ -218,7 +218,7 @@ class Test_HitRequest extends WP_UnitTestCase
         unset($_REQUEST['resource_uri_id']);
 
         $this->expectException(\ErrorException::class);
-        HitRequest::create();
+        Payload::parse();
     }
 
     public function test_throws_when_resource_id_missing()
@@ -227,7 +227,7 @@ class Test_HitRequest extends WP_UnitTestCase
         unset($_REQUEST['resource_id']);
 
         $this->expectException(\ErrorException::class);
-        HitRequest::create();
+        Payload::parse();
     }
 
     public function test_throws_when_timezone_missing()
@@ -236,7 +236,7 @@ class Test_HitRequest extends WP_UnitTestCase
         unset($_REQUEST['timezone']);
 
         $this->expectException(\ErrorException::class);
-        HitRequest::create();
+        Payload::parse();
     }
 
     public function test_throws_when_language_code_missing()
@@ -245,7 +245,7 @@ class Test_HitRequest extends WP_UnitTestCase
         unset($_REQUEST['language_code']);
 
         $this->expectException(\ErrorException::class);
-        HitRequest::create();
+        Payload::parse();
     }
 
     public function test_throws_when_screen_width_missing()
@@ -254,7 +254,7 @@ class Test_HitRequest extends WP_UnitTestCase
         unset($_REQUEST['screen_width']);
 
         $this->expectException(\ErrorException::class);
-        HitRequest::create();
+        Payload::parse();
     }
 
     public function test_throws_when_signature_invalid()
@@ -264,7 +264,7 @@ class Test_HitRequest extends WP_UnitTestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionCode(403);
-        HitRequest::create();
+        Payload::parse();
     }
 
     public function test_throws_when_signature_missing()
@@ -274,6 +274,6 @@ class Test_HitRequest extends WP_UnitTestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionCode(403);
-        HitRequest::create();
+        Payload::parse();
     }
 }

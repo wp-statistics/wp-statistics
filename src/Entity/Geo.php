@@ -36,7 +36,7 @@ class Geo extends BaseEntity
      */
     private function recordCountry(): int
     {
-        $geo = (array)$this->context->getLocation();
+        $geo = (array)$this->visitor->getLocation();
 
         $code = isset($geo['country_code']) ? $geo['country_code'] : '';
 
@@ -50,7 +50,7 @@ class Geo extends BaseEntity
             return (int)$record->ID;
         }
 
-        $continent = $this->context->getContinent();
+        $continent = $this->visitor->getContinent();
 
         return (int)RecordFactory::country()->insert([
             'code'           => $geo['country_code'],
@@ -68,10 +68,10 @@ class Geo extends BaseEntity
      */
     private function recordCity(int $countryId): int
     {
-        $geo = (array)$this->context->getLocation();
+        $geo = (array)$this->visitor->getLocation();
 
-        $cityName   = $this->context->getCity();
-        $regionName = $this->context->getRegion();
+        $cityName   = $this->visitor->getCity();
+        $regionName = $this->visitor->getRegion();
         $regionCode = isset($geo['region_code']) ? $geo['region_code'] : '';
 
         if (empty($cityName) || $countryId < 1) {

@@ -32,7 +32,7 @@ class View extends BaseEntity
             return 0;
         }
 
-        $resourceUriId = $this->context->getRequest()->getResourceUriId();
+        $resourceUriId = $this->visitor->getRequest()->getResourceUriId();
 
         if ($sessionId < 1 || $resourceUriId < 1) {
             return 0;
@@ -50,7 +50,7 @@ class View extends BaseEntity
             'viewed_at'       => $now,
             'next_view_id'    => null,
             'duration'        => 0,
-            'resource_id'     => $this->context->getRequest()->getResourceId(),
+            'resource_id'     => $this->visitor->getRequest()->getResourceId(),
         ];
 
         $newViewId = (int)RecordFactory::view()->insert($data);
@@ -69,7 +69,7 @@ class View extends BaseEntity
             ]);
         }
 
-        EntityFactory::session($this->context)->updateInitialView($sessionId, $newViewId, $now);
+        EntityFactory::session($this->visitor)->updateInitialView($sessionId, $newViewId, $now);
         return $newViewId;
     }
 }

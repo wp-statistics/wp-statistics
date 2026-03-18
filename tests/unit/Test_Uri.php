@@ -5,7 +5,7 @@ namespace WP_Statistics\Tests\Uri;
 use WP_UnitTestCase;
 use WP_Statistics\Utils\Uri;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Tracking\Core\HitRequest;
+use WP_Statistics\Service\Tracking\Pipeline\Payload;
 use WP_Statistics\Utils\Signature;
 
 /**
@@ -66,7 +66,7 @@ class Test_Uri extends WP_UnitTestCase
     {
         $this->setValidRequest(['resource_uri' => base64_encode($uri)]);
         $profile = new VisitorProfile();
-        $profile->setHitRequest(HitRequest::create());
+        $profile->setPayload(Payload::parse());
         return $profile;
     }
 
@@ -128,7 +128,7 @@ class Test_Uri extends WP_UnitTestCase
     public function test_falls_back_when_resource_uri_empty()
     {
         $profile = new VisitorProfile();
-        // Don't set HitRequest — getResourceUri() will return ''
+        // Don't set Payload — getResourceUri() will return ''
 
         $result = Uri::getByVisitor($profile);
 

@@ -29,8 +29,8 @@ class Referrer extends BaseEntity
             return 0;
         }
 
-        $domain  = $this->context->getReferrer();
-        $source  = $this->context->getSource();
+        $domain  = $this->visitor->getReferrer();
+        $source  = $this->visitor->getSource();
         $channel = $source->getChannel();
         $name    = $source->getName();
 
