@@ -76,15 +76,15 @@ class SettingsAreaDefinitions
                                 'options'     => [
                                     [
                                         'value' => 'rest',
-                                        'label' => __('REST API (Default)', 'wp-statistics'),
+                                        'label' => __('REST API', 'wp-statistics'),
                                     ],
                                     [
                                         'value' => 'ajax',
-                                        'label' => __('AJAX (Bypass Ad Blockers)', 'wp-statistics'),
+                                        'label' => __('AJAX (Bypass Adblocker)', 'wp-statistics'),
                                     ],
                                     [
                                         'value' => 'direct_file',
-                                        'label' => __('Direct File Endpoint (Beta — Fastest)', 'wp-statistics'),
+                                        'label' => __('Direct File (Beta)', 'wp-statistics'),
                                     ],
                                 ],
                             ],
