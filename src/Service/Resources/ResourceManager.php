@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Resources;
 
 use WP_Statistics\Service\Resources\Identifications\ResourceIdentifier;
 use WP_Statistics\Service\Resources\Identifications\ResourceUriIdentifier;
-use WP_Statistics\Service\Tracking\Core\Exclusion;
 
 /**
  * ResourceManager Class
@@ -43,12 +42,6 @@ class ResourceManager
      */
     public function __construct($record = null)
     {
-        $exclusionResult = Exclusion::checkCurrentRequest();
-
-        if (!is_admin() && ! empty($exclusionResult['exclusion_match'])) {
-            return;
-        }
-
         if (empty($record)) {
             $this->resolveResource();
             return;

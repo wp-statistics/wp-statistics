@@ -182,28 +182,6 @@ class Exclusion extends Singleton
     }
 
     /**
-     * Check exclusion rules for the current server request.
-     *
-     * Convenience wrapper that creates a minimal HitContext.
-     * Used by non-pipeline callers (e.g., ResourceManager).
-     *
-     * @return array Exclusion result.
-     */
-    public static function checkCurrentRequest(): array
-    {
-        try {
-            $request = HitRequest::create();
-            $context = new HitContext($request);
-            return self::check($context);
-        } catch (\Exception $e) {
-            return [
-                'exclusion_match'  => false,
-                'exclusion_reason' => '',
-            ];
-        }
-    }
-
-    /**
      * Records the exclusion occurrence in the database.
      *
      * @param array{exclusion_match: bool, exclusion_reason: string} $exclusion Exclusion details.
