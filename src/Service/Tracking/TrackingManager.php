@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Tracking;
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Tracking\Controllers\AjaxBasedTracking;
-use WP_Statistics\Service\Tracking\Controllers\BatchTracking;
+use WP_Statistics\Service\Tracking\Controllers\DirectFileTracking;
 use WP_Statistics\Service\Tracking\Controllers\RestApiTracking;
 use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 
@@ -13,157 +13,132 @@ use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
  * Central manager for the three tracking delivery methods:
  *
  *  1. REST API    — default, uses /wp-json/wp-statistics/v2/hit
- *  2. AJAX        — when tracking_method is 'ajax'
+ *  2. AJAX        — routes through admin-ajax.php (bypasses ad blockers)
  *  3. Direct File — SHORTINIT mu-plugin endpoint (highest performance)
  *
- * Owns controller registration, direct-endpoint lifecycle,
- * and URL resolution for the frontend tracker script.
+ * Each method implements BaseTrackerController. The manager creates
+ * the active one and delegates — no method-specific branching here.
  *
  * @since 15.0.0
  */
 class TrackingManager
 {
-    public const METHOD_REST        = 'rest';
-    public const METHOD_AJAX        = 'ajax';
-    public const METHOD_DIRECT_FILE = 'direct_file';
+    /**
+     * Method key → controller class.
+     */
+    private const METHODS = [
+        'rest'        => RestApiTracking::class,
+        'ajax'        => AjaxBasedTracking::class,
+        'direct_file' => DirectFileTracking::class,
+    ];
+
+    private const DEFAULT_METHOD = 'rest';
 
     /**
+     * The active delivery method.
+     *
      * @var BaseTrackerController
      */
-    private $hitController;
+    private $activeMethod;
 
     /**
-     * @var DirectEndpointManager
+     * Cached tracking method key.
+     *
+     * @var string
      */
-    private $directEndpoint;
+    private $method;
 
     public function __construct()
     {
-        $this->directEndpoint = new DirectEndpointManager();
+        $method       = Option::getValue('tracking_method', self::DEFAULT_METHOD);
+        $this->method = isset(self::METHODS[$method]) ? $method : self::DEFAULT_METHOD;
     }
 
     /**
-     * Register all tracking endpoints.
+     * Register the active tracking delivery method.
      *
      * Called once during plugin boot.
      */
     public function register(): void
     {
-        // 1. Hit endpoint: REST or AJAX based on settings
-        $this->hitController = $this->createHitController();
+        $this->activeMethod = $this->createActiveMethod();
+        $this->activeMethod->register();
 
-        // 2. Batch endpoint: always active
-        new BatchTracking();
-
-        // 3. Direct file endpoint: install/update if enabled
-        $this->directEndpoint->register();
+        // Always listen for tracking method changes so direct endpoint
+        // can be installed/uninstalled when settings are saved.
+        add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
     }
 
-    /**
-     * Get the URL the JS tracker should POST hits to.
-     *
-     * Priority: direct file endpoint > controller route.
-     *
-     * @return string
-     */
+    // ── Delegated to active method ─────────────────────────────────
+
     public function getHitUrl(): string
     {
-        if ($this->isDirectEndpointActive()) {
-            return $this->directEndpoint->getEndpointUrl();
-        }
-
-        return $this->hitController ? $this->hitController->getRoute() : '';
+        return $this->activeMethod->getHitUrl();
     }
 
-    /**
-     * Get the URL for batch/engagement events.
-     *
-     * When direct endpoint is active, batch goes through it too.
-     * Otherwise follows the same REST/AJAX split as hits.
-     *
-     * @return string
-     */
     public function getBatchUrl(): string
     {
-        if ($this->isDirectEndpointActive()) {
-            return $this->directEndpoint->getEndpointUrl();
-        }
-
-        if ($this->getTrackingMethod() === self::METHOD_AJAX) {
-            return '';  // AJAX batch URL is built client-side from ajaxUrl
-        }
-
-        return rest_url('wp-statistics/v2/batch');
+        return $this->activeMethod->getBatchUrl();
     }
 
-    /**
-     * Get the tracking route from the active hit controller.
-     *
-     * Used by diagnostic checks.
-     *
-     * @return string|null
-     */
     public function getTrackingRoute(): ?string
     {
-        if ($this->hitController) {
-            return $this->hitController->getRoute();
-        }
-
-        return null;
+        return $this->activeMethod->getRoute();
     }
 
-    /**
-     * Get the direct endpoint manager instance.
-     *
-     * @return DirectEndpointManager
-     */
-    public function getDirectEndpointManager(): DirectEndpointManager
-    {
-        return $this->directEndpoint;
-    }
+    // ── Method info ────────────────────────────────────────────────
 
-    /**
-     * Get the active tracking method.
-     *
-     * @return string One of 'rest', 'ajax', 'direct_file'.
-     */
     public function getTrackingMethod(): string
     {
-        return Option::getValue('tracking_method', self::METHOD_REST);
+        return $this->method;
+    }
+
+    public function isAjax(): bool
+    {
+        return $this->method === 'ajax';
     }
 
     /**
-     * Check if the direct file endpoint is active and installed.
-     *
-     * @return bool
+     * Direct endpoint URL, or empty string if not the active method.
      */
-    public function isDirectEndpointActive(): bool
+    public function getDirectEndpointUrl(): string
     {
-        return $this->getTrackingMethod() === self::METHOD_DIRECT_FILE
-            && $this->directEndpoint->isInstalled();
-    }
-
-    /**
-     * Create the appropriate hit controller based on settings.
-     *
-     * Preserves the wp_statistics_tracker_controller filter for
-     * third-party extensions that override the hit controller.
-     *
-     * @return BaseTrackerController
-     */
-    private function createHitController(): BaseTrackerController
-    {
-        if ($this->getTrackingMethod() === self::METHOD_AJAX) {
-            $controller = new AjaxBasedTracking();
-        } else {
-            $controller = new RestApiTracking();
+        if ($this->method !== 'direct_file') {
+            return '';
         }
+
+        return $this->activeMethod->getHitUrl();
+    }
+
+    // ── Settings lifecycle ─────────────────────────────────────────
+
+    public function onSettingsSaved(string $tab, array $settings): void
+    {
+        if (!array_key_exists('tracking_method', $settings)) {
+            return;
+        }
+
+        $endpointManager = new DirectEndpointManager();
+
+        if ($settings['tracking_method'] === 'direct_file') {
+            $endpointManager->reinstall();
+        } else {
+            $endpointManager->uninstall();
+        }
+    }
+
+    // ── Internal ───────────────────────────────────────────────────
+
+    private function createActiveMethod(): BaseTrackerController
+    {
+        $class      = self::METHODS[$this->method];
+        $controller = new $class();
 
         /**
          * Filter the tracking controller instance.
          *
-         * @param BaseTrackerController $controller The default tracking controller instance.
-         * @return BaseTrackerController The filtered tracking controller instance.
+         * @param BaseTrackerController $controller The default tracking controller.
+         * @return BaseTrackerController The filtered tracking controller.
          * @since 15.0.0
          */
         $controller = apply_filters('wp_statistics_tracker_controller', $controller);
@@ -174,5 +149,4 @@ class TrackingManager
 
         return $controller;
     }
-
 }

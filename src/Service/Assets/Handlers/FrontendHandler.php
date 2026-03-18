@@ -63,17 +63,8 @@ class FrontendHandler extends BaseAssets
         $activeProvider = Bootstrap::get('consent')->getActiveProvider();
 
         $trackingManager = Bootstrap::get('tracking');
-        $muPluginUrl     = '';
-        $batchUrl        = '';
-
-        try {
-            if ($trackingManager->isDirectEndpointActive()) {
-                $muPluginUrl = $trackingManager->getDirectEndpointManager()->getEndpointUrl();
-            }
-            $batchUrl = $trackingManager->getBatchUrl();
-        } catch (\Throwable $e) {
-            // Direct endpoint is optional — fall back to default endpoints
-        }
+        $muPluginUrl     = $trackingManager->getDirectEndpointUrl();
+        $batchUrl        = $trackingManager->getBatchUrl();
 
         $resource     = ResourcesFactory::getCurrentResource();
         $resourceType = $resource->getType();
@@ -92,7 +83,7 @@ class FrontendHandler extends BaseAssets
                 'resourceId'    => (int) $resourceId,
             ],
             'userId'              => (int) $userId,
-            'option'              => $this->buildOptionArgs($activeProvider),
+            'option'              => $this->buildOptionArgs($activeProvider, $trackingManager->isAjax()),
             'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'),
             'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
             'muPluginUrl'         => $muPluginUrl,
@@ -106,7 +97,7 @@ class FrontendHandler extends BaseAssets
         // Add tracker.js dependencies
         $dependencies = $activeProvider->getJsDependencies();
 
-        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, $trackingManager->getTrackingMethod() === 'ajax', null, '', '', true);
+        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, $trackingManager->isAjax(), null, '', '', true);
 
         $inlineScript = $activeProvider->getInlineScript();
         if ($inlineScript !== '') {
@@ -119,13 +110,13 @@ class FrontendHandler extends BaseAssets
      *
      * @return array
      */
-    private function buildOptionArgs(ConsentProviderInterface $activeProvider): array
+    private function buildOptionArgs(ConsentProviderInterface $activeProvider, bool $isAjax): array
     {
         $trackerConfig = $activeProvider->getJsConfig();
 
         return [
             'userOnline'           => Option::getValue('useronline'),
-            'bypassAdBlockers'     => Option::getValue('tracking_method', 'rest') === 'ajax',
+            'bypassAdBlockers'     => $isAjax,
             'anonymousTracking'    => (bool) Option::getValue('anonymous_tracking', false),
             'eventTracking'        => (bool) Option::getValue('event_tracking', false),
             'trackingLevel'        => TrackingLevel::all(),

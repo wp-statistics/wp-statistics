@@ -3,84 +3,78 @@
 namespace WP_Statistics\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
-use WP_Statistics\Components\Option;
-
 use WP_Statistics\Service\Tracking\Core\Tracker;
 use WP_Statistics\Utils\Request;
+use Exception;
 
 /**
- * AJAX-based Tracking Controller
+ * AJAX delivery method.
  *
- * Implements visitor tracking through WordPress AJAX endpoints when both client-side
- * tracking and ad blocker bypass are enabled. This controller provides a more robust
- * tracking solution that can bypass ad blockers by using WordPress's admin-ajax.php
- * instead of REST API endpoints. Manages both page hit recording through dedicated AJAX callbacks.
+ * Routes hits and batch events through admin-ajax.php,
+ * which bypasses ad blockers that target REST API URLs.
  *
  * @since 15.0.0
  */
 class AjaxBasedTracking extends BaseTrackerController
 {
-    /**
-     * REST API endpoint slug for recording page hits.
-     * Used to register the /hit endpoint that handles tracking page views.
-     *
-     * @var string
-     */
-    public const HIT_ACTION = 'hit_record';
+    public const HIT_ACTION   = 'hit_record';
+    public const BATCH_ACTION = 'batch';
 
     /**
-     * Initialize the AJAX tracking controller.
-     *
-     * @since 15.0.0
+     * {@inheritDoc}
      */
-    public function __construct()
+    public function register(): void
     {
-        $this->register();
-    }
-
-    /**
-     * Register AJAX endpoints and filters for tracking.
-     *
-     * Only activates when tracking_method is set to 'ajax'.
-     *
-     * @return void
-     * @since 15.0.0
-     */
-    public function register()
-    {
-        if (Option::getValue('tracking_method', 'rest') !== 'ajax') {
-            return;
-        }
-
         add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
         add_filter('wp_statistics_js_localized_arguments', [$this, 'addLocalizedArguments']);
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getHitUrl(): string
+    {
+        return admin_url('admin-ajax.php');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBatchUrl(): string
+    {
+        // AJAX batch URL is built client-side from ajaxUrl
+        return '';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRoute(): ?string
+    {
+        return admin_url('admin-ajax.php');
+    }
+
+    /**
      * Add tracking configuration to the localized JavaScript object.
      *
-     * @param array $args Existing localized arguments
-     * @return array Modified arguments with tracking configuration
-     * @since 15.0.0
+     * @param array $args Existing localized arguments.
+     * @return array
      */
-    public function addLocalizedArguments($args)
+    public function addLocalizedArguments(array $args): array
     {
-        $hitAction = 'wp_statistics_' . self::HIT_ACTION;
-
         $args['requestUrl'] = get_site_url();
-        $args['hit']        = ['action' => $hitAction];
+        $args['hit']        = ['action' => 'wp_statistics_' . self::HIT_ACTION];
 
         return $args;
     }
 
     /**
-     * Register tracking endpoints with the AJAX dispatcher.
+     * Register hit and batch AJAX callbacks.
      *
-     * @param array $list Existing AJAX endpoints list
-     * @return array Updated list with tracking endpoints
-     * @since 15.0.0
+     * @param array $list Existing AJAX endpoints list.
+     * @return array
      */
-    public function registerAjaxCallbacks($list)
+    public function registerAjaxCallbacks(array $list): array
     {
         $list[] = [
             'class'  => $this,
@@ -88,27 +82,19 @@ class AjaxBasedTracking extends BaseTrackerController
             'public' => true,
         ];
 
+        $list[] = [
+            'class'  => $this,
+            'action' => self::BATCH_ACTION,
+            'public' => true,
+        ];
+
         return $list;
     }
 
     /**
-     * Get the base URL for AJAX requests.
-     *
-     * @return string WordPress site URL
-     * @since 15.0.0
+     * Handle hit recording via AJAX.
      */
-    public function getRoute()
-    {
-        return get_site_url();
-    }
-
-    /**
-     * Handle page hit recording via AJAX.
-     *
-     * @return void Sends JSON response with status and optional error message
-     * @since 15.0.0
-     */
-    public function hit_record_action_callback()
+    public function hit_record_action_callback(): void
     {
         if (!Request::isFrom('ajax')) {
             return;
@@ -116,12 +102,32 @@ class AjaxBasedTracking extends BaseTrackerController
 
         try {
             (new Tracker())->record();
-            wp_send_json([
-                'status' => true
-            ]);
-
-        } catch (\Exception $e) {
+            wp_send_json(['status' => true]);
+        } catch (Exception $e) {
             wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    /**
+     * Handle batch request via AJAX.
+     */
+    public function batch_action_callback(): void
+    {
+        if (!Request::isFrom('ajax')) {
+            return;
+        }
+
+        try {
+            $batchData = isset($_POST['batch_data']) ? wp_unslash($_POST['batch_data']) : null;
+            $result    = BatchProcessor::parseAndProcess($batchData);
+
+            wp_send_json([
+                'status'    => true,
+                'processed' => $result['processed'],
+                'errors'    => $result['errors'],
+            ]);
+        } catch (Exception $e) {
+            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode() ?: 400);
         }
     }
 }

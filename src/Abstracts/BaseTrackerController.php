@@ -3,40 +3,35 @@
 namespace WP_Statistics\Abstracts;
 
 /**
- * Abstract base class for WP Statistics tracking implementations.
- * Defines the structure for tracking endpoint registration and routing.
+ * Abstract base for tracking delivery methods.
+ *
+ * Every delivery method (REST, AJAX, Direct File) extends this so that
+ * TrackingManager can delegate without special-casing any method.
  *
  * @since 15.0.0
  */
 abstract class BaseTrackerController
 {
     /**
-     * REST API endpoint slug for recording page hits.
-     *
-     * @var string
+     * Register the delivery method's endpoints with WordPress.
      */
-    protected const ENDPOINT_HIT = 'hit';
+    abstract public function register(): void;
 
     /**
-     * Namespace for tracking endpoints.
-     *
-     * @since 15.0.0
-     * @var string
+     * URL the JS tracker should POST hits to.
      */
-    protected $namespace = 'wp-statistics/v2';
+    abstract public function getHitUrl(): string;
 
     /**
-     * Register tracking endpoints.
-     *
-     * @since 15.0.0
+     * URL for batch/engagement events.
      */
-    abstract public function register();
+    abstract public function getBatchUrl(): string;
 
     /**
-     * Get tracking endpoint route.
+     * Diagnostic route string for health checks.
      *
-     * @return string|null Tracking endpoint route
-     * @since 15.0.0
+     * Returns a REST namespace or URL that TrackingCheck can probe.
+     * Delivery methods without a probeable route return null.
      */
-    abstract public function getRoute();
+    abstract public function getRoute(): ?string;
 }

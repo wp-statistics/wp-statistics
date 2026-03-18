@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\Tracking\DirectEndpoint;
 
-use WP_Statistics\Components\Option;
-
 /**
  * Manages the mu-plugin proxy for high-performance tracking.
  *
@@ -29,43 +27,16 @@ class DirectEndpointManager
     private const POLYFILLS_FILE = 'wp-statistics-polyfills.php';
 
     /**
-     * Hook into WordPress to auto-install/update when the option is enabled.
+     * Auto-install or update the mu-plugin files if needed.
      *
      * @return void
      */
-    public function register()
+    public function ensureInstalled(): void
     {
-        // Always listen for settings changes so the toggle can enable/disable the feature
-        add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
-
-        if (Option::getValue('tracking_method', 'rest') !== 'direct_file') {
-            return;
-        }
-
         if (!$this->isInstalled() || $this->needsUpdate()) {
             if (!$this->reinstall()) {
                 error_log('WP Statistics: Failed to install mu-plugin. Check directory permissions for ' . ($this->getMuPluginsDir() ?: 'mu-plugins'));
             }
-        }
-    }
-
-    /**
-     * Handle mu-plugin install/uninstall when the setting changes.
-     *
-     * @param string $tab      Settings tab key.
-     * @param array  $settings Submitted settings.
-     * @return void
-     */
-    public function onSettingsSaved($tab, $settings)
-    {
-        if (!array_key_exists('tracking_method', $settings)) {
-            return;
-        }
-
-        if ($settings['tracking_method'] === 'direct_file') {
-            $this->reinstall();
-        } else {
-            $this->uninstall();
         }
     }
 

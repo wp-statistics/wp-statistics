@@ -3,124 +3,106 @@
 namespace WP_Statistics\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
-use WP_Statistics\Components\Option;
-
 use WP_Statistics\Service\Tracking\Core\Tracker;
 use Exception;
 use WP_REST_Server;
 use WP_REST_Request;
-use WP_REST_Response;
 
 /**
- * REST API-based Tracking Controller
+ * REST API delivery method.
  *
- * Handles visitor tracking through WordPress REST API endpoints when client-side tracking
- * is enabled but ad blocker bypass is disabled. This controller integrates with WordPress
- * REST API for secure tracking requests, providing endpoints for recording page hits (/hit).
- * Includes signature validation, client-side configuration,
- * and compatibility with cache plugins while following privacy settings.
+ * Registers /wp-json/wp-statistics/v2/hit and /batch endpoints.
  *
  * @since 15.0.0
  */
 class RestApiTracking extends BaseTrackerController
 {
-    /**
-     * Initialize the REST API tracking controller.
-     * Calls the register method to set up REST API endpoints for hit.
-     *
-     * @since 15.0.0
-     */
-    public function __construct()
-    {
-        $this->register();
-    }
+    private const API_NAMESPACE  = 'wp-statistics/v2';
+    private const ENDPOINT_HIT   = 'hit';
+    private const ENDPOINT_BATCH = 'batch';
 
     /**
-     * Register REST API endpoints and filters if conditions are met.
-     * Only registers endpoints when client-side tracking is enabled and ad blocker bypass is disabled.
-     *
-     * @return void
-     * @since 15.0.0
+     * {@inheritDoc}
      */
-    public function register()
+    public function register(): void
     {
-        if (Option::getValue('tracking_method', 'rest') !== 'rest') {
-            return;
-        }
-
         add_action('rest_api_init', [$this, 'registerRoutes']);
         add_filter('wp_statistics_js_localized_arguments', [$this, 'addLocalizedArguments']);
     }
 
     /**
-     * Add tracking-related arguments to the localized JavaScript object.
-     * Provides necessary configuration for client-side tracking, including endpoints and parameters.
-     *
-     * @param array $args Existing localized arguments
-     * @return array Modified arguments with tracking configuration
-     * @since 15.0.0
+     * {@inheritDoc}
      */
-    public function addLocalizedArguments($args)
+    public function getHitUrl(): string
     {
-        $args['requestUrl'] = get_rest_url(null, $this->namespace);
+        return rest_url(self::API_NAMESPACE . '/' . self::ENDPOINT_HIT);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBatchUrl(): string
+    {
+        return rest_url(self::API_NAMESPACE . '/' . self::ENDPOINT_BATCH);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRoute(): ?string
+    {
+        return self::API_NAMESPACE;
+    }
+
+    /**
+     * Add tracking configuration to the localized JavaScript object.
+     *
+     * @param array $args Existing localized arguments.
+     * @return array
+     */
+    public function addLocalizedArguments(array $args): array
+    {
+        $args['requestUrl'] = get_rest_url(null, self::API_NAMESPACE);
         $args['hit']        = ['endpoint' => self::ENDPOINT_HIT];
 
         return $args;
     }
 
     /**
-     * Register REST API routes for hit tracking.
-     * Sets up endpoints with appropriate HTTP methods, callbacks, and argument validation.
-     *
-     * @return void
-     * @since 15.0.0
+     * Register REST API routes for hit and batch tracking.
      */
-    public function registerRoutes()
+    public function registerRoutes(): void
     {
-        register_rest_route($this->namespace, '/' . self::ENDPOINT_HIT, [
+        register_rest_route(self::API_NAMESPACE, '/' . self::ENDPOINT_HIT, [
             'methods'             => WP_REST_Server::CREATABLE,
             'callback'            => [$this, 'recordHit'],
             'permission_callback' => '__return_true',
-            'args'                => $this->getArgs(),
+            'args'                => [
+                'resource_uri_id' => ['required' => true, 'type' => 'string'],
+                'signature'       => ['required' => false, 'type' => 'string'],
+            ],
+        ]);
+
+        register_rest_route(self::API_NAMESPACE, '/' . self::ENDPOINT_BATCH, [
+            'methods'             => WP_REST_Server::CREATABLE,
+            'callback'            => [$this, 'processBatch'],
+            'permission_callback' => '__return_true',
         ]);
     }
 
     /**
-     * Define accepted arguments for REST API endpoints.
-     * Specifies required parameters and their types for request validation.
+     * Handle hit recording.
      *
-     * @return array Array of argument definitions
-     * @since 15.0.0
-     */
-    protected function getArgs()
-    {
-        return [
-            'resource_uri_id' => [
-                'required' => true,
-                'type'     => 'string',
-            ],
-            'signature'     => [
-                'required' => false,
-                'type'     => 'string',
-            ],
-        ];
-    }
-
-    /**
-     * Handle requests to record a hit.
-     * Validates the request, records the hit, and returns appropriate response.
-     *
-     * @param WP_REST_Request $request The REST API request object
-     * @return WP_REST_Response The REST API response
-     * @since 15.0.0
+     * @param WP_REST_Request $request
+     * @return \WP_REST_Response
      */
     public function recordHit(WP_REST_Request $request)
     {
-        $statusCode = false;
+        $responseData = [];
+        $statusCode   = false;
 
         try {
             (new Tracker())->record();
-
             $responseData['status'] = true;
         } catch (Exception $e) {
             $responseData['status'] = false;
@@ -130,35 +112,42 @@ class RestApiTracking extends BaseTrackerController
 
         $response = rest_ensure_response($responseData);
 
-        /**
-         * Set the status code.
-         */
         if ($statusCode) {
             $response->set_status($statusCode);
         }
 
-        /**
-         * Set headers to avoid caching.
-         *
-         * @since 13.0.8
-         * @link https://wordpress.org/support/topic/request-for-cloudflare-html-caching-compatibility/
-         */
-        $response->set_headers([
-            'Cache-Control' => 'no-cache',
-        ]);
+        $response->set_headers(['Cache-Control' => 'no-cache']);
 
         return $response;
     }
 
     /**
-     * Get the base route for this tracking controller.
-     * Returns the namespace used for REST API endpoints.
+     * Handle batch request.
      *
-     * @return string The REST API namespace
-     * @since 15.0.0
+     * @param WP_REST_Request $request
+     * @return \WP_REST_Response
      */
-    public function getRoute()
+    public function processBatch(WP_REST_Request $request)
     {
-        return $this->namespace;
+        try {
+            $bodyParams = $request->get_body_params();
+            $result     = BatchProcessor::parseAndProcess($bodyParams['batch_data'] ?? null);
+
+            $response = rest_ensure_response([
+                'status'    => true,
+                'processed' => $result['processed'],
+                'errors'    => $result['errors'],
+            ]);
+        } catch (Exception $e) {
+            $response = rest_ensure_response([
+                'status' => false,
+                'data'   => $e->getMessage(),
+            ]);
+            $response->set_status($e->getCode() ?: 400);
+        }
+
+        $response->set_headers(['Cache-Control' => 'no-cache']);
+
+        return $response;
     }
 }
