@@ -2,12 +2,12 @@
 
 namespace WP_Statistics\Entity;
 
-use WP_Statistics\Service\Tracking\Pipeline\Visitor;
+use WP_Statistics\Service\Tracking\Pipeline\Visitor as VisitorData;
 
 /**
- * Factory class to create entity instances tied to a Visitor.
+ * Factory class to create entity instances tied to a VisitorData.
  *
- * Each method initializes and returns a corresponding entity using a given Visitor instance.
+ * Each method initializes and returns a corresponding entity using a given VisitorData instance.
  *
  * @since 15.0.0
  */
@@ -16,10 +16,10 @@ class EntityFactory
     /**
      * Create a new Device entity for the given context.
      *
-     * @param Visitor $visitor Hit context instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Device
      */
-    public static function device(Visitor $visitor)
+    public static function device(VisitorData $visitor)
     {
         return new Device($visitor);
     }
@@ -27,10 +27,10 @@ class EntityFactory
     /**
      * Create a new Visitor entity for the given context.
      *
-     * @param Visitor $visitor Hit context instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Visitor
      */
-    public static function visitor(Visitor $visitor)
+    public static function visitor(VisitorData $visitor)
     {
         return new Visitor($visitor);
     }
@@ -38,10 +38,10 @@ class EntityFactory
     /**
      * Create a new Session entity for the given context.
      *
-     * @param Visitor $visitor Hit context instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Session
      */
-    public static function session(Visitor $visitor)
+    public static function session(VisitorData $visitor)
     {
         return new Session($visitor);
     }
@@ -49,10 +49,10 @@ class EntityFactory
     /**
      * Create a new Geo entity for the given context.
      *
-     * @param Visitor $visitor Hit context instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Geo
      */
-    public static function geo(Visitor $visitor)
+    public static function geo(VisitorData $visitor)
     {
         return new Geo($visitor);
     }
@@ -60,10 +60,10 @@ class EntityFactory
     /**
      * Create a new Locale entity for the given context.
      *
-     * @param Visitor $visitor Hit context instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Locale
      */
-    public static function locale(Visitor $visitor)
+    public static function locale(VisitorData $visitor)
     {
         return new Locale($visitor);
     }
@@ -71,10 +71,10 @@ class EntityFactory
     /**
      * Create a new Referrer entity for the given context.
      *
-     * @param Visitor $visitor Hit context instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Referrer
      */
-    public static function referrer(Visitor $visitor)
+    public static function referrer(VisitorData $visitor)
     {
         return new Referrer($visitor);
     }
@@ -82,10 +82,10 @@ class EntityFactory
     /**
      * Create a new View entity for the given context.
      *
-     * @param Visitor $visitor Hit context instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return View
      */
-    public static function view(Visitor $visitor)
+    public static function view(VisitorData $visitor)
     {
         return new View($visitor);
     }
@@ -93,10 +93,10 @@ class EntityFactory
     /**
      * Create a new Parameter entity for the given context.
      *
-     * @param Visitor $visitor Hit context instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Parameter
      */
-    public static function parameter(Visitor $visitor)
+    public static function parameter(VisitorData $visitor)
     {
         return new Parameter($visitor);
     }

@@ -14,7 +14,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
 abstract class BaseEntity
 {
     /**
-     * Read-only context for the current hit.
+     * Resolved visitor data for the current hit.
      *
      * @var Visitor
      */
@@ -22,7 +22,7 @@ abstract class BaseEntity
 
     /**
      * Service for retrieving user agent details (browser/device).
-     * May be null if not provided by the context.
+     * May be null if not available.
      *
      * @var UserAgentService|null
      */
@@ -31,7 +31,7 @@ abstract class BaseEntity
     /**
      * BaseEntity constructor.
      *
-     * @param Visitor $visitor Read-only context for the current hit.
+     * @param Visitor $visitor Resolved visitor data for the current hit.
      */
     public function __construct(Visitor $visitor)
     {

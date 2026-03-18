@@ -131,7 +131,7 @@ class Exclusions extends Singleton
     /**
      * Determines whether the given visitor should be excluded based on configured rules.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return array{exclusion_match: bool, exclusion_reason: string}
      */
     public static function check(Visitor $visitor)
@@ -226,7 +226,7 @@ class Exclusions extends Singleton
      * Uses the client-provided resource_type parameter from the JS tracker
      * instead of is_feed() which doesn't work during REST/AJAX requests.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True when resource is a feed and feeds are excluded.
      */
     public static function exclusionFeed(Visitor $visitor)
@@ -244,7 +244,7 @@ class Exclusions extends Singleton
      * Uses the client-provided resource_type parameter from the JS tracker
      * instead of is_404() which doesn't work during REST/AJAX requests.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True on 404 when exclusion enabled.
      */
     public static function exclusion404(Visitor $visitor)
@@ -259,7 +259,7 @@ class Exclusions extends Singleton
     /**
      * Exclude visitors exceeding a hit threshold.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True when hits exceed threshold.
      */
     public static function exclusionRobotThreshold(Visitor $visitor)
@@ -288,7 +288,7 @@ class Exclusions extends Singleton
      * Uses the user_id provided by the JS tracker (embedded in the page by PHP
      * and included in the signature to prevent spoofing) since the plugin is cookieless.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True when user or anonymous matches exclusion.
      */
     public static function exclusionUserRole(Visitor $visitor)
@@ -313,7 +313,7 @@ class Exclusions extends Singleton
     /**
      * Exclude URLs matching configured patterns.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True when request URI matches an excluded pattern.
      */
     public static function exclusionExcludedUrl(Visitor $visitor)
@@ -365,7 +365,7 @@ class Exclusions extends Singleton
      *
      * Uses the client-provided resource_type parameter from the JS tracker.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True on login page if exclusion enabled.
      */
     public static function exclusionLoginPage(Visitor $visitor)
@@ -380,7 +380,7 @@ class Exclusions extends Singleton
     /**
      * Excludes IPs matching configured ranges.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True when client IP is in excluded range.
      */
     public static function exclusionIpMatch(Visitor $visitor)
@@ -408,7 +408,7 @@ class Exclusions extends Singleton
      * Uses the client-provided resource_type parameter from the JS tracker
      * instead of is_404() which doesn't work during REST/AJAX requests.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True when 404 and file extension present.
      */
     public static function exclusionBrokenFile(Visitor $visitor)
@@ -436,7 +436,7 @@ class Exclusions extends Singleton
     /**
      * Excludes bots based on UA or detection library.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True when UA or IP is identified as a bot.
      */
     public static function exclusionRobot(Visitor $visitor)
@@ -476,7 +476,7 @@ class Exclusions extends Singleton
     /**
      * Excludes by geographic location based on GeoIP settings.
      *
-     * @param Visitor $visitor Read-only hit context.
+     * @param Visitor $visitor
      * @return bool True when country is excluded or not in included list.
      */
     public static function exclusionGeoIp(Visitor $visitor)

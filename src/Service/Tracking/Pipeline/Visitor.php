@@ -12,7 +12,7 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Url;
 
 /**
- * Read-only context for the hit pipeline.
+ * Read-only visitor data resolved for the current hit.
  *
  * Combines:
  * - Browser input (via Payload — immutable)
