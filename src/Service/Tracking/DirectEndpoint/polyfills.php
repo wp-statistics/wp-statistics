@@ -5,7 +5,7 @@
  * Lightweight replacements for WordPress functions that are NOT loaded
  * in SHORTINIT mode (l10n.php, link-template.php, http.php).
  *
- * The hit pipeline avoids translation calls (see Hits.php docblock),
+ * The hit pipeline avoids translation calls (see Tracker.php),
  * but l10n functions are kept as pass-through safety nets in case
  * any indirect dependency calls them.
  *

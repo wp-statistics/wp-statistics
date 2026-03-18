@@ -134,7 +134,7 @@ class VisitorProfile
     protected $meta = [];
 
     /**
-     * Parsed hit request parameters.
+     * Parsed payload parameters.
      *
      * @var Payload|null
      */
@@ -146,42 +146,42 @@ class VisitorProfile
 
     public function setPayload(Payload $payload): void
     {
-        $this->hitRequest = $payload;
+        $this->payload = $payload;
     }
 
     public function getTimezone(): string
     {
-        return $this->hitRequest ? $this->hitRequest->getTimezone() : '';
+        return $this->payload ? $this->payload->getTimezone() : '';
     }
 
     public function getLanguageCode(): string
     {
-        return $this->hitRequest ? $this->hitRequest->getLanguageCode() : '';
+        return $this->payload ? $this->payload->getLanguageCode() : '';
     }
 
     public function getLanguageName(): string
     {
-        return $this->hitRequest ? $this->hitRequest->getLanguageName() : '';
+        return $this->payload ? $this->payload->getLanguageName() : '';
     }
 
     public function getScreenWidth(): string
     {
-        return $this->hitRequest ? $this->hitRequest->getScreenWidth() : '';
+        return $this->payload ? $this->payload->getScreenWidth() : '';
     }
 
     public function getScreenHeight(): string
     {
-        return $this->hitRequest ? $this->hitRequest->getScreenHeight() : '';
+        return $this->payload ? $this->payload->getScreenHeight() : '';
     }
 
     public function getResourceType(): string
     {
-        return $this->hitRequest ? $this->hitRequest->getResourceType() : '';
+        return $this->payload ? $this->payload->getResourceType() : '';
     }
 
     public function getRawUserId(): int
     {
-        return $this->hitRequest ? $this->hitRequest->getUserId() : 0;
+        return $this->payload ? $this->payload->getUserId() : 0;
     }
 
     /**
@@ -233,7 +233,7 @@ class VisitorProfile
      */
     public function getResourceUriId()
     {
-        return $this->hitRequest ? $this->hitRequest->getResourceUriId() : 0;
+        return $this->payload ? $this->payload->getResourceUriId() : 0;
     }
     
     /**
@@ -243,7 +243,7 @@ class VisitorProfile
      */
     public function getResourceId()
     {
-        return $this->hitRequest ? $this->hitRequest->getResourceId() : 0;
+        return $this->payload ? $this->payload->getResourceId() : 0;
     }
 
     /**
@@ -253,7 +253,7 @@ class VisitorProfile
      */
     public function getResourceUri()
     {
-        return $this->hitRequest ? $this->hitRequest->getResourceUri() : '';
+        return $this->payload ? $this->payload->getResourceUri() : '';
     }
 
     /**
@@ -581,7 +581,7 @@ class VisitorProfile
     public function getProcessedIPForStorage()
     {
         return $this->getCachedData('processedIPForStorage', function () {
-            if ($this->hitRequest && $this->hitRequest->getTrackingLevel() !== TrackingLevel::FULL) {
+            if ($this->payload && $this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
                 return null;
             }
 
@@ -717,7 +717,7 @@ class VisitorProfile
     private function getRawReferrer(): string
     {
         return $this->getCachedData('rawReferrer', function () {
-            $referrer = $this->hitRequest ? $this->hitRequest->getReferrer() : '';
+            $referrer = $this->payload ? $this->payload->getReferrer() : '';
 
             if (empty($referrer) || Url::isInternal($referrer)) {
                 return '';
@@ -828,7 +828,7 @@ class VisitorProfile
                 return null;
             }
 
-            if ($this->hitRequest && $this->hitRequest->getTrackingLevel() !== TrackingLevel::FULL) {
+            if ($this->payload && $this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
                 return null;
             }
 

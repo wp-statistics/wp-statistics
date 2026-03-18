@@ -15,7 +15,7 @@ use WP_Statistics\Utils\Validator;
 /**
  * Immutable container for all hit parameters sent by the JS tracker or headless clients.
  *
- * Created once per request via create(). Validates, sanitizes, and decodes
+ * Created once per request via parse(). Validates, sanitizes, and decodes
  * all values at construction time. Entities access these values through
  * Visitor — never from $_REQUEST directly.
  *

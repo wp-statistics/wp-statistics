@@ -24,7 +24,7 @@ use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 class TrackingManager
 {
     /**
-     * Method key → controller class.
+     * Method key → delivery class.
      */
     private const METHODS = [
         'rest'        => RestDelivery::class,
@@ -131,22 +131,22 @@ class TrackingManager
 
     private function createActiveMethod(): BaseDeliveryMethod
     {
-        $class      = self::METHODS[$this->method];
-        $controller = new $class();
+        $class          = self::METHODS[$this->method];
+        $deliveryMethod = new $class();
 
         /**
-         * Filter the tracking controller instance.
+         * Filter the active delivery method instance.
          *
-         * @param BaseDeliveryMethod $controller The default tracking controller.
-         * @return BaseDeliveryMethod The filtered tracking controller.
+         * @param BaseDeliveryMethod $deliveryMethod The default delivery method.
+         * @return BaseDeliveryMethod The filtered delivery method.
          * @since 15.0.0
          */
-        $controller = apply_filters('wp_statistics_tracker_controller', $controller);
+        $deliveryMethod = apply_filters('wp_statistics_tracker_controller', $deliveryMethod);
 
-        if (!($controller instanceof BaseDeliveryMethod)) {
-            throw new \Exception('Custom tracker controller must extend BaseDeliveryMethod');
+        if (!($deliveryMethod instanceof BaseDeliveryMethod)) {
+            throw new \Exception('Custom delivery method must extend BaseDeliveryMethod');
         }
 
-        return $controller;
+        return $deliveryMethod;
     }
 }

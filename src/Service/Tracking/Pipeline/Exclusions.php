@@ -11,7 +11,7 @@ use WP_Statistics\Utils\User;
 
 
 /**
- * Class Exclusion
+ * Class Exclusions
  *
  * Handles visitor exclusion logic for JS tracker hit requests.
  *

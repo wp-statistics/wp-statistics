@@ -3,7 +3,7 @@
 namespace WP_Statistics\Tests\ShortInitEndpoint;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Pipeline\Hits;
+use WP_Statistics\Service\Tracking\Pipeline\Tracker;
 use WP_Statistics\Service\Tracking\Pipeline\Payload;
 use WP_Statistics\Utils\Signature;
 use WP_Statistics\Components\Ip;
@@ -76,8 +76,8 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
     {
         $this->setValidRequest();
 
-        $hits = new Hits();
-        $exclusion = $hits->record();
+        $tracker = new Tracker();
+        $exclusion = $tracker->record();
 
         $this->assertFalse($exclusion['exclusion_match']);
     }
@@ -149,11 +149,11 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
         $currentIp = Ip::getCurrent();
         Option::updateValue('exclude_ip', $currentIp);
 
-        $hits      = new Hits();
+        $tracker      = new Tracker();
         $exception = null;
 
         try {
-            $hits->record();
+            $tracker->record();
         } catch (\Exception $e) {
             $exception = $e;
         }
