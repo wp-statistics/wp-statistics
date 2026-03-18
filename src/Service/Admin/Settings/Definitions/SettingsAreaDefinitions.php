@@ -66,22 +66,27 @@ class SettingsAreaDefinitions
                         'description' => __('Configure how the tracking script works on your site.', 'wp-statistics'),
                         'order'       => 20,
                         'fields'      => [
-                            'bypass_ad_blockers' => [
-                                'type'        => 'toggle',
-                                'setting_key' => 'bypass_ad_blockers',
-                                'label'       => __('Bypass Ad Blockers', 'wp-statistics'),
-                                'description' => __('Dynamically load the tracking script with a unique name and address to bypass ad blockers.', 'wp-statistics'),
-                                'default'     => false,
+                            'tracking_method' => [
+                                'type'        => 'select',
+                                'setting_key' => 'tracking_method',
+                                'label'       => __('Tracking Method', 'wp-statistics'),
+                                'description' => __('Choose how the tracker sends data to your site.', 'wp-statistics'),
+                                'default'     => 'rest',
                                 'order'       => 10,
-                            ],
-                            'mu_plugin_proxy' => [
-                                'type'        => 'toggle',
-                                'setting_key' => 'mu_plugin_proxy',
-                                'label'       => __('Direct File Endpoint', 'wp-statistics'),
-                                'badge'       => __('Beta', 'wp-statistics'),
-                                'description' => __('Send tracking requests to a lightweight file endpoint that bypasses the full WordPress load, resulting in faster hit recording.', 'wp-statistics'),
-                                'default'     => false,
-                                'order'       => 20,
+                                'options'     => [
+                                    [
+                                        'value' => 'rest',
+                                        'label' => __('REST API (Default)', 'wp-statistics'),
+                                    ],
+                                    [
+                                        'value' => 'ajax',
+                                        'label' => __('AJAX (Bypass Ad Blockers)', 'wp-statistics'),
+                                    ],
+                                    [
+                                        'value' => 'direct_file',
+                                        'label' => __('Direct File Endpoint (Beta — Fastest)', 'wp-statistics'),
+                                    ],
+                                ],
                             ],
                         ],
                     ],

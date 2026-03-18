@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Admin\Diagnostic\Checks;
 use Exception;
 use WP_Statistics\Components\RemoteRequest;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticResult;
-use WP_Statistics\Service\Tracking\TrackerControllerFactory;
+use WP_Statistics\Service\Bootstrap;
 use WP_Statistics\Components\Option;
 
 /**
@@ -76,7 +76,7 @@ class TrackingCheck extends AbstractCheck
         }
 
         // Get the tracking route/endpoint
-        $trackingRoute = TrackerControllerFactory::getTrackingRoute();
+        $trackingRoute = Bootstrap::get('tracking')->getTrackingRoute();
 
         if (empty($trackingRoute)) {
             return $this->fail(
@@ -84,8 +84,8 @@ class TrackingCheck extends AbstractCheck
             );
         }
 
-        // Determine if using REST or AJAX based on bypass_ad_blockers setting
-        if (Option::getValue('bypass_ad_blockers', false)) {
+        // Determine if using REST or AJAX based on tracking_method setting
+        if (Option::getValue('tracking_method', 'rest') === 'ajax') {
             return $this->testAjaxEndpoint();
         }
 

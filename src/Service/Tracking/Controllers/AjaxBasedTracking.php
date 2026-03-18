@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Tracking\Controllers;
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Components\Option;
 
-use WP_Statistics\Service\Tracking\TrackingFactory;
+use WP_Statistics\Service\Tracking\Core\Tracker;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -41,16 +41,14 @@ class AjaxBasedTracking extends BaseTrackerController
     /**
      * Register AJAX endpoints and filters for tracking.
      *
-     * Only activates when both conditions are met:
-     * - Client-side tracking is enabled (use_cache_plugin)
-     * - Ad blocker bypass is enabled (bypass_ad_blockers)
+     * Only activates when tracking_method is set to 'ajax'.
      *
      * @return void
      * @since 15.0.0
      */
     public function register()
     {
-        if (!Option::getValue('bypass_ad_blockers', false)) {
+        if (Option::getValue('tracking_method', 'rest') !== 'ajax') {
             return;
         }
 
@@ -117,7 +115,7 @@ class AjaxBasedTracking extends BaseTrackerController
         }
 
         try {
-            TrackingFactory::hits()->record();
+            (new Tracker())->record();
             wp_send_json([
                 'status' => true
             ]);

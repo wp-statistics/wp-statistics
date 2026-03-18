@@ -6,7 +6,6 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Components\Option;
-use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\User;
 
@@ -132,10 +131,10 @@ class Exclusion extends Singleton
     /**
      * Determines whether the given visitor should be excluded based on configured rules.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return array{exclusion_match: bool, exclusion_reason: string}
      */
-    public static function check($visitorProfile)
+    public static function check(HitContext $context)
     {
         if (! empty(self::$exclusionResult)) {
             return self::$exclusionResult;
@@ -163,23 +162,45 @@ class Exclusion extends Singleton
                 continue;
             }
 
-            if (self::$method($visitorProfile)) {
+            if (self::$method($context)) {
                 self::$exclusionResult = apply_filters(
                     'wp_statistics_exclusion',
                     [
                         'exclusion_match'  => true,
                         'exclusion_reason' => $reason
                     ],
-                    $visitorProfile
+                    $context
                 );
 
                 return self::$exclusionResult;
             }
         }
 
-        self::$exclusionResult = apply_filters('wp_statistics_exclusion', self::$exclusionResult, $visitorProfile);
+        self::$exclusionResult = apply_filters('wp_statistics_exclusion', self::$exclusionResult, $context);
 
         return self::$exclusionResult;
+    }
+
+    /**
+     * Check exclusion rules for the current server request.
+     *
+     * Convenience wrapper that creates a minimal HitContext.
+     * Used by non-pipeline callers (e.g., ResourceManager).
+     *
+     * @return array Exclusion result.
+     */
+    public static function checkCurrentRequest(): array
+    {
+        try {
+            $request = HitRequest::create();
+            $context = new HitContext($request);
+            return self::check($context);
+        } catch (\Exception $e) {
+            return [
+                'exclusion_match'  => false,
+                'exclusion_reason' => '',
+            ];
+        }
     }
 
     /**
@@ -227,16 +248,16 @@ class Exclusion extends Singleton
      * Uses the client-provided resource_type parameter from the JS tracker
      * instead of is_feed() which doesn't work during REST/AJAX requests.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True when resource is a feed and feeds are excluded.
      */
-    public static function exclusionFeed($visitorProfile)
+    public static function exclusionFeed(HitContext $context)
     {
         if (empty(self::$options['exclude_feeds'])) {
             return false;
         }
 
-        return $visitorProfile->getResourceType() === 'feed';
+        return $context->getRequest()->getResourceType() === 'feed';
     }
 
     /**
@@ -245,25 +266,25 @@ class Exclusion extends Singleton
      * Uses the client-provided resource_type parameter from the JS tracker
      * instead of is_404() which doesn't work during REST/AJAX requests.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True on 404 when exclusion enabled.
      */
-    public static function exclusion404($visitorProfile)
+    public static function exclusion404(HitContext $context)
     {
         if (empty(self::$options['exclude_404s'])) {
             return false;
         }
 
-        return $visitorProfile->getResourceType() === '404';
+        return $context->getRequest()->getResourceType() === '404';
     }
 
     /**
      * Exclude visitors exceeding a hit threshold.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True when hits exceed threshold.
      */
-    public static function exclusionRobotThreshold($visitorProfile)
+    public static function exclusionRobotThreshold(HitContext $context)
     {
         $threshold = intval(self::$options['robot_threshold'] ?? 0);
 
@@ -271,7 +292,7 @@ class Exclusion extends Singleton
             return false;
         }
 
-        $visitorStats = $visitorProfile->isIpActiveToday();
+        $visitorStats = $context->isIpActiveToday();
 
         if (!$visitorStats) {
             return false;
@@ -286,12 +307,12 @@ class Exclusion extends Singleton
      * Uses the user_id provided by the JS tracker (embedded in the page by PHP
      * and included in the signature to prevent spoofing) since the plugin is cookieless.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True when user or anonymous matches exclusion.
      */
-    public static function exclusionUserRole($visitorProfile)
+    public static function exclusionUserRole(HitContext $context)
     {
-        $userId = absint($visitorProfile->getRawUserId());
+        $userId = absint($context->getRequest()->getUserId());
 
         if ($userId > 0) {
             $roles = User::getRolesById($userId);
@@ -311,16 +332,16 @@ class Exclusion extends Singleton
     /**
      * Exclude URLs matching configured patterns.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True when request URI matches an excluded pattern.
      */
-    public static function exclusionExcludedUrl($visitorProfile)
+    public static function exclusionExcludedUrl(HitContext $context)
     {
         if (self::$excludedUrlPatterns === null) {
             self::$excludedUrlPatterns = self::compileExcludedUrls(self::$options['excluded_urls'] ?? '');
         }
 
-        $requestUri = urldecode(trim(explode('?', $visitorProfile->getRequestUri())[0], '/\\'));
+        $requestUri = urldecode(trim(explode('?', $context->getRequest()->getResourceUri())[0], '/\\'));
 
         foreach (self::$excludedUrlPatterns as $pattern) {
             if (preg_match($pattern, $requestUri)) {
@@ -363,25 +384,25 @@ class Exclusion extends Singleton
      *
      * Uses the client-provided resource_type parameter from the JS tracker.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True on login page if exclusion enabled.
      */
-    public static function exclusionLoginPage($visitorProfile)
+    public static function exclusionLoginPage(HitContext $context)
     {
         if (empty(self::$options['exclude_loginpage'])) {
             return false;
         }
 
-        return $visitorProfile->getResourceType() === 'loginpage';
+        return $context->getRequest()->getResourceType() === 'loginpage';
     }
 
     /**
      * Excludes IPs matching configured ranges.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True when client IP is in excluded range.
      */
-    public static function exclusionIpMatch($visitorProfile)
+    public static function exclusionIpMatch(HitContext $context)
     {
         if (empty(self::$options['exclude_ip'])) {
             return false;
@@ -406,16 +427,16 @@ class Exclusion extends Singleton
      * Uses the client-provided resource_type parameter from the JS tracker
      * instead of is_404() which doesn't work during REST/AJAX requests.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True when 404 and file extension present.
      */
-    public static function exclusionBrokenFile($visitorProfile)
+    public static function exclusionBrokenFile(HitContext $context)
     {
-        if ($visitorProfile->getResourceType() !== '404') {
+        if ($context->getRequest()->getResourceType() !== '404') {
             return false;
         }
 
-        $requestUri = $visitorProfile->getRequestUri();
+        $requestUri = $context->getRequest()->getResourceUri();
 
         if (empty($requestUri)) {
             return false;
@@ -434,18 +455,18 @@ class Exclusion extends Singleton
     /**
      * Excludes bots based on UA or detection library.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True when UA or IP is identified as a bot.
      */
-    public static function exclusionRobot($visitorProfile)
+    public static function exclusionRobot(HitContext $context)
     {
-        $rawUserAgent = $visitorProfile->getHttpUserAgent();
+        $rawUserAgent = $context->getHttpUserAgent();
 
-        if (empty($rawUserAgent) || empty($visitorProfile->getIp())) {
+        if (empty($rawUserAgent) || empty($context->getIp())) {
             return true;
         }
 
-        $userAgent = $visitorProfile->getUserAgent();
+        $userAgent = $context->getUserAgent();
 
         if ($userAgent->isBot()) {
             return true;
@@ -474,10 +495,10 @@ class Exclusion extends Singleton
     /**
      * Excludes by geographic location based on GeoIP settings.
      *
-     * @param VisitorProfile $visitorProfile Visitor profile instance.
+     * @param HitContext $context Read-only hit context.
      * @return bool True when country is excluded or not in included list.
      */
-    public static function exclusionGeoIp($visitorProfile)
+    public static function exclusionGeoIp(HitContext $context)
     {
         static $excludedCountries = null;
         static $includedCountries = null;
@@ -497,7 +518,7 @@ class Exclusion extends Singleton
             return false;
         }
 
-        $countryCode = strtoupper($visitorProfile->getCountry() ?? '');
+        $countryCode = strtoupper($context->getCountry() ?? '');
 
         if ($countryCode === '') {
             return false;

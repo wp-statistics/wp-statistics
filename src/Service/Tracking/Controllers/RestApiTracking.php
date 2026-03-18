@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Tracking\Controllers;
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Components\Option;
 
-use WP_Statistics\Service\Tracking\TrackingFactory;
+use WP_Statistics\Service\Tracking\Core\Tracker;
 use Exception;
 use WP_REST_Server;
 use WP_REST_Request;
@@ -44,7 +44,7 @@ class RestApiTracking extends BaseTrackerController
      */
     public function register()
     {
-        if (Option::getValue('bypass_ad_blockers', false)) {
+        if (Option::getValue('tracking_method', 'rest') !== 'rest') {
             return;
         }
 
@@ -119,7 +119,7 @@ class RestApiTracking extends BaseTrackerController
         $statusCode = false;
 
         try {
-            TrackingFactory::hits()->record();
+            (new Tracker())->record();
 
             $responseData['status'] = true;
         } catch (Exception $e) {

@@ -182,10 +182,10 @@ class SiteHealthInfo extends Singleton
                 'value' => __('Client Side Tracking', 'wp-statistics'),
                 'debug' => 'Client Side Tracking',
             ],
-            'bypassAdBlockers'               => [
-                'label' => esc_html__('Bypass Ad Blockers', 'wp-statistics'),
-                'value' => Option::getValue('bypass_ad_blockers') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('bypass_ad_blockers') ? 'Enabled' : 'Disabled',
+            'trackingMethodOption'           => [
+                'label' => esc_html__('Tracking Method', 'wp-statistics'),
+                'value' => Option::getValue('tracking_method', 'rest'),
+                'debug' => Option::getValue('tracking_method', 'rest'),
             ],
             'storeIpAddresses'               => [
                 'label' => esc_html__('Store IP Addresses', 'wp-statistics'),

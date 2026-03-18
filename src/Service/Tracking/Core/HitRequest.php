@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking;
+namespace WP_Statistics\Service\Tracking\Core;
 
 use Exception;
 use ErrorException;
@@ -17,7 +17,7 @@ use WP_Statistics\Utils\Validator;
  *
  * Created once per request via create(). Validates, sanitizes, and decodes
  * all values at construction time. Entities access these values through
- * VisitorProfile proxy getters — never from $_REQUEST directly.
+ * HitContext — never from $_REQUEST directly.
  *
  * Supports backward-compatible fallbacks for legacy param names.
  * When resource_uri_id is not provided, it is auto-resolved from

@@ -17,56 +17,57 @@ use WP_Statistics\Utils\Query;
 class Locale extends BaseEntity
 {
     /**
+     * Record all locale information and return their IDs.
+     *
+     * @return array{language_id: int, timezone_id: int}
+     */
+    public function record(): array
+    {
+        return [
+            'language_id' => $this->isActive('languages') ? $this->recordLanguage() : 0,
+            'timezone_id' => $this->isActive('timezones') ? $this->recordTimezone() : 0,
+        ];
+    }
+
+    /**
      * Detect and record visitor's language based on user agent or browser headers.
      *
-     * @return $this
+     * @return int The language ID, or 0 if language code is empty.
      */
-    public function recordLanguage()
+    private function recordLanguage(): int
     {
-        if (!$this->isActive('languages')) {
-            return $this;
-        }
-
-        $language = $this->profile->getLanguageCode();
-        $fullName = $this->profile->getLanguageName();
+        $language = $this->context->getRequest()->getLanguageCode();
+        $fullName = $this->context->getRequest()->getLanguageName();
 
         if (empty($language) || !is_string($language)) {
-            return $this;
+            return 0;
         }
 
-        $region = $this->profile->getRegionCode();
+        $region = $this->context->getRegionCode();
         $record = RecordFactory::language()->get(['code' => $language, 'region' => $region]);
 
         if (!empty($record) && isset($record->ID)) {
-            $this->profile->setLanguageId((int)$record->ID);
-            return $this;
+            return (int)$record->ID;
         }
 
-        $languageId = (int)RecordFactory::language()->insert([
+        return (int)RecordFactory::language()->insert([
             'code'   => $language,
             'name'   => $fullName,
             'region' => $region,
         ]);
-
-        $this->profile->setLanguageId($languageId);
-        return $this;
     }
 
     /**
      * Detect and record visitor's timezone.
      *
-     * Tries client‐sent IANA timezone first; if missing or invalid, falls back
+     * Tries client-sent IANA timezone first; if missing or invalid, falls back
      * to UTC+0 as a standard reference point.
      *
-     * @return $this
+     * @return int The timezone ID.
      */
-    public function recordTimezone()
+    private function recordTimezone(): int
     {
-        if (!$this->isActive('timezones')) {
-            return $this;
-        }
-
-        $tzName = $this->profile->getTimezone();
+        $tzName = $this->context->getRequest()->getTimezone();
 
         if (empty($tzName) || !is_string($tzName)) {
             $tz = new \DateTimeZone('UTC');
@@ -101,18 +102,14 @@ class Locale extends BaseEntity
                     ->execute();
             }
 
-            $this->profile->setTimezoneId((int)$record->ID);
-            return $this;
+            return (int)$record->ID;
         }
 
-        $timezoneId = (int)RecordFactory::timezone()->insert([
+        return (int)RecordFactory::timezone()->insert([
             'name'   => $tzNameFinal,
             'offset' => $offset,
             'is_dst' => $isDst ? 1 : 0,
         ]);
-
-        $this->profile->setTimezoneId($timezoneId);
-        return $this;
     }
 
 }

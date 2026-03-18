@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Tracking\Core\Exclusion;
+use WP_Statistics\Service\Tracking\Core\HitContext;
 use Exception;
 
 /**
@@ -17,21 +17,6 @@ use Exception;
  */
 abstract class BaseTracking
 {
-    /**
-     * Ensure a valid VisitorProfile object is available.
-     *
-     * @param VisitorProfile|null $profile Optional profile instance to use.
-     * @return VisitorProfile A valid visitor profile instance.
-     */
-    protected function resolveProfile($profile = null)
-    {
-        if ($profile instanceof VisitorProfile) {
-            return $profile;
-        }
-
-        return new VisitorProfile();
-    }
-
     /**
      * Get the current timestamp according to the WordPress timezone.
      *
@@ -55,13 +40,13 @@ abstract class BaseTracking
     /**
      * Check whether the visitor is excluded from tracking and throw an exception if so.
      *
-     * @param VisitorProfile $profile The visitor profile being evaluated.
+     * @param HitContext $context The read-only hit context being evaluated.
      * @return array Exclusion metadata if not excluded.
      * @throws Exception If the visitor is excluded from tracking.
      */
-    protected function checkAndThrowIfExcluded(VisitorProfile $profile)
+    protected function checkAndThrowIfExcluded(HitContext $context)
     {
-        $exclusion = Exclusion::check($profile);
+        $exclusion = Exclusion::check($context);
 
         if (!empty($exclusion['exclusion_match'])) {
             Exclusion::record($exclusion);

@@ -5,7 +5,7 @@ namespace WP_Statistics\Tests\Uri;
 use WP_UnitTestCase;
 use WP_Statistics\Utils\Uri;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Tracking\HitRequest;
+use WP_Statistics\Service\Tracking\Core\HitRequest;
 use WP_Statistics\Utils\Signature;
 
 /**

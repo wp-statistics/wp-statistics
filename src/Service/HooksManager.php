@@ -65,7 +65,7 @@ class HooksManager
      */
     public function serveObfuscatedAsset()
     {
-        if (!Option::getValue('bypass_ad_blockers', false)) {
+        if (Option::getValue('tracking_method', 'rest') !== 'ajax') {
             return;
         }
 

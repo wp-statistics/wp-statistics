@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Resources;
 
-use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Resources\Identifications\ResourceIdentifier;
 use WP_Statistics\Service\Resources\Identifications\ResourceUriIdentifier;
 use WP_Statistics\Service\Tracking\Core\Exclusion;
@@ -44,7 +43,7 @@ class ResourceManager
      */
     public function __construct($record = null)
     {
-        $exclusionResult = Exclusion::check(new VisitorProfile());
+        $exclusionResult = Exclusion::checkCurrentRequest();
 
         if (!is_admin() && ! empty($exclusionResult['exclusion_match'])) {
             return;

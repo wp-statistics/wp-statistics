@@ -2,27 +2,27 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Tracking\Core\HitContext;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
 
 /**
  * Base entity class for tracking-related entities.
  *
- * Provides a common constructor and profile assignment,
+ * Provides a common constructor accepting a read-only HitContext,
  * and initializes a UserAgentService when available.
  */
 abstract class BaseEntity
 {
     /**
-     * VisitorProfile instance containing visitor/session metadata.
+     * Read-only context for the current hit.
      *
-     * @var VisitorProfile
+     * @var HitContext
      */
-    protected $profile;
+    protected $context;
 
     /**
      * Service for retrieving user agent details (browser/device).
-     * May be null if not provided by the profile.
+     * May be null if not provided by the context.
      *
      * @var UserAgentService|null
      */
@@ -31,11 +31,12 @@ abstract class BaseEntity
     /**
      * BaseEntity constructor.
      *
-     * @param VisitorProfile $profile VisitorProfile to associate with this entity.
+     * @param HitContext $context Read-only context for the current hit.
      */
-    public function __construct($profile)
+    public function __construct(HitContext $context)
     {
-        $this->setProfile($profile);
+        $this->context   = $context;
+        $this->userAgent = $context->getUserAgent();
     }
 
     /**
@@ -52,23 +53,5 @@ abstract class BaseEntity
         $filterName = 'wp_statistics_active_' . esc_html($entityName);
 
         return (has_filter($filterName)) ? apply_filters($filterName, true) : true;
-    }
-
-    /**
-     * Assigns the VisitorProfile and initializes the UserAgentService.
-     *
-     * When the profile provides a getUserAgent() method, its return
-     * is cached in $userAgent for efficient reuse.
-     *
-     * @param VisitorProfile $profile VisitorProfile instance.
-     * @return void
-     */
-    protected function setProfile(VisitorProfile $profile)
-    {
-        $this->profile = $profile;
-
-        if (!$this->userAgent && method_exists($profile, 'getUserAgent')) {
-            $this->userAgent = $profile->getUserAgent();
-        }
     }
 }

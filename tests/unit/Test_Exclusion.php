@@ -4,7 +4,8 @@ namespace WP_Statistics\Tests\Exclusion;
 
 use WP_UnitTestCase;
 use WP_Statistics\Service\Tracking\Core\Exclusion;
-use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Tracking\Core\HitContext;
+use WP_Statistics\Service\Tracking\Core\HitRequest;
 use ReflectionClass;
 
 /**
@@ -33,29 +34,66 @@ class Test_Exclusion extends WP_UnitTestCase
     }
 
     /**
-     * Create a mocked VisitorProfile with optional resource type, user ID, and request URI.
+     * Create a HitContext with a mocked HitRequest via reflection.
+     *
+     * HitRequest is final with a private constructor, so we use reflection
+     * to instantiate it and set the needed properties directly.
      */
-    private function mockProfile(array $overrides = [])
+    private function mockContext(array $overrides = []): HitContext
     {
-        $profile = $this->createMock(VisitorProfile::class);
+        $request = $this->buildHitRequest($overrides);
+        return new HitContext($request);
+    }
 
-        if (isset($overrides['resourceType'])) {
-            $profile->method('getResourceType')->willReturn($overrides['resourceType']);
-        } else {
-            $profile->method('getResourceType')->willReturn('');
+    /**
+     * Build a HitRequest instance via reflection (bypasses private constructor and create()).
+     */
+    private function buildHitRequest(array $overrides = []): HitRequest
+    {
+        $ref      = new ReflectionClass(HitRequest::class);
+        $instance = $ref->newInstanceWithoutConstructor();
+
+        $defaults = [
+            'resourceType'  => '',
+            'userId'        => 0,
+            'resourceUri'   => '',
+            'resourceUriId' => 0,
+            'resourceId'    => 0,
+            'referrer'      => '',
+            'timezone'      => 'UTC',
+            'languageCode'  => 'en',
+            'languageName'  => 'English',
+            'screenWidth'   => '1920',
+            'screenHeight'  => '1080',
+            'trackingLevel' => 'full',
+        ];
+
+        $values = array_merge($defaults, $overrides);
+
+        $propMap = [
+            'resourceType'  => 'resourceType',
+            'userId'        => 'userId',
+            'resourceUri'   => 'resourceUri',
+            'resourceUriId' => 'resourceUriId',
+            'resourceId'    => 'resourceId',
+            'referrer'      => 'referrer',
+            'timezone'      => 'timezone',
+            'languageCode'  => 'languageCode',
+            'languageName'  => 'languageName',
+            'screenWidth'   => 'screenWidth',
+            'screenHeight'  => 'screenHeight',
+            'trackingLevel' => 'trackingLevel',
+        ];
+
+        foreach ($propMap as $key => $prop) {
+            if (array_key_exists($key, $values)) {
+                $rp = $ref->getProperty($prop);
+                $rp->setAccessible(true);
+                $rp->setValue($instance, $values[$key]);
+            }
         }
 
-        if (isset($overrides['hitUserId'])) {
-            $profile->method('getRawUserId')->willReturn($overrides['hitUserId']);
-        } else {
-            $profile->method('getRawUserId')->willReturn(0);
-        }
-
-        if (isset($overrides['requestUri'])) {
-            $profile->method('getRequestUri')->willReturn($overrides['requestUri']);
-        }
-
-        return $profile;
+        return $instance;
     }
 
     /**
@@ -123,37 +161,37 @@ class Test_Exclusion extends WP_UnitTestCase
     public function test_exclusion_feed_excludes_when_resource_type_is_feed()
     {
         $this->setOptions(['exclude_feeds' => true]);
-        $this->assertTrue(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'feed'])));
+        $this->assertTrue(Exclusion::exclusionFeed($this->mockContext(['resourceType' => 'feed'])));
     }
 
     public function test_exclusion_feed_allows_when_option_disabled()
     {
         $this->setOptions(['exclude_feeds' => false]);
-        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'feed'])));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockContext(['resourceType' => 'feed'])));
     }
 
     public function test_exclusion_feed_allows_when_option_empty()
     {
         $this->setOptions([]);
-        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'feed'])));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockContext(['resourceType' => 'feed'])));
     }
 
     public function test_exclusion_feed_allows_when_resource_type_is_not_feed()
     {
         $this->setOptions(['exclude_feeds' => true]);
-        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'post'])));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockContext(['resourceType' => 'post'])));
     }
 
     public function test_exclusion_feed_allows_when_resource_type_missing()
     {
         $this->setOptions(['exclude_feeds' => true]);
-        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile()));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockContext()));
     }
 
     public function test_exclusion_feed_is_case_sensitive()
     {
         $this->setOptions(['exclude_feeds' => true]);
-        $this->assertFalse(Exclusion::exclusionFeed($this->mockProfile(['resourceType' => 'Feed'])));
+        $this->assertFalse(Exclusion::exclusionFeed($this->mockContext(['resourceType' => 'Feed'])));
     }
 
     // ─── Login Page Exclusion ─────────────────────────────────────────
@@ -161,19 +199,19 @@ class Test_Exclusion extends WP_UnitTestCase
     public function test_exclusion_login_page_excludes_when_resource_type_is_loginpage()
     {
         $this->setOptions(['exclude_loginpage' => true]);
-        $this->assertTrue(Exclusion::exclusionLoginPage($this->mockProfile(['resourceType' => 'loginpage'])));
+        $this->assertTrue(Exclusion::exclusionLoginPage($this->mockContext(['resourceType' => 'loginpage'])));
     }
 
     public function test_exclusion_login_page_allows_when_option_disabled()
     {
         $this->setOptions(['exclude_loginpage' => false]);
-        $this->assertFalse(Exclusion::exclusionLoginPage($this->mockProfile(['resourceType' => 'loginpage'])));
+        $this->assertFalse(Exclusion::exclusionLoginPage($this->mockContext(['resourceType' => 'loginpage'])));
     }
 
     public function test_exclusion_login_page_allows_when_resource_type_is_not_loginpage()
     {
         $this->setOptions(['exclude_loginpage' => true]);
-        $this->assertFalse(Exclusion::exclusionLoginPage($this->mockProfile(['resourceType' => 'page'])));
+        $this->assertFalse(Exclusion::exclusionLoginPage($this->mockContext(['resourceType' => 'page'])));
     }
 
     // ─── 404 Exclusion ────────────────────────────────────────────────
@@ -181,84 +219,83 @@ class Test_Exclusion extends WP_UnitTestCase
     public function test_exclusion_404_excludes_when_resource_type_is_404()
     {
         $this->setOptions(['exclude_404s' => true]);
-        $this->assertTrue(Exclusion::exclusion404($this->mockProfile(['resourceType' => '404'])));
+        $this->assertTrue(Exclusion::exclusion404($this->mockContext(['resourceType' => '404'])));
     }
 
     public function test_exclusion_404_allows_when_option_disabled()
     {
         $this->setOptions(['exclude_404s' => false]);
-        $this->assertFalse(Exclusion::exclusion404($this->mockProfile(['resourceType' => '404'])));
+        $this->assertFalse(Exclusion::exclusion404($this->mockContext(['resourceType' => '404'])));
     }
 
     public function test_exclusion_404_allows_when_option_missing()
     {
         $this->setOptions([]);
-        $this->assertFalse(Exclusion::exclusion404($this->mockProfile(['resourceType' => '404'])));
+        $this->assertFalse(Exclusion::exclusion404($this->mockContext(['resourceType' => '404'])));
     }
 
     public function test_exclusion_404_allows_when_resource_type_is_page()
     {
         $this->setOptions(['exclude_404s' => true]);
-        $this->assertFalse(Exclusion::exclusion404($this->mockProfile(['resourceType' => 'page'])));
+        $this->assertFalse(Exclusion::exclusion404($this->mockContext(['resourceType' => 'page'])));
     }
 
     public function test_exclusion_404_allows_when_resource_type_missing()
     {
         $this->setOptions(['exclude_404s' => true]);
-        $this->assertFalse(Exclusion::exclusion404($this->mockProfile()));
+        $this->assertFalse(Exclusion::exclusion404($this->mockContext()));
     }
 
     // ─── Broken File Exclusion ────────────────────────────────────────
-    // Note: exclusionBrokenFile uses $visitorProfile->getRequestUri() which reads
-    // from TrackerHelper::getRequestUri() → $_REQUEST['page_uri'] (base64-decoded)
+    // Note: exclusionBrokenFile uses $context->getRequest()->getResourceUri()
 
     public function test_broken_file_excludes_404_with_image_extension()
     {
-        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/images/missing-photo.jpg']);
-        $this->assertTrue(Exclusion::exclusionBrokenFile($profile));
+        $context = $this->mockContext(['resourceType' => '404', 'resourceUri' => '/images/missing-photo.jpg']);
+        $this->assertTrue(Exclusion::exclusionBrokenFile($context));
     }
 
     public function test_broken_file_excludes_404_with_css_extension()
     {
-        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/assets/style.css']);
-        $this->assertTrue(Exclusion::exclusionBrokenFile($profile));
+        $context = $this->mockContext(['resourceType' => '404', 'resourceUri' => '/assets/style.css']);
+        $this->assertTrue(Exclusion::exclusionBrokenFile($context));
     }
 
     public function test_broken_file_excludes_404_with_js_extension()
     {
-        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/js/app.js']);
-        $this->assertTrue(Exclusion::exclusionBrokenFile($profile));
+        $context = $this->mockContext(['resourceType' => '404', 'resourceUri' => '/js/app.js']);
+        $this->assertTrue(Exclusion::exclusionBrokenFile($context));
     }
 
     public function test_broken_file_allows_404_without_extension()
     {
-        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/some/missing-page']);
-        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
+        $context = $this->mockContext(['resourceType' => '404', 'resourceUri' => '/some/missing-page']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($context));
     }
 
     public function test_broken_file_allows_404_with_php_extension()
     {
-        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/some/script.php']);
-        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
+        $context = $this->mockContext(['resourceType' => '404', 'resourceUri' => '/some/script.php']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($context));
     }
 
     public function test_broken_file_allows_non_404_resource_type()
     {
-        $profile = $this->mockProfile(['resourceType' => 'page', 'requestUri' => '/images/photo.jpg']);
-        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
+        $context = $this->mockContext(['resourceType' => 'page', 'resourceUri' => '/images/photo.jpg']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($context));
     }
 
     public function test_broken_file_allows_when_resource_type_missing()
     {
-        $profile = $this->mockProfile(['requestUri' => '/images/photo.jpg']);
-        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
+        $context = $this->mockContext(['resourceUri' => '/images/photo.jpg']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($context));
     }
 
     public function test_broken_file_allows_404_with_query_string_and_no_extension()
     {
         // The extension check is on the path, not the query string
-        $profile = $this->mockProfile(['resourceType' => '404', 'requestUri' => '/some/page?foo=bar.jpg']);
-        $this->assertFalse(Exclusion::exclusionBrokenFile($profile));
+        $context = $this->mockContext(['resourceType' => '404', 'resourceUri' => '/some/page?foo=bar.jpg']);
+        $this->assertFalse(Exclusion::exclusionBrokenFile($context));
     }
 
     // ─── User Role Exclusion ──────────────────────────────────────────
@@ -267,61 +304,62 @@ class Test_Exclusion extends WP_UnitTestCase
     {
         $user = self::factory()->user->create_and_get(['role' => 'administrator']);
         $this->setOptions(['exclude_administrator' => true]);
-        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => $user->ID])));
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockContext(['userId' => $user->ID])));
     }
 
     public function test_user_role_excludes_editor_when_configured()
     {
         $user = self::factory()->user->create_and_get(['role' => 'editor']);
         $this->setOptions(['exclude_editor' => true]);
-        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => $user->ID])));
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockContext(['userId' => $user->ID])));
     }
 
     public function test_user_role_allows_non_excluded_role()
     {
         $user = self::factory()->user->create_and_get(['role' => 'subscriber']);
         $this->setOptions(['exclude_administrator' => true]);
-        $this->assertFalse(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => $user->ID])));
+        $this->assertFalse(Exclusion::exclusionUserRole($this->mockContext(['userId' => $user->ID])));
     }
 
     public function test_user_role_excludes_anonymous_when_configured()
     {
         $this->setOptions(['exclude_anonymous_users' => true]);
-        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 0])));
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockContext(['userId' => 0])));
     }
 
     public function test_user_role_allows_anonymous_when_not_configured()
     {
         $this->setOptions(['exclude_anonymous_users' => false]);
-        $this->assertFalse(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 0])));
+        $this->assertFalse(Exclusion::exclusionUserRole($this->mockContext(['userId' => 0])));
     }
 
     public function test_user_role_allows_anonymous_when_user_id_missing()
     {
         $this->setOptions(['exclude_anonymous_users' => false]);
-        $this->assertFalse(Exclusion::exclusionUserRole($this->mockProfile()));
+        $this->assertFalse(Exclusion::exclusionUserRole($this->mockContext()));
     }
 
-    public function test_user_role_treats_nonexistent_user_id_as_anonymous()
+    public function test_user_role_treats_nonexistent_user_id_as_not_excluded()
     {
         $this->setOptions(['exclude_anonymous_users' => true]);
-        // User::getRolesById returns [] → treated as anonymous
-        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 999999])));
+        // User::getRolesById returns [] for nonexistent user, but since userId > 0
+        // the code enters the logged-in branch and finds no matching role to exclude.
+        $this->assertFalse(Exclusion::exclusionUserRole($this->mockContext(['userId' => 999999])));
     }
 
     public function test_user_role_handles_negative_user_id_safely()
     {
         $this->setOptions(['exclude_anonymous_users' => false]);
-        // absint(-5) = 5, but user 5 likely doesn't exist in test → anonymous
-        $result = Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => -5]));
+        // absint(-5) = 5, but user 5 likely doesn't exist in test -> anonymous
+        $result = Exclusion::exclusionUserRole($this->mockContext(['userId' => -5]));
         $this->assertIsBool($result);
     }
 
     public function test_user_role_handles_string_user_id()
     {
         $this->setOptions(['exclude_anonymous_users' => true]);
-        // absint(0) = 0 → anonymous
-        $this->assertTrue(Exclusion::exclusionUserRole($this->mockProfile(['hitUserId' => 0])));
+        // absint(0) = 0 -> anonymous
+        $this->assertTrue(Exclusion::exclusionUserRole($this->mockContext(['userId' => 0])));
     }
 
     // ─── Excluded URL ─────────────────────────────────────────────────
@@ -329,77 +367,56 @@ class Test_Exclusion extends WP_UnitTestCase
     public function test_excluded_url_matches_exact_pattern()
     {
         $this->setOptions(['excluded_urls' => "secret-page"]);
-
-        $profile = $this->createMock(VisitorProfile::class);
-        $profile->method('getRequestUri')->willReturn('/secret-page');
-
-        $this->assertTrue(Exclusion::exclusionExcludedUrl($profile));
+        $context = $this->mockContext(['resourceUri' => '/secret-page']);
+        $this->assertTrue(Exclusion::exclusionExcludedUrl($context));
     }
 
     public function test_excluded_url_matches_wildcard_pattern()
     {
         $this->resetExclusionState();
         $this->setOptions(['excluded_urls' => "admin/*"]);
-
-        $profile = $this->createMock(VisitorProfile::class);
-        $profile->method('getRequestUri')->willReturn('/admin/dashboard');
-
-        $this->assertTrue(Exclusion::exclusionExcludedUrl($profile));
+        $context = $this->mockContext(['resourceUri' => '/admin/dashboard']);
+        $this->assertTrue(Exclusion::exclusionExcludedUrl($context));
     }
 
     public function test_excluded_url_no_match_for_unrelated_url()
     {
         $this->resetExclusionState();
         $this->setOptions(['excluded_urls' => "secret-page"]);
-
-        $profile = $this->createMock(VisitorProfile::class);
-        $profile->method('getRequestUri')->willReturn('/public-page');
-
-        $this->assertFalse(Exclusion::exclusionExcludedUrl($profile));
+        $context = $this->mockContext(['resourceUri' => '/public-page']);
+        $this->assertFalse(Exclusion::exclusionExcludedUrl($context));
     }
 
     public function test_excluded_url_handles_empty_patterns()
     {
         $this->resetExclusionState();
         $this->setOptions(['excluded_urls' => '']);
-
-        $profile = $this->createMock(VisitorProfile::class);
-        $profile->method('getRequestUri')->willReturn('/any-page');
-
-        $this->assertFalse(Exclusion::exclusionExcludedUrl($profile));
+        $context = $this->mockContext(['resourceUri' => '/any-page']);
+        $this->assertFalse(Exclusion::exclusionExcludedUrl($context));
     }
 
     public function test_excluded_url_handles_multiple_patterns()
     {
         $this->resetExclusionState();
         $this->setOptions(['excluded_urls' => "page-a\npage-b\npage-c"]);
-
-        $profile = $this->createMock(VisitorProfile::class);
-        $profile->method('getRequestUri')->willReturn('/page-b');
-
-        $this->assertTrue(Exclusion::exclusionExcludedUrl($profile));
+        $context = $this->mockContext(['resourceUri' => '/page-b']);
+        $this->assertTrue(Exclusion::exclusionExcludedUrl($context));
     }
 
     public function test_excluded_url_strips_query_string_before_matching()
     {
         $this->resetExclusionState();
         $this->setOptions(['excluded_urls' => "secret-page"]);
-
-        $profile = $this->createMock(VisitorProfile::class);
-        $profile->method('getRequestUri')->willReturn('/secret-page?ref=123');
-
-        $this->assertTrue(Exclusion::exclusionExcludedUrl($profile));
+        $context = $this->mockContext(['resourceUri' => '/secret-page?ref=123']);
+        $this->assertTrue(Exclusion::exclusionExcludedUrl($context));
     }
 
     public function test_excluded_url_is_case_insensitive()
     {
         $this->resetExclusionState();
         $this->setOptions(['excluded_urls' => "Secret-Page"]);
-
-        $profile = $this->createMock(VisitorProfile::class);
-        $profile->method('getRequestUri')->willReturn('/secret-page');
-
-        $this->assertTrue(Exclusion::exclusionExcludedUrl($profile));
+        $context = $this->mockContext(['resourceUri' => '/secret-page']);
+        $this->assertTrue(Exclusion::exclusionExcludedUrl($context));
     }
 
     // ─── Check Method Integration ─────────────────────────────────────
@@ -420,7 +437,7 @@ class Test_Exclusion extends WP_UnitTestCase
         ]);
 
         // check() should return the cached result without running any checks
-        $result = Exclusion::check(new VisitorProfile());
+        $result = Exclusion::check($this->mockContext());
         $this->assertTrue($result['exclusion_match']);
         $this->assertSame('test_cached', $result['exclusion_reason']);
     }

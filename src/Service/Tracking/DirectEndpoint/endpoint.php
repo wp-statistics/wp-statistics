@@ -3,7 +3,7 @@
  * WP Statistics Direct File Endpoint
  *
  * SHORTINIT-compatible hit recording for maximum performance.
- * This file is a template — MuPluginManager bakes absolute paths
+ * This file is a template — DirectEndpointManager bakes absolute paths
  * into the placeholders when copying to mu-plugins/.
  *
  * @since 15.0.0
@@ -88,10 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // ── 5. Record hit ───────────────────────────────────────────────────
 
-use WP_Statistics\Service\Tracking\Core\Hits;
+use WP_Statistics\Service\Tracking\Core\Tracker;
 
 try {
-    (new Hits())->record();
+    (new Tracker())->record();
     echo '{"status":true}';
 } catch (\Exception $e) {
     $code = $e->getCode();

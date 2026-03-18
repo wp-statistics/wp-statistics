@@ -4,7 +4,7 @@ namespace WP_Statistics\Tests\ShortInitEndpoint;
 
 use WP_UnitTestCase;
 use WP_Statistics\Service\Tracking\Core\Hits;
-use WP_Statistics\Service\Tracking\HitRequest;
+use WP_Statistics\Service\Tracking\Core\HitRequest;
 use WP_Statistics\Utils\Signature;
 use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Option;

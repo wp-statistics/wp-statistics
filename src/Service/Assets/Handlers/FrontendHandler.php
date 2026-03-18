@@ -9,7 +9,6 @@ use WP_Statistics\Bootstrap;
 use WP_Statistics\Service\Consent\ConsentProviderInterface;
 use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Resources\ResourcesFactory;
-use WP_Statistics\Service\Tracking\MuPlugin\MuPluginManager;
 use WP_Statistics\Utils\Signature;
 /**
  * Frontend Assets Service
@@ -63,25 +62,17 @@ class FrontendHandler extends BaseAssets
         $hitConfig      = !empty($params['hit']) ? $params['hit'] : [];
         $activeProvider = Bootstrap::get('consent')->getActiveProvider();
 
-        $muPluginUrl = '';
-        $batchUrl    = '';
+        $trackingManager = Bootstrap::get('tracking');
+        $muPluginUrl     = '';
+        $batchUrl        = '';
 
         try {
-            if (Option::getValue('mu_plugin_proxy', false)) {
-                $muPluginManager = new MuPluginManager();
-                if ($muPluginManager->isInstalled()) {
-                    $muPluginUrl = $muPluginManager->getEndpointUrl();
-                }
+            if ($trackingManager->isDirectEndpointActive()) {
+                $muPluginUrl = $trackingManager->getDirectEndpointManager()->getEndpointUrl();
             }
+            $batchUrl = $trackingManager->getBatchUrl();
         } catch (\Throwable $e) {
-            // Mu-plugin is optional — fall back to default endpoints
-        }
-
-        // Build batch URL based on delivery mode
-        if ($muPluginUrl) {
-            $batchUrl = $muPluginUrl;
-        } elseif (!Option::getValue('bypass_ad_blockers', false)) {
-            $batchUrl = rest_url('wp-statistics/v2/batch');
+            // Direct endpoint is optional — fall back to default endpoints
         }
 
         $resource     = ResourcesFactory::getCurrentResource();
@@ -115,7 +106,7 @@ class FrontendHandler extends BaseAssets
         // Add tracker.js dependencies
         $dependencies = $activeProvider->getJsDependencies();
 
-        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, Option::getValue('bypass_ad_blockers', false), null, '', '', true);
+        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, $trackingManager->getTrackingMethod() === 'ajax', null, '', '', true);
 
         $inlineScript = $activeProvider->getInlineScript();
         if ($inlineScript !== '') {
@@ -134,7 +125,7 @@ class FrontendHandler extends BaseAssets
 
         return [
             'userOnline'           => Option::getValue('useronline'),
-            'bypassAdBlockers'     => Option::getValue('bypass_ad_blockers', false),
+            'bypassAdBlockers'     => Option::getValue('tracking_method', 'rest') === 'ajax',
             'anonymousTracking'    => (bool) Option::getValue('anonymous_tracking', false),
             'eventTracking'        => (bool) Option::getValue('event_tracking', false),
             'trackingLevel'        => TrackingLevel::all(),

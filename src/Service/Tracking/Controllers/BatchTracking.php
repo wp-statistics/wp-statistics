@@ -4,9 +4,9 @@ namespace WP_Statistics\Service\Tracking\Controllers;
 
 use WP_Statistics\Abstracts\BaseTrackerController;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Utils\Request;
 use Exception;
@@ -63,14 +63,14 @@ class BatchTracking extends BaseTrackerController
     /**
      * Register batch tracking endpoint.
      *
-     * Uses AJAX when bypass_ad_blockers is enabled, REST API otherwise.
+     * Uses AJAX when tracking_method is 'ajax', REST API otherwise.
      *
      * @return void
      * @since 15.0.0
      */
     public function register()
     {
-        if (Option::getValue('bypass_ad_blockers', false)) {
+        if (Option::getValue('tracking_method', 'rest') === 'ajax') {
             add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
         } else {
             add_action('rest_api_init', [$this, 'registerRoutes']);
@@ -220,8 +220,7 @@ class BatchTracking extends BaseTrackerController
         if ($engagementTime > 0) {
             try {
                 // Get visitor's IP hash to identify their session
-                $visitorProfile = new VisitorProfile();
-                $visitorHash    = $visitorProfile->getProcessedIPForStorage();
+                $visitorHash = Ip::hash();
 
                 // Find the visitor's active session using direct query
                 $thirtyMinutesAgo = DateTime::getUtc('Y-m-d H:i:s', '-30 minutes');

@@ -3,7 +3,7 @@
 namespace WP_Statistics\Tests\HitRequest;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\HitRequest;
+use WP_Statistics\Service\Tracking\Core\HitRequest;
 use WP_Statistics\Utils\Signature;
 
 class Test_HitRequest extends WP_UnitTestCase

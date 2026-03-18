@@ -8,14 +8,13 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\CLI\CLIManager;
 use WP_Statistics\Service\Shortcode\ShortcodeService;
 use WP_Statistics\Service\Blocks\BlocksManager;
-use WP_Statistics\Service\Tracking\TrackerControllerFactory;
+use WP_Statistics\Service\Tracking\TrackingManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
 use WP_Statistics\Service\CustomEvent\CustomEventHandler;
 use WP_Statistics\Service\Ajax\AjaxDispatcher;
 use WP_Statistics\Service\Admin\AdminBar\AdminBarManager;
 use WP_Statistics\Service\Consent\ConsentManager;
-use WP_Statistics\Service\Tracking\MuPlugin\MuPluginManager;
 
 /**
  * Core Service Provider.
@@ -46,7 +45,7 @@ class CoreServiceProvider implements ServiceProvider
 
         // Tracking - lazy loaded
         $container->register('tracking', function () {
-            return TrackerControllerFactory::createController();
+            return new TrackingManager();
         });
 
         // Cron Manager - lazy loaded
@@ -88,14 +87,6 @@ class CoreServiceProvider implements ServiceProvider
         $container->register('admin_bar', function () {
             return new AdminBarManager();
         });
-
-        // Mu-Plugin Manager - handles direct file endpoint install/uninstall
-        $container->register('mu_plugin', function () {
-            return new MuPluginManager();
-        });
-
-        // Aliases for common access patterns
-        $container->alias('tracker', 'tracking');
     }
 
     /**
@@ -109,8 +100,8 @@ class CoreServiceProvider implements ServiceProvider
         // Initialize consent manager (before tracking, so consent state is ready)
         $container->get('consent')->boot();
 
-        // Initialize tracking controller
-        $container->get('tracking');
+        // Initialize tracking (registers hit, batch, and direct-endpoint controllers)
+        $container->get('tracking')->register();
 
         // Initialize cron manager
         $container->get('cron');
@@ -145,8 +136,5 @@ class CoreServiceProvider implements ServiceProvider
 
         // Initialize admin bar stats
         $container->get('admin_bar');
-
-        // Initialize mu-plugin manager (auto-install/update + settings hook)
-        $container->get('mu_plugin')->register();
     }
 }

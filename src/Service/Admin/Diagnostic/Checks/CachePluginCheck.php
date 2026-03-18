@@ -75,9 +75,7 @@ class CachePluginCheck extends AbstractCheck
         $details['cache_plugin'] = $cacheInfo['plugin'];
         $details['debug']        = $cacheInfo['debug'] ?? '';
 
-        // Check if bypass ad blockers is enabled
-        $bypassAdBlockers = Option::getValue('bypass_ad_blockers');
-        $details['bypass_ad_blockers'] = (bool) $bypassAdBlockers;
+        $details['tracking_method'] = Option::getValue('tracking_method', 'rest');
 
         return $this->pass(
             sprintf(

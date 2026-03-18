@@ -21,24 +21,29 @@ class Session extends BaseEntity
      * This handles the logic for either opening a new session or
      * updating an existing open session, and tracking visitor activity
      * such as total views, resource changes, and session metadata.
+     *
+     * @param int   $visitorId  The visitor ID.
+     * @param array $deviceIds  Device-related IDs (type_id, os_id, browser_id, browser_version_id, resolution_id).
+     * @param array $geoIds     Geographic IDs (country_id, city_id).
+     * @param array $localeIds  Locale IDs (language_id, timezone_id).
+     * @param int   $referrerId The referrer ID.
+     * @return int The session ID, or 0 if tracking is inactive or visitor ID is missing.
      */
-    public function record()
+    public function record(int $visitorId, array $deviceIds, array $geoIds, array $localeIds, int $referrerId): int
     {
         if (!$this->isActive('sessions')) {
-            return $this;
+            return 0;
         }
-
-        $visitorId = $this->profile->getVisitorIdMeta();
 
         if (!$visitorId) {
-            return $this;
+            return 0;
         }
 
-        $activeSession = $this->getActive();
+        $activeSession = $this->getActive($visitorId);
 
         if ($activeSession && isset($activeSession->ID)) {
             $newViews = ((int)$activeSession->total_views) + 1;
-            $userId   = empty($activeSession->user_id) ? $this->profile->getUserId() : $activeSession->user_id;
+            $userId   = empty($activeSession->user_id) ? $this->context->getUserId() : $activeSession->user_id;
 
             $newData = [
                 'total_views' => $newViews,
@@ -47,49 +52,45 @@ class Session extends BaseEntity
 
             RecordFactory::session($activeSession)->update($newData);
 
-            $this->profile->setSessionId((int)$activeSession->ID);
-            return $this;
+            return (int)$activeSession->ID;
         }
 
         $sessionId = (int)RecordFactory::session()->insert([
             'visitor_id'                => $visitorId,
-            'referrer_id'               => $this->profile->getReferrerId(),
-            'country_id'                => $this->profile->getCountryId(),
-            'city_id'                   => $this->profile->getCityId(),
-            'initial_view_id'           => $this->profile->getViewId(),
-            'last_view_id'              => $this->profile->getViewId(),
+            'referrer_id'               => $referrerId,
+            'country_id'                => $geoIds['country_id'],
+            'city_id'                   => $geoIds['city_id'],
+            'initial_view_id'           => 0,
+            'last_view_id'              => 0,
             'total_views'               => 1,
-            'device_type_id'            => $this->profile->getDeviceTypeId(),
-            'device_os_id'              => $this->profile->getDeviceOsId(),
-            'device_browser_id'         => $this->profile->getDeviceBrowserId(),
-            'device_browser_version_id' => $this->profile->getDeviceBrowserVersionId(),
-            'resolution_id'             => $this->profile->getResolutionId(),
-            'language_id'               => $this->profile->getLanguageId(),
-            'timezone_id'               => $this->profile->getTimezoneId(),
-            'user_id'                   => $this->profile->getUserId(),
+            'device_type_id'            => $deviceIds['type_id'],
+            'device_os_id'              => $deviceIds['os_id'],
+            'device_browser_id'         => $deviceIds['browser_id'],
+            'device_browser_version_id' => $deviceIds['browser_version_id'],
+            'resolution_id'             => $deviceIds['resolution_id'],
+            'language_id'               => $localeIds['language_id'],
+            'timezone_id'               => $localeIds['timezone_id'],
+            'user_id'                   => $this->context->getUserId(),
             'started_at'                => DateTime::getUtc(),
         ]);
 
-        $this->profile->setSessionId($sessionId);
-
         // Record UTM parameters for this new session (first-touch attribution)
-        EntityFactory::parameter($this->profile)->record();
+        EntityFactory::parameter($this->context)->record($sessionId);
 
-        return $this;
+        return $sessionId;
     }
 
     /**
-     * Check if an active session exists for the current visitor.
+     * Check if an active session exists for the given visitor.
      *
      * Returns a session that started today and is either still active
      * or ended within the last 30 minutes.
      *
+     * @param int $visitorId The visitor ID to check.
      * @return object|false
      */
-    public function getActive()
+    public function getActive(int $visitorId)
     {
-        $visitorId = $this->profile->getVisitorIdMeta();
-
         if (!$visitorId) {
             return false;
         }
@@ -107,15 +108,14 @@ class Session extends BaseEntity
      * This method sets the `last_view_id` and `ended_at` timestamp for the session.
      * If the session does not yet have an `initial_view_id`, it will be set to the provided `$viewId`.
      *
-     * @param int $viewId The ID of the most recent view in the session.
-     * @param string $endAt The datetime string (Y-m-d H:i:s) when the session is considered ended.
+     * @param int    $sessionId The session ID to update.
+     * @param int    $viewId    The ID of the most recent view in the session.
+     * @param string $endAt     The datetime string (Y-m-d H:i:s) when the session is considered ended.
      *
      * @return void
      */
-    public function updateInitialView($viewId, $endAt)
+    public function updateInitialView(int $sessionId, int $viewId, string $endAt)
     {
-        $sessionId = $this->profile->getSessionId();
-
         if (!$sessionId || $viewId < 1) {
             return;
         }

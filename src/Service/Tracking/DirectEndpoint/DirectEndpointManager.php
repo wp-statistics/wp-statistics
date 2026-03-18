@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\MuPlugin;
+namespace WP_Statistics\Service\Tracking\DirectEndpoint;
 
 use WP_Statistics\Components\Option;
 
@@ -11,7 +11,7 @@ use WP_Statistics\Components\Option;
  *
  * @since 15.0.0
  */
-class MuPluginManager
+class DirectEndpointManager
 {
     /**
      * Option key storing the installed mu-plugin version.
@@ -38,7 +38,7 @@ class MuPluginManager
         // Always listen for settings changes so the toggle can enable/disable the feature
         add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
 
-        if (!Option::getValue('mu_plugin_proxy', false)) {
+        if (Option::getValue('tracking_method', 'rest') !== 'direct_file') {
             return;
         }
 
@@ -58,11 +58,11 @@ class MuPluginManager
      */
     public function onSettingsSaved($tab, $settings)
     {
-        if (!array_key_exists('mu_plugin_proxy', $settings)) {
+        if (!array_key_exists('tracking_method', $settings)) {
             return;
         }
 
-        if (!empty($settings['mu_plugin_proxy'])) {
+        if ($settings['tracking_method'] === 'direct_file') {
             $this->reinstall();
         } else {
             $this->uninstall();

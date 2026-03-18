@@ -94,24 +94,26 @@ export function setConsentPlugin(mode: 'none' | 'wp_consent_api' | 'real_cookie_
   }
 }
 
-export function setBypassAdBlockers(enabled: boolean): void {
-  updateWpStatisticsOption('bypass_ad_blockers', enabled)
-}
-
-export function setEventTracking(enabled: boolean): void {
-  updateWpStatisticsOption('event_tracking', enabled)
-}
-
-export function setDirectFileEndpoint(enabled: boolean): void {
-  updateWpStatisticsOption('mu_plugin_proxy', enabled)
-  if (enabled) {
-    // Trigger a WP load to install the mu-plugin files via MuPluginManager::register()
+/**
+ * Set the active tracking method.
+ *
+ * @param method - 'rest' (default REST API), 'ajax' (admin-ajax.php),
+ *                 or 'direct_file' (SHORTINIT mu-plugin endpoint).
+ */
+export function setTrackingMethod(method: 'rest' | 'ajax' | 'direct_file'): void {
+  updateWpStatisticsOption('tracking_method', method)
+  if (method === 'direct_file') {
+    // Trigger a WP load to install the direct-endpoint files via DirectEndpointManager::register()
     try {
-      wpCli(`eval 'echo "mu_plugin_installed";'`)
+      wpCli(`eval 'echo "direct_endpoint_installed";'`)
     } catch {
       // non-critical — files may already be installed
     }
   }
+}
+
+export function setEventTracking(enabled: boolean): void {
+  updateWpStatisticsOption('event_tracking', enabled)
 }
 
 // ---------------------------------------------------------------------------
