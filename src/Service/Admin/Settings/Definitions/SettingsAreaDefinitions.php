@@ -88,6 +88,15 @@ class SettingsAreaDefinitions
                                     ],
                                 ],
                             ],
+                            'direct_file_notice' => [
+                                'type'         => 'notice',
+                                'notice_type'  => 'warning',
+                                'message'      => __('Direct File is the fastest tracking method as it bypasses full WordPress loading. However, third-party hooks and filters that extend WP Statistics tracking will not run in this mode.', 'wp-statistics'),
+                                'visible_when' => [
+                                    'tracking_method' => 'direct_file',
+                                ],
+                                'order' => 15,
+                            ],
                         ],
                     ],
                     'event-tracking' => [
