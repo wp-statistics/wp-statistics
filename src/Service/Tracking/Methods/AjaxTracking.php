@@ -8,7 +8,7 @@ use WP_Statistics\Utils\Request;
 use Exception;
 
 /**
- * AJAX delivery method.
+ * AJAX tracking method.
  *
  * Routes hits and batch events through admin-ajax.php,
  * which bypasses ad blockers that target REST API URLs.
@@ -26,24 +26,18 @@ class AjaxTracking extends BaseTracking
     public function register(): void
     {
         add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
-        add_filter('wp_statistics_js_localized_arguments', [$this, 'addLocalizedArguments']);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getHitUrl(): string
+    public function getTrackerConfig(): array
     {
-        return admin_url('admin-ajax.php');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBatchUrl(): string
-    {
-        // AJAX batch URL is built client-side from ajaxUrl
-        return '';
+        return [
+            'baseUrl'          => admin_url('admin-ajax.php'),
+            'hitEndpoint'      => '?action=wp_statistics_' . self::HIT_ACTION,
+            'batchEndpoint'    => '?action=wp_statistics_' . self::BATCH_ACTION,
+        ];
     }
 
     /**
@@ -52,20 +46,6 @@ class AjaxTracking extends BaseTracking
     public function getRoute(): ?string
     {
         return admin_url('admin-ajax.php');
-    }
-
-    /**
-     * Add tracking configuration to the localized JavaScript object.
-     *
-     * @param array $args Existing localized arguments.
-     * @return array
-     */
-    public function addLocalizedArguments(array $args): array
-    {
-        $args['requestUrl'] = get_site_url();
-        $args['hit']        = ['action' => 'wp_statistics_' . self::HIT_ACTION];
-
-        return $args;
     }
 
     /**

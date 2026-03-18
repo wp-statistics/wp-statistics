@@ -19,7 +19,7 @@ class DirectEndpointManager
     /**
      * Endpoint filename placed alongside the mu-plugin.
      */
-    private const ENDPOINT_FILE = 'wp-statistics-endpoint.php';
+    public const ENDPOINT_FILE = 'wp-statistics-endpoint.php';
 
     /**
      * Polyfills filename placed alongside the mu-plugin.
@@ -241,13 +241,4 @@ class DirectEndpointManager
         return $wp_filesystem->put_contents($dest, $content, FS_CHMOD_FILE);
     }
 
-    /**
-     * Get the public URL for the endpoint file.
-     *
-     * @return string
-     */
-    public function getEndpointUrl()
-    {
-        return content_url('mu-plugins/' . self::ENDPOINT_FILE);
-    }
 }

@@ -32,9 +32,9 @@ function getOption(key, fallback) {
     return cfg.option[key] !== undefined ? cfg.option[key] : fallback;
 }
 
-export function getHitParams() {
+export function getSignature() {
     const cfg = getConfig();
-    return (cfg && cfg.hit) ? cfg.hit : {};
+    return (cfg && cfg.signature) ? cfg.signature : '';
 }
 
 /**
@@ -59,20 +59,6 @@ export function getUserId() {
     return (cfg && cfg.userId) ? cfg.userId : 0;
 }
 
-export function getRequestUrl() {
-    const cfg = getConfig();
-    return (cfg && cfg.requestUrl) ? cfg.requestUrl : '';
-}
-
-export function getAjaxUrl() {
-    const cfg = getConfig();
-    return (cfg && cfg.ajaxUrl) ? cfg.ajaxUrl : '';
-}
-
-export function isBypassAdBlockers() {
-    return !!getOption('bypassAdBlockers', false);
-}
-
 export function isPreview() {
     return !!getOption('isPreview', false);
 }
@@ -95,14 +81,4 @@ export function isAnonymousTracking() {
 
 export function isEventTrackingEnabled() {
     return !!getOption('eventTracking', false);
-}
-
-export function getMuPluginUrl() {
-    const cfg = getConfig();
-    return (cfg && cfg.muPluginUrl) ? cfg.muPluginUrl : '';
-}
-
-export function getBatchUrl() {
-    const cfg = getConfig();
-    return (cfg && cfg.batchUrl) ? cfg.batchUrl : '';
 }

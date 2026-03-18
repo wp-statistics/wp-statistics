@@ -9,7 +9,7 @@ use WP_REST_Server;
 use WP_REST_Request;
 
 /**
- * REST API delivery method.
+ * REST API tracking method.
  *
  * Registers /wp-json/wp-statistics/v2/hit and /batch endpoints.
  *
@@ -27,23 +27,18 @@ class RestTracking extends BaseTracking
     public function register(): void
     {
         add_action('rest_api_init', [$this, 'registerRoutes']);
-        add_filter('wp_statistics_js_localized_arguments', [$this, 'addLocalizedArguments']);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getHitUrl(): string
+    public function getTrackerConfig(): array
     {
-        return rest_url(self::API_NAMESPACE . '/' . self::ENDPOINT_HIT);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBatchUrl(): string
-    {
-        return rest_url(self::API_NAMESPACE . '/' . self::ENDPOINT_BATCH);
+        return [
+            'baseUrl'          => get_rest_url(null, self::API_NAMESPACE),
+            'hitEndpoint'      => '/' . self::ENDPOINT_HIT,
+            'batchEndpoint'    => '/' . self::ENDPOINT_BATCH,
+        ];
     }
 
     /**
@@ -52,20 +47,6 @@ class RestTracking extends BaseTracking
     public function getRoute(): ?string
     {
         return self::API_NAMESPACE;
-    }
-
-    /**
-     * Add tracking configuration to the localized JavaScript object.
-     *
-     * @param array $args Existing localized arguments.
-     * @return array
-     */
-    public function addLocalizedArguments(array $args): array
-    {
-        $args['requestUrl'] = get_rest_url(null, self::API_NAMESPACE);
-        $args['hit']        = ['endpoint' => self::ENDPOINT_HIT];
-
-        return $args;
     }
 
     /**

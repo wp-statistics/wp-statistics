@@ -36,11 +36,8 @@ export function sendXhr(url, params) {
     });
 }
 
-function buildFormData(dataString, ajaxAction) {
+function buildFormData(dataString) {
     var formData = new FormData();
-    if (ajaxAction) {
-        formData.append('action', ajaxAction);
-    }
     formData.append('batch_data', dataString);
     return formData;
 }
@@ -49,11 +46,11 @@ function buildFormData(dataString, ajaxAction) {
  * Send data using sendBeacon with FormData (fire-and-forget).
  * Falls back to fetch(keepalive) if sendBeacon fails.
  */
-export function sendBeaconOrFetch(url, jsonData, ajaxAction) {
+export function sendBeaconOrFetch(url, jsonData) {
     var dataString = typeof jsonData === 'string' ? jsonData : JSON.stringify(jsonData);
 
     if (navigator.sendBeacon) {
-        if (navigator.sendBeacon(url, buildFormData(dataString, ajaxAction))) {
+        if (navigator.sendBeacon(url, buildFormData(dataString))) {
             return;
         }
     }
@@ -62,7 +59,7 @@ export function sendBeaconOrFetch(url, jsonData, ajaxAction) {
     try {
         fetch(url, {
             method: 'POST',
-            body: buildFormData(dataString, ajaxAction),
+            body: buildFormData(dataString),
             keepalive: true,
         }).catch(function () {});
     } catch (e) {

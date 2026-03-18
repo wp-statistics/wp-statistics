@@ -11,7 +11,7 @@ use Exception;
 /**
  * Shared batch event processing logic.
  *
- * Transport-agnostic: REST and AJAX delivery methods parse the request
+ * Transport-agnostic: REST and AJAX tracking methods parse the request
  * in their own callbacks, then delegate here for business logic.
  *
  * @since 15.0.0

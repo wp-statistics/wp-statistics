@@ -7,7 +7,6 @@
 
 import { sendBeaconOrFetch } from './send.js';
 import { getBatchEndpoint } from './endpoint.js';
-import { isBypassAdBlockers } from '../core/config.js';
 import { applyFilters, doAction } from '../core/hooks.js';
 import * as engagement from '../trackers/engagement.js';
 
@@ -85,11 +84,9 @@ export function flush(reason) {
 
 function sendPayload(payload) {
     var url = getBatchEndpoint();
-    var ajaxAction = isBypassAdBlockers() ? 'wp_statistics_batch' : null;
     var data = JSON.stringify(payload);
 
     if (data.length > maxPayloadSize) {
-        // Split oversized payloads — re-stringify each chunk
         var events = payload.events || [];
         var chunkSize = Math.ceil(events.length / 2);
 
@@ -98,12 +95,12 @@ function sendPayload(payload) {
                 engagement_time: i === 0 ? payload.engagement_time : 0,
                 events: events.slice(i, i + chunkSize),
             };
-            sendBeaconOrFetch(url, JSON.stringify(chunkPayload), ajaxAction);
+            sendBeaconOrFetch(url, JSON.stringify(chunkPayload));
         }
         return;
     }
 
-    sendBeaconOrFetch(url, data, ajaxAction);
+    sendBeaconOrFetch(url, data);
 }
 
 export function startPeriodicFlush() {

@@ -57,47 +57,40 @@ class FrontendHandler extends BaseAssets
      */
     public function scripts($hook = '')
     {
-        $params         = apply_filters('wp_statistics_js_localized_arguments', []);
-        $requestUrl     = !empty($params['requestUrl']) ? $params['requestUrl'] : get_site_url();
-        $hitConfig      = !empty($params['hit']) ? $params['hit'] : [];
-        $activeProvider = Bootstrap::get('consent')->getActiveProvider();
-
+        $activeProvider  = Bootstrap::get('consent')->getActiveProvider();
         $trackingManager = Bootstrap::get('tracking');
-        $muPluginUrl     = $trackingManager->getDirectEndpointUrl();
-        $batchUrl        = $trackingManager->getBatchUrl();
+        $trackerConfig   = $trackingManager->getTrackerConfig();
 
         $resource     = ResourcesFactory::getCurrentResource();
         $resourceType = $resource->getType();
         $resourceId   = $resource->getId();
         $userId       = get_current_user_id();
 
-        $hitConfig['signature'] = Signature::generate([$resourceType, (int) $resourceId, (int) $userId]);
+        $isAjax = $trackingManager->getTrackingMethod() === 'ajax';
 
         $jsArgs = array(
-            'requestUrl'          => $requestUrl,
-            'ajaxUrl'             => admin_url('admin-ajax.php'),
-            'hit'                 => $hitConfig,
+            'baseUrl'             => $trackerConfig['baseUrl'],
+            'hitEndpoint'         => $trackerConfig['hitEndpoint'],
+            'batchEndpoint'       => $trackerConfig['batchEndpoint'],
+            'signature'           => Signature::generate([$resourceType, (int) $resourceId, (int) $userId]),
             'resource'            => [
                 'resourceUriId' => ResourcesFactory::getCurrentResourceUri()->getId(),
                 'resourceType'  => $resourceType,
                 'resourceId'    => (int) $resourceId,
             ],
             'userId'              => (int) $userId,
-            'option'              => $this->buildOptionArgs($activeProvider, $trackingManager->isAjax()),
+            'option'              => $this->buildOptionArgs($activeProvider),
             'isLegacyEventLoaded' => Assets::isScriptEnqueued('event'),
             'customEventAjaxUrl'  => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
-            'muPluginUrl'         => $muPluginUrl,
-            'batchUrl'            => $batchUrl,
         );
 
         if (defined('WP_DEBUG') && WP_DEBUG) {
             $jsArgs['isConsoleVerbose'] = true;
         }
 
-        // Add tracker.js dependencies
         $dependencies = $activeProvider->getJsDependencies();
 
-        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, $trackingManager->isAjax(), null, '', '', true);
+        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, $isAjax, null, '', '', true);
 
         $inlineScript = $activeProvider->getInlineScript();
         if ($inlineScript !== '') {
@@ -110,18 +103,15 @@ class FrontendHandler extends BaseAssets
      *
      * @return array
      */
-    private function buildOptionArgs(ConsentProviderInterface $activeProvider, bool $isAjax): array
+    private function buildOptionArgs(ConsentProviderInterface $activeProvider): array
     {
-        $trackerConfig = $activeProvider->getJsConfig();
-
         return [
-            'userOnline'           => Option::getValue('useronline'),
-            'bypassAdBlockers'     => $isAjax,
-            'anonymousTracking'    => (bool) Option::getValue('anonymous_tracking', false),
-            'eventTracking'        => (bool) Option::getValue('event_tracking', false),
-            'trackingLevel'        => TrackingLevel::all(),
-            'consent'              => $trackerConfig,
-            'isPreview'            => is_preview(),
+            'userOnline'        => Option::getValue('useronline'),
+            'anonymousTracking' => (bool) Option::getValue('anonymous_tracking', false),
+            'eventTracking'     => (bool) Option::getValue('event_tracking', false),
+            'trackingLevel'     => TrackingLevel::all(),
+            'consent'           => $activeProvider->getJsConfig(),
+            'isPreview'         => is_preview(),
         ];
     }
 

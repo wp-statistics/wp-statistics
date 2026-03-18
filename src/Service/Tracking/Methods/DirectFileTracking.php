@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Tracking\Methods;
 use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 
 /**
- * Direct File delivery method.
+ * Direct File tracking method.
  *
  * Uses a SHORTINIT mu-plugin endpoint for minimal-bootstrap hit recording.
  * Hit and batch requests both go to the same mu-plugin URL.
@@ -18,13 +18,6 @@ class DirectFileTracking extends BaseTracking
      * @var DirectEndpointManager
      */
     private $endpointManager;
-
-    /**
-     * Cached endpoint URL — avoids repeated filesystem checks.
-     *
-     * @var string|null
-     */
-    private $cachedUrl;
 
     public function __construct()
     {
@@ -42,25 +35,13 @@ class DirectFileTracking extends BaseTracking
     /**
      * {@inheritDoc}
      */
-    public function getHitUrl(): string
+    public function getTrackerConfig(): array
     {
-        if ($this->cachedUrl !== null) {
-            return $this->cachedUrl;
-        }
-
-        $this->cachedUrl = $this->endpointManager->isInstalled()
-            ? $this->endpointManager->getEndpointUrl()
-            : '';
-
-        return $this->cachedUrl;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBatchUrl(): string
-    {
-        return $this->getHitUrl();
+        return [
+            'baseUrl'          => content_url(),
+            'hitEndpoint'      => '/mu-plugins/' . DirectEndpointManager::ENDPOINT_FILE,
+            'batchEndpoint'    => '/mu-plugins/' . DirectEndpointManager::ENDPOINT_FILE,
+        ];
     }
 
     /**

@@ -3,9 +3,9 @@
 namespace WP_Statistics\Service\Tracking\Methods;
 
 /**
- * Abstract base for tracking delivery methods.
+ * Abstract base for tracking methods.
  *
- * Every delivery method (REST, AJAX, Direct File) extends this so that
+ * Every tracking method (REST, AJAX, Direct File) extends this so that
  * TrackingManager can delegate without special-casing any method.
  *
  * @since 15.0.0
@@ -13,25 +13,19 @@ namespace WP_Statistics\Service\Tracking\Methods;
 abstract class BaseTracking
 {
     /**
-     * Register the delivery method's endpoints with WordPress.
+     * Register the method's endpoints with WordPress.
      */
     abstract public function register(): void;
 
     /**
-     * URL the JS tracker should POST hits to.
+     * Configuration the JS tracker needs to send hits via this method.
+     *
+     * @return array{baseUrl: string, hitEndpoint: string, batchEndpoint: string}
      */
-    abstract public function getHitUrl(): string;
-
-    /**
-     * URL for batch/engagement events.
-     */
-    abstract public function getBatchUrl(): string;
+    abstract public function getTrackerConfig(): array;
 
     /**
      * Diagnostic route string for health checks.
-     *
-     * Returns a REST namespace or URL that TrackingCheck can probe.
-     * Delivery methods without a probeable route return null.
      */
     abstract public function getRoute(): ?string;
 }

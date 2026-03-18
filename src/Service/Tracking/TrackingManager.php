@@ -57,51 +57,38 @@ class TrackingManager
      */
     public function register(): void
     {
-        $this->trackingMethod = $this->createActiveMethod();
+        $this->trackingMethod = $this->getActiveMethod();
         $this->trackingMethod->register();
 
         add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
     }
 
-    // ── Delegated to active method ─────────────────────────────────
-
-    public function getHitUrl(): string
+    /**
+     * Get the full JS tracker configuration from the active method.
+     *
+     * @return array
+     */
+    public function getTrackerConfig(): array
     {
-        return $this->trackingMethod->getHitUrl();
+        return $this->trackingMethod->getTrackerConfig();
     }
 
-    public function getBatchUrl(): string
-    {
-        return $this->trackingMethod->getBatchUrl();
-    }
-
-    public function getTrackingRoute(): ?string
-    {
-        return $this->trackingMethod->getRoute();
-    }
-
-    // ── Method info ────────────────────────────────────────────────
-
+    /**
+     * Get the active tracking method key.
+     *
+     * @return string
+     */
     public function getTrackingMethod(): string
     {
         return $this->trackingOption;
     }
 
-    public function isAjax(): bool
-    {
-        return $this->trackingOption === 'ajax';
-    }
-
     /**
-     * Direct endpoint URL, or empty string if not the active method.
+     * Diagnostic route string for health checks.
      */
-    public function getDirectEndpointUrl(): string
+    public function getTrackingRoute(): ?string
     {
-        if ($this->trackingOption !== 'direct_file') {
-            return '';
-        }
-
-        return $this->trackingMethod->getHitUrl();
+        return $this->trackingMethod->getRoute();
     }
 
     // ── Settings lifecycle ─────────────────────────────────────────
@@ -123,7 +110,7 @@ class TrackingManager
 
     // ── Internal ───────────────────────────────────────────────────
 
-    private function createActiveMethod(): BaseTracking
+    private function getActiveMethod(): BaseTracking
     {
         $class          = self::METHODS[$this->trackingOption];
         $trackingMethod = new $class();
