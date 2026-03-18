@@ -66,7 +66,7 @@ class FrontendHandler extends BaseAssets
         $resourceId   = $resource->getId();
         $userId       = get_current_user_id();
 
-        $isAjax = $trackingManager->getTrackingMethod() === 'ajax';
+        $obfuscate = (bool) Option::getValue('bypass_ad_blockers');
 
         $jsArgs = array(
             'baseUrl'             => $trackerConfig['baseUrl'],
@@ -90,7 +90,7 @@ class FrontendHandler extends BaseAssets
 
         $dependencies = $activeProvider->getJsDependencies();
 
-        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, $isAjax, null, '', '', true);
+        Assets::script('tracker', 'tracker.min.js', $dependencies, $jsArgs, true, $obfuscate, null, '', '', true);
 
         $inlineScript = $activeProvider->getInlineScript();
         if ($inlineScript !== '') {

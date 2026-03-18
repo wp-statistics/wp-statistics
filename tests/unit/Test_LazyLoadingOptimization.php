@@ -417,18 +417,6 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
         $this->assertNull($route, 'getTrackingRoute() should return null before register() is called');
     }
 
-    /**
-     * Test TrackingManager::getTrackingMethod() returns a valid method string.
-     */
-    public function test_tracking_manager_get_tracking_method()
-    {
-        $manager = new TrackingManager();
-        $method  = $manager->getTrackingMethod();
-
-        $this->assertIsString($method);
-        $this->assertContains($method, ['rest', 'ajax', 'direct_file']);
-    }
-
     // =========================================================================
     // Helper Methods
     // =========================================================================

@@ -9,77 +9,52 @@ use WP_Statistics\Service\Tracking\Methods\DirectFile\DirectFileTracking;
 use WP_Statistics\Service\Tracking\Methods\RestTracking;
 
 /**
- * Central manager for the three tracking methods:
+ * Central manager for the tracking layer.
  *
- *  1. REST API    — default, uses /wp-json/wp-statistics/v2/hit
- *  2. AJAX        — routes through admin-ajax.php (bypasses ad blockers)
- *  3. Direct File — SHORTINIT mu-plugin endpoint (highest performance)
+ * Transport layer (what the JS tracker sends hits to):
+ *   - Default: AJAX (admin-ajax.php) — works everywhere
+ *   - Optional: Direct File (mu-plugin endpoint) — highest performance
  *
- * Each method implements BaseTracking. The manager creates
- * the active one and delegates — no method-specific branching here.
+ * REST routes are always registered for headless/API consumers.
+ *
+ * Independent toggles:
+ *   - `bypass_ad_blockers` — obfuscates tracker.js filename/URL
+ *   - `direct_file_tracking` — switches transport to mu-plugin endpoint
  *
  * @since 15.0.0
  */
 class TrackingManager
 {
     /**
-     * Option value → tracking method class.
-     */
-    private const METHODS = [
-        'rest'        => RestTracking::class,
-        'ajax'        => AjaxTracking::class,
-        'direct_file' => DirectFileTracking::class,
-    ];
-
-    private const DEFAULT_METHOD = 'rest';
-
-    /**
      * @var BaseTracking
      */
     private $trackingMethod;
 
     /**
-     * @var string
-     */
-    private $trackingOption;
-
-    public function __construct()
-    {
-        $option               = Option::getValue('tracking_method', self::DEFAULT_METHOD);
-        $this->trackingOption = isset(self::METHODS[$option]) ? $option : self::DEFAULT_METHOD;
-    }
-
-    /**
-     * Register the active tracking method.
+     * Register tracking endpoints.
      *
      * Called once during plugin boot.
      */
     public function register(): void
     {
-        $this->trackingMethod = $this->getActiveMethod();
+        // Always register REST routes (for headless/API consumers).
+        (new RestTracking())->register();
+
+        // Register the active transport method.
+        $this->trackingMethod = $this->getTrackingMethod();
         $this->trackingMethod->register();
 
         add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
     }
 
     /**
-     * Get the full JS tracker configuration from the active method.
+     * Get the full JS tracker configuration from the active transport method.
      *
      * @return array
      */
     public function getTrackerConfig(): array
     {
-        return $this->trackingMethod->getTrackerConfig();
-    }
-
-    /**
-     * Get the active tracking method key.
-     *
-     * @return string
-     */
-    public function getTrackingMethod(): string
-    {
-        return $this->trackingOption;
+        return $this->trackingMethod ? $this->trackingMethod->getTrackerConfig() : [];
     }
 
     /**
@@ -87,34 +62,31 @@ class TrackingManager
      */
     public function getTrackingRoute(): ?string
     {
-        return $this->trackingMethod->getRoute();
+        return $this->trackingMethod ? $this->trackingMethod->getRoute() : null;
     }
 
     // ── Settings lifecycle ─────────────────────────────────────────
 
     public function onSettingsSaved(string $tab, array $settings): void
     {
-        if (!array_key_exists('tracking_method', $settings)) {
+        if (!array_key_exists('direct_file_tracking', $settings)) {
             return;
         }
-
-        $newKey = $settings['tracking_method'];
-        $newKey = isset(self::METHODS[$newKey]) ? $newKey : self::DEFAULT_METHOD;
 
         // Deactivate the current method, activate the new one.
         $this->trackingMethod->deactivate();
 
-        $this->trackingOption = $newKey;
-        $this->trackingMethod = $this->getActiveMethod();
+        $this->trackingMethod = $this->getTrackingMethod();
         $this->trackingMethod->activate();
     }
 
     // ── Internal ───────────────────────────────────────────────────
 
-    private function getActiveMethod(): BaseTracking
+    private function getTrackingMethod(): BaseTracking
     {
-        $class          = self::METHODS[$this->trackingOption];
-        $trackingMethod = new $class();
+        $trackingMethod = Option::getValue('direct_file_tracking')
+            ? new DirectFileTracking()
+            : new AjaxTracking();
 
         /**
          * Filter the active tracking method instance.

@@ -229,7 +229,7 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
         $this->assertIsArray($result);
         $this->assertArrayHasKey('general', $result);
         $this->assertContains('visitors_log', $result['general']);
-        $this->assertContains('tracking_method', $result['general']);
+        $this->assertContains('bypass_ad_blockers', $result['general']);
     }
 
     /**

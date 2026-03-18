@@ -75,7 +75,8 @@ class CachePluginCheck extends AbstractCheck
         $details['cache_plugin'] = $cacheInfo['plugin'];
         $details['debug']        = $cacheInfo['debug'] ?? '';
 
-        $details['tracking_method'] = Option::getValue('tracking_method', 'rest');
+        $details['direct_file_tracking'] = (bool) Option::getValue('direct_file_tracking');
+        $details['bypass_ad_blockers'] = (bool) Option::getValue('bypass_ad_blockers');
 
         return $this->pass(
             sprintf(

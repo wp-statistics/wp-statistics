@@ -86,7 +86,7 @@ use WP_Statistics\Testing\Simulator\CheckpointManager;
 /**
  * Configure WP Statistics settings via WP-CLI before WordPress loads
  *
- * This ensures tracking_method is set to 'ajax' and use_cache_plugin is enabled
+ * This ensures use_cache_plugin is enabled (AJAX endpoint is always registered)
  */
 function configureSettingsViaCli(string $wpRoot): void
 {
@@ -104,10 +104,6 @@ function configureSettingsViaCli(string $wpRoot): void
         escapeshellarg('
             $settings = get_option("wp_statistics_settings", []);
             $changed = false;
-            if (!isset($settings["tracking_method"]) || $settings["tracking_method"] !== "ajax") {
-                $settings["tracking_method"] = "ajax";
-                $changed = true;
-            }
             if (!isset($settings["use_cache_plugin"]) || $settings["use_cache_plugin"] !== "1") {
                 $settings["use_cache_plugin"] = "1";
                 $changed = true;

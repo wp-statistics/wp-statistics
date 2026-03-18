@@ -10,7 +10,7 @@
  *
  * Prerequisites:
  * - 'use_cache_plugin' option must be enabled (Client-side tracking)
- * - 'tracking_method' option must be set to 'ajax' (AJAX tracking)
+ * - AJAX endpoint is always registered (default transport)
  *
  * @package WP_Statistics
  * @since 15.0.0
@@ -164,10 +164,9 @@ class TrackerSimulator
             echo "The AJAX endpoint may not be registered. Attempting anyway...\n\n";
         }
 
-        if (Option::getValue('tracking_method', 'rest') !== 'ajax') {
-            echo "Warning: tracking_method is not set to 'ajax'.\n";
-            echo "This simulator uses admin-ajax.php which requires tracking_method=ajax.\n";
-            echo "Attempting anyway...\n\n";
+        if (Option::getValue('direct_file_tracking')) {
+            echo "Note: direct_file_tracking is enabled. Simulator uses admin-ajax.php (always registered).\n";
+            echo "Continuing with AJAX endpoint...\n\n";
         }
 
         // Ensure IP method reads X-Forwarded-For header (simulator sends IPs this way)
@@ -1461,7 +1460,7 @@ if (isset($options['help'])) {
     echo "  php bin/dummy-tracker-simulator.php --days=1 --visitors-per-day=10 --dry-run\n\n";
     echo "Prerequisites:\n";
     echo "  - 'use_cache_plugin' option should be enabled\n";
-    echo "  - 'tracking_method' option should be set to 'ajax'\n";
+    echo "  - AJAX endpoint is always registered (default transport)\n";
     exit(0);
 }
 

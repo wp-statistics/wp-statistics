@@ -57,7 +57,7 @@ class Test_SettingsService extends WP_UnitTestCase
         $settings = $service->getTabSettings('general');
 
         $this->assertArrayHasKey('visitors_log', $settings);
-        $this->assertArrayHasKey('tracking_method', $settings);
+        $this->assertArrayHasKey('bypass_ad_blockers', $settings);
     }
 
     public function test_display_tab_has_expected_keys()
@@ -214,7 +214,7 @@ class Test_SettingsService extends WP_UnitTestCase
 
         $this->assertIsArray($keys);
         $this->assertContains('visitors_log', $keys);
-        $this->assertContains('tracking_method', $keys);
+        $this->assertContains('bypass_ad_blockers', $keys);
     }
 
     public function test_allowed_keys_include_filter_added_fields()
@@ -322,14 +322,14 @@ class Test_SettingsService extends WP_UnitTestCase
     {
         // Ensure key does not exist in stored options
         $options = Option::get();
-        unset($options['tracking_method']);
+        unset($options['bypass_ad_blockers']);
         update_option('wp_statistics', $options);
 
         $service  = new SettingsService();
         $settings = $service->getTabSettings('general');
 
-        // tracking_method defaults to false (empty) when not set
-        $this->assertFalse($settings['tracking_method']);
+        // bypass_ad_blockers defaults to false when not set
+        $this->assertFalse($settings['bypass_ad_blockers']);
     }
 
     public function test_batch_read_uses_filter_added_field_default_for_missing_value()

@@ -66,36 +66,31 @@ class SettingsAreaDefinitions
                         'description' => __('Configure how the tracking script works on your site.', 'wp-statistics'),
                         'order'       => 20,
                         'fields'      => [
-                            'tracking_method' => [
-                                'type'        => 'select',
-                                'setting_key' => 'tracking_method',
-                                'label'       => __('Tracking Method', 'wp-statistics'),
-                                'description' => __('Choose how the tracker sends data to your site.', 'wp-statistics'),
-                                'default'     => 'rest',
+                            'bypass_ad_blockers' => [
+                                'type'        => 'toggle',
+                                'setting_key' => 'bypass_ad_blockers',
+                                'label'       => __('Bypass Ad Blockers', 'wp-statistics'),
+                                'description' => __('Dynamically load the tracking script with a unique name and address to bypass ad blockers.', 'wp-statistics'),
+                                'default'     => false,
                                 'order'       => 10,
-                                'options'     => [
-                                    [
-                                        'value' => 'rest',
-                                        'label' => __('REST API', 'wp-statistics'),
-                                    ],
-                                    [
-                                        'value' => 'ajax',
-                                        'label' => __('AJAX (Bypass Adblocker)', 'wp-statistics'),
-                                    ],
-                                    [
-                                        'value' => 'direct_file',
-                                        'label' => __('Direct File (Beta)', 'wp-statistics'),
-                                    ],
-                                ],
+                            ],
+                            'direct_file_tracking' => [
+                                'type'        => 'toggle',
+                                'setting_key' => 'direct_file_tracking',
+                                'label'       => __('Direct File Endpoint', 'wp-statistics'),
+                                'badge'       => __('Beta', 'wp-statistics'),
+                                'description' => __('Send tracking requests to a lightweight file endpoint that bypasses the full WordPress load, resulting in faster hit recording.', 'wp-statistics'),
+                                'default'     => false,
+                                'order'       => 20,
                             ],
                             'direct_file_notice' => [
                                 'type'         => 'notice',
                                 'notice_type'  => 'warning',
                                 'message'      => __('Direct File is the fastest tracking method as it bypasses full WordPress loading. However, third-party hooks and filters that extend WP Statistics tracking will not run in this mode.', 'wp-statistics'),
                                 'visible_when' => [
-                                    'tracking_method' => 'direct_file',
+                                    'direct_file_tracking' => true,
                                 ],
-                                'order' => 15,
+                                'order' => 25,
                             ],
                         ],
                     ],
