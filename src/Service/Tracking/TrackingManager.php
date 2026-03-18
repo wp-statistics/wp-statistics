@@ -10,7 +10,7 @@ use WP_Statistics\Service\Tracking\Methods\RestTracking;
 use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 
 /**
- * Central manager for the three tracking tracking methods:
+ * Central manager for the three tracking methods:
  *
  *  1. REST API    — default, uses /wp-json/wp-statistics/v2/hit
  *  2. AJAX        — routes through admin-ajax.php (bypasses ad blockers)
@@ -24,7 +24,7 @@ use WP_Statistics\Service\Tracking\DirectEndpoint\DirectEndpointManager;
 class TrackingManager
 {
     /**
-     * Method key → tracking method class.
+     * Option value → tracking method class.
      */
     private const METHODS = [
         'rest'        => RestTracking::class,
@@ -35,37 +35,31 @@ class TrackingManager
     private const DEFAULT_METHOD = 'rest';
 
     /**
-     * The active tracking method.
-     *
      * @var BaseTracking
      */
-    private $activeMethod;
+    private $trackingMethod;
 
     /**
-     * Cached tracking method key.
-     *
      * @var string
      */
-    private $method;
+    private $trackingOption;
 
     public function __construct()
     {
-        $method       = Option::getValue('tracking_method', self::DEFAULT_METHOD);
-        $this->method = isset(self::METHODS[$method]) ? $method : self::DEFAULT_METHOD;
+        $option               = Option::getValue('tracking_method', self::DEFAULT_METHOD);
+        $this->trackingOption = isset(self::METHODS[$option]) ? $option : self::DEFAULT_METHOD;
     }
 
     /**
-     * Register the active tracking tracking method.
+     * Register the active tracking method.
      *
      * Called once during plugin boot.
      */
     public function register(): void
     {
-        $this->activeMethod = $this->createActiveMethod();
-        $this->activeMethod->register();
+        $this->trackingMethod = $this->createActiveMethod();
+        $this->trackingMethod->register();
 
-        // Always listen for tracking method changes so direct endpoint
-        // can be installed/uninstalled when settings are saved.
         add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
     }
 
@@ -73,29 +67,29 @@ class TrackingManager
 
     public function getHitUrl(): string
     {
-        return $this->activeMethod->getHitUrl();
+        return $this->trackingMethod->getHitUrl();
     }
 
     public function getBatchUrl(): string
     {
-        return $this->activeMethod->getBatchUrl();
+        return $this->trackingMethod->getBatchUrl();
     }
 
     public function getTrackingRoute(): ?string
     {
-        return $this->activeMethod->getRoute();
+        return $this->trackingMethod->getRoute();
     }
 
     // ── Method info ────────────────────────────────────────────────
 
     public function getTrackingMethod(): string
     {
-        return $this->method;
+        return $this->trackingOption;
     }
 
     public function isAjax(): bool
     {
-        return $this->method === 'ajax';
+        return $this->trackingOption === 'ajax';
     }
 
     /**
@@ -103,11 +97,11 @@ class TrackingManager
      */
     public function getDirectEndpointUrl(): string
     {
-        if ($this->method !== 'direct_file') {
+        if ($this->trackingOption !== 'direct_file') {
             return '';
         }
 
-        return $this->activeMethod->getHitUrl();
+        return $this->trackingMethod->getHitUrl();
     }
 
     // ── Settings lifecycle ─────────────────────────────────────────
@@ -131,22 +125,22 @@ class TrackingManager
 
     private function createActiveMethod(): BaseTracking
     {
-        $class          = self::METHODS[$this->method];
-        $method = new $class();
+        $class          = self::METHODS[$this->trackingOption];
+        $trackingMethod = new $class();
 
         /**
          * Filter the active tracking method instance.
          *
-         * @param BaseTracking $method The default tracking method.
+         * @param BaseTracking $trackingMethod The default tracking method.
          * @return BaseTracking The filtered tracking method.
          * @since 15.0.0
          */
-        $method = apply_filters('wp_statistics_tracker_controller', $method);
+        $trackingMethod = apply_filters('wp_statistics_tracker_controller', $trackingMethod);
 
-        if (!($method instanceof BaseTracking)) {
+        if (!($trackingMethod instanceof BaseTracking)) {
             throw new \Exception('Custom tracking method must extend BaseTracking');
         }
 
-        return $method;
+        return $trackingMethod;
     }
 }
