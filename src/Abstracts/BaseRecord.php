@@ -147,7 +147,7 @@ abstract class BaseRecord
 
         if ($insert === false) {
             \WP_Statistics()->log('Insert into ' . $this->fullTableName . ' failed: ' . $wpdb->last_error);
-            return;
+            return 0;
         }
 
         return $wpdb->insert_id;

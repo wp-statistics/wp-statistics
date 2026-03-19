@@ -22,7 +22,8 @@ export function sendXhr(url, params) {
                         try {
                             resolve(JSON.parse(xhr.responseText));
                         } catch (e) {
-                            resolve({ status: true });
+                            console.warn('WP Statistics: Hit response was not valid JSON.');
+                            resolve({ status: false });
                         }
                     } else {
                         reject(new Error('Hit request failed with status ' + xhr.status));
@@ -61,8 +62,10 @@ export function sendBeaconOrFetch(url, jsonData) {
             method: 'POST',
             body: buildFormData(dataString),
             keepalive: true,
-        }).catch(function () {});
+        }).catch(function (err) {
+            console.warn('WP Statistics: Batch send failed:', err.message || err);
+        });
     } catch (e) {
-        // Silently fail — data loss on exit is acceptable edge case
+        console.warn('WP Statistics: Batch transport error:', e.message || e);
     }
 }

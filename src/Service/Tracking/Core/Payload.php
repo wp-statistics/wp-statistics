@@ -165,7 +165,13 @@ final class Payload
             return '';
         }
 
-        return urldecode(base64_decode($raw));
+        $decoded = urldecode(base64_decode($raw));
+
+        if ($this->containsThreats($decoded)) {
+            return '';
+        }
+
+        return $decoded;
     }
 
     /**
