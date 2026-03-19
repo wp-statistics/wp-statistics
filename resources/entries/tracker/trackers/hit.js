@@ -13,6 +13,7 @@ import { base64Encode } from '../utils/base64.js';
 import { collectLocaleInfo } from '../utils/locale.js';
 
 var hitRequestSuccessful = false;
+var isSpaNavigation = false;
 
 export function wasSuccessful() {
     return hitRequestSuccessful;
@@ -34,9 +35,10 @@ export function send(trackingLevel) {
 
             var data = {
                 // Resource (camelCase config -> snake_case HTTP)
-                resource_uri_id: getResource('resourceUriId') || 0,
-                resource_type: getResource('resourceType') || '',
-                resource_id: getResource('resourceId') || 0,
+                // Force server-side resolution on SPA navigations (stale config)
+                resource_uri_id: isSpaNavigation ? 0 : (getResource('resourceUriId') || 0),
+                resource_type: isSpaNavigation ? '' : (getResource('resourceType') || ''),
+                resource_id: isSpaNavigation ? 0 : (getResource('resourceId') || 0),
 
                 // Auth
                 user_id: getUserId(),
@@ -79,5 +81,6 @@ export function send(trackingLevel) {
 }
 
 export function resetState() {
+    isSpaNavigation = hitRequestSuccessful;
     hitRequestSuccessful = false;
 }

@@ -136,9 +136,10 @@ try {
     (new Tracker())->record();
     echo '{"status":true}';
 } catch (\Exception $e) {
-    $code = $e->getCode();
-    http_response_code($code ?: 500);
-    echo json_encode(['status' => false, 'data' => $e->getMessage()]);
+    $code = $e->getCode() ?: 500;
+    http_response_code($code);
+    $message = $code < 500 ? $e->getMessage() : 'Internal error';
+    echo json_encode(['status' => false, 'data' => $message]);
 } catch (\Throwable $e) {
     $fail(500, 'Internal error');
 }

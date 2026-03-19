@@ -37,6 +37,6 @@ class Signature
      */
     public static function check($payload, $signature)
     {
-        return self::generate($payload) === $signature;
+        return hash_equals(self::generate($payload), (string) $signature);
     }
 }
