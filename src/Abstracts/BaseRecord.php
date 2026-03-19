@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_STATISTICS\DB;
+use WP_Statistics\Service\Database\DatabaseSchema;
 use WP_Statistics\Utils\PostType;
 use WP_Statistics\Utils\Query;
 
@@ -61,7 +61,7 @@ abstract class BaseRecord
         if (!empty($this->fullTableName)) {
             return;
         }
-        $this->fullTableName = DB::table($this->tableName);
+        $this->fullTableName = DatabaseSchema::table($this->tableName);
     }
 
     /**

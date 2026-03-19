@@ -107,7 +107,6 @@ if (!defined('WP_STATISTICS_UPLOADS_DIR')) {
     define('WP_STATISTICS_UPLOADS_DIR', 'wp-statistics');
 }
 
-require_once $pluginDir . 'includes/class-wp-statistics-db.php';
 require_once $pluginDir . 'packages/autoload.php';
 
 // Stub for WP_Statistics() — only called by BaseRecord on DB insert failure.
