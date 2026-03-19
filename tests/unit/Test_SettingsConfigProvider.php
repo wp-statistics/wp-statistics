@@ -375,7 +375,7 @@ class Test_SettingsConfigProvider extends WP_UnitTestCase
         // Exclusions tab
         $fields = $all['exclusions']['cards']['page-exclusions']['fields'];
         $this->assertNotEmpty($fields);
-        $this->assertArrayHasKey('exclude_loginpage', $fields);
+        $this->assertArrayHasKey('exclude_feeds', $fields);
 
         $fields = $all['exclusions']['cards']['role-exclusions']['fields'];
         $this->assertNotEmpty($fields);

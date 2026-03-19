@@ -954,13 +954,6 @@ class TrackingPipelineTest
 
         $exclusionTests = [
             [
-                'name'       => 'Login page exclusion',
-                'option_key' => 'exclude_loginpage',
-                'option_val' => '1',
-                'overrides'  => ['resource_type' => 'loginpage'],
-                'reset_key'  => 'exclude_loginpage',
-            ],
-            [
                 'name'       => 'Feed exclusion',
                 'option_key' => 'exclude_feeds',
                 'option_val' => '1',

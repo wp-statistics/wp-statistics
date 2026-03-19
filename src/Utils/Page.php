@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Utils;
 
-use WP_STATISTICS\Helper;
-
 /**
  * Utility class for WordPress page detection and information.
  *
@@ -114,11 +112,6 @@ class Page
         // Add WordPress Feed
         if (is_feed()) {
             $currentPage['type'] = 'feed';
-        }
-
-        // Add WordPress Login Page
-        if (Helper::is_login_page()) {
-            $currentPage['type'] = 'loginpage';
         }
 
         return apply_filters('wp_statistics_current_page', $currentPage);
@@ -233,10 +226,6 @@ class Page
 
                 case 'feed':
                     $arg['title'] = __('Feed', 'wp-statistics');
-                    break;
-
-                case 'loginpage':
-                    $arg['title'] = __('Login Page', 'wp-statistics');
                     break;
 
                 case 'search':

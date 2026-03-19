@@ -132,7 +132,7 @@ class Test_Exclusion extends WP_UnitTestCase
     {
         $list = Exclusions::getExclusionList();
 
-        $removedKeys = ['ajax', 'cronjob', 'admin_page', 'xmlrpc', 'pre_flight'];
+        $removedKeys = ['ajax', 'cronjob', 'admin_page', 'xmlrpc', 'pre_flight', 'login_page'];
         foreach ($removedKeys as $key) {
             $this->assertNotContains($key, $list, "Removed key '{$key}' should not be in exclusion list");
         }
@@ -144,16 +144,16 @@ class Test_Exclusion extends WP_UnitTestCase
 
         // Note: PHP's array_keys() converts numeric string keys like '404' to int 404,
         // so we use loose comparison (in_array without strict) for the check.
-        $expectedKeys = ['robot', 'broken_file', 'ip_match', 'login_page', 'feed', '404', 'excluded_url', 'user_role', 'geoip', 'robot_threshold'];
+        $expectedKeys = ['robot', 'broken_file', 'ip_match', 'feed', '404', 'excluded_url', 'user_role', 'geoip', 'robot_threshold'];
         foreach ($expectedKeys as $key) {
             $this->assertTrue(in_array($key, $list), "Active key '{$key}' should be in exclusion list");
         }
     }
 
-    public function test_exclusion_map_has_exactly_10_checks()
+    public function test_exclusion_map_has_exactly_9_checks()
     {
         $list = Exclusions::getExclusionList();
-        $this->assertCount(10, $list);
+        $this->assertCount(9, $list);
     }
 
     // ─── Feed Exclusion ───────────────────────────────────────────────
@@ -192,26 +192,6 @@ class Test_Exclusion extends WP_UnitTestCase
     {
         $this->setOptions(['exclude_feeds' => true]);
         $this->assertFalse(Exclusions::exclusionFeed($this->mockVisitor(['resourceType' => 'Feed'])));
-    }
-
-    // ─── Login Page Exclusion ─────────────────────────────────────────
-
-    public function test_exclusion_login_page_excludes_when_resource_type_is_loginpage()
-    {
-        $this->setOptions(['exclude_loginpage' => true]);
-        $this->assertTrue(Exclusions::exclusionLoginPage($this->mockVisitor(['resourceType' => 'loginpage'])));
-    }
-
-    public function test_exclusion_login_page_allows_when_option_disabled()
-    {
-        $this->setOptions(['exclude_loginpage' => false]);
-        $this->assertFalse(Exclusions::exclusionLoginPage($this->mockVisitor(['resourceType' => 'loginpage'])));
-    }
-
-    public function test_exclusion_login_page_allows_when_resource_type_is_not_loginpage()
-    {
-        $this->setOptions(['exclude_loginpage' => true]);
-        $this->assertFalse(Exclusions::exclusionLoginPage($this->mockVisitor(['resourceType' => 'page'])));
     }
 
     // ─── 404 Exclusion ────────────────────────────────────────────────

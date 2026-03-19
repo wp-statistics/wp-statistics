@@ -72,10 +72,6 @@ class Exclusions extends Singleton
                 'message' => 'IP Match',
                 'method'  => 'exclusionIpMatch',
             ],
-            'login_page'      => [
-                'message' => 'Login Page',
-                'method'  => 'exclusionLoginPage',
-            ],
             'feed'            => [
                 'message' => 'Feed',
                 'method'  => 'exclusionFeed',
@@ -358,23 +354,6 @@ class Exclusions extends Singleton
         }
 
         return $patterns;
-    }
-
-    /**
-     * Excludes login page visits when configured.
-     *
-     * Uses the client-provided resource_type parameter from the JS tracker.
-     *
-     * @param Visitor $visitor
-     * @return bool True on login page if exclusion enabled.
-     */
-    public static function exclusionLoginPage(Visitor $visitor)
-    {
-        if (empty(self::$options['exclude_loginpage'])) {
-            return false;
-        }
-
-        return $visitor->getRequest()->getResourceType() === 'loginpage';
     }
 
     /**

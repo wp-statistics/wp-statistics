@@ -242,11 +242,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('exclude_ip') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::getValue('exclude_ip') ? 'Set' : 'Not Set',
             ],
-            'excludedLoginPage'              => [
-                'label' => esc_html__('Excluded Login Page', 'wp-statistics'),
-                'value' => Option::getValue('exclude_loginpage') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('exclude_loginpage') ? 'Enabled' : 'Disabled',
-            ],
             'excludedRssFeeds'               => [
                 'label' => esc_html__('Excluded RSS Feeds', 'wp-statistics'),
                 'value' => Option::getValue('exclude_feeds') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),

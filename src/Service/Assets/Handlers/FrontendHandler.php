@@ -34,7 +34,6 @@ class FrontendHandler extends BaseAssets
 
         add_filter('widget_text', 'do_shortcode');
         add_action('wp_enqueue_scripts', [$this, 'scripts'], 11);
-        add_action('login_enqueue_scripts', [$this, 'scripts'], 11);
         add_action('wp_head', [$this, 'printHtmlComment']);
 
         if (Option::getValue('show_hits')) {

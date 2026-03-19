@@ -433,14 +433,6 @@ class SettingsAreaDefinitions
                         'description' => __('Exclude specific pages or paths from being tracked.', 'wp-statistics'),
                         'order'       => 10,
                         'fields'      => [
-                            'exclude_loginpage' => [
-                                'type'        => 'toggle',
-                                'setting_key' => 'exclude_loginpage',
-                                'label'       => __('Exclude Login Page', 'wp-statistics'),
-                                'description' => __("Don't track WordPress login page visits.", 'wp-statistics'),
-                                'default'     => true,
-                                'order'       => 10,
-                            ],
                             'exclude_feeds' => [
                                 'type'        => 'toggle',
                                 'setting_key' => 'exclude_feeds',
