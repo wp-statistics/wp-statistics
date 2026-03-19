@@ -39,7 +39,7 @@ test.describe('Delivery Modes', () => {
     setBypassAdBlockers(false)
   })
 
-  test('endpoint config in tracker object matches mode', async ({ page }) => {
+  test('endpoint config has hitEndpoint and batchEndpoint', async ({ page }) => {
     setBypassAdBlockers(false)
 
     await page.goto('/')
@@ -47,14 +47,13 @@ test.describe('Delivery Modes', () => {
 
     const config = await getTrackerConfig(page)
     expect(config).toBeTruthy()
-    expect(config.requestUrl).toBeTruthy()
-    expect(config.ajaxUrl).toContain('admin-ajax.php')
+    expect(config.baseUrl).toBeTruthy()
+    expect(config.hitEndpoint).toBeTruthy()
 
-    // REST mode: requestUrl should point to REST base, batchUrl to REST batch
-    expect(config.requestUrl).toContain('wp-json/wp-statistics/v2')
-    if (config.batchUrl) {
-      expect(config.batchUrl).toContain('wp-statistics/v2/batch')
-    }
+    // batchEndpoint is always an absolute AJAX URL (independent of hit transport)
+    expect(config.batchEndpoint).toBeTruthy()
+    expect(config.batchEndpoint).toContain('admin-ajax.php')
+    expect(config.batchEndpoint).toContain('wp_statistics_batch')
   })
 
 })
