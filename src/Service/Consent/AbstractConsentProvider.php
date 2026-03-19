@@ -9,13 +9,6 @@ abstract class AbstractConsentProvider implements ConsentProviderInterface
 
     abstract public function getName(): string;
 
-    abstract public function getTrackingLevel(): string;
-
-    public function shouldAnonymize(): bool
-    {
-        return $this->getTrackingLevel() === TrackingLevel::ANONYMOUS;
-    }
-
     public function getJsConfig(): array
     {
         return ['mode' => $this->key];
@@ -31,22 +24,17 @@ abstract class AbstractConsentProvider implements ConsentProviderInterface
         return is_plugin_active($this->pluginPath);
     }
 
-    public function isSelectable(): bool
-    {
-        return $this->isAvailable();
-    }
-
-    public function shouldShowNotice(): bool
-    {
-        return $this->isAvailable();
-    }
-
     public function register(): void
     {
     }
 
-    public function getJsHandles(): array
+    public function getJsDependencies(): array
     {
         return [];
+    }
+
+    public function getInlineScript(): string
+    {
+        return '';
     }
 }

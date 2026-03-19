@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Consent;
 
 use WP_Statistics\Components\Option;
+use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Consent\Providers\NoneConsentProvider;
 use WP_Statistics\Service\Consent\Providers\WpConsentApiProvider;
 use WP_Statistics\Service\Consent\Providers\RealCookieBannerProvider;
@@ -34,18 +35,16 @@ class ConsentManager
 
         $this->booted = true;
         $this->registerAvailableProviders();
-        $this->detectAutoActivation();
         $this->resolveActiveProvider();
-        $this->registerDeactivationHook();
     }
 
     private function registerBuiltInProviders(): void
     {
         $builtIn = [
             new NoneConsentProvider(),
-            new WpConsentApiProvider(),
-            new RealCookieBannerProvider(),
             new BorlabsCookieProvider(),
+            new RealCookieBannerProvider(),
+            new WpConsentApiProvider(),
         ];
 
         foreach ($builtIn as $provider) {
@@ -95,71 +94,16 @@ class ConsentManager
         }
     }
 
-    private function detectAutoActivation(): void
-    {
-        $borlabs = $this->getProvider('borlabs_cookie');
-        if (!$borlabs instanceof BorlabsCookieProvider || !$borlabs->isAvailable()) {
-            return;
-        }
-
-        $currentIntegration = Option::getValue('consent_integration', 'none');
-
-        // If another provider is explicitly configured, don't interfere
-        if ($currentIntegration !== 'none' && $currentIntegration !== '' && $currentIntegration !== 'borlabs_cookie') {
-            return;
-        }
-
-        $isServiceActive = $borlabs->isServiceInstalled();
-
-        // If Borlabs was the active integration but the service was removed, clear it
-        if ($currentIntegration === 'borlabs_cookie' && !$isServiceActive) {
-            Option::updateValue('consent_integration', 'none');
-            return;
-        }
-
-        // Auto-activate when no provider is configured and Borlabs service is active
-        if (($currentIntegration === 'none' || $currentIntegration === '') && $isServiceActive) {
-            Option::updateValue('consent_integration', 'borlabs_cookie');
-        }
-    }
-
     private function resolveActiveProvider(): void
     {
-        $key      = Option::getValue('consent_integration', 'none');
-        $provider = $this->getProvider($key);
-
-        if ($provider && $provider->isAvailable()) {
-            $this->activeProvider = $provider;
-        } else {
-            $this->activeProvider = $this->providers['none'] ?? new NoneConsentProvider();
-
-            if ($key !== 'none' && $key !== '') {
-                error_log(sprintf(
-                    'WP Statistics: Consent provider "%s" is configured but %s. Falling back to "none".',
-                    $key,
-                    $provider ? 'not available' : 'not registered'
-                ));
-            }
+        if (!Option::getValue('consent_integration', false)) {
+            return;
         }
-    }
 
-    private function registerDeactivationHook(): void
-    {
-        add_action('update_option_active_plugins', function () {
-            $key = Option::getValue('consent_integration', 'none');
-            if ($key === '') {
-                $key = 'none';
-            }
-            $provider = $this->getProvider($key);
-
-            if (!$provider || $provider instanceof NoneConsentProvider) {
-                return;
-            }
-
-            if (!$provider->isAvailable()) {
-                Option::updateValue('consent_integration', 'none');
-            }
-        });
+        $available = $this->getAvailableProviders();
+        if (!empty($available)) {
+            $this->activeProvider = reset($available);
+        }
     }
 
     public function registerProvider(ConsentProviderInterface $provider): void
@@ -185,48 +129,80 @@ class ConsentManager
         return $this->activeProvider;
     }
 
-    public function getTrackerConfig(): array
-    {
-        return $this->activeProvider->getJsConfig();
-    }
-
-    public function getJsDependencies(): array
-    {
-        return $this->activeProvider->getJsHandles();
-    }
-
     /**
-     * Full status for settings UI and diagnostics.
+     * Get the effective tracking level.
+     *
+     * The JS tracker is the source of truth for consent. It checks the
+     * consent provider's browser API directly and sends the result as
+     * tracking_level in the hit payload.
+     *
+     * When no valid client flag is present: defaults to FULL if no consent
+     * provider is configured (no consent needed), or NONE if a consent
+     * provider is active (fail-closed to prevent tracking without consent).
+     *
+     * @return string
      */
-    public function getIntegrationStatus(): array
+    public function getTrackingLevel(): string
     {
-        $provider = $this->activeProvider;
+        $clientLevel = Request::get('tracking_level', '');
 
-        return [
-            'name'   => $provider instanceof NoneConsentProvider ? null : $provider->getKey(),
-            'status' => $provider->getTrackingLevel(),
-        ];
-    }
-
-    /**
-     * Get detection notices for available but unconfigured providers.
-     */
-    public function getDetectionNotices(): array
-    {
-        if (!($this->activeProvider instanceof NoneConsentProvider)) {
-            return [];
+        if (in_array($clientLevel, TrackingLevel::all(), true)) {
+            return $clientLevel;
         }
 
-        $notices = [];
+        // Fail-closed when consent provider is active
+        if (!($this->activeProvider instanceof NoneConsentProvider)) {
+            return TrackingLevel::NONE;
+        }
+
+        return TrackingLevel::FULL;
+    }
+
+    /**
+     * Whether to anonymize visitor data based on effective tracking level.
+     *
+     * @return bool
+     */
+    public function shouldAnonymize(): bool
+    {
+        return $this->getTrackingLevel() !== TrackingLevel::FULL;
+    }
+
+    /**
+     * Get all available (selectable) providers, excluding NoneConsentProvider.
+     *
+     * @return ConsentProviderInterface[]
+     */
+    public function getAvailableProviders(): array
+    {
+        $available = [];
+
         foreach ($this->providers as $provider) {
             if ($provider instanceof NoneConsentProvider) {
                 continue;
             }
-            if ($provider->shouldShowNotice()) {
-                $notices[] = $provider;
+
+            if ($provider->isAvailable()) {
+                $available[$provider->getKey()] = $provider;
             }
         }
 
-        return $notices;
+        return $available;
+    }
+
+    /**
+     * Whether multiple consent providers are detected (potential conflict).
+     */
+    public function hasConflictingProviders(): bool
+    {
+        return count($this->getAvailableProviders()) > 1;
+    }
+
+    /**
+     * Get detection notices for available providers (used by admin notices).
+     */
+    public function getDetectionNotices(): array
+    {
+        return array_values($this->getAvailableProviders());
     }
 }

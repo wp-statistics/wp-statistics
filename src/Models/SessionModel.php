@@ -72,7 +72,7 @@ class SessionModel extends BaseModel
      */
     public function getActiveSession($args = [])
     {
-        $args = $this->parseArgs($args, [
+        $args = wp_parse_args($args, [
             'visitor_id' => 0
         ]);
 

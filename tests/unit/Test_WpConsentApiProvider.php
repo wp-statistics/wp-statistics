@@ -1,6 +1,5 @@
 <?php
 
-use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Consent\Providers\WpConsentApiProvider;
 
 /**
@@ -21,59 +20,6 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
         $this->assertEquals('wp_consent_api', $this->provider->getKey());
     }
 
-    public function test_tracking_level_none_when_wp_has_consent_missing()
-    {
-        $this->assertSame(TrackingLevel::NONE, $this->provider->getTrackingLevel());
-    }
-
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
-    public function test_tracking_level_full_when_statistics_consent_given()
-    {
-        require_once __DIR__ . '/../bootstrap.php';
-
-        function wp_has_consent($category) {
-            return $category === 'statistics';
-        }
-
-        $provider = new WpConsentApiProvider();
-        $this->assertSame(TrackingLevel::FULL, $provider->getTrackingLevel());
-    }
-
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
-    public function test_tracking_level_anonymous_when_only_statistics_anonymous_consent_given()
-    {
-        require_once __DIR__ . '/../bootstrap.php';
-
-        function wp_has_consent($category) {
-            return $category === 'statistics-anonymous';
-        }
-
-        $provider = new WpConsentApiProvider();
-        $this->assertSame(TrackingLevel::ANONYMOUS, $provider->getTrackingLevel());
-    }
-
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
-    public function test_tracking_level_none_when_no_consent_given()
-    {
-        require_once __DIR__ . '/../bootstrap.php';
-
-        function wp_has_consent($category) {
-            return false;
-        }
-
-        $provider = new WpConsentApiProvider();
-        $this->assertSame(TrackingLevel::NONE, $provider->getTrackingLevel());
-    }
-
     public function test_js_config_contains_only_mode()
     {
         $config = $this->provider->getJsConfig();
@@ -84,7 +30,7 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
 
     public function test_js_handles_includes_wp_consent_api()
     {
-        $handles = $this->provider->getJsHandles();
+        $handles = $this->provider->getJsDependencies();
         $this->assertContains('wp-consent-api', $handles);
     }
 
@@ -92,5 +38,14 @@ class Test_WpConsentApiProvider extends WP_UnitTestCase
     {
         $plugins = $this->provider->getCompatiblePlugins();
         $this->assertIsArray($plugins);
+    }
+
+    public function test_inline_script_registers_adapter_on_global()
+    {
+        $script = $this->provider->getInlineScript();
+        $this->assertNotEmpty($script);
+        $this->assertStringContainsString('WpStatisticsConsentAdapters', $script);
+        $this->assertStringContainsString('wp_consent_api', $script);
+        $this->assertStringContainsString('wp_has_consent', $script);
     }
 }

@@ -147,6 +147,7 @@ class Manager
             ],
             'constraints' => [
                 'PRIMARY KEY (ID)',
+                'UNIQUE KEY uk_resolutions (width, height)',
             ],
         ],
         'languages'               => [

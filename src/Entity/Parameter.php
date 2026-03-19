@@ -5,7 +5,6 @@ namespace WP_Statistics\Entity;
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Utils\QueryParams;
-use WP_Statistics\Utils\Uri;
 
 /**
  * Entity for recording UTM parameters at the session level.
@@ -18,26 +17,31 @@ use WP_Statistics\Utils\Uri;
 class Parameter extends BaseEntity
 {
     /**
-     * Record UTM parameters for the current session.
+     * Record UTM parameters for the given session.
      *
      * This method should only be called when creating a new session
      * to ensure first-touch attribution.
      *
-     * @return $this
+     * @param int $sessionId The session ID to associate parameters with.
+     * @return void
      */
-    public function record()
+    public function record(int $sessionId): void
     {
         if (!$this->isActive('parameters')) {
-            return $this;
+            return;
         }
-
-        $sessionId = $this->profile->getSessionId();
 
         if (!$sessionId) {
-            return $this;
+            return;
         }
 
-        $resourceUri = Uri::getByVisitor($this->profile);
+        $resourceUri = $this->visitor->getRequest()->getResourceUri();
+
+        if (empty($resourceUri)) {
+            return;
+        }
+
+        $resourceUri = substr($resourceUri, 0, 255);
         $queryParams = [];
 
         if (strpos($resourceUri, '?') !== false) {
@@ -46,7 +50,7 @@ class Parameter extends BaseEntity
         }
 
         if (empty($queryParams) || !is_array($queryParams)) {
-            return $this;
+            return;
         }
 
         // Normalize query param keys to lowercase for case-insensitive matching
@@ -94,7 +98,5 @@ class Parameter extends BaseEntity
                 ]);
             }
         }
-
-        return $this;
     }
 }

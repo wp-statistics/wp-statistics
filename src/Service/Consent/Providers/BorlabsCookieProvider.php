@@ -2,9 +2,7 @@
 
 namespace WP_Statistics\Service\Consent\Providers;
 
-use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
-use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Utils\Query;
 
 class BorlabsCookieProvider extends AbstractConsentProvider
@@ -19,34 +17,9 @@ class BorlabsCookieProvider extends AbstractConsentProvider
         return esc_html__('Borlabs Cookie', 'wp-statistics');
     }
 
-    /**
-     * When true, the integration is forced — Borlabs physically blocks the tracking script,
-     * so the user cannot select "None" without breaking tracking. The settings UI uses this
-     * to disable the "None" option and show an explanatory notice.
-     */
-    public function isSelectable(): bool
+    public function isAvailable(): bool
     {
-        return $this->isAvailable() && $this->isServiceInstalled();
-    }
-
-    public function shouldShowNotice(): bool
-    {
-        return $this->isAvailable() && $this->isServiceInstalled();
-    }
-
-    public function getTrackingLevel(): string
-    {
-        // Borlabs blocks the script; if running, consent was given
-        if (Option::getValue('anonymous_tracking', false)) {
-            return TrackingLevel::ANONYMOUS;
-        }
-
-        return TrackingLevel::FULL;
-    }
-
-    public function register(): void
-    {
-        // No hooks needed — auto-activation is handled by ConsentManager::detectAutoActivation().
+        return parent::isAvailable() && $this->isServiceInstalled();
     }
 
     public function isServiceInstalled(): bool
@@ -68,5 +41,26 @@ class BorlabsCookieProvider extends AbstractConsentProvider
 
         $this->serviceInstalled = !empty($row);
         return $this->serviceInstalled;
+    }
+
+    public function getInlineScript(): string
+    {
+        return <<<'JS'
+(function() {
+    var r = window.WpStatisticsConsentAdapters = window.WpStatisticsConsentAdapters || {};
+    if (!r.borlabs_cookie) {
+        r.borlabs_cookie = {
+            init: function(params) {
+                var levels = params.config.levels;
+                var addFilter = params.addFilter;
+
+                addFilter('trackingLevel', function() {
+                    return params.config.anonymousTracking ? levels.anonymous : levels.full;
+                });
+            }
+        };
+    }
+})();
+JS;
     }
 }

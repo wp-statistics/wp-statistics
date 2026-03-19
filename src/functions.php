@@ -1146,3 +1146,20 @@ function wp_statistics_needs_consent()
      */
     return (bool) apply_filters('wp_statistics_needs_consent', $needsConsent);
 }
+
+if (!function_exists('wp_statistics_event')) {
+    /**
+     * Record a custom event.
+     *
+     * Routes through the wp_statistics_record_custom_event hook, which is
+     * handled by CustomEventHandler::recordEvent() in the core.
+     *
+     * @param string $eventName Event name/type identifier.
+     * @param array  $eventData Optional associative array of event data.
+     * @return void
+     */
+    function wp_statistics_event($eventName, $eventData = [])
+    {
+        do_action('wp_statistics_record_custom_event', $eventName, $eventData);
+    }
+}

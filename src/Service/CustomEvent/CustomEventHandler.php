@@ -3,13 +3,14 @@
 namespace WP_Statistics\Service\CustomEvent;
 
 use Exception;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
 /**
  * Handles custom event recording from batch tracking and direct calls.
  *
- * This class registers listeners for custom event actions fired by BatchTracking
+ * This class registers listeners for custom event actions fired by BatchEndpoint
  * and processes them to record events in the database.
  *
  * @since 15.0.0
@@ -21,8 +22,46 @@ class CustomEventHandler
      */
     public function __construct()
     {
-        // Listen for batch tracking custom events
+        // Listen for batch events (raw array from BatchEndpoint)
+        add_action('wp_statistics_batch_events', [$this, 'onBatchEvents']);
+
+        // Keep direct recording hook for non-batch callers (e.g., PHP API)
         add_action('wp_statistics_record_custom_event', [$this, 'recordEvent'], 10, 2);
+    }
+
+    /**
+     * Handle raw batch events dispatched by BatchEndpoint.
+     *
+     * Iterates the raw events array, picks out 'custom_event' entries,
+     * sanitizes them, and records each one. Other event types are ignored.
+     *
+     * @param array $events Raw events array from the batch payload.
+     */
+    public function onBatchEvents(array $events): void
+    {
+        foreach ($events as $event) {
+            $type = $event['type'] ?? '';
+
+            if ($type !== 'custom_event') {
+                continue;
+            }
+
+            $data      = $event['data'] ?? [];
+            $eventName = sanitize_text_field($data['event_name'] ?? '');
+            $eventData = $data['event_data'] ?? [];
+
+            if (is_string($eventData)) {
+                $eventData = json_decode($eventData, true) ?: [];
+            }
+
+            if (empty($eventName)) {
+                continue;
+            }
+
+            do_action('wp_statistics_custom_event_batch', $eventName, $eventData);
+
+            $this->recordEvent($eventName, $eventData);
+        }
     }
 
     /**
@@ -36,6 +75,10 @@ class CustomEventHandler
     {
         try {
             if (empty($eventName)) {
+                return;
+            }
+
+            if (!Option::getValue('event_tracking', false)) {
                 return;
             }
 

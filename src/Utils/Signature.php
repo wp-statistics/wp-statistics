@@ -12,8 +12,20 @@ class Signature
      */
     public static function generate($payload)
     {
-        $salt = wp_salt();
-        return md5($salt . json_encode($payload));
+        return md5(self::getSalt() . json_encode($payload));
+    }
+
+    /**
+     * Get the signing salt directly from wp-config.php constants.
+     *
+     * Uses the same constants as wp_salt('auth') but without requiring
+     * pluggable.php, making it SHORTINIT-compatible.
+     *
+     * @return string The salt string.
+     */
+    private static function getSalt()
+    {
+        return (defined('AUTH_KEY') ? AUTH_KEY : '') . (defined('AUTH_SALT') ? AUTH_SALT : '');
     }
 
     /**
@@ -25,6 +37,6 @@ class Signature
      */
     public static function check($payload, $signature)
     {
-        return self::generate($payload) === $signature;
+        return hash_equals(self::generate($payload), (string) $signature);
     }
 }
