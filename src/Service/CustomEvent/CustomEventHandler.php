@@ -10,7 +10,7 @@ use WP_Statistics\Service\Analytics\VisitorProfile;
 /**
  * Handles custom event recording from batch tracking and direct calls.
  *
- * This class registers listeners for custom event actions fired by BatchProcessor
+ * This class registers listeners for custom event actions fired by BatchTracking
  * and processes them to record events in the database.
  *
  * @since 15.0.0

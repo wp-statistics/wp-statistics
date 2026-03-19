@@ -16,5 +16,9 @@ export function getHitEndpoint() {
 export function getBatchEndpoint() {
     var cfg = getConfig();
     if (!cfg) return '';
-    return (cfg.baseUrl || '') + (cfg.batchEndpoint || '');
+    var ep = cfg.batchEndpoint || '';
+    if (ep.indexOf('http://') === 0 || ep.indexOf('https://') === 0 || ep.indexOf('//') === 0) {
+        return ep;
+    }
+    return (cfg.baseUrl || '') + ep;
 }

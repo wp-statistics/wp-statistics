@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Tracking\Methods;
 
 use WP_Statistics\Service\Tracking\Core\Tracker;
-use WP_Statistics\Service\Tracking\Core\BatchProcessor;
 use Exception;
 use WP_REST_Server;
 use WP_REST_Request;
@@ -11,15 +10,14 @@ use WP_REST_Request;
 /**
  * REST API tracking method.
  *
- * Registers /wp-json/wp-statistics/v2/hit and /batch endpoints.
+ * Registers /wp-json/wp-statistics/v2/hit endpoint.
  *
  * @since 15.0.0
  */
 class RestTracking extends BaseTracking
 {
-    private const API_NAMESPACE  = 'wp-statistics/v2';
-    private const ENDPOINT_HIT   = 'hit';
-    private const ENDPOINT_BATCH = 'batch';
+    private const API_NAMESPACE = 'wp-statistics/v2';
+    private const ENDPOINT_HIT  = 'hit';
 
     /**
      * {@inheritDoc}
@@ -35,9 +33,8 @@ class RestTracking extends BaseTracking
     public function getTrackerConfig(): array
     {
         return [
-            'baseUrl'          => get_rest_url(null, self::API_NAMESPACE),
-            'hitEndpoint'      => '/' . self::ENDPOINT_HIT,
-            'batchEndpoint'    => '/' . self::ENDPOINT_BATCH,
+            'baseUrl'      => get_rest_url(null, self::API_NAMESPACE),
+            'hitEndpoint'  => '/' . self::ENDPOINT_HIT,
         ];
     }
 
@@ -50,7 +47,7 @@ class RestTracking extends BaseTracking
     }
 
     /**
-     * Register REST API routes for hit and batch tracking.
+     * Register REST API route for hit tracking.
      */
     public function registerRoutes(): void
     {
@@ -62,12 +59,6 @@ class RestTracking extends BaseTracking
                 'resource_uri_id' => ['required' => true, 'type' => 'string'],
                 'signature'       => ['required' => false, 'type' => 'string'],
             ],
-        ]);
-
-        register_rest_route(self::API_NAMESPACE, '/' . self::ENDPOINT_BATCH, [
-            'methods'             => WP_REST_Server::CREATABLE,
-            'callback'            => [$this, 'processBatch'],
-            'permission_callback' => '__return_true',
         ]);
     }
 
@@ -95,36 +86,6 @@ class RestTracking extends BaseTracking
 
         if ($statusCode) {
             $response->set_status($statusCode);
-        }
-
-        $response->set_headers(['Cache-Control' => 'no-cache']);
-
-        return $response;
-    }
-
-    /**
-     * Handle batch request.
-     *
-     * @param WP_REST_Request $request
-     * @return \WP_REST_Response
-     */
-    public function processBatch(WP_REST_Request $request)
-    {
-        try {
-            $bodyParams = $request->get_body_params();
-            $result     = BatchProcessor::parseAndProcess($bodyParams['batch_data'] ?? null);
-
-            $response = rest_ensure_response([
-                'status'    => true,
-                'processed' => $result['processed'],
-                'errors'    => $result['errors'],
-            ]);
-        } catch (Exception $e) {
-            $response = rest_ensure_response([
-                'status' => false,
-                'data'   => $e->getMessage(),
-            ]);
-            $response->set_status($e->getCode() ?: 400);
         }
 
         $response->set_headers(['Cache-Control' => 'no-cache']);

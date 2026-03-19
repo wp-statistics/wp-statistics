@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Tracking;
 
 use WP_Statistics\Service\Tracking\Methods\BaseTracking;
+use WP_Statistics\Service\Tracking\Methods\BatchTracking;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Tracking\Methods\AjaxTracking;
 use WP_Statistics\Service\Tracking\Methods\DirectFile\DirectFileTracking;
@@ -16,6 +17,7 @@ use WP_Statistics\Service\Tracking\Methods\RestTracking;
  *   - Optional: Direct File (mu-plugin endpoint) — highest performance
  *
  * REST routes are always registered for headless/API consumers.
+ * Batch tracking is always registered independently of the hit transport.
  *
  * Independent toggles:
  *   - `bypass_ad_blockers` — obfuscates tracker.js filename/URL
@@ -31,6 +33,11 @@ class TrackingManager
     private $trackingMethod;
 
     /**
+     * @var BatchTracking
+     */
+    private $batchTracking;
+
+    /**
      * Register tracking endpoints.
      *
      * Called once during plugin boot.
@@ -40,6 +47,10 @@ class TrackingManager
         // Always register REST routes (for headless/API consumers).
         (new RestTracking())->register();
 
+        // Always register batch tracking (independent of hit transport).
+        $this->batchTracking = new BatchTracking();
+        $this->batchTracking->register();
+
         // Register the active transport method.
         $this->trackingMethod = $this->getTrackingMethod();
         $this->trackingMethod->register();
@@ -48,13 +59,18 @@ class TrackingManager
     }
 
     /**
-     * Get the full JS tracker configuration from the active transport method.
+     * Get the full JS tracker configuration from the active transport method,
+     * merged with the batch endpoint.
      *
      * @return array
      */
     public function getTrackerConfig(): array
     {
-        return $this->trackingMethod ? $this->trackingMethod->getTrackerConfig() : [];
+        $config = $this->trackingMethod ? $this->trackingMethod->getTrackerConfig() : [];
+
+        $config['batchEndpoint'] = $this->batchTracking->getBatchEndpoint();
+
+        return $config;
     }
 
     /**

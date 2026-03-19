@@ -38,9 +38,8 @@ class DirectFileTracking extends BaseTracking
     public function getTrackerConfig(): array
     {
         return [
-            'baseUrl'          => content_url(),
-            'hitEndpoint'      => '/mu-plugins/' . DirectFileHandler::ENDPOINT_FILE,
-            'batchEndpoint'    => '/mu-plugins/' . DirectFileHandler::ENDPOINT_FILE,
+            'baseUrl'      => content_url(),
+            'hitEndpoint'  => '/mu-plugins/' . DirectFileHandler::ENDPOINT_FILE,
         ];
     }
 

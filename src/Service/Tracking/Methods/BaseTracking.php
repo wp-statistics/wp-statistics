@@ -20,7 +20,7 @@ abstract class BaseTracking
     /**
      * Configuration the JS tracker needs to send hits via this method.
      *
-     * @return array{baseUrl: string, hitEndpoint: string, batchEndpoint: string}
+     * @return array{baseUrl: string, hitEndpoint: string}
      */
     abstract public function getTrackerConfig(): array;
 

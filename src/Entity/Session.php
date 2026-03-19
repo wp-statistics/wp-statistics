@@ -72,6 +72,7 @@ class Session extends BaseEntity
             'timezone_id'               => $localeIds['timezone_id'],
             'user_id'                   => $this->visitor->getUserId(),
             'started_at'                => DateTime::getUtc(),
+            'duration'                  => 0,
         ]);
 
         // Record UTM parameters for this new session (first-touch attribution)
@@ -129,7 +130,6 @@ class Session extends BaseEntity
         $updates = [
             'last_view_id' => $viewId,
             'ended_at'     => $endAt,
-            'duration'     => $this->calculateDuration($endAt, $session->started_at)
         ];
 
         if (empty($session->initial_view_id)) {
@@ -139,22 +139,4 @@ class Session extends BaseEntity
         RecordFactory::session($session)->update($updates);
     }
 
-    /**
-     * Calculate session duration in seconds.
-     *
-     * @param string $endAt The end timestamp.
-     * @param string $startedAt The start timestamp.
-     * @return int Duration in seconds, or 0 if invalid.
-     */
-    public function calculateDuration($endAt, $startedAt)
-    {
-        $start = strtotime($startedAt);
-        $end   = strtotime($endAt);
-
-        if ($start === false || $end === false || $end <= $start) {
-            return 0;
-        }
-
-        return $end - $start;
-    }
 }
