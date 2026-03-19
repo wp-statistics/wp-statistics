@@ -33,7 +33,7 @@ test.describe('Delivery Modes', () => {
     const hit = await hitPromise
 
     expect(hit.url).toContain('admin-ajax.php')
-    expect(hit.params.get('action')).toBe('wp_statistics_hit_record')
+    expect(hit.params.get('action')).toBe('wp_statistics_collect')
 
     // Reset
     setBypassAdBlockers(false)

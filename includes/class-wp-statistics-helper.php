@@ -7,6 +7,7 @@ use WP_STATISTICS;
 use ErrorException;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Service\Tracking\Methods\AjaxTracker;
 use WP_Statistics_Mail;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -125,7 +126,7 @@ class Helper
      */
     public static function isBypassAdBlockersRequest()
     {
-        return (Request::compare('action', 'wp_statistics_hit_record') || Request::compare('action', 'wp_statistics_online_check'));
+        return (Request::compare('action', 'wp_statistics_' . AjaxTracker::ACTION) || Request::compare('action', 'wp_statistics_online_check'));
     }
 
     /**

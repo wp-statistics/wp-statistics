@@ -951,7 +951,7 @@ class TrackerSimulator
 
         return [
             // AJAX action
-            'action' => 'wp_statistics_hit_record',
+            'action' => 'wp_statistics_collect',
 
             // Required tracking params
             'resourceUriId' => $resource['resource_uri_id'],

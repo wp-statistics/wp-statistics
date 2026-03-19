@@ -20,7 +20,7 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager;
 use WP_Statistics\Service\Blocks\BlocksManager;
-use WP_Statistics\Service\Tracking\TrackingManager;
+use WP_Statistics\Service\Tracking\TrackerManager;
 
 echo "=============================================================\n";
 echo "  Managers Lazy Loading Performance Benchmark\n";
@@ -190,17 +190,17 @@ echo "   Initialization time:       " . number_format($blocksInitTimeMs, 3) . " 
 echo "   Memory allocated:          " . number_format($blocksInitMemoryKb, 2) . " KB\n\n";
 
 // ============================================================
-// TrackingManager Benchmark
+// TrackerManager Benchmark
 // ============================================================
 
-echo "## TrackingManager\n";
+echo "## TrackerManager\n";
 echo "   (instantiate + register)\n\n";
 
 gc_collect_cycles();
 $memBefore = get_memory_usage_kb();
 $timeBefore = microtime(true);
 
-$trackingManager1 = new TrackingManager();
+$trackingManager1 = new TrackerManager();
 $trackingManager1->register();
 
 $timeAfter = microtime(true);
@@ -211,7 +211,7 @@ $firstCallMemoryKb = $memAfter - $memBefore;
 
 // Second instance — each is independent (no shared static state)
 $timeBefore = microtime(true);
-$trackingManager2 = new TrackingManager();
+$trackingManager2 = new TrackerManager();
 $trackingManager2->register();
 $timeAfter = microtime(true);
 
@@ -248,7 +248,7 @@ printf("│ AjaxManager (3 endpoints)│ %7d │ %12d │ %9.3f │ %4.1f │\n"
     count($endpointClasses), count($endpoints), $ajaxInitTimeMs, $ajaxInitMemoryKb);
 printf("│ BlocksManager (1 block)  │ %7d │ %12d │ %9.3f │ %4.1f │\n",
     count($blockClasses), count($blocks), $blocksInitTimeMs, $blocksInitMemoryKb);
-printf("│ TrackingManager          │ %7d │ %12s │ %9.3f │ %4.1f │\n",
+printf("│ TrackerManager          │ %7d │ %12s │ %9.3f │ %4.1f │\n",
     2, 'instance', $firstCallTimeMs, $firstCallMemoryKb);
 echo "├──────────────────────────────────────────────────────────────────────┤\n";
 printf("│ TOTAL                    │ %7d │ %12d │ %9.3f │ %4.1f │\n",
@@ -259,8 +259,8 @@ echo "Key Benefits:\n";
 echo "  ✓ 18 classes registered, 0 objects instantiated on init\n";
 echo "  ✓ Objects created on-demand when first accessed\n";
 echo "  ✓ Subsequent accesses return cached instances\n";
-echo "  ✓ TrackingManager is instance-based, no shared static state\n";
-echo "  ✓ BatchTracking registered once per TrackingManager::register() call\n";
+echo "  ✓ TrackerManager is instance-based, no shared static state\n";
+echo "  ✓ BatchEndpoint registered once per TrackerManager::register() call\n";
 echo "  ✓ Third-party extensions can register via registerClass() methods\n";
 echo "  ✓ Backwards compatible - existing code works unchanged\n\n";
 

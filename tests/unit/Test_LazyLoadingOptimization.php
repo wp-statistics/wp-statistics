@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Service\Blocks\BlocksManager;
-use WP_Statistics\Service\Tracking\TrackingManager;
+use WP_Statistics\Service\Tracking\TrackerManager;
 use WP_UnitTestCase;
 use ReflectionClass;
 
@@ -23,7 +23,7 @@ use ReflectionClass;
  * @covers \WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager
  * @covers \WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager
  * @covers \WP_Statistics\Service\Blocks\BlocksManager
- * @covers \WP_Statistics\Service\Tracking\TrackingManager
+ * @covers \WP_Statistics\Service\Tracking\TrackerManager
  *
  * @since 15.0.0
  */
@@ -375,46 +375,46 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
     }
 
     // =========================================================================
-    // TrackingManager Tests
+    // TrackerManager Tests
     // =========================================================================
 
     /**
-     * Test TrackingManager::register() creates a hit controller.
+     * Test TrackerManager::register() creates a hit controller.
      */
     public function test_tracking_manager_register_creates_hit_controller()
     {
-        $manager = new TrackingManager();
+        $manager = new TrackerManager();
         $manager->register();
 
-        // After register(), getTrackingRoute() should return a non-null string
-        $route = $manager->getTrackingRoute();
+        // After register(), getTrackerRoute() should return a non-null string
+        $route = $manager->getTrackerRoute();
 
         $this->assertNotNull($route);
         $this->assertIsString($route);
     }
 
     /**
-     * Test each TrackingManager instance is independent (no shared static state).
+     * Test each TrackerManager instance is independent (no shared static state).
      */
     public function test_tracking_manager_instances_are_independent()
     {
-        $first = new TrackingManager();
-        $second = new TrackingManager();
+        $first = new TrackerManager();
+        $second = new TrackerManager();
 
-        $this->assertNotSame($first, $second, 'Each new TrackingManager should be a distinct instance');
+        $this->assertNotSame($first, $second, 'Each new TrackerManager should be a distinct instance');
     }
 
     /**
-     * Test TrackingManager::getTrackingRoute() returns null before register().
+     * Test TrackerManager::getTrackerRoute() returns null before register().
      */
     public function test_tracking_manager_get_tracking_route_null_before_register()
     {
-        $manager = new TrackingManager();
+        $manager = new TrackerManager();
 
         // hitController is not set until register() is called
-        $route = $manager->getTrackingRoute();
+        $route = $manager->getTrackerRoute();
 
-        $this->assertNull($route, 'getTrackingRoute() should return null before register() is called');
+        $this->assertNull($route, 'getTrackerRoute() should return null before register() is called');
     }
 
     // =========================================================================

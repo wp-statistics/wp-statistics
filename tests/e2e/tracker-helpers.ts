@@ -103,7 +103,7 @@ export function setConsentPlugin(mode: 'none' | 'wp_consent_api' | 'real_cookie_
 export function setTrackingMethod(method: 'rest' | 'ajax' | 'direct_file'): void {
   updateWpStatisticsOption('tracking_method', method)
   if (method === 'direct_file') {
-    // Trigger a WP load to install the mu-plugin via DirectFileHandler::ensureInstalled()
+    // Trigger a WP load to install the mu-plugin via HybridModeHandler::ensureInstalled()
     try {
       wpCli(`eval 'echo "direct_endpoint_installed";'`)
     } catch {
@@ -120,10 +120,10 @@ export function setBypassAdBlockers(enabled: boolean): void {
   updateWpStatisticsOption('bypass_ad_blockers', enabled)
 }
 
-export function setDirectFileTracking(enabled: boolean): void {
+export function setHybridMode(enabled: boolean): void {
   updateWpStatisticsOption('direct_file_tracking', enabled)
   if (enabled) {
-    // Trigger a WP load to install the mu-plugin via DirectFileHandler::ensureInstalled()
+    // Trigger a WP load to install the mu-plugin via HybridModeHandler::ensureInstalled()
     try {
       wpCli(`eval 'echo "direct_endpoint_installed";'`)
     } catch {
@@ -173,7 +173,7 @@ export function captureTrackerRequests(page: Page): CapturedRequest[] {
       url.includes('wp-statistics/v2/hit') ||
       url.includes('wp-statistics/v2/batch') ||
       (url.includes('admin-ajax.php') &&
-        (req.postData()?.includes('wp_statistics_hit_record') ||
+        (req.postData()?.includes('wp_statistics_collect') ||
           req.postData()?.includes('wp_statistics_batch')))
     ) {
       captured.push({
@@ -202,7 +202,7 @@ export async function waitForHitRequest(
       const postData = req.postData() || ''
       const isHit =
         url.includes('wp-statistics/v2/hit') ||
-        (url.includes('admin-ajax.php') && postData.includes('wp_statistics_hit_record'))
+        (url.includes('admin-ajax.php') && postData.includes('wp_statistics_collect'))
 
       if (isHit && req.method() === 'POST') {
         clearTimeout(timer)

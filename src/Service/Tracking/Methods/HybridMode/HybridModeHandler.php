@@ -1,15 +1,15 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Methods\DirectFile;
+namespace WP_Statistics\Service\Tracking\Methods\HybridMode;
 
 /**
- * Manages the mu-plugin proxy for high-performance tracking.
+ * Manages the mu-plugin proxy for Hybrid Mode tracking.
  *
  * Installs/uninstalls a SHORTINIT endpoint for minimal-bootstrap hit recording.
  *
  * @since 15.0.0
  */
-class DirectFileHandler
+class HybridModeHandler
 {
     /**
      * Option key storing the installed mu-plugin version.

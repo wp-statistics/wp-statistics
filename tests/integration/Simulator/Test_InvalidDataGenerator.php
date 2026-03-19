@@ -219,7 +219,7 @@ class Test_InvalidDataGenerator extends SimulatorTestCase
         for ($i = 0; $i < 20; $i++) {
             $result = $generator->generate();
             $this->assertArrayHasKey('action', $result['request_data']);
-            $this->assertEquals('wp_statistics_hit_record', $result['request_data']['action']);
+            $this->assertEquals('wp_statistics_collect', $result['request_data']['action']);
         }
     }
 }

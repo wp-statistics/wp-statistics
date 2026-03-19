@@ -77,16 +77,16 @@ class SettingsAreaDefinitions
                             'direct_file_tracking' => [
                                 'type'        => 'toggle',
                                 'setting_key' => 'direct_file_tracking',
-                                'label'       => __('Direct File Endpoint', 'wp-statistics'),
+                                'label'       => __('Hybrid Mode', 'wp-statistics'),
                                 'badge'       => __('Beta', 'wp-statistics'),
-                                'description' => __('Send tracking requests to a lightweight file endpoint that bypasses the full WordPress load, resulting in faster hit recording.', 'wp-statistics'),
+                                'description' => __('Record visits using a lightweight endpoint that loads faster by skipping the full WordPress bootstrap.', 'wp-statistics'),
                                 'default'     => false,
                                 'order'       => 20,
                             ],
                             'direct_file_notice' => [
                                 'type'         => 'notice',
                                 'notice_type'  => 'warning',
-                                'message'      => __('Direct File is the fastest tracking method as it bypasses full WordPress loading. However, third-party hooks and filters that extend WP Statistics tracking will not run in this mode.', 'wp-statistics'),
+                                'message'      => __('Hybrid Mode bypasses the full WordPress loading for faster tracking. However, third-party hooks and filters that extend WP Statistics tracking will not run in this mode.', 'wp-statistics'),
                                 'visible_when' => [
                                     'direct_file_tracking' => true,
                                 ],

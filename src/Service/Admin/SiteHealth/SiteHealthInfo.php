@@ -184,7 +184,7 @@ class SiteHealthInfo extends Singleton
             ],
             'trackingTransport'             => [
                 'label' => esc_html__('Tracking Transport', 'wp-statistics'),
-                'value' => Option::getValue('direct_file_tracking') ? 'Direct File' : 'AJAX',
+                'value' => Option::getValue('direct_file_tracking') ? 'Hybrid Mode' : 'AJAX',
                 'debug' => Option::getValue('direct_file_tracking') ? 'direct_file' : 'ajax',
             ],
             'bypassAdBlockers'              => [

@@ -8,7 +8,7 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\CLI\CLIManager;
 use WP_Statistics\Service\Shortcode\ShortcodeService;
 use WP_Statistics\Service\Blocks\BlocksManager;
-use WP_Statistics\Service\Tracking\TrackingManager;
+use WP_Statistics\Service\Tracking\TrackerManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
 use WP_Statistics\Service\CustomEvent\CustomEventHandler;
@@ -45,7 +45,7 @@ class CoreServiceProvider implements ServiceProvider
 
         // Tracking - lazy loaded
         $container->register('tracking', function () {
-            return new TrackingManager();
+            return new TrackerManager();
         });
 
         // Cron Manager - lazy loaded

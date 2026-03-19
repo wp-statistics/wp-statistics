@@ -15,16 +15,16 @@ use Exception;
  *
  * @since 15.0.0
  */
-class AjaxTracking extends BaseTracking
+class AjaxTracker extends BaseTracker
 {
-    public const HIT_ACTION = 'hit_record';
+    public const ACTION = 'collect';
 
     /**
      * {@inheritDoc}
      */
     public function register(): void
     {
-        Ajax::register(self::HIT_ACTION, [$this, 'hitCallback']);
+        Ajax::register(self::ACTION, [$this, 'hitCallback']);
     }
 
     /**
@@ -34,8 +34,16 @@ class AjaxTracking extends BaseTracking
     {
         return [
             'baseUrl'      => admin_url('admin-ajax.php'),
-            'hitEndpoint'  => '?action=wp_statistics_' . self::HIT_ACTION,
+            'hitEndpoint'  => '?action=wp_statistics_' . self::ACTION,
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getMethodType(): string
+    {
+        return 'ajax';
     }
 
     /**

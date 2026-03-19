@@ -17,7 +17,7 @@ test.describe('Edge Cases', () => {
     let hitReceived = false
     page.on('request', (req) => {
       const url = req.url()
-      if (url.includes('wp-statistics/v2/hit') || url.includes('wp_statistics_hit_record')) {
+      if (url.includes('wp-statistics/v2/hit') || url.includes('wp_statistics_collect')) {
         hitReceived = true
       }
     })
@@ -80,7 +80,7 @@ test.describe('Edge Cases', () => {
       const postData = req.postData() || ''
       if (
         (url.includes('wp-statistics/v2/hit') && req.method() === 'POST') ||
-        (url.includes('admin-ajax.php') && postData.includes('wp_statistics_hit_record'))
+        (url.includes('admin-ajax.php') && postData.includes('wp_statistics_collect'))
       ) {
         hitUrls.push(url)
       }

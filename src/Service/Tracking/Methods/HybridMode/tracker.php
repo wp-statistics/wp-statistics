@@ -1,9 +1,9 @@
 <?php
 /**
- * WP Statistics Direct File Tracker
+ * WP Statistics Hybrid Mode Tracker
  *
  * SHORTINIT-compatible hit recording for maximum performance.
- * This file is a template — DirectFileHandler bakes absolute paths
+ * This file is a template — HybridModeHandler bakes absolute paths
  * into the placeholders when copying to mu-plugins/.
  *
  * @since 15.0.0

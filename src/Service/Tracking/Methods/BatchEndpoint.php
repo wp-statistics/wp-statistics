@@ -13,7 +13,7 @@ use WP_REST_Request;
  * Thin endpoint handler for batch tracking.
  *
  * Always registered regardless of the active hit transport method (AJAX, REST,
- * Direct File). Provides both AJAX and REST endpoints:
+ * Hybrid Mode). Provides both AJAX and REST endpoints:
  *   - AJAX: used by the default JS tracker (ad-blocker safe)
  *   - REST: used by headless/API consumers
  *
@@ -22,7 +22,7 @@ use WP_REST_Request;
  *
  * @since 15.0.0
  */
-class BatchTracking
+class BatchEndpoint
 {
     public const BATCH_ACTION = 'batch';
 

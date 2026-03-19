@@ -1,17 +1,17 @@
 <?php
 
-namespace WP_Statistics\Tests\DirectFileHandler;
+namespace WP_Statistics\Tests\HybridModeHandler;
 
 use WP_UnitTestCase;
 
 /**
- * Tests for DirectFileHandler tracker template baking.
+ * Tests for HybridModeHandler tracker template baking.
  */
-class Test_DirectFileHandler extends WP_UnitTestCase
+class Test_HybridModeHandler extends WP_UnitTestCase
 {
     public function test_tracker_template_contains_placeholders()
     {
-        $templatePath = WP_STATISTICS_DIR . 'src/Service/Tracking/Methods/DirectFile/tracker.php';
+        $templatePath = WP_STATISTICS_DIR . 'src/Service/Tracking/Methods/HybridMode/tracker.php';
         $content      = file_get_contents($templatePath);
 
         $this->assertStringContainsString('{{ABSPATH}}', $content);
@@ -21,7 +21,7 @@ class Test_DirectFileHandler extends WP_UnitTestCase
 
     public function test_tracker_returns_early_when_abspath_defined()
     {
-        $templatePath = WP_STATISTICS_DIR . 'src/Service/Tracking/Methods/DirectFile/tracker.php';
+        $templatePath = WP_STATISTICS_DIR . 'src/Service/Tracking/Methods/HybridMode/tracker.php';
 
         ob_start();
         include $templatePath;

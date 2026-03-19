@@ -14,7 +14,7 @@ use WP_REST_Request;
  *
  * @since 15.0.0
  */
-class RestTracking extends BaseTracking
+class RestTracker extends BaseTracker
 {
     private const API_NAMESPACE = 'wp-statistics/v2';
     private const ENDPOINT_HIT  = 'hit';
@@ -36,6 +36,14 @@ class RestTracking extends BaseTracking
             'baseUrl'      => get_rest_url(null, self::API_NAMESPACE),
             'hitEndpoint'  => '/' . self::ENDPOINT_HIT,
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getMethodType(): string
+    {
+        return 'rest';
     }
 
     /**

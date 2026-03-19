@@ -1,27 +1,27 @@
 <?php
 
-namespace WP_Statistics\Service\Tracking\Methods\DirectFile;
+namespace WP_Statistics\Service\Tracking\Methods\HybridMode;
 
-use WP_Statistics\Service\Tracking\Methods\BaseTracking;
+use WP_Statistics\Service\Tracking\Methods\BaseTracker;
 
 /**
- * Direct File tracking method.
+ * Hybrid Mode tracking method.
  *
  * Uses a SHORTINIT mu-plugin endpoint for minimal-bootstrap hit recording.
  * Hit and batch requests both go to the same mu-plugin URL.
  *
  * @since 15.1.0
  */
-class DirectFileTracking extends BaseTracking
+class HybridModeTracker extends BaseTracker
 {
     /**
-     * @var DirectFileHandler
+     * @var HybridModeHandler
      */
     private $handler;
 
     public function __construct()
     {
-        $this->handler = new DirectFileHandler();
+        $this->handler = new HybridModeHandler();
     }
 
     /**
@@ -39,8 +39,16 @@ class DirectFileTracking extends BaseTracking
     {
         return [
             'baseUrl'      => content_url(),
-            'hitEndpoint'  => '/mu-plugins/' . DirectFileHandler::ENDPOINT_FILE,
+            'hitEndpoint'  => '/mu-plugins/' . HybridModeHandler::ENDPOINT_FILE,
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getMethodType(): string
+    {
+        return 'hybrid';
     }
 
     /**

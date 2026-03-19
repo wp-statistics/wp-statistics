@@ -29,7 +29,7 @@ test.describe('Consent: Borlabs Cookie', () => {
     let hitReceived = false
     page.on('request', (req) => {
       const url = req.url()
-      if (url.includes('wp-statistics/v2/hit') || url.includes('wp_statistics_hit_record')) {
+      if (url.includes('wp-statistics/v2/hit') || url.includes('wp_statistics_collect')) {
         hitReceived = true
       }
     })

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import {
   setConsentPlugin,
   setBypassAdBlockers,
-  setDirectFileTracking,
+  setHybridMode,
   setEventTracking,
   waitForHitRequest,
   waitForBatchRequest,
@@ -14,12 +14,12 @@ test.describe('Batch Tracking', () => {
   test.beforeAll(() => {
     setConsentPlugin('none')
     setBypassAdBlockers(false)
-    setDirectFileTracking(false)
+    setHybridMode(false)
     setEventTracking(true)
   })
 
   test.afterAll(() => {
-    setDirectFileTracking(false)
+    setHybridMode(false)
     setBypassAdBlockers(false)
     setEventTracking(false)
   })
@@ -29,7 +29,7 @@ test.describe('Batch Tracking', () => {
   test.describe('batchEndpoint config', () => {
     test('AJAX mode — batchEndpoint is absolute admin-ajax URL', async ({ page }) => {
       setBypassAdBlockers(true)
-      setDirectFileTracking(false)
+      setHybridMode(false)
 
       await page.goto('/')
       await page.waitForLoadState('domcontentloaded')
@@ -51,7 +51,7 @@ test.describe('Batch Tracking', () => {
 
     test('REST mode — batchEndpoint still uses admin-ajax (not REST)', async ({ page }) => {
       setBypassAdBlockers(false)
-      setDirectFileTracking(false)
+      setHybridMode(false)
 
       await page.goto('/')
       await page.waitForLoadState('domcontentloaded')
@@ -64,10 +64,10 @@ test.describe('Batch Tracking', () => {
       expect(config.batchEndpoint).toContain('wp_statistics_batch')
     })
 
-    test('DirectFile mode — batchEndpoint uses admin-ajax, hitEndpoint uses mu-plugin', async ({
+    test('Hybrid Mode — batchEndpoint uses admin-ajax, hitEndpoint uses mu-plugin', async ({
       page,
     }) => {
-      setDirectFileTracking(true)
+      setHybridMode(true)
 
       await page.goto('/')
       await page.waitForLoadState('domcontentloaded')
@@ -75,7 +75,7 @@ test.describe('Batch Tracking', () => {
       const config = await getTrackerConfig(page)
       expect(config).toBeTruthy()
 
-      // Hit goes to DirectFile mu-plugin
+      // Hit goes to Hybrid Mode mu-plugin
       expect(config.hitEndpoint).toContain('wp-statistics-tracker.php')
 
       // Batch goes to AJAX — independent of hit transport
@@ -88,7 +88,7 @@ test.describe('Batch Tracking', () => {
           config.batchEndpoint.startsWith('https://')
       ).toBe(true)
 
-      setDirectFileTracking(false)
+      setHybridMode(false)
     })
   })
 
@@ -174,23 +174,23 @@ test.describe('Batch Tracking', () => {
     })
   })
 
-  // ── DirectFile mode batch tests ───────────────────────────────
+  // ── Hybrid Mode batch tests ───────────────────────────────
 
-  test.describe('DirectFile mode', () => {
+  test.describe('Hybrid Mode', () => {
     test.beforeAll(() => {
-      setDirectFileTracking(true)
+      setHybridMode(true)
     })
 
     test.afterAll(() => {
-      setDirectFileTracking(false)
+      setHybridMode(false)
     })
 
-    test('hit goes through DirectFile, batch goes through AJAX', async ({ page }) => {
+    test('hit goes through Hybrid Mode, batch goes through AJAX', async ({ page }) => {
       const hitPromise = waitForHitRequest(page)
       await page.goto('/')
       const hit = await hitPromise
 
-      // Hit uses DirectFile mu-plugin
+      // Hit uses Hybrid Mode mu-plugin
       expect(hit.url).toContain('wp-statistics-tracker.php')
 
       // Generate engagement
@@ -208,7 +208,7 @@ test.describe('Batch Tracking', () => {
       })
       const batch = await batchPromise
 
-      // Batch uses AJAX, NOT DirectFile
+      // Batch uses AJAX, NOT Hybrid Mode
       expect(batch.url).toContain('admin-ajax.php')
       expect(batch.url).toContain('wp_statistics_batch')
       expect(batch.url).not.toContain('wp-statistics-tracker.php')
@@ -216,7 +216,7 @@ test.describe('Batch Tracking', () => {
       expect(batch.payload.engagement_time).toBeGreaterThan(0)
     })
 
-    test('custom events work in DirectFile mode', async ({ page }) => {
+    test('custom events work in Hybrid Mode', async ({ page }) => {
       const hitPromise = waitForHitRequest(page)
       await page.goto('/')
       await hitPromise
@@ -247,7 +247,7 @@ test.describe('Batch Tracking', () => {
       expect(event.data.event_data).toContain('direct_file')
     })
 
-    test('batch response is successful in DirectFile mode', async ({ page }) => {
+    test('batch response is successful in Hybrid Mode', async ({ page }) => {
       const hitPromise = waitForHitRequest(page)
       await page.goto('/')
       await hitPromise

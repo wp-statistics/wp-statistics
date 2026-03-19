@@ -3,7 +3,7 @@
 /**
  * WP Statistics — Comprehensive Tracking Pipeline Integration Test
  *
- * Tests all 3 tracking methods (REST, AJAX, Direct File), verifies DB storage,
+ * Tests all 3 tracking methods (REST, AJAX, Hybrid Mode), verifies DB storage,
  * exclusion logic, session continuation, UTM params, batch engagement, and more.
  *
  * Usage:
@@ -345,7 +345,7 @@ class TrackingPipelineTest
     {
         return match ($method) {
             'rest'        => $this->siteUrl . '/wp-json/wp-statistics/v2/hit',
-            'ajax'        => $this->siteUrl . '/wp-admin/admin-ajax.php?action=wp_statistics_hit_record',
+            'ajax'        => $this->siteUrl . '/wp-admin/admin-ajax.php?action=wp_statistics_collect',
             'direct_file' => $this->siteUrl . '/wp-content/mu-plugins/wp-statistics-tracker.php',
             default       => throw new \InvalidArgumentException("Unknown method: {$method}"),
         };
@@ -402,7 +402,7 @@ class TrackingPipelineTest
         $this->testExclusionRecordingToggle();
         $this->testUtmParameters();
         $this->testBatchEngagement();
-        $this->testDirectFileSpecific();
+        $this->testHybridModeSpecific();
 
         $this->restoreOptions();
         $this->printSummary();
@@ -1214,11 +1214,11 @@ class TrackingPipelineTest
         echo "\n";
     }
 
-    // ─── Step 6: Direct File Specific ─────────────────────────────────
+    // ─── Step 6: Hybrid Mode Specific ─────────────────────────────────
 
-    private function testDirectFileSpecific(): void
+    private function testHybridModeSpecific(): void
     {
-        echo "\033[1m─── Direct File Specific Tests ─────────────────────\033[0m\n";
+        echo "\033[1m─── Hybrid Mode Specific Tests ─────────────────────\033[0m\n";
 
         $muPluginPath = WP_CONTENT_DIR . '/mu-plugins/wp-statistics-tracker.php';
         $this->assert(
@@ -1248,7 +1248,7 @@ class TrackingPipelineTest
         $getJson = json_decode($getBody, true);
         $this->assert(
             $getCode === 405 || ($getJson['status'] ?? true) === false,
-            'Direct File: GET request rejected',
+            'Hybrid Mode: GET request rejected',
             "HTTP {$getCode}, body: " . substr($getBody, 0, 200)
         );
 
@@ -1259,14 +1259,14 @@ class TrackingPipelineTest
         $resp = $this->sendTestHit('direct_file');
         $this->assert(
             ($resp['json']['status'] ?? false) === true,
-            'Direct File: POST with valid payload succeeds',
+            'Hybrid Mode: POST with valid payload succeeds',
             "HTTP {$resp['http_code']}, body: " . substr($resp['body'], 0, 200)
         );
 
         // Verify response is valid JSON (not HTML error)
         $this->assert(
             $resp['json'] !== null,
-            'Direct File: response is valid JSON',
+            'Hybrid Mode: response is valid JSON',
             'body: ' . substr($resp['body'], 0, 100)
         );
 
@@ -1274,7 +1274,7 @@ class TrackingPipelineTest
         $session = $this->getLatestRow('sessions');
         $this->assert(
             $session !== null && (int) $session->total_views === 1,
-            'Direct File: session + view recorded',
+            'Hybrid Mode: session + view recorded',
             $session ? "total_views={$session->total_views}" : 'no session'
         );
 

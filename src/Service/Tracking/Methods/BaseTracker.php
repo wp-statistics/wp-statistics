@@ -5,12 +5,12 @@ namespace WP_Statistics\Service\Tracking\Methods;
 /**
  * Abstract base for tracking methods.
  *
- * Every tracking method (REST, AJAX, Direct File) extends this so that
- * TrackingManager can delegate without special-casing any method.
+ * Every tracking method (REST, AJAX, Hybrid Mode) extends this so that
+ * TrackerManager can delegate without special-casing any method.
  *
  * @since 15.0.0
  */
-abstract class BaseTracking
+abstract class BaseTracker
 {
     /**
      * Register the method's endpoints with WordPress.
@@ -23,6 +23,13 @@ abstract class BaseTracking
      * @return array{baseUrl: string, hitEndpoint: string}
      */
     abstract public function getTrackerConfig(): array;
+
+    /**
+     * Tracker method type identifier for the `wp_statistics_tracker_enabled` filter.
+     *
+     * @return string e.g. 'ajax', 'rest', 'hybrid'
+     */
+    abstract public function getMethodType(): string;
 
     /**
      * Diagnostic route string for health checks.
