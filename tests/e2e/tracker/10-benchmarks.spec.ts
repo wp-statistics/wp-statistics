@@ -19,7 +19,7 @@ test.describe('Benchmarks', () => {
     setBypassAdBlockers(false)
   })
 
-  test('bundle size — new tracker vs legacy files', async () => {
+  test('bundle size — tracker exists and is reasonably sized', async () => {
     const pluginDir = resolve(
       dirname(fileURLToPath(import.meta.url)),
       '..',
@@ -27,38 +27,13 @@ test.describe('Benchmarks', () => {
       '..'
     )
 
-    // New tracker
-    const newTrackerPath = resolve(pluginDir, 'public/entries/tracker/tracker.min.js')
-    let newSize = 0
-    if (existsSync(newTrackerPath)) {
-      newSize = statSync(newTrackerPath).size
-    }
+    const trackerPath = resolve(pluginDir, 'public/entries/tracker/tracker.min.js')
+    expect(existsSync(trackerPath)).toBe(true)
 
-    // Legacy files
-    const legacyDir = resolve(
-      pluginDir,
-      'resources/entries/tracker/_legacy'
-    )
-    const legacyFiles = [
-      'tracker.js',
-      'batch-queue.js',
-      'engagement-tracker.js',
-      'event-tracker.js',
-      'user-tracker.js',
-    ]
-    let legacyTotal = 0
-    for (const file of legacyFiles) {
-      const p = resolve(legacyDir, file)
-      if (existsSync(p)) {
-        legacyTotal += statSync(p).size
-      }
-    }
-
-    // New tracker should be smaller than legacy
-    if (legacyTotal > 0) {
-      expect(newSize).toBeLessThan(legacyTotal)
-    }
-    expect(newSize).toBeGreaterThan(0)
+    const size = statSync(trackerPath).size
+    expect(size).toBeGreaterThan(0)
+    // Guard against bundle bloat (current ~8KB, cap at 50KB)
+    expect(size).toBeLessThan(50 * 1024)
   })
 
   test('hit request latency — p50/p95 over 10 samples', async ({ page }) => {
