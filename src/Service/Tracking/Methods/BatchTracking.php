@@ -3,21 +3,22 @@
 namespace WP_Statistics\Service\Tracking\Methods;
 
 use WP_Statistics\Components\Ajax;
-use WP_Statistics\Components\DateTime;
-use WP_Statistics\Components\Ip;
-use WP_Statistics\Utils\Query;
+use WP_Statistics\Service\Tracking\Core\Tracker;
 use WP_Statistics\Utils\Request;
 use Exception;
 use WP_REST_Server;
 use WP_REST_Request;
 
 /**
- * Independent batch tracking handler.
+ * Thin endpoint handler for batch tracking.
  *
  * Always registered regardless of the active hit transport method (AJAX, REST,
  * Direct File). Provides both AJAX and REST endpoints:
  *   - AJAX: used by the default JS tracker (ad-blocker safe)
  *   - REST: used by headless/API consumers
+ *
+ * Parses the batch payload, delegates engagement to {@see Tracker::recordEngagement()},
+ * and dispatches raw events via the `wp_statistics_batch_events` hook.
  *
  * @since 15.0.0
  */
@@ -59,7 +60,7 @@ class BatchTracking
 
         try {
             $batchData = isset($_POST['batch_data']) ? wp_unslash($_POST['batch_data']) : null;
-            $result    = self::parseAndProcess($batchData);
+            $result    = $this->process($batchData);
 
             wp_send_json([
                 'status'    => true,
@@ -95,7 +96,7 @@ class BatchTracking
     {
         try {
             $bodyParams = $request->get_body_params();
-            $result     = self::parseAndProcess($bodyParams['batch_data'] ?? null);
+            $result     = $this->process($bodyParams['batch_data'] ?? null);
 
             $response = rest_ensure_response([
                 'status'    => true,
@@ -116,59 +117,32 @@ class BatchTracking
     }
 
     /**
-     * Parse a raw batch_data JSON string and process events.
+     * Parse payload and delegate to Tracker + event hook.
      *
-     * @param string|null $rawBatchData Raw JSON string from the request.
+     * @param string|null $rawData Raw JSON from the request.
      * @return array{processed: int, errors: string[]}
      * @throws Exception On missing or invalid payload.
      */
-    public static function parseAndProcess(?string $rawBatchData): array
+    private function process(?string $rawData): array
     {
-        if (empty($rawBatchData)) {
+        if (empty($rawData)) {
             throw new Exception('Missing batch data', 400);
         }
 
-        $data = json_decode($rawBatchData, true);
+        $data = json_decode($rawData, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception('Invalid JSON payload', 400);
         }
 
-        return (new self())->processEvents($data);
-    }
-
-    /**
-     * Process batch payload.
-     *
-     * Handles session engagement update and processes any custom events.
-     * The session is identified server-side using the visitor's IP hash.
-     *
-     * @param array $data Batch payload containing engagement_time and events.
-     * @return array{processed: int, errors: string[]}
-     */
-    private function processEvents(array $data): array
-    {
-        $processed = 0;
-        $errors    = [];
-
+        $processed      = 0;
+        $errors         = [];
         $engagementTime = isset($data['engagement_time']) ? (int) $data['engagement_time'] : 0;
+        $events         = !empty($data['events']) && is_array($data['events']) ? $data['events'] : [];
 
         if ($engagementTime > 0) {
             try {
-                $visitorHash      = Ip::hash();
-                $thirtyMinutesAgo = DateTime::getUtc('Y-m-d H:i:s', '-30 minutes');
-
-                $session = Query::select('sessions.ID')
-                    ->from('sessions')
-                    ->join('visitors', ['sessions.visitor_id', 'visitors.ID'])
-                    ->where('visitors.hash', '=', $visitorHash)
-                    ->where('sessions.ended_at', '>=', $thirtyMinutesAgo)
-                    ->orderBy('sessions.ID', 'DESC')
-                    ->perPage(1)
-                    ->getRow();
-
-                if ($session && !empty($session->ID)) {
-                    $this->updateSessionEngagement((int) $session->ID, $engagementTime);
+                if ((new Tracker())->recordEngagement($engagementTime)) {
                     $processed++;
                 }
             } catch (Exception $e) {
@@ -176,88 +150,11 @@ class BatchTracking
             }
         }
 
-        if (!empty($data['events']) && is_array($data['events'])) {
-            foreach ($data['events'] as $index => $event) {
-                try {
-                    $this->processEvent($event);
-                    $processed++;
-                } catch (Exception $e) {
-                    $errors[] = 'Event ' . $index . ' (' . ($event['type'] ?? 'unknown') . '): ' . $e->getMessage();
-                }
-            }
+        if (!empty($events)) {
+            do_action('wp_statistics_batch_events', $events);
+            $processed += count($events);
         }
 
-        return [
-            'processed' => $processed,
-            'errors'    => $errors,
-        ];
-    }
-
-    /**
-     * Process a single event.
-     *
-     * @param array $event Event data.
-     * @throws Exception If event processing fails.
-     */
-    private function processEvent(array $event): void
-    {
-        if (empty($event['type'])) {
-            throw new Exception('Missing event type');
-        }
-
-        $eventData = $event['data'] ?? [];
-
-        switch ($event['type']) {
-            case 'custom_event':
-                $this->handleCustomEvent($eventData);
-                break;
-        }
-    }
-
-    /**
-     * Handle custom event.
-     *
-     * @param array $data Event data containing event_name and event_data.
-     */
-    private function handleCustomEvent(array $data): void
-    {
-        if (empty($data['event_name'])) {
-            return;
-        }
-
-        $eventName = sanitize_text_field($data['event_name']);
-        $eventData = isset($data['event_data']) ? $data['event_data'] : [];
-
-        if (is_string($eventData)) {
-            $eventData = json_decode($eventData, true) ?: [];
-        }
-
-        do_action('wp_statistics_custom_event_batch', $eventName, $eventData);
-        do_action('wp_statistics_record_custom_event', $eventName, $eventData);
-    }
-
-    /**
-     * Update session with engagement data using atomic accumulation.
-     *
-     * Uses SQL COALESCE + addition to atomically increment the duration
-     * instead of overwriting it. JS sends incremental deltas (resets after
-     * each flush), so each call adds to the existing total.
-     *
-     * @param int $sessionId        Session ID to update.
-     * @param int $engagementTimeMs Engagement time in milliseconds.
-     */
-    private function updateSessionEngagement(int $sessionId, int $engagementTimeMs): void
-    {
-        $engagementTimeSec = (int) round($engagementTimeMs / 1000);
-
-        if ($engagementTimeSec < 1) {
-            return;
-        }
-
-        Query::update('sessions')
-            ->set(['ended_at' => DateTime::getUtc()])
-            ->setRaw('duration', 'COALESCE(`duration`, 0) + ' . intval($engagementTimeSec))
-            ->where('ID', '=', $sessionId)
-            ->execute();
+        return ['processed' => $processed, 'errors' => $errors];
     }
 }

@@ -41,6 +41,19 @@ class Tracker
     }
 
     /**
+     * Record engagement time for the current visitor's active session.
+     *
+     * @param int $engagementTimeMs Engagement time in milliseconds.
+     * @return bool True if a session was found and updated.
+     */
+    public function recordEngagement(int $engagementTimeMs): bool
+    {
+        $visitor = new Visitor();
+
+        return EntityFactory::session($visitor)->updateEngagement($engagementTimeMs);
+    }
+
+    /**
      * Check exclusion rules and record/throw if visitor is excluded.
      *
      * @throws Exception If visitor matches an exclusion rule.

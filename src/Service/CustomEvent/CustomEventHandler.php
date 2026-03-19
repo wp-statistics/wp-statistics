@@ -22,8 +22,46 @@ class CustomEventHandler
      */
     public function __construct()
     {
-        // Listen for batch tracking custom events
+        // Listen for batch events (raw array from BatchTracking)
+        add_action('wp_statistics_batch_events', [$this, 'onBatchEvents']);
+
+        // Keep direct recording hook for non-batch callers (e.g., PHP API)
         add_action('wp_statistics_record_custom_event', [$this, 'recordEvent'], 10, 2);
+    }
+
+    /**
+     * Handle raw batch events dispatched by BatchTracking.
+     *
+     * Iterates the raw events array, picks out 'custom_event' entries,
+     * sanitizes them, and records each one. Other event types are ignored.
+     *
+     * @param array $events Raw events array from the batch payload.
+     */
+    public function onBatchEvents(array $events): void
+    {
+        foreach ($events as $event) {
+            $type = $event['type'] ?? '';
+
+            if ($type !== 'custom_event') {
+                continue;
+            }
+
+            $data      = $event['data'] ?? [];
+            $eventName = sanitize_text_field($data['event_name'] ?? '');
+            $eventData = $data['event_data'] ?? [];
+
+            if (is_string($eventData)) {
+                $eventData = json_decode($eventData, true) ?: [];
+            }
+
+            if (empty($eventName)) {
+                continue;
+            }
+
+            do_action('wp_statistics_custom_event_batch', $eventName, $eventData);
+
+            $this->recordEvent($eventName, $eventData);
+        }
     }
 
     /**

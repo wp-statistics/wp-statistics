@@ -4,231 +4,191 @@ namespace WP_Statistics\Tests\Tracking;
 
 use WP_UnitTestCase;
 use WP_Statistics\Service\Tracking\Methods\BatchTracking;
+use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Service\Tracking\Core\Visitor;
 use Exception;
 
 /**
- * Tests for BatchTracking batch processing logic.
- *
- * Covers input validation, event processing, and engagement parsing.
+ * Tests for BatchTracking (thin endpoint handler) and Tracker::recordEngagement().
  *
  * @since 15.0.0
  */
 class Test_BatchTracking extends WP_UnitTestCase
 {
-    // ── parseAndProcess validation ───────────────────────────────
-
-    public function test_parse_throws_on_null_data()
+    protected function tearDown(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Missing batch data');
-        BatchTracking::parseAndProcess(null);
+        remove_all_actions('wp_statistics_batch_events');
+        parent::tearDown();
     }
 
-    public function test_parse_throws_on_empty_string()
+    // ── Visitor without payload ─────────────────────────────────
+
+    public function test_visitor_can_be_created_without_payload()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Missing batch data');
-        BatchTracking::parseAndProcess('');
+        $visitor = new Visitor();
+        $this->assertNull($visitor->getRequest());
     }
 
-    public function test_parse_throws_on_invalid_json()
+    public function test_visitor_without_payload_returns_null_for_client_data()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Invalid JSON payload');
-        BatchTracking::parseAndProcess('not-valid-json{{{');
+        $visitor = new Visitor();
+
+        // Client-side data requires payload — null without it
+        $this->assertNull($visitor->getStorableIp());
+        $this->assertNull($visitor->getReferrer());
+        $this->assertFalse($visitor->isReferred());
+        $this->assertInstanceOf(\WP_Statistics\Service\Analytics\Referrals\SourceDetector::class, $visitor->getSource());
+        $this->assertNull($visitor->getUserId());
     }
 
-    public function test_parse_throws_with_400_status_code()
+    public function test_visitor_without_payload_resolves_server_data()
     {
-        try {
-            BatchTracking::parseAndProcess(null);
-            $this->fail('Expected exception was not thrown');
-        } catch (Exception $e) {
-            $this->assertSame(400, $e->getCode());
-        }
+        $visitor = new Visitor();
+
+        // Server-resolved methods should still work
+        $this->assertIsString($visitor->getIp());
+        $this->assertIsString($visitor->getHashedIp());
+        $this->assertNotEmpty($visitor->getHashedIp());
     }
 
-    // ── Processing with no matching session ──────────────────────
+    // ── Tracker::recordEngagement() ─────────────────────────────
 
-    public function test_zero_engagement_returns_zero_processed()
+    public function test_record_engagement_returns_false_for_no_session()
     {
-        $result = BatchTracking::parseAndProcess(
-            json_encode(['engagement_time' => 0, 'events' => []])
-        );
-
-        $this->assertSame(0, $result['processed']);
-        $this->assertEmpty($result['errors']);
+        $result = (new Tracker())->recordEngagement(5000);
+        $this->assertFalse($result);
     }
 
-    public function test_no_events_and_no_engagement_returns_zero()
+    public function test_record_engagement_returns_false_for_zero_ms()
     {
-        $result = BatchTracking::parseAndProcess(
-            json_encode(['engagement_time' => 0])
-        );
-
-        $this->assertSame(0, $result['processed']);
-        $this->assertEmpty($result['errors']);
+        $result = (new Tracker())->recordEngagement(0);
+        $this->assertFalse($result);
     }
 
-    public function test_engagement_with_no_session_returns_zero_processed()
+    public function test_record_engagement_returns_false_for_sub_second()
     {
-        // No visitor/session exists for this request — engagement lookup finds nothing
-        $result = BatchTracking::parseAndProcess(
-            json_encode(['engagement_time' => 5000, 'events' => []])
-        );
-
-        $this->assertSame(0, $result['processed']);
-        // No error — just no matching session
-        $this->assertEmpty($result['errors']);
+        $result = (new Tracker())->recordEngagement(400);
+        $this->assertFalse($result);
     }
 
-    // ── Event processing ─────────────────────────────────────────
+    // ── BatchTracking dispatches raw events via hook ─────────────
 
-    public function test_custom_event_fires_action_hooks()
+    public function test_batch_events_hook_fires_with_raw_array()
     {
-        $firedBatch = false;
-        $firedRecord = false;
-        $capturedName = '';
-        $capturedData = [];
+        $captured = null;
 
-        add_action('wp_statistics_custom_event_batch', function ($name, $data) use (&$firedBatch, &$capturedName) {
-            $firedBatch = true;
-            $capturedName = $name;
-        }, 10, 2);
+        add_action('wp_statistics_batch_events', function ($events) use (&$captured) {
+            $captured = $events;
+        });
 
-        add_action('wp_statistics_record_custom_event', function ($name, $data) use (&$firedRecord, &$capturedData) {
-            $firedRecord = true;
-            $capturedData = $data;
-        }, 10, 2);
+        $batch = new BatchTracking();
+        $method = new \ReflectionMethod($batch, 'process');
+        $method->setAccessible(true);
 
-        $result = BatchTracking::parseAndProcess(
-            json_encode([
-                'engagement_time' => 0,
-                'events' => [
-                    [
-                        'type' => 'custom_event',
-                        'data' => [
-                            'event_name' => 'test_event',
-                            'event_data' => json_encode(['key' => 'value']),
-                        ],
-                    ],
-                ],
-            ])
-        );
+        $result = $method->invoke($batch, json_encode([
+            'engagement_time' => 0,
+            'events' => [
+                ['type' => 'custom_event', 'data' => ['event_name' => 'a']],
+                ['type' => 'custom_event', 'data' => ['event_name' => 'b']],
+            ],
+        ]));
 
-        $this->assertSame(1, $result['processed']);
-        $this->assertEmpty($result['errors']);
-        $this->assertTrue($firedBatch, 'wp_statistics_custom_event_batch should fire');
-        $this->assertTrue($firedRecord, 'wp_statistics_record_custom_event should fire');
-        $this->assertSame('test_event', $capturedName);
-        $this->assertArrayHasKey('key', $capturedData);
-
-        remove_all_actions('wp_statistics_custom_event_batch');
-        remove_all_actions('wp_statistics_record_custom_event');
+        $this->assertIsArray($captured);
+        $this->assertCount(2, $captured);
+        $this->assertSame('custom_event', $captured[0]['type']);
+        $this->assertSame(2, $result['processed']);
     }
 
-    public function test_event_with_missing_type_produces_error()
-    {
-        $result = BatchTracking::parseAndProcess(
-            json_encode([
-                'engagement_time' => 0,
-                'events' => [
-                    ['data' => ['event_name' => 'no_type']],
-                ],
-            ])
-        );
-
-        $this->assertSame(0, $result['processed']);
-        $this->assertCount(1, $result['errors']);
-        $this->assertStringContainsString('Missing event type', $result['errors'][0]);
-    }
-
-    public function test_event_with_empty_event_name_is_silently_skipped()
+    public function test_no_events_does_not_fire_hook()
     {
         $fired = false;
-        add_action('wp_statistics_record_custom_event', function () use (&$fired) {
+
+        add_action('wp_statistics_batch_events', function () use (&$fired) {
             $fired = true;
         });
 
-        $result = BatchTracking::parseAndProcess(
-            json_encode([
-                'engagement_time' => 0,
-                'events' => [
-                    [
-                        'type' => 'custom_event',
-                        'data' => ['event_name' => ''],
-                    ],
-                ],
-            ])
-        );
+        $batch = new BatchTracking();
+        $method = new \ReflectionMethod($batch, 'process');
+        $method->setAccessible(true);
 
-        // Event processed without error but action not fired (empty name guard)
-        $this->assertSame(1, $result['processed']);
-        $this->assertFalse($fired, 'Action should not fire for empty event name');
+        $method->invoke($batch, json_encode([
+            'engagement_time' => 0,
+            'events' => [],
+        ]));
 
-        remove_all_actions('wp_statistics_record_custom_event');
+        $this->assertFalse($fired);
     }
 
-    public function test_multiple_events_processed_independently()
+    public function test_process_throws_on_null()
     {
-        $eventNames = [];
-        add_action('wp_statistics_record_custom_event', function ($name) use (&$eventNames) {
-            $eventNames[] = $name;
-        }, 10, 2);
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Missing batch data');
 
-        $result = BatchTracking::parseAndProcess(
-            json_encode([
-                'engagement_time' => 0,
-                'events' => [
-                    [
-                        'type' => 'custom_event',
-                        'data' => ['event_name' => 'event_a'],
-                    ],
-                    [
-                        'type' => 'custom_event',
-                        'data' => ['event_name' => 'event_b'],
-                    ],
-                    [
-                        'type' => 'custom_event',
-                        'data' => ['event_name' => 'event_c'],
-                    ],
-                ],
-            ])
-        );
+        $batch = new BatchTracking();
+        $method = new \ReflectionMethod($batch, 'process');
+        $method->setAccessible(true);
+        $method->invoke($batch, null);
+    }
 
-        $this->assertSame(3, $result['processed']);
+    public function test_process_throws_on_empty_string()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Missing batch data');
+
+        $batch = new BatchTracking();
+        $method = new \ReflectionMethod($batch, 'process');
+        $method->setAccessible(true);
+        $method->invoke($batch, '');
+    }
+
+    public function test_process_throws_on_invalid_json()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid JSON payload');
+
+        $batch = new BatchTracking();
+        $method = new \ReflectionMethod($batch, 'process');
+        $method->setAccessible(true);
+        $method->invoke($batch, 'not-json{{{');
+    }
+
+    public function test_process_with_engagement_and_no_session()
+    {
+        $batch = new BatchTracking();
+        $method = new \ReflectionMethod($batch, 'process');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($batch, json_encode([
+            'engagement_time' => 5000,
+            'events' => [],
+        ]));
+
+        // No session exists — engagement not counted
+        $this->assertSame(0, $result['processed']);
         $this->assertEmpty($result['errors']);
-        $this->assertSame(['event_a', 'event_b', 'event_c'], $eventNames);
-
-        remove_all_actions('wp_statistics_record_custom_event');
     }
 
-    public function test_event_data_as_json_string_is_decoded()
+    public function test_process_with_engagement_and_events_combined()
     {
-        $capturedData = null;
-        add_action('wp_statistics_record_custom_event', function ($name, $data) use (&$capturedData) {
-            $capturedData = $data;
-        }, 10, 2);
+        $captured = null;
+        add_action('wp_statistics_batch_events', function ($events) use (&$captured) {
+            $captured = $events;
+        });
 
-        BatchTracking::parseAndProcess(
-            json_encode([
-                'engagement_time' => 0,
-                'events' => [
-                    [
-                        'type' => 'custom_event',
-                        'data' => [
-                            'event_name' => 'json_test',
-                            'event_data' => '{"nested": "value"}',
-                        ],
-                    ],
-                ],
-            ])
-        );
+        $batch = new BatchTracking();
+        $method = new \ReflectionMethod($batch, 'process');
+        $method->setAccessible(true);
 
-        $this->assertIsArray($capturedData);
-        $this->assertSame('value', $capturedData['nested']);
+        $result = $method->invoke($batch, json_encode([
+            'engagement_time' => 5000,
+            'events' => [
+                ['type' => 'custom_event', 'data' => ['event_name' => 'test']],
+            ],
+        ]));
 
-        remove_all_actions('wp_statistics_record_custom_event');
+        // Events dispatched (1), engagement not counted (no session)
+        $this->assertSame(1, $result['processed']);
+        $this->assertCount(1, $captured);
     }
 
     // ── BatchTracking class structure ────────────────────────────
@@ -245,7 +205,6 @@ class Test_BatchTracking extends WP_UnitTestCase
 
         $this->assertStringContainsString('admin-ajax.php', $endpoint);
         $this->assertStringContainsString('action=wp_statistics_batch', $endpoint);
-        // Should be an absolute URL
         $this->assertMatchesRegularExpression('/^https?:\/\//', $endpoint);
     }
 
@@ -253,46 +212,52 @@ class Test_BatchTracking extends WP_UnitTestCase
     {
         $batch = new BatchTracking();
 
-        $beforeAjax = has_action('wp_ajax_wp_statistics_batch');
-        $beforeNopriv = has_action('wp_ajax_nopriv_wp_statistics_batch');
-
         $batch->register();
 
-        $afterAjax = has_action('wp_ajax_wp_statistics_batch');
-        $afterNopriv = has_action('wp_ajax_nopriv_wp_statistics_batch');
-
-        // Ajax::register adds both logged-in and logged-out hooks
-        $this->assertNotFalse($afterAjax, 'wp_ajax_wp_statistics_batch should be registered');
-        $this->assertNotFalse($afterNopriv, 'wp_ajax_nopriv_wp_statistics_batch should be registered');
+        $this->assertNotFalse(has_action('wp_ajax_wp_statistics_batch'));
+        $this->assertNotFalse(has_action('wp_ajax_nopriv_wp_statistics_batch'));
     }
 
     public function test_register_adds_rest_api_init_hook()
     {
         $batch = new BatchTracking();
 
-        // Remove all existing rest_api_init hooks to get a clean count
         $hooksBefore = $GLOBALS['wp_filter']['rest_api_init'] ?? null;
-        $callbackCountBefore = 0;
+        $countBefore = 0;
         if ($hooksBefore) {
-            foreach ($hooksBefore->callbacks as $priority => $callbacks) {
-                $callbackCountBefore += count($callbacks);
+            foreach ($hooksBefore->callbacks as $callbacks) {
+                $countBefore += count($callbacks);
             }
         }
 
         $batch->register();
 
         $hooksAfter = $GLOBALS['wp_filter']['rest_api_init'] ?? null;
-        $callbackCountAfter = 0;
+        $countAfter = 0;
         if ($hooksAfter) {
-            foreach ($hooksAfter->callbacks as $priority => $callbacks) {
-                $callbackCountAfter += count($callbacks);
+            foreach ($hooksAfter->callbacks as $callbacks) {
+                $countAfter += count($callbacks);
             }
         }
 
-        $this->assertGreaterThan(
-            $callbackCountBefore,
-            $callbackCountAfter,
-            'rest_api_init should have a new callback after register()'
+        $this->assertGreaterThan($countBefore, $countAfter);
+    }
+
+    // ── Removed methods ─────────────────────────────────────────
+
+    public function test_no_record_batch_on_tracker()
+    {
+        $this->assertFalse(
+            method_exists(Tracker::class, 'recordBatch'),
+            'recordBatch should not exist on Tracker'
+        );
+    }
+
+    public function test_no_parse_and_process_on_batch_tracking()
+    {
+        $this->assertFalse(
+            method_exists(BatchTracking::class, 'parseAndProcess'),
+            'parseAndProcess should not exist on BatchTracking'
         );
     }
 }

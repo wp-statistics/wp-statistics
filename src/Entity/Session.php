@@ -7,6 +7,7 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Entity\EntityFactory;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Utils\Query;
 
 /**
  * Entity to record session-related information.
@@ -101,6 +102,39 @@ class Session extends BaseEntity
         ]);
 
         return ($activeSession && isset($activeSession->ID)) ? $activeSession : false;
+    }
+
+    /**
+     * Atomically increment the engagement duration for the visitor's active session.
+     *
+     * Uses the visitor's hashed IP to find the active session, then increments
+     * the duration with SQL COALESCE + addition (atomic, no race conditions).
+     *
+     * @param int $engagementTimeMs Engagement time in milliseconds.
+     * @return bool True if a session was found and updated.
+     * @since 15.0.0
+     */
+    public function updateEngagement(int $engagementTimeMs): bool
+    {
+        $engagementTimeSec = (int) round($engagementTimeMs / 1000);
+
+        if ($engagementTimeSec < 1) {
+            return false;
+        }
+
+        $session = (new SessionModel())->getActiveSessionByHash($this->visitor->getHashedIp());
+
+        if (!$session || empty($session->ID)) {
+            return false;
+        }
+
+        Query::update('sessions')
+            ->set(['ended_at' => DateTime::getUtc()])
+            ->setRaw('duration', 'COALESCE(`duration`, 0) + ' . intval($engagementTimeSec))
+            ->where('ID', '=', $session->ID)
+            ->execute();
+
+        return true;
     }
 
     /**

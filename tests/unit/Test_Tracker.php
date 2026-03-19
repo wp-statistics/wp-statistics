@@ -91,4 +91,25 @@ class Test_Tracker extends WP_UnitTestCase
         $this->expectException(\Exception::class);
         $tracker->record();
     }
+
+    // ── recordEngagement ─────────────────────────────────────────
+
+    public function test_record_engagement_method_exists()
+    {
+        $tracker = new Tracker();
+        $this->assertTrue(method_exists($tracker, 'recordEngagement'));
+    }
+
+    public function test_record_engagement_accepts_int_and_returns_bool()
+    {
+        $tracker = new Tracker();
+        $result = $tracker->recordEngagement(5000);
+        $this->assertIsBool($result);
+    }
+
+    public function test_record_engagement_returns_false_without_session()
+    {
+        $tracker = new Tracker();
+        $this->assertFalse($tracker->recordEngagement(5000));
+    }
 }

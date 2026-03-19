@@ -4,6 +4,8 @@ namespace WP_Statistics\Tests\Entity;
 
 use WP_UnitTestCase;
 use WP_Statistics\Entity\Session;
+use WP_Statistics\Service\Tracking\Core\Visitor;
+use WP_Statistics\Entity\EntityFactory;
 use ReflectionClass;
 
 /**
@@ -86,6 +88,59 @@ class Test_SessionDuration extends WP_UnitTestCase
             '/[\'"]duration[\'"]\s*=>\s*0/',
             $source,
             'record() should initialize duration to 0 in the insert array'
+        );
+    }
+
+    // ── updateEngagement ────────────────────────────────────────
+
+    public function test_update_engagement_method_exists()
+    {
+        $this->assertTrue(
+            method_exists(Session::class, 'updateEngagement'),
+            'updateEngagement should exist on Session entity'
+        );
+    }
+
+    public function test_update_engagement_returns_false_for_zero_ms()
+    {
+        $visitor = new Visitor();
+        $session = EntityFactory::session($visitor);
+
+        $this->assertFalse($session->updateEngagement(0));
+    }
+
+    public function test_update_engagement_returns_false_for_sub_second()
+    {
+        $visitor = new Visitor();
+        $session = EntityFactory::session($visitor);
+
+        $this->assertFalse($session->updateEngagement(400));
+    }
+
+    public function test_update_engagement_returns_false_when_no_session()
+    {
+        $visitor = new Visitor();
+        $session = EntityFactory::session($visitor);
+
+        // No session exists for this visitor — returns false
+        $this->assertFalse($session->updateEngagement(5000));
+    }
+
+    public function test_update_engagement_uses_atomic_coalesce_pattern()
+    {
+        $reflection = new ReflectionClass(Session::class);
+        $method = $reflection->getMethod('updateEngagement');
+
+        $filename = $method->getFileName();
+        $startLine = $method->getStartLine();
+        $endLine = $method->getEndLine();
+
+        $source = implode('', array_slice(file($filename), $startLine - 1, $endLine - $startLine + 1));
+
+        $this->assertStringContainsString(
+            'COALESCE',
+            $source,
+            'updateEngagement should use COALESCE for atomic increment'
         );
     }
 }

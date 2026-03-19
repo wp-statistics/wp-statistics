@@ -12,30 +12,32 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Url;
 
 /**
- * Read-only visitor data resolved for the current hit.
+ * Read-only visitor data for the current request.
  *
  * Combines:
- * - Browser input (via Payload — immutable)
- * - Server-resolved data (IP, geolocation, user agent, referrer — lazy/cached)
+ * - Server-resolved data (IP, geolocation, user agent) — always available
+ * - Client-side data (via Payload) — only available in the hit pipeline
  *
- * Does NOT store record IDs — those flow as explicit return values
- * through the pipeline orchestrated by Tracker::record().
+ * Can be constructed without a Payload for server-only contexts (e.g. batch
+ * engagement updates). Client-side methods return null in that case.
+ *
+ * Must work in WordPress SHORTINIT mode when Payload is present.
  *
  * @since 15.1.0
  */
 final class Visitor
 {
-    private Payload $payload;
+    private ?Payload $payload;
     private array $cache = [];
 
-    public function __construct(Payload $payload)
+    public function __construct(?Payload $payload = null)
     {
         $this->payload = $payload;
     }
 
     // ── Browser input ───────────────────────────────────────────────
 
-    public function getRequest(): Payload
+    public function getRequest(): ?Payload
     {
         return $this->payload;
     }
@@ -55,7 +57,7 @@ final class Visitor
     public function getStorableIp(): ?string
     {
         return $this->cached('storableIp', function () {
-            if ($this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
+            if (!$this->payload || $this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
                 return null;
             }
             return Ip::getStorableIp();
@@ -105,7 +107,7 @@ final class Visitor
     public function getReferrer(): ?string
     {
         return $this->cached('referrer', function () {
-            $raw = $this->payload->getReferrer();
+            $raw = $this->payload ? $this->payload->getReferrer() : '';
             if (empty($raw) || Url::isInternal($raw)) {
                 return null;
             }
@@ -126,9 +128,10 @@ final class Visitor
     public function getSource(): SourceDetector
     {
         return $this->cached('source', function () {
-            $raw      = $this->payload->getReferrer();
+            $raw      = $this->payload ? $this->payload->getReferrer() : '';
+            $uri      = $this->payload ? $this->payload->getResourceUri() : '';
             $referrer = (empty($raw) || Url::isInternal($raw)) ? '' : $raw;
-            return new SourceDetector($referrer, $this->payload->getResourceUri());
+            return new SourceDetector($referrer, $uri);
         });
     }
 
@@ -138,7 +141,7 @@ final class Visitor
             if (!Option::getValue('visitors_log')) {
                 return null;
             }
-            if ($this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
+            if (!$this->payload || $this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
                 return null;
             }
             return $this->payload->getUserId();

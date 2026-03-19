@@ -19,6 +19,9 @@ class Test_CustomEventHandler extends WP_UnitTestCase
         remove_all_filters('wp_statistics_custom_events');
         remove_all_filters('wp_statistics_active_custom_events');
         remove_all_filters('wp_statistics_excluded_custom_events');
+        remove_all_actions('wp_statistics_batch_events');
+        remove_all_actions('wp_statistics_record_custom_event');
+        remove_all_actions('wp_statistics_custom_event_batch');
         parent::tearDown();
     }
 
@@ -35,10 +38,90 @@ class Test_CustomEventHandler extends WP_UnitTestCase
         $this->assertNotFalse($afterCount, 'wp_statistics_record_custom_event should have a handler');
     }
 
+    public function test_constructor_registers_batch_events_action()
+    {
+        new CustomEventHandler();
+
+        $this->assertNotFalse(
+            has_action('wp_statistics_batch_events'),
+            'wp_statistics_batch_events should have a handler'
+        );
+    }
+
     public function test_record_event_method_exists()
     {
         $handler = new CustomEventHandler();
         $this->assertTrue(method_exists($handler, 'recordEvent'));
+    }
+
+    // ── onBatchEvents filtering ─────────────────────────────────
+
+    public function test_on_batch_events_ignores_non_custom_event_type()
+    {
+        $fired = false;
+        add_action('wp_statistics_custom_event_batch', function () use (&$fired) {
+            $fired = true;
+        });
+
+        $handler = new CustomEventHandler();
+        $handler->onBatchEvents([
+            ['type' => 'some_other_type', 'data' => ['event_name' => 'test']],
+        ]);
+
+        $this->assertFalse($fired, 'onBatchEvents should ignore non-custom_event types');
+    }
+
+    public function test_on_batch_events_ignores_empty_event_name()
+    {
+        $fired = false;
+        add_action('wp_statistics_custom_event_batch', function () use (&$fired) {
+            $fired = true;
+        });
+
+        $handler = new CustomEventHandler();
+        $handler->onBatchEvents([
+            ['type' => 'custom_event', 'data' => ['event_name' => '']],
+        ]);
+
+        $this->assertFalse($fired, 'onBatchEvents should skip empty event names');
+    }
+
+    public function test_on_batch_events_fires_batch_hook_for_valid_event()
+    {
+        $capturedNames = [];
+
+        add_action('wp_statistics_custom_event_batch', function ($name) use (&$capturedNames) {
+            $capturedNames[] = $name;
+        }, 10, 2);
+
+        $handler = new CustomEventHandler();
+        $handler->onBatchEvents([
+            ['type' => 'custom_event', 'data' => ['event_name' => 'event_a']],
+            ['type' => 'other_type',   'data' => ['event_name' => 'skipped']],
+            ['type' => 'custom_event', 'data' => ['event_name' => 'event_b']],
+        ]);
+
+        $this->assertSame(['event_a', 'event_b'], $capturedNames);
+    }
+
+    public function test_on_batch_events_decodes_json_string_event_data()
+    {
+        $capturedData = null;
+
+        add_action('wp_statistics_custom_event_batch', function ($name, $data) use (&$capturedData) {
+            $capturedData = $data;
+        }, 10, 2);
+
+        $handler = new CustomEventHandler();
+        $handler->onBatchEvents([
+            ['type' => 'custom_event', 'data' => [
+                'event_name' => 'json_test',
+                'event_data' => '{"nested": "value"}',
+            ]],
+        ]);
+
+        $this->assertIsArray($capturedData);
+        $this->assertSame('value', $capturedData['nested']);
     }
 
     // ── recordEvent guards ───────────────────────────────────────
