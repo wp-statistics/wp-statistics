@@ -33,12 +33,6 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionReasonGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionDateGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\SessionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\PageViewGroupBy;
-use WP_Statistics\Service\AnalyticsQuery\GroupBy\EventNameGroupBy;
-use WP_Statistics\Service\AnalyticsQuery\GroupBy\EventTargetUrlGroupBy;
-use WP_Statistics\Service\AnalyticsQuery\GroupBy\EventDateGroupBy;
-use WP_Statistics\Service\AnalyticsQuery\GroupBy\EventPageGroupBy;
-use WP_Statistics\Service\AnalyticsQuery\GroupBy\EventRecordGroupBy;
-use WP_Statistics\Service\AnalyticsQuery\GroupBy\EventDataValueGroupBy;
 
 /**
  * Registry for analytics group by.
@@ -140,12 +134,6 @@ class GroupByRegistry implements RegistryInterface
             'exclusion_date'   => ExclusionDateGroupBy::class,
             'session'          => SessionGroupBy::class,
             'page_view'        => PageViewGroupBy::class,
-            'event_name'       => EventNameGroupBy::class,
-            'event_target_url' => EventTargetUrlGroupBy::class,
-            'event_date'       => EventDateGroupBy::class,
-            'event_page'       => EventPageGroupBy::class,
-            'event_record'     => EventRecordGroupBy::class,
-            'event_data_value' => EventDataValueGroupBy::class,
         ];
 
         $this->defaultsRegistered = true;
