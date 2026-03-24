@@ -207,6 +207,16 @@ abstract class AbstractGroupBy implements GroupByInterface
     }
 
     /**
+     * Set runtime parameters for parameterized GroupBy classes.
+     *
+     * @param array $params Parameters from group_by_params.
+     */
+    public function setParams(array $params): void
+    {
+        // Default: no-op. Subclasses override.
+    }
+
+    /**
      * Get columns that are added by postProcess (not in SQL).
      *
      * @return array Array of post-processed column names.

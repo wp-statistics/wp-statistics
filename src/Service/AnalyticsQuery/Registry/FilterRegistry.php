@@ -38,6 +38,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\LastSeenFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\BounceFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\EventPageIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\EventNameFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\EventTargetUrlFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyTypeFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\TaxonomyFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\EntryPageFilter;
@@ -165,8 +166,9 @@ class FilterRegistry
             'timezone'         => TimezoneFilter::class,
 
             // Event filters
-            'event_page_id'    => EventPageIdFilter::class,
-            'event_name'       => EventNameFilter::class,
+            'event_page_id'       => EventPageIdFilter::class,
+            'event_name'          => EventNameFilter::class,
+            'event_target_url'    => EventTargetUrlFilter::class,
 
             // Session filters (internal use)
             'session_id'       => SessionIdFilter::class,

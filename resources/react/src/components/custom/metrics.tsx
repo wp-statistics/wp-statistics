@@ -19,6 +19,8 @@ export interface MetricItem {
   comparisonDateLabel?: string
   /** Previous period value for tooltip display */
   previousValue?: string | number
+  /** Optional URL to make the value a clickable link */
+  linkHref?: string
 }
 
 export interface MetricsProps {
@@ -141,6 +143,7 @@ function MetricCard({
   tooltipContent,
   comparisonDateLabel,
   previousValue,
+  linkHref,
   positionClasses,
   isMobile,
 }: MetricCardProps) {
@@ -199,15 +202,30 @@ function MetricCard({
 
       {/* Value row with percentage badge */}
       <div className="flex items-baseline gap-2 mt-2">
-        <span
-          className={cn(
-            'font-medium text-neutral-800 leading-none tabular-nums',
-            // Responsive text size
-            'text-lg md:text-xl'
-          )}
-        >
-          {value}
-        </span>
+        {linkHref ? (
+          <a
+            href={linkHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              'font-medium text-neutral-800 leading-none truncate max-w-full',
+              'text-lg md:text-xl',
+              'hover:text-primary hover:underline transition-colors'
+            )}
+            title={String(value)}
+          >
+            {value}
+          </a>
+        ) : (
+          <span
+            className={cn(
+              'font-medium text-neutral-800 leading-none tabular-nums',
+              'text-lg md:text-xl'
+            )}
+          >
+            {value}
+          </span>
+        )}
         {hasPercentage && (
           <PercentageBadge
             displayPercentage={displayPercentage}

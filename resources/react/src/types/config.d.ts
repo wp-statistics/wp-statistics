@@ -170,7 +170,7 @@ declare global {
     /** API field name to read from row data (defaults to key if omitted) */
     dataField?: string
     title: string
-    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category' | 'uri' | 'author' | 'term' | 'date' | 'visitor-info' | 'last-visit' | 'visitor-status' | 'journey' | 'entry-page'
+    type: 'text' | 'numeric' | 'page-link' | 'percentage' | 'duration' | 'location' | 'referrer' | 'computed-ratio' | 'source-category' | 'uri' | 'author' | 'term' | 'date' | 'visitor-info' | 'last-visit' | 'visitor-status' | 'journey' | 'entry-page' | 'event-data'
     priority?: 'primary' | 'secondary' | 'hidden'
     cardPosition?: 'header' | 'body' | 'footer'
     mobileLabel?: string
@@ -181,6 +181,8 @@ declare global {
     // For location type
     linkTo?: string
     linkParamField?: string
+    linkStaticParams?: Record<string, string>
+    linkSearchField?: string
     // For computed-ratio type
     numerator?: string
     denominator?: string
@@ -257,6 +259,8 @@ declare global {
     }
     /** Apply decodeText to the resolved value */
     decode?: boolean
+    /** Field from the first result row to use as a clickable link href */
+    linkField?: string
   }
 
   // Chart widget config for overview pages

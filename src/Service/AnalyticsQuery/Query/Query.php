@@ -171,6 +171,12 @@ class Query implements QueryInterface
      */
     private $needsCount;
 
+    /**
+     * Parameters for parameterized GroupBy classes.
+     * @var array
+     */
+    private $groupByParams = [];
+
 
     /**
      * Constructor.
@@ -216,7 +222,8 @@ class Query implements QueryInterface
         bool $showTotals = true,
         string $format = 'table',
         ?array $columns = null,
-        bool $needsCount = true
+        bool $needsCount = true,
+        array $groupByParams = []
     ) {
         $this->sources          = $sources;
         $this->groupBy          = $groupBy;
@@ -238,6 +245,7 @@ class Query implements QueryInterface
         $this->format           = $this->normalizeFormat($format);
         $this->columns          = $columns;
         $this->needsCount       = $needsCount;
+        $this->groupByParams    = $groupByParams;
     }
 
     /**
@@ -479,6 +487,11 @@ class Query implements QueryInterface
         return $this->needsCount;
     }
 
+    public function getGroupByParams(string $groupByName): array
+    {
+        return $this->groupByParams[$groupByName] ?? [];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -537,7 +550,8 @@ class Query implements QueryInterface
             $this->showTotals,
             $this->format,
             $this->columns,
-            $this->needsCount
+            $this->needsCount,
+            $this->groupByParams
         );
     }
 
@@ -568,7 +582,8 @@ class Query implements QueryInterface
             $this->showTotals,  // Keep same showTotals setting
             $this->format,
             $this->columns,
-            false  // Previous period queries don't need count
+            false,  // Previous period queries don't need count
+            $this->groupByParams
         );
     }
 
@@ -602,7 +617,8 @@ class Query implements QueryInterface
             $this->showTotals,
             $this->format,
             $this->columns,
-            false
+            false,
+            $this->groupByParams
         );
     }
 
@@ -646,7 +662,8 @@ class Query implements QueryInterface
             $data['show_totals'] ?? true,
             $data['format'] ?? 'table',
             $data['columns'] ?? null,
-            $needsCount
+            $needsCount,
+            $data['group_by_params'] ?? []
         );
     }
 }

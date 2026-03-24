@@ -54,6 +54,7 @@ import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(conten
 import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
 import { Route as pageInsightsUrlResourceIdRouteImport } from './routes/(page-insights)/url_.$resourceId'
 import { Route as geographicCountryCountryCodeRouteImport } from './routes/(geographic)/country_.$countryCode'
+import { Route as eventsEventEventNameRouteImport } from './routes/(events)/event_.$eventName'
 import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
 import { Route as contentAnalyticsCategoryTermIdRouteImport } from './routes/(content-analytics)/category_.$termId'
 import { Route as contentAnalyticsAuthorAuthorIdRouteImport } from './routes/(content-analytics)/author_.$authorId'
@@ -577,6 +578,15 @@ const geographicCountryCountryCodeRoute =
         (d) => d.Route,
       ),
     )
+const eventsEventEventNameRoute = eventsEventEventNameRouteImport
+  .update({
+    id: '/(events)/event_/$eventName',
+    path: '/event/$eventName',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(events)/event_.$eventName.lazy').then((d) => d.Route),
+  )
 const contentAnalyticsContentPostIdRoute =
   contentAnalyticsContentPostIdRouteImport
     .update({
@@ -695,6 +705,7 @@ export interface FileRoutesByFullPath {
   '/author/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
   '/category/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
+  '/event/$eventName': typeof eventsEventEventNameRoute
   '/country/$countryCode': typeof geographicCountryCountryCodeRoute
   '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
   '/utm/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
@@ -756,6 +767,7 @@ export interface FileRoutesByTo {
   '/author/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
   '/category/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
+  '/event/$eventName': typeof eventsEventEventNameRoute
   '/country/$countryCode': typeof geographicCountryCountryCodeRoute
   '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
   '/utm/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
@@ -820,6 +832,7 @@ export interface FileRoutesById {
   '/(content-analytics)/author_/$authorId': typeof contentAnalyticsAuthorAuthorIdRoute
   '/(content-analytics)/category_/$termId': typeof contentAnalyticsCategoryTermIdRoute
   '/(content-analytics)/content_/$postId': typeof contentAnalyticsContentPostIdRoute
+  '/(events)/event_/$eventName': typeof eventsEventEventNameRoute
   '/(geographic)/country_/$countryCode': typeof geographicCountryCountryCodeRoute
   '/(page-insights)/url_/$resourceId': typeof pageInsightsUrlResourceIdRoute
   '/(referrals)/utm_/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
@@ -885,6 +898,7 @@ export interface FileRouteTypes {
     | '/author/$authorId'
     | '/category/$termId'
     | '/content/$postId'
+    | '/event/$eventName'
     | '/country/$countryCode'
     | '/url/$resourceId'
     | '/utm/$utmType/$utmValue'
@@ -946,6 +960,7 @@ export interface FileRouteTypes {
     | '/author/$authorId'
     | '/category/$termId'
     | '/content/$postId'
+    | '/event/$eventName'
     | '/country/$countryCode'
     | '/url/$resourceId'
     | '/utm/$utmType/$utmValue'
@@ -1009,6 +1024,7 @@ export interface FileRouteTypes {
     | '/(content-analytics)/author_/$authorId'
     | '/(content-analytics)/category_/$termId'
     | '/(content-analytics)/content_/$postId'
+    | '/(events)/event_/$eventName'
     | '/(geographic)/country_/$countryCode'
     | '/(page-insights)/url_/$resourceId'
     | '/(referrals)/utm_/$utmType/$utmValue'
@@ -1069,6 +1085,7 @@ export interface RootRouteChildren {
   contentAnalyticsAuthorAuthorIdRoute: typeof contentAnalyticsAuthorAuthorIdRoute
   contentAnalyticsCategoryTermIdRoute: typeof contentAnalyticsCategoryTermIdRoute
   contentAnalyticsContentPostIdRoute: typeof contentAnalyticsContentPostIdRoute
+  eventsEventEventNameRoute: typeof eventsEventEventNameRoute
   geographicCountryCountryCodeRoute: typeof geographicCountryCountryCodeRoute
   pageInsightsUrlResourceIdRoute: typeof pageInsightsUrlResourceIdRoute
   referralsUtmUtmTypeUtmValueRoute: typeof referralsUtmUtmTypeUtmValueRoute
@@ -1469,6 +1486,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof geographicCountryCountryCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(events)/event_/$eventName': {
+      id: '/(events)/event_/$eventName'
+      path: '/event/$eventName'
+      fullPath: '/event/$eventName'
+      preLoaderRoute: typeof eventsEventEventNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(content-analytics)/content_/$postId': {
       id: '/(content-analytics)/content_/$postId'
       path: '/content/$postId'
@@ -1590,6 +1614,7 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsAuthorAuthorIdRoute: contentAnalyticsAuthorAuthorIdRoute,
   contentAnalyticsCategoryTermIdRoute: contentAnalyticsCategoryTermIdRoute,
   contentAnalyticsContentPostIdRoute: contentAnalyticsContentPostIdRoute,
+  eventsEventEventNameRoute: eventsEventEventNameRoute,
   geographicCountryCountryCodeRoute: geographicCountryCountryCodeRoute,
   pageInsightsUrlResourceIdRoute: pageInsightsUrlResourceIdRoute,
   referralsUtmUtmTypeUtmValueRoute: referralsUtmUtmTypeUtmValueRoute,

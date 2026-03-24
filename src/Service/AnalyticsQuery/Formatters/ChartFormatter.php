@@ -31,7 +31,7 @@ class ChartFormatter extends AbstractFormatter
      *
      * @var array
      */
-    private static $timeSeriesGroupBy = ['date', 'week', 'month'];
+    private static $timeSeriesGroupBy = ['date', 'week', 'month', 'event_date'];
 
     /**
      * {@inheritdoc}

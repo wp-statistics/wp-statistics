@@ -94,6 +94,14 @@ interface QueryInterface
     public function hasColumns(): bool;
 
     /**
+     * Get runtime parameters for a specific GroupBy.
+     *
+     * @param string $groupByName GroupBy name.
+     * @return array Parameters, or empty array if none.
+     */
+    public function getGroupByParams(string $groupByName): array;
+
+    /**
      * Convert to array.
      *
      * @return array

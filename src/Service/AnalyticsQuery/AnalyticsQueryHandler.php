@@ -679,7 +679,7 @@ class AnalyticsQueryHandler
 
         // Validate columns if provided
         if (!empty($request['columns'])) {
-            $this->validateColumns($request['columns'], $sources, $groupBy);
+            $this->validateColumns($request['columns'], $sources, $groupBy, $request['group_by_params'] ?? []);
         }
 
         // Validate date range format
@@ -805,7 +805,7 @@ class AnalyticsQueryHandler
         if (!isset($request['per_page'])) {
             // For chart format with time-series groupBy (date, week, month), use higher limit
             // to ensure all dates are included without pagination
-            $timeSeriesGroupBy = ['date', 'week', 'month'];
+            $timeSeriesGroupBy = ['date', 'week', 'month', 'event_date'];
             $groupBy = $request['group_by'] ?? [];
             $format = $request['format'] ?? 'table';
             $isTimeSeriesChart = $format === 'chart' &&
@@ -1010,12 +1010,13 @@ class AnalyticsQueryHandler
     /**
      * Validate columns against available sources and group_by fields.
      *
-     * @param array $columns  Columns to validate.
-     * @param array $sources  Valid sources.
-     * @param array $groupBy  Valid group by fields.
+     * @param array $columns       Columns to validate.
+     * @param array $sources       Valid sources.
+     * @param array $groupBy       Valid group by fields.
+     * @param array $groupByParams Optional runtime params per group_by name (e.g. from group_by_params).
      * @throws InvalidColumnException
      */
-    private function validateColumns(array $columns, array $sources, array $groupBy): void
+    private function validateColumns(array $columns, array $sources, array $groupBy, array $groupByParams = []): void
     {
         // Build list of valid column WP_Statistics_names (sources + group_by aliases + extra column aliases + post-processed columns)
         $validColumns = $sources;
@@ -1023,6 +1024,12 @@ class AnalyticsQueryHandler
         foreach ($groupBy as $groupByName) {
             $groupByObj = $this->groupByRegistry->get($groupByName);
             if ($groupByObj) {
+                // If the group_by has runtime params, apply them so getAlias() returns the dynamic alias.
+                $params = $groupByParams[$groupByName] ?? [];
+                if (!empty($params)) {
+                    $groupByObj = clone $groupByObj;
+                    $groupByObj->setParams($params);
+                }
                 $validColumns[] = $groupByObj->getAlias();
                 // Also include extra column aliases (e.g., country_code from country group_by)
                 $validColumns = array_merge($validColumns, $groupByObj->getExtraColumnAliases());

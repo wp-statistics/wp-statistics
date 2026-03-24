@@ -474,6 +474,7 @@ function OverviewContent({
         const queryResult = items[m.queryId]
         let rawValue: unknown
         let rawPrevious: unknown
+        let linkHref: string | undefined
 
         if (m.source === 'computed' && m.computed) {
           // Computed: ratio of numerator/denominator from different queries
@@ -504,6 +505,14 @@ function OverviewContent({
           if (m.decode && typeof rawValue === 'string') {
             rawValue = decodeText(rawValue)
           }
+
+          // Resolve link href from first row if linkField is configured
+          if (m.linkField) {
+            const href = firstRow?.[m.linkField]
+            if (href && typeof href === 'string' && href !== '') {
+              linkHref = href
+            }
+          }
         }
 
         // Format the value based on format type
@@ -530,13 +539,14 @@ function OverviewContent({
             id: m.id,
             label: m.label,
             value: formatted,
+            ...(linkHref && { linkHref }),
             ...calcPercentage(current, previous),
             comparisonDateLabel,
             previousValue: formatValue(previous),
           }
         }
 
-        return { id: m.id, label: m.label, value: formatted }
+        return { id: m.id, label: m.label, value: formatted, ...(linkHref && { linkHref }) }
       })
   }, [batchResponse, config.metrics, isMetricVisible, isCompareEnabled, calcPercentage, comparisonDateLabel])
 

@@ -672,11 +672,22 @@ class QueryExecutor implements QueryExecutorInterface
             $joins = $this->addResourcesJoinForViews($joins);
         }
 
+        // Add session join if needed for events table (for cross-dimensional queries: country, browser, etc.)
+        if ($primaryTable === 'events' && $this->needsSessionJoin($sources, $groupByNames, $filters)) {
+            $joins = $this->addSessionJoinForEvents($joins);
+        }
+
         // Add group by columns and joins (pass requested columns for optimization)
         foreach ($groupByNames as $groupByName) {
             $groupByItem = $this->groupByRegistry->get($groupByName);
             if (!$groupByItem) {
                 continue;
+            }
+
+            $groupByParams = $query->getGroupByParams($groupByName);
+            if (!empty($groupByParams)) {
+                $groupByItem = clone $groupByItem;
+                $groupByItem->setParams($groupByParams);
             }
 
             $select  = array_merge($select, $groupByItem->getSelectColumns($requestedColumns));
@@ -774,6 +785,11 @@ class QueryExecutor implements QueryExecutorInterface
         // Add resources join if needed for views table (for comments source, etc.)
         if ($primaryTable === 'views' && $this->needsResourcesJoin($sources, [])) {
             $joins = $this->addResourcesJoinForViews($joins);
+        }
+
+        // Add session join if needed for events table (for cross-dimensional filters)
+        if ($primaryTable === 'events' && $this->needsSessionJoin($sources, [], $filters)) {
+            $joins = $this->addSessionJoinForEvents($joins);
         }
 
         // Add date range filter
@@ -1091,6 +1107,28 @@ class QueryExecutor implements QueryExecutorInterface
                 'table' => $this->getFullTableName('sessions'),
                 'alias' => 'sessions',
                 'on'    => 'views.session_id = sessions.ID',
+                'type'  => 'INNER',
+            ];
+        }
+        return $joins;
+    }
+
+    /**
+     * Add session join for events table.
+     *
+     * Enables cross-dimensional queries (country, browser, device, etc.)
+     * when the primary table is events, by joining events.session_id → sessions.ID.
+     *
+     * @param array $joins Existing joins.
+     * @return array
+     */
+    private function addSessionJoinForEvents(array $joins): array
+    {
+        if (!isset($joins['sessions'])) {
+            $joins['sessions'] = [
+                'table' => $this->getFullTableName('sessions'),
+                'alias' => 'sessions',
+                'on'    => 'events.session_id = sessions.ID',
                 'type'  => 'INNER',
             ];
         }

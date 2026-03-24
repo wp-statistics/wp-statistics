@@ -8,6 +8,8 @@
 import type { ColumnDef } from '@tanstack/react-table'
 import { ChevronRight } from 'lucide-react'
 
+import { Link } from '@tanstack/react-router'
+
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
 import { AuthorCell, DurationCell, EntryPageCell, JourneyCell, LastVisitCell, LocationCell, NumericCell, PageCell, ReferrerCell, StatusCell, TermCell, UriCell, VisitorInfoCell } from '@/components/data-table-columns'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
@@ -437,17 +439,64 @@ export function createColumnsFromConfig(
         } as ColumnDef<Record<string, unknown>>
       }
 
+      case 'event-data':
+        return {
+          ...base,
+          ...(size ? {} : { size: 280 }),
+          header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
+          cell: ({ row }) => {
+            const raw = row.original[field]
+            const pairs: Array<{ key: string; value: string }> = Array.isArray(raw) ? raw : []
+            if (pairs.length === 0) return <span className="text-xs text-neutral-400">&mdash;</span>
+            return (
+              <div className="flex flex-wrap gap-1 max-w-[320px]">
+                {pairs.map((p, i) => (
+                  <span key={i} className="inline-flex items-baseline gap-0.5 rounded bg-neutral-100 px-1.5 py-0.5 text-[11px] leading-tight">
+                    <span className="font-medium text-neutral-500">{p.key}:</span>
+                    <span className="text-neutral-700 break-all">{p.value}</span>
+                  </span>
+                ))}
+              </div>
+            )
+          },
+        } as ColumnDef<Record<string, unknown>>
+
       case 'text':
-      default:
+      default: {
+        const hasLink = col.linkTo && (col.linkParamField || col.linkStaticParams)
         return {
           ...base,
           header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
-          cell: ({ row }) => (
-            <span className="truncate text-xs font-medium text-neutral-700">
-              {String(row.original[field] ?? '')}
-            </span>
-          ),
+          cell: ({ row }) => {
+            const value = String(row.original[field] ?? '')
+            if (hasLink && value) {
+              // Build params: static params + dynamic param from row data
+              const params: Record<string, string> = { ...(col.linkStaticParams as Record<string, string> || {}) }
+              if (col.linkParamField) {
+                const paramName = col.linkTo!.match(/\$(\w+)/)?.[1]
+                if (paramName && !params[paramName]) {
+                  params[paramName] = String(row.original[col.linkParamField] ?? '')
+                }
+              }
+              // Build search params if linkSearchField is set (passes value as URL query param)
+              const search = col.linkSearchField
+                ? { [col.linkSearchField as string]: String(row.original[field] ?? '') }
+                : undefined
+              return (
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                <Link to={col.linkTo as any} params={params} search={search as any} className="truncate text-xs font-medium text-neutral-700 hover:text-primary hover:underline">
+                  {value}
+                </Link>
+              )
+            }
+            return (
+              <span className="truncate text-xs font-medium text-neutral-700">
+                {value}
+              </span>
+            )
+          },
         } as ColumnDef<Record<string, unknown>>
+      }
     }
   })
 
