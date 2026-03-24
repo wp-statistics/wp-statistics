@@ -421,6 +421,35 @@ class User
     }
 
     /**
+     * Retrieve the role slugs for a user by direct DB query.
+     *
+     * Works in SHORTINIT mode without requiring WP_User or pluggable.php.
+     *
+     * @param int $userId WordPress user ID.
+     * @return string[] Role slugs, or empty array if user not found.
+     */
+    public static function getRolesById(int $userId): array
+    {
+        global $wpdb;
+
+        $capabilities = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = %d AND meta_key = %s",
+                $userId,
+                $wpdb->prefix . 'capabilities'
+            )
+        );
+
+        if (!$capabilities) {
+            return [];
+        }
+
+        $caps = maybe_unserialize($capabilities);
+
+        return is_array($caps) ? array_keys(array_filter($caps)) : [];
+    }
+
+    /**
      * Retrieve the Unix timestamp of the user's last login session.
      *
      * @param int $userId Optional. WordPress user ID; defaults to the current user.

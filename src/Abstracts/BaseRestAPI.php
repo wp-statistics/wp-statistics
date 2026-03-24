@@ -121,20 +121,18 @@ abstract class BaseRestAPI
      */
     protected function checkSignature(WP_REST_Request $request)
     {
-        if (Helper::isRequestSignatureEnabled()) {
-            $signature = $request->get_param('signature');
-            $payload   = [
-                $request->get_param('source_type'),
-                (int)$request->get_param('source_id'),
-            ];
+        $signature = $request->get_param('signature');
+        $payload   = [
+            $request->get_param('source_type'),
+            (int)$request->get_param('source_id'),
+        ];
 
-            if (!Signature::check($payload, $signature)) {
-                return new WP_Error(
-                    'rest_forbidden',
-                    __('Invalid signature', 'wp-statistics'),
-                    ['status' => 403]
-                );
-            }
+        if (!Signature::check($payload, $signature)) {
+            return new WP_Error(
+                'rest_forbidden',
+                __('Invalid signature', 'wp-statistics'),
+                ['status' => 403]
+            );
         }
 
         return true;

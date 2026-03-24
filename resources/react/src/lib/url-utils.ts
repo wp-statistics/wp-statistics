@@ -132,7 +132,6 @@ export const NON_LINKABLE_TYPES = new Set([
   'date_archive',
   'post_type_archive',
   'feed',
-  'loginpage',
   'unknown',
 ])
 

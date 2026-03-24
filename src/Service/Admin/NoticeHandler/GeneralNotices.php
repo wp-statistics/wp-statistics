@@ -113,7 +113,7 @@ class GeneralNotices
         // Generate notice id
         $noticeId = sanitize_key($cacheInfo['debug']) . '_cache_plugin_detected';
 
-        // Return if notice is already dismissed or bypass ad blocker is active
+        // Return if notice is already dismissed or bypass ad blockers is enabled (obfuscated assets)
         if (Notice::isNoticeDismissed($noticeId) || Option::getValue('bypass_ad_blockers')) {
             return;
         }

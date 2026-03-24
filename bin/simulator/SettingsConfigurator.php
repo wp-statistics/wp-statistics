@@ -8,8 +8,8 @@ use WP_Statistics\Components\Option;
  * SettingsConfigurator - Auto-configure required WP Statistics settings for simulation
  *
  * The HTTP simulator requires specific settings to be enabled:
- * - bypass_ad_blockers: Use admin-ajax.php endpoint
  * - use_cache_plugin: Enable client-side tracking
+ * Note: AJAX endpoint is always registered (default transport)
  *
  * @package WP_Statistics\Testing\Simulator
  * @since 15.0.0
@@ -20,8 +20,7 @@ class SettingsConfigurator
      * Required settings for the simulator to work
      */
     private const REQUIRED_SETTINGS = [
-        'bypass_ad_blockers' => '1',  // Use admin-ajax.php endpoint
-        'use_cache_plugin'   => '1',  // Enable client-side tracking
+        'use_cache_plugin' => '1',  // Enable client-side tracking
     ];
 
     /**

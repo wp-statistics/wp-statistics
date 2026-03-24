@@ -6,6 +6,9 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Uri;
 use WP_Statistics\Utils\Url;
 
+/**
+ * @deprecated Use VisitorProfile methods and SourceDetector directly instead.
+ */
 class Referrals
 {
     /**

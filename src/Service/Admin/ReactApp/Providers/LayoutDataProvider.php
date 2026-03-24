@@ -171,6 +171,14 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
                     'deviceCategories'  => ['label' => esc_html__('Device Categories', 'wp-statistics'), 'slug' => 'device-categories'],
                     'screenResolutions' => ['label' => esc_html__('Screen Resolutions', 'wp-statistics'), 'slug' => 'screen-resolutions'],
                 ]
+            ],
+            'events'            => [
+                'icon'     => 'MousePointerClick',
+                'label'    => esc_html__('Events', 'wp-statistics'),
+                'slug'     => 'events',
+                'subPages' => [
+                    'eventsOverview' => ['label' => esc_html__('Events Overview', 'wp-statistics'), 'slug' => 'events-overview'],
+                ]
             ]
         ];
 

@@ -23,6 +23,7 @@ function ToggleField({ field, settings }: FieldProps) {
     <SettingsToggleField
       id={field.id}
       label={field.label ?? ''}
+      badge={field.badge}
       description={field.description}
       checked={checked}
       onCheckedChange={(v) => settings.setValue(key, field.inverted ? !v : v)}

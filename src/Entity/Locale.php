@@ -4,8 +4,7 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Utils\Query;
-use WP_Statistics\Utils\Request;
+
 
 /**
  * Entity for detecting and recording visitor's locale information.
@@ -17,56 +16,57 @@ use WP_Statistics\Utils\Request;
 class Locale extends BaseEntity
 {
     /**
+     * Record all locale information and return their IDs.
+     *
+     * @return array{language_id: int, timezone_id: int}
+     */
+    public function record(): array
+    {
+        return [
+            'language_id' => $this->isActive('languages') ? $this->recordLanguage() : 0,
+            'timezone_id' => $this->isActive('timezones') ? $this->recordTimezone() : 0,
+        ];
+    }
+
+    /**
      * Detect and record visitor's language based on user agent or browser headers.
      *
-     * @return $this
+     * @return int The language ID, or 0 if language code is empty.
      */
-    public function recordLanguage()
+    private function recordLanguage(): int
     {
-        if (!$this->isActive('languages')) {
-            return $this;
-        }
-
-        $language = Request::get('language', '');
-        $fullName = Request::get('languageFullName', '');
+        $language = $this->visitor->getRequest()->getLanguageCode();
+        $fullName = $this->visitor->getRequest()->getLanguageName();
 
         if (empty($language) || !is_string($language)) {
-            return $this;
+            return 0;
         }
 
-        $region = $this->profile->getRegionCode();
+        $region = $this->visitor->getRegionCode();
         $record = RecordFactory::language()->get(['code' => $language, 'region' => $region]);
 
         if (!empty($record) && isset($record->ID)) {
-            $this->profile->setLanguageId((int)$record->ID);
-            return $this;
+            return (int)$record->ID;
         }
 
-        $languageId = (int)RecordFactory::language()->insert([
+        return (int)RecordFactory::language()->insert([
             'code'   => $language,
             'name'   => $fullName,
             'region' => $region,
         ]);
-
-        $this->profile->setLanguageId($languageId);
-        return $this;
     }
 
     /**
      * Detect and record visitor's timezone.
      *
-     * Tries client‐sent IANA timezone first; if missing or invalid, falls back
+     * Tries client-sent IANA timezone first; if missing or invalid, falls back
      * to UTC+0 as a standard reference point.
      *
-     * @return $this
+     * @return int The timezone ID.
      */
-    public function recordTimezone()
+    private function recordTimezone(): int
     {
-        if (!$this->isActive('timezones')) {
-            return $this;
-        }
-
-        $tzName = Request::get('timezone', '');
+        $tzName = $this->visitor->getRequest()->getTimezone();
 
         if (empty($tzName) || !is_string($tzName)) {
             $tz = new \DateTimeZone('UTC');
@@ -87,32 +87,11 @@ class Locale extends BaseEntity
         $isDst         = (bool)$dt->format('I');
 
         $tzNameFinal = $tz->getName();
-        $record      = RecordFactory::timezone()->get(['name' => $tzNameFinal]);
 
-        if (!empty($record) && isset($record->ID)) {
-            // Update offset/DST if changed (e.g., DST transition)
-            if ($record->offset !== $offset || (int)$record->is_dst !== ($isDst ? 1 : 0)) {
-                Query::update('timezones')
-                    ->set([
-                        'offset' => $offset,
-                        'is_dst' => $isDst ? 1 : 0,
-                    ])
-                    ->where('ID', '=', $record->ID)
-                    ->execute();
-            }
-
-            $this->profile->setTimezoneId((int)$record->ID);
-            return $this;
-        }
-
-        $timezoneId = (int)RecordFactory::timezone()->insert([
-            'name'   => $tzNameFinal,
-            'offset' => $offset,
-            'is_dst' => $isDst ? 1 : 0,
-        ]);
-
-        $this->profile->setTimezoneId($timezoneId);
-        return $this;
+        return (int) RecordFactory::timezone()->upsert(
+            ['name' => $tzNameFinal, 'offset' => $offset, 'is_dst' => $isDst ? 1 : 0],
+            ['offset' => $offset, 'is_dst' => $isDst ? 1 : 0]
+        );
     }
 
 }

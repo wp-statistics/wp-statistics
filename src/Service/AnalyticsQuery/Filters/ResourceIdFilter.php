@@ -158,7 +158,6 @@ class ResourceIdFilter extends AbstractFilter
             '404'               => esc_html__('404', 'wp-statistics'),
             'search'            => esc_html__('Search', 'wp-statistics'),
             'feed'              => esc_html__('Feed', 'wp-statistics'),
-            'loginpage'         => esc_html__('Login', 'wp-statistics'),
             'archive'           => esc_html__('Archive', 'wp-statistics'),
             'author_archive'    => esc_html__('Author', 'wp-statistics'),
             'date_archive'      => esc_html__('Date', 'wp-statistics'),

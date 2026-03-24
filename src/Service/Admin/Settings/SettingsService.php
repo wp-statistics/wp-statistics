@@ -55,7 +55,9 @@ class SettingsService
         }
 
         if ($tab === 'privacy') {
-            $settings['_consent_providers'] = self::getConsentProvidersMeta();
+            $settings['_consent_providers']          = self::getConsentProvidersMeta();
+            $settings['_active_consent_provider']    = self::getActiveConsentProviderKey();
+            $settings['_has_conflicting_providers']  = self::hasConflictingProviders();
         }
 
         return $settings;
@@ -87,7 +89,9 @@ class SettingsService
             }
 
             if ($tab === 'privacy') {
-                $tabData['_consent_providers'] = self::getConsentProvidersMeta();
+                $tabData['_consent_providers']          = self::getConsentProvidersMeta();
+                $tabData['_active_consent_provider']    = self::getActiveConsentProviderKey();
+                $tabData['_has_conflicting_providers']  = self::hasConflictingProviders();
             }
 
             $settings[$tab] = $tabData;
@@ -198,10 +202,9 @@ class SettingsService
         $result = [];
         foreach ($consentManager->getProviders() as $provider) {
             $entry = [
-                'key'        => $provider->getKey(),
-                'name'       => $provider->getName(),
-                'available'  => $provider->isAvailable(),
-                'selectable' => $provider->isSelectable(),
+                'key'       => $provider->getKey(),
+                'name'      => $provider->getName(),
+                'available' => $provider->isAvailable(),
             ];
 
             if ($provider instanceof WpConsentApiProvider) {
@@ -212,6 +215,26 @@ class SettingsService
         }
 
         return $result;
+    }
+
+    public static function getActiveConsentProviderKey(): string
+    {
+        $consentManager = Bootstrap::get('consent');
+        if (!$consentManager instanceof ConsentManager) {
+            return 'none';
+        }
+
+        return $consentManager->getActiveProvider()->getKey();
+    }
+
+    public static function hasConflictingProviders(): bool
+    {
+        $consentManager = Bootstrap::get('consent');
+        if (!$consentManager instanceof ConsentManager) {
+            return false;
+        }
+
+        return $consentManager->hasConflictingProviders();
     }
 
     /**

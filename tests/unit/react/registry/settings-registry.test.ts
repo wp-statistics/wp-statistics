@@ -38,7 +38,7 @@ function makeConfig(overrides?: Partial<SettingsConfig>): SettingsConfig {
         visitors_log: { type: 'toggle', setting_key: 'visitors_log', order: 10 },
       },
       'general/tracker-config': {
-        bypass: { type: 'toggle', setting_key: 'bypass_ad_blockers', order: 10 },
+        tracking_method: { type: 'select', setting_key: 'tracking_method', order: 10 },
       },
       'display/admin-interface': {
         disable_editor: { type: 'toggle', setting_key: 'disable_editor', order: 10 },

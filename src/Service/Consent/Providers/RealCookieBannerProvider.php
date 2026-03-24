@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Consent\Providers;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Consent\AbstractConsentProvider;
-use WP_Statistics\Service\Consent\TrackingLevel;
 
 class RealCookieBannerProvider extends AbstractConsentProvider
 {
@@ -29,26 +28,6 @@ class RealCookieBannerProvider extends AbstractConsentProvider
         }
     }
 
-    public function getTrackingLevel(): string
-    {
-        if (!function_exists('wp_rcb_consent_given')) {
-            return TrackingLevel::NONE;
-        }
-
-        $base           = !empty(wp_rcb_consent_given('wp-statistics')['cookieOptIn']);
-        $dataProcessing = !empty(wp_rcb_consent_given('wp-statistics-with-data-processing')['cookieOptIn']);
-
-        if ($base && !$dataProcessing) {
-            return TrackingLevel::ANONYMOUS;
-        }
-
-        if ($base || $dataProcessing) {
-            return TrackingLevel::FULL;
-        }
-
-        return TrackingLevel::NONE;
-    }
-
     public function handleIntegration($integration): void
     {
         $storeIp = (bool) Option::getValue('store_ip');
@@ -61,8 +40,72 @@ class RealCookieBannerProvider extends AbstractConsentProvider
         }
     }
 
-    public function getJsHandles(): array
+    public function getJsDependencies(): array
     {
         return ['real-cookie-banner-pro-banner'];
+    }
+
+    public function getInlineScript(): string
+    {
+        return <<<'JS'
+(function() {
+    var r = window.WpStatisticsConsentAdapters = window.WpStatisticsConsentAdapters || {};
+    if (!r.real_cookie_banner) {
+        r.real_cookie_banner = {
+            init: function(params) {
+                var levels = params.config.levels;
+                var addFilter = params.addFilter;
+                var doAction = params.doAction;
+
+                var resolvedLevel = levels.none;
+
+                addFilter('trackingLevel', function() {
+                    return resolvedLevel;
+                });
+
+                if (!window.consentApi || typeof window.consentApi.consent !== 'function') {
+                    console.warn('WP Statistics: Real Cookie Banner consentApi not found. Tracking disabled until consent API loads.');
+                    return;
+                }
+
+                var dpConsent = null;
+                try {
+                    dpConsent = window.consentApi.consentSync('wp-statistics-with-data-processing');
+                } catch (e) {
+                    console.warn('WP Statistics: Error checking RCB data processing consent.', e);
+                }
+
+                if (dpConsent && dpConsent.cookie != null && dpConsent.cookieOptIn) {
+                    resolvedLevel = levels.full;
+                    return;
+                }
+
+                var baseConsent = null;
+                try {
+                    baseConsent = window.consentApi.consentSync('wp-statistics');
+                } catch (e) {
+                    console.warn('WP Statistics: Error checking RCB base consent.', e);
+                }
+
+                if (baseConsent && baseConsent.cookie != null && baseConsent.cookieOptIn) {
+                    resolvedLevel = levels.anonymous;
+                    return;
+                }
+
+                window.consentApi.consent('wp-statistics')
+                    .then(function() {
+                        resolvedLevel = levels.anonymous;
+                        doAction('consentChanged');
+                    })
+                    .catch(function(err) {
+                        if (err) {
+                            console.debug('WP Statistics: RCB consent not given or error:', err);
+                        }
+                    });
+            }
+        };
+    }
+})();
+JS;
     }
 }

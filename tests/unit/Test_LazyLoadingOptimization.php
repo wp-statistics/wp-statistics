@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Service\Blocks\BlocksManager;
-use WP_Statistics\Service\Tracking\TrackerControllerFactory;
+use WP_Statistics\Service\Tracking\TrackerManager;
 use WP_UnitTestCase;
 use ReflectionClass;
 
@@ -23,7 +23,7 @@ use ReflectionClass;
  * @covers \WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager
  * @covers \WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager
  * @covers \WP_Statistics\Service\Blocks\BlocksManager
- * @covers \WP_Statistics\Service\Tracking\TrackerControllerFactory
+ * @covers \WP_Statistics\Service\Tracking\TrackerManager
  *
  * @since 15.0.0
  */
@@ -38,28 +38,6 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
         $prop = $reflection->getProperty($property);
         $prop->setAccessible(true);
         return $prop->getValue($object);
-    }
-
-    /**
-     * Get static private property value from class.
-     */
-    private function getStaticPrivateProperty(string $class, string $property)
-    {
-        $reflection = new ReflectionClass($class);
-        $prop = $reflection->getProperty($property);
-        $prop->setAccessible(true);
-        return $prop->getValue(null);
-    }
-
-    /**
-     * Set static private property value on class.
-     */
-    private function setStaticPrivateProperty(string $class, string $property, $value): void
-    {
-        $reflection = new ReflectionClass($class);
-        $prop = $reflection->getProperty($property);
-        $prop->setAccessible(true);
-        $prop->setValue(null, $value);
     }
 
     // =========================================================================
@@ -397,72 +375,46 @@ class Test_LazyLoadingOptimization extends WP_UnitTestCase
     }
 
     // =========================================================================
-    // TrackerControllerFactory Caching Tests
+    // TrackerManager Tests
     // =========================================================================
 
-    public function setUp(): void
-    {
-        parent::setUp();
-        // Reset TrackerControllerFactory static state
-        TrackerControllerFactory::reset();
-    }
-
-    public function tearDown(): void
-    {
-        TrackerControllerFactory::reset();
-        parent::tearDown();
-    }
-
     /**
-     * Test TrackerControllerFactory caches controller instance.
+     * Test TrackerManager::register() creates a hit controller.
      */
-    public function test_tracker_controller_factory_caches_controller()
+    public function test_tracking_manager_register_creates_hit_controller()
     {
-        $first = TrackerControllerFactory::createController();
-        $second = TrackerControllerFactory::createController();
+        $manager = new TrackerManager();
+        $manager->register();
 
-        $this->assertSame($first, $second, 'Factory should return cached controller');
-    }
-
-    /**
-     * Test TrackerControllerFactory::reset() clears cache.
-     */
-    public function test_tracker_controller_factory_reset_clears_cache()
-    {
-        $first = TrackerControllerFactory::createController();
-
-        TrackerControllerFactory::reset();
-
-        // After reset, a new instance should be created
-        $second = TrackerControllerFactory::createController();
-
-        // They should be equal but not same instance
-        $this->assertEquals(get_class($first), get_class($second));
-    }
-
-    /**
-     * Test TrackerControllerFactory::getTrackingRoute() uses cached controller.
-     */
-    public function test_tracker_controller_factory_get_tracking_route()
-    {
-        $route = TrackerControllerFactory::getTrackingRoute();
+        // After register(), getTrackerRoute() should return a non-null string
+        $route = $manager->getTrackerRoute();
 
         $this->assertNotNull($route);
         $this->assertIsString($route);
     }
 
     /**
-     * Test TrackerControllerFactory initializes batch tracking.
+     * Test each TrackerManager instance is independent (no shared static state).
      */
-    public function test_tracker_controller_factory_batch_tracking_init_once()
+    public function test_tracking_manager_instances_are_independent()
     {
-        // Note: We don't check initial state because other tests may have run
-        // before and batchInitialized persists across reset() calls (by design).
+        $first = new TrackerManager();
+        $second = new TrackerManager();
 
-        TrackerControllerFactory::createController();
+        $this->assertNotSame($first, $second, 'Each new TrackerManager should be a distinct instance');
+    }
 
-        $batchInitialized = $this->getStaticPrivateProperty(TrackerControllerFactory::class, 'batchInitialized');
-        $this->assertTrue($batchInitialized, 'Batch should be initialized after createController() call');
+    /**
+     * Test TrackerManager::getTrackerRoute() returns null before register().
+     */
+    public function test_tracking_manager_get_tracking_route_null_before_register()
+    {
+        $manager = new TrackerManager();
+
+        // hitController is not set until register() is called
+        $route = $manager->getTrackerRoute();
+
+        $this->assertNull($route, 'getTrackerRoute() should return null before register() is called');
     }
 
     // =========================================================================

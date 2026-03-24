@@ -15,64 +15,61 @@ use WP_Statistics\Records\RecordFactory;
 class Geo extends BaseEntity
 {
     /**
+     * Record all geographic information and return their IDs.
+     *
+     * @return array{country_id: int, city_id: int}
+     */
+    public function record(): array
+    {
+        $countryId = $this->isActive('countries') ? $this->recordCountry() : 0;
+
+        return [
+            'country_id' => $countryId,
+            'city_id'    => $this->isActive('cities') ? $this->recordCity($countryId) : 0,
+        ];
+    }
+
+    /**
      * Detect and record visitor's country based on geolocation data.
      *
-     * @return $this
+     * @return int The country ID, or 0 if country code is empty.
      */
-    public function recordCountry()
+    private function recordCountry(): int
     {
-        if (!$this->isActive('countries')) {
-            return $this;
-        }
-
-        $geo = (array)$this->profile->getLocation();
+        $geo = (array)$this->visitor->getLocation();
 
         $code = isset($geo['country_code']) ? $geo['country_code'] : '';
 
         if (empty($code)) {
-            return $this;
+            return 0;
         }
 
-        $record = RecordFactory::country()->get(['code' => $geo['country_code']]);
+        $continent = $this->visitor->getContinent();
 
-        if (!empty($record) && isset($record->ID)) {
-            $this->profile->setCountryId((int)$record->ID);
-            return $this;
-        }
-
-        $continent = $this->profile->getContinent();
-
-        $countryId = (int)RecordFactory::country()->insert([
+        return (int) RecordFactory::country()->upsert([
             'code'           => $geo['country_code'],
             'name'           => isset($geo['country']) ? $geo['country'] : '',
             'continent_code' => isset($geo['continent_code']) ? $geo['continent_code'] : '',
             'continent'      => $continent ?: (isset($geo['continent']) ? $geo['continent'] : ''),
         ]);
-
-        $this->profile->setCountryId($countryId);
-        return $this;
     }
 
     /**
      * Detect and record visitor's city based on geolocation data.
      *
-     * @return $this
+     * @param int $countryId The country ID to associate the city with.
+     * @return int The city ID, or 0 if city name is empty or country ID is missing.
      */
-    public function recordCity()
+    private function recordCity(int $countryId): int
     {
-        if (!$this->isActive('cities')) {
-            return $this;
-        }
+        $geo = (array)$this->visitor->getLocation();
 
-        $geo = (array)$this->profile->getLocation();
-
-        $countryId  = $this->profile->getCountryId();
-        $cityName   = $this->profile->getCity();
-        $regionName = $this->profile->getRegion();
+        $cityName   = $this->visitor->getCity();
+        $regionName = $this->visitor->getRegion();
         $regionCode = isset($geo['region_code']) ? $geo['region_code'] : '';
 
         if (empty($cityName) || $countryId < 1) {
-            return $this;
+            return 0;
         }
 
         $record = RecordFactory::city()->get([
@@ -82,18 +79,14 @@ class Geo extends BaseEntity
         ]);
 
         if (!empty($record) && isset($record->ID)) {
-            $this->profile->setCityId((int)$record->ID);
-            return $this;
+            return (int)$record->ID;
         }
 
-        $cityId = (int)RecordFactory::city()->insert([
+        return (int)RecordFactory::city()->insert([
             'country_id'  => $countryId,
             'region_code' => $regionCode,
             'region_name' => $regionName ?? '',
             'city_name'   => $cityName,
         ]);
-
-        $this->profile->setCityId($cityId);
-        return $this;
     }
 }

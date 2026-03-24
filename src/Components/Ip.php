@@ -6,7 +6,6 @@ use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Components\Option;
 use ErrorException;
 use Exception;
-use WP_Statistics\Bootstrap;
 
 /**
  * Handles IP address detection, validation, and anonymization for visitor tracking.
@@ -179,7 +178,7 @@ class Ip
         if (isset($dailySalt['date']) && $dailySalt['date'] !== $currentPeriod) {
             $dailySalt = [
                 'date' => $currentPeriod,
-                'salt' => hash('sha256', wp_generate_password())
+                'salt' => hash('sha256', random_bytes(32))
             ];
             Option::updateValue('daily_salt', $dailySalt);
         }
@@ -187,7 +186,7 @@ class Ip
         if (!$dailySalt || !is_array($dailySalt)) {
             $dailySalt = [
                 'date' => $currentPeriod,
-                'salt' => hash('sha256', wp_generate_password())
+                'salt' => hash('sha256', random_bytes(32))
             ];
             Option::updateValue('daily_salt', $dailySalt);
         }
@@ -257,7 +256,7 @@ class Ip
      */
     public static function getStorableIp()
     {
-        if (!Option::getValue('store_ip') || Bootstrap::get('consent')->getActiveProvider()->shouldAnonymize()) {
+        if (!Option::getValue('store_ip')) {
             return null;
         }
 

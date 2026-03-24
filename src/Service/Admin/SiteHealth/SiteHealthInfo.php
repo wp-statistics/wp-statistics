@@ -182,7 +182,12 @@ class SiteHealthInfo extends Singleton
                 'value' => __('Client Side Tracking', 'wp-statistics'),
                 'debug' => 'Client Side Tracking',
             ],
-            'bypassAdBlockers'               => [
+            'trackingTransport'             => [
+                'label' => esc_html__('Tracking Transport', 'wp-statistics'),
+                'value' => Option::getValue('direct_file_tracking') ? 'Hybrid Mode' : 'AJAX',
+                'debug' => Option::getValue('direct_file_tracking') ? 'direct_file' : 'ajax',
+            ],
+            'bypassAdBlockers'              => [
                 'label' => esc_html__('Bypass Ad Blockers', 'wp-statistics'),
                 'value' => Option::getValue('bypass_ad_blockers') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('bypass_ad_blockers') ? 'Enabled' : 'Disabled',
@@ -236,11 +241,6 @@ class SiteHealthInfo extends Singleton
                 'label' => esc_html__('IP Exclusions', 'wp-statistics'),
                 'value' => Option::getValue('exclude_ip') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::getValue('exclude_ip') ? 'Set' : 'Not Set',
-            ],
-            'excludedLoginPage'              => [
-                'label' => esc_html__('Excluded Login Page', 'wp-statistics'),
-                'value' => Option::getValue('exclude_loginpage') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('exclude_loginpage') ? 'Enabled' : 'Disabled',
             ],
             'excludedRssFeeds'               => [
                 'label' => esc_html__('Excluded RSS Feeds', 'wp-statistics'),

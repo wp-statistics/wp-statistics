@@ -1,0 +1,15 @@
+{
+  "core": null,
+  "phpVersion": "8.2",
+  "plugins": [
+    ".",
+    "https://downloads.wordpress.org/plugin/wp-consent-api.zip",
+    "https://downloads.wordpress.org/plugin/complianz-gdpr.zip"
+  ],
+  "config": {
+    "WP_DEBUG": true,
+    "WP_DEBUG_LOG": true,
+    "SCRIPT_DEBUG": true
+  },
+  "testsEnvironment": false
+}

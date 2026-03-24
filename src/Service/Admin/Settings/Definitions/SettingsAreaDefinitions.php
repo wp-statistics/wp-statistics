@@ -74,6 +74,39 @@ class SettingsAreaDefinitions
                                 'default'     => false,
                                 'order'       => 10,
                             ],
+                            'direct_file_tracking' => [
+                                'type'        => 'toggle',
+                                'setting_key' => 'direct_file_tracking',
+                                'label'       => __('Hybrid Mode', 'wp-statistics'),
+                                'badge'       => __('Beta', 'wp-statistics'),
+                                'description' => __('Record visits using a lightweight endpoint that loads faster by skipping the full WordPress bootstrap.', 'wp-statistics'),
+                                'default'     => false,
+                                'order'       => 20,
+                            ],
+                            'direct_file_notice' => [
+                                'type'         => 'notice',
+                                'notice_type'  => 'warning',
+                                'message'      => __('Hybrid Mode bypasses the full WordPress loading for faster tracking. However, third-party hooks and filters that extend WP Statistics tracking will not run in this mode.', 'wp-statistics'),
+                                'visible_when' => [
+                                    'direct_file_tracking' => true,
+                                ],
+                                'order' => 25,
+                            ],
+                        ],
+                    ],
+                    'event-tracking' => [
+                        'title'       => __('Event Tracking', 'wp-statistics'),
+                        'description' => __('Track user interactions on your site such as outbound link clicks, file downloads, and custom events.', 'wp-statistics'),
+                        'order'       => 30,
+                        'fields'      => [
+                            'event_tracking' => [
+                                'type'        => 'toggle',
+                                'setting_key' => 'event_tracking',
+                                'label'       => __('Enable Event Tracking', 'wp-statistics'),
+                                'description' => __('Track outbound link clicks, file downloads, and other custom events on your site.', 'wp-statistics'),
+                                'default'     => false,
+                                'order'       => 10,
+                            ],
                         ],
                     ],
                 ],
@@ -234,11 +267,17 @@ class SettingsAreaDefinitions
                         'order'       => 20,
                         'fields'      => [
                             'consent_integration' => [
-                                'type'        => 'component',
-                                'component'   => 'ConsentIntegrationField',
+                                'type'        => 'toggle',
                                 'setting_key' => 'consent_integration',
-                                'default'     => 'none',
+                                'label'       => __('Consent Plugin Integration', 'wp-statistics'),
+                                'description' => __('When enabled, automatically detects and integrates with supported consent management plugins.', 'wp-statistics'),
+                                'default'     => false,
                                 'order'       => 10,
+                            ],
+                            'consent_integration_status' => [
+                                'type'      => 'component',
+                                'component' => 'ConsentIntegrationField',
+                                'order'     => 20,
                             ],
                             'anonymous_tracking' => [
                                 'type'         => 'toggle',
@@ -248,7 +287,7 @@ class SettingsAreaDefinitions
                                 'default'      => false,
                                 'nested'       => true,
                                 'visible_when' => [
-                                    'consent_integration' => 'borlabs_cookie',
+                                    '_active_consent_provider' => 'borlabs_cookie',
                                 ],
                                 'order' => 30,
                             ],
@@ -394,14 +433,6 @@ class SettingsAreaDefinitions
                         'description' => __('Exclude specific pages or paths from being tracked.', 'wp-statistics'),
                         'order'       => 10,
                         'fields'      => [
-                            'exclude_loginpage' => [
-                                'type'        => 'toggle',
-                                'setting_key' => 'exclude_loginpage',
-                                'label'       => __('Exclude Login Page', 'wp-statistics'),
-                                'description' => __("Don't track WordPress login page visits.", 'wp-statistics'),
-                                'default'     => true,
-                                'order'       => 10,
-                            ],
                             'exclude_feeds' => [
                                 'type'        => 'toggle',
                                 'setting_key' => 'exclude_feeds',

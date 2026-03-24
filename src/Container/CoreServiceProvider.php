@@ -8,7 +8,7 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\CLI\CLIManager;
 use WP_Statistics\Service\Shortcode\ShortcodeService;
 use WP_Statistics\Service\Blocks\BlocksManager;
-use WP_Statistics\Service\Tracking\TrackerControllerFactory;
+use WP_Statistics\Service\Tracking\TrackerManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
 use WP_Statistics\Service\CustomEvent\CustomEventHandler;
@@ -45,7 +45,7 @@ class CoreServiceProvider implements ServiceProvider
 
         // Tracking - lazy loaded
         $container->register('tracking', function () {
-            return TrackerControllerFactory::createController();
+            return new TrackerManager();
         });
 
         // Cron Manager - lazy loaded
@@ -87,9 +87,6 @@ class CoreServiceProvider implements ServiceProvider
         $container->register('admin_bar', function () {
             return new AdminBarManager();
         });
-
-        // Aliases for common access patterns
-        $container->alias('tracker', 'tracking');
     }
 
     /**
@@ -103,8 +100,8 @@ class CoreServiceProvider implements ServiceProvider
         // Initialize consent manager (before tracking, so consent state is ready)
         $container->get('consent')->boot();
 
-        // Initialize tracking controller
-        $container->get('tracking');
+        // Initialize tracking (registers hit, batch, and direct-endpoint controllers)
+        $container->get('tracking')->register();
 
         // Initialize cron manager
         $container->get('cron');

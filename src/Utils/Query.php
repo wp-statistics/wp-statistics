@@ -4,7 +4,7 @@ namespace WP_Statistics\Utils;
 
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Traits\TransientCacheTrait;
-use WP_STATISTICS\DB;
+use WP_Statistics\Service\Database\DatabaseSchema;
 use InvalidArgumentException;
 use WP_Statistics\Components\DateTime;
 
@@ -167,8 +167,8 @@ class Query
 
     private function getTable($table)
     {
-        if (DB::table($table)) {
-            $table = DB::table($table);
+        if (DatabaseSchema::table($table)) {
+            $table = DatabaseSchema::table($table);
         } else {
             $globalTables = $this->db->tables('global');
             if (in_array($table, array_keys($globalTables))) {

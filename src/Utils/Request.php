@@ -3,7 +3,7 @@
 namespace WP_Statistics\Utils;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Tracking\TrackerHelper;
+use WP_Statistics\Service\Tracking\Methods\AjaxTracker;
 
 class Request
 {
@@ -300,7 +300,7 @@ class Request
             return false;
         }
 
-        if (TrackerHelper::isBypassAdBlockersRequest()) {
+        if (self::compare('action', 'wp_statistics_' . AjaxTracker::ACTION)) {
             return true;
         }
 

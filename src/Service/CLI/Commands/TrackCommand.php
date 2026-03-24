@@ -3,8 +3,8 @@
 namespace WP_Statistics\Service\CLI\Commands;
 
 use WP_CLI;
-use WP_STATISTICS\Hits;
-use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Tracking\Core\Tracker;
+use WP_Statistics\Utils\Signature;
 use Exception;
 
 /**
@@ -70,19 +70,7 @@ class TrackCommand
      */
     public function __invoke($args, $assoc_args)
     {
-        // Create a new VisitorProfile instance
-        $visitorProfile = new VisitorProfile();
-        $visitorProfile->__set('currentPageType', [
-            'type'         => 'post',
-            'id'           => 1,
-            'search_query' => '',
-        ]);
-
-        // Set properties from command line arguments
-        if (isset($assoc_args['url'])) {
-            $visitorProfile->__set('referrer', $assoc_args['url']);
-        }
-
+        // Set server globals from CLI arguments
         if (isset($assoc_args['ip'])) {
             $_SERVER['REMOTE_ADDR'] = $assoc_args['ip'];
         }
@@ -91,25 +79,38 @@ class TrackCommand
             $_SERVER['HTTP_USER_AGENT'] = $assoc_args['user_agent'];
         }
 
+        // Build the $_REQUEST params expected by Payload::parse()
+        $resourceType = 'post';
+        $resourceId   = 1;
+        $userId       = isset($assoc_args['user_id']) ? (int) $assoc_args['user_id'] : 0;
+        $requestUri   = isset($assoc_args['request_uri']) ? $assoc_args['request_uri'] : '/';
+
+        $_REQUEST['resource_type'] = $resourceType;
+        $_REQUEST['resource_id']   = $resourceId;
+        $_REQUEST['resource_uri']  = base64_encode($requestUri);
+        $_REQUEST['user_id']       = $userId;
+        $_REQUEST['timezone']      = wp_timezone_string();
+        $_REQUEST['language_code'] = get_locale();
+        $_REQUEST['language_name'] = get_locale();
+        $_REQUEST['screen_width']  = '1920';
+        $_REQUEST['screen_height'] = '1080';
+
         if (isset($assoc_args['referrer'])) {
-            $visitorProfile->__set('referrer', $assoc_args['referrer']);
+            $_REQUEST['referrer'] = base64_encode($assoc_args['referrer']);
+        } else {
+            $_REQUEST['referrer'] = '';
         }
 
-        if (isset($assoc_args['user_id'])) {
-            $visitorProfile->__set('userId', $assoc_args['user_id']);
-        }
+        // Generate a valid signature so the pipeline accepts the request
+        $_REQUEST['signature'] = Signature::generate([
+            $resourceType,
+            $resourceId,
+            $userId,
+        ]);
 
-        if (isset($assoc_args['request_uri'])) {
-            $visitorProfile->__set('requestUri', $assoc_args['request_uri']);
-
-            add_filter('wp_statistics_page_uri', function () use ($visitorProfile) {
-                return $visitorProfile->getRequestUri();
-            });
-        }
-
-        // Record the hit
+        // Record the hit through the standard pipeline
         try {
-            Hits::record($visitorProfile);
+            (new Tracker())->record();
             WP_CLI::success('Hit tracked successfully.');
         } catch (Exception $e) {
             WP_CLI::error(sprintf('Exclusion matched: %s', $e->getMessage()));

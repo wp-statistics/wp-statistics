@@ -2179,7 +2179,6 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                     'date_archive'      => __('Date Archive', 'wp-statistics'),
                     'post_type_archive' => __('Post Type Archive', 'wp-statistics'),
                     'feed'              => __('Feed', 'wp-statistics'),
-                    'loginpage'         => __('Login Page', 'wp-statistics'),
                     'author_archive'    => __('Author Archive', 'wp-statistics'),
                     'category'          => __('Category Archive', 'wp-statistics'),
                     'post_tag'          => __('Tag Archive', 'wp-statistics'),
@@ -2193,7 +2192,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 'typeField'    => 'page_type',
                 'excludeTypes' => [
                     'home', 'search', '404', 'archive', 'date_archive',
-                    'post_type_archive', 'feed', 'loginpage', 'author_archive',
+                    'post_type_archive', 'feed', 'author_archive',
                     'category', 'post_tag', 'unknown',
                 ],
                 'targetRoute'  => '/content/$postId',
