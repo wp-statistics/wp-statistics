@@ -192,17 +192,34 @@ class GroupByRegistry implements RegistryInterface
      */
     public function has(string $name): bool
     {
-        return isset($this->groupBy[$name]) || isset($this->groupByClasses[$name]);
+        $baseName = str_contains($name, ':') ? explode(':', $name, 2)[0] : $name;
+        return isset($this->groupBy[$baseName]) || isset($this->groupByClasses[$baseName]);
     }
 
     /**
      * {@inheritdoc}
      *
+     * Supports parameterized syntax: "event_data_value:form_id" resolves the
+     * base GroupBy, clones it, and calls setParams() with the parameter.
+     *
      * @return GroupByInterface|null
      */
     public function get(string $name): ?GroupByInterface
     {
-        return $this->resolve($name);
+        // Parse colon param syntax
+        $param = null;
+        if (str_contains($name, ':')) {
+            [$name, $param] = explode(':', $name, 2);
+        }
+
+        $item = $this->resolve($name);
+
+        if ($item !== null && $param !== null) {
+            $item = clone $item;
+            $item->setParams(['json_key' => $param]);
+        }
+
+        return $item;
     }
 
     /**

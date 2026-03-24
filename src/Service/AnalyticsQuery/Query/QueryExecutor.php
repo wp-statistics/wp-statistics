@@ -684,12 +684,6 @@ class QueryExecutor implements QueryExecutorInterface
                 continue;
             }
 
-            $groupByParams = $query->getGroupByParams($groupByName);
-            if (!empty($groupByParams)) {
-                $groupByItem = clone $groupByItem;
-                $groupByItem->setParams($groupByParams);
-            }
-
             $select  = array_merge($select, $groupByItem->getSelectColumns($requestedColumns));
             $joins   = array_merge($joins, $this->normalizeJoins($groupByItem->getJoins()));
 

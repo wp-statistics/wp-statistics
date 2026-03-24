@@ -679,7 +679,7 @@ class AnalyticsQueryHandler
 
         // Validate columns if provided
         if (!empty($request['columns'])) {
-            $this->validateColumns($request['columns'], $sources, $groupBy, $request['group_by_params'] ?? []);
+            $this->validateColumns($request['columns'], $sources, $groupBy);
         }
 
         // Validate date range format
@@ -1013,27 +1013,18 @@ class AnalyticsQueryHandler
      * @param array $columns       Columns to validate.
      * @param array $sources       Valid sources.
      * @param array $groupBy       Valid group by fields.
-     * @param array $groupByParams Optional runtime params per group_by name (e.g. from group_by_params).
      * @throws InvalidColumnException
      */
-    private function validateColumns(array $columns, array $sources, array $groupBy, array $groupByParams = []): void
+    private function validateColumns(array $columns, array $sources, array $groupBy): void
     {
-        // Build list of valid column WP_Statistics_names (sources + group_by aliases + extra column aliases + post-processed columns)
+        // Build list of valid column names (sources + group_by aliases + extra column aliases + post-processed columns)
         $validColumns = $sources;
 
         foreach ($groupBy as $groupByName) {
             $groupByObj = $this->groupByRegistry->get($groupByName);
             if ($groupByObj) {
-                // If the group_by has runtime params, apply them so getAlias() returns the dynamic alias.
-                $params = $groupByParams[$groupByName] ?? [];
-                if (!empty($params)) {
-                    $groupByObj = clone $groupByObj;
-                    $groupByObj->setParams($params);
-                }
                 $validColumns[] = $groupByObj->getAlias();
-                // Also include extra column aliases (e.g., country_code from country group_by)
                 $validColumns = array_merge($validColumns, $groupByObj->getExtraColumnAliases());
-                // Include post-processed columns (e.g., comments, thumbnail_url from page group_by)
                 $validColumns = array_merge($validColumns, $groupByObj->getPostProcessedColumns());
             } else {
                 $validColumns[] = $groupByName;
