@@ -11,6 +11,7 @@ import { ChevronRight } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { AuthorCell, DurationCell, EntryPageCell, JourneyCell, LastVisitCell, LocationCell, NumericCell, PageCell, ReferrerCell, StatusCell, TermCell, UriCell, VisitorInfoCell } from '@/components/data-table-columns'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
@@ -442,21 +443,31 @@ export function createColumnsFromConfig(
       case 'event-data':
         return {
           ...base,
-          ...(size ? {} : { size: 280 }),
+          ...(size ? {} : { size: 240 }),
           header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
           cell: ({ row }) => {
             const raw = row.original[field]
             const pairs: Array<{ key: string; value: string }> = Array.isArray(raw) ? raw : []
             if (pairs.length === 0) return <span className="text-xs text-neutral-400">&mdash;</span>
+            const summary = pairs.map(p => `${p.key}: ${p.value}`).join(', ')
             return (
-              <div className="flex flex-wrap gap-1 max-w-[320px]">
-                {pairs.map((p, i) => (
-                  <span key={i} className="inline-flex items-baseline gap-0.5 rounded bg-neutral-100 px-1.5 py-0.5 text-[11px] leading-tight">
-                    <span className="font-medium text-neutral-500">{p.key}:</span>
-                    <span className="text-neutral-700 break-all">{p.value}</span>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="truncate text-xs text-neutral-700 block max-w-[240px] cursor-default">
+                    {summary}
                   </span>
-                ))}
-              </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-sm">
+                  <div className="space-y-1 text-xs">
+                    {pairs.map((p, i) => (
+                      <div key={i}>
+                        <span className="font-medium text-neutral-300">{p.key}:</span>{' '}
+                        <span className="text-neutral-100 break-all">{p.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </TooltipContent>
+              </Tooltip>
             )
           },
         } as ColumnDef<Record<string, unknown>>
