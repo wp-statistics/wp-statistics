@@ -2,12 +2,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import {
+  ArrowUpCircle,
   CircleCheck,
+  CircleDashed,
   CircleX,
   Download,
   KeyRound,
   Loader2,
   Puzzle,
+  RefreshCw,
   ShieldCheck,
   ShieldX,
   TriangleAlert,
@@ -24,6 +27,10 @@ import { WordPress } from '@/lib/wordpress'
 export const Route = createLazyFileRoute('/license')({
   component: LicenseRoute,
 })
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 
 interface LicenseDetails {
   status: string
@@ -44,6 +51,61 @@ interface LicenseStatusResponse {
   valid: boolean
   details: LicenseDetails | null
 }
+
+interface InstalledFeatureMap {
+  [slug: string]: string
+}
+
+interface FeatureUpdateInfo {
+  slug: string
+  name: string
+  current_version: string
+  latest_version: string
+  changelog?: string
+}
+
+interface CombinedUpdateCheckResult {
+  feature_updates: {
+    updates_available: boolean
+    updates: FeatureUpdateInfo[]
+  }
+  base_update: {
+    success: boolean
+    update_available: boolean
+    version?: string
+    changelog?: string
+    error?: string
+  }
+  checked_at: number
+}
+
+interface InstallFeaturesResult {
+  installed: string[]
+  failed: Array<{ slug: string; error: string }>
+  total: number
+}
+
+interface UpdateFeatureResult {
+  installed: boolean
+  slug: string
+  version: string | null
+  message?: string
+}
+
+interface LicenseModuleData {
+  license: {
+    activated: boolean
+    valid: boolean
+    details: LicenseDetails | null
+    plugin_version?: string
+    installed_features?: InstalledFeatureMap
+    cached_updates?: CombinedUpdateCheckResult | null
+  }
+}
+
+// ---------------------------------------------------------------------------
+// API helpers
+// ---------------------------------------------------------------------------
 
 const wp = WordPress.getInstance()
 
@@ -90,15 +152,21 @@ function getLicenseStatus(): Promise<LicenseStatusResponse> {
   return callLicenseApi<LicenseStatusResponse>('get_status')
 }
 
-interface InstallFeaturesResult {
-  installed: string[]
-  failed: Array<{ slug: string; error: string }>
-  total: number
-}
-
 function installFeatures(): Promise<InstallFeaturesResult> {
   return callLicenseApi<InstallFeaturesResult>('install_features')
 }
+
+function checkForUpdates(): Promise<CombinedUpdateCheckResult> {
+  return callLicenseApi<CombinedUpdateCheckResult>('check_updates')
+}
+
+function updateSingleFeature(slug: string): Promise<UpdateFeatureResult> {
+  return callLicenseApi<UpdateFeatureResult>('update_feature', { feature_slug: slug })
+}
+
+// ---------------------------------------------------------------------------
+// Route component
+// ---------------------------------------------------------------------------
 
 function LicenseRoute() {
   const navigate = useNavigate()
@@ -118,7 +186,7 @@ function LicenseRoute() {
 }
 
 function LicensePage() {
-  const moduleData = wp.getData<{ license: { activated: boolean; valid: boolean; details: LicenseDetails | null } }>('modules')
+  const moduleData = wp.getData<LicenseModuleData>('modules')
   const initialData = moduleData?.license
   const queryClient = useQueryClient()
 
@@ -139,11 +207,21 @@ function LicensePage() {
   }
 
   return isActivated ? (
-    <LicenseStatus data={data!} queryClient={queryClient} />
+    <LicenseStatus
+      data={data!}
+      queryClient={queryClient}
+      pluginVersion={initialData?.plugin_version ?? ''}
+      initialInstalledFeatures={initialData?.installed_features ?? {}}
+      initialUpdateInfo={initialData?.cached_updates ?? null}
+    />
   ) : (
     <ActivationForm queryClient={queryClient} />
   )
 }
+
+// ---------------------------------------------------------------------------
+// Activation form
+// ---------------------------------------------------------------------------
 
 function ActivationForm({ queryClient }: { queryClient: ReturnType<typeof useQueryClient> }) {
   const [licenseKey, setLicenseKey] = useState('')
@@ -232,16 +310,29 @@ function ActivationForm({ queryClient }: { queryClient: ReturnType<typeof useQue
   )
 }
 
+// ---------------------------------------------------------------------------
+// License status (main dashboard)
+// ---------------------------------------------------------------------------
+
 function LicenseStatus({
   data,
   queryClient,
+  pluginVersion,
+  initialInstalledFeatures,
+  initialUpdateInfo,
 }: {
   data: LicenseStatusResponse
   queryClient: ReturnType<typeof useQueryClient>
+  pluginVersion: string
+  initialInstalledFeatures: InstalledFeatureMap
+  initialUpdateInfo: CombinedUpdateCheckResult | null
 }) {
   const details = data.details
   const [showConfirm, setShowConfirm] = useState(false)
   const [installResult, setInstallResult] = useState<InstallFeaturesResult | null>(null)
+  const [installedFeatures, setInstalledFeatures] = useState<InstalledFeatureMap>(initialInstalledFeatures)
+  const [updateInfo, setUpdateInfo] = useState<CombinedUpdateCheckResult | null>(initialUpdateInfo)
+  const [updatingSlug, setUpdatingSlug] = useState<string | null>(null)
 
   const deactivateMutation = useMutation({
     mutationFn: deactivateLicense,
@@ -255,12 +346,57 @@ function LicenseStatus({
     },
   })
 
+  const updateCheckMutation = useMutation({
+    mutationFn: checkForUpdates,
+    onSuccess: (result) => {
+      setUpdateInfo(result)
+    },
+  })
+
+  const updateFeatureMutation = useMutation({
+    mutationFn: updateSingleFeature,
+    onSuccess: (result) => {
+      setUpdatingSlug(null)
+
+      if (result.installed && result.version) {
+        // Update local installed features map
+        setInstalledFeatures((prev) => ({
+          ...prev,
+          [result.slug]: result.version!,
+        }))
+
+        // Remove updated feature from the update list
+        setUpdateInfo((prev) => {
+          if (!prev) return prev
+          const remaining = prev.feature_updates.updates.filter((u) => u.slug !== result.slug)
+          return {
+            ...prev,
+            feature_updates: {
+              ...prev.feature_updates,
+              updates: remaining,
+              updates_available: remaining.length > 0,
+            },
+          }
+        })
+      }
+    },
+    onError: () => {
+      setUpdatingSlug(null)
+    },
+  })
+
   if (!details) {
     return null
   }
 
   const isExpired = details.expires_at ? new Date(details.expires_at) < new Date() : false
   const isValid = data.valid
+  const featureUpdates = updateInfo?.feature_updates?.updates ?? []
+
+  const handleUpdateFeature = (slug: string) => {
+    setUpdatingSlug(slug)
+    updateFeatureMutation.mutate(slug)
+  }
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 px-6 py-12">
@@ -335,7 +471,7 @@ function LicenseStatus({
         </CardContent>
       </Card>
 
-      {/* Features Card */}
+      {/* Features Card with FeatureGrid */}
       {details.features.length > 0 && (
         <Card>
           <CardHeader>
@@ -349,19 +485,29 @@ function LicenseStatus({
           </CardHeader>
 
           <CardContent>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {details.features.map((feature) => (
-                <div
-                  key={feature}
-                  className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm"
-                >
-                  <CircleCheck className="h-4 w-4 shrink-0 text-emerald-600" />
-                  <span className="capitalize">{feature.replace(/-/g, ' ')}</span>
-                </div>
-              ))}
-            </div>
+            <FeatureGrid
+              features={details.features}
+              installedFeatures={installedFeatures}
+              featureUpdates={featureUpdates}
+              updatingSlug={updatingSlug}
+              onUpdateFeature={handleUpdateFeature}
+            />
           </CardContent>
         </Card>
+      )}
+
+      {/* Updates Section */}
+      {data.valid && (
+        <UpdatesSection
+          pluginVersion={pluginVersion}
+          updateInfo={updateInfo}
+          isChecking={updateCheckMutation.isPending}
+          checkError={updateCheckMutation.isError ? (updateCheckMutation.error as Error).message : null}
+          onCheckUpdates={() => updateCheckMutation.mutate()}
+          featureUpdates={featureUpdates}
+          onUpdateAll={() => installMutation.mutate()}
+          isUpdatingAll={installMutation.isPending}
+        />
       )}
 
       {/* Download Features */}
@@ -483,6 +629,226 @@ function LicenseStatus({
     </div>
   )
 }
+
+// ---------------------------------------------------------------------------
+// Feature grid — shows each feature with install/update status
+// ---------------------------------------------------------------------------
+
+function FeatureGrid({
+  features,
+  installedFeatures,
+  featureUpdates,
+  updatingSlug,
+  onUpdateFeature,
+}: {
+  features: string[]
+  installedFeatures: InstalledFeatureMap
+  featureUpdates: FeatureUpdateInfo[]
+  updatingSlug: string | null
+  onUpdateFeature: (slug: string) => void
+}) {
+  return (
+    <div className="grid gap-2 sm:grid-cols-2">
+      {features.map((slug) => {
+        const installedVersion = installedFeatures[slug]
+        const update = featureUpdates.find((u) => u.slug === slug)
+        const isUpdating = updatingSlug === slug
+
+        return (
+          <FeatureItem
+            key={slug}
+            slug={slug}
+            installedVersion={installedVersion}
+            update={update}
+            isUpdating={isUpdating}
+            onUpdate={() => onUpdateFeature(slug)}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
+function FeatureItem({
+  slug,
+  installedVersion,
+  update,
+  isUpdating,
+  onUpdate,
+}: {
+  slug: string
+  installedVersion?: string
+  update?: FeatureUpdateInfo
+  isUpdating: boolean
+  onUpdate: () => void
+}) {
+  const displayName = slug.replace(/-/g, ' ')
+
+  // State: updating
+  if (isUpdating) {
+    return (
+      <div className="flex items-center justify-between gap-2 rounded-md border border-amber-200 bg-amber-50/50 px-3 py-2 text-sm">
+        <span className="flex items-center gap-2">
+          <Loader2 className="h-4 w-4 shrink-0 animate-spin text-amber-600" />
+          <span className="capitalize">{displayName}</span>
+        </span>
+        <Badge variant="secondary" className="text-xs">
+          {__('Updating...', 'wp-statistics-premium')}
+        </Badge>
+      </div>
+    )
+  }
+
+  // State: installed with update available
+  if (installedVersion && update) {
+    return (
+      <div className="flex items-center justify-between gap-2 rounded-md border border-amber-200 bg-amber-50/50 px-3 py-2 text-sm">
+        <span className="flex items-center gap-2">
+          <ArrowUpCircle className="h-4 w-4 shrink-0 text-amber-600" />
+          <span className="capitalize">{displayName}</span>
+          <Badge variant="outline" className="text-xs font-mono">
+            v{installedVersion}
+          </Badge>
+        </span>
+        <Button variant="outline" size="sm" className="h-6 px-2 text-xs" onClick={onUpdate}>
+          {`${__('Update', 'wp-statistics-premium')} → v${update.latest_version}`}
+        </Button>
+      </div>
+    )
+  }
+
+  // State: installed, up to date
+  if (installedVersion) {
+    return (
+      <div className="flex items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm">
+        <span className="flex items-center gap-2">
+          <CircleCheck className="h-4 w-4 shrink-0 text-emerald-600" />
+          <span className="capitalize">{displayName}</span>
+        </span>
+        <Badge variant="outline" className="text-xs font-mono">
+          v{installedVersion}
+        </Badge>
+      </div>
+    )
+  }
+
+  // State: not installed
+  return (
+    <div className="flex items-center justify-between gap-2 rounded-md border border-dashed px-3 py-2 text-sm text-muted-foreground">
+      <span className="flex items-center gap-2">
+        <CircleDashed className="h-4 w-4 shrink-0" />
+        <span className="capitalize">{displayName}</span>
+      </span>
+      <Badge variant="secondary" className="text-xs">
+        {__('Not Installed', 'wp-statistics-premium')}
+      </Badge>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Updates section — base plugin + feature update checking
+// ---------------------------------------------------------------------------
+
+function UpdatesSection({
+  pluginVersion,
+  updateInfo,
+  isChecking,
+  checkError,
+  onCheckUpdates,
+  featureUpdates,
+  onUpdateAll,
+  isUpdatingAll,
+}: {
+  pluginVersion: string
+  updateInfo: CombinedUpdateCheckResult | null
+  isChecking: boolean
+  checkError: string | null
+  onCheckUpdates: () => void
+  featureUpdates: FeatureUpdateInfo[]
+  onUpdateAll: () => void
+  isUpdatingAll: boolean
+}) {
+  const baseUpdate = updateInfo?.base_update
+  const hasFeatureUpdates = featureUpdates.length > 0
+  const hasBaseUpdate = baseUpdate?.update_available === true
+  const hasAnyUpdate = hasFeatureUpdates || hasBaseUpdate
+  const checkedAt = updateInfo?.checked_at
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <RefreshCw className="h-5 w-5" />
+          {__('Updates', 'wp-statistics-premium')}
+        </CardTitle>
+        <CardDescription>
+          {pluginVersion && `WP Statistics v${pluginVersion}`}
+          {pluginVersion && hasBaseUpdate && baseUpdate?.version && (
+            <span className="ml-1 text-amber-700">
+              {` — v${baseUpdate.version} ${__('available', 'wp-statistics-premium')}`}
+            </span>
+          )}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="space-y-3">
+        {checkError && (
+          <div className="flex items-center gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800">
+            <CircleX className="h-4 w-4 shrink-0" />
+            {checkError}
+          </div>
+        )}
+
+        {updateInfo && !hasAnyUpdate && (
+          <div className="flex items-center gap-2 rounded-md bg-emerald-50 p-3 text-sm text-emerald-800">
+            <CircleCheck className="h-4 w-4 shrink-0" />
+            {__('Everything is up to date!', 'wp-statistics-premium')}
+          </div>
+        )}
+
+        {hasFeatureUpdates && (
+          <div className="flex items-start gap-2 rounded-md bg-amber-50 p-3 text-sm text-amber-800">
+            <ArrowUpCircle className="mt-0.5 h-4 w-4 shrink-0" />
+            <span>
+              {featureUpdates.length === 1
+                ? __('1 feature update available.', 'wp-statistics-premium')
+                : `${featureUpdates.length} ${__('feature updates available.', 'wp-statistics-premium')}`}
+            </span>
+          </div>
+        )}
+
+        {checkedAt && (
+          <p className="text-xs text-muted-foreground">
+            {`${__('Last checked:', 'wp-statistics-premium')} ${new Date(checkedAt * 1000).toLocaleString()}`}
+          </p>
+        )}
+      </CardContent>
+
+      <CardFooter className="flex items-center gap-3 border-t px-6 py-4">
+        <Button variant="outline" onClick={onCheckUpdates} disabled={isChecking}>
+          {isChecking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isChecking
+            ? __('Checking...', 'wp-statistics-premium')
+            : __('Check for Updates', 'wp-statistics-premium')}
+        </Button>
+
+        {hasFeatureUpdates && featureUpdates.length > 1 && (
+          <Button onClick={onUpdateAll} disabled={isUpdatingAll}>
+            {isUpdatingAll && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isUpdatingAll
+              ? __('Updating All...', 'wp-statistics-premium')
+              : __('Update All', 'wp-statistics-premium')}
+          </Button>
+        )}
+      </CardFooter>
+    </Card>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Shared UI primitives
+// ---------------------------------------------------------------------------
 
 function StatusBadge({ isExpired, isValid }: { isExpired: boolean; isValid: boolean }) {
   if (isExpired) {
