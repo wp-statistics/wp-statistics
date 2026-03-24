@@ -39,10 +39,10 @@ import { Route as geographicEuropeanCountriesRouteImport } from './routes/(geogr
 import { Route as geographicCountryRegionsRouteImport } from './routes/(geographic)/country-regions'
 import { Route as geographicCountriesRouteImport } from './routes/(geographic)/countries'
 import { Route as geographicCitiesRouteImport } from './routes/(geographic)/cities'
-import { Route as eventsLinkTrackingRouteImport } from './routes/(events)/link-tracking'
+import { Route as eventsTopLinksRouteImport } from './routes/(events)/top-links'
+import { Route as eventsTopDownloadsRouteImport } from './routes/(events)/top-downloads'
 import { Route as eventsEventsOverviewRouteImport } from './routes/(events)/events-overview'
 import { Route as eventsEventLogRouteImport } from './routes/(events)/event-log'
-import { Route as eventsDownloadTrackingRouteImport } from './routes/(events)/download-tracking'
 import { Route as devicesScreenResolutionsRouteImport } from './routes/(devices)/screen-resolutions'
 import { Route as devicesOperatingSystemsRouteImport } from './routes/(devices)/operating-systems'
 import { Route as devicesDevicesOverviewRouteImport } from './routes/(devices)/devices-overview'
@@ -436,14 +436,21 @@ const geographicCitiesRoute = geographicCitiesRouteImport
     getParentRoute: () => rootRouteImport,
   } as any)
   .lazy(() => import('./routes/(geographic)/cities.lazy').then((d) => d.Route))
-const eventsLinkTrackingRoute = eventsLinkTrackingRouteImport
+const eventsTopLinksRoute = eventsTopLinksRouteImport
   .update({
-    id: '/(events)/link-tracking',
-    path: '/link-tracking',
+    id: '/(events)/top-links',
+    path: '/top-links',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() => import('./routes/(events)/top-links.lazy').then((d) => d.Route))
+const eventsTopDownloadsRoute = eventsTopDownloadsRouteImport
+  .update({
+    id: '/(events)/top-downloads',
+    path: '/top-downloads',
     getParentRoute: () => rootRouteImport,
   } as any)
   .lazy(() =>
-    import('./routes/(events)/link-tracking.lazy').then((d) => d.Route),
+    import('./routes/(events)/top-downloads.lazy').then((d) => d.Route),
   )
 const eventsEventsOverviewRoute = eventsEventsOverviewRouteImport
   .update({
@@ -461,15 +468,6 @@ const eventsEventLogRoute = eventsEventLogRouteImport
     getParentRoute: () => rootRouteImport,
   } as any)
   .lazy(() => import('./routes/(events)/event-log.lazy').then((d) => d.Route))
-const eventsDownloadTrackingRoute = eventsDownloadTrackingRouteImport
-  .update({
-    id: '/(events)/download-tracking',
-    path: '/download-tracking',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() =>
-    import('./routes/(events)/download-tracking.lazy').then((d) => d.Route),
-  )
 const devicesScreenResolutionsRoute = devicesScreenResolutionsRouteImport
   .update({
     id: '/(devices)/screen-resolutions',
@@ -675,10 +673,10 @@ export interface FileRoutesByFullPath {
   '/devices-overview': typeof devicesDevicesOverviewRoute
   '/operating-systems': typeof devicesOperatingSystemsRoute
   '/screen-resolutions': typeof devicesScreenResolutionsRoute
-  '/download-tracking': typeof eventsDownloadTrackingRoute
   '/event-log': typeof eventsEventLogRoute
   '/events-overview': typeof eventsEventsOverviewRoute
-  '/link-tracking': typeof eventsLinkTrackingRoute
+  '/top-downloads': typeof eventsTopDownloadsRoute
+  '/top-links': typeof eventsTopLinksRoute
   '/cities': typeof geographicCitiesRoute
   '/countries': typeof geographicCountriesRoute
   '/country-regions': typeof geographicCountryRegionsRoute
@@ -738,10 +736,10 @@ export interface FileRoutesByTo {
   '/devices-overview': typeof devicesDevicesOverviewRoute
   '/operating-systems': typeof devicesOperatingSystemsRoute
   '/screen-resolutions': typeof devicesScreenResolutionsRoute
-  '/download-tracking': typeof eventsDownloadTrackingRoute
   '/event-log': typeof eventsEventLogRoute
   '/events-overview': typeof eventsEventsOverviewRoute
-  '/link-tracking': typeof eventsLinkTrackingRoute
+  '/top-downloads': typeof eventsTopDownloadsRoute
+  '/top-links': typeof eventsTopLinksRoute
   '/cities': typeof geographicCitiesRoute
   '/countries': typeof geographicCountriesRoute
   '/country-regions': typeof geographicCountryRegionsRoute
@@ -804,10 +802,10 @@ export interface FileRoutesById {
   '/(devices)/devices-overview': typeof devicesDevicesOverviewRoute
   '/(devices)/operating-systems': typeof devicesOperatingSystemsRoute
   '/(devices)/screen-resolutions': typeof devicesScreenResolutionsRoute
-  '/(events)/download-tracking': typeof eventsDownloadTrackingRoute
   '/(events)/event-log': typeof eventsEventLogRoute
   '/(events)/events-overview': typeof eventsEventsOverviewRoute
-  '/(events)/link-tracking': typeof eventsLinkTrackingRoute
+  '/(events)/top-downloads': typeof eventsTopDownloadsRoute
+  '/(events)/top-links': typeof eventsTopLinksRoute
   '/(geographic)/cities': typeof geographicCitiesRoute
   '/(geographic)/countries': typeof geographicCountriesRoute
   '/(geographic)/country-regions': typeof geographicCountryRegionsRoute
@@ -871,10 +869,10 @@ export interface FileRouteTypes {
     | '/devices-overview'
     | '/operating-systems'
     | '/screen-resolutions'
-    | '/download-tracking'
     | '/event-log'
     | '/events-overview'
-    | '/link-tracking'
+    | '/top-downloads'
+    | '/top-links'
     | '/cities'
     | '/countries'
     | '/country-regions'
@@ -934,10 +932,10 @@ export interface FileRouteTypes {
     | '/devices-overview'
     | '/operating-systems'
     | '/screen-resolutions'
-    | '/download-tracking'
     | '/event-log'
     | '/events-overview'
-    | '/link-tracking'
+    | '/top-downloads'
+    | '/top-links'
     | '/cities'
     | '/countries'
     | '/country-regions'
@@ -999,10 +997,10 @@ export interface FileRouteTypes {
     | '/(devices)/devices-overview'
     | '/(devices)/operating-systems'
     | '/(devices)/screen-resolutions'
-    | '/(events)/download-tracking'
     | '/(events)/event-log'
     | '/(events)/events-overview'
-    | '/(events)/link-tracking'
+    | '/(events)/top-downloads'
+    | '/(events)/top-links'
     | '/(geographic)/cities'
     | '/(geographic)/countries'
     | '/(geographic)/country-regions'
@@ -1065,10 +1063,10 @@ export interface RootRouteChildren {
   devicesDevicesOverviewRoute: typeof devicesDevicesOverviewRoute
   devicesOperatingSystemsRoute: typeof devicesOperatingSystemsRoute
   devicesScreenResolutionsRoute: typeof devicesScreenResolutionsRoute
-  eventsDownloadTrackingRoute: typeof eventsDownloadTrackingRoute
   eventsEventLogRoute: typeof eventsEventLogRoute
   eventsEventsOverviewRoute: typeof eventsEventsOverviewRoute
-  eventsLinkTrackingRoute: typeof eventsLinkTrackingRoute
+  eventsTopDownloadsRoute: typeof eventsTopDownloadsRoute
+  eventsTopLinksRoute: typeof eventsTopLinksRoute
   geographicCitiesRoute: typeof geographicCitiesRoute
   geographicCountriesRoute: typeof geographicCountriesRoute
   geographicCountryRegionsRoute: typeof geographicCountryRegionsRoute
@@ -1396,11 +1394,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof geographicCitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(events)/link-tracking': {
-      id: '/(events)/link-tracking'
-      path: '/link-tracking'
-      fullPath: '/link-tracking'
-      preLoaderRoute: typeof eventsLinkTrackingRouteImport
+    '/(events)/top-links': {
+      id: '/(events)/top-links'
+      path: '/top-links'
+      fullPath: '/top-links'
+      preLoaderRoute: typeof eventsTopLinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(events)/top-downloads': {
+      id: '/(events)/top-downloads'
+      path: '/top-downloads'
+      fullPath: '/top-downloads'
+      preLoaderRoute: typeof eventsTopDownloadsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(events)/events-overview': {
@@ -1415,13 +1420,6 @@ declare module '@tanstack/react-router' {
       path: '/event-log'
       fullPath: '/event-log'
       preLoaderRoute: typeof eventsEventLogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(events)/download-tracking': {
-      id: '/(events)/download-tracking'
-      path: '/download-tracking'
-      fullPath: '/download-tracking'
-      preLoaderRoute: typeof eventsDownloadTrackingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(devices)/screen-resolutions': {
@@ -1601,10 +1599,10 @@ const rootRouteChildren: RootRouteChildren = {
   devicesDevicesOverviewRoute: devicesDevicesOverviewRoute,
   devicesOperatingSystemsRoute: devicesOperatingSystemsRoute,
   devicesScreenResolutionsRoute: devicesScreenResolutionsRoute,
-  eventsDownloadTrackingRoute: eventsDownloadTrackingRoute,
   eventsEventLogRoute: eventsEventLogRoute,
   eventsEventsOverviewRoute: eventsEventsOverviewRoute,
-  eventsLinkTrackingRoute: eventsLinkTrackingRoute,
+  eventsTopDownloadsRoute: eventsTopDownloadsRoute,
+  eventsTopLinksRoute: eventsTopLinksRoute,
   geographicCitiesRoute: geographicCitiesRoute,
   geographicCountriesRoute: geographicCountriesRoute,
   geographicCountryRegionsRoute: geographicCountryRegionsRoute,
