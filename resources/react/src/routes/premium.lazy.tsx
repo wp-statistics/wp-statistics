@@ -1,13 +1,24 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { __ } from '@wordpress/i18n'
 import { Construction } from 'lucide-react'
+import { useEffect } from 'react'
+
+import { WordPress } from '@/lib/wordpress'
 
 export const Route = createLazyFileRoute('/premium')({
   component: PremiumPage,
 })
 
-// TODO: Implement full premium features management page
 function PremiumPage() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const premium = WordPress.getInstance().getData<{ active?: boolean }>('premium')
+    if (premium?.active) {
+      navigate({ to: '/license', replace: true })
+    }
+  }, [navigate])
+
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <Construction className="h-12 w-12 text-muted-foreground/50 mb-4" />

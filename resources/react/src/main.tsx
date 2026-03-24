@@ -37,6 +37,7 @@ const syncAdminMenu = () => {
   const isSettingsRoute = hash.startsWith('#/settings')
   const isToolsRoute = hash.startsWith('#/tools')
   const isPremiumRoute = hash.startsWith('#/premium')
+  const isLicenseRoute = hash.startsWith('#/license')
   const isHelpRoute = hash.startsWith('#/help')
 
   // Find WP Statistics submenu (works for both single site and network admin)
@@ -55,10 +56,11 @@ const syncAdminMenu = () => {
     const isSettingsLink = href.includes('#/settings')
     const isToolsLink = href.includes('#/tools')
     const isPremiumLink = href.includes('#/premium')
+    const isLicenseLink = href.includes('#/license')
     const isHelpLink = href.includes('#/help')
     const isDashboardLink = href.includes('page=wp-statistics')
       && !isSettingsLink && !isToolsLink && !isPremiumLink
-      && !isHelpLink
+      && !isLicenseLink && !isHelpLink
 
     // Update current class based on current route
     let shouldBeActive = false
@@ -68,10 +70,12 @@ const syncAdminMenu = () => {
       shouldBeActive = true
     } else if (isPremiumRoute && isPremiumLink) {
       shouldBeActive = true
+    } else if (isLicenseRoute && isLicenseLink) {
+      shouldBeActive = true
     } else if (isHelpRoute && isHelpLink) {
       shouldBeActive = true
     } else if (!isSettingsRoute && !isToolsRoute && !isPremiumRoute
-               && !isHelpRoute && isDashboardLink) {
+               && !isLicenseRoute && !isHelpRoute && isDashboardLink) {
       shouldBeActive = true
     }
 

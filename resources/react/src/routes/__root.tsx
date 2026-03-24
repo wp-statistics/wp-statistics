@@ -37,7 +37,7 @@ const RootLayout = () => {
   const isNetworkAdmin = wp.isNetworkAdmin()
 
   // Full-width pages (no sidebar) — pending React implementation
-  const isFullWidthPage = ['/premium', '/help'].some(
+  const isFullWidthPage = ['/premium', '/help', '/license'].some(
     (path) => routerState.location.pathname === path || routerState.location.pathname.startsWith(path + '/')
   )
 
