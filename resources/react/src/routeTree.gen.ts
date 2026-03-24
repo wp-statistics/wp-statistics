@@ -41,6 +41,7 @@ import { Route as geographicCountriesRouteImport } from './routes/(geographic)/c
 import { Route as geographicCitiesRouteImport } from './routes/(geographic)/cities'
 import { Route as eventsLinkTrackingRouteImport } from './routes/(events)/link-tracking'
 import { Route as eventsEventsOverviewRouteImport } from './routes/(events)/events-overview'
+import { Route as eventsEventLogRouteImport } from './routes/(events)/event-log'
 import { Route as eventsDownloadTrackingRouteImport } from './routes/(events)/download-tracking'
 import { Route as devicesScreenResolutionsRouteImport } from './routes/(devices)/screen-resolutions'
 import { Route as devicesOperatingSystemsRouteImport } from './routes/(devices)/operating-systems'
@@ -453,6 +454,13 @@ const eventsEventsOverviewRoute = eventsEventsOverviewRouteImport
   .lazy(() =>
     import('./routes/(events)/events-overview.lazy').then((d) => d.Route),
   )
+const eventsEventLogRoute = eventsEventLogRouteImport
+  .update({
+    id: '/(events)/event-log',
+    path: '/event-log',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() => import('./routes/(events)/event-log.lazy').then((d) => d.Route))
 const eventsDownloadTrackingRoute = eventsDownloadTrackingRouteImport
   .update({
     id: '/(events)/download-tracking',
@@ -668,6 +676,7 @@ export interface FileRoutesByFullPath {
   '/operating-systems': typeof devicesOperatingSystemsRoute
   '/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/download-tracking': typeof eventsDownloadTrackingRoute
+  '/event-log': typeof eventsEventLogRoute
   '/events-overview': typeof eventsEventsOverviewRoute
   '/link-tracking': typeof eventsLinkTrackingRoute
   '/cities': typeof geographicCitiesRoute
@@ -730,6 +739,7 @@ export interface FileRoutesByTo {
   '/operating-systems': typeof devicesOperatingSystemsRoute
   '/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/download-tracking': typeof eventsDownloadTrackingRoute
+  '/event-log': typeof eventsEventLogRoute
   '/events-overview': typeof eventsEventsOverviewRoute
   '/link-tracking': typeof eventsLinkTrackingRoute
   '/cities': typeof geographicCitiesRoute
@@ -795,6 +805,7 @@ export interface FileRoutesById {
   '/(devices)/operating-systems': typeof devicesOperatingSystemsRoute
   '/(devices)/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/(events)/download-tracking': typeof eventsDownloadTrackingRoute
+  '/(events)/event-log': typeof eventsEventLogRoute
   '/(events)/events-overview': typeof eventsEventsOverviewRoute
   '/(events)/link-tracking': typeof eventsLinkTrackingRoute
   '/(geographic)/cities': typeof geographicCitiesRoute
@@ -861,6 +872,7 @@ export interface FileRouteTypes {
     | '/operating-systems'
     | '/screen-resolutions'
     | '/download-tracking'
+    | '/event-log'
     | '/events-overview'
     | '/link-tracking'
     | '/cities'
@@ -923,6 +935,7 @@ export interface FileRouteTypes {
     | '/operating-systems'
     | '/screen-resolutions'
     | '/download-tracking'
+    | '/event-log'
     | '/events-overview'
     | '/link-tracking'
     | '/cities'
@@ -987,6 +1000,7 @@ export interface FileRouteTypes {
     | '/(devices)/operating-systems'
     | '/(devices)/screen-resolutions'
     | '/(events)/download-tracking'
+    | '/(events)/event-log'
     | '/(events)/events-overview'
     | '/(events)/link-tracking'
     | '/(geographic)/cities'
@@ -1052,6 +1066,7 @@ export interface RootRouteChildren {
   devicesOperatingSystemsRoute: typeof devicesOperatingSystemsRoute
   devicesScreenResolutionsRoute: typeof devicesScreenResolutionsRoute
   eventsDownloadTrackingRoute: typeof eventsDownloadTrackingRoute
+  eventsEventLogRoute: typeof eventsEventLogRoute
   eventsEventsOverviewRoute: typeof eventsEventsOverviewRoute
   eventsLinkTrackingRoute: typeof eventsLinkTrackingRoute
   geographicCitiesRoute: typeof geographicCitiesRoute
@@ -1395,6 +1410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof eventsEventsOverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(events)/event-log': {
+      id: '/(events)/event-log'
+      path: '/event-log'
+      fullPath: '/event-log'
+      preLoaderRoute: typeof eventsEventLogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(events)/download-tracking': {
       id: '/(events)/download-tracking'
       path: '/download-tracking'
@@ -1580,6 +1602,7 @@ const rootRouteChildren: RootRouteChildren = {
   devicesOperatingSystemsRoute: devicesOperatingSystemsRoute,
   devicesScreenResolutionsRoute: devicesScreenResolutionsRoute,
   eventsDownloadTrackingRoute: eventsDownloadTrackingRoute,
+  eventsEventLogRoute: eventsEventLogRoute,
   eventsEventsOverviewRoute: eventsEventsOverviewRoute,
   eventsLinkTrackingRoute: eventsLinkTrackingRoute,
   geographicCitiesRoute: geographicCitiesRoute,
