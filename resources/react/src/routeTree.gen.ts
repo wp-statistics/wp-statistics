@@ -42,7 +42,7 @@ import { Route as geographicCitiesRouteImport } from './routes/(geographic)/citi
 import { Route as eventsTopLinksRouteImport } from './routes/(events)/top-links'
 import { Route as eventsTopDownloadsRouteImport } from './routes/(events)/top-downloads'
 import { Route as eventsEventsOverviewRouteImport } from './routes/(events)/events-overview'
-import { Route as eventsEventLogRouteImport } from './routes/(events)/event-log'
+import { Route as eventsEventsRouteImport } from './routes/(events)/events'
 import { Route as devicesScreenResolutionsRouteImport } from './routes/(devices)/screen-resolutions'
 import { Route as devicesOperatingSystemsRouteImport } from './routes/(devices)/operating-systems'
 import { Route as devicesDevicesOverviewRouteImport } from './routes/(devices)/devices-overview'
@@ -461,13 +461,13 @@ const eventsEventsOverviewRoute = eventsEventsOverviewRouteImport
   .lazy(() =>
     import('./routes/(events)/events-overview.lazy').then((d) => d.Route),
   )
-const eventsEventLogRoute = eventsEventLogRouteImport
+const eventsEventsRoute = eventsEventsRouteImport
   .update({
-    id: '/(events)/event-log',
-    path: '/event-log',
+    id: '/(events)/events',
+    path: '/events',
     getParentRoute: () => rootRouteImport,
   } as any)
-  .lazy(() => import('./routes/(events)/event-log.lazy').then((d) => d.Route))
+  .lazy(() => import('./routes/(events)/events.lazy').then((d) => d.Route))
 const devicesScreenResolutionsRoute = devicesScreenResolutionsRouteImport
   .update({
     id: '/(devices)/screen-resolutions',
@@ -673,7 +673,7 @@ export interface FileRoutesByFullPath {
   '/devices-overview': typeof devicesDevicesOverviewRoute
   '/operating-systems': typeof devicesOperatingSystemsRoute
   '/screen-resolutions': typeof devicesScreenResolutionsRoute
-  '/event-log': typeof eventsEventLogRoute
+  '/events': typeof eventsEventsRoute
   '/events-overview': typeof eventsEventsOverviewRoute
   '/top-downloads': typeof eventsTopDownloadsRoute
   '/top-links': typeof eventsTopLinksRoute
@@ -736,7 +736,7 @@ export interface FileRoutesByTo {
   '/devices-overview': typeof devicesDevicesOverviewRoute
   '/operating-systems': typeof devicesOperatingSystemsRoute
   '/screen-resolutions': typeof devicesScreenResolutionsRoute
-  '/event-log': typeof eventsEventLogRoute
+  '/events': typeof eventsEventsRoute
   '/events-overview': typeof eventsEventsOverviewRoute
   '/top-downloads': typeof eventsTopDownloadsRoute
   '/top-links': typeof eventsTopLinksRoute
@@ -802,7 +802,7 @@ export interface FileRoutesById {
   '/(devices)/devices-overview': typeof devicesDevicesOverviewRoute
   '/(devices)/operating-systems': typeof devicesOperatingSystemsRoute
   '/(devices)/screen-resolutions': typeof devicesScreenResolutionsRoute
-  '/(events)/event-log': typeof eventsEventLogRoute
+  '/(events)/events': typeof eventsEventsRoute
   '/(events)/events-overview': typeof eventsEventsOverviewRoute
   '/(events)/top-downloads': typeof eventsTopDownloadsRoute
   '/(events)/top-links': typeof eventsTopLinksRoute
@@ -869,7 +869,7 @@ export interface FileRouteTypes {
     | '/devices-overview'
     | '/operating-systems'
     | '/screen-resolutions'
-    | '/event-log'
+    | '/events'
     | '/events-overview'
     | '/top-downloads'
     | '/top-links'
@@ -932,7 +932,7 @@ export interface FileRouteTypes {
     | '/devices-overview'
     | '/operating-systems'
     | '/screen-resolutions'
-    | '/event-log'
+    | '/events'
     | '/events-overview'
     | '/top-downloads'
     | '/top-links'
@@ -997,7 +997,7 @@ export interface FileRouteTypes {
     | '/(devices)/devices-overview'
     | '/(devices)/operating-systems'
     | '/(devices)/screen-resolutions'
-    | '/(events)/event-log'
+    | '/(events)/events'
     | '/(events)/events-overview'
     | '/(events)/top-downloads'
     | '/(events)/top-links'
@@ -1063,7 +1063,7 @@ export interface RootRouteChildren {
   devicesDevicesOverviewRoute: typeof devicesDevicesOverviewRoute
   devicesOperatingSystemsRoute: typeof devicesOperatingSystemsRoute
   devicesScreenResolutionsRoute: typeof devicesScreenResolutionsRoute
-  eventsEventLogRoute: typeof eventsEventLogRoute
+  eventsEventsRoute: typeof eventsEventsRoute
   eventsEventsOverviewRoute: typeof eventsEventsOverviewRoute
   eventsTopDownloadsRoute: typeof eventsTopDownloadsRoute
   eventsTopLinksRoute: typeof eventsTopLinksRoute
@@ -1415,11 +1415,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof eventsEventsOverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(events)/event-log': {
-      id: '/(events)/event-log'
-      path: '/event-log'
-      fullPath: '/event-log'
-      preLoaderRoute: typeof eventsEventLogRouteImport
+    '/(events)/events': {
+      id: '/(events)/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof eventsEventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(devices)/screen-resolutions': {
@@ -1599,7 +1599,7 @@ const rootRouteChildren: RootRouteChildren = {
   devicesDevicesOverviewRoute: devicesDevicesOverviewRoute,
   devicesOperatingSystemsRoute: devicesOperatingSystemsRoute,
   devicesScreenResolutionsRoute: devicesScreenResolutionsRoute,
-  eventsEventLogRoute: eventsEventLogRoute,
+  eventsEventsRoute: eventsEventsRoute,
   eventsEventsOverviewRoute: eventsEventsOverviewRoute,
   eventsTopDownloadsRoute: eventsTopDownloadsRoute,
   eventsTopLinksRoute: eventsTopLinksRoute,
