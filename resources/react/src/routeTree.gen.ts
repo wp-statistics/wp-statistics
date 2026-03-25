@@ -32,6 +32,7 @@ import { Route as pageInsightsEntryPagesRouteImport } from './routes/(page-insig
 import { Route as pageInsightsCategoryPagesRouteImport } from './routes/(page-insights)/category-pages'
 import { Route as pageInsightsAuthorPagesRouteImport } from './routes/(page-insights)/author-pages'
 import { Route as pageInsights404PagesRouteImport } from './routes/(page-insights)/404-pages'
+import { Route as goalsGoalsRouteImport } from './routes/(goals)/goals'
 import { Route as geographicUsStatesRouteImport } from './routes/(geographic)/us-states'
 import { Route as geographicTimezonesRouteImport } from './routes/(geographic)/timezones'
 import { Route as geographicGeographicOverviewRouteImport } from './routes/(geographic)/geographic-overview'
@@ -54,6 +55,7 @@ import { Route as contentAnalyticsContentRouteImport } from './routes/(content-a
 import { Route as contentAnalyticsCategoriesRouteImport } from './routes/(content-analytics)/categories'
 import { Route as contentAnalyticsAuthorsRouteImport } from './routes/(content-analytics)/authors'
 import { Route as pageInsightsUrlResourceIdRouteImport } from './routes/(page-insights)/url_.$resourceId'
+import { Route as goalsGoalGoalIdRouteImport } from './routes/(goals)/goal_.$goalId'
 import { Route as geographicCountryCountryCodeRouteImport } from './routes/(geographic)/country_.$countryCode'
 import { Route as eventsEventEventNameRouteImport } from './routes/(events)/event_.$eventName'
 import { Route as contentAnalyticsContentPostIdRouteImport } from './routes/(content-analytics)/content_.$postId'
@@ -370,6 +372,13 @@ const pageInsights404PagesRoute = pageInsights404PagesRouteImport
   .lazy(() =>
     import('./routes/(page-insights)/404-pages.lazy').then((d) => d.Route),
   )
+const goalsGoalsRoute = goalsGoalsRouteImport
+  .update({
+    id: '/(goals)/goals',
+    path: '/goals',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() => import('./routes/(goals)/goals.lazy').then((d) => d.Route))
 const geographicUsStatesRoute = geographicUsStatesRouteImport
   .update({
     id: '/(geographic)/us-states',
@@ -572,6 +581,15 @@ const pageInsightsUrlResourceIdRoute = pageInsightsUrlResourceIdRouteImport
       (d) => d.Route,
     ),
   )
+const goalsGoalGoalIdRoute = goalsGoalGoalIdRouteImport
+  .update({
+    id: '/(goals)/goal_/$goalId',
+    path: '/goal/$goalId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(goals)/goal_.$goalId.lazy').then((d) => d.Route),
+  )
 const geographicCountryCountryCodeRoute =
   geographicCountryCountryCodeRouteImport
     .update({
@@ -684,6 +702,7 @@ export interface FileRoutesByFullPath {
   '/geographic-overview': typeof geographicGeographicOverviewRoute
   '/timezones': typeof geographicTimezonesRoute
   '/us-states': typeof geographicUsStatesRoute
+  '/goals': typeof goalsGoalsRoute
   '/404-pages': typeof pageInsights404PagesRoute
   '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -714,6 +733,7 @@ export interface FileRoutesByFullPath {
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
   '/event/$eventName': typeof eventsEventEventNameRoute
   '/country/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/goal/$goalId': typeof goalsGoalGoalIdRoute
   '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
   '/utm/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
   '/visitor/$type/$id': typeof visitorInsightsVisitorTypeIdRoute
@@ -747,6 +767,7 @@ export interface FileRoutesByTo {
   '/geographic-overview': typeof geographicGeographicOverviewRoute
   '/timezones': typeof geographicTimezonesRoute
   '/us-states': typeof geographicUsStatesRoute
+  '/goals': typeof goalsGoalsRoute
   '/404-pages': typeof pageInsights404PagesRoute
   '/author-pages': typeof pageInsightsAuthorPagesRoute
   '/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -777,6 +798,7 @@ export interface FileRoutesByTo {
   '/content/$postId': typeof contentAnalyticsContentPostIdRoute
   '/event/$eventName': typeof eventsEventEventNameRoute
   '/country/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/goal/$goalId': typeof goalsGoalGoalIdRoute
   '/url/$resourceId': typeof pageInsightsUrlResourceIdRoute
   '/utm/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
   '/visitor/$type/$id': typeof visitorInsightsVisitorTypeIdRoute
@@ -813,6 +835,7 @@ export interface FileRoutesById {
   '/(geographic)/geographic-overview': typeof geographicGeographicOverviewRoute
   '/(geographic)/timezones': typeof geographicTimezonesRoute
   '/(geographic)/us-states': typeof geographicUsStatesRoute
+  '/(goals)/goals': typeof goalsGoalsRoute
   '/(page-insights)/404-pages': typeof pageInsights404PagesRoute
   '/(page-insights)/author-pages': typeof pageInsightsAuthorPagesRoute
   '/(page-insights)/category-pages': typeof pageInsightsCategoryPagesRoute
@@ -843,6 +866,7 @@ export interface FileRoutesById {
   '/(content-analytics)/content_/$postId': typeof contentAnalyticsContentPostIdRoute
   '/(events)/event_/$eventName': typeof eventsEventEventNameRoute
   '/(geographic)/country_/$countryCode': typeof geographicCountryCountryCodeRoute
+  '/(goals)/goal_/$goalId': typeof goalsGoalGoalIdRoute
   '/(page-insights)/url_/$resourceId': typeof pageInsightsUrlResourceIdRoute
   '/(referrals)/utm_/$utmType/$utmValue': typeof referralsUtmUtmTypeUtmValueRoute
   '/(visitor-insights)/visitor_/$type/$id': typeof visitorInsightsVisitorTypeIdRoute
@@ -880,6 +904,7 @@ export interface FileRouteTypes {
     | '/geographic-overview'
     | '/timezones'
     | '/us-states'
+    | '/goals'
     | '/404-pages'
     | '/author-pages'
     | '/category-pages'
@@ -910,6 +935,7 @@ export interface FileRouteTypes {
     | '/content/$postId'
     | '/event/$eventName'
     | '/country/$countryCode'
+    | '/goal/$goalId'
     | '/url/$resourceId'
     | '/utm/$utmType/$utmValue'
     | '/visitor/$type/$id'
@@ -943,6 +969,7 @@ export interface FileRouteTypes {
     | '/geographic-overview'
     | '/timezones'
     | '/us-states'
+    | '/goals'
     | '/404-pages'
     | '/author-pages'
     | '/category-pages'
@@ -973,6 +1000,7 @@ export interface FileRouteTypes {
     | '/content/$postId'
     | '/event/$eventName'
     | '/country/$countryCode'
+    | '/goal/$goalId'
     | '/url/$resourceId'
     | '/utm/$utmType/$utmValue'
     | '/visitor/$type/$id'
@@ -1008,6 +1036,7 @@ export interface FileRouteTypes {
     | '/(geographic)/geographic-overview'
     | '/(geographic)/timezones'
     | '/(geographic)/us-states'
+    | '/(goals)/goals'
     | '/(page-insights)/404-pages'
     | '/(page-insights)/author-pages'
     | '/(page-insights)/category-pages'
@@ -1038,6 +1067,7 @@ export interface FileRouteTypes {
     | '/(content-analytics)/content_/$postId'
     | '/(events)/event_/$eventName'
     | '/(geographic)/country_/$countryCode'
+    | '/(goals)/goal_/$goalId'
     | '/(page-insights)/url_/$resourceId'
     | '/(referrals)/utm_/$utmType/$utmValue'
     | '/(visitor-insights)/visitor_/$type/$id'
@@ -1074,6 +1104,7 @@ export interface RootRouteChildren {
   geographicGeographicOverviewRoute: typeof geographicGeographicOverviewRoute
   geographicTimezonesRoute: typeof geographicTimezonesRoute
   geographicUsStatesRoute: typeof geographicUsStatesRoute
+  goalsGoalsRoute: typeof goalsGoalsRoute
   pageInsights404PagesRoute: typeof pageInsights404PagesRoute
   pageInsightsAuthorPagesRoute: typeof pageInsightsAuthorPagesRoute
   pageInsightsCategoryPagesRoute: typeof pageInsightsCategoryPagesRoute
@@ -1100,6 +1131,7 @@ export interface RootRouteChildren {
   contentAnalyticsContentPostIdRoute: typeof contentAnalyticsContentPostIdRoute
   eventsEventEventNameRoute: typeof eventsEventEventNameRoute
   geographicCountryCountryCodeRoute: typeof geographicCountryCountryCodeRoute
+  goalsGoalGoalIdRoute: typeof goalsGoalGoalIdRoute
   pageInsightsUrlResourceIdRoute: typeof pageInsightsUrlResourceIdRoute
   referralsUtmUtmTypeUtmValueRoute: typeof referralsUtmUtmTypeUtmValueRoute
   visitorInsightsVisitorTypeIdRoute: typeof visitorInsightsVisitorTypeIdRoute
@@ -1345,6 +1377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pageInsights404PagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(goals)/goals': {
+      id: '/(goals)/goals'
+      path: '/goals'
+      fullPath: '/goals'
+      preLoaderRoute: typeof goalsGoalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(geographic)/us-states': {
       id: '/(geographic)/us-states'
       path: '/us-states'
@@ -1499,6 +1538,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pageInsightsUrlResourceIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(goals)/goal_/$goalId': {
+      id: '/(goals)/goal_/$goalId'
+      path: '/goal/$goalId'
+      fullPath: '/goal/$goalId'
+      preLoaderRoute: typeof goalsGoalGoalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(geographic)/country_/$countryCode': {
       id: '/(geographic)/country_/$countryCode'
       path: '/country/$countryCode'
@@ -1610,6 +1656,7 @@ const rootRouteChildren: RootRouteChildren = {
   geographicGeographicOverviewRoute: geographicGeographicOverviewRoute,
   geographicTimezonesRoute: geographicTimezonesRoute,
   geographicUsStatesRoute: geographicUsStatesRoute,
+  goalsGoalsRoute: goalsGoalsRoute,
   pageInsights404PagesRoute: pageInsights404PagesRoute,
   pageInsightsAuthorPagesRoute: pageInsightsAuthorPagesRoute,
   pageInsightsCategoryPagesRoute: pageInsightsCategoryPagesRoute,
@@ -1637,6 +1684,7 @@ const rootRouteChildren: RootRouteChildren = {
   contentAnalyticsContentPostIdRoute: contentAnalyticsContentPostIdRoute,
   eventsEventEventNameRoute: eventsEventEventNameRoute,
   geographicCountryCountryCodeRoute: geographicCountryCountryCodeRoute,
+  goalsGoalGoalIdRoute: goalsGoalGoalIdRoute,
   pageInsightsUrlResourceIdRoute: pageInsightsUrlResourceIdRoute,
   referralsUtmUtmTypeUtmValueRoute: referralsUtmUtmTypeUtmValueRoute,
   visitorInsightsVisitorTypeIdRoute: visitorInsightsVisitorTypeIdRoute,
