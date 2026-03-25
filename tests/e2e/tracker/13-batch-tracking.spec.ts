@@ -27,7 +27,7 @@ test.describe('Batch Tracking', () => {
   // ── Config tests ──────────────────────────────────────────────
 
   test.describe('batchEndpoint config', () => {
-    test('AJAX mode — batchEndpoint is absolute admin-ajax URL', async ({ page }) => {
+    test('AJAX mode — config has relative batch endpoint', async ({ page }) => {
       setBypassAdBlockers(true)
       setHybridMode(false)
 
@@ -36,20 +36,18 @@ test.describe('Batch Tracking', () => {
 
       const config = await getTrackerConfig(page)
       expect(config).toBeTruthy()
-      expect(config.batchEndpoint).toBeTruthy()
-      expect(config.batchEndpoint).toContain('admin-ajax.php')
+      expect(config.trackingMethod).toBe('ajax')
+      expect(config.baseUrls.ajax).toBeTruthy()
       expect(config.batchEndpoint).toContain('wp_statistics_batch')
 
-      // batchEndpoint should be an absolute URL
-      expect(
-        config.batchEndpoint.startsWith('http://') ||
-          config.batchEndpoint.startsWith('https://')
-      ).toBe(true)
+      // Both endpoints are relative paths
+      expect(config.hitEndpoint).toMatch(/^\?action=/)
+      expect(config.batchEndpoint).toMatch(/^\?action=/)
 
       setBypassAdBlockers(false)
     })
 
-    test('REST mode — batchEndpoint still uses admin-ajax (not REST)', async ({ page }) => {
+    test('AJAX mode (default) — batchEndpoint uses AJAX base', async ({ page }) => {
       setBypassAdBlockers(false)
       setHybridMode(false)
 
@@ -59,12 +57,12 @@ test.describe('Batch Tracking', () => {
       const config = await getTrackerConfig(page)
       expect(config).toBeTruthy()
 
-      // Batch always goes through AJAX regardless of hit transport
-      expect(config.batchEndpoint).toContain('admin-ajax.php')
+      // Default mode is AJAX — batch uses ajax base
+      expect(config.trackingMethod).toBe('ajax')
       expect(config.batchEndpoint).toContain('wp_statistics_batch')
     })
 
-    test('Hybrid Mode — batchEndpoint uses admin-ajax, hitEndpoint uses mu-plugin', async ({
+    test('Hybrid Mode — hitEndpoint uses mu-plugin, batchEndpoint uses REST', async ({
       page,
     }) => {
       setHybridMode(true)
@@ -75,18 +73,14 @@ test.describe('Batch Tracking', () => {
       const config = await getTrackerConfig(page)
       expect(config).toBeTruthy()
 
+      expect(config.trackingMethod).toBe('hybrid')
+
       // Hit goes to Hybrid Mode mu-plugin
       expect(config.hitEndpoint).toContain('wp-statistics-tracker.php')
 
-      // Batch goes to AJAX — independent of hit transport
-      expect(config.batchEndpoint).toContain('admin-ajax.php')
-      expect(config.batchEndpoint).toContain('wp_statistics_batch')
-
-      // batchEndpoint is absolute, hitEndpoint is relative
-      expect(
-        config.batchEndpoint.startsWith('http://') ||
-          config.batchEndpoint.startsWith('https://')
-      ).toBe(true)
+      // Batch is a relative REST path — resolved via baseUrls.rest
+      expect(config.batchEndpoint).toBe('/batch')
+      expect(config.baseUrls.rest).toBeTruthy()
 
       setHybridMode(false)
     })
@@ -185,7 +179,7 @@ test.describe('Batch Tracking', () => {
       setHybridMode(false)
     })
 
-    test('hit goes through Hybrid Mode, batch goes through AJAX', async ({ page }) => {
+    test('hit goes through Hybrid Mode, batch goes through REST', async ({ page }) => {
       const hitPromise = waitForHitRequest(page)
       await page.goto('/')
       const hit = await hitPromise
@@ -208,9 +202,8 @@ test.describe('Batch Tracking', () => {
       })
       const batch = await batchPromise
 
-      // Batch uses AJAX, NOT Hybrid Mode
-      expect(batch.url).toContain('admin-ajax.php')
-      expect(batch.url).toContain('wp_statistics_batch')
+      // Batch uses REST, NOT Hybrid Mode mu-plugin
+      expect(batch.url).toContain('wp-statistics/v2/batch')
       expect(batch.url).not.toContain('wp-statistics-tracker.php')
 
       expect(batch.payload.engagement_time).toBeGreaterThan(0)
@@ -225,7 +218,7 @@ test.describe('Batch Tracking', () => {
       await page.evaluate(() => {
         ;(window as any).wp_statistics.addEvent('custom_event', {
           event_name: 'directfile_test_event',
-          event_data: JSON.stringify({ mode: 'direct_file' }),
+          event_data: JSON.stringify({ mode: 'hybrid' }),
         })
       })
 
@@ -244,7 +237,7 @@ test.describe('Batch Tracking', () => {
         (e: any) => e.type === 'custom_event' && e.data?.event_name === 'directfile_test_event'
       )
       expect(event).toBeTruthy()
-      expect(event.data.event_data).toContain('direct_file')
+      expect(event.data.event_data).toContain('hybrid')
     })
 
     test('batch response is successful in Hybrid Mode', async ({ page }) => {
@@ -258,8 +251,7 @@ test.describe('Batch Tracking', () => {
       // Intercept batch response to verify server processing
       const responsePromise = page.waitForResponse(
         (resp) =>
-          resp.url().includes('admin-ajax.php') &&
-          resp.request().postData()?.includes('wp_statistics_batch') === true &&
+          resp.url().includes('wp-statistics/v2/batch') &&
           resp.request().method() === 'POST',
         { timeout: 10000 }
       )

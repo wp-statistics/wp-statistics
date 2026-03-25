@@ -260,7 +260,7 @@ echo "  ✓ 18 classes registered, 0 objects instantiated on init\n";
 echo "  ✓ Objects created on-demand when first accessed\n";
 echo "  ✓ Subsequent accesses return cached instances\n";
 echo "  ✓ TrackerManager is instance-based, no shared static state\n";
-echo "  ✓ BatchEndpoint registered once per TrackerManager::register() call\n";
+echo "  ✓ Batch endpoints registered by each tracker's register() call\n";
 echo "  ✓ Third-party extensions can register via registerClass() methods\n";
 echo "  ✓ Backwards compatible - existing code works unchanged\n\n";
 

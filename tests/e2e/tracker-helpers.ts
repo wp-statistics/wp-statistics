@@ -98,11 +98,11 @@ export function setConsentPlugin(mode: 'none' | 'wp_consent_api' | 'real_cookie_
  * Set the active tracking method.
  *
  * @param method - 'rest' (default REST API), 'ajax' (admin-ajax.php),
- *                 or 'direct_file' (SHORTINIT mu-plugin endpoint).
+ *                 or 'hybrid' (SHORTINIT mu-plugin endpoint).
  */
-export function setTrackingMethod(method: 'rest' | 'ajax' | 'direct_file'): void {
+export function setTrackingMethod(method: 'rest' | 'ajax' | 'hybrid'): void {
   updateWpStatisticsOption('tracking_method', method)
-  if (method === 'direct_file') {
+  if (method === 'hybrid') {
     // Trigger a WP load to install the mu-plugin via HybridModeHandler::ensureInstalled()
     try {
       wpCli(`eval 'echo "direct_endpoint_installed";'`)
@@ -121,7 +121,7 @@ export function setBypassAdBlockers(enabled: boolean): void {
 }
 
 export function setHybridMode(enabled: boolean): void {
-  updateWpStatisticsOption('direct_file_tracking', enabled)
+  updateWpStatisticsOption('hybrid_tracking', enabled)
   if (enabled) {
     // Trigger a WP load to install the mu-plugin via HybridModeHandler::ensureInstalled()
     try {

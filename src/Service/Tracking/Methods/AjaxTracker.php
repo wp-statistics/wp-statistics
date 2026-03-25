@@ -10,14 +10,15 @@ use Exception;
 /**
  * AJAX tracking method.
  *
- * Routes hits through admin-ajax.php,
+ * Routes hits and batch data through admin-ajax.php,
  * which bypasses ad blockers that target REST API URLs.
  *
  * @since 15.0.0
  */
 class AjaxTracker extends BaseTracker
 {
-    public const ACTION = 'collect';
+    public const ACTION       = 'collect';
+    public const BATCH_ACTION = 'batch';
 
     /**
      * {@inheritDoc}
@@ -25,6 +26,7 @@ class AjaxTracker extends BaseTracker
     public function register(): void
     {
         Ajax::register(self::ACTION, [$this, 'hitCallback']);
+        Ajax::register(self::BATCH_ACTION, [$this, 'batchCallback']);
     }
 
     /**
@@ -33,8 +35,8 @@ class AjaxTracker extends BaseTracker
     public function getTrackerConfig(): array
     {
         return [
-            'baseUrl'      => admin_url('admin-ajax.php'),
-            'hitEndpoint'  => '?action=wp_statistics_' . self::ACTION,
+            'hitEndpoint'   => '?action=wp_statistics_' . self::ACTION,
+            'batchEndpoint' => '?action=wp_statistics_' . self::BATCH_ACTION,
         ];
     }
 
@@ -66,6 +68,29 @@ class AjaxTracker extends BaseTracker
         try {
             (new Tracker())->record();
             wp_send_json(['status' => true]);
+        } catch (Exception $e) {
+            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode() ?: 400);
+        }
+    }
+
+    /**
+     * Handle batch tracking via AJAX.
+     */
+    public function batchCallback(): void
+    {
+        if (!Request::isFrom('ajax')) {
+            return;
+        }
+
+        try {
+            $batchData = isset($_POST['batch_data']) ? wp_unslash($_POST['batch_data']) : null;
+            $result    = $this->processBatch($batchData);
+
+            wp_send_json([
+                'status'    => true,
+                'processed' => $result['processed'],
+                'errors'    => $result['errors'],
+            ]);
         } catch (Exception $e) {
             wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode() ?: 400);
         }

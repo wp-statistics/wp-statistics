@@ -346,7 +346,7 @@ class TrackingPipelineTest
         return match ($method) {
             'rest'        => $this->siteUrl . '/wp-json/wp-statistics/v2/hit',
             'ajax'        => $this->siteUrl . '/wp-admin/admin-ajax.php?action=wp_statistics_collect',
-            'direct_file' => $this->siteUrl . '/wp-content/mu-plugins/wp-statistics-tracker.php',
+            'hybrid' => $this->siteUrl . '/wp-content/mu-plugins/wp-statistics-tracker.php',
             default       => throw new \InvalidArgumentException("Unknown method: {$method}"),
         };
     }
@@ -357,9 +357,9 @@ class TrackingPipelineTest
     private function getBatchUrl(string $method): string
     {
         return match ($method) {
-            'rest'        => $this->siteUrl . '/wp-json/wp-statistics/v2/batch',
+            'rest',
+            'hybrid' => $this->siteUrl . '/wp-json/wp-statistics/v2/batch',
             'ajax'        => $this->siteUrl . '/wp-admin/admin-ajax.php?action=wp_statistics_batch',
-            'direct_file' => $this->siteUrl . '/wp-content/mu-plugins/wp-statistics-tracker.php',
             default       => throw new \InvalidArgumentException("Unknown method: {$method}"),
         };
     }
@@ -387,7 +387,7 @@ class TrackingPipelineTest
         echo "\033[1m  WP Statistics — Tracking Pipeline Integration Tests\033[0m\n";
         echo "\033[1m══════════════════════════════════════════════════════\033[0m\n\n";
         echo "Site:     {$this->siteUrl}\n";
-        echo "Transport: " . (Option::getValue('direct_file_tracking') ? 'direct_file' : 'ajax') . " (current)\n";
+        echo "Transport: " . (Option::getValue('hybrid_tracking') ? 'hybrid' : 'ajax') . " (current)\n";
         echo "Resource: {$this->primaryResource['uri']} (uri_id={$this->primaryResource['uri_id']}, post_id={$this->primaryResource['id']})\n";
         echo "Resource: {$this->secondaryResource['uri']} (uri_id={$this->secondaryResource['uri_id']}, post_id={$this->secondaryResource['id']})\n\n";
 
@@ -414,7 +414,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── Signature Validation ───────────────────────────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
         $url = $this->getEndpointUrl('rest');
 
         // 1. Invalid signature
@@ -456,7 +456,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── Required Params Validation ─────────────────────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
         $url = $this->getEndpointUrl('rest');
 
         // Missing resource_id
@@ -490,14 +490,14 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── Per-Method Smoke Test ──────────────────────────\033[0m\n";
 
-        $methods = ['rest', 'ajax', 'direct_file'];
+        $methods = ['rest', 'ajax', 'hybrid'];
 
         foreach ($methods as $method) {
             echo "\n  \033[36m▸ Method: {$method}\033[0m\n";
 
-            // Configure transport: direct_file_tracking toggle controls mu-plugin endpoint
+            // Configure transport: hybrid_tracking toggle controls mu-plugin endpoint
             // REST and AJAX are always registered
-            $this->setOption('direct_file_tracking', $method === 'direct_file' ? '1' : '');
+            $this->setOption('hybrid_tracking', $method === 'hybrid' ? '1' : '');
             $this->clearTables();
 
             // Send a hit
@@ -674,7 +674,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── Returning Visitor (Session Continuation) ───────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
         $this->clearTables();
 
         // Hit #1 — new session
@@ -761,7 +761,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── New Session After Timeout ──────────────────────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
         $this->clearTables();
 
         // Hit #1 — create a session
@@ -810,7 +810,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── Upsert Correctness ────────────────────────────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
         $this->clearTables();
 
         // Send two identical hits (same device/geo/locale)
@@ -888,7 +888,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── Timezone DST Update ────────────────────────────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
         $this->clearTables();
 
         // Send a hit with America/New_York timezone
@@ -947,7 +947,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── Exclusion Tests ───────────────────────────────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
 
         // Enable exclusion recording for these tests
         $this->setOption('record_exclusions', '1');
@@ -1045,7 +1045,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── Exclusion Recording Toggle ─────────────────────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
         $this->setOption('exclude_feeds', '1');
 
         // Test with recording OFF
@@ -1091,7 +1091,7 @@ class TrackingPipelineTest
     {
         echo "\033[1m─── UTM Parameter Recording ────────────────────────\033[0m\n";
 
-        $this->setOption('direct_file_tracking', '');
+        $this->setOption('hybrid_tracking', '');
         $this->clearTables();
 
         // Send hit with UTM params in the resource_uri
@@ -1163,7 +1163,7 @@ class TrackingPipelineTest
             echo "\n  \033[36m▸ Method: {$method}\033[0m\n";
 
             // REST and AJAX are always registered — no toggle needed
-            $this->setOption('direct_file_tracking', '');
+            $this->setOption('hybrid_tracking', '');
             $this->clearTables();
 
             // First, create a session via a hit
@@ -1227,7 +1227,7 @@ class TrackingPipelineTest
             $muPluginPath
         );
 
-        $dfUrl = $this->getEndpointUrl('direct_file');
+        $dfUrl = $this->getEndpointUrl('hybrid');
 
         // GET request should be rejected (POST only)
         $ch = curl_init();
@@ -1253,10 +1253,10 @@ class TrackingPipelineTest
         );
 
         // POST with valid payload
-        $this->setOption('direct_file_tracking', '1');
+        $this->setOption('hybrid_tracking', '1');
         $this->clearTables();
 
-        $resp = $this->sendTestHit('direct_file');
+        $resp = $this->sendTestHit('hybrid');
         $this->assert(
             ($resp['json']['status'] ?? false) === true,
             'Hybrid Mode: POST with valid payload succeeds',

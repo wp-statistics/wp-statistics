@@ -3,17 +3,18 @@
 namespace WP_Statistics\Tests\Tracking;
 
 use WP_UnitTestCase;
-use WP_Statistics\Service\Tracking\Methods\BatchEndpoint;
+use WP_Statistics\Service\Tracking\Methods\AjaxTracker;
+use WP_Statistics\Service\Tracking\Methods\RestTracker;
 use WP_Statistics\Service\Tracking\Core\Tracker;
 use WP_Statistics\Service\Tracking\Core\Visitor;
 use Exception;
 
 /**
- * Tests for BatchEndpoint (thin endpoint handler) and Tracker::recordEngagement().
+ * Tests for batch tracking (processBatch in BaseTracker) and Tracker::recordEngagement().
  *
  * @since 15.0.0
  */
-class Test_BatchEndpoint extends WP_UnitTestCase
+class Test_BatchTracking extends WP_UnitTestCase
 {
     protected function tearDown(): void
     {
@@ -71,7 +72,7 @@ class Test_BatchEndpoint extends WP_UnitTestCase
         $this->assertFalse($result);
     }
 
-    // ── BatchEndpoint dispatches raw events via hook ─────────────
+    // ── Batch processing dispatches raw events via hook ──────────
 
     public function test_batch_events_hook_fires_with_raw_array()
     {
@@ -81,11 +82,11 @@ class Test_BatchEndpoint extends WP_UnitTestCase
             $captured = $events;
         });
 
-        $batch = new BatchEndpoint();
-        $method = new \ReflectionMethod($batch, 'process');
+        $tracker = new AjaxTracker();
+        $method = new \ReflectionMethod($tracker, 'processBatch');
         $method->setAccessible(true);
 
-        $result = $method->invoke($batch, json_encode([
+        $result = $method->invoke($tracker, json_encode([
             'engagement_time' => 0,
             'events' => [
                 ['type' => 'custom_event', 'data' => ['event_name' => 'a']],
@@ -107,11 +108,11 @@ class Test_BatchEndpoint extends WP_UnitTestCase
             $fired = true;
         });
 
-        $batch = new BatchEndpoint();
-        $method = new \ReflectionMethod($batch, 'process');
+        $tracker = new AjaxTracker();
+        $method = new \ReflectionMethod($tracker, 'processBatch');
         $method->setAccessible(true);
 
-        $method->invoke($batch, json_encode([
+        $method->invoke($tracker, json_encode([
             'engagement_time' => 0,
             'events' => [],
         ]));
@@ -124,10 +125,10 @@ class Test_BatchEndpoint extends WP_UnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Missing batch data');
 
-        $batch = new BatchEndpoint();
-        $method = new \ReflectionMethod($batch, 'process');
+        $tracker = new AjaxTracker();
+        $method = new \ReflectionMethod($tracker, 'processBatch');
         $method->setAccessible(true);
-        $method->invoke($batch, null);
+        $method->invoke($tracker, null);
     }
 
     public function test_process_throws_on_empty_string()
@@ -135,10 +136,10 @@ class Test_BatchEndpoint extends WP_UnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Missing batch data');
 
-        $batch = new BatchEndpoint();
-        $method = new \ReflectionMethod($batch, 'process');
+        $tracker = new AjaxTracker();
+        $method = new \ReflectionMethod($tracker, 'processBatch');
         $method->setAccessible(true);
-        $method->invoke($batch, '');
+        $method->invoke($tracker, '');
     }
 
     public function test_process_throws_on_invalid_json()
@@ -146,19 +147,19 @@ class Test_BatchEndpoint extends WP_UnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid JSON payload');
 
-        $batch = new BatchEndpoint();
-        $method = new \ReflectionMethod($batch, 'process');
+        $tracker = new AjaxTracker();
+        $method = new \ReflectionMethod($tracker, 'processBatch');
         $method->setAccessible(true);
-        $method->invoke($batch, 'not-json{{{');
+        $method->invoke($tracker, 'not-json{{{');
     }
 
     public function test_process_with_engagement_and_no_session()
     {
-        $batch = new BatchEndpoint();
-        $method = new \ReflectionMethod($batch, 'process');
+        $tracker = new AjaxTracker();
+        $method = new \ReflectionMethod($tracker, 'processBatch');
         $method->setAccessible(true);
 
-        $result = $method->invoke($batch, json_encode([
+        $result = $method->invoke($tracker, json_encode([
             'engagement_time' => 5000,
             'events' => [],
         ]));
@@ -175,11 +176,11 @@ class Test_BatchEndpoint extends WP_UnitTestCase
             $captured = $events;
         });
 
-        $batch = new BatchEndpoint();
-        $method = new \ReflectionMethod($batch, 'process');
+        $tracker = new AjaxTracker();
+        $method = new \ReflectionMethod($tracker, 'processBatch');
         $method->setAccessible(true);
 
-        $result = $method->invoke($batch, json_encode([
+        $result = $method->invoke($tracker, json_encode([
             'engagement_time' => 5000,
             'events' => [
                 ['type' => 'custom_event', 'data' => ['event_name' => 'test']],
@@ -191,36 +192,38 @@ class Test_BatchEndpoint extends WP_UnitTestCase
         $this->assertCount(1, $captured);
     }
 
-    // ── BatchEndpoint class structure ────────────────────────────
+    // ── AjaxTracker batch structure ─────────────────────────────
 
     public function test_batch_action_constant_is_batch()
     {
-        $this->assertSame('batch', BatchEndpoint::BATCH_ACTION);
+        $this->assertSame('batch', AjaxTracker::BATCH_ACTION);
     }
 
-    public function test_get_batch_endpoint_returns_absolute_ajax_url()
+    public function test_ajax_tracker_config_has_relative_endpoints()
     {
-        $batch = new BatchEndpoint();
-        $endpoint = $batch->getBatchEndpoint();
+        $tracker = new AjaxTracker();
+        $config  = $tracker->getTrackerConfig();
 
-        $this->assertStringContainsString('admin-ajax.php', $endpoint);
-        $this->assertStringContainsString('action=wp_statistics_batch', $endpoint);
-        $this->assertMatchesRegularExpression('/^https?:\/\//', $endpoint);
+        $this->assertArrayHasKey('hitEndpoint', $config);
+        $this->assertArrayHasKey('batchEndpoint', $config);
+        $this->assertStringStartsWith('?action=', $config['hitEndpoint']);
+        $this->assertStringStartsWith('?action=', $config['batchEndpoint']);
+        $this->assertStringContainsString('wp_statistics_batch', $config['batchEndpoint']);
     }
 
-    public function test_register_adds_ajax_hooks()
+    public function test_ajax_register_adds_batch_hooks()
     {
-        $batch = new BatchEndpoint();
+        $tracker = new AjaxTracker();
 
-        $batch->register();
+        $tracker->register();
 
         $this->assertNotFalse(has_action('wp_ajax_wp_statistics_batch'));
         $this->assertNotFalse(has_action('wp_ajax_nopriv_wp_statistics_batch'));
     }
 
-    public function test_register_adds_rest_api_init_hook()
+    public function test_rest_register_adds_batch_route()
     {
-        $batch = new BatchEndpoint();
+        $tracker = new RestTracker();
 
         $hooksBefore = $GLOBALS['wp_filter']['rest_api_init'] ?? null;
         $countBefore = 0;
@@ -230,7 +233,7 @@ class Test_BatchEndpoint extends WP_UnitTestCase
             }
         }
 
-        $batch->register();
+        $tracker->register();
 
         $hooksAfter = $GLOBALS['wp_filter']['rest_api_init'] ?? null;
         $countAfter = 0;
@@ -250,14 +253,6 @@ class Test_BatchEndpoint extends WP_UnitTestCase
         $this->assertFalse(
             method_exists(Tracker::class, 'recordBatch'),
             'recordBatch should not exist on Tracker'
-        );
-    }
-
-    public function test_no_parse_and_process_on_batch_tracking()
-    {
-        $this->assertFalse(
-            method_exists(BatchEndpoint::class, 'parseAndProcess'),
-            'parseAndProcess should not exist on BatchEndpoint'
         );
     }
 }

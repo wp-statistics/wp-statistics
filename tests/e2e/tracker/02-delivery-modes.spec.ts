@@ -47,12 +47,12 @@ test.describe('Delivery Modes', () => {
 
     const config = await getTrackerConfig(page)
     expect(config).toBeTruthy()
-    expect(config.baseUrl).toBeTruthy()
+    expect(config.baseUrls).toBeTruthy()
+    expect(config.trackingMethod).toBeTruthy()
     expect(config.hitEndpoint).toBeTruthy()
 
-    // batchEndpoint is always an absolute AJAX URL (independent of hit transport)
+    // batchEndpoint is a relative path; base URL resolved via trackingMethod
     expect(config.batchEndpoint).toBeTruthy()
-    expect(config.batchEndpoint).toContain('admin-ajax.php')
     expect(config.batchEndpoint).toContain('wp_statistics_batch')
   })
 

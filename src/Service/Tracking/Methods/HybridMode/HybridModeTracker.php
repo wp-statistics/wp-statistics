@@ -3,12 +3,13 @@
 namespace WP_Statistics\Service\Tracking\Methods\HybridMode;
 
 use WP_Statistics\Service\Tracking\Methods\BaseTracker;
+use WP_Statistics\Service\Tracking\Methods\RestTracker;
 
 /**
  * Hybrid Mode tracking method.
  *
  * Uses a SHORTINIT mu-plugin endpoint for minimal-bootstrap hit recording.
- * Hit and batch requests both go to the same mu-plugin URL.
+ * Batch requests use the REST API (requires full WordPress bootstrap).
  *
  * @since 15.1.0
  */
@@ -38,8 +39,8 @@ class HybridModeTracker extends BaseTracker
     public function getTrackerConfig(): array
     {
         return [
-            'baseUrl'      => content_url(),
-            'hitEndpoint'  => '/mu-plugins/' . HybridModeHandler::ENDPOINT_FILE,
+            'hitEndpoint'   => '/mu-plugins/' . HybridModeHandler::ENDPOINT_FILE,
+            'batchEndpoint' => '/' . RestTracker::ENDPOINT_BATCH,
         ];
     }
 

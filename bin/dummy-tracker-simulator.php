@@ -164,8 +164,8 @@ class TrackerSimulator
             echo "The AJAX endpoint may not be registered. Attempting anyway...\n\n";
         }
 
-        if (Option::getValue('direct_file_tracking')) {
-            echo "Note: direct_file_tracking is enabled. Simulator uses admin-ajax.php (always registered).\n";
+        if (Option::getValue('hybrid_tracking')) {
+            echo "Note: hybrid_tracking is enabled. Simulator uses admin-ajax.php (always registered).\n";
             echo "Continuing with AJAX endpoint...\n\n";
         }
 

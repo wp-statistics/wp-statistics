@@ -11,7 +11,7 @@ use ReflectionClass;
 /**
  * Tests that Session entity correctly handles duration.
  *
- * Duration is now managed exclusively by BatchEndpoint (atomic accumulation).
+ * Duration is now managed exclusively by batch tracking (atomic accumulation).
  * Session::updateInitialView() must NOT touch duration, and
  * Session::record() must initialize duration to 0.
  *
@@ -23,7 +23,7 @@ class Test_SessionDuration extends WP_UnitTestCase
     {
         $this->assertFalse(
             method_exists(Session::class, 'calculateDuration'),
-            'calculateDuration should be removed — duration is managed by BatchEndpoint'
+            'calculateDuration should be removed — duration is managed by batch tracking'
         );
     }
 

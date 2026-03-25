@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Tracking;
 
 use WP_Statistics\Service\Tracking\Methods\BaseTracker;
-use WP_Statistics\Service\Tracking\Methods\BatchEndpoint;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Tracking\Methods\AjaxTracker;
 use WP_Statistics\Service\Tracking\Methods\HybridMode\HybridModeTracker;
@@ -17,11 +16,11 @@ use WP_Statistics\Service\Tracking\Methods\RestTracker;
  *   - Optional: Hybrid Mode (mu-plugin endpoint) — highest performance
  *
  * REST routes are always registered for headless/API consumers.
- * Batch tracking is always registered independently of the hit transport.
+ * Each tracker registers its own batch endpoint alongside its hit endpoint.
  *
  * Independent toggles:
  *   - `bypass_ad_blockers` — obfuscates tracker.js filename/URL
- *   - `direct_file_tracking` — switches transport to mu-plugin endpoint
+ *   - `hybrid_tracking` — switches transport to mu-plugin endpoint
  *
  * @since 15.0.0
  */
@@ -31,11 +30,6 @@ class TrackerManager
      * @var BaseTracker
      */
     private $trackerMethod;
-
-    /**
-     * @var BatchEndpoint
-     */
-    private $batchTracker;
 
     /**
      * Register tracking endpoints.
@@ -49,12 +43,6 @@ class TrackerManager
             (new RestTracker())->register();
         }
 
-        // Always register batch tracking (independent of hit transport).
-        if (apply_filters('wp_statistics_tracker_enabled', true, 'batch')) {
-            $this->batchTracker = new BatchEndpoint();
-            $this->batchTracker->register();
-        }
-
         // Register the active transport method.
         $this->trackerMethod = $this->getTrackerMethod();
         if (apply_filters('wp_statistics_tracker_enabled', true, $this->trackerMethod->getMethodType())) {
@@ -65,20 +53,23 @@ class TrackerManager
     }
 
     /**
-     * Get the full JS tracker configuration from the active transport method,
-     * merged with the batch endpoint.
+     * Get the full JS tracker configuration from the active transport method.
      *
      * @return array
      */
     public function getTrackerConfig(): array
     {
-        $config = $this->trackerMethod ? $this->trackerMethod->getTrackerConfig() : [];
+        return $this->trackerMethod ? $this->trackerMethod->getTrackerConfig() : [];
+    }
 
-        if ($this->batchTracker) {
-            $config['batchEndpoint'] = $this->batchTracker->getBatchEndpoint();
-        }
-
-        return $config;
+    /**
+     * Active tracking method type identifier.
+     *
+     * @return string e.g. 'ajax', 'rest', 'hybrid'
+     */
+    public function getMethodType(): string
+    {
+        return $this->trackerMethod ? $this->trackerMethod->getMethodType() : 'ajax';
     }
 
     /**
@@ -93,7 +84,7 @@ class TrackerManager
 
     public function onSettingsSaved(string $tab, array $settings): void
     {
-        if (!array_key_exists('direct_file_tracking', $settings)) {
+        if (!array_key_exists('hybrid_tracking', $settings)) {
             return;
         }
 
@@ -112,7 +103,7 @@ class TrackerManager
 
     private function getTrackerMethod(): BaseTracker
     {
-        $trackerMethod = Option::getValue('direct_file_tracking')
+        $trackerMethod = Option::getValue('hybrid_tracking')
             ? new HybridModeTracker()
             : new AjaxTracker();
 

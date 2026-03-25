@@ -9,6 +9,7 @@ use WP_Statistics\Bootstrap;
 use WP_Statistics\Service\Consent\ConsentProviderInterface;
 use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Service\Resources\ResourcesFactory;
+use WP_Statistics\Service\Tracking\Methods\RestTracker;
 use WP_Statistics\Utils\Signature;
 /**
  * Frontend Assets Service
@@ -68,7 +69,12 @@ class FrontendHandler extends BaseAssets
         $obfuscate = (bool) Option::getValue('bypass_ad_blockers');
 
         $jsArgs = array(
-            'baseUrl'             => $trackerConfig['baseUrl'],
+            'baseUrls'            => [
+                'ajax'    => admin_url('admin-ajax.php'),
+                'rest'    => get_rest_url(null, RestTracker::API_NAMESPACE),
+                'content' => content_url(),
+            ],
+            'trackingMethod'      => $trackingManager->getMethodType(),
             'hitEndpoint'         => $trackerConfig['hitEndpoint'],
             'batchEndpoint'       => $trackerConfig['batchEndpoint'],
             'signature'           => Signature::generate([$resourceType, (int) $resourceId, (int) $userId]),

@@ -10,7 +10,7 @@ use WP_Statistics\Service\Analytics\VisitorProfile;
 /**
  * Handles custom event recording from batch tracking and direct calls.
  *
- * This class registers listeners for custom event actions fired by BatchEndpoint
+ * This class registers listeners for custom event actions fired by batch tracking
  * and processes them to record events in the database.
  *
  * @since 15.0.0
@@ -22,7 +22,7 @@ class CustomEventHandler
      */
     public function __construct()
     {
-        // Listen for batch events (raw array from BatchEndpoint)
+        // Listen for batch events (raw array from batch tracking)
         add_action('wp_statistics_batch_events', [$this, 'onBatchEvents']);
 
         // Keep direct recording hook for non-batch callers (e.g., PHP API)
@@ -30,7 +30,7 @@ class CustomEventHandler
     }
 
     /**
-     * Handle raw batch events dispatched by BatchEndpoint.
+     * Handle raw batch events dispatched by batch tracking.
      *
      * Iterates the raw events array, picks out 'custom_event' entries,
      * sanitizes them, and records each one. Other event types are ignored.
