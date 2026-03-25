@@ -9,13 +9,14 @@ import {
   Download,
   KeyRound,
   Loader2,
+  LogIn,
   Puzzle,
   RefreshCw,
   ShieldCheck,
   ShieldX,
   TriangleAlert,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -23,6 +24,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { WordPress } from '@/lib/wordpress'
+import { getSettingsComponent } from '@/registry/settings-registry'
 
 export const Route = createLazyFileRoute('/license')({
   component: LicenseRoute,
@@ -220,10 +222,82 @@ function LicensePage() {
 }
 
 // ---------------------------------------------------------------------------
-// Activation form
+// Activation form (with optional login tab from premium)
 // ---------------------------------------------------------------------------
 
 function ActivationForm({ queryClient }: { queryClient: ReturnType<typeof useQueryClient> }) {
+  const LoginForm = getSettingsComponent('AccountLoginForm')
+  const [mode, setMode] = useState<'login' | 'key'>(LoginForm ? 'login' : 'key')
+
+  return (
+    <div className="mx-auto max-w-2xl px-6 py-16">
+      {/* Hero */}
+      <div className="mb-8 text-center">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+          <KeyRound className="h-7 w-7 text-primary" />
+        </div>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {__('Activate Your License', 'wp-statistics-premium')}
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {__('Enter your license key to unlock premium analytics features.', 'wp-statistics-premium')}
+        </p>
+      </div>
+
+      {/* Mode switcher (only shown if premium provides LoginForm) */}
+      {LoginForm && (
+        <div className="mb-6 flex justify-center">
+          <div className="inline-flex rounded-lg border p-1">
+            <button
+              type="button"
+              className={`flex items-center gap-1.5 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+                mode === 'login'
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              onClick={() => setMode('login')}
+            >
+              <LogIn className="h-4 w-4" />
+              {__('Login with Account', 'wp-statistics-premium')}
+            </button>
+            <button
+              type="button"
+              className={`flex items-center gap-1.5 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+                mode === 'key'
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              onClick={() => setMode('key')}
+            >
+              <KeyRound className="h-4 w-4" />
+              {__('Enter License Key', 'wp-statistics-premium')}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Render active mode */}
+      {mode === 'login' && LoginForm ? (
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            </div>
+          }
+        >
+          <LoginForm />
+        </Suspense>
+      ) : (
+        <ManualKeyForm queryClient={queryClient} />
+      )}
+    </div>
+  )
+}
+
+/**
+ * Manual license key entry form (original activation flow, extracted as a component).
+ */
+function ManualKeyForm({ queryClient }: { queryClient: ReturnType<typeof useQueryClient> }) {
   const [licenseKey, setLicenseKey] = useState('')
   const [error, setError] = useState<string | null>(null)
 
@@ -247,66 +321,50 @@ function ActivationForm({ queryClient }: { queryClient: ReturnType<typeof useQue
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-6 py-16">
-      {/* Hero */}
-      <div className="mb-8 text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-          <KeyRound className="h-7 w-7 text-primary" />
-        </div>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {__('Activate Your License', 'wp-statistics-premium')}
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {__('Enter your license key to unlock premium analytics features.', 'wp-statistics-premium')}
-        </p>
-      </div>
-
-      {/* Activation Card */}
-      <Card>
-        <form onSubmit={handleSubmit}>
-          <CardContent className="pb-4">
-            {error && (
-              <div className="mb-4 flex items-center gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800">
-                <CircleX className="h-4 w-4 shrink-0" />
-                {error}
-              </div>
-            )}
-
-            <div className="space-y-2">
-              <Label htmlFor="license-key">{__('License Key', 'wp-statistics-premium')}</Label>
-              <Input
-                id="license-key"
-                type="text"
-                value={licenseKey}
-                onChange={(e) => setLicenseKey(e.target.value)}
-                placeholder="XXXX-XXXX-XXXX-XXXX"
-                className="font-mono"
-                disabled={mutation.isPending}
-                autoComplete="off"
-              />
-              <p className="text-xs text-muted-foreground">
-                {__('Find your license key in your purchase confirmation email or account dashboard.', 'wp-statistics-premium')}
-              </p>
+    <Card>
+      <form onSubmit={handleSubmit}>
+        <CardContent className="pb-4">
+          {error && (
+            <div className="mb-4 flex items-center gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800">
+              <CircleX className="h-4 w-4 shrink-0" />
+              {error}
             </div>
-          </CardContent>
+          )}
 
-          <CardFooter className="flex items-center justify-between border-t px-6 py-4">
-            <a
-              href="https://wp-statistics.com/pricing/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-primary hover:underline"
-            >
-              {__('Purchase a license', 'wp-statistics-premium')}
-            </a>
-            <Button type="submit" disabled={mutation.isPending || !licenseKey.trim()}>
-              {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {__('Activate License', 'wp-statistics-premium')}
-            </Button>
-          </CardFooter>
-        </form>
-      </Card>
-    </div>
+          <div className="space-y-2">
+            <Label htmlFor="license-key">{__('License Key', 'wp-statistics-premium')}</Label>
+            <Input
+              id="license-key"
+              type="text"
+              value={licenseKey}
+              onChange={(e) => setLicenseKey(e.target.value)}
+              placeholder="XXXX-XXXX-XXXX-XXXX"
+              className="font-mono"
+              disabled={mutation.isPending}
+              autoComplete="off"
+            />
+            <p className="text-xs text-muted-foreground">
+              {__('Find your license key in your purchase confirmation email or account dashboard.', 'wp-statistics-premium')}
+            </p>
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex items-center justify-between border-t px-6 py-4">
+          <a
+            href="https://wp-statistics.com/pricing/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-primary hover:underline"
+          >
+            {__('Purchase a license', 'wp-statistics-premium')}
+          </a>
+          <Button type="submit" disabled={mutation.isPending || !licenseKey.trim()}>
+            {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {__('Activate License', 'wp-statistics-premium')}
+          </Button>
+        </CardFooter>
+      </form>
+    </Card>
   )
 }
 
@@ -398,6 +456,8 @@ function LicenseStatus({
     updateFeatureMutation.mutate(slug)
   }
 
+  const AccountStatusCard = getSettingsComponent('AccountStatusCard')
+
   return (
     <div className="mx-auto max-w-3xl space-y-6 px-6 py-12">
       {/* Page Heading */}
@@ -409,6 +469,13 @@ function LicenseStatus({
           {__('Manage your WP Statistics Premium license and view entitled features.', 'wp-statistics-premium')}
         </p>
       </div>
+
+      {/* Account status (rendered by premium if logged in) */}
+      {AccountStatusCard && (
+        <Suspense fallback={null}>
+          <AccountStatusCard />
+        </Suspense>
+      )}
 
       {/* License Info Card */}
       <Card>
