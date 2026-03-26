@@ -34,6 +34,9 @@ export function Header() {
 
       {/* Right section - icons */}
       <div className="ml-auto flex items-center gap-0.5">
+        {/* Extension slot (populated by premium modules) */}
+        {window.wpsHeaderExtensions?.map((Extension, i) => <Extension key={i} />)}
+
         {/* Privacy Status Icon */}
         <button
           className={`

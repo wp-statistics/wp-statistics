@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PremiumRouteImport } from './routes/premium'
 import { Route as NetworkOverviewRouteImport } from './routes/network-overview'
+import { Route as LicenseRouteImport } from './routes/license'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as ToolsRouteRouteImport } from './routes/tools/route'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
@@ -121,6 +122,11 @@ const NetworkOverviewRoute = NetworkOverviewRouteImport.update({
 } as any).lazy(() =>
   import('./routes/network-overview.lazy').then((d) => d.Route),
 )
+const LicenseRoute = LicenseRouteImport.update({
+  id: '/license',
+  path: '/license',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/license.lazy').then((d) => d.Route))
 const HelpRoute = HelpRouteImport.update({
   id: '/help',
   path: '/help',
@@ -676,6 +682,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRouteRouteWithChildren
   '/tools': typeof ToolsRouteRouteWithChildren
   '/help': typeof HelpRoute
+  '/license': typeof LicenseRoute
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
   '/devices': typeof DevicesLazyRoute
@@ -741,6 +748,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/help': typeof HelpRoute
+  '/license': typeof LicenseRoute
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
   '/devices': typeof DevicesLazyRoute
@@ -809,6 +817,7 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRouteRouteWithChildren
   '/tools': typeof ToolsRouteRouteWithChildren
   '/help': typeof HelpRoute
+  '/license': typeof LicenseRoute
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
   '/devices': typeof DevicesLazyRoute
@@ -878,6 +887,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tools'
     | '/help'
+    | '/license'
     | '/network-overview'
     | '/premium'
     | '/devices'
@@ -943,6 +953,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/help'
+    | '/license'
     | '/network-overview'
     | '/premium'
     | '/devices'
@@ -1010,6 +1021,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tools'
     | '/help'
+    | '/license'
     | '/network-overview'
     | '/premium'
     | '/devices'
@@ -1078,6 +1090,7 @@ export interface RootRouteChildren {
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
   ToolsRouteRoute: typeof ToolsRouteRouteWithChildren
   HelpRoute: typeof HelpRoute
+  LicenseRoute: typeof LicenseRoute
   NetworkOverviewRoute: typeof NetworkOverviewRoute
   PremiumRoute: typeof PremiumRoute
   DevicesLazyRoute: typeof DevicesLazyRoute
@@ -1172,6 +1185,13 @@ declare module '@tanstack/react-router' {
       path: '/network-overview'
       fullPath: '/network-overview'
       preLoaderRoute: typeof NetworkOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/license': {
+      id: '/license'
+      path: '/license'
+      fullPath: '/license'
+      preLoaderRoute: typeof LicenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/help': {
@@ -1630,6 +1650,7 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
   ToolsRouteRoute: ToolsRouteRouteWithChildren,
   HelpRoute: HelpRoute,
+  LicenseRoute: LicenseRoute,
   NetworkOverviewRoute: NetworkOverviewRoute,
   PremiumRoute: PremiumRoute,
   DevicesLazyRoute: DevicesLazyRoute,

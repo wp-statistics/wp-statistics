@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Admin;
 
-use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 
 /**
  * V15 Admin Menu Manager.
@@ -42,12 +42,12 @@ class AdminMenuManager
     /**
      * Get legacy menu slug (wps_{page}_page format).
      *
-     * @param string $page The page identifier.
+     * @param  string  $page  The page identifier.
      * @return string The legacy slug.
      */
     public static function getLegacySlug(string $page): string
     {
-        return self::LEGACY_SLUG_PREFIX . $page . '_page';
+        return self::LEGACY_SLUG_PREFIX.$page.'_page';
     }
 
     /**
@@ -57,7 +57,7 @@ class AdminMenuManager
      */
     public function registerMenus()
     {
-        $readCapability   = AccessLevel::getMinimumCapabilityForLevel(AccessLevel::OWN_CONTENT);
+        $readCapability = AccessLevel::getMinimumCapabilityForLevel(AccessLevel::OWN_CONTENT);
         $manageCapability = AccessLevel::getMinimumCapabilityForLevel(AccessLevel::MANAGE);
 
         // Main Dashboard menu (position 3 = between Dashboard and Posts)
@@ -77,7 +77,7 @@ class AdminMenuManager
             __('Settings', 'wp-statistics'),
             __('Settings', 'wp-statistics'),
             $manageCapability,
-            self::MENU_SLUG . '#/settings/general',
+            self::MENU_SLUG.'#/settings/general',
             null
         );
 
@@ -87,20 +87,30 @@ class AdminMenuManager
             __('Tools', 'wp-statistics'),
             __('Tools', 'wp-statistics'),
             $manageCapability,
-            self::MENU_SLUG . '#/tools/system-info',
+            self::MENU_SLUG.'#/tools/system-info',
             null
         );
 
-        // Upgrade to Premium submenu - React SPA hash route
-        // TODO: Implement React page for premium features management
-        add_submenu_page(
-            self::MENU_SLUG,
-            __('Upgrade to Premium', 'wp-statistics'),
-            sprintf('<span style="color:#F18D2A;">%s</span>', __('Upgrade to Premium', 'wp-statistics')),
-            $manageCapability,
-            self::MENU_SLUG . '#/premium',
-            null
-        );
+        // Premium active → License settings; Free → Upgrade prompt
+        if (defined('WP_STATISTICS_PREMIUM_FILE')) {
+            add_submenu_page(
+                self::MENU_SLUG,
+                __('License', 'wp-statistics'),
+                __('License', 'wp-statistics'),
+                $manageCapability,
+                self::MENU_SLUG.'#/license',
+                null
+            );
+        } else {
+            add_submenu_page(
+                self::MENU_SLUG,
+                __('Upgrade to Premium', 'wp-statistics'),
+                sprintf('<span style="color:#F18D2A;">%s</span>', __('Upgrade to Premium', 'wp-statistics')),
+                $manageCapability,
+                self::MENU_SLUG.'#/premium',
+                null
+            );
+        }
 
         // Help submenu - React SPA hash route
         // TODO: Implement React page for help center
@@ -109,7 +119,7 @@ class AdminMenuManager
             __('Help', 'wp-statistics'),
             __('Help', 'wp-statistics'),
             $manageCapability,
-            self::MENU_SLUG . '#/help',
+            self::MENU_SLUG.'#/help',
             null
         );
 
@@ -126,7 +136,7 @@ class AdminMenuManager
     {
         global $submenu;
 
-        if (!isset($submenu[self::MENU_SLUG])) {
+        if (! isset($submenu[self::MENU_SLUG])) {
             return;
         }
 
@@ -134,13 +144,13 @@ class AdminMenuManager
             // Rename first "Statistics" to "Dashboard" and add hash for SPA navigation
             if ($item[2] === self::MENU_SLUG && $item[0] === __('Statistics', 'wp-statistics')) {
                 $submenu[self::MENU_SLUG][$key][0] = __('Dashboard', 'wp-statistics');
-                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . '#/overview');
+                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page='.self::MENU_SLUG.'#/overview');
             }
 
             // Fix hash route URLs (WordPress adds admin.php?page= prefix)
             if (strpos($item[2], '#/') !== false) {
                 $hash = substr($item[2], strpos($item[2], '#/'));
-                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page=' . self::MENU_SLUG . $hash);
+                $submenu[self::MENU_SLUG][$key][2] = admin_url('admin.php?page='.self::MENU_SLUG.$hash);
             }
         }
     }
@@ -166,7 +176,7 @@ class AdminMenuManager
     public function renderApp()
     {
         View::load(['pages/app/index'], [
-            'title'    => '',
+            'title' => '',
             'pageName' => self::MENU_SLUG,
         ]);
     }
