@@ -4,8 +4,14 @@ namespace WP_Statistics\Service\CustomEvent;
 class CustomEventHelper
 {
     /**
-     * Retrieves registered custom events via code, if any.
-     * This is a filterable array to allow other plugins to add their own custom events.
+     * Retrieves registered custom events from all sources.
+     *
+     * Events are merged from three sources in priority order:
+     * 1. Internal (wp_statistics_internal_custom_events) — system events, bypass reserved name check
+     * 2. External (wp_statistics_custom_events) — goals + third-party, validated against reserved names
+     *
+     * Each event is tagged with a 'source' field: 'internal', 'goal', or 'code'.
+     * First-registered wins — if a name is already taken, later registrations are skipped.
      *
      * @return array
      */
@@ -13,23 +19,30 @@ class CustomEventHelper
     {
         $result = [];
 
-        // This is a filter to register internal WP Statistics events
+        // Internal events (system — bypass reserved name check)
         $internalCustomEvents = apply_filters('wp_statistics_internal_custom_events', []);
 
-        // This is a filter to register custom events by other plugins, themes, etc
+        foreach ($internalCustomEvents as $event) {
+            $event['source'] = $event['source'] ?? 'internal';
+            $result[$event['machine_name']] = $event;
+        }
+
+        // External events (goals + third-party — validated)
         $customEvents = apply_filters('wp_statistics_custom_events', []);
 
         foreach ($customEvents as $event) {
-            // Check if the event name is valid (not already defined or is reserved)
+            // Skip if name already registered by another source
+            if (isset($result[$event['machine_name']])) {
+                continue;
+            }
+
+            // Validate against reserved names
             if (!self::isEventNameValid($event['machine_name'])) {
                 \WP_Statistics()->log(esc_html__("An event with `{$event['machine_name']}` machine name is not allowed.", 'wp-statistics'), 'error');
                 continue;
             }
 
-            $result[$event['machine_name']] = $event;
-        }
-
-        foreach ($internalCustomEvents as $event) {
+            $event['source'] = $event['source'] ?? 'code';
             $result[$event['machine_name']] = $event;
         }
 
@@ -37,7 +50,7 @@ class CustomEventHelper
     }
 
     /**
-     * Retrieves an array of active custom events.
+     * Retrieves an array of active custom event names.
      *
      * @return string[]
      */
@@ -57,8 +70,8 @@ class CustomEventHelper
     /**
      * Checks if a custom event is active.
      *
-     * @param string $name The name of the custom event to check.
-     * @return bool True if the custom event is active, false otherwise.
+     * @param string $name The event name to check.
+     * @return bool
      */
     public static function isEventActive($name)
     {
@@ -66,10 +79,53 @@ class CustomEventHelper
     }
 
     /**
+     * Find an event by name across all registered sources.
+     *
+     * @param string $name The event name to find.
+     * @return array|null The event data with source tag, or null if not found.
+     */
+    public static function findEventByName(string $name): ?array
+    {
+        $events = self::getCustomEvents();
+
+        return $events[$name] ?? null;
+    }
+
+    /**
+     * Validate an event name for registration.
+     *
+     * Checks:
+     * - Not empty
+     * - Not reserved
+     * - Not already registered by another source
+     *
+     * @param string $name The event name to validate.
+     * @param string|null $excludeSource Skip conflict check for this source (e.g., 'goal' when editing a goal).
+     * @return array{valid: bool, reason?: string}
+     */
+    public static function validateEventName(string $name, ?string $excludeSource = null): array
+    {
+        if (empty($name)) {
+            return ['valid' => false, 'reason' => esc_html__('Event name is required.', 'wp-statistics')];
+        }
+
+        if (self::isEventNameReserved($name)) {
+            return ['valid' => false, 'reason' => esc_html__('This event name is reserved by the system.', 'wp-statistics')];
+        }
+
+        $existing = self::findEventByName($name);
+        if ($existing && (!$excludeSource || $existing['source'] !== $excludeSource)) {
+            return ['valid' => false, 'reason' => esc_html__('This event name is already registered.', 'wp-statistics')];
+        }
+
+        return ['valid' => true];
+    }
+
+    /**
      * Checks if the given name is a reserved name for custom events.
      *
      * @param string $name The name to check.
-     * @return bool True if the name is reserved, false otherwise.
+     * @return bool
      */
     public static function isEventNameReserved($name)
     {
@@ -79,20 +135,18 @@ class CustomEventHelper
     /**
      * Checks if the given name is allowed to be used as a custom event name.
      *
-     * The name is allowed if it is not reserved and is not already in use as a custom event name.
-     *
      * @param string $name The name to check.
-     * @return bool True if the name is allowed, false otherwise.
+     * @return bool
      */
     public static function isEventNameValid($name)
     {
-        $isValid = ! self::isEventNameReserved($name) ? true : false;
+        $isValid = !self::isEventNameReserved($name);
 
         return apply_filters('wp_statistics_custom_event_name_validation', $isValid, $name);
     }
 
     /**
-     * Gets a list of reserved event WP_Statistics_names that are not allowed to be used for custom events.
+     * Gets a list of reserved event names that cannot be used for custom events.
      *
      * @return string[]
      */
