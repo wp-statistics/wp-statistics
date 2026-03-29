@@ -19,6 +19,14 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
       <div className="flex-1 space-y-1">
         {toast.title && <p className="text-sm font-semibold leading-none">{toast.title}</p>}
         {toast.description && <p className="text-sm text-muted-foreground">{toast.description}</p>}
+        {toast.action && (
+          <button
+            onClick={toast.action.onClick}
+            className="mt-1.5 text-xs font-medium text-primary hover:text-primary/80"
+          >
+            {toast.action.label}
+          </button>
+        )}
       </div>
       <button
         onClick={() => onDismiss(toast.id)}
