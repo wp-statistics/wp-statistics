@@ -43,6 +43,7 @@ import { Route as geographicCountriesRouteImport } from './routes/(geographic)/c
 import { Route as geographicCitiesRouteImport } from './routes/(geographic)/cities'
 import { Route as eventsTopLinksRouteImport } from './routes/(events)/top-links'
 import { Route as eventsTopDownloadsRouteImport } from './routes/(events)/top-downloads'
+import { Route as eventsRegisteredEventsRouteImport } from './routes/(events)/registered-events'
 import { Route as eventsEventsOverviewRouteImport } from './routes/(events)/events-overview'
 import { Route as eventsEventsRouteImport } from './routes/(events)/events'
 import { Route as devicesScreenResolutionsRouteImport } from './routes/(devices)/screen-resolutions'
@@ -473,6 +474,15 @@ const eventsTopDownloadsRoute = eventsTopDownloadsRouteImport
   .lazy(() =>
     import('./routes/(events)/top-downloads.lazy').then((d) => d.Route),
   )
+const eventsRegisteredEventsRoute = eventsRegisteredEventsRouteImport
+  .update({
+    id: '/(events)/registered-events',
+    path: '/registered-events',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+  .lazy(() =>
+    import('./routes/(events)/registered-events.lazy').then((d) => d.Route),
+  )
 const eventsEventsOverviewRoute = eventsEventsOverviewRouteImport
   .update({
     id: '/(events)/events-overview',
@@ -707,6 +717,7 @@ export interface FileRoutesByFullPath {
   '/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/events': typeof eventsEventsRoute
   '/events-overview': typeof eventsEventsOverviewRoute
+  '/registered-events': typeof eventsRegisteredEventsRoute
   '/top-downloads': typeof eventsTopDownloadsRoute
   '/top-links': typeof eventsTopLinksRoute
   '/cities': typeof geographicCitiesRoute
@@ -774,6 +785,7 @@ export interface FileRoutesByTo {
   '/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/events': typeof eventsEventsRoute
   '/events-overview': typeof eventsEventsOverviewRoute
+  '/registered-events': typeof eventsRegisteredEventsRoute
   '/top-downloads': typeof eventsTopDownloadsRoute
   '/top-links': typeof eventsTopLinksRoute
   '/cities': typeof geographicCitiesRoute
@@ -844,6 +856,7 @@ export interface FileRoutesById {
   '/(devices)/screen-resolutions': typeof devicesScreenResolutionsRoute
   '/(events)/events': typeof eventsEventsRoute
   '/(events)/events-overview': typeof eventsEventsOverviewRoute
+  '/(events)/registered-events': typeof eventsRegisteredEventsRoute
   '/(events)/top-downloads': typeof eventsTopDownloadsRoute
   '/(events)/top-links': typeof eventsTopLinksRoute
   '/(geographic)/cities': typeof geographicCitiesRoute
@@ -915,6 +928,7 @@ export interface FileRouteTypes {
     | '/screen-resolutions'
     | '/events'
     | '/events-overview'
+    | '/registered-events'
     | '/top-downloads'
     | '/top-links'
     | '/cities'
@@ -982,6 +996,7 @@ export interface FileRouteTypes {
     | '/screen-resolutions'
     | '/events'
     | '/events-overview'
+    | '/registered-events'
     | '/top-downloads'
     | '/top-links'
     | '/cities'
@@ -1051,6 +1066,7 @@ export interface FileRouteTypes {
     | '/(devices)/screen-resolutions'
     | '/(events)/events'
     | '/(events)/events-overview'
+    | '/(events)/registered-events'
     | '/(events)/top-downloads'
     | '/(events)/top-links'
     | '/(geographic)/cities'
@@ -1121,6 +1137,7 @@ export interface RootRouteChildren {
   devicesScreenResolutionsRoute: typeof devicesScreenResolutionsRoute
   eventsEventsRoute: typeof eventsEventsRoute
   eventsEventsOverviewRoute: typeof eventsEventsOverviewRoute
+  eventsRegisteredEventsRoute: typeof eventsRegisteredEventsRoute
   eventsTopDownloadsRoute: typeof eventsTopDownloadsRoute
   eventsTopLinksRoute: typeof eventsTopLinksRoute
   geographicCitiesRoute: typeof geographicCitiesRoute
@@ -1487,6 +1504,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof eventsTopDownloadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(events)/registered-events': {
+      id: '/(events)/registered-events'
+      path: '/registered-events'
+      fullPath: '/registered-events'
+      preLoaderRoute: typeof eventsRegisteredEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(events)/events-overview': {
       id: '/(events)/events-overview'
       path: '/events-overview'
@@ -1689,6 +1713,7 @@ const rootRouteChildren: RootRouteChildren = {
   devicesScreenResolutionsRoute: devicesScreenResolutionsRoute,
   eventsEventsRoute: eventsEventsRoute,
   eventsEventsOverviewRoute: eventsEventsOverviewRoute,
+  eventsRegisteredEventsRoute: eventsRegisteredEventsRoute,
   eventsTopDownloadsRoute: eventsTopDownloadsRoute,
   eventsTopLinksRoute: eventsTopLinksRoute,
   geographicCitiesRoute: geographicCitiesRoute,

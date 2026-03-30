@@ -19,9 +19,12 @@ class EventPageIdFilter extends AbstractFilter
     /**
      * SQL column for WHERE clause.
      *
-     * @var string Column path: events.page_id
+     * Filters by WordPress post ID via the resource join chain:
+     * events.resource_uri_id → resource_uris → resources.resource_id
+     *
+     * @var string Column path: resources.resource_id (WordPress post ID)
      */
-    protected $column = 'events.page_id';
+    protected $column = 'resources.resource_id';
 
     /**
      * Value type for sanitization.
@@ -36,6 +39,24 @@ class EventPageIdFilter extends AbstractFilter
      * @var string|null
      */
     protected $requirement = 'events';
+
+    /**
+     * Required JOINs to access the resources table from events.
+     *
+     * @var array JOIN chain: events → resource_uris → resources
+     */
+    protected $joins = [
+        [
+            'table' => 'resource_uris',
+            'alias' => 'resource_uris',
+            'on'    => 'events.resource_uri_id = resource_uris.ID',
+        ],
+        [
+            'table' => 'resources',
+            'alias' => 'resources',
+            'on'    => 'resource_uris.resource_id = resources.ID AND resources.is_deleted = 0',
+        ],
+    ];
 
     /**
      * UI input component type.
