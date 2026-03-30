@@ -489,10 +489,12 @@ export function createColumnsFromConfig(
                   params[paramName] = String(row.original[col.linkParamField] ?? '')
                 }
               }
-              // Build search params if linkSearchField is set (passes value as URL query param)
-              const search = col.linkSearchField
-                ? { [col.linkSearchField as string]: String(row.original[field] ?? '') }
-                : undefined
+              // Build search params: include linkSearchField if set, and inject `from` for back navigation
+              const currentPath = window.location.hash.replace(/^#/, '').split('?')[0]
+              const search: Record<string, string> = { from: currentPath }
+              if (col.linkSearchField) {
+                search[col.linkSearchField as string] = String(row.original[field] ?? '')
+              }
               return (
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 <Link to={col.linkTo as any} params={params} search={search as any} className="truncate text-xs font-medium text-neutral-700 hover:text-primary hover:underline">
