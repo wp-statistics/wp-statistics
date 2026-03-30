@@ -100,6 +100,19 @@ class Exclusions extends Singleton
     }
 
     /**
+     * Get human-readable labels for exclusion reason keys.
+     *
+     * @return array<string, string> Map of reason key to translated display label.
+     */
+    public static function getReasonLabels(): array
+    {
+        return array_map(
+            fn($entry) => __($entry['message'], 'wp-statistics'),
+            self::getExclusionMap()
+        );
+    }
+
+    /**
      * Returns the list of exclusion keys, filtered by developers.
      *
      * @return string[] List of exclusion reason keys.

@@ -67,6 +67,7 @@ import { Route as referralsUtmUtmTypeUtmValueRouteImport } from './routes/(refer
 
 const OverviewLazyRouteImport = createFileRoute('/overview')()
 const GeographicLazyRouteImport = createFileRoute('/geographic')()
+const ExclusionsLazyRouteImport = createFileRoute('/exclusions')()
 const DevicesLazyRouteImport = createFileRoute('/devices')()
 const ToolsTabIdLazyRouteImport = createFileRoute('/tools/$tabId')()
 const SettingsTabIdLazyRouteImport = createFileRoute('/settings/$tabId')()
@@ -105,6 +106,11 @@ const GeographicLazyRoute = GeographicLazyRouteImport.update({
   path: '/geographic',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/geographic.lazy').then((d) => d.Route))
+const ExclusionsLazyRoute = ExclusionsLazyRouteImport.update({
+  id: '/exclusions',
+  path: '/exclusions',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/exclusions.lazy').then((d) => d.Route))
 const DevicesLazyRoute = DevicesLazyRouteImport.update({
   id: '/devices',
   path: '/devices',
@@ -686,6 +692,7 @@ export interface FileRoutesByFullPath {
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
   '/devices': typeof DevicesLazyRoute
+  '/exclusions': typeof ExclusionsLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/authors': typeof contentAnalyticsAuthorsRoute
@@ -752,6 +759,7 @@ export interface FileRoutesByTo {
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
   '/devices': typeof DevicesLazyRoute
+  '/exclusions': typeof ExclusionsLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/authors': typeof contentAnalyticsAuthorsRoute
@@ -821,6 +829,7 @@ export interface FileRoutesById {
   '/network-overview': typeof NetworkOverviewRoute
   '/premium': typeof PremiumRoute
   '/devices': typeof DevicesLazyRoute
+  '/exclusions': typeof ExclusionsLazyRoute
   '/geographic': typeof GeographicLazyRoute
   '/overview': typeof OverviewLazyRoute
   '/(content-analytics)/authors': typeof contentAnalyticsAuthorsRoute
@@ -891,6 +900,7 @@ export interface FileRouteTypes {
     | '/network-overview'
     | '/premium'
     | '/devices'
+    | '/exclusions'
     | '/geographic'
     | '/overview'
     | '/authors'
@@ -957,6 +967,7 @@ export interface FileRouteTypes {
     | '/network-overview'
     | '/premium'
     | '/devices'
+    | '/exclusions'
     | '/geographic'
     | '/overview'
     | '/authors'
@@ -1025,6 +1036,7 @@ export interface FileRouteTypes {
     | '/network-overview'
     | '/premium'
     | '/devices'
+    | '/exclusions'
     | '/geographic'
     | '/overview'
     | '/(content-analytics)/authors'
@@ -1094,6 +1106,7 @@ export interface RootRouteChildren {
   NetworkOverviewRoute: typeof NetworkOverviewRoute
   PremiumRoute: typeof PremiumRoute
   DevicesLazyRoute: typeof DevicesLazyRoute
+  ExclusionsLazyRoute: typeof ExclusionsLazyRoute
   GeographicLazyRoute: typeof GeographicLazyRoute
   OverviewLazyRoute: typeof OverviewLazyRoute
   contentAnalyticsAuthorsRoute: typeof contentAnalyticsAuthorsRoute
@@ -1164,6 +1177,13 @@ declare module '@tanstack/react-router' {
       path: '/geographic'
       fullPath: '/geographic'
       preLoaderRoute: typeof GeographicLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exclusions': {
+      id: '/exclusions'
+      path: '/exclusions'
+      fullPath: '/exclusions'
+      preLoaderRoute: typeof ExclusionsLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/devices': {
@@ -1654,6 +1674,7 @@ const rootRouteChildren: RootRouteChildren = {
   NetworkOverviewRoute: NetworkOverviewRoute,
   PremiumRoute: PremiumRoute,
   DevicesLazyRoute: DevicesLazyRoute,
+  ExclusionsLazyRoute: ExclusionsLazyRoute,
   GeographicLazyRoute: GeographicLazyRoute,
   OverviewLazyRoute: OverviewLazyRoute,
   contentAnalyticsAuthorsRoute: contentAnalyticsAuthorsRoute,

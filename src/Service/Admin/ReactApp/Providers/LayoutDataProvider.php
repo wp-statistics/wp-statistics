@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
 use WP_Statistics\Components\Country;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Utils\User;
@@ -193,7 +194,19 @@ class LayoutDataProvider implements LocalizeDataProviderInterface
          * @param array $items Array of layout configuration data
          * @since 15.0.0
          */
-        return apply_filters('wp_statistics_dashboard_layout_data', $items);
+        $items = apply_filters('wp_statistics_dashboard_layout_data', $items);
+
+        // Exclusions is always the last sidebar item
+        if (Option::getValue('record_exclusions')) {
+            unset($items['sidebar']['exclusions']);
+            $items['sidebar']['exclusions'] = [
+                'icon'  => 'ShieldBan',
+                'label' => esc_html__('Exclusions', 'wp-statistics'),
+                'slug'  => 'exclusions'
+            ];
+        }
+
+        return $items;
     }
 
     /**

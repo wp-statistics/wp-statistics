@@ -381,6 +381,11 @@ class AnalyticsQueryHandler
                 $queryFilters   = [];
                 $labelField     = 'referrer_channel';
                 break;
+            case 'exclusion_chart':
+                return $this->transformChartProviderResponse(
+                    $this->buildExclusionChartData($date, $compare),
+                    $compare
+                );
             default:
                 throw new \InvalidArgumentException(
                     sprintf(__('Unknown chart type: %s', 'wp-statistics'), $chartType)
@@ -531,6 +536,111 @@ class AnalyticsQueryHandler
                 $rowDate  = $row['date'] ?? '';
                 if (!empty($rowDate) && isset($prevTotal[$rowDate])) {
                     $prevTotal[$rowDate] += $visitors;
+                }
+            }
+
+            $chartData['previousData']['datasets'][] = [
+                'label' => esc_html__('Total', 'wp-statistics'),
+                'data'  => array_values($prevTotal),
+                'slug'  => '',
+            ];
+        }
+
+        return $chartData;
+    }
+
+    /**
+     * Build chart data for exclusions (exclusion counts over time by reason).
+     *
+     * @param array $date    Date range ['from' => ..., 'to' => ...].
+     * @param bool  $compare Whether to include previous period comparison.
+     * @return array Chart data structure.
+     */
+    private function buildExclusionChartData(array $date, bool $compare): array
+    {
+        $thisPeriod      = !empty($date['from']) ? $date : DateRange::get();
+        $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
+
+        $chartData = [
+            'data' => ['labels' => [], 'datasets' => []],
+        ];
+
+        $chartData['data']['labels'] = $this->buildDateLabels($thisPeriodDates);
+
+        $result = $this->handle([
+            'sources'   => ['exclusions'],
+            'group_by'  => ['exclusion_reason', 'exclusion_date'],
+            'date_from' => $thisPeriod['from'] ?? null,
+            'date_to'   => $thisPeriod['to'] ?? null,
+            'format'    => 'table',
+            'per_page'  => 1000,
+        ]);
+
+        $rows        = $result['data']['rows'] ?? [];
+        $parsedData  = [];
+        $seriesTotals = [];
+        $periodTotal = array_fill_keys($thisPeriodDates, 0);
+
+        foreach ($rows as $row) {
+            $count   = intval($row['exclusions'] ?? 0);
+            $label   = $row['reason_name'] ?? '';
+            $rowDate = $row['date'] ?? '';
+
+            if (empty($label) || empty($rowDate)) {
+                continue;
+            }
+
+            $parsedData[$label][$rowDate] = ($parsedData[$label][$rowDate] ?? 0) + $count;
+            $seriesTotals[$label]         = ($seriesTotals[$label] ?? 0) + $count;
+            $periodTotal[$rowDate]        = ($periodTotal[$rowDate] ?? 0) + $count;
+        }
+
+        // Sort by total, take top 3
+        arsort($seriesTotals);
+        $topLabels = array_slice(array_keys($seriesTotals), 0, 3);
+        $topData   = array_intersect_key($parsedData, array_flip($topLabels));
+
+        foreach ($topData as $label => $seriesData) {
+            $seriesData = array_merge(array_fill_keys($thisPeriodDates, 0), $seriesData);
+            ksort($seriesData);
+            $chartData['data']['datasets'][] = [
+                'label' => $label,
+                'data'  => array_values($seriesData),
+                'slug'  => null,
+            ];
+        }
+
+        $chartData['data']['datasets'][] = [
+            'label' => esc_html__('Total', 'wp-statistics'),
+            'data'  => array_values($periodTotal),
+            'slug'  => 'total',
+        ];
+
+        // Previous period
+        if ($compare) {
+            $prevPeriod      = DateRange::getPrevPeriod($thisPeriod);
+            $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
+
+            $chartData['previousData'] = ['labels' => [], 'datasets' => []];
+            $chartData['previousData']['labels'] = $this->buildDateLabels($prevPeriodDates);
+
+            $prevResult = $this->handle([
+                'sources'   => ['exclusions'],
+                'group_by'  => ['exclusion_reason', 'exclusion_date'],
+                'date_from' => $prevPeriod['from'] ?? null,
+                'date_to'   => $prevPeriod['to'] ?? null,
+                'format'    => 'table',
+                'per_page'  => 1000,
+            ]);
+
+            $prevRows  = $prevResult['data']['rows'] ?? [];
+            $prevTotal = array_fill_keys($prevPeriodDates, 0);
+
+            foreach ($prevRows as $row) {
+                $count   = intval($row['exclusions'] ?? 0);
+                $rowDate = $row['date'] ?? '';
+                if (!empty($rowDate) && isset($prevTotal[$rowDate])) {
+                    $prevTotal[$rowDate] += $count;
                 }
             }
 

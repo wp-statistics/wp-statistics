@@ -403,6 +403,61 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                 ],
             ],
 
+            'exclusions' => [
+                'title'               => __('Exclusions', 'wp-statistics'),
+                'context'             => 'exclusions',
+                'filterGroup'         => 'visitors',
+                'hideFilters'         => true,
+                'dataSource'          => [
+                    'queryId'       => 'table',
+                    'queries'       => [
+                        [
+                            'id'    => 'chart',
+                            'chart' => 'exclusion_chart',
+                        ],
+                        [
+                            'id'          => 'table',
+                            'sources'     => ['exclusions'],
+                            'group_by'    => ['exclusion_reason'],
+                            'columns'     => ['reason', 'reason_name', 'exclusions'],
+                            'format'      => 'table',
+                            'show_totals' => false,
+                            'compare'     => true,
+                        ],
+                    ],
+                ],
+                'columns'             => [
+                    [
+                        'key'          => 'reason',
+                        'dataField'    => 'reason_name',
+                        'title'        => __('Reason', 'wp-statistics'),
+                        'type'         => 'text',
+                        'priority'     => 'primary',
+                        'sortable'     => false,
+                        'cardPosition' => 'header',
+                    ],
+                    [
+                        'key'          => 'exclusions',
+                        'title'        => __('Count', 'wp-statistics'),
+                        'type'         => 'numeric',
+                        'comparable'   => true,
+                        'previousKey'  => 'previous.exclusions',
+                        'size'         => 'views',
+                        'cardPosition' => 'body',
+                    ],
+                ],
+                'defaultSort'         => ['id' => 'exclusions', 'desc' => true],
+                'chart'               => [
+                    'queryId'          => 'chart',
+                    'title'            => __('Exclusions', 'wp-statistics'),
+                    'compareMetricKey' => 'total',
+                ],
+                'emptyStateMessage'   => __('No exclusions found for the selected period', 'wp-statistics'),
+                'export'              => [
+                    'columns' => ['reason', 'reason_name'],
+                ],
+            ],
+
             '404-pages' => [
                 'title'            => __('404 Pages', 'wp-statistics'),
                 'context'          => '404_pages',
