@@ -66,8 +66,8 @@ export const WithTooltip: Story = {
     await userEvent.hover(trigger)
 
     // Tooltip should show the full URL
-    const tooltip = await within(document.body).findByText('https://example.com/products/123')
-    await expect(tooltip).toBeInTheDocument()
+    const tooltip = await within(document.body).findByRole('tooltip')
+    await expect(tooltip).toHaveTextContent('https://example.com/products/123')
 
     await userEvent.unhover(trigger)
   },

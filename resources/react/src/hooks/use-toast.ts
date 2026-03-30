@@ -2,11 +2,17 @@ import * as React from 'react'
 
 type ToastVariant = 'default' | 'destructive'
 
+interface ToastActionButton {
+  label: string
+  onClick: () => void
+}
+
 interface Toast {
   id: string
   title?: string
   description?: string
   variant?: ToastVariant
+  action?: ToastActionButton
 }
 
 interface ToastState {
@@ -49,7 +55,7 @@ function generateId() {
 }
 
 // Simple global state for toasts
-let listeners: Array<(state: ToastState) => void> = []
+const listeners: Array<(state: ToastState) => void> = []
 let memoryState: ToastState = { toasts: [] }
 
 function dispatch(action: ToastAction) {
@@ -61,6 +67,7 @@ interface ToastOptions {
   title?: string
   description?: string
   variant?: ToastVariant
+  action?: ToastActionButton
 }
 
 function toast(options: ToastOptions) {

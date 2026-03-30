@@ -1,0 +1,30 @@
+# Rule: Detect direct imports of preference utilities
+# These functions should not be imported directly in route files.
+# Use the useDataTablePreferences hook instead.
+
+id: use-datatable-preferences-hook
+language: typescript
+severity: warning
+message: "Use useDataTablePreferences hook instead of importing column preference utilities directly"
+note: |
+  Import { useDataTablePreferences } from '@/hooks/use-data-table-preferences' instead.
+
+  The hook handles:
+  - Column visibility management
+  - Column order persistence
+  - API column optimization
+  - LocalStorage caching
+  - Backend preference sync
+
+# Only apply to route files (exclude hooks folder which legitimately needs these imports)
+files:
+  - "src/routes/**/*.tsx"
+
+rule:
+  any:
+    # Detect imports of getCachedVisibility from column-utils
+    - pattern: import { $$$BEFORE, getCachedVisibility, $$$AFTER } from '@/lib/column-utils'
+    # Detect imports of computeFullVisibility from user-preferences
+    - pattern: import { $$$BEFORE, computeFullVisibility, $$$AFTER } from '@/services/user-preferences'
+    # Detect imports of parseColumnPreferences from user-preferences
+    - pattern: import { $$$BEFORE, parseColumnPreferences, $$$AFTER } from '@/services/user-preferences'

@@ -32,13 +32,13 @@ export const MAP_ZOOM = {
  * Based on bounding box maximum dimension (degrees)
  */
 export const COUNTRY_SIZE_ZOOM_MAP = [
-  { maxDimension: 60, zoom: 3.5 },   // Very large (Russia, Canada, USA, China)
-  { maxDimension: 40, zoom: 4.5 },   // Large (Brazil, Australia)
-  { maxDimension: 25, zoom: 6 },     // Medium-large (Iran, Algeria, Saudi Arabia)
-  { maxDimension: 15, zoom: 7.5 },   // Medium (France, Spain, Turkey)
-  { maxDimension: 8, zoom: 9 },      // Small (UK, Germany, Japan)
-  { maxDimension: 4, zoom: 11 },     // Very small (Netherlands, Belgium)
-  { maxDimension: 0, zoom: 14 },     // Tiny (Singapore, Luxembourg)
+  { maxDimension: 60, zoom: 3.5 }, // Very large (Russia, Canada, USA, China)
+  { maxDimension: 40, zoom: 4.5 }, // Large (Brazil, Australia)
+  { maxDimension: 25, zoom: 6 }, // Medium-large (Iran, Algeria, Saudi Arabia)
+  { maxDimension: 15, zoom: 7.5 }, // Medium (France, Spain, Turkey)
+  { maxDimension: 8, zoom: 9 }, // Small (UK, Germany, Japan)
+  { maxDimension: 4, zoom: 11 }, // Very small (Netherlands, Belgium)
+  { maxDimension: 0, zoom: 14 }, // Tiny (Singapore, Luxembourg)
 ] as const
 
 // Color scale configuration

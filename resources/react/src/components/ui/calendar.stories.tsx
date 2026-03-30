@@ -34,63 +34,37 @@ export const Default: Story = {
 }
 
 export const SingleSelection: Story = {
-  render: () => {
+  render: function SingleSelectionStory() {
     const [date, setDate] = useState<Date | undefined>(new Date())
-    return (
-      <Calendar
-        mode="single"
-        selected={date}
-        onSelect={setDate}
-      />
-    )
+    return <Calendar mode="single" selected={date} onSelect={setDate} />
   },
 }
 
 export const RangeSelection: Story = {
-  render: () => {
+  render: function RangeSelectionStory() {
     const [range, setRange] = useState<{ from: Date; to?: Date } | undefined>({
       from: new Date(),
       to: new Date(new Date().setDate(new Date().getDate() + 7)),
     })
-    return (
-      <Calendar
-        mode="range"
-        selected={range}
-        onSelect={setRange}
-        numberOfMonths={2}
-      />
-    )
+    return <Calendar mode="range" selected={range} onSelect={setRange} numberOfMonths={2} />
   },
 }
 
 export const MultipleSelection: Story = {
-  render: () => {
+  render: function MultipleSelectionStory() {
     const [dates, setDates] = useState<Date[] | undefined>([
       new Date(),
       new Date(new Date().setDate(new Date().getDate() + 2)),
       new Date(new Date().setDate(new Date().getDate() + 5)),
     ])
-    return (
-      <Calendar
-        mode="multiple"
-        selected={dates}
-        onSelect={setDates}
-      />
-    )
+    return <Calendar mode="multiple" selected={dates} onSelect={setDates} />
   },
 }
 
 export const WithDisabledDates: Story = {
-  render: () => {
+  render: function WithDisabledDatesStory() {
     const [date, setDate] = useState<Date | undefined>(new Date())
-    return (
-      <Calendar
-        mode="single"
-        selected={date}
-        onSelect={setDate}
-        disabled={(date) => date < new Date()}
-      />
-    )
+    return <Calendar mode="single" selected={date} onSelect={setDate} disabled={(date) => date < new Date()} />
   },
 }
 

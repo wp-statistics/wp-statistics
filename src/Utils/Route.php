@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Utils;
 
-use WP_Statistics\Components\Option;
-
 /**
  * Utility class for determining the current WordPress route or screen context.
  *
@@ -93,25 +91,5 @@ class Route
         }
 
         return in_array($screen, $screenIds, true);
-    }
-
-    /**
-     * Determine whether the admin bar should be shown for the current user and context.
-     *
-     * Checks if the plugin's admin bar option is enabled, the WordPress admin bar is allowed,
-     * and the current user has access. Allows overriding via the 'wp_statistics_show_admin_bar' filter.
-     *
-     * @return bool True if the admin bar should be shown, false otherwise.
-     */
-    public static function isAdminBarShowing()
-    {
-        $showAdminBar = (Option::getValue('menu_bar') && is_admin_bar_showing() && User::hasAccess());
-
-        /**
-         * Filters whether to show the WordPress admin bar.
-         *
-         * @example add_filter('wp_statistics_show_admin_bar', '__return_false');
-         */
-        return apply_filters('wp_statistics_show_admin_bar', $showAdminBar);
     }
 }

@@ -208,9 +208,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      */
     protected function batchUpdateIncompleteGeoIp()
     {
-        if (Option::getValue('auto_pop')) {
-            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
-        }
+        BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
     }
 
     /**

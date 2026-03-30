@@ -22,20 +22,18 @@ class Visitor extends BaseEntity
      * - If a visitor exists with the same hash, reuse the visitor ID.
      * - Otherwise, create a new visitor record with the current timestamp.
      *
-     * @return $this
-     *
-     * @todo Improve IP storage: clean up unnecessary prefixes like "#hash#".
+     * @return int The visitor ID, or 0 if tracking is inactive or hash is empty.
      */
-    public function record()
+    public function record(): int
     {
         if (!$this->isActive('visitors')) {
-            return $this;
+            return 0;
         }
 
-        $hash = $this->profile->getHashedIPForStorage();
+        $hash = $this->visitor->getHashedIp();
 
         if (empty($hash)) {
-            return $this;
+            return 0;
         }
 
         $record = RecordFactory::visitor()->get(['hash' => $hash]);
@@ -44,10 +42,10 @@ class Visitor extends BaseEntity
             ? (int)$record->ID
             : RecordFactory::visitor()->insert([
                 'hash'       => $hash,
+                'ip'         => $this->visitor->getStorableIp(),
                 'created_at' => DateTime::getUtc(),
             ]);
 
-        $this->profile->setVisitorId($visitorId);
-        return $this;
+        return (int)$visitorId;
     }
 }

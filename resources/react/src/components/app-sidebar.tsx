@@ -21,30 +21,35 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   // Transform the WordPress sidebar config into the NavMain items format
   // Note: isActive is calculated in NavMain to avoid re-creating this array on route changes
-  const navItems = useMemo(() => Object.entries(sidebarConfig).map(([, config]) => {
-    const items = config.subPages
-      ? Object.entries(config.subPages).map(([, subPage]) => ({
-          title: subPage.label,
-          url: `/${subPage.slug}`,
-          // Add badge for online-visitors with live pulse animation
-          ...(subPage.slug === 'online-visitors' && onlineVisitorsCount > 0 && { badge: onlineVisitorsCount, badgeLive: true }),
-        }))
-      : undefined
+  const navItems = useMemo(
+    () =>
+      Object.entries(sidebarConfig).map(([, config]) => {
+        const items = config.subPages
+          ? Object.entries(config.subPages).map(([, subPage]) => ({
+              title: subPage.label,
+              url: `/${subPage.slug}`,
+              // Add badge for online-visitors with live pulse animation
+              ...(subPage.slug === 'online-visitors' &&
+                onlineVisitorsCount > 0 && { badge: onlineVisitorsCount, badgeLive: true }),
+            }))
+          : undefined
 
-    return {
-      title: config.label,
-      url: `/${config.slug}`,
-      icon: getIcon(config.icon),
-      items,
-    }
-  }), [sidebarConfig, onlineVisitorsCount])
+        return {
+          title: config.label,
+          url: `/${config.slug}`,
+          icon: getIcon(config.icon),
+          items,
+        }
+      }),
+    [sidebarConfig, onlineVisitorsCount]
+  )
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" {...props}>
-      <SidebarContent className="pb-12">
+      <SidebarContent>
         <NavMain items={navItems} />
       </SidebarContent>
-      <SidebarFooter className="fixed bottom-0 left-(--wp-admin-sidebar-width) z-20 w-(--sidebar-width) shrink-0 bg-sidebar transition-[width] duration-200 ease-linear group-data-[collapsible=icon]:w-(--sidebar-width-icon)">
+      <SidebarFooter>
         <SidebarTrigger className="ms-auto" />
       </SidebarFooter>
     </Sidebar>

@@ -15,8 +15,17 @@ use WP_Statistics\Service\AnalyticsQuery\Sources\TotalDurationSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\VisitorStatusSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\SearchesSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\EventsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\EventCompletionsSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\ExclusionsSource;
 use WP_Statistics\Service\AnalyticsQuery\Sources\OnlineVisitorsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\PublishedContentSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\CommentsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ActiveAuthorsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ActiveTermsSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\EntryPageSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ExitPageSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ExitRateSource;
+use WP_Statistics\Service\AnalyticsQuery\Sources\ViewCompletionsSource;
 
 /**
  * Registry for analytics sources.
@@ -102,8 +111,17 @@ class SourceRegistry implements RegistryInterface
             'visitor_status'       => VisitorStatusSource::class,
             'searches'             => SearchesSource::class,
             'events'               => EventsSource::class,
+            'event_completions'    => EventCompletionsSource::class,
             'exclusions'           => ExclusionsSource::class,
             'online_visitors'      => OnlineVisitorsSource::class,
+            'published_content'    => PublishedContentSource::class,
+            'comments'             => CommentsSource::class,
+            'active_authors'       => ActiveAuthorsSource::class,
+            'active_terms'         => ActiveTermsSource::class,
+            'entry_page'           => EntryPageSource::class,
+            'exit_page'            => ExitPageSource::class,
+            'exit_rate'            => ExitRateSource::class,
+            'view_completions'     => ViewCompletionsSource::class,
         ];
 
         $this->defaultsRegistered = true;

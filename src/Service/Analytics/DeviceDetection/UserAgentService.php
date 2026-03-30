@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Analytics\DeviceDetection;
 
-use DeviceDetector\DeviceDetector;
+use WP_Statistics\Dependencies\DeviceDetector\DeviceDetector;
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Format;

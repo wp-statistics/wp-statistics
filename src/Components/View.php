@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Components;
 
+use Exception;
 use WP_Statistics\Exception\SystemErrorException;
 
 class View
@@ -31,22 +32,40 @@ class View
                     throw new SystemErrorException(esc_html__("View file not found: {$viewPath}", 'wp-statistics'));
                 }
 
+                if ($return) {
+                    return self::renderFile($viewPath, $args);
+                }
+
                 if (!empty($args)) {
                     extract($args);
                 }
 
-                // Return the template if requested
-                if ($return) {
-                    ob_start();
-                    include $viewPath;
-                    return ob_get_clean();
-                }
-
                 include $viewPath;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \WP_Statistics()->log($e->getMessage(), 'error');
         }
+    }
+
+    /**
+     * Render an absolute file path with variables and return the output.
+     *
+     * @param string $file Absolute path to a PHP template.
+     * @param array  $args Variables to extract into the template scope.
+     * @return string Rendered output, or empty string if the file does not exist.
+     */
+    public static function renderFile($file, $args = [])
+    {
+        if (!file_exists($file)) {
+            return '';
+        }
+
+        ob_start();
+        if (!empty($args)) {
+            extract($args, EXTR_SKIP);
+        }
+        include $file;
+        return ob_get_clean();
     }
 
 }

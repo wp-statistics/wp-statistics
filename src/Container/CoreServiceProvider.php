@@ -8,11 +8,13 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\CLI\CLIManager;
 use WP_Statistics\Service\Shortcode\ShortcodeService;
 use WP_Statistics\Service\Blocks\BlocksManager;
-use WP_Statistics\Service\Tracking\TrackerControllerFactory;
+use WP_Statistics\Service\Tracking\TrackerManager;
 use WP_Statistics\Service\Database\Managers\MigrationHandler;
 use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
 use WP_Statistics\Service\CustomEvent\CustomEventHandler;
 use WP_Statistics\Service\Ajax\AjaxDispatcher;
+use WP_Statistics\Service\Admin\AdminBar\AdminBarManager;
+use WP_Statistics\Service\Consent\ConsentManager;
 
 /**
  * Core Service Provider.
@@ -36,9 +38,14 @@ class CoreServiceProvider implements ServiceProvider
             return new HooksManager();
         });
 
+        // Consent Manager - lazy loaded
+        $container->register('consent', function () {
+            return new ConsentManager();
+        });
+
         // Tracking - lazy loaded
         $container->register('tracking', function () {
-            return TrackerControllerFactory::createController();
+            return new TrackerManager();
         });
 
         // Cron Manager - lazy loaded
@@ -76,8 +83,10 @@ class CoreServiceProvider implements ServiceProvider
             return new AjaxDispatcher();
         });
 
-        // Aliases for common access patterns
-        $container->alias('tracker', 'tracking');
+        // Admin Bar Stats - shows on both admin and frontend
+        $container->register('admin_bar', function () {
+            return new AdminBarManager();
+        });
     }
 
     /**
@@ -88,8 +97,11 @@ class CoreServiceProvider implements ServiceProvider
      */
     public function boot(ServiceContainer $container): void
     {
-        // Initialize tracking controller
-        $container->get('tracking');
+        // Initialize consent manager (before tracking, so consent state is ready)
+        $container->get('consent')->boot();
+
+        // Initialize tracking (registers hit, batch, and direct-endpoint controllers)
+        $container->get('tracking')->register();
 
         // Initialize cron manager
         $container->get('cron');
@@ -121,5 +133,8 @@ class CoreServiceProvider implements ServiceProvider
 
         // Initialize AJAX dispatcher (must be after tracking to collect all handlers)
         $container->get('ajax');
+
+        // Initialize admin bar stats
+        $container->get('admin_bar');
     }
 }

@@ -2,15 +2,11 @@
 
 namespace WP_Statistics\Service\Cron;
 
-use WP_Statistics\Components\Event;
-use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Cron\Events\DatabaseMaintenanceEvent;
-use WP_Statistics\Service\Cron\Events\ReferrerSpamEvent;
 use WP_Statistics\Service\Cron\Events\GeoIPUpdateEvent;
 use WP_Statistics\Service\Cron\Events\DailySummaryEvent;
-use WP_Statistics\Service\Cron\Events\LicenseEvent;
 use WP_Statistics\Service\Cron\Events\ReferralsDatabaseEvent;
-use WP_Statistics\Service\Cron\Events\NotificationEvent;
 use WP_Statistics\Service\Cron\Events\EmailReportEvent;
 
 /**
@@ -60,7 +56,7 @@ class CronManager
         add_action('init', [$this, 'scheduleEvents']);
 
         // Listen for settings changes to reschedule events
-        add_action('wp_statistics_settings_updated', [$this, 'onSettingsUpdated']);
+        add_action('wp_statistics_settings_saved', [$this, 'onSettingsSaved'], 10, 2);
     }
 
     /**
@@ -77,12 +73,9 @@ class CronManager
         // Register class names only - no instantiation yet
         $this->eventClasses = [
             'database_maintenance' => DatabaseMaintenanceEvent::class,
-            'referrer_spam'        => ReferrerSpamEvent::class,
             'geoip_update'         => GeoIPUpdateEvent::class,
             'daily_summary'        => DailySummaryEvent::class,
-            'license'              => LicenseEvent::class,
             'referrals_database'   => ReferralsDatabaseEvent::class,
-            'notification'         => NotificationEvent::class,
             'email_report'         => EmailReportEvent::class,
         ];
 
@@ -159,7 +152,6 @@ class CronManager
         $hooks = [
             // Current v15 hooks
             'wp_statistics_dbmaint_hook',
-            'wp_statistics_referrerspam_hook',
             'wp_statistics_geoip_hook',
             'wp_statistics_email_report',
             'wp_statistics_queue_daily_summary',
@@ -172,6 +164,7 @@ class CronManager
             'wp_statistics_anonymized_share_data_hook',
 
             // Legacy hooks (v14 cleanup)
+            'wp_statistics_referrerspam_hook',
             'wp_statistics_report_hook',
             'wp_statistics_notification_hook',
             'wp_statistics_dbmaint_visitor_hook',
@@ -195,34 +188,23 @@ class CronManager
     public static function getScheduledEvents()
     {
         $events = [];
+        $emailReportRecurrence = Option::getValue('email_reports_frequency', 'weekly');
+        if (!is_string($emailReportRecurrence) || !in_array($emailReportRecurrence, ['daily', 'weekly', 'monthly'], true)) {
+            $emailReportRecurrence = 'weekly';
+        }
+
         $hooks  = [
             'wp_statistics_dbmaint_hook' => [
                 'label'      => __('Database Maintenance', 'wp-statistics'),
                 'recurrence' => 'daily',
             ],
-            'wp_statistics_referrerspam_hook' => [
-                'label'      => __('Referrer Spam Update', 'wp-statistics'),
-                'recurrence' => 'weekly',
-            ],
             'wp_statistics_geoip_hook' => [
                 'label'      => __('GeoIP Database Update', 'wp-statistics'),
                 'recurrence' => 'monthly',
             ],
-            'wp_statistics_email_report' => [
-                'label'      => __('Email Report', 'wp-statistics'),
-                'recurrence' => 'daily',
-            ],
             'wp_statistics_queue_daily_summary' => [
                 'label'      => __('Daily Summary', 'wp-statistics'),
                 'recurrence' => 'daily',
-            ],
-            'wp_statistics_licenses_hook' => [
-                'label'      => __('License Migration', 'wp-statistics'),
-                'recurrence' => 'daily',
-            ],
-            'wp_statistics_check_licenses_status' => [
-                'label'      => __('License Status Check', 'wp-statistics'),
-                'recurrence' => 'twicedaily',
             ],
             'wp_statistics_referrals_db_hook' => [
                 'label'      => __('Referrals Database', 'wp-statistics'),
@@ -231,6 +213,10 @@ class CronManager
             'wp_statistics_daily_cron_hook' => [
                 'label'      => __('Daily Tasks', 'wp-statistics'),
                 'recurrence' => 'daily',
+            ],
+            'wp_statistics_email_report' => [
+                'label'      => __('Email Report', 'wp-statistics'),
+                'recurrence' => $emailReportRecurrence,
             ],
         ];
 
@@ -348,6 +334,21 @@ class CronManager
     }
 
     /**
+     * Bridge for wp_statistics_settings_saved action.
+     *
+     * Converts the (tab, settings) signature into the settings-key list
+     * that onSettingsUpdated() expects.
+     *
+     * @param string $tab      Settings tab that was saved.
+     * @param array  $settings Key-value pairs that were saved.
+     * @return void
+     */
+    public function onSettingsSaved(string $tab, array $settings): void
+    {
+        $this->onSettingsUpdated(array_keys($settings));
+    }
+
+    /**
      * Handle settings update - reschedule affected events.
      *
      * Only resolves the specific events that need rescheduling.
@@ -359,11 +360,11 @@ class CronManager
     {
         // Map settings to events that need rescheduling
         $settingsToEvents = [
-            'time_report'       => 'email_report',
-            'email_list'        => 'email_report',
-            'schedule_dbmaint'  => 'database_maintenance',
-            'schedule_geoip'    => 'geoip_update',
-            'schedule_referrerspam' => 'referrer_spam',
+            'schedule_dbmaint'                 => 'database_maintenance',
+            'geoip_location_detection_method'  => 'geoip_update',
+            'email_reports_enabled'            => 'email_report',
+            'email_reports_frequency'          => 'email_report',
+            'email_reports_delivery_hour'      => 'email_report',
         ];
 
         $eventsToReschedule = [];
@@ -414,19 +415,4 @@ class CronManager
         }
     }
 
-    /**
-     * Get the email report event.
-     *
-     * @return Events\EmailReportEvent|null
-     */
-    public function getEmailReportEvent(): ?Events\EmailReportEvent
-    {
-        $event = $this->getEvent('email_report');
-
-        if ($event instanceof Events\EmailReportEvent) {
-            return $event;
-        }
-
-        return null;
-    }
 }

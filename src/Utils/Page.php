@@ -2,9 +2,6 @@
 
 namespace WP_Statistics\Utils;
 
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
-
 /**
  * Utility class for WordPress page detection and information.
  *
@@ -117,11 +114,6 @@ class Page
             $currentPage['type'] = 'feed';
         }
 
-        // Add WordPress Login Page
-        if (Helper::is_login_page()) {
-            $currentPage['type'] = 'loginpage';
-        }
-
         return apply_filters('wp_statistics_current_page', $currentPage);
     }
 
@@ -160,7 +152,7 @@ class Page
             'edit_link' => '',
             'object_id' => $pageId,
             'title'     => '-',
-            'report'    => Menus::admin_url('content-analytics', ['type' => 'single-resource', 'uri' => rawurlencode($slug)]),
+            'report'    => '', // Will be set per type below
             'meta'      => []
         ];
 
@@ -178,7 +170,7 @@ class Page
                         'title'     => get_the_title($pageId),
                         'link'      => get_the_permalink($pageId),
                         'edit_link' => get_edit_post_link($pageId),
-                        'report'    => Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $pageId]),
+                        'report'    => UrlBuilder::contentAnalytics((int)$pageId),
                         'meta'      => [
                             'post_type' => get_post_type($pageId)
                         ]
@@ -194,7 +186,7 @@ class Page
                             'title'     => esc_html($term->name),
                             'link'      => (is_wp_error(get_term_link($pageId)) === true ? '' : get_term_link($pageId)),
                             'edit_link' => get_edit_term_link($pageId),
-                            'report'    => Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_taxonomy_id]),
+                            'report'    => UrlBuilder::categoryAnalytics((int)$term->term_taxonomy_id),
                             'meta'      => [
                                 'taxonomy'         => $term->taxonomy,
                                 'term_taxonomy_id' => $term->term_taxonomy_id,
@@ -213,7 +205,7 @@ class Page
                         ]
                     ];
                     if ($pageId) {
-                        $arg['report'] = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $pageId]);
+                        $arg['report'] = UrlBuilder::contentAnalytics((int)$pageId);
                     }
                     break;
 
@@ -224,7 +216,7 @@ class Page
                             'title'     => ($userInfo->display_name !== '' ? esc_html($userInfo->display_name) : esc_html($userInfo->first_name . ' ' . $userInfo->last_name)),
                             'link'      => get_author_posts_url($pageId),
                             'edit_link' => get_edit_user_link($pageId),
-                            'report'    => Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $userInfo->ID]),
+                            'report'    => UrlBuilder::authorAnalytics((int)$userInfo->ID),
                             'meta'      => [
                                 'author_id' => $userInfo->ID
                             ]
@@ -234,10 +226,6 @@ class Page
 
                 case 'feed':
                     $arg['title'] = __('Feed', 'wp-statistics');
-                    break;
-
-                case 'loginpage':
-                    $arg['title'] = __('Login Page', 'wp-statistics');
                     break;
 
                 case 'search':
@@ -274,7 +262,7 @@ class Page
                         ]
                     ];
                     if ($pageId) {
-                        $arg['report'] = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $pageId]);
+                        $arg['report'] = UrlBuilder::contentAnalytics((int)$pageId);
                     }
                     break;
             }

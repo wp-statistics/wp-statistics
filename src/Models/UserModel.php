@@ -11,7 +11,9 @@ use WP_Statistics\Utils\Query;
  * Provides database access methods for WordPress users.
  * Extends the BaseModel and uses the Query utility to perform
  * user-related data operations such as existence checks.
- * 
+ *
+ * @deprecated 15.0.0 Use WordPress core user functions or AnalyticsQueryHandler with author groupBy instead.
+ * @see \WP_Statistics\Service\AnalyticsQuery\AnalyticsQueryHandler
  * @since 15.0.0
  */
 class UserModel extends BaseModel

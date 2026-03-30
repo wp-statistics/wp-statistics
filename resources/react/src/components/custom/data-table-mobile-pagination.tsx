@@ -20,9 +20,7 @@ export function DataTableMobilePagination<TData>({ table, totalRows }: DataTable
       <div className="text-xs text-neutral-500">
         <span className="font-medium text-neutral-700">{currentPage}</span>
         <span> / {totalPages}</span>
-        {totalRows !== undefined && (
-          <span className="text-neutral-400"> ({totalRows.toLocaleString()})</span>
-        )}
+        {totalRows !== undefined && <span className="text-neutral-500"> ({totalRows.toLocaleString()})</span>}
       </div>
 
       {/* Navigation buttons - 44px touch targets */}

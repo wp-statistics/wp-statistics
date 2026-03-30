@@ -9,10 +9,9 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\User;
-use WP_STATISTICS\Schedule;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Traits\TransientCacheTrait;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Bootstrap;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_Statistics\Utils\Url;
@@ -31,7 +30,6 @@ class GeneralNotices
         'detectCachePlugins',
         'performanceAndCleanUp',
         'memoryLimitCheck',
-        'emailReportSchedule',
         'checkCloudflareGeolocatin',
         'checkDbSchemaIssue'
     ];
@@ -49,8 +47,14 @@ class GeneralNotices
             return;
         }
 
-        if (!Helper::is_request('ajax') && !Option::getValue('hide_notices') && User::hasAccess('manage')) {
+        if (!Helper::is_request('ajax') && User::hasAccess('manage')) {
+            $hideNotices = Option::getValue('hide_notices');
+
             foreach ($this->coreNotices as $notice) {
+                if ($hideNotices && $notice !== 'checkDbSchemaIssue') {
+                    continue;
+                }
+
                 if (method_exists($this, $notice)) {
                     call_user_func([$this, $notice]);
                 }
@@ -65,30 +69,32 @@ class GeneralNotices
      */
     private function detectConsentIntegrations()
     {
-        if (Option::getValue('consent_integration')) return;
+        $consentManager = Bootstrap::get('consent');
+        $notices = $consentManager->getDetectionNotices();
 
-        $integrations = IntegrationHelper::getAllIntegrations();
+        foreach ($notices as $provider) {
+            $noticeKey = $provider->getKey() . '_detection_notice';
 
-        foreach ($integrations as $integration) {
-            if (!$integration->isActive()) continue;
-
-            $notice = $integration->detectionNotice();
-
-            if (empty($notice) || Notice::isNoticeDismissed($notice['key'])) continue;
+            if (Notice::isNoticeDismissed($noticeKey)) {
+                continue;
+            }
 
             $message = wp_kses(
                 sprintf(
                     '<div><b class="wp-statistics-notice__title">%s - %s</b><p>%s</p><a href="%s">%s</a></div>',
                     esc_html__('WP Statistics', 'wp-statistics'),
-                    esc_html($notice['title']),
-                    esc_html($notice['description']),
+                    esc_html__('Consent Plugin Detected', 'wp-statistics'),
+                    sprintf(
+                        esc_html__('We\'ve detected %s on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin.', 'wp-statistics'),
+                        '<b>' . esc_html($provider->getName()) . '</b>'
+                    ),
                     esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
                     esc_html__('Activate integration ›', 'wp-statistics')
                 ),
                 ['div' => ['class' => []], 'b' => ['class' => []], 'p' => [], 'a' => ['href' => []]]
             );
 
-            Notice::addNotice($message, $notice['key']);
+            Notice::addNotice($message, $noticeKey);
         }
     }
 
@@ -107,7 +113,7 @@ class GeneralNotices
         // Generate notice id
         $noticeId = sanitize_key($cacheInfo['debug']) . '_cache_plugin_detected';
 
-        // Return if notice is already dismissed or bypass ad blocker is active
+        // Return if notice is already dismissed or bypass ad blockers is enabled (obfuscated assets)
         if (Notice::isNoticeDismissed($noticeId) || Option::getValue('bypass_ad_blockers')) {
             return;
         }
@@ -193,50 +199,6 @@ class GeneralNotices
         Notice::addNotice(
             esc_html__('Your server memory limit is too low. Please contact your hosting provider to increase the memory limit.', 'wp-statistics'),
             'memory_limit_check',
-            'warning'
-        );
-    }
-
-    /**
-     * Notifies users about invalid email report schedules.
-     *
-     * @return void
-     */
-    public function emailReportSchedule()
-    {
-        if (Notice::isNoticeDismissed('email_report_schedule')) {
-            return;
-        }
-
-        if (Option::getValue('time_report') == '0') {
-            return;
-        }
-
-        if (!wp_next_scheduled('wp_statistics_report_hook')) {
-            return;
-        }
-
-        $timeReports       = Option::getValue('time_report');
-        $schedulesInterval = Schedule::getSchedules();
-
-        if (isset($schedulesInterval[$timeReports])) {
-            return;
-        }
-
-        Notice::addNotice(
-            sprintf(
-            /* translators: %1$s: URL to the update settings page */
-                wp_kses(
-                    __('Please update your email report schedule due to new changes in our latest release: <a href="%1$s">Update Settings</a>.', 'wp-statistics'),
-                    [
-                        'a' => [
-                            'href' => []
-                        ]
-                    ]
-                ),
-                esc_url(Menus::admin_url('settings', ['tab' => 'notifications-settings']))
-            ),
-            'email_report_schedule',
             'warning'
         );
     }

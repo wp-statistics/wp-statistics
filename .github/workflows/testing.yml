@@ -4,6 +4,34 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm lint:react
+        continue-on-error: true  # Report issues but don't fail build (many pre-existing issues)
+
+      - name: Run Prettier check
+        run: pnpm format:react:check
+        continue-on-error: true  # Report issues but don't fail build
+
   phpunit:
     name: Run tests
     runs-on: ubuntu-latest
@@ -30,6 +58,9 @@ jobs:
 
       - name: Install required dependencies
         run: sudo apt-get update && sudo apt-get install -y subversion
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-scripts
 
       - name: Setup tests
         run: bash bin/install-wp-tests.sh wordpress_tests root root 127.0.0.1 latest true

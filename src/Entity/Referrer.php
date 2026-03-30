@@ -21,21 +21,21 @@ class Referrer extends BaseEntity
      * Extracts the domain, source name, and channel from the referrer URL,
      * and saves them in the database for future lookup.
      *
-     * @return $this
+     * @return int The referrer ID, or 0 if referrer data is incomplete.
      */
-    public function record()
+    public function record(): int
     {
         if (!$this->isActive('referrers')) {
-            return $this;
+            return 0;
         }
 
-        $domain  = $this->profile->getReferrer();
-        $source  = $this->profile->getSource();
+        $domain  = $this->visitor->getReferrer();
+        $source  = $this->visitor->getSource();
         $channel = $source->getChannel();
         $name    = $source->getName();
 
         if (empty($channel) || empty($domain) || empty($name)) {
-            return $this;
+            return 0;
         }
 
         $record = RecordFactory::referrer()->get([
@@ -45,17 +45,13 @@ class Referrer extends BaseEntity
         ]);
 
         if (!empty($record) && isset($record->ID)) {
-            $this->profile->setReferrerId((int)$record->ID);
-            return $this;
+            return (int)$record->ID;
         }
 
-        $referrerId = RecordFactory::referrer()->insert([
+        return (int)RecordFactory::referrer()->insert([
             'channel' => $channel,
             'name'    => $name,
             'domain'  => $domain,
         ]);
-
-        $this->profile->setReferrerId($referrerId);
-        return $this;
     }
 }

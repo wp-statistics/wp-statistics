@@ -40,8 +40,12 @@ export class WordPress {
     return this.data.globals.trackLoggedInUsers
   }
 
-  public isHashEnabled(): boolean {
-    return this.data.globals.hashIps
+  public isStoreIpEnabled(): boolean {
+    return this.data.globals.storeIp
+  }
+
+  public getUserIp(): string {
+    return this.data.globals.userIp
   }
 
   public getAnalyticsAction(): string {
@@ -80,8 +84,9 @@ export class WordPress {
   }
 
   public getFilterFieldsByGroup(group: FilterGroup): FilterFields[keyof FilterFields][] {
-    const fields = this.data.filters.fields
-    return Object.values(fields).filter((field) => field.groups.includes(group))
+    const fields = this.data?.filters?.fields
+    if (!fields) return []
+    return Object.values(fields).filter((field) => field.groups?.includes(group))
   }
 
   public getUserPreferences(): UserPreferences | undefined {
@@ -123,4 +128,67 @@ export class WordPress {
   public getNoticeDismissNonce(): string {
     return this.data.notices?.nonce ?? ''
   }
+
+  public getUserCountry(): string | undefined {
+    return this.data.globals.userCountry
+  }
+
+  public getUserCountryName(): string | undefined {
+    return this.data.globals.userCountryName
+  }
+
+  public getDateFormat(): string {
+    return this.data.globals.dateFormat || 'Y-m-d'
+  }
+
+  public getStartOfWeek(): number {
+    return this.data.globals.startOfWeek ?? 0
+  }
+
+  public getAccessLevel(): wpsReact['globals']['accessLevel'] {
+    return this.data.globals.accessLevel ?? 'none'
+  }
+
+  /**
+   * Get WordPress site timezone information.
+   * Used for timezone-aware date calculations.
+   */
+  public getTimezone(): { string?: string; gmtOffset: number } | undefined {
+    return this.data.globals.timezone
+  }
+
+  /**
+   * Get list of available taxonomies.
+   * Used for taxonomy filter dropdowns.
+   */
+  public getTaxonomies(): TaxonomyItem[] {
+    return this.data.globals.taxonomies ?? [{ value: 'category', label: 'Category' }]
+  }
+
+  /**
+   * Get arbitrary data from the localized data object.
+   * Used by premium plugin to access premium-specific data.
+   */
+  public getData<T = unknown>(key: string): T | undefined {
+    return (this.data as Record<string, unknown>)[key] as T | undefined
+  }
+
+  /**
+   * Get list of queryable post types.
+   * Extracts post type options from the post_type filter field.
+   * Used for single content pages to filter by all possible content types.
+   */
+  public getQueryablePostTypes(): string[] {
+    const postTypeField = this.data?.filters?.fields?.post_type
+    if (!postTypeField?.options) {
+      // Fallback to common post types if filter not available
+      return ['post', 'page']
+    }
+    return postTypeField.options.map((opt) => opt.value as string)
+  }
+}
+
+export interface TaxonomyItem {
+  value: string
+  label: string
 }

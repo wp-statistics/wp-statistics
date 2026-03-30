@@ -40,6 +40,8 @@ class PostTypeFilter extends AbstractFilter
     /**
      * Required JOINs to access the column.
      *
+     * The resources JOIN includes is_deleted = 0 to exclude deleted content.
+     *
      * @var array JOIN chain: views -> resource_uris -> resources
      */
     protected $joins = [
@@ -51,7 +53,7 @@ class PostTypeFilter extends AbstractFilter
         [
             'table' => 'resources',
             'alias' => 'resources',
-            'on'    => 'resource_uris.resource_id = resources.ID',
+            'on'    => 'resource_uris.resource_id = resources.ID AND resources.is_deleted = 0',
         ],
     ];
 
@@ -72,10 +74,11 @@ class PostTypeFilter extends AbstractFilter
     /**
      * Pages where this filter is available.
      *
-     * @var array Groups: views
+     * @var array Groups: views, content
      */
     protected $groups = [
         'views',
+        'content',
     ];
 
     /**
@@ -83,7 +86,7 @@ class PostTypeFilter extends AbstractFilter
      */
     public function getLabel(): string
     {
-        return esc_html__('Post Type', 'wp-statistics');
+        return \esc_html__('Post Type', 'wp-statistics');
     }
 
     /**
@@ -93,7 +96,7 @@ class PostTypeFilter extends AbstractFilter
      */
     public function getOptions(): array
     {
-        $postTypes = get_post_types(['public' => true], 'objects');
+        $postTypes = \get_post_types(['public' => true], 'objects');
         $options   = [];
 
         foreach ($postTypes as $postType) {

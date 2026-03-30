@@ -2,528 +2,140 @@
 
 namespace WP_Statistics\Service\Admin\Settings\Endpoints;
 
-use WP_Statistics\Components\Ajax;
+use WP_Statistics\Abstracts\BaseEndpoint;
+use WP_Statistics\Service\Admin\Settings\SettingsConfigProvider;
+use WP_Statistics\Service\Admin\Settings\SettingsService;
 use WP_Statistics\Utils\Request;
-use WP_Statistics\Components\Option;
-use WP_Statistics\Utils\User;
 use Exception;
 
 /**
  * Settings AJAX Endpoints for the React SPA.
  *
- * Provides endpoints for:
- * - Getting settings values
- * - Saving settings values
- * - Email preview generation
- * - Test email sending
+ * Thin routing layer — all business logic delegated to:
+ * - SettingsService (read/write settings)
+ * - SettingsConfigProvider (page config)
  *
- * Registered globally in ReactAppManager::initSettingsAjax().
+ * Uses a single `wp_statistics_settings` action with `sub_action` parameter.
  *
  * @since 15.0.0
  */
-class SettingsEndpoints
+class SettingsEndpoints extends BaseEndpoint
 {
-    /**
-     * Register AJAX handlers.
-     *
-     * @return void
-     */
-    public function register()
+    protected function getActionName(): string
     {
-        // Settings operations (admin only, not public)
-        Ajax::register('settings_get', [$this, 'getSettings'], false);
-        Ajax::register('settings_save', [$this, 'saveSettings'], false);
-        Ajax::register('settings_get_tab', [$this, 'getTabSettings'], false);
-        Ajax::register('settings_save_tab', [$this, 'saveTabSettings'], false);
+        return 'settings';
+    }
 
-        // Email operations (admin only, not public)
-        Ajax::register('email_preview', [$this, 'generateEmailPreview'], false);
-        Ajax::register('email_send_test', [$this, 'sendTestEmail'], false);
+    protected function getSubActions(): array
+    {
+        return [
+            'get_config'    => 'getSettingsConfig',
+            'get'           => 'getSettings',
+            'save'          => 'saveSettings',
+            'get_tab'       => 'getTabSettings',
+            'save_tab'      => 'saveTabSettings',
+        ];
+    }
+
+    protected function getErrorCode(): string
+    {
+        return 'settings_error';
+    }
+
+    /**
+     * Return the full settings/tools page configuration (tabs, cards, fields).
+     *
+     * Includes all settings-area tab values so the React SPA never needs
+     * a separate get_tab request for settings tabs. Tools tabs continue
+     * to lazy-load their own data via the tools endpoint.
+     */
+    protected function getSettingsConfig(): void
+    {
+        $provider = new SettingsConfigProvider();
+        $config   = $provider->getConfig();
+
+        $service = new SettingsService();
+
+        wp_send_json_success([
+            'tabs'         => $config['tabs'],
+            'cards'        => $config['cards'],
+            'fields'       => $config['fields'],
+            'all_settings' => $service->getAllSettings(),
+        ]);
     }
 
     /**
      * Get all settings.
-     *
-     * @return void
      */
-    public function getSettings()
+    protected function getSettings(): void
     {
-        try {
-            $this->verifyRequest();
+        $service = new SettingsService();
 
-            $settings = $this->getAllSettings();
-
-            wp_send_json_success([
-                'settings' => $settings,
-            ]);
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-                'code'    => 'settings_error',
-            ]);
-        }
+        wp_send_json_success([
+            'settings' => $service->getAllSettings(),
+        ]);
     }
 
     /**
-     * Save settings.
-     *
-     * @return void
+     * Save settings (no tab scope).
      */
-    public function saveSettings()
+    protected function saveSettings(): void
     {
-        try {
-            $this->verifyRequest();
+        $settings = $this->decodeSettingsFromRequest();
+        $service  = new SettingsService();
+        $service->saveSettings($settings);
 
-            // Get raw settings value (don't sanitize - it's JSON that we'll decode and sanitize per-key)
-            $rawSettings = isset($_REQUEST['settings']) ? wp_unslash($_REQUEST['settings']) : '';
-
-            // Decode JSON string (frontend sends JSON-encoded settings)
-            $settings = is_string($rawSettings) ? json_decode($rawSettings, true) : $rawSettings;
-
-            if (empty($settings) || !is_array($settings)) {
-                throw new Exception(__('No settings provided.', 'wp-statistics'));
-            }
-
-            foreach ($settings as $key => $value) {
-                $sanitizedKey = sanitize_key($key);
-
-                // Handle different value types
-                if (is_array($value)) {
-                    $sanitizedValue = array_map('sanitize_text_field', $value);
-                } elseif ($value === 'true' || $value === true) {
-                    $sanitizedValue = true;
-                } elseif ($value === 'false' || $value === false) {
-                    $sanitizedValue = false;
-                } elseif (is_numeric($value)) {
-                    $sanitizedValue = intval($value);
-                } else {
-                    $sanitizedValue = sanitize_text_field($value);
-                }
-
-                Option::updateValue($sanitizedKey, $sanitizedValue);
-            }
-
-            wp_send_json_success([
-                'message' => __('Settings saved successfully.', 'wp-statistics'),
-            ]);
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-                'code'    => 'save_error',
-            ]);
-        }
+        wp_send_json_success([
+            'message' => __('Settings saved successfully.', 'wp-statistics'),
+        ]);
     }
 
     /**
      * Get settings for a specific tab.
-     *
-     * @return void
      */
-    public function getTabSettings()
+    protected function getTabSettings(): void
     {
-        try {
-            $this->verifyRequest();
+        $tab     = sanitize_key(Request::get('tab', 'general'));
+        $service = new SettingsService();
 
-            $tab = sanitize_key(Request::get('tab', 'general'));
-
-            $settings = $this->getSettingsForTab($tab);
-
-            wp_send_json_success([
-                'tab'      => $tab,
-                'settings' => $settings,
-            ]);
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-                'code'    => 'settings_error',
-            ]);
-        }
+        wp_send_json_success([
+            'tab'      => $tab,
+            'settings' => $service->getTabSettings($tab),
+        ]);
     }
 
     /**
      * Save settings for a specific tab.
-     *
-     * @return void
      */
-    public function saveTabSettings()
+    protected function saveTabSettings(): void
     {
-        try {
-            $this->verifyRequest();
+        $tab      = sanitize_key(Request::get('tab', 'general'));
+        $settings = $this->decodeSettingsFromRequest();
+        $service  = new SettingsService();
 
-            $tab = sanitize_key(Request::get('tab', 'general'));
+        $service->saveTabSettings($tab, $settings);
 
-            // Get raw settings value (don't sanitize - it's JSON that we'll decode and sanitize per-key)
-            $rawSettings = isset($_REQUEST['settings']) ? wp_unslash($_REQUEST['settings']) : '';
-
-            // Decode JSON string (frontend sends JSON-encoded settings)
-            $settings = is_string($rawSettings) ? json_decode($rawSettings, true) : $rawSettings;
-
-            if (empty($settings) || !is_array($settings)) {
-                throw new Exception(__('No settings provided.', 'wp-statistics'));
-            }
-
-            // Get allowed keys for this tab
-            $allowedKeys = $this->getAllowedKeysForTab($tab);
-
-            foreach ($settings as $key => $value) {
-                $sanitizedKey = sanitize_key($key);
-
-                // Only save keys that are allowed for this tab
-                if (!in_array($sanitizedKey, $allowedKeys, true)) {
-                    continue;
-                }
-
-                // Handle different value types
-                if (is_array($value)) {
-                    $sanitizedValue = array_map('sanitize_text_field', $value);
-                } elseif ($value === 'true' || $value === true) {
-                    $sanitizedValue = true;
-                } elseif ($value === 'false' || $value === false) {
-                    $sanitizedValue = false;
-                } elseif (is_numeric($value)) {
-                    $sanitizedValue = intval($value);
-                } else {
-                    $sanitizedValue = sanitize_text_field($value);
-                }
-
-                Option::updateValue($sanitizedKey, $sanitizedValue);
-            }
-
-            wp_send_json_success([
-                'message' => __('Settings saved successfully.', 'wp-statistics'),
-                'tab'     => $tab,
-            ]);
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-                'code'    => 'save_error',
-            ]);
-        }
+        wp_send_json_success([
+            'message' => __('Settings saved successfully.', 'wp-statistics'),
+            'tab'     => $tab,
+        ]);
     }
 
     /**
-     * Generate email preview HTML.
-     *
-     * @return void
-     */
-    public function generateEmailPreview()
-    {
-        try {
-            $this->verifyRequest();
-
-            $template = Request::get('template', []);
-
-            // TODO: Implement EmailReportRenderer to generate preview
-            // For now, return a placeholder
-            $html = $this->buildEmailPreviewHtml($template);
-
-            wp_send_json_success([
-                'html' => $html,
-            ]);
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-                'code'    => 'preview_error',
-            ]);
-        }
-    }
-
-    /**
-     * Send a test email.
-     *
-     * @return void
-     */
-    public function sendTestEmail()
-    {
-        try {
-            $this->verifyRequest();
-
-            $email    = sanitize_email(Request::get('email', ''));
-            $template = Request::get('template', []);
-
-            if (empty($email) || !is_email($email)) {
-                throw new Exception(__('Please provide a valid email address.', 'wp-statistics'));
-            }
-
-            // Generate email HTML
-            $html    = $this->buildEmailPreviewHtml($template);
-            $subject = sprintf(
-                /* translators: %s: Site name */
-                __('[%s] WP Statistics Test Report', 'wp-statistics'),
-                get_bloginfo('name')
-            );
-
-            // Send email
-            $sent = wp_mail($email, $subject, $html, [
-                'Content-Type: text/html; charset=UTF-8',
-            ]);
-
-            if (!$sent) {
-                throw new Exception(__('Failed to send test email. Please check your email configuration.', 'wp-statistics'));
-            }
-
-            wp_send_json_success([
-                'message' => sprintf(
-                    /* translators: %s: Email address */
-                    __('Test email sent to %s', 'wp-statistics'),
-                    $email
-                ),
-            ]);
-        } catch (Exception $e) {
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-                'code'    => 'email_error',
-            ]);
-        }
-    }
-
-    /**
-     * Verify the AJAX request.
-     *
-     * @throws Exception If verification fails.
-     * @return void
-     */
-    private function verifyRequest()
-    {
-        if (!Request::isFrom('ajax')) {
-            throw new Exception(__('Invalid request.', 'wp-statistics'));
-        }
-
-        if (!User::hasAccess('manage')) {
-            throw new Exception(__('You do not have permission to perform this action.', 'wp-statistics'));
-        }
-
-        if (!check_ajax_referer('wp_statistics_dashboard_nonce', 'wps_nonce', false)) {
-            throw new Exception(__('Security check failed. Please refresh the page and try again.', 'wp-statistics'));
-        }
-    }
-
-    /**
-     * Get all settings values.
+     * Decode JSON settings from the request body.
      *
      * @return array
+     * @throws Exception If settings are empty or invalid.
      */
-    private function getAllSettings()
+    protected function decodeSettingsFromRequest(): array
     {
-        $tabs = ['general', 'privacy', 'notifications', 'exclusions', 'advanced', 'display', 'access'];
+        $rawSettings = isset($_REQUEST['settings']) ? wp_unslash($_REQUEST['settings']) : '';
+        $settings    = is_string($rawSettings) ? json_decode($rawSettings, true) : $rawSettings;
 
-        $settings = [];
-        foreach ($tabs as $tab) {
-            $settings[$tab] = $this->getSettingsForTab($tab);
+        if (empty($settings) || !is_array($settings)) {
+            throw new Exception(__('No settings provided.', 'wp-statistics'));
         }
 
         return $settings;
-    }
-
-    /**
-     * Get settings for a specific tab.
-     *
-     * @param string $tab Tab name.
-     * @return array
-     */
-    private function getSettingsForTab($tab)
-    {
-        $keys     = $this->getAllowedKeysForTab($tab);
-        $settings = [];
-
-        foreach ($keys as $key) {
-            $settings[$key] = Option::getValue($key);
-        }
-
-        return $settings;
-    }
-
-    /**
-     * Get allowed setting keys for a tab.
-     *
-     * @param string $tab Tab name.
-     * @return array
-     */
-    private function getAllowedKeysForTab($tab)
-    {
-        $tabKeys = [
-            'general' => [
-                // Tracking Options
-                'useronline',
-                'visitors_log',
-                'store_ua',
-                'attribution_model',
-                // Tracker Configuration
-                'use_cache_plugin',
-                'bypass_ad_blockers',
-                // Legacy keys for backward compatibility
-                'visits',
-                'visitors',
-                'pages',
-            ],
-            'privacy' => [
-                // Data Protection
-                'anonymize_ips',
-                'hash_ips',
-                'hash_rotation_interval',
-                // Privacy Compliance
-                'privacy_audit',
-                // User Preferences
-                'consent_integration',
-                'consent_level_integration',
-                'anonymous_tracking',
-                'do_not_track',
-            ],
-            'notifications' => [
-                // Email Reports
-                'time_report',
-                'send_report',
-                'email_list',
-                // Email Content
-                'content_report',
-                'email_free_content_header',
-                'email_free_content_footer',
-                'show_privacy_issues_in_report',
-            ],
-            'exclusions' => [
-                // Role Exclusions (dynamic keys for all WP roles)
-                'exclude_administrator',
-                'exclude_editor',
-                'exclude_author',
-                'exclude_contributor',
-                'exclude_subscriber',
-                'exclude_anonymous_users',
-                // IP Exclusions
-                'exclude_ip',
-                // Robot Exclusions
-                'robotlist',
-                'robot_threshold',
-                // Geolocation Exclusions
-                'excluded_countries',
-                'included_countries',
-                // URL Exclusions
-                'exclude_loginpage',
-                'exclude_feeds',
-                'exclude_404s',
-                'excluded_urls',
-                // URL Query Parameters
-                'query_params_allow_list',
-                // Referrer Spam (deprecated but still supported)
-                'referrerspam',
-                'schedule_referrerspam',
-                // Host Exclusions
-                'excluded_hosts',
-                // General Exclusions
-                'record_exclusions',
-            ],
-            'advanced' => [
-                // IP Detection Method
-                'ip_method',
-                'user_custom_header_ip_method',
-                // Geolocation Settings
-                'geoip_location_detection_method',
-                'geoip_license_type',
-                'geoip_license_key',
-                'geoip_dbip_license_key_option',
-                'schedule_geoip',
-                // Content Analytics
-                'word_count_analytics',
-                // Data Aggregation
-                'auto_aggregate_old_data',
-                'schedule_dbmaint_days',
-                // Anonymous Usage Data
-                'share_anonymous_data',
-                // Danger Zone
-                'delete_on_uninstall',
-                // Legacy keys (deprecated in v15)
-                'auto_pop',
-                'private_country_code',
-            ],
-            'display' => [
-                // Admin Interface
-                'disable_editor',
-                'disable_column',
-                'enable_user_column',
-                'menu_bar',
-                'charts_previous_period',
-                'disable_dashboard',
-                'display_notifications',
-                'hide_notices',
-                // Frontend Display
-                'show_hits',
-                'display_hits_position',
-            ],
-            'access' => [
-                // Roles & Permissions
-                'read_capability',
-                'manage_capability',
-            ],
-            'data' => [
-                // Data Retention Settings
-                'data_retention_mode',
-                'data_retention_days',
-                // Legacy (for backward compatibility)
-                'schedule_dbmaint',
-                'schedule_dbmaint_days',
-            ],
-        ];
-
-        return $tabKeys[$tab] ?? [];
-    }
-
-    /**
-     * Build email preview HTML.
-     *
-     * TODO: This will be replaced by EmailReportRenderer.
-     *
-     * @param array $template Template configuration.
-     * @return string
-     */
-    private function buildEmailPreviewHtml($template)
-    {
-        $siteName = get_bloginfo('name');
-        $siteUrl  = home_url();
-
-        // Default email preview
-        $html = '<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WP Statistics Report</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; }
-        .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
-        .header { background: #404BF2; color: #ffffff; padding: 24px; text-align: center; }
-        .header h1 { margin: 0; font-size: 24px; }
-        .content { padding: 24px; }
-        .metric { display: inline-block; width: 45%; margin: 10px 2%; padding: 16px; background: #f8f9fa; border-radius: 8px; text-align: center; }
-        .metric-value { font-size: 32px; font-weight: bold; color: #1a1a2e; }
-        .metric-label { font-size: 14px; color: #666; margin-top: 4px; }
-        .footer { padding: 16px; text-align: center; font-size: 12px; color: #999; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>' . esc_html($siteName) . '</h1>
-            <p style="margin: 8px 0 0 0; opacity: 0.9;">Weekly Statistics Report</p>
-        </div>
-        <div class="content">
-            <div class="metric">
-                <div class="metric-value">1,234</div>
-                <div class="metric-label">Visitors</div>
-            </div>
-            <div class="metric">
-                <div class="metric-value">5,678</div>
-                <div class="metric-label">Page Views</div>
-            </div>
-            <p style="text-align: center; margin-top: 24px;">
-                <a href="' . esc_url($siteUrl) . '/wp-admin/admin.php?page=wp-statistics" style="display: inline-block; background: #404BF2; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none;">View Full Dashboard</a>
-            </p>
-        </div>
-        <div class="footer">
-            This is a preview of your email report from WP Statistics.
-        </div>
-    </div>
-</body>
-</html>';
-
-        return $html;
     }
 }

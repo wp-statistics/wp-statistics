@@ -1,6 +1,6 @@
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { cpSync, rmSync, readFileSync, existsSync } from 'node:fs'
+import { cpSync, rmSync, readFileSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs'
 
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
@@ -73,6 +73,40 @@ function copyImagesPlugin(): Plugin {
   }
 }
 
+/**
+ * Vite plugin to copy and minify GeoJSON files from resources to public
+ * GeoJSON files are minified by parsing and re-stringifying without whitespace
+ */
+function copyGeoJsonPlugin(): Plugin {
+  return {
+    name: 'copy-geojson',
+    writeBundle() {
+      const src = resolve(__dirname, 'resources/json/geojson')
+      const dest = resolve(__dirname, 'public/geojson')
+
+      // Skip if source directory doesn't exist
+      if (!existsSync(src)) {
+        return
+      }
+
+      // Clean and recreate destination
+      rmSync(dest, { recursive: true, force: true })
+      mkdirSync(dest, { recursive: true })
+
+      // Copy and minify each GeoJSON file
+      const files = readdirSync(src).filter(f => f.endsWith('.geojson'))
+      for (const file of files) {
+        const content = readFileSync(resolve(src, file), 'utf-8')
+        // Minify by parsing and stringifying without whitespace
+        const minified = JSON.stringify(JSON.parse(content))
+        // Output with .min.geojson extension
+        const outName = file.replace('.geojson', '.min.geojson')
+        writeFileSync(resolve(dest, outName), minified)
+      }
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const reactRoot = resolve(__dirname, 'resources/react')
@@ -80,15 +114,17 @@ export default defineConfig(({ mode }) => {
   // Load environment variables from .env and .env.react files
   const env = loadReactEnv(mode)
 
-  // Get dev server URL from env
+  // Get dev server URL from env (only required for development mode)
   const devServerUrl = env.VITE_DEV_SERVER_URL
 
-  if (!devServerUrl) {
+  // Only require VITE_DEV_SERVER_URL in development mode
+  // Production builds don't use the dev server
+  if (!devServerUrl && mode === 'development') {
     throw new Error('VITE_DEV_SERVER_URL is not configured. Please set it in .env or .env.local')
   }
 
-  // Extract port from URL
-  const urlMatch = devServerUrl.match(/:(\d+)/)
+  // Extract port from URL (default to 5173 for production builds)
+  const urlMatch = devServerUrl?.match(/:(\d+)/)
   const port = urlMatch ? parseInt(urlMatch[1]) : 5173
 
   return {
@@ -99,7 +135,7 @@ export default defineConfig(({ mode }) => {
       port: port,
       strictPort: true,
       cors: true,
-      origin: devServerUrl,
+      origin: devServerUrl || `http://localhost:${port}`,
     },
     plugins: [
       tanstackRouter({
@@ -110,6 +146,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       wpI18n({ textDomain: 'wp-statistics' }),
       copyImagesPlugin(),
+      copyGeoJsonPlugin(),
     ],
     css: {
       postcss: {

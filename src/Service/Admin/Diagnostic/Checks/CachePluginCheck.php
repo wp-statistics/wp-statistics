@@ -75,23 +75,8 @@ class CachePluginCheck extends AbstractCheck
         $details['cache_plugin'] = $cacheInfo['plugin'];
         $details['debug']        = $cacheInfo['debug'] ?? '';
 
-        // Check if client-side tracking is enabled
-        $useCachePlugin = Option::getValue('use_cache_plugin');
-        $details['use_cache_plugin'] = (bool) $useCachePlugin;
-
-        // Check if bypass ad blockers is enabled
-        $bypassAdBlockers = Option::getValue('bypass_ad_blockers');
-        $details['bypass_ad_blockers'] = (bool) $bypassAdBlockers;
-
-        if (!$useCachePlugin && !$bypassAdBlockers) {
-            return $this->warning(
-                sprintf(
-                    __('%s detected. Enable "Client-side Tracking" for accurate stats with caching.', 'wp-statistics'),
-                    $cacheInfo['plugin']
-                ),
-                $details
-            );
-        }
+        $details['hybrid_tracking'] = (bool) Option::getValue('hybrid_tracking');
+        $details['bypass_ad_blockers'] = (bool) Option::getValue('bypass_ad_blockers');
 
         return $this->pass(
             sprintf(

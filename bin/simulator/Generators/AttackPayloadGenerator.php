@@ -499,7 +499,7 @@ class AttackPayloadGenerator extends AbstractDataGenerator
     private function getValidBaseRequest(): array
     {
         return [
-            'action'           => 'wp_statistics_hit_record',
+            'action'           => 'wp_statistics_collect',
             'resourceUriId'    => 1,
             'resourceUri'      => base64_encode('/sample-page/'),
             'resource_type'    => 'page',

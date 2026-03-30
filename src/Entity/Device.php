@@ -3,10 +3,8 @@
 namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
-use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
-use WP_Statistics\Utils\Request;
+
 
 /**
  * Entity for detecting and recording visitor device information.
@@ -19,168 +17,111 @@ use WP_Statistics\Utils\Request;
 class Device extends BaseEntity
 {
     /**
+     * Record all device-related information and return their IDs.
+     *
+     * @return array{type_id: int, os_id: int, browser_id: int, browser_version_id: int, resolution_id: int}
+     */
+    public function record(): array
+    {
+        $browserId = $this->isActive('device_browsers') ? $this->recordBrowser() : 0;
+
+        return [
+            'type_id'            => $this->isActive('device_types') ? $this->recordType() : 0,
+            'os_id'              => $this->isActive('device_oss') ? $this->recordOs() : 0,
+            'browser_id'         => $browserId,
+            'browser_version_id' => $this->isActive('device_browser_versions') ? $this->recordBrowserVersion($browserId) : 0,
+            'resolution_id'      => $this->isActive('device_resolutions') ? $this->recordResolution() : 0,
+        ];
+    }
+
+    /**
      * Detect and record visitor device type (e.g., desktop, mobile, tablet).
      *
-     * @return $this
+     * @return int The device type ID, or 0 if user agent is unavailable.
      */
-    public function recordType()
+    private function recordType(): int
     {
-        if (!$this->isActive('device_types')) {
-            return $this;
-        }
-
         if (!$this->userAgent) {
-            return $this;
+            return 0;
         }
 
-        $deviceType = $this->userAgent->getDevice();
-        $record     = RecordFactory::deviceType()->get(['name' => $deviceType]);
+        $deviceType = ucwords($this->userAgent->getDevice());
 
-        $id = !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : RecordFactory::deviceType()->insert(['name' => $deviceType]);
-
-        $this->profile->setDeviceTypeId($id);
-        return $this;
+        return (int) RecordFactory::deviceType()->upsert(['name' => $deviceType]);
     }
 
     /**
      * Detect and record visitor operating system (e.g., Windows, iOS, Android).
      *
-     * @return $this
+     * @return int The OS ID, or 0 if user agent is unavailable.
      */
-    public function recordOs()
+    private function recordOs(): int
     {
-        if (!$this->isActive('device_oss')) {
-            return $this;
-        }
-
         if (!$this->userAgent) {
-            return $this;
+            return 0;
         }
 
-        $os     = $this->userAgent->getPlatform();
-        $record = RecordFactory::deviceOs()->get(['name' => $os]);
+        $os = $this->userAgent->getPlatform();
 
-        $id = !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : RecordFactory::deviceOs()->insert(['name' => $os]);
-
-        $this->profile->setDeviceOsId($id);
-        return $this;
+        return (int) RecordFactory::deviceOs()->upsert(['name' => $os]);
     }
 
     /**
      * Detect and record visitor browser name (e.g., Chrome, Firefox, Safari).
      *
-     * @return $this
+     * @return int The browser ID, or 0 if user agent is unavailable.
      */
-    public function recordBrowser()
+    private function recordBrowser(): int
     {
-        if (!$this->isActive('device_browsers')) {
-            return $this;
-        }
-
-        if (!(Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously())) {
-            return $this;
-        }
-
         if (!$this->userAgent) {
-            return $this;
+            return 0;
         }
 
         $browser = $this->userAgent->getBrowser();
-        $record  = RecordFactory::deviceBrowser()->get(['name' => $browser]);
 
-        $id = !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : RecordFactory::deviceBrowser()->insert(['name' => $browser]);
-
-        $this->profile->setDeviceBrowserId($id);
-        return $this;
+        return (int) RecordFactory::deviceBrowser()->upsert(['name' => $browser]);
     }
 
     /**
      * Detect and record visitor browser version (e.g., 117.0.0).
      *
-     * @return $this
+     * @param int $browserId The browser ID to associate the version with.
+     * @return int The browser version ID, or 0 if user agent is unavailable or browser ID is missing.
      */
-    public function recordBrowserVersion()
+    private function recordBrowserVersion(int $browserId): int
     {
-        if (!$this->isActive('device_browser_versions')) {
-            return $this;
-        }
-
-        if (!(Option::get('store_ua') == true && !IntegrationHelper::shouldTrackAnonymously())) {
-            return $this;
-        }
-
-        if (!$this->userAgent) {
-            return $this;
-        }
-
-        $browserId = $this->profile->getDeviceBrowserId();
-
-        if (!$browserId) {
-            $this->recordBrowser();
-            $browserId = $this->profile->getDeviceBrowserId();
-        }
-
-        if (!$browserId) {
-            return $this;
+        if (!$this->userAgent || !$browserId) {
+            return 0;
         }
 
         $version = $this->userAgent->getVersion();
-        $record  = RecordFactory::deviceBrowserVersion()->get([
+
+        return (int) RecordFactory::deviceBrowserVersion()->upsert([
             'browser_id' => $browserId,
             'version'    => $version,
         ]);
-
-        $id = !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : RecordFactory::deviceBrowserVersion()->insert([
-                'browser_id' => $browserId,
-                'version'    => $version,
-            ]);
-
-        $this->profile->setDeviceBrowserVersionId($id);
-        return $this;
     }
 
     /**
-     * Detect and record visitor screen resolution (e.g., 1920×1080).
+     * Detect and record visitor screen resolution (e.g., 1920x1080).
      *
      * For privacy protection, the height is rounded down to the nearest ten
-     * and the last digit is set to zero (e.g., 1920×1087 → 1920×1080).
+     * and the last digit is set to zero (e.g., 1920x1087 -> 1920x1080).
      *
-     * @return $this
+     * @return int The resolution ID.
      */
-    public function recordResolution()
+    private function recordResolution(): int
     {
-        if (!$this->isActive('device_resolutions')) {
-            return $this;
-        }
-
-        $width  = (int)Request::get('screenWidth', 0);
-        $height = (int)Request::get('screenHeight', 0);
+        $width  = (int)$this->visitor->getRequest()->getScreenWidth();
+        $height = (int)$this->visitor->getRequest()->getScreenHeight();
 
         if ($height > 0) {
             $height = (int)(floor($height / 10) * 10);
         }
 
-        $record = RecordFactory::resolution()->get([
+        return (int) RecordFactory::resolution()->upsert([
             'width'  => $width,
             'height' => $height,
         ]);
-
-        $id = !empty($record) && isset($record->ID)
-            ? (int)$record->ID
-            : RecordFactory::resolution()->insert([
-                'width'  => $width,
-                'height' => $height,
-            ]);
-
-        $this->profile->setResolutionId($id);
-        return $this;
     }
 }

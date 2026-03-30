@@ -33,11 +33,10 @@ interface GroupByInterface
     /**
      * Get SELECT columns including extra columns.
      *
-     * @param string $attribution      Attribution model ('first_touch' or 'last_touch').
-     * @param array  $requestedColumns Optional list of requested column aliases to filter which columns to include.
+     * @param array $requestedColumns Optional list of requested column aliases to filter which columns to include.
      * @return array
      */
-    public function getSelectColumns(string $attribution = 'first_touch', array $requestedColumns = []): array;
+    public function getSelectColumns(array $requestedColumns = []): array;
 
     /**
      * Get aliases of extra columns.

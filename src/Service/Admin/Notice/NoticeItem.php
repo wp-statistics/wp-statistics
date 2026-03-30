@@ -68,6 +68,16 @@ class NoticeItem
     public int $priority = 10;
 
     /**
+     * Pages/routes where this notice should appear.
+     *
+     * Empty array means show on all pages (global notice).
+     * Route names like: 'geographic', 'devices', 'visitors-overview'
+     *
+     * @var array
+     */
+    public array $pages = [];
+
+    /**
      * Create a new notice item.
      *
      * @param array $data Notice data.
@@ -177,6 +187,7 @@ class NoticeItem
             'actionLabel' => $this->actionLabel,
             'helpUrl'     => $this->helpUrl,
             'priority'    => $this->priority,
+            'pages'       => $this->pages,
         ];
     }
 }

@@ -49,8 +49,9 @@ class RemoteRequest
 
         // Prepare the arguments
         $this->parsedArgs = wp_parse_args($args, [
-            'method'  => $method,
-            'timeout' => 10,
+            'method'    => $method,
+            'timeout'   => 10,
+            'sslverify' => apply_filters('https_local_ssl_verify', false),
         ]);
     }
 

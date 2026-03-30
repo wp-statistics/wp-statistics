@@ -6,7 +6,6 @@ use WP_Statistics\Components\Ip;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\DateTime;
-use WP_STATISTICS\TimeZone;
 
 class VisitorDecorator
 {
@@ -72,16 +71,6 @@ class VisitorDecorator
     public function getDevice()
     {
         return new DeviceDecorator($this->visitor);
-    }
-
-    /**
-     * Get the visitor's user agent string.
-     *
-     * @return string|null
-     */
-    public function getUserAgent()
-    {
-        return $this->visitor->UAString ?? null;
     }
 
     /**

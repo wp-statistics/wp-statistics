@@ -1,7 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Bar, BarChart, Line, LineChart, XAxis, YAxis } from 'recharts'
 
-import { type ChartConfig,ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from './chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from './chart'
 
 const meta = {
   title: 'UI/Chart',

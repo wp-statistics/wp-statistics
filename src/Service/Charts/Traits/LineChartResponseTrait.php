@@ -2,63 +2,40 @@
 
 namespace WP_Statistics\Service\Charts\Traits;
 
+/**
+ * @deprecated 15.0.0 Kept for backward compatibility with addons. Will be removed in a future version.
+ */
 trait LineChartResponseTrait
 {
     private $chartData;
 
-    /**
-     * Initializes the chart data structure.
-     *
-     * @param bool $prevData Whether to include previous data in the structure.
-     * @return void
-     */
     protected function initChartData($prevData = false)
     {
         $this->chartData = [
             'data' => [
-                'labels'    => [],
-                'datasets'  => [],
+                'labels'   => [],
+                'datasets' => [],
             ]
         ];
 
         if ($prevData) {
             $this->chartData['previousData'] = [
-                'labels'    => [],
-                'datasets'  => [],
+                'labels'   => [],
+                'datasets' => [],
             ];
         }
     }
 
-    /**
-     * Sets the chart labels.
-     *
-     * @param array $labels The chart labels.
-     * @return void
-     */
     protected function setChartLabels($labels)
     {
         $this->chartData['data']['labels'] = $labels;
     }
 
-    /**
-     * Sets the previous chart labels.
-     *
-     * @param array $labels The chart labels.
-     * @return void
-     */
     protected function setChartPreviousLabels($labels)
     {
         $this->chartData['previousData']['labels'] = $labels;
     }
 
-    /**
-     * Adds a dataset to the chart data.
-     *
-     * @param string $label The label for the dataset.
-     * @param array $data The data for the dataset.
-     * @param string $slug The slug for the dataset
-     * @return void
-     */
     protected function addChartDataset($label, $data, $slug = null)
     {
         $this->chartData['data']['datasets'][] = [
@@ -68,14 +45,6 @@ trait LineChartResponseTrait
         ];
     }
 
-    /**
-     * Adds a dataset to the previous chart data.
-     *
-     * @param string $label The label for the dataset.
-     * @param array $data The data for the dataset.
-     * @param string $slug The slug for the dataset
-     * @return void
-     */
     protected function addChartPreviousDataset($label, $data, $slug = '')
     {
         $this->chartData['previousData']['datasets'][] = [
@@ -85,11 +54,6 @@ trait LineChartResponseTrait
         ];
     }
 
-    /**
-     * Get the complete response data for the chart.
-     *
-     * @return array
-     */
     protected function getChartData()
     {
         return $this->chartData;

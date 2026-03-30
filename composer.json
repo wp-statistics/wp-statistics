@@ -1,51 +1,82 @@
 {
+  "name": "veronalabs/wp-statistics",
+  "description": "Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "VeronaLabs",
+      "email": "dev@veronalabs.com",
+      "homepage": "https://veronalabs.com"
+    }
+  ],
   "require": {
     "php": ">=7.4",
     "geoip2/geoip2": "^2.13",
     "matomo/device-detector": "^6.4",
     "deliciousbrains/wp-background-processing": "^1.4"
   },
+  "require-dev": {
+    "veronalabs/wp-scoper": "^1.1"
+  },
   "config": {
     "platform-check": false,
     "platform": {
       "php": "7.4"
+    },
+    "allow-plugins": {
+      "veronalabs/wp-scoper": true
     }
   },
   "autoload": {
     "psr-4": {
       "WP_Statistics\\": "src/"
-    },
-    "classmap": [
-      "src/Dependencies/deliciousbrains/wp-background-processing/classes/",
-      "vendor/mustangostang/spyc/Spyc.php"
-    ]
+    }
   },
   "extra": {
-    "mozart": {
-      "dep_namespace": "WP_Statistics\\Dependencies\\",
-      "dep_directory": "/src/Dependencies/",
-      "classmap_directory": "/src/Dependencies/",
-      "classmap_prefix": "WP_Statistics_",
+    "wp-scoper": {
+      "namespace_prefix": "WP_Statistics\\Dependencies",
       "packages": [
         "geoip2/geoip2",
         "psr/cache",
         "matomo/device-detector",
+        "mustangostang/spyc",
         "deliciousbrains/wp-background-processing"
       ],
-      "delete_vendor_directories": true
+      "target_directory": "packages",
+      "delete_vendor_packages": true,
+      "class_prefix": "WP_Statistics_",
+      "exclude_directories": ["views", "templates", "resources"]
     }
   },
   "scripts": {
-    "test": [
-      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH phpunit --testdox"
+    "test": "phpunit --testdox",
+    "test:unit": "phpunit --testdox --testsuite unit",
+    "test:integration": "phpunit --testdox --testsuite integration",
+    "test:coverage": "phpunit --coverage-html tests/coverage",
+    "test:react": "pnpm test:run",
+    "test:react:watch": "pnpm test",
+    "test:react:coverage": "pnpm test:coverage",
+    "test:e2e": "pnpm test:e2e",
+    "test:storybook": "pnpm test:storybook",
+    "lint": "pnpm lint:react",
+    "lint:fix": "pnpm lint:react:fix",
+    "format": "pnpm format:react",
+    "format:check": "pnpm format:react:check",
+    "build": "pnpm build",
+    "dev": "pnpm dev",
+    "storybook": "pnpm storybook",
+    "check": [
+      "@test",
+      "@lint",
+      "@format:check"
     ],
-    "post-install-cmd": [
-      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH mozart compose",
-      "composer dump-autoload"
+    "check:all": [
+      "@test",
+      "@test:react",
+      "@lint",
+      "@format:check"
     ],
-    "post-update-cmd": [
-      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH mozart compose",
-      "composer dump-autoload"
-    ]
+    "dist": "bash bin/build-zip.sh"
   }
 }

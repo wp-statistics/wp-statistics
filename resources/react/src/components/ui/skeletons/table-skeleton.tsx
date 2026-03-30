@@ -21,12 +21,7 @@ export interface TableSkeletonProps {
  * <TableSkeleton rows={10} columns={5} />
  * <TableSkeleton rows={5} showHeader={false} />
  */
-export function TableSkeleton({
-  rows = 5,
-  columns = 4,
-  showHeader = true,
-  className,
-}: TableSkeletonProps) {
+export function TableSkeleton({ rows = 5, columns = 4, showHeader = true, className }: TableSkeletonProps) {
   return (
     <div className={cn('space-y-2', className)}>
       {showHeader && (
@@ -39,10 +34,7 @@ export function TableSkeleton({
       {[...Array(rows)].map((_, rowIndex) => (
         <div key={rowIndex} className="flex gap-4 py-2">
           {[...Array(columns)].map((_, colIndex) => (
-            <Skeleton
-              key={colIndex}
-              className={cn('h-4 flex-1', colIndex === 0 && 'max-w-[200px]')}
-            />
+            <Skeleton key={colIndex} className={cn('h-4 flex-1', colIndex === 0 && 'max-w-[200px]')} />
           ))}
         </div>
       ))}
