@@ -163,6 +163,15 @@ registerSettingsComponent(
 )
 
 registerSettingsComponent(
+  'DatabaseMaintenancePage',
+  lazy(() =>
+    import('@/components/tools/tabs/database-maintenance-page').then((m) => ({
+      default: m.DatabaseMaintenancePage,
+    }))
+  )
+)
+
+registerSettingsComponent(
   'PrivacyAuditPage',
   lazy(() =>
     import('@/components/tools/tabs/privacy-audit-page').then((m) => ({

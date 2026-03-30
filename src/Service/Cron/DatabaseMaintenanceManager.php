@@ -340,4 +340,223 @@ class DatabaseMaintenanceManager
 
         return $stats;
     }
+
+    /**
+     * Get maintenance page info for the React frontend.
+     *
+     * @return array {hasUserIds: bool, eventsTableExists: bool, eventNames: string[], tableStats: array}
+     */
+    public static function getMaintenanceInfo(): array
+    {
+        global $wpdb;
+
+        $sessionsTable = DatabaseSchema::table('sessions');
+        $hasUserIds    = false;
+
+        if (DatabaseSchema::tableExists($sessionsTable)) {
+            $hasUserIds = (bool) $wpdb->get_var(
+                "SELECT EXISTS (SELECT 1 FROM `{$sessionsTable}` WHERE `user_id` IS NOT NULL)"
+            );
+        }
+
+        $eventsTable       = DatabaseSchema::table('events');
+        $eventsTableExists = DatabaseSchema::tableExists($eventsTable);
+        $eventNames        = [];
+
+        if ($eventsTableExists) {
+            $eventNames = $wpdb->get_col(
+                "SELECT DISTINCT `event_name` FROM `{$eventsTable}` ORDER BY `event_name`"
+            );
+        }
+
+        return [
+            'hasUserIds'        => $hasUserIds,
+            'eventsTableExists' => $eventsTableExists,
+            'eventNames'        => $eventNames ?: [],
+        ];
+    }
+
+    /**
+     * Remove all user ID associations from session records.
+     *
+     * Sets user_id to NULL for GDPR/privacy compliance.
+     *
+     * @return int Number of rows updated.
+     */
+    public static function removeUserIds(): int
+    {
+        global $wpdb;
+
+        $tableName = DatabaseSchema::table('sessions');
+
+        if (!DatabaseSchema::tableExists($tableName)) {
+            return 0;
+        }
+
+        $count = $wpdb->query(
+            "UPDATE `{$tableName}` SET `user_id` = NULL WHERE `user_id` IS NOT NULL"
+        );
+
+        if ($count === false) {
+            do_action('wp_statistics_maintenance_error', $wpdb->last_error, 'sessions');
+            return 0;
+        }
+
+        return $count;
+    }
+
+    /**
+     * Delete all event records for a specific event name.
+     *
+     * @param string $eventName The event name to delete.
+     * @param bool   $optimize  Whether to optimize the table after deletion.
+     *
+     * @return int Number of records deleted.
+     */
+    public static function deleteEventsByName(string $eventName, bool $optimize = true): int
+    {
+        global $wpdb;
+
+        $tableName = DatabaseSchema::table('events');
+
+        if (!DatabaseSchema::tableExists($tableName)) {
+            return 0;
+        }
+
+        $count = $wpdb->query(
+            $wpdb->prepare(
+                "DELETE FROM `{$tableName}` WHERE `event_name` = %s",
+                $eventName
+            )
+        );
+
+        if ($count === false) {
+            do_action('wp_statistics_maintenance_error', $wpdb->last_error, 'events');
+            return 0;
+        }
+
+        if ($optimize && $count > 0) {
+            DatabaseSchema::optimizeTable('events');
+        }
+
+        return $count;
+    }
+
+    /**
+     * Delete sessions that exceed a view threshold (bot cleanup).
+     *
+     * Finds sessions with more views than the threshold, deletes their views,
+     * deletes the sessions, and cleans up orphaned visitors.
+     *
+     * @param int $viewThreshold Minimum view count to consider a session as bot traffic.
+     *
+     * @return array{sessions: int, views: int, parameters: int, events: int, visitors: int} Counts of deleted records.
+     */
+    public static function deleteBotSessions(int $viewThreshold): array
+    {
+        global $wpdb;
+
+        $viewThreshold = max($viewThreshold, 10);
+        $viewsTable      = DatabaseSchema::table('views');
+        $sessionsTable   = DatabaseSchema::table('sessions');
+        $parametersTable = DatabaseSchema::table('parameters');
+        $eventsTable     = DatabaseSchema::table('events');
+
+        $results = ['sessions' => 0, 'views' => 0, 'parameters' => 0, 'events' => 0, 'visitors' => 0];
+
+        if (!DatabaseSchema::tableExists($viewsTable) || !DatabaseSchema::tableExists($sessionsTable)) {
+            return $results;
+        }
+
+        // Find session IDs exceeding the threshold
+        $sessionIds = $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT `session_id` FROM `{$viewsTable}` GROUP BY `session_id` HAVING COUNT(*) > %d",
+                $viewThreshold
+            )
+        );
+
+        if (empty($sessionIds)) {
+            return $results;
+        }
+
+        // Process in batches to avoid MySQL query length limits
+        $batches = array_chunk($sessionIds, 1000);
+
+        foreach ($batches as $batch) {
+            $placeholders = implode(',', array_fill(0, count($batch), '%d'));
+
+            // Delete views for these sessions
+            $viewsDeleted = $wpdb->query(
+                $wpdb->prepare(
+                    "DELETE FROM `{$viewsTable}` WHERE `session_id` IN ({$placeholders})",
+                    ...$batch
+                )
+            );
+
+            if ($viewsDeleted !== false) {
+                $results['views'] += $viewsDeleted;
+            }
+
+            // Delete parameters for these sessions
+            if (DatabaseSchema::tableExists($parametersTable)) {
+                $paramsDeleted = $wpdb->query(
+                    $wpdb->prepare(
+                        "DELETE FROM `{$parametersTable}` WHERE `session_id` IN ({$placeholders})",
+                        ...$batch
+                    )
+                );
+
+                if ($paramsDeleted !== false) {
+                    $results['parameters'] += $paramsDeleted;
+                }
+            }
+
+            // Delete events for these sessions
+            if (DatabaseSchema::tableExists($eventsTable)) {
+                $eventsDeleted = $wpdb->query(
+                    $wpdb->prepare(
+                        "DELETE FROM `{$eventsTable}` WHERE `session_id` IN ({$placeholders})",
+                        ...$batch
+                    )
+                );
+
+                if ($eventsDeleted !== false) {
+                    $results['events'] += $eventsDeleted;
+                }
+            }
+
+            // Delete the sessions themselves
+            $sessionsDeleted = $wpdb->query(
+                $wpdb->prepare(
+                    "DELETE FROM `{$sessionsTable}` WHERE `ID` IN ({$placeholders})",
+                    ...$batch
+                )
+            );
+
+            if ($sessionsDeleted !== false) {
+                $results['sessions'] += $sessionsDeleted;
+            }
+        }
+
+        // Clean up orphaned visitors
+        $results['visitors'] = self::deleteOrphanedVisitors(false);
+
+        // Optimize affected tables
+        if (array_sum($results) > 0) {
+            DatabaseSchema::optimizeTable('views');
+            DatabaseSchema::optimizeTable('sessions');
+            DatabaseSchema::optimizeTable('visitors');
+
+            if ($results['parameters'] > 0) {
+                DatabaseSchema::optimizeTable('parameters');
+            }
+
+            if ($results['events'] > 0) {
+                DatabaseSchema::optimizeTable('events');
+            }
+        }
+
+        return $results;
+    }
 }

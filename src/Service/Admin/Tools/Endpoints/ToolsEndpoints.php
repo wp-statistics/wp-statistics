@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\Tools\Endpoints;
 use WP_Statistics\Abstracts\BaseEndpoint;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Cron\CronManager;
+use WP_Statistics\Service\Cron\DatabaseMaintenanceManager;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticManager;
 use WP_Statistics\Service\Admin\Tools\SystemInfoService;
@@ -46,6 +47,10 @@ class ToolsEndpoints extends BaseEndpoint
             'diagnostics_run'       => 'runDiagnostics',
             'diagnostics_run_check' => 'runDiagnosticCheck',
             'diagnostics_repair'    => 'repairDiagnostic',
+            'maintenance_info'      => 'getMaintenanceInfo',
+            'remove_user_ids'       => 'removeUserIds',
+            'delete_events_by_name' => 'deleteEventsByName',
+            'delete_bot_sessions'   => 'deleteBotSessions',
         ];
     }
 
@@ -294,5 +299,90 @@ class ToolsEndpoints extends BaseEndpoint
 
         $method = $repairActions[$key];
         $this->$method();
+    }
+
+    /**
+     * Get maintenance info for the Database Maintenance page.
+     */
+    protected function getMaintenanceInfo(): void
+    {
+        wp_send_json_success(DatabaseMaintenanceManager::getMaintenanceInfo());
+    }
+
+    /**
+     * Remove all user ID associations from sessions.
+     */
+    protected function removeUserIds(): void
+    {
+        $count = DatabaseMaintenanceManager::removeUserIds();
+
+        wp_send_json_success([
+            'count'   => $count,
+            'message' => sprintf(
+                __('Removed user IDs from %s session records.', 'wp-statistics'),
+                number_format_i18n($count)
+            ),
+        ]);
+    }
+
+    /**
+     * Delete all event records for a specific event name.
+     *
+     * @throws Exception If event name is missing.
+     */
+    protected function deleteEventsByName(): void
+    {
+        $eventName = sanitize_text_field(Request::get('event_name', ''));
+
+        if (empty($eventName)) {
+            throw new Exception(__('Event name is required.', 'wp-statistics'));
+        }
+
+        $count = DatabaseMaintenanceManager::deleteEventsByName($eventName);
+
+        wp_send_json_success([
+            'count'   => $count,
+            'message' => sprintf(
+                __('Deleted %s event records for "%s".', 'wp-statistics'),
+                number_format_i18n($count),
+                $eventName
+            ),
+        ]);
+    }
+
+    /**
+     * Delete bot sessions exceeding a view threshold.
+     *
+     * @throws Exception If threshold is invalid.
+     */
+    protected function deleteBotSessions(): void
+    {
+        $threshold = (int) Request::get('view_threshold', 0, 'number');
+
+        if ($threshold < 10) {
+            throw new Exception(__('View threshold must be at least 10.', 'wp-statistics'));
+        }
+
+        $results = DatabaseMaintenanceManager::deleteBotSessions($threshold);
+
+        $total = array_sum($results);
+
+        wp_send_json_success([
+            'sessions'   => $results['sessions'],
+            'views'      => $results['views'],
+            'parameters' => $results['parameters'],
+            'events'     => $results['events'],
+            'visitors'   => $results['visitors'],
+            'message'    => $total > 0
+                ? sprintf(
+                    __('Removed %s sessions, %s views, %s parameters, %s events, and %s orphaned visitors.', 'wp-statistics'),
+                    number_format_i18n($results['sessions']),
+                    number_format_i18n($results['views']),
+                    number_format_i18n($results['parameters']),
+                    number_format_i18n($results['events']),
+                    number_format_i18n($results['visitors'])
+                )
+                : __('No bot sessions found matching your threshold.', 'wp-statistics'),
+        ]);
     }
 }

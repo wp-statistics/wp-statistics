@@ -64,6 +64,12 @@ class ToolsAreaDefinitions
                 'order'     => 25,
                 'component' => 'PrivacyAuditPage',
             ],
+            'database-maintenance' => [
+                'label'     => __('Database Maintenance', 'wp-statistics'),
+                'icon'      => 'wrench',
+                'order'     => 65,
+                'component' => 'DatabaseMaintenancePage',
+            ],
         ];
     }
 }
