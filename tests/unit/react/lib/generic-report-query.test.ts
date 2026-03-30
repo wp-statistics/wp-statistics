@@ -85,6 +85,7 @@ describe('createGenericQueryOptions', () => {
         ['views', 'visitors'],
         ['resource'],
         null, // no filters
+        null, // no queryOverrides
       ])
     })
 
@@ -532,8 +533,8 @@ describe('createGenericQueryOptions', () => {
         filters: [{ id: 'os-filter-1', operator: 'eq', value: 'Windows' }],
       })
 
-      // The filters object should be in the query key (not null)
-      const filtersInKey = opts.queryKey[opts.queryKey.length - 1]
+      // The filters object should be in the query key (second-to-last, before queryOverrides)
+      const filtersInKey = opts.queryKey[opts.queryKey.length - 2]
       expect(filtersInKey).toEqual({ os: { eq: 'Windows' } })
     })
 

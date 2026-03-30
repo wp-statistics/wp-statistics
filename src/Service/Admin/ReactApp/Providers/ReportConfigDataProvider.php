@@ -440,6 +440,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
                         'key'          => 'exclusions',
                         'title'        => __('Count', 'wp-statistics'),
                         'type'         => 'numeric',
+                        'priority'     => 'primary',
                         'comparable'   => true,
                         'previousKey'  => 'previous.exclusions',
                         'size'         => 'views',
@@ -1022,7 +1023,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
 
             'author-pages' => [
                 'title'            => __('Author Pages', 'wp-statistics'),
-                'context'          => 'page-insights',
+                'context'          => 'author-pages',
                 'filterGroup'      => 'content',
                 'dataSource'       => [
                     'queryId' => 'author_pages',
@@ -1061,7 +1062,7 @@ class ReportConfigDataProvider implements LocalizeDataProviderInterface
 
             'category-pages' => [
                 'title'            => __('Category Pages', 'wp-statistics'),
-                'context'          => 'page-insights',
+                'context'          => 'category-pages',
                 'filterGroup'      => 'categories',
                 'hideFilters'      => true,
                 'headerFilter'     => [

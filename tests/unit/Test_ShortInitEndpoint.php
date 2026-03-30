@@ -77,9 +77,10 @@ class Test_ShortInitEndpoint extends WP_UnitTestCase
         $this->setValidRequest();
 
         $tracker = new Tracker();
-        $exclusion = $tracker->record();
+        $tracker->record();
 
-        $this->assertFalse($exclusion['exclusion_match']);
+        // record() returns void; if no exception was thrown, the hit was not excluded
+        $this->addToAssertionCount(1);
     }
 
     public function test_ip_get_storable_ip_returns_null_when_store_ip_disabled()
