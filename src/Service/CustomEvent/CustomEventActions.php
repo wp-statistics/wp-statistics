@@ -27,6 +27,8 @@ class CustomEventActions
                 throw new Exception(esc_html__('Access denied.', 'wp-statistics-marketing'));
             }
 
+            $GLOBALS['wp_statistics_user_id'] = get_current_user_id();
+
             $visitorProfile = new VisitorProfile();
 
             $exclusion = Exclusion::check($visitorProfile);

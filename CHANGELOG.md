@@ -1,3 +1,7 @@
+= 14.16.5 - 2026-03-** =
+- **Fix:** Fixed an issue where the download/link tracker did not respect user role exclusion settings (e.g., Administrator), causing admin downloads to be recorded despite being excluded.
+- **Enhancement:** Simplify WP Consent API consent level logic.
+
 = 14.16.4 - 2026-03-16 =
 - **Fix:** Improved permission checks on AJAX handlers for better security.
 - **Enhancement:** Updated Device Detector library (6.4.7 → 6.5.0) with latest browser, device, and bot detection rules.
