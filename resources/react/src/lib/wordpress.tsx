@@ -129,6 +129,30 @@ export class WordPress {
     return this.data.notices?.nonce ?? ''
   }
 
+  public getNotifications(): NotificationData | undefined {
+    return this.data.notifications
+  }
+
+  public getNotificationItems(): NotificationItem[] {
+    return this.data.notifications?.items ?? []
+  }
+
+  public getNotificationDismissedIds(): number[] {
+    return this.data.notifications?.dismissedIds ?? []
+  }
+
+  public getNotificationUnreadCount(): number {
+    return this.data.notifications?.unreadCount ?? 0
+  }
+
+  public getNotificationNonce(): string {
+    return this.data.notifications?.nonce ?? ''
+  }
+
+  public isNotificationsEnabled(): boolean {
+    return this.data.notifications?.enabled ?? false
+  }
+
   public getUserCountry(): string | undefined {
     return this.data.globals.userCountry
   }

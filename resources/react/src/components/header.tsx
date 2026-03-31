@@ -1,18 +1,24 @@
 import { useNavigate } from '@tanstack/react-router'
-import { Bell,Menu, ShieldCheck } from 'lucide-react'
+import { Bell, Menu, ShieldCheck } from 'lucide-react'
+import { useState } from 'react'
 
+import { NotificationDrawer } from '@/components/notification-drawer'
 import { Logo } from '@/components/ui/logo'
 import { useSidebar } from '@/components/ui/sidebar'
 import { useBreakpoint } from '@/hooks/use-breakpoint'
-
-// Placeholder states - will be connected to actual data later
-const privacyStatus: 'compliant' | 'warning' = 'compliant'
-const hasNotifications = true
+import { WordPress } from '@/lib/wordpress'
 
 export function Header() {
   const { isMobileOrTablet } = useBreakpoint()
   const { toggleSidebar } = useSidebar()
   const navigate = useNavigate()
+
+  const wp = WordPress.getInstance()
+  const privacyStatus = wp.data.header?.['privacy-status']?.isActive !== false ? 'compliant' : 'warning'
+  const notificationsEnabled = wp.isNotificationsEnabled()
+
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(wp.getNotificationUnreadCount())
 
   return (
     <header className="bg-header h-[var(--header-height)] px-3 lg:px-4 flex items-center gap-3 shrink-0 border-b border-sidebar-border">
@@ -56,12 +62,21 @@ export function Header() {
         <button
           className="group relative flex items-center justify-center h-8 w-8 rounded-md text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-hover transition-colors"
           aria-label="Notifications"
+          onClick={() => notificationsEnabled && setDrawerOpen(true)}
         >
           <Bell className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
-          {hasNotifications && (
+          {notificationsEnabled && unreadCount > 0 && (
             <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-header animate-pulse" />
           )}
         </button>
+
+        {notificationsEnabled && (
+          <NotificationDrawer
+            open={drawerOpen}
+            onOpenChange={setDrawerOpen}
+            onUnreadCountChange={setUnreadCount}
+          />
+        )}
       </div>
     </header>
   )

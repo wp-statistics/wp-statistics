@@ -164,6 +164,27 @@ declare global {
     nonce: string
   }
 
+  // Remote notification item (from connect.wp-statistics.com)
+  interface NotificationItem {
+    id: number
+    title: string
+    description: string
+    icon?: string | null
+    background_color?: string | null
+    activated_at: string
+    primary_button?: { title: string; url: string } | null
+    secondary_button?: { title: string; url: string } | null
+  }
+
+  // Remote notification data configuration
+  interface NotificationData {
+    enabled: boolean
+    items: NotificationItem[]
+    dismissedIds: number[]
+    unreadCount: number
+    nonce: string
+  }
+
   // PHP-defined report column
   interface PhpReportColumn {
     key: string
@@ -611,6 +632,7 @@ declare global {
     filters: FiltersConfig
     network: NetworkData
     notices?: NoticeData
+    notifications?: NotificationData
     reports?: Record<string, PhpReportDefinition | PhpOverviewDefinition | PhpDetailDefinition>
   }
 }

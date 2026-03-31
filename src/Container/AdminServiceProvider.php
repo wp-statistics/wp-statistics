@@ -14,6 +14,7 @@ use WP_Statistics\Service\Admin\SiteHealth\SiteHealthTests;
 use WP_Statistics\Service\Admin\Tools\Endpoints\ToolsEndpoints;
 use WP_Statistics\Service\Admin\Notice\NoticeManager;
 use WP_Statistics\Service\Admin\Notice\Notices\DiagnosticNotice;
+use WP_Statistics\Service\Admin\Notification\NotificationManager;
 use WP_Statistics\Service\Admin\WordPressIntegration\DashboardWidgetManager;
 use WP_Statistics\Service\Admin\WordPressIntegration\EditorMetabox;
 use WP_Statistics\Service\Admin\WordPressIntegration\StatsColumnManager;
@@ -113,6 +114,12 @@ class AdminServiceProvider implements ServiceProvider
             return new AccessLevelEnforcer();
         });
 
+        // Notification Manager (remote notifications from connect.wp-statistics.com)
+        $container->register('notification_manager', function () {
+            NotificationManager::init();
+            return NotificationManager::class;
+        });
+
         // Global Notice Manager (admin notices for React and non-React pages)
         $container->register('notice_manager', function () {
             // Initialize the notice manager
@@ -150,6 +157,7 @@ class AdminServiceProvider implements ServiceProvider
             $container->get('editor_metabox');
             $container->get('stats_columns');
             $container->get('notice_manager');
+            $container->get('notification_manager');
         }
     }
 }

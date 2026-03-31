@@ -8,6 +8,7 @@ use WP_Statistics\Service\Cron\Events\GeoIPUpdateEvent;
 use WP_Statistics\Service\Cron\Events\DailySummaryEvent;
 use WP_Statistics\Service\Cron\Events\ReferralsDatabaseEvent;
 use WP_Statistics\Service\Cron\Events\EmailReportEvent;
+use WP_Statistics\Service\Cron\Events\NotificationCronEvent;
 
 /**
  * Cron Manager for WP Statistics v15.
@@ -77,6 +78,7 @@ class CronManager
             'daily_summary'        => DailySummaryEvent::class,
             'referrals_database'   => ReferralsDatabaseEvent::class,
             'email_report'         => EmailReportEvent::class,
+            'notification_fetch'   => NotificationCronEvent::class,
         ];
 
         $this->defaultsRegistered = true;
