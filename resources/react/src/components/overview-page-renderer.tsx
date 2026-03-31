@@ -156,6 +156,7 @@ export function OverviewPageRenderer({
   apiFilters,
   headerActions,
   pageFilters,
+  beforeWidgets,
 }: {
   config: PageConfig
   /** Override the PHP config title (e.g., dynamic taxonomy label) */
@@ -167,6 +168,8 @@ export function OverviewPageRenderer({
   headerActions?: React.ReactNode
   /** Page-specific filter configs shown in the Options drawer (e.g., PostTypeSelect on mobile) */
   pageFilters?: import('@/components/custom/options-drawer').PageFilterConfig[]
+  /** Content rendered after the header/notices but before the widget grid */
+  beforeWidgets?: React.ReactNode
 }) {
   const widgetConfigs: WidgetConfig[] = useMemo(
     () =>
@@ -207,7 +210,7 @@ export function OverviewPageRenderer({
 
   return (
     <OverviewOptionsProvider config={optionsConfig}>
-      <OverviewContent config={config} title={titleOverride} optionsConfig={optionsConfig} routeParams={routeParams} apiFilters={apiFilters} headerActions={headerActions} />
+      <OverviewContent config={config} title={titleOverride} optionsConfig={optionsConfig} routeParams={routeParams} apiFilters={apiFilters} headerActions={headerActions} beforeWidgets={beforeWidgets} />
     </OverviewOptionsProvider>
   )
 }
@@ -219,6 +222,7 @@ function OverviewContent({
   routeParams,
   apiFilters: externalApiFilters,
   headerActions,
+  beforeWidgets,
 }: {
   config: PageConfig
   title?: string
@@ -226,6 +230,7 @@ function OverviewContent({
   routeParams?: Record<string, string>
   apiFilters?: Record<string, Record<string, string | string[]>>
   headerActions?: React.ReactNode
+  beforeWidgets?: React.ReactNode
 }) {
   const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams, handleDateRangeUpdate, applyFilters: handleApplyFilters } = useGlobalFilters()
   const { isWidgetVisible, isMetricVisible, getWidgetSize, getOrderedVisibleWidgets } = usePageOptions()
@@ -776,6 +781,8 @@ function OverviewContent({
 
       <div className="p-3">
         <NoticeContainer className="mb-3" currentRoute={config.pageId} />
+
+        {beforeWidgets}
 
         {showSkeleton ? (
           <OverviewSkeleton config={config} />
