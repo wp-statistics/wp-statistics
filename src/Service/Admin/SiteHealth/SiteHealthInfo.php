@@ -192,15 +192,40 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('bypass_ad_blockers') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('bypass_ad_blockers') ? 'Enabled' : 'Disabled',
             ],
+            'eventTracking'                 => [
+                'label' => esc_html__('Event Tracking', 'wp-statistics'),
+                'value' => Option::getValue('event_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('event_tracking') ? 'Enabled' : 'Disabled',
+            ],
+            'trackPageViews'                => [
+                'label' => esc_html__('Track Page Views', 'wp-statistics'),
+                'value' => Option::getValue('pages', true) ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('pages', true) ? 'Enabled' : 'Disabled',
+            ],
             'storeIpAddresses'               => [
                 'label' => esc_html__('Store IP Addresses', 'wp-statistics'),
                 'value' => Option::getValue('store_ip') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('store_ip') ? 'Enabled' : 'Disabled',
             ],
+            'hashRotationInterval'           => [
+                'label' => esc_html__('Hash Rotation Interval', 'wp-statistics'),
+                'value' => Option::getValue('hash_rotation_interval', 'daily') ?: __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('hash_rotation_interval', 'daily') ?: 'Not Set',
+            ],
             'anonymousTracking'              => [
                 'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
                 'value' => Option::getValue('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('anonymous_tracking') ? 'Enabled' : 'Disabled',
+            ],
+            'consentIntegration'             => [
+                'label' => esc_html__('Consent Plugin Integration', 'wp-statistics'),
+                'value' => Option::getValue('consent_integration') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('consent_integration') ? 'Enabled' : 'Disabled',
+            ],
+            'privacyAudit'                   => [
+                'label' => esc_html__('Privacy Audit', 'wp-statistics'),
+                'value' => Option::getValue('privacy_audit', true) ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('privacy_audit', true) ? 'Enabled' : 'Disabled',
             ],
             'viewStatsInEditor'              => [
                 'label' => esc_html__('View Stats in Editor', 'wp-statistics'),
@@ -232,6 +257,16 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('show_hits') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('show_hits') ? 'Enabled' : 'Disabled',
             ],
+            'displayHitsPosition'            => [
+                'label' => esc_html__('Display Hits Position', 'wp-statistics'),
+                'value' => Option::getValue('display_hits_position', 'none') ?: __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('display_hits_position', 'none') ?: 'Not Set',
+            ],
+            'menuBar'                        => [
+                'label' => esc_html__('Show Stats in Admin Bar', 'wp-statistics'),
+                'value' => Option::getValue('menu_bar', true) ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('menu_bar', true) ? 'Enabled' : 'Disabled',
+            ],
             'userRoleExclusions'             => [
                 'label' => esc_html__('User Role Exclusions', 'wp-statistics'),
                 'value' => $userRoleExclusions ? implode(', ', $userRoleExclusions) : __('Not Set', 'wp-statistics'),
@@ -256,6 +291,26 @@ class SiteHealthInfo extends Singleton
                 'label' => esc_html__('Excluded URLs', 'wp-statistics'),
                 'value' => Option::getValue('excluded_urls') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::getValue('excluded_urls') ? 'Set' : 'Not Set',
+            ],
+            'excludedCountries'              => [
+                'label' => esc_html__('Excluded Countries', 'wp-statistics'),
+                'value' => Option::getValue('excluded_countries') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('excluded_countries') ? 'Set' : 'Not Set',
+            ],
+            'includedCountries'              => [
+                'label' => esc_html__('Included Countries', 'wp-statistics'),
+                'value' => Option::getValue('included_countries') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('included_countries') ? 'Set' : 'Not Set',
+            ],
+            'robotlist'                      => [
+                'label' => esc_html__('Additional Bot User Agents', 'wp-statistics'),
+                'value' => Option::getValue('robotlist') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('robotlist') ? 'Set' : 'Not Set',
+            ],
+            'robotThreshold'                 => [
+                'label' => esc_html__('Bot Daily Hit Threshold', 'wp-statistics'),
+                'value' => Option::getValue('robot_threshold', 0),
+                'debug' => (string) Option::getValue('robot_threshold', 0),
             ],
             'logRecordExclusions'            => [
                 'label' => esc_html__('Log Record Exclusions', 'wp-statistics'),
@@ -287,10 +342,40 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('schedule_dbmaint_days') ? Option::getValue('schedule_dbmaint_days') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::getValue('schedule_dbmaint_days') ? Option::getValue('schedule_dbmaint_days') : 'Not Set',
             ],
+            'dataRetentionMode'              => [
+                'label' => esc_html__('Data Retention Mode', 'wp-statistics'),
+                'value' => Option::getValue('data_retention_mode', 'forever') ?: __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('data_retention_mode', 'forever') ?: 'Not Set',
+            ],
             'shareAnonymousData'             => [
                 'label' => esc_html__('Share Anonymous Data', 'wp-statistics'),
                 'value' => Option::getValue('share_anonymous_data') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('share_anonymous_data') ? 'Enabled' : 'Disabled',
+            ],
+            'emailReportsEnabled'            => [
+                'label' => esc_html__('Email Reports', 'wp-statistics'),
+                'value' => Option::getValue('email_reports_enabled') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('email_reports_enabled') ? 'Enabled' : 'Disabled',
+            ],
+            'emailReportsFrequency'          => [
+                'label' => esc_html__('Email Reports Frequency', 'wp-statistics'),
+                'value' => Option::getValue('email_reports_frequency', 'weekly') ?: __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('email_reports_frequency', 'weekly') ?: 'Not Set',
+            ],
+            'emailReportsDeliveryHour'       => [
+                'label' => esc_html__('Email Reports Delivery Time', 'wp-statistics'),
+                'value' => Option::getValue('email_reports_delivery_hour', '8'),
+                'debug' => (string) Option::getValue('email_reports_delivery_hour', '8'),
+            ],
+            'emailList'                      => [
+                'label' => esc_html__('Email Reports Recipient', 'wp-statistics'),
+                'value' => Option::getValue('email_list') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('email_list') ? 'Set' : 'Not Set',
+            ],
+            'deleteDataOnUninstall'          => [
+                'label' => esc_html__('Delete All Data on Uninstall', 'wp-statistics'),
+                'value' => Option::getValue('delete_data_on_uninstall') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('delete_data_on_uninstall') ? 'Enabled' : 'Disabled',
             ],
             'phpGmpExtension'                => [
                 'label' => esc_html__('PHP Extension (GMP)', 'wp-statistics'),
@@ -369,7 +454,7 @@ class SiteHealthInfo extends Singleton
         $method = Option::getValue('geoip_location_detection_method', 'maxmind');
 
         switch ($method) {
-            case 'cloudflare':
+            case 'cf':
                 return [
                     'title'     => __('Cloudflare IP Geolocation', 'wp-statistics'),
                     'debug'     => 'Cloudflare IP Geolocation',
