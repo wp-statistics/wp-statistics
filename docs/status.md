@@ -153,7 +153,7 @@ These were intentionally removed as dead code, deprecated features, or functiona
 | --- | --- | --- | --- |
 | Add-on System | ✅ `Addons` component, per-addon options | ❌ Not Implemented | Replaced by single premium plugin model |
 | License Manager | ✅ License API, migration, addon management | ❌ Not Implemented | Replaced by premium plugin activation |
-| Notification System | ✅ Remote notifications, bell icon, AJAX | ❌ Not Implemented | `NotificationFactory`, cron event deleted |
+| Notification System | ✅ Remote notifications, bell icon, AJAX | ✅ Implemented | `NotificationManager`, cron fetch, React drawer with Inbox/Dismissed tabs |
 | Help Center | ✅ Help page with diagnostics | 🚧 Pending React | Route `#/help` registered, page TBD |
 | Legacy Admin JS/CSS | ✅ admin.min.js, Chart.js vendor, jqvmap | ❌ Not Implemented | `resources/legacy/` (156 files, 6.6 MB) deleted |
 | Post Summary Provider | ✅ Post stats in editor | ❌ Not Implemented | `PostSummaryDataProvider` deleted |
