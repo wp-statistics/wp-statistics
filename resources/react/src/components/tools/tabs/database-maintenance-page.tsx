@@ -1,5 +1,5 @@
 import { __, sprintf } from '@wordpress/i18n'
-import { Bot, CheckCircle2, Database, Loader2, ShieldAlert, Trash2, Wrench, XCircle } from 'lucide-react'
+import { Bot, Loader2, ShieldAlert, Trash2, Wrench } from 'lucide-react'
 import * as React from 'react'
 
 import { SettingsCard, SettingsActionField } from '@/components/settings-ui'
@@ -19,12 +19,6 @@ interface MaintenanceInfo {
   eventNames: string[]
 }
 
-interface SchemaCheckResult {
-  status: string
-  issues: Array<{ type: string; table: string; column?: string }>
-  errors: string[]
-}
-
 type ConfirmActionType = 'removeUserIds' | 'deleteEvents' | 'deleteBotSessions' | null
 
 export function DatabaseMaintenancePage() {
@@ -35,18 +29,12 @@ export function DatabaseMaintenancePage() {
   const [isRemovingUserIds, setIsRemovingUserIds] = React.useState(false)
   const [isDeletingEvents, setIsDeletingEvents] = React.useState(false)
   const [isDeletingBotSessions, setIsDeletingBotSessions] = React.useState(false)
-  const [isCheckingSchema, setIsCheckingSchema] = React.useState(false)
-  const [isRepairingSchema, setIsRepairingSchema] = React.useState(false)
-
   // Form state
   const [selectedEventName, setSelectedEventName] = React.useState<string>('')
   const [viewThreshold, setViewThreshold] = React.useState<string>('100')
 
   // Confirmation dialog
   const [confirmAction, setConfirmAction] = React.useState<ConfirmActionType>(null)
-
-  // Schema state
-  const [schemaStatus, setSchemaStatus] = React.useState<SchemaCheckResult | null>(null)
 
   const { toast } = useToast()
 
@@ -162,51 +150,6 @@ export function DatabaseMaintenancePage() {
     }
   }
 
-  const handleCheckSchema = async () => {
-    setIsCheckingSchema(true)
-    try {
-      const data = await callToolsApi('schema_check')
-      if (data.success) {
-        setSchemaStatus(data.data as SchemaCheckResult)
-        toast({ title: __('Schema check complete', 'wp-statistics') })
-      }
-    } catch {
-      toast({
-        title: __('Error', 'wp-statistics'),
-        description: __('Failed to check schema.', 'wp-statistics'),
-        variant: 'destructive',
-      })
-    } finally {
-      setIsCheckingSchema(false)
-    }
-  }
-
-  const handleRepairSchema = async () => {
-    setIsRepairingSchema(true)
-    try {
-      const data = await callToolsApi('schema_repair')
-      if (data.success) {
-        toast({
-          title: __('Schema repair complete', 'wp-statistics'),
-          description: data.data?.message,
-        })
-        // Re-check schema to show updated status
-        const checkData = await callToolsApi('schema_check')
-        if (checkData.success) {
-          setSchemaStatus(checkData.data as SchemaCheckResult)
-        }
-      }
-    } catch {
-      toast({
-        title: __('Error', 'wp-statistics'),
-        description: __('Failed to repair schema.', 'wp-statistics'),
-        variant: 'destructive',
-      })
-    } finally {
-      setIsRepairingSchema(false)
-    }
-  }
-
   // ── Confirm dialog config ─────────────────────────────────────────────
 
   const confirmConfig: Record<
@@ -248,7 +191,7 @@ export function DatabaseMaintenancePage() {
     return (
       <div className="space-y-6">
         <Skeleton className="h-16 w-full rounded-lg" />
-        {[...Array(4)].map((_, i) => (
+        {[...Array(3)].map((_, i) => (
           <PanelSkeleton key={i} titleWidth="w-48">
             <Skeleton className="h-14 w-full" />
           </PanelSkeleton>
@@ -259,7 +202,6 @@ export function DatabaseMaintenancePage() {
 
   const parsedThreshold = parseInt(viewThreshold, 10)
   const isThresholdValid = !isNaN(parsedThreshold) && parsedThreshold >= 10
-  const hasSchemaIssues = schemaStatus && schemaStatus.issues && schemaStatus.issues.length > 0
 
   // ── Render ────────────────────────────────────────────────────────────
 
@@ -373,70 +315,6 @@ export function DatabaseMaintenancePage() {
               {__('Clean Up Bot Sessions', 'wp-statistics')}
             </Button>
           </div>
-        </SettingsActionField>
-      </SettingsCard>
-
-      {/* Card 4: Schema Check & Repair */}
-      <SettingsCard
-        title={__('Schema Check & Repair', 'wp-statistics')}
-        description={__('Verify database table structure and repair any inconsistencies.', 'wp-statistics')}
-        icon={Database}
-      >
-        <SettingsActionField
-          label={__('Check Database Schema', 'wp-statistics')}
-          description={__('Scans all WP Statistics tables for missing columns, tables, or structural issues.', 'wp-statistics')}
-        >
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleCheckSchema}
-            disabled={isCheckingSchema || isRepairingSchema}
-          >
-            {isCheckingSchema ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
-            {__('Check Schema', 'wp-statistics')}
-          </Button>
-        </SettingsActionField>
-
-        {schemaStatus && (
-          <div className="space-y-2 text-sm">
-            {schemaStatus.status === 'success' && (!schemaStatus.issues || schemaStatus.issues.length === 0) ? (
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                <span className="text-emerald-700 dark:text-emerald-400">{__('Schema is healthy', 'wp-statistics')}</span>
-              </div>
-            ) : (
-              <div className="rounded-md border border-destructive/30 bg-destructive/5 p-3 space-y-1.5">
-                <div className="flex items-center gap-2 font-medium text-destructive">
-                  <XCircle className="h-4 w-4" />
-                  {sprintf(__('%d issue(s) found', 'wp-statistics'), schemaStatus.issues?.length || 0)}
-                </div>
-                <ul className="list-none space-y-1 pl-6">
-                  {schemaStatus.issues?.map((issue, i) => (
-                    <li key={i} className="text-muted-foreground">
-                      <span className="font-mono text-xs">{issue.table}{issue.column ? `.${issue.column}` : ''}</span>
-                      <span className="mx-1.5">—</span>
-                      <span>{issue.type === 'missing_column' ? __('Missing column', 'wp-statistics') : __('Missing table', 'wp-statistics')}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
-
-        <SettingsActionField
-          label={__('Repair Database Schema', 'wp-statistics')}
-          description={__('Automatically fixes detected schema issues by adding missing tables and columns.', 'wp-statistics')}
-        >
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={handleRepairSchema}
-            disabled={isRepairingSchema || isCheckingSchema || !hasSchemaIssues}
-          >
-            {isRepairingSchema ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wrench className="mr-2 h-4 w-4" />}
-            {__('Repair Schema', 'wp-statistics')}
-          </Button>
         </SettingsActionField>
       </SettingsCard>
 

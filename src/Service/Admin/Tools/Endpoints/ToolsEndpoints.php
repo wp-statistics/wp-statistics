@@ -39,8 +39,6 @@ class ToolsEndpoints extends BaseEndpoint
             'system_info'           => 'getSystemInfo',
             'scheduled_tasks'       => 'getScheduledTasks',
             'run_task'              => 'runScheduledTask',
-            'schema_check'          => 'checkSchema',
-            'schema_repair'         => 'repairSchema',
             'background_jobs'       => 'getBackgroundJobs',
             'options_transients'    => 'getOptionsAndTransients',
             'diagnostics'           => 'getDiagnostics',
@@ -122,21 +120,7 @@ class ToolsEndpoints extends BaseEndpoint
     }
 
     /**
-     * Check database schema for issues.
-     */
-    protected function checkSchema(): void
-    {
-        $results = SchemaMaintainer::check();
-
-        wp_send_json_success([
-            'status' => $results['status'] ?? 'unknown',
-            'issues' => $results['issues'] ?? [],
-            'errors' => $results['errors'] ?? [],
-        ]);
-    }
-
-    /**
-     * Repair database schema issues.
+     * Repair database schema issues (used by diagnostic repair).
      */
     protected function repairSchema(): void
     {
