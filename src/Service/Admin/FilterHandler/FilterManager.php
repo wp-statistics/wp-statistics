@@ -64,7 +64,7 @@ class FilterManager
         if (Helper::is_request('ajax') and isset($_REQUEST['page'])) {
 
             // Check Refer Ajax
-            check_ajax_referer('wp_rest', 'wps_nonce');
+            check_ajax_referer('wp_rest', 'wp_statistics_nonce');
 
             $queryString = Request::get('queryString', '');
             $filters     = Request::getParams(['filters']);
@@ -96,7 +96,7 @@ class FilterManager
     public function search_filter_action_callback()
     {
         if (Request::isFrom('ajax') && User::hasAccess('read')) {
-            check_ajax_referer('wp_rest', 'wps_nonce');
+            check_ajax_referer('wp_rest', 'wp_statistics_nonce');
 
             $source      = Request::get('source', '');
             $paged       = Request::get('paged', 1, 'number');

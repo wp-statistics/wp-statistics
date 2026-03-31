@@ -88,7 +88,7 @@ abstract class BaseEndpoint
             throw new Exception(__('You do not have permission to perform this action.', 'wp-statistics'));
         }
 
-        if (!check_ajax_referer('wp_statistics_dashboard_nonce', 'wps_nonce', false)) {
+        if (!check_ajax_referer('wp_statistics_dashboard_nonce', 'wp_statistics_nonce', false)) {
             throw new Exception(__('Security check failed. Please refresh the page and try again.', 'wp-statistics'));
         }
     }

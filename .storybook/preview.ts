@@ -2,7 +2,7 @@ import type { Preview } from '@storybook/react'
 import { withRTLSupport } from './decorators/with-rtl-support'
 import { withQueryClient } from './decorators/with-query-client'
 import { withRouter } from './decorators/with-router'
-import './decorators/with-wordpress-context' // Sets up window.wps_react mock at module load time
+import './decorators/with-wordpress-context' // Sets up window.wp_statistics_react mock at module load time
 import '../resources/react/src/globals.css'
 
 // Initialize MSW

@@ -6,7 +6,7 @@ const AJAX_URL = wp.getAjaxUrl()
 /**
  * Internal helper to make FormData AJAX requests.
  *
- * Tools endpoints use WordPress AJAX (FormData + wps_nonce) rather than
+ * Tools endpoints use WordPress AJAX (FormData + wp_statistics_nonce) rather than
  * the JSON-based clientRequest used by analytics endpoints.
  */
 async function ajaxPost(action: string, formData: FormData) {
@@ -25,7 +25,7 @@ async function ajaxPost(action: string, formData: FormData) {
 
 function createFormData(subAction: string, params: Record<string, string> = {}): FormData {
   const formData = new FormData()
-  formData.append('wps_nonce', wp.getNonce())
+  formData.append('wp_statistics_nonce', wp.getNonce())
   formData.append('sub_action', subAction)
   Object.entries(params).forEach(([key, value]) => {
     formData.append(key, value)
@@ -49,7 +49,7 @@ export const callImportExportApi = async (
   formData?: FormData
 ) => {
   const data = formData || new FormData()
-  data.append('wps_nonce', wp.getNonce())
+  data.append('wp_statistics_nonce', wp.getNonce())
   data.append('sub_action', subAction)
   Object.entries(params).forEach(([key, value]) => {
     if (!data.has(key)) {

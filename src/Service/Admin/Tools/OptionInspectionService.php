@@ -85,7 +85,6 @@ class OptionInspectionService
             "SELECT option_name, option_value
              FROM {$wpdb->options}
              WHERE option_name LIKE '_transient_wp_statistics%'
-             OR option_name LIKE '_transient_wps_%'
              LIMIT 100"
         );
 

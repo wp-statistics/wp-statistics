@@ -66,7 +66,7 @@ declare global {
   // Filter field name - string type to accept any field from PHP
   type FilterFieldName = string
 
-  // Generic filter field type that accepts any field from wps_react.filters.fields
+  // Generic filter field type that accepts any field from wp_statistics_react.filters.fields
   interface FilterFieldDefinition {
     name: string
     label: string
@@ -76,7 +76,7 @@ declare global {
     options?: FilterOption[]
   }
 
-  // Filter fields map - dynamic from PHP via wps_react.filters.fields
+  // Filter fields map - dynamic from PHP via wp_statistics_react.filters.fields
   type FilterFields = Record<string, FilterFieldDefinition>
 
   // Filter operators map type

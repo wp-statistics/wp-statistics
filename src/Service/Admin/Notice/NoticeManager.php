@@ -391,22 +391,7 @@ class NoticeManager
 
         // Check if it's a WP Statistics page that uses React
         // React pages have their admin_notices removed by ReactHandler
-        $reactPages = [
-            'toplevel_page_wps_overview_page',
-            'statistics_page_wps_visitors_page',
-            'statistics_page_wps_pages_page',
-            'statistics_page_wps_referrals_page',
-            'statistics_page_wps_geographic_page',
-            'statistics_page_wps_devices_page',
-            'statistics_page_wps_content_analytics_page',
-            'statistics_page_wps_author_analytics_page',
-            'statistics_page_wps_category_analytics_page',
-            'statistics_page_wps_settings_page',
-            'statistics_page_wps_tools_page',
-            'statistics_page_wps_privacy_audit_page',
-        ];
-
-        return in_array($screen->id, $reactPages, true);
+        return strpos($screen->id, 'wp-statistics') !== false;
     }
 
     /**
@@ -431,7 +416,7 @@ class NoticeManager
         }
 
         // Show on WP Statistics pages
-        if (strpos($screen->id, 'wps_') !== false || strpos($screen->id, 'wp-statistics') !== false) {
+        if (strpos($screen->id, 'wp-statistics') !== false) {
             return true;
         }
 

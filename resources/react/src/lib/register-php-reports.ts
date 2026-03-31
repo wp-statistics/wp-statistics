@@ -1,7 +1,7 @@
 /**
  * PHP-to-JS Registration Bridge
  *
- * Reads PHP-defined report configs from window.wps_react.reports
+ * Reads PHP-defined report configs from window.wp_statistics_react.reports
  * and registers them using the existing registerReport/registerWidget/registerExportConfig APIs.
  *
  * Called at boot time (before React renders).

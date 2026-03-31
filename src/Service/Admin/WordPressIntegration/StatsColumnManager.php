@@ -102,8 +102,8 @@ class StatsColumnManager
 
         // Use a custom orderby clause via posts_clauses filter
         add_filter('posts_clauses', function ($clauses) use ($table, $wpdb) {
-            $clauses['join']    .= " LEFT JOIN (SELECT id, SUM(count) AS total_views FROM {$table} GROUP BY id) AS wps_views ON {$wpdb->posts}.ID = wps_views.id";
-            $clauses['orderby']  = 'COALESCE(wps_views.total_views, 0) ' . ($clauses['orderby'] && strpos($clauses['orderby'], 'ASC') !== false ? 'ASC' : 'DESC');
+            $clauses['join']    .= " LEFT JOIN (SELECT id, SUM(count) AS total_views FROM {$table} GROUP BY id) AS wp_statistics_views ON {$wpdb->posts}.ID = wp_statistics_views.id";
+            $clauses['orderby']  = 'COALESCE(wp_statistics_views.total_views, 0) ' . ($clauses['orderby'] && strpos($clauses['orderby'], 'ASC') !== false ? 'ASC' : 'DESC');
 
             return $clauses;
         });

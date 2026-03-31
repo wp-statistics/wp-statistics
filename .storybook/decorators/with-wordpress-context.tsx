@@ -17,8 +17,8 @@ const mockOperators = {
 }
 
 // Set up mock WordPress context synchronously so it's available before first render
-if (typeof window !== 'undefined' && !window.wps_react) {
-  window.wps_react = {
+if (typeof window !== 'undefined' && !window.wp_statistics_react) {
+  window.wp_statistics_react = {
     globals: {
       nonce: 'storybook-mock-nonce',
       ajaxUrl: 'https://wordpress.test/wp-admin/admin-ajax.php',

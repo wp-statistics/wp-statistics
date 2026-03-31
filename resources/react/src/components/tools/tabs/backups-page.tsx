@@ -95,7 +95,7 @@ export function BackupsPage() {
 
   const downloadBackup = (fileName: string) => {
     const wp = WordPress.getInstance()
-    window.location.href = `${wp.getAjaxUrl()}?action=wp_statistics_import_export&sub_action=download_backup&file_name=${encodeURIComponent(fileName)}&wps_nonce=${wp.getNonce()}`
+    window.location.href = `${wp.getAjaxUrl()}?action=wp_statistics_import_export&sub_action=download_backup&file_name=${encodeURIComponent(fileName)}&wp_statistics_nonce=${wp.getNonce()}`
   }
 
   const deleteBackup = async () => {

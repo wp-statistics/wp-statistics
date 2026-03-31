@@ -103,7 +103,7 @@ export function V14MigrationWizard({ importStatus, setImportStatus }: V14Migrati
     try {
       const wp = WordPress.getInstance()
       const formData = new FormData()
-      formData.append('wps_nonce', wp.getNonce())
+      formData.append('wp_statistics_nonce', wp.getNonce())
 
       const response = await fetch(`${wp.getAjaxUrl()}?action=wp_statistics_v14_stats`, {
         method: 'POST',
@@ -148,7 +148,7 @@ export function V14MigrationWizard({ importStatus, setImportStatus }: V14Migrati
       if (migrationMode === 'selective' && timePeriod !== 'all') {
         formData.append('days', timePeriod)
       }
-      formData.append('wps_nonce', wp.getNonce())
+      formData.append('wp_statistics_nonce', wp.getNonce())
 
       const response = await fetch(`${wp.getAjaxUrl()}?action=wp_statistics_v14_migrate`, {
         method: 'POST',

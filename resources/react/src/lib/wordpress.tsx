@@ -1,12 +1,12 @@
 export class WordPress {
   private static instance: WordPress
-  private readonly data: NonNullable<typeof window.wps_react>
+  private readonly data: NonNullable<typeof window.wp_statistics_react>
 
   private constructor() {
-    if (!window.wps_react) {
-      throw new Error('wps_react not available. Make sure the plugin is properly initialized.')
+    if (!window.wp_statistics_react) {
+      throw new Error('wp_statistics_react not available. Make sure the plugin is properly initialized.')
     }
-    this.data = window.wps_react
+    this.data = window.wp_statistics_react
   }
 
   public static getInstance(): WordPress {

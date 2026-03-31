@@ -8,7 +8,7 @@ use WP_Statistics\Service\Admin\Tools\Definitions\ToolsAreaDefinitions;
 /**
  * Provides the settings/tools page configuration (tabs, cards, fields) via WordPress filters.
  *
- * This config is NOT included in wps_react (which loads on every page). Instead, it is
+ * This config is NOT included in wp_statistics_react (which loads on every page). Instead, it is
  * served via a dedicated AJAX endpoint so it only loads when the user visits a settings
  * or tools page.
  *

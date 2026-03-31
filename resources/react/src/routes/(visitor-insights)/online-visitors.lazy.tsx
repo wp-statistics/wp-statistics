@@ -26,7 +26,7 @@ function LiveDashboardLink() {
   const siteUrl = WordPress.getInstance().getSiteUrl()
   return (
     <a
-      href={siteUrl + '/wps-live/'}
+      href={siteUrl + '/wp-statistics-live/'}
       target="_blank"
       rel="noopener noreferrer"
       className="inline-flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100"

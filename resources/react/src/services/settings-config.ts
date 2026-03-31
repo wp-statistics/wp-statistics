@@ -76,7 +76,7 @@ export async function fetchSettingsConfig(initialTab?: string): Promise<Settings
   const formData = new FormData()
   formData.append('action', 'wp_statistics_settings')
   formData.append('sub_action', 'get_config')
-  formData.append('wps_nonce', wp.getNonce())
+  formData.append('wp_statistics_nonce', wp.getNonce())
 
   if (initialTab) {
     formData.append('tab', initialTab)

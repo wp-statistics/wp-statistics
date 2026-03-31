@@ -23,7 +23,8 @@ export function RestoreDefaultsAction() {
     try {
       const wp = WordPress.getInstance()
       const response = await fetch(
-        `${wp.getAjaxUrl()}?action=wps_restore_defaults&nonce=${wp.getNonce()}`,
+        // TODO: Implement restore_defaults sub-action in SettingsEndpoints (wps_restore_defaults was never ported to v15)
+        `${wp.getAjaxUrl()}?action=wp_statistics_settings&sub_action=restore_defaults&wp_statistics_nonce=${wp.getNonce()}`,
         { method: 'POST', credentials: 'same-origin' }
       )
       if (response.ok) {

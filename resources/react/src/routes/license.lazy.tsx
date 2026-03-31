@@ -115,7 +115,7 @@ async function callLicenseApi<T>(subAction: string, params: Record<string, strin
   const formData = new FormData()
   formData.append('action', 'wp_statistics_license')
   formData.append('sub_action', subAction)
-  formData.append('wps_nonce', wp.getNonce())
+  formData.append('wp_statistics_nonce', wp.getNonce())
 
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== '') {

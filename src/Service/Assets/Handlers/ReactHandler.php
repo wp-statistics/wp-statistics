@@ -262,7 +262,7 @@ window.__vite_plugin_react_preamble_installed__ = true
             }
         }
 
-        $script = sprintf('var wps_react = %s;', wp_json_encode($l10n));
+        $script = sprintf('var wp_statistics_react = %s;', wp_json_encode($l10n));
 
         wp_print_inline_script_tag($script);
     }

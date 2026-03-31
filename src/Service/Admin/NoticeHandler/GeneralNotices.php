@@ -152,8 +152,8 @@ class GeneralNotices
         }
 
         if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 500000)) {
-            $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=advanced-settings');
-            $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
+            $settingsUrl      = admin_url('admin.php?page=wp-statistics#/settings/advanced');
+            $optimizationUrl  = admin_url('admin.php?page=wp-statistics#/tools/database-maintenance');
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
 
             $message = sprintf(
@@ -236,7 +236,7 @@ class GeneralNotices
                     sprintf(
                     /* translators: %1$s: URL to advanced settings page, %2$s: Title attribute for the link tooltip */
                         '<a href="%1$s" title="%2$s">',
-                        esc_url(admin_url('admin.php?page=wps_settings_page&tab=advanced-settings')),
+                        esc_url(admin_url('admin.php?page=wp-statistics#/settings/advanced')),
                         esc_attr__('Go to WP Statistics Advanced Settings', 'wp-statistics')
                     ),
                     esc_html__('Enable this option', 'wp-statistics'),
@@ -281,7 +281,7 @@ class GeneralNotices
                     ],
                 ]
             ),
-            esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates&row=wps_database_schema_form'))
+            esc_url(admin_url('admin.php?page=wp-statistics#/tools/diagnostics'))
         );
 
         Notice::addNotice($message, 'database_schema_issue_detected', 'warning', false);

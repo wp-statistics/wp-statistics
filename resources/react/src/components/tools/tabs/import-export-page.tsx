@@ -249,7 +249,7 @@ export function ImportExportPage() {
     if (!exportStatus.exportId) return
 
     const wp = WordPress.getInstance()
-    window.location.href = `${wp.getAjaxUrl()}?action=wp_statistics_import_export&sub_action=download&export_id=${exportStatus.exportId}&wps_nonce=${wp.getNonce()}`
+    window.location.href = `${wp.getAjaxUrl()}?action=wp_statistics_import_export&sub_action=download&export_id=${exportStatus.exportId}&wp_statistics_nonce=${wp.getNonce()}`
 
     setTimeout(() => {
       setExportStatus({

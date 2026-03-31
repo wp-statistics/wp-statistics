@@ -121,8 +121,8 @@ class Test_DiagnosticManager extends WP_UnitTestCase
         $this->manager = new DiagnosticManager();
 
         // Clear any cached transients
-        delete_transient('wps_diagnostic_lightweight');
-        delete_transient('wps_diagnostic_full');
+        delete_transient('wp_statistics_cache_1329ab228b');
+        delete_transient('wp_statistics_cache_6196078775');
     }
 
     public function tearDown(): void
@@ -130,8 +130,8 @@ class Test_DiagnosticManager extends WP_UnitTestCase
         parent::tearDown();
 
         // Clear transients after tests
-        delete_transient('wps_diagnostic_lightweight');
-        delete_transient('wps_diagnostic_full');
+        delete_transient('wp_statistics_cache_1329ab228b');
+        delete_transient('wp_statistics_cache_6196078775');
     }
 
     /**
@@ -362,13 +362,13 @@ class Test_DiagnosticManager extends WP_UnitTestCase
     public function test_clear_cache()
     {
         // Set some test data
-        set_transient('wps_diagnostic_lightweight', ['test' => 'data']);
-        set_transient('wps_diagnostic_full', ['test' => 'data']);
+        set_transient('wp_statistics_cache_1329ab228b', ['test' => 'data']);
+        set_transient('wp_statistics_cache_6196078775', ['test' => 'data']);
 
         $this->manager->clearCache();
 
-        $this->assertFalse(get_transient('wps_diagnostic_lightweight'));
-        $this->assertFalse(get_transient('wps_diagnostic_full'));
+        $this->assertFalse(get_transient('wp_statistics_cache_1329ab228b'));
+        $this->assertFalse(get_transient('wp_statistics_cache_6196078775'));
     }
 
     /**

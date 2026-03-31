@@ -1,6 +1,6 @@
 /**
  * Route component for PHP-configured overview and detail pages.
- * Reads the config by slug from window.wps_react.reports
+ * Reads the config by slug from window.wp_statistics_react.reports
  * and renders via OverviewPageRenderer.
  */
 
