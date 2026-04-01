@@ -125,7 +125,7 @@ const externalTooltipHandler = (context, data, dateLabels, prevDateLabels, month
                 <div class="current-data">
                     <div>
                         <span class="current-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
-                        ${dataset.label}
+                        ${wps_js.escapeHtml(dataset.label)}
                     </div>
                     <span class="current-data__value">${value.toLocaleString()}</span>
                 </div>`;
@@ -496,7 +496,7 @@ const updateLegend = (lineChart, datasets, tag_id, data) => {
                 </div>` : '';
 
                 legendItem.innerHTML = `
-                <span>${dataset.label}</span>
+                <span>${wps_js.escapeHtml(dataset.label)}</span>
                 <div>
                     <div class="current-data">
                         <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>

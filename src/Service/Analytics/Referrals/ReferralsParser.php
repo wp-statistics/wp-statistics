@@ -59,7 +59,7 @@ class ReferralsParser
 
                                 // Set the source name if the domain is wildcard
                                 if ($channelDomain == '*') {
-                                    $channels[$key]['name'] = $value;
+                                    $channels[$key]['name'] = sanitize_text_field($value);
                                 }
                             }
 

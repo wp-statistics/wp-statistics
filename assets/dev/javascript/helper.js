@@ -345,7 +345,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls, percentages =
                 labelImageDiv.appendChild(img);
             }
             let labelDiv = document.createElement('div');
-            labelDiv.innerHTML = labels[i];
+            labelDiv.innerHTML = wps_js.escapeHtml(labels[i]);
             labelDiv.setAttribute('aria-label', labels[i]);
             labelDiv.classList.add('wps-horizontal-bar__label');
             labelImageDiv.appendChild(labelDiv);
