@@ -132,25 +132,49 @@ abstract class BaseRecord
     /**
      * Inserts a new record into the table.
      *
+     * Uses a direct prepared query instead of $wpdb->insert() to avoid
+     * the SHOW FULL COLUMNS introspection query that $wpdb->insert()
+     * triggers on every new table it encounters per request.
+     *
      * @param array $args The values to insert.
-     * @return int|void The inserted record's ID on success, or void if failed.
+     * @return int The inserted record's ID on success, or 0 on failure.
      */
     public function insert($args)
     {
         $args = $this->parseArgs($args, []);
+
+        if (empty($args)) {
+            return 0;
+        }
+
         global $wpdb;
 
-        $insert = $wpdb->insert(
+        $columns      = [];
+        $placeholders = [];
+        $values       = [];
+
+        foreach ($args as $column => $value) {
+            $columns[]      = "`$column`";
+            $placeholders[] = is_int($value) ? '%d' : '%s';
+            $values[]       = $value;
+        }
+
+        $sql = sprintf(
+            'INSERT INTO `%s` (%s) VALUES (%s)',
             $this->fullTableName,
-            $args
+            implode(', ', $columns),
+            implode(', ', $placeholders)
         );
 
-        if ($insert === false) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $result = $wpdb->query($wpdb->prepare($sql, $values));
+
+        if ($result === false) {
             \WP_Statistics()->log('Insert into ' . $this->fullTableName . ' failed: ' . $wpdb->last_error);
             return 0;
         }
 
-        return $wpdb->insert_id;
+        return (int) $wpdb->insert_id;
     }
 
     /**
