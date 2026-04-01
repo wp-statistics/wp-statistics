@@ -7,6 +7,7 @@ use WP_Statistics\Components\Ip;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Components\Option;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Service\Database\DatabaseSchema;
 use WP_Statistics\Utils\User;
 
 
@@ -266,7 +267,9 @@ class Exclusions extends Singleton
     }
 
     /**
-     * Exclude visitors exceeding a hit threshold.
+     * Exclude visitors exceeding a hit threshold per day.
+     *
+     * Counts today's total views across all sessions for the visitor.
      *
      * @param Visitor $visitor
      * @return bool True when hits exceed threshold.
@@ -279,16 +282,22 @@ class Exclusions extends Singleton
             return false;
         }
 
-        $visitorRecord = RecordFactory::visitor()->get([
-            'hash'             => $visitor->getHashedIp(),
-            'DATE(created_at)' => DateTime::get(),
-        ]);
+        global $wpdb;
 
-        if (!$visitorRecord) {
-            return false;
-        }
+        $visitorsTable = DatabaseSchema::table('visitors');
+        $sessionsTable = DatabaseSchema::table('sessions');
 
-        return ($visitorRecord->hits + 1) > $threshold;
+        $todayViews = (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT COALESCE(SUM(s.total_views), 0)
+             FROM {$sessionsTable} s
+             INNER JOIN {$visitorsTable} v ON s.visitor_id = v.ID
+             WHERE v.hash = %s
+               AND DATE(s.started_at) = %s",
+            $visitor->getHashedIp(),
+            DateTime::get()
+        ));
+
+        return ($todayViews + 1) > $threshold;
     }
 
     /**
