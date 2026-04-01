@@ -140,8 +140,9 @@ class Session extends BaseEntity
     /**
      * Update the current session's view tracking information.
      *
-     * This method sets the `last_view_id` and `ended_at` timestamp for the session.
-     * If the session does not yet have an `initial_view_id`, it will be set to the provided `$viewId`.
+     * Sets `last_view_id` and `ended_at` on every call. Conditionally sets
+     * `initial_view_id` only when it is still 0 (new session's first view),
+     * using a single UPDATE with a CASE expression to avoid a separate SELECT.
      *
      * @param int    $sessionId The session ID to update.
      * @param int    $viewId    The ID of the most recent view in the session.
@@ -155,22 +156,17 @@ class Session extends BaseEntity
             return;
         }
 
-        $session = RecordFactory::session()->get(['ID' => $sessionId]);
-
-        if (!$session || !isset($session->ID)) {
-            return;
-        }
-
-        $updates = [
-            'last_view_id' => $viewId,
-            'ended_at'     => $endAt,
-        ];
-
-        if (empty($session->initial_view_id)) {
-            $updates['initial_view_id'] = $viewId;
-        }
-
-        RecordFactory::session($session)->update($updates);
+        Query::update('sessions')
+            ->set([
+                'last_view_id' => $viewId,
+                'ended_at'     => $endAt,
+            ])
+            ->setRaw('initial_view_id', sprintf(
+                'CASE WHEN `initial_view_id` = 0 OR `initial_view_id` IS NULL THEN %d ELSE `initial_view_id` END',
+                $viewId
+            ))
+            ->where('ID', '=', $sessionId)
+            ->execute();
     }
 
 }
