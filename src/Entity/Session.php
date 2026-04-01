@@ -17,102 +17,66 @@ use WP_Statistics\Utils\Query;
 class Session extends BaseEntity
 {
     /**
-     * Record a session: reuse active or create new.
+     * Record a session: reuse an active one or create a new one.
      *
-     * @param int   $visitorId  The visitor ID.
-     * @param array $deviceIds  Device-related IDs (type_id, os_id, browser_id, browser_version_id, resolution_id).
-     * @param array $geoIds     Geographic IDs (country_id, city_id).
-     * @param array $localeIds  Locale IDs (language_id, timezone_id).
-     * @param int   $referrerId The referrer ID.
-     * @return int The session ID, or 0 if tracking is inactive or visitor ID is missing.
-     */
-    public function record(int $visitorId, array $deviceIds, array $geoIds, array $localeIds, int $referrerId): int
-    {
-        if (!$this->isActive('sessions')) {
-            return 0;
-        }
-
-        if (!$visitorId) {
-            return 0;
-        }
-
-        $activeSession = $this->getActive($visitorId);
-
-        if ($activeSession) {
-            return $this->reuseSession($activeSession);
-        }
-
-        return $this->createSession($visitorId, $deviceIds, $geoIds, $localeIds, $referrerId);
-    }
-
-    /**
-     * Reuse an existing active session by incrementing its view count.
-     *
-     * When dimension arrays are provided (last-touch mode), the session's
-     * device, geo, locale, and referrer FKs are updated to reflect the
-     * visitor's current state. Otherwise only the view count is incremented.
-     *
-     * @param object     $activeSession The active session record.
-     * @param array|null $deviceIds     Device IDs to update (last-touch), or null to skip.
-     * @param array|null $geoIds        Geo IDs to update (last-touch), or null to skip.
-     * @param array|null $localeIds     Locale IDs to update (last-touch), or null to skip.
-     * @param int|null   $referrerId    Referrer ID to update (last-touch), or null to skip.
-     * @return int The session ID.
-     */
-    public function reuseSession(
-        object $activeSession,
-        ?array $deviceIds = null,
-        ?array $geoIds = null,
-        ?array $localeIds = null,
-        ?int $referrerId = null
-    ): int {
-        $newViews = ((int)$activeSession->total_views) + 1;
-        $userId   = empty($activeSession->user_id) ? $this->visitor->getUserId() : $activeSession->user_id;
-
-        $data = [
-            'total_views' => $newViews,
-            'user_id'     => $userId,
-        ];
-
-        // Last-touch attribution: update dimension FKs if provided
-        if ($deviceIds !== null) {
-            $data['device_type_id']            = $deviceIds['type_id'];
-            $data['device_os_id']              = $deviceIds['os_id'];
-            $data['device_browser_id']         = $deviceIds['browser_id'];
-            $data['device_browser_version_id'] = $deviceIds['browser_version_id'];
-            $data['resolution_id']             = $deviceIds['resolution_id'];
-        }
-
-        if ($geoIds !== null) {
-            $data['country_id'] = $geoIds['country_id'];
-            $data['city_id']    = $geoIds['city_id'];
-        }
-
-        if ($localeIds !== null) {
-            $data['language_id'] = $localeIds['language_id'];
-            $data['timezone_id'] = $localeIds['timezone_id'];
-        }
-
-        if ($referrerId !== null) {
-            $data['referrer_id'] = $referrerId;
-        }
-
-        RecordFactory::session($activeSession)->update($data);
-
-        return (int)$activeSession->ID;
-    }
-
-    /**
-     * Create a new session with all dimension references.
+     * This is the standard entity entry point following the convention
+     * used by Visitor, Device, Geo, etc. The Tracker calls getActive()
+     * and create() directly for finer control over dimension
+     * resolution, but external callers can use this.
      *
      * @param int   $visitorId  The visitor ID.
      * @param array $deviceIds  Device-related IDs.
      * @param array $geoIds     Geographic IDs (country_id, city_id).
      * @param array $localeIds  Locale IDs (language_id, timezone_id).
      * @param int   $referrerId The referrer ID.
+     * @return int The session ID, or 0 if tracking is inactive.
+     */
+    public function record(int $visitorId, array $deviceIds, array $geoIds, array $localeIds, int $referrerId): int
+    {
+        if (!$this->isActive('sessions') || !$visitorId) {
+            return 0;
+        }
+
+        $activeSession = $this->getActive($visitorId);
+
+        return $activeSession
+            ? (int) $activeSession->ID
+            : $this->create($visitorId, $deviceIds, $geoIds, $localeIds, $referrerId);
+    }
+
+    /**
+     * Check if an active session exists for the given visitor.
+     *
+     * Returns a session that started today and is either still active
+     * or ended within the last 30 minutes.
+     *
+     * @param int $visitorId The visitor ID to check.
+     * @return object|false The session record, or false if none is active.
+     */
+    public function getActive(int $visitorId)
+    {
+        if (!$visitorId) {
+            return false;
+        }
+
+        $activeSession = (new SessionModel())->getActiveSession([
+            'visitor_id' => $visitorId
+        ]);
+
+        return ($activeSession && isset($activeSession->ID)) ? $activeSession : false;
+    }
+
+    /**
+     * Create a new session with all dimension references.
+     *
+     * @param int   $visitorId  The visitor ID.
+     * @param array $deviceIds  Device-related IDs (type_id, os_id, browser_id, browser_version_id, resolution_id).
+     * @param array $geoIds     Geographic IDs (country_id, city_id).
+     * @param array $localeIds  Locale IDs (language_id, timezone_id).
+     * @param int   $referrerId The referrer ID.
      * @return int The new session ID.
      */
-    public function createSession(int $visitorId, array $deviceIds, array $geoIds, array $localeIds, int $referrerId): int
+    public function create(int $visitorId, array $deviceIds, array $geoIds, array $localeIds, int $referrerId): int
     {
         $sessionId = (int)RecordFactory::session()->insert([
             'visitor_id'                => $visitorId,
@@ -141,25 +105,80 @@ class Session extends BaseEntity
     }
 
     /**
-     * Check if an active session exists for the given visitor.
+     * Update the session after a view has been recorded.
      *
-     * Returns a session that started today and is either still active
-     * or ended within the last 30 minutes.
+     * Always sets last_view_id, ended_at, and conditionally initial_view_id.
      *
-     * @param int $visitorId The visitor ID to check.
-     * @return object|false
+     * For reused sessions ($activeSession provided): also increments total_views,
+     * sets user_id, and optionally updates dimension FKs (last-touch attribution).
+     *
+     * For new sessions ($activeSession is null): only updates view tracking fields
+     * since dimensions were already set during create().
+     *
+     * @param int         $sessionId     The session ID.
+     * @param int         $viewId        The new view's ID.
+     * @param object|null $activeSession The reused session record, or null for new sessions.
+     * @param array|null  $deviceIds     Device IDs for last-touch, or null to skip.
+     * @param array|null  $geoIds        Geo IDs for last-touch, or null to skip.
+     * @param array|null  $localeIds     Locale IDs for last-touch, or null to skip.
+     * @param int|null    $referrerId    Referrer ID for last-touch, or null to skip.
+     * @return void
      */
-    public function getActive(int $visitorId)
-    {
-        if (!$visitorId) {
-            return false;
+    public function update(
+        int $sessionId,
+        int $viewId,
+        ?object $activeSession = null,
+        ?array $deviceIds = null,
+        ?array $geoIds = null,
+        ?array $localeIds = null,
+        ?int $referrerId = null
+    ): void {
+        if (!$sessionId || $viewId < 1) {
+            return;
         }
 
-        $activeSession = (new SessionModel())->getActiveSession([
-            'visitor_id' => $visitorId
-        ]);
+        // Build all SET values before where() — the Query builder shares a
+        // single $valuesToPrepare array, so ordering matters for alignment.
+        $data = [
+            'last_view_id' => $viewId,
+            'ended_at'     => DateTime::getUtc(),
+        ];
 
-        return ($activeSession && isset($activeSession->ID)) ? $activeSession : false;
+        if ($activeSession) {
+            $data['total_views'] = ((int) $activeSession->total_views) + 1;
+            $data['user_id']     = empty($activeSession->user_id) ? $this->visitor->getUserId() : $activeSession->user_id;
+
+            if ($deviceIds !== null) {
+                $data['device_type_id']            = $deviceIds['type_id'];
+                $data['device_os_id']              = $deviceIds['os_id'];
+                $data['device_browser_id']         = $deviceIds['browser_id'];
+                $data['device_browser_version_id'] = $deviceIds['browser_version_id'];
+                $data['resolution_id']             = $deviceIds['resolution_id'];
+            }
+
+            if ($geoIds !== null) {
+                $data['country_id'] = $geoIds['country_id'];
+                $data['city_id']    = $geoIds['city_id'];
+            }
+
+            if ($localeIds !== null) {
+                $data['language_id'] = $localeIds['language_id'];
+                $data['timezone_id'] = $localeIds['timezone_id'];
+            }
+
+            if ($referrerId !== null) {
+                $data['referrer_id'] = $referrerId;
+            }
+        }
+
+        Query::update('sessions')
+            ->set($data)
+            ->setRaw('initial_view_id', sprintf(
+                'CASE WHEN `initial_view_id` = 0 OR `initial_view_id` IS NULL THEN %d ELSE `initial_view_id` END',
+                $viewId
+            ))
+            ->where('ID', '=', $sessionId)
+            ->execute();
     }
 
     /**
@@ -194,37 +213,4 @@ class Session extends BaseEntity
 
         return true;
     }
-
-    /**
-     * Update the current session's view tracking information.
-     *
-     * Sets `last_view_id` and `ended_at` on every call. Conditionally sets
-     * `initial_view_id` only when it is still 0 (new session's first view),
-     * using a single UPDATE with a CASE expression to avoid a separate SELECT.
-     *
-     * @param int    $sessionId The session ID to update.
-     * @param int    $viewId    The ID of the most recent view in the session.
-     * @param string $endAt     The datetime string (Y-m-d H:i:s) when the session is considered ended.
-     *
-     * @return void
-     */
-    public function updateInitialView(int $sessionId, int $viewId, string $endAt)
-    {
-        if (!$sessionId || $viewId < 1) {
-            return;
-        }
-
-        Query::update('sessions')
-            ->set([
-                'last_view_id' => $viewId,
-                'ended_at'     => $endAt,
-            ])
-            ->setRaw('initial_view_id', sprintf(
-                'CASE WHEN `initial_view_id` = 0 OR `initial_view_id` IS NULL THEN %d ELSE `initial_view_id` END',
-                $viewId
-            ))
-            ->where('ID', '=', $sessionId)
-            ->execute();
-    }
-
 }

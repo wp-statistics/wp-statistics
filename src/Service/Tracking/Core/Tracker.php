@@ -49,10 +49,20 @@ class Tracker
         $referrerId = $needsDimensions ? EntityFactory::referrer($visitor)->record() : null;
 
         $sessionId = $activeSession
-            ? $sessionEntity->reuseSession($activeSession, $deviceIds, $geoIds, $localeIds, $referrerId)
-            : $sessionEntity->createSession($visitorId, $deviceIds, $geoIds, $localeIds, $referrerId);
+            ? (int) $activeSession->ID
+            : $sessionEntity->create($visitorId, $deviceIds, $geoIds, $localeIds, $referrerId);
 
-        EntityFactory::view($visitor)->record($sessionId);
+        $viewId = EntityFactory::view($visitor)->record($sessionId);
+
+        $sessionEntity->update(
+            $sessionId,
+            $viewId,
+            $activeSession ?: null,
+            $deviceIds,
+            $geoIds,
+            $localeIds,
+            $referrerId
+        );
     }
 
     /**

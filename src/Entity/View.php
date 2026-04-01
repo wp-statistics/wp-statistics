@@ -69,7 +69,6 @@ class View extends BaseEntity
             ]);
         }
 
-        EntityFactory::session($this->visitor)->updateInitialView($sessionId, $newViewId, $now);
         return $newViewId;
     }
 }

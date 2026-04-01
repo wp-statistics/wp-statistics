@@ -368,14 +368,14 @@ test.describe('Batch Tracking', () => {
       const durationBeforeNav = parseInt(sessionBeforeNav?.duration || '0', 10)
       expect(durationBeforeNav).toBeGreaterThan(0)
 
-      // Navigate to second page (triggers hit, which calls updateInitialView)
+      // Navigate to second page (triggers hit, which calls update)
       const hit2Promise = waitForHitRequest(page)
       await page.goto('/sample-page/')
       await hit2Promise
 
       await page.waitForTimeout(500)
 
-      // Duration should NOT be reset by updateInitialView
+      // Duration should NOT be reset by update
       const sessionAfterNav = getLatestSession()
       const durationAfterNav = parseInt(sessionAfterNav?.duration || '0', 10)
       expect(durationAfterNav).toBeGreaterThanOrEqual(durationBeforeNav)

@@ -11,9 +11,9 @@ use ReflectionClass;
 /**
  * Tests that Session entity correctly handles duration.
  *
- * Duration is now managed exclusively by batch tracking (atomic accumulation).
- * Session::updateInitialView() must NOT touch duration, and
- * Session::record() must initialize duration to 0.
+ * Duration is managed exclusively by batch tracking (atomic accumulation).
+ * Session::update() must NOT touch duration, and
+ * Session::create() must initialize duration to 0.
  *
  * @since 15.0.0
  */
@@ -32,26 +32,26 @@ class Test_SessionDuration extends WP_UnitTestCase
         $this->assertTrue(class_exists(Session::class));
     }
 
-    public function test_update_initial_view_method_exists()
+    public function test_update_session_method_exists()
     {
         $this->assertTrue(
-            method_exists(Session::class, 'updateInitialView'),
-            'updateInitialView should still exist'
+            method_exists(Session::class, 'update'),
+            'update should exist'
         );
     }
 
-    public function test_record_method_exists()
+    public function test_create_session_method_exists()
     {
         $this->assertTrue(
-            method_exists(Session::class, 'record'),
-            'record method should exist'
+            method_exists(Session::class, 'create'),
+            'create method should exist'
         );
     }
 
-    public function test_update_initial_view_does_not_reference_duration_or_calculate()
+    public function test_update_session_does_not_reference_duration()
     {
         $reflection = new ReflectionClass(Session::class);
-        $method = $reflection->getMethod('updateInitialView');
+        $method = $reflection->getMethod('update');
 
         $filename = $method->getFileName();
         $startLine = $method->getStartLine();
@@ -62,21 +62,20 @@ class Test_SessionDuration extends WP_UnitTestCase
         $this->assertStringNotContainsString(
             'calculateDuration',
             $source,
-            'updateInitialView should not call calculateDuration'
+            'update should not call calculateDuration'
         );
 
-        // Duration should not appear as a key being set in updates
         $this->assertDoesNotMatchRegularExpression(
             '/[\'"]duration[\'"]\s*=>/',
             $source,
-            'updateInitialView should not set duration in the updates array'
+            'update should not set duration in the updates array'
         );
     }
 
-    public function test_record_method_initializes_duration_to_zero()
+    public function test_create_session_initializes_duration_to_zero()
     {
         $reflection = new ReflectionClass(Session::class);
-        $method = $reflection->getMethod('createSession');
+        $method = $reflection->getMethod('create');
 
         $filename = $method->getFileName();
         $startLine = $method->getStartLine();
@@ -87,7 +86,7 @@ class Test_SessionDuration extends WP_UnitTestCase
         $this->assertMatchesRegularExpression(
             '/[\'"]duration[\'"]\s*=>\s*0/',
             $source,
-            'record() should initialize duration to 0 in the insert array'
+            'create() should initialize duration to 0 in the insert array'
         );
     }
 
