@@ -44,6 +44,20 @@ class Exclusions extends Singleton
     private static $excludedUrlPatterns = null;
 
     /**
+     * Cached excluded country codes (blacklist).
+     *
+     * @var array|null
+     */
+    private static $excludedCountries = null;
+
+    /**
+     * Cached included country codes (whitelist).
+     *
+     * @var array|null
+     */
+    private static $includedCountries = null;
+
+    /**
      * Cached result of the last exclusion check to prevent redundant processing.
      *
      * Note: This is cached per-request. If record() is called multiple times
@@ -482,21 +496,18 @@ class Exclusions extends Singleton
      */
     public static function exclusionGeoIp(Visitor $visitor)
     {
-        static $excludedCountries = null;
-        static $includedCountries = null;
-
-        if ($excludedCountries === null) {
-            $excludedCountries = array_flip(array_filter(array_map('trim',
+        if (self::$excludedCountries === null) {
+            self::$excludedCountries = array_flip(array_filter(array_map('trim',
                 explode("\n", strtoupper(str_replace("\r\n", "\n", self::$options['excluded_countries'] ?? '')))
             )));
         }
 
-        if ($includedCountries === null) {
-            $countriesString   = strtoupper(str_replace("\r\n", "\n", self::$options['included_countries'] ?? ''));
-            $includedCountries = $countriesString === '' ? [] : array_flip(array_filter(array_map('trim', explode("\n", $countriesString))));
+        if (self::$includedCountries === null) {
+            $countriesString        = strtoupper(str_replace("\r\n", "\n", self::$options['included_countries'] ?? ''));
+            self::$includedCountries = $countriesString === '' ? [] : array_flip(array_filter(array_map('trim', explode("\n", $countriesString))));
         }
 
-        if (empty($excludedCountries) && empty($includedCountries)) {
+        if (empty(self::$excludedCountries) && empty(self::$includedCountries)) {
             return false;
         }
 
@@ -506,10 +517,10 @@ class Exclusions extends Singleton
             return false;
         }
 
-        if (isset($excludedCountries[$countryCode])) {
+        if (isset(self::$excludedCountries[$countryCode])) {
             return true;
         }
 
-        return !empty($includedCountries) && !isset($includedCountries[$countryCode]);
+        return !empty(self::$includedCountries) && !isset(self::$includedCountries[$countryCode]);
     }
 }
