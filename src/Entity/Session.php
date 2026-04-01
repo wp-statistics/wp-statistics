@@ -17,11 +17,7 @@ use WP_Statistics\Utils\Query;
 class Session extends BaseEntity
 {
     /**
-     * Entity for creating and managing visitor sessions.
-     *
-     * This handles the logic for either opening a new session or
-     * updating an existing open session, and tracking visitor activity
-     * such as total views, resource changes, and session metadata.
+     * Record a session: reuse active or create new.
      *
      * @param int   $visitorId  The visitor ID.
      * @param array $deviceIds  Device-related IDs (type_id, os_id, browser_id, browser_version_id, resolution_id).
@@ -42,20 +38,82 @@ class Session extends BaseEntity
 
         $activeSession = $this->getActive($visitorId);
 
-        if ($activeSession && isset($activeSession->ID)) {
-            $newViews = ((int)$activeSession->total_views) + 1;
-            $userId   = empty($activeSession->user_id) ? $this->visitor->getUserId() : $activeSession->user_id;
-
-            $newData = [
-                'total_views' => $newViews,
-                'user_id'     => $userId,
-            ];
-
-            RecordFactory::session($activeSession)->update($newData);
-
-            return (int)$activeSession->ID;
+        if ($activeSession) {
+            return $this->reuseSession($activeSession);
         }
 
+        return $this->createSession($visitorId, $deviceIds, $geoIds, $localeIds, $referrerId);
+    }
+
+    /**
+     * Reuse an existing active session by incrementing its view count.
+     *
+     * When dimension arrays are provided (last-touch mode), the session's
+     * device, geo, locale, and referrer FKs are updated to reflect the
+     * visitor's current state. Otherwise only the view count is incremented.
+     *
+     * @param object     $activeSession The active session record.
+     * @param array|null $deviceIds     Device IDs to update (last-touch), or null to skip.
+     * @param array|null $geoIds        Geo IDs to update (last-touch), or null to skip.
+     * @param array|null $localeIds     Locale IDs to update (last-touch), or null to skip.
+     * @param int|null   $referrerId    Referrer ID to update (last-touch), or null to skip.
+     * @return int The session ID.
+     */
+    public function reuseSession(
+        object $activeSession,
+        ?array $deviceIds = null,
+        ?array $geoIds = null,
+        ?array $localeIds = null,
+        ?int $referrerId = null
+    ): int {
+        $newViews = ((int)$activeSession->total_views) + 1;
+        $userId   = empty($activeSession->user_id) ? $this->visitor->getUserId() : $activeSession->user_id;
+
+        $data = [
+            'total_views' => $newViews,
+            'user_id'     => $userId,
+        ];
+
+        // Last-touch attribution: update dimension FKs if provided
+        if ($deviceIds !== null) {
+            $data['device_type_id']            = $deviceIds['type_id'];
+            $data['device_os_id']              = $deviceIds['os_id'];
+            $data['device_browser_id']         = $deviceIds['browser_id'];
+            $data['device_browser_version_id'] = $deviceIds['browser_version_id'];
+            $data['resolution_id']             = $deviceIds['resolution_id'];
+        }
+
+        if ($geoIds !== null) {
+            $data['country_id'] = $geoIds['country_id'];
+            $data['city_id']    = $geoIds['city_id'];
+        }
+
+        if ($localeIds !== null) {
+            $data['language_id'] = $localeIds['language_id'];
+            $data['timezone_id'] = $localeIds['timezone_id'];
+        }
+
+        if ($referrerId !== null) {
+            $data['referrer_id'] = $referrerId;
+        }
+
+        RecordFactory::session($activeSession)->update($data);
+
+        return (int)$activeSession->ID;
+    }
+
+    /**
+     * Create a new session with all dimension references.
+     *
+     * @param int   $visitorId  The visitor ID.
+     * @param array $deviceIds  Device-related IDs.
+     * @param array $geoIds     Geographic IDs (country_id, city_id).
+     * @param array $localeIds  Locale IDs (language_id, timezone_id).
+     * @param int   $referrerId The referrer ID.
+     * @return int The new session ID.
+     */
+    public function createSession(int $visitorId, array $deviceIds, array $geoIds, array $localeIds, int $referrerId): int
+    {
         $sessionId = (int)RecordFactory::session()->insert([
             'visitor_id'                => $visitorId,
             'referrer_id'               => $referrerId,

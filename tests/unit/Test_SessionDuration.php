@@ -76,7 +76,7 @@ class Test_SessionDuration extends WP_UnitTestCase
     public function test_record_method_initializes_duration_to_zero()
     {
         $reflection = new ReflectionClass(Session::class);
-        $method = $reflection->getMethod('record');
+        $method = $reflection->getMethod('createSession');
 
         $filename = $method->getFileName();
         $startLine = $method->getStartLine();

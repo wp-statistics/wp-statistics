@@ -18,6 +18,10 @@ class Tracker
     /**
      * Record a hit: visitor, device, geo, locale, referrer, session, view.
      *
+     * When a returning visitor has an active session, dimension resolution
+     * (device, geo, locale, referrer) is skipped because the session already
+     * holds those FK references and they are not updated on subsequent views.
+     *
      * @throws Exception If visitor is excluded by rules.
      */
     public function record(): void
@@ -29,15 +33,24 @@ class Tracker
 
         $this->checkExclusions($visitor);
 
-        $visitorId  = EntityFactory::visitor($visitor)->record();
-        $deviceIds  = EntityFactory::device($visitor)->record();
-        $geoIds     = EntityFactory::geo($visitor)->record();
-        $localeIds  = EntityFactory::locale($visitor)->record();
-        $referrerId = EntityFactory::referrer($visitor)->record();
+        $visitorId = EntityFactory::visitor($visitor)->record();
 
-        $sessionId  = EntityFactory::session($visitor)->record(
-            $visitorId, $deviceIds, $geoIds, $localeIds, $referrerId
-        );
+        $sessionEntity = EntityFactory::session($visitor);
+        $activeSession = $sessionEntity->getActive($visitorId);
+
+        // Resolve dimensions when creating a new session, or when last-touch
+        // attribution is enabled for returning visitors. Skipped by default
+        // on warm hits because the session already holds these FK references.
+        $needsDimensions = !$activeSession || $this->isLastTouchEnabled();
+
+        $deviceIds  = $needsDimensions ? EntityFactory::device($visitor)->record()   : null;
+        $geoIds     = $needsDimensions ? EntityFactory::geo($visitor)->record()      : null;
+        $localeIds  = $needsDimensions ? EntityFactory::locale($visitor)->record()   : null;
+        $referrerId = $needsDimensions ? EntityFactory::referrer($visitor)->record() : null;
+
+        $sessionId = $activeSession
+            ? $sessionEntity->reuseSession($activeSession, $deviceIds, $geoIds, $localeIds, $referrerId)
+            : $sessionEntity->createSession($visitorId, $deviceIds, $geoIds, $localeIds, $referrerId);
 
         EntityFactory::view($visitor)->record($sessionId);
     }
@@ -53,6 +66,22 @@ class Tracker
         $visitor = new Visitor();
 
         return EntityFactory::session($visitor)->updateEngagement($engagementTimeMs);
+    }
+
+    /**
+     * Whether last-touch session attribution is enabled.
+     *
+     * When true, dimension resolution (device, geo, locale, referrer) runs on
+     * every warm hit and the session FKs are updated to the latest values.
+     * Default is false (first-touch) — dimensions are only set when the session
+     * is created, saving ~10 DB queries per warm hit.
+     *
+     * @since 15.1.0
+     * @return bool
+     */
+    private function isLastTouchEnabled(): bool
+    {
+        return (bool) apply_filters('wp_statistics_last_touch_attribution', false);
     }
 
     /**
