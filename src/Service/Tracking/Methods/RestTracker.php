@@ -106,7 +106,7 @@ class RestTracker extends BaseTracker
 
         $headers = ['Cache-Control' => 'no-cache'];
         if ($statusCode === 429) {
-            $headers['Retry-After'] = (string) RateLimiter::getWindow();
+            $headers['Retry-After'] = (string) RateLimiter::getTimeWindow();
         }
         $response->set_headers($headers);
 

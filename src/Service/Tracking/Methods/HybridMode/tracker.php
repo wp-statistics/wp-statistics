@@ -138,7 +138,7 @@ try {
 } catch (\Exception $e) {
     $code = $e->getCode() ?: 500;
     if ($code === 429) {
-        header('Retry-After: ' . \WP_Statistics\Service\Tracking\Core\RateLimiter::getWindow());
+        header('Retry-After: ' . \WP_Statistics\Service\Tracking\Core\RateLimiter::getTimeWindow());
     }
     http_response_code($code);
     $message = $code < 500 ? $e->getMessage() : 'Internal error';

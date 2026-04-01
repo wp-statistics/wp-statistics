@@ -72,7 +72,7 @@ class AjaxTracker extends BaseTracker
         } catch (Exception $e) {
             $code = $e->getCode() ?: 400;
             if ($code === 429) {
-                header('Retry-After: ' . RateLimiter::getWindow());
+                header('Retry-After: ' . RateLimiter::getTimeWindow());
             }
             wp_send_json(['status' => false, 'data' => $e->getMessage()], $code);
         }

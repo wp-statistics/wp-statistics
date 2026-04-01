@@ -46,7 +46,7 @@ class Test_RateLimiter extends WP_UnitTestCase
         Option::updateValue('tracker_rate_limit_threshold', 30);
 
         remove_all_filters('wp_statistics_tracker_rate_limit_threshold');
-        remove_all_filters('wp_statistics_rate_limit_window');
+        remove_all_filters('wp_statistics_rate_limit_time_window');
 
         foreach ($this->requestKeys as $key) {
             unset($_REQUEST[$key]);
@@ -149,11 +149,11 @@ class Test_RateLimiter extends WP_UnitTestCase
 
     public function test_window_filter_changes_window(): void
     {
-        add_filter('wp_statistics_rate_limit_window', function () {
+        add_filter('wp_statistics_rate_limit_time_window', function () {
             return 120;
         });
 
-        $this->assertSame(120, RateLimiter::getWindow());
+        $this->assertSame(120, RateLimiter::getTimeWindow());
     }
 
     // ── Integration: Tracker::record() ──────────────────────────
@@ -266,7 +266,7 @@ class Test_RateLimiter extends WP_UnitTestCase
 
     public function test_rest_tracker_retry_after_matches_window(): void
     {
-        add_filter('wp_statistics_rate_limit_window', function () {
+        add_filter('wp_statistics_rate_limit_time_window', function () {
             return 120;
         });
 

@@ -19,8 +19,7 @@ use WP_Statistics\Components\Option;
  */
 final class RateLimiter
 {
-    private const CACHE_GROUP  = 'wp_statistics_rate_limit';
-    private const CACHE_PREFIX = 'wp_statistics_rl_';
+    private const CACHE_GROUP = 'wp_statistics_rate_limit';
 
     /**
      * Check if the current request exceeds the rate limit.
@@ -36,7 +35,7 @@ final class RateLimiter
         $ip  = Ip::getCurrent();
         $key = self::getCacheKey($ip);
 
-        $window = self::getWindow();
+        $window = self::getTimeWindow();
         $count  = self::incrementCounter($key, $window);
 
         if ($count > self::getThreshold()) {
@@ -65,9 +64,9 @@ final class RateLimiter
     /**
      * Get the time window in seconds.
      */
-    public static function getWindow(): int
+    public static function getTimeWindow(): int
     {
-        return (int) apply_filters('wp_statistics_rate_limit_window', 60);
+        return (int) apply_filters('wp_statistics_rate_limit_time_window', 60);
     }
 
     /**
@@ -75,7 +74,7 @@ final class RateLimiter
      */
     private static function getCacheKey(string $ip): string
     {
-        return self::CACHE_PREFIX . md5($ip);
+        return self::CACHE_GROUP . '_' . md5($ip);
     }
 
     /**
