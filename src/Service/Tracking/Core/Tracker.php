@@ -22,6 +22,8 @@ class Tracker
      */
     public function record(): void
     {
+        RateLimiter::check();
+
         $payload = Payload::parse();
         $visitor = new Visitor($payload);
 

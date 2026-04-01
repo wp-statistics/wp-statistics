@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Tracking\Methods;
 
 use WP_Statistics\Components\Ajax;
+use WP_Statistics\Service\Tracking\Core\RateLimiter;
 use WP_Statistics\Service\Tracking\Core\Tracker;
 use WP_Statistics\Utils\Request;
 use Exception;
@@ -69,7 +70,11 @@ class AjaxTracker extends BaseTracker
             (new Tracker())->record();
             wp_send_json(['status' => true]);
         } catch (Exception $e) {
-            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode() ?: 400);
+            $code = $e->getCode() ?: 400;
+            if ($code === 429) {
+                header('Retry-After: ' . RateLimiter::getWindow());
+            }
+            wp_send_json(['status' => false, 'data' => $e->getMessage()], $code);
         }
     }
 

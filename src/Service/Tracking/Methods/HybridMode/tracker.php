@@ -137,6 +137,9 @@ try {
     echo '{"status":true}';
 } catch (\Exception $e) {
     $code = $e->getCode() ?: 500;
+    if ($code === 429) {
+        header('Retry-After: ' . \WP_Statistics\Service\Tracking\Core\RateLimiter::getWindow());
+    }
     http_response_code($code);
     $message = $code < 500 ? $e->getMessage() : 'Internal error';
     echo json_encode(['status' => false, 'data' => $message]);

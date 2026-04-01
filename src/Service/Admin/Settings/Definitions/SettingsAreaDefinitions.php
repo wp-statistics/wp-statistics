@@ -750,6 +750,36 @@ class SettingsAreaDefinitions
                             ],
                         ],
                     ],
+                    'rate-limiting' => [
+                        'title'       => __('Rate Limiting', 'wp-statistics'),
+                        'description' => __('Protect your tracking endpoint against bot floods and abuse by limiting requests per IP address.', 'wp-statistics'),
+                        'order'       => 15,
+                        'fields'      => [
+                            'tracker_rate_limit' => [
+                                'type'        => 'toggle',
+                                'setting_key' => 'tracker_rate_limit',
+                                'label'       => __('Endpoint Rate Limiting', 'wp-statistics'),
+                                'description' => __('Limit the number of tracking hits per IP address per minute. Uses object cache (Redis/Memcached) when available for best performance.', 'wp-statistics'),
+                                'default'     => false,
+                                'order'       => 10,
+                            ],
+                            'tracker_rate_limit_threshold' => [
+                                'type'         => 'number',
+                                'setting_key'  => 'tracker_rate_limit_threshold',
+                                'label'        => __('Rate Limit (Requests Per Minute)', 'wp-statistics'),
+                                'description'  => __('Maximum tracking requests allowed per IP address per minute. Requests exceeding this limit receive a 429 response.', 'wp-statistics'),
+                                'default'      => 30,
+                                'layout'       => 'stacked',
+                                'min'          => 1,
+                                'max'          => 999,
+                                'nested'       => true,
+                                'visible_when' => [
+                                    'tracker_rate_limit' => true,
+                                ],
+                                'order'        => 20,
+                            ],
+                        ],
+                    ],
                     'advanced-danger-zone' => [
                         'title'       => __('Danger Zone', 'wp-statistics'),
                         'description' => __('These actions are irreversible. Please proceed with caution.', 'wp-statistics'),

@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Tracking\Methods;
 
+use WP_Statistics\Service\Tracking\Core\RateLimiter;
 use WP_Statistics\Service\Tracking\Core\Tracker;
 use Exception;
 use WP_REST_Server;
@@ -103,7 +104,11 @@ class RestTracker extends BaseTracker
             $response->set_status($statusCode);
         }
 
-        $response->set_headers(['Cache-Control' => 'no-cache']);
+        $headers = ['Cache-Control' => 'no-cache'];
+        if ($statusCode === 429) {
+            $headers['Retry-After'] = (string) RateLimiter::getWindow();
+        }
+        $response->set_headers($headers);
 
         return $response;
     }
