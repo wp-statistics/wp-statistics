@@ -198,6 +198,10 @@ class Exclusion
      */
     public static function exclusion_user_role()
     {
+        if (empty(self::$options)) {
+            self::$options = Option::getOptions();
+        }
+
         $current_user = false;
 
         if (Helper::is_rest_request() && isset($GLOBALS['wp_statistics_user_id'])) {
