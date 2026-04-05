@@ -8,6 +8,7 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Cron\DatabaseMaintenanceManager;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticManager;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Admin\Tools\SystemInfoService;
 use WP_Statistics\Service\Admin\Tools\BackgroundJobRegistry;
 use WP_Statistics\Service\Admin\Tools\OptionInspectionService;
@@ -45,6 +46,7 @@ class ToolsEndpoints extends BaseEndpoint
             'diagnostics_run'       => 'runDiagnostics',
             'diagnostics_run_check' => 'runDiagnosticCheck',
             'diagnostics_repair'    => 'repairDiagnostic',
+            'privacy_audit'         => 'getPrivacyAudit',
             'maintenance_info'      => 'getMaintenanceInfo',
             'remove_user_ids'       => 'removeUserIds',
             'delete_events_by_name' => 'deleteEventsByName',
@@ -283,6 +285,22 @@ class ToolsEndpoints extends BaseEndpoint
 
         $method = $repairActions[$key];
         $this->$method();
+    }
+
+    /**
+     * Get privacy audit check results.
+     */
+    protected function getPrivacyAudit(): void
+    {
+        $manager = new PrivacyAuditManager();
+        $results = $manager->runAll();
+        $summary = $manager->getSummary();
+
+        wp_send_json_success([
+            'checks'     => array_values(array_map(fn($r) => $r->toArray(), $results)),
+            'categories' => $manager->getCategories(),
+            'summary'    => $summary,
+        ]);
     }
 
     /**
