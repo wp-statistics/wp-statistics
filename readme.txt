@@ -149,6 +149,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 = 14.16.5 - 2026-03-** =
 - **Enhancement:** Simplify WP Consent API consent level logic.
 - **Enhancement:** Hardened plugin security and improvement
+- **Enhancement:** Tested up to WordPress v7.0
 - **Fix:** Fixed an issue where the download/link tracker did not respect user role exclusion settings (e.g., Administrator), causing admin downloads to be recorded despite being excluded.
 
 = 14.16.4 - 2026-03-16 =
