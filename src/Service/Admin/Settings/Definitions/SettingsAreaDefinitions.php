@@ -117,21 +117,6 @@ class SettingsAreaDefinitions
                             ],
                         ],
                     ],
-                    'event-tracking' => [
-                        'title'       => __('Event Tracking', 'wp-statistics'),
-                        'description' => __('Track user interactions on your site such as outbound link clicks, file downloads, and custom events.', 'wp-statistics'),
-                        'order'       => 30,
-                        'fields'      => [
-                            'event_tracking' => [
-                                'type'        => 'toggle',
-                                'setting_key' => 'event_tracking',
-                                'label'       => __('Enable Event Tracking', 'wp-statistics'),
-                                'description' => __('Track outbound link clicks, file downloads, and other custom events on your site.', 'wp-statistics'),
-                                'default'     => false,
-                                'order'       => 10,
-                            ],
-                        ],
-                    ],
                 ],
             ],
 

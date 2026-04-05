@@ -111,7 +111,7 @@ class FrontendHandler extends BaseAssets
         return [
             'userOnline'        => Option::getValue('useronline'),
             'anonymousTracking' => (bool) Option::getValue('anonymous_tracking', false),
-            'eventTracking'     => (bool) Option::getValue('event_tracking', false),
+            'eventTracking'     => true,
             'trackingLevel'     => TrackingLevel::all(),
             'consent'           => $activeProvider->getJsConfig(),
             'isPreview'         => is_preview(),

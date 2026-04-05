@@ -7,7 +7,7 @@
 
 import { addFilter, applyFilters, addAction, doAction, removeFilter, removeAction } from './core/hooks.js';
 import { init } from './core/tracker.js';
-import { getResource, isEventTrackingEnabled } from './core/config.js';
+import { getResource } from './core/config.js';
 import * as queue from './transport/queue.js';
 
 // Public API
@@ -22,13 +22,11 @@ window.wp_statistics = {
 
     // Event API (used by premium + 3rd parties)
     addEvent: function (type, data) {
-        if (!isEventTrackingEnabled()) return;
         queue.add(type, data);
     },
 
     // Backward compat alias
     event: function (name, data) {
-        if (!isEventTrackingEnabled()) return;
         if (!data) data = {};
         data.timestamp = Date.now();
 

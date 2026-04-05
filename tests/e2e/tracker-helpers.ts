@@ -112,10 +112,6 @@ export function setTrackingMethod(method: 'rest' | 'ajax' | 'hybrid'): void {
   }
 }
 
-export function setEventTracking(enabled: boolean): void {
-  updateWpStatisticsOption('event_tracking', enabled)
-}
-
 export function setBypassAdBlockers(enabled: boolean): void {
   updateWpStatisticsOption('bypass_ad_blockers', enabled)
 }

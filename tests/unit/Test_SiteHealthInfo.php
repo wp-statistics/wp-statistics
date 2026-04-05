@@ -67,7 +67,6 @@ class Test_SiteHealthInfo extends WP_UnitTestCase
     public static function v15SettingKeysProvider(): array
     {
         return [
-            'eventTracking'            => ['eventTracking'],
             'trackPageViews'           => ['trackPageViews'],
             'hashRotationInterval'     => ['hashRotationInterval'],
             'consentIntegration'       => ['consentIntegration'],
@@ -161,7 +160,6 @@ class Test_SiteHealthInfo extends WP_UnitTestCase
     public static function toggleSettingsProvider(): array
     {
         return [
-            'eventTracking'       => ['eventTracking', 'event_tracking'],
             'consentIntegration'  => ['consentIntegration', 'consent_integration'],
             'emailReportsEnabled' => ['emailReportsEnabled', 'email_reports_enabled'],
             'deleteDataOnUninstall' => ['deleteDataOnUninstall', 'delete_data_on_uninstall'],

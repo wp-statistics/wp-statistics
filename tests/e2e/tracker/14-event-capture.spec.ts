@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test'
 import {
   setConsentPlugin,
   setBypassAdBlockers,
-  setEventTracking,
   waitForHitRequest,
   waitForBatchRequest,
 } from '../tracker-helpers'
@@ -17,11 +16,6 @@ test.describe('Event Capture', () => {
   test.beforeAll(() => {
     setConsentPlugin('none')
     setBypassAdBlockers(false)
-    setEventTracking(true)
-  })
-
-  test.afterAll(() => {
-    setEventTracking(false)
   })
 
   // ── Helper: set up page with navigation prevention ──────────
@@ -369,20 +363,5 @@ test.describe('Event Capture', () => {
       expect(eventConfig.capturers.file_download.fileExtensions).toContain('zip')
     })
 
-    test('event config not present when event_tracking disabled', async ({ page }) => {
-      setEventTracking(false)
-
-      await page.goto('/')
-      await page.waitForLoadState('domcontentloaded')
-
-      const eventConfig = await page.evaluate(
-        () => (window as any).WP_Statistics_Event_Config
-      )
-
-      // Script not enqueued when event_tracking is off
-      expect(eventConfig).toBeFalsy()
-
-      setEventTracking(true)
-    })
   })
 })

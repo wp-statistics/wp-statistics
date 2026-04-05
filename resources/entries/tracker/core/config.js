@@ -79,6 +79,3 @@ export function isAnonymousTracking() {
     return !!getOption('anonymousTracking', false);
 }
 
-export function isEventTrackingEnabled() {
-    return !!getOption('eventTracking', false);
-}

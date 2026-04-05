@@ -146,7 +146,6 @@ class Test_AnonymizedUsageDataProvider extends WP_UnitTestCase
         $main     = $settings['main'];
 
         $expectedKeys = [
-            'eventTracking',
             'trackPageViews',
             'hashRotationInterval',
             'consentIntegration',

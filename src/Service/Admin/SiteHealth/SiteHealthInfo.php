@@ -192,11 +192,6 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('bypass_ad_blockers') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('bypass_ad_blockers') ? 'Enabled' : 'Disabled',
             ],
-            'eventTracking'                 => [
-                'label' => esc_html__('Event Tracking', 'wp-statistics'),
-                'value' => Option::getValue('event_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('event_tracking') ? 'Enabled' : 'Disabled',
-            ],
             'trackPageViews'                => [
                 'label' => esc_html__('Track Page Views', 'wp-statistics'),
                 'value' => Option::getValue('pages', true) ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
