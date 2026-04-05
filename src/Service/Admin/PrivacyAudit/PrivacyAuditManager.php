@@ -7,7 +7,6 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Checks\HashRotationCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\ConsentIntegrationCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\ConsentConflictsCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\VisitorLoggingCheck;
-use WP_Statistics\Service\Admin\PrivacyAudit\Checks\AdBlockerBypassCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\DataRetentionCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\UninstallCleanupCheck;
 
@@ -22,7 +21,6 @@ class PrivacyAuditManager
         'consent_integration' => ConsentIntegrationCheck::class,
         'consent_conflicts'   => ConsentConflictsCheck::class,
         'visitor_logging'     => VisitorLoggingCheck::class,
-        'ad_blocker_bypass'   => AdBlockerBypassCheck::class,
         'data_retention'      => DataRetentionCheck::class,
         'uninstall_cleanup'   => UninstallCleanupCheck::class,
     ];

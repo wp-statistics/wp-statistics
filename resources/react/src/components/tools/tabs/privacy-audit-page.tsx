@@ -144,7 +144,7 @@ export function PrivacyAuditPage() {
     <div className="space-y-6">
       <NoticeBanner
         title={__('Privacy Audit', 'wp-statistics')}
-        message={__('This audit evaluates your current privacy settings against best practices for data protection. Review any warnings or failures and adjust your settings accordingly.', 'wp-statistics')}
+        message={__('This tool evaluates your current privacy settings against common best practices. It does not guarantee compliance with GDPR, CCPA, or any other regulation. Consult a legal professional for compliance advice.', 'wp-statistics')}
         type="neutral"
         icon={ShieldCheck}
         dismissible={false}
