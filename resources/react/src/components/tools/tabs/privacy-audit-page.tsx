@@ -21,7 +21,6 @@ import { callToolsApi } from '@/services/tools'
 interface PrivacyCheck {
   key: string
   label: string
-  description: string
   status: 'pass' | 'warning' | 'fail'
   message: string
   category: string
@@ -174,12 +173,7 @@ export function PrivacyAuditPage() {
           {summary.failCount > 0 && (
             <span className="flex items-center gap-1">
               <XCircle className="h-4 w-4 text-destructive" />
-              {sprintf(
-                summary.failCount > 1
-                  ? __('%d Failed', 'wp-statistics')
-                  : __('%d Failed', 'wp-statistics'),
-                summary.failCount
-              )}
+              {sprintf(__('%d Failed', 'wp-statistics'), summary.failCount)}
             </span>
           )}
         </div>
