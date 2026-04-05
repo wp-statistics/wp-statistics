@@ -28,6 +28,7 @@ interface PrivacyCheck {
 }
 
 interface PrivacyAuditResponse {
+  enabled: boolean
   checks: PrivacyCheck[]
   categories: Record<string, string>
   summary: {
@@ -127,6 +128,20 @@ export function PrivacyAuditPage() {
 
   if (!data) {
     return null
+  }
+
+  if (!data.enabled) {
+    return (
+      <div className="space-y-6">
+        <NoticeBanner
+          title={__('Privacy Audit Disabled', 'wp-statistics')}
+          message={__('Privacy audit is currently disabled. Enable it in Settings → Privacy to see audit results and privacy indicators.', 'wp-statistics')}
+          type="warning"
+          icon={ShieldCheck}
+          dismissible={false}
+        />
+      </div>
+    )
   }
 
   const { checks, categories, summary } = data

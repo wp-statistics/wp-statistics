@@ -5,7 +5,6 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\IpStorageCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\HashRotationCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\ConsentIntegrationCheck;
-use WP_Statistics\Service\Admin\PrivacyAudit\Checks\ConsentConflictsCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\VisitorLoggingCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\DataRetentionCheck;
 use WP_Statistics\Service\Admin\PrivacyAudit\Checks\UninstallCleanupCheck;
@@ -18,8 +17,7 @@ class PrivacyAuditManager
     private array $checkClasses = [
         'ip_storage'          => IpStorageCheck::class,
         'hash_rotation'       => HashRotationCheck::class,
-        'consent_integration' => ConsentIntegrationCheck::class,
-        'consent_conflicts'   => ConsentConflictsCheck::class,
+        'consent'             => ConsentIntegrationCheck::class,
         'visitor_logging'     => VisitorLoggingCheck::class,
         'data_retention'      => DataRetentionCheck::class,
         'uninstall_cleanup'   => UninstallCleanupCheck::class,

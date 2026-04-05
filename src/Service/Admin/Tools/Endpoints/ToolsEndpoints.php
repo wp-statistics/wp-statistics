@@ -3,12 +3,14 @@
 namespace WP_Statistics\Service\Admin\Tools\Endpoints;
 
 use WP_Statistics\Abstracts\BaseEndpoint;
+use WP_Statistics\Components\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Cron\DatabaseMaintenanceManager;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticManager;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;use WP_Statistics\Service\Admin\Tools\SystemInfoService;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
+use WP_Statistics\Service\Admin\Tools\SystemInfoService;
 use WP_Statistics\Service\Admin\Tools\BackgroundJobRegistry;
 use WP_Statistics\Service\Admin\Tools\OptionInspectionService;
 use Exception;
@@ -291,11 +293,24 @@ class ToolsEndpoints extends BaseEndpoint
      */
     protected function getPrivacyAudit(): void
     {
+        $enabled = Option::getValue('privacy_audit', true);
+
+        if (!$enabled) {
+            wp_send_json_success([
+                'enabled'    => false,
+                'checks'     => [],
+                'categories' => [],
+                'summary'    => ['passCount' => 0, 'warningCount' => 0, 'failCount' => 0],
+            ]);
+            return;
+        }
+
         $manager = new PrivacyAuditManager();
         $results = $manager->runAll();
         $summary = $manager->getSummary();
 
         wp_send_json_success([
+            'enabled'    => true,
             'checks'     => array_values($results),
             'categories' => $manager->getCategories(),
             'summary'    => $summary,

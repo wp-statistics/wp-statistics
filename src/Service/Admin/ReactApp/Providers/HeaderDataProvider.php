@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\ReactApp\Providers;
 
 use WP_Statistics\Components\Option;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\LocalizeDataProviderInterface;
 use WP_Statistics\Utils\User;
 
@@ -32,14 +33,29 @@ class HeaderDataProvider implements LocalizeDataProviderInterface
         $manageCap    = User::getExistingCapability(Option::getValue('manage_capability', 'manage_options'));
         $hasManageCap = $manageCap && current_user_can($manageCap);
 
+        $privacyStatus = ['enabled' => false];
+
+        if (Option::getValue('privacy_audit', true)) {
+            $manager = new PrivacyAuditManager();
+            $manager->runAll();
+            $summary = $manager->getSummary();
+
+            $privacyStatus = [
+                'enabled'      => true,
+                'failCount'    => $summary['failCount'],
+                'warningCount' => $summary['warningCount'],
+            ];
+        }
+
         $data = [
-            'premiumBadge' => [
+            'premiumBadge'   => [
                 // TODO: Check premium status from wp-statistics-premium plugin
                 'isActive' => is_plugin_active('wp-statistics-premium/wp-statistics-premium.php'),
                 'url'      => esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'),
                 'icon'     => 'Crown',
                 'label'    => esc_html__('Upgrade To Premium', 'wp-statistics'),
             ],
+            'privacy-status' => $privacyStatus,
         ];
 
         /**

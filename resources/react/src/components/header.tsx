@@ -1,5 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
-import { Bell, Menu, ShieldCheck } from 'lucide-react'
+import { Bell, Menu, ShieldAlert, ShieldCheck } from 'lucide-react'
 import { useState } from 'react'
 
 import { NotificationDrawer } from '@/components/notification-drawer'
@@ -14,7 +14,12 @@ export function Header() {
   const navigate = useNavigate()
 
   const wp = WordPress.getInstance()
-  const privacyStatus = wp.data.header?.['privacy-status']?.isActive !== false ? 'compliant' : 'warning'
+  const privacyData = wp.data.header?.['privacy-status']
+  const privacyEnabled = privacyData?.enabled === true
+  const privacyStatus = !privacyEnabled ? 'hidden'
+    : privacyData.failCount > 0 ? 'fail'
+    : privacyData.warningCount > 0 ? 'warning'
+    : 'compliant'
   const notificationsEnabled = wp.isNotificationsEnabled()
 
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -44,19 +49,26 @@ export function Header() {
         {window.wpsHeaderExtensions?.map((Extension, i) => <Extension key={i} />)}
 
         {/* Privacy Status Icon */}
-        <button
-          className={`
-            group relative flex items-center justify-center h-8 w-8 rounded-md transition-colors
-            ${privacyStatus === 'compliant'
-              ? 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 dark:hover:bg-emerald-400/10'
-              : 'text-amber-500 dark:text-amber-400 hover:bg-amber-500/10 dark:hover:bg-amber-400/10'
+        {privacyStatus !== 'hidden' && (
+          <button
+            className={`
+              group relative flex items-center justify-center h-8 w-8 rounded-md transition-colors
+              ${privacyStatus === 'compliant'
+                ? 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 dark:hover:bg-emerald-400/10'
+                : privacyStatus === 'fail'
+                  ? 'text-destructive dark:text-red-400 hover:bg-red-500/10 dark:hover:bg-red-400/10'
+                  : 'text-amber-500 dark:text-amber-400 hover:bg-amber-500/10 dark:hover:bg-amber-400/10'
+              }
+            `}
+            aria-label={`Privacy status: ${privacyStatus}`}
+            onClick={() => void navigate({ to: '/tools/privacy-audit' })}
+          >
+            {privacyStatus === 'compliant'
+              ? <ShieldCheck className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
+              : <ShieldAlert className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
             }
-          `}
-          aria-label={`Privacy status: ${privacyStatus}`}
-          onClick={() => void navigate({ to: '/tools/privacy-audit' })}
-        >
-          <ShieldCheck className="h-[18px] w-[18px] transition-transform group-hover:scale-105" />
-        </button>
+          </button>
+        )}
 
         {/* Notifications Icon */}
         <button
