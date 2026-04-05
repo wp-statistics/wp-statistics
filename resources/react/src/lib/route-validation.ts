@@ -1,6 +1,9 @@
 /**
  * Shared route validation utilities for parsing URL search parameters.
  * Consolidates duplicated validation logic from route files.
+ *
+ * Filter URL format (bracket notation):
+ *   filter[country]=in:JP,CN&filter[browser]=eq:Chrome
  */
 
 /**
@@ -14,16 +17,26 @@ export interface UrlFilter {
 }
 
 /**
- * Base search params that all routes can extend
+ * Base search params that all routes can extend.
+ * Note: 'filters' is NOT included here to prevent TanStack Router from serializing
+ * it as JSON. Filters are stored as bracket notation params (filter[field]=op:value)
+ * and parsed by global-filters-context.tsx.
  */
 export interface BaseSearchParams {
-  filters?: UrlFilter[]
   page?: number
   // Global date params for hybrid URL + preferences approach
   date_from?: string
   date_to?: string
   previous_date_from?: string
   previous_date_to?: string
+  // Sorting params for data tables
+  order_by?: string
+  order?: 'asc' | 'desc'
+  // Back-navigation: stores the originating route so back buttons can return there
+  from?: string
+  // Bracket notation filter params are passed through as strings
+  // e.g., 'filter[country]': 'eq:US'
+  [key: `filter[${string}]`]: string
 }
 
 /**
@@ -35,61 +48,6 @@ export interface SearchValidatorOptions {
    * @default true
    */
   includePage?: boolean
-}
-
-/**
- * Type guard to check if a value is a valid UrlFilter
- */
-const isUrlFilter = (f: unknown): f is UrlFilter =>
-  typeof f === 'object' &&
-  f !== null &&
-  typeof (f as UrlFilter).field === 'string' &&
-  typeof (f as UrlFilter).operator === 'string' &&
-  (f as UrlFilter).value !== undefined
-
-/**
- * Parses filter string from URL, handling WordPress query param interference.
- * WordPress's "?page=wp-statistics" can get mixed with hash router params,
- * causing malformed JSON. This function cleans the string before parsing.
- */
-const parseFilterString = (filterString: string): unknown[] | undefined => {
-  try {
-    let cleanString = filterString
-    // Find the last ] that closes the JSON array, then remove anything after it
-    const lastBracketIndex = cleanString.lastIndexOf(']')
-    if (lastBracketIndex !== -1 && lastBracketIndex < cleanString.length - 1) {
-      cleanString = cleanString.substring(0, lastBracketIndex + 1)
-    }
-    const parsed = JSON.parse(cleanString)
-    if (Array.isArray(parsed)) {
-      return parsed
-    }
-  } catch {
-    // Invalid JSON, ignore
-  }
-  return undefined
-}
-
-/**
- * Parses filters from search params (handles both array and JSON string)
- */
-const parseFilters = (searchFilters: unknown): UrlFilter[] | undefined => {
-  let filtersArray: unknown[] | undefined
-
-  if (searchFilters) {
-    if (Array.isArray(searchFilters)) {
-      filtersArray = searchFilters
-    } else if (typeof searchFilters === 'string') {
-      filtersArray = parseFilterString(searchFilters)
-    }
-  }
-
-  if (filtersArray) {
-    const validFilters = filtersArray.filter(isUrlFilter)
-    return validFilters.length > 0 ? validFilters : undefined
-  }
-
-  return undefined
 }
 
 /**
@@ -119,6 +77,25 @@ const parseDate = (searchDate: unknown): string | undefined => {
 }
 
 /**
+ * Parses order_by column name from search params
+ * Only allows alphanumeric and underscore characters for security
+ */
+const parseOrderBy = (orderBy: unknown): string | undefined => {
+  if (typeof orderBy !== 'string') return undefined
+  // Only allow alphanumeric and underscore (valid column names)
+  if (!/^[a-zA-Z][a-zA-Z0-9_]*$/.test(orderBy)) return undefined
+  return orderBy
+}
+
+/**
+ * Parses order direction from search params
+ */
+const parseOrder = (order: unknown): 'asc' | 'desc' | undefined => {
+  if (order === 'asc' || order === 'desc') return order
+  return undefined
+}
+
+/**
  * Creates a search params validator function for TanStack Router.
  *
  * @example
@@ -139,11 +116,15 @@ export function createSearchValidator<T extends BaseSearchParams = BaseSearchPar
   const { includePage = true } = options
 
   return (search: Record<string, unknown>): T => {
-    const result: BaseSearchParams = {}
+    const result: Record<string, unknown> = {}
 
-    const filters = parseFilters(search.filters)
-    if (filters) {
-      result.filters = filters
+    // Pass through bracket notation filter params as-is (they're strings)
+    // These will be parsed by global-filters-context.tsx
+    // DO NOT parse filters here and add as 'filters' array - TanStack Router would serialize it as JSON
+    for (const [key, value] of Object.entries(search)) {
+      if (key.startsWith('filter[') && typeof value === 'string') {
+        result[key] = value
+      }
     }
 
     if (includePage) {
@@ -168,6 +149,20 @@ export function createSearchValidator<T extends BaseSearchParams = BaseSearchPar
         result.previous_date_from = previousDateFrom
         result.previous_date_to = previousDateTo
       }
+    }
+
+    // Parse sorting params
+    const orderBy = parseOrderBy(search.order_by)
+    const order = parseOrder(search.order)
+    if (orderBy) {
+      result.order_by = orderBy
+      // Only include order if order_by is present, default to 'desc' if not specified
+      result.order = order || 'desc'
+    }
+
+    // Parse back-navigation `from` param (must be an internal path starting with /)
+    if (typeof search.from === 'string' && search.from.startsWith('/')) {
+      result.from = search.from
     }
 
     return result as T

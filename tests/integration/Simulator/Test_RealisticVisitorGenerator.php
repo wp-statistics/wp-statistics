@@ -87,7 +87,7 @@ class Test_RealisticVisitorGenerator extends SimulatorTestCase
 
         $data = $generator->generate();
 
-        $this->assertEquals('wp_statistics_hit_record', $data['action']);
+        $this->assertEquals('wp_statistics_collect', $data['action']);
     }
 
     /**

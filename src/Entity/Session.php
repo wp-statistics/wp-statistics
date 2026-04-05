@@ -4,9 +4,10 @@ namespace WP_Statistics\Entity;
 
 use WP_Statistics\Abstracts\BaseEntity;
 use WP_Statistics\Components\DateTime;
-use WP_Statistics\Components\Option;
+use WP_Statistics\Entity\EntityFactory;
 use WP_Statistics\Models\SessionModel;
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Utils\Query;
 
 /**
  * Entity to record session-related information.
@@ -16,82 +17,44 @@ use WP_Statistics\Records\RecordFactory;
 class Session extends BaseEntity
 {
     /**
-     * Entity for creating and managing visitor sessions.
+     * Record a session: reuse an active one or create a new one.
      *
-     * This handles the logic for either opening a new session or
-     * updating an existing open session, and tracking visitor activity
-     * such as total views, resource changes, and session metadata.
+     * This is the standard entity entry point following the convention
+     * used by Visitor, Device, Geo, etc. The Tracker calls getActive()
+     * and create() directly for finer control over dimension
+     * resolution, but external callers can use this.
+     *
+     * @param int   $visitorId  The visitor ID.
+     * @param array $deviceIds  Device-related IDs.
+     * @param array $geoIds     Geographic IDs (country_id, city_id).
+     * @param array $localeIds  Locale IDs (language_id, timezone_id).
+     * @param int   $referrerId The referrer ID.
+     * @return int The session ID, or 0 if tracking is inactive.
      */
-    public function record()
+    public function record(int $visitorId, array $deviceIds, array $geoIds, array $localeIds, int $referrerId): int
     {
-        if (!$this->isActive('sessions')) {
-            return $this;
+        if (!$this->isActive('sessions') || !$visitorId) {
+            return 0;
         }
 
-        $visitorId = $this->profile->getVisitorIdMeta();
+        $activeSession = $this->getActive($visitorId);
 
-        if (!$visitorId) {
-            return $this;
-        }
-
-        $activeSession = $this->getActive();
-
-        if ($activeSession && isset($activeSession->ID)) {
-            $newViews = ((int)$activeSession->total_views) + 1;
-            $userId   = empty($activeSession->user_id) ? $this->profile->getUserId() : $activeSession->user_id;
-
-            $newData = [];
-            if (Option::getValue('attribution_model') === 'last-touch') {
-                $newData['referrer_id'] = $this->profile->getReferrerId();
-            }
-
-            $newData = [
-                'total_views' => $newViews,
-                'user_id'     => $userId,
-            ];
-
-            RecordFactory::session($activeSession)->update($newData);
-
-            $this->profile->setSessionId((int)$activeSession->ID);
-            return $this;
-        }
-
-        $sessionId = (int)RecordFactory::session()->insert([
-            'visitor_id'                => $visitorId,
-            'ip'                        => $this->profile->getProcessedIPForStorage(),
-            'referrer_id'               => $this->profile->getReferrerId(),
-            'country_id'                => $this->profile->getCountryId(),
-            'city_id'                   => $this->profile->getCityId(),
-            'initial_view_id'           => $this->profile->getViewId(),
-            'last_view_id'              => $this->profile->getViewId(),
-            'total_views'               => 1,
-            'device_type_id'            => $this->profile->getDeviceTypeId(),
-            'device_os_id'              => $this->profile->getDeviceOsId(),
-            'device_browser_id'         => $this->profile->getDeviceBrowserId(),
-            'device_browser_version_id' => $this->profile->getDeviceBrowserVersionId(),
-            'resolution_id'             => $this->profile->getResolutionId(),
-            'language_id'               => $this->profile->getLanguageId(),
-            'timezone_id'               => $this->profile->getTimezoneId(),
-            'user_id'                   => $this->profile->getUserId(),
-            'started_at'                => DateTime::getUtc(),
-        ]);
-
-        $this->profile->setSessionId($sessionId);
-        return $this;
+        return $activeSession
+            ? (int) $activeSession->ID
+            : $this->create($visitorId, $deviceIds, $geoIds, $localeIds, $referrerId);
     }
 
     /**
-     * Check if an active session exists for the current visitor.
+     * Check if an active session exists for the given visitor.
      *
      * Returns a session that started today and is either still active
      * or ended within the last 30 minutes.
      *
-     * @return object|false
+     * @param int $visitorId The visitor ID to check.
+     * @return object|false The session record, or false if none is active.
      */
-    public function getActive()
+    public function getActive(int $visitorId)
     {
-        $visitorId = $this->profile->getVisitorIdMeta();
-
         if (!$visitorId) {
             return false;
         }
@@ -104,59 +67,150 @@ class Session extends BaseEntity
     }
 
     /**
-     * Update the current session's view tracking information.
+     * Create a new session with all dimension references.
      *
-     * This method sets the `last_view_id` and `ended_at` timestamp for the session.
-     * If the session does not yet have an `initial_view_id`, it will be set to the provided `$viewId`.
+     * @param int   $visitorId  The visitor ID.
+     * @param array $deviceIds  Device-related IDs (type_id, os_id, browser_id, browser_version_id, resolution_id).
+     * @param array $geoIds     Geographic IDs (country_id, city_id).
+     * @param array $localeIds  Locale IDs (language_id, timezone_id).
+     * @param int   $referrerId The referrer ID.
+     * @return int The new session ID.
+     */
+    public function create(int $visitorId, array $deviceIds, array $geoIds, array $localeIds, int $referrerId): int
+    {
+        $sessionId = (int)RecordFactory::session()->insert([
+            'visitor_id'                => $visitorId,
+            'referrer_id'               => $referrerId,
+            'country_id'                => $geoIds['country_id'],
+            'city_id'                   => $geoIds['city_id'],
+            'initial_view_id'           => 0,
+            'last_view_id'              => 0,
+            'total_views'               => 1,
+            'device_type_id'            => $deviceIds['type_id'],
+            'device_os_id'              => $deviceIds['os_id'],
+            'device_browser_id'         => $deviceIds['browser_id'],
+            'device_browser_version_id' => $deviceIds['browser_version_id'],
+            'resolution_id'             => $deviceIds['resolution_id'],
+            'language_id'               => $localeIds['language_id'],
+            'timezone_id'               => $localeIds['timezone_id'],
+            'user_id'                   => $this->visitor->getUserId(),
+            'started_at'                => DateTime::getUtc(),
+            'duration'                  => 0,
+        ]);
+
+        // Record UTM parameters for this new session (first-touch attribution)
+        EntityFactory::parameter($this->visitor)->record($sessionId);
+
+        return $sessionId;
+    }
+
+    /**
+     * Update the session after a view has been recorded.
      *
-     * @param int $viewId The ID of the most recent view in the session.
-     * @param string $endAt The datetime string (Y-m-d H:i:s) when the session is considered ended.
+     * Always sets last_view_id, ended_at, and conditionally initial_view_id.
      *
+     * For reused sessions ($activeSession provided): also increments total_views,
+     * sets user_id, and optionally updates dimension FKs (last-touch attribution).
+     *
+     * For new sessions ($activeSession is null): only updates view tracking fields
+     * since dimensions were already set during create().
+     *
+     * @param int         $sessionId     The session ID.
+     * @param int         $viewId        The new view's ID.
+     * @param object|null $activeSession The reused session record, or null for new sessions.
+     * @param array|null  $deviceIds     Device IDs for last-touch, or null to skip.
+     * @param array|null  $geoIds        Geo IDs for last-touch, or null to skip.
+     * @param array|null  $localeIds     Locale IDs for last-touch, or null to skip.
+     * @param int|null    $referrerId    Referrer ID for last-touch, or null to skip.
      * @return void
      */
-    public function updateInitialView($viewId, $endAt)
-    {
-        $sessionId = $this->profile->getSessionId();
-
+    public function update(
+        int $sessionId,
+        int $viewId,
+        ?object $activeSession = null,
+        ?array $deviceIds = null,
+        ?array $geoIds = null,
+        ?array $localeIds = null,
+        ?int $referrerId = null
+    ): void {
         if (!$sessionId || $viewId < 1) {
             return;
         }
 
-        $session = RecordFactory::session()->get(['ID' => $sessionId]);
-
-        if (!$session || !isset($session->ID)) {
-            return;
-        }
-
-        $updates = [
+        // Build all SET values before where() — the Query builder shares a
+        // single $valuesToPrepare array, so ordering matters for alignment.
+        $data = [
             'last_view_id' => $viewId,
-            'ended_at'     => $endAt,
-            'duration'     => $this->calculateDuration($endAt, $session->started_at)
+            'ended_at'     => DateTime::getUtc(),
         ];
 
-        if (empty($session->initial_view_id)) {
-            $updates['initial_view_id'] = $viewId;
+        if ($activeSession) {
+            $data['total_views'] = ((int) $activeSession->total_views) + 1;
+            $data['user_id']     = empty($activeSession->user_id) ? $this->visitor->getUserId() : $activeSession->user_id;
+
+            if ($deviceIds !== null) {
+                $data['device_type_id']            = $deviceIds['type_id'];
+                $data['device_os_id']              = $deviceIds['os_id'];
+                $data['device_browser_id']         = $deviceIds['browser_id'];
+                $data['device_browser_version_id'] = $deviceIds['browser_version_id'];
+                $data['resolution_id']             = $deviceIds['resolution_id'];
+            }
+
+            if ($geoIds !== null) {
+                $data['country_id'] = $geoIds['country_id'];
+                $data['city_id']    = $geoIds['city_id'];
+            }
+
+            if ($localeIds !== null) {
+                $data['language_id'] = $localeIds['language_id'];
+                $data['timezone_id'] = $localeIds['timezone_id'];
+            }
+
+            if ($referrerId !== null) {
+                $data['referrer_id'] = $referrerId;
+            }
         }
 
-        RecordFactory::session($session)->update($updates);
+        Query::update('sessions')
+            ->set($data)
+            ->setRaw('initial_view_id', sprintf(
+                'CASE WHEN `initial_view_id` = 0 OR `initial_view_id` IS NULL THEN %d ELSE `initial_view_id` END',
+                $viewId
+            ))
+            ->where('ID', '=', $sessionId)
+            ->execute();
     }
 
     /**
-     * Calculate session duration in seconds.
+     * Atomically increment the engagement duration for the visitor's active session.
      *
-     * @param string $endAt The end timestamp.
-     * @param string $startedAt The start timestamp.
-     * @return int Duration in seconds, or 0 if invalid.
+     * Uses the visitor's hashed IP to find the active session, then increments
+     * the duration with SQL COALESCE + addition (atomic, no race conditions).
+     *
+     * @param int $engagementTimeMs Engagement time in milliseconds.
+     * @return bool True if a session was found and updated.
+     * @since 15.0.0
      */
-    public function calculateDuration($endAt, $startedAt)
+    public function updateEngagement(int $engagementTimeMs): bool
     {
-        $start = strtotime($startedAt);
-        $end   = strtotime($endAt);
+        $engagementTimeSec = (int) round($engagementTimeMs / 1000);
 
-        if ($start === false || $end === false || $end <= $start) {
-            return 0;
+        if ($engagementTimeSec < 1) {
+            return false;
         }
 
-        return $end - $start;
+        $session = (new SessionModel())->getActiveSessionByHash($this->visitor->getHashedIp());
+
+        if (!$session || empty($session->ID)) {
+            return false;
+        }
+
+        Query::update('sessions')
+            ->set(['ended_at' => DateTime::getUtc()])
+            ->setRaw('duration', 'COALESCE(`duration`, 0) + ' . intval($engagementTimeSec))
+            ->where('ID', '=', $session->ID)
+            ->execute();
+
+        return true;
     }
 }

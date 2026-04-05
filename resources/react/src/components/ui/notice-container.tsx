@@ -1,30 +1,39 @@
 import * as React from 'react'
-import { useState, useCallback } from 'react'
+import { useCallback,useState } from 'react'
 
 import { NoticeBanner } from '@/components/ui/notice-banner'
-import { WordPress } from '@/lib/wordpress'
 import { cn } from '@/lib/utils'
+import { WordPress } from '@/lib/wordpress'
 
 export interface NoticeContainerProps {
   /**
    * Additional CSS classes
    */
   className?: string
+  /**
+   * Current route/page slug for filtering page-specific notices.
+   * If not provided, only global notices (with empty pages array) will be shown.
+   */
+  currentRoute?: string
 }
 
 /**
  * Container component that renders all active notices.
  *
  * Fetches notices from WordPress localized data and handles
- * dismissal via AJAX.
+ * dismissal via AJAX. Supports page-specific notices via the
+ * `currentRoute` prop.
  *
  * @example
  * ```tsx
- * // In your layout component
+ * // Show all notices for this page
+ * <NoticeContainer className="mb-4" currentRoute="geographic" />
+ *
+ * // Show only global notices
  * <NoticeContainer className="mb-4" />
  * ```
  */
-export function NoticeContainer({ className }: NoticeContainerProps) {
+export function NoticeContainer({ className, currentRoute }: NoticeContainerProps) {
   const wp = WordPress.getInstance()
   const initialNotices = wp.getNoticeItems()
 
@@ -55,10 +64,17 @@ export function NoticeContainer({ className }: NoticeContainerProps) {
     [wp]
   )
 
-  // Filter out dismissed notices
-  const activeNotices = initialNotices.filter(
-    (notice) => !dismissed.includes(notice.id)
-  )
+  // Filter notices based on dismissal status and page targeting
+  const activeNotices = initialNotices.filter((notice) => {
+    // Skip dismissed notices
+    if (dismissed.includes(notice.id)) return false
+
+    // If notice has no pages specified (empty array or undefined), show on all pages
+    if (!notice.pages || notice.pages.length === 0) return true
+
+    // Otherwise, check if current route matches one of the notice's target pages
+    return currentRoute && notice.pages.includes(currentRoute)
+  })
 
   if (!activeNotices.length) {
     return null

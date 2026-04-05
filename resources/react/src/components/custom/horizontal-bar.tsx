@@ -1,5 +1,7 @@
+import { Link, useLocation } from '@tanstack/react-router'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
+import { ComparisonTooltipHeader } from '@/components/custom/comparison-tooltip-header'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { semanticColors } from '@/constants/design-tokens'
 import { cn, formatCompactNumber } from '@/lib/utils'
@@ -8,12 +10,20 @@ export interface HorizontalBarProps {
   icon?: React.ReactNode
   label: string
   value: string | number
-  percentage: string | number
+  percentage?: string | number
   fillPercentage?: number // 0-100, proportion of total for bar fill
   isNegative?: boolean
-  tooltipTitle?: string
   tooltipSubtitle?: string
+  /** Date range comparison header for tooltip (e.g., "Dec 16 - Jan 12 vs. Nov 18 - Dec 15") */
+  comparisonDateLabel?: string
   isFirst?: boolean
+  showComparison?: boolean // Whether to show the percentage change indicator
+  showBar?: boolean // Whether to show the bottom progress bar (default: true)
+  highlightFirst?: boolean // Whether to highlight first item with bold styling (default: true)
+  /** Optional internal link to navigate to when label is clicked */
+  linkTo?: string
+  /** Optional params for internal link (e.g., { postId: '123' }) */
+  linkParams?: Record<string, string>
 }
 
 export function HorizontalBar({
@@ -23,10 +33,20 @@ export function HorizontalBar({
   percentage,
   fillPercentage,
   isNegative = false,
-  tooltipTitle,
   tooltipSubtitle,
+  comparisonDateLabel,
   isFirst = false,
+  showComparison = true,
+  showBar = true,
+  highlightFirst = true,
+  linkTo,
+  linkParams,
 }: HorizontalBarProps) {
+  const { pathname } = useLocation()
+
+  // Ensure label is always a string
+  const safeLabel = label || ''
+
   // Use fillPercentage for bar width (proportion of total), default to 0 if not provided
   const barWidth = fillPercentage !== undefined ? Math.min(Math.max(fillPercentage, 0), 100) : 0
 
@@ -40,33 +60,43 @@ export function HorizontalBar({
 
   // Truncate long labels
   const maxLabelLength = 25
-  const needsTruncation = label.length > maxLabelLength
-  const truncatedLabel = needsTruncation ? `${label.substring(0, maxLabelLength - 1)}…` : label
+  const needsTruncation = safeLabel.length > maxLabelLength
+  const truncatedLabel = needsTruncation ? `${safeLabel.substring(0, maxLabelLength - 1)}…` : safeLabel
+
+  // Label text element - either as link or plain text
+  const labelTextElement = linkTo ? (
+    <Link
+      to={linkTo}
+      params={linkParams}
+      search={{ from: pathname }}
+      className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px] hover:text-primary hover:underline"
+    >
+      {truncatedLabel}
+    </Link>
+  ) : (
+    <span className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px]">
+      {truncatedLabel}
+    </span>
+  )
 
   const content = (
     <div
       className={cn(
-        'relative bg-white rounded-sm overflow-hidden w-full',
+        'relative bg-background w-full',
         // Responsive padding
-        'p-3 md:p-2'
+        'px-0 pt-3 pb-2 md:pt-2 md:pb-1.5'
       )}
     >
-      <div className="absolute inset-0 transition-all bg-[#F2F0FF]" style={{ width: `${barWidth}%` }} />
-
-      <div className="relative flex items-center justify-between gap-3 md:gap-4">
+      <div className="flex items-center justify-between gap-3 md:gap-4">
         <div className="flex items-center gap-2 leading-0 min-w-0">
           {icon && <span className="text-lg md:text-xl leading-none shrink-0">{icon}</span>}
           {needsTruncation ? (
             <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px]">
-                  {truncatedLabel}
-                </span>
-              </TooltipTrigger>
-              <TooltipContent side="top">{label}</TooltipContent>
+              <TooltipTrigger asChild>{labelTextElement}</TooltipTrigger>
+              <TooltipContent side="top">{safeLabel}</TooltipContent>
             </Tooltip>
           ) : (
-            <span className="text-xs font-medium text-neutral-700 truncate">{label}</span>
+            labelTextElement
           )}
         </div>
 
@@ -74,42 +104,49 @@ export function HorizontalBar({
           <span
             className={cn(
               'text-xs tabular-nums',
-              isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600'
+              highlightFirst && isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600'
             )}
           >
             {displayValue}
           </span>
-          <span
-            className={cn(
-              'inline-flex items-center gap-0.5 text-[10px] md:text-[11px] font-medium tabular-nums',
-              isNegative ? semanticColors.trendNegative : semanticColors.trendPositive
-            )}
-          >
-            {isNegative ? (
-              <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
-            ) : (
-              <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
-            )}
-            {displayPercentage}%
-          </span>
+          {showComparison && percentage !== undefined && (
+            <span
+              className={cn(
+                'inline-flex items-center gap-0.5 text-[11px] md:text-xs font-medium tabular-nums',
+                isNegative ? semanticColors.trendNegative : semanticColors.trendPositive
+              )}
+            >
+              {isNegative ? (
+                <ChevronDown className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
+              ) : (
+                <ChevronUp className="h-3 w-3 -mr-0.5" strokeWidth={2.5} />
+              )}
+              {displayPercentage}%
+            </span>
+          )}
         </div>
+      </div>
+      {/* Bottom bar indicator - GA4 style */}
+      <div className="mt-1.5 h-0.5 bg-neutral-100 rounded-full overflow-hidden">
+        {showBar && (
+          <div
+            className="h-full rounded-full transition-all opacity-70"
+            style={{ width: `${barWidth}%`, backgroundColor: 'var(--chart-5)' }}
+          />
+        )}
       </div>
     </div>
   )
 
-  if (tooltipTitle || tooltipSubtitle) {
+  if (tooltipSubtitle) {
     return (
       <Tooltip>
         <TooltipTrigger asChild>{content}</TooltipTrigger>
-        <TooltipContent side="top" className="p-2.5">
-          <div className="flex flex-col gap-1.5">
-            <div className="font-medium text-neutral-100">{tooltipTitle}</div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm leading-none">{icon}</span>
-              <span className="text-neutral-300">{label}</span>
-            </div>
-            <div className="flex items-center gap-4 justify-between border-t border-neutral-700 pt-1.5 mt-0.5">
-              <span className="text-neutral-400">{tooltipSubtitle}</span>
+        <TooltipContent side="top" className="px-2.5 py-1.5">
+          <ComparisonTooltipHeader label={comparisonDateLabel} />
+          <div className="flex items-center gap-4 justify-between">
+            <span className="text-neutral-100">{tooltipSubtitle}</span>
+            {showComparison && percentage !== undefined && (
               <div className="flex items-center font-medium">
                 <span className={isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight}>
                   {isNegative ? (
@@ -118,11 +155,16 @@ export function HorizontalBar({
                     <ChevronUp className="h-3.5 w-3.5" strokeWidth={2.5} />
                   )}
                 </span>
-                <span className={cn('tabular-nums', isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight)}>
+                <span
+                  className={cn(
+                    'tabular-nums',
+                    isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight
+                  )}
+                >
                   {displayPercentage}%
                 </span>
               </div>
-            </div>
+            )}
           </div>
         </TooltipContent>
       </Tooltip>

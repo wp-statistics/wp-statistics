@@ -56,7 +56,7 @@ class AuthorFilter extends AbstractFilter
      *
      * @var array Groups: views
      */
-    protected $groups = ['views'];
+    protected $groups = ['views', 'individual-content', 'individual-author'];
 
     /**
      * Required JOINs to access the column.
@@ -72,7 +72,7 @@ class AuthorFilter extends AbstractFilter
         [
             'table' => 'resources',
             'alias' => 'resources',
-            'on'    => 'resource_uris.resource_id = resources.ID',
+            'on'    => 'resource_uris.resource_id = resources.ID AND resources.is_deleted = 0',
         ],
     ];
 

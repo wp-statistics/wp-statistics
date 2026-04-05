@@ -320,8 +320,8 @@ class DiagnosticManager
      */
     public function clearCache(): void
     {
-        delete_transient('wps_' . self::CACHE_KEY_LIGHTWEIGHT);
-        delete_transient('wps_' . self::CACHE_KEY_FULL);
+        delete_transient($this->getCacheKey(self::CACHE_KEY_LIGHTWEIGHT));
+        delete_transient($this->getCacheKey(self::CACHE_KEY_FULL));
     }
 
     /**

@@ -65,7 +65,6 @@ class Uninstaller
     private static $cronHooks = [
         // Current v15 hooks
         'wp_statistics_dbmaint_hook',
-        'wp_statistics_referrerspam_hook',
         'wp_statistics_geoip_hook',
         'wp_statistics_email_report',
         'wp_statistics_queue_daily_summary',
@@ -78,6 +77,7 @@ class Uninstaller
         'wp_statistics_anonymized_share_data_hook',
 
         // Legacy hooks (v14 cleanup)
+        'wp_statistics_referrerspam_hook',
         'wp_statistics_report_hook',
         'wp_statistics_notification_hook',
         'wp_statistics_dbmaint_visitor_hook',

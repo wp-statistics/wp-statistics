@@ -1,13 +1,28 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+import { getWpToday, parseDateString } from '@/lib/wp-date'
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
 export const getToday = (): string => {
-  const today = new Date()
-  return today.toISOString().split('T')[0]
+  const today = getWpToday()
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const day = String(today.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+/**
+ * Check if a date string represents today's date in WordPress timezone
+ */
+export function isToday(dateString: string): boolean {
+  const today = getWpToday()
+  const checkDate = parseDateString(dateString)
+  checkDate.setHours(0, 0, 0, 0)
+  return today.getTime() === checkDate.getTime()
 }
 
 export const formatDateForAPI = (date: Date): string => {
@@ -92,4 +107,24 @@ export function calcSharePercentage(part: number, total: number): number {
   if (total <= 0 || part <= 0) return 0
   const percentage = (part / total) * 100
   return Math.min(percentage, 100)
+}
+
+/**
+ * Extract total value from API response
+ * Handles both flat values and { current, previous } structure
+ *
+ * @example
+ * getTotalValue(100)                    // 100
+ * getTotalValue("100")                  // 100
+ * getTotalValue({ current: 100 })       // 100
+ * getTotalValue({ current: "100" })     // 100
+ * getTotalValue(null)                   // 0
+ */
+export function getTotalValue(total: unknown): number {
+  if (typeof total === 'number') return total
+  if (typeof total === 'string') return Number(total) || 0
+  if (total && typeof total === 'object') {
+    return Number((total as { current?: number | string }).current) || 0
+  }
+  return 0
 }

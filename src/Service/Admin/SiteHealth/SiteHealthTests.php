@@ -101,7 +101,7 @@ class SiteHealthTests extends Singleton
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s">%s</a></p>',
-                    esc_url(admin_url('admin.php?page=wps_settings_page&tab=externals-settings')),
+                    esc_url(admin_url('admin.php?page=wp-statistics#/settings/advanced')),
                     __('Go to Settings', 'wp-statistics')
                 ),
                 'test'        => 'wp_statistics_geoip_exists',
@@ -123,7 +123,7 @@ class SiteHealthTests extends Singleton
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s">%s</a></p>',
-                    esc_url(admin_url('admin.php?page=wps_settings_page&tab=externals-settings')),
+                    esc_url(admin_url('admin.php?page=wp-statistics#/settings/advanced')),
                     __('Re-download Database', 'wp-statistics')
                 ),
                 'test'        => 'wp_statistics_geoip_exists',
@@ -197,7 +197,7 @@ class SiteHealthTests extends Singleton
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s">%s</a></p>',
-                    esc_url(admin_url('admin.php?page=wps_settings_page&tab=externals-settings')),
+                    esc_url(admin_url('admin.php?page=wp-statistics#/settings/advanced')),
                     __('Update Database', 'wp-statistics')
                 ),
                 'test'        => 'wp_statistics_geoip_freshness',
@@ -247,7 +247,7 @@ class SiteHealthTests extends Singleton
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s">%s</a></p>',
-                    esc_url(admin_url('admin.php?page=wps_settings_page')),
+                    esc_url(admin_url('admin.php?page=wp-statistics#/settings/general')),
                     __('Go to Settings', 'wp-statistics')
                 ),
                 'test'        => 'wp_statistics_database_schema',
@@ -268,7 +268,7 @@ class SiteHealthTests extends Singleton
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s">%s</a></p>',
-                    esc_url(admin_url('admin.php?page=wps_overview_page')),
+                    esc_url(admin_url('admin.php?page=wp-statistics#/overview')),
                     __('Go to Dashboard', 'wp-statistics')
                 ),
                 'test'        => 'wp_statistics_database_schema',
@@ -313,7 +313,7 @@ class SiteHealthTests extends Singleton
                 ),
                 'actions'     => sprintf(
                     '<p><a href="%s">%s</a></p>',
-                    esc_url(admin_url('admin.php?page=wps_settings_page')),
+                    esc_url(admin_url('admin.php?page=wp-statistics#/settings/general')),
                     __('Enable Tracking', 'wp-statistics')
                 ),
                 'test'        => 'wp_statistics_tracking',

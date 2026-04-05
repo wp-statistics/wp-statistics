@@ -20,7 +20,7 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Admin\ReactApp\Managers\LocalizeDataManager;
 use WP_Statistics\Service\Admin\Dashboard\Endpoints\AjaxManager;
 use WP_Statistics\Service\Blocks\BlocksManager;
-use WP_Statistics\Service\Tracking\TrackerControllerFactory;
+use WP_Statistics\Service\Tracking\TrackerManager;
 
 echo "=============================================================\n";
 echo "  Managers Lazy Loading Performance Benchmark\n";
@@ -75,14 +75,14 @@ gc_collect_cycles();
 $memBefore = get_memory_usage_kb();
 $timeBefore = microtime(true);
 
-$emailEvent = $cronManager->getEvent('email_report');
+$dbMaintenanceEvent = $cronManager->getEvent('database_maintenance');
 
 $timeAfter = microtime(true);
 $memAfter = get_memory_usage_kb();
 
 $events = get_private_property($cronManager, 'events');
 
-echo "   After accessing 'email_report':\n";
+echo "   After accessing 'database_maintenance':\n";
 echo "   Events instantiated:      " . count($events) . "\n";
 echo "   Access time:              " . number_format(($timeAfter - $timeBefore) * 1000, 3) . " ms\n";
 echo "   Additional memory:        " . number_format($memAfter - $memBefore, 2) . " KB\n\n";
@@ -190,20 +190,18 @@ echo "   Initialization time:       " . number_format($blocksInitTimeMs, 3) . " 
 echo "   Memory allocated:          " . number_format($blocksInitMemoryKb, 2) . " KB\n\n";
 
 // ============================================================
-// TrackerControllerFactory Benchmark
+// TrackerManager Benchmark
 // ============================================================
 
-echo "## TrackerControllerFactory Caching\n";
-echo "   (2 tracking controllers)\n\n";
-
-// Reset factory state
-TrackerControllerFactory::reset();
+echo "## TrackerManager\n";
+echo "   (instantiate + register)\n\n";
 
 gc_collect_cycles();
 $memBefore = get_memory_usage_kb();
 $timeBefore = microtime(true);
 
-$controller1 = TrackerControllerFactory::createController();
+$trackingManager1 = new TrackerManager();
+$trackingManager1->register();
 
 $timeAfter = microtime(true);
 $memAfter = get_memory_usage_kb();
@@ -211,19 +209,20 @@ $memAfter = get_memory_usage_kb();
 $firstCallTimeMs = ($timeAfter - $timeBefore) * 1000;
 $firstCallMemoryKb = $memAfter - $memBefore;
 
-// Second call (should be cached)
+// Second instance — each is independent (no shared static state)
 $timeBefore = microtime(true);
-$controller2 = TrackerControllerFactory::createController();
+$trackingManager2 = new TrackerManager();
+$trackingManager2->register();
 $timeAfter = microtime(true);
 
 $secondCallTimeMs = ($timeAfter - $timeBefore) * 1000;
 
-echo "   First call (creates new):\n";
+echo "   First instance (new + register):\n";
 echo "   Creation time:             " . number_format($firstCallTimeMs, 3) . " ms\n";
 echo "   Memory allocated:          " . number_format($firstCallMemoryKb, 2) . " KB\n\n";
-echo "   Second call (cached):\n";
-echo "   Access time:               " . number_format($secondCallTimeMs, 3) . " ms\n";
-echo "   Same instance:             " . ($controller1 === $controller2 ? 'Yes' : 'No') . "\n\n";
+echo "   Second instance:\n";
+echo "   Creation time:             " . number_format($secondCallTimeMs, 3) . " ms\n";
+echo "   Independent instances:     " . ($trackingManager1 !== $trackingManager2 ? 'Yes' : 'No') . "\n\n";
 
 // ============================================================
 // COMPARISON SUMMARY
@@ -249,8 +248,8 @@ printf("│ AjaxManager (3 endpoints)│ %7d │ %12d │ %9.3f │ %4.1f │\n"
     count($endpointClasses), count($endpoints), $ajaxInitTimeMs, $ajaxInitMemoryKb);
 printf("│ BlocksManager (1 block)  │ %7d │ %12d │ %9.3f │ %4.1f │\n",
     count($blockClasses), count($blocks), $blocksInitTimeMs, $blocksInitMemoryKb);
-printf("│ TrackerControllerFactory │ %7d │ %12s │ %9.3f │ %4.1f │\n",
-    2, 'cached', $firstCallTimeMs, $firstCallMemoryKb);
+printf("│ TrackerManager          │ %7d │ %12s │ %9.3f │ %4.1f │\n",
+    2, 'instance', $firstCallTimeMs, $firstCallMemoryKb);
 echo "├──────────────────────────────────────────────────────────────────────┤\n";
 printf("│ TOTAL                    │ %7d │ %12d │ %9.3f │ %4.1f │\n",
     $totalClasses, $totalInstances, $totalInitTime, $totalInitMemory);
@@ -260,8 +259,8 @@ echo "Key Benefits:\n";
 echo "  ✓ 18 classes registered, 0 objects instantiated on init\n";
 echo "  ✓ Objects created on-demand when first accessed\n";
 echo "  ✓ Subsequent accesses return cached instances\n";
-echo "  ✓ TrackerControllerFactory prevents redundant controller creation\n";
-echo "  ✓ BatchTracking initialized only once (prevents duplicate hooks)\n";
+echo "  ✓ TrackerManager is instance-based, no shared static state\n";
+echo "  ✓ Batch endpoints registered by each tracker's register() call\n";
 echo "  ✓ Third-party extensions can register via registerClass() methods\n";
 echo "  ✓ Backwards compatible - existing code works unchanged\n\n";
 

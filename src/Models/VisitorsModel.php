@@ -822,14 +822,7 @@ class VisitorsModel extends BaseModel
             ->where('user_id', '=', $args['user_id'])
             ->where('user_email', 'LIKE', "%{$args['email']}%")
             ->where('user_login', 'LIKE', "%{$args['username']}%")
-            ->whereRaw(
-                "OR (ip LIKE '#hash#%' AND ip LIKE %s)",
-                ["#hash#{$args['ip']}%"]
-            )
-            ->whereRaw(
-                "OR (ip NOT LIKE '#hash#%' AND ip LIKE %s)",
-                ["{$args['ip']}%"]
-            )
+            ->where('ip', 'LIKE', "{$args['ip']}%")
             ->whereRelation('OR')
             ->getAll();
 
@@ -1088,6 +1081,7 @@ class VisitorsModel extends BaseModel
         $selectFields = $returnCount ? 'COUNT(*)' : ['ID'];
 
         // Build the query
+        // Only include visitors with real IP addresses (contain . or :) that can be geolocated
         $query = Query::select($selectFields)
             ->from('visitor')
             ->whereRaw(
@@ -1097,7 +1091,7 @@ class VisitorsModel extends BaseModel
             OR continent = ''
             OR continent IS NULL
             OR (continent = location))
-            AND ip NOT LIKE '#hash#%'",
+            AND (ip LIKE '%%.%%' OR ip LIKE '%%:%%')",
                 [$privateCountry]
             );
 
@@ -1689,21 +1683,22 @@ class VisitorsModel extends BaseModel
      */
     public function updatePlaintextIps()
     {
-        // Get all distinct non-hashed IPs
+        // Get all distinct non-hashed IPs (real IPs contain . or :)
         $result = Query::select('DISTINCT ip')
             ->from('visitors')
-            ->where('ip', 'NOT LIKE', Ip::$hashIpPrefix . '%')
+            ->whereRaw("(ip LIKE '%%.%%' OR ip LIKE '%%:%%')")
             ->getAll();
-        
+
         $resultUpdate = [];
 
         foreach ($result as $row) {
-            if (!Ip::isHashed($row->ip)) {
+            // Only hash if it's a valid IP address
+            if (Ip::isSanitized($row->ip)) {
                 $updated = Query::update('visitors')
                     ->set(['ip' => Ip::hash($row->ip)])
                     ->where('ip', '=', $row->ip)
                     ->execute();
-                
+
                 if ($updated !== false) {
                     $resultUpdate[] = $updated;
                 }
@@ -1931,16 +1926,12 @@ class VisitorsModel extends BaseModel
     }
 
     /**
-     * Get most active visitors with optimized query and attribution-aware referrer.
+     * Get most active visitors with optimized query.
      *
      * Optimizations:
      * - Single subquery using idx_started_visitor index
      * - All aggregations (SUM, COUNT, MIN/MAX) in one pass
      * - Reduced number of JOINs from 13 to 9
-     *
-     * Referrer attribution model:
-     * - last-touch: referrer from last session (fallback to first if empty)
-     * - first-touch: referrer from first session (fallback to last if empty)
      *
      * @param array $args {
      *     @type array{from:string,to:string} $date Date range with 'from' and 'to' keys (Y-m-d)
@@ -1964,11 +1955,7 @@ class VisitorsModel extends BaseModel
             $toEx     = !empty($args['date']['to']) ? date('Y-m-d', strtotime($args['date']['to'] . ' +1 day')) : '';
         }
 
-        // 2) attribution model – only affects which session we read referrer from
-        $attributionModel = Option::getValue('attribution_model', 'first-touch');
-        $isLastTouch      = ($attributionModel === 'last-touch');
-
-        // 3) aggregate sessions per visitor in range
+        // 2) aggregate sessions per visitor in range
         //    - SUM(total_views)  → total views across ALL sessions (req. 1)
         //    - MAX(ID)           → last session (req. 2,4,5,6)
         //    - MIN(ID)           → first session (req. 3)
@@ -2008,7 +1995,7 @@ class VisitorsModel extends BaseModel
             ->from('resource_uris')
             ->getQuery();
 
-        // 5) base select – referrer will be filled after attribution join
+        // 5) base select
         $select = [
             'agg.visitor_id',                          // 7) visitor id
             'visitors.hash AS visitor_hash',           // to display in UI like getTop()
@@ -2021,7 +2008,7 @@ class VisitorsModel extends BaseModel
             'referrers.domain AS referrer',            // 3) filled via attr_ses join below
         ];
 
-        // 6) build main query (joins that are common to both attribution modes)
+        // 6) build main query
         $query = Query::select($select)
             ->fromQuery($aggSubquery, 'agg')
             ->join('visitors', ['agg.visitor_id', 'visitors.ID'])
@@ -2039,18 +2026,10 @@ class VisitorsModel extends BaseModel
             ->allowCaching()
             ->perPage(1, 10);
 
-        // 7) attribution-aware REFERRER join
-        if ($isLastTouch) {
-            // last-touch → get referrer from LAST session
-            $query
-                ->joinQuery($sessionSql, ['agg.last_session_id', 'attr_ses.ID'], 'attr_ses')
-                ->join('referrers', ['attr_ses.referrer_id', 'referrers.ID'], [], 'LEFT');
-        } else {
-            // first-touch → get referrer from FIRST session (in the same date range)
-            $query
-                ->joinQuery($sessionSql, ['agg.first_session_id', 'attr_ses.ID'], 'attr_ses')
-                ->join('referrers', ['attr_ses.referrer_id', 'referrers.ID'], [], 'LEFT');
-        }
+        // 7) referrer join (from first session in the date range)
+        $query
+            ->joinQuery($sessionSql, ['agg.first_session_id', 'attr_ses.ID'], 'attr_ses')
+            ->join('referrers', ['attr_ses.referrer_id', 'referrers.ID'], [], 'LEFT');
 
         $results = $query->getAll();
 

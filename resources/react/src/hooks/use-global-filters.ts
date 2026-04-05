@@ -33,7 +33,14 @@
 
 import { useContext } from 'react'
 
-import { GlobalFiltersContext, type GlobalFiltersContextValue } from '@/contexts/global-filters-context'
+import {
+  type DateRangeUpdateValues,
+  GlobalFiltersContext,
+  type GlobalFiltersContextValue,
+} from '@/contexts/global-filters-context'
+
+// Re-export types for convenience
+export type { DateRangeUpdateValues, GlobalFiltersContextValue }
 
 export function useGlobalFilters(): GlobalFiltersContextValue {
   const context = useContext(GlobalFiltersContext)

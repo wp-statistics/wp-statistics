@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Dashboard\Endpoints;
 
 use WP_Statistics\Components\Ajax;
+use WP_Statistics\Service\Admin\AccessControl\AccessLevel;
 use WP_Statistics\Service\Admin\ReactApp\Contracts\PageActionInterface;
 use WP_Statistics\Utils\User;
 
@@ -110,7 +111,7 @@ class AjaxManager
             ], 403);
         }
 
-        if (!User::hasAccess()) {
+        if (!User::hasAccessLevel(AccessLevel::OWN_CONTENT)) {
             wp_send_json_error([
                 'code'    => 'forbidden',
                 'message' => __('You do not have permission to perform this action.', 'wp-statistics'),

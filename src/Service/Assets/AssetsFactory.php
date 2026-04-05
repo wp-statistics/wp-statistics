@@ -4,13 +4,12 @@ namespace WP_Statistics\Service\Assets;
 
 use WP_Statistics\Service\Assets\Handlers\FrontendHandler;
 use WP_Statistics\Service\Assets\Handlers\ReactHandler;
-use WP_Statistics\Service\Assets\Handlers\LegacyHandler;
 
 /**
  * Assets Factory.
  *
  * Factory class for creating and managing assets instances.
- * Provides methods to load React, Legacy and frontend assets.
+ * Provides methods to load React and frontend assets.
  *
  * @package WP_STATISTICS\Service\Assets
  * @since   15.0.0
@@ -29,20 +28,6 @@ class AssetsFactory
         }
 
         return new ReactHandler();
-    }
-
-    /**
-     * Load Legacy admin assets.
-     *
-     * @return LegacyHandler|null Legacy assets instance
-     */
-    public static function Legacy()
-    {
-        if (!class_exists(LegacyHandler::class)) {
-            return null;
-        }
-
-        return new LegacyHandler();
     }
 
     /**

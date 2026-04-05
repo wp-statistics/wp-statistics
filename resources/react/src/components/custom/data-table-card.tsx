@@ -32,7 +32,12 @@ export function DataTableCard<TData>({ row, columns, isExpanded, onToggleExpand 
   // Use fallback if no meta configured
   const displayHeaderColumns = headerColumns.length > 0 ? headerColumns : fallbackHeaderColumns
   const displayBodyColumns = bodyColumns.length > 0 ? bodyColumns : fallbackBodyColumns
-  const displaySecondaryColumns = secondaryColumns.length > 0 ? secondaryColumns : (hasMeta ? columns.filter((col) => !col.meta?.priority) : fallbackSecondaryColumns)
+  const displaySecondaryColumns =
+    secondaryColumns.length > 0
+      ? secondaryColumns
+      : hasMeta
+        ? columns.filter((col) => !col.meta?.priority)
+        : fallbackSecondaryColumns
 
   // Get cell content for a column - use getAllCells to include hidden columns for mobile card view
   const getCellContent = (column: ColumnDef<TData, unknown>) => {
@@ -45,6 +50,7 @@ export function DataTableCard<TData>({ row, columns, isExpanded, onToggleExpand 
   // Get column header text
   const getColumnHeader = (column: ColumnDef<TData, unknown>): string => {
     if (column.meta?.mobileLabel) return column.meta.mobileLabel
+    if (column.meta?.title) return column.meta.title
     if (typeof column.header === 'string') return column.header
     return (column as { accessorKey?: string }).accessorKey || ''
   }
@@ -87,7 +93,7 @@ export function DataTableCard<TData>({ row, columns, isExpanded, onToggleExpand 
         >
           {displayBodyColumns.map((col) => (
             <div key={col.id || (col as { accessorKey?: string }).accessorKey} className="text-center">
-              <div className="text-[10px] text-neutral-500 uppercase tracking-wide mb-0.5">{getColumnHeader(col)}</div>
+              <div className="text-xs text-neutral-500 mb-0.5">{getColumnHeader(col)}</div>
               <div className="text-sm font-medium">{getCellContent(col)}</div>
             </div>
           ))}

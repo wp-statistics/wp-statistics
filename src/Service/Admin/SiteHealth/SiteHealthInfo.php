@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\SiteHealth;
 
-use WP_Statistics\Components\Addons;
 use WP_Statistics\Components\CachePlugin;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Components\Option;
@@ -178,50 +177,50 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('visitors_log') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('visitors_log') ? 'Enabled' : 'Disabled',
             ],
-            'storeEntireUserAgentString'     => [
-                'label' => esc_html__('Store Entire User Agent String', 'wp-statistics'),
-                'value' => Option::getValue('store_ua') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('store_ua') ? 'Enabled' : 'Disabled',
-            ],
-            'attributionModel'               => [
-                'label' => esc_html__('Attribution Model', 'wp-statistics'),
-                'value' => Option::getValue('attribution_model', 'first-touch'),
-                'debug' => Option::getValue('attribution_model', 'first-touch'),
-            ],
             'trackingMethod'                 => [
                 'label' => esc_html__('Tracking Method', 'wp-statistics'),
-                'value' => Option::getValue('use_cache_plugin') ? __('Client Side Tracking', 'wp-statistics') : __('Server Side Tracking', 'wp-statistics'),
-                'debug' => Option::getValue('use_cache_plugin') ? 'Client Side Tracking' : 'Server Side Tracking',
+                'value' => __('Client Side Tracking', 'wp-statistics'),
+                'debug' => 'Client Side Tracking',
             ],
-            'bypassAdBlockers'               => [
+            'trackingTransport'             => [
+                'label' => esc_html__('Tracking Transport', 'wp-statistics'),
+                'value' => Option::getValue('hybrid_tracking') ? 'Hybrid Mode' : 'AJAX',
+                'debug' => Option::getValue('hybrid_tracking') ? 'hybrid' : 'ajax',
+            ],
+            'bypassAdBlockers'              => [
                 'label' => esc_html__('Bypass Ad Blockers', 'wp-statistics'),
                 'value' => Option::getValue('bypass_ad_blockers') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('bypass_ad_blockers') ? 'Enabled' : 'Disabled',
             ],
-            'anonymizeIpAddresses'           => [
-                'label' => esc_html__('Anonymize IP Addresses', 'wp-statistics'),
-                'value' => Option::getValue('anonymize_ips') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('anonymize_ips') ? 'Enabled' : 'Disabled',
+            'trackPageViews'                => [
+                'label' => esc_html__('Track Page Views', 'wp-statistics'),
+                'value' => Option::getValue('pages', true) ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('pages', true) ? 'Enabled' : 'Disabled',
             ],
-            'hashIpAddresses'                => [
-                'label' => esc_html__('Hash IP Addresses', 'wp-statistics'),
-                'value' => Option::getValue('hash_ips') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('hash_ips') ? 'Enabled' : 'Disabled',
+            'storeIpAddresses'               => [
+                'label' => esc_html__('Store IP Addresses', 'wp-statistics'),
+                'value' => Option::getValue('store_ip') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('store_ip') ? 'Enabled' : 'Disabled',
             ],
-            'wpConsentLevelIntegration'      => [
-                'label' => esc_html__('WP Consent Level Integration', 'wp-statistics'),
-                'value' => Option::getValue('consent_level_integration') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('consent_level_integration') ? 'Enabled' : 'Disabled',
+            'hashRotationInterval'           => [
+                'label' => esc_html__('Hash Rotation Interval', 'wp-statistics'),
+                'value' => Option::getValue('hash_rotation_interval', 'daily') ?: __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('hash_rotation_interval', 'daily') ?: 'Not Set',
             ],
             'anonymousTracking'              => [
                 'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
                 'value' => Option::getValue('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('anonymous_tracking') ? 'Enabled' : 'Disabled',
             ],
-            'doNotTrack'                     => [
-                'label' => esc_html__('Do Not Track (DNT)', 'wp-statistics'),
-                'value' => Option::getValue('do_not_track') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('do_not_track') ? 'Enabled' : 'Disabled',
+            'consentIntegration'             => [
+                'label' => esc_html__('Consent Plugin Integration', 'wp-statistics'),
+                'value' => Option::getValue('consent_integration') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('consent_integration') ? 'Enabled' : 'Disabled',
+            ],
+            'privacyAudit'                   => [
+                'label' => esc_html__('Privacy Audit', 'wp-statistics'),
+                'value' => Option::getValue('privacy_audit', true) ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('privacy_audit', true) ? 'Enabled' : 'Disabled',
             ],
             'viewStatsInEditor'              => [
                 'label' => esc_html__('View Stats in Editor', 'wp-statistics'),
@@ -229,7 +228,7 @@ class SiteHealthInfo extends Singleton
                 'debug' => Option::getValue('disable_editor') ? 'Disabled' : 'Enabled',
             ],
             'viewsColumnInContentList'       => [
-                'label' => esc_html__('Views Column in Content List', 'wp-statistics'),
+                'label' => esc_html__('Stats Column in Content List', 'wp-statistics'),
                 'value' => Option::getValue('disable_column') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),
                 'debug' => Option::getValue('disable_column') ? 'Disabled' : 'Enabled',
             ],
@@ -238,28 +237,13 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('enable_user_column') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('enable_user_column') ? 'Enabled' : 'Disabled',
             ],
-            'showStatsInAdminMenuBar'        => [
-                'label' => esc_html__('Show Stats in Admin Menu Bar', 'wp-statistics'),
-                'value' => Option::getValue('menu_bar') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('menu_bar') ? 'Enabled' : 'Disabled',
-            ],
-            'wpStatisticsChartsPrevPeriod'   => [
-                'label' => esc_html__('Previous Period in Charts', 'wp-statistics'),
-                'value' => Option::getValue('charts_previous_period') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('charts_previous_period') ? 'Enabled' : 'Disabled',
-            ],
-            'wpStatisticsWidgets'            => [
-                'label' => esc_html__('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'),
-                'value' => Option::getValue('disable_dashboard') ? __('Disabled', 'wp-statistics') : __('Enabled', 'wp-statistics'),
-                'debug' => Option::getValue('disable_dashboard') ? 'Disabled' : 'Enabled',
-            ],
             'wpStatisticsNotifications'      => [
                 'label' => esc_html__('WP Statistics Notifications', 'wp-statistics'),
                 'value' => Option::getValue('display_notifications') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('display_notifications') ? 'Enabled' : 'Disabled',
             ],
             'disableInactiveFeatureNotices'  => [
-                'label' => esc_html__('Disable Inactive Essential Feature Notices', 'wp-statistics'),
+                'label' => esc_html__('Disable Admin Notices', 'wp-statistics'),
                 'value' => Option::getValue('hide_notices') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('hide_notices') ? 'Enabled' : 'Disabled',
             ],
@@ -268,10 +252,15 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('show_hits') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('show_hits') ? 'Enabled' : 'Disabled',
             ],
-            'reportFrequency'                => [
-                'label' => esc_html__('Report Frequency', 'wp-statistics'),
-                'value' => Option::getValue('time_report') ? Option::getValue('time_report') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('time_report') ? Option::getValue('time_report') : 'Disabled',
+            'displayHitsPosition'            => [
+                'label' => esc_html__('Display Hits Position', 'wp-statistics'),
+                'value' => Option::getValue('display_hits_position', 'none') ?: __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('display_hits_position', 'none') ?: 'Not Set',
+            ],
+            'menuBar'                        => [
+                'label' => esc_html__('Show Stats in Admin Bar', 'wp-statistics'),
+                'value' => Option::getValue('menu_bar', true) ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('menu_bar', true) ? 'Enabled' : 'Disabled',
             ],
             'userRoleExclusions'             => [
                 'label' => esc_html__('User Role Exclusions', 'wp-statistics'),
@@ -282,11 +271,6 @@ class SiteHealthInfo extends Singleton
                 'label' => esc_html__('IP Exclusions', 'wp-statistics'),
                 'value' => Option::getValue('exclude_ip') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::getValue('exclude_ip') ? 'Set' : 'Not Set',
-            ],
-            'excludedLoginPage'              => [
-                'label' => esc_html__('Excluded Login Page', 'wp-statistics'),
-                'value' => Option::getValue('exclude_loginpage') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('exclude_loginpage') ? 'Enabled' : 'Disabled',
             ],
             'excludedRssFeeds'               => [
                 'label' => esc_html__('Excluded RSS Feeds', 'wp-statistics'),
@@ -303,10 +287,25 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('excluded_urls') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::getValue('excluded_urls') ? 'Set' : 'Not Set',
             ],
-            'matomoReferrerSpamBlacklist'    => [
-                'label' => esc_html__('Matomo Referrer Spam Blacklist', 'wp-statistics'),
-                'value' => Option::getValue('referrerspam') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getValue('referrerspam') ? 'Enabled' : 'Disabled',
+            'excludedCountries'              => [
+                'label' => esc_html__('Excluded Countries', 'wp-statistics'),
+                'value' => Option::getValue('excluded_countries') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('excluded_countries') ? 'Set' : 'Not Set',
+            ],
+            'includedCountries'              => [
+                'label' => esc_html__('Included Countries', 'wp-statistics'),
+                'value' => Option::getValue('included_countries') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('included_countries') ? 'Set' : 'Not Set',
+            ],
+            'robotlist'                      => [
+                'label' => esc_html__('Additional Bot User Agents', 'wp-statistics'),
+                'value' => Option::getValue('robotlist') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('robotlist') ? 'Set' : 'Not Set',
+            ],
+            'robotThreshold'                 => [
+                'label' => esc_html__('Bot Daily Hit Threshold', 'wp-statistics'),
+                'value' => Option::getValue('robot_threshold', 0),
+                'debug' => (string) Option::getValue('robot_threshold', 0),
             ],
             'logRecordExclusions'            => [
                 'label' => esc_html__('Log Record Exclusions', 'wp-statistics'),
@@ -338,10 +337,40 @@ class SiteHealthInfo extends Singleton
                 'value' => Option::getValue('schedule_dbmaint_days') ? Option::getValue('schedule_dbmaint_days') : __('Not Set', 'wp-statistics'),
                 'debug' => Option::getValue('schedule_dbmaint_days') ? Option::getValue('schedule_dbmaint_days') : 'Not Set',
             ],
+            'dataRetentionMode'              => [
+                'label' => esc_html__('Data Retention Mode', 'wp-statistics'),
+                'value' => Option::getValue('data_retention_mode', 'forever') ?: __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('data_retention_mode', 'forever') ?: 'Not Set',
+            ],
             'shareAnonymousData'             => [
                 'label' => esc_html__('Share Anonymous Data', 'wp-statistics'),
                 'value' => Option::getValue('share_anonymous_data') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                 'debug' => Option::getValue('share_anonymous_data') ? 'Enabled' : 'Disabled',
+            ],
+            'emailReportsEnabled'            => [
+                'label' => esc_html__('Email Reports', 'wp-statistics'),
+                'value' => Option::getValue('email_reports_enabled') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('email_reports_enabled') ? 'Enabled' : 'Disabled',
+            ],
+            'emailReportsFrequency'          => [
+                'label' => esc_html__('Email Reports Frequency', 'wp-statistics'),
+                'value' => Option::getValue('email_reports_frequency', 'weekly') ?: __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('email_reports_frequency', 'weekly') ?: 'Not Set',
+            ],
+            'emailReportsDeliveryHour'       => [
+                'label' => esc_html__('Email Reports Delivery Time', 'wp-statistics'),
+                'value' => Option::getValue('email_reports_delivery_hour', '8'),
+                'debug' => (string) Option::getValue('email_reports_delivery_hour', '8'),
+            ],
+            'emailList'                      => [
+                'label' => esc_html__('Email Reports Recipient', 'wp-statistics'),
+                'value' => Option::getValue('email_list') ? __('Set', 'wp-statistics') : __('Not Set', 'wp-statistics'),
+                'debug' => Option::getValue('email_list') ? 'Set' : 'Not Set',
+            ],
+            'deleteDataOnUninstall'          => [
+                'label' => esc_html__('Delete All Data on Uninstall', 'wp-statistics'),
+                'value' => Option::getValue('delete_data_on_uninstall') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                'debug' => Option::getValue('delete_data_on_uninstall') ? 'Enabled' : 'Disabled',
             ],
             'phpGmpExtension'                => [
                 'label' => esc_html__('PHP Extension (GMP)', 'wp-statistics'),
@@ -371,185 +400,13 @@ class SiteHealthInfo extends Singleton
     /**
      * Get settings for active add-ons.
      *
+     * @deprecated Add-on settings are now managed by the premium plugin.
+     *
      * @return array
      */
     public function getAddOnsSettings()
     {
-        $settings = [];
-
-        /**
-         * REST API
-         */
-        if (Addons::isActive('rest-api')) {
-            $settings['apiServiceStatus'] = [
-                'label' => esc_html__('API Service Status', 'wp-statistics'),
-                'value' => Option::getAddonValue('status', 'rest_api') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('status', 'rest_api') ? 'Enabled' : 'Disabled',
-            ];
-        }
-
-        /**
-         * Advanced Reporting
-         */
-        if (Addons::isActive('advanced-reporting')) {
-            $settings['chooseYourReportTiming']    = [
-                'label' => esc_html__('Choose Your Report Timing', 'wp-statistics'),
-                'value' => Option::getAddonValue('report_time_frame_type', 'advanced_reporting'),
-                'debug' => Option::getAddonValue('report_time_frame_type', 'advanced_reporting'),
-            ];
-            $settings['topMetrics']                = [
-                'label' => esc_html__('Top Metrics', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_top_metrics', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_top_metrics', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['visitorsSummary']           = [
-                'label' => esc_html__('Visitors Summary', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_summary_stats', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_summary_stats', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['viewsChart']                = [
-                'label' => esc_html__('Views Chart', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_top_hits_visits', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_top_hits_visits', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['searchEngineReferrals']     = [
-                'label' => esc_html__('Search Engine Referrals', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_search_engine', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_search_engine', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['searchEngineChart']         = [
-                'label' => esc_html__('Search Engine Chart', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_top_search_engines', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_top_search_engines', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['topReferringDomains']       = [
-                'label' => esc_html__('Top Referring Domains', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_top_referring', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_top_referring', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['topPages']                  = [
-                'label' => esc_html__('Top Pages', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_top_ten_pages', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_top_ten_pages', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['topCountries']              = [
-                'label' => esc_html__('Top Countries', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_top_ten_countries', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_top_ten_countries', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['topBrowsers']               = [
-                'label' => esc_html__('Top Browsers', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_chart_top_browsers', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_chart_top_browsers', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['moreInformationButton']     = [
-                'label' => esc_html__('More Information Button', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_more_info_button', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_more_info_button', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['auto-GeneratedNotice']      = [
-                'label' => esc_html__('Auto-Generated Notice', 'wp-statistics'),
-                'value' => Option::getAddonValue('email_disable_copyright', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('email_disable_copyright', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['emailPDFReportAttachments'] = [
-                'label' => esc_html__('Email PDF Report Attachments', 'wp-statistics'),
-                'value' => Option::getAddonValue('pdf_report_status', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('pdf_report_status', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['recordEmailLogs']           = [
-                'label' => esc_html__('Record Email Logs', 'wp-statistics'),
-                'value' => Option::getAddonValue('record_email_logs', 'advanced_reporting') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('record_email_logs', 'advanced_reporting') ? 'Enabled' : 'Disabled',
-            ];
-        }
-
-        /**
-         * Real-time Stats
-         */
-        if (Addons::isActive('realtime-stats')) {
-            $settings['chartMapRefreshRate'] = [
-                'label' => esc_html__('Chart & Map Refresh Rate (seconds)', 'wp-statistics'),
-                'value' => Option::getAddonValue('interval_time', 'realtime_stats'),
-                'debug' => Option::getAddonValue('interval_time', 'realtime_stats'),
-            ];
-        }
-
-        /**
-         * Advanced Widgets
-         */
-        if (Addons::isActive('widgets')) {
-            $settings['refreshEvery']            = [
-                'label' => esc_html__('Refresh Every', 'wp-statistics'),
-                'value' => Option::getAddonValue('cache_life', 'widgets'),
-                'debug' => Option::getAddonValue('cache_life', 'widgets'),
-            ];
-            $settings['useDefaultWidgetStyling'] = [
-                'label' => esc_html__('Use Default Widget Styling', 'wp-statistics'),
-                'value' => Option::getAddonValue('disable_styles', 'widgets') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('disable_styles', 'widgets') ? 'Enabled' : 'Disabled',
-            ];
-        }
-
-        /**
-         * Customization
-         */
-        if (Addons::isActive('customization')) {
-            $settings['whiteLabel']           = [
-                'label' => esc_html__('White Label', 'wp-statistics'),
-                'value' => Option::getAddonValue('wps_white_label', 'customization') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('wps_white_label', 'customization') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['enableOverviewWidget'] = [
-                'label' => esc_html__('Enable Overview Widget', 'wp-statistics'),
-                'value' => Option::getAddonValue('show_wps_about_widget_overview', 'customization'),
-                'debug' => Option::getAddonValue('show_wps_about_widget_overview', 'customization'),
-            ];
-        }
-
-        /**
-         * Data Plus
-         */
-        if (Addons::isActive('data-plus')) {
-            $settings['linkTracker']            = [
-                'label' => esc_html__('Link Tracker', 'wp-statistics'),
-                'value' => Option::getAddonValue('link_tracker', 'data_plus', '1') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('link_tracker', 'data_plus', '1') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['downloadTracker']        = [
-                'label' => esc_html__('Download Tracker', 'wp-statistics'),
-                'value' => Option::getAddonValue('download_tracker', 'data_plus', '1') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('download_tracker', 'data_plus', '1') ? 'Enabled' : 'Disabled',
-            ];
-            $settings['latestVisitorsInEditor'] = [
-                'label' => esc_html__('Latest Visitors In Editor', 'wp-statistics'),
-                'value' => Option::getAddonValue('latest_visitors_metabox', 'data_plus', '1') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
-                'debug' => Option::getAddonValue('latest_visitors_metabox', 'data_plus', '1') ? 'Enabled' : 'Disabled',
-            ];
-        }
-
-        /**
-         * Mini Chart
-         */
-        if (Addons::isActive('mini-chart')) {
-            $settings['chartMetric']    = [
-                'label' => esc_html__('Chart Metric', 'wp-statistics'),
-                'value' => Option::getAddonValue('metric', 'mini_chart', 'views'),
-                'debug' => Option::getAddonValue('metric', 'mini_chart', 'views'),
-            ];
-            $settings['chartDateRange'] = [
-                'label' => esc_html__('Chart Date Range', 'wp-statistics'),
-                'value' => Option::getAddonValue('date_range', 'mini_chart', '14'),
-                'debug' => Option::getAddonValue('date_range', 'mini_chart', '14'),
-            ];
-            $settings['countDisplay']   = [
-                'label' => esc_html__('Count Display', 'wp-statistics'),
-                'value' => Option::getAddonValue('count_display', 'mini_chart', 'total'),
-                'debug' => Option::getAddonValue('count_display', 'mini_chart', 'total'),
-            ];
-        }
-
-        return $settings;
+        return [];
     }
 
     /**
@@ -592,7 +449,7 @@ class SiteHealthInfo extends Singleton
         $method = Option::getValue('geoip_location_detection_method', 'maxmind');
 
         switch ($method) {
-            case 'cloudflare':
+            case 'cf':
                 return [
                     'title'     => __('Cloudflare IP Geolocation', 'wp-statistics'),
                     'debug'     => 'Cloudflare IP Geolocation',

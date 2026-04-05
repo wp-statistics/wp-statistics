@@ -132,22 +132,17 @@ class Uri
     }
 
     /**
-     * Sanitize resource URI with comprehensive WordPress-specific handling
+     * Get the resource URI from the visitor profile, falling back to the current request URI.
      *
      * @param object $visitorProfile The visitor profile object
-     * @return string The sanitized resource URI limited to 255 characters
+     * @return string The resource URI limited to 255 characters
      */
     public static function getByVisitor($visitorProfile)
     {
-        $resourceType = $visitorProfile->getCurrentPageType();
-        $resourceUri  = $visitorProfile->getResourceUri();
+        $resourceUri = $visitorProfile->getResourceUri();
 
         if (empty($resourceUri)) {
             $resourceUri = self::get();
-        }
-
-        if ($resourceType['type'] === "loginpage") {
-            $resourceUri = QueryParams::getFilterParams($resourceUri);
         }
 
         return substr($resourceUri, 0, 255);

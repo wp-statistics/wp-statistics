@@ -24,12 +24,21 @@ export const PAGES = {
 
 /**
  * Login to WordPress admin
+ * Handles both regular login and wp-now auto-login scenarios
  */
 export async function loginToWordPress(page: Page): Promise<void> {
-  // Go directly to login page to avoid reauth issues
-  await page.goto('/wp-login.php')
+  // Go to wp-admin - this will either show dashboard (if auto-logged in) or redirect to login
+  await page.goto('/wp-admin/')
   await page.waitForLoadState('domcontentloaded')
 
+  // Check if we're already logged in (wp-now auto-login) or need to log in
+  const currentUrl = page.url()
+  if (currentUrl.includes('/wp-admin/') && !currentUrl.includes('wp-login')) {
+    // Already logged in (wp-now auto-login), nothing to do
+    return
+  }
+
+  // Not logged in, need to use the login form
   // Wait for login form to be ready
   await page.waitForSelector('#user_login', { state: 'visible', timeout: 10000 })
 

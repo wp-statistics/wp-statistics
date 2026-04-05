@@ -3,9 +3,8 @@
 namespace WP_Statistics\Service\Admin\AnonymizedUsageData;
 
 use WP_Statistics\Service\Admin\SiteHealth\SiteHealthInfo;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-use WP_STATISTICS\DB;
 use WP_Statistics\Components\Option;
+use WP_Statistics\Service\Database\DatabaseSchema;
 
 class AnonymizedUsageDataProvider
 {
@@ -268,31 +267,15 @@ class AnonymizedUsageDataProvider
     }
 
     /**
-     * Retrieves the status, type, and associated products of all licenses.
+     * Retrieves premium plugin status.
      *
-     * This method fetches all licenses using the LicenseHelper and returns an array
-     * containing the 'status', 'type', and 'products' for each license.
-     *
-     * @return array An array of license details, where each element contains:
-     *          - 'status' (string): The status of the license.
-     *          - 'type' (string): The type of the license.
-     *          - 'products' (array): The products associated with the license.
+     * @return array
      */
     public static function getLicensesInfo()
     {
-        $rawLicenses = LicenseHelper::getLicenses('all');
-        $licenses    = [];
-
-        foreach ($rawLicenses as $k => $v) {
-            $licenses[] = [
-                'status'        => $v['status'],
-                'type'          => $v['type'],
-                'products'      => $v['products'],
-                'license_level' => $v['sku'] == 'premium' ? 'premium' : 'non-premium',
-            ];
-        }
-
-        return $licenses;
+        return [
+            'premium_active' => defined('WP_STATISTICS_PREMIUM_FILE'),
+        ];
     }
 
     /**
@@ -302,17 +285,11 @@ class AnonymizedUsageDataProvider
      */
     public static function getTablesStats()
     {
-        $userOnlineTable = DB::table('useronline');
-        $rawTableRows    = DB::getTableRows();
-        $tableRows       = [];
-        $prefix          = DB::prefix();
+        $existingTables = DatabaseSchema::getExistingTables(['useronline']);
+        $tableRows      = [];
 
-        foreach ($rawTableRows as $k => $v) {
-            if ($k === $userOnlineTable) {
-                continue;
-            }
-            $k             = str_replace($prefix, '', $k);
-            $tableRows[$k] = $v['rows'];
+        foreach ($existingTables as $tableKey => $tableName) {
+            $tableRows[$tableKey] = DatabaseSchema::getRowCount($tableKey);
         }
 
         return $tableRows;

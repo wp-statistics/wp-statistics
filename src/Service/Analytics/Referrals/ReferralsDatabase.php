@@ -15,7 +15,14 @@ class ReferralsDatabase
      */
     protected function getFilePath()
     {
-        return WP_STATISTICS_DIR . 'public/json/' . $this->databaseFileName;
+        $builtPath = WP_STATISTICS_DIR . 'public/json/' . $this->databaseFileName;
+
+        if (file_exists($builtPath)) {
+            return $builtPath;
+        }
+
+        // Fallback to unminified source when the build output is unavailable (e.g. CI, dev)
+        return WP_STATISTICS_DIR . 'resources/json/source-channels.json';
     }
 
     /**

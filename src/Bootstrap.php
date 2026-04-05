@@ -136,9 +136,6 @@ class Bootstrap
         require_once WP_STATISTICS_DIR . 'src/Service/Database/Schema/Manager.php';
         require_once WP_STATISTICS_DIR . 'src/Service/Database/Managers/TableHandler.php';
 
-        // Options management
-        require_once WP_STATISTICS_DIR . 'src/Service/Options/OptionManager.php';
-
         // Installation manager
         require_once WP_STATISTICS_DIR . 'src/Service/Installation/InstallManager.php';
     }
@@ -150,7 +147,7 @@ class Bootstrap
      */
     public static function loadTextdomain()
     {
-        load_plugin_textdomain('wp-statistics', false, WP_STATISTICS_DIR . 'languages');
+        load_plugin_textdomain('wp-statistics', false, WP_STATISTICS_DIR . 'resources/languages');
     }
 
     /**
@@ -213,6 +210,9 @@ class Bootstrap
      *
      * These files provide the WP_STATISTICS namespace classes that add-ons depend on.
      * They will be removed when add-ons migrate to the new WP_Statistics namespace.
+     *
+     * For the authoritative list of legacy APIs/tables/add-on dependencies, see:
+     * `docs/COMPATIBILITY.md`
      *
      * ============================================================================
      * ADD-ON COMPATIBILITY LAYER

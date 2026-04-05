@@ -2,102 +2,102 @@
 
 namespace WP_Statistics\Entity;
 
-use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Tracking\Core\Visitor as VisitorData;
 
 /**
- * Factory class to create entity instances tied to a visitor profile.
+ * Factory class to create entity instances tied to a VisitorData.
  *
- * Each method initializes and returns a corresponding entity using a given VisitorProfile instance.
+ * Each method initializes and returns a corresponding entity using a given VisitorData instance.
  *
  * @since 15.0.0
  */
 class EntityFactory
 {
     /**
-     * Create a new Device entity for the given visitor profile.
+     * Create a new Device entity for the given context.
      *
-     * @param VisitorProfile $profile Visitor profile instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Device
      */
-    public static function device(VisitorProfile $profile)
+    public static function device(VisitorData $visitor)
     {
-        return new Device($profile);
+        return new Device($visitor);
     }
 
     /**
-     * Create a new Visitor entity for the given visitor profile.
+     * Create a new Visitor entity for the given context.
      *
-     * @param VisitorProfile $profile Visitor profile instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Visitor
      */
-    public static function visitor(VisitorProfile $profile)
+    public static function visitor(VisitorData $visitor)
     {
-        return new Visitor($profile);
+        return new Visitor($visitor);
     }
 
     /**
-     * Create a new Session entity for the given visitor profile.
+     * Create a new Session entity for the given context.
      *
-     * @param VisitorProfile $profile Visitor profile instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Session
      */
-    public static function session(VisitorProfile $profile)
+    public static function session(VisitorData $visitor)
     {
-        return new Session($profile);
+        return new Session($visitor);
     }
 
     /**
-     * Create a new Geo entity for the given visitor profile.
+     * Create a new Geo entity for the given context.
      *
-     * @param VisitorProfile $profile Visitor profile instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Geo
      */
-    public static function geo(VisitorProfile $profile)
+    public static function geo(VisitorData $visitor)
     {
-        return new Geo($profile);
+        return new Geo($visitor);
     }
 
     /**
-     * Create a new Locale entity for the given visitor profile.
+     * Create a new Locale entity for the given context.
      *
-     * @param VisitorProfile $profile Visitor profile instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Locale
      */
-    public static function locale(VisitorProfile $profile)
+    public static function locale(VisitorData $visitor)
     {
-        return new Locale($profile);
+        return new Locale($visitor);
     }
 
     /**
-     * Create a new Referrer entity for the given visitor profile.
+     * Create a new Referrer entity for the given context.
      *
-     * @param VisitorProfile $profile Visitor profile instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Referrer
      */
-    public static function referrer(VisitorProfile $profile)
+    public static function referrer(VisitorData $visitor)
     {
-        return new Referrer($profile);
+        return new Referrer($visitor);
     }
 
     /**
-     * Create a new View entity for the given visitor profile.
+     * Create a new View entity for the given context.
      *
-     * @param VisitorProfile $profile Visitor profile instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return View
      */
-    public static function view(VisitorProfile $profile)
+    public static function view(VisitorData $visitor)
     {
-        return new View($profile);
+        return new View($visitor);
     }
 
     /**
-     * Create a new Parameter entity for the given visitor profile.
+     * Create a new Parameter entity for the given context.
      *
-     * @param VisitorProfile $profile Visitor profile instance.
+     * @param VisitorData $visitor Resolved visitor data.
      * @return Parameter
      */
-    public static function parameter(VisitorProfile $profile)
+    public static function parameter(VisitorData $visitor)
     {
-        return new Parameter($profile);
+        return new Parameter($visitor);
     }
 }

@@ -23,19 +23,19 @@ class View extends BaseEntity
      * - If there is a previous view, update its `next_view_id` and calculate its `duration`.
      * - Insert a new view with the current timestamp.
      *
-     * @return $this
+     * @param int $sessionId The session ID to associate the view with.
+     * @return int The new view ID, or 0 if tracking is inactive or inputs are invalid.
      */
-    public function record()
+    public function record(int $sessionId): int
     {
         if (!$this->isActive('views')) {
-            return $this;
+            return 0;
         }
 
-        $sessionId     = $this->profile->getSessionId();
-        $resourceUriId = $this->profile->getResourceUriId();
+        $resourceUriId = $this->visitor->getRequest()->getResourceUriId();
 
         if ($sessionId < 1 || $resourceUriId < 1) {
-            return $this;
+            return 0;
         }
 
         $previousView = (new ViewsModel())->getLastViewBySessionId([
@@ -49,8 +49,8 @@ class View extends BaseEntity
             'resource_uri_id' => $resourceUriId,
             'viewed_at'       => $now,
             'next_view_id'    => null,
-            'duration'        => $this->profile->getDuration(),
-            'resource_id'     => $this->profile->getResourceId(),
+            'duration'        => 0,
+            'resource_id'     => $this->visitor->getRequest()->getResourceId(),
         ];
 
         $newViewId = (int)RecordFactory::view()->insert($data);
@@ -69,8 +69,6 @@ class View extends BaseEntity
             ]);
         }
 
-        $this->profile->setViewId($newViewId);
-        EntityFactory::session($this->profile)->updateInitialView($newViewId, $now);
-        return $this;
+        return $newViewId;
     }
 }

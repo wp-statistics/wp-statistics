@@ -3,12 +3,7 @@ import { __ } from '@wordpress/i18n'
 import { ArrowDownAZ, ArrowUpAZ, Check, Loader2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
 interface SortableColumn {
@@ -57,11 +52,7 @@ export function DataTableMobileHeader({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm" className="h-10 px-3 gap-1.5 shrink-0">
-              {currentSort?.desc ? (
-                <ArrowDownAZ className="h-4 w-4" />
-              ) : (
-                <ArrowUpAZ className="h-4 w-4" />
-              )}
+              {currentSort?.desc ? <ArrowDownAZ className="h-4 w-4" /> : <ArrowUpAZ className="h-4 w-4" />}
               <span className="text-xs">{__('Sort', 'wp-statistics')}</span>
             </Button>
           </DropdownMenuTrigger>
@@ -75,7 +66,7 @@ export function DataTableMobileHeader({
                 <span>{col.label}</span>
                 {currentSort?.id === col.id && (
                   <div className="flex items-center gap-1">
-                    <span className="text-[10px] text-neutral-500">
+                    <span className="text-[11px] text-neutral-500">
                       {currentSort.desc ? __('High→Low', 'wp-statistics') : __('Low→High', 'wp-statistics')}
                     </span>
                     <Check className="h-3.5 w-3.5" />

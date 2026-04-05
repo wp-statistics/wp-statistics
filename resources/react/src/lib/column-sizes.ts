@@ -22,6 +22,7 @@ export const COLUMN_SIZES = {
   exitPage: 140,
   referrer: 120,
   journey: 160, // Combined entry → exit flow
+  location: 140, // Flag + "City, Country" format
 
   // Numeric columns (right-aligned)
   views: 70,

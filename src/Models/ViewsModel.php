@@ -7,7 +7,6 @@ use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Decorators\VisitorDecorator;
-use WP_Statistics\Decorators\ViewDecorator;
 use WP_Statistics\Utils\PostType;
 
 /**
@@ -397,7 +396,7 @@ class ViewsModel extends BaseModel
      */
     public function getLastViewBySessionId($args = [])
     {
-        $args = $this->parseArgs($args, [
+        $args = wp_parse_args($args, [
             'session_id' => 0
         ]);
 

@@ -2,14 +2,21 @@
 
 namespace WP_Statistics\Service\Admin\Diagnostic\Checks;
 
+use Exception;
+use WP_Statistics\Bootstrap;
+use WP_Statistics\Components\RemoteRequest;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticResult;
-use WP_Statistics\Service\Tracking\TrackerControllerFactory;
 use WP_Statistics\Components\Option;
+use WP_Statistics\Service\Tracking\Methods\AjaxTracker;
+use WP_Statistics\Service\Tracking\Methods\HybridMode\HybridModeHandler;
+use WP_Statistics\Service\Tracking\Methods\RestTracker;
 
 /**
  * Tracking Endpoint Check.
  *
- * Tests if the tracking endpoint (REST or AJAX) is accessible.
+ * Tests if the active tracking endpoint is reachable by making
+ * an HTTP request and verifying the server responds (any non-5xx
+ * response proves the endpoint exists and is routed correctly).
  *
  * @since 15.0.0
  */
@@ -57,7 +64,7 @@ class TrackingCheck extends AbstractCheck
      */
     public function isLightweight(): bool
     {
-        return false; // HTTP request is heavy
+        return false;
     }
 
     /**
@@ -65,7 +72,6 @@ class TrackingCheck extends AbstractCheck
      */
     public function run(): DiagnosticResult
     {
-        // Check if tracking is disabled
         if (!Option::getValue('useronline') && !Option::getValue('visitors')) {
             return $this->pass(
                 __('Tracking is disabled in settings.', 'wp-statistics'),
@@ -73,63 +79,57 @@ class TrackingCheck extends AbstractCheck
             );
         }
 
-        // Get the tracking route/endpoint
-        $trackingRoute = TrackerControllerFactory::getTrackingRoute();
+        $trackerManager = Bootstrap::get('tracking');
+        $methodType     = $trackerManager->getMethodType();
 
-        if (empty($trackingRoute)) {
-            return $this->fail(
-                __('Could not determine tracking endpoint.', 'wp-statistics')
-            );
-        }
-
-        // Determine if using REST or AJAX
-        $isRestApi = Option::getValue('use_cache_plugin');
-
-        if ($isRestApi) {
-            return $this->testRestEndpoint($trackingRoute);
-        }
-
-        return $this->testAjaxEndpoint();
+        return $this->testEndpoint($methodType);
     }
 
     /**
-     * Test REST API tracking endpoint.
+     * Test the active tracking endpoint.
      *
-     * @param string $route The REST route.
+     * @param string $methodType The active tracking method type (ajax, rest, hybrid).
      * @return DiagnosticResult
      */
-    private function testRestEndpoint(string $route): DiagnosticResult
+    private function testEndpoint(string $methodType): DiagnosticResult
     {
-        $url = rest_url($route);
+        $url = $this->getEndpointUrl($methodType);
 
+        if (!$url) {
+            return $this->fail(
+                sprintf(__('Unable to determine endpoint URL for tracking method "%s".', 'wp-statistics'), $methodType),
+                ['method' => $methodType]
+            );
+        }
+
+        $request   = new RemoteRequest($url, 'POST', [], [
+            'timeout' => self::TIMEOUT,
+            'body'    => $this->getTestBody($methodType),
+        ]);
         $startTime = microtime(true);
 
-        $response = wp_remote_get($url, [
-            'timeout'   => self::TIMEOUT,
-            'sslverify' => apply_filters('https_local_ssl_verify', false),
-        ]);
-
-        $duration = round((microtime(true) - $startTime) * 1000);
-
-        if (is_wp_error($response)) {
+        try {
+            $request->execute(false, false);
+        } catch (Exception $e) {
             return $this->fail(
-                $response->get_error_message(),
+                $e->getMessage(),
                 [
-                    'endpoint'   => 'REST API',
-                    'url'        => $url,
-                    'error_code' => $response->get_error_code(),
+                    'method' => $methodType,
+                    'url'    => $url,
                 ]
             );
         }
 
-        $code = wp_remote_retrieve_response_code($response);
+        $duration = round((microtime(true) - $startTime) * 1000);
+        $code     = $request->getResponseCode();
 
-        // REST endpoint should return 200 or 400 (missing params is OK)
-        if (!in_array($code, [200, 400], true)) {
+        // 5xx = server error, anything else means the endpoint is reachable.
+        // A 400 is expected since we send an empty/minimal payload on purpose.
+        if ($code >= 500) {
             return $this->fail(
-                sprintf(__('REST endpoint returned HTTP %d.', 'wp-statistics'), $code),
+                sprintf(__('Tracking endpoint returned HTTP %d.', 'wp-statistics'), $code),
                 [
-                    'endpoint'      => 'REST API',
+                    'method'        => $methodType,
                     'http_code'     => $code,
                     'response_time' => $duration . 'ms',
                     'url'           => $url,
@@ -137,70 +137,14 @@ class TrackingCheck extends AbstractCheck
             );
         }
 
-        // Check response time
         if ($duration > 3000) {
             return $this->warning(
                 sprintf(
-                    __('REST endpoint is slow (%dms). Tracking may be delayed.', 'wp-statistics'),
+                    __('Tracking endpoint is slow (%dms). Tracking may be delayed.', 'wp-statistics'),
                     $duration
                 ),
                 [
-                    'endpoint'      => 'REST API',
-                    'response_time' => $duration . 'ms',
-                    'url'           => $url,
-                ]
-            );
-        }
-
-        return $this->pass(
-            __('REST API tracking endpoint is accessible.', 'wp-statistics'),
-            [
-                'endpoint'      => 'REST API',
-                'response_time' => $duration . 'ms',
-                'url'           => $url,
-            ]
-        );
-    }
-
-    /**
-     * Test AJAX tracking endpoint.
-     *
-     * @return DiagnosticResult
-     */
-    private function testAjaxEndpoint(): DiagnosticResult
-    {
-        $url = admin_url('admin-ajax.php');
-
-        $startTime = microtime(true);
-
-        $response = wp_remote_post($url, [
-            'timeout'   => self::TIMEOUT,
-            'sslverify' => apply_filters('https_local_ssl_verify', false),
-            'body'      => [
-                'action' => 'wp_statistics_tracker',
-            ],
-        ]);
-
-        $duration = round((microtime(true) - $startTime) * 1000);
-
-        if (is_wp_error($response)) {
-            return $this->fail(
-                $response->get_error_message(),
-                [
-                    'endpoint'   => 'AJAX',
-                    'url'        => $url,
-                    'error_code' => $response->get_error_code(),
-                ]
-            );
-        }
-
-        $code = wp_remote_retrieve_response_code($response);
-
-        if ($code !== 200) {
-            return $this->fail(
-                sprintf(__('AJAX endpoint returned HTTP %d.', 'wp-statistics'), $code),
-                [
-                    'endpoint'      => 'AJAX',
+                    'method'        => $methodType,
                     'http_code'     => $code,
                     'response_time' => $duration . 'ms',
                     'url'           => $url,
@@ -208,28 +152,52 @@ class TrackingCheck extends AbstractCheck
             );
         }
 
-        // Check response time
-        if ($duration > 3000) {
-            return $this->warning(
-                sprintf(
-                    __('AJAX endpoint is slow (%dms). Tracking may be delayed.', 'wp-statistics'),
-                    $duration
-                ),
-                [
-                    'endpoint'      => 'AJAX',
-                    'response_time' => $duration . 'ms',
-                    'url'           => $url,
-                ]
-            );
-        }
-
         return $this->pass(
-            __('AJAX tracking endpoint is accessible.', 'wp-statistics'),
+            __('Tracking endpoint is accessible.', 'wp-statistics'),
             [
-                'endpoint'      => 'AJAX',
+                'method'        => $methodType,
+                'http_code'     => $code,
                 'response_time' => $duration . 'ms',
                 'url'           => $url,
             ]
         );
+    }
+
+    /**
+     * Get the endpoint URL for the given tracking method.
+     *
+     * @param string $methodType
+     * @return string|null
+     */
+    private function getEndpointUrl(string $methodType): ?string
+    {
+        switch ($methodType) {
+            case 'ajax':
+                return admin_url('admin-ajax.php');
+
+            case 'rest':
+                return rest_url(RestTracker::API_NAMESPACE . '/' . RestTracker::ENDPOINT_HIT);
+
+            case 'hybrid':
+                return site_url('/mu-plugins/' . HybridModeHandler::ENDPOINT_FILE);
+
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Get the minimal POST body for the given tracking method.
+     *
+     * @param string $methodType
+     * @return array
+     */
+    private function getTestBody(string $methodType): array
+    {
+        if ($methodType === 'ajax') {
+            return ['action' => 'wp_statistics_' . AjaxTracker::ACTION];
+        }
+
+        return [];
     }
 }

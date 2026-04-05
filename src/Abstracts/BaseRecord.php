@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Abstracts;
 
-use WP_STATISTICS\DB;
+use WP_Statistics\Service\Database\DatabaseSchema;
 use WP_Statistics\Utils\PostType;
 use WP_Statistics\Utils\Query;
 
@@ -61,7 +61,7 @@ abstract class BaseRecord
         if (!empty($this->fullTableName)) {
             return;
         }
-        $this->fullTableName = DB::table($this->tableName);
+        $this->fullTableName = DatabaseSchema::table($this->tableName);
     }
 
     /**
@@ -132,25 +132,106 @@ abstract class BaseRecord
     /**
      * Inserts a new record into the table.
      *
+     * Uses a direct prepared query instead of $wpdb->insert() to avoid
+     * the SHOW FULL COLUMNS introspection query that $wpdb->insert()
+     * triggers on every new table it encounters per request.
+     *
      * @param array $args The values to insert.
-     * @return int|void The inserted record's ID on success, or void if failed.
+     * @return int The inserted record's ID on success, or 0 on failure.
      */
     public function insert($args)
     {
         $args = $this->parseArgs($args, []);
-        global $wpdb;
 
-        $insert = $wpdb->insert(
-            $this->fullTableName,
-            $args
-        );
-
-        if ($insert === false) {
-            \WP_Statistics()->log('Insert into ' . $this->fullTableName . ' failed: ' . $wpdb->last_error);
-            return;
+        if (empty($args)) {
+            return 0;
         }
 
-        return $wpdb->insert_id;
+        global $wpdb;
+
+        $columns      = [];
+        $placeholders = [];
+        $values       = [];
+
+        foreach ($args as $column => $value) {
+            $columns[]      = "`$column`";
+            $placeholders[] = is_int($value) ? '%d' : '%s';
+            $values[]       = $value;
+        }
+
+        $sql = sprintf(
+            'INSERT INTO `%s` (%s) VALUES (%s)',
+            $this->fullTableName,
+            implode(', ', $columns),
+            implode(', ', $placeholders)
+        );
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $result = $wpdb->query($wpdb->prepare($sql, $values));
+
+        if ($result === false) {
+            \WP_Statistics()->log('Insert into ' . $this->fullTableName . ' failed: ' . $wpdb->last_error);
+            return 0;
+        }
+
+        return (int) $wpdb->insert_id;
+    }
+
+    /**
+     * Inserts a record or returns the existing row's ID when a UNIQUE constraint matches.
+     *
+     * Uses INSERT ... ON DUPLICATE KEY UPDATE ID = LAST_INSERT_ID(ID) so that
+     * $wpdb->insert_id is set to the correct ID in both insert and duplicate cases.
+     *
+     * @param array $args              Column => value pairs to insert.
+     * @param array $updateOnDuplicate Column => value pairs to update when a duplicate is found.
+     * @return int The record ID (new or existing), or 0 on failure.
+     */
+    public function upsert(array $args, array $updateOnDuplicate = []): int
+    {
+        $args = $this->parseArgs($args, []);
+
+        if (empty($args)) {
+            return 0;
+        }
+
+        global $wpdb;
+
+        $columns      = [];
+        $placeholders = [];
+        $values       = [];
+
+        foreach ($args as $column => $value) {
+            $columns[]      = "`$column`";
+            $placeholders[] = is_int($value) ? '%d' : '%s';
+            $values[]       = $value;
+        }
+
+        $updateClauses = ['`ID` = LAST_INSERT_ID(`ID`)'];
+
+        foreach ($updateOnDuplicate as $column => $value) {
+            $format          = is_int($value) ? '%d' : '%s';
+            $updateClauses[] = "`$column` = $format";
+            $values[]        = $value;
+        }
+
+        $sql = sprintf(
+            'INSERT INTO `%s` (%s) VALUES (%s) ON DUPLICATE KEY UPDATE %s',
+            $this->fullTableName,
+            implode(', ', $columns),
+            implode(', ', $placeholders),
+            implode(', ', $updateClauses)
+        );
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $result = $wpdb->query($wpdb->prepare($sql, $values));
+
+        if ($result === false) {
+            \WP_Statistics()->log('Upsert into ' . $this->fullTableName . ' failed: ' . $wpdb->last_error);
+            return 0;
+        }
+
+        return (int) $wpdb->insert_id;
     }
 
     /**

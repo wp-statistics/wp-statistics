@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Resources\Core;
 
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Utils\Route;
 use WP_Statistics\Utils\Url;
 
 /**
@@ -264,11 +263,6 @@ class ResourceDetector
 
         if (is_feed()) {
             $data['type'] = 'feed';
-            return $data;
-        }
-
-        if (Route::isLoginPage()) {
-            $data['type'] = 'loginpage';
             return $data;
         }
 

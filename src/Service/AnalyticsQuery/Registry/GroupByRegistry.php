@@ -12,6 +12,7 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\CountryGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\CityGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\RegionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\BrowserGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\BrowserVersionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\OsGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\DeviceTypeGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\DeviceModelGroupBy;
@@ -25,10 +26,13 @@ use WP_Statistics\Service\AnalyticsQuery\GroupBy\LanguageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ResolutionGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\SearchTermGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\EntryPageGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExitPageGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\AuthorGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\TaxonomyGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionReasonGroupBy;
 use WP_Statistics\Service\AnalyticsQuery\GroupBy\ExclusionDateGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\SessionGroupBy;
+use WP_Statistics\Service\AnalyticsQuery\GroupBy\PageViewGroupBy;
 
 /**
  * Registry for analytics group by.
@@ -108,6 +112,7 @@ class GroupByRegistry implements RegistryInterface
             'city'             => CityGroupBy::class,
             'region'           => RegionGroupBy::class,
             'browser'          => BrowserGroupBy::class,
+            'browser_version'  => BrowserVersionGroupBy::class,
             'os'               => OsGroupBy::class,
             'device_type'      => DeviceTypeGroupBy::class,
             'device_model'     => DeviceModelGroupBy::class,
@@ -118,13 +123,17 @@ class GroupByRegistry implements RegistryInterface
             'online_visitor'   => OnlineVisitorGroupBy::class,
             'continent'        => ContinentGroupBy::class,
             'language'         => LanguageGroupBy::class,
-            'resolution'       => ResolutionGroupBy::class,
+            'resolution'        => ResolutionGroupBy::class,
+            'screen_resolution' => ResolutionGroupBy::class,
             'search_term'      => SearchTermGroupBy::class,
             'entry_page'       => EntryPageGroupBy::class,
+            'exit_page'        => ExitPageGroupBy::class,
             'author'           => AuthorGroupBy::class,
             'taxonomy'         => TaxonomyGroupBy::class,
             'exclusion_reason' => ExclusionReasonGroupBy::class,
             'exclusion_date'   => ExclusionDateGroupBy::class,
+            'session'          => SessionGroupBy::class,
+            'page_view'        => PageViewGroupBy::class,
         ];
 
         $this->defaultsRegistered = true;
@@ -183,17 +192,34 @@ class GroupByRegistry implements RegistryInterface
      */
     public function has(string $name): bool
     {
-        return isset($this->groupBy[$name]) || isset($this->groupByClasses[$name]);
+        $baseName = str_contains($name, ':') ? explode(':', $name, 2)[0] : $name;
+        return isset($this->groupBy[$baseName]) || isset($this->groupByClasses[$baseName]);
     }
 
     /**
      * {@inheritdoc}
      *
+     * Supports parameterized syntax: "event_data_value:form_id" resolves the
+     * base GroupBy, clones it, and calls setParams() with the parameter.
+     *
      * @return GroupByInterface|null
      */
     public function get(string $name): ?GroupByInterface
     {
-        return $this->resolve($name);
+        // Parse colon param syntax
+        $param = null;
+        if (str_contains($name, ':')) {
+            [$name, $param] = explode(':', $name, 2);
+        }
+
+        $item = $this->resolve($name);
+
+        if ($item !== null && $param !== null) {
+            $item = clone $item;
+            $item->setParams(['json_key' => $param]);
+        }
+
+        return $item;
     }
 
     /**

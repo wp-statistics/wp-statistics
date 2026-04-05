@@ -16,6 +16,7 @@ const config: StorybookConfig = {
   staticDirs: [
     './public',
     { from: '../resources/images', to: '/public/images' },
+    { from: '../resources/json/geojson', to: '/public/geojson' },
   ],
   viteFinal: async (config) => {
     // Merge custom Vite configuration

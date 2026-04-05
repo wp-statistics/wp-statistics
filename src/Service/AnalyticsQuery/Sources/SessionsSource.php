@@ -10,7 +10,7 @@ namespace WP_Statistics\Service\AnalyticsQuery\Sources;
 class SessionsSource extends AbstractSource
 {
     protected $name       = 'sessions';
-    protected $expression = 'COUNT(sessions.ID)';
+    protected $expression = 'COUNT(DISTINCT sessions.ID)';
     protected $table      = 'sessions';
     protected $type       = 'integer';
     protected $format     = 'number';

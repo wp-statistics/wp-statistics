@@ -3,10 +3,9 @@
 namespace WP_Statistics\Service\Analytics;
 
 use WP_Statistics\Components\Ip;
-use WP_Statistics\Service\Integrations\IntegrationHelper;
+use WP_Statistics\Service\Consent\TrackingLevel;
 use WP_Statistics\Traits\ObjectCacheTrait;
 use WP_Statistics\Utils\Page;
-use WP_Statistics\Utils\User;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Components\Option;
@@ -14,9 +13,10 @@ use WP_Statistics\Records\RecordFactory;
 use WP_STATISTICS\Visitor;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
-use WP_Statistics\Service\Tracking\TrackerHelper;
+use WP_Statistics\Utils\Url;
+use WP_Statistics\Service\Tracking\Core\Payload;
+
 
 /**
  * @todo Replace object cache internally with ObjectCacheTrait
@@ -45,27 +45,6 @@ class VisitorProfile
      * @var string
      */
     private const META_VIEW_ID = 'view_id';
-
-    /**
-     * Resource uri record ID.
-     *
-     * @var string
-     */
-    private const META_RESOURCE_URI_ID = 'resource_uri_id';
-
-    /**
-     * Resource record uri.
-     *
-     * @var string
-     */
-    private const META_RESOURCE_URI = 'resource_uri';
-
-    /**
-     * Resource record ID.
-     *
-     * @var string
-     */
-    private const META_RESOURCE_ID = 'resource_id';
 
     /**
      * Referrer record ID.
@@ -154,8 +133,55 @@ class VisitorProfile
      */
     protected $meta = [];
 
+    /**
+     * Parsed payload parameters.
+     *
+     * @var Payload|null
+     */
+    private ?Payload $payload = null;
+
     public function __construct()
     {
+    }
+
+    public function setPayload(Payload $payload): void
+    {
+        $this->payload = $payload;
+    }
+
+    public function getTimezone(): string
+    {
+        return $this->payload ? $this->payload->getTimezone() : '';
+    }
+
+    public function getLanguageCode(): string
+    {
+        return $this->payload ? $this->payload->getLanguageCode() : '';
+    }
+
+    public function getLanguageName(): string
+    {
+        return $this->payload ? $this->payload->getLanguageName() : '';
+    }
+
+    public function getScreenWidth(): string
+    {
+        return $this->payload ? $this->payload->getScreenWidth() : '';
+    }
+
+    public function getScreenHeight(): string
+    {
+        return $this->payload ? $this->payload->getScreenHeight() : '';
+    }
+
+    public function getResourceType(): string
+    {
+        return $this->payload ? $this->payload->getResourceType() : '';
+    }
+
+    public function getRawUserId(): int
+    {
+        return $this->payload ? $this->payload->getUserId() : 0;
     }
 
     /**
@@ -201,56 +227,23 @@ class VisitorProfile
     }
 
     /**
-     * Store the Resource uri record ID into internal metadata.
-     *
-     * @param int $id Resource uri record ID.
-     * @return void
-     */
-    public function setResourceUriId($id)
-    {
-        $this->setMeta(self::META_RESOURCE_URI_ID, $id);
-    }
-
-    /**
      * Retrieve the Resource uri record ID from internal metadata.
      *
      * @return int Resource uri ID, or 0 if not set.
      */
     public function getResourceUriId()
     {
-        return (int)$this->getMeta(self::META_RESOURCE_URI_ID, 0);
+        return $this->payload ? $this->payload->getResourceUriId() : 0;
     }
     
     /**
-     * Store the Resource record ID into internal metadata.
-     *
-     * @param int $id Resource record ID.
-     * @return void
-     */
-    public function setResourceId($id)
-    {
-        $this->setMeta(self::META_RESOURCE_ID, $id);
-    }
-
-    /**
      * Retrieve the Resource record ID from internal metadata.
      *
-     * @return int Resource ID, or 0 if not set.
+     * @return int|null Resource ID, or 0 if not set.
      */
     public function getResourceId()
     {
-        return (int)$this->getMeta(self::META_RESOURCE_ID, 0);
-    }
-
-    /**
-     * Store the Resource URI into internal metadata.
-     *
-     * @param string $uri Resource URI.
-     * @return void
-     */
-    public function setResourceUri($uri)
-    {
-        $this->setMeta(self::META_RESOURCE_URI, base64_decode($uri));
+        return $this->payload ? $this->payload->getResourceId() : 0;
     }
 
     /**
@@ -260,7 +253,7 @@ class VisitorProfile
      */
     public function getResourceUri()
     {
-        return $this->getMeta(self::META_RESOURCE_URI, '');
+        return $this->payload ? $this->payload->getResourceUri() : '';
     }
 
     /**
@@ -588,14 +581,18 @@ class VisitorProfile
     public function getProcessedIPForStorage()
     {
         return $this->getCachedData('processedIPForStorage', function () {
-            return Ip::getAnonymized();
+            if ($this->payload && $this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
+                return null;
+            }
+
+            return Ip::getStorableIp();
         });
     }
 
     /**
      * Get the hashed IP address for storage in the visitor table.
      *
-     * Returns a pure SHA-256 hash (40 characters) without any prefix.
+     * Returns a truncated SHA-256 hash (20 characters) without any prefix.
      * The hash is generated using a daily rotating salt combined with
      * the visitor's IP address and user agent for privacy protection.
      *
@@ -713,37 +710,70 @@ class VisitorProfile
     }
 
     /**
-     * Check if the visitor is referred from another site, or not.
+     * Get the raw external referrer URL from the hit request.
+     *
+     * @return string The referrer URL, or empty string if internal/missing.
+     */
+    private function getRawReferrer(): string
+    {
+        return $this->getCachedData('rawReferrer', function () {
+            $referrer = $this->payload ? $this->payload->getReferrer() : '';
+
+            if (empty($referrer) || Url::isInternal($referrer)) {
+                return '';
+            }
+
+            return $referrer;
+        });
+    }
+
+    /**
+     * Check if the visitor is referred from another site.
      *
      * @return bool
      */
     public function isReferred()
     {
-        return !empty(Referrals::getUrl()) ? true : false;
+        return !empty($this->getRawReferrer());
     }
 
     /**
-     * Get the visitor's referrer URL, cached for reuse.
+     * Get the visitor's referrer domain, cached for reuse.
      *
-     * @return string The referrer URL.
+     * @return string|null The referrer domain, or null if not referred.
      */
     public function getReferrer()
     {
         return $this->getCachedData('referrer', function () {
-            $referrerUrl = Referrals::getUrl();
-            return !empty($referrerUrl) ? $referrerUrl : null;
+            $referrer = $this->getRawReferrer();
+
+            if (empty($referrer)) {
+                return null;
+            }
+
+            $referrer = sanitize_url($referrer);
+            $protocol = Url::getProtocol($referrer);
+
+            if (in_array($protocol, ['https', 'http'])) {
+                $referrer = Url::getDomain($referrer);
+            }
+
+            return $referrer;
         });
     }
 
     /**
-     * Get the visitor's source info
+     * Get the visitor's source info.
      *
      * @return SourceDetector The source channel.
      */
     public function getSource()
     {
         return $this->getCachedData('source', function () {
-            return Referrals::getSource();
+            $referrer = $this->getRawReferrer();
+            $pageUri = $this->getResourceUri();
+
+            return new SourceDetector($referrer, $pageUri);
         });
     }
 
@@ -780,23 +810,29 @@ class VisitorProfile
     public function getRequestUri()
     {
         return $this->getCachedData('requestUri', function () {
-            return TrackerHelper::getRequestUri();
+            $uri = $this->getResourceUri();
+
+            return !empty($uri) ? $uri : sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
         });
     }
 
     /**
-     * Get the user ID of the visitor, with caching for better performance.
+     * Get the user ID for the current visitor, cached for reuse.
      *
-     * @return int The user ID or 0 if anonymous tracking is enabled.
+     * @return int|null The user ID or null if anonymous tracking is enabled.
      */
     public function getUserId()
     {
         return $this->getCachedData('userId', function () {
-            if (!Option::getValue('visitors_log') || IntegrationHelper::shouldTrackAnonymously()) {
-                return 0;
-            } else {
-                return User::getId();
+            if (!Option::getValue('visitors_log')) {
+                return null;
             }
+
+            if ($this->payload && $this->payload->getTrackingLevel() !== TrackingLevel::FULL) {
+                return null;
+            }
+
+            return $this->getRawUserId();
         });
     }
 

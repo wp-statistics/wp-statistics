@@ -7,7 +7,6 @@ use WP_Statistics\Traits\TransientCacheTrait;
 use WP_Statistics\Service\Shortcode\Handlers\AnalyticsStatHandler;
 use WP_Statistics\Service\Shortcode\Handlers\WordPressStatHandler;
 use WP_Statistics\Service\Shortcode\Formatters\NumberFormatter;
-use WP_Statistics\Service\Shortcode\UI\ShortcakeRegistrar;
 
 /**
  * Main shortcode service.
@@ -32,23 +31,16 @@ class ShortcodeService
     private $formatter;
 
     /**
-     * @var ShortcakeRegistrar
-     */
-    private $shortcakeRegistrar;
-
-    /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->registry           = new StatRegistry();
-        $this->formatter          = new NumberFormatter();
-        $this->shortcakeRegistrar = new ShortcakeRegistrar();
+        $this->registry  = new StatRegistry();
+        $this->formatter = new NumberFormatter();
 
         $this->registerDefaultHandlers();
 
         add_shortcode('wpstatistics', [$this, 'render']);
-        add_action('admin_init', [$this->shortcakeRegistrar, 'register']);
     }
 
     /**

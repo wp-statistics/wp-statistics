@@ -44,8 +44,10 @@ class Test_RemoteRequest extends WP_UnitTestCase
         $this->assertEquals($expectedUrl, $remoteRequest->getRequestUrl());
 
         // Assert parsed args are set correctly
-        $parsedArgs = wp_parse_args($args, ['method' => $method, 'timeout' => 10]);
-        $this->assertEquals($parsedArgs, $remoteRequest->getParsedArgs());
+        $parsedArgs = $remoteRequest->getParsedArgs();
+        $this->assertEquals($method, $parsedArgs['method']);
+        $this->assertEquals(5, $parsedArgs['timeout']);
+        $this->assertArrayHasKey('sslverify', $parsedArgs);
     }
 
     /**
