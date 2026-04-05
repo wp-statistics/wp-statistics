@@ -28,14 +28,14 @@ class PrivacyAuditManager
     ];
 
     /**
-     * @var PrivacyCheckResult[]
+     * @var array[]
      */
     private array $results = [];
 
     /**
      * Run all privacy checks.
      *
-     * @return PrivacyCheckResult[]
+     * @return array[]
      */
     public function runAll(): array
     {
@@ -63,14 +63,14 @@ class PrivacyAuditManager
         ];
 
         foreach ($this->results as $result) {
-            switch ($result->status) {
-                case PrivacyCheckResult::STATUS_PASS:
+            switch ($result['status']) {
+                case 'pass':
                     $summary['passCount']++;
                     break;
-                case PrivacyCheckResult::STATUS_WARNING:
+                case 'warning':
                     $summary['warningCount']++;
                     break;
-                case PrivacyCheckResult::STATUS_FAIL:
+                case 'fail':
                     $summary['failCount']++;
                     break;
             }

@@ -8,8 +8,7 @@ use WP_Statistics\Service\Cron\CronManager;
 use WP_Statistics\Service\Cron\DatabaseMaintenanceManager;
 use WP_Statistics\Service\Database\Managers\SchemaMaintainer;
 use WP_Statistics\Service\Admin\Diagnostic\DiagnosticManager;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
-use WP_Statistics\Service\Admin\Tools\SystemInfoService;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;use WP_Statistics\Service\Admin\Tools\SystemInfoService;
 use WP_Statistics\Service\Admin\Tools\BackgroundJobRegistry;
 use WP_Statistics\Service\Admin\Tools\OptionInspectionService;
 use Exception;
@@ -297,7 +296,7 @@ class ToolsEndpoints extends BaseEndpoint
         $summary = $manager->getSummary();
 
         wp_send_json_success([
-            'checks'     => array_values(array_map(fn($r) => $r->toArray(), $results)),
+            'checks'     => array_values($results),
             'categories' => $manager->getCategories(),
             'summary'    => $summary,
         ]);

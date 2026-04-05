@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit\Checks;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\AbstractPrivacyCheck;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyCheckResult;
 
 class IpStorageCheck extends AbstractPrivacyCheck
 {
@@ -33,7 +32,7 @@ class IpStorageCheck extends AbstractPrivacyCheck
         return '/settings/privacy';
     }
 
-    public function run(): PrivacyCheckResult
+    public function run(): array
     {
         if (Option::getValue('store_ip', false)) {
             return $this->fail(

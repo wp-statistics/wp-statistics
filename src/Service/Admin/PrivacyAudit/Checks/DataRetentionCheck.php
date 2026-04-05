@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit\Checks;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\AbstractPrivacyCheck;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyCheckResult;
 
 class DataRetentionCheck extends AbstractPrivacyCheck
 {
@@ -33,7 +32,7 @@ class DataRetentionCheck extends AbstractPrivacyCheck
         return '/settings/data-management';
     }
 
-    public function run(): PrivacyCheckResult
+    public function run(): array
     {
         $mode = Option::getValue('data_retention_mode', 'forever');
 

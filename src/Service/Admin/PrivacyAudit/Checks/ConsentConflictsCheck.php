@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Checks;
 
 use WP_Statistics\Service\Admin\PrivacyAudit\AbstractPrivacyCheck;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyCheckResult;
 use WP_Statistics\Service\Consent\ConsentManager;
 
 class ConsentConflictsCheck extends AbstractPrivacyCheck
@@ -33,7 +32,7 @@ class ConsentConflictsCheck extends AbstractPrivacyCheck
         return '/settings/privacy';
     }
 
-    public function run(): PrivacyCheckResult
+    public function run(): array
     {
         $consentManager = new ConsentManager();
         $consentManager->boot();

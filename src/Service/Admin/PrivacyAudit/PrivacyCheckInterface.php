@@ -14,5 +14,5 @@ interface PrivacyCheckInterface
 
     public function getSettingsLink(): string;
 
-    public function run(): PrivacyCheckResult;
+    public function run(): array;
 }

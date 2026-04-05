@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit\Checks;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\AbstractPrivacyCheck;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyCheckResult;
 
 class UninstallCleanupCheck extends AbstractPrivacyCheck
 {
@@ -33,7 +32,7 @@ class UninstallCleanupCheck extends AbstractPrivacyCheck
         return '/settings/advanced';
     }
 
-    public function run(): PrivacyCheckResult
+    public function run(): array
     {
         if (!Option::getValue('delete_data_on_uninstall', false)) {
             return $this->warning(

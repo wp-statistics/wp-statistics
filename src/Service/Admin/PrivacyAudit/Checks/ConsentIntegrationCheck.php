@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit\Checks;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\AbstractPrivacyCheck;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyCheckResult;
 use WP_Statistics\Service\Consent\ConsentManager;
 
 class ConsentIntegrationCheck extends AbstractPrivacyCheck
@@ -34,7 +33,7 @@ class ConsentIntegrationCheck extends AbstractPrivacyCheck
         return '/settings/privacy';
     }
 
-    public function run(): PrivacyCheckResult
+    public function run(): array
     {
         $consentEnabled = Option::getValue('consent_integration', false);
         $consentManager = new ConsentManager();

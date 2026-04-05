@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit\Checks;
 
 use WP_Statistics\Components\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\AbstractPrivacyCheck;
-use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyCheckResult;
 
 class AdBlockerBypassCheck extends AbstractPrivacyCheck
 {
@@ -33,7 +32,7 @@ class AdBlockerBypassCheck extends AbstractPrivacyCheck
         return '/settings/general';
     }
 
-    public function run(): PrivacyCheckResult
+    public function run(): array
     {
         if (Option::getValue('bypass_ad_blockers', false)) {
             return $this->warning(

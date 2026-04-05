@@ -4,39 +4,31 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
 abstract class AbstractPrivacyCheck implements PrivacyCheckInterface
 {
-    protected function pass(string $message): PrivacyCheckResult
+    private function makeResult(string $status, string $message): array
     {
-        return PrivacyCheckResult::pass(
-            $this->getKey(),
-            $this->getLabel(),
-            $this->getDescription(),
-            $message,
-            $this->getCategory(),
-            $this->getSettingsLink()
-        );
+        return [
+            'key'          => $this->getKey(),
+            'label'        => $this->getLabel(),
+            'description'  => $this->getDescription(),
+            'status'       => $status,
+            'message'      => $message,
+            'category'     => $this->getCategory(),
+            'settingsLink' => $this->getSettingsLink(),
+        ];
     }
 
-    protected function warning(string $message): PrivacyCheckResult
+    protected function pass(string $message): array
     {
-        return PrivacyCheckResult::warning(
-            $this->getKey(),
-            $this->getLabel(),
-            $this->getDescription(),
-            $message,
-            $this->getCategory(),
-            $this->getSettingsLink()
-        );
+        return $this->makeResult('pass', $message);
     }
 
-    protected function fail(string $message): PrivacyCheckResult
+    protected function warning(string $message): array
     {
-        return PrivacyCheckResult::fail(
-            $this->getKey(),
-            $this->getLabel(),
-            $this->getDescription(),
-            $message,
-            $this->getCategory(),
-            $this->getSettingsLink()
-        );
+        return $this->makeResult('warning', $message);
+    }
+
+    protected function fail(string $message): array
+    {
+        return $this->makeResult('fail', $message);
     }
 }
