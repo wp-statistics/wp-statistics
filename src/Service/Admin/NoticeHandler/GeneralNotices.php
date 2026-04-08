@@ -100,6 +100,19 @@ class GeneralNotices
         // Return if no cache plugin is active
         if (empty($cacheInfo['status'])) return;
 
+        // Page-only caches (and bare WP_CACHE) don't touch static JS, so the
+        // tracker.js exclusion warning is a false positive for them.
+        $pageOnlyCachePlugins = [
+            'WP Super Cache',
+            'Comet Cache',
+            'Cache Enabler',
+            'WordPress Object Cache',
+        ];
+
+        if (in_array($cacheInfo['debug'], $pageOnlyCachePlugins, true)) {
+            return;
+        }
+
         // Generate notice id
         $noticeId = sanitize_key($cacheInfo['debug']) . '_cache_plugin_detected';
 
