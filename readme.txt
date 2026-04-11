@@ -146,7 +146,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.16.5 - 2026-03-** =
+= 14.16.5 - 2026-04-11 =
 - **Enhancement:** Simplify WP Consent API consent level logic.
 - **Enhancement:** Hardened plugin security and improvement
 - **Enhancement:** Tested up to WordPress v7.0
