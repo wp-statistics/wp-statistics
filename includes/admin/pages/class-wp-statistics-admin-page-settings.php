@@ -168,7 +168,6 @@ class settings_page extends Singleton
             'wps_privacy_audit',
             'wps_store_ua',
             'wps_consent_integration',
-            'wps_consent_level_integration',
             'wps_anonymous_tracking',
             'wps_do_not_track',
             'wps_show_privacy_issues_in_report',

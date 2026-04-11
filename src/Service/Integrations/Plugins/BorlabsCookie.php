@@ -87,6 +87,15 @@ class BorlabsCookie extends AbstractIntegration
     }
 
     /**
+     * If returns true, the user data will be collected anonymously
+     * @return bool
+     */
+    public function trackAnonymously()
+    {
+        return Option::get('anonymous_tracking', false) != false;
+    }
+
+    /**
      * Return an array of js handles for this integration.
      * The result will be used as dependencies for the tracker js file
      *

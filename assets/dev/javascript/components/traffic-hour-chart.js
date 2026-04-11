@@ -44,7 +44,7 @@ wps_js.TrafficHourCharts=function(data){
                         <div class="current-data">
                             <div>
                                 <span class="current-data__color" style="background-color: ${dataset.backgroundColor};"></span>
-                                ${dataset.label}
+                                ${wps_js.escapeHtml(dataset.label)}
                             </div>
                             <span class="current-data__value">${value.toLocaleString()}</span>
                         </div>`;
@@ -272,7 +272,7 @@ wps_js.TrafficHourCharts=function(data){
                     // Build the legend item HTML
                     legendItem.innerHTML = `
                             <span class="current-data">
-                                 <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.backgroundColor}"></span> ${dataset.label}
+                                 <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.backgroundColor}"></span> ${wps_js.escapeHtml(dataset.label)}
                             </span>
                            `;
 

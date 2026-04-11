@@ -124,36 +124,26 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M11.8689 2.13321C11.5449 2 11.1341 2 10.3125 2C9.49087 2 9.08006 2 8.75605 2.13321C8.32397 2.31083 7.9807 2.65151 7.80174 3.0803C7.72004 3.27605 7.68807 3.50369 7.67555 3.83574C7.65717 4.32372 7.40501 4.7754 6.9789 5.01956C6.55278 5.26372 6.03256 5.2546 5.59755 5.02641C5.30153 4.87114 5.0869 4.78479 4.87524 4.75714C4.41158 4.69656 3.94266 4.82125 3.57164 5.1038C3.29337 5.31571 3.08796 5.66879 2.67716 6.37494C2.26636 7.0811 2.06096 7.43417 2.01518 7.7793C1.95413 8.23945 2.07978 8.70483 2.36448 9.07306C2.49443 9.24115 2.67705 9.38237 2.96049 9.55912C3.37717 9.819 3.64528 10.2617 3.64525 10.75C3.64523 11.2383 3.37713 11.6809 2.96049 11.9407C2.677 12.1175 2.49435 12.2589 2.36439 12.4269C2.07969 12.7951 1.95405 13.2605 2.01509 13.7206C2.06087 14.0657 2.26628 14.4189 2.67707 15.125C3.08788 15.8311 3.29328 16.1843 3.57155 16.3961C3.94257 16.6786 4.41149 16.8033 4.87515 16.7428C5.08681 16.7151 5.30142 16.6288 5.59741 16.4736C6.03245 16.2454 6.55271 16.2362 6.97885 16.4804C7.40499 16.7246 7.65716 17.1763 7.67555 17.6643C7.68807 17.9963 7.72004 18.224 7.80174 18.4197C7.9807 18.8485 8.32397 19.1892 8.75605 19.3668C9.08006 19.5 9.49087 19.5 10.3125 19.5C11.1341 19.5 11.5449 19.5 11.8689 19.3668C12.301 19.1892 12.6443 18.8485 12.8232 18.4197C12.9049 18.224 12.937 17.9963 12.9495 17.6643C12.9679 17.1763 13.2199 16.7246 13.6461 16.4804C14.0722 16.2362 14.5925 16.2454 15.0275 16.4736C15.3235 16.6288 15.5381 16.7151 15.7497 16.7427C16.2134 16.8033 16.6823 16.6786 17.0533 16.3961C17.3317 16.1842 17.537 15.8311 17.9478 15.1249C18.3586 14.4188 18.564 14.0657 18.6099 13.7206C18.6708 13.2605 18.5452 12.795 18.2606 12.4269C18.1305 12.2588 17.9479 12.1174 17.6644 11.9407C17.2478 11.6809 16.9797 11.2382 16.9797 10.7499C16.9797 10.2616 17.2478 9.81909 17.6644 9.5593C17.948 9.38246 18.1306 9.24124 18.2606 9.07306C18.5453 8.70489 18.6709 8.23951 18.6099 7.77935C18.5641 7.43423 18.3587 7.08115 17.9479 6.375C17.5371 5.66885 17.3317 5.31577 17.0534 5.10386C16.6824 4.82131 16.2135 4.69662 15.7498 4.7572C15.5382 4.78485 15.3235 4.87119 15.0276 5.02645C14.5926 5.25464 14.0723 5.26377 13.6462 5.01959C13.22 4.77542 12.9679 4.3237 12.9494 3.8357C12.9369 3.50367 12.9049 3.27604 12.8232 3.0803C12.6443 2.65151 12.301 2.31083 11.8689 2.13321ZM10.3125 13.375C11.7733 13.375 12.9574 12.1998 12.9574 10.75C12.9574 9.30021 11.7733 8.125 10.3125 8.125C8.85169 8.125 7.66751 9.30021 7.66751 10.75C7.66751 12.1998 8.85169 13.375 10.3125 13.375Z" fill="#019939"/>
                     </svg>';
 
+                $consentIntegration = $options->getOption('consent_integration');
+
                 $atData = [
                     'svg'         => $atIcon,
                     'title'       => __('Consent Plugin Integration is Active', 'wp-statistics'),
                     'description' => esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'),
                     'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'), esc_html__('Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked.', 'wp-statistics')),
                     'suggestion'  => sprintf(
-                        __('Consider enabling "Anonymous Tracking" to track all visitors anonymously. Learn more in our <a target="_blank" href="%s">Consent Integration guide</a>.', 'wp-statistics'),
+                        __('Learn more in our <a target="_blank" href="%s">Consent Integration guide</a>.', 'wp-statistics'),
                         esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                     ),
                     'status'      => 'info'
                 ];
 
-                $consentIntegration = $options->getOption('consent_integration');
-
-                if (empty($options->getOption('anonymous_tracking', false)) && empty($consentIntegration)) {
+                if (empty($consentIntegration)) {
                     $atData = [
                         'svg'         => $atIcon,
                         'title'       => __('Consent Management is Disabled', 'wp-statistics'),
                         'description' => '',
                         'content'     => esc_html__('Tracker.js runs for all visitors immediately. If you require consent management, please enable it in the settings.', 'wp-statistics'),
-                        'status'      => 'success'
-                    ];
-                }
-
-                if (!empty($options->getOption('anonymous_tracking', false))) {
-                    $atData = [
-                        'svg'         => $atIcon,
-                        'title'       => __('Anonymous Tracking is Enabled', 'wp-statistics'),
-                        'description' => '',
-                        'content'     => __('All visitors will be tracked anonymously, even without explicit consent, ensuring privacy compliance while collecting essential data.', 'wp-statistics'),
                         'status'      => 'success'
                     ];
                 }

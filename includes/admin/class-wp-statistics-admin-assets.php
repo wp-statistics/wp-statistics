@@ -247,11 +247,6 @@ class Admin_Assets
             wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
         }
 
-        // Load TinyMCE for Widget Page
-        if (in_array($screen_id, array('widgets'))) {
-            wp_enqueue_script(self::$prefix . '-button-widget', self::url('tinymce.min.js'), array('jquery'), "3.2.5", ['in_footer' => true]);
-        }
-
         // Add Thick box
         if (Menus::in_page('visitors') || Menus::in_page('visitors-report') || Menus::in_page('referrals') || Menus::in_page('pages')) {
             wp_enqueue_script('thickbox');

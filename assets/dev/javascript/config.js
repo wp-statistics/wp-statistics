@@ -1,6 +1,12 @@
 /* Start Wp-statistics Admin Js */
 var wps_js = {};
 
+var _htmlEscapeMap = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
+wps_js.escapeHtml = function (str) {
+    if (typeof str !== 'string') return str == null ? '' : String(str);
+    return str.replace(/[&<>"']/g, function (c) { return _htmlEscapeMap[c]; });
+};
+
 /* Get WP Statistics global Data From Frontend */
 wps_js.global = (typeof wps_global != 'undefined') ? wps_global : [];
 
