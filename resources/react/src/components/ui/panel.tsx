@@ -71,7 +71,7 @@ function PanelTitle({ className, children, ...props }: React.ComponentProps<'h3'
   return (
     <h3
       data-slot="panel-title"
-      className={cn('text-sm font-semibold text-neutral-800 leading-none', className)}
+      className={cn('text-sm font-semibold text-foreground leading-none', className)}
       {...props}
     >
       {children}
@@ -91,7 +91,7 @@ function PanelFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="panel-footer"
-      className={cn('flex items-center justify-end px-4 py-3 border-t border-neutral-200', className)}
+      className={cn('flex items-center justify-end px-4 py-3 border-t border-border', className)}
       {...props}
     />
   )
@@ -145,8 +145,8 @@ function parseHref(href: string): { path: string; search?: Record<string, string
 function PanelAction({ children, className, href, onClick }: PanelActionProps) {
   const sharedClassName = cn(
     'inline-flex items-center gap-1.5',
-    'text-xs font-medium text-neutral-500',
-    'hover:text-neutral-700 transition-colors',
+    'text-xs font-medium text-muted-foreground',
+    'hover:text-foreground transition-colors',
     className
   )
 

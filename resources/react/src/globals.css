@@ -51,6 +51,12 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-header: var(--header);
   --color-chip: var(--chip);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-tooltip: var(--tooltip);
+  --color-tooltip-foreground: var(--tooltip-foreground);
 }
 
 :root {
@@ -118,6 +124,16 @@
   --header-premium: oklch(0.2 0.1 282);
 
   --chip: rgba(226, 232, 240, 1);
+
+  /* Status colors */
+  --success: oklch(0.577 0.174 149.642);
+  --success-foreground: oklch(0.985 0.001 106.423);
+  --warning: oklch(0.666 0.179 58.318);
+  --warning-foreground: oklch(0.985 0.001 106.423);
+
+  /* Tooltip colors (dark theme) */
+  --tooltip: oklch(0.269 0.015 256.848);
+  --tooltip-foreground: oklch(0.968 0.007 247.896);
 }
 
 .dark {
@@ -168,12 +184,16 @@
   --header-premium: oklch(0.3 0.1 282);
 
   --chip: rgba(51, 65, 85, 1);
-}
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
+  /* Status colors - dark mode */
+  --success: oklch(0.696 0.17 162.48);
+  --success-foreground: oklch(0.985 0.001 106.423);
+  --warning: oklch(0.768 0.188 70.08);
+  --warning-foreground: oklch(0.985 0.001 106.423);
+
+  /* Tooltip colors - inverted for dark mode */
+  --tooltip: oklch(0.968 0.007 247.896);
+  --tooltip-foreground: oklch(0.269 0.015 256.848);
 }
 
 /* Support for dynamic viewport height (iOS Safari, Android Chrome) */

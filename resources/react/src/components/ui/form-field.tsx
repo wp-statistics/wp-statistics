@@ -42,7 +42,7 @@ export function FormField({
       {error ? (
         <p className="mt-1 text-xs text-destructive">{error}</p>
       ) : description ? (
-        <p className="mt-1 text-[11px] leading-tight text-neutral-400">{description}</p>
+        <p className="mt-1 text-[11px] leading-tight text-muted-foreground/70">{description}</p>
       ) : null}
     </div>
   )

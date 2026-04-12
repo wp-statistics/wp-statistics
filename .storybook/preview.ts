@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react'
+import { withDarkMode } from './decorators/with-dark-mode'
 import { withRTLSupport } from './decorators/with-rtl-support'
 import { withQueryClient } from './decorators/with-query-client'
 import { withRouter } from './decorators/with-router'
@@ -22,7 +23,7 @@ const initMSW = async () => {
 initMSW()
 
 const preview: Preview = {
-  decorators: [withQueryClient, withRouter, withRTLSupport],
+  decorators: [withQueryClient, withRouter, withRTLSupport, withDarkMode],
   parameters: {
     controls: {
       matchers: {
@@ -93,6 +94,19 @@ const preview: Preview = {
         items: [
           { value: 'ltr', title: 'LTR (Left to Right)' },
           { value: 'rtl', title: 'RTL (Right to Left)' },
+        ],
+        showName: true,
+      },
+    },
+    theme: {
+      name: 'Theme',
+      description: 'Color theme for design token verification',
+      defaultValue: 'light',
+      toolbar: {
+        icon: 'mirror',
+        items: [
+          { value: 'light', title: 'Light' },
+          { value: 'dark', title: 'Dark' },
         ],
         showName: true,
       },

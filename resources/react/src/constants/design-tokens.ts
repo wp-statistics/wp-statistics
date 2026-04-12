@@ -25,19 +25,19 @@ export const semanticColors = {
   errorBg: 'bg-destructive', // For error backgrounds
   errorLight: 'text-destructive/80', // For lighter error text
 
-  success: 'text-emerald-600', // For success indicators
-  successBg: 'bg-emerald-600', // For success backgrounds
-  successLight: 'text-emerald-400', // For lighter success text
+  success: 'text-success', // For success indicators
+  successBg: 'bg-success', // For success backgrounds
+  successLight: 'text-success/70', // For lighter success text
 
-  warning: 'text-amber-600', // For warning messages
-  warningBg: 'bg-amber-600', // For warning backgrounds
+  warning: 'text-warning', // For warning messages
+  warningBg: 'bg-warning', // For warning backgrounds
 
   // Trend indicators - for percentage changes
-  trendPositive: 'text-emerald-600', // Positive change (up arrow)
-  trendPositiveLight: 'text-emerald-400', // Positive change (light, for dark backgrounds)
-  trendNegative: 'text-red-600', // Negative change (down arrow)
-  trendNegativeLight: 'text-red-400', // Negative change (light, for dark backgrounds)
-  trendNeutral: 'text-neutral-400', // No change (0%)
+  trendPositive: 'text-success', // Positive change (up arrow)
+  trendPositiveLight: 'text-success/70', // Positive change (light, for dark backgrounds)
+  trendNegative: 'text-destructive', // Negative change (down arrow)
+  trendNegativeLight: 'text-destructive/70', // Negative change (light, for dark backgrounds)
+  trendNeutral: 'text-muted-foreground/70', // No change (0%)
 
   // Interactive states
   primary: 'text-primary', // Primary action color
@@ -46,8 +46,8 @@ export const semanticColors = {
   mutedBg: 'bg-muted', // Muted backgrounds
 
   // Status indicators (e.g., online/offline)
-  online: 'bg-red-500', // Live/online indicator (pulsing dot)
-  offline: 'bg-neutral-400', // Offline indicator
+  online: 'bg-red-500', // Live/online indicator (pulsing dot) — intentional fixed color
+  offline: 'bg-muted-foreground/50', // Offline indicator
 } as const
 
 /**
@@ -82,13 +82,13 @@ export const chartColors = {
  */
 export const tooltipStyles = {
   // Unified tooltip styles - all tooltips should use these values
-  container: 'rounded bg-neutral-800 shadow-md', // Border radius: rounded (4px)
+  container: 'rounded bg-tooltip shadow-md', // Border radius: rounded (4px)
   padding: {
     simple: 'px-2 py-1', // Simple one-line tooltips
     compact: 'px-2.5 py-1.5', // Compact multi-element tooltips
     spacious: 'px-2.5 py-2', // Multi-row tooltips (charts)
   },
-  text: 'text-neutral-100', // All tooltip text should be white
+  text: 'text-tooltip-foreground', // All tooltip text
   font: 'text-xs', // Base font size
 } as const
 
@@ -116,30 +116,30 @@ export function getTrendColorClass(value: number, isNegative = false): string {
  */
 export const typography = {
   // Headings - sentence case, no uppercase
-  h1: 'text-2xl font-semibold leading-tight text-neutral-900',
-  h2: 'text-xl font-semibold leading-tight text-neutral-800',
-  h3: 'text-base font-semibold leading-snug text-neutral-800',
-  h4: 'text-sm font-semibold leading-snug text-neutral-700',
+  h1: 'text-2xl font-semibold leading-tight text-foreground',
+  h2: 'text-xl font-semibold leading-tight text-foreground',
+  h3: 'text-base font-semibold leading-snug text-foreground',
+  h4: 'text-sm font-semibold leading-snug text-foreground',
 
   // Body text
-  bodyLarge: 'text-base leading-normal text-neutral-700',
-  body: 'text-sm leading-normal text-neutral-600',
-  bodySmall: 'text-xs leading-normal text-neutral-500',
+  bodyLarge: 'text-base leading-normal text-foreground',
+  body: 'text-sm leading-normal text-muted-foreground',
+  bodySmall: 'text-xs leading-normal text-muted-foreground',
 
   // Labels - sentence case (no uppercase for better i18n)
-  label: 'text-xs font-medium text-neutral-500',
-  labelTiny: 'text-[11px] font-medium text-neutral-400',
+  label: 'text-xs font-medium text-muted-foreground',
+  labelTiny: 'text-[11px] font-medium text-muted-foreground/70',
 
   // Metrics
-  metricValue: 'text-xl font-medium tabular-nums leading-none text-neutral-800',
-  metricValueSmall: 'text-lg font-medium tabular-nums leading-none text-neutral-800',
-  metricLabel: 'text-xs font-medium text-neutral-500',
+  metricValue: 'text-xl font-medium tabular-nums leading-none text-foreground',
+  metricValueSmall: 'text-lg font-medium tabular-nums leading-none text-foreground',
+  metricLabel: 'text-xs font-medium text-muted-foreground',
 
   // Tables - sentence case headers
-  tableHeader: 'text-xs font-medium text-neutral-500',
-  tableCell: 'text-xs font-medium text-neutral-700',
-  tableCellNumeric: 'text-xs font-medium text-neutral-700 tabular-nums',
-  tableCellSecondary: 'text-xs text-neutral-500',
+  tableHeader: 'text-xs font-medium text-muted-foreground',
+  tableCell: 'text-xs font-medium text-foreground',
+  tableCellNumeric: 'text-xs font-medium text-foreground tabular-nums',
+  tableCellSecondary: 'text-xs text-muted-foreground',
 
   // Interactive elements
   button: 'text-sm font-medium',
