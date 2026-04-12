@@ -13,10 +13,8 @@ import '@/contexts/content-registry-context'
 import type { ReportConfig } from '@/components/report-page-renderer'
 import type {
   ExportConfig,
-  PageContentProps,
   RegisteredPageContent,
   RegisteredWidget,
-  WidgetRenderProps,
 } from '@/contexts/content-registry-context'
 
 export function registerReport<TData = unknown, TRecord = unknown>(

@@ -18,8 +18,8 @@ export interface DataTableMeta {
 
 // Extend TanStack Table's ColumnMeta and TableMeta
 declare module '@tanstack/react-table' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-object-type
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type, unused-imports/no-unused-vars
   interface ColumnMeta<TData, TValue> extends DataTableColumnMeta {}
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-object-type
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type, unused-imports/no-unused-vars
   interface TableMeta<TData> extends DataTableMeta {}
 }

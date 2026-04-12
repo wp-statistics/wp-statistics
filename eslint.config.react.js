@@ -35,9 +35,20 @@ export default defineConfig([
       },
     },
     rules: {
-      // React hooks rules (only classic rules; v7 React Compiler rules not yet enabled)
+      // React hooks — classic rules
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+
+      // React hooks — React Compiler preparation (Phase 1: 0 current violations)
+      'react-hooks/use-memo': 'error',
+      'react-hooks/void-use-memo': 'error',
+      'react-hooks/component-hook-factories': 'error',
+      'react-hooks/globals': 'error',
+      'react-hooks/error-boundaries': 'error',
+      'react-hooks/set-state-in-render': 'error',
+      'react-hooks/config': 'error',
+      'react-hooks/gating': 'error',
+      'react-hooks/unsupported-syntax': 'error',
 
       // TanStack Query rules
       '@tanstack/query/exhaustive-deps': 'error',
@@ -48,20 +59,13 @@ export default defineConfig([
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
 
-      // Unused imports rules - Disabled due to ESLint 9 compatibility issues
-      // 'unused-imports/no-unused-imports': 'error',
-      // 'unused-imports/no-unused-vars': [
-      //   'warn',
-      //   {
-      //     vars: 'all',
-      //     varsIgnorePattern: '^_',
-      //     args: 'after-used',
-      //     argsIgnorePattern: '^_',
-      //   },
-      // ],
+      // Unused imports — auto-fixable removal of dead import lines
+      'unused-imports/no-unused-imports': 'error',
 
-      // Use TypeScript's unused vars rule instead
-      '@typescript-eslint/no-unused-vars': [
+      // Unused variables — delegated to unused-imports plugin
+      // (wraps @typescript-eslint/no-unused-vars with import-specific filtering)
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-vars': [
         'warn',
         {
           vars: 'all',

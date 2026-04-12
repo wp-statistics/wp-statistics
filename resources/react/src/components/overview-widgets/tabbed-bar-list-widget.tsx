@@ -16,7 +16,7 @@ export function TabbedBarListWidget({
   isCompareEnabled,
   calcPercentage,
   comparisonDateLabel,
-  usePerWidgetDates,
+  usePerWidgetDates: _usePerWidgetDates,
   headerRight,
   footerLeft,
 }: {
