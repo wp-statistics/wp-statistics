@@ -159,7 +159,7 @@ export default defineConfig(({ mode }) => {
       manifest: true,
       minify: mode === 'production',
       sourcemap: mode === 'development' ? true : false,
-      rollupOptions: {
+      rolldownOptions: {
         input: {
           main: resolve(reactRoot, 'src/main.tsx'),
         },

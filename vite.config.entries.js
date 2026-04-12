@@ -114,18 +114,7 @@ export default defineConfig({
   build: {
     outDir: resolve(__dirname, 'public/entries'),
     emptyOutDir: false, // We handle cleanup with cleanOutputDir plugin
-    minify: 'terser',
-
-    terserOptions: {
-      compress: {
-        drop_console: false,
-      },
-      format: {
-        comments: false,
-      },
-    },
-
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         // Admin bar
         'admin-bar/admin-bar.min': resolve(__dirname, 'resources/entries/admin-bar/admin-bar.js'),
@@ -155,10 +144,6 @@ export default defineConfig({
 
       // Prevent code splitting
       preserveEntrySignatures: 'strict',
-    },
-
-    commonjsOptions: {
-      transformMixedEsModules: true,
     },
 
     target: 'es2020',

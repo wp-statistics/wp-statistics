@@ -75,18 +75,7 @@ export default defineConfig({
   build: {
     outDir: resolve(__dirname, 'public/blocks'),
     emptyOutDir: false,
-    minify: 'terser',
-
-    terserOptions: {
-      compress: {
-        drop_console: false,
-      },
-      format: {
-        comments: false,
-      },
-    },
-
-    rollupOptions: {
+    rolldownOptions: {
       input: getBlockEntries(),
 
       output: {
