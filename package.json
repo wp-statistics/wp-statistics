@@ -111,7 +111,6 @@
     "@vitest/coverage-v8": "^4.0.16",
     "@wordpress/env": "^11.1.0",
     "@wordpress/i18n": "^6.7.0",
-    "@wordpress/scripts": "^27.9.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.36.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
