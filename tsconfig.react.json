@@ -2,7 +2,6 @@
   "files": [],
   "references": [{ "path": "./tsconfig.react.app.json" }, { "path": "./tsconfig.react.node.json" }],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./resources/react/src/*"],
       "@components/*": ["./resources/react/src/components/*"],

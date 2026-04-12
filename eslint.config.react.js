@@ -17,10 +17,10 @@ export default defineConfig([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
     plugins: {
+      'react-hooks': reactHooks,
       '@tanstack/query': pluginQuery,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
@@ -35,6 +35,10 @@ export default defineConfig([
       },
     },
     rules: {
+      // React hooks rules (only classic rules; v7 React Compiler rules not yet enabled)
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+
       // TanStack Query rules
       '@tanstack/query/exhaustive-deps': 'error',
       '@tanstack/query/no-rest-destructuring': 'warn',
@@ -124,6 +128,14 @@ export default defineConfig([
   // Disable the react-refresh rule that expects only component exports from .tsx files.
   {
     files: ['**/*-columns.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+
+  // TanStack Router route files export both Route objects and components — this is expected.
+  {
+    files: ['**/routes/**/*.lazy.tsx', '**/routes/**/route.tsx', '**/routes/__root.tsx'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },
