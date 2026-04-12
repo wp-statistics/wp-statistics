@@ -19,13 +19,19 @@ import type { WidgetRenderContext } from './types'
 export function DataTableWidget({
   widget,
   ctx,
+  headerRight,
+  footerLeft,
 }: {
   widget: PhpOverviewWidget
   ctx: WidgetRenderContext
+  headerRight?: React.ReactNode
+  footerLeft?: React.ReactNode
 }) {
   const config = widget.dataTableConfig!
   const rows = (ctx.batchItems[widget.queryId!]?.data?.rows || []) as Record<string, unknown>[]
   const navigate = useNavigate()
+
+  const effectiveApiDateParams = ctx.widgetDateRanges[widget.id]?.apiDateParams ?? ctx.apiDateParams
 
   const columns = useMemo(
     () => createColumnsFromConfig(config.columns, { expandable: !!config.expandableRows }),
@@ -39,10 +45,10 @@ export function DataTableWidget({
       <ExpandableSubRow
         row={row}
         config={expandableRows}
-        apiDateParams={ctx.apiDateParams}
+        apiDateParams={effectiveApiDateParams}
       />
     )
-  }, [expandableRows, ctx.apiDateParams])
+  }, [expandableRows, effectiveApiDateParams])
 
   const fullReportLink = widget.link && rows.length > 0
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,6 +66,8 @@ export function DataTableWidget({
       stickyHeader={true}
       showPagination={false}
       fullReportLink={fullReportLink}
+      headerRight={headerRight}
+      footerLeft={footerLeft}
     />
   )
 }

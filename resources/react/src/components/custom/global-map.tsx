@@ -1,5 +1,5 @@
 import { Button } from '@components/ui/button'
-import { Panel, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
+import { Panel, PanelActions, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Tabs, TabsList, TabsTrigger } from '@components/ui/tabs'
 import { getCountryCenter, getCountryZoomLevel } from '@lib/country-centers'
 import { createRegionMatcher, type RegionData } from '@lib/region-matcher'
@@ -73,6 +73,10 @@ export interface GlobalMapProps {
   // Date range for region API queries (when clicking a country)
   dateFrom?: string
   dateTo?: string
+  /** Optional element rendered in the panel header (e.g., context menu) */
+  headerRight?: React.ReactNode
+  /** Optional element rendered in the panel footer left side (e.g., widget preset selector) */
+  footerLeft?: React.ReactNode
 }
 
 export function GlobalMap({
@@ -91,6 +95,8 @@ export function GlobalMap({
   ],
   dateFrom,
   dateTo,
+  headerRight,
+  footerLeft,
 }: GlobalMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState({ coordinates: [0, 0] as [number, number], zoom: 1 })
@@ -444,9 +450,10 @@ export function GlobalMap({
 
   return (
     <Panel className={cn('h-full flex flex-col', className)}>
-      {title && (
+      {(title || headerRight) && (
         <PanelHeader>
           <PanelTitle>{title}</PanelTitle>
+          {headerRight && <PanelActions>{headerRight}</PanelActions>}
         </PanelHeader>
       )}
       <PanelContent className="flex-1 flex flex-col">
@@ -857,6 +864,12 @@ export function GlobalMap({
           </div>
         )}
       </PanelContent>
+      {footerLeft && (
+        <PanelFooter className="justify-between">
+          <div>{footerLeft}</div>
+          <div />
+        </PanelFooter>
+      )}
     </Panel>
   )
 }

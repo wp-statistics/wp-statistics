@@ -57,6 +57,43 @@ function allInCurrentYear(...dates: Date[]): boolean {
 }
 
 /**
+ * Pure function that computes comparison date labels from explicit date arguments.
+ * Use this when you need per-widget labels with different date ranges.
+ */
+export function getComparisonDateLabel(
+  dateFrom: Date,
+  dateTo: Date,
+  compareDateFrom?: Date,
+  compareDateTo?: Date,
+  isCompareEnabled?: boolean,
+): ComparisonDateLabel {
+  const showYearInCurrentPeriod = !allInCurrentYear(dateFrom, dateTo)
+  const currentPeriodLabel = formatDateRange(dateFrom, dateTo, showYearInCurrentPeriod)
+
+  if (!isCompareEnabled || !compareDateFrom || !compareDateTo) {
+    return {
+      label: undefined,
+      currentPeriodLabel,
+      previousPeriodLabel: undefined,
+      isCompareEnabled: false,
+    }
+  }
+
+  const allCurrentYear = allInCurrentYear(dateFrom, dateTo, compareDateFrom, compareDateTo)
+  const showYear = !allCurrentYear
+
+  const currentLabel = formatDateRange(dateFrom, dateTo, showYear)
+  const previousLabel = formatDateRange(compareDateFrom, compareDateTo, showYear)
+
+  return {
+    label: `${currentLabel} ${__('vs.', 'wp-statistics')} ${previousLabel}`,
+    currentPeriodLabel,
+    previousPeriodLabel: formatDateRange(compareDateFrom, compareDateTo, !allInCurrentYear(compareDateFrom, compareDateTo)),
+    isCompareEnabled: true,
+  }
+}
+
+/**
  * Hook that provides formatted date range labels for comparison tooltips
  *
  * @example
@@ -71,31 +108,6 @@ export function useComparisonDateLabel(): ComparisonDateLabel {
   const { dateFrom, dateTo, compareDateFrom, compareDateTo, isCompareEnabled } = useGlobalFilters()
 
   return useMemo(() => {
-    // For current period label (used standalone), hide year if in current year
-    const showYearInCurrentPeriod = !allInCurrentYear(dateFrom, dateTo)
-    const currentPeriodLabel = formatDateRange(dateFrom, dateTo, showYearInCurrentPeriod)
-
-    if (!isCompareEnabled || !compareDateFrom || !compareDateTo) {
-      return {
-        label: undefined,
-        currentPeriodLabel,
-        previousPeriodLabel: undefined,
-        isCompareEnabled: false,
-      }
-    }
-
-    // For comparison tooltip, hide year only if all 4 dates are in the current year
-    const allCurrentYear = allInCurrentYear(dateFrom, dateTo, compareDateFrom, compareDateTo)
-    const showYear = !allCurrentYear
-
-    const currentLabel = formatDateRange(dateFrom, dateTo, showYear)
-    const previousLabel = formatDateRange(compareDateFrom, compareDateTo, showYear)
-
-    return {
-      label: `${currentLabel} ${__('vs.', 'wp-statistics')} ${previousLabel}`,
-      currentPeriodLabel,
-      previousPeriodLabel: formatDateRange(compareDateFrom, compareDateTo, !allInCurrentYear(compareDateFrom, compareDateTo)),
-      isCompareEnabled: true,
-    }
+    return getComparisonDateLabel(dateFrom, dateTo, compareDateFrom, compareDateTo, isCompareEnabled)
   }, [dateFrom, dateTo, compareDateFrom, compareDateTo, isCompareEnabled])
 }

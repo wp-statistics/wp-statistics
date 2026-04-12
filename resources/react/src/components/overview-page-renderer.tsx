@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { BackButton } from '@/components/custom/back-button'
 import { DateRangePicker } from '@/components/custom/date-range-picker'
+import { WidgetPresetSelector } from '@/components/custom/widget-preset-selector'
 import { FilterButton, type FilterField } from '@/components/custom/filter-button'
 import type { GlobalMapData } from '@/components/custom/global-map'
 import { Metrics } from '@/components/custom/metrics'
@@ -46,6 +47,7 @@ import { Panel } from '@/components/ui/panel'
 import { useContentRegistry } from '@/contexts/content-registry-context'
 import type { MetricConfig, WidgetConfig } from '@/contexts/page-options-context'
 import { useComparisonDateLabel } from '@/hooks/use-comparison-date-label'
+import { computeWidgetDateRange, type WidgetDateRange } from '@/hooks/use-widget-date-range'
 import { useGlobalFilters } from '@/hooks/use-global-filters'
 import { usePageOptions } from '@/hooks/use-page-options'
 import { usePercentageCalc } from '@/hooks/use-percentage-calc'
@@ -89,6 +91,13 @@ function createOverviewQueryOptions(
     entityFilter?: { key: string; operator: string; value: string }
     /** Additional API filters merged at top level (e.g., { post_type: { is: 'post' } }) */
     apiFilters?: Record<string, Record<string, string | string[]>>
+    /** Per-query date overrides (from widget presets on overview page) */
+    queryDateOverrides?: Record<string, {
+      date_from: string
+      date_to: string
+      previous_date_from?: string
+      previous_date_to?: string
+    }>
   }
 ) {
   const hasCompare = !!(params.compareDateFrom && params.compareDateTo)
@@ -103,14 +112,24 @@ function createOverviewQueryOptions(
   // Set compare on queries that don't explicitly specify it
   // Replace group_by for queries with timeframeGroupBy flag
   // Inject entity filter into each query for detail pages
-  const queries = config.queries.map((q) => ({
-    ...q,
-    compare: q.compare !== undefined ? q.compare : hasCompare,
-    ...(q.timeframeGroupBy && { group_by: [dateGroupBy] }),
-    ...(params.entityFilter && {
-      filters: [...(q.filters as unknown[] || []), params.entityFilter],
-    }),
-  }))
+  // Inject per-widget date overrides when present
+  const queries = config.queries.map((q) => {
+    const dateOverride = params.queryDateOverrides?.[q.id]
+    return {
+      ...q,
+      compare: q.compare !== undefined ? q.compare : hasCompare,
+      ...(q.timeframeGroupBy && { group_by: [dateGroupBy] }),
+      ...(params.entityFilter && {
+        filters: [...(q.filters as unknown[] || []), params.entityFilter],
+      }),
+      ...(dateOverride && {
+        date_from: dateOverride.date_from,
+        date_to: dateOverride.date_to,
+        ...(dateOverride.previous_date_from && { previous_date_from: dateOverride.previous_date_from }),
+        ...(dateOverride.previous_date_to && { previous_date_to: dateOverride.previous_date_to }),
+      }),
+    }
+  })
 
   // eslint-disable-next-line @tanstack/query/exhaustive-deps -- mergedFilters is included conditionally, queries is static config
   return queryOptions({
@@ -123,6 +142,7 @@ function createOverviewQueryOptions(
       params.compareDateTo,
       hasFilters ? mergedFilters : null,
       params.timeframe || null,
+      params.queryDateOverrides || null,
     ],
     queryFn: () =>
       clientRequest.post<OverviewBatchResponse>(
@@ -232,8 +252,8 @@ function OverviewContent({
   headerActions?: React.ReactNode
   beforeWidgets?: React.ReactNode
 }) {
-  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, filters: appliedFilters, isInitialized, isCompareEnabled, apiDateParams, handleDateRangeUpdate, applyFilters: handleApplyFilters } = useGlobalFilters()
-  const { isWidgetVisible, isMetricVisible, getWidgetSize, getOrderedVisibleWidgets } = usePageOptions()
+  const { dateFrom, dateTo, compareDateFrom, compareDateTo, period, filters: appliedFilters, isInitialized, isCompareEnabled, comparisonMode, apiDateParams, handleDateRangeUpdate, applyFilters: handleApplyFilters } = useGlobalFilters()
+  const { isWidgetVisible, isMetricVisible, getWidgetSize, getOrderedVisibleWidgets, getWidgetPreset } = usePageOptions()
   const options = useOverviewOptions(optionsConfig)
   const navigate = useNavigate()
   const { label: comparisonDateLabel } = useComparisonDateLabel()
@@ -384,6 +404,30 @@ function OverviewContent({
     [detailConfig, entityValue, resolvedFilterField, resolvedOperator]
   )
 
+  // Per-widget date ranges: computed once, shared by queryDateOverrides and widget renderers
+  const isPerWidgetPresetPage = !!overviewConfig?.hideDateRange
+  const widgetDateRanges = useMemo(() => {
+    if (!isPerWidgetPresetPage) return {} as Record<string, WidgetDateRange>
+    const ranges: Record<string, WidgetDateRange> = {}
+    for (const widget of config.widgets) {
+      if (!widget.queryId || widget.type === 'traffic-summary') continue
+      ranges[widget.id] = computeWidgetDateRange(getWidgetPreset(widget.id), isCompareEnabled, comparisonMode)
+    }
+    return ranges
+  }, [config.widgets, getWidgetPreset, isCompareEnabled, comparisonMode, isPerWidgetPresetPage])
+
+  // Derive per-query date overrides from the pre-computed widget date ranges
+  const queryDateOverrides = useMemo(() => {
+    if (!isPerWidgetPresetPage) return undefined
+    const overrides: Record<string, { date_from: string; date_to: string; previous_date_from?: string; previous_date_to?: string }> = {}
+    for (const widget of config.widgets) {
+      if (!widget.queryId || widget.type === 'traffic-summary') continue
+      const dates = widgetDateRanges[widget.id]
+      if (dates) overrides[widget.queryId] = dates.apiDateParams
+    }
+    return overrides
+  }, [config.widgets, widgetDateRanges, isPerWidgetPresetPage])
+
   // Traffic summary: parallel fixed-period queries (independent from main batch)
   const trafficSummaryWidget = useMemo(
     () => config.widgets.find((w) => w.type === 'traffic-summary'),
@@ -460,6 +504,7 @@ function OverviewContent({
       timeframe: supportsTimeframe ? timeframe : undefined,
       entityFilter,
       apiFilters: externalApiFilters,
+      queryDateOverrides,
     }),
     retry: false,
     placeholderData: keepPreviousData,
@@ -683,6 +728,7 @@ function OverviewContent({
     trafficSummaryQueries,
     registeredWidgets,
     routeParams,
+    widgetDateRanges,
   }
 
   return (
@@ -819,18 +865,26 @@ function OverviewContent({
 
 // ------- Widget Renderers -------
 
+/** Build a preset selector for a widget, if per-widget presets are active */
+function getPresetSelector(widget: PhpOverviewWidget, ctx: WidgetRenderContext): React.ReactNode | undefined {
+  return ctx.widgetDateRanges[widget.id] ? <WidgetPresetSelector widgetId={widget.id} /> : undefined
+}
+
 // Register built-in widget renderers
-registerWidgetRenderer('metrics', (widget, { colSpan, contextMenu, overviewMetrics }) => {
+registerWidgetRenderer('metrics', (widget, { colSpan, contextMenu, overviewMetrics, ctx }) => {
   if (overviewMetrics.length === 0) return null
+  const presetSelector = getPresetSelector(widget, ctx)
+  const hasHeader = !!(presetSelector || contextMenu)
   return (
     <div key={widget.id} className={colSpan}>
       <Panel className="h-full">
-        {contextMenu && (
-          <div className="flex items-center justify-end px-4 pt-3 pb-1">
+        {hasHeader && (
+          <div className="flex items-center justify-between px-4 pt-3 pb-1">
+            {presetSelector}
             {contextMenu}
           </div>
         )}
-        <Metrics metrics={overviewMetrics} columns={contextMenu ? 'auto' : undefined} />
+        <Metrics metrics={overviewMetrics} columns={hasHeader ? 'auto' : undefined} />
       </Panel>
     </div>
   )
@@ -838,6 +892,7 @@ registerWidgetRenderer('metrics', (widget, { colSpan, contextMenu, overviewMetri
 
 registerWidgetRenderer('chart', (widget, { colSpan, contextMenu, ctx }) => {
   if (!widget.queryId || !widget.chartConfig) return null
+  const widgetDates = ctx.widgetDateRanges[widget.id]
   return (
     <div key={widget.id} className={colSpan}>
       <ChartWidget
@@ -847,18 +902,19 @@ registerWidgetRenderer('chart', (widget, { colSpan, contextMenu, ctx }) => {
         timeframe={ctx.timeframe}
         onTimeframeChange={widget.chartConfig.timeframeSupport ? ctx.onTimeframeChange : undefined}
         loading={ctx.isChartRefetching}
-        apiDateParams={ctx.apiDateParams}
+        apiDateParams={widgetDates?.apiDateParams ?? ctx.apiDateParams}
+        headerActions={widgetDates ? <WidgetPresetSelector widgetId={widget.id} /> : undefined}
         headerRight={contextMenu}
       />
     </div>
   )
 })
 
-registerWidgetRenderer('map', (widget, { colSpan, ctx }) => {
+registerWidgetRenderer('map', (widget, { colSpan, contextMenu, ctx }) => {
   if (!widget.mapConfig) return null
   return (
     <div key={widget.id} className={colSpan}>
-      <MapWidget widget={widget} ctx={ctx} />
+      <MapWidget widget={widget} ctx={ctx} headerRight={contextMenu} footerLeft={getPresetSelector(widget, ctx)} />
     </div>
   )
 })
@@ -867,13 +923,14 @@ registerWidgetRenderer('bar-list', (widget, { colSpan, ctx, contextMenu }) => {
   if (!widget.queryId) return null
   return (
     <div key={widget.id} className={colSpan}>
-      <BarListWidget widget={widget} ctx={ctx} contextMenu={contextMenu} />
+      <BarListWidget widget={widget} ctx={ctx} contextMenu={contextMenu} footerLeft={getPresetSelector(widget, ctx)} />
     </div>
   )
 })
 
-registerWidgetRenderer('tabbed-bar-list', (widget, { colSpan, ctx }) => {
+registerWidgetRenderer('tabbed-bar-list', (widget, { colSpan, ctx, contextMenu }) => {
   if (!widget.queryId || !widget.tabbedBarListConfig) return null
+  const widgetDates = ctx.widgetDateRanges[widget.id]
   return (
     <div key={widget.id} className={colSpan}>
       <TabbedBarListWidget
@@ -882,7 +939,9 @@ registerWidgetRenderer('tabbed-bar-list', (widget, { colSpan, ctx }) => {
         batchItems={ctx.batchItems as Record<string, { data?: { rows?: Record<string, unknown>[] } }>}
         isCompareEnabled={ctx.isCompareEnabled}
         calcPercentage={ctx.calcPercentage}
-        comparisonDateLabel={ctx.comparisonDateLabel}
+        comparisonDateLabel={widgetDates?.comparisonDateLabel ?? ctx.comparisonDateLabel}
+        headerRight={contextMenu}
+        footerLeft={widgetDates ? <WidgetPresetSelector widgetId={widget.id} /> : undefined}
       />
     </div>
   )
@@ -901,11 +960,11 @@ registerWidgetRenderer('traffic-summary', (widget, { colSpan, ctx }) => {
   )
 })
 
-registerWidgetRenderer('data-table', (widget, { colSpan, ctx }) => {
+registerWidgetRenderer('data-table', (widget, { colSpan, ctx, contextMenu }) => {
   if (!widget.queryId || !widget.dataTableConfig) return null
   return (
     <div key={widget.id} className={colSpan}>
-      <DataTableWidget widget={widget} ctx={ctx} />
+      <DataTableWidget widget={widget} ctx={ctx} headerRight={contextMenu} footerLeft={getPresetSelector(widget, ctx)} />
     </div>
   )
 })

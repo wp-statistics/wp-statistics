@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n'
 import { Loader2 } from 'lucide-react'
 
 import { EmptyState } from '@/components/ui/empty-state'
-import { Panel, PanelAction, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
+import { Panel, PanelAction, PanelActions, PanelContent, PanelFooter, PanelHeader, PanelTitle } from '@/components/ui/panel'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import { BarListHeader } from './bar-list-header'
@@ -37,6 +37,10 @@ export interface TabbedPanelProps {
   defaultTab?: string
   /** Loading state */
   loading?: boolean
+  /** Optional element rendered in the panel header (e.g., context menu) */
+  headerRight?: React.ReactNode
+  /** Optional element rendered in the panel footer left side (e.g., widget preset selector) */
+  footerLeft?: React.ReactNode
 }
 
 /**
@@ -64,7 +68,7 @@ export interface TabbedPanelProps {
  *   ]}
  * />
  */
-export function TabbedPanel({ title, tabs, defaultTab, loading = false }: TabbedPanelProps) {
+export function TabbedPanel({ title, tabs, defaultTab, loading = false, headerRight, footerLeft }: TabbedPanelProps) {
   const activeTab = defaultTab || tabs[0]?.id
 
   // Handle empty tabs array
@@ -73,6 +77,7 @@ export function TabbedPanel({ title, tabs, defaultTab, loading = false }: Tabbed
       <Panel className="h-full flex flex-col">
         <PanelHeader>
           <PanelTitle>{title}</PanelTitle>
+          {headerRight && <PanelActions>{headerRight}</PanelActions>}
         </PanelHeader>
         <PanelContent className="flex-1">
           <EmptyState title={__('No data available', 'wp-statistics')} className="py-6" />
@@ -86,13 +91,16 @@ export function TabbedPanel({ title, tabs, defaultTab, loading = false }: Tabbed
       <Tabs defaultValue={activeTab} className="flex flex-col h-full">
         <PanelHeader>
           <PanelTitle>{title}</PanelTitle>
-          <TabsList className="h-7">
-            {tabs.map((tab) => (
-              <TabsTrigger key={tab.id} value={tab.id} className="text-xs px-2 py-1">
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <PanelActions>
+            <TabsList className="h-7">
+              {tabs.map((tab) => (
+                <TabsTrigger key={tab.id} value={tab.id} className="text-xs px-2 py-1">
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            {headerRight}
+          </PanelActions>
         </PanelHeader>
 
         <PanelContent className="flex-1">
@@ -115,9 +123,14 @@ export function TabbedPanel({ title, tabs, defaultTab, loading = false }: Tabbed
         {/* Render footer with link for the currently active tab */}
         {tabs.map((tab) => (
           <TabsContent key={`footer-${tab.id}`} value={tab.id} className="mt-0">
-            {tab.link?.href && (
-              <PanelFooter>
-                <PanelAction href={tab.link.href}>{tab.link.title || __('See all', 'wp-statistics')}</PanelAction>
+            {(footerLeft || tab.link?.href) && (
+              <PanelFooter className="justify-between">
+                <div>{footerLeft}</div>
+                <div>
+                  {tab.link?.href && (
+                    <PanelAction href={tab.link.href}>{tab.link.title || __('See all', 'wp-statistics')}</PanelAction>
+                  )}
+                </div>
               </PanelFooter>
             )}
           </TabsContent>

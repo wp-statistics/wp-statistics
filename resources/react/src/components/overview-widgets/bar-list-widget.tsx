@@ -13,15 +13,18 @@ export function BarListWidget({
   widget,
   ctx,
   contextMenu,
+  footerLeft,
 }: {
   widget: PhpOverviewWidget
   ctx: WidgetRenderContext
   contextMenu?: React.ReactNode
+  footerLeft?: React.ReactNode
 }) {
   const navigate = ctx.navigate
   const queryResult = ctx.batchItems[widget.queryId!]
   const rows = queryResult?.data?.rows || []
   const totals = queryResult?.data?.totals
+  const effectiveComparisonLabel = ctx.widgetDateRanges[widget.id]?.comparisonDateLabel ?? ctx.comparisonDateLabel
 
   const linkResolvers = useMemo(() => {
     if (widget.linkType === 'analytics-route') {
@@ -83,11 +86,12 @@ export function BarListWidget({
             ? (item) => ICON_RENDERERS[widget.iconType!](item as Record<string, unknown>, widget.iconSlugField!)
             : undefined,
         isCompareEnabled: ctx.isCompareEnabled,
-        comparisonDateLabel: ctx.comparisonDateLabel,
+        comparisonDateLabel: effectiveComparisonLabel,
         ...linkResolvers,
       })}
       link={widget.link ? { action: () => navigate({ to: widget.link!.to }) } : undefined}
       headerRight={contextMenu}
+      footerLeft={footerLeft}
     />
   )
 }

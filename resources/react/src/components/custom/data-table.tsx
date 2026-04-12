@@ -20,7 +20,7 @@ import * as React from 'react'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 import { EmptyState } from '../ui/empty-state'
-import { Panel, PanelAction, PanelFooter, PanelHeader, PanelTitle } from '../ui/panel'
+import { Panel, PanelAction, PanelActions, PanelFooter, PanelHeader, PanelTitle } from '../ui/panel'
 import { DataTableCardList } from './data-table-card-list'
 import { DataTableMobileHeader } from './data-table-mobile-header'
 import { DataTableMobilePagination } from './data-table-mobile-pagination'
@@ -74,6 +74,10 @@ interface DataTableProps<TData, TValue> {
   // Expandable rows
   renderSubComponent?: (props: { row: Row<TData> }) => React.ReactNode
   getRowCanExpand?: (row: Row<TData>) => boolean
+  // Optional element rendered in the panel header (e.g., context menu)
+  headerRight?: React.ReactNode
+  // Optional element rendered in the panel footer left side (e.g., widget preset selector)
+  footerLeft?: React.ReactNode
 }
 
 export function DataTable<TData, TValue>({
@@ -120,6 +124,8 @@ export function DataTable<TData, TValue>({
   // Expandable rows
   renderSubComponent,
   getRowCanExpand,
+  headerRight,
+  footerLeft,
 }: DataTableProps<TData, TValue>) {
   const isMobile = useIsMobile()
 
@@ -374,10 +380,15 @@ export function DataTable<TData, TValue>({
   // Desktop/tablet table view
   return (
     <Panel variant={borderless ? 'borderless' : 'default'} className="min-w-0 overflow-hidden">
-      {title && (
+      {(title || headerRight) && (
         <PanelHeader>
           <PanelTitle>{title}</PanelTitle>
-          {isFetching && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground/70" />}
+          {(isFetching || headerRight) && (
+            <PanelActions>
+              {isFetching && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground/70" />}
+              {headerRight}
+            </PanelActions>
+          )}
         </PanelHeader>
       )}
       <div
@@ -460,10 +471,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {(showPagination || fullReportLink) && (
+      {(showPagination || fullReportLink || footerLeft) && (
         <PanelFooter className="flex items-center justify-between" data-pdf-hide>
-          {/* Left: Empty for alignment */}
-          <div />
+          <div>{footerLeft}</div>
 
           {/* Center: Pagination */}
           {showPagination && (totalRows ?? 0) > 0 && (

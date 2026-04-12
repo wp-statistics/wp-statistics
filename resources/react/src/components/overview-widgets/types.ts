@@ -6,6 +6,7 @@ import type { NavigateFn } from '@tanstack/react-router'
 
 import type { GlobalMapData } from '@/components/custom/global-map'
 import type { RegisteredWidget } from '@/contexts/content-registry-context'
+import type { WidgetDateRange } from '@/hooks/use-widget-date-range'
 import type { FixedDatePeriod } from '@/lib/fixed-date-ranges'
 import type { Timeframe } from '@/lib/response-helpers'
 
@@ -48,6 +49,8 @@ export interface WidgetRenderContext {
   registeredWidgets: RegisteredWidget[]
   // Route params (for detail pages, passed through to registered widgets)
   routeParams?: Record<string, string>
+  // Per-widget date ranges (only populated on overview page with hideDateRange)
+  widgetDateRanges: Record<string, WidgetDateRange>
 }
 
 export interface TrafficSummaryPeriodResponse {

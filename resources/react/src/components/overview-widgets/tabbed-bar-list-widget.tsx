@@ -16,6 +16,9 @@ export function TabbedBarListWidget({
   isCompareEnabled,
   calcPercentage,
   comparisonDateLabel,
+  usePerWidgetDates,
+  headerRight,
+  footerLeft,
 }: {
   widget: PhpOverviewWidget
   rows: Record<string, unknown>[]
@@ -24,7 +27,10 @@ export function TabbedBarListWidget({
   isCompareEnabled: boolean
   calcPercentage: (current: number, previous: number) => { percentage: string; isNegative: boolean }
   comparisonDateLabel: string
+  headerRight?: React.ReactNode
+  footerLeft?: React.ReactNode
 }) {
+
   const config = widget.tabbedBarListConfig!
   const labelField = config.labelField || 'page_title'
   const labelFallback = config.labelFallbackField || 'page_uri'
@@ -141,5 +147,5 @@ export function TabbedBarListWidget({
       .filter((t): t is TabbedPanelTab => t !== null)
   }, [rows, batchItems, config, isCompareEnabled, calcPercentage, comparisonDateLabel, labelField, labelFallback])
 
-  return <TabbedPanel title={widget.label} tabs={tabs} defaultTab={config.tabs[0]?.id} />
+  return <TabbedPanel title={widget.label} tabs={tabs} defaultTab={config.tabs[0]?.id} headerRight={headerRight} footerLeft={footerLeft} />
 }

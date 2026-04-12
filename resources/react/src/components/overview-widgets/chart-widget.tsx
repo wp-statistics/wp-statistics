@@ -12,6 +12,7 @@ export function ChartWidget({
   onTimeframeChange,
   loading,
   apiDateParams,
+  headerActions,
   headerRight,
 }: {
   widget: PhpOverviewWidget
@@ -21,6 +22,7 @@ export function ChartWidget({
   onTimeframeChange?: (tf: Timeframe) => void
   loading: boolean
   apiDateParams: { date_to: string; previous_date_to?: string }
+  headerActions?: React.ReactNode
   headerRight?: React.ReactNode
 }) {
   const { data: chartData, metrics } = useChartData(queryResult, {
@@ -46,6 +48,7 @@ export function ChartWidget({
       loading={loading}
       dateTo={apiDateParams.date_to}
       compareDateTo={apiDateParams.previous_date_to}
+      headerActions={headerActions}
       headerRight={headerRight}
     />
   )
