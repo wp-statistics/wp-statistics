@@ -107,8 +107,8 @@ export function createGenericQueryOptions(
 
       const timeframeGroupBy = TIMEFRAME_TO_GROUP_BY[params.timeframe || 'daily']
 
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps -- dataSource.queries is a static config closed over at factory creation time
       return queryOptions({
-        // eslint-disable-next-line @tanstack/query/exhaustive-deps -- dataSource.queries is a static config closed over at factory creation time
         queryKey: [
           slug,
           params.page,
@@ -205,8 +205,8 @@ export function createGenericQueryOptions(
     if (reportConfig?.realtime) {
       const windowMs = reportConfig.realtime.windowMinutes * 60 * 1000
 
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps -- reportConfig.context is a static config closed over at factory creation time
       return queryOptions({
-        // eslint-disable-next-line @tanstack/query/exhaustive-deps -- reportConfig.context is a static config closed over at factory creation time
         queryKey: [
           slug,
           params.page,
@@ -254,8 +254,8 @@ export function createGenericQueryOptions(
     }
 
     // Simple format (existing behavior)
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- reportConfig.context is a static config closed over at factory creation time
     return queryOptions({
-      // eslint-disable-next-line @tanstack/query/exhaustive-deps -- reportConfig.context is a static config closed over at factory creation time
       queryKey: [
         slug,
         params.page,

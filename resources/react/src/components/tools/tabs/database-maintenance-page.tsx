@@ -2,7 +2,7 @@ import { __, sprintf } from '@wordpress/i18n'
 import { Bot, Loader2, ShieldAlert, Trash2, Wrench } from 'lucide-react'
 import * as React from 'react'
 
-import { SettingsCard, SettingsActionField } from '@/components/settings-ui'
+import { SettingsActionField, SettingsCard } from '@/components/settings-ui'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { Input } from '@/components/ui/input'
@@ -55,9 +55,9 @@ export function DatabaseMaintenancePage() {
     }
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- fetch once on mount
   React.useEffect(() => {
     fetchMaintenanceInfo()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional mount-only effect
   }, [])
 
   // ── Handlers ──────────────────────────────────────────────────────────

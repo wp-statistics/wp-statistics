@@ -1,5 +1,5 @@
-import { __ } from '@wordpress/i18n'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import { __ } from '@wordpress/i18n'
 
 import { PhpReportRoute } from '@/components/php-report-route'
 

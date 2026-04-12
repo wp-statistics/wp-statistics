@@ -5,15 +5,14 @@
  * Used by the PHP-to-JS registration bridge to build ColumnDef[] from PHP config.
  */
 
+import { Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { ChevronRight } from 'lucide-react'
 
-import { Link } from '@tanstack/react-router'
-
 import { DataTableColumnHeader } from '@/components/custom/data-table-column-header'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { AuthorCell, DurationCell, EntryPageCell, JourneyCell, LastVisitCell, LocationCell, NumericCell, PageCell, ReferrerCell, StatusCell, TermCell, UriCell, VisitorInfoCell } from '@/components/data-table-columns'
 import { getChannelDisplayName } from '@/components/data-table-columns/source-categories-columns'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { COLUMN_SIZES } from '@/lib/column-sizes'
 import { parseEntryPage } from '@/lib/url-utils'
 import { WordPress } from '@/lib/wordpress'

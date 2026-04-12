@@ -5,8 +5,8 @@
  * Supports columns from PHP config, expandable sub-rows, and "See all" link.
  */
 
-import type { Row } from '@tanstack/react-table'
 import { useNavigate } from '@tanstack/react-router'
+import type { Row } from '@tanstack/react-table'
 import { __ } from '@wordpress/i18n'
 import { useMemo } from 'react'
 

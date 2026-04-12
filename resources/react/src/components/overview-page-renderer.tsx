@@ -112,8 +112,8 @@ function createOverviewQueryOptions(
     }),
   }))
 
+  // eslint-disable-next-line @tanstack/query/exhaustive-deps -- mergedFilters is included conditionally, queries is static config
   return queryOptions({
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- mergedFilters is included conditionally, queries is static config
     queryKey: [
       config.pageId,
       params.entityFilter?.value || null,

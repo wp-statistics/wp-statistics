@@ -1,5 +1,5 @@
-import { __, sprintf } from '@wordpress/i18n'
 import { Link } from '@tanstack/react-router'
+import { __, sprintf } from '@wordpress/i18n'
 import {
   AlertTriangle,
   CheckCircle2,
@@ -91,6 +91,7 @@ export function PrivacyAuditPage() {
 
   React.useEffect(() => {
     fetchAudit()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional mount-only effect
   }, [])
 
   const fetchAudit = async () => {

@@ -119,4 +119,13 @@ export default defineConfig([
   },
   ...pluginRouter.configs['flat/recommended'],
   ...pluginQuery.configs['flat/recommended'],
+
+  // Column definition files export constants, types, and factory functions — not React components.
+  // Disable the react-refresh rule that expects only component exports from .tsx files.
+  {
+    files: ['**/*-columns.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])
