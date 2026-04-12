@@ -126,7 +126,7 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config, dis
           >
             <Badge
               variant="secondary"
-              className="text-[11px] font-normal py-0 px-1 h-4 w-fit cursor-pointer hover:bg-neutral-200 transition-colors"
+              className="text-[11px] font-normal py-0 px-1 h-4 w-fit cursor-pointer hover:bg-muted transition-colors"
             >
               {user!.username} #{user!.id}
             </Badge>
@@ -142,12 +142,12 @@ export const VisitorInfoCell = memo(function VisitorInfoCell({ data, config, dis
             to="/visitor/$type/$id"
             params={{ type: visitorLink.type, id: visitorLink.id }}
             search={{ from: pathname }}
-            className="text-[11px] text-neutral-500 font-mono tracking-wide hover:text-primary hover:underline cursor-pointer"
+            className="text-[11px] text-muted-foreground font-mono tracking-wide hover:text-primary hover:underline cursor-pointer"
           >
             {identifierDisplay}
           </Link>
         ) : (
-          <span className="text-[11px] text-neutral-500 font-mono tracking-wide">{identifierDisplay}</span>
+          <span className="text-[11px] text-muted-foreground font-mono tracking-wide">{identifierDisplay}</span>
         )
       ) : null}
     </div>

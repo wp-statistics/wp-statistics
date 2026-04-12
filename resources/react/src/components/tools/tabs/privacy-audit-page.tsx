@@ -171,12 +171,12 @@ export function PrivacyAuditPage() {
       >
         <div className="flex items-center gap-4 text-sm mb-4">
           <span className="flex items-center gap-1">
-            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            <CheckCircle2 className="h-4 w-4 text-success" />
             {sprintf(__('%d Passed', 'wp-statistics'), summary.passCount)}
           </span>
           {summary.warningCount > 0 && (
             <span className="flex items-center gap-1">
-              <AlertTriangle className="h-4 w-4 text-amber-600" />
+              <AlertTriangle className="h-4 w-4 text-warning" />
               {sprintf(
                 summary.warningCount > 1
                   ? __('%d Warnings', 'wp-statistics')

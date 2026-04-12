@@ -48,7 +48,7 @@ export const DurationCell = memo(function DurationCell({
 
   return (
     <div className="text-right flex items-center justify-end gap-1.5">
-      <span className="text-xs tabular-nums font-medium text-neutral-700">{formatDuration(seconds)}</span>
+      <span className="text-xs tabular-nums font-medium text-foreground">{formatDuration(seconds)}</span>
       {hasComparison && comparison && (
         <ComparisonBadge
           percentage={comparison.percentage}
@@ -104,7 +104,7 @@ function ComparisonBadge({ percentage, isNegative, isZero, comparisonLabel, prev
         <TooltipContent side="top" className="px-2.5 py-1.5">
           <ComparisonTooltipHeader label={comparisonLabel} />
           <div className="flex items-center gap-4 justify-between">
-            <span className="text-neutral-100">
+            <span className="text-tooltip-foreground">
               {__('Previous:', 'wp-statistics')} {previousValue}
             </span>
             <div className="flex items-center font-medium">
@@ -120,7 +120,7 @@ function ComparisonBadge({ percentage, isNegative, isZero, comparisonLabel, prev
                 className={cn(
                   'tabular-nums',
                   isZero
-                    ? 'text-neutral-300'
+                    ? 'text-tooltip-foreground/80'
                     : isNegative
                       ? semanticColors.trendNegativeLight
                       : semanticColors.trendPositiveLight

@@ -12,7 +12,7 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <div className="bg-neutral-900 text-white p-4 rounded-lg max-w-md">
+      <div className="bg-tooltip text-tooltip-foreground/70 p-4 rounded-lg max-w-md">
         <Story />
       </div>
     ),
@@ -70,15 +70,15 @@ export const NoLabel: Story = {
 
 export const InTooltipContext: Story = {
   render: () => (
-    <div className="bg-neutral-900 text-white p-4 rounded-lg">
+    <div className="bg-tooltip text-tooltip-foreground/70 p-4 rounded-lg">
       <ComparisonTooltipHeader label="Dec 16, 2025 - Jan 12, 2026 vs. Nov 18, 2025 - Dec 15, 2025" />
       <div className="space-y-1 text-sm">
         <div className="flex justify-between">
-          <span className="text-neutral-400">Current:</span>
+          <span className="text-tooltip-foreground/70">Current:</span>
           <span className="font-medium">12,450</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-neutral-400">Previous:</span>
+          <span className="text-tooltip-foreground/70">Previous:</span>
           <span className="font-medium">10,230</span>
         </div>
         <div className="flex justify-between text-green-400">
@@ -93,17 +93,17 @@ export const InTooltipContext: Story = {
 export const MultipleTooltips: Story = {
   render: () => (
     <div className="space-y-4">
-      <div className="bg-neutral-900 text-white p-4 rounded-lg">
+      <div className="bg-tooltip text-tooltip-foreground/70 p-4 rounded-lg">
         <ComparisonTooltipHeader label="This week vs. Last week" />
         <div className="text-sm">
-          <span className="text-neutral-400">Views: </span>
+          <span className="text-tooltip-foreground/70">Views: </span>
           <span>5,230</span>
         </div>
       </div>
-      <div className="bg-neutral-900 text-white p-4 rounded-lg">
+      <div className="bg-tooltip text-tooltip-foreground/70 p-4 rounded-lg">
         <ComparisonTooltipHeader label="This month vs. Last month" />
         <div className="text-sm">
-          <span className="text-neutral-400">Views: </span>
+          <span className="text-tooltip-foreground/70">Views: </span>
           <span>22,100</span>
         </div>
       </div>

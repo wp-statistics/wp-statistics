@@ -43,12 +43,12 @@ export const EntryPageCell = memo(function EntryPageCell({
       to={resolvedRoute.to}
       params={resolvedRoute.params}
       search={{ from: pathname }}
-      className="truncate text-xs text-neutral-700 hover:text-primary hover:underline"
+      className="truncate text-xs text-foreground hover:text-primary hover:underline"
     >
       {truncatedTitle}
     </Link>
   ) : (
-    <span className="truncate text-xs text-neutral-700">{truncatedTitle}</span>
+    <span className="truncate text-xs text-foreground">{truncatedTitle}</span>
   )
 
   return (
@@ -58,9 +58,9 @@ export const EntryPageCell = memo(function EntryPageCell({
           <TooltipTrigger asChild>{titleContent}</TooltipTrigger>
           <TooltipContent>{hasQueryString && queryString ? queryString : url}</TooltipContent>
         </Tooltip>
-        {hasQueryString && <Info className="h-3.5 w-3.5 text-neutral-400 shrink-0" />}
+        {hasQueryString && <Info className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" />}
       </div>
-      {utmCampaign && <span className="text-xs text-neutral-500 block mt-0.5">{utmCampaign}</span>}
+      {utmCampaign && <span className="text-xs text-muted-foreground block mt-0.5">{utmCampaign}</span>}
     </div>
   )
 })

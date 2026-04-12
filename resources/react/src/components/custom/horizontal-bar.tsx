@@ -69,12 +69,12 @@ export function HorizontalBar({
       to={linkTo}
       params={linkParams}
       search={{ from: pathname }}
-      className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px] hover:text-primary hover:underline"
+      className="text-xs font-medium text-foreground truncate max-w-[120px] md:max-w-[200px] hover:text-primary hover:underline"
     >
       {truncatedLabel}
     </Link>
   ) : (
-    <span className="text-xs font-medium text-neutral-700 truncate max-w-[120px] md:max-w-[200px]">
+    <span className="text-xs font-medium text-foreground truncate max-w-[120px] md:max-w-[200px]">
       {truncatedLabel}
     </span>
   )
@@ -104,7 +104,7 @@ export function HorizontalBar({
           <span
             className={cn(
               'text-xs tabular-nums',
-              highlightFirst && isFirst ? 'font-semibold text-neutral-900' : 'font-medium text-neutral-600'
+              highlightFirst && isFirst ? 'font-semibold text-foreground' : 'font-medium text-muted-foreground'
             )}
           >
             {displayValue}
@@ -127,7 +127,7 @@ export function HorizontalBar({
         </div>
       </div>
       {/* Bottom bar indicator - GA4 style */}
-      <div className="mt-1.5 h-0.5 bg-neutral-100 rounded-full overflow-hidden">
+      <div className="mt-1.5 h-0.5 bg-muted rounded-full overflow-hidden">
         {showBar && (
           <div
             className="h-full rounded-full transition-all opacity-70"
@@ -145,7 +145,7 @@ export function HorizontalBar({
         <TooltipContent side="top" className="px-2.5 py-1.5">
           <ComparisonTooltipHeader label={comparisonDateLabel} />
           <div className="flex items-center gap-4 justify-between">
-            <span className="text-neutral-100">{tooltipSubtitle}</span>
+            <span className="text-tooltip-foreground">{tooltipSubtitle}</span>
             {showComparison && percentage !== undefined && (
               <div className="flex items-center font-medium">
                 <span className={isNegative ? semanticColors.trendNegativeLight : semanticColors.trendPositiveLight}>

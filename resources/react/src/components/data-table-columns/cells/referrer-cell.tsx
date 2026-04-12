@@ -42,7 +42,7 @@ export const ReferrerCell = memo(function ReferrerCell({ data, maxLength = 22 }:
 
   // Direct traffic - no domain, show category as muted text
   if (!domain) {
-    return <span className="text-xs text-neutral-500">{formattedCategory}</span>
+    return <span className="text-xs text-muted-foreground">{formattedCategory}</span>
   }
 
   return (
@@ -53,14 +53,14 @@ export const ReferrerCell = memo(function ReferrerCell({ data, maxLength = 22 }:
             href={`https://${domain}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs font-medium text-neutral-700 truncate hover:underline"
+            className="text-xs font-medium text-foreground truncate hover:underline"
           >
             {truncateDomain(domain, maxLength)}
           </a>
         </TooltipTrigger>
         <TooltipContent>{domain}</TooltipContent>
       </Tooltip>
-      <span className="text-xs text-neutral-500">{formattedCategory}</span>
+      <span className="text-xs text-muted-foreground">{formattedCategory}</span>
     </div>
   )
 })

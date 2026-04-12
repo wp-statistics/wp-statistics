@@ -15,12 +15,12 @@ export function DataTableMobilePagination<TData>({ table, totalRows }: DataTable
   if (totalPages <= 1) return null
 
   return (
-    <div className="flex items-center justify-between px-3 py-3 border-t border-neutral-200 bg-white">
+    <div className="flex items-center justify-between px-3 py-3 border-t border-border bg-card">
       {/* Page info */}
-      <div className="text-xs text-neutral-500">
-        <span className="font-medium text-neutral-700">{currentPage}</span>
+      <div className="text-xs text-muted-foreground">
+        <span className="font-medium text-foreground">{currentPage}</span>
         <span> / {totalPages}</span>
-        {totalRows !== undefined && <span className="text-neutral-500"> ({totalRows.toLocaleString()})</span>}
+        {totalRows !== undefined && <span className="text-muted-foreground"> ({totalRows.toLocaleString()})</span>}
       </div>
 
       {/* Navigation buttons - 44px touch targets */}

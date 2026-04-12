@@ -254,7 +254,7 @@ export function createColumnsFromConfig(
           ...base,
           header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
           cell: ({ row }) => (
-            <span className="truncate text-xs font-medium text-neutral-700">
+            <span className="truncate text-xs font-medium text-foreground">
               {getChannelDisplayName(String(row.original[field] ?? ''))}
             </span>
           ),
@@ -303,10 +303,10 @@ export function createColumnsFromConfig(
           ...(size ? {} : { size: 100 }),
           cell: ({ row }) => {
             const raw = row.original[field]
-            if (!raw) return <span className="text-xs text-neutral-400">—</span>
+            if (!raw) return <span className="text-xs text-muted-foreground/70">—</span>
             const date = new Date(String(raw))
-            if (isNaN(date.getTime())) return <span className="text-xs text-neutral-400">—</span>
-            return <span className="text-xs text-neutral-700 whitespace-nowrap">{DATE_FORMATTER.format(date)}</span>
+            if (isNaN(date.getTime())) return <span className="text-xs text-muted-foreground/70">—</span>
+            return <span className="text-xs text-foreground whitespace-nowrap">{DATE_FORMATTER.format(date)}</span>
           },
         } as ColumnDef<Record<string, unknown>>
 
@@ -360,7 +360,7 @@ export function createColumnsFromConfig(
           header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
           cell: ({ row }) => {
             const raw = String(row.original[field] || '')
-            if (!raw) return <span className="text-xs text-neutral-400">&mdash;</span>
+            if (!raw) return <span className="text-xs text-muted-foreground/70">&mdash;</span>
             return <LastVisitCell date={parseDateTimeString(raw)} />
           },
         } as ColumnDef<Record<string, unknown>>
@@ -448,12 +448,12 @@ export function createColumnsFromConfig(
           cell: ({ row }) => {
             const raw = row.original[field]
             const pairs: Array<{ key: string; value: string }> = Array.isArray(raw) ? raw : []
-            if (pairs.length === 0) return <span className="text-xs text-neutral-400">&mdash;</span>
+            if (pairs.length === 0) return <span className="text-xs text-muted-foreground/70">&mdash;</span>
             const summary = pairs.map(p => `${p.key}: ${p.value}`).join(', ')
             return (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span className="truncate text-xs text-neutral-700 block max-w-[240px] cursor-default">
+                  <span className="truncate text-xs text-foreground block max-w-[240px] cursor-default">
                     {summary}
                   </span>
                 </TooltipTrigger>
@@ -461,8 +461,8 @@ export function createColumnsFromConfig(
                   <div className="space-y-1 text-xs">
                     {pairs.map((p, i) => (
                       <div key={i}>
-                        <span className="font-medium text-neutral-300">{p.key}:</span>{' '}
-                        <span className="text-neutral-100 break-all">{p.value}</span>
+                        <span className="font-medium text-tooltip-foreground/80">{p.key}:</span>{' '}
+                        <span className="text-tooltip-foreground break-all">{p.value}</span>
                       </div>
                     ))}
                   </div>
@@ -497,13 +497,13 @@ export function createColumnsFromConfig(
               }
               return (
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                <Link to={col.linkTo as any} params={params} search={search as any} className="truncate text-xs font-medium text-neutral-700 hover:text-primary hover:underline">
+                <Link to={col.linkTo as any} params={params} search={search as any} className="truncate text-xs font-medium text-foreground hover:text-primary hover:underline">
                   {value}
                 </Link>
               )
             }
             return (
-              <span className="truncate text-xs font-medium text-neutral-700">
+              <span className="truncate text-xs font-medium text-foreground">
                 {value}
               </span>
             )
@@ -524,7 +524,7 @@ export function createColumnsFromConfig(
           {row.getCanExpand() ? (
             <button
               onClick={(e) => { e.stopPropagation(); row.toggleExpanded() }}
-              className="flex items-center justify-center w-5 h-5 shrink-0 text-neutral-400 hover:text-neutral-600"
+              className="flex items-center justify-center w-5 h-5 shrink-0 text-muted-foreground/70 hover:text-muted-foreground"
             >
               <ChevronRight className={`h-3.5 w-3.5 transition-transform ${row.getIsExpanded() ? 'rotate-90' : ''}`} />
             </button>

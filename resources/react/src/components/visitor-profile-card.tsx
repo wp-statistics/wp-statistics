@@ -53,7 +53,7 @@ function DeviceInfo({
 }) {
   const parts = [browser && browserVersion ? `${browser} ${browserVersion}` : browser, os, deviceType].filter(Boolean)
   if (parts.length === 0) return null
-  return <span className="text-xs text-neutral-500">{parts.join(' · ')}</span>
+  return <span className="text-xs text-muted-foreground">{parts.join(' · ')}</span>
 }
 
 function LocationInfo({
@@ -79,7 +79,7 @@ function LocationInfo({
           className="w-4 h-4 object-contain"
         />
       )}
-      <span className="text-xs text-neutral-500">{parts.join(', ')}</span>
+      <span className="text-xs text-muted-foreground">{parts.join(', ')}</span>
     </div>
   )
 }
@@ -97,7 +97,7 @@ export function VisitorProfileCard({ type, visitorInfo }: { type: VisitorType; v
   if (!visitorInfo) {
     return (
       <Panel className="p-4">
-        <div className="text-sm text-neutral-500">{__('Visitor information not available.', 'wp-statistics')}</div>
+        <div className="text-sm text-muted-foreground">{__('Visitor information not available.', 'wp-statistics')}</div>
       </Panel>
     )
   }
@@ -112,10 +112,10 @@ export function VisitorProfileCard({ type, visitorInfo }: { type: VisitorType; v
           </Avatar>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <h2 className="text-lg font-semibold text-neutral-800 truncate">{visitorInfo.user_login}</h2>
+              <h2 className="text-lg font-semibold text-foreground truncate">{visitorInfo.user_login}</h2>
               <ReturningBadge totalSessions={visitorInfo.total_sessions} />
             </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-neutral-500">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
               {visitorInfo.user_email && <span>{visitorInfo.user_email}</span>}
               {visitorInfo.user_role && (
                 <Badge variant="outline" className="text-[10px] font-normal capitalize px-1.5 py-0">
@@ -138,7 +138,7 @@ export function VisitorProfileCard({ type, visitorInfo }: { type: VisitorType; v
     return (
       <Panel className="p-4">
         <div className="flex items-start gap-4">
-          <div className="h-16 w-16 rounded-full bg-neutral-100 flex items-center justify-center shrink-0">
+          <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center shrink-0">
             {visitorInfo.country_code ? (
               <img
                 src={`${pluginUrl}public/images/flags/${visitorInfo.country_code}.svg`}
@@ -146,12 +146,12 @@ export function VisitorProfileCard({ type, visitorInfo }: { type: VisitorType; v
                 className="w-8 h-8 object-contain"
               />
             ) : (
-              <Globe className="h-8 w-8 text-neutral-400" />
+              <Globe className="h-8 w-8 text-muted-foreground/70" />
             )}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <h2 className="text-lg font-semibold text-neutral-800 font-mono">{visitorInfo.ip_address}</h2>
+              <h2 className="text-lg font-semibold text-foreground font-mono">{visitorInfo.ip_address}</h2>
               <ReturningBadge totalSessions={visitorInfo.total_sessions} />
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -171,18 +171,18 @@ export function VisitorProfileCard({ type, visitorInfo }: { type: VisitorType; v
   return (
     <Panel className="p-4">
       <div className="flex items-start gap-4">
-        <div className="h-16 w-16 rounded-full bg-neutral-100 flex items-center justify-center shrink-0">
-          <Hash className="h-8 w-8 text-neutral-400" />
+        <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center shrink-0">
+          <Hash className="h-8 w-8 text-muted-foreground/70" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h2 className="text-lg font-semibold text-neutral-800">
-              <span className="text-neutral-400">#</span>
+            <h2 className="text-lg font-semibold text-foreground">
+              <span className="text-muted-foreground/70">#</span>
               <span className="font-mono">{shortHash}</span>
             </h2>
             <ReturningBadge totalSessions={visitorInfo.total_sessions} />
           </div>
-          <div className="text-xs text-neutral-500 mb-2">{__('Anonymous Visitor', 'wp-statistics')}</div>
+          <div className="text-xs text-muted-foreground mb-2">{__('Anonymous Visitor', 'wp-statistics')}</div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <LocationInfo countryCode={visitorInfo.country_code} countryName={visitorInfo.country_name} />
             <DeviceInfo browser={visitorInfo.browser_name} browserVersion={visitorInfo.browser_version} os={visitorInfo.os_name} deviceType={visitorInfo.device_type_name} />

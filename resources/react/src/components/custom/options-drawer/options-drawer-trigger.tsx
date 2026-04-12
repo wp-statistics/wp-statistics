@@ -21,13 +21,13 @@ export function OptionsDrawerTrigger({
       size="sm"
       onClick={onClick}
       className={cn(
-        'h-8 text-xs font-medium border-neutral-200 hover:bg-neutral-50',
+        'h-8 text-xs font-medium border-border hover:bg-muted/50',
         isActive && 'border-indigo-200 bg-indigo-50 text-primary',
         className
       )}
       aria-label={__('Open options', 'wp-statistics')}
     >
-      <SlidersHorizontalIcon className={cn('h-3.5 w-3.5', !isActive && 'text-neutral-500')} />
+      <SlidersHorizontalIcon className={cn('h-3.5 w-3.5', !isActive && 'text-muted-foreground')} />
       {__('Options', 'wp-statistics')}
     </Button>
   )

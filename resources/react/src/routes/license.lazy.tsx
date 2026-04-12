@@ -482,9 +482,9 @@ function LicenseStatus({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             {isValid ? (
-              <ShieldCheck className="h-5 w-5 text-emerald-600" />
+              <ShieldCheck className="h-5 w-5 text-success" />
             ) : (
-              <ShieldX className="h-5 w-5 text-red-600" />
+              <ShieldX className="h-5 w-5 text-destructive" />
             )}
             {__('License Information', 'wp-statistics-premium')}
           </CardTitle>
@@ -650,9 +650,9 @@ function LicenseStatus({
       )}
 
       {/* Danger Zone */}
-      <Card className="border-red-200">
+      <Card className="border-destructive/30">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-red-700">
+          <CardTitle className="flex items-center gap-2 text-destructive">
             <TriangleAlert className="h-5 w-5" />
             {__('Danger Zone', 'wp-statistics-premium')}
           </CardTitle>
@@ -756,7 +756,7 @@ function FeatureItem({
     return (
       <div className="flex items-center justify-between gap-2 rounded-md border border-amber-200 bg-amber-50/50 px-3 py-2 text-sm">
         <span className="flex items-center gap-2">
-          <Loader2 className="h-4 w-4 shrink-0 animate-spin text-amber-600" />
+          <Loader2 className="h-4 w-4 shrink-0 animate-spin text-warning" />
           <span className="capitalize">{displayName}</span>
         </span>
         <Badge variant="secondary" className="text-xs">
@@ -771,7 +771,7 @@ function FeatureItem({
     return (
       <div className="flex items-center justify-between gap-2 rounded-md border border-amber-200 bg-amber-50/50 px-3 py-2 text-sm">
         <span className="flex items-center gap-2">
-          <ArrowUpCircle className="h-4 w-4 shrink-0 text-amber-600" />
+          <ArrowUpCircle className="h-4 w-4 shrink-0 text-warning" />
           <span className="capitalize">{displayName}</span>
           <Badge variant="outline" className="text-xs font-mono">
             v{installedVersion}
@@ -789,7 +789,7 @@ function FeatureItem({
     return (
       <div className="flex items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm">
         <span className="flex items-center gap-2">
-          <CircleCheck className="h-4 w-4 shrink-0 text-emerald-600" />
+          <CircleCheck className="h-4 w-4 shrink-0 text-success" />
           <span className="capitalize">{displayName}</span>
         </span>
         <Badge variant="outline" className="text-xs font-mono">
@@ -852,7 +852,7 @@ function UpdatesSection({
         <CardDescription>
           {pluginVersion && `WP Statistics v${pluginVersion}`}
           {pluginVersion && hasBaseUpdate && baseUpdate?.version && (
-            <span className="ml-1 text-amber-700">
+            <span className="ml-1 text-warning">
               {` — v${baseUpdate.version} ${__('available', 'wp-statistics-premium')}`}
             </span>
           )}
@@ -924,7 +924,7 @@ function StatusBadge({ isExpired, isValid }: { isExpired: boolean; isValid: bool
 
   if (isValid) {
     return (
-      <Badge className="bg-emerald-100 text-emerald-800 hover:bg-emerald-100">
+      <Badge className="bg-success/20 text-success hover:bg-success/20">
         {__('Active', 'wp-statistics-premium')}
       </Badge>
     )

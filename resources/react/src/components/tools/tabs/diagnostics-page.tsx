@@ -311,12 +311,12 @@ export function DiagnosticsPage() {
       >
           <div className="flex items-center gap-4 text-sm">
             <span className="flex items-center gap-1">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+              <CheckCircle2 className="h-4 w-4 text-success" />
               {passCount} {__('Passed', 'wp-statistics')}
             </span>
             {warningCount > 0 && (
               <span className="flex items-center gap-1">
-                <AlertTriangle className="h-4 w-4 text-amber-600" />
+                <AlertTriangle className="h-4 w-4 text-warning" />
                 {warningCount} {warningCount > 1 ? __('Warnings', 'wp-statistics') : __('Warning', 'wp-statistics')}
               </span>
             )}

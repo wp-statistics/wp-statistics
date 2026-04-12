@@ -13,7 +13,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
         'pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden rounded-lg border p-4 shadow-lg transition-all',
         toast.variant === 'destructive'
           ? 'border-destructive/50 bg-red-50 dark:bg-red-950'
-          : 'border-border bg-white dark:bg-zinc-900'
+          : 'border-border bg-card'
       )}
     >
       <div className="flex-1 space-y-1">

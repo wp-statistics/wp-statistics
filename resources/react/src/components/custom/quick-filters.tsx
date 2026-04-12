@@ -73,10 +73,10 @@ function QuickFilters({ definitions, activeFilters, onToggle, lockedFilters = []
             className={cn(
               'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border transition-all',
               isLocked
-                ? 'bg-neutral-100 text-neutral-500 border-neutral-200 cursor-default'
+                ? 'bg-muted text-muted-foreground border-border cursor-default'
                 : isActive
                   ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
-                  : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300'
+                  : 'bg-card text-foreground border-border hover:bg-muted/50 hover:border-input'
             )}
           >
             {isLocked ? (

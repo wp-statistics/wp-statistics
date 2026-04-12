@@ -150,7 +150,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
           type="text"
           value={displayValue}
           disabled
-          className="h-9 text-sm bg-neutral-50 border-neutral-200"
+          className="h-9 text-sm bg-muted/50 border-border"
         />
       )
     }
@@ -167,15 +167,15 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
             value={rangeValue.min}
             onChange={(e) => handleRangeValueChange('min', e.target.value)}
             placeholder={__('Min', 'wp-statistics')}
-            className="h-9 text-sm flex-1 bg-white border-neutral-200"
+            className="h-9 text-sm flex-1 bg-card border-border"
           />
-          <span className="text-xs text-neutral-500 shrink-0">{__('to', 'wp-statistics')}</span>
+          <span className="text-xs text-muted-foreground shrink-0">{__('to', 'wp-statistics')}</span>
           <Input
             type={inputType}
             value={rangeValue.max}
             onChange={(e) => handleRangeValueChange('max', e.target.value)}
             placeholder={__('Max', 'wp-statistics')}
-            className="h-9 text-sm flex-1 bg-white border-neutral-200"
+            className="h-9 text-sm flex-1 bg-card border-border"
           />
         </div>
       )
@@ -192,7 +192,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
 
       return (
         <div className="relative">
-          <div className="flex flex-wrap items-center gap-1.5 min-h-[36px] px-3 py-1.5 bg-white rounded-md border border-neutral-200">
+          <div className="flex flex-wrap items-center gap-1.5 min-h-[36px] px-3 py-1.5 bg-card rounded-md border border-border">
             {hasValues && (
               <>
                 {isMultiple && Array.isArray(currentValue) ? (
@@ -237,17 +237,17 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
               />
             )}
 
-            {isSearching && <Loader2 className="h-4 w-4 animate-spin text-neutral-400 shrink-0" />}
+            {isSearching && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground/70 shrink-0" />}
           </div>
 
           {searchTerm && searchOptions.length > 0 && (
-            <div className="absolute left-0 right-0 z-50 mt-1 max-h-[200px] overflow-auto rounded-md border bg-white py-1">
+            <div className="absolute left-0 right-0 z-50 mt-1 max-h-[200px] overflow-auto rounded-md border bg-card py-1">
               {searchOptions.map((option) => (
                 <button
                   key={option.value}
                   type="button"
                   onClick={() => handleSearchableSelect(option.value, option.label)}
-                  className="flex w-full items-center px-3 py-2 text-sm text-left hover:bg-neutral-50 cursor-pointer"
+                  className="flex w-full items-center px-3 py-2 text-sm text-left hover:bg-muted/50 cursor-pointer"
                 >
                   {isMultiple && Array.isArray(currentValue) && (
                     <span className="mr-2 text-primary">{currentValue.includes(option.value) ? '✓' : '○'}</span>
@@ -287,7 +287,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
         }
 
         return (
-          <div className="flex flex-wrap items-center gap-1.5 min-h-[36px] px-3 py-1.5 bg-white rounded-md border border-neutral-200">
+          <div className="flex flex-wrap items-center gap-1.5 min-h-[36px] px-3 py-1.5 bg-card rounded-md border border-border">
             {currentValues.map((val) => (
               <span
                 key={val}
@@ -341,7 +341,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
             handleSingleValueChange(value, option?.label)
           }}
         >
-          <SelectTrigger className="h-9 text-sm bg-white border-neutral-200">
+          <SelectTrigger className="h-9 text-sm bg-card border-border">
             <SelectValue placeholder={__('Select...', 'wp-statistics')} />
           </SelectTrigger>
           <SelectContent className="max-h-[200px]">
@@ -363,7 +363,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
           value={getSingleValue(filter.value)}
           onChange={(e) => handleSingleValueChange(e.target.value)}
           placeholder={__('Value', 'wp-statistics')}
-          className="h-9 text-sm bg-white border-neutral-200"
+          className="h-9 text-sm bg-card border-border"
         />
       )
     }
@@ -375,7 +375,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
           type="date"
           value={getSingleValue(filter.value)}
           onChange={(e) => handleSingleValueChange(e.target.value)}
-          className="h-9 text-sm bg-white border-neutral-200"
+          className="h-9 text-sm bg-card border-border"
         />
       )
     }
@@ -387,7 +387,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
         value={getSingleValue(filter.value)}
         onChange={(e) => handleSingleValueChange(e.target.value)}
         placeholder={__('Value', 'wp-statistics')}
-        className="h-9 text-sm bg-white border-neutral-200"
+        className="h-9 text-sm bg-card border-border"
       />
     )
   }
@@ -395,17 +395,17 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
   const isUnavailableField = !selectedField && filter.fieldName
 
   return (
-    <div className="rounded-lg bg-neutral-50 border border-neutral-200 p-3">
+    <div className="rounded-lg bg-muted/50 border border-border p-3">
       {/* Row 1: Field and Operator */}
       <div className="flex items-center gap-2 mb-2">
         {/* Field Select */}
         {isUnavailableField ? (
-          <div className="h-9 flex-1 text-sm bg-neutral-100 border border-neutral-200 rounded-md flex items-center px-3 text-neutral-500">
+          <div className="h-9 flex-1 text-sm bg-muted border border-border rounded-md flex items-center px-3 text-muted-foreground">
             {filter.fieldName}
           </div>
         ) : (
           <Select value={filter.fieldName} onValueChange={handleFieldChange}>
-            <SelectTrigger className="h-9 text-sm bg-white border-neutral-200 flex-1">
+            <SelectTrigger className="h-9 text-sm bg-card border-border flex-1">
               <SelectValue placeholder={__('Field', 'wp-statistics')} />
             </SelectTrigger>
             <SelectContent className="max-h-[200px]">
@@ -420,12 +420,12 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
 
         {/* Operator Select */}
         {isUnavailableField ? (
-          <div className="h-9 w-[100px] text-sm bg-neutral-100 border border-neutral-200 rounded-md flex items-center px-3 text-neutral-500 shrink-0">
+          <div className="h-9 w-[100px] text-sm bg-muted border border-border rounded-md flex items-center px-3 text-muted-foreground shrink-0">
             {getOperatorLabel(filter.operator)}
           </div>
         ) : (
           <Select value={filter.operator} onValueChange={handleOperatorChange}>
-            <SelectTrigger className="h-9 text-sm bg-white border-neutral-200 w-[100px] shrink-0">
+            <SelectTrigger className="h-9 text-sm bg-card border-border w-[100px] shrink-0">
               <SelectValue placeholder={__('Operator', 'wp-statistics')} />
             </SelectTrigger>
             <SelectContent className="max-h-[200px]">
@@ -442,7 +442,7 @@ export function DrawerFilterRow({ filter, fields, usedFieldNames = [], onUpdate,
         <button
           type="button"
           onClick={onRemove}
-          className="h-9 w-9 flex items-center justify-center text-neutral-400 hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors shrink-0 cursor-pointer"
+          className="h-9 w-9 flex items-center justify-center text-muted-foreground/70 hover:text-destructive hover:bg-destructive/10 rounded-md transition-colors shrink-0 cursor-pointer"
           aria-label={__('Remove filter', 'wp-statistics')}
         >
           <Trash2Icon className="h-4 w-4" />

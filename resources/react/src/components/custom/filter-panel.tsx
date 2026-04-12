@@ -139,14 +139,14 @@ function FilterPanel({
   return (
     <div className="w-full min-w-[460px]">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-100 bg-neutral-50/50">
-        <span className="text-sm font-semibold text-neutral-700 tracking-tight">{__('Filters', 'wp-statistics')}</span>
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border/50 bg-muted/50">
+        <span className="text-sm font-semibold text-foreground tracking-tight">{__('Filters', 'wp-statistics')}</span>
         {filters.length > 0 && (
           <button
             type="button"
             onClick={handleClearAll}
             aria-label={__('Clear all filters', 'wp-statistics')}
-            className="text-xs text-neutral-500 hover:text-destructive transition-colors"
+            className="text-xs text-muted-foreground hover:text-destructive transition-colors"
           >
             {__('Clear all', 'wp-statistics')}
           </button>
@@ -156,7 +156,7 @@ function FilterPanel({
       {/* Quick Filters */}
       {quickFilterDefinitions.length > 0 && (
         <div className="px-4 pt-3 pb-2">
-          <span className="text-xs font-medium text-neutral-500 mb-2 block">
+          <span className="text-xs font-medium text-muted-foreground mb-2 block">
             {__('Quick filters', 'wp-statistics')}
           </span>
           <QuickFilters
@@ -175,23 +175,23 @@ function FilterPanel({
           {lockedFilters.map((lockedFilter, index) => (
               <div key={lockedFilter.id} className="relative">
                 {index > 0 && (
-                  <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-500 bg-white px-1">
+                  <div className="absolute -top-1.5 left-3 text-xs font-medium text-muted-foreground bg-card px-1">
                     {__('and', 'wp-statistics')}
                   </div>
                 )}
                 <div className={index > 0 ? 'pt-2' : ''}>
-                  <div className="flex items-center gap-1.5 p-2 rounded-lg bg-neutral-100 border border-neutral-200">
-                    <div className="h-8 px-3 text-xs font-medium bg-white/60 shadow-sm shrink-0 flex items-center rounded-md text-neutral-600">
+                  <div className="flex items-center gap-1.5 p-2 rounded-lg bg-muted border border-border">
+                    <div className="h-8 px-3 text-xs font-medium bg-card/60 shadow-sm shrink-0 flex items-center rounded-md text-foreground">
                       {lockedFilter.label}
                     </div>
-                    <div className="h-8 px-3 text-xs bg-white/60 shadow-sm shrink-0 flex items-center rounded-md text-neutral-500">
+                    <div className="h-8 px-3 text-xs bg-card/60 shadow-sm shrink-0 flex items-center rounded-md text-muted-foreground">
                       {lockedFilter.operator}
                     </div>
-                    <div className="h-8 px-3 text-xs bg-white/60 shadow-sm flex-1 flex items-center rounded-md text-neutral-600 font-medium">
+                    <div className="h-8 px-3 text-xs bg-card/60 shadow-sm flex-1 flex items-center rounded-md text-foreground font-medium">
                       {lockedFilter.value}
                     </div>
                     <div
-                      className="h-7 w-7 flex items-center justify-center text-neutral-400 shrink-0"
+                      className="h-7 w-7 flex items-center justify-center text-muted-foreground/70 shrink-0"
                       title={__('This filter is always applied to this report', 'wp-statistics')}
                     >
                       <Lock className="h-3.5 w-3.5" />
@@ -206,7 +206,7 @@ function FilterPanel({
             <div key={filter.id} className="relative">
               {/* Row connector "and" label for multiple filters */}
               {(index > 0 || lockedFilters.length > 0) && (
-                <div className="absolute -top-1.5 left-3 text-xs font-medium text-neutral-500 bg-white px-1">
+                <div className="absolute -top-1.5 left-3 text-xs font-medium text-muted-foreground bg-card px-1">
                   {__('and', 'wp-statistics')}
                 </div>
               )}
@@ -229,9 +229,9 @@ function FilterPanel({
             type="button"
             onClick={handleAddFilter}
             aria-label={__('Add filter', 'wp-statistics')}
-            className="flex items-center gap-1.5 mt-3 py-1.5 text-xs font-medium text-neutral-500 hover:text-primary transition-colors group"
+            className="flex items-center gap-1.5 mt-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-primary transition-colors group"
           >
-            <span className="flex items-center justify-center w-4 h-4 rounded-full border border-dashed border-neutral-300 group-hover:border-primary group-hover:bg-primary/5 transition-all">
+            <span className="flex items-center justify-center w-4 h-4 rounded-full border border-dashed border-input group-hover:border-primary group-hover:bg-primary/5 transition-all">
               <Plus className="h-2.5 w-2.5" />
             </span>
             {__('Add filter', 'wp-statistics')}
@@ -240,7 +240,7 @@ function FilterPanel({
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-end gap-2 px-4 py-2 border-t border-neutral-100 bg-neutral-50/30">
+      <div className="flex items-center justify-end gap-2 px-4 py-2 border-t border-border/50 bg-muted/30">
         {onCancel && (
           <Button variant="ghost" size="sm" onClick={onCancel} className="text-xs">
             {__('Cancel', 'wp-statistics')}

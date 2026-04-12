@@ -31,18 +31,18 @@ export const AuthorCell = memo(function AuthorCell({
           className="h-6 w-6 rounded-full object-cover shrink-0"
         />
       ) : (
-        <div className="h-6 w-6 rounded-full bg-neutral-200 shrink-0" />
+        <div className="h-6 w-6 rounded-full bg-muted shrink-0" />
       )}
       {linkEnabled ? (
         <Link
           to="/author/$authorId"
           params={{ authorId: String(authorId) }}
-          className="text-sm font-medium text-neutral-800 hover:text-primary truncate"
+          className="text-sm font-medium text-foreground hover:text-primary truncate"
         >
           {authorName}
         </Link>
       ) : (
-        <span className="text-sm font-medium text-neutral-800 truncate">
+        <span className="text-sm font-medium text-foreground truncate">
           {authorName}
         </span>
       )}

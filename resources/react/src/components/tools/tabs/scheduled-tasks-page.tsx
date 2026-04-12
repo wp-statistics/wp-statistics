@@ -169,7 +169,7 @@ export function ScheduledTasksPage() {
                     <TableCell>{getRecurrenceBadge(task.recurrence)}</TableCell>
                     <TableCell>
                       {task.enabled ? (
-                        <Badge variant="default" className="bg-emerald-600 hover:bg-emerald-700">
+                        <Badge variant="default" className="bg-success hover:bg-success/90">
                           {__('Enabled', 'wp-statistics')}
                         </Badge>
                       ) : (

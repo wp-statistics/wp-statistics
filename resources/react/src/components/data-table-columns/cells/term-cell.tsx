@@ -25,12 +25,12 @@ export const TermCell = memo(function TermCell({
         <Link
           to="/category/$categoryId"
           params={{ categoryId: String(termId) }}
-          className="text-sm font-medium text-neutral-800 hover:text-primary truncate"
+          className="text-sm font-medium text-foreground hover:text-primary truncate"
         >
           {termName}
         </Link>
       ) : (
-        <span className="text-sm font-medium text-neutral-800 truncate">
+        <span className="text-sm font-medium text-foreground truncate">
           {termName}
         </span>
       )}

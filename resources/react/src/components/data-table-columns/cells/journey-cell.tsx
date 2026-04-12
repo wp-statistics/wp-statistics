@@ -60,12 +60,12 @@ export const JourneyCell = memo(function JourneyCell({
       to={resolvedEntryRoute.to}
       params={resolvedEntryRoute.params}
       search={{ from: pathname }}
-      className="text-xs text-neutral-700 truncate hover:text-primary hover:underline"
+      className="text-xs text-foreground truncate hover:text-primary hover:underline"
     >
       {truncate(entryPage.title)}
     </Link>
   ) : (
-    <span className="text-xs text-neutral-700 truncate">{truncate(entryPage.title)}</span>
+    <span className="text-xs text-foreground truncate">{truncate(entryPage.title)}</span>
   )
 
   // Exit title content - either plain text or internal link
@@ -74,12 +74,12 @@ export const JourneyCell = memo(function JourneyCell({
       to={resolvedExitRoute.to}
       params={resolvedExitRoute.params}
       search={{ from: pathname }}
-      className="text-xs text-neutral-700 truncate hover:text-primary hover:underline"
+      className="text-xs text-foreground truncate hover:text-primary hover:underline"
     >
       {truncate(exitPage.title)}
     </Link>
   ) : (
-    <span className="text-xs text-neutral-700 truncate">{truncate(exitPage.title)}</span>
+    <span className="text-xs text-foreground truncate">{truncate(exitPage.title)}</span>
   )
 
   // Bounce: show single page with bounce indicator
@@ -89,12 +89,12 @@ export const JourneyCell = memo(function JourneyCell({
         to={resolvedEntryRoute.to}
         params={resolvedEntryRoute.params}
         search={{ from: pathname }}
-        className="text-xs text-neutral-500 truncate hover:text-primary hover:underline"
+        className="text-xs text-muted-foreground truncate hover:text-primary hover:underline"
       >
         {truncate(entryPage.title)}
       </Link>
     ) : (
-      <span className="text-xs text-neutral-500 truncate">{truncate(entryPage.title)}</span>
+      <span className="text-xs text-muted-foreground truncate">{truncate(entryPage.title)}</span>
     )
 
     return (
@@ -102,19 +102,19 @@ export const JourneyCell = memo(function JourneyCell({
         <Tooltip>
           <TooltipTrigger asChild>
             <div className="flex items-center gap-1.5">
-              <CornerDownLeft className="w-3 h-3 text-neutral-400 shrink-0" />
+              <CornerDownLeft className="w-3 h-3 text-muted-foreground/70 shrink-0" />
               {bounceTitleContent}
             </div>
           </TooltipTrigger>
           <TooltipContent>
             <div className="text-xs">
               <div className="font-medium">Bounced</div>
-              <div className="text-neutral-500">{entryPage.url}</div>
+              <div className="text-tooltip-foreground/70">{entryPage.url}</div>
             </div>
           </TooltipContent>
         </Tooltip>
         {entryPage.utmCampaign && (
-          <span className="text-xs text-neutral-500 block mt-0.5">{entryPage.utmCampaign}</span>
+          <span className="text-xs text-muted-foreground block mt-0.5">{entryPage.utmCampaign}</span>
         )}
       </div>
     )
@@ -127,7 +127,7 @@ export const JourneyCell = memo(function JourneyCell({
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex items-center gap-1.5">
-            <MapPin className="w-3 h-3 text-neutral-400 shrink-0 opacity-60 group-hover/journey:opacity-100 transition-opacity" />
+            <MapPin className="w-3 h-3 text-muted-foreground/70 shrink-0 opacity-60 group-hover/journey:opacity-100 transition-opacity" />
             {entryTitleContent}
           </div>
         </TooltipTrigger>
@@ -136,14 +136,14 @@ export const JourneyCell = memo(function JourneyCell({
 
       {/* Arrow indicator */}
       <div className="flex items-center gap-1.5 py-0.5">
-        <ArrowDown className="w-3 h-3 text-neutral-300 shrink-0 ml-0" />
+        <ArrowDown className="w-3 h-3 text-muted-foreground/50 shrink-0 ml-0" />
       </div>
 
       {/* Exit Page */}
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex items-center gap-1.5">
-            <Flag className="w-3 h-3 text-neutral-400 shrink-0 opacity-60 group-hover/journey:opacity-100 transition-opacity" />
+            <Flag className="w-3 h-3 text-muted-foreground/70 shrink-0 opacity-60 group-hover/journey:opacity-100 transition-opacity" />
             {exitTitleContent}
           </div>
         </TooltipTrigger>
@@ -152,7 +152,7 @@ export const JourneyCell = memo(function JourneyCell({
 
       {/* UTM Campaign */}
       {entryPage.utmCampaign && (
-        <span className="text-xs text-neutral-500 block mt-0.5">{entryPage.utmCampaign}</span>
+        <span className="text-xs text-muted-foreground block mt-0.5">{entryPage.utmCampaign}</span>
       )}
     </div>
   )

@@ -21,8 +21,8 @@ export const LastVisitCell = memo(function LastVisitCell({ date }: LastVisitCell
 
   return (
     <div className="flex flex-col">
-      <span className="whitespace-nowrap text-xs text-neutral-700">{formattedDate}</span>
-      <span className="whitespace-nowrap text-xs text-neutral-500">{formattedTime}</span>
+      <span className="whitespace-nowrap text-xs text-foreground">{formattedDate}</span>
+      <span className="whitespace-nowrap text-xs text-muted-foreground">{formattedTime}</span>
     </div>
   )
 })

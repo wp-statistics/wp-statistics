@@ -237,12 +237,12 @@ function FilterButton({ fields, appliedFilters, onApplyFilters, className, filte
         <Button
           variant="outline"
           className={cn(
-            'h-8 text-xs font-medium border-neutral-200 hover:bg-neutral-50',
+            'h-8 text-xs font-medium border-border hover:bg-muted/50',
             { 'border-indigo-200 bg-indigo-50 text-primary': totalFilterCount > 0 },
             className
           )}
         >
-          <Filter className={cn('h-3.5 w-3.5', totalFilterCount > 0 ? '' : 'text-neutral-500')} />
+          <Filter className={cn('h-3.5 w-3.5', totalFilterCount > 0 ? '' : 'text-muted-foreground')} />
           {totalFilterCount > 0 ? (
             <>
               {__('Filters:', 'wp-statistics')} {totalFilterCount}

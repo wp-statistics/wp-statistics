@@ -19,7 +19,7 @@ function FilterChip({ label, operator, value, onRemove, className }: FilterChipP
       )}
     >
       <span>{label}</span>
-      <span className="text-slate-400">|</span>
+      <span className="text-muted-foreground/70">|</span>
       <span className="font-medium">{operator}</span>
       <span className="font-medium">{value}</span>
       <button

@@ -95,28 +95,28 @@ export function ExpandableSubRow({ row, config, apiDateParams }: ExpandableSubRo
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-4">
-        <Loader2 className="h-4 w-4 animate-spin text-neutral-400" />
+        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground/70" />
       </div>
     )
   }
 
   if (rows.length === 0) {
     return (
-      <div className="pl-14 py-3 text-xs text-neutral-500">
+      <div className="pl-14 py-3 text-xs text-muted-foreground">
         {config.emptyMessage || __('No data available', 'wp-statistics')}
       </div>
     )
   }
 
   return (
-    <div className="border-t border-neutral-200">
+    <div className="border-t border-border">
       <table className="w-full">
         <thead>
-          <tr className="bg-neutral-100/60">
+          <tr className="bg-muted/60">
             {config.subColumns.map((col, i) => (
               <td
                 key={col.key}
-                className={`py-1.5 text-xs font-medium text-neutral-500 ${
+                className={`py-1.5 text-xs font-medium text-muted-foreground ${
                   i === 0 ? 'pl-14' : col.type === 'numeric' ? 'text-right pr-4' : ''
                 }`}
                 style={col.type === 'numeric' ? { width: 120 } : undefined}
@@ -130,13 +130,13 @@ export function ExpandableSubRow({ row, config, apiDateParams }: ExpandableSubRo
           {rows.map((item, idx) => (
             <tr
               key={idx}
-              className="border-t border-neutral-100 bg-neutral-50 hover:bg-neutral-100/50"
+              className="border-t border-border/50 bg-muted/50 hover:bg-muted/70"
             >
               {config.subColumns.map((col, i) => (
                 <td
                   key={col.key}
                   className={`py-1.5 ${
-                    i === 0 ? 'pl-14 text-xs font-medium text-neutral-700' : col.type === 'numeric' ? 'pr-4' : ''
+                    i === 0 ? 'pl-14 text-xs font-medium text-foreground' : col.type === 'numeric' ? 'pr-4' : ''
                   }`}
                   style={col.type === 'numeric' ? { width: 120 } : undefined}
                 >

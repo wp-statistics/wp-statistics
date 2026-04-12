@@ -63,14 +63,14 @@ export function PageFiltersDetailView({ filters }: PageFiltersProps) {
 
   return (
     <div className="flex flex-col h-full">
-      <p className="text-xs text-neutral-500 px-4 py-3 border-b border-neutral-100 bg-neutral-50/30">
+      <p className="text-xs text-muted-foreground px-4 py-3 border-b border-border/50 bg-muted/50">
         {__('Configure page-specific filters', 'wp-statistics')}
       </p>
 
       <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4">
         {filters.map((filter) => (
           <div key={filter.id} className="space-y-1.5">
-            <label className="text-sm font-medium text-neutral-700">{filter.label}</label>
+            <label className="text-sm font-medium text-foreground">{filter.label}</label>
             <Select value={filter.value} onValueChange={filter.onChange}>
               <SelectTrigger className="w-full h-9">
                 <SelectValue />

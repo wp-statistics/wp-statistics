@@ -64,14 +64,14 @@ function SimpleTableSkeleton({ columns, rows = 5 }: { columns: number; rows?: nu
   return (
     <div className="w-full">
       {/* Header skeleton */}
-      <div className="flex gap-4 pb-2 border-b border-neutral-100">
+      <div className="flex gap-4 pb-2 border-b border-border/50">
         {Array.from({ length: columns }).map((_, i) => (
           <Skeleton key={`header-${i}`} className="h-4 flex-1" />
         ))}
       </div>
       {/* Row skeletons */}
       {Array.from({ length: rows }).map((_, rowIndex) => (
-        <div key={`row-${rowIndex}`} className="flex gap-4 py-2 border-b border-neutral-100 last:border-b-0">
+        <div key={`row-${rowIndex}`} className="flex gap-4 py-2 border-b border-border/50 last:border-b-0">
           {Array.from({ length: columns }).map((_, colIndex) => (
             <Skeleton key={`cell-${rowIndex}-${colIndex}`} className={cn('h-4 flex-1', colIndex === 0 && 'max-w-[150px]')} />
           ))}
@@ -120,12 +120,12 @@ export function SimpleTable<T>({
       ) : (
         <table className={cn('w-full', className)}>
           <thead>
-            <tr className="border-b border-neutral-100">
+            <tr className="border-b border-border/50">
               {columns.map((column) => (
                 <th
                   key={column.key}
                   className={cn(
-                    'pb-2 text-xs font-semibold text-neutral-500',
+                    'pb-2 text-xs font-semibold text-muted-foreground',
                     getAlignmentClass(column.align),
                     column.className
                   )}
@@ -139,13 +139,13 @@ export function SimpleTable<T>({
             {data.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className="border-b border-neutral-100 last:border-b-0"
+                className="border-b border-border/50 last:border-b-0"
               >
                 {columns.map((column) => (
                   <td
                     key={column.key}
                     className={cn(
-                      'py-2 text-xs text-neutral-700',
+                      'py-2 text-xs text-foreground',
                       getAlignmentClass(column.align),
                       column.className
                     )}

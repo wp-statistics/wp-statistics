@@ -321,8 +321,8 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
     <div className="flex flex-col h-full">
       {/* Quick Filters */}
       {quickFilterDefinitions.length > 0 && (
-        <div className="px-4 py-3 border-b border-neutral-100">
-          <span className="text-xs font-medium text-neutral-500 mb-2 block">
+        <div className="px-4 py-3 border-b border-border/50">
+          <span className="text-xs font-medium text-muted-foreground mb-2 block">
             {__('Quick filters', 'wp-statistics')}
           </span>
           <QuickFilters
@@ -341,12 +341,12 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
           {lockedFilters.map((lockedFilter) => (
             <div
               key={lockedFilter.id}
-              className="flex items-center gap-2 p-2.5 rounded-lg bg-neutral-100 border border-neutral-200 text-sm"
+              className="flex items-center gap-2 p-2.5 rounded-lg bg-muted border border-border text-sm"
             >
-              <span className="text-neutral-600 font-medium">{lockedFilter.label}</span>
-              <span className="text-neutral-500">{lockedFilter.operator}</span>
-              <span className="text-neutral-600">{lockedFilter.value}</span>
-              <span className="ml-auto text-neutral-500 text-xs">{__('Locked', 'wp-statistics')}</span>
+              <span className="text-foreground font-medium">{lockedFilter.label}</span>
+              <span className="text-muted-foreground">{lockedFilter.operator}</span>
+              <span className="text-foreground">{lockedFilter.value}</span>
+              <span className="ml-auto text-muted-foreground text-xs">{__('Locked', 'wp-statistics')}</span>
             </div>
           ))}
 
@@ -354,7 +354,7 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
           {pendingFilters.map((filter, index) => (
             <div key={filter.id} className="relative">
               {(index > 0 || lockedFilters.length > 0) && (
-                <div className="text-xs font-medium text-neutral-500 mb-1.5 ml-1">
+                <div className="text-xs font-medium text-muted-foreground mb-1.5 ml-1">
                   {__('and', 'wp-statistics')}
                 </div>
               )}
@@ -371,7 +371,7 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
           {/* Empty state */}
           {pendingFilters.length === 0 && lockedFilters.length === 0 && (
             <div className="text-center py-6">
-              <p className="text-sm text-neutral-500 mb-3">
+              <p className="text-sm text-muted-foreground mb-3">
                 {__('No filters applied', 'wp-statistics')}
               </p>
             </div>
@@ -384,11 +384,11 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
             type="button"
             onClick={handleAddFilter}
             className={cn(
-              'flex items-center gap-2 mt-4 py-2 text-sm text-neutral-500 cursor-pointer',
+              'flex items-center gap-2 mt-4 py-2 text-sm text-muted-foreground cursor-pointer',
               'hover:text-primary transition-colors group'
             )}
           >
-            <span className="flex items-center justify-center w-5 h-5 rounded-full border border-dashed border-neutral-300 group-hover:border-primary transition-colors">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full border border-dashed border-input group-hover:border-primary transition-colors">
               <Plus className="h-3 w-3" />
             </span>
             {__('Add filter', 'wp-statistics')}
@@ -397,12 +397,12 @@ export function FiltersDetailView({ filterGroup = 'visitors', lockedFilters = []
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between gap-2 px-4 py-3 border-t border-neutral-100 bg-neutral-50/50 shrink-0">
+      <div className="flex items-center justify-between gap-2 px-4 py-3 border-t border-border/50 bg-muted/50 shrink-0">
         <button
           type="button"
           onClick={handleClearAll}
           className={cn(
-            'text-xs text-neutral-500 hover:text-destructive transition-colors cursor-pointer',
+            'text-xs text-muted-foreground hover:text-destructive transition-colors cursor-pointer',
             pendingFilters.length === 0 && 'invisible'
           )}
         >

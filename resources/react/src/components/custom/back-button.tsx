@@ -20,10 +20,10 @@ export function BackButton({ defaultTo, label }: BackButtonProps) {
   return (
     <Link
       to={to}
-      className="p-1.5 -ml-1.5 rounded-md hover:bg-neutral-100 transition-colors shrink-0"
+      className="p-1.5 -ml-1.5 rounded-md hover:bg-muted transition-colors shrink-0"
       aria-label={label}
     >
-      <ArrowLeft className="h-5 w-5 text-neutral-500" />
+      <ArrowLeft className="h-5 w-5 text-muted-foreground" />
     </Link>
   )
 }

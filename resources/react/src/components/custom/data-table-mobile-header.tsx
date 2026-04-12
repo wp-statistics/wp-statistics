@@ -41,10 +41,10 @@ export function DataTableMobileHeader({
   }
 
   return (
-    <div className="flex items-center justify-between px-3 py-3 border-b border-neutral-200 bg-white">
+    <div className="flex items-center justify-between px-3 py-3 border-b border-border bg-card">
       <div className="flex items-center gap-2 min-w-0">
         {title && <h2 className="text-base font-semibold truncate">{title}</h2>}
-        {isFetching && <Loader2 className="h-4 w-4 animate-spin text-neutral-400 shrink-0" />}
+        {isFetching && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground/70 shrink-0" />}
       </div>
 
       {/* Sort dropdown */}
@@ -66,7 +66,7 @@ export function DataTableMobileHeader({
                 <span>{col.label}</span>
                 {currentSort?.id === col.id && (
                   <div className="flex items-center gap-1">
-                    <span className="text-[11px] text-neutral-500">
+                    <span className="text-[11px] text-muted-foreground">
                       {currentSort.desc ? __('High→Low', 'wp-statistics') : __('Low→High', 'wp-statistics')}
                     </span>
                     <Check className="h-3.5 w-3.5" />

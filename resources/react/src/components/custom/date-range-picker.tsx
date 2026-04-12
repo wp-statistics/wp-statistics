@@ -426,7 +426,7 @@ export function DateRangePickerContent({
       {/* Body */}
       <div className="flex flex-col @lg:flex-row">
         {/* Presets sidebar - only on wide containers */}
-        <div className="hidden @lg:block w-[185px] p-3 border-r border-neutral-100 bg-neutral-50/50">
+        <div className="hidden @lg:block w-[185px] p-3 border-r border-border/50 bg-muted/50">
             <div className="flex flex-col gap-0.5">
               {PRESETS.map((preset) => (
                 <button
@@ -439,7 +439,7 @@ export function DateRangePickerContent({
                     'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors',
                     selectedPreset === preset.name
                       ? 'bg-primary/10 text-primary font-medium'
-                      : 'text-neutral-600 hover:bg-neutral-100'
+                      : 'text-muted-foreground hover:bg-muted'
                   )}
                 >
                   <span
@@ -447,7 +447,7 @@ export function DateRangePickerContent({
                       'w-2 h-2 rounded-full border-2 transition-colors shrink-0',
                       selectedPreset === preset.name
                         ? 'border-primary bg-primary'
-                        : 'border-neutral-300 bg-transparent'
+                        : 'border-input bg-transparent'
                     )}
                   />
                   {getPresetLabel(preset.name)}
@@ -492,7 +492,7 @@ export function DateRangePickerContent({
                 activeRangeTarget === 'main' && 'ring-2 ring-primary/30'
               )}
             />
-            <span className="text-neutral-400">→</span>
+            <span className="text-muted-foreground/70">→</span>
             <DateInput
               value={range.to}
               onChange={(date) => {
@@ -511,7 +511,7 @@ export function DateRangePickerContent({
 
           {/* Compare section */}
           {showCompare && (
-            <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100 mb-4">
+            <div className="p-3 rounded-lg bg-muted/50 border border-border/50 mb-4">
               <div className="flex items-center gap-2">
                 <Checkbox
                   checked={Boolean(rangeCompare)}
@@ -520,7 +520,7 @@ export function DateRangePickerContent({
                 />
                 <Label
                   htmlFor="compare-checkbox-content"
-                  className="text-xs font-medium text-neutral-600 cursor-pointer"
+                  className="text-xs font-medium text-muted-foreground cursor-pointer"
                 >
                   Compare to
                 </Label>
@@ -554,7 +554,7 @@ export function DateRangePickerContent({
                         activeRangeTarget === 'compare' && 'ring-2 ring-amber-500/30'
                       )}
                     />
-                    <span className="text-neutral-400 text-xs">→</span>
+                    <span className="text-muted-foreground/70 text-xs">→</span>
                     <DateInput
                       value={rangeCompare?.to}
                       onChange={(date) => {
@@ -633,7 +633,7 @@ export function DateRangePickerContent({
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-neutral-100">
+      <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-border/50">
         {onCancel && (
           <Button variant="ghost" size="sm" className="text-xs" onClick={onCancel}>
             Cancel
@@ -925,18 +925,18 @@ export const DateRangePicker = ({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="h-8 px-3 text-xs font-medium border-neutral-200 hover:bg-neutral-50"
+          className="h-8 px-3 text-xs font-medium border-border hover:bg-muted/50"
         >
           <div className="flex items-center gap-2">
             {/* Preset badge */}
             {selectedPreset && (
-              <span className="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-600 font-medium text-[11px]">
+              <span className="px-1.5 py-0.5 rounded bg-muted text-muted-foreground font-medium text-[11px]">
                 {getPresetLabel(selectedPreset)}
               </span>
             )}
 
             {/* Main date range - show year on end date only if all dates are in current year */}
-            <span className="text-neutral-700 font-medium">
+            <span className="text-foreground font-medium">
               {(() => {
                 const allCurrentYear = isCurrentYear(range.from) && (!range.to || isCurrentYear(range.to))
                 const toDate = range.to ?? range.from
@@ -956,7 +956,7 @@ export const DateRangePicker = ({
               </span>
             )}
 
-            <ChevronDown className="h-3.5 w-3.5 text-neutral-400" />
+            <ChevronDown className="h-3.5 w-3.5 text-muted-foreground/70" />
           </div>
         </Button>
       </PopoverTrigger>
@@ -968,7 +968,7 @@ export const DateRangePicker = ({
         <div className="flex">
           {/* Presets sidebar - LEFT side */}
           {!isSmallScreen && (
-            <div className="w-[185px] p-3 border-r border-neutral-100 bg-neutral-50/50">
+            <div className="w-[185px] p-3 border-r border-border/50 bg-muted/50">
               <div className="flex flex-col gap-0.5">
                 {PRESETS.map((preset) => (
                   <button
@@ -981,7 +981,7 @@ export const DateRangePicker = ({
                       'flex items-center gap-2 px-2.5 py-1.5 text-xs text-left rounded-md transition-colors',
                       selectedPreset === preset.name
                         ? 'bg-primary/10 text-primary font-medium'
-                        : 'text-neutral-600 hover:bg-neutral-100'
+                        : 'text-muted-foreground hover:bg-muted'
                     )}
                   >
                     <span
@@ -989,7 +989,7 @@ export const DateRangePicker = ({
                         'w-2 h-2 rounded-full border-2 transition-colors shrink-0',
                         selectedPreset === preset.name
                           ? 'border-primary bg-primary'
-                          : 'border-neutral-300 bg-transparent'
+                          : 'border-input bg-transparent'
                       )}
                     />
                     {getPresetLabel(preset.name)}
@@ -1035,7 +1035,7 @@ export const DateRangePicker = ({
                   activeRangeTarget === 'main' && 'ring-2 ring-primary/30'
                 )}
               />
-              <span className="text-neutral-400">→</span>
+              <span className="text-muted-foreground/70">→</span>
               <DateInput
                 value={range.to}
                 onChange={(date) => {
@@ -1054,7 +1054,7 @@ export const DateRangePicker = ({
 
             {/* Compare section */}
             {showCompare && (
-              <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100 mb-4">
+              <div className="p-3 rounded-lg bg-muted/50 border border-border/50 mb-4">
                 <div className="flex items-center gap-2">
                   <Checkbox
                     checked={Boolean(rangeCompare)}
@@ -1063,7 +1063,7 @@ export const DateRangePicker = ({
                   />
                   <Label
                     htmlFor="compare-checkbox"
-                    className="text-xs font-medium text-neutral-600 cursor-pointer"
+                    className="text-xs font-medium text-muted-foreground cursor-pointer"
                   >
                     Compare to
                   </Label>
@@ -1112,7 +1112,7 @@ export const DateRangePicker = ({
                         activeRangeTarget === 'compare' && 'ring-2 ring-amber-500/30'
                       )}
                     />
-                    <span className="text-neutral-400 text-xs">→</span>
+                    <span className="text-muted-foreground/70 text-xs">→</span>
                     <DateInput
                       value={rangeCompare?.to}
                       onChange={(date) => {
@@ -1200,7 +1200,7 @@ export const DateRangePicker = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-neutral-100">
+        <div className="flex items-center justify-end gap-2 px-4 py-3 border-t border-border/50">
           <Button
             variant="ghost"
             size="sm"

@@ -77,7 +77,7 @@ export const WithCustomClassName: Story = {
 
 export const InToolbar: Story = {
   render: () => (
-    <div className="flex items-center gap-2 p-4 border rounded-lg bg-neutral-50">
+    <div className="flex items-center gap-2 p-4 border rounded-lg bg-muted/50">
       <span className="text-sm text-muted-foreground">Toolbar:</span>
       <OptionsDrawerTrigger onClick={fn()} />
     </div>

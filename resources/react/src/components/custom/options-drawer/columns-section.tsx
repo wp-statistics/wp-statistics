@@ -74,8 +74,8 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
       aria-label={`${item.label}, ${item.isVisible ? __('visible', 'wp-statistics') : __('hidden', 'wp-statistics')}`}
       className={cn(
         'flex items-center gap-3 px-3 py-2.5',
-        'hover:bg-neutral-50 rounded-md transition-colors',
-        'border-b border-neutral-100 last:border-b-0',
+        'hover:bg-muted/50 rounded-md transition-colors',
+        'border-b border-border/50 last:border-b-0',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
         disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
       )}
@@ -86,7 +86,7 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
         data-drag-handle
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing text-neutral-300 hover:text-neutral-400 transition-colors"
+        className="cursor-grab active:cursor-grabbing text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors"
       >
         <GripVertical className="h-4 w-4" />
       </div>
@@ -102,7 +102,7 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
           item.isVisible
             ? 'bg-primary border-primary'
-            : 'bg-white border-neutral-300'
+            : 'bg-card border-input'
         )}
         onClick={(e) => {
           e.stopPropagation()
@@ -132,7 +132,7 @@ function SortableItem({ item, onToggle, disabled }: SortableItemProps) {
       <span
         className={cn(
           'flex-1 text-sm select-none',
-          item.isVisible ? 'text-neutral-700' : 'text-neutral-400'
+          item.isVisible ? 'text-foreground' : 'text-muted-foreground/70'
         )}
       >
         {item.label}
@@ -372,7 +372,7 @@ export function ColumnsDetailView<TData>({
   return (
     <div className="flex flex-col h-full">
       {/* Description */}
-      <p className="text-xs text-neutral-500 px-4 py-3 border-b border-neutral-100 bg-neutral-50/30">
+      <p className="text-xs text-muted-foreground px-4 py-3 border-b border-border/50 bg-muted/30">
         {__('Drag to reorder, toggle to show/hide columns', 'wp-statistics')}
       </p>
 
@@ -398,7 +398,7 @@ export function ColumnsDetailView<TData>({
         <button
           type="button"
           onClick={handleReset}
-          className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-neutral-700 transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         >
           <RotateCcw className="h-3.5 w-3.5" />
           {__('Reset to default', 'wp-statistics')}

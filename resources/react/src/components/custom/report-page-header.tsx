@@ -91,7 +91,7 @@ export function ReportPageHeader({
 
   return (
     <div className="flex items-center justify-between px-4 py-3">
-      <h1 className="text-2xl font-semibold text-neutral-800">{title}</h1>
+      <h1 className="text-2xl font-semibold text-foreground">{title}</h1>
       <div className="flex items-center gap-3" data-pdf-hide>
         {children && <div className="hidden lg:flex">{children}</div>}
         {showFilterButton && (

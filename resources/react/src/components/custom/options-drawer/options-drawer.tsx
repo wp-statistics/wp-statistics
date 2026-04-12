@@ -132,7 +132,7 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
           'fixed right-0 bottom-0 z-[100001]',
           'top-[calc(var(--wp-admin-bar-height)+var(--header-height))]',
           'w-[380px] sm:w-[400px]',
-          'bg-white border-l border-neutral-200',
+          'bg-card border-l border-border',
           'flex flex-col',
           'transition-transform duration-200 ease-out',
           isAnimating ? 'translate-x-0' : 'translate-x-full'
@@ -142,17 +142,17 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
         aria-label={getViewTitle(currentView)}
       >
         {/* Header */}
-        <div className="flex items-center justify-between h-12 px-4 border-b border-neutral-100 bg-neutral-50/50 shrink-0">
+        <div className="flex items-center justify-between h-12 px-4 border-b border-border/50 bg-muted/50 shrink-0">
           {currentView === 'main' ? (
             <>
-              <h2 className="text-sm font-semibold text-neutral-800">
+              <h2 className="text-sm font-semibold text-foreground">
                 {__('Options', 'wp-statistics')}
               </h2>
               {onReset && (
                 <button
                   type="button"
                   onClick={onReset}
-                  className="text-xs text-neutral-500 hover:text-neutral-700 transition-colors"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {__('Reset all', 'wp-statistics')}
                 </button>
@@ -164,19 +164,19 @@ export function OptionsDrawer({ open, onOpenChange, children, onReset }: Options
                 <button
                   type="button"
                   onClick={goBack}
-                  className="flex items-center justify-center w-6 h-6 -ml-1 rounded hover:bg-neutral-100 transition-colors text-neutral-500 hover:text-neutral-700"
+                  className="flex items-center justify-center w-6 h-6 -ml-1 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
                   aria-label={__('Back', 'wp-statistics')}
                 >
                   <ChevronLeftIcon className="h-4 w-4" />
                 </button>
-                <h2 className="text-sm font-semibold text-neutral-800">
+                <h2 className="text-sm font-semibold text-foreground">
                   {getViewTitle(currentView)}
                 </h2>
               </div>
               <button
                 type="button"
                 onClick={handleClose}
-                className="text-xs text-neutral-500 hover:text-neutral-700 transition-colors"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
                 {__('Done', 'wp-statistics')}
               </button>
@@ -216,23 +216,23 @@ export function OptionsMenuItem({ icon, title, summary, onClick, className }: Op
       onClick={onClick}
       className={cn(
         'flex w-full items-center justify-between px-4 py-3',
-        'hover:bg-neutral-50 active:bg-neutral-100 transition-colors',
-        'border-b border-neutral-100',
+        'hover:bg-muted/50 active:bg-muted transition-colors',
+        'border-b border-border/50',
         'group',
         className
       )}
     >
       <div className="flex items-center gap-3">
-        <span className="text-neutral-400 group-hover:text-neutral-500 transition-colors">{icon}</span>
-        <span className="text-sm font-medium text-neutral-700">{title}</span>
+        <span className="text-muted-foreground/70 group-hover:text-muted-foreground transition-colors">{icon}</span>
+        <span className="text-sm font-medium text-foreground">{title}</span>
       </div>
       <div className="flex items-center gap-2">
         {summary && (
-          <span className="text-xs text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">
+          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
             {summary}
           </span>
         )}
-        <ChevronLeftIcon className="h-4 w-4 text-neutral-300 rotate-180 group-hover:text-neutral-400 transition-colors" />
+        <ChevronLeftIcon className="h-4 w-4 text-muted-foreground/50 rotate-180 group-hover:text-muted-foreground/70 transition-colors" />
       </div>
     </button>
   )
@@ -249,7 +249,7 @@ export function OptionsDetailView({ description, children, className }: OptionsD
   return (
     <div className={cn('', className)}>
       {description && (
-        <p className="text-xs text-neutral-500 px-4 py-3 border-b border-neutral-100 bg-neutral-50/30">
+        <p className="text-xs text-muted-foreground px-4 py-3 border-b border-border/50 bg-muted/30">
           {description}
         </p>
       )}
@@ -277,16 +277,16 @@ export function OptionsToggleItem({ icon, label, checked, onCheckedChange, disab
       disabled={disabled}
       className={cn(
         'flex w-full items-center justify-between py-2.5',
-        'border-b border-neutral-100 last:border-b-0',
+        'border-b border-border/50 last:border-b-0',
         'disabled:cursor-not-allowed disabled:opacity-50',
-        'hover:bg-neutral-50/50 -mx-4 px-4 transition-colors'
+        'hover:bg-muted/50 -mx-4 px-4 transition-colors'
       )}
     >
       <div className="flex items-center gap-3">
-        {icon && <span className="text-neutral-400">{icon}</span>}
+        {icon && <span className="text-muted-foreground/70">{icon}</span>}
         <span className={cn(
           'text-sm',
-          checked ? 'text-neutral-700' : 'text-neutral-500'
+          checked ? 'text-foreground' : 'text-muted-foreground'
         )}>
           {label}
         </span>
@@ -298,12 +298,12 @@ export function OptionsToggleItem({ icon, label, checked, onCheckedChange, disab
         aria-label={label}
         className={cn(
           'relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors',
-          checked ? 'bg-primary' : 'bg-neutral-200'
+          checked ? 'bg-primary' : 'bg-muted'
         )}
       >
         <span
           className={cn(
-            'pointer-events-none block h-4 w-4 rounded-full bg-white transition-transform',
+            'pointer-events-none block h-4 w-4 rounded-full bg-card transition-transform',
             checked ? 'translate-x-[18px]' : 'translate-x-0.5'
           )}
         />
@@ -330,17 +330,17 @@ export function LockedMenuItem({ icon, label }: LockedMenuItemProps) {
     <div
       className={cn(
         'flex w-full items-center justify-between px-4 py-3',
-        'border-b border-neutral-100',
+        'border-b border-border/50',
         'opacity-50 cursor-not-allowed'
       )}
     >
       <div className="flex items-center gap-3">
-        <span className="text-neutral-400">{icon}</span>
-        <span className="text-sm font-medium text-neutral-500">{label}</span>
+        <span className="text-muted-foreground/70">{icon}</span>
+        <span className="text-sm font-medium text-muted-foreground">{label}</span>
       </div>
       <div className="flex items-center gap-1.5">
-        <LockIcon className="h-3 w-3 text-neutral-400" />
-        <span className="text-xs text-neutral-400">{__('Premium', 'wp-statistics')}</span>
+        <LockIcon className="h-3 w-3 text-muted-foreground/70" />
+        <span className="text-xs text-muted-foreground/70">{__('Premium', 'wp-statistics')}</span>
       </div>
     </div>
   )

@@ -255,9 +255,9 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             aria-label={__('Minimum value', 'wp-statistics')}
             aria-describedby={errorId}
             aria-invalid={!!rangeError}
-            className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
+            className={`h-8 text-xs border-0 bg-card shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
-          <span className="text-xs text-neutral-500">{__('to', 'wp-statistics')}</span>
+          <span className="text-xs text-muted-foreground">{__('to', 'wp-statistics')}</span>
           <Input
             type={inputType}
             value={rangeValue.max}
@@ -266,7 +266,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             aria-label={__('Maximum value', 'wp-statistics')}
             aria-describedby={errorId}
             aria-invalid={!!rangeError}
-            className={`h-8 text-xs border-0 bg-white shadow-sm ${inputClassName} ${errorClassName} grow`}
+            className={`h-8 text-xs border-0 bg-card shadow-sm ${inputClassName} ${errorClassName} grow`}
           />
         </div>
         {rangeError && <span id={errorId} role="alert" className="text-[11px] text-destructive">{rangeError}</span>}
@@ -303,7 +303,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
     return (
       <div className="relative flex-1">
         {/* Select2-style container with tags inside */}
-        <div className="flex flex-wrap items-center gap-1 min-h-[32px] px-2 py-1 bg-white rounded-md shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1">
+        <div className="flex flex-wrap items-center gap-1 min-h-[32px] px-2 py-1 bg-card rounded-md shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1">
           {/* Selected tags */}
           {hasValues && (
             <>
@@ -397,7 +397,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
           value={displayValue}
           onChange={(e) => handleSingleValueChange(e.target.value)}
           placeholder={__('Value', 'wp-statistics')}
-          className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1"
+          className="h-8 text-xs border-0 bg-card shadow-sm min-w-[100px] flex-1"
           disabled
           title={__('This filter field is not available on this page', 'wp-statistics')}
         />
@@ -446,7 +446,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
           // Render multi-select dropdown with tags
           return (
             <div className="relative flex-1">
-              <div className="flex flex-wrap items-center gap-1 min-h-[32px] px-2 py-1 bg-white rounded-md shadow-sm">
+              <div className="flex flex-wrap items-center gap-1 min-h-[32px] px-2 py-1 bg-card rounded-md shadow-sm">
                 {/* Selected tags */}
                 {currentValues.map((val) => (
                   <span
@@ -508,7 +508,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
         }
         return (
           <Select value={getSingleValue(filter.value)} onValueChange={handleDropdownChange}>
-            <SelectTrigger className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1">
+            <SelectTrigger className="h-8 text-xs border-0 bg-card shadow-sm min-w-[100px] flex-1">
               <SelectValue placeholder={__('Select value', 'wp-statistics')} />
             </SelectTrigger>
             <SelectContent className="max-h-[200px] overflow-y-auto">
@@ -529,7 +529,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
             aria-label={__('Filter value', 'wp-statistics')}
-            className="h-8 text-xs border-0 bg-white shadow-sm min-w-[80px] flex-1"
+            className="h-8 text-xs border-0 bg-card shadow-sm min-w-[80px] flex-1"
           />
         )
       case 'date':
@@ -540,7 +540,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Select date', 'wp-statistics')}
             aria-label={__('Filter date', 'wp-statistics')}
-            className="h-8 text-xs border-0 bg-white shadow-sm min-w-[120px] flex-1"
+            className="h-8 text-xs border-0 bg-card shadow-sm min-w-[120px] flex-1"
           />
         )
       case 'text':
@@ -552,7 +552,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
             onChange={(e) => handleSingleValueChange(e.target.value)}
             placeholder={__('Value', 'wp-statistics')}
             aria-label={__('Filter value', 'wp-statistics')}
-            className="h-8 text-xs border-0 bg-white shadow-sm min-w-[100px] flex-1"
+            className="h-8 text-xs border-0 bg-card shadow-sm min-w-[100px] flex-1"
           />
         )
     }
@@ -562,18 +562,18 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
   const isUnavailableField = !selectedField && filter.fieldName
 
   return (
-    <div className="flex items-center gap-1.5 p-2 rounded-lg bg-neutral-50/70 border border-neutral-100">
+    <div className="flex items-center gap-1.5 p-2 rounded-lg bg-muted/50 border border-border/50">
       {/* Field Select - show as disabled text when field not available */}
       {isUnavailableField ? (
         <div
-          className="h-8 w-[100px] text-xs font-medium border-0 bg-white shadow-sm shrink-0 flex items-center px-3 rounded-md text-neutral-500"
+          className="h-8 w-[100px] text-xs font-medium border-0 bg-card shadow-sm shrink-0 flex items-center px-3 rounded-md text-muted-foreground"
           title={__('This filter field is not available on this page', 'wp-statistics')}
         >
           {filter.fieldName}
         </div>
       ) : (
         <Select value={filter.fieldName} onValueChange={handleFieldChange}>
-          <SelectTrigger className="h-8 w-[100px] text-xs font-medium border-0 bg-white shadow-sm shrink-0">
+          <SelectTrigger className="h-8 w-[100px] text-xs font-medium border-0 bg-card shadow-sm shrink-0">
             <SelectValue placeholder={__('Field', 'wp-statistics')} />
           </SelectTrigger>
           <SelectContent className="max-h-[200px] overflow-y-auto">
@@ -589,14 +589,14 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
       {/* Operator Select - show as disabled text when field not available */}
       {isUnavailableField ? (
         <div
-          className="h-8 w-[90px] text-xs border-0 bg-white shadow-sm text-neutral-500 shrink-0 flex items-center px-3 rounded-md"
+          className="h-8 w-[90px] text-xs border-0 bg-card shadow-sm text-muted-foreground shrink-0 flex items-center px-3 rounded-md"
           title={__('This filter field is not available on this page', 'wp-statistics')}
         >
           {getOperatorLabel(filter.operator)}
         </div>
       ) : (
         <Select value={filter.operator} onValueChange={handleOperatorChange}>
-          <SelectTrigger className="h-8 w-[90px] text-xs border-0 bg-white shadow-sm text-neutral-600 shrink-0">
+          <SelectTrigger className="h-8 w-[90px] text-xs border-0 bg-card shadow-sm text-foreground shrink-0">
             <SelectValue placeholder={__('Operator', 'wp-statistics')} />
           </SelectTrigger>
           <SelectContent className="max-h-[200px] overflow-y-auto">
@@ -620,7 +620,7 @@ function FilterRow({ filter, fields, usedFieldNames = [], onUpdate, onRemove }: 
         size="icon"
         onClick={() => onRemove(filter.id)}
         aria-label="Remove filter"
-        className="h-7 w-7 text-neutral-400 hover:text-destructive hover:bg-destructive/10 shrink-0"
+        className="h-7 w-7 text-muted-foreground/70 hover:text-destructive hover:bg-destructive/10 shrink-0"
       >
         <Trash2 className="h-3.5 w-3.5" />
       </Button>

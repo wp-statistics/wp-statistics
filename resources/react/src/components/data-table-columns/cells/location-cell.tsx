@@ -61,7 +61,7 @@ export const LocationCell = memo(function LocationCell({ data, pluginUrl, linkTo
         alt={data.countryName}
         className="w-3.5 h-3.5 object-contain shrink-0"
       />
-      <span className={`text-xs truncate ${linkTo ? 'text-neutral-700 hover:text-primary hover:underline cursor-pointer' : 'text-muted-foreground'}`}>
+      <span className={`text-xs truncate ${linkTo ? 'text-foreground hover:text-primary hover:underline cursor-pointer' : 'text-muted-foreground'}`}>
         {locationText}
       </span>
     </div>

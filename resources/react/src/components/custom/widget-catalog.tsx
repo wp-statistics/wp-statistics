@@ -49,14 +49,14 @@ export function WidgetCatalog({ categories }: WidgetCatalogProps) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 gap-1 text-xs font-medium border-neutral-200 hover:bg-neutral-50">
-          <Plus className="h-3.5 w-3.5 text-neutral-500" />
+        <Button variant="outline" size="sm" className="h-8 gap-1 text-xs font-medium border-border hover:bg-muted/50">
+          <Plus className="h-3.5 w-3.5 text-muted-foreground" />
           {__('Add widget', 'wp-statistics')}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-72 p-0" align="end">
-        <div className="flex items-center px-3 py-2 border-b border-neutral-100 bg-neutral-50/50">
-          <span className="text-sm font-semibold text-neutral-700">{__('Add widget', 'wp-statistics')}</span>
+        <div className="flex items-center px-3 py-2 border-b border-border/50 bg-muted/50">
+          <span className="text-sm font-semibold text-foreground">{__('Add widget', 'wp-statistics')}</span>
         </div>
         <div className="max-h-80 overflow-y-auto p-2">
           {categories.map((cat) => {
@@ -68,7 +68,7 @@ export function WidgetCatalog({ categories }: WidgetCatalogProps) {
 
             return (
               <div key={cat.label} className="mb-2">
-                <p className="px-2 mb-1 text-xs font-medium text-neutral-500">
+                <p className="px-2 mb-1 text-xs font-medium text-muted-foreground">
                   {cat.label}
                 </p>
                 <div className="space-y-0.5">
@@ -101,7 +101,7 @@ export function WidgetCatalog({ categories }: WidgetCatalogProps) {
           )}
         </div>
         {selected.length > 0 && (
-          <div className="border-t border-neutral-100 bg-neutral-50/30 p-2">
+          <div className="border-t border-border/50 bg-muted/50 p-2">
             <Button size="sm" className="w-full text-xs" onClick={handleAdd}>
               {__('Add selected', 'wp-statistics')} ({selected.length})
             </Button>

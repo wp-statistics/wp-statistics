@@ -377,7 +377,7 @@ export function DataTable<TData, TValue>({
       {title && (
         <PanelHeader>
           <PanelTitle>{title}</PanelTitle>
-          {isFetching && <Loader2 className="h-4 w-4 animate-spin text-neutral-400" />}
+          {isFetching && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground/70" />}
         </PanelHeader>
       )}
       <div
@@ -388,14 +388,14 @@ export function DataTable<TData, TValue>({
         )}
       >
         {isFetching && (
-          <div className="absolute inset-0 flex items-center justify-center z-10 bg-white/30">
-            <Loader2 className="h-5 w-5 animate-spin text-neutral-400" />
+          <div className="absolute inset-0 flex items-center justify-center z-10 bg-card/30">
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground/70" />
           </div>
         )}
         <Table className={cn('min-w-max', stickyHeader && 'border-separate border-spacing-0')}>
           <TableHeader className={cn(stickyHeader && 'sticky top-0 z-10')}>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-b-0 bg-white hover:bg-white">
+              <TableRow key={headerGroup.id} className="border-b-0 bg-card hover:bg-card">
                 {headerGroup.headers.map((header, index) => {
                   const size = header.column.columnDef.size
                   const align = (header.column.columnDef.meta as { align?: 'left' | 'right' | 'center' } | undefined)
@@ -404,7 +404,7 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       className={cn(
-                        'h-8 bg-white border-t border-b border-neutral-200',
+                        'h-8 bg-card border-t border-b border-border',
                         index === 0 ? 'pl-4 border-l-0' : '',
                         index === headerGroup.headers.length - 1 ? 'pr-4 border-r-0' : '',
                         align === 'right' && 'text-right',
@@ -426,7 +426,7 @@ export function DataTable<TData, TValue>({
                   <TableRow
                     className={cn(
                       'border-0 transition-colors',
-                      rowIndex % 2 === 0 ? 'bg-white hover:bg-neutral-50' : 'bg-neutral-50/50 hover:bg-neutral-100/70'
+                      rowIndex % 2 === 0 ? 'bg-card hover:bg-muted/50' : 'bg-muted/50 hover:bg-muted/70'
                     )}
                   >
                     {row.getVisibleCells().map((cell, cellIndex) => (
@@ -442,7 +442,7 @@ export function DataTable<TData, TValue>({
                     ))}
                   </TableRow>
                   {row.getIsExpanded() && renderSubComponent && (
-                    <TableRow className="border-0 bg-neutral-50 hover:bg-neutral-50">
+                    <TableRow className="border-0 bg-muted/50 hover:bg-muted/50">
                       <TableCell colSpan={row.getVisibleCells().length} className="p-0">
                         {renderSubComponent({ row })}
                       </TableCell>
@@ -490,7 +490,7 @@ export function DataTable<TData, TValue>({
                     {page}
                   </Button>
                 ) : (
-                  <span key={`ellipsis-${index}`} className="px-1 text-neutral-400 text-xs">
+                  <span key={`ellipsis-${index}`} className="px-1 text-muted-foreground/70 text-xs">
                     {page}
                   </span>
                 )

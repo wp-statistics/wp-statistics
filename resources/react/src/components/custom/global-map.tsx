@@ -266,8 +266,8 @@ export function GlobalMap({
     if (!countryData) {
       return (
         <div>
-          <div className="font-medium text-neutral-100">{geoName}</div>
-          <div className="mt-1 text-neutral-400">No data</div>
+          <div className="font-medium text-tooltip-foreground">{geoName}</div>
+          <div className="mt-1 text-tooltip-foreground/70">No data</div>
         </div>
       )
     }
@@ -289,13 +289,13 @@ export function GlobalMap({
               className="w-4 h-3"
             />
           )}
-          <span className="font-medium text-neutral-100">{countryData.name}</span>
+          <span className="font-medium text-tooltip-foreground">{countryData.name}</span>
         </div>
-        <div className="text-neutral-300">
+        <div className="text-tooltip-foreground/80">
           {metricLabel}: <span className="font-medium tabular-nums">{metricValue.toLocaleString()}</span>
         </div>
         {enableCityDrilldown && viewMode === 'countries' && (
-          <div className="text-neutral-400 mt-1.5 pt-1.5 border-t border-neutral-700">Click to view regions</div>
+          <div className="text-tooltip-foreground/70 mt-1.5 pt-1.5 border-t border-tooltip-foreground/20">Click to view regions</div>
         )}
       </div>
     )
@@ -429,14 +429,14 @@ export function GlobalMap({
 
     return (
       <div>
-        <div className="text-neutral-400">{provinceName} (Region)</div>
-        <div className="font-medium text-neutral-100 mb-1.5">{region?.name || provinceName}</div>
-        <div className="border-t border-neutral-700 pt-1.5 space-y-0.5">
+        <div className="text-tooltip-foreground/70">{provinceName} (Region)</div>
+        <div className="font-medium text-tooltip-foreground mb-1.5">{region?.name || provinceName}</div>
+        <div className="border-t border-tooltip-foreground/20 pt-1.5 space-y-0.5">
           <div className="flex justify-between gap-4">
-            <span className="text-neutral-400">{selectedMetric}</span>
-            <span className="font-medium text-neutral-100 tabular-nums">{(value || 0).toLocaleString()}</span>
+            <span className="text-tooltip-foreground/70">{selectedMetric}</span>
+            <span className="font-medium text-tooltip-foreground tabular-nums">{(value || 0).toLocaleString()}</span>
           </div>
-          <div className="text-neutral-400 tabular-nums">{formatDecimal(percentage)}% of total</div>
+          <div className="text-tooltip-foreground/70 tabular-nums">{formatDecimal(percentage)}% of total</div>
         </div>
       </div>
     )
@@ -458,18 +458,18 @@ export function GlobalMap({
           {/* Hint Overlay */}
           {showScrollHint && (
             <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-              <div className="bg-neutral-800/90 text-white px-4 py-3 rounded-lg text-sm font-medium shadow-lg text-center leading-relaxed">
+              <div className="bg-tooltip/90 text-white px-4 py-3 rounded-lg text-sm font-medium shadow-lg text-center leading-relaxed">
                 {typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform) ? (
                   <>
-                    Use <kbd className="px-1.5 py-0.5 bg-neutral-700 rounded text-xs">⌘</kbd> + scroll to zoom
+                    Use <kbd className="px-1.5 py-0.5 bg-tooltip-foreground/20 rounded text-xs">⌘</kbd> + scroll to zoom
                     <br />
-                    <kbd className="px-1.5 py-0.5 bg-neutral-700 rounded text-xs">⌘</kbd> + drag to move
+                    <kbd className="px-1.5 py-0.5 bg-tooltip-foreground/20 rounded text-xs">⌘</kbd> + drag to move
                   </>
                 ) : (
                   <>
-                    Use <kbd className="px-1.5 py-0.5 bg-neutral-700 rounded text-xs">Ctrl</kbd> + scroll to zoom
+                    Use <kbd className="px-1.5 py-0.5 bg-tooltip-foreground/20 rounded text-xs">Ctrl</kbd> + scroll to zoom
                     <br />
-                    <kbd className="px-1.5 py-0.5 bg-neutral-700 rounded text-xs">Ctrl</kbd> + drag to move
+                    <kbd className="px-1.5 py-0.5 bg-tooltip-foreground/20 rounded text-xs">Ctrl</kbd> + drag to move
                   </>
                 )}
               </div>
@@ -482,7 +482,7 @@ export function GlobalMap({
               <Button
                 variant="outline"
                 size="icon"
-                className="h-10 w-10 md:h-8 md:w-8 bg-white shadow-sm"
+                className="h-10 w-10 md:h-8 md:w-8 bg-card shadow-sm"
                 onClick={handleZoomIn}
                 disabled={position.zoom >= MAP_ZOOM.MAX}
                 aria-label="Zoom in"
@@ -492,7 +492,7 @@ export function GlobalMap({
               <Button
                 variant="outline"
                 size="icon"
-                className="h-10 w-10 md:h-8 md:w-8 bg-white shadow-sm"
+                className="h-10 w-10 md:h-8 md:w-8 bg-card shadow-sm"
                 onClick={handleZoomOut}
                 disabled={position.zoom <= MAP_ZOOM.MIN}
                 aria-label="Zoom out"
@@ -506,7 +506,7 @@ export function GlobalMap({
           {enableMetricToggle && availableMetrics.length > 1 && (
             <div className="absolute right-2 md:right-4 top-2 md:top-4 z-10">
               <Tabs value={selectedMetric} onValueChange={handleMetricChange}>
-                <TabsList className="h-10 md:h-8 bg-white shadow-sm">
+                <TabsList className="h-10 md:h-8 bg-card shadow-sm">
                   {availableMetrics.map((m) => (
                     <TabsTrigger key={m.value} value={m.value} className="text-xs px-3 md:px-2.5 py-2 md:py-1">
                       {m.label}
@@ -523,7 +523,7 @@ export function GlobalMap({
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-white shadow-sm gap-2 text-xs h-10 md:h-8 px-3 md:px-2"
+                className="bg-card shadow-sm gap-2 text-xs h-10 md:h-8 px-3 md:px-2"
                 onClick={handleBackToWorld}
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
@@ -543,8 +543,8 @@ export function GlobalMap({
 
           {/* Loading State for Countries */}
           {viewMode === 'countries' && isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-white/60 z-20">
-              <div className="bg-white rounded-lg shadow-lg p-4 flex items-center gap-3">
+            <div className="absolute inset-0 flex items-center justify-center bg-card/60 z-20">
+              <div className="bg-card rounded-lg shadow-lg p-4 flex items-center gap-3">
                 <Loader2 className="h-5 w-5 animate-spin text-primary" />
                 <span className="text-sm">Loading countries...</span>
               </div>
@@ -553,8 +553,8 @@ export function GlobalMap({
 
           {/* Loading State for Regions */}
           {viewMode === 'cities' && (regionsLoading || provincesLoading) && (
-            <div className="absolute inset-0 flex items-center justify-center bg-white/60 z-20">
-              <div className="bg-white rounded-lg shadow-lg p-4 flex items-center gap-3">
+            <div className="absolute inset-0 flex items-center justify-center bg-card/60 z-20">
+              <div className="bg-card rounded-lg shadow-lg p-4 flex items-center gap-3">
                 <Loader2 className="h-5 w-5 animate-spin text-primary" />
                 <span className="text-sm">Loading regions...</span>
               </div>
@@ -564,9 +564,9 @@ export function GlobalMap({
           {/* No Regions Available */}
           {viewMode === 'cities' && !regionsLoading && !regionsError && regionItems.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center z-20">
-              <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm text-center">
-                <p className="text-sm font-medium text-neutral-800 mb-2">No region data available</p>
-                <p className="text-xs text-neutral-500 mb-3">
+              <div className="bg-card rounded-lg shadow-lg p-6 max-w-sm text-center">
+                <p className="text-sm font-medium text-foreground mb-2">No region data available</p>
+                <p className="text-xs text-muted-foreground mb-3">
                   No regions found for {selectedCountry?.name} in the selected date range.
                 </p>
                 <Button size="sm" variant="outline" className="text-xs" onClick={handleBackToWorld}>
@@ -800,7 +800,7 @@ export function GlobalMap({
           {/* Tooltip */}
           {tooltip.visible && (
             <div
-              className="pointer-events-none absolute z-50 max-w-xs px-2.5 py-2 rounded shadow-lg bg-neutral-800 text-neutral-100 text-[11px] leading-tight"
+              className="pointer-events-none absolute z-50 max-w-xs px-2.5 py-2 rounded shadow-lg bg-tooltip text-tooltip-foreground text-[11px] leading-tight"
               style={{
                 left: tooltip.x + 12,
                 top: tooltip.y + 12,
@@ -826,7 +826,7 @@ export function GlobalMap({
                       border: `1px solid ${REGION_COLORS.STROKE_HOVER}`,
                     }}
                   ></div>
-                  <span className="text-xs text-neutral-500">No data</span>
+                  <span className="text-xs text-muted-foreground">No data</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div
@@ -836,20 +836,20 @@ export function GlobalMap({
                       border: `1px solid ${REGION_COLORS.STROKE_HOVER}`,
                     }}
                   ></div>
-                  <span className="text-xs text-neutral-500">Has {selectedMetric}</span>
+                  <span className="text-xs text-muted-foreground">Has {selectedMetric}</span>
                 </div>
               </div>
             ) : maxValue === 0 || data.countries.length === 0 ? (
-              <div className="text-xs text-neutral-500">No data available for the selected period</div>
+              <div className="text-xs text-muted-foreground">No data available for the selected period</div>
             ) : (
               <div className="flex items-center gap-2 w-full md:w-1/2">
-                <span className="text-xs text-neutral-500 tabular-nums">0</span>
+                <span className="text-xs text-muted-foreground tabular-nums">0</span>
                 <div className="flex-1 h-2 rounded-full overflow-hidden flex">
                   {COLOR_SCALE.map((color, i) => (
                     <div key={i} className="flex-1" style={{ backgroundColor: color }} />
                   ))}
                 </div>
-                <span className="text-xs text-neutral-500 tabular-nums">
+                <span className="text-xs text-muted-foreground tabular-nums">
                   {maxValue >= 1000 ? `${(maxValue / 1000).toFixed(0)}k` : maxValue.toLocaleString()}
                 </span>
               </div>

@@ -54,10 +54,10 @@ export function Header() {
             className={`
               group relative flex items-center justify-center h-8 w-8 rounded-md transition-colors
               ${privacyStatus === 'compliant'
-                ? 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 dark:hover:bg-emerald-400/10'
+                ? 'text-success hover:bg-success/10'
                 : privacyStatus === 'fail'
-                  ? 'text-destructive dark:text-red-400 hover:bg-red-500/10 dark:hover:bg-red-400/10'
-                  : 'text-amber-500 dark:text-amber-400 hover:bg-amber-500/10 dark:hover:bg-amber-400/10'
+                  ? 'text-destructive hover:bg-destructive/10'
+                  : 'text-warning hover:bg-warning/10'
               }
             `}
             aria-label={`Privacy status: ${privacyStatus}`}

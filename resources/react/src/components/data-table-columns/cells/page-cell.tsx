@@ -57,12 +57,12 @@ export const PageCell = memo(function PageCell({
       to={resolvedRoute.to}
       params={resolvedRoute.params}
       search={{ from: pathname }}
-      className="truncate text-xs text-neutral-700 hover:text-primary hover:underline"
+      className="truncate text-xs text-foreground hover:text-primary hover:underline"
     >
       {truncatedTitle}
     </Link>
   ) : (
-    <span className="truncate text-xs text-neutral-700">{truncatedTitle}</span>
+    <span className="truncate text-xs text-foreground">{truncatedTitle}</span>
   )
 
   return (
@@ -78,7 +78,7 @@ export const PageCell = memo(function PageCell({
               href={fullExternalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-neutral-400 hover:text-neutral-600"
+              className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground/70 hover:text-muted-foreground"
               onClick={(e) => e.stopPropagation()}
             >
               <ExternalLink className="h-3.5 w-3.5" />

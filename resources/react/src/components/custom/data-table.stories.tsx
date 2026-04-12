@@ -276,7 +276,7 @@ export const ServerSideSorting: Story = {
 
     return (
       <div>
-        <div className="mb-4 p-4 bg-slate-100 rounded text-sm">
+        <div className="mb-4 p-4 bg-muted rounded text-sm">
           <strong>Current Sort:</strong>{' '}
           {sorting.length > 0 ? `${sorting[0].id} (${sorting[0].desc ? 'DESC' : 'ASC'})` : 'None'}
         </div>
@@ -307,7 +307,7 @@ export const ServerSidePagination: Story = {
 
     return (
       <div>
-        <div className="mb-4 p-4 bg-slate-100 rounded text-sm">
+        <div className="mb-4 p-4 bg-muted rounded text-sm">
           <strong>Current Page:</strong> {page} of {pageCount} | <strong>Total Rows:</strong> {totalRows}
         </div>
         <DataTable
@@ -358,7 +358,7 @@ export const ServerSideSortingAndPagination: Story = {
 
     return (
       <div>
-        <div className="mb-4 p-4 bg-slate-100 rounded text-sm space-y-1">
+        <div className="mb-4 p-4 bg-muted rounded text-sm space-y-1">
           <div>
             <strong>Current Sort:</strong>{' '}
             {sorting.length > 0 ? `${sorting[0].id} (${sorting[0].desc ? 'DESC' : 'ASC'})` : 'None'}

@@ -226,11 +226,11 @@ export const InteractiveWithLocked: Story = {
 export const InFilterPanel: Story = {
   render: () => (
     <div className="w-[380px] border rounded-lg">
-      <div className="px-4 py-3 border-b bg-neutral-50">
+      <div className="px-4 py-3 border-b bg-muted/50">
         <h3 className="text-sm font-medium">Filters</h3>
       </div>
       <div className="px-4 py-3 border-b">
-        <span className="text-xs font-medium text-neutral-500 mb-2 block">Quick filters</span>
+        <span className="text-xs font-medium text-muted-foreground mb-2 block">Quick filters</span>
         <QuickFilters
           definitions={mockDefinitions}
           activeFilters={[

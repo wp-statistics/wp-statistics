@@ -109,8 +109,8 @@ export function Metrics({ metrics, columns = 'auto', className }: MetricsProps) 
     const isLastInRow = isLastRow ? (col === lastRowItemCount - 1) : (col === responsiveColumns - 1)
 
     return cn(
-      !isFirstRow && 'border-t border-neutral-100',
-      !isLastInRow && 'border-r border-neutral-100'
+      !isFirstRow && 'border-t border-border/50',
+      !isLastInRow && 'border-r border-border/50'
     )
   }
 
@@ -156,13 +156,13 @@ function MetricCard({
   return (
     <div
       className={cn(
-        'bg-white flex flex-col justify-between',
+        'bg-card flex flex-col justify-between',
         // Responsive padding
         'px-3 py-3 md:px-4 md:py-3.5 lg:px-5 lg:py-4',
         // Responsive min-height
         'min-h-[68px] md:min-h-[72px] lg:min-h-[76px]',
         'transition-colors duration-150',
-        'hover:bg-neutral-100/60',
+        'hover:bg-muted/60',
         positionClasses
       )}
     >
@@ -170,7 +170,7 @@ function MetricCard({
       <div className="flex items-center gap-1">
         <span
           className={cn(
-            'font-medium text-neutral-500 leading-none',
+            'font-medium text-muted-foreground leading-none',
             // Responsive text size
             'text-xs'
           )}
@@ -182,7 +182,7 @@ function MetricCard({
             <TooltipTrigger asChild>
               <button
                 className={cn(
-                  'text-neutral-300 hover:text-neutral-400 transition-colors -mt-px',
+                  'text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors -mt-px',
                   // Larger touch target on mobile
                   isMobile && 'p-1 -m-1'
                 )}
@@ -208,7 +208,7 @@ function MetricCard({
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              'font-medium text-neutral-800 leading-none truncate max-w-full',
+              'font-medium text-foreground leading-none truncate max-w-full',
               'text-lg md:text-xl',
               'hover:text-primary hover:underline transition-colors'
             )}
@@ -219,7 +219,7 @@ function MetricCard({
         ) : (
           <span
             className={cn(
-              'font-medium text-neutral-800 leading-none tabular-nums',
+              'font-medium text-foreground leading-none tabular-nums',
               'text-lg md:text-xl'
             )}
           >
@@ -288,7 +288,7 @@ function PercentageBadge({
         <TooltipContent side="top" className="px-2.5 py-1.5">
           <ComparisonTooltipHeader label={comparisonDateLabel} />
           <div className="flex items-center gap-4 justify-between">
-            <span className="text-neutral-100">
+            <span className="text-tooltip-foreground">
               {__('Previous:', 'wp-statistics')} {previousValue ?? '-'}
             </span>
             <div className="flex items-center font-medium">
@@ -304,7 +304,7 @@ function PercentageBadge({
                 className={cn(
                   'tabular-nums',
                   isZero
-                    ? 'text-neutral-300'
+                    ? 'text-tooltip-foreground/80'
                     : isNegative
                       ? semanticColors.trendNegativeLight
                       : semanticColors.trendPositiveLight

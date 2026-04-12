@@ -22,7 +22,7 @@ export function ComparisonTooltipHeader({ label, className }: ComparisonTooltipH
   if (!label) return null
 
   return (
-    <div className={cn('text-[11px] text-neutral-400 border-b border-neutral-700 pb-1.5 mb-1.5', className)}>
+    <div className={cn('text-[11px] text-tooltip-foreground/70 border-b border-tooltip-foreground/20 pb-1.5 mb-1.5', className)}>
       {label}
     </div>
   )

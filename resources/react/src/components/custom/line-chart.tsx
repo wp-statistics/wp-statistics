@@ -260,7 +260,7 @@ export function LineChart({
               const isBarType = metric.type === 'bar'
               return (
                 <div key={metric.key} className="flex flex-col gap-1">
-                  <span className="text-xs font-medium text-neutral-500 leading-none">{metric.label}</span>
+                  <span className="text-xs font-medium text-muted-foreground leading-none">{metric.label}</span>
                   <div className="flex items-baseline gap-2">
                     {metric.value != null && (
                       <button
@@ -285,7 +285,7 @@ export function LineChart({
                         )}
                         <span
                           className={cn(
-                            'text-sm font-semibold text-neutral-900 leading-none tabular-nums',
+                            'text-sm font-semibold text-foreground leading-none tabular-nums',
                             !isCurrentVisible && 'line-through'
                           )}
                         >
@@ -317,7 +317,7 @@ export function LineChart({
                         </svg>
                         <span
                           className={cn(
-                            'text-xs text-neutral-500 leading-none tabular-nums',
+                            'text-xs text-muted-foreground leading-none tabular-nums',
                             !isPreviousVisible && 'line-through'
                           )}
                         >
@@ -355,7 +355,7 @@ export function LineChart({
         ) : (
           <ChartContainer config={chartConfig} className="h-[180px] md:h-[220px] lg:h-[250px] w-full">
             <ComposedChart data={chartData} margin={{ left: 24 }}>
-              <CartesianGrid vertical={false} horizontal={true} stroke="#e5e7eb" strokeDasharray="0" />
+              <CartesianGrid vertical={false} horizontal={true} stroke="var(--border)" strokeDasharray="0" />
               <XAxis
                 dataKey="date"
                 tickLine={false}
@@ -407,7 +407,7 @@ export function LineChart({
                   }
 
                   return (
-                    <text x={x} y={y + 8} fill="#9ca3af" fontSize={12} textAnchor={textAnchor}>
+                    <text x={x} y={y + 8} fill="var(--muted-foreground)" fontSize={12} textAnchor={textAnchor}>
                       {formattedLabel}
                     </text>
                   )
@@ -461,7 +461,7 @@ export function LineChart({
                 tickMargin={8}
                 tickCount={5}
                 allowDecimals={false}
-                tick={{ fill: '#9ca3af', fontSize: 12 }}
+                tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                 tickFormatter={(value) => formatCompactNumber(value)}
               />
               <ChartTooltip
@@ -617,8 +617,8 @@ export function LineChart({
                   }
 
                   return (
-                    <div className="rounded bg-neutral-800 px-2.5 py-2 shadow-md">
-                      <div className="mb-2 text-xs font-medium text-neutral-100">
+                    <div className="rounded bg-tooltip px-2.5 py-2 shadow-md">
+                      <div className="mb-2 text-xs font-medium text-tooltip-foreground">
                         {dayOfWeek ? `${formattedDate} (${dayOfWeek})` : formattedDate}
                       </div>
                       <div className="space-y-1.5">
@@ -664,9 +664,9 @@ export function LineChart({
                                     />
                                   )}
                                 </svg>
-                                <span className="text-neutral-100">{displayLabel}</span>
+                                <span className="text-tooltip-foreground">{displayLabel}</span>
                               </div>
-                              <span className="font-medium text-neutral-100 tabular-nums">{entry.value}</span>
+                              <span className="font-medium text-tooltip-foreground tabular-nums">{entry.value}</span>
                             </div>
                           )
                         })}

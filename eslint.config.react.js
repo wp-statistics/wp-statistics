@@ -102,6 +102,19 @@ export default defineConfig([
       'jsx-a11y/role-supports-aria-props': 'error',
       'jsx-a11y/scope': 'error',
       'jsx-a11y/tabindex-no-positive': 'error',
+
+      // Design token enforcement — flag hardcoded gray-scale Tailwind classes
+      'no-restricted-syntax': [
+        'warn',
+        {
+          selector: 'Literal[value=/\\b(text|bg|border|ring|outline)-(neutral|slate|zinc|gray)-\\d/]',
+          message: 'Use semantic color classes (text-foreground, bg-card, border-border, etc.) instead of hardcoded gray-scale colors. See design-tokens.ts.',
+        },
+        {
+          selector: 'TemplateLiteral > TemplateElement[value.raw=/\\b(text|bg|border|ring|outline)-(neutral|slate|zinc|gray)-\\d/]',
+          message: 'Use semantic color classes instead of hardcoded gray-scale colors. See design-tokens.ts.',
+        },
+      ],
     },
   },
   ...pluginRouter.configs['flat/recommended'],
