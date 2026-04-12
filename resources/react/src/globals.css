@@ -57,6 +57,15 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-tooltip: var(--tooltip);
   --color-tooltip-foreground: var(--tooltip-foreground);
+  --color-success-surface: var(--success-surface);
+  --color-success-surface-border: var(--success-surface-border);
+  --color-warning-surface: var(--warning-surface);
+  --color-warning-surface-border: var(--warning-surface-border);
+  --color-destructive-surface: var(--destructive-surface);
+  --color-destructive-surface-border: var(--destructive-surface-border);
+  --color-info-surface: var(--info-surface);
+  --color-info-surface-border: var(--info-surface-border);
+  --color-info: var(--info);
 }
 
 :root {
@@ -125,6 +134,17 @@
   --warning: oklch(0.666 0.179 58.318);
   --warning-foreground: oklch(0.985 0.001 106.423);
 
+  /* Status surface colors (tinted backgrounds for banners/badges) */
+  --success-surface: oklch(0.962 0.044 156.743);
+  --success-surface-border: oklch(0.871 0.108 154.445);
+  --warning-surface: oklch(0.962 0.059 95.617);
+  --warning-surface-border: oklch(0.879 0.119 86.4);
+  --destructive-surface: oklch(0.962 0.031 17.717);
+  --destructive-surface-border: oklch(0.855 0.075 19.7);
+  --info-surface: oklch(0.962 0.044 237.323);
+  --info-surface-border: oklch(0.838 0.098 230.318);
+  --info: oklch(0.546 0.215 262.881);
+
   /* Tooltip colors (dark theme) */
   --tooltip: oklch(0.269 0.015 256.848);
   --tooltip-foreground: oklch(0.968 0.007 247.896);
@@ -183,6 +203,17 @@
   --success-foreground: oklch(0.985 0.001 106.423);
   --warning: oklch(0.768 0.188 70.08);
   --warning-foreground: oklch(0.985 0.001 106.423);
+
+  /* Status surface colors - dark mode */
+  --success-surface: oklch(0.2 0.04 160);
+  --success-surface-border: oklch(0.3 0.06 155);
+  --warning-surface: oklch(0.2 0.04 85);
+  --warning-surface-border: oklch(0.3 0.06 80);
+  --destructive-surface: oklch(0.2 0.035 20);
+  --destructive-surface-border: oklch(0.3 0.05 18);
+  --info-surface: oklch(0.2 0.04 240);
+  --info-surface-border: oklch(0.3 0.06 235);
+  --info: oklch(0.65 0.2 260);
 
   /* Tooltip colors - inverted for dark mode */
   --tooltip: oklch(0.968 0.007 247.896);

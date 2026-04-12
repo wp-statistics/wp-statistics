@@ -32,6 +32,17 @@ export const semanticColors = {
   warning: 'text-warning', // For warning messages
   warningBg: 'bg-warning', // For warning backgrounds
 
+  // Info status (blue)
+  info: 'text-info', // For informational text
+  infoBg: 'bg-info-surface', // For info backgrounds
+  infoBorder: 'border-info-surface-border', // For info borders
+
+  // Status surfaces — tinted bg + text + border combos for banners/badges
+  successSurface: 'bg-success-surface text-success border-success-surface-border',
+  warningSurface: 'bg-warning-surface text-warning border-warning-surface-border',
+  destructiveSurface: 'bg-destructive-surface text-destructive border-destructive-surface-border',
+  infoSurface: 'bg-info-surface text-info border-info-surface-border',
+
   // Trend indicators - for percentage changes
   trendPositive: 'text-success', // Positive change (up arrow)
   trendPositiveLight: 'text-success/70', // Positive change (light, for dark backgrounds)
