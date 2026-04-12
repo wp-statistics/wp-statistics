@@ -175,7 +175,7 @@ export function createSourceCategoriesColumns(options: SourceCategoriesColumnsOp
       header: ({ column, table }) => <DataTableColumnHeader column={column} table={table} />,
       size: 180,
       cell: ({ row }) => (
-        <span className="text-xs font-medium text-neutral-700">{row.original.sourceCategory}</span>
+        <span className="text-xs font-medium text-foreground">{row.original.sourceCategory}</span>
       ),
       enableSorting: false,
       meta: {

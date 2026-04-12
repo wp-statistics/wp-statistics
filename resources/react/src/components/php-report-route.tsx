@@ -39,7 +39,7 @@ export function PhpReportRoute({ slug, fallbackTitle, headerActions }: { slug: s
     return (
       <div className="min-w-0">
         <div className="flex items-center justify-between px-4 py-3">
-          <h1 className="text-2xl font-semibold text-neutral-800">{fallbackTitle}</h1>
+          <h1 className="text-2xl font-semibold text-foreground">{fallbackTitle}</h1>
         </div>
         <div className="p-3">
           <NoticeContainer className="mb-2" currentRoute={slug} />
@@ -216,7 +216,7 @@ function WithGroupBySelectFilter({
         pageFilters: [pageFilterConfig],
         headerActions: () => (
           <Select value={value} onValueChange={handleChange}>
-            <SelectTrigger className="h-8 px-3 text-xs font-medium bg-background border border-neutral-200 rounded-md hover:bg-neutral-50">
+            <SelectTrigger className="h-8 px-3 text-xs font-medium bg-background border border-border rounded-md hover:bg-muted/50">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

@@ -87,7 +87,7 @@ export function createBrowsersColumns(options: BrowsersColumnsOptions): ColumnDe
                   e.stopPropagation()
                   row.toggleExpanded()
                 }}
-                className="flex items-center justify-center w-5 h-5 shrink-0 text-neutral-400 hover:text-neutral-600"
+                className="flex items-center justify-center w-5 h-5 shrink-0 text-muted-foreground/70 hover:text-muted-foreground"
               >
                 {row.getIsExpanded() ? (
                   <ChevronDown className="h-3.5 w-3.5" />
@@ -98,7 +98,7 @@ export function createBrowsersColumns(options: BrowsersColumnsOptions): ColumnDe
             ) : (
               <span className="w-5 shrink-0" />
             )}
-            <span className="truncate text-xs font-medium text-neutral-700">{row.original.browserName}</span>
+            <span className="truncate text-xs font-medium text-foreground">{row.original.browserName}</span>
           </div>
         )
       },

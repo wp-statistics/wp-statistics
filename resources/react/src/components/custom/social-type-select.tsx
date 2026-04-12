@@ -54,8 +54,8 @@ export function SocialTypeSelect({
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className={cn(
         'h-8 px-3 text-xs font-medium',
-        'bg-background border border-neutral-200 rounded-md',
-        'hover:bg-neutral-50',
+        'bg-background border border-border rounded-md',
+        'hover:bg-muted/50',
         'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
         className
       )}>

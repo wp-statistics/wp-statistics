@@ -105,7 +105,7 @@ export function TabbedBarListWidget({
                   const avatarUrl = String(item[config.iconField] || '')
                   icon = avatarUrl
                     ? <img src={avatarUrl} alt="" className="h-6 w-6 rounded-full object-cover" />
-                    : <div className="h-6 w-6 rounded-full bg-neutral-200" />
+                    : <div className="h-6 w-6 rounded-full bg-muted" />
                 }
 
                 const label = String(item[labelField] || item[labelFallback] || '/')

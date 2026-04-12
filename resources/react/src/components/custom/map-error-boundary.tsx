@@ -52,14 +52,14 @@ export class MapErrorBoundary extends Component<Props, State> {
             <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mb-4">
               <AlertTriangle className="w-6 h-6 text-amber-600" />
             </div>
-            <h3 className="text-base font-medium text-neutral-900 mb-2">{fallbackTitle}</h3>
-            <p className="text-sm text-neutral-500 mb-4">{fallbackMessage}</p>
+            <h3 className="text-base font-medium text-foreground mb-2">{fallbackTitle}</h3>
+            <p className="text-sm text-muted-foreground mb-4">{fallbackMessage}</p>
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="text-left w-full mb-4">
-                <summary className="text-xs text-neutral-500 hover:text-neutral-600">
+                <summary className="text-xs text-muted-foreground hover:text-foreground">
                   Technical details
                 </summary>
-                <pre className="mt-2 p-2 bg-neutral-100 rounded text-xs text-neutral-600 overflow-auto max-h-32">
+                <pre className="mt-2 p-2 bg-muted rounded text-xs text-muted-foreground overflow-auto max-h-32">
                   {this.state.error.message}
                   {'\n\n'}
                   {this.state.error.stack}

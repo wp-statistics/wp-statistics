@@ -694,11 +694,11 @@ function OverviewContent({
               <div className="contents" data-pdf-hide>
                 <BackButton defaultTo={detailConfig.backLink || '/'} label={detailConfig.backLabel} />
               </div>
-              <h1 className="text-2xl font-semibold text-neutral-800 truncate max-w-[400px]" title={entityTitle}>
+              <h1 className="text-2xl font-semibold text-foreground truncate max-w-[400px]" title={entityTitle}>
                 {showSkeleton ? __('Loading...', 'wp-statistics') : entityTitle}
               </h1>
               {!showSkeleton && titleBadgeLabel && (
-                <span className="inline-flex items-center rounded-md bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-600 shrink-0">
+                <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground shrink-0">
                   {titleBadgeLabel}
                 </span>
               )}
@@ -707,10 +707,10 @@ function OverviewContent({
                   href={externalLinkUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-1 rounded-md hover:bg-neutral-100 transition-colors shrink-0"
+                  className="p-1 rounded-md hover:bg-muted transition-colors shrink-0"
                   aria-label={__('Open page', 'wp-statistics')}
                 >
-                  <ExternalLink className="h-4 w-4 text-neutral-400" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground/70" />
                 </a>
               )}
             </div>
@@ -753,7 +753,7 @@ function OverviewContent({
       ) : overviewConfig?.widgetCategories ? (
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-semibold text-neutral-800">
+            <h1 className="text-2xl font-semibold text-foreground">
               {titleOverride || config.title}
             </h1>
             <div className="flex items-center gap-3" data-pdf-hide>

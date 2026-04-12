@@ -54,7 +54,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
       return (
         <div>
           <div>{referrer.domain}</div>
-          <div className="text-xs text-neutral-500">{referrer.traffic}</div>
+          <div className="text-xs text-muted-foreground">{referrer.traffic}</div>
         </div>
       )
     },
@@ -69,7 +69,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-neutral-500 cursor-help shrink-0" />
+                <Info className="h-3 w-3 text-muted-foreground cursor-help shrink-0" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>The first page visited in this session</p>
@@ -90,7 +90,7 @@ export const exampleColumns: ColumnDef<VisitorData>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-neutral-500 cursor-help shrink-0" />
+                <Info className="h-3 w-3 text-muted-foreground cursor-help shrink-0" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>The last page visited in this session</p>

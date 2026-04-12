@@ -32,7 +32,7 @@ interface SiteInfoCellProps {
 const SiteInfoCell = memo(function SiteInfoCell({ name, url }: SiteInfoCellProps) {
   return (
     <div>
-      <div className="font-medium text-xs text-neutral-900">{name}</div>
+      <div className="font-medium text-xs text-foreground">{name}</div>
       <a
         href={url}
         target="_blank"
@@ -62,7 +62,7 @@ const ErrorNumericCell = memo(function ErrorNumericCell({
   if (hasError) {
     return showDash ? (
       <div className="text-right">
-        <span className="text-xs text-neutral-400">-</span>
+        <span className="text-xs text-muted-foreground/70">-</span>
       </div>
     ) : (
       <div className="text-right">

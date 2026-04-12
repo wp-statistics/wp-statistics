@@ -25,7 +25,7 @@ export function TableSkeleton({ rows = 5, columns = 4, showHeader = true, classN
   return (
     <div className={cn('space-y-2', className)}>
       {showHeader && (
-        <div className="flex gap-4 pb-2 border-b border-neutral-100">
+        <div className="flex gap-4 pb-2 border-b border-border">
           {[...Array(columns)].map((_, i) => (
             <Skeleton key={i} className="h-4 flex-1" />
           ))}
