@@ -13,9 +13,9 @@ interface ConsentProvider {
 }
 
 const badgeGreen =
-  'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800 dark:hover:bg-emerald-900/30'
+  'bg-success-surface text-success border-success-surface-border'
 const badgeAmber =
-  'bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800 dark:hover:bg-amber-900/30'
+  'bg-warning-surface text-warning border-warning-surface-border'
 
 /**
  * Consent integration status display.

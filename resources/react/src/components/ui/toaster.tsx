@@ -12,7 +12,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
       className={cn(
         'pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden rounded-lg border p-4 shadow-lg transition-all',
         toast.variant === 'destructive'
-          ? 'border-destructive/50 bg-red-50 dark:bg-red-950'
+          ? 'border-destructive-surface-border bg-destructive-surface'
           : 'border-border bg-card'
       )}
     >

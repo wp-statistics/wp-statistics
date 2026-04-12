@@ -29,7 +29,7 @@ function LiveDashboardLink() {
       href={siteUrl + '/wp-statistics-live/'}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100"
+      className="inline-flex items-center gap-2 rounded-lg border border-success-surface-border bg-success-surface px-3 py-1.5 text-xs font-medium text-success transition-colors hover:bg-success-surface/80"
     >
       <span className="relative flex h-1.5 w-1.5">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75 [animation-duration:2s]" />

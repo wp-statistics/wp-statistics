@@ -325,7 +325,7 @@ function ManualKeyForm({ queryClient }: { queryClient: ReturnType<typeof useQuer
       <form onSubmit={handleSubmit}>
         <CardContent className="pb-4">
           {error && (
-            <div className="mb-4 flex items-center gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800">
+            <div className="mb-4 flex items-center gap-2 rounded-md bg-destructive-surface p-3 text-sm text-destructive">
               <CircleX className="h-4 w-4 shrink-0" />
               {error}
             </div>
@@ -594,7 +594,7 @@ function LicenseStatus({
             {installResult && (
               <div className="space-y-2">
                 {installResult.installed.length > 0 && (
-                  <div className="flex items-start gap-2 rounded-md bg-emerald-50 p-3 text-sm text-emerald-800">
+                  <div className="flex items-start gap-2 rounded-md bg-success-surface p-3 text-sm text-success">
                     <CircleCheck className="mt-0.5 h-4 w-4 shrink-0" />
                     <span>
                       {`${__('Successfully installed:', 'wp-statistics-premium')} ${installResult.installed.join(', ')}`}
@@ -602,7 +602,7 @@ function LicenseStatus({
                   </div>
                 )}
                 {installResult.failed.length > 0 && (
-                  <div className="flex items-start gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800">
+                  <div className="flex items-start gap-2 rounded-md bg-destructive-surface p-3 text-sm text-destructive">
                     <CircleX className="mt-0.5 h-4 w-4 shrink-0" />
                     <div>
                       <p>{__('Some features failed to install:', 'wp-statistics-premium')}</p>
@@ -625,7 +625,7 @@ function LicenseStatus({
             )}
 
             {installMutation.isError && (
-              <div className="flex items-center gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800">
+              <div className="flex items-center gap-2 rounded-md bg-destructive-surface p-3 text-sm text-destructive">
                 <CircleX className="h-4 w-4 shrink-0" />
                 {(installMutation.error as Error).message}
               </div>
@@ -686,7 +686,7 @@ function LicenseStatus({
           )}
 
           {deactivateMutation.isError && (
-            <div className="flex items-center gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800">
+            <div className="flex items-center gap-2 rounded-md bg-destructive-surface p-3 text-sm text-destructive">
               <CircleX className="h-4 w-4 shrink-0" />
               {(deactivateMutation.error as Error).message}
             </div>
@@ -754,7 +754,7 @@ function FeatureItem({
   // State: updating
   if (isUpdating) {
     return (
-      <div className="flex items-center justify-between gap-2 rounded-md border border-amber-200 bg-amber-50/50 px-3 py-2 text-sm">
+      <div className="flex items-center justify-between gap-2 rounded-md border border-warning-surface-border bg-warning-surface/50 px-3 py-2 text-sm">
         <span className="flex items-center gap-2">
           <Loader2 className="h-4 w-4 shrink-0 animate-spin text-warning" />
           <span className="capitalize">{displayName}</span>
@@ -769,7 +769,7 @@ function FeatureItem({
   // State: installed with update available
   if (installedVersion && update) {
     return (
-      <div className="flex items-center justify-between gap-2 rounded-md border border-amber-200 bg-amber-50/50 px-3 py-2 text-sm">
+      <div className="flex items-center justify-between gap-2 rounded-md border border-warning-surface-border bg-warning-surface/50 px-3 py-2 text-sm">
         <span className="flex items-center gap-2">
           <ArrowUpCircle className="h-4 w-4 shrink-0 text-warning" />
           <span className="capitalize">{displayName}</span>
@@ -861,21 +861,21 @@ function UpdatesSection({
 
       <CardContent className="space-y-3">
         {checkError && (
-          <div className="flex items-center gap-2 rounded-md bg-red-50 p-3 text-sm text-red-800">
+          <div className="flex items-center gap-2 rounded-md bg-destructive-surface p-3 text-sm text-destructive">
             <CircleX className="h-4 w-4 shrink-0" />
             {checkError}
           </div>
         )}
 
         {updateInfo && !hasAnyUpdate && (
-          <div className="flex items-center gap-2 rounded-md bg-emerald-50 p-3 text-sm text-emerald-800">
+          <div className="flex items-center gap-2 rounded-md bg-success-surface p-3 text-sm text-success">
             <CircleCheck className="h-4 w-4 shrink-0" />
             {__('Everything is up to date!', 'wp-statistics-premium')}
           </div>
         )}
 
         {hasFeatureUpdates && (
-          <div className="flex items-start gap-2 rounded-md bg-amber-50 p-3 text-sm text-amber-800">
+          <div className="flex items-start gap-2 rounded-md bg-warning-surface p-3 text-sm text-warning">
             <ArrowUpCircle className="mt-0.5 h-4 w-4 shrink-0" />
             <span>
               {featureUpdates.length === 1

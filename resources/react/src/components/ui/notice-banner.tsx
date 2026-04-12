@@ -7,24 +7,24 @@ import { cn } from '@/lib/utils'
 
 const typeStyles = {
   info: {
-    container: 'bg-blue-50 border-blue-200',
-    icon: 'text-blue-500',
-    text: 'text-blue-800',
+    container: 'bg-info-surface border-info-surface-border',
+    icon: 'text-info/70',
+    text: 'text-info',
   },
   warning: {
-    container: 'bg-yellow-50 border-yellow-200',
-    icon: 'text-yellow-600',
-    text: 'text-yellow-800',
+    container: 'bg-warning-surface border-warning-surface-border',
+    icon: 'text-warning/70',
+    text: 'text-warning',
   },
   error: {
-    container: 'bg-red-50 border-red-200',
-    icon: 'text-red-500',
-    text: 'text-red-800',
+    container: 'bg-destructive-surface border-destructive-surface-border',
+    icon: 'text-destructive/70',
+    text: 'text-destructive',
   },
   success: {
-    container: 'bg-green-50 border-green-200',
-    icon: 'text-green-500',
-    text: 'text-green-800',
+    container: 'bg-success-surface border-success-surface-border',
+    icon: 'text-success/70',
+    text: 'text-success',
   },
   // Neutral variant for informational boxes (like "System Diagnostics")
   neutral: {

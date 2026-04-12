@@ -41,21 +41,21 @@ interface PrivacyAuditResponse {
 const statusConfig = {
   pass: {
     icon: CheckCircle2,
-    color: 'text-emerald-600 dark:text-emerald-400',
-    bgColor: 'bg-emerald-50 dark:bg-emerald-950/30',
-    borderColor: 'border-emerald-200 dark:border-emerald-800',
+    color: 'text-success',
+    bgColor: 'bg-success-surface',
+    borderColor: 'border-success-surface-border',
   },
   warning: {
     icon: AlertTriangle,
-    color: 'text-amber-600 dark:text-amber-400',
-    bgColor: 'bg-amber-50 dark:bg-amber-950/30',
-    borderColor: 'border-amber-200 dark:border-amber-800',
+    color: 'text-warning',
+    bgColor: 'bg-warning-surface',
+    borderColor: 'border-warning-surface-border',
   },
   fail: {
     icon: XCircle,
-    color: 'text-destructive dark:text-red-400',
-    bgColor: 'bg-red-50 dark:bg-red-950/30',
-    borderColor: 'border-red-200 dark:border-red-800',
+    color: 'text-destructive',
+    bgColor: 'bg-destructive-surface',
+    borderColor: 'border-destructive-surface-border',
   },
 }
 
