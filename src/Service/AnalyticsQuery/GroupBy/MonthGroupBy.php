@@ -17,4 +17,9 @@ class MonthGroupBy extends AbstractGroupBy
     ];
     protected $groupBy      = "DATE_FORMAT(sessions.started_at, '%Y-%m')";
     protected $order        = 'ASC';
+
+    public function getTimeSeriesConfig(): ?array
+    {
+        return ['interval' => 'P1M', 'format' => 'Y-m', 'startAdjust' => 'first day of this month'];
+    }
 }

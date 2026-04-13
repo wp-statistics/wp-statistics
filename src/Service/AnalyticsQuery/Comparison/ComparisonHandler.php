@@ -266,16 +266,9 @@ class ComparisonHandler
     }
 
     /**
-     * Time-series group by types that should use index-based matching.
-     *
-     * @var array
-     */
-    private static $timeSeriesGroupBy = ['date', 'week', 'month', 'hour'];
-
-    /**
      * Merge comparison data into current results.
      *
-     * For time-series data (date/week/month/hour), matches by position/index.
+     * For time-series data (date/week/month), matches by position/index.
      * For other data (country/browser/etc), matches by group by values.
      *
      * @param array $current  Current period results.
@@ -284,32 +277,27 @@ class ComparisonHandler
      */
     public function mergeResults(array $current, array $previous): array
     {
-        // Check if this is time-series data (grouped by date/week/month/hour)
-        $isTimeSeries = $this->isTimeSeriesGroupBy();
-
-        if ($isTimeSeries) {
-            // For time-series: match by index/position
+        if ($this->getTimeSeriesConfig() !== null) {
             return $this->mergeByIndex($current, $previous);
         }
 
-        // For non-time-series: match by group by values
         return $this->mergeByKey($current, $previous);
     }
 
     /**
-     * Check if the current groupBy is time-series based.
+     * Get time-series config from the primary groupBy, if it is time-series.
      *
-     * @return bool
+     * @return array|null Config array or null if not time-series.
      */
-    private function isTimeSeriesGroupBy(): bool
+    private function getTimeSeriesConfig(): ?array
     {
         if (empty($this->groupBy)) {
-            return false;
+            return null;
         }
 
-        // Check if primary groupBy is a time-series type
-        $primaryGroupBy = $this->groupBy[0];
-        return in_array($primaryGroupBy, self::$timeSeriesGroupBy, true);
+        $groupByObj = GroupByRegistry::getInstance()->get($this->groupBy[0]);
+
+        return $groupByObj ? $groupByObj->getTimeSeriesConfig() : null;
     }
 
     /**
@@ -372,63 +360,73 @@ class ComparisonHandler
      */
     private function fillMissingDatesForCurrent(array $current): array
     {
-        // Need current date range to fill missing dates
         if ($this->currentPeriodRange === null) {
             return $current;
         }
 
-        // Index existing current rows by date (normalize to Y-m-d format)
+        $config = $this->getTimeSeriesConfig();
+        if ($config === null) {
+            return $current;
+        }
+
+        $format    = $config['format'];
+        $interval  = new \DateInterval($config['interval']);
+        $groupName = $this->groupBy[0];
+
+        // Index existing rows by their date key (uses QueryExecutor-normalized 'date' column)
         $currentIndex = [];
         foreach ($current as $row) {
             $date = $row['date'] ?? '';
             if ($date !== '') {
-                $dateKey = substr($date, 0, 10);
-                $currentIndex[$dateKey] = $row;
+                $currentIndex[$date] = $row;
             }
         }
 
-        // Use the actual current date range to generate all expected dates
-        $startDate = new \DateTime($this->currentPeriodRange['from']);
-        $endDate = new \DateTime($this->currentPeriodRange['to']);
+        $startDate = new \DateTime(substr($this->currentPeriodRange['from'], 0, 10));
+        $endDate   = new \DateTime(substr($this->currentPeriodRange['to'], 0, 10));
 
-        // Generate all dates in current range
-        $filledCurrent = [];
-        $interval = new \DateInterval('P1D');
-        $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
+        if ($config['startAdjust'] !== null) {
+            $startDate->modify($config['startAdjust']);
+        }
+
+        // Generate all expected date keys
+        $allLabels = [];
+        if ($config['interval'] === 'P1D') {
+            $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
+            foreach ($period as $date) {
+                $allLabels[] = $date->format($format);
+            }
+        } else {
+            $cursor = clone $startDate;
+            while ($cursor <= $endDate) {
+                $allLabels[] = $cursor->format($format);
+                $cursor->add($interval);
+            }
+        }
 
         // Pre-fetch published_content for missing dates if needed
-        $hasPublishedContent = in_array('published_content', $this->sources, true);
+        $hasPublishedContent    = in_array('published_content', $this->sources, true);
         $publishedContentByDate = [];
         if ($hasPublishedContent) {
-            $allDates = [];
-            foreach ($period as $date) {
-                $allDates[] = $date->format('Y-m-d');
-            }
-            $missingDates = array_diff($allDates, array_keys($currentIndex));
-            if (!empty($missingDates)) {
+            $missingLabels = array_diff($allLabels, array_keys($currentIndex));
+            if (!empty($missingLabels)) {
                 $publishedContentByDate = PublishedContentHelper::getPublishedContentByDates(
-                    $missingDates,
-                    'date',
+                    $missingLabels,
+                    $groupName,
                     $this->filters
                 );
             }
-            // Reset the period iterator
-            $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
         }
 
-        foreach ($period as $date) {
-            $dateStr = $date->format('Y-m-d');
-            if (isset($currentIndex[$dateStr])) {
-                // Use existing row but normalize date format
-                $row = $currentIndex[$dateStr];
-                $row['date'] = $dateStr;
-                $filledCurrent[] = $row;
+        $filledCurrent = [];
+        foreach ($allLabels as $label) {
+            if (isset($currentIndex[$label])) {
+                $filledCurrent[] = $currentIndex[$label];
             } else {
-                // Create row with 0 values for missing date
-                $emptyRow = ['date' => $dateStr];
+                $emptyRow = ['date' => $label];
                 foreach ($this->sources as $source) {
-                    if ($source === 'published_content' && isset($publishedContentByDate[$dateStr])) {
-                        $emptyRow[$source] = $publishedContentByDate[$dateStr];
+                    if ($source === 'published_content' && isset($publishedContentByDate[$label])) {
+                        $emptyRow[$source] = $publishedContentByDate[$label];
                     } else {
                         $emptyRow[$source] = 0;
                     }
@@ -452,45 +450,64 @@ class ComparisonHandler
      */
     private function fillMissingDatesForPrevious(array $current, array $previous): array
     {
-        // Need PP date range to fill missing dates
         if ($this->previousPeriodRange === null) {
             return $previous;
         }
 
-        // Index existing previous rows by date (normalize to Y-m-d format)
+        $config = $this->getTimeSeriesConfig();
+        if ($config === null) {
+            return $previous;
+        }
+
+        $format   = $config['format'];
+        $interval = new \DateInterval($config['interval']);
+
+        // Index existing previous rows by their date key
         $previousIndex = [];
         foreach ($previous as $row) {
             $date = $row['date'] ?? '';
             if ($date !== '') {
-                // Extract just the date part (handle both "Y-m-d" and "Y-m-d H:i:s" formats)
-                $dateKey = substr($date, 0, 10);
-                $previousIndex[$dateKey] = $row;
+                $previousIndex[$date] = $row;
             }
         }
 
-        // Use the actual PP date range to generate all expected dates
-        $startDate = new \DateTime($this->previousPeriodRange['from']);
-        $endDate = new \DateTime($this->previousPeriodRange['to']);
+        $startDate = new \DateTime(substr($this->previousPeriodRange['from'], 0, 10));
+        $endDate   = new \DateTime(substr($this->previousPeriodRange['to'], 0, 10));
 
-        // Generate all dates in PP range
+        if ($config['startAdjust'] !== null) {
+            $startDate->modify($config['startAdjust']);
+        }
+
         $filledPrevious = [];
-        $interval = new \DateInterval('P1D');
-        $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
 
-        foreach ($period as $date) {
-            $dateStr = $date->format('Y-m-d');
-            if (isset($previousIndex[$dateStr])) {
-                // Use existing row but normalize date format
-                $row = $previousIndex[$dateStr];
-                $row['date'] = $dateStr; // Ensure consistent date format
-                $filledPrevious[] = $row;
-            } else {
-                // Create row with 0 values for missing date
-                $emptyRow = ['date' => $dateStr];
-                foreach ($this->sources as $source) {
-                    $emptyRow[$source] = 0;
+        if ($config['interval'] === 'P1D') {
+            $period = new \DatePeriod($startDate, $interval, (clone $endDate)->modify('+1 day'));
+            foreach ($period as $date) {
+                $dateStr = $date->format($format);
+                if (isset($previousIndex[$dateStr])) {
+                    $filledPrevious[] = $previousIndex[$dateStr];
+                } else {
+                    $emptyRow = ['date' => $dateStr];
+                    foreach ($this->sources as $source) {
+                        $emptyRow[$source] = 0;
+                    }
+                    $filledPrevious[] = $emptyRow;
                 }
-                $filledPrevious[] = $emptyRow;
+            }
+        } else {
+            $cursor = clone $startDate;
+            while ($cursor <= $endDate) {
+                $dateStr = $cursor->format($format);
+                if (isset($previousIndex[$dateStr])) {
+                    $filledPrevious[] = $previousIndex[$dateStr];
+                } else {
+                    $emptyRow = ['date' => $dateStr];
+                    foreach ($this->sources as $source) {
+                        $emptyRow[$source] = 0;
+                    }
+                    $filledPrevious[] = $emptyRow;
+                }
+                $cursor->add($interval);
             }
         }
 

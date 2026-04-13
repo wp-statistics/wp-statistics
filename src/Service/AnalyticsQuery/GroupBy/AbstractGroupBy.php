@@ -90,6 +90,19 @@ abstract class AbstractGroupBy implements GroupByInterface
     protected $datetimeFields = [];
 
     /**
+     * Get time-series configuration for this group by.
+     *
+     * Returns null for non-time-series group bys. Time-series group bys
+     * override this to return their interval, date format, and start adjustment.
+     *
+     * @return array|null Array with 'interval', 'format', 'startAdjust' keys, or null.
+     */
+    public function getTimeSeriesConfig(): ?array
+    {
+        return null;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getName(): string

@@ -14,4 +14,9 @@ class DateGroupBy extends AbstractGroupBy
     protected $alias   = 'date';
     protected $groupBy = 'DATE(sessions.started_at)';
     protected $order   = 'ASC';
+
+    public function getTimeSeriesConfig(): ?array
+    {
+        return ['interval' => 'P1D', 'format' => 'Y-m-d', 'startAdjust' => null];
+    }
 }

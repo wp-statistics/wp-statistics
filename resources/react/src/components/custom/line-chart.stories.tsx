@@ -60,7 +60,7 @@ const meta = {
     },
     timeframe: {
       control: 'select',
-      options: ['Daily', 'Weekly', 'Monthly'],
+      options: ['daily', 'weekly', 'monthly'],
       description: 'Time period selection',
     },
   },
@@ -86,8 +86,8 @@ export const Default: Story = {
     await expect(canvas.getByText('668K')).toBeInTheDocument()
     await expect(canvas.getByText('705K')).toBeInTheDocument()
 
-    // Verify chart container exists
-    const chartContainer = canvasElement.querySelector('.recharts-wrapper')
+    // Verify chart container exists (uPlot renders a .uplot element)
+    const chartContainer = canvasElement.querySelector('.uplot')
     await expect(chartContainer).toBeInTheDocument()
   },
 }
@@ -140,7 +140,7 @@ export const WeeklyView: Story = {
     data: generateChartData(),
     metrics: sampleMetrics,
     title: 'Traffic Trends',
-    timeframe: 'Weekly',
+    timeframe: 'weekly',
     onTimeframeChange: fn(),
   },
 }
@@ -150,7 +150,7 @@ export const MonthlyView: Story = {
     data: generateChartData(),
     metrics: sampleMetrics,
     title: 'Traffic Trends',
-    timeframe: 'Monthly',
+    timeframe: 'monthly',
     onTimeframeChange: fn(),
   },
 }

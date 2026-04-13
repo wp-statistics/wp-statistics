@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\AnalyticsQuery\Formatters;
 
 use WP_Statistics\Service\AnalyticsQuery\Helpers\PublishedContentHelper;
 use WP_Statistics\Service\AnalyticsQuery\Query\Query;
+use WP_Statistics\Service\AnalyticsQuery\Registry\GroupByRegistry;
 
 /**
  * Chart response formatter.
@@ -26,13 +27,6 @@ use WP_Statistics\Service\AnalyticsQuery\Query\Query;
  */
 class ChartFormatter extends AbstractFormatter
 {
-    /**
-     * Time-series group by types that need date filling.
-     *
-     * @var array
-     */
-    private static $timeSeriesGroupBy = ['date', 'week', 'month', 'event_date'];
-
     /**
      * {@inheritdoc}
      */
@@ -63,12 +57,14 @@ class ChartFormatter extends AbstractFormatter
         }
 
         $primaryGroupBy = $groupBy[0];
+        $groupByObj     = GroupByRegistry::getInstance()->get($primaryGroupBy);
+        $tsConfig       = $groupByObj ? $groupByObj->getTimeSeriesConfig() : null;
 
         // For time-series groupBy, always use 'date' as the label alias
-        // because summary tables and aggregation use 'date' column
-        if (in_array($primaryGroupBy, self::$timeSeriesGroupBy, true)) {
+        // because QueryExecutor normalizes all time-series to 'date' column
+        if ($tsConfig !== null) {
             $labelAlias = 'date';
-            $rows = $this->fillMissingDates($rows, $query, $primaryGroupBy, $labelAlias, $sources);
+            $rows = $this->fillMissingDates($rows, $query, $tsConfig, $labelAlias, $sources);
         } else {
             $labelAlias = $this->getGroupByAlias($primaryGroupBy);
         }
@@ -128,11 +124,11 @@ class ChartFormatter extends AbstractFormatter
 
             // Generate previousLabels for time-series charts
             // Uses ISO format (Y-m-d) for JavaScript Date parsing compatibility
-            if (in_array($primaryGroupBy, self::$timeSeriesGroupBy, true)) {
+            if ($tsConfig !== null) {
                 $response['previousLabels'] = $this->generatePreviousLabels(
                     $result['compare_from'],
                     $result['compare_to'],
-                    $primaryGroupBy
+                    $tsConfig
                 );
             }
         }
@@ -146,14 +142,14 @@ class ChartFormatter extends AbstractFormatter
      * Ensures all dates in the query range are present, with zero values for missing dates.
      * Special handling for published_content which queries WordPress posts table directly.
      *
-     * @param array  $rows        Existing data rows.
-     * @param Query  $query       Query object with date range.
-     * @param string $groupByType Type of grouping (date, week, month).
-     * @param string $labelAlias  Alias for the label field.
-     * @param array  $sources     Source fields to fill with zeros.
+     * @param array  $rows       Existing data rows.
+     * @param Query  $query      Query object with date range.
+     * @param array  $tsConfig   Time-series config from GroupBy.
+     * @param string $labelAlias Alias for the label field.
+     * @param array  $sources    Source fields to fill with zeros.
      * @return array Complete rows with all dates filled.
      */
-    private function fillMissingDates(array $rows, Query $query, string $groupByType, string $labelAlias, array $sources): array
+    private function fillMissingDates(array $rows, Query $query, array $tsConfig, string $labelAlias, array $sources): array
     {
         $dateFrom = $query->getDateFrom();
         $dateTo   = $query->getDateTo();
@@ -162,8 +158,7 @@ class ChartFormatter extends AbstractFormatter
             return $rows;
         }
 
-        // Generate all expected labels for the date range
-        $allLabels = $this->generateDateLabels($dateFrom, $query->getDateTo(), $groupByType);
+        $allLabels = $this->generateDateLabels($dateFrom, $dateTo, $tsConfig);
 
         if (empty($allLabels)) {
             return $rows;
@@ -178,17 +173,16 @@ class ChartFormatter extends AbstractFormatter
             }
         }
 
-        // Check if published_content is requested
-        $hasPublishedContent = in_array('published_content', $sources, true);
-
         // Pre-fetch published content for all missing dates if needed
+        $hasPublishedContent    = in_array('published_content', $sources, true);
         $publishedContentByDate = [];
         if ($hasPublishedContent) {
             $missingLabels = array_diff($allLabels, array_keys($rowIndex));
             if (!empty($missingLabels)) {
+                $groupByNames = $query->getGroupBy();
                 $publishedContentByDate = PublishedContentHelper::getPublishedContentByDates(
                     $missingLabels,
-                    $groupByType,
+                    $groupByNames[0],
                     $query->getFilters()
                 );
             }
@@ -200,7 +194,6 @@ class ChartFormatter extends AbstractFormatter
             if (isset($rowIndex[$label])) {
                 $filledRows[] = $rowIndex[$label];
             } else {
-                // Create empty row with zeros
                 $emptyRow = [$labelAlias => $label];
                 foreach ($sources as $source) {
                     if ($source === 'published_content' && isset($publishedContentByDate[$label])) {
@@ -209,8 +202,6 @@ class ChartFormatter extends AbstractFormatter
                         $emptyRow[$source] = 0;
                     }
                 }
-                // Don't add previous data for filled dates - let them be null
-                // This ensures missing previous period dates show as gaps, not zeros
                 $filledRows[] = $emptyRow;
             }
         }
@@ -219,57 +210,36 @@ class ChartFormatter extends AbstractFormatter
     }
 
     /**
-     * Generate all date labels for a date range based on grouping type.
+     * Generate all date labels for a date range using time-series config.
      *
-     * @param string $dateFrom    Start date (YYYY-MM-DD or with time).
-     * @param string $dateTo      End date (YYYY-MM-DD or with time).
-     * @param string $groupByType Type of grouping (date, week, month).
+     * @param string $dateFrom Start date (YYYY-MM-DD or with time).
+     * @param string $dateTo   End date (YYYY-MM-DD or with time).
+     * @param array  $tsConfig Time-series config with 'interval', 'format', 'startAdjust'.
      * @return array Array of date labels.
      */
-    private function generateDateLabels(string $dateFrom, string $dateTo, string $groupByType): array
+    private function generateDateLabels(string $dateFrom, string $dateTo, array $tsConfig): array
     {
-        // Extract just the date part
-        $startDate = substr($dateFrom, 0, 10);
-        $endDate   = substr($dateTo, 0, 10);
+        $start    = new \DateTime(substr($dateFrom, 0, 10));
+        $end      = new \DateTime(substr($dateTo, 0, 10));
+        $interval = new \DateInterval($tsConfig['interval']);
+        $format   = $tsConfig['format'];
 
-        $start = new \DateTime($startDate);
-        $end   = new \DateTime($endDate);
+        if ($tsConfig['startAdjust'] !== null) {
+            $start->modify($tsConfig['startAdjust']);
+        }
 
         $labels = [];
 
-        switch ($groupByType) {
-            case 'date':
-                // Daily: Generate each day
-                $interval = new \DateInterval('P1D');
-                $period   = new \DatePeriod($start, $interval, $end->modify('+1 day'));
-                foreach ($period as $date) {
-                    $labels[] = $date->format('Y-m-d');
-                }
-                break;
-
-            case 'week':
-                // Weekly: Generate week start dates (Monday)
-                // Adjust start to Monday of that week
-                $dayOfWeek = (int) $start->format('N'); // 1 = Monday, 7 = Sunday
-                if ($dayOfWeek !== 1) {
-                    $start->modify('monday this week');
-                }
-                $interval = new \DateInterval('P1W');
-                while ($start <= $end) {
-                    $labels[] = $start->format('Y-m-d');
-                    $start->add($interval);
-                }
-                break;
-
-            case 'month':
-                // Monthly: Generate first day of each month
-                $start->modify('first day of this month');
-                $interval = new \DateInterval('P1M');
-                while ($start <= $end) {
-                    $labels[] = $start->format('Y-m');
-                    $start->add($interval);
-                }
-                break;
+        if ($tsConfig['interval'] === 'P1D') {
+            $period = new \DatePeriod($start, $interval, (clone $end)->modify('+1 day'));
+            foreach ($period as $date) {
+                $labels[] = $date->format($format);
+            }
+        } else {
+            while ($start <= $end) {
+                $labels[] = $start->format($format);
+                $start->add($interval);
+            }
         }
 
         return $labels;
@@ -278,57 +248,36 @@ class ChartFormatter extends AbstractFormatter
     /**
      * Generate previous period labels in ISO format for JavaScript Date parsing.
      *
-     * Unlike generateDateLabels which matches database format, this always returns
-     * Y-m-d format that JavaScript can reliably parse with new Date().
+     * Always returns Y-m-d format that JavaScript can reliably parse with new Date().
      *
-     * @param string $dateFrom    Start date (YYYY-MM-DD or with time).
-     * @param string $dateTo      End date (YYYY-MM-DD or with time).
-     * @param string $groupByType Type of grouping (date, week, month).
+     * @param string $dateFrom Start date (YYYY-MM-DD or with time).
+     * @param string $dateTo   End date (YYYY-MM-DD or with time).
+     * @param array  $tsConfig Time-series config with 'interval', 'format', 'startAdjust'.
      * @return array Array of ISO date labels (Y-m-d format).
      */
-    private function generatePreviousLabels(string $dateFrom, string $dateTo, string $groupByType): array
+    private function generatePreviousLabels(string $dateFrom, string $dateTo, array $tsConfig): array
     {
-        // Extract just the date part
-        $startDate = substr($dateFrom, 0, 10);
-        $endDate   = substr($dateTo, 0, 10);
+        $start    = new \DateTime(substr($dateFrom, 0, 10));
+        $end      = new \DateTime(substr($dateTo, 0, 10));
+        $interval = new \DateInterval($tsConfig['interval']);
 
-        $start = new \DateTime($startDate);
-        $end   = new \DateTime($endDate);
+        if ($tsConfig['startAdjust'] !== null) {
+            $start->modify($tsConfig['startAdjust']);
+        }
 
         $labels = [];
 
-        switch ($groupByType) {
-            case 'date':
-                // Daily: Generate each day
-                $interval = new \DateInterval('P1D');
-                $period   = new \DatePeriod($start, $interval, $end->modify('+1 day'));
-                foreach ($period as $date) {
-                    $labels[] = $date->format('Y-m-d');
-                }
-                break;
-
-            case 'week':
-                // Weekly: Generate week start dates (Monday)
-                $dayOfWeek = (int) $start->format('N');
-                if ($dayOfWeek !== 1) {
-                    $start->modify('monday this week');
-                }
-                $interval = new \DateInterval('P1W');
-                while ($start <= $end) {
-                    $labels[] = $start->format('Y-m-d');
-                    $start->add($interval);
-                }
-                break;
-
-            case 'month':
-                // Monthly: Generate first day of each month (always Y-m-d for JS parsing)
-                $start->modify('first day of this month');
-                $interval = new \DateInterval('P1M');
-                while ($start <= $end) {
-                    $labels[] = $start->format('Y-m-d');
-                    $start->add($interval);
-                }
-                break;
+        // Always Y-m-d for JS Date parsing compatibility
+        if ($tsConfig['interval'] === 'P1D') {
+            $period = new \DatePeriod($start, $interval, (clone $end)->modify('+1 day'));
+            foreach ($period as $date) {
+                $labels[] = $date->format('Y-m-d');
+            }
+        } else {
+            while ($start <= $end) {
+                $labels[] = $start->format('Y-m-d');
+                $start->add($interval);
+            }
         }
 
         return $labels;

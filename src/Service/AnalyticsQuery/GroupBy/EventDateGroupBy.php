@@ -18,4 +18,9 @@ class EventDateGroupBy extends AbstractGroupBy
     protected $groupBy     = 'DATE(events.date)';
     protected $order       = 'ASC';
     protected $requirement = 'events';
+
+    public function getTimeSeriesConfig(): ?array
+    {
+        return ['interval' => 'P1D', 'format' => 'Y-m-d', 'startAdjust' => null];
+    }
 }
