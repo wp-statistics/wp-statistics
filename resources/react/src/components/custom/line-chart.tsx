@@ -293,6 +293,10 @@ export function LineChart({
     const borderColor = resolveColor('var(--border)')
     const mutedFg = resolveColor('var(--muted-foreground)')
 
+    const hasBarMetrics = seriesSlots.some((slot) => metrics[slot.metricIndex].type === 'bar')
+    // Bars fill this fraction of chart height; the rest is headroom so lines aren't compressed
+    const BAR_SCALE_RATIO = 0.4
+
     // Build series config: series[0] is always X axis
     const series: uPlot.Series[] = [{}]
 
@@ -311,6 +315,7 @@ export function LineChart({
           width: 0,
           paths: barsPath(),
           points: { show: false },
+          scale: 'y2',
         })
       } else if (slot.kind === 'previous') {
         series.push({
@@ -369,6 +374,14 @@ export function LineChart({
             return [Math.min(0, min), max + pad]
           },
         },
+        ...(hasBarMetrics && {
+          y2: {
+            range: (_u: uPlot, _min: number, max: number) => {
+              if (max <= 0) return [0, 1]
+              return [0, max / BAR_SCALE_RATIO]
+            },
+          },
+        }),
       },
       axes: [
         // X axis (bottom)
@@ -416,6 +429,14 @@ export function LineChart({
           incrs: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000],
           values: (_u: uPlot, splits: number[]) => splits.map((v) => formatCompactNumber(v)),
         },
+        ...(hasBarMetrics ? [{
+          scale: 'y2',
+          show: false,
+          side: 3,
+          size: 0,
+          grid: { show: false },
+          ticks: { show: false },
+        }] : []),
       ],
       plugins: [tooltipPlugin],
     }

@@ -373,7 +373,7 @@ export function ReportPageRenderer<TData, TRecord>({
     : undefined
 
   const chartMetricConfigs = useMemo(
-    () => chartConfig?.metrics?.map((m) => ({ key: m.key, label: m.label, color: m.color })) ?? [],
+    () => chartConfig?.metrics?.map((m) => ({ key: m.key, label: m.label, color: m.color, type: m.type })) ?? [],
     [chartConfig?.metrics]
   )
 

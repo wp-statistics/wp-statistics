@@ -47,16 +47,20 @@ function ChartSlotComponent({
     const metricKeys = currentDatasets.map((ds) => ds.key)
     const totals = calculateChartTotals(chartResponse, metricKeys)
 
-    const metrics: LineChartMetric[] = currentDatasets.map((ds, index) => ({
-      key: ds.key,
-      label: ds.label,
-      color: CHART_COLORS[index % CHART_COLORS.length],
-      enabled: true,
-      value: formatChartValue(totals[ds.key]?.current ?? 0),
-      ...(ds.key === compareMetricKey && isCompareEnabled && {
-        previousValue: formatChartValue(totals[ds.key]?.previous ?? 0),
-      }),
-    }))
+    const metrics: LineChartMetric[] = currentDatasets.map((ds, index) => {
+      const configMetric = chartConfig.metrics?.find((m) => m.key === ds.key)
+      return {
+        key: ds.key,
+        label: ds.label,
+        color: configMetric?.color || CHART_COLORS[index % CHART_COLORS.length],
+        enabled: true,
+        value: formatChartValue(totals[ds.key]?.current ?? 0),
+        type: configMetric?.type,
+        ...(ds.key === compareMetricKey && isCompareEnabled && {
+          previousValue: formatChartValue(totals[ds.key]?.previous ?? 0),
+        }),
+      }
+    })
 
     return {
       chartData: transformChartResponse(chartResponse, { preserveNull: true }),

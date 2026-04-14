@@ -65,6 +65,14 @@ class ChartFormatter extends AbstractFormatter
         if ($tsConfig !== null) {
             $labelAlias = 'date';
             $rows = $this->fillMissingDates($rows, $query, $tsConfig, $labelAlias, $sources);
+
+            // Weekly/monthly startAdjust can push before user-selected range — clamp back.
+            if ($tsConfig['startAdjust'] !== null && !empty($rows)) {
+                $originalFrom = substr($query->getDateFrom(), 0, 10);
+                if (isset($rows[0][$labelAlias]) && $rows[0][$labelAlias] < $originalFrom) {
+                    $rows[0][$labelAlias] = $originalFrom;
+                }
+            }
         } else {
             $labelAlias = $this->getGroupByAlias($primaryGroupBy);
         }
@@ -277,6 +285,14 @@ class ChartFormatter extends AbstractFormatter
             while ($start <= $end) {
                 $labels[] = $start->format('Y-m-d');
                 $start->add($interval);
+            }
+        }
+
+        // Weekly/monthly startAdjust can push before comparison start — clamp back.
+        if ($tsConfig['startAdjust'] !== null && !empty($labels)) {
+            $originalFrom = substr($dateFrom, 0, 10);
+            if ($labels[0] < $originalFrom) {
+                $labels[0] = $originalFrom;
             }
         }
 

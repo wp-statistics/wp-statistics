@@ -254,7 +254,7 @@ declare global {
     queryId: string
     title?: string
     compareMetricKey?: string
-    metrics?: Array<{ key: string; label: string; color: string }>
+    metrics?: Array<{ key: string; label: string; color: string; type?: 'line' | 'bar' }>
   }
 
   // Overview page icon types
