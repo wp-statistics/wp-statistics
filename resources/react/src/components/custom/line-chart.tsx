@@ -48,6 +48,9 @@ export interface LineChartProps {
 const defaultColors = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)']
 const splinePath = uPlot.paths.spline!()
 
+// Point filter: render only at the last data index (endpoint marker for incomplete series)
+const lastPointFilter = (self: uPlot) => [self.data[0].length - 1]
+
 // Resolve an HSL string like "220 70% 50%" to a usable CSS value
 function toUsableColor(resolved: string): string {
   if (!resolved) return '#888'
@@ -333,9 +336,16 @@ export function LineChart({
           label: `${metric.label} (incomplete)`,
           stroke: color,
           width: 2,
-          dash: [3, 3],
+          dash: [6, 3],
           paths: splinePath,
-          points: { show: false },
+          points: {
+            show: true,
+            size: 6,
+            width: 2,
+            stroke: color,
+            fill: resolveColor('var(--background)'),
+            filter: lastPointFilter,
+          },
           spanGaps: false,
         })
       } else {
@@ -462,10 +472,11 @@ export function LineChart({
     // Collect visible metric values
     type TooltipEntry = {
       metricIndex: number
-      isPrevious: boolean
+      kind: 'current' | 'incomplete' | 'previous'
       value: number | null
     }
     const entries: TooltipEntry[] = []
+    const isLastPoint = hasIncompleteData && idx === data.length - 1
 
     metrics.forEach((metric, metricIndex) => {
       const isBar = metric.type === 'bar'
@@ -474,12 +485,13 @@ export function LineChart({
 
       if (isVisible) {
         const value = (dataPoint[metric.key] as number) ?? null
-        entries.push({ metricIndex, isPrevious: false, value })
+        const kind = isLastPoint && !isBar ? 'incomplete' : 'current'
+        entries.push({ metricIndex, kind, value })
       }
       if (isPrevVisible && showPreviousPeriod && !isBar) {
         const prevKey = `${metric.key}Previous`
         const value = (dataPoint[prevKey] as number) ?? null
-        entries.push({ metricIndex, isPrevious: true, value })
+        entries.push({ metricIndex, kind: 'previous', value })
       }
     })
 
@@ -491,23 +503,25 @@ export function LineChart({
         <div className="space-y-1.5">
           {entries.map((entry) => {
             const metric = metrics[entry.metricIndex]
-            if (entry.isPrevious && !prevInfo) return null
+            if (entry.kind === 'previous' && !prevInfo) return null
 
             const color = metric.color || defaultColors[entry.metricIndex % defaultColors.length]
             const isBarType = metric.type === 'bar'
-            const displayLabel = entry.isPrevious
-              ? prevInfo!.prevDayOfWeek
-                ? `${prevInfo!.prevFormatted} (${prevInfo!.prevDayOfWeek})`
-                : prevInfo!.prevFormatted
-              : metric.label
+            const displayLabel =
+              entry.kind === 'previous'
+                ? prevInfo!.prevDayOfWeek
+                  ? `${prevInfo!.prevFormatted} (${prevInfo!.prevDayOfWeek})`
+                  : prevInfo!.prevFormatted
+                : metric.label
+            const dashArray = entry.kind === 'previous' ? '3 2' : entry.kind === 'incomplete' ? '3 1.5' : '0'
 
             return (
               <div
-                key={`${metric.key}-${entry.isPrevious ? 'prev' : 'curr'}`}
+                key={`${metric.key}-${entry.kind}`}
                 className="flex items-center justify-between gap-4"
               >
                 <div className="flex items-center gap-2 text-xs">
-                  <svg width="12" height="12" className={entry.isPrevious ? 'shrink-0 opacity-50' : 'shrink-0'}>
+                  <svg width="12" height="12" className={entry.kind === 'previous' ? 'shrink-0 opacity-50' : 'shrink-0'}>
                     {isBarType ? (
                       <rect x="0" y="2" width="12" height="8" fill={color} rx="1" />
                     ) : (
@@ -518,7 +532,7 @@ export function LineChart({
                         y2="6"
                         style={{ stroke: color }}
                         strokeWidth="3"
-                        strokeDasharray={entry.isPrevious ? '3 2' : '0'}
+                        strokeDasharray={dashArray}
                       />
                     )}
                   </svg>
@@ -533,7 +547,7 @@ export function LineChart({
         </div>
       </div>
     )
-  }, [tooltip.visible, tooltip.idx, data, metrics, visibleMetrics, timeframe, showPreviousPeriod, compareDateTo])
+  }, [tooltip.visible, tooltip.idx, data, metrics, visibleMetrics, timeframe, showPreviousPeriod, compareDateTo, hasIncompleteData])
 
   return (
     <Panel variant={borderless ? 'borderless' : 'default'} className={className}>
