@@ -1,5 +1,7 @@
 14.16.6 - 2026-04-**
 - **Fix:** Removed legacy TinyMCE integration that caused "Failed to load plugin" errors in the classic editor, especially with themes like Corvix and Avada.
+- **Fix:** Excluded browser prefetch and prerender requests that were inflating visit counts.
+- **Fix:** Excluded headless browsers and automation tools (Headless Chrome, PhantomJS, Puppeteer, Playwright, Selenium) that were being counted as real visitors.
 
 14.16.5 - 2026-04-11
 - **Enhancement:** Simplify WP Consent API consent level logic.

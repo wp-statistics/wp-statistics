@@ -27,6 +27,8 @@ class Exclusion
             'ajax'            => __('Ajax', 'wp-statistics'),
             'cronjob'         => __('Cron job', 'wp-statistics'),
             'robot'           => __('Robot', 'wp-statistics'),
+            'headless'        => __('Headless Browser', 'wp-statistics'),
+            'prefetch'        => __('Prefetch', 'wp-statistics'),
             'BrokenFile'      => __('Broken Link', 'wp-statistics'),
             'ip match'        => __('IP Match', 'wp-statistics'),
             'self referral'   => __('Self Referral', 'wp-statistics'),
@@ -436,6 +438,41 @@ class Exclusion
         }
 
         return false;
+    }
+
+    /**
+     * Detect browser prefetch / prerender requests (Chrome Speculation Rules,
+     * Firefox link prefetching, <link rel="prefetch">). These use the real
+     * browser UA, so bot detection can't catch them.
+     */
+    public static function exclusion_prefetch()
+    {
+        foreach (['HTTP_PURPOSE', 'HTTP_SEC_PURPOSE', 'HTTP_X_MOZ'] as $header) {
+            if (!empty($_SERVER[$header]) && stripos($_SERVER[$header], 'prefetch') !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Detect headless browsers and automation tools. Device Detector
+     * intentionally classifies Headless Chrome / PhantomJS as browsers rather
+     * than bots (matomo-org/device-detector#5691, #7441), so we filter them
+     * here. Puppeteer/Playwright/Selenium aren't in DD, hence the UA fallback.
+     *
+     * @param $visitorProfile VisitorProfile
+     */
+    public static function exclusion_headless($visitorProfile)
+    {
+        $browser = $visitorProfile->getUserAgent()->getBrowser();
+
+        if (in_array($browser, ['Headless Chrome', 'PhantomJS'], true)) {
+            return true;
+        }
+
+        return (bool) preg_match('/Puppeteer|Playwright|Selenium/i', $visitorProfile->getHttpUserAgent());
     }
 
     /**
