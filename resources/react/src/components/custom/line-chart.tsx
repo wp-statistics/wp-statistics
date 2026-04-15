@@ -119,7 +119,7 @@ function formatTooltipDate(
     startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
     const endDate = new Date(startDate)
     endDate.setDate(startDate.getDate() + 6)
-    formattedDate = `${startDate.toLocaleDateString(locale, { month: 'long', day: 'numeric' })} to ${endDate.toLocaleDateString(locale, { month: 'long', day: 'numeric' })}`
+    formattedDate = `${startDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })} to ${endDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
   } else if (timeframe === 'monthly' && /^\d{6}$/.test(label)) {
     const year = parseInt(label.substring(0, 4), 10)
     const month = parseInt(label.substring(4, 6), 10) - 1
@@ -135,10 +135,10 @@ function formatTooltipDate(
       endDate.setDate(0)
       formattedDate = `${formattedDate} to ${endDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
     } else if (timeframe === 'weekly') {
-      formattedDate = date.toLocaleDateString(locale, { month: 'long', day: 'numeric' })
+      formattedDate = date.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
       const endDate = new Date(date)
       endDate.setDate(endDate.getDate() + 6)
-      formattedDate = `${formattedDate} to ${endDate.toLocaleDateString(locale, { month: 'long', day: 'numeric' })}`
+      formattedDate = `${formattedDate} to ${endDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
     } else {
       formattedDate = date.toLocaleDateString(locale, { day: 'numeric', month: 'short' })
       dayOfWeek = date.toLocaleDateString(locale, { weekday: 'short' })
@@ -167,11 +167,11 @@ function formatPrevTooltipDate(
     if (actualPpEndDate && actualPpEndDate < prevEndDate) prevEndDate = actualPpEndDate
     prevFormatted = `${prevFormatted} to ${prevEndDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
   } else if (timeframe === 'weekly') {
-    prevFormatted = previousDate.toLocaleDateString(locale, { month: 'long', day: 'numeric' })
+    prevFormatted = previousDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
     let prevEndDate = new Date(previousDate)
     prevEndDate.setDate(prevEndDate.getDate() + 6)
     if (actualPpEndDate && actualPpEndDate < prevEndDate) prevEndDate = actualPpEndDate
-    prevFormatted = `${prevFormatted} to ${prevEndDate.toLocaleDateString(locale, { month: 'long', day: 'numeric' })}`
+    prevFormatted = `${prevFormatted} to ${prevEndDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
   } else {
     prevFormatted = previousDate.toLocaleDateString(locale, { day: 'numeric', month: 'short' })
     prevDayOfWeek = previousDate.toLocaleDateString(locale, { weekday: 'short' })
