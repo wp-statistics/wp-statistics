@@ -1,17 +1,20 @@
-import type { ChartConfig } from '@components/ui/chart'
-import { ChartContainer, ChartTooltip } from '@components/ui/chart'
+import 'uplot/dist/uPlot.min.css'
+
 import { Panel, PanelActions, PanelContent, PanelHeader, PanelTitle } from '@components/ui/panel'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Loader2 } from 'lucide-react'
 import * as React from 'react'
-import { Bar, CartesianGrid, ComposedChart, Line, XAxis, YAxis } from 'recharts'
+import uPlot from 'uplot'
 
-import { useBreakpoint } from '@/hooks/use-breakpoint'
+import { useUPlot } from '@/hooks/use-uplot'
+import { useUPlotTooltip } from '@/hooks/use-uplot-tooltip'
+import { barsPath } from '@/lib/uplot-bars-plugin'
 import { cn, formatCompactNumber, isToday } from '@/lib/utils'
+import { parseDateString } from '@/lib/wp-date'
 
 export interface LineChartDataPoint {
   date: string
-  previousDate?: string | null // For tooltip display when comparing periods of different lengths
+  previousDate?: string | null
   [key: string]: string | number | null | undefined
 }
 
@@ -35,26 +38,157 @@ export interface LineChartProps {
   className?: string
   loading?: boolean
   borderless?: boolean
-  /** Actual previous period end date - used to cap tooltip display for partial periods */
   compareDateTo?: string
-  /** End date of the current period - used to detect incomplete data (shows dotted line when ending today) */
   dateTo?: string
-  /** Additional actions rendered next to the timeframe selector */
   headerActions?: React.ReactNode
-  /** Rendered in PanelActions next to the title (top-right), same as HorizontalBarList */
   headerRight?: React.ReactNode
-}
-
-// Type for chart tooltip payload entries
-interface TooltipPayloadEntry {
-  dataKey: string
-  value: number | string
-  color: string
-  name?: string
 }
 
 // Chart colors: Blue, Green, Amber, Red, Purple
 const defaultColors = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)']
+const splinePath = uPlot.paths.spline!()
+
+// Point filter: render only at the last data index (endpoint marker for incomplete series)
+const lastPointFilter = (self: uPlot) => [self.data[0].length - 1]
+
+// Resolve an HSL string like "220 70% 50%" to a usable CSS value
+function toUsableColor(resolved: string): string {
+  if (!resolved) return '#888'
+  if (resolved.startsWith('#') || resolved.startsWith('rgb') || resolved.startsWith('hsl(')) return resolved
+  if (/^\d/.test(resolved)) return `hsl(${resolved})`
+  return resolved
+}
+
+// Parse chart date labels as local timezone (avoids UTC off-by-one from Date constructor)
+function parseChartDate(value: string): Date {
+  const monthMatch = value.match(/^(\d{4})-(\d{2})$/)
+  if (monthMatch) {
+    return new Date(parseInt(monthMatch[1]), parseInt(monthMatch[2]) - 1, 1)
+  }
+  return parseDateString(value.substring(0, 10))
+}
+
+// WordPress site locale for date formatting (falls back to browser default)
+const locale = document.documentElement.lang || undefined
+
+// Format date label for X axis ticks
+function formatDateLabel(value: string, timeframe: 'daily' | 'weekly' | 'monthly'): string {
+  if (timeframe === 'weekly' && /^\d{6}$/.test(value)) {
+    const year = parseInt(value.substring(0, 4), 10)
+    const week = parseInt(value.substring(4, 6), 10)
+    const firstDayOfYear = new Date(year, 0, 1)
+    const dayOfWeek = firstDayOfYear.getDay()
+    const daysToMonday = dayOfWeek === 0 ? 1 : dayOfWeek === 1 ? 0 : 8 - dayOfWeek
+    const firstMonday = new Date(year, 0, 1 + daysToMonday)
+    const startDate = new Date(firstMonday)
+    startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
+    return startDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
+  }
+  if (timeframe === 'monthly' && /^\d{6}$/.test(value)) {
+    const year = parseInt(value.substring(0, 4), 10)
+    const month = parseInt(value.substring(4, 6), 10) - 1
+    const date = new Date(year, month, 1)
+    return date.toLocaleDateString(locale, { month: 'long' })
+  }
+  const date = parseChartDate(value)
+  if (timeframe === 'monthly') {
+    return date.toLocaleDateString(locale, { month: 'long' })
+  }
+  if (timeframe === 'weekly') {
+    return date.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
+  }
+  return date.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
+}
+
+// Format tooltip date header
+function formatTooltipDate(
+  label: string,
+  timeframe: 'daily' | 'weekly' | 'monthly'
+): { formattedDate: string; dayOfWeek: string } {
+  let formattedDate: string
+  let dayOfWeek = ''
+
+  if (timeframe === 'weekly' && /^\d{6}$/.test(label)) {
+    const year = parseInt(label.substring(0, 4), 10)
+    const week = parseInt(label.substring(4, 6), 10)
+    const firstDayOfYear = new Date(year, 0, 1)
+    const dayOfWeekNum = firstDayOfYear.getDay()
+    const daysToMonday = dayOfWeekNum === 0 ? 1 : dayOfWeekNum === 1 ? 0 : 8 - dayOfWeekNum
+    const firstMonday = new Date(year, 0, 1 + daysToMonday)
+    const startDate = new Date(firstMonday)
+    startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
+    const endDate = new Date(startDate)
+    endDate.setDate(startDate.getDate() + 6)
+    formattedDate = `${startDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })} to ${endDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
+  } else if (timeframe === 'monthly' && /^\d{6}$/.test(label)) {
+    const year = parseInt(label.substring(0, 4), 10)
+    const month = parseInt(label.substring(4, 6), 10) - 1
+    const startDate = new Date(year, month, 1)
+    const endDate = new Date(year, month + 1, 0)
+    formattedDate = `${startDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })} to ${endDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
+  } else {
+    const date = parseChartDate(label)
+    if (timeframe === 'monthly') {
+      formattedDate = date.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
+      const endDate = new Date(date)
+      endDate.setMonth(endDate.getMonth() + 1)
+      endDate.setDate(0)
+      formattedDate = `${formattedDate} to ${endDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
+    } else if (timeframe === 'weekly') {
+      formattedDate = date.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
+      const endDate = new Date(date)
+      endDate.setDate(endDate.getDate() + 6)
+      formattedDate = `${formattedDate} to ${endDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
+    } else {
+      formattedDate = date.toLocaleDateString(locale, { day: 'numeric', month: 'short' })
+      dayOfWeek = date.toLocaleDateString(locale, { weekday: 'short' })
+    }
+  }
+
+  return { formattedDate, dayOfWeek }
+}
+
+// Format previous period tooltip date
+function formatPrevTooltipDate(
+  previousDateStr: string,
+  timeframe: 'daily' | 'weekly' | 'monthly',
+  compareDateTo?: string
+): { prevFormatted: string; prevDayOfWeek: string } {
+  const previousDate = parseChartDate(previousDateStr)
+  const actualPpEndDate = compareDateTo ? parseChartDate(compareDateTo) : null
+  let prevFormatted: string
+  let prevDayOfWeek = ''
+
+  if (timeframe === 'monthly') {
+    prevFormatted = previousDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
+    let prevEndDate = new Date(previousDate)
+    prevEndDate.setMonth(prevEndDate.getMonth() + 1)
+    prevEndDate.setDate(0)
+    if (actualPpEndDate && actualPpEndDate < prevEndDate) prevEndDate = actualPpEndDate
+    prevFormatted = `${prevFormatted} to ${prevEndDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
+  } else if (timeframe === 'weekly') {
+    prevFormatted = previousDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
+    let prevEndDate = new Date(previousDate)
+    prevEndDate.setDate(prevEndDate.getDate() + 6)
+    if (actualPpEndDate && actualPpEndDate < prevEndDate) prevEndDate = actualPpEndDate
+    prevFormatted = `${prevFormatted} to ${prevEndDate.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}`
+  } else {
+    prevFormatted = previousDate.toLocaleDateString(locale, { day: 'numeric', month: 'short' })
+    prevDayOfWeek = previousDate.toLocaleDateString(locale, { weekday: 'short' })
+  }
+
+  return { prevFormatted, prevDayOfWeek }
+}
+
+/**
+ * Describes a series slot in the uPlot column data.
+ * A single visible metric may produce multiple series (solid + dotted for incomplete data,
+ * plus a previous-period series).
+ */
+interface SeriesSlot {
+  metricIndex: number
+  kind: 'current' | 'solid' | 'dotted' | 'previous'
+}
 
 export function LineChart({
   data,
@@ -71,7 +205,6 @@ export function LineChart({
   headerActions,
   headerRight,
 }: LineChartProps) {
-  useBreakpoint() // Trigger responsive re-renders
   const [visibleMetrics, setVisibleMetrics] = React.useState<Record<string, boolean>>(() =>
     metrics.reduce(
       (acc, metric) => ({
@@ -83,22 +216,6 @@ export function LineChart({
     )
   )
 
-  // Build chart config from metrics
-  const chartConfig = metrics.reduce((acc, metric, index) => {
-    const color = metric.color || defaultColors[index % defaultColors.length]
-    return {
-      ...acc,
-      [metric.key]: {
-        label: metric.label,
-        color: color,
-      },
-      [`${metric.key}Previous`]: {
-        label: `${metric.label} (Previous)`,
-        color: color,
-      },
-    }
-  }, {} as ChartConfig)
-
   const toggleMetric = React.useCallback((metricKey: string) => {
     setVisibleMetrics((prev) => ({
       ...prev,
@@ -106,129 +223,331 @@ export function LineChart({
     }))
   }, [])
 
-  // Detect if the current period is incomplete (ends on today)
   const hasIncompleteData = React.useMemo(() => {
     if (!dateTo || data.length < 2) return false
     return isToday(dateTo)
   }, [dateTo, data.length])
 
-  // Transform data to add _solid and _dotted keys for incomplete data handling
-  // This avoids using custom `data` props on Line components which causes x-axis duplication
-  const chartData = React.useMemo(() => {
-    if (!hasIncompleteData) return data
+  // Container ref for resolving CSS colors
+  const wrapperRef = React.useRef<HTMLDivElement>(null)
+  const tooltipRef = React.useRef<HTMLDivElement>(null)
+  const dataRef = React.useRef(data)
+  dataRef.current = data
 
-    return data.map((point, idx) => {
-      const isLastPoint = idx === data.length - 1
-      const isSecondToLast = idx === data.length - 2
-      const newPoint: LineChartDataPoint = { ...point }
+  const { tooltip, plugin: tooltipPlugin } = useUPlotTooltip()
 
-      // For each current period metric, create _solid and _dotted versions
-      metrics.forEach((metric) => {
-        const value = point[metric.key]
-        // _solid: value for all points except last (so solid line stops before last point)
-        newPoint[`${metric.key}_solid`] = isLastPoint ? null : value
-        // _dotted: value only for last two points (so dotted line only shows last segment)
-        newPoint[`${metric.key}_dotted`] = isSecondToLast || isLastPoint ? value : null
-      })
-
-      return newPoint
-    })
-  }, [data, hasIncompleteData, metrics])
-
-  // Memoize current period lines
-  const currentLines = React.useMemo(
-    () =>
-      metrics.flatMap((metric, index) => {
-        // Skip bar metrics - they're rendered by barElements
-        if (metric.type === 'bar') return []
-        if (!visibleMetrics[metric.key]) return []
-        const color = metric.color || defaultColors[index % defaultColors.length]
-
-        if (!hasIncompleteData) {
-          // No incomplete data - single solid line using original key
-          return [
-            <Line key={metric.key} type="monotone" dataKey={metric.key} stroke={color} strokeWidth={2} dot={false} />,
-          ]
+  // Series config: stable when only data refreshes (no chart recreation needed)
+  const seriesSlots = React.useMemo((): SeriesSlot[] => {
+    const slots: SeriesSlot[] = []
+    metrics.forEach((metric, metricIndex) => {
+      const isBar = metric.type === 'bar'
+      const isVisible = visibleMetrics[metric.key]
+      const isPrevVisible = visibleMetrics[`${metric.key}Previous`]
+      if (isBar) {
+        if (isVisible) slots.push({ metricIndex, kind: 'current' })
+      } else {
+        if (isVisible) {
+          if (hasIncompleteData) {
+            slots.push({ metricIndex, kind: 'solid' })
+            slots.push({ metricIndex, kind: 'dotted' })
+          } else {
+            slots.push({ metricIndex, kind: 'current' })
+          }
         }
+        if (isPrevVisible && showPreviousPeriod) {
+          slots.push({ metricIndex, kind: 'previous' })
+        }
+      }
+    })
+    return slots
+  }, [metrics, visibleMetrics, hasIncompleteData, showPreviousPeriod])
 
-        // Incomplete data - solid line + dotted segment overlay using transformed keys
-        // Use synchronized animation parameters to ensure both lines animate together
-        return [
-          <Line
-            key={`${metric.key}-solid`}
-            type="monotone"
-            dataKey={`${metric.key}_solid`}
-            stroke={color}
-            strokeWidth={2}
-            dot={false}
-            connectNulls={false}
-            animationBegin={0}
-            animationDuration={1500}
-            animationEasing="ease"
-          />,
-          <Line
-            key={`${metric.key}-dotted`}
-            type="monotone"
-            dataKey={`${metric.key}_dotted`}
-            stroke={color}
-            strokeWidth={2}
-            strokeDasharray="3 3"
-            dot={false}
-            connectNulls={false}
-            legendType="none"
-            animationBegin={0}
-            animationDuration={1500}
-            animationEasing="ease"
-          />,
-        ]
-      }),
-    [metrics, visibleMetrics, hasIncompleteData]
-  )
+  // Column data: changes with data, drives setData (cheap update, no chart recreation)
+  const uData = React.useMemo((): uPlot.AlignedData => {
+    if (!data.length) return [[]] as uPlot.AlignedData
+    const xValues = data.map((_, i) => i)
+    const columns: (number | null)[][] = []
+    seriesSlots.forEach((slot) => {
+      const metric = metrics[slot.metricIndex]
+      if (slot.kind === 'solid') {
+        columns.push(data.map((d, i) => (i === data.length - 1 ? null : ((d[metric.key] as number) ?? null))))
+      } else if (slot.kind === 'dotted') {
+        columns.push(data.map((d, i) => (i >= data.length - 2 ? ((d[metric.key] as number) ?? null) : null)))
+      } else if (slot.kind === 'previous') {
+        columns.push(data.map((d) => (d[`${metric.key}Previous`] as number) ?? null))
+      } else {
+        columns.push(data.map((d) => (d[metric.key] as number) ?? null))
+      }
+    })
+    return [xValues, ...columns] as uPlot.AlignedData
+  }, [data, seriesSlots, metrics])
 
-  // Memoize previous period lines to prevent unnecessary re-renders
-  const previousLines = React.useMemo(
-    () =>
-      metrics.map((metric, index) => {
-        // Skip bar metrics - they don't have previous period lines
-        if (metric.type === 'bar') return null
-        const previousKey = `${metric.key}Previous`
-        if (!visibleMetrics[previousKey]) return null
-        const color = metric.color || defaultColors[index % defaultColors.length]
-        return (
-          <Line
-            key={previousKey}
-            type="monotone"
-            dataKey={previousKey}
-            stroke={color}
-            strokeWidth={2}
-            strokeDasharray="5 5"
-            dot={false}
-            opacity={0.5}
-            connectNulls={false}
-          />
-        )
-      }),
-    [metrics, visibleMetrics]
-  )
+  // Build uPlot options factory — identity changes when config changes, driving chart recreation
+  const makeOptions = React.useCallback((): Omit<uPlot.Options, 'width' | 'height'> => {
+    const el = wrapperRef.current
+    const computed = el ? getComputedStyle(el) : null
 
-  // Memoize bar elements for bar-type metrics
-  const barElements = React.useMemo(
-    () =>
-      metrics.flatMap((metric, index) => {
-        if (metric.type !== 'bar' || !visibleMetrics[metric.key]) return []
-        const color = metric.color || defaultColors[index % defaultColors.length]
-        return [
-          <Bar
-            key={metric.key}
-            dataKey={metric.key}
-            fill={color}
-            opacity={0.7}
-            radius={[2, 2, 0, 0]}
-          />,
-        ]
-      }),
-    [metrics, visibleMetrics]
-  )
+    const resolveColor = (value: string): string => {
+      if (!value.startsWith('var(')) return toUsableColor(value)
+      const varName = value.slice(4, -1).trim()
+      return toUsableColor(computed?.getPropertyValue(varName).trim() ?? '')
+    }
+
+    const borderColor = resolveColor('var(--border)')
+    const mutedFg = resolveColor('var(--muted-foreground)')
+
+    const hasBarMetrics = seriesSlots.some((slot) => metrics[slot.metricIndex].type === 'bar')
+    // Bars fill this fraction of chart height; the rest is headroom so lines aren't compressed
+    const BAR_SCALE_RATIO = 0.4
+
+    // Build series config: series[0] is always X axis
+    const series: uPlot.Series[] = [{}]
+
+    seriesSlots.forEach((slot) => {
+      const metric = metrics[slot.metricIndex]
+      const rawColor = metric.color || defaultColors[slot.metricIndex % defaultColors.length]
+      const color = resolveColor(rawColor)
+      const isBar = metric.type === 'bar'
+
+      if (isBar) {
+        series.push({
+          label: metric.label,
+          stroke: color,
+          fill: color,
+          alpha: 0.7,
+          width: 0,
+          paths: barsPath(),
+          points: { show: false },
+          scale: 'y2',
+        })
+      } else if (slot.kind === 'previous') {
+        series.push({
+          label: `${metric.label} (prev)`,
+          stroke: color,
+          width: 2,
+          dash: [5, 5],
+          alpha: 0.5,
+          paths: splinePath,
+          points: { show: false },
+          spanGaps: false,
+        })
+      } else if (slot.kind === 'dotted') {
+        series.push({
+          label: `${metric.label} (incomplete)`,
+          stroke: color,
+          width: 2,
+          dash: [6, 3],
+          paths: splinePath,
+          points: {
+            show: true,
+            size: 6,
+            width: 2,
+            stroke: color,
+            fill: resolveColor('var(--background)'),
+            filter: lastPointFilter,
+          },
+          spanGaps: false,
+        })
+      } else {
+        // 'current' or 'solid'
+        series.push({
+          label: metric.label,
+          stroke: color,
+          width: 2,
+          paths: splinePath,
+          points: { show: false },
+          spanGaps: false,
+        })
+      }
+    })
+
+    return {
+      cursor: {
+        x: true,
+        y: false,
+        points: { show: false },
+      },
+      legend: { show: false },
+      padding: [16, 8, 0, 20],
+      series,
+      scales: {
+        x: {
+          time: false,
+          distr: 2, // ordinal
+        },
+        y: {
+          range: (_u: uPlot, min: number, max: number) => {
+            // Prevent flat scale crash (uPlot issue #620)
+            if (max === min) return [min, max + 1]
+            // Add 10% padding above
+            const pad = (max - min) * 0.1
+            return [Math.min(0, min), max + pad]
+          },
+        },
+        ...(hasBarMetrics && {
+          y2: {
+            range: (_u: uPlot, _min: number, max: number) => {
+              if (max <= 0) return [0, 1]
+              return [0, max / BAR_SCALE_RATIO]
+            },
+          },
+        }),
+      },
+      axes: [
+        // X axis (bottom)
+        {
+          side: 2,
+          grid: { show: false },
+          ticks: { show: false },
+          stroke: mutedFg,
+          font: '12px system-ui, sans-serif',
+          gap: 8,
+          space: timeframe === 'monthly' ? 90 : 60,
+          splits: (_u: uPlot, _axisIdx: number, scaleMin: number, scaleMax: number) => {
+            const maxTicks = 7
+            const totalPoints = Math.round(scaleMax - scaleMin) + 1
+            if (totalPoints <= maxTicks) {
+              return Array.from({ length: totalPoints }, (_, i) => scaleMin + i)
+            }
+            const totalGap = Math.round(scaleMax - scaleMin)
+            const numGaps = maxTicks - 1
+            const baseGap = Math.floor(totalGap / numGaps)
+            const remainder = totalGap % numGaps
+            const splits: number[] = [scaleMin]
+            let pos = scaleMin
+            for (let i = 1; i <= numGaps; i++) {
+              pos += baseGap + (i > numGaps - remainder ? 1 : 0)
+              splits.push(pos)
+            }
+            return splits
+          },
+          values: (_u: uPlot, splits: number[]) =>
+            splits.map((idx) => {
+              const d = dataRef.current[idx]
+              return d ? formatDateLabel(d.date, timeframe) : ''
+            }),
+        },
+        // Y axis (right)
+        {
+          side: 1,
+          grid: { show: true, stroke: borderColor, width: 1 },
+          ticks: { show: false },
+          stroke: mutedFg,
+          font: '12px system-ui, sans-serif',
+          gap: 8,
+          size: 50,
+          incrs: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000],
+          values: (_u: uPlot, splits: number[]) => splits.map((v) => formatCompactNumber(v)),
+        },
+        ...(hasBarMetrics ? [{
+          scale: 'y2',
+          show: false,
+          side: 3,
+          size: 0,
+          grid: { show: false },
+          ticks: { show: false },
+        }] : []),
+      ],
+      plugins: [tooltipPlugin],
+    }
+  }, [seriesSlots, metrics, timeframe, tooltipPlugin])
+
+  const { containerRef } = useUPlot({ options: makeOptions, data: uData })
+
+  // Build tooltip content
+  const tooltipContent = React.useMemo(() => {
+    if (!tooltip.visible || tooltip.idx == null || tooltip.idx >= data.length) return null
+
+    const idx = tooltip.idx
+    const dataPoint = data[idx]
+    const { formattedDate, dayOfWeek } = formatTooltipDate(dataPoint.date, timeframe)
+
+    // Previous period date
+    const previousDateStr = dataPoint.previousDate as string | null | undefined
+    let prevInfo: { prevFormatted: string; prevDayOfWeek: string } | null = null
+    if (previousDateStr) {
+      prevInfo = formatPrevTooltipDate(previousDateStr, timeframe, compareDateTo)
+    }
+
+    // Collect visible metric values
+    type TooltipEntry = {
+      metricIndex: number
+      kind: 'current' | 'incomplete' | 'previous'
+      value: number | null
+    }
+    const entries: TooltipEntry[] = []
+    const isLastPoint = hasIncompleteData && idx === data.length - 1
+
+    metrics.forEach((metric, metricIndex) => {
+      const isBar = metric.type === 'bar'
+      const isVisible = visibleMetrics[metric.key]
+      const isPrevVisible = visibleMetrics[`${metric.key}Previous`]
+
+      if (isVisible) {
+        const value = (dataPoint[metric.key] as number) ?? null
+        const kind = isLastPoint && !isBar ? 'incomplete' : 'current'
+        entries.push({ metricIndex, kind, value })
+      }
+      if (isPrevVisible && showPreviousPeriod && !isBar) {
+        const prevKey = `${metric.key}Previous`
+        const value = (dataPoint[prevKey] as number) ?? null
+        entries.push({ metricIndex, kind: 'previous', value })
+      }
+    })
+
+    return (
+      <div className="rounded bg-tooltip px-2.5 py-2 shadow-md">
+        <div className="mb-2 text-xs font-medium text-tooltip-foreground">
+          {dayOfWeek ? `${formattedDate} (${dayOfWeek})` : formattedDate}
+        </div>
+        <div className="space-y-1.5">
+          {entries.map((entry) => {
+            const metric = metrics[entry.metricIndex]
+            if (entry.kind === 'previous' && !prevInfo) return null
+
+            const color = metric.color || defaultColors[entry.metricIndex % defaultColors.length]
+            const isBarType = metric.type === 'bar'
+            const displayLabel =
+              entry.kind === 'previous'
+                ? prevInfo!.prevDayOfWeek
+                  ? `${prevInfo!.prevFormatted} (${prevInfo!.prevDayOfWeek})`
+                  : prevInfo!.prevFormatted
+                : metric.label
+            const dashArray = entry.kind === 'previous' ? '3 2' : entry.kind === 'incomplete' ? '3 1.5' : '0'
+
+            return (
+              <div
+                key={`${metric.key}-${entry.kind}`}
+                className="flex items-center justify-between gap-4"
+              >
+                <div className="flex items-center gap-2 text-xs">
+                  <svg width="12" height="12" className={entry.kind === 'previous' ? 'shrink-0 opacity-50' : 'shrink-0'}>
+                    {isBarType ? (
+                      <rect x="0" y="2" width="12" height="8" fill={color} rx="1" />
+                    ) : (
+                      <line
+                        x1="0"
+                        y1="6"
+                        x2="12"
+                        y2="6"
+                        style={{ stroke: color }}
+                        strokeWidth="3"
+                        strokeDasharray={dashArray}
+                      />
+                    )}
+                  </svg>
+                  <span className="text-tooltip-foreground">{displayLabel}</span>
+                </div>
+                <span className="font-medium text-tooltip-foreground tabular-nums">
+                  {entry.value != null ? entry.value : '—'}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }, [tooltip.visible, tooltip.idx, data, metrics, visibleMetrics, timeframe, showPreviousPeriod, compareDateTo, hasIncompleteData])
 
   return (
     <Panel variant={borderless ? 'borderless' : 'default'} className={className}>
@@ -242,14 +561,12 @@ export function LineChart({
         <div
           className={cn(
             'flex w-full',
-            // Stack on mobile, row on tablet+
             'flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4'
           )}
         >
           <div
             className={cn(
               'flex items-center',
-              // Wrap metrics on mobile, gap adjustment
               'flex-wrap gap-3 md:gap-6'
             )}
           >
@@ -269,7 +586,6 @@ export function LineChart({
                         aria-pressed={isCurrentVisible}
                         className={cn(
                           'flex items-center gap-1.5 cursor-pointer transition-opacity',
-                          // Ensure 44px minimum touch target on mobile
                           'min-h-[44px] md:min-h-0 py-2 md:py-0',
                           !isCurrentVisible && 'opacity-50'
                         )}
@@ -353,333 +669,24 @@ export function LineChart({
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         ) : (
-          <ChartContainer config={chartConfig} className="h-[180px] md:h-[220px] lg:h-[250px] w-full">
-            <ComposedChart data={chartData} margin={{ left: 24 }}>
-              <CartesianGrid vertical={false} horizontal={true} stroke="var(--border)" strokeDasharray="0" />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                minTickGap={32}
-                interval={data.length <= 8 ? 0 : Math.ceil(data.length / 8) - 1}
-                tick={({ x, y, payload, index, visibleTicksCount }) => {
-                  // Determine text anchor based on position
-                  // First tick: start (left-aligned), Last tick: end (right-aligned), Middle: middle
-                  const isFirst = index === 0
-                  const isLast = visibleTicksCount ? index === visibleTicksCount - 1 : false
-                  const textAnchor = isFirst ? 'start' : isLast ? 'end' : 'middle'
-
-                  // Format the label (same logic as tickFormatter)
-                  const value = payload.value
-                  let formattedLabel: string
-
-                  // Handle week format "YYYYWW" (e.g., "202539" = week 39 of 2025)
-                  if (timeframe === 'weekly' && /^\d{6}$/.test(value)) {
-                    const year = parseInt(value.substring(0, 4), 10)
-                    const week = parseInt(value.substring(4, 6), 10)
-                    const firstDayOfYear = new Date(year, 0, 1)
-                    const dayOfWeek = firstDayOfYear.getDay()
-                    const daysToMonday = dayOfWeek === 0 ? 1 : dayOfWeek === 1 ? 0 : 8 - dayOfWeek
-                    const firstMonday = new Date(year, 0, 1 + daysToMonday)
-                    const startDate = new Date(firstMonday)
-                    startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
-                    const endDate = new Date(startDate)
-                    endDate.setDate(startDate.getDate() + 6)
-                    formattedLabel = `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
-                  } else if (timeframe === 'monthly' && /^\d{6}$/.test(value)) {
-                    // Handle month format "YYYYMM"
-                    const year = parseInt(value.substring(0, 4), 10)
-                    const month = parseInt(value.substring(4, 6), 10) - 1
-                    const date = new Date(year, month, 1)
-                    formattedLabel = date.toLocaleDateString('en-US', { month: 'long' })
-                  } else {
-                    const date = new Date(value)
-                    if (timeframe === 'monthly') {
-                      formattedLabel = date.toLocaleDateString('en-US', { month: 'long' })
-                    } else if (timeframe === 'weekly') {
-                      const endDate = new Date(date)
-                      endDate.setDate(endDate.getDate() + 6)
-                      formattedLabel = `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
-                    } else {
-                      formattedLabel = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                    }
-                  }
-
-                  return (
-                    <text x={x} y={y + 8} fill="var(--muted-foreground)" fontSize={12} textAnchor={textAnchor}>
-                      {formattedLabel}
-                    </text>
-                  )
+          <div ref={wrapperRef} className="relative h-[180px] md:h-[220px] lg:h-[250px] w-full animate-in fade-in duration-500">
+            <div ref={containerRef} className="absolute inset-0" />
+            {tooltip.visible && tooltipContent && (
+              <div
+                ref={tooltipRef}
+                className="pointer-events-none absolute z-10"
+                style={{
+                  left: Math.min(
+                    tooltip.left,
+                    (wrapperRef.current?.offsetWidth ?? 400) - (tooltipRef.current?.offsetWidth ?? 200)
+                  ),
+                  top: Math.max(0, tooltip.top - (tooltipRef.current?.offsetHeight ?? 0) - 8),
                 }}
-                tickFormatter={(value) => {
-                  // Handle week format "YYYYWW" (e.g., "202539" = week 39 of 2025)
-                  if (timeframe === 'weekly' && /^\d{6}$/.test(value)) {
-                    const year = parseInt(value.substring(0, 4), 10)
-                    const week = parseInt(value.substring(4, 6), 10)
-                    // Get the first day of the year
-                    const firstDayOfYear = new Date(year, 0, 1)
-                    // Calculate days to add: (week - 1) * 7, then adjust to Monday
-                    const dayOfWeek = firstDayOfYear.getDay()
-                    const daysToMonday = dayOfWeek === 0 ? 1 : dayOfWeek === 1 ? 0 : 8 - dayOfWeek
-                    const firstMonday = new Date(year, 0, 1 + daysToMonday)
-                    const startDate = new Date(firstMonday)
-                    startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
-                    const endDate = new Date(startDate)
-                    endDate.setDate(startDate.getDate() + 6)
-                    return `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
-                  }
-                  // Handle month format "YYYYMM" (e.g., "202509" = September 2025)
-                  if (timeframe === 'monthly' && /^\d{6}$/.test(value)) {
-                    const year = parseInt(value.substring(0, 4), 10)
-                    const month = parseInt(value.substring(4, 6), 10) - 1
-                    const date = new Date(year, month, 1)
-                    return date.toLocaleDateString('en-US', { month: 'long' })
-                  }
-                  const date = new Date(value)
-                  if (timeframe === 'monthly') {
-                    return date.toLocaleDateString('en-US', {
-                      month: 'long',
-                    })
-                  } else if (timeframe === 'weekly') {
-                    // Format as "Month Day to Month Day"
-                    const endDate = new Date(date)
-                    endDate.setDate(endDate.getDate() + 6)
-                    return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
-                  } else {
-                    return date.toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                    })
-                  }
-                }}
-              />
-              <YAxis
-                orientation="right"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                tickCount={5}
-                allowDecimals={false}
-                tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
-                tickFormatter={(value) => formatCompactNumber(value)}
-              />
-              <ChartTooltip
-                content={({ active, payload, label }) => {
-                  if (!active || !payload || !payload.length) return null
-
-                  let formattedDate: string
-                  let dayOfWeek: string = ''
-
-                  // Handle week format "YYYYWW" (e.g., "202539" = week 39 of 2025)
-                  if (timeframe === 'weekly' && /^\d{6}$/.test(label)) {
-                    const year = parseInt(label.substring(0, 4), 10)
-                    const week = parseInt(label.substring(4, 6), 10)
-                    const firstDayOfYear = new Date(year, 0, 1)
-                    const dayOfWeekNum = firstDayOfYear.getDay()
-                    const daysToMonday = dayOfWeekNum === 0 ? 1 : dayOfWeekNum === 1 ? 0 : 8 - dayOfWeekNum
-                    const firstMonday = new Date(year, 0, 1 + daysToMonday)
-                    const startDate = new Date(firstMonday)
-                    startDate.setDate(firstMonday.getDate() + (week - 1) * 7)
-                    const endDate = new Date(startDate)
-                    endDate.setDate(startDate.getDate() + 6)
-                    formattedDate = `${startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} to ${endDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`
-                  }
-                  // Handle month format "YYYYMM" (e.g., "202509" = September 2025)
-                  else if (timeframe === 'monthly' && /^\d{6}$/.test(label)) {
-                    const year = parseInt(label.substring(0, 4), 10)
-                    const month = parseInt(label.substring(4, 6), 10) - 1
-                    const startDate = new Date(year, month, 1)
-                    const endDate = new Date(year, month + 1, 0) // Last day of month
-                    formattedDate = `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} to ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
-                  } else {
-                    const date = new Date(label)
-                    if (timeframe === 'monthly') {
-                      formattedDate = date.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                      })
-                      const endDate = new Date(date)
-                      endDate.setMonth(endDate.getMonth() + 1)
-                      endDate.setDate(0) // Last day of the month
-                      const endFormatted = endDate.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                      })
-                      formattedDate = `${formattedDate} to ${endFormatted}`
-                    } else if (timeframe === 'weekly') {
-                      formattedDate = date.toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                      })
-                      const endDate = new Date(date)
-                      endDate.setDate(endDate.getDate() + 6)
-                      const endFormatted = endDate.toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                      })
-                      formattedDate = `${formattedDate} to ${endFormatted}`
-                    } else {
-                      formattedDate = date.toLocaleDateString('en-US', {
-                        day: 'numeric',
-                        month: 'short',
-                      })
-                      dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' })
-                    }
-                  }
-
-                  // Group payload by metric (current + previous together)
-                  const groupedData: TooltipPayloadEntry[] = []
-                  metrics.forEach((metric) => {
-                    // Find current entry - check original key first, then _solid/_dotted variants
-                    let currentEntry = payload.find((p) => (p as TooltipPayloadEntry).dataKey === metric.key) as
-                      | TooltipPayloadEntry
-                      | undefined
-                    if (!currentEntry) {
-                      // When hasIncompleteData is true, check _solid and _dotted keys
-                      const solidEntry = payload.find(
-                        (p) => (p as TooltipPayloadEntry).dataKey === `${metric.key}_solid`
-                      ) as TooltipPayloadEntry | undefined
-                      const dottedEntry = payload.find(
-                        (p) => (p as TooltipPayloadEntry).dataKey === `${metric.key}_dotted`
-                      ) as TooltipPayloadEntry | undefined
-                      // Use whichever has a non-null value
-                      if (solidEntry && solidEntry.value != null) {
-                        currentEntry = { ...solidEntry, dataKey: metric.key }
-                      } else if (dottedEntry && dottedEntry.value != null) {
-                        currentEntry = { ...dottedEntry, dataKey: metric.key }
-                      }
-                    }
-                    const previousEntry = payload.find(
-                      (p) => (p as TooltipPayloadEntry).dataKey === `${metric.key}Previous`
-                    ) as TooltipPayloadEntry | undefined
-
-                    if (currentEntry) {
-                      groupedData.push(currentEntry)
-                    }
-                    if (previousEntry) {
-                      groupedData.push(previousEntry)
-                    }
-                  })
-
-                  // Get previous period date from data (index-based alignment)
-                  // When comparing periods of different lengths, previousDate may be null
-                  const dataPoint = data.find((d) => d.date === label)
-                  const previousDateStr = dataPoint?.previousDate as string | null | undefined
-                  let prevFormatted: string | null = null
-                  let prevDayOfWeek: string = ''
-
-                  if (previousDateStr) {
-                    const previousDate = new Date(previousDateStr)
-                    // Cap end date to actual PP end date (compareDateTo) to handle partial periods
-                    const actualPpEndDate = compareDateTo ? new Date(compareDateTo) : null
-
-                    if (timeframe === 'monthly') {
-                      prevFormatted = previousDate.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                      })
-                      let prevEndDate = new Date(previousDate)
-                      prevEndDate.setMonth(prevEndDate.getMonth() + 1)
-                      prevEndDate.setDate(0) // Last day of month
-                      // Cap to actual PP end date if it's earlier
-                      if (actualPpEndDate && actualPpEndDate < prevEndDate) {
-                        prevEndDate = actualPpEndDate
-                      }
-                      const prevEndFormatted = prevEndDate.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                      })
-                      prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
-                    } else if (timeframe === 'weekly') {
-                      prevFormatted = previousDate.toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                      })
-                      let prevEndDate = new Date(previousDate)
-                      prevEndDate.setDate(prevEndDate.getDate() + 6) // End of week
-                      // Cap to actual PP end date if it's earlier
-                      if (actualPpEndDate && actualPpEndDate < prevEndDate) {
-                        prevEndDate = actualPpEndDate
-                      }
-                      const prevEndFormatted = prevEndDate.toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                      })
-                      prevFormatted = `${prevFormatted} To ${prevEndFormatted}`
-                    } else {
-                      prevFormatted = previousDate.toLocaleDateString('en-US', {
-                        day: 'numeric',
-                        month: 'short',
-                      })
-                      prevDayOfWeek = previousDate.toLocaleDateString('en-US', { weekday: 'short' })
-                    }
-                  }
-
-                  return (
-                    <div className="rounded bg-tooltip px-2.5 py-2 shadow-md">
-                      <div className="mb-2 text-xs font-medium text-tooltip-foreground">
-                        {dayOfWeek ? `${formattedDate} (${dayOfWeek})` : formattedDate}
-                      </div>
-                      <div className="space-y-1.5">
-                        {groupedData.map((entry) => {
-                          const isPrevious = entry.dataKey.includes('Previous')
-                          const baseKey = entry.dataKey.replace('Previous', '')
-                          const baseMetric = metrics.find((m) => m.key === baseKey)
-
-                          if (!baseMetric) return null
-
-                          // Skip rendering previous period row if no data for this index
-                          // (happens when PP is shorter than main period)
-                          if (isPrevious && !prevFormatted) return null
-
-                          const color = baseMetric.color || entry.color
-                          const displayLabel = isPrevious
-                            ? prevDayOfWeek
-                              ? `${prevFormatted} (${prevDayOfWeek})`
-                              : prevFormatted
-                            : baseMetric.label
-
-                          const isBarType = baseMetric.type === 'bar'
-
-                          return (
-                            <div key={entry.dataKey} className="flex items-center justify-between gap-4">
-                              <div className="flex items-center gap-2 text-xs">
-                                <svg
-                                  width="12"
-                                  height="12"
-                                  className={isPrevious ? 'shrink-0 opacity-50' : 'shrink-0'}
-                                >
-                                  {isBarType ? (
-                                    <rect x="0" y="2" width="12" height="8" fill={color} rx="1" />
-                                  ) : (
-                                    <line
-                                      x1="0"
-                                      y1="6"
-                                      x2="12"
-                                      y2="6"
-                                      style={{ stroke: color }}
-                                      strokeWidth="3"
-                                      strokeDasharray={isPrevious ? '3 2' : '0'}
-                                    />
-                                  )}
-                                </svg>
-                                <span className="text-tooltip-foreground">{displayLabel}</span>
-                              </div>
-                              <span className="font-medium text-tooltip-foreground tabular-nums">{entry.value}</span>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )
-                }}
-              />
-              {barElements}
-              {currentLines}
-              {previousLines}
-            </ComposedChart>
-          </ChartContainer>
+              >
+                {tooltipContent}
+              </div>
+            )}
+          </div>
         )}
       </PanelContent>
     </Panel>

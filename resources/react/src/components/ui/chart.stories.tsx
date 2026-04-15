@@ -1,107 +1,66 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Bar, BarChart, Line, LineChart, XAxis, YAxis } from 'recharts'
 
-import {
-  type ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from './chart'
+import type { LineChartDataPoint, LineChartMetric } from '../custom/line-chart'
+import { LineChart } from '../custom/line-chart'
+
+const generateData = (): LineChartDataPoint[] => {
+  const data: LineChartDataPoint[] = []
+  const startDate = new Date('2025-04-01')
+  for (let i = 0; i < 14; i++) {
+    const date = new Date(startDate)
+    date.setDate(startDate.getDate() + i)
+    data.push({
+      date: date.toISOString().split('T')[0],
+      visitors: Math.floor(Math.random() * 100 + 150),
+      visitorsPrevious: Math.floor(Math.random() * 80 + 120),
+      views: Math.floor(Math.random() * 200 + 300),
+      viewsPrevious: Math.floor(Math.random() * 180 + 250),
+    })
+  }
+  return data
+}
+
+const metrics: LineChartMetric[] = [
+  { key: 'visitors', label: 'Visitors', value: '2.4K', previousValue: '1.9K' },
+  { key: 'views', label: 'Views', value: '5.1K', previousValue: '4.3K' },
+]
 
 const meta = {
   title: 'UI/Chart',
-  component: ChartContainer,
-  parameters: {
-    layout: 'centered',
-  },
+  component: LineChart,
+  parameters: { layout: 'padded' },
   tags: ['autodocs'],
-} satisfies Meta<typeof ChartContainer>
+} satisfies Meta<typeof LineChart>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-const sampleData = [
-  { month: 'Jan', visitors: 186, pageViews: 305 },
-  { month: 'Feb', visitors: 305, pageViews: 420 },
-  { month: 'Mar', visitors: 237, pageViews: 380 },
-  { month: 'Apr', visitors: 173, pageViews: 290 },
-  { month: 'May', visitors: 209, pageViews: 350 },
-  { month: 'Jun', visitors: 214, pageViews: 380 },
-]
-
-const chartConfig: ChartConfig = {
-  visitors: {
-    label: 'Visitors',
-    color: 'hsl(var(--chart-1))',
-  },
-  pageViews: {
-    label: 'Page Views',
-    color: 'hsl(var(--chart-2))',
+export const LineChartExample: Story = {
+  args: {
+    data: generateData(),
+    metrics,
+    title: 'Traffic Overview',
+    showPreviousPeriod: true,
   },
 }
 
 export const BarChartExample: Story = {
-  render: () => (
-    <ChartContainer config={chartConfig} className="h-[300px] w-[500px]">
-      <BarChart data={sampleData}>
-        <XAxis dataKey="month" />
-        <YAxis />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <ChartLegend content={<ChartLegendContent />} />
-        <Bar dataKey="visitors" fill="var(--color-visitors)" radius={4} />
-        <Bar dataKey="pageViews" fill="var(--color-pageViews)" radius={4} />
-      </BarChart>
-    </ChartContainer>
-  ),
-}
-
-export const LineChartExample: Story = {
-  render: () => (
-    <ChartContainer config={chartConfig} className="h-[300px] w-[500px]">
-      <LineChart data={sampleData}>
-        <XAxis dataKey="month" />
-        <YAxis />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <ChartLegend content={<ChartLegendContent />} />
-        <Line type="monotone" dataKey="visitors" stroke="var(--color-visitors)" strokeWidth={2} />
-        <Line type="monotone" dataKey="pageViews" stroke="var(--color-pageViews)" strokeWidth={2} />
-      </LineChart>
-    </ChartContainer>
-  ),
-}
-
-export const SingleBarChart: Story = {
-  render: () => {
-    const singleConfig: ChartConfig = {
-      visitors: {
-        label: 'Visitors',
-        color: 'hsl(var(--chart-1))',
-      },
-    }
-    return (
-      <ChartContainer config={singleConfig} className="h-[300px] w-[500px]">
-        <BarChart data={sampleData}>
-          <XAxis dataKey="month" />
-          <YAxis />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <Bar dataKey="visitors" fill="var(--color-visitors)" radius={4} />
-        </BarChart>
-      </ChartContainer>
-    )
+  args: {
+    data: generateData(),
+    metrics: [
+      { key: 'visitors', label: 'Visitors', type: 'bar', value: '2.4K' },
+      { key: 'views', label: 'Views', value: '5.1K', previousValue: '4.3K' },
+    ],
+    title: 'Mixed Line + Bar',
+    showPreviousPeriod: true,
   },
 }
 
-export const WithDashedIndicator: Story = {
-  render: () => (
-    <ChartContainer config={chartConfig} className="h-[300px] w-[500px]">
-      <LineChart data={sampleData}>
-        <XAxis dataKey="month" />
-        <YAxis />
-        <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
-        <Line type="monotone" dataKey="visitors" stroke="var(--color-visitors)" strokeWidth={2} />
-      </LineChart>
-    </ChartContainer>
-  ),
+export const SingleMetric: Story = {
+  args: {
+    data: generateData(),
+    metrics: [{ key: 'visitors', label: 'Visitors', value: '2.4K' }],
+    title: 'Single Metric',
+    showPreviousPeriod: false,
+  },
 }

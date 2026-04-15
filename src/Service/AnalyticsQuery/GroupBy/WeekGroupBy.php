@@ -18,4 +18,9 @@ class WeekGroupBy extends AbstractGroupBy
     ];
     protected $groupBy      = 'YEARWEEK(sessions.started_at, 1)';
     protected $order        = 'ASC';
+
+    public function getTimeSeriesConfig(): ?array
+    {
+        return ['interval' => 'P1W', 'format' => 'Y-m-d', 'startAdjust' => 'monday this week'];
+    }
 }
