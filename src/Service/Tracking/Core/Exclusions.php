@@ -75,9 +75,17 @@ class Exclusions extends Singleton
     private static function getExclusionMap()
     {
         return [
+            'prefetch'        => [
+                'message' => 'Prefetch',
+                'method'  => 'exclusionPrefetch',
+            ],
             'robot'           => [
                 'message' => 'Robot',
                 'method'  => 'exclusionRobot',
+            ],
+            'headless'        => [
+                'message' => 'Headless Browser',
+                'method'  => 'exclusionHeadless',
             ],
             'broken_file'     => [
                 'message' => 'Broken Link',
@@ -486,6 +494,55 @@ class Exclusions extends Singleton
         }
 
         return false;
+    }
+
+    /**
+     * Exclude browser prefetch and prerender subresource requests.
+     *
+     * Chrome Speculation Rules, Firefox link prefetching, and <link rel="prefetch">
+     * forward Purpose / Sec-Purpose / X-Moz headers on subresource requests
+     * (including the /hit REST call) issued from prefetched or prerendered
+     * documents. These pageviews should not be recorded since the user may
+     * never visit the page.
+     *
+     * @param Visitor $visitor Unused; kept for map call-convention consistency.
+     * @return bool True when any prefetch header is present.
+     */
+    public static function exclusionPrefetch(Visitor $visitor)
+    {
+        foreach (['HTTP_PURPOSE', 'HTTP_SEC_PURPOSE', 'HTTP_X_MOZ'] as $header) {
+            if (!empty($_SERVER[$header]) && stripos($_SERVER[$header], 'prefetch') !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Exclude headless browsers and automation tools.
+     *
+     * Device Detector intentionally classifies Headless Chrome and PhantomJS as
+     * regular browsers (matomo-org/device-detector#5691, #7441), so they pass
+     * exclusionRobot's isBot() check. Puppeteer / Playwright / Selenium aren't
+     * in DD at all, hence the raw-UA regex fallback.
+     *
+     * @param Visitor $visitor
+     * @return bool True when the UA identifies a headless browser or automation tool.
+     */
+    public static function exclusionHeadless(Visitor $visitor)
+    {
+        $userAgent = $visitor->getUserAgent();
+        $browser   = $userAgent ? $userAgent->getBrowser() : '';
+
+        if (in_array($browser, ['Headless Chrome', 'PhantomJS'], true)) {
+            return true;
+        }
+
+        return (bool) preg_match(
+            '/Puppeteer|Playwright|Selenium/i',
+            $visitor->getHttpUserAgent()
+        );
     }
 
     /**

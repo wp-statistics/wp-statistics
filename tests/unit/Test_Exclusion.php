@@ -144,16 +144,32 @@ class Test_Exclusion extends WP_UnitTestCase
 
         // Note: PHP's array_keys() converts numeric string keys like '404' to int 404,
         // so we use loose comparison (in_array without strict) for the check.
-        $expectedKeys = ['robot', 'broken_file', 'ip_match', 'feed', '404', 'excluded_url', 'user_role', 'geoip', 'robot_threshold'];
+        $expectedKeys = ['prefetch', 'robot', 'headless', 'broken_file', 'ip_match', 'feed', '404', 'excluded_url', 'user_role', 'geoip', 'robot_threshold'];
         foreach ($expectedKeys as $key) {
             $this->assertTrue(in_array($key, $list), "Active key '{$key}' should be in exclusion list");
         }
     }
 
-    public function test_exclusion_map_has_exactly_9_checks()
+    public function test_exclusion_map_has_exactly_11_checks()
     {
         $list = Exclusions::getExclusionList();
-        $this->assertCount(9, $list);
+        $this->assertCount(11, $list);
+    }
+
+    public function test_exclusion_map_order_puts_prefetch_first_and_headless_after_robot()
+    {
+        $list = Exclusions::getExclusionList();
+
+        $prefetchIdx = array_search('prefetch', $list);
+        $robotIdx    = array_search('robot', $list);
+        $headlessIdx = array_search('headless', $list);
+
+        $this->assertNotFalse($prefetchIdx, 'prefetch must be present');
+        $this->assertNotFalse($robotIdx, 'robot must be present');
+        $this->assertNotFalse($headlessIdx, 'headless must be present');
+
+        $this->assertLessThan($robotIdx, $prefetchIdx, 'prefetch must run before robot');
+        $this->assertLessThan($headlessIdx, $robotIdx, 'robot must run before headless');
     }
 
     // ─── Feed Exclusion ───────────────────────────────────────────────
@@ -420,5 +436,152 @@ class Test_Exclusion extends WP_UnitTestCase
         $result = Exclusions::check($this->mockVisitor());
         $this->assertTrue($result['exclusion_match']);
         $this->assertSame('test_cached', $result['exclusion_reason']);
+    }
+
+    // ─── Prefetch Exclusion ───────────────────────────────────────────
+
+    public function test_exclusion_prefetch_detects_sec_purpose_prefetch()
+    {
+        $_SERVER['HTTP_SEC_PURPOSE'] = 'prefetch';
+        $this->assertTrue(Exclusions::exclusionPrefetch($this->mockVisitor()));
+        unset($_SERVER['HTTP_SEC_PURPOSE']);
+    }
+
+    public function test_exclusion_prefetch_detects_sec_purpose_prerender()
+    {
+        $_SERVER['HTTP_SEC_PURPOSE'] = 'prefetch;prerender';
+        $this->assertTrue(Exclusions::exclusionPrefetch($this->mockVisitor()));
+        unset($_SERVER['HTTP_SEC_PURPOSE']);
+    }
+
+    public function test_exclusion_prefetch_detects_legacy_purpose_header()
+    {
+        $_SERVER['HTTP_PURPOSE'] = 'prefetch';
+        $this->assertTrue(Exclusions::exclusionPrefetch($this->mockVisitor()));
+        unset($_SERVER['HTTP_PURPOSE']);
+    }
+
+    public function test_exclusion_prefetch_detects_x_moz_header()
+    {
+        $_SERVER['HTTP_X_MOZ'] = 'prefetch';
+        $this->assertTrue(Exclusions::exclusionPrefetch($this->mockVisitor()));
+        unset($_SERVER['HTTP_X_MOZ']);
+    }
+
+    public function test_exclusion_prefetch_is_case_insensitive()
+    {
+        $_SERVER['HTTP_SEC_PURPOSE'] = 'PREFETCH';
+        $this->assertTrue(Exclusions::exclusionPrefetch($this->mockVisitor()));
+        unset($_SERVER['HTTP_SEC_PURPOSE']);
+    }
+
+    public function test_exclusion_prefetch_ignores_missing_headers()
+    {
+        unset($_SERVER['HTTP_PURPOSE'], $_SERVER['HTTP_SEC_PURPOSE'], $_SERVER['HTTP_X_MOZ']);
+        $this->assertFalse(Exclusions::exclusionPrefetch($this->mockVisitor()));
+    }
+
+    public function test_exclusion_prefetch_ignores_unrelated_values()
+    {
+        $_SERVER['HTTP_SEC_PURPOSE'] = 'navigate';
+        $this->assertFalse(Exclusions::exclusionPrefetch($this->mockVisitor()));
+        unset($_SERVER['HTTP_SEC_PURPOSE']);
+    }
+
+    // ─── Headless Exclusion ───────────────────────────────────────────
+
+    public function test_exclusion_headless_detects_headless_chrome()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/120.0.0.0 Safari/537.36';
+        $this->assertTrue(Exclusions::exclusionHeadless($this->mockVisitor()));
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_exclusion_headless_detects_phantomjs()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1';
+        $this->assertTrue(Exclusions::exclusionHeadless($this->mockVisitor()));
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_exclusion_headless_detects_puppeteer_ua()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 Puppeteer/21.0.0';
+        $this->assertTrue(Exclusions::exclusionHeadless($this->mockVisitor()));
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_exclusion_headless_detects_playwright_ua()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 Playwright/1.40.0';
+        $this->assertTrue(Exclusions::exclusionHeadless($this->mockVisitor()));
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_exclusion_headless_detects_selenium_ua()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 selenium/4.15.0';
+        $this->assertTrue(Exclusions::exclusionHeadless($this->mockVisitor()));
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_exclusion_headless_allows_normal_chrome()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+        $this->assertFalse(Exclusions::exclusionHeadless($this->mockVisitor()));
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_exclusion_headless_allows_firefox()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0';
+        $this->assertFalse(Exclusions::exclusionHeadless($this->mockVisitor()));
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_exclusion_headless_allows_empty_ua()
+    {
+        unset($_SERVER['HTTP_USER_AGENT']);
+        $this->assertFalse(Exclusions::exclusionHeadless($this->mockVisitor()));
+    }
+
+    // ─── check() integration for new exclusions ───────────────────────
+
+    public function test_check_returns_prefetch_reason_when_header_present()
+    {
+        $_SERVER['HTTP_SEC_PURPOSE'] = 'prefetch';
+        $_SERVER['HTTP_USER_AGENT']  = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+
+        $result = Exclusions::check($this->mockVisitor());
+
+        $this->assertTrue($result['exclusion_match']);
+        $this->assertSame('prefetch', $result['exclusion_reason']);
+
+        unset($_SERVER['HTTP_SEC_PURPOSE'], $_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_check_returns_headless_reason_when_only_ua_is_headless()
+    {
+        unset($_SERVER['HTTP_PURPOSE'], $_SERVER['HTTP_SEC_PURPOSE'], $_SERVER['HTTP_X_MOZ']);
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/120.0.0.0 Safari/537.36';
+
+        $result = Exclusions::check($this->mockVisitor());
+
+        $this->assertTrue($result['exclusion_match']);
+        $this->assertSame('headless', $result['exclusion_reason']);
+
+        unset($_SERVER['HTTP_USER_AGENT']);
+    }
+
+    public function test_check_prefers_prefetch_over_headless_when_both_match()
+    {
+        $_SERVER['HTTP_SEC_PURPOSE'] = 'prefetch';
+        $_SERVER['HTTP_USER_AGENT']  = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/120.0.0.0 Safari/537.36';
+
+        $result = Exclusions::check($this->mockVisitor());
+
+        $this->assertSame('prefetch', $result['exclusion_reason']);
+
+        unset($_SERVER['HTTP_SEC_PURPOSE'], $_SERVER['HTTP_USER_AGENT']);
     }
 }

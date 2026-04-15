@@ -15,6 +15,15 @@ import * as navigation from '../spa/navigation.js';
 var hasInitialized = false;
 
 export function init() {
+    // Defer until a prerendered document is activated by user navigation.
+    // If we fired during prerender, the server would drop the hit via
+    // Sec-Purpose, and activation doesn't re-run scripts — the real pageview
+    // would be lost. Discarded prerenders GC the listener with the document.
+    if (document.prerendering) {
+        document.addEventListener('prerenderingchange', init, { once: true });
+        return;
+    }
+
     var config = getConfig();
     if (!config || !config.option) {
         console.error('WP Statistics: Tracker configuration (WP_Statistics_Tracker_Object) is missing. Tracking disabled.');
