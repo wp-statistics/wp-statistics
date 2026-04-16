@@ -72,14 +72,6 @@ function buildBackgroundProcessTrackerScript(done) {
     done()
 }
 
-// Gulp TinyMce Script
-function tineMCE(done) {
-    gulp.src(['./assets/dev/javascript/Tinymce/*.js'])
-        .pipe(concat('tinymce.min.js'))
-        .pipe(gulp.dest('./assets/js/')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/'));
-    done()
-}
-
 // Gulp Frontend Script
 function frontScripts(done) {
     const jsFiles = [
@@ -193,7 +185,6 @@ exports.compileSass = buildStyles;
 exports.script = buildScripts;
 exports.backgroundProcessTrackerScript = buildBackgroundProcessTrackerScript;
 exports.chartScript = chartScripts;
-exports.mce = tineMCE;
 exports.frontScript = frontScripts;
 exports.miniChart = miniChart;
 exports.concatScripts = concatScripts;

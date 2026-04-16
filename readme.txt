@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.0
-Stable tag: 14.16.5
+Stable tag: 14.16.6
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -146,6 +146,11 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.6 - 2026-04-16 =
+- **Fix:** Removed legacy TinyMCE integration that caused "Failed to load plugin" errors in the classic editor, especially with themes like Corvix and Avada.
+- **Fix:** Excluded browser prefetch and prerender requests that were inflating visit counts.
+- **Fix:** Excluded headless browsers and automation tools (Headless Chrome, PhantomJS, Puppeteer, Playwright, Selenium) that were being counted as real visitors.
+
 = 14.16.5 - 2026-04-11 =
 - **Enhancement:** Simplify WP Consent API consent level logic.
 - **Enhancement:** Hardened plugin security and improvement
