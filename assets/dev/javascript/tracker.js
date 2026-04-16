@@ -1,4 +1,12 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function handler() {
+    // Defer until a prerendered document is activated by user navigation.
+    // The server drops prerender hits via Sec-Purpose, and activation does
+    // not re-run scripts — without this gate the real pageview is lost.
+    if (document.prerendering) {
+        document.addEventListener('prerenderingchange', handler, { once: true });
+        return;
+    }
+
     const consentIntegration = WP_Statistics_Tracker_Object.option.consentIntegration.name;
 
     // If there's no consent integration, or borlabs cookie integration is enabled
