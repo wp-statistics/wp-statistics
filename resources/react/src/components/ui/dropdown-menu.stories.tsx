@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import {
   Cloud,
   CreditCard,
-  Github,
+  GitBranch,
   Keyboard,
   LifeBuoy,
   LogOut,
@@ -162,7 +162,7 @@ export const WithSubMenu: Story = {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Github />
+          <GitBranch />
           <span>GitHub</span>
         </DropdownMenuItem>
         <DropdownMenuItem>

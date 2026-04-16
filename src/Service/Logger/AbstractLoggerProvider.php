@@ -42,7 +42,6 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
         // Notices
         E_NOTICE => 'notice',
         E_USER_NOTICE => 'notice',
-        E_STRICT => 'notice',
 
         // Deprecation notices
         E_DEPRECATED => 'deprecated',

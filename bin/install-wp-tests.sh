@@ -197,6 +197,22 @@ install_db() {
 	fi
 }
 
+install_geoip_stub() {
+	# Provide a GeoIP database so MaxmindGeoIPProvider/DbIpProvider don't log
+	# "Failed to initialize GeoIP reader" during tests. That log message is
+	# otherwise converted to a PHPUnit exception by convertErrorsToExceptions
+	# in phpunit.xml.dist, failing every test that constructs a geo provider.
+	local GEOIP_DIR="$WP_CORE_DIR/wp-content/uploads/wp-statistics"
+	local GEOIP_DB="$GEOIP_DIR/GeoLite2-City.mmdb"
+
+	if [ ! -f "$GEOIP_DB" ]; then
+		mkdir -p "$GEOIP_DIR"
+		download "https://cdn.jsdelivr.net/npm/geolite2-city/GeoLite2-City.mmdb.gz" "$GEOIP_DB.gz"
+		gunzip -f "$GEOIP_DB.gz"
+	fi
+}
+
 install_wp
 install_test_suite
 install_db
+install_geoip_stub
