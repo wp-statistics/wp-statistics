@@ -409,7 +409,9 @@ function OverviewContent({
     if (!isPerWidgetPresetPage) return {} as Record<string, WidgetDateRange>
     const ranges: Record<string, WidgetDateRange> = {}
     for (const widget of config.widgets) {
-      if (!widget.queryId || widget.type === 'traffic-summary') continue
+      if (widget.type === 'traffic-summary') continue
+      // Metrics widgets have no queryId — their metrics each declare their own. Still include them so they get a picker.
+      if (!widget.queryId && widget.type !== 'metrics') continue
       ranges[widget.id] = computeWidgetDateRange(getWidgetPreset(widget.id), isCompareEnabled, comparisonMode)
     }
     return ranges
@@ -420,12 +422,24 @@ function OverviewContent({
     if (!isPerWidgetPresetPage) return undefined
     const overrides: Record<string, { date_from: string; date_to: string; previous_date_from?: string; previous_date_to?: string }> = {}
     for (const widget of config.widgets) {
-      if (!widget.queryId || widget.type === 'traffic-summary') continue
+      if (widget.type === 'traffic-summary') continue
       const dates = widgetDateRanges[widget.id]
-      if (dates) overrides[widget.queryId] = dates.apiDateParams
+      if (!dates) continue
+      if (widget.type === 'metrics') {
+        // Metrics widget: fan the override out to every query its metrics read from.
+        const queryIds = new Set<string>()
+        for (const m of config.metrics) {
+          if (m.queryId) queryIds.add(m.queryId)
+          if (m.computed?.numeratorQueryId) queryIds.add(m.computed.numeratorQueryId)
+          if (m.computed?.denominatorQueryId) queryIds.add(m.computed.denominatorQueryId)
+        }
+        for (const qid of queryIds) overrides[qid] = dates.apiDateParams
+        continue
+      }
+      if (widget.queryId) overrides[widget.queryId] = dates.apiDateParams
     }
     return overrides
-  }, [config.widgets, widgetDateRanges, isPerWidgetPresetPage])
+  }, [config.widgets, config.metrics, widgetDateRanges, isPerWidgetPresetPage])
 
   // Traffic summary: parallel fixed-period queries (independent from main batch)
   const trafficSummaryWidget = useMemo(
@@ -517,6 +531,10 @@ function OverviewContent({
   const overviewMetrics = useMemo(() => {
     const items = batchResponse?.data?.items
     if (!items) return []
+    // When the metrics widget uses its own preset, the tooltip label must reflect that, not the global range.
+    const metricsWidget = config.widgets.find((w) => w.type === 'metrics')
+    const metricsComparisonLabel =
+      (metricsWidget && widgetDateRanges[metricsWidget.id]?.comparisonDateLabel) || comparisonDateLabel
     return config.metrics
       .filter((m) => isMetricVisible(m.id))
       .map((m) => {
@@ -590,14 +608,14 @@ function OverviewContent({
             value: formatted,
             ...(linkHref && { linkHref }),
             ...calcPercentage(current, previous),
-            comparisonDateLabel,
+            comparisonDateLabel: metricsComparisonLabel,
             previousValue: formatValue(previous),
           }
         }
 
         return { id: m.id, label: m.label, value: formatted, ...(linkHref && { linkHref }) }
       })
-  }, [batchResponse, config.metrics, isMetricVisible, isCompareEnabled, calcPercentage, comparisonDateLabel])
+  }, [batchResponse, config.metrics, config.widgets, widgetDateRanges, isMetricVisible, isCompareEnabled, calcPercentage, comparisonDateLabel])
 
   // Pre-compute map data for map widgets
   const mapDataByWidgetId = useMemo(() => {
