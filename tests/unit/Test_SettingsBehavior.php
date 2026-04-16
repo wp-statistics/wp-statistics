@@ -70,12 +70,14 @@ class Test_SettingsBehavior extends WP_UnitTestCase
 
         foreach ($statics as $name => $default) {
             $prop = $rc->getProperty($name);
+            $prop->setAccessible(true);
             $prop->setValue(null, $default);
         }
 
         // Reset singleton instance so check() can be called fresh
         if ($rc->hasProperty('instance')) {
             $prop = $rc->getProperty('instance');
+            $prop->setAccessible(true);
             $prop->setValue(null, null);
         }
     }
@@ -83,6 +85,7 @@ class Test_SettingsBehavior extends WP_UnitTestCase
     private function setExclusionsOptions(array $opts): void
     {
         $prop = new ReflectionProperty(Exclusions::class, 'options');
+        $prop->setAccessible(true);
         $prop->setValue(null, $opts);
     }
 
@@ -93,6 +96,7 @@ class Test_SettingsBehavior extends WP_UnitTestCase
         foreach (['cachedIpMethod', 'currentIp'] as $name) {
             if ($rc->hasProperty($name)) {
                 $prop = $rc->getProperty($name);
+                $prop->setAccessible(true);
                 $prop->setValue(null, null);
             }
         }
@@ -102,6 +106,7 @@ class Test_SettingsBehavior extends WP_UnitTestCase
     {
         $visitor = new Visitor(null);
         $prop    = new ReflectionProperty(Visitor::class, 'cache');
+        $prop->setAccessible(true);
         $prop->setValue($visitor, [
             'location' => ['country_code' => $countryCode],
         ]);
@@ -134,6 +139,7 @@ class Test_SettingsBehavior extends WP_UnitTestCase
         foreach ($data as $prop => $value) {
             if ($rc->hasProperty($prop)) {
                 $rp = $rc->getProperty($prop);
+                $rp->setAccessible(true);
                 $rp->setValue($payload, $value);
             }
         }
@@ -220,6 +226,7 @@ class Test_SettingsBehavior extends WP_UnitTestCase
         Option::updateValue('tracker_rate_limit_threshold', 50);
 
         $method = new ReflectionMethod(RateLimiter::class, 'getThreshold');
+        $method->setAccessible(true);
 
         $this->assertSame(50, $method->invoke(null));
     }
@@ -510,6 +517,7 @@ class Test_SettingsBehavior extends WP_UnitTestCase
         $handler = $rc->newInstanceWithoutConstructor();
 
         $method = $rc->getMethod('buildOptionArgs');
+        $method->setAccessible(true);
 
         $provider = new class implements \WP_Statistics\Service\Consent\ConsentProviderInterface {
             public function getKey(): string { return 'none'; }
