@@ -1,3 +1,6 @@
+14.16.7 - 2026-04-18
+- **Enhancement:** Hardened output escaping and input sanitization across device reports.
+
 14.16.6 - 2026-04-16
 - **Fix:** Removed legacy TinyMCE integration that caused "Failed to load plugin" errors in the classic editor, especially with themes like Corvix and Avada.
 - **Fix:** Excluded browser prefetch and prerender requests that were inflating visit counts.

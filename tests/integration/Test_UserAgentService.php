@@ -141,4 +141,174 @@ class Test_UserAgentService extends WP_UnitTestCase
 
         $this->assertEquals('UNK', $userAgentService->getBrowser());
     }
+
+    public function test_sanitize_preserves_null_and_empty()
+    {
+        $this->assertNull(UserAgentService::sanitizeDetectorValue(null));
+        $this->assertSame('', UserAgentService::sanitizeDetectorValue(''));
+    }
+
+    public function test_sanitize_keeps_common_browser_names()
+    {
+        $this->assertSame('Chrome', UserAgentService::sanitizeDetectorValue('Chrome'));
+        $this->assertSame('Microsoft Edge', UserAgentService::sanitizeDetectorValue('Microsoft Edge'));
+        $this->assertSame('Samsung Browser', UserAgentService::sanitizeDetectorValue('Samsung Browser'));
+    }
+
+    public function test_sanitize_keeps_allowed_punctuation()
+    {
+        $this->assertSame('Opera Mini/Beta', UserAgentService::sanitizeDetectorValue('Opera Mini/Beta'));
+        $this->assertSame('UC Browser (HD)', UserAgentService::sanitizeDetectorValue('UC Browser (HD)'));
+        $this->assertSame('Chrome-Mobile_v2.1', UserAgentService::sanitizeDetectorValue('Chrome-Mobile_v2.1'));
+    }
+
+    public function test_sanitize_keeps_unicode_letters()
+    {
+        $this->assertSame('Yandex Браузер', UserAgentService::sanitizeDetectorValue('Yandex Браузер'));
+    }
+
+    public function test_sanitize_strips_html_tags()
+    {
+        $this->assertSame('Chrome', UserAgentService::sanitizeDetectorValue('<script>alert(1)</script>Chrome'));
+        $this->assertSame('Firefox', UserAgentService::sanitizeDetectorValue('<img src=x onerror=alert(1)>Firefox'));
+    }
+
+    public function test_sanitize_neutralizes_attribute_breakers()
+    {
+        $clean = UserAgentService::sanitizeDetectorValue('evil" onload="alert(document.domain)');
+
+        $this->assertStringNotContainsString('"', $clean);
+        $this->assertStringNotContainsString('<', $clean);
+        $this->assertStringNotContainsString('>', $clean);
+        $this->assertStringNotContainsString('=', $clean);
+
+        $this->assertSame("abc'", UserAgentService::sanitizeDetectorValue("abc'\"<>`"));
+        $this->assertSame('abc1', UserAgentService::sanitizeDetectorValue("abc=1;"));
+    }
+
+    public function test_sanitize_strips_control_characters_and_collapses_whitespace()
+    {
+        $this->assertSame('Chrome', UserAgentService::sanitizeDetectorValue("Chrome\x00\x01\x1f"));
+        $this->assertSame('Chrome Mobile', UserAgentService::sanitizeDetectorValue("  Chrome    Mobile  "));
+        $this->assertSame('Chrome Mobile', UserAgentService::sanitizeDetectorValue("Chrome\n\nMobile"));
+    }
+
+    /**
+     * End-to-end: the exact payload from the reported vulnerability must
+     * not produce a stored browser name containing attribute-breaking
+     * characters, so admin templates can't render an injected handler.
+     */
+    public function test_crafted_user_agent_is_sanitized_before_storage()
+    {
+        $_SERVER['HTTP_USER_AGENT'] = 'evil" onload="alert(document.domain)/1.2 (iPhone; iOS 16.0; Scale/3.00)';
+
+        $userAgentService = new UserAgentService();
+        $browser          = (string) $userAgentService->getBrowser();
+
+        $this->assertStringNotContainsString('"', $browser);
+        $this->assertStringNotContainsString('<', $browser);
+        $this->assertStringNotContainsString('>', $browser);
+        $this->assertStringNotContainsString('=', $browser);
+    }
+
+    /**
+     * Sanitizer must be a no-op for the browser/OS names that show up in
+     * real traffic — regression guard so future tightening doesn't quietly
+     * mangle mainstream labels.
+     *
+     * @dataProvider realWorldUserAgentProvider
+     */
+    public function test_sanitize_is_noop_for_real_user_agents($userAgent, $expectedBrowser, $expectedPlatform)
+    {
+        $_SERVER['HTTP_USER_AGENT'] = $userAgent;
+
+        $service = new UserAgentService();
+
+        $this->assertSame($expectedBrowser, $service->getBrowser());
+        $this->assertSame($expectedPlatform, $service->getPlatform());
+    }
+
+    public function realWorldUserAgentProvider()
+    {
+        return [
+            'Chrome on Windows' => [
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Chrome',
+                'Windows',
+            ],
+            'Firefox on macOS' => [
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0',
+                'Firefox',
+                'Mac',
+            ],
+            'Safari on iPhone' => [
+                'Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1',
+                'Mobile Safari',
+                'iOS',
+            ],
+            'Edge on Windows' => [
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
+                'Microsoft Edge',
+                'Windows',
+            ],
+            'Chrome on Android' => [
+                'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                'Chrome Mobile',
+                'Android',
+            ],
+            'Samsung Internet' => [
+                'Mozilla/5.0 (Linux; Android 13; SAMSUNG SM-G998B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/23.0 Chrome/115.0.0.0 Mobile Safari/537.36',
+                'Samsung Browser',
+                'Android',
+            ],
+            'Opera on Windows' => [
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 OPR/102.0.0.0',
+                'Opera',
+                'Windows',
+            ],
+            'Yandex on Android' => [
+                'Mozilla/5.0 (Linux; arm_64; Android 11; SM-A515F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 YaBrowser/22.11.5.93.00 SA/3 Mobile Safari/537.36',
+                'Yandex Browser',
+                'Android',
+            ],
+            'IE 11' => [
+                'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko',
+                'Internet Explorer',
+                'Windows',
+            ],
+        ];
+    }
+
+    /**
+     * Brand/OS labels that contain `&` or `'` must pass through unchanged
+     * so stats aren't split across multiple buckets (e.g. AT&T vs ATT).
+     * Both characters are safe inside double-quoted HTML attributes, and
+     * the output sinks already apply esc_attr/esc_html.
+     */
+    public function test_sanitize_preserves_ampersand_and_apostrophe_in_labels()
+    {
+        $this->assertSame('AT&T', UserAgentService::sanitizeDetectorValue('AT&T'));
+        $this->assertSame('Barnes & Noble', UserAgentService::sanitizeDetectorValue('Barnes & Noble'));
+        $this->assertSame("BYJU'S", UserAgentService::sanitizeDetectorValue("BYJU'S"));
+        $this->assertSame('Krüger&Matz', UserAgentService::sanitizeDetectorValue('Krüger&Matz'));
+    }
+
+    /**
+     * Extremely niche labels with `!` / `^` still get normalized. Pinned
+     * here so we notice if the character class ever changes.
+     */
+    public function test_sanitize_normalizes_exclamation_and_caret()
+    {
+        $this->assertSame('Yahoo Japan Browser', UserAgentService::sanitizeDetectorValue('Yahoo! Japan Browser'));
+        $this->assertSame('FRITZOS', UserAgentService::sanitizeDetectorValue('FRITZ!OS'));
+        $this->assertSame('Symbian3', UserAgentService::sanitizeDetectorValue('Symbian^3'));
+    }
+
+    public function test_sanitize_preserves_unicode_letters_in_labels()
+    {
+        $this->assertSame('Caixa Mágica', UserAgentService::sanitizeDetectorValue('Caixa Mágica'));
+        $this->assertSame('Arçelik', UserAgentService::sanitizeDetectorValue('Arçelik'));
+        $this->assertSame('ALDI SÜD', UserAgentService::sanitizeDetectorValue('ALDI SÜD'));
+        $this->assertSame('Türk Telekom', UserAgentService::sanitizeDetectorValue('Türk Telekom'));
+    }
 }
