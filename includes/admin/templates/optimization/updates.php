@@ -177,8 +177,6 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                         $jobInstance = new $job();
                         $jobInstance->localizeJobTexts();
 
-                        $isActive = $jobInstance->is_active();
-
                         $label                = $jobInstance->getJobTitle();
                         $btnLabel             = $jobInstance->getJobButtonTitle();
                         $requiresConfirmation = $jobInstance->isConfirmationRequired() ? '1' : '0';
@@ -189,10 +187,9 @@ $databaseStatus    = $schemaCheckResult['status'] ?? null;
                             </th>
                             <td>
                                 <a
-                                    class="button wps-button wps-button--primary wps-mt-0 wps-migration-btn <?php echo !empty($isActive) ? 'disabled' : ''; ?>"
+                                    class="button wps-button wps-button--primary wps-mt-0 wps-migration-btn"
                                     title="<?php echo esc_html($label); ?>"
-                                    href="<?php echo !empty($isActive) ? '#' : esc_url($jobInstance->getActionUrl(true)); ?>"
-                                    aria-disabled="<?php echo !empty($isActive) ? 'true' : 'false'; ?>"
+                                    href="<?php echo esc_url($jobInstance->getActionUrl(true)); ?>"
                                     data-confirmation="<?php echo esc_attr($requiresConfirmation); ?>"
                                 >
                                     <?php echo !empty($btnLabel) ? esc_html($btnLabel) : esc_html__('Run Migration', 'wp-statistics'); ?>

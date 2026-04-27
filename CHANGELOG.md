@@ -1,5 +1,6 @@
-14.16.7 - 2026-04-18
+14.16.7 - 2026-04-**
 - **Enhancement:** Hardened output escaping and input sanitization across device reports.
+- **Fix:** Kept the **Run Migration** button on the Data Migrations screen clickable while a migration is active, so a stuck queue can be force-restarted from the UI without resorting to WP Crontrol.
 
 14.16.6 - 2026-04-16
 - **Fix:** Removed legacy TinyMCE integration that caused "Failed to load plugin" errors in the classic editor, especially with themes like Corvix and Avada.
