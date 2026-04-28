@@ -86,9 +86,9 @@ class ResourceResolver
     /**
      * Look up the existing resource row.
      *
-     * In per-request mode (TRP, WeGlot, qTranslate) language is part of identity,
-     * so the lookup includes it. In every other mode language is a post-attribute
-     * and the lookup ignores it.
+     * Language is part of identity in per-request mode (TRP, WeGlot, qTranslate)
+     * AND for resources with no underlying post (home, search, archives) — see
+     * MultilangService::languageIsIdentity().
      */
     private static function findResource(?int $resourceId, string $resourceType, ?string $language, ?string $mode)
     {
@@ -97,7 +97,7 @@ class ResourceResolver
             'resource_type' => $resourceType,
         ];
 
-        if ($mode === AdapterInterface::MODE_PER_REQUEST && $language !== null) {
+        if ($language !== null && MultilangService::getInstance()->languageIsIdentity((int) $resourceId)) {
             $args['language'] = $language;
         }
 

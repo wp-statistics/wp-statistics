@@ -250,6 +250,58 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
         $this->assertCount(1, $rows);
         $this->assertNull($rows[0]->language);
     }
+
+    // ---------- per-post mode + resource_id=0 (home / archives) ----------
+
+    public function test_per_post_mode_buckets_home_pages_per_language(): void
+    {
+        // Polylang etc. use per-post mode but the home page has no underlying
+        // post — it serves all languages from the same handler. We must still
+        // record one row per language so French/English home traffic doesn't
+        // collapse into a single bucket.
+        $this->useAdapter('per-post', 'en');
+        ResourceResolver::resolveUriId(0, 'home', '/');
+
+        $this->useAdapter('per-post', 'fr');
+        ResourceResolver::resolveUriId(0, 'home', '/fr/');
+
+        $this->useAdapter('per-post', 'es');
+        ResourceResolver::resolveUriId(0, 'home', '/es/');
+
+        $rows = $this->readResources(0, 'home');
+        $this->assertCount(3, $rows, 'Per-post + resource_id=0 must bucket per language');
+
+        $languages = array_column($rows, 'language');
+        sort($languages);
+        $this->assertSame(['en', 'es', 'fr'], $languages);
+    }
+
+    public function test_per_post_mode_buckets_search_archive_per_language(): void
+    {
+        // Same logic for search/archive resource types — no underlying post.
+        $this->useAdapter('per-post', 'en');
+        ResourceResolver::resolveUriId(0, 'search', '/?s=hello');
+
+        $this->useAdapter('per-post', 'fr');
+        ResourceResolver::resolveUriId(0, 'search', '/fr/?s=bonjour');
+
+        $rows = $this->readResources(0, 'search');
+        $this->assertCount(2, $rows);
+    }
+
+    public function test_per_post_mode_home_with_no_language_does_not_bucket(): void
+    {
+        // No adapter active → no language identity → home stays in a single row.
+        $this->useAdapter(null, null);
+
+        ResourceResolver::resolveUriId(0, 'home', '/');
+        ResourceResolver::resolveUriId(0, 'home', '/fr/');
+        ResourceResolver::resolveUriId(0, 'home', '/es/');
+
+        $rows = $this->readResources(0, 'home');
+        $this->assertCount(1, $rows, 'Without adapter, home must stay a single bucket (no regression)');
+        $this->assertNull($rows[0]->language);
+    }
 }
 
 /**

@@ -105,6 +105,29 @@ class MultilangService
     }
 
     /**
+     * Whether language should be part of the (resource_id, resource_type, language)
+     * identity tuple when looking up / inserting a resource row.
+     *
+     * True when:
+     *   - active adapter is per-request (TRP, qTranslate, WeGlot), OR
+     *   - the resource has no underlying post (home, search, 404, archives) —
+     *     these have resource_id = 0 so the same row would otherwise collapse
+     *     hits across all languages into a single bucket.
+     */
+    public function languageIsIdentity(int $resourceId): bool
+    {
+        if (!$this->isActive()) {
+            return false;
+        }
+
+        if ($this->getMode() === AdapterInterface::MODE_PER_REQUEST) {
+            return true;
+        }
+
+        return $resourceId === 0;
+    }
+
+    /**
      * @return array<string, string>
      */
     public function getAvailableLanguages(): array

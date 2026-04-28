@@ -158,7 +158,7 @@ class ResourceIdentifier
             return;
         }
 
-        $insertId = $this->getRecord()->insert([
+        $insertData = [
             'resource_id'        => $this->detector->getResourceId(),
             'resource_type'      => $this->detector->getResourceType(),
             'cached_title'       => $this->detector->getCachedTitle(),
@@ -166,7 +166,14 @@ class ResourceIdentifier
             'cached_author_id'   => $this->detector->getCachedAuthorId(),
             'cached_date'        => $this->detector->getCachedDate(),
             'resource_meta'      => $this->detector->getResourceMeta(),
-        ]);
+        ];
+
+        $language = $this->detector->getLanguage();
+        if ($language !== null && $language !== '') {
+            $insertData['language'] = $language;
+        }
+
+        $insertId = $this->getRecord()->insert($insertData);
 
         if (empty($insertId)) {
             return;

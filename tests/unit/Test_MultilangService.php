@@ -103,6 +103,37 @@ class Test_MultilangService extends WP_UnitTestCase
 
         $this->assertSame($custom, MultilangService::getInstance());
     }
+
+    public function test_language_is_identity_false_when_no_adapter(): void
+    {
+        $service = new MultilangService(new AdapterRegistry([]));
+
+        $this->assertFalse($service->languageIsIdentity(0));
+        $this->assertFalse($service->languageIsIdentity(42));
+    }
+
+    public function test_language_is_identity_true_for_per_request_mode(): void
+    {
+        $adapter = new ServiceFakeAdapter('trp', 'per-request', 'fr');
+        $service = new MultilangService(new AdapterRegistry([$adapter]));
+
+        // Per-request always buckets by language, regardless of resource_id
+        $this->assertTrue($service->languageIsIdentity(0));
+        $this->assertTrue($service->languageIsIdentity(42));
+    }
+
+    public function test_language_is_identity_true_for_per_post_when_resource_id_zero(): void
+    {
+        $adapter = new ServiceFakeAdapter('polylang', 'per-post', 'en');
+        $service = new MultilangService(new AdapterRegistry([$adapter]));
+
+        // Home/search/archive (resource_id=0) has no underlying post —
+        // language must be part of identity or all-language hits collapse.
+        $this->assertTrue($service->languageIsIdentity(0));
+
+        // Real posts: language is a post-attribute, not identity
+        $this->assertFalse($service->languageIsIdentity(42));
+    }
 }
 
 /**

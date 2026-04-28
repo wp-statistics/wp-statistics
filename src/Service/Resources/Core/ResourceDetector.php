@@ -3,6 +3,8 @@
 namespace WP_Statistics\Service\Resources\Core;
 
 use WP_Statistics\Records\RecordFactory;
+use WP_Statistics\Service\Multilang\Adapters\AdapterInterface;
+use WP_Statistics\Service\Multilang\MultilangService;
 use WP_Statistics\Utils\Url;
 
 /**
@@ -108,12 +110,34 @@ class ResourceDetector
             $this->resourceId   = !empty($resourceData['id']) ? (int)$resourceData['id'] : 0;
             $this->resourceType = !empty($resourceData['type']) ? (string)$resourceData['type'] : null;
 
-            $this->record = RecordFactory::resource()->get([
-                'resource_id' => $this->resourceId,
+            $multilang     = MultilangService::getInstance();
+            $this->language = $multilang->detectLanguage(
+                (string) $this->resourceType,
+                (int) $this->resourceId,
+                (string) ($resourceData['uri'] ?? '')
+            );
+
+            $lookup = [
+                'resource_id'   => $this->resourceId,
                 'resource_type' => $this->resourceType,
-            ], true);
-    
+            ];
+
+            if ($multilang->languageIsIdentity((int) $this->resourceId) && $this->language !== null) {
+                $lookup['language'] = $this->language;
+            }
+
+            $this->record = RecordFactory::resource()->get($lookup, true);
+
             if (!empty($this->record)) {
+                // Per-post forward-fill: existing pre-multilang rows get their
+                // language populated on the next hit. Mirrors ResourceResolver.
+                if ($multilang->getMode() === AdapterInterface::MODE_PER_POST
+                    && $this->language !== null
+                    && empty($this->record->language)
+                ) {
+                    RecordFactory::resource($this->record)->update(['language' => $this->language]);
+                    $this->record->language = $this->language;
+                }
                 return;
             }
         }
