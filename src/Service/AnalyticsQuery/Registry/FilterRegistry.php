@@ -16,6 +16,7 @@ use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerChannelFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerDomainFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\ReferrerNameFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\PostTypeFilter;
+use WP_Statistics\Service\AnalyticsQuery\Filters\ContentLanguageFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\AuthorFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\UserIdFilter;
 use WP_Statistics\Service\AnalyticsQuery\Filters\LoggedInFilter;
@@ -142,6 +143,7 @@ class FilterRegistry
             'taxonomy_type'    => TaxonomyTypeFilter::class,
             'taxonomy'         => TaxonomyFilter::class,
             'entry_page'       => EntryPageFilter::class,
+            'content_language' => ContentLanguageFilter::class,
 
             // Visitor/session filters
             'user_id'          => UserIdFilter::class,

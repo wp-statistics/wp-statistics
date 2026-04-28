@@ -3,6 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Records\ResourceRecord;
+use WP_Statistics\Service\Multilang\MultilangService;
 use WP_Statistics\Service\Resources\ResourceManager;
 
 /**
@@ -168,6 +169,25 @@ class ResourceDecorator
     public function getLanguage()
     {
         return $this->identifier->resource->record->language ?? null;
+    }
+
+    /**
+     * Gets the human-readable name for the resource's language code.
+     *
+     * Resolves through the active multi-language plugin's label table when
+     * available, with a built-in fallback for common codes — so labels remain
+     * meaningful even after the plugin is uninstalled.
+     *
+     * @return string|null The language label, or null if no language is stored.
+     */
+    public function getLanguageName()
+    {
+        $code = $this->getLanguage();
+        if ($code === null || $code === '') {
+            return null;
+        }
+
+        return MultilangService::getInstance()->getLanguageLabel($code);
     }
 
     /**

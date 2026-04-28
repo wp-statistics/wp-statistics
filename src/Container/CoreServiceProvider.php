@@ -15,6 +15,7 @@ use WP_Statistics\Service\CustomEvent\CustomEventHandler;
 use WP_Statistics\Service\Ajax\AjaxDispatcher;
 use WP_Statistics\Service\Admin\AdminBar\AdminBarManager;
 use WP_Statistics\Service\Consent\ConsentManager;
+use WP_Statistics\Service\Multilang\MultilangService;
 
 /**
  * Core Service Provider.
@@ -86,6 +87,12 @@ class CoreServiceProvider implements ServiceProvider
         // Admin Bar Stats - shows on both admin and frontend
         $container->register('admin_bar', function () {
             return new AdminBarManager();
+        });
+
+        // Multi-language plugin support — exposes detection + filter options
+        // for whichever multilang plugin (Polylang, WPML, …) is currently active.
+        $container->register('multilang', function () {
+            return MultilangService::getInstance();
         });
     }
 

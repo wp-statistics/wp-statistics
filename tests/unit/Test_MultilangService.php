@@ -1,0 +1,165 @@
+<?php
+
+namespace WP_Statistics\Tests\Multilang;
+
+use WP_UnitTestCase;
+use WP_Statistics\Service\Multilang\AdapterRegistry;
+use WP_Statistics\Service\Multilang\MultilangService;
+use WP_Statistics\Service\Multilang\Adapters\AbstractAdapter;
+
+/**
+ * Tests for MultilangService — the public entry point used by the rest of the
+ * plugin. Wraps an AdapterRegistry, memoizes per-request, and exposes
+ * label/mode/availability helpers.
+ */
+class Test_MultilangService extends WP_UnitTestCase
+{
+    public function tearDown(): void
+    {
+        MultilangService::reset();
+        parent::tearDown();
+    }
+
+    public function test_returns_null_language_when_no_adapter_active(): void
+    {
+        $service = new MultilangService(new AdapterRegistry([]));
+
+        $this->assertNull($service->detectLanguage('post', 1, '/'));
+        $this->assertNull($service->getActiveAdapter());
+        $this->assertSame([], $service->getAvailableLanguages());
+        $this->assertNull($service->getMode());
+    }
+
+    public function test_delegates_detect_language_to_active_adapter(): void
+    {
+        $adapter = new ServiceFakeAdapter('fake', 'per-post', 'fr');
+        $service = new MultilangService(new AdapterRegistry([$adapter]));
+
+        $this->assertSame('fr', $service->detectLanguage('post', 42, '/about'));
+    }
+
+    public function test_memoizes_detect_language_per_request(): void
+    {
+        $adapter = new ServiceFakeAdapter('fake', 'per-post', 'en');
+        $service = new MultilangService(new AdapterRegistry([$adapter]));
+
+        $service->detectLanguage('post', 1, '/');
+        $service->detectLanguage('post', 1, '/');
+        $service->detectLanguage('post', 1, '/');
+
+        $this->assertSame(1, $adapter->detectCallCount, 'Adapter should only be called once for the same key');
+    }
+
+    public function test_memoization_keys_by_resource_identity(): void
+    {
+        $adapter = new ServiceFakeAdapter('fake', 'per-post', 'en');
+        $service = new MultilangService(new AdapterRegistry([$adapter]));
+
+        $service->detectLanguage('post', 1, '/a');
+        $service->detectLanguage('post', 2, '/b');
+        $service->detectLanguage('page', 1, '/a');
+
+        $this->assertSame(3, $adapter->detectCallCount);
+    }
+
+    public function test_get_mode_returns_active_adapter_mode(): void
+    {
+        $adapter = new ServiceFakeAdapter('fake', 'per-request', null);
+        $service = new MultilangService(new AdapterRegistry([$adapter]));
+
+        $this->assertSame('per-request', $service->getMode());
+    }
+
+    public function test_get_language_label_uses_adapter_available_languages(): void
+    {
+        $adapter = new ServiceFakeAdapter('fake', 'per-post', null);
+        $adapter->available = ['fr' => 'French', 'en' => 'English'];
+        $service = new MultilangService(new AdapterRegistry([$adapter]));
+
+        $this->assertSame('French', $service->getLanguageLabel('fr'));
+    }
+
+    public function test_get_language_label_falls_back_to_code_when_no_adapter(): void
+    {
+        $service = new MultilangService(new AdapterRegistry([]));
+
+        // Without an adapter we still want a sensible label for stored codes.
+        $this->assertSame('English', $service->getLanguageLabel('en'));
+        $this->assertSame('xx', $service->getLanguageLabel('xx'));
+    }
+
+    public function test_singleton_get_instance_returns_same_object(): void
+    {
+        $a = MultilangService::getInstance();
+        $b = MultilangService::getInstance();
+
+        $this->assertSame($a, $b);
+    }
+
+    public function test_set_instance_overrides_singleton(): void
+    {
+        $custom = new MultilangService(new AdapterRegistry([]));
+        MultilangService::setInstance($custom);
+
+        $this->assertSame($custom, MultilangService::getInstance());
+    }
+}
+
+/**
+ * Test-double adapter that records call counts and returns a fixed language.
+ */
+class ServiceFakeAdapter extends AbstractAdapter
+{
+    /** @var string */
+    private $slug;
+
+    /** @var string */
+    private $mode;
+
+    /** @var string|null */
+    private $detected;
+
+    /** @var int */
+    public $detectCallCount = 0;
+
+    /** @var array<string,string> */
+    public $available = [];
+
+    public function __construct(string $slug, string $mode, ?string $detected)
+    {
+        $this->slug     = $slug;
+        $this->mode     = $mode;
+        $this->detected = $detected;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function getName(): string
+    {
+        return $this->slug;
+    }
+
+    public function getMode(): string
+    {
+        return $this->mode;
+    }
+
+    public function isActive(): bool
+    {
+        return true;
+    }
+
+    public function detectLanguage(string $resourceType, int $resourceId, string $uri): ?string
+    {
+        $this->detectCallCount++;
+        return $this->detected;
+    }
+
+    public function getAvailableLanguages(): array
+    {
+        return $this->available;
+    }
+}
