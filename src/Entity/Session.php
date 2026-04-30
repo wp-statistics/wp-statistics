@@ -199,7 +199,10 @@ class Session extends BaseEntity
             return false;
         }
 
-        $session = (new SessionModel())->getActiveSessionByHash($this->visitor->getHashedIp());
+        $session = (new SessionModel())->getActiveSessionByHash(
+            $this->visitor->getHashedIp(),
+            $this->visitor->getHashedIpWithPreviousSalt()
+        );
 
         if (!$session || empty($session->ID)) {
             return false;

@@ -30,13 +30,18 @@ class Visitor extends BaseEntity
             return 0;
         }
 
-        $hash = $this->visitor->getHashedIp();
+        $hash         = $this->visitor->getHashedIp();
+        $previousHash = $this->visitor->getHashedIpWithPreviousSalt();
 
         if (empty($hash)) {
             return 0;
         }
 
         $record = RecordFactory::visitor()->get(['hash' => $hash]);
+
+        if (empty($record) && !empty($previousHash) && $previousHash !== $hash) {
+            $record = RecordFactory::visitor()->get(['hash' => $previousHash]);
+        }
 
         $visitorId = !empty($record) && isset($record->ID)
             ? (int)$record->ID

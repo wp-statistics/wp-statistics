@@ -171,27 +171,87 @@ class Ip
      */
     public static function getSalt()
     {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
+
         $interval      = Option::getValue('hash_rotation_interval', 'daily');
         $currentPeriod = self::getCurrentPeriod($interval);
         $dailySalt     = Option::getValue('daily_salt', []);
 
-        if (isset($dailySalt['date']) && $dailySalt['date'] !== $currentPeriod) {
+        $needsRotation = !is_array($dailySalt)
+            || empty($dailySalt['date'])
+            || empty($dailySalt['salt'])
+            || $dailySalt['date'] !== $currentPeriod;
+
+        if ($needsRotation) {
+            // Don't overwrite previous_salt with empty/corrupt daily_salt values.
+            if (!empty($dailySalt['salt']) && !empty($dailySalt['date']) && $dailySalt['date'] !== $currentPeriod) {
+                Option::updateValue('previous_salt', $dailySalt);
+            }
             $dailySalt = [
                 'date' => $currentPeriod,
-                'salt' => hash('sha256', random_bytes(32))
+                'salt' => hash('sha256', random_bytes(32)),
             ];
             Option::updateValue('daily_salt', $dailySalt);
         }
 
-        if (!$dailySalt || !is_array($dailySalt)) {
-            $dailySalt = [
-                'date' => $currentPeriod,
-                'salt' => hash('sha256', random_bytes(32))
-            ];
-            Option::updateValue('daily_salt', $dailySalt);
+        $cached = $dailySalt['salt'];
+        return $cached;
+    }
+
+    /**
+     * Returns the previous (pre-rotation) salt, if one exists.
+     *
+     * Used to bridge visitor identity across a rotation boundary so sessions
+     * straddling the boundary aren't fragmented.
+     *
+     * @return string|null Previous salt, or null if absent or malformed.
+     */
+    public static function getPreviousSalt(): ?string
+    {
+        // Sentinel: false means uncomputed. Cached value is ?string.
+        static $cached = false;
+        if ($cached !== false) {
+            return $cached;
         }
 
-        return $dailySalt['salt'];
+        $previous = Option::getValue('previous_salt', []);
+        return $cached = (is_array($previous) && !empty($previous['salt'])) ? $previous['salt'] : null;
+    }
+
+    /**
+     * Mirror of self::hash() that uses the previous salt instead of the current one.
+     *
+     * Returns null when no previous salt is available (fresh installs, or
+     * intervals where rotation hasn't fired yet).
+     *
+     * Applies the same `wp_statistics_hash_ip` filter as hash() — symmetric
+     * post-processing is required or the bridge silently breaks if a consumer
+     * transforms the value.
+     *
+     * @param string|null $ip Optional. The IP address to hash. If null, uses current user IP.
+     * @return string|null The hashed IP address (20 chars), or null if no previous salt.
+     */
+    public static function hashWithPreviousSalt($ip = null): ?string
+    {
+        $salt = self::getPreviousSalt();
+        if ($salt === null) {
+            return null;
+        }
+
+        if ($ip === null) {
+            $ip = self::getCurrent();
+        }
+
+        $userAgent    = UserAgent::getHttpUserAgent();
+        $anonymizedIp = wp_privacy_anonymize_ip($ip);
+
+        $hash          = hash('sha256', $salt . $anonymizedIp . $userAgent);
+        $truncatedHash = substr($hash, 0, 20);
+
+        return apply_filters('wp_statistics_hash_ip', $truncatedHash);
     }
 
     /**

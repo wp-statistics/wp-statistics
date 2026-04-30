@@ -96,13 +96,19 @@ class SessionModel extends BaseModel
      * A session qualifies as *active* when its `ended_at` timestamp is within
      * the last 30 minutes.
      *
-     * @param string $visitorHash The visitor hash identifier.
+     * Accepts an optional `$previousVisitorHash` to bridge sessions across a
+     * salt rotation boundary — the visitor's hash changes when the salt rotates,
+     * but the underlying session (keyed by visitors.hash) should still match.
+     *
+     * @param string      $visitorHash         The visitor hash identifier.
+     * @param string|null $previousVisitorHash Optional pre-rotation hash for the same visitor.
      * @return object|null The matching session row or `null` if not found.
      * @since 15.0.0
      */
-    public function getActiveSessionByHash($visitorHash)
+    public function getActiveSessionByHash($visitorHash, $previousVisitorHash = null)
     {
-        if (empty($visitorHash)) {
+        $hashes = array_filter([$visitorHash, $previousVisitorHash]);
+        if (empty($hashes)) {
             return null;
         }
 
@@ -111,7 +117,7 @@ class SessionModel extends BaseModel
         return Query::select('sessions.*')
             ->from('sessions')
             ->join('visitors', ['sessions.visitor_id', 'visitors.ID'])
-            ->where('visitors.hash', '=', $visitorHash)
+            ->where('visitors.hash', 'IN', $hashes)
             ->where('sessions.ended_at', '>=', $thirtyMinutesAgo)
             ->orderBy('sessions.ID', 'DESC')
             ->perPage(1)

@@ -54,6 +54,11 @@ final class Visitor
         return $this->cached('hashedIp', fn() => Ip::hash());
     }
 
+    public function getHashedIpWithPreviousSalt(): ?string
+    {
+        return $this->cached('hashedIpWithPreviousSalt', fn() => Ip::hashWithPreviousSalt());
+    }
+
     public function getStorableIp(): ?string
     {
         return $this->cached('storableIp', function () {
