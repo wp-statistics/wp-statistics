@@ -158,27 +158,38 @@ class ResourceIdentifier
             return;
         }
 
-        $insertData = [
-            'resource_id'        => $this->detector->getResourceId(),
-            'resource_type'      => $this->detector->getResourceType(),
-            'cached_title'       => $this->detector->getCachedTitle(),
-            'cached_terms'       => $this->detector->getCachedTerms(),
-            'cached_author_id'   => $this->detector->getCachedAuthorId(),
-            'cached_date'        => $this->detector->getCachedDate(),
-            'resource_meta'      => $this->detector->getResourceMeta(),
-        ];
+        $resourceId   = (int) $this->detector->getResourceId();
+        $resourceType = (string) $this->detector->getResourceType();
+        $language     = $this->detector->getLanguage();
 
-        $language = $this->detector->getLanguage();
-        if ($language !== null && $language !== '') {
-            $insertData['language'] = $language;
-        }
+        $rowId = RecordFactory::resource()->upsertWithLanguageFill(
+            $resourceId,
+            $resourceType,
+            $language ?? ''
+        );
 
-        $insertId = $this->getRecord()->insert($insertData);
-
-        if (empty($insertId)) {
+        if ($rowId < 1) {
             return;
         }
 
-        $this->record = $this->getRecord()->get(['ID' => $insertId], true);
+        // Backfill metadata on first detection. We fetch the row, then update the
+        // detected metadata fields if they're still empty. update() ignores empty/null
+        // values, so an existing row with metadata already populated is left untouched.
+        $this->record = $this->getRecord()->get(['ID' => $rowId], true);
+
+        if (!empty($this->record) && empty($this->record->cached_title)) {
+            $metadata = [
+                'cached_title'     => $this->detector->getCachedTitle(),
+                'cached_terms'     => $this->detector->getCachedTerms(),
+                'cached_author_id' => $this->detector->getCachedAuthorId(),
+                'cached_date'      => $this->detector->getCachedDate(),
+                'resource_meta'    => $this->detector->getResourceMeta(),
+            ];
+
+            RecordFactory::resource($this->record)->update($metadata);
+
+            // Refresh the in-memory record so callers see the populated metadata.
+            $this->record = $this->getRecord()->get(['ID' => $rowId], true);
+        }
     }
 }

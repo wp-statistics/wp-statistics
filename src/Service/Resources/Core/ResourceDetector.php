@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Resources\Core;
 
 use WP_Statistics\Records\RecordFactory;
-use WP_Statistics\Service\Multilang\Adapters\AdapterInterface;
 use WP_Statistics\Service\Multilang\MultilangService;
 use WP_Statistics\Utils\Url;
 
@@ -110,34 +109,40 @@ class ResourceDetector
             $this->resourceId   = !empty($resourceData['id']) ? (int)$resourceData['id'] : 0;
             $this->resourceType = !empty($resourceData['type']) ? (string)$resourceData['type'] : null;
 
-            $multilang     = MultilangService::getInstance();
+            $multilang      = MultilangService::getInstance();
             $this->language = $multilang->detectLanguage(
                 (string) $this->resourceType,
                 (int) $this->resourceId,
                 (string) ($resourceData['uri'] ?? '')
             );
 
-            $lookup = [
-                'resource_id'   => $this->resourceId,
-                'resource_type' => $this->resourceType,
-            ];
+            $isIdentity = $multilang->languageIsIdentity((int) $this->resourceId);
 
-            if ($multilang->languageIsIdentity((int) $this->resourceId) && $this->language !== null) {
-                $lookup['language'] = $this->language;
+            // Per-post mode (non-identity): a pre-existing row with any non-empty
+            // language is authoritative. Short-circuit so the upsert below doesn't
+            // create a duplicate row for a different language.
+            if (!$isIdentity && $this->language !== null) {
+                $existing = RecordFactory::resource()->get([
+                    'resource_id'   => $this->resourceId,
+                    'resource_type' => $this->resourceType,
+                ], true);
+
+                if (!empty($existing) && $existing->language !== '') {
+                    $this->record = $existing;
+                    return;
+                }
             }
 
-            $this->record = RecordFactory::resource()->get($lookup, true);
+            // Atomic upsert: insert if missing, or reuse the row and (in per-post
+            // mode) fill an empty language without overwriting a real value.
+            $rowId = RecordFactory::resource()->upsertWithLanguageFill(
+                (int) $this->resourceId,
+                (string) $this->resourceType,
+                $this->language ?? ''
+            );
 
-            if (!empty($this->record)) {
-                // Per-post forward-fill: existing pre-multilang rows get their
-                // language populated on the next hit. Mirrors ResourceResolver.
-                if ($multilang->getMode() === AdapterInterface::MODE_PER_POST
-                    && $this->language !== null
-                    && empty($this->record->language)
-                ) {
-                    RecordFactory::resource($this->record)->update(['language' => $this->language]);
-                    $this->record->language = $this->language;
-                }
+            if ($rowId > 0) {
+                $this->record = RecordFactory::resource()->get(['ID' => $rowId], true);
                 return;
             }
         }
