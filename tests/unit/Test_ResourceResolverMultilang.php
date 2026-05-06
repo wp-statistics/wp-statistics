@@ -43,9 +43,10 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
             cached_author_id bigint(20) UNSIGNED DEFAULT NULL,
             cached_date datetime,
             resource_meta text,
-            language varchar(32) DEFAULT NULL,
+            language varchar(32) NOT NULL DEFAULT '',
             is_deleted tinyint(1) NOT NULL DEFAULT 0,
             PRIMARY KEY (ID),
+            UNIQUE KEY uk_resource_lang (resource_id, resource_type, language),
             KEY resource_id (resource_id)
         )");
 
@@ -53,7 +54,8 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
             ID bigint(20) NOT NULL AUTO_INCREMENT,
             resource_id bigint(20) UNSIGNED NOT NULL,
             uri varchar(255) NOT NULL,
-            PRIMARY KEY (ID)
+            PRIMARY KEY (ID),
+            UNIQUE KEY uk_resource_uri (resource_id, uri)
         )");
     }
 
@@ -107,7 +109,7 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
 
         $rows = $this->readResources(42, 'post');
         $this->assertCount(1, $rows);
-        $this->assertNull($rows[0]->language);
+        $this->assertSame('', $rows[0]->language, 'No language stored as empty string');
     }
 
     public function test_no_adapter_does_not_modify_existing_row(): void
@@ -116,7 +118,7 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
         $wpdb->insert($this->resourcesTable, [
             'resource_type' => 'post',
             'resource_id'   => 42,
-            'language'      => null,
+            'language'      => '',
         ]);
 
         $this->useAdapter(null, null);
@@ -124,7 +126,7 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
 
         $rows = $this->readResources(42, 'post');
         $this->assertCount(1, $rows);
-        $this->assertNull($rows[0]->language);
+        $this->assertSame('', $rows[0]->language, 'No language stored as empty string');
     }
 
     // ---------- per-post mode ----------
@@ -146,7 +148,7 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
         $wpdb->insert($this->resourcesTable, [
             'resource_type' => 'post',
             'resource_id'   => 42,
-            'language'      => null,
+            'language'      => '',
         ]);
 
         $this->useAdapter('per-post', 'fr');
@@ -154,7 +156,7 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
 
         $rows = $this->readResources(42, 'post');
         $this->assertCount(1, $rows);
-        $this->assertSame('fr', $rows[0]->language, 'Existing NULL language should be filled');
+        $this->assertSame('fr', $rows[0]->language, 'Existing empty language should be forward-filled');
     }
 
     public function test_per_post_mode_does_not_overwrite_existing_language(): void
@@ -182,14 +184,14 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
         $wpdb->insert($this->resourcesTable, [
             'resource_type' => 'post',
             'resource_id'   => 42,
-            'language'      => null,
+            'language'      => '',
         ]);
 
         $this->useAdapter('per-post', null);
         ResourceResolver::resolveUriId(42, 'post', '/');
 
         $rows = $this->readResources(42, 'post');
-        $this->assertNull($rows[0]->language);
+        $this->assertSame('', $rows[0]->language, 'No language stored as empty string');
     }
 
     public function test_per_post_mode_inserts_with_null_language_when_adapter_returns_null(): void
@@ -200,7 +202,7 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
 
         $rows = $this->readResources(99, 'post');
         $this->assertCount(1, $rows);
-        $this->assertNull($rows[0]->language);
+        $this->assertSame('', $rows[0]->language, 'No language stored as empty string');
     }
 
     // ---------- per-request mode ----------
@@ -248,7 +250,7 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
 
         $rows = $this->readResources(50, 'post');
         $this->assertCount(1, $rows);
-        $this->assertNull($rows[0]->language);
+        $this->assertSame('', $rows[0]->language, 'No language stored as empty string');
     }
 
     // ---------- per-post mode + resource_id=0 (home / archives) ----------
@@ -300,7 +302,39 @@ class Test_ResourceResolverMultilang extends WP_UnitTestCase
 
         $rows = $this->readResources(0, 'home');
         $this->assertCount(1, $rows, 'Without adapter, home must stay a single bucket (no regression)');
-        $this->assertNull($rows[0]->language);
+        $this->assertSame('', $rows[0]->language, 'No language stored as empty string');
+    }
+
+    // ---------- race-safety / atomicity ----------
+
+    public function test_concurrent_inserts_do_not_create_duplicates(): void
+    {
+        // Simulate two near-simultaneous resolver calls for the same identity.
+        // The UNIQUE constraint + ON DUPLICATE KEY upsert must collapse them
+        // into a single row.
+        $this->useAdapter('per-request', 'fr');
+
+        $id1 = ResourceResolver::resolveUriId(123, 'post', '/x');
+        $id2 = ResourceResolver::resolveUriId(123, 'post', '/x');
+
+        $rows = $this->readResources(123, 'post');
+        $this->assertCount(1, $rows, 'No duplicate resource rows under repeat insert');
+        $this->assertSame($id1, $id2, 'Same resource_uri row reused');
+    }
+
+    public function test_no_adapter_repeat_insert_does_not_create_duplicates(): void
+    {
+        // The most common deployment: no multilang plugin, language = ''.
+        // MySQL would normally allow duplicate NULL rows, but with NOT NULL ''
+        // the UNIQUE actually enforces.
+        $this->useAdapter(null, null);
+
+        ResourceResolver::resolveUriId(7, 'post', '/y');
+        ResourceResolver::resolveUriId(7, 'post', '/y');
+
+        $rows = $this->readResources(7, 'post');
+        $this->assertCount(1, $rows);
+        $this->assertSame('', $rows[0]->language);
     }
 }
 
