@@ -97,14 +97,18 @@ class Test_ResourceRecordUpsert extends WP_UnitTestCase
 
     public function test_does_not_overwrite_existing_non_empty_language(): void
     {
+        // Existing row has 'en'. Calling with a different language must not
+        // overwrite it via the forward-fill UPDATE path — that path's WHERE
+        // clause restricts to language='' rows, so 'en' is untouched. The
+        // fallback INSERT then creates a new row for the new language.
         $id = RecordFactory::resource()->upsertWithLanguageFill(42, 'post', 'en');
         $this->assertSame('en', $this->row($id)->language);
 
-        // Same identity, different language → must NOT overwrite
-        $id2 = RecordFactory::resource()->upsertWithLanguageFill(42, 'post', 'en');
+        $id2 = RecordFactory::resource()->upsertWithLanguageFill(42, 'post', 'fr');
 
-        $this->assertSame($id, $id2);
-        $this->assertSame('en', $this->row($id)->language, 'Existing language is preserved');
+        $this->assertNotSame($id, $id2, "'fr' creates its own row in per-request semantics");
+        $this->assertSame('en', $this->row($id)->language, "Existing 'en' row is preserved");
+        $this->assertSame(2, $this->rowCount(42, 'post'));
     }
 
     public function test_different_languages_produce_different_rows(): void

@@ -49,17 +49,23 @@ class ResourceRecord extends BaseRecord
      * Atomic upsert by the (resource_id, resource_type, language) identity tuple.
      *
      * Insert-or-find by identity, with forward-fill: when a row already exists
-     * and its language column is empty, the new language is written; an existing
-     * non-empty language is preserved (never overwritten). Both the find and the
-     * conditional update happen in a single statement, so concurrent callers
-     * cannot create duplicate rows.
+     * with language='' and a real language is now detected, promote the empty
+     * row's language; otherwise insert (or find via UNIQUE) the row that matches
+     * the exact identity tuple.
      *
-     * Forward-fill logic (only applies when $language is non-empty):
-     *   - If a row for (resource_id, resource_type) exists with language = '', update
-     *     its language column to $language and return that row's ID.
-     *   - Otherwise, INSERT … ON DUPLICATE KEY UPDATE the (resource_id, resource_type,
-     *     language) unique key, using LAST_INSERT_ID(ID) to expose the existing ID
-     *     in the duplicate case.
+     * The forward-fill cannot be expressed in a single INSERT ... ON DUPLICATE
+     * because '' and 'fr' are distinct values under the UNIQUE key — they don't
+     * collide. So when a real language is provided we first try a targeted
+     * UPDATE that promotes any existing language='' row, then fall back to the
+     * standard upsert. The UPDATE uses LAST_INSERT_ID(ID) so $wpdb->insert_id
+     * surfaces the filled row's ID.
+     *
+     * Concurrency: even if two callers both miss the UPDATE step (e.g. neither
+     * finds an existing empty-language row), the UNIQUE constraint on the
+     * fallback INSERT ensures only one row is created — the other caller's
+     * INSERT is collapsed by ON DUPLICATE KEY UPDATE and returns the same ID.
+     * The fallback's IF(language = '', VALUES(language), language) preserves an
+     * existing non-empty language (never overwrites a real value).
      *
      * Requires the table to carry `UNIQUE KEY (resource_id, resource_type, language)`
      * and `language NOT NULL DEFAULT ''`.
