@@ -137,6 +137,50 @@ class MultilangService
     }
 
     /**
+     * Languages that should appear as filter options in the analytics UI.
+     *
+     * Unions:
+     *   - the active adapter's reported languages (if any), and
+     *   - DISTINCT language codes from the resources table.
+     *
+     * Adapter labels take priority for codes the adapter knows about; DB-only
+     * codes (historical data from a previously-installed multilang plugin, or
+     * codes the current adapter no longer exposes) get labels via the built-in
+     * LanguageNames table. Soft-deleted resource rows and empty-language rows
+     * are excluded.
+     *
+     * @return array<string, string> Map of language code → human label, sorted by code.
+     */
+    public function getFilterableLanguages(): array
+    {
+        $adapter = $this->getActiveAdapter();
+        $result  = $adapter ? $adapter->getAvailableLanguages() : [];
+
+        global $wpdb;
+        $table = $wpdb->prefix . 'statistics_resources';
+
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $codes = $wpdb->get_col(
+            "SELECT DISTINCT language FROM `{$table}` "
+            . "WHERE language != '' AND is_deleted = 0"
+        );
+
+        if (is_array($codes)) {
+            foreach ($codes as $code) {
+                if (!is_string($code) || $code === '') {
+                    continue;
+                }
+                if (!isset($result[$code])) {
+                    $result[$code] = LanguageNames::lookup($code);
+                }
+            }
+        }
+
+        ksort($result);
+        return $result;
+    }
+
+    /**
      * Human label for a stored language code. Falls back to a built-in
      * common-names table (and finally to the code itself) when no adapter is
      * active or the code is unknown — so dashboards still render gracefully

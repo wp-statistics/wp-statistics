@@ -134,6 +134,149 @@ class Test_MultilangService extends WP_UnitTestCase
         // Real posts: language is a post-attribute, not identity
         $this->assertFalse($service->languageIsIdentity(42));
     }
+
+    public function test_filterable_languages_returns_adapter_languages_when_active(): void
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'statistics_resources';
+        $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        $wpdb->query("CREATE TABLE {$table} (
+            ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            resource_type varchar(64) NOT NULL,
+            resource_id bigint(20) UNSIGNED NOT NULL,
+            language varchar(32) NOT NULL DEFAULT '',
+            is_deleted tinyint(1) NOT NULL DEFAULT 0,
+            PRIMARY KEY (ID)
+        )");
+
+        try {
+            $adapter           = new ServiceFakeAdapter('fake', 'per-post', null);
+            $adapter->available = [
+                'en' => 'English',
+                'fr' => 'Français',
+            ];
+            MultilangService::setInstance(new MultilangService(new AdapterRegistry([$adapter])));
+
+            $filterable = MultilangService::getInstance()->getFilterableLanguages();
+
+            $this->assertArrayHasKey('en', $filterable);
+            $this->assertArrayHasKey('fr', $filterable);
+            $this->assertSame('English', $filterable['en']);
+            $this->assertSame('Français', $filterable['fr']);
+        } finally {
+            $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        }
+    }
+
+    public function test_filterable_languages_unions_adapter_with_db_codes(): void
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'statistics_resources';
+        $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        $wpdb->query("CREATE TABLE {$table} (
+            ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            resource_type varchar(64) NOT NULL,
+            resource_id bigint(20) UNSIGNED NOT NULL,
+            language varchar(32) NOT NULL DEFAULT '',
+            is_deleted tinyint(1) NOT NULL DEFAULT 0,
+            PRIMARY KEY (ID)
+        )");
+
+        try {
+            // Adapter knows en and fr; DB has historical 'es' and 'de' codes
+            // (e.g. from a previously-installed plugin or deleted languages).
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 1, 'language' => 'es']);
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 2, 'language' => 'de']);
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 3, 'language' => 'en']);
+
+            $adapter           = new ServiceFakeAdapter('fake', 'per-post', null);
+            $adapter->available = [
+                'en' => 'English',
+                'fr' => 'Français',
+            ];
+            MultilangService::setInstance(new MultilangService(new AdapterRegistry([$adapter])));
+
+            $filterable = MultilangService::getInstance()->getFilterableLanguages();
+
+            $this->assertArrayHasKey('en', $filterable);
+            $this->assertArrayHasKey('fr', $filterable);
+            $this->assertArrayHasKey('es', $filterable, 'DB-only code is included');
+            $this->assertArrayHasKey('de', $filterable, 'DB-only code is included');
+
+            // Adapter labels take priority for adapter-known codes
+            $this->assertSame('English', $filterable['en']);
+
+            // DB-only codes get LanguageNames lookup labels (proper Spanish/German names)
+            $this->assertNotSame('es', $filterable['es'], 'DB-only code gets a real label, not the code itself');
+            $this->assertNotSame('de', $filterable['de']);
+        } finally {
+            $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        }
+    }
+
+    public function test_filterable_languages_falls_back_to_db_when_no_adapter(): void
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'statistics_resources';
+        $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        $wpdb->query("CREATE TABLE {$table} (
+            ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            resource_type varchar(64) NOT NULL,
+            resource_id bigint(20) UNSIGNED NOT NULL,
+            language varchar(32) NOT NULL DEFAULT '',
+            is_deleted tinyint(1) NOT NULL DEFAULT 0,
+            PRIMARY KEY (ID)
+        )");
+
+        try {
+            // Site previously had a multilang plugin (or never did but data is mixed)
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 1, 'language' => 'fr']);
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 2, 'language' => 'en']);
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 3, 'language' => '']);  // no-language row, must be excluded
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 4, 'language' => 'fr']); // duplicate code
+
+            // No adapter active — empty registry
+            MultilangService::setInstance(new MultilangService(new AdapterRegistry([])));
+
+            $filterable = MultilangService::getInstance()->getFilterableLanguages();
+
+            $this->assertCount(2, $filterable, 'Distinct codes from DB, empty excluded');
+            $this->assertArrayHasKey('fr', $filterable);
+            $this->assertArrayHasKey('en', $filterable);
+            $this->assertArrayNotHasKey('', $filterable, 'Empty language excluded');
+        } finally {
+            $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        }
+    }
+
+    public function test_filterable_languages_excludes_soft_deleted_rows(): void
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'statistics_resources';
+        $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        $wpdb->query("CREATE TABLE {$table} (
+            ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            resource_type varchar(64) NOT NULL,
+            resource_id bigint(20) UNSIGNED NOT NULL,
+            language varchar(32) NOT NULL DEFAULT '',
+            is_deleted tinyint(1) NOT NULL DEFAULT 0,
+            PRIMARY KEY (ID)
+        )");
+
+        try {
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 1, 'language' => 'fr', 'is_deleted' => 0]);
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 2, 'language' => 'de', 'is_deleted' => 1]);  // soft-deleted
+
+            MultilangService::setInstance(new MultilangService(new AdapterRegistry([])));
+
+            $filterable = MultilangService::getInstance()->getFilterableLanguages();
+
+            $this->assertArrayHasKey('fr', $filterable);
+            $this->assertArrayNotHasKey('de', $filterable, 'Soft-deleted rows are not surfaced as filter options');
+        } finally {
+            $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        }
+    }
 }
 
 /**

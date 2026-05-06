@@ -10,8 +10,10 @@ use WP_Statistics\Service\Multilang\MultilangService;
  * handled by LanguageFilter).
  *
  * Options come from whichever multi-language plugin is currently active
- * (Polylang, WPML, TRP, qTranslate-X, WeGlot). When no plugin is active the
- * options list is empty — the React frontend hides the dropdown.
+ * (Polylang, WPML, TRP, qTranslate-X, WeGlot). When no plugin is active,
+ * or when codes exist in the DB that the active plugin no longer exposes,
+ * the dropdown is populated from the resources table so historical data
+ * remains filterable.
  *
  * @since 15.x
  */
@@ -53,11 +55,16 @@ class ContentLanguageFilter extends AbstractFilter
     }
 
     /**
-     * Options are the languages the active multi-language plugin reports.
+     * Options for the dropdown.
+     *
+     * Sourced from MultilangService::getFilterableLanguages(), which unions
+     * the active adapter's reported languages with DISTINCT codes already
+     * stored in the resources table — so historical multilang data stays
+     * filterable even after the multilang plugin is removed.
      */
     public function getOptions(): ?array
     {
-        $available = MultilangService::getInstance()->getAvailableLanguages();
+        $available = MultilangService::getInstance()->getFilterableLanguages();
 
         $options = [];
         foreach ($available as $code => $label) {

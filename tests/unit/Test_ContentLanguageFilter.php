@@ -98,12 +98,57 @@ class Test_ContentLanguageFilter extends WP_UnitTestCase
         $this->assertSame('views', $this->filter->getRequirement());
     }
 
-    public function test_options_are_empty_when_no_adapter_active(): void
+    public function test_options_are_empty_when_no_adapter_and_no_db_data(): void
     {
-        MultilangService::setInstance(new MultilangService(new AdapterRegistry([])));
+        global $wpdb;
+        $table = $wpdb->prefix . 'statistics_resources';
+        $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        $wpdb->query("CREATE TABLE {$table} (
+            ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            resource_type varchar(64) NOT NULL,
+            resource_id bigint(20) UNSIGNED NOT NULL,
+            language varchar(32) NOT NULL DEFAULT '',
+            is_deleted tinyint(1) NOT NULL DEFAULT 0,
+            PRIMARY KEY (ID)
+        )");
 
-        $options = $this->filter->getOptions();
-        $this->assertSame([], $options);
+        try {
+            MultilangService::setInstance(new MultilangService(new AdapterRegistry([])));
+
+            $options = $this->filter->getOptions();
+            $this->assertSame([], $options);
+        } finally {
+            $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        }
+    }
+
+    public function test_options_fall_back_to_db_codes_when_no_adapter_active(): void
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'statistics_resources';
+        $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        $wpdb->query("CREATE TABLE {$table} (
+            ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            resource_type varchar(64) NOT NULL,
+            resource_id bigint(20) UNSIGNED NOT NULL,
+            language varchar(32) NOT NULL DEFAULT '',
+            is_deleted tinyint(1) NOT NULL DEFAULT 0,
+            PRIMARY KEY (ID)
+        )");
+
+        try {
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 1, 'language' => 'fr']);
+            $wpdb->insert($table, ['resource_type' => 'post', 'resource_id' => 2, 'language' => 'en']);
+
+            MultilangService::setInstance(new MultilangService(new AdapterRegistry([])));
+
+            $options = $this->filter->getOptions();
+            $values  = array_column($options, 'value');
+            $this->assertContains('fr', $values);
+            $this->assertContains('en', $values);
+        } finally {
+            $wpdb->query("DROP TABLE IF EXISTS {$table}");
+        }
     }
 
     public function test_options_come_from_active_adapter_available_languages(): void
