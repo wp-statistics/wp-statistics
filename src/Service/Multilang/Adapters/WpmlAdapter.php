@@ -30,7 +30,7 @@ class WpmlAdapter extends AbstractAdapter
 
     public function isActive(): bool
     {
-        return defined('ICL_SITEPRESS_VERSION') || function_exists('wpml_get_active_languages_filter');
+        return defined('ICL_SITEPRESS_VERSION') || class_exists('SitePress');
     }
 
     public function detectLanguage(string $resourceType, int $resourceId, string $uri): ?string

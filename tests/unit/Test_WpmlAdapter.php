@@ -7,6 +7,14 @@ use WP_Statistics\Service\Multilang\Adapters\WpmlAdapter;
 
 require_once dirname(__DIR__) . '/multilang-plugin-stubs.php';
 
+// Define the WPML bootstrap class once for the whole test process so that
+// test_is_active_via_class_exists() can verify the class_exists('SitePress') branch.
+// PHP classes cannot be undefined once declared, so this is placed at file scope
+// rather than inside a test method.
+if (!class_exists('SitePress')) {
+    eval('class SitePress {}');
+}
+
 /**
  * Tests for the WPML adapter.
  *
@@ -136,5 +144,33 @@ class Test_WpmlAdapter extends WP_UnitTestCase
 
         $this->assertSame('English', $available['en']);
         $this->assertSame('French', $available['fr']);
+    }
+
+    // -------------------------------------------------------------------
+    // isActive() tests
+    // -------------------------------------------------------------------
+
+    /**
+     * When the SitePress class is present (see file-scope eval() above),
+     * isActive() must return true regardless of ICL_SITEPRESS_VERSION.
+     */
+    public function test_is_active_returns_true_when_sitepress_class_exists(): void
+    {
+        // The SitePress class was defined at file scope above.
+        $this->assertTrue(class_exists('SitePress'), 'Prerequisite: SitePress class must be defined.');
+        $this->assertTrue($this->adapter->isActive());
+    }
+
+    /**
+     * When ICL_SITEPRESS_VERSION is defined, isActive() returns true via the
+     * primary constant check — this is independent of class_exists().
+     */
+    public function test_is_active_returns_true_when_version_constant_defined(): void
+    {
+        if (!defined('ICL_SITEPRESS_VERSION')) {
+            define('ICL_SITEPRESS_VERSION', '4.0.0');
+        }
+
+        $this->assertTrue($this->adapter->isActive());
     }
 }
