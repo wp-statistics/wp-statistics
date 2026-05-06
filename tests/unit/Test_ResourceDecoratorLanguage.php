@@ -47,6 +47,16 @@ class Test_ResourceDecoratorLanguage extends WP_UnitTestCase
         $this->assertSame('xx', $decorator->getLanguageName());
     }
 
+    public function test_empty_string_language_is_translated_to_null(): void
+    {
+        // After the resources.language schema change, NULL is stored as ''.
+        // The decorator must hide this internal representation from callers.
+        $decorator = $this->makeDecorator('');
+
+        $this->assertNull($decorator->getLanguage());
+        $this->assertNull($decorator->getLanguageName());
+    }
+
     /**
      * Build a decorator wrapping a synthetic record. Passing an object with
      * resource_type triggers ResourceManager's record-passthrough path so the

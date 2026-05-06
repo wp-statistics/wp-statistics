@@ -168,7 +168,8 @@ class ResourceDecorator
      */
     public function getLanguage()
     {
-        return $this->identifier->resource->record->language ?? null;
+        $value = $this->identifier->resource->record->language ?? null;
+        return ($value === null || $value === '') ? null : $value;
     }
 
     /**
