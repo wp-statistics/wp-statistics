@@ -70,10 +70,48 @@ class AdapterRegistry
      */
     public function resolve(): ?AdapterInterface
     {
+        $adapters = $this->adapters;
+
+        /**
+         * Filter the array of multi-language adapters before resolution.
+         *
+         * Lets 3rd-party plugins extend the priority list with their own
+         * adapters (e.g. for MultilingualPress, GTranslate, etc.) without
+         * having to re-implement the auto-selection logic.
+         *
+         * Each entry must be either a fully-qualified class name (string) or
+         * an AdapterInterface instance. Order is priority order — the first
+         * adapter whose isActive() returns true wins. Prepend with
+         * array_unshift() to take priority over built-in adapters; append
+         * with [] = $adapter to fall back to your adapter only when no
+         * built-in one matches.
+         *
+         * Non-array returns are ignored — the default list is used.
+         *
+         * @param array<int, string|AdapterInterface> $adapters Default registry adapters.
+         * @since 15.0.2
+         */
+        $filtered = apply_filters('wp_statistics_multilang_adapters', $adapters);
+        if (is_array($filtered)) {
+            $adapters = $filtered;
+        }
+
         $resolved = null;
 
-        foreach ($this->adapters as $entry) {
-            $adapter = is_string($entry) ? new $entry() : $entry;
+        foreach ($adapters as $entry) {
+            if (is_string($entry)) {
+                if (!class_exists($entry)) {
+                    continue;
+                }
+                $adapter = new $entry();
+            } else {
+                $adapter = $entry;
+            }
+
+            if (!$adapter instanceof AdapterInterface) {
+                continue;
+            }
+
             if ($adapter->isActive()) {
                 $resolved = $adapter;
                 break;

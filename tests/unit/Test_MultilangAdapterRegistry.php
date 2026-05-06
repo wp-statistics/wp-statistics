@@ -16,6 +16,7 @@ class Test_MultilangAdapterRegistry extends WP_UnitTestCase
     public function tearDown(): void
     {
         remove_all_filters('wp_statistics_multilang_adapter');
+        remove_all_filters('wp_statistics_multilang_adapters');
         parent::tearDown();
     }
 
@@ -92,6 +93,59 @@ class Test_MultilangAdapterRegistry extends WP_UnitTestCase
         $registry = new AdapterRegistry([$polylang]);
 
         $this->assertNull($registry->resolve());
+    }
+
+    public function test_adapters_filter_can_extend_registry_with_new_adapter(): void
+    {
+        // Site has no multilang plugin auto-detected, but a custom plugin
+        // wants to register its own adapter via the wp_statistics_multilang_adapters filter.
+        $registry = new AdapterRegistry([
+            new FakeRegistryAdapter('wpml', false),
+            new FakeRegistryAdapter('polylang', false),
+        ]);
+
+        $custom = new FakeRegistryAdapter('custom', true);
+
+        add_filter('wp_statistics_multilang_adapters', function ($adapters) use ($custom) {
+            $adapters[] = $custom;
+            return $adapters;
+        });
+
+        $resolved = $registry->resolve();
+        $this->assertNotNull($resolved, 'Custom adapter should be resolved');
+        $this->assertSame('custom', $resolved->getSlug());
+    }
+
+    public function test_adapters_filter_runs_before_resolution_so_priority_is_preserved(): void
+    {
+        // Custom adapter prepended via filter should win over registry defaults
+        // when both are active (filter prepends → first in priority).
+        $registry = new AdapterRegistry([
+            new FakeRegistryAdapter('wpml', true),
+        ]);
+
+        $custom = new FakeRegistryAdapter('custom', true);
+
+        add_filter('wp_statistics_multilang_adapters', function ($adapters) use ($custom) {
+            array_unshift($adapters, $custom);
+            return $adapters;
+        });
+
+        $this->assertSame('custom', $registry->resolve()->getSlug());
+    }
+
+    public function test_adapters_filter_with_non_array_return_is_ignored(): void
+    {
+        // A misbehaving filter that returns null/string/etc. should not break resolution.
+        $registry = new AdapterRegistry([
+            new FakeRegistryAdapter('wpml', true),
+        ]);
+
+        add_filter('wp_statistics_multilang_adapters', function () {
+            return null; // misbehaving filter
+        });
+
+        $this->assertSame('wpml', $registry->resolve()->getSlug(), 'Bad filter return is ignored, default list used');
     }
 }
 
