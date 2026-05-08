@@ -80,8 +80,14 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         }
 
         try {
-            // Check if the GeoIP database exists and download it immediately.
-            if (!$this->isDatabaseExist() && !Env::isLocal()) {
+            // Auto-download only when MaxMind is the user's chosen provider.
+            // On dbip or cf mode this code path can still be reached (e.g.
+            // background backfill that forces MaxMind), but silently
+            // re-downloading the database for users who explicitly opted out
+            // is the regression behind issue #1093.
+            if (!$this->isDatabaseExist()
+                && !Env::isLocal()
+                && Option::get('geoip_location_detection_method', 'maxmind') === 'maxmind') {
                 $this->downloadDatabase();
 
                 throw new Exception('GeoIP database not found. Attempting to download...');

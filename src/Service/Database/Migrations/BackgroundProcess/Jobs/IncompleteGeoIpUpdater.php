@@ -64,16 +64,12 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
      */
     protected function task($item)
     {
-        // Cloudflare geolocation depends on HTTP_CF_* headers from a live
-        // request, which are absent in queue/cron context. The job has always
-        // used MaxMind as the server-side fallback for backfill, including on
-        // sites that later switched to CF mode while still holding the
-        // GeoLite2-City.mmdb file from before. Keep that behavior, but if the
-        // site is on CF mode and the database file is no longer on disk, skip
-        // rather than let MaxmindGeoIPProvider::initializeReader() silently
-        // re-download it.
-        if (Option::get('geoip_location_detection_method', 'maxmind') === 'cf'
-            && !(new MaxmindGeoIPProvider())->isDatabaseExist()) {
+        // CF headers are not available in cron, so this job uses MaxMind as
+        // the server-side fallback. On cf-mode sites without the mmdb on
+        // disk, skip rather than backfill rows with default-location data
+        // (issue #1093).
+        if (Option::get('geoip_location_detection_method', 'maxmind') === 'cf' &&
+            !(new MaxmindGeoIPProvider())->isDatabaseExist()) {
             $this->setProcessed($item['visitors']);
             return false;
         }
