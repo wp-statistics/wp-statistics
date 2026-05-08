@@ -1,8 +1,8 @@
 14.16.7 - 2026-04-**
-- **Enhancement:** Hardened output escaping and input sanitization across device reports.
-- **Enhancement:** Tracking endpoints (`wp_statistics_custom_event`, `wp_statistics_hit_record`, REST `/hit`) now return `X-Robots-Tag: noindex, nofollow` and `Cache-Control: no-cache`, so search engines no longer index these AJAX URLs and CDNs cannot cache them. Resolves spurious "ghost page" entries in Google Search Console.
-- **Fix:** GeoLite2-City database is no longer re-downloaded in the background on sites using the Cloudflare IP Geolocation method. After switching to Cloudflare mode, you can now safely delete the existing database file and it will stay deleted (issue #1093).
-- **Fix:** Kept the **Run Migration** button on the Data Migrations screen clickable while a migration is active, so a stuck queue can be force-restarted from the UI without resorting to WP Crontrol.
+- **Enhancement:** Improved data sanitization across device reports for better security.
+- **Enhancement:** Internal tracking endpoints are no longer indexed by search engines or cached by CDNs, removing spurious "ghost page" entries from Google Search Console.
+- **Fix:** GeoLite2-City database is no longer re-downloaded in the background on sites using the Cloudflare IP Geolocation method. After switching to Cloudflare mode, you can safely delete the existing database file and it will stay deleted (issue #1093).
+- **Fix:** The **Run Migration** button on the Data Migrations screen now stays clickable during an active migration, so stuck queues can be restarted from the UI.
 
 14.16.6 - 2026-04-16
 - **Fix:** Removed legacy TinyMCE integration that caused "Failed to load plugin" errors in the classic editor, especially with themes like Corvix and Avada.
