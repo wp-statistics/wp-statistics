@@ -1,7 +1,7 @@
 14.16.7 - 2026-04-**
 - **Enhancement:** Improved data sanitization across device reports for better security.
 - **Enhancement:** Internal tracking endpoints are no longer indexed by search engines or cached by CDNs, removing spurious "ghost page" entries from Google Search Console.
-- **Fix:** GeoLite2-City database is no longer re-downloaded in the background on sites using the Cloudflare IP Geolocation method. After switching to Cloudflare mode, you can safely delete the existing database file and it will stay deleted (issue #1093).
+- **Fix:** GeoLite2-City database is no longer re-downloaded in the background on sites using the Cloudflare IP Geolocation method. After switching to Cloudflare mode, you can safely delete the existing database file and it will stay deleted (issue [#1093](https://github.com/wp-statistics/wp-statistics/issues/1093)).
 - **Fix:** The **Run Migration** button on the Data Migrations screen now stays clickable during an active migration, so stuck queues can be restarted from the UI.
 
 14.16.6 - 2026-04-16
