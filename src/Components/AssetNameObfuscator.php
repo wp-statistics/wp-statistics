@@ -66,20 +66,6 @@ class AssetNameObfuscator
     private $hashedFileName;
 
     /**
-     * Root of the hash files dir.
-     *
-     * @var string
-     */
-    private $hashedFilesRootDir;
-
-    /**
-     * Full dir of the hashed file.
-     *
-     * @var string
-     */
-    private $hashedFileDir;
-
-    /**
      * @param string $file Full path of the input file.
      * Pass `null` if you only want to use `deleteAllHashedFiles` and `deleteDatabaseOption` methods. (e.g. When uninstalling the plugin)
      *
@@ -132,10 +118,10 @@ class AssetNameObfuscator
 
         $this->uploadsDir = Helper::get_uploads_dir();
 
-        // Kept for backward compatibility - the proxy reads the original
-        // file directly, so these no longer drive any filesystem write.
-        $this->hashedFilesRootDir = apply_filters('wp_statistics_hashed_asset_root', $this->uploadsDir);
-        $this->hashedFileDir      = apply_filters('wp_statistics_hashed_asset_dir', path_join($this->hashedFilesRootDir, $this->hashedFileName), $this->hashedFilesRootDir, $this->hashedFileName);
+        // Fired only for back-compat with third-party hooks; the proxy reads
+        // the original plugin file directly, so the filtered values are unused.
+        apply_filters_deprecated('wp_statistics_hashed_asset_root', [$this->uploadsDir], '14.16.7', '', 'The obfuscator no longer writes a copy of the tracker into wp-content/uploads/.');
+        apply_filters_deprecated('wp_statistics_hashed_asset_dir', [path_join($this->uploadsDir, $this->hashedFileName), $this->uploadsDir, $this->hashedFileName], '14.16.7', '', 'The obfuscator no longer writes a copy of the tracker into wp-content/uploads/.');
     }
 
     /**
@@ -198,36 +184,6 @@ class AssetNameObfuscator
     public function getHashedFileName()
     {
         return $this->hashedFileName;
-    }
-
-    /**
-     * Returns hashed files root dir.
-     *
-     * @return  string
-     */
-    public function getHashedFilesRootDir()
-    {
-        return $this->hashedFilesRootDir;
-    }
-
-    /**
-     * Returns full path (DIR) of the hashed file.
-     *
-     * @return  string
-     */
-    public function getHashedFileDir()
-    {
-        return $this->hashedFileDir;
-    }
-
-    /**
-     * Returns full URL of the hashed file.
-     *
-     * @return  string
-     */
-    public function getHashedFileUrl()
-    {
-        return Helper::get_upload_url() . '/' . $this->hashedFileName;
     }
 
     /**

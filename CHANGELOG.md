@@ -4,6 +4,7 @@
 - **Fix:** GeoLite2-City database is no longer re-downloaded in the background on sites using the Cloudflare IP Geolocation method. After switching to Cloudflare mode, you can safely delete the existing database file and it will stay deleted (issue [#1093](https://github.com/wp-statistics/wp-statistics/issues/1093)).
 - **Fix:** "Bypass Ad Blockers" no longer writes a copy of the tracker into the uploads directory, fixing compatibility with security plugins and hosting setups that lock that directory down.
 - **Fix:** The **Run Migration** button on the Data Migrations screen now stays clickable during an active migration, so stuck queues can be restarted from the UI.
+- **Deprecated:** The `wp_statistics_hashed_asset_root` and `wp_statistics_hashed_asset_dir` filters no longer affect plugin behavior because the obfuscated tracker is served from the plugin folder rather than copied into uploads/. The filters still fire for back-compat and emit a deprecation notice; they will be removed in a future release. Internal-only methods `getHashedFileUrl()`, `getHashedFilesRootDir()`, and `getHashedFileDir()` on `AssetNameObfuscator` have been removed.
 
 14.16.6 - 2026-04-16
 - **Fix:** Removed legacy TinyMCE integration that caused "Failed to load plugin" errors in the classic editor, especially with themes like Corvix and Avada.
