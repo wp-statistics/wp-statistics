@@ -9,6 +9,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 
 class IncompleteGeoIpUpdater extends BaseBackgroundProcess
 {
@@ -63,11 +64,16 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
      */
     protected function task($item)
     {
-        // Cloudflare geolocation only resolves from live request headers, which
-        // are absent in queue/cron context. Skip rather than fall back to
-        // MaxMind, which would silently re-download GeoLite2-City.mmdb on
-        // sites that explicitly opted out of MaxMind.
-        if (Option::get('geoip_location_detection_method', 'maxmind') === 'cf') {
+        // Cloudflare geolocation depends on HTTP_CF_* headers from a live
+        // request, which are absent in queue/cron context. The job has always
+        // used MaxMind as the server-side fallback for backfill, including on
+        // sites that later switched to CF mode while still holding the
+        // GeoLite2-City.mmdb file from before. Keep that behavior, but if the
+        // site is on CF mode and the database file is no longer on disk, skip
+        // rather than let MaxmindGeoIPProvider::initializeReader() silently
+        // re-download it.
+        if (Option::get('geoip_location_detection_method', 'maxmind') === 'cf'
+            && !(new MaxmindGeoIPProvider())->isDatabaseExist()) {
             $this->setProcessed($item['visitors']);
             return false;
         }
@@ -88,7 +94,7 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
                 continue;
             }
 
-            $location = GeolocationFactory::getLocation($visitor->getIP());
+            $location = GeolocationFactory::getLocation($visitor->getIP(), MaxmindGeoIPProvider::class);
 
             $visitorModel->updateVisitor($visitorId, [
                 'location'  => $location['country_code'],
