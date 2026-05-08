@@ -16,39 +16,6 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 class Helper
 {
     /**
-     * Headers that all tracking endpoints (custom event, hit record, REST hit)
-     * should return so the URL never appears in search engine indexes and is
-     * never cached by reverse proxies / CDNs.
-     *
-     * @return array<string,string>
-     */
-    public static function getTrackingResponseHeaders()
-    {
-        return [
-            'X-Robots-Tag'  => 'noindex, nofollow',
-            'Cache-Control' => 'no-cache',
-        ];
-    }
-
-    /**
-     * Emit the tracking response headers via header(). Use in admin-ajax
-     * handlers. REST handlers should pass the array from
-     * getTrackingResponseHeaders() to $response->set_headers() instead.
-     *
-     * @return void
-     */
-    public static function sendTrackingResponseHeaders()
-    {
-        if (headers_sent()) {
-            return;
-        }
-
-        foreach (self::getTrackingResponseHeaders() as $name => $value) {
-            header($name . ': ' . $value, true);
-        }
-    }
-
-    /**
      * Returns an array of site id's
      *
      * @return array

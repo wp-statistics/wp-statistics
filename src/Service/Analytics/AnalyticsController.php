@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Analytics;
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
+use WP_Statistics\Components\TrackingResponse;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
 
@@ -21,7 +22,7 @@ class AnalyticsController
             return;
         }
 
-        Helper::sendTrackingResponseHeaders();
+        TrackingResponse::sendHeaders();
 
         try {
             $this->checkSignature();

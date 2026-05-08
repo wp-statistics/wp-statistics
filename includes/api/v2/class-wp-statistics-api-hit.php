@@ -6,6 +6,7 @@ use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
 use WP_STATISTICS\Option;
+use WP_Statistics\Components\TrackingResponse;
 
 class Hit extends \WP_STATISTICS\RestAPI
 {
@@ -97,15 +98,7 @@ class Hit extends \WP_STATISTICS\RestAPI
             $response->set_status($statusCode);
         }
 
-        /**
-         * Tracking-endpoint headers: noindex (the URL is exposed via inline JS
-         * and Googlebot can crawl it) and Cache-Control: no-cache (so reverse
-         * proxies / CDNs do not cache and skip our PHP recording path).
-         *
-         * @link https://wordpress.org/support/topic/request-for-cloudflare-html-caching-compatibility/
-         * @since 13.0.8
-         */
-        $response->set_headers(Helper::getTrackingResponseHeaders());
+        $response->set_headers(TrackingResponse::getHeaders());
 
         return $response;
     }

@@ -5,6 +5,7 @@ use Exception;
 use WP_Statistics\Models\EventsModel;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Ajax;
+use WP_Statistics\Components\TrackingResponse;
 use WP_STATISTICS\Exclusion;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
@@ -20,7 +21,7 @@ class CustomEventActions
 
     public function insertCustomEvent()
     {
-        \WP_STATISTICS\Helper::sendTrackingResponseHeaders();
+        TrackingResponse::sendHeaders();
 
         try {
             $nonce = Request::get('nonce');
