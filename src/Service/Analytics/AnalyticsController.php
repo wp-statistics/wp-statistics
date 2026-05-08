@@ -21,6 +21,8 @@ class AnalyticsController
             return;
         }
 
+        Helper::sendTrackingResponseHeaders();
+
         try {
             $this->checkSignature();
             Helper::validateHitRequest();

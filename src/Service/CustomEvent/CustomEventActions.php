@@ -20,6 +20,8 @@ class CustomEventActions
 
     public function insertCustomEvent()
     {
+        \WP_STATISTICS\Helper::sendTrackingResponseHeaders();
+
         try {
             $nonce = Request::get('nonce');
 

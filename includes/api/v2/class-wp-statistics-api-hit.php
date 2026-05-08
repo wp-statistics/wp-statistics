@@ -98,18 +98,14 @@ class Hit extends \WP_STATISTICS\RestAPI
         }
 
         /**
-         * Set headers for the response
+         * Tracking-endpoint headers: noindex (the URL is exposed via inline JS
+         * and Googlebot can crawl it) and Cache-Control: no-cache (so reverse
+         * proxies / CDNs do not cache and skip our PHP recording path).
          *
+         * @link https://wordpress.org/support/topic/request-for-cloudflare-html-caching-compatibility/
          * @since 13.0.8
          */
-        $response->set_headers(array(
-            /**
-             * Cache-Control for Cloudflare caching compatibility
-             *
-             * @link https://wordpress.org/support/topic/request-for-cloudflare-html-caching-compatibility/
-             */
-            'Cache-Control' => 'no-cache',
-        ));
+        $response->set_headers(Helper::getTrackingResponseHeaders());
 
         return $response;
     }

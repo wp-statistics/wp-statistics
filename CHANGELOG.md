@@ -1,5 +1,6 @@
 14.16.7 - 2026-04-**
 - **Enhancement:** Hardened output escaping and input sanitization across device reports.
+- **Enhancement:** Tracking endpoints (`wp_statistics_custom_event`, `wp_statistics_hit_record`, REST `/hit`) now return `X-Robots-Tag: noindex, nofollow` and `Cache-Control: no-cache`, so search engines no longer index these AJAX URLs and CDNs cannot cache them. Resolves spurious "ghost page" entries in Google Search Console.
 - **Fix:** Kept the **Run Migration** button on the Data Migrations screen clickable while a migration is active, so a stuck queue can be force-restarted from the UI without resorting to WP Crontrol.
 
 14.16.6 - 2026-04-16
