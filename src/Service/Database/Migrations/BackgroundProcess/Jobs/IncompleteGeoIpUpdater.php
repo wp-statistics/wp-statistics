@@ -5,10 +5,10 @@ namespace WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs;
 use WP_Statistics\Abstracts\BaseBackgroundProcess;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 
 class IncompleteGeoIpUpdater extends BaseBackgroundProcess
 {
@@ -63,6 +63,15 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
      */
     protected function task($item)
     {
+        // Cloudflare geolocation only resolves from live request headers, which
+        // are absent in queue/cron context. Skip rather than fall back to
+        // MaxMind, which would silently re-download GeoLite2-City.mmdb on
+        // sites that explicitly opted out of MaxMind.
+        if (Option::get('geoip_location_detection_method', 'maxmind') === 'cf') {
+            $this->setProcessed($item['visitors']);
+            return false;
+        }
+
         $visitors     = $item['visitors'];
         $visitorModel = new VisitorsModel();
 
@@ -79,7 +88,7 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
                 continue;
             }
 
-            $location = GeolocationFactory::getLocation($visitor->getIP(), MaxmindGeoIPProvider::class);
+            $location = GeolocationFactory::getLocation($visitor->getIP());
 
             $visitorModel->updateVisitor($visitorId, [
                 'location'  => $location['country_code'],
