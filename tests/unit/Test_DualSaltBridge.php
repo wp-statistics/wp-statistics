@@ -63,7 +63,12 @@ class Test_DualSaltBridge extends WP_UnitTestCase
     {
         $rc   = new ReflectionClass(Ip::class);
         $prop = $rc->getProperty('cachedIpMethod');
-        $prop->setAccessible(true);
+        // setAccessible() became no-op in PHP 8.1 and emits a deprecation
+        // warning in 8.5 — only call it on older runtimes where it's still
+        // required for non-public properties.
+        if (PHP_VERSION_ID < 80100) {
+            $prop->setAccessible(true);
+        }
         $prop->setValue(null, null);
     }
 
@@ -90,7 +95,9 @@ class Test_DualSaltBridge extends WP_UnitTestCase
         foreach ($defaults as $prop => $value) {
             if ($rc->hasProperty($prop)) {
                 $rp = $rc->getProperty($prop);
-                $rp->setAccessible(true);
+                if (PHP_VERSION_ID < 80100) {
+                    $rp->setAccessible(true);
+                }
                 $rp->setValue($payload, $value);
             }
         }
