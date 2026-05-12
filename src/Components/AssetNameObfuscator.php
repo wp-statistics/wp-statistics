@@ -244,12 +244,6 @@ class AssetNameObfuscator
             $this->uploadsDir = Helper::get_uploads_dir();
         }
 
-    private function isLegacyUploadsPath($path)
-    {
-        if (empty($this->uploadsDir)) {
-            $this->uploadsDir = Helper::get_uploads_dir();
-        }
-
         $uploadsRoot = wp_normalize_path(untrailingslashit($this->uploadsDir)) . '/';
         $normalized  = wp_normalize_path($path);
 
