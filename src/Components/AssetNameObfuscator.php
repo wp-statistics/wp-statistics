@@ -244,9 +244,12 @@ class AssetNameObfuscator
             $this->uploadsDir = Helper::get_uploads_dir();
         }
 
-        // Anchor the prefix to a trailing slash so /…/uploads2/x.js does not
-        // match /…/uploads. Normalize $path so entries saved with mixed
-        // separators by older plugin versions still resolve correctly.
+    private function isLegacyUploadsPath($path)
+    {
+        if (empty($this->uploadsDir)) {
+            $this->uploadsDir = Helper::get_uploads_dir();
+        }
+
         $uploadsRoot = wp_normalize_path(untrailingslashit($this->uploadsDir)) . '/';
         $normalized  = wp_normalize_path($path);
 
