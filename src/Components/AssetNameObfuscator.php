@@ -118,10 +118,15 @@ class AssetNameObfuscator
 
         $this->uploadsDir = Helper::get_uploads_dir();
 
-        // Fired only for back-compat with third-party hooks; the proxy reads
-        // the original plugin file directly, so the filtered values are unused.
-        apply_filters_deprecated('wp_statistics_hashed_asset_root', [$this->uploadsDir], '14.16.7', '', 'The obfuscator no longer writes a copy of the tracker into wp-content/uploads/.');
-        apply_filters_deprecated('wp_statistics_hashed_asset_dir', [path_join($this->uploadsDir, $this->hashedFileName), $this->uploadsDir, $this->hashedFileName], '14.16.7', '', 'The obfuscator no longer writes a copy of the tracker into wp-content/uploads/.');
+        // Fire deprecated filters only when something is listening, so we
+        // skip arg construction (and the global no-op) on every other call.
+        if (has_filter('wp_statistics_hashed_asset_root')) {
+            apply_filters_deprecated('wp_statistics_hashed_asset_root', [$this->uploadsDir], '14.16.7', '', 'The obfuscator no longer writes a copy of the tracker into wp-content/uploads/.');
+        }
+
+        if (has_filter('wp_statistics_hashed_asset_dir')) {
+            apply_filters_deprecated('wp_statistics_hashed_asset_dir', [path_join($this->uploadsDir, $this->hashedFileName), $this->uploadsDir, $this->hashedFileName], '14.16.7', '', 'The obfuscator no longer writes a copy of the tracker into wp-content/uploads/.');
+        }
     }
 
     /**

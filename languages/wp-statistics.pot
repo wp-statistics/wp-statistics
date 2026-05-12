@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.16.6\n"
+"Project-Id-Version: WP Statistics 14.16.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-16T05:59:43+00:00\n"
+"POT-Creation-Date: 2026-05-12T09:18:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -2405,7 +2405,7 @@ msgstr ""
 msgid "Data Migrations"
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:198
+#: includes/admin/templates/optimization/updates.php:195
 msgid "Run Migration"
 msgstr ""
 
@@ -5453,7 +5453,7 @@ msgid "Number of views must be greater than or equal to 10!"
 msgstr ""
 
 #: includes/class-wp-statistics-rest-api.php:109
-#: src/Service/Analytics/AnalyticsController.php:51
+#: src/Service/Analytics/AnalyticsController.php:54
 msgid "Invalid signature"
 msgstr ""
 
@@ -5721,11 +5721,11 @@ msgstr ""
 msgid "render method is not defined within %s class."
 msgstr ""
 
-#: src/Components/AssetNameObfuscator.php:309
+#: src/Components/AssetNameObfuscator.php:298
 msgid "File not found."
 msgstr ""
 
-#: src/Components/AssetNameObfuscator.php:309
+#: src/Components/AssetNameObfuscator.php:298
 msgid "404 Not Found"
 msgstr ""
 
@@ -6528,56 +6528,56 @@ msgstr ""
 msgid "Event data removed for %s"
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:290
+#: src/Service/Admin/Optimization/OptimizationActions.php:288
 msgid "GeoIP update started."
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:292
+#: src/Service/Admin/Optimization/OptimizationActions.php:290
 #, php-format
 msgid "GeoIP update failed: %s"
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:308
+#: src/Service/Admin/Optimization/OptimizationActions.php:306
 msgid "Source channel update started."
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:310
+#: src/Service/Admin/Optimization/OptimizationActions.php:308
 #, php-format
 msgid "Source channel update failed: %s"
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:327
+#: src/Service/Admin/Optimization/OptimizationActions.php:325
 #, php-format
 msgid "Anonymized `%d` IP addresses."
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:329
+#: src/Service/Admin/Optimization/OptimizationActions.php:327
 #, php-format
 msgid "IP anonymization failed: %s"
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:347
+#: src/Service/Admin/Optimization/OptimizationActions.php:345
 msgid "Database issues were found. Refresh this page to show the `Repair` button."
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:350
+#: src/Service/Admin/Optimization/OptimizationActions.php:348
 msgid "Database looks good. No issues found."
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:370
+#: src/Service/Admin/Optimization/OptimizationActions.php:368
 msgid "Could not repair the database. Please try again."
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:373
+#: src/Service/Admin/Optimization/OptimizationActions.php:371
 msgid "Database schema issues were repaired."
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:375
+#: src/Service/Admin/Optimization/OptimizationActions.php:373
 #, php-format
 msgid "Failed to repair database schema: %s"
 msgstr ""
 
-#: src/Service/Admin/Optimization/OptimizationActions.php:425
+#: src/Service/Admin/Optimization/OptimizationActions.php:423
 msgid "Historical Data Successfully Updated."
 msgstr ""
 
@@ -7280,7 +7280,7 @@ msgstr ""
 msgid "Direct"
 msgstr ""
 
-#: src/Service/CustomEvent/CustomEventActions.php:55
+#: src/Service/CustomEvent/CustomEventActions.php:58
 msgid "Event recorded successfully."
 msgstr ""
 
@@ -7351,20 +7351,20 @@ msgstr ""
 msgid "Please <a href=\"%s\">click here</a> to process the word count in the background. This is necessary for accurate analytics."
 msgstr ""
 
-#: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:48
+#: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:49
 msgid "GeoIP update for incomplete visitors processed successfully."
 msgstr ""
 
-#: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:49
+#: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:50
 msgid "Update GeoIP for visitors without location data"
 msgstr ""
 
-#: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:128
+#: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:139
 #, php-format
 msgid "Detected visitors without location data. Please <a href=\"%s\">click here</a> to update the geographic data in the background. This is necessary for accurate analytics."
 msgstr ""
 
-#: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:145
+#: src/Service/Database/Migrations/BackgroundProcess/Jobs/IncompleteGeoIpUpdater.php:156
 msgid "Geographic data update is already in progress."
 msgstr ""
 
@@ -7460,58 +7460,58 @@ msgid "GeoIP update on"
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:147
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:139
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:145
 #, php-format
 msgid "Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s"
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:151
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:143
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:149
 #, php-format
 msgid "Error downloading GeoIP database from: %1$s - %2$s"
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:186
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:218
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:224
 msgid "Failed to open GZ archive."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:192
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:224
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:230
 msgid "Failed to open destination file for writing."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:203
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:235
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:241
 msgid "Error extracting GeoIP database file."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:227
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:269
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:275
 msgid "GeoIP database does not exist."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:232
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:274
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:280
 #, php-format
 msgid "Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it."
 msgstr ""
 
 #: src/Service/Geolocation/Provider/DbIpProvider.php:240
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:281
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:287
 #, php-format
 msgid "Unexpected database type %s"
 msgstr ""
 
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:191
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:197
 msgid "PharData class not found."
 msgstr ""
 
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:202
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:208
 msgid "Extraction failed: File not found."
 msgstr ""
 
-#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:206
+#: src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php:212
 msgid "Failed to move extracted file."
 msgstr ""
 

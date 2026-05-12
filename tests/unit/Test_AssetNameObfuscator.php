@@ -62,14 +62,19 @@ class Test_AssetNameObfuscator extends WP_UnitTestCase
     {
         $option = get_option('wp_statistics_hashed_assets');
         $this->assertIsArray($option);
-        $this->assertNotEmpty($option);
 
-        $entry = reset($option);
+        $entry = null;
+        foreach ($option as $candidate) {
+            if (is_array($candidate) && isset($candidate['name']) && $candidate['name'] === $this->obfuscator->getHashedFileName()) {
+                $entry = $candidate;
+                break;
+            }
+        }
 
+        $this->assertNotNull($entry, 'Expected an entry for the test file in the hashed_assets option.');
         $this->assertArrayHasKey('dir', $entry);
         $this->assertArrayHasKey('name', $entry);
         $this->assertSame($this->testFile, $entry['dir']);
-        $this->assertSame($this->obfuscator->getHashedFileName(), $entry['name']);
     }
 
     /**

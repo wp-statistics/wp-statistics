@@ -1,10 +1,10 @@
-14.16.7 - 2026-04-**
-- **Enhancement:** Improved data sanitization across device reports for better security.
-- **Enhancement:** Internal tracking endpoints are no longer indexed by search engines or cached by CDNs, removing spurious "ghost page" entries from Google Search Console.
-- **Fix:** GeoLite2-City database is no longer re-downloaded in the background on sites using the Cloudflare IP Geolocation method. After switching to Cloudflare mode, you can safely delete the existing database file and it will stay deleted (issue [#1093](https://github.com/wp-statistics/wp-statistics/issues/1093)).
-- **Fix:** "Bypass Ad Blockers" no longer writes a copy of the tracker into the uploads directory, fixing compatibility with security plugins and hosting setups that lock that directory down.
-- **Fix:** The **Run Migration** button on the Data Migrations screen now stays clickable during an active migration, so stuck queues can be restarted from the UI.
-- **Deprecated:** The `wp_statistics_hashed_asset_root` and `wp_statistics_hashed_asset_dir` filters no longer affect plugin behavior because the obfuscated tracker is served from the plugin folder rather than copied into uploads/. The filters still fire for back-compat and emit a deprecation notice; they will be removed in a future release. Internal-only methods `getHashedFileUrl()`, `getHashedFilesRootDir()`, and `getHashedFileDir()` on `AssetNameObfuscator` have been removed.
+14.16.7 - 2026-05-12
+- **Enhancement:** Hardened escaping and sanitization in device reports.
+- **Enhancement:** Tracking endpoints now send noindex and no-cache headers to prevent "ghost pages" in Google Search Console.
+- **Fix:** Stopped GeoLite2-City background downloads on Cloudflare IP Geolocation sites (issue [#1093](https://github.com/wp-statistics/wp-statistics/issues/1093)).
+- **Fix:** "Bypass Ad Blockers" no longer copies the tracker into uploads, improving compatibility with hardened hosting.
+- **Fix:** **Run Migration** button stays clickable during an active migration to recover stuck queues.
+- **Deprecated:** `wp_statistics_hashed_asset_root` and `wp_statistics_hashed_asset_dir` filters; will be removed in a future release.
 
 14.16.6 - 2026-04-16
 - **Fix:** Removed legacy TinyMCE integration that caused "Failed to load plugin" errors in the classic editor, especially with themes like Corvix and Avada.
