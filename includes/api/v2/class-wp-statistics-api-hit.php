@@ -6,6 +6,7 @@ use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
 use WP_STATISTICS\Option;
+use WP_Statistics\Components\TrackingResponse;
 
 class Hit extends \WP_STATISTICS\RestAPI
 {
@@ -97,19 +98,7 @@ class Hit extends \WP_STATISTICS\RestAPI
             $response->set_status($statusCode);
         }
 
-        /**
-         * Set headers for the response
-         *
-         * @since 13.0.8
-         */
-        $response->set_headers(array(
-            /**
-             * Cache-Control for Cloudflare caching compatibility
-             *
-             * @link https://wordpress.org/support/topic/request-for-cloudflare-html-caching-compatibility/
-             */
-            'Cache-Control' => 'no-cache',
-        ));
+        $response->set_headers(TrackingResponse::getHeaders());
 
         return $response;
     }

@@ -83,14 +83,14 @@ use WP_Statistics\Components\View;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('City', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <span title="<?php echo Admin_Template::unknownToNotSet($visitor->getLocation()->getCity()) ?>"><?php echo Admin_Template::unknownToNotSet($visitor->getLocation()->getCity()) ?></span>
+            <span title="<?php echo esc_attr(Admin_Template::unknownToNotSet($visitor->getLocation()->getCity())) ?>"><?php echo esc_html(Admin_Template::unknownToNotSet($visitor->getLocation()->getCity())) ?></span>
         </div>
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Region', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <span title="<?php echo Admin_Template::unknownToNotSet($visitor->getLocation()->getRegion()) ?>"><?php echo Admin_Template::unknownToNotSet($visitor->getLocation()->getRegion()) ?></span>
+            <span title="<?php echo esc_attr(Admin_Template::unknownToNotSet($visitor->getLocation()->getRegion())) ?>"><?php echo esc_html(Admin_Template::unknownToNotSet($visitor->getLocation()->getRegion())) ?></span>
         </div>
     </div>
 

@@ -54,35 +54,38 @@ class Test_AssetNameObfuscator extends WP_UnitTestCase
     }
 
     /**
-     * Test if hashed file directory is set correctly.
+     * The mapping stores the original input file path under 'dir' and
+     * the hashed name under 'name'. The proxy reads the original file
+     * directly, so no copy is written to uploads/.
      */
-    public function test_get_hashed_file_dir()
+    public function test_option_entry_layout()
     {
-        $hashedFileDir = $this->obfuscator->getHashedFileDir();
-        $this->assertNotEmpty($hashedFileDir);
-        $this->assertDirectoryExists(dirname($hashedFileDir));
+        $option = get_option('wp_statistics_hashed_assets');
+        $this->assertIsArray($option);
+
+        $entry = null;
+        foreach ($option as $candidate) {
+            if (is_array($candidate) && isset($candidate['name']) && $candidate['name'] === $this->obfuscator->getHashedFileName()) {
+                $entry = $candidate;
+                break;
+            }
+        }
+
+        $this->assertNotNull($entry, 'Expected an entry for the test file in the hashed_assets option.');
+        $this->assertArrayHasKey('dir', $entry);
+        $this->assertArrayHasKey('name', $entry);
+        $this->assertSame($this->testFile, $entry['dir']);
     }
 
     /**
-     * Test if the hashed file is created.
+     * No copy of the input file should land in uploads/.
      */
-    public function test_hashed_file_creation()
+    public function test_no_copy_written_to_uploads()
     {
-        $hashedFileDir = $this->obfuscator->getHashedFileDir();
-        $this->assertFileExists($hashedFileDir);
-    }
+        $uploadsDir   = Helper::get_uploads_dir();
+        $hashedInUploads = path_join($uploadsDir, $this->obfuscator->getHashedFileName());
 
-    /**
-     * Test deletion of all hashed files.
-     */
-    public function test_delete_all_hashed_files()
-    {
-        $hashedFileDir = $this->obfuscator->getHashedFileDir();
-        $this->assertFileExists($hashedFileDir);
-
-        $this->obfuscator->deleteAllHashedFiles();
-
-        $this->assertFileDoesNotExist($hashedFileDir);
+        $this->assertFileDoesNotExist($hashedInUploads);
     }
 
     /**

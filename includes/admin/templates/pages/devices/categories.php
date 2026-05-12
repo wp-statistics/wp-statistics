@@ -32,8 +32,8 @@ use WP_STATISTICS\Helper;
                                 <?php foreach ($data['visitors'] as $item) : ?>
                                     <tr>
                                         <td class="wps-pd-l">
-                                                <span title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->device); ?>" class="wps-model-name">
-                                                    <?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->device); ?>
+                                                <span title="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->device)); ?>" class="wps-model-name">
+                                                    <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->device)); ?>
                                                 </span>
                                         </td>
                                         <td class="wps-pd-l">

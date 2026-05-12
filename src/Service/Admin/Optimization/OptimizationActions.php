@@ -277,8 +277,6 @@ class OptimizationActions
             ];
 
             $method   = Option::get('geoip_location_detection_method', 'maxmind');
-            $method   = false;
-
             $provider = $providerMap[$method] ?? $providerMap['maxmind'];
 
             // First download/update the GeoIP database

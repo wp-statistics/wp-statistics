@@ -36,9 +36,9 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
                                 <?php foreach ($data['visitors'] as $item) : ?>
                                     <tr>
                                         <td class="wps-pd-l">
-                                                <span title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" class="wps-browser-name">
-                                                    <img alt="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>" class="log-tools wps-flag"/>
-                                                    <?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>
+                                                <span title="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent)); ?>" class="wps-browser-name">
+                                                    <img alt="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent)); ?>" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>" class="log-tools wps-flag"/>
+                                                    <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent)); ?>
                                                 </span>
                                         </td>
                                         <td class="wps-pd-l">

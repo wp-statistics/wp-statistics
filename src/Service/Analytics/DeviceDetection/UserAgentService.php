@@ -46,7 +46,7 @@ class UserAgentService
      */
     public function getBrowser()
     {
-        return $this->deviceDetector ? $this->deviceDetector->getClient('name') : null;
+        return $this->deviceDetector ? self::sanitizeDetectorValue($this->deviceDetector->getClient('name')) : null;
     }
 
     /**
@@ -56,7 +56,7 @@ class UserAgentService
      */
     public function getPlatform()
     {
-        return $this->deviceDetector ? $this->deviceDetector->getOs('name') : null;
+        return $this->deviceDetector ? self::sanitizeDetectorValue($this->deviceDetector->getOs('name')) : null;
     }
 
     /**
@@ -76,7 +76,7 @@ class UserAgentService
      */
     public function getDevice()
     {
-        return $this->deviceDetector ? $this->deviceDetector->getDeviceName() : null;
+        return $this->deviceDetector ? self::sanitizeDetectorValue($this->deviceDetector->getDeviceName()) : null;
     }
 
     /**
@@ -102,9 +102,27 @@ class UserAgentService
             }
 
             $model = trim($brand . ' ' . $device);
-        }      
+        }
 
-        return $model ?? null;
+        return self::sanitizeDetectorValue($model);
+    }
+
+    /**
+     * DeviceDetector's fallback regexes can capture raw bytes from the
+     * User-Agent header, so restrict stored values to a safe subset before
+     * they reach DB storage, admin reports, REST, or exports.
+     */
+    public static function sanitizeDetectorValue($value)
+    {
+        if ($value === null || $value === '') {
+            return $value;
+        }
+
+        $value = wp_strip_all_tags((string) $value);
+        $value = preg_replace('/[^\p{L}\p{N}\s._\-\/+()&\']/u', '', $value);
+        $value = trim(preg_replace('/\s+/', ' ', (string) $value));
+
+        return $value;
     }
 
     /**

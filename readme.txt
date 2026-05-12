@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.0
-Stable tag: 14.16.6
+Stable tag: 14.16.7
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -146,6 +146,14 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.7 - 2026-05-12 =
+- **Enhancement:** Hardened escaping and sanitization in device reports.
+- **Enhancement:** Tracking endpoints now send noindex and no-cache headers to prevent "ghost pages" in Google Search Console.
+- **Fix:** Stopped GeoLite2-City background downloads on Cloudflare IP Geolocation sites (issue [#1093](https://github.com/wp-statistics/wp-statistics/issues/1093)).
+- **Fix:** "Bypass Ad Blockers" no longer copies the tracker into uploads, improving compatibility with hardened hosting.
+- **Fix:** **Run Migration** button stays clickable during an active migration to recover stuck queues.
+- **Deprecated:** `wp_statistics_hashed_asset_root` and `wp_statistics_hashed_asset_dir` filters; will be removed in a future release.
+
 = 14.16.6 - 2026-04-16 =
 - **Fix:** Removed legacy TinyMCE integration that caused "Failed to load plugin" errors in the classic editor, especially with themes like Corvix and Avada.
 - **Fix:** Excluded browser prefetch and prerender requests that were inflating visit counts.

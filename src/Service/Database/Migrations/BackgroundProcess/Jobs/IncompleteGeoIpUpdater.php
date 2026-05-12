@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs;
 use WP_Statistics\Abstracts\BaseBackgroundProcess;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
@@ -63,6 +64,16 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
      */
     protected function task($item)
     {
+        // CF headers are not available in cron, so this job uses MaxMind as
+        // the server-side fallback. On cf-mode sites without the mmdb on
+        // disk, skip rather than backfill rows with default-location data
+        // (issue #1093).
+        if (Option::get('geoip_location_detection_method', 'maxmind') === 'cf' &&
+            !(new MaxmindGeoIPProvider())->isDatabaseExist()) {
+            $this->setProcessed($item['visitors']);
+            return false;
+        }
+
         $visitors     = $item['visitors'];
         $visitorModel = new VisitorsModel();
 
