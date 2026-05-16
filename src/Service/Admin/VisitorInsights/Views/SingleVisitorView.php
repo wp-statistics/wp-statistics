@@ -8,6 +8,7 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 use WP_Statistics\Utils\Request;
@@ -18,7 +19,11 @@ class SingleVisitorView extends BaseView
 
     public function __construct()
     {
-        $this->visitor_id = Request::get('visitor_id');
+        if (!User::Access('read')) {
+            throw new SystemErrorException(esc_html__('You do not have permission to view this report.', 'wp-statistics'));
+        }
+
+        $this->visitor_id = Request::get('visitor_id', 0, 'number');
 
         if (empty($this->visitor_id)) {
             throw new SystemErrorException(esc_html__('Please provide a valid visitor ID.', 'wp-statistics'));

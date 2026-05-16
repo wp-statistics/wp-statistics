@@ -185,8 +185,7 @@ class HitColumnHandler
 
         global $wpdb;
 
-        // Get global Variable
-        $order = $wpQuery->query_vars['order'];
+        $order = strtoupper((string) $wpQuery->query_vars['order']) === 'ASC' ? 'ASC' : 'DESC';
 
         // Add date condition if needed
         $dateCondition = '';

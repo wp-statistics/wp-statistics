@@ -19,9 +19,11 @@ class Referrals
      */
     public static function getRawUrl()
     {
-        $referrer = $_SERVER['HTTP_REFERER'] ?? '';
+        $referrer = isset($_SERVER['HTTP_REFERER']) ? wp_unslash($_SERVER['HTTP_REFERER']) : '';
 
         if (Helper::is_rest_request() && Request::has('referred')) {
+            // Keep the value raw here: sanitize_url() would strip the `+` and `=`
+            // padding that base64-decoded cache-plugin payloads depend on.
             $referrer = Request::get('referred', '', 'raw');
 
             if (Option::get('use_cache_plugin')) {
@@ -31,8 +33,11 @@ class Referrals
             $referrer = urldecode($referrer);
         }
 
-        // Return empty string if referrer is internal, otherwise return the referrer
-        return !Url::isInternal($referrer) ? $referrer : '';
+        if (Url::isInternal($referrer)) {
+            return '';
+        }
+
+        return wp_strip_all_tags((string) $referrer);
     }
 
     /**

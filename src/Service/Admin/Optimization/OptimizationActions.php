@@ -23,6 +23,8 @@ class OptimizationActions
 {
     use AjaxUtilityTrait;
 
+    const NONCE_ACTION = 'wp_statistics_optimization';
+
     public function register()
     {
         Ajax::register('purge_old_data', [$this, 'purgeOldData'], false);
@@ -47,7 +49,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $purgeDays = Request::get('purge-days', 0, 'number');
@@ -71,7 +73,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $hits     = Request::get('purge-hits');
@@ -130,7 +132,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $result = Query::update('visitor')
@@ -154,7 +156,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $result = Query::update('visitor')
@@ -178,7 +180,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             Option::deleteOptionGroup('word_count_process_initiated', 'jobs');
@@ -204,7 +206,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             // Get allowed query params
@@ -239,7 +241,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $eventName = Request::get('event_name');
@@ -268,7 +270,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $providerMap = [
@@ -298,7 +300,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             BackgroundProcessFactory::getBackgroundProcess('update_visitors_source_channel')->process();
@@ -317,7 +319,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $result = IP::Update_HashIP_Visitor();
@@ -335,7 +337,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $schemaCheckResult = SchemaMaintainer::check(true);
@@ -358,7 +360,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wp_rest', 'wps_nonce');
+            $this->checkAdminReferrer(self::NONCE_ACTION, 'wps_nonce');
             $this->checkCapability('manage');
 
             $schemaRepairResult = SchemaMaintainer::repair();
