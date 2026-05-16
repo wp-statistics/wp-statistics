@@ -33,11 +33,13 @@ class Referrals
             $referrer = urldecode($referrer);
         }
 
+        $referrer = wp_strip_all_tags((string) $referrer);
+
         if (Url::isInternal($referrer)) {
             return '';
         }
 
-        return wp_strip_all_tags((string) $referrer);
+        return $referrer;
     }
 
     /**

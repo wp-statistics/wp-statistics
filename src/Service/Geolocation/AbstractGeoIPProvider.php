@@ -219,6 +219,8 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
             '169.254.169.254',
             'metadata.google.internal',
             'metadata.goog',
+            'localhost',
+            '0.0.0.0',
         ];
 
         if (in_array($host, $blockedHosts, true)) {
@@ -226,6 +228,14 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
         }
 
         if (strpos($host, '[fe80') === 0 || strpos($host, '[fd00:ec2') === 0 || $host === '[::1]') {
+            return $defaultUrl;
+        }
+
+        // RFC 1918 hosts are intentionally allowed because mirroring the GeoIP
+        // database on a private network is a documented setup. The 127.0.0.0/8
+        // loopback range is rejected explicitly so attacker-controlled filter
+        // values cannot point at local-machine services.
+        if (filter_var($host, FILTER_VALIDATE_IP) && strpos($host, '127.') === 0) {
             return $defaultUrl;
         }
 

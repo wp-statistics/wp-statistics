@@ -19,7 +19,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
                 type: 'POST',
                 data: {
                     action: 'wp_statistics_handle_historical_setting_form',
-                    _wpnonce: '<?php echo esc_js(wp_create_nonce('wps_optimization')); ?>',
+                    _wpnonce: '<?php echo esc_js(wp_create_nonce(WP_Statistics\Service\Admin\Optimization\OptimizationActions::NONCE_ACTION)); ?>',
                     visitors: $('#wps_historical_visitors').val(),
                     visits: $('#wps_historical_visits').val()
                 },

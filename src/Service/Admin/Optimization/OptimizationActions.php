@@ -383,7 +383,7 @@ class OptimizationActions
     {
         try {
             $this->verifyAjaxRequest();
-            $this->checkAdminReferrer('wps_optimization');
+            $this->checkAdminReferrer(self::NONCE_ACTION);
             $this->checkCapability('manage');
 
             $visitors = Request::get('visitors', 0, 'number');
