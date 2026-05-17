@@ -44,7 +44,7 @@ class PluginHandler
         $installResult  = $pluginUpgrader->install($downloadFile, ['overwrite_package' => true]);
 
         // Cleanup downloaded file
-        @unlink($downloadFile);
+        wp_delete_file($downloadFile);
 
         if (is_wp_error($installResult)) {
             // translators: %s: Error message.

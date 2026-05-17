@@ -213,7 +213,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
                 }
 
                 // Remove the extracted file and its parent directory
-                unlink($fileExtractedPath);
+                wp_delete_file($fileExtractedPath);
                 rmdir(dirname($fileExtractedPath));
 
                 return;

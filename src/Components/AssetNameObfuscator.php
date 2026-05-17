@@ -230,7 +230,7 @@ class AssetNameObfuscator
             return;
         }
 
-        unlink($dir);
+        wp_delete_file($dir);
     }
 
     /**
