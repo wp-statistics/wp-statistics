@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use Exception;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;

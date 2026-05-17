@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;

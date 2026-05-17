@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\ExportImport;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Service\Admin\ExportImport\Reports\ReportsExportHandler;
 
 class ExportImportManager

@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;

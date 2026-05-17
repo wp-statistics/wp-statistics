@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Globals\Context;

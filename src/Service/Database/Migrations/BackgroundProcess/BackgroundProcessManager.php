@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Database\Migrations\BackgroundProcess;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Abstracts\BaseMigrationManager;
 use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;

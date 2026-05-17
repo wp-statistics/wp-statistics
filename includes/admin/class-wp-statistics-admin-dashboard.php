@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 class Admin_Dashboard
 {
     /**

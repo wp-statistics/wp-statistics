@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Service\Summary;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 class SummaryManager
 {
     public function __construct()

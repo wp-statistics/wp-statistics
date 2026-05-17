@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 /**
  * PSR-4 autoloader implementation for the WP_Statistics\Dependencies\DeviceDetector namespace.
  * First we define the 'dd_autoload' function, and then we register

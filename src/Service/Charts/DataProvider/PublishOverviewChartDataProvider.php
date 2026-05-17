@@ -44,12 +44,12 @@ class PublishOverviewChartDataProvider extends AbstractChartDataProvider
 
         // Get number of posts published per day during last 365 days
         while ($date <= $today) {
-            $currentDate    = date('Y-m-d', $date);
+            $currentDate    = gmdate('Y-m-d', $date);
             $numberOfPosts  = isset($publishingData[$currentDate]) ? intval($publishingData[$currentDate]) : 0;
 
             $parsedData[] = [
                 'x' => $currentDate, // date in Y-m-d format
-                'y' => date('N', $date), // day of week
+                'y' => gmdate('N', $date), // day of week
                 'd' => date_i18n(Helper::getDefaultDateFormat(), strtotime($currentDate)), // date in default format
                 'v' => $numberOfPosts // number of posts
             ];

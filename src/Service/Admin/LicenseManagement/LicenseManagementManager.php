@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use Exception;
 use WP_Statistics;
 use WP_Statistics\Exception\LicenseException;

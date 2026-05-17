@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Notification;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\Event;
 use WP_STATISTICS\Option;
 

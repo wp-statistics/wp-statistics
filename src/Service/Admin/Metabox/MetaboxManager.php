@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Metabox;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Screen;
 use WP_Statistics\Core\CoreFactory;
 

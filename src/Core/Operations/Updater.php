@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Core\Operations;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Core\AbstractCore;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\DateTime;

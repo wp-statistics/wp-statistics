@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class AdminManager

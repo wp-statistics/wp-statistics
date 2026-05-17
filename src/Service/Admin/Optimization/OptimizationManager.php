@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Service\Admin\Optimization;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Option;
 use WP_STATISTICS\User;
 

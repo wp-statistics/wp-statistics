@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
 use WP_Statistics\Models\ViewsModel;

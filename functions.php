@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 use WP_Statistics\Service\CustomEvent\CustomEventDataParser;
 use WP_Statistics\Models\EventsModel;
 

@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Components;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 class Ajax
 {
     /**

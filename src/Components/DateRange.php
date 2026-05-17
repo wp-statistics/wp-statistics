@@ -203,8 +203,8 @@ class DateRange
             $prevFrom   = $prevTo - $daysInPeriod * 60 * 60 * 24;
 
             return [
-                'from'  => date(DateTime::$defaultDateFormat, $prevFrom),
-                'to'    => date(DateTime::$defaultDateFormat, $prevTo)
+                'from'  => gmdate(DateTime::$defaultDateFormat, $prevFrom),
+                'to'    => gmdate(DateTime::$defaultDateFormat, $prevTo)
             ];
         }
 
@@ -441,7 +441,7 @@ class DateRange
         $to   = strtotime($range['to']);
 
         while ($from <= $to) {
-            $dates[] = date('Y-m-d', $from);
+            $dates[] = gmdate('Y-m-d', $from);
 
             $from += DAY_IN_SECONDS;
         }

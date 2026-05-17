@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Abstracts;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use Exception;
 use WP_Statistics\Components\DateTime;
 use WP_STATISTICS\Menus;

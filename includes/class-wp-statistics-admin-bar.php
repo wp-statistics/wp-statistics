@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Admin_Bar;
 use WP_Statistics\Models\HistoricalModel;
 use WP_Statistics\Models\ViewsModel;

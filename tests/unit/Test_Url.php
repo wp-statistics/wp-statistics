@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Tests\Utils;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Utils\Url;
 use WP_UnitTestCase;
 

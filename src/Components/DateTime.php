@@ -103,7 +103,7 @@ class DateTime
      */
     public static function subtract($date, $days, $format = 'Y-m-d')
     {
-        return date($format, strtotime("-$days day", strtotime($date)));
+        return gmdate($format, strtotime("-$days day", strtotime($date)));
     }
 
     /**
@@ -186,13 +186,13 @@ class DateTime
      */
     public static function isTodayOrFutureDate($date)
     {
-        $today = date('Y-m-d');
+        $today = gmdate('Y-m-d');
 
         if (!$date || strtotime($date) === false) {
             return false;
         }
 
-        $inputDate = date('Y-m-d', strtotime($date));
+        $inputDate = gmdate('Y-m-d', strtotime($date));
 
         return ($inputDate >= $today);
     }

@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS\Admin;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Option;
 use WP_STATISTICS\PrivacyErasers;
 use WP_STATISTICS\PrivacyExporter;

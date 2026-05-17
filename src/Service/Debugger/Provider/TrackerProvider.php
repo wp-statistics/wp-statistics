@@ -179,7 +179,7 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     public function executeTrackerCheck()
     {
-        $parsedUrl = parse_url($this->trackerPath);
+        $parsedUrl = wp_parse_url($this->trackerPath);
 
         if (empty($parsedUrl['path'])) {
             return false;

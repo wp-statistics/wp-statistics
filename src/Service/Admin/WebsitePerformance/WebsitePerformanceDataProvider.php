@@ -131,13 +131,13 @@ class WebsitePerformanceDataProvider
         } else if ($fromDate == TimeZone::getTimeAgo(14)) {
             // Current period: From 2 weeks ago to yesterday - Previous period: From 4 weeks ago to 15 days ago
             $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(14), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(28), TimeZone::getTimeAgo(15));
-        } else if ($fromDate == date('Y-m-d', strtotime('First day of previous month'))) {
+        } else if ($fromDate == gmdate('Y-m-d', strtotime('First day of previous month'))) {
             // Current period: Last month - Previous period: Previous month
             $this->setCurrentAndPreviousPeriods(
-                date('Y-m-d', strtotime('First day of previous month')),
-                date('Y-m-d', strtotime('Last day of previous month')),
-                date('Y-m-d', strtotime('First day of -2 months')),
-                date('Y-m-d', strtotime('Last day of -2 months'))
+                gmdate('Y-m-d', strtotime('First day of previous month')),
+                gmdate('Y-m-d', strtotime('Last day of previous month')),
+                gmdate('Y-m-d', strtotime('First day of -2 months')),
+                gmdate('Y-m-d', strtotime('Last day of -2 months'))
             );
         } else if (!empty($fromDate)) {
             // Current period: From the `$fromDate` to `$toDate` - Previous period: From twice the `$fromDate` to one day before the `$fromDate`
@@ -149,7 +149,7 @@ class WebsitePerformanceDataProvider
             );
         } else {
             // Current period: Total (including today) - Skip previous period (and the percentage change number)
-            $this->setCurrentAndPreviousPeriods(date('Y-m-d', 0), TimeZone::getTimeAgo(0));
+            $this->setCurrentAndPreviousPeriods(gmdate('Y-m-d', 0), TimeZone::getTimeAgo(0));
             $this->calculatePercentageChanges = false;
         }
     }

@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\CustomEvent;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 class CustomEventManager
 {
     public function __construct()

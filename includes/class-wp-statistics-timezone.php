@@ -62,7 +62,7 @@ class TimeZone
      */
     public static function getLocalDate($format, $timestamp)
     {
-        return date($format, $timestamp + self::set_timezone()); // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
+        return gmdate($format, $timestamp + self::set_timezone()); // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
     }
 
     /**
@@ -76,12 +76,12 @@ class TimeZone
     {
         if ($strtotime) {
             if ($relative) {
-                return date($format, strtotime("{$strtotime} day", $relative) + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
+                return gmdate($format, strtotime("{$strtotime} day", $relative) + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             } else {
-                return date($format, strtotime("{$strtotime} day") + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
+                return gmdate($format, strtotime("{$strtotime} day") + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             }
         } else {
-            return date($format, time() + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
+            return gmdate($format, time() + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
         }
     }
 
@@ -98,12 +98,12 @@ class TimeZone
     {
         if ($strtotime) {
             if ($relative) {
-                return date($format, strtotime("{$strtotime} day", $relative));  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
+                return gmdate($format, strtotime("{$strtotime} day", $relative));  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             } else {
-                return date($format, strtotime("{$strtotime} day"));  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
+                return gmdate($format, strtotime("{$strtotime} day"));  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             }
         } else {
-            return date($format, time());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
+            return gmdate($format, time());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
         }
     }
 
@@ -152,7 +152,7 @@ class TimeZone
      */
     public static function getTimeAgo($ago_days = 1, $format = 'Y-m-d')
     {
-        return date($format, strtotime("- " . $ago_days . " day", self::getCurrentTimestamp()));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+        return gmdate($format, strtotime("- " . $ago_days . " day", self::getCurrentTimestamp()));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
     }
 
     /**
@@ -195,7 +195,7 @@ class TimeZone
         $args['to'] = ($args['to'] === false ? self::getCurrentDate() : $args['to']);
 
         // Get List Of Day
-        $period = new \DatePeriod(new \DateTime($args['from']), new \DateInterval('P1D'), new \DateTime(date('Y-m-d', strtotime("+1 day", strtotime($args['to']))))); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+        $period = new \DatePeriod(new \DateTime($args['from']), new \DateInterval('P1D'), new \DateTime(gmdate('Y-m-d', strtotime("+1 day", strtotime($args['to']))))); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
         foreach ($period as $key => $value) {
             $list[$value->format('Y-m-d')] = array(
                 'timestamp' => $value->format('U'),
@@ -226,16 +226,16 @@ class TimeZone
             'this_week' => DateRange::get('this_week'),
             'last_week' => DateRange::get('last_week'),
             'this_month' => [
-                'from' => date('Y-m-d', strtotime('first day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-                'to'   => date('Y-m-d', strtotime('last day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'from' => gmdate('Y-m-d', strtotime('first day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'to'   => gmdate('Y-m-d', strtotime('last day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             ],
             'last_month' => [
-                'from' => date('Y-m-d', strtotime('first day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-                'to'   => date('Y-m-d', strtotime('last day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'from' => gmdate('Y-m-d', strtotime('first day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'to'   => gmdate('Y-m-d', strtotime('last day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             ],
             '2months_ago' => [
-                'from' => date('Y-m-d', strtotime('first day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-                'to'   => date('Y-m-d', strtotime('last day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'from' => gmdate('Y-m-d', strtotime('first day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'to'   => gmdate('Y-m-d', strtotime('last day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             ],
             '7days'      => [
                 'from' => self::getTimeAgo(6),
@@ -262,11 +262,11 @@ class TimeZone
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             '6months'    => [
-                'from' => date('Y-m-d', strtotime('-6 months')), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'from' => gmdate('Y-m-d', strtotime('-6 months')), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             'year'       => [
-                'from' => date('Y-m-d', strtotime('-12 months')), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'from' => gmdate('Y-m-d', strtotime('-12 months')), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             'this_year'       => [

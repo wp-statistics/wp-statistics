@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\TrackerDebugger;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Option;
 
 class TrackerDebuggerManager

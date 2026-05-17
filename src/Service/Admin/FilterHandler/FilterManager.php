@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\FilterHandler;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Country;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;

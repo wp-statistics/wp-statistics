@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS\Api\v2;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;

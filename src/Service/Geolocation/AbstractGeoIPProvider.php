@@ -132,7 +132,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     public function getLastDatabaseFileUpdated()
     {
         if ($this->isDatabaseExist()) {
-            return date('Y-m-d H:i:s', filemtime($this->getDatabasePath()));
+            return gmdate('Y-m-d H:i:s', filemtime($this->getDatabasePath()));
         }
     }
 

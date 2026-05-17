@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Globals;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\Ajax;
 
 class AjaxManager

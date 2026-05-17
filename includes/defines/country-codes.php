@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 /**
  * This is a list of all known country codes and their country names.
  * It is used in several places in the plugin and is therefore centralized here for ease of update.

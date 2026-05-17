@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS\Api\v2;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Option;
 
 class Meta_Box extends \WP_STATISTICS\RestAPI

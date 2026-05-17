@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Database\Migrations\Queue;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Abstracts\BaseMigrationManager;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
