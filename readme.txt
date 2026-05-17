@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.0
-Stable tag: 14.16.7
+Stable tag: 14.16.8
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -146,6 +146,13 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.8 - 2026-05-17 =
+- **Enhancement:** Hardened input handling across admin AJAX endpoints, the dynamic query builder, the referrer pipeline, and the GeoIP download URL.
+- **Enhancement:** Removed the bundled moment.min.js in favor of the copy shipped with WordPress core.
+- **Enhancement:** Added direct-file-access guards, switched date() calls to gmdate(), and routed parse_url() through wp_parse_url().
+- **Enhancement:** Normalized translator placeholders and text domains; routed translated UI strings through escape/kses functions.
+- **Enhancement:** Replaced direct unlink() calls in plugin code with wp_delete_file().
+
 = 14.16.7 - 2026-05-12 =
 - **Enhancement:** Hardened escaping and sanitization in device reports.
 - **Enhancement:** Tracking endpoints now send noindex and no-cache headers to prevent "ghost pages" in Google Search Console.

@@ -1,3 +1,10 @@
+14.16.8 - 2026-05-17
+- **Enhancement:** Hardened input handling across admin AJAX endpoints, the dynamic query builder, the referrer pipeline, and the GeoIP download URL.
+- **Enhancement:** Removed the bundled moment.min.js in favor of the copy shipped with WordPress core.
+- **Enhancement:** Added direct-file-access guards, switched date() calls to gmdate(), and routed parse_url() through wp_parse_url().
+- **Enhancement:** Normalized translator placeholders and text domains; routed translated UI strings through escape/kses functions.
+- **Enhancement:** Replaced direct unlink() calls in plugin code with wp_delete_file().
+
 14.16.7 - 2026-05-12
 - **Enhancement:** Hardened escaping and sanitization in device reports.
 - **Enhancement:** Tracking endpoints now send noindex and no-cache headers to prevent "ghost pages" in Google Search Console.
