@@ -88,7 +88,7 @@ add_thickbox();
                         <?php endif; ?>
                         dataType: 'json',
                         beforeSend: function () {
-                            jQuery("#js-ipService").val('<?php _e('Loading...', 'wp-statistics'); ?>');
+                            jQuery("#js-ipService").val('<?php esc_html_e('Loading...', 'wp-statistics'); ?>');
                         },
                         error: function (jqXHR) {
                             if (jqXHR.status == 0) {
@@ -141,7 +141,7 @@ add_thickbox();
                 </select>
                 <div class="js-wps-show_if_ip_method_equal_sequential">
                     <p class="description">
-                        <?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?>
+                        <?php echo wp_kses_post(__('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics')); ?>
                     </p>
                 </div>
 
@@ -151,10 +151,10 @@ add_thickbox();
                     </div>
 
                     <p class="description">
-                        <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
-                        <a aria-label="<?php esc_attr_e('Open modal to view available headers on your server', 'wp-statistics'); ?>" href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
+                        <?php echo wp_kses_post(__('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics'));  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
+                        <a aria-label="<?php esc_attr_e('Open modal to view available headers on your server', 'wp-statistics'); ?>" href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php esc_html_e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
                     </p>
-                    <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics'));  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
                 </div>
             </td>
         </tr>

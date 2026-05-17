@@ -108,7 +108,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 <td>
                     <input id="wps_addon_settings[customization][wps_white_label]" type="checkbox" value="1" name="wps_addon_settings[customization][wps_white_label]" <?php checked(WP_STATISTICS\Option::getByAddon('wps_white_label', 'customization')) ?>>
                     <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the <a href="https://wp-statistics.com/resources/whitelabeling-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">White label Documentation</a>.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the <a href="https://wp-statistics.com/resources/whitelabeling-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">White label Documentation</a>.', 'wp-statistics')); ?></p>
                 </td>
             </tr>
 
@@ -197,7 +197,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                         <?php esc_html_e('Download export file', 'wp-statistics'); ?>
                     </button>
                     <p class="description">
-                        <?php _e('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?>
+                        <?php echo wp_kses_post(__('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics')); ?>
                     </p>
                 </td>
             </tr>
@@ -238,7 +238,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                     </button>
 
                     <p class="description">
-                        <?php _e('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?>
+                        <?php echo wp_kses_post(__('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics')); ?>
                     </p>
                 </td>
             </tr>
