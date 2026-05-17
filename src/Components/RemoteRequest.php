@@ -165,7 +165,7 @@ class RemoteRequest
 
         if ($throwFailedHttpCodeResponse && !$this->isRequestSuccessful()) {
             throw new Exception(sprintf(
-                esc_html__('Failed to get success response. URL: %s, Method: %s, Status Code: %s', 'wp-statistics'),
+                esc_html__('Failed to get success response. URL: %1$s, Method: %2$s, Status Code: %3$s', 'wp-statistics'),
                 esc_html($this->requestUrl),
                 esc_html($this->parsedArgs['method'] ?? 'GET'),
                 esc_html($this->responseCode)

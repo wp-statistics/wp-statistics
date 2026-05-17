@@ -3,7 +3,7 @@
     <div class="wps-admin-pages-component__promotion">
         <h3><?php echo sprintf(
             // translators: 1: Link to DataPlus add-on - 2: Name of the add-on.
-            __('Latest Visitors is included in <a href="%s" target="_blank">%s</a>', 'wp-statistics'),
+            __('Latest Visitors is included in <a href="%1$s" target="_blank">%2$s</a>', 'wp-statistics'),
             esc_url('https://wp-statistics.com/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=display&utm_campaign=dp-unlock-charts'),
             esc_html__('DataPlus Add-on', 'wp-statistics')
         ); ?></h3>

@@ -6,7 +6,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics-mini-chart');
+$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics');
 $isMiniChartActive         = WP_STATISTICS\Helper::isAddOnActive('mini-chart');
 $miniChartDefaultPostTypes = get_post_types(array(
     'public'   => true,
@@ -14,8 +14,8 @@ $miniChartDefaultPostTypes = get_post_types(array(
 ), 'objects');
 
 $miniChartPostTypes = [
-    'post' => __('Posts', 'wp-statistics-mini-chart'),
-    'page' => __('Pages', 'wp-statistics-mini-chart'),
+    'post' => __('Posts', 'wp-statistics'),
+    'page' => __('Pages', 'wp-statistics'),
 ];
 foreach ($miniChartDefaultPostTypes as $postType) {
     $miniChartPostTypes[$postType->name] = $postType->label;
@@ -24,7 +24,7 @@ foreach ($miniChartDefaultPostTypes as $postType) {
 $miniChartPostTypesOptions = array();
 foreach ($miniChartPostTypes as $name => $label) {
     // translators: %s: Post type label.
-    $miniChartPostTypesOptions[$name] = sprintf(__('Enable Mini Chart for %s', 'wp-statistics-mini-chart'), $label);
+    $miniChartPostTypesOptions[$name] = sprintf(__('Enable Mini Chart for %s', 'wp-statistics'), $label);
 }
 ?>
 
@@ -35,7 +35,7 @@ foreach ($miniChartPostTypes as $name => $label) {
 if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart'),
      'addon_title'        => __('Mini Chart Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-mini-chart',
+     'addon_modal_target' => 'wp-statistics',
      'addon_description'  => __('The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data.', 'wp-statistics'),
      'addon_features'     => [
          __('Tiny charts for posts and pages to measure performance.', 'wp-statistics'),

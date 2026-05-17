@@ -263,7 +263,7 @@ class Schedule
             if ($schedule['start'] === $schedule['end']) {
                 $subject .= sprintf(__('for %s', 'wp-statistics'), $schedule['start']);
             } else {
-                $subject .= sprintf(__('for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+                $subject .= sprintf(__('for %1$s to %2$s', 'wp-statistics'), $schedule['start'], $schedule['end']);
             }
         }
 

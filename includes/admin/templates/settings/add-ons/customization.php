@@ -10,7 +10,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
-$isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
+$isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics');
 $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
@@ -53,7 +53,7 @@ $pluginHandler     = new PluginHandler();
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=customization'),
      'addon_title'        => __('Customization Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-customization',
+     'addon_modal_target' => 'wp-statistics',
      'addon_description'  => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
      'addon_features'     => [
          __('Customize menus according to your preferences.', 'wp-statistics'),
@@ -133,11 +133,11 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 <td>
                     <div class='wps-img-preview-wrapper'>
                         <img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo">
-                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0 5px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/>
+                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0 5px;" value="<?php esc_html_e('X', 'wp-statistics') ?>"/>
                     </div>
                     <div class="wps-input-group wps-input-group__action">
                         <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo $custom_header_logo; ?>"/>
-                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; "/>
+                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics') ?>" style="margin: 0; "/>
                     </div>
                     <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
                 </td>
@@ -171,7 +171,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                             checked
                         >
                         <label for="wps-addon-wp-statistics" class="wps-export__label">
-                            <?php echo esc_html__('WP Statistics (core settings)'); ?>
+                            <?php echo esc_html__('WP Statistics (core settings)', 'wp-statistics'); ?>
                         </label>
                     </p>
                     <?php foreach (PluginHelper::$plugins as $plugin => $title):

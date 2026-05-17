@@ -838,7 +838,7 @@ class Helper
             } else {
                 $report_date = sprintf(
                 // translators: 1: Report start date - 2: Report end date.
-                    __('%s - %s', 'wp-statistics'),
+                    __('%1$s - %2$s', 'wp-statistics'),
                     esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['start']))),
                     esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['end'])))
                 );

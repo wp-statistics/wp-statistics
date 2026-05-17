@@ -47,7 +47,7 @@ use WP_STATISTICS\Schedule;
                 <div>
                     <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
                     <?php if ($next_scheduled_time) : ?>
-                        <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
+                        <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%1$s at %2$s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
                     <?php endif; ?>
                 </div>
             </td>

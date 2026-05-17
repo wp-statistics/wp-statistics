@@ -256,7 +256,7 @@ class LicenseHelper
         }
 
         $licenseText = sprintf(
-            esc_html__('License: %s/%s', 'wp-statistics'),
+            esc_html__('License: %1$s/%2$s', 'wp-statistics'),
             count(PluginHelper::getLicensedPlugins()),
             count(PluginHelper::$plugins)
         );

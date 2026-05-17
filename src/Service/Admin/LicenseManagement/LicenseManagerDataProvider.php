@@ -38,7 +38,7 @@ class LicenseManagerDataProvider
         $addOnsList = PluginHelper::getRemotePlugins();
 
         if (empty($addOnsList)) {
-            throw new SystemErrorException(esc_html__('Failed to retrieve the list of available add-ons. Please try again later.'));
+            throw new SystemErrorException(esc_html__('Failed to retrieve the list of available add-ons. Please try again later.', 'wp-statistics'));
         }
 
         // Separate active and inactive add-ons

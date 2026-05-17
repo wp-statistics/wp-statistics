@@ -29,7 +29,7 @@ $notices = IntegrationHelper::getDetectionNotice();
     <div class="wps-audit-card__suggestion-text">
         <?php
         printf(
-            __('<p>Learn %s with your preferred consent management solution. Explore the %s to find the right fit for your site.</p>', 'wp-statistics'),
+            __('<p>Learn %1$s with your preferred consent management solution. Explore the %2$s to find the right fit for your site.</p>', 'wp-statistics'),
             '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('how to integrate a consent plugin', 'wp-statistics') . '</a>',
             '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/compatible-consent-plugins-with-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('list of compatible consent plugins', 'wp-statistics') . '</a>'
         );

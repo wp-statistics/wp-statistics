@@ -23,7 +23,7 @@ class settings_page extends Singleton
 
         // Check Access Level
         if (Menus::in_page('settings') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            wp_die(__('You do not have sufficient permissions to access this page.', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 
@@ -121,12 +121,12 @@ class settings_page extends Singleton
 
         // Save Setting
         if (isset($_GET['save_setting'])) {
-            Notice::addFlashNotice(__("Settings Successfully Saved.", "wp-statistics"), "success");
+            Notice::addFlashNotice(__("Settings Successfully Saved.", "wp-statistics", 'wp-statistics'), "success");
         }
 
         // Reset Setting
         if (isset($_GET['reset_settings'])) {
-            Notice::addFlashNotice(__("All Settings Have Been Reset to Default.", "wp-statistics"), "success");
+            Notice::addFlashNotice(__("All Settings Have Been Reset to Default.", "wp-statistics", 'wp-statistics'), "success");
         }
 
         // Import Settings

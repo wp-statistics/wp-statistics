@@ -272,7 +272,7 @@ class IP
                 $binRange   = inet_pton($range);
 
                 if ($binIp == false || $binRange == false) {
-                    throw new ErrorException(esc_html__('Invalid IP address or Range.'));
+                    throw new ErrorException(esc_html__('Invalid IP address or Range.', 'wp-statistics'));
                 }
 
                 // Calculate the number of bytes in the IP address

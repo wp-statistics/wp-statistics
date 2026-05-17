@@ -413,7 +413,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 <?php
                 echo sprintf(
                     __(
-                        'If tracker.js is still not working, visit our <a target="_blank" href="%s">troubleshooting guide</a> for detailed steps or <a target="_blank" href="%s">contact our support team</a> for assistance.',
+                        'If tracker.js is still not working, visit our <a target="_blank" href="%1$s">troubleshooting guide</a> for detailed steps or <a target="_blank" href="%2$s">contact our support team</a> for assistance.',
                         'wp-statistics'
                     ),
                     esc_url(WP_STATISTICS_SITE_URL . '/resources-category/troubleshooting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger'),

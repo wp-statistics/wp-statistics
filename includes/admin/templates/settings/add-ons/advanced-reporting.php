@@ -8,7 +8,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics-advanced-reporting');
+$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics');
 $isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
 global $wp_version;
 ?>
@@ -19,7 +19,7 @@ global $wp_version;
 if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=advanced-reporting'),
      'addon_title'        => __('Advanced Reporting Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-advanced-reporting',
+     'addon_modal_target' => 'wp-statistics',
      'addon_description'  => __('The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.', 'wp-statistics'),
      'addon_features'     => [
          __('Receive graphical statistics charts via email.', 'wp-statistics'),
@@ -236,12 +236,12 @@ if ($isAdvancedReportingActive && !$isLicenseValid) {
                 <td>
                     <div class='wps-img-preview-wrapper'>
                         <img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo">
-                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?>;margin:0 5px" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/>
+                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?>;margin:0 5px" value="<?php esc_html_e('X', 'wp-statistics') ?>"/>
                     </div>
 
                     <div class="wps-input-group wps-input-group__action">
                         <input id="wps_addon_settings[advanced_reporting][custom_header_logo]" name="wps_addon_settings[advanced_reporting][custom_header_logo]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting')) ?>"/>
-                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0;"/>
+                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics') ?>" style="margin: 0;"/>
                     </div>
                     <p class="description"><?php esc_html_e('Upload your own logo to replace the default in report headers, establishing your brand\'s presence in all reports.', 'wp-statistics'); ?></p>
                 </td>
