@@ -118,7 +118,7 @@ use WP_STATISTICS\Option;
                 <th scope="row"><label for="wps_excluded_countries"><?php esc_html_e('Exclude Countries', 'wp-statistics'); ?></label></th>
                 <td>
                     <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
-                    <p class="description"><?php echo wp_kses_post(__('Enter the country codes of the countries you want to exclude from tracking. Visitors from these countries will not be logged. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Country Codes Document</a>.', 'wp-statistics')) ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('Enter the country codes of the countries you want to exclude from tracking. Visitors from these countries will not be logged. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Country Codes Document</a>.', 'wp-statistics')); ?></p>
                 </td>
             </tr>
 
@@ -126,7 +126,7 @@ use WP_STATISTICS\Option;
                 <th scope="row"><label for="wps_included_countries"><?php esc_html_e('Include Countries', 'wp-statistics'); ?></label></th>
                 <td>
                     <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('included_countries')); ?></textarea>
-                    <p class="description"><?php echo wp_kses_post(__('Enter the country codes of the countries you want to include in tracking. Only visitors from these specified countries will be tracked. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank" aria-label="Country Codes Document">Country Codes Document</a>.', 'wp-statistics')) ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('Enter the country codes of the countries you want to include in tracking. Only visitors from these specified countries will be tracked. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank" aria-label="Country Codes Document">Country Codes Document</a>.', 'wp-statistics')); ?></p>
                 </td>
             </tr>
             </tbody>

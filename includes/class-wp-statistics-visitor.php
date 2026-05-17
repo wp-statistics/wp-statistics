@@ -269,7 +269,7 @@ class Visitor
         if ($args['day'] == 'today') {
             $sql_time = TimeZone::getCurrentDate('Y-m-d');
         } else {
-            $sql_time = date('Y-m-d', strtotime($args['day'])); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+            $sql_time = date('Y-m-d', strtotime($args['day']));
         }
 
         // Prepare Query

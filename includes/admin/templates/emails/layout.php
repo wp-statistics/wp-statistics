@@ -8,10 +8,6 @@ use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 use WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider;
 use WP_STATISTICS\Option;
 
-if (!defined('ABSPATH')) {
-    exit;
-} // Exit if accessed directly
-
 $is_rtl             = is_rtl();
 $text_align         = $is_rtl ? 'right' : 'left';
 $text_align_reverse = $is_rtl ? 'left' : 'right';
