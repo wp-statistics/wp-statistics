@@ -163,7 +163,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('REVIEWS', 'wp-statistics'),
                 'title'           => esc_html__('Leave Us a Review.', 'wp-statistics'),
                 'view_more_title' => esc_html__('Leave a Review', 'wp-statistics'),
-                'view_more_link'  => 'https://wordpress.org/support/plugin/wp-statistics/reviews/?filter=5#new-post',
+                'view_more_link'  => 'https://wordpress.org/plugins/wp-statistics/#reviews',
                 'description'     => esc_html__('Love WP Statistics? Post a public review so other WordPress users can discover the plugin’s benefits.', 'wp-statistics')
             ];
 

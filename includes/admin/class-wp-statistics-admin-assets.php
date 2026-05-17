@@ -254,10 +254,10 @@ class Admin_Assets
             wp_enqueue_style('thickbox');
         }
 
-        // Add RangeDatePicker
+        // Add RangeDatePicker (moment is shipped by WordPress core; daterangepicker depends on it)
         if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
-            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
-            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
+            wp_enqueue_script('moment');
+            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array('moment'), "1.13.2", ['in_footer' => true]);
         }
 
         if (Menus::in_page('pages')) {
