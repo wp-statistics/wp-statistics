@@ -35,6 +35,7 @@ class Update extends AbstractTableOperation
 
             $this->transactionHandler->executeInTransaction([$this, 'updateTable']);
         } catch (\Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException(
                 sprintf("Failed to update table `%s`: %s", $this->tableName, $e->getMessage())
             );
@@ -59,6 +60,7 @@ class Update extends AbstractTableOperation
             );
 
             if ($this->wpdb->query($sql) === false) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
                 throw new \RuntimeException(
                     sprintf('MySQL Error: %s', $this->wpdb->last_error)
                 );

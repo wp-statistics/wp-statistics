@@ -42,6 +42,7 @@ class TransactionHandler
         $this->wpdb->query('SET autocommit = 0');
 
         if ($this->wpdb->query('START TRANSACTION') === false) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException($this->wpdb->last_error ?: 'Failed to start transaction');
         }
 
@@ -62,6 +63,7 @@ class TransactionHandler
         }
 
         if ($this->wpdb->query('COMMIT') === false) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException($this->wpdb->last_error ?: 'Failed to commit transaction');
         }
 
@@ -83,6 +85,7 @@ class TransactionHandler
         }
 
         if ($this->wpdb->query('ROLLBACK') === false) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException($this->wpdb->last_error ?: 'Failed to rollback transaction');
         }
 

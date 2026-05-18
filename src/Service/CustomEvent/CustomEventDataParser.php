@@ -73,7 +73,8 @@ class CustomEventDataParser
         foreach ($this->eventData as $key => $value) {
             if (is_array($value)) {
                 /* translators: %s: string value */
-                throw new Exception(sprintf(__('The value for the key "%s" in the event data is an array. Only strings, numbers and booleans are allowed.', 'wp-statistics'), $key));
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
+                throw new Exception(sprintf(esc_html__('The value for the key "%s" in the event data is an array. Only strings, numbers and booleans are allowed.', 'wp-statistics'), $key));
             }
         }
     }

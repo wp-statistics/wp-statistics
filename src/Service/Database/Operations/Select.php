@@ -167,6 +167,7 @@ class Select extends AbstractTableOperation
 
             return $this;
         } catch (Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new RuntimeException("SELECT operation failed: " . $e->getMessage());
         }
     }

@@ -25,6 +25,7 @@ class Drop extends AbstractTableOperation
 
             return $this->transactionHandler->executeInTransaction([$this, 'dropTable']);
         } catch (\Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException(
                 sprintf("Failed to drop table `%s`: %s", $this->tableName, $e->getMessage())
             );
@@ -42,6 +43,7 @@ class Drop extends AbstractTableOperation
         $sql = sprintf("DROP TABLE IF EXISTS `%s`", $this->fullName);
 
         if ($this->wpdb->query($sql) === false) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException(
                 sprintf('MySQL Error: %s', $this->wpdb->last_error)
             );

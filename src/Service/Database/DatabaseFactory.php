@@ -75,12 +75,14 @@ class DatabaseFactory
         }
 
         if (!isset(self::$operations[$operation])) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \InvalidArgumentException("Invalid operation: {$operation}");
         }
 
         $providerClass = self::$operations[$operation];
 
         if (!class_exists($providerClass)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \InvalidArgumentException("Class not exist: {$providerClass}");
         }
 

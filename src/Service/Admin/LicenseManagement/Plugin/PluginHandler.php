@@ -21,11 +21,11 @@ class PluginHandler
     public function downloadAndInstallPlugin($pluginUrl)
     {
         if (empty($pluginUrl)) {
-            throw new Exception(__('Download URL is empty!', 'wp-statistics'));
+            throw new Exception(esc_html__('Download URL is empty!', 'wp-statistics'));
         }
 
         if (!current_user_can('install_plugins')) {
-            throw new Exception(__('You do not have permission to install plugins.', 'wp-statistics'));
+            throw new Exception(esc_html__('You do not have permission to install plugins.', 'wp-statistics'));
         }
 
         require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -36,7 +36,8 @@ class PluginHandler
         $downloadFile = download_url($pluginUrl);
         if (is_wp_error($downloadFile)) {
             // translators: %s: Error message.
-            throw new Exception(sprintf(__('Failed to download the plugin: %s', 'wp-statistics'), $downloadFile->get_error_message()));
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
+            throw new Exception(sprintf(esc_html__('Failed to download the plugin: %s', 'wp-statistics'), $downloadFile->get_error_message()));
         }
 
         // Prepare for unpacking the plugin
@@ -48,7 +49,8 @@ class PluginHandler
 
         if (is_wp_error($installResult)) {
             // translators: %s: Error message.
-            throw new Exception(sprintf(__('Failed to install the plugin: %s', 'wp-statistics'), $installResult->get_error_message()));
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
+            throw new Exception(sprintf(esc_html__('Failed to install the plugin: %s', 'wp-statistics'), $installResult->get_error_message()));
         }
 
         return $installResult;
@@ -102,17 +104,18 @@ class PluginHandler
     public function activatePlugin($pluginSlug)
     {
         if (!$this->isPluginInstalled($pluginSlug)) {
-            throw new Exception(__('Plugin is not installed!', 'wp-statistics'));
+            throw new Exception(esc_html__('Plugin is not installed!', 'wp-statistics'));
         }
 
         if ($this->isPluginActive($pluginSlug)) {
-            throw new Exception(__('Plugin already active.', 'wp-statistics'));
+            throw new Exception(esc_html__('Plugin already active.', 'wp-statistics'));
         }
 
         $activateResult = activate_plugin($this->getPluginFile($pluginSlug));
         if (is_wp_error($activateResult)) {
             // translators: %s: Error message.
-            throw new Exception(sprintf(__('Failed to activate the plugin: %s', 'wp-statistics'), $activateResult->get_error_message()));
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
+            throw new Exception(sprintf(esc_html__('Failed to activate the plugin: %s', 'wp-statistics'), $activateResult->get_error_message()));
         }
 
         return true;
@@ -130,7 +133,7 @@ class PluginHandler
     public function deactivatePlugin($pluginSlug)
     {
         if (!$this->isPluginInstalled($pluginSlug)) {
-            throw new Exception(__('Plugin is not installed!', 'wp-statistics'));
+            throw new Exception(esc_html__('Plugin is not installed!', 'wp-statistics'));
         }
 
         deactivate_plugins($this->getPluginFile($pluginSlug));
@@ -150,7 +153,7 @@ class PluginHandler
     public function getPluginData($pluginSlug)
     {
         if (!$this->isPluginInstalled($pluginSlug)) {
-            throw new Exception(__('Plugin is not installed!', 'wp-statistics'));
+            throw new Exception(esc_html__('Plugin is not installed!', 'wp-statistics'));
         }
 
         return get_plugin_data(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $this->getPluginFile($pluginSlug));

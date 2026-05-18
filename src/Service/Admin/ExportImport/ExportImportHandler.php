@@ -32,6 +32,7 @@ class ExportImportHandler
         $this->driver = $this->getDriver($driver);
 
         if ($this->driver === null) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new InvalidArgumentException(
                 /* translators: %s: string value */
                 sprintf(esc_html__('Invalid driver: %s', 'wp-statistics'), $driver)

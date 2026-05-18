@@ -174,6 +174,7 @@ class Hits extends Singleton
             Exclusion::record($exclusion);
             self::errorListener();
 
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new Exception($exclusion['exclusion_reason'], 200);
         }
 

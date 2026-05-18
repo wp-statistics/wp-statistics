@@ -51,7 +51,7 @@ class AnalyticsController
             ];
 
             if (!Signature::check($payload, $signature)) {
-                throw new Exception(__('Invalid signature', 'wp-statistics'), 403);
+                throw new Exception(esc_html__('Invalid signature', 'wp-statistics'), 403);
             }
         }
     }

@@ -667,6 +667,7 @@ class Query
             $query = $this->$queryMethod();
         } else {
             /* translators: %s: string value */
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new InvalidArgumentException(sprintf(esc_html__('%s method is not defined.', 'wp-statistics'), $queryMethod));
         }
 

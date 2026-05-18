@@ -40,6 +40,7 @@ class ApiCommunicator
             }
 
         } catch (Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new Exception(
             // translators: %s: Error message.
                 sprintf(__('Unable to retrieve product list from the remote server, %s. Please check the remote server connection or your remote work configuration.', 'wp-statistics'), $e->getMessage())
@@ -180,10 +181,11 @@ class ApiCommunicator
         $licenseData = $remoteRequest->execute(false, false);
 
         if (empty($licenseData)) {
-            throw new LicenseException(__('Invalid license response!', 'wp-statistics'));
+            throw new LicenseException(esc_html__('Invalid license response!', 'wp-statistics'));
         }
 
         if (empty($licenseData->license_details)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new LicenseException(
                 $licenseData->message ?? esc_html__('Unknown error!', 'wp-statistics'),
                 $licenseData->status ?? '',
@@ -196,7 +198,8 @@ class ApiCommunicator
 
             if (!in_array($product, $productSlugs, true)) {
                 /* translators: %s: string value */
-                throw new LicenseException(sprintf(__('The license is not related to the requested Add-on <b>%s</b>.', 'wp-statistics'), $product));
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
+                throw new LicenseException(sprintf(esc_html__('The license is not related to the requested Add-on <b>%s</b>.', 'wp-statistics'), $product));
             }
         }
 
