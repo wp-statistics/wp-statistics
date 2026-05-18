@@ -72,6 +72,7 @@ class CustomEventDataParser
         // Validate event data types
         foreach ($this->eventData as $key => $value) {
             if (is_array($value)) {
+                /* translators: %s: string value */
                 throw new Exception(sprintf(__('The value for the key "%s" in the event data is an array. Only strings, numbers and booleans are allowed.', 'wp-statistics'), $key));
             }
         }

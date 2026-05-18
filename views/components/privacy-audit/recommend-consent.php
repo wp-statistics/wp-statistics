@@ -11,6 +11,7 @@
     <div class="wps-audit-card__suggestion-text">
         <?php
         printf(
+            /* translators: %s: string value */
             __('Ensure your consent preferences are aligned with your settings and stay up to date with supported plugins. Check the %s to explore options or confirm your integration.', 'wp-statistics'),
             '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/compatible-consent-plugins-with-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('list of compatible consent plugins', 'wp-statistics') . '</a>'
         );

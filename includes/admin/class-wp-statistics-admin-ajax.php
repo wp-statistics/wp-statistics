@@ -262,6 +262,7 @@ class Ajax
         foreach ($visitors as $visitor) {
             $option = [
                 'id'   => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID]),
+                /* translators: %s: string value */
                 'text' => sprintf(esc_html__('Visitor (#%s)', 'wp-statistics'), $visitor->ID)
             ];
 

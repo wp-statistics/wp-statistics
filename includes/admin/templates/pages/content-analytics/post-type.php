@@ -18,6 +18,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         <?php
         $metrics = [
             [
+                /* translators: %s: string value */
                 'label'  => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypePlural),
                 'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
                 'change' => $data['glance']['posts']['change']
@@ -40,6 +41,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
                 'value' => Helper::formatNumberWithUnit($data['glance']['words']['value'])
             ];
             $metrics[] = [
+                /* translators: %s: string value */
                 'label' => sprintf(esc_html__('Avg. words per %s', 'wp-statistics'), $postTypeSingular),
                 'value' => Helper::formatNumberWithUnit($data['glance']['words_avg']['value'])
             ];
@@ -53,6 +55,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             ];
 
             $metrics[] = [
+                /* translators: %s: string value */
                 'label'  => sprintf(esc_html__('Avg. comments per %s', 'wp-statistics'), $postTypeSingular),
                 'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
                 'change' => $data['glance']['comments_avg']['change']
@@ -65,6 +68,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
 
         $categories = [
             'title'      => esc_html__('Top Categories', 'wp-statistics'),
+            /* translators: %s: string value */
             'tooltip'    => sprintf(esc_html__('The most popular categories by number of published %s.', 'wp-statistics'), strtolower($postTypePlural)),
             'taxonomies' => $data['taxonomies']
         ];
@@ -109,7 +113,9 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         View::load("components/charts/performance", $performance);
 
         $topPages = [
+            /* translators: %s: string value */
             'title'   => sprintf(esc_html__('Top %s', 'wp-statistics'), $postTypePlural),
+            /* translators: %s: string value */
             'tooltip' => sprintf(esc_html__('Displays the most popular, most commented, and most recent  %s in the selected period.', 'wp-statistics'), strtolower($postTypePlural)),
             'data'    => $data['posts']
         ];

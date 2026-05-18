@@ -261,8 +261,10 @@ class Schedule
             $schedule = self::getSchedules()[$schedule];
 
             if ($schedule['start'] === $schedule['end']) {
+                /* translators: %s: string value */
                 $subject .= sprintf(__('for %s', 'wp-statistics'), $schedule['start']);
             } else {
+                /* translators: %1$s: string value, %2$s: string value */
                 $subject .= sprintf(__('for %1$s to %2$s', 'wp-statistics'), $schedule['start'], $schedule['end']);
             }
         }

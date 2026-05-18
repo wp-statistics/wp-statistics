@@ -33,6 +33,7 @@ class ExportImportHandler
 
         if ($this->driver === null) {
             throw new InvalidArgumentException(
+                /* translators: %s: string value */
                 sprintf(esc_html__('Invalid driver: %s', 'wp-statistics'), $driver)
             );
         }

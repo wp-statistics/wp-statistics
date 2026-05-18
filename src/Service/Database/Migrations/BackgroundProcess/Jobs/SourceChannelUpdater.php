@@ -115,6 +115,7 @@ class SourceChannelUpdater extends BaseBackgroundProcess
         $actionUrl = $this->getActionUrl($force);
 
         $message = sprintf(
+            /* translators: %s: string value */
             __('We’ve updated the referral structure in this version. To ensure accurate reports, please initiate the background data process <a href="%s">by clicking here</a>.', 'wp-statistics'),
             esc_url($actionUrl)
         );

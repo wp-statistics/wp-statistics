@@ -122,6 +122,7 @@ class GeneralNotices
         }
 
         $message = sprintf(
+            /* translators: %1$s: string value, %2$s: string value, %3$s: string value */
             __('<b>WP Statistics Notice:</b> The cache plugin %1$s is detected, please make sure the <code>%2$s</code> file is excluded from file optimization and caching, <a target="_blank" href="%3$s">Click here</a> for more info.','wp-statistics'),
             esc_html($cacheInfo['plugin']),
             esc_url(Url::getPath(Assets::getSrc('js/tracker.js'))),
@@ -149,6 +150,7 @@ class GeneralNotices
         }
 
         $noticeText = sprintf(
+            /* translators: %1$s: string value, %2$s: string value */
             __('<b>WP Statistics:</b> Server-Side tracking is deprecated. Please switch to Client-Side for better accuracy. <br> <a href="%1$s">Go to Tracking Settings</a> · <a href="%2$s" target="_blank">Read the Deprecation Guide</a>', 'wp-statistics'),
             esc_url(Menus::admin_url('settings', ['row' => 'tracking_method_tr'])),
             esc_url('https://wp-statistics.com/resources/deprecating-server-side-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings')
@@ -262,6 +264,7 @@ class GeneralNotices
             sprintf(
             /* translators: %1$s: URL to the update settings page */
                 wp_kses(
+                    /* translators: %1$s: string value */
                     __('Please update your email report schedule due to new changes in our latest release: <a href="%1$s">Update Settings</a>.', 'wp-statistics'),
                     [
                         'a' => [
@@ -349,6 +352,7 @@ class GeneralNotices
 
         $message = sprintf(
             wp_kses(
+                /* translators: %1$s: string value */
                 __('<b>WP Statistics:</b> Your database needs a quick update. <a href="%1$s">Run the Database Maintenance tool</a> to keep your stats accurate.', 'wp-statistics'),
                 [
                     'b' => [],

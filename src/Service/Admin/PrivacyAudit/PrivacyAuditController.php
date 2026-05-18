@@ -99,6 +99,7 @@ class PrivacyAuditController
 				'color' => 'blue'
 			],
 			'description' => sprintf(
+                /* translators: %1$s: string value, %2$s: string value */
                 __('<p>The settings in your WP Statistics account comply with the privacy regulations. Visit the <a target="_blank" href="%1$s">%2$s<span aria-hidden="true" class="dashicons dashicons-external"></span></a> to learn more about best practices.</p>', 'wp-statistics'),
                 esc_url(Menus::admin_url(Menus::get_page_slug('privacy-audit'))),
                 esc_html__('Privacy Audit page', 'wp-statistics')
@@ -109,6 +110,7 @@ class PrivacyAuditController
 		if ($isPrivacyCompliant == false) {
 			$result['label']          = esc_html__('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics');
 			$result['description']    = sprintf(
+                /* translators: %1$s: string value, %2$s: string value */
                 __('<p>Your WP Statistics settings do not meet the necessary privacy standards. Immediate adjustments are required to ensure compliance and protect user data. Please review and update your settings as recommended on the <a target="_blank" href="%1$s">%2$s<span aria-hidden="true" class="dashicons dashicons-external"></span></a>.</p>', 'wp-statistics'),
                 esc_url(Menus::admin_url(Menus::get_page_slug('privacy-audit'))),
                 esc_html__('Privacy Audit page', 'wp-statistics')

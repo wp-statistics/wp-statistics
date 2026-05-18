@@ -45,6 +45,7 @@ class PrivacyExporter
             $response['data'][] = array(
                 'group_id'          => 'wp_statistics_visitors',
                 'group_label'       => __('Statistics Data', 'wp-statistics'),
+                /* translators: %s: string value */
                 'group_description' => sprintf(__('Visitor\'s data for user ID #%s', 'wp-statistics'), $visitor->user_id),
                 'item_id'           => "visitor-id-{$visitor->ID}",
                 'data'              => $user_data_to_export,

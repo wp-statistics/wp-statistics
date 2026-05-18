@@ -141,6 +141,7 @@ class Frontend
             'post_type'     => '',
         ]);
 
+        /* translators: %s: string value */
         $hits_html = '<p>' . sprintf(__('Views: %s', 'wp-statistics'), $hits) . '</p>';
 
         // Check hits position

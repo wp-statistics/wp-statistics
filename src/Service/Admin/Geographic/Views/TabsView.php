@@ -134,6 +134,7 @@ class TabsView extends BaseTabView
             $regionsTab = [
                 'id'      => 'regions',
                 'link'    => Menus::admin_url('geographic', ['tab'   => 'regions']),
+                /* translators: %s: string value */
                 'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), Country::getName($countryCode)),
                 'tooltip' => esc_html__('Displays visitor statistics for regions within your website’s country, based on your website’s timezone setting.', 'wp-statistics'),
                 'class'   => $this->isTab('regions') ? 'current' : '',

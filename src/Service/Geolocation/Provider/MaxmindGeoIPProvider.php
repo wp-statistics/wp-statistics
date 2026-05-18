@@ -142,10 +142,12 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             // Check the HTTP status code
             $statusCode = wp_remote_retrieve_response_code($response);
             if ($statusCode !== 200) {
+                /* translators: %1$d: number value, %2$s: string value */
                 throw new Exception(sprintf(__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $statusCode, $downloadUrl));
             }
 
             if (is_wp_error($response)) {
+                /* translators: %1$s: string value, %2$s: string value */
                 throw new Exception(sprintf(__('Error downloading GeoIP database from: %1$s - %2$s', 'wp-statistics'), $downloadUrl, $response->get_error_message()));
             }
 
@@ -277,6 +279,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 
             if (empty($this->reader) || !method_exists($this->reader, 'metadata')) {
                 throw new Exception(
+                    /* translators: %s: string value */
                     sprintf(__('Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it.', 'wp-statistics'), $this->getDatabasePath())
                 );
             }
@@ -284,6 +287,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             // Verify the database type and metadata
             $databaseType = $this->reader->metadata()->databaseType;
             if ($databaseType !== 'GeoLite2-City') {
+                /* translators: %s: string value */
                 throw new Exception(sprintf(__('Unexpected database type %s', 'wp-statistics'), $databaseType));
             }
 

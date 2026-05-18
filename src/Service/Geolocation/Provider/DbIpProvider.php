@@ -144,10 +144,12 @@ class DbIpProvider extends AbstractGeoIPProvider
             $responseCode = $remoteRequest->getResponseCode();
 
             if ($responseCode !== 200) {
+                /* translators: %1$d: number value, %2$s: string value */
                 throw new Exception(sprintf(__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $responseCode, $downloadUrl));
             }
 
             if (is_wp_error($response)) {
+                /* translators: %1$s: string value, %2$s: string value */
                 throw new Exception(sprintf(__('Error downloading GeoIP database from: %1$s - %2$s', 'wp-statistics'), $downloadUrl, $response->get_error_message()));
             }
 
@@ -229,6 +231,7 @@ class DbIpProvider extends AbstractGeoIPProvider
 
             if (empty($this->reader) || !method_exists($this->reader, 'metadata')) {
                 throw new Exception(
+                    /* translators: %s: string value */
                     sprintf(__('Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it.', 'wp-statistics'), $this->getDatabasePath())
                 );
             }
@@ -237,6 +240,7 @@ class DbIpProvider extends AbstractGeoIPProvider
             $databaseType = $this->reader->metadata()->databaseType;
 
             if (!in_array($databaseType, ['DBIP-Location (compat=City)', 'DBIP-City-Lite'], true)) {
+                /* translators: %s: string value */
                 throw new Exception(sprintf(__('Unexpected database type %s', 'wp-statistics'), $databaseType));
             }
 

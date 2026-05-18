@@ -61,6 +61,7 @@ class MarketingCampaignFetcher {
 
 			if ( empty( $marketingCampaigns ) || ! is_array( $marketingCampaigns ) ) {
 				throw new Exception(
+					/* translators: %s: string value */
 					sprintf( __( 'No marketing campaign were found. The API returned an empty response from the following URL: %s', 'wp-statistics' ), "{$this->apiUrl}/api/v1/marketing-campaigns?plugin_slug={$pluginSlug}" )
 				);
 			}

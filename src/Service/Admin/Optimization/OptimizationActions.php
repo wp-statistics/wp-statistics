@@ -119,6 +119,7 @@ class OptimizationActions
                 throw new Exception('Could not purge visitors. Please try again.', 500);
             }
 
+            /* translators: %s: string value */
             Ajax::success(sprintf(esc_html__('Removed %s visitors.', 'wp-statistics'), "<code>$result</code>"));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
@@ -257,6 +258,7 @@ class OptimizationActions
                 throw new Exception('Could not remove event data. Please try again.', 500);
             }
 
+            /* translators: %s: string value */
             Ajax::success(sprintf(esc_html__('Event data removed for %s', 'wp-statistics'), "<code>$eventName</code>"));
         } catch (Exception $e) {
             Ajax::error($e->getMessage(), null, $e->getCode());
@@ -289,6 +291,7 @@ class OptimizationActions
 
             Ajax::success(esc_html__('GeoIP update started.', 'wp-statistics'));
         } catch (Exception $e) {
+            /* translators: %s: string value */
             Ajax::error(sprintf(esc_html__('GeoIP update failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
     }
@@ -307,6 +310,7 @@ class OptimizationActions
 
             Ajax::success(esc_html__('Source channel update started.', 'wp-statistics'));
         } catch (Exception $e) {
+            /* translators: %s: string value */
             Ajax::error(sprintf(esc_html__('Source channel update failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
     }
@@ -324,8 +328,10 @@ class OptimizationActions
 
             $result = IP::Update_HashIP_Visitor();
 
+            /* translators: %d: number value */
             Ajax::success(sprintf(esc_html__('Anonymized `%d` IP addresses.', 'wp-statistics'), $result));
         } catch (Exception $e) {
+            /* translators: %s: string value */
             Ajax::error(sprintf(esc_html__('IP anonymization failed: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
     }
@@ -372,6 +378,7 @@ class OptimizationActions
 
             Ajax::success(esc_html__('Database schema issues were repaired.', 'wp-statistics'));
         } catch (Exception $e) {
+            /* translators: %s: string value */
             Ajax::error(sprintf(esc_html__('Failed to repair database schema: %s', 'wp-statistics'), $e->getMessage()), null, $e->getCode());
         }
     }

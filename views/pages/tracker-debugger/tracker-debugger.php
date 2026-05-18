@@ -44,6 +44,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'title'       => __('Tracker.js Not Found', 'wp-statistics'),
                     'description' => esc_html__('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'),
                     'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'), esc_html__('Oops! We couldn\'t find your tracker.js file. This means it might be missing or the path is incorrect.', 'wp-statistics')),
+                    /* translators: %s: string value */
                     'suggestion'  => sprintf(__('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="%s" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
                     'status'      => 'danger'
                 ];
@@ -76,6 +77,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>', esc_html__('Hit recording is not responding as expected.', 'wp-statistics')),
                         'suggestion'  => sprintf(
                         /* %1$s: documentation URL */
+                            /* translators: %1$s: string value */
                             esc_html__('Please check your security plugins, firewall settings, or any third-party services that might be affecting the request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %1$s.', 'wp-statistics'),
                             '<a href="https://wp-statistics.com/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger" target="_blank">' . esc_html__('troubleshooting guide', 'wp-statistics') . '</a>'
                         ),
@@ -104,6 +106,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'title'       => __('Do Not Track (DNT) is Enabled', 'wp-statistics'),
                     'description' => esc_html__('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'),
                     'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'), esc_html__('Your site respects visitors\' browser settings to not track their web activity. This may result in a lower number of tracked visitors.', 'wp-statistics')),
+                    /* translators: %s: string value */
                     'suggestion'  => sprintf(__('For more details, visit our DNT feature <a href="%s" target="_blank" rel="noopener">documentation</a>.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/do-not-track/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
                     'status'      => 'info'
                 ];
@@ -132,6 +135,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'description' => esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'),
                     'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'), esc_html__('Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked.', 'wp-statistics')),
                     'suggestion'  => sprintf(
+                        /* translators: %s: string value */
                         __('Learn more in our <a target="_blank" href="%s">Consent Integration guide</a>.', 'wp-statistics'),
                         esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                     ),
@@ -284,6 +288,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         esc_html__('All visitors are being tracked without exclusions.', 'wp-statistics')
                     ),
                     'suggestion'  => sprintf(
+                        /* translators: %s: string value */
                         __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target="_blank" href="%s">Learn more</a>.', 'wp-statistics'),
                         esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                     ),
@@ -297,6 +302,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'description' => '',
                         'content'     => $itemFilterListsHtml,
                         'suggestion'  => sprintf(
+                            /* translators: %s: string value */
                             __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target="_blank" href="%s">Learn more</a>.', 'wp-statistics'),
                             esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                         ),
@@ -412,6 +418,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
             <p>
                 <?php
                 echo sprintf(
+                    /* translators: %1$s: string value, %2$s: string value */
                     __(
                         'If tracker.js is still not working, visit our <a target="_blank" href="%1$s">troubleshooting guide</a> for detailed steps or <a target="_blank" href="%2$s">contact our support team</a> for assistance.',
                         'wp-statistics'

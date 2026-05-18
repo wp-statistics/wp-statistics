@@ -30,6 +30,7 @@ class HelpCenterManager
 
             if ($newNotificationCount > 0) {
                 $notificationCount = $newNotificationCount > 9 ? esc_html('9+') : number_format_i18n($newNotificationCount);
+                /* translators: %s: string value */
                 $notificationTitle = esc_attr(sprintf(esc_html__('%s plugin notifications', 'wp-statistics'), $notificationCount));
                 $notificationBadge = " <span class='update-plugins count-$notificationCount' title='$notificationTitle'><span class='update-count'>" . $notificationCount . "</span></span>";
             }

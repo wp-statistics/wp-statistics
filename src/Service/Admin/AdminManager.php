@@ -54,6 +54,7 @@ class AdminManager
 
         if (apply_filters('wp_statistics_enable_footer_text', true) && stripos($screen->id, 'wps_') !== false) {
             $text = sprintf(
+                /* translators: %1$s: string value, %2$s: string value, %3$s: string value, %4$s: string value */
                 __('Please rate <strong>WP Statistics</strong> <a href="%1$s" aria-label="%2$s" title="%3$s" target="_blank">★★★★★ %4$s</a> to help us spread the word. Thank you!', 'wp-statistics'),
                 'https://wordpress.org/plugins/wp-statistics/#reviews',
                 esc_attr__('Rate WP Statistics with five stars on WordPress.org', 'wp-statistics'),

@@ -213,8 +213,8 @@ class PluginUpdater
             <td colspan='<?php echo esc_attr($colspan); ?>' class='plugin-update'>
                 <div class='notice inline notice-warning notice-alt'>
                     <p>
-                        <?php echo sprintf(__('Automatic updates are disabled for the <b>%s</b>.', 'wp-statistics'), esc_attr($pluginData['Name'])); ?>
-                        <?php echo sprintf(__('To unlock automatic updates and access new features and security improvements, please <a href="%s">activate your license</a>.', 'wp-statistics'), Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>
+                        <?php /* translators: %s: string value */ echo sprintf(__('Automatic updates are disabled for the <b>%s</b>.', 'wp-statistics'), esc_attr($pluginData['Name'])); ?>
+                        <?php /* translators: %s: string value */ echo sprintf(__('To unlock automatic updates and access new features and security improvements, please <a href="%s">activate your license</a>.', 'wp-statistics'), Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>
                     </p>
                 </div>
             </td>

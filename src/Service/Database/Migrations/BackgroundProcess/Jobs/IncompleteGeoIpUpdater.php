@@ -138,6 +138,7 @@ class IncompleteGeoIpUpdater extends BaseBackgroundProcess
         $actionUrl = $this->getActionUrl($force);
 
         $message = sprintf(
+            /* translators: %s: string value */
             __('Detected visitors without location data. Please <a href="%s">click here</a> to update the geographic data in the background. This is necessary for accurate analytics.', 'wp-statistics'),
             esc_url($actionUrl),
             '' // compatibility with old translations

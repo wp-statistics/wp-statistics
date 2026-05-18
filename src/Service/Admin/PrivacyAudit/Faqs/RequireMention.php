@@ -29,6 +29,7 @@ class RequireMention extends AbstractFaq
                 'title'   => $title,
                 'icon'    => $icon,
                 'summary' => esc_html__('Mentioning Required', 'wp-statistics'),
+                /* translators: %s: string value */
                 'notes'   => sprintf(__('Your current WP Statistics setup records data that can be considered personal. You should add WP Statistics to your privacy policy and explain what data is collected, why it is collected, and how it is stored. A helper text that matches your configuration is available in <b>WP Admin > Settings > Privacy > </b> <a href="%s">Privacy Guide</a> and can be copied into your policy. For tips on reducing data collection, see the <b>Privacy Audit</b> section of this page.', 'wp-statistics'), esc_url($privacyPolicyUrl))
             ],
         ];

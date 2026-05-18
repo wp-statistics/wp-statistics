@@ -368,6 +368,7 @@ class Query
                 break;
 
             default:
+                /* translators: %s: string value */
                 throw new InvalidArgumentException(sprintf(esc_html__('Unsupported operator: %s', 'wp-statistics'), esc_html($operator)));
         }
 
@@ -665,6 +666,7 @@ class Query
         if (method_exists($this, $queryMethod)) {
             $query = $this->$queryMethod();
         } else {
+            /* translators: %s: string value */
             throw new InvalidArgumentException(sprintf(esc_html__('%s method is not defined.', 'wp-statistics'), $queryMethod));
         }
 

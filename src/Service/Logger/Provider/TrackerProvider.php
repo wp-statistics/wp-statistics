@@ -30,6 +30,7 @@ class TrackerProvider extends AbstractLoggerProvider
         $timestamp = strtotime($lastLog['date']);
 
         $date = sprintf(
+            /* translators: %1$s: string value, %2$s: string value */
             __('%1$s at %2$s', 'wp-statistics'),
             date_i18n('F j, Y', $timestamp),
             date_i18n('H:i:s', $timestamp)

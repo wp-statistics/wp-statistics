@@ -38,7 +38,7 @@
                 ?>
                 <tr data-id="<?php echo 'number_of_rows_in_the_' . esc_attr($table_name).'_tr'; ?>">
                     <th scope="row">
-                        <span class="wps-setting-label"><?php echo sprintf(esc_html__('Number of rows in the %s', 'wp-statistics'), '<span><span class="wps-badge wps-badge--addon">' . esc_attr($table_name) . '</span>' .esc_html__('table', 'wp-statistics').'</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped   ?></span>
+                        <span class="wps-setting-label"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Number of rows in the %s', 'wp-statistics'), '<span><span class="wps-badge wps-badge--addon">' . esc_attr($table_name) . '</span>' .esc_html__('table', 'wp-statistics').'</span>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped   ?></span>
                     </th>
                     <td>
                         <strong><?php echo esc_html(number_format_i18n($data['rows'])); ?></strong> <?php echo esc_html(_n('Row', 'Rows', number_format_i18n($data['rows']), 'wp-statistics')); ?>

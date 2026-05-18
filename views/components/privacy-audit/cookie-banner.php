@@ -11,6 +11,7 @@
     <div class="wps-audit-card__suggestion-text">
         <?php
         printf(
+            /* translators: %s: string value */
             wp_kses_post(__('For a comprehensive understanding of how WP Statistics counts unique visitors without cookies, and the advantages of this approach, please refer to our detailed documentation: <a href="%s" target="_blank">Counting Unique Visitors Without Cookies</a>.', 'wp-statistics')),
             esc_url(WP_STATISTICS_SITE_URL . '/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy')
         );

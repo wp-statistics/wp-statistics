@@ -20,7 +20,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 <a class="wps-help__notification js-wps-open-notification wps-notifications--has-items">
                     <span class="wps-help__notification__dot"></span>
                     <span class="wps-help__notification__text">
-                        <?php echo sprintf(_n('You have %s notification', 'You have %s notifications', $notificationCount, 'wp-statistics'), esc_html($notificationCount)); ?>
+                        <?php /* translators: %s: string value */ echo sprintf(_n('You have %s notification', 'You have %s notifications', $notificationCount, 'wp-statistics'), esc_html($notificationCount)); ?>
                     </span>
                 </a>
             <?php endif; ?>
@@ -30,6 +30,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
             <p class="wps-help__description">
                 <?php
                 printf(
+                    /* translators: %1$s: string value, %2$s: string value, %3$s: string value, %4$s: string value */
                     esc_html__('Please review the %1$sdocumentation%2$s first. If you still can’t find the answer, open a %3$ssupport ticket%4$s and we will be happy to answer your questions and assist you with any problems.', 'wp-statistics'),
                     '<a href="https://wp-statistics.com/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help" target="_blank">',
                     '</a>',

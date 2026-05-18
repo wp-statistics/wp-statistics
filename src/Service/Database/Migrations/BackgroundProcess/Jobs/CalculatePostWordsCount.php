@@ -121,6 +121,7 @@ class CalculatePostWordsCount extends BaseBackgroundProcess
             $actionUrl = $this->getActionUrl($force);
 
             $message = sprintf(
+                /* translators: %s: string value */
                 __('Please <a href="%s">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
                 esc_url($actionUrl)
             );

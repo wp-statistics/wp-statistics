@@ -104,6 +104,7 @@ class LicenseManagementManager
             // Get the dynamic version of the plugin
             $pluginData = $this->pluginHandler->getPluginData($pluginSlug);
             if (!$pluginData) {
+                /* translators: %s: string value */
                 throw new Exception(sprintf(__('Plugin data not found for: %s', 'wp-statistics'), $pluginSlug));
             }
 

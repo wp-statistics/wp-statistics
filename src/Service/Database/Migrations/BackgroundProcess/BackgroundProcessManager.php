@@ -380,6 +380,7 @@ class BackgroundProcessManager extends BaseMigrationManager
 
             /* translators: 1: job title, 2: percent complete, 3: processed count, 4: total count, 5: appended background-running note */
             $message = sprintf(
+                /* translators: %1$s: string value, %2$d: number value, %3$d: number value, %4$d: number value, %5$s: string value */
                 __('<div id="wp-statistics-async-background-process-notice">%1$s: <span class="percentage">%2$d%%</span> complete (<span class="processed">%3$d</span>/%4$d).<br/> %5$s</div>', 'wp-statistics'),
                 esc_html($label),
                 (int)$percent,

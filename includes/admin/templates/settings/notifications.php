@@ -47,7 +47,7 @@ use WP_STATISTICS\Schedule;
                 <div>
                     <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
                     <?php if ($next_scheduled_time) : ?>
-                        <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%1$s at %2$s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
+                        <div class="alert alert-success"><span><?php /* translators: %1$s: string value, %2$s: string value */ echo sprintf(__('Your next report is scheduled to be sent on <b>%1$s at %2$s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
                     <?php endif; ?>
                 </div>
             </td>
@@ -84,7 +84,7 @@ use WP_STATISTICS\Schedule;
                     <?php } ?>
                 </select>
 
-                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS. (Note: SMS notifications only include the Custom Report. For full reports, please choose email. SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="https://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
+                <p class="description"><?php /* translators: %s: string value */ echo sprintf(__('Select your preferred method for receiving reports: via email or SMS. (Note: SMS notifications only include the Custom Report. For full reports, please choose email. SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="https://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
 

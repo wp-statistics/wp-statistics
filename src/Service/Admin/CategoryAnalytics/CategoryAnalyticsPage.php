@@ -73,6 +73,7 @@ class CategoryAnalyticsPage extends MultiViewPage
         foreach ($taxPostTypes as $postType) {
             if (!post_type_supports($postType, 'author')) {
                 $message = sprintf(
+                    /* translators: %s: string value */
                     __('The post type of this category doesn’t support authors, affecting the accuracy of category performance data. To fix this, please enable author support for this post type. <a href="%s" target="_blank">Learn more</a>.', 'wp-statistics'),
                     'https://wp-statistics.com/resources/enabling-author-support-for-your-post-types/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc'
                 );

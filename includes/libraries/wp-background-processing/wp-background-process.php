@@ -667,6 +667,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		if ( 1 === $interval ) {
 			$display = __( 'Every Minute' );
 		} else {
+			/* translators: %d: number value */
 			$display = sprintf( __( 'Every %d Minutes' ), $interval );
 		}
 

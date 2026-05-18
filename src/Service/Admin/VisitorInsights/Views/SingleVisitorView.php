@@ -48,6 +48,7 @@ class SingleVisitorView extends BaseView
         /** @var VisitorDecorator $visitor */
         $visitor = $visitorData['visitor'];
 
+        /* translators: %1$s: string value, %2$s: string value */
         $title = esc_html__('Visitor Report - %1$s: %2$s', 'wp-statistics');
 
         if ($visitor->isLoggedInUser()) {

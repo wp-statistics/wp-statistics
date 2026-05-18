@@ -53,7 +53,7 @@ if ($isRestApiActive && !$isLicenseValid) {
                 <td>
                     <input id="wps_addon_settings[rest_api][status]" name="wps_addon_settings[rest_api][status]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('status', 'rest_api')) ?>>
                     <label for="wps_addon_settings[rest_api][status]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php echo wp_kses_post(sprintf(__('Enable or disable WP Statistics API endpoints. For more information, visit the %1$s.', 'wp-statistics'), '<a href="https://documenter.getpostman.com/view/3239688/2s8Z6vZER4" target="_blank">API documentation</a>')); ?></p>
+                    <p class="description"><?php /* translators: %1$s: string value */ echo wp_kses_post(sprintf(__('Enable or disable WP Statistics API endpoints. For more information, visit the %1$s.', 'wp-statistics'), '<a href="https://documenter.getpostman.com/view/3239688/2s8Z6vZER4" target="_blank">API documentation</a>')); ?></p>
                 </td>
             </tr>
 

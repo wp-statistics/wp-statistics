@@ -6,7 +6,7 @@
                 <div class="postbox-header postbox-toggle">
                     <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Category Statistics Chart', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" aria-label="toggle button" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Chart', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
+                        <span class="screen-reader-text"><?php /* translators: %s: string value */ printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Chart', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -25,7 +25,7 @@
                 <div class="postbox-header postbox-toggle">
                     <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Category Statistics Summary', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" aria-label="toggle button" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Summary', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
+                        <span class="screen-reader-text"><?php /* translators: %s: string value */ printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Summary', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -74,7 +74,7 @@
                     <div class="postbox-header postbox-toggle">
                         <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($top_title); ?></span></h2>
                         <button class="handlediv" aria-label="toggle button" type="button" aria-expanded="true">
-                            <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($top_title)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
+                            <span class="screen-reader-text"><?php /* translators: %s: string value */ printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($top_title)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                             <span class="toggle-indicator" aria-hidden="true"></span>
                         </button>
                     </div>

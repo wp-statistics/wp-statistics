@@ -77,6 +77,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         if ($this->shouldGetPostData()) {
             $this->addChartDataset(
                 sprintf(
+                    /* translators: %s: string value */
                     esc_html__('Published %s', 'wp-statistics'),
                     isset($this->args['post_type']) ? Helper::getPostTypeName($this->args['post_type']) : esc_html__('Contents', 'wp-statistics')
                 ),
