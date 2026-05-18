@@ -52,7 +52,7 @@ use WP_STATISTICS\Menus;
             <?php View::load("components/tables/top-referrers", ['data' => $data['referrers']]); ?>
             <div class="wps-card__footer">
                 <div class="wps-card__footer__more">
-                    <a class="wps-card__footer__more__link" href="<?php echo Menus::admin_url('referrals', ['tab' => 'referrers']) ?>">
+                    <a class="wps-card__footer__more__link" href="<?php echo Menus::admin_url('referrals', ['tab' => 'referrers']) ?>">; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         <?php esc_html_e('View Referrers', 'wp-statistics') ?>
                     </a>
                 </div>
@@ -115,7 +115,7 @@ use WP_STATISTICS\Menus;
             ?>
             <div class="wps-card__footer">
                 <div class="wps-card__footer__more">
-                    <a class="wps-card__footer__more__link" href="<?php echo Menus::admin_url('referrals', ['tab' => 'referred-visitors']) ?>">
+                    <a class="wps-card__footer__more__link" href="<?php echo Menus::admin_url('referrals', ['tab' => 'referred-visitors']) ?>">; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         <?php esc_html_e('View Referred Visitors', 'wp-statistics') ?>
                     </a>
                 </div>

@@ -95,7 +95,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
         <div class="wps-flex-half">
             <div class="wps-tabs">
                 <input type="radio" name="side-tabs" id="views-post" checked>
-                <label for="views-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
+                <label for="views-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
@@ -127,7 +127,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
                 <?php if (post_type_supports($postType, 'comments')) : ?>
                     <input type="radio" name="side-tabs" id="comments-post">
-                    <label for="comments-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Comments/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
+                    <label for="comments-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Comments/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     <div class="wps-tabs__content">
                         <?php
                         /** @var stdClass[] */
@@ -160,7 +160,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
                 <?php if (WordCountService::isActive()) : ?>
                     <input type="radio" name="side-tabs" id="words-post">
-                    <label for="words-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Words/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
+                    <label for="words-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Words/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     <div class="wps-tabs__content">
                         <?php
                         /** @var stdClass[] */

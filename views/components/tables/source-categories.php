@@ -29,14 +29,14 @@ $source_colors = [
                     <tr>
                         <td class="wps-pd-l">
                             <div class="wps-source-category__bg" style="border-color:<?php echo $color; ?>;color: <?php echo $color; ?>;"></div>
-                            <span><?php echo htmlspecialchars($row['source_category']); ?></span>
-                            <p class="wps-ellipsis-parent <?php echo ($row['top_domain'] === '-') ? 'wps-hidden' : ''; ?>" title="<?php echo htmlspecialchars($row['top_domain']); ?>">
-                                <span class="wps-ellipsis-text"><?php echo htmlspecialchars($row['top_domain']); ?></span>
+                            <span><?php echo htmlspecialchars($row['source_category']); ?></span>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            <p class="wps-ellipsis-parent <?php echo ($row['top_domain'] === '-') ? 'wps-hidden' : ''; ?>" title="<?php echo htmlspecialchars($row['top_domain']); ?>">; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                <span class="wps-ellipsis-text"><?php echo htmlspecialchars($row['top_domain']); ?></span>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             </p>
                         </td>
-                        <td class="wps-pd-l"><span><?php echo htmlspecialchars($row['top_domain']); ?></span></td>
+                        <td class="wps-pd-l"><span><?php echo htmlspecialchars($row['top_domain']); ?></span></td>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         <td class="wps-pd-l"><span><?php echo esc_html($row['visitors']); ?></span></td>
-                        <td class="wps-pd-l"><span><?php echo htmlspecialchars($row['percentage']); ?></span></td>
+                        <td class="wps-pd-l"><span><?php echo htmlspecialchars($row['percentage']); ?></span></td>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

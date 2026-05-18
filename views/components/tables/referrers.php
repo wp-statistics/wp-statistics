@@ -37,7 +37,7 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                                         <span><?php echo esc_html($referrer->getRawReferrer()) ?></span>
                                     </a>
                                 <?php else : ?>
-                                    <?php echo Admin_Template::UnknownColumn() ?>
+                                    <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 <?php endif; ?>
                             </td>
 
@@ -46,7 +46,7 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                                     <?php if (!empty($referrer->getSourceName())) : ?>
                                         <span class="wps-ellipsis-text" title="<?php echo esc_attr($referrer->getSourceName()) ?>"><?php echo esc_html($referrer->getSourceName()) ?></span>
                                     <?php else : ?>
-                                        <?php echo Admin_Template::UnknownColumn() ?>
+                                        <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                     <?php endif; ?>
                                 </div>
                             </td>

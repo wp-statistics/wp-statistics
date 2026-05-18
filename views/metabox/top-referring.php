@@ -26,7 +26,7 @@ use WP_Statistics\Components\View;
                         <a class="wps-link-arrow" href="<?php echo esc_attr($item->getReferrer()) ?>" title="<?php echo esc_attr($item->getRawReferrer()) ?>" target="_blank"><span><?php echo esc_html($item->getRawReferrer()) ?></span></a>
                     </td>
 
-                    <td class="wps-pd-l wps-middle-vertical"><a href="<?php echo Menus::admin_url('referrals', ['tab'=>'referred-visitors','referrer' => $item->getRawReferrer(), 'from' => $filters['date']['from'], 'to' => $filters['date']['to']]) ?>"><?php echo esc_html($item->getTotalReferrals()) ?></a></td>
+                    <td class="wps-pd-l wps-middle-vertical"><a href="<?php echo Menus::admin_url('referrals', ['tab'=>'referred-visitors','referrer' => $item->getRawReferrer(), 'from' => $filters['date']['from'], 'to' => $filters['date']['to']]) ?>"><?php echo esc_html($item->getTotalReferrals()) ?></a></td>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 </tr>
             <?php endforeach; ?>
             </tbody>

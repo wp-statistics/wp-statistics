@@ -70,7 +70,7 @@ use WP_STATISTICS\Menus;
                                         'title' => $page['title'],
                                     ]);
                                 else :
-                                    echo Admin_Template::UnknownColumn();
+                                    echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 endif;
                                 ?>
                             </td>

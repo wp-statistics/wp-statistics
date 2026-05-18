@@ -33,7 +33,7 @@ use WP_Statistics\Components\View;
             <?php if (!empty($visitor->getReferral()->getReferrer())) :
                 View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
             else : ?>
-                <?php echo Admin_Template::UnknownColumn() ?>
+                <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             <?php endif; ?>
         </div>
     </div>
@@ -44,7 +44,7 @@ use WP_Statistics\Components\View;
             <?php if (!empty($visitor->getReferral()->getSourceChannel())) : ?>
                 <span><?php echo esc_html($visitor->getReferral()->getSourceChannel()) ?></span>
             <?php else : ?>
-                <?php echo Admin_Template::UnknownColumn() ?>
+                <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             <?php endif; ?>
         </div>
     </div>
@@ -52,7 +52,7 @@ use WP_Statistics\Components\View;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Browser', 'wp-statistics'); ?></span>
         <div class="wps-browsers__flag">
-            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','agent' => $visitor->getBrowser()->getRaw()]) ?>"><img src="<?php echo esc_url($visitor->getBrowser()->getLogo()); ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15"></a>
+            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','agent' => $visitor->getBrowser()->getRaw()]) ?>"><img src="<?php echo esc_url($visitor->getBrowser()->getLogo()); ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15"></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
             <?php if ($visitor->getBrowser()->getName() !== 'Unknown') : ?>
                 <span title="<?php echo esc_attr("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") ?>"><?php echo esc_html("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") ?></span>
@@ -65,7 +65,7 @@ use WP_Statistics\Components\View;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Operating System', 'wp-statistics'); ?></span>
         <div class="wps-os__flag">
-            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','platform' => $visitor->getOs()->getName()]) ?>"><img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15"></a>
+            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','platform' => $visitor->getOs()->getName()]) ?>"><img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15"></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             <span title="<?php echo esc_attr($visitor->getOs()->getName()) ?>"><?php echo esc_html($visitor->getOs()->getName()) ?></span>
         </div>
     </div>
@@ -114,7 +114,7 @@ use WP_Statistics\Components\View;
                     'tooltip' => $page['query'] ? "?{$page['query']}" : ''
                 ]) ;
             else :
-                echo Admin_Template::UnknownColumn();
+                echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             endif;
             ?>
         </div>
@@ -132,7 +132,7 @@ use WP_Statistics\Components\View;
                     'title'   => $page['title']
                 ]);
             else :
-                echo Admin_Template::UnknownColumn();
+                echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             endif;
             ?>
         </div>

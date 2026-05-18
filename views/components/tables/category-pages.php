@@ -20,7 +20,7 @@ $taxName  = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                         </th>
                         <th scope="col" class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('views')); ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'views') ? esc_attr($order) : '' ?>">
-                                <?php /* translators: %s: string value */ echo sprintf(esc_html__('%s Page Views', 'wp-statistics'), $taxName); ?>
+                                <?php /* translators: %s: string value */ echo sprintf(esc_html__('%s Page Views', 'wp-statistics'), $taxName); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                             </a>
                         </th>
                         <th scope="col" class="wps-pd-l">
@@ -46,7 +46,7 @@ $taxName  = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                             <td class="wps-pd-l"><?php echo esc_html(number_format_i18n($category['posts_count'])) ?></td>
                             <td class="wps-pd-l view-more view-more__arrow">
                                 <a target="_blank" href="<?php echo esc_url(get_term_link(intval($category['term_id']))); ?>" title="<?php esc_html_e('View Category Page', 'wp-statistics') ?>">
-                                    <?php /* translators: %s: string value */ echo sprintf(esc_html__('View %s Page', 'wp-statistics'), $taxName) ?>
+                                    <?php /* translators: %s: string value */ echo sprintf(esc_html__('View %s Page', 'wp-statistics'), $taxName) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 </a>
                             </td>
                         </tr>

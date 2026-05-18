@@ -14,6 +14,6 @@
 <div class="wps-audit-card__suggestion">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Need More Information?', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
-        <?php echo __('<p>For a comprehensive guide on this process and to understand the benefits of IP address hashing, please refer to our detailed documentation: <a target="_blank" href="https://wp-statistics.com/resources/converting-ip-addresses-to-hash/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Converting IP Addresses to Hash</a>.</p>', 'wp-statistics') ?>
+        <?php echo wp_kses_post(__('<p>For a comprehensive guide on this process and to understand the benefits of IP address hashing, please refer to our detailed documentation: <a target="_blank" href="https://wp-statistics.com/resources/converting-ip-addresses-to-hash/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Converting IP Addresses to Hash</a>.</p>', 'wp-statistics')) ?>
     </div>
 </div>

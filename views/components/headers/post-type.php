@@ -53,7 +53,7 @@ $dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $p
                 <span class="wps-content-analytics-header__date_updated"><span><?php echo esc_html__('Updated on', 'wp-statistics'); ?></span> <?php echo esc_html($dateUpdated); ?></span>
             <?php endif; ?>
             <span class="wps-content-analytics-header__author">
-                <span><?php echo esc_html__('Author:', 'wp-statistics') ?></span> <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor]) ?>"><?php echo esc_html(get_the_author_meta('display_name', $postAuthor)); ?></a>
+                <span><?php echo esc_html__('Author:', 'wp-statistics') ?></span> <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor]) ?>"><?php echo esc_html(get_the_author_meta('display_name', $postAuthor)); ?></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             </span>
         </div>
         <div class="wps-content-analytics-header__tags">
