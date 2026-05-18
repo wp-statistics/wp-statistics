@@ -36,8 +36,7 @@ class PluginHandler
         $downloadFile = download_url($pluginUrl);
         if (is_wp_error($downloadFile)) {
             // translators: %s: Error message.
-            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
-            throw new Exception(sprintf(esc_html__('Failed to download the plugin: %s', 'wp-statistics'), $downloadFile->get_error_message()));
+            throw new Exception(sprintf(esc_html__('Failed to download the plugin: %s', 'wp-statistics'), $downloadFile->get_error_message())); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
         }
 
         // Prepare for unpacking the plugin
@@ -49,8 +48,7 @@ class PluginHandler
 
         if (is_wp_error($installResult)) {
             // translators: %s: Error message.
-            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
-            throw new Exception(sprintf(esc_html__('Failed to install the plugin: %s', 'wp-statistics'), $installResult->get_error_message()));
+            throw new Exception(sprintf(esc_html__('Failed to install the plugin: %s', 'wp-statistics'), $installResult->get_error_message())); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
         }
 
         return $installResult;
@@ -114,8 +112,7 @@ class PluginHandler
         $activateResult = activate_plugin($this->getPluginFile($pluginSlug));
         if (is_wp_error($activateResult)) {
             // translators: %s: Error message.
-            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
-            throw new Exception(sprintf(esc_html__('Failed to activate the plugin: %s', 'wp-statistics'), $activateResult->get_error_message()));
+            throw new Exception(sprintf(esc_html__('Failed to activate the plugin: %s', 'wp-statistics'), $activateResult->get_error_message())); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
         }
 
         return true;

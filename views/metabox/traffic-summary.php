@@ -18,7 +18,7 @@ use WP_STATISTICS\Helper;
             </div>
             <div class="c-live__online">
                 <span class="c-live__online--value"><?php echo esc_html($data['online']) ?></span>
-                <a class="c-live__value" href="<?php echo Menus::admin_url('visitors', ['tab' => 'online']) ?>" aria-label="<?php esc_attr_e('View online visitors', 'wp-statistics'); ?>"><span class="c-live__online--arrow"></span></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <a class="c-live__value" href="<?php echo Menus::admin_url('visitors', ['tab' => 'online']) ?>" aria-label="<?php esc_attr_e('View online visitors', 'wp-statistics'); ?>"><span class="c-live__online--arrow"></span></a>
             </div>
         </div>
     <?php endif ?>
@@ -46,7 +46,7 @@ use WP_STATISTICS\Helper;
 
                     <td>
                         <div>
-                            <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['visitors'], 1)) ?></span></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['visitors'], 1)) ?></span></a>
                             <?php if (!empty($item['comparison']) && isset($itemData['trend']['visitors']['percentage']) && $itemData['trend']['visitors']['percentage'] !== null) : ?>
                                 <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?>">
                                     <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['visitors']['percentage']) ?>%</span>
@@ -56,7 +56,7 @@ use WP_STATISTICS\Helper;
                     </td>
                     <td>
                         <div>
-                            <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['views'], 1)) ?></span></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            <a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], $item['date'])) ?>"><span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['views'], 1)) ?></span></a>
                             <?php if (!empty($item['comparison']) && isset($itemData['trend']['views']['percentage']) && $itemData['trend']['views']['percentage'] !== null) : ?>
                                 <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?>">
                                     <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['views']['percentage']) ?>%</span>

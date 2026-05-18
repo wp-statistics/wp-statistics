@@ -17,7 +17,7 @@ $dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $p
 <div class="wps-content-analytics-header">
     <div>
         <?php if (has_post_thumbnail($postId)) : ?>
-            <img src="<?php /* translators: %s: string value */ echo esc_url(get_the_post_thumbnail_url($postId)); ?>" alt="<?php echo esc_attr(sprintf(__('%s thumbnail', 'wp-statistics'), get_the_title($postId))); ?>">
+            <img src="<?php echo esc_url(get_the_post_thumbnail_url($postId)); ?>" alt="<?php /* translators: %s: post title */ echo esc_attr(sprintf(__('%s thumbnail', 'wp-statistics'), get_the_title($postId))); ?>">
         <?php else : ?>
             <svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140" fill="none">
                 <g clip-path="url(#clip0_9208_25189)">
@@ -53,7 +53,7 @@ $dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $p
                 <span class="wps-content-analytics-header__date_updated"><span><?php echo esc_html__('Updated on', 'wp-statistics'); ?></span> <?php echo esc_html($dateUpdated); ?></span>
             <?php endif; ?>
             <span class="wps-content-analytics-header__author">
-                <span><?php echo esc_html__('Author:', 'wp-statistics') ?></span> <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor]) ?>"><?php echo esc_html(get_the_author_meta('display_name', $postAuthor)); ?></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                <span><?php echo esc_html__('Author:', 'wp-statistics') ?></span> <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor]) ?>"><?php echo esc_html(get_the_author_meta('display_name', $postAuthor)); ?></a>
             </span>
         </div>
         <div class="wps-content-analytics-header__tags">

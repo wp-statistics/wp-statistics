@@ -52,7 +52,7 @@ use WP_Statistics\Components\View;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Browser', 'wp-statistics'); ?></span>
         <div class="wps-browsers__flag">
-            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','agent' => $visitor->getBrowser()->getRaw()]) ?>"><img src="<?php echo esc_url($visitor->getBrowser()->getLogo()); ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15"></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','agent' => $visitor->getBrowser()->getRaw()]) ?>"><img src="<?php echo esc_url($visitor->getBrowser()->getLogo()); ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15"></a>
 
             <?php if ($visitor->getBrowser()->getName() !== 'Unknown') : ?>
                 <span title="<?php echo esc_attr("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") ?>"><?php echo esc_html("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") ?></span>
@@ -65,7 +65,7 @@ use WP_Statistics\Components\View;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Operating System', 'wp-statistics'); ?></span>
         <div class="wps-os__flag">
-            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','platform' => $visitor->getOs()->getName()]) ?>"><img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15"></a>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            <a href="<?php echo Menus::admin_url('visitors', ['tab' => 'visitors','platform' => $visitor->getOs()->getName()]) ?>"><img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15"></a>
             <span title="<?php echo esc_attr($visitor->getOs()->getName()) ?>"><?php echo esc_html($visitor->getOs()->getName()) ?></span>
         </div>
     </div>

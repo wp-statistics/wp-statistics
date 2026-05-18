@@ -33,7 +33,7 @@ use WP_Statistics\Components\View;
                         </div>
                     </td>
 
-                    <td class="wps-pd-l wps-middle-vertical"><a href="<?php echo Menus::admin_url('visitors', ['location' => $item->country, 'from' => $filters['date']['from'], 'to' => $filters['date']['to']]) ?>" target="_blank"><?php echo esc_html($item->visitors) ?></a></td>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    <td class="wps-pd-l wps-middle-vertical"><a href="<?php echo Menus::admin_url('visitors', ['location' => $item->country, 'from' => $filters['date']['from'], 'to' => $filters['date']['to']]) ?>" target="_blank"><?php echo esc_html($item->visitors) ?></a></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

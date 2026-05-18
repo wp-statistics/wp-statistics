@@ -8,7 +8,7 @@
         <div class="wps-map-info">
             <span>0</span>
             <span class="wps-map-info__color"></span>
-            <span><?php echo number_format_i18n(max($data['raw_data'])); ?></span>; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            <span><?php echo number_format_i18n(max($data['raw_data'])); ?></span>
         </div>
     <?php endif; ?>
 </div>

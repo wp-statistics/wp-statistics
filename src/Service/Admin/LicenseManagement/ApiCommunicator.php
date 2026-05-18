@@ -198,8 +198,7 @@ class ApiCommunicator
 
             if (!in_array($product, $productSlugs, true)) {
                 /* translators: %s: string value */
-                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
-                throw new LicenseException(sprintf(esc_html__('The license is not related to the requested Add-on <b>%s</b>.', 'wp-statistics'), $product));
+                throw new LicenseException(sprintf(esc_html__('The license is not related to the requested Add-on <b>%s</b>.', 'wp-statistics'), $product)); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             }
         }
 
