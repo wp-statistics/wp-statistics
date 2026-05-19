@@ -1,4 +1,4 @@
-14.16.8 - 2026-05-17
+14.16.8 - 2026-05-19
 - **Enhancement:** Hardened input handling across admin AJAX endpoints, the dynamic query builder, the referrer pipeline, and the GeoIP download URL.
 - **Enhancement:** Removed the bundled moment.min.js in favor of the copy shipped with WordPress core.
 - **Enhancement:** Added direct-file-access guards, switched date() calls to gmdate(), and routed parse_url() through wp_parse_url().
