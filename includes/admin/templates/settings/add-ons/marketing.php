@@ -18,7 +18,7 @@ $isMarketingActive = Helper::isAddOnActive('marketing');
 
 
 if (!$isMarketingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp/?utm_source=wp-statistics&utm_medium=link&utm_campaign=marketing'),
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=marketing'),
      'addon_title'        => __('Marketing Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-marketing',
      'addon_campaign'     => 'marketing',
