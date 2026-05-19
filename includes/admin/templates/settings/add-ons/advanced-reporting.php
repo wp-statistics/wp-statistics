@@ -8,7 +8,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics');
+$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics-advanced-reporting');
 $isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
 global $wp_version;
 ?>

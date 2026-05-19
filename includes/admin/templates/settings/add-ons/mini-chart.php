@@ -6,7 +6,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics');
+$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics-mini-chart');
 $isMiniChartActive         = WP_STATISTICS\Helper::isAddOnActive('mini-chart');
 $miniChartDefaultPostTypes = get_post_types(array(
     'public'   => true,

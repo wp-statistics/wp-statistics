@@ -10,7 +10,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
-$isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics');
+$isLicenseValid        = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
 $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
