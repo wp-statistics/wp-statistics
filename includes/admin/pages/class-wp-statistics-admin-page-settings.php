@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
@@ -21,7 +23,7 @@ class settings_page extends Singleton
 
         // Check Access Level
         if (Menus::in_page('settings') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            wp_die(__('You do not have sufficient permissions to access this page.', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 

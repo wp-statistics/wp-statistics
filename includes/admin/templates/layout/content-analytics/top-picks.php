@@ -108,6 +108,7 @@ $postType = Request::get('tab', 'post');
     <?php
     View::load("components/objects/view-more", [
         'href'  => add_query_arg(['tab' => 'top', 'pt' => $postType], Menus::admin_url('pages')),
+        /* translators: %s: string value */
         'title' => sprintf(esc_html__('See all %s', 'wp-statistics'), strtolower(Helper::getPostTypeName($postType))),
     ]);
     ?>

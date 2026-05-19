@@ -26,6 +26,7 @@ class Create extends AbstractTableOperation
 
             return $this->transactionHandler->executeInTransaction([$this, 'createTable']);
         } catch (\Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException(
                 sprintf("Failed to create table `%s`: %s", $this->tableName, $e->getMessage())
             );
@@ -46,6 +47,7 @@ class Create extends AbstractTableOperation
         $result = $this->wpdb->query($sql);
 
         if ($result === false) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException(
                 sprintf('Failed to create table. MySQL Error: %s', $this->wpdb->last_error)
             );

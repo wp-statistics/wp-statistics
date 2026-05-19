@@ -136,7 +136,7 @@ class IP
      */
     public static function hashUserIp($ip = false)
     {
-        $date           = date('Y-m-d'); // Capture the current date to use in salt generation.
+        $date           = gmdate('Y-m-d'); // Capture the current date to use in salt generation.
         $saltOptionName = 'wp_statistics_daily_salt'; // Define the option name for storing the daily salt.
 
         // Retrieve the currently stored daily salt from the WordPress options.
@@ -272,7 +272,7 @@ class IP
                 $binRange   = inet_pton($range);
 
                 if ($binIp == false || $binRange == false) {
-                    throw new ErrorException(esc_html__('Invalid IP address or Range.'));
+                    throw new ErrorException(esc_html__('Invalid IP address or Range.', 'wp-statistics'));
                 }
 
                 // Calculate the number of bytes in the IP address

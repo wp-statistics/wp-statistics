@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Service\Admin\ExportImport\Reports;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\Devices\DevicesDataProvider;

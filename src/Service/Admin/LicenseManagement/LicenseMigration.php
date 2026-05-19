@@ -129,7 +129,7 @@ class LicenseMigration
         } catch (\Exception $e) {
             Notice::addNotice(
                 // translators: 1: Add-on slug - 2: Error message.
-                sprintf(__('Failed to migrate license for %s: %s', 'wp-statistics'), $addonSlug, $e->getMessage()),
+                sprintf(__('Failed to migrate license for %1$s: %2$s', 'wp-statistics'), $addonSlug, $e->getMessage()),
                 'license_migration',
                 'error'
             );

@@ -36,7 +36,7 @@
                     <?php esc_html_e('Blog Updates', 'wp-statistics'); ?>
                 </a>
                 <div class="c-about__rate">
-                    <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?filter=5#new-post" target="_blank">
+                    <a href="https://wordpress.org/plugins/wp-statistics/#reviews" target="_blank">
                         <?php esc_html_e('Enjoying WP Statistics? Give Us 5 Stars', 'wp-statistics'); ?>
                     </a>
                 </div>

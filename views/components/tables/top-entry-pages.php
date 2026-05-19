@@ -50,7 +50,7 @@ use WP_Statistics\Components\View;
                             <?php if (!empty($page->post_date)) : ?>
                                 <?php echo esc_html(date_i18n(get_option('date_format', 'Y-m-d'), strtotime($page->post_date))) . ' ' . esc_html__('at', 'wp-statistics') . ' ' . esc_html(date_i18n(get_option('time_format', 'g:i a'), strtotime($page->post_date))); ?>
                             <?php else : ?>
-                                <?php echo Admin_Template::UnknownColumn() ?>
+                                <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                             <?php endif; ?>
                         </td>
 

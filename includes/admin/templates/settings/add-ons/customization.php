@@ -108,7 +108,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 <td>
                     <input id="wps_addon_settings[customization][wps_white_label]" type="checkbox" value="1" name="wps_addon_settings[customization][wps_white_label]" <?php checked(WP_STATISTICS\Option::getByAddon('wps_white_label', 'customization')) ?>>
                     <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the <a href="https://wp-statistics.com/resources/whitelabeling-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">White label Documentation</a>.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the <a href="https://wp-statistics.com/resources/whitelabeling-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">White label Documentation</a>.', 'wp-statistics')); ?></p>
                 </td>
             </tr>
 
@@ -133,11 +133,11 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 <td>
                     <div class='wps-img-preview-wrapper'>
                         <img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo">
-                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0 5px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/>
+                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0 5px;" value="<?php esc_html_e('X', 'wp-statistics') ?>"/>
                     </div>
                     <div class="wps-input-group wps-input-group__action">
                         <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo $custom_header_logo; ?>"/>
-                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; "/>
+                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics') ?>" style="margin: 0; "/>
                     </div>
                     <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
                 </td>
@@ -171,7 +171,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                             checked
                         >
                         <label for="wps-addon-wp-statistics" class="wps-export__label">
-                            <?php echo esc_html__('WP Statistics (core settings)'); ?>
+                            <?php echo esc_html__('WP Statistics (core settings)', 'wp-statistics'); ?>
                         </label>
                     </p>
                     <?php foreach (PluginHelper::$plugins as $plugin => $title):
@@ -197,7 +197,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                         <?php esc_html_e('Download export file', 'wp-statistics'); ?>
                     </button>
                     <p class="description">
-                        <?php _e('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?>
+                        <?php echo wp_kses_post(__('The file is saved in JSON format and contains both core settings and the add‑ons you tick above. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics')); ?>
                     </p>
                 </td>
             </tr>
@@ -238,7 +238,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                     </button>
 
                     <p class="description">
-                        <?php _e('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?>
+                        <?php echo wp_kses_post(__('Need a safety net? Use <b>Download export file</b> above to back up your current settings first. You can always restore defaults later under <b>Settings › Advanced Options › Reset Options</b>. <a href="https://wp-statistics.com/resources/import-export-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics')); ?>
                     </p>
                 </td>
             </tr>

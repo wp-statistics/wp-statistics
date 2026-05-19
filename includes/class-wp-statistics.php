@@ -260,6 +260,7 @@ final class WP_Statistics
 
         // Check if the directory creation failed.
         if (!$result) {
+            /* translators: %s: string value */
             $errorMessage = sprintf(__('Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up.', 'wp-statistics'), esc_html($upload_dir_name));
             Notice::addNotice($errorMessage, 'create_upload_directory', 'warning', false);
         }

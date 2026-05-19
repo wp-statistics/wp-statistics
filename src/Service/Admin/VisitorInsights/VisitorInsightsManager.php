@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Query;

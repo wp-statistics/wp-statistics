@@ -69,7 +69,7 @@ use WP_STATISTICS\Menus;
                         <?php esc_html_e('Last-Touch', 'wp-statistics'); ?>
                     </option>
                 </select>
-                <p class="description"><?php _e('Select how conversions are attributed: First-Touch credits the first interaction, and Last-Touch credits the most recent. <a href="https://wp-statistics.com/resources/attribution-models/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo wp_kses_post(__('Select how conversions are attributed: First-Touch credits the first interaction, and Last-Touch credits the most recent. <a href="https://wp-statistics.com/resources/attribution-models/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics')); ?></p>
             </td>
         </tr>
         </tbody>
@@ -101,7 +101,7 @@ use WP_STATISTICS\Menus;
                         <?php esc_html_e('Server Side Tracking (Deprecated)', 'wp-statistics'); ?>
                     </option>
                 </select>
-                <p class="description"><?php _e('Client Side Tracking uses the visitor’s browser for better accuracy and <b>caching compatibility</b>. Server Side Tracking is less accurate and will be deprecated. Client Side Tracking is strongly recommended. <a href="https://wp-statistics.com/2024/07/24/deprecating-server-side-tracking-in-wp-statistics-15/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo wp_kses_post(__('Client Side Tracking uses the visitor’s browser for better accuracy and <b>caching compatibility</b>. Server Side Tracking is less accurate and will be deprecated. Client Side Tracking is strongly recommended. <a href="https://wp-statistics.com/2024/07/24/deprecating-server-side-tracking-in-wp-statistics-15/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>', 'wp-statistics')); ?></p>
             </td>
         </tr>
 

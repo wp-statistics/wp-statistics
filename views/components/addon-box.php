@@ -1,8 +1,10 @@
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 /** @var WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator $addOn */
-if (!defined('ABSPATH') || empty($addOn)) {
-    exit;
+if (empty($addOn)) {
+    return;
 }
 
 ?>

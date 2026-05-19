@@ -138,25 +138,25 @@ $consentIntegration      = Option::get('consent_integration');
 
                     <?php if ($isWpConsentApiActive && empty($compatiblePlugins)) : ?>
                         <p class="description">
-                            <b><?php _e("⚠️ WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>See compatible plugins</a>.", 'wp-statistics'); ?></b>
+                            <b><?php echo wp_kses_post(__("⚠️ WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>See compatible plugins</a>.", 'wp-statistics')); ?></b>
                         </p>
                     <?php else : ?>
                         <p class="description"><?php esc_html_e("Note: To use this feature, you must install and activate one of the supported consent management plugins.", 'wp-statistics'); ?></p>
-                        <p class="description"><?php _e("For step-by-step setup, refer to our <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>detailed guide</a>.", 'wp-statistics'); ?></p>
+                        <p class="description"><?php echo wp_kses_post(__("For step-by-step setup, refer to our <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>detailed guide</a>.", 'wp-statistics')); ?></p>
                     <?php endif; ?>
                 </td>
             </tr>
 
             <tr id="wps-anonymous-tracking">
                 <th scope="row">
-                    <span class="wps-setting-label"><?php _e('Anonymous Tracking', 'wp-statistics'); ?></span>
+                    <span class="wps-setting-label"><?php esc_html_e('Anonymous Tracking', 'wp-statistics'); ?></span>
                 </th>
 
                 <td>
                     <input id="anonymous_tracking" type="checkbox" value="1" name="wps_anonymous_tracking" <?php echo WP_STATISTICS\Option::get('anonymous_tracking', false) == true ? 'checked="checked"' : ''; ?> />
                     <label for="anonymous_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('When this option is enabled, all users will be tracked anonymously by default, without recording any Personally Identifiable Information (PII), regardless of consent. This anonymous tracking data is classified as "Functional" to align with privacy regulations. PII data will only be collected when explicit consent is provided by the website visitor.', 'wp-statistics'); ?></p>
-                    <p class="description"><?php _e('<b>Note</b>: This feature is currently in beta and enables user tracking while adhering to privacy laws. Users are advised to review and ensure compliance with applicable legal requirements in their jurisdiction.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('When this option is enabled, all users will be tracked anonymously by default, without recording any Personally Identifiable Information (PII), regardless of consent. This anonymous tracking data is classified as "Functional" to align with privacy regulations. PII data will only be collected when explicit consent is provided by the website visitor.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('<b>Note</b>: This feature is currently in beta and enables user tracking while adhering to privacy laws. Users are advised to review and ensure compliance with applicable legal requirements in their jurisdiction.', 'wp-statistics')); ?></p>
                 </td>
             </tr>
 

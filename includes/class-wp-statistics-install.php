@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Service\Database\Managers\TableHandler;
 
 /**
@@ -297,7 +299,7 @@ class Install
 
                             // Added Progress Html
                             let wps_progress = `<div id="wps_process_upgrade" style="display:none;"><p>`;
-                            wps_progress += `<?php esc_html_e('Please don\'t close the browser window until the database operation was completed.', 'wp-statistic'); ?>`;
+                            wps_progress += `<?php esc_html_e('Please don\'t close the browser window until the database operation was completed.', 'wp-statistics'); ?>`;
                             wps_progress += `</p><p><b>`;
                             wps_progress += `<?php echo esc_html_e('Item processed', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>`;
                             wps_progress += ` : <span id="wps_num_page_process">0</span> / <?php echo esc_html(number_format(self::get_require_number_update())); ?> &nbsp;<span class="wps-text-warning">(<span id="wps_num_percentage">0</span>%)</span></b></p>`;

@@ -77,6 +77,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         if ($this->shouldGetPostData()) {
             $this->addChartDataset(
                 sprintf(
+                    /* translators: %s: string value */
                     esc_html__('Published %s', 'wp-statistics'),
                     isset($this->args['post_type']) ? Helper::getPostTypeName($this->args['post_type']) : esc_html__('Contents', 'wp-statistics')
                 ),
@@ -126,7 +127,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         foreach ($dates as $date) {
             $parsedData['labels'][] = [
                 'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                'date'           => date('Y-m-d', strtotime($date)),
+                'date'           => gmdate('Y-m-d', strtotime($date)),
                 'month_i18n'     => date_i18n('F', strtotime($date)),
                 'day'            => date_i18n('D', strtotime($date))
             ];

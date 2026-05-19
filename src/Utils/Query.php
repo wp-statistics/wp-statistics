@@ -368,7 +368,8 @@ class Query
                 break;
 
             default:
-                throw new InvalidArgumentException(esc_html__(sprintf("Unsupported operator: %s", $operator)));
+                /* translators: %s: string value */
+                throw new InvalidArgumentException(sprintf(esc_html__('Unsupported operator: %s', 'wp-statistics'), esc_html($operator)));
         }
 
         if (empty($condition)) return;
@@ -665,7 +666,8 @@ class Query
         if (method_exists($this, $queryMethod)) {
             $query = $this->$queryMethod();
         } else {
-            throw new InvalidArgumentException(sprintf(esc_html__('%s method is not defined.', 'wp-statistics'), $queryMethod));
+            /* translators: %s: string value */
+            throw new InvalidArgumentException(sprintf(esc_html__('%s method is not defined.', 'wp-statistics'), $queryMethod)); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
         }
 
         return $query;

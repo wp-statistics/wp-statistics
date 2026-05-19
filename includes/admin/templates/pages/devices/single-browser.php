@@ -36,7 +36,7 @@ use WP_STATISTICS\Helper;
                                                 </span>
                                         </td>
                                         <td class="wps-pd-l">
-                                            <?php echo number_format_i18n(intval($item->visitors)); ?>
+                                            <?php echo number_format_i18n(intval($item->visitors)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                         </td>
                                         <td class="wps-pd-l">
                                             <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%

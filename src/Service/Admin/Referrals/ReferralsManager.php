@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Referrals;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\User;

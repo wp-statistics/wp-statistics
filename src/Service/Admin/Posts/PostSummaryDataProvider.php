@@ -58,7 +58,7 @@ class PostSummaryDataProvider
             'resource_type' => Helper::getPostTypes(),
             'date'    => [
                 'from' => $this->getPublishDate(),
-                'to'   => date('Y-m-d'),
+                'to'   => gmdate('Y-m-d'),
             ],
         ];
 
@@ -143,7 +143,7 @@ class PostSummaryDataProvider
             $format = $this->makeDateFormatShorter($format);
         }
 
-        return date($format, strtotime($this->fromDate));
+        return gmdate($format, strtotime($this->fromDate));
     }
 
     /**
@@ -164,7 +164,7 @@ class PostSummaryDataProvider
             $format = $this->makeDateFormatShorter($format);
         }
 
-        return date($format, strtotime($this->toDate));
+        return gmdate($format, strtotime($this->toDate));
     }
 
     /**

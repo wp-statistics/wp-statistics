@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Url;
 use WP_Statistics\Models\ViewsModel;
@@ -267,7 +269,7 @@ class Visitor
         if ($args['day'] == 'today') {
             $sql_time = TimeZone::getCurrentDate('Y-m-d');
         } else {
-            $sql_time = date('Y-m-d', strtotime($args['day'])); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+            $sql_time = gmdate('Y-m-d', strtotime($args['day']));
         }
 
         // Prepare Query

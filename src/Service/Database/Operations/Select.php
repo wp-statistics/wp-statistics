@@ -129,14 +129,18 @@ class Select extends AbstractTableOperation
                 $sql .= ' WHERE ' . implode(" $connector ", $whereClauses);
             }
 
-            // Add GROUP BY clause if provided
             if (!empty($this->args['group_by'])) {
-                $sql .= " GROUP BY {$this->args['group_by']}";
+                $groupBy = self::sanitizeIdentifierList($this->args['group_by'], false);
+                if ($groupBy !== '') {
+                    $sql .= " GROUP BY {$groupBy}";
+                }
             }
 
-            // Add ORDER BY clause if provided
             if (!empty($this->args['order_by'])) {
-                $sql .= " ORDER BY {$this->args['order_by']}";
+                $orderBy = self::sanitizeIdentifierList($this->args['order_by'], true);
+                if ($orderBy !== '') {
+                    $sql .= " ORDER BY {$orderBy}";
+                }
             }
 
             // Add LIMIT clause if provided
@@ -163,6 +167,7 @@ class Select extends AbstractTableOperation
 
             return $this;
         } catch (Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new RuntimeException("SELECT operation failed: " . $e->getMessage());
         }
     }
@@ -175,5 +180,40 @@ class Select extends AbstractTableOperation
     public function getResult()
     {
         return $this->result;
+    }
+
+    /**
+     * Whitelist a comma-separated identifier list used in GROUP BY / ORDER BY.
+     *
+     * Each token must be `column` or `table.column`. When $allowDirection is
+     * true, an optional trailing ASC/DESC is preserved. Tokens that don't
+     * match are dropped, since this clause is interpolated directly and
+     * cannot go through $wpdb->prepare().
+     */
+    private static function sanitizeIdentifierList($value, $allowDirection)
+    {
+        if (!is_string($value)) {
+            return '';
+        }
+
+        $pattern = $allowDirection
+            ? '/^([A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)?)(?:\s+(ASC|DESC))?$/i'
+            : '/^([A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)?)$/';
+
+        $safe = [];
+
+        foreach (array_map('trim', explode(',', $value)) as $part) {
+            if ($part === '' || !preg_match($pattern, $part, $m)) {
+                continue;
+            }
+
+            $token = $m[1];
+            if ($allowDirection && !empty($m[2])) {
+                $token .= ' ' . strtoupper($m[2]);
+            }
+            $safe[] = $token;
+        }
+
+        return implode(', ', $safe);
     }
 }

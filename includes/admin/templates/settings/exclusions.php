@@ -55,7 +55,7 @@ use WP_STATISTICS\Option;
                 <th scope="row"><label for="wps_exclude_ip"><?php esc_html_e('Excluded IP Address List', 'wp-statistics'); ?></label></th>
                 <td>
                     <textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('exclude_ip')); ?></textarea>
-                    <p class="description"><?php echo sprintf(__('Specify the IP addresses you want to exclude. Enter one IP address or range per line. For IPv4 addresses, both <code>192.168.0.0/24</code> and <code>192.168.0.0/255.255.255.0</code> formats are acceptable. To specify an IP address, use a subnet value of 32 or <code>255.255.255.255</code>. For IPv6 addresses, use the <code>fc00::/7</code> format. For detailed instructions, see our <a href="%1$s" target="_blank">IP Exclusions Documentation</a>.', 'wp-statistics'), 'https://wp-statistics.com/resources/exclude-ip-addresses/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'); ?></p>
+                    <p class="description"><?php /* translators: %1$s: string value */ echo sprintf(__('Specify the IP addresses you want to exclude. Enter one IP address or range per line. For IPv4 addresses, both <code>192.168.0.0/24</code> and <code>192.168.0.0/255.255.255.0</code> formats are acceptable. To specify an IP address, use a subnet value of 32 or <code>255.255.255.255</code>. For IPv6 addresses, use the <code>fc00::/7</code> format. For detailed instructions, see our <a href="%1$s" target="_blank">IP Exclusions Documentation</a>.', 'wp-statistics'), 'https://wp-statistics.com/resources/exclude-ip-addresses/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'); ?></p>
                 </td>
             </tr>
             </tbody>
@@ -84,6 +84,7 @@ use WP_STATISTICS\Option;
                     <p class="description"><?php
                         echo wp_kses_post(
                             sprintf(
+                                /* translators: %s: string value */
                                 __(
                                     'WP Statistics already filters common crawlers. Add any extra user-agent snippets you’d like treated as bots—one per line (leave blank if none). See the <a href="%s" target="_blank">Robot Exclusions guide</a> for details.',
                                     'wp-statistics'
@@ -118,7 +119,7 @@ use WP_STATISTICS\Option;
                 <th scope="row"><label for="wps_excluded_countries"><?php esc_html_e('Exclude Countries', 'wp-statistics'); ?></label></th>
                 <td>
                     <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
-                    <p class="description"><?php _e('Enter the country codes of the countries you want to exclude from tracking. Visitors from these countries will not be logged. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Country Codes Document</a>.', 'wp-statistics') ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('Enter the country codes of the countries you want to exclude from tracking. Visitors from these countries will not be logged. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Country Codes Document</a>.', 'wp-statistics')); ?></p>
                 </td>
             </tr>
 
@@ -126,7 +127,7 @@ use WP_STATISTICS\Option;
                 <th scope="row"><label for="wps_included_countries"><?php esc_html_e('Include Countries', 'wp-statistics'); ?></label></th>
                 <td>
                     <textarea id="wps_included_countries" name="wps_included_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('included_countries')); ?></textarea>
-                    <p class="description"><?php _e('Enter the country codes of the countries you want to include in tracking. Only visitors from these specified countries will be tracked. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank" aria-label="Country Codes Document">Country Codes Document</a>.', 'wp-statistics') ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('Enter the country codes of the countries you want to include in tracking. Only visitors from these specified countries will be tracked. Add one country code per line. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank" aria-label="Country Codes Document">Country Codes Document</a>.', 'wp-statistics')); ?></p>
                 </td>
             </tr>
             </tbody>
@@ -165,7 +166,7 @@ use WP_STATISTICS\Option;
                 <th scope="row"><label for="wps_excluded_urls"><?php esc_html_e('Excluded URLs', 'wp-statistics'); ?></label></th>
                 <td>
                     <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
-                    <p class="description"><?php echo __('List specific URLs here that you wish to exclude from tracking. You can use a wildcard (*) to match multiple paths. For example, <code>/blog/*</code> will exclude all pages under <code>/blog/</code>.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('List specific URLs here that you wish to exclude from tracking. You can use a wildcard (*) to match multiple paths. For example, <code>/blog/*</code> will exclude all pages under <code>/blog/</code>.', 'wp-statistics')); ?></p>
                     <p class="description"><?php echo sprintf(
                         // translators: %s: Link to documentation.
                             __('<b>Note</b>: Once added, traffic from matching URLs will stop being tracked. For more detailed information, <a href="%s" target="_blank">click here</a>.', 'wp-statistics'),

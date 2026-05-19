@@ -15,6 +15,7 @@
             </ul>
             <?php
             echo wp_kses_post(sprintf(
+                /* translators: %s: string value */
                 __('Without valid licenses, these add-ons won’t receive critical updates or new features. <br> Please add a valid license to ensure ongoing compatibility and support. <br> Have questions? <a href="%s" target="_blank">Contact Support</a>', 'wp-statistics'),
                 esc_url("https://wp-statistics.com/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon")
             ));

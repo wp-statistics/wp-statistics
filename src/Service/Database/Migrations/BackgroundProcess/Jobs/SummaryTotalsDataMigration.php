@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Abstracts\BaseBackgroundProcess;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\SummaryModel;
@@ -152,8 +154,8 @@ class SummaryTotalsDataMigration extends BaseBackgroundProcess
         @ini_set('memory_limit', '-1');
 
         $dateRange = [
-            'from' => date('Y-m-d', 0),
-            'to'   => date('Y-m-d', strtotime('yesterday'))
+            'from' => gmdate('Y-m-d', 0),
+            'to'   => gmdate('Y-m-d', strtotime('yesterday'))
         ];
 
         $visitorModel = new VisitorsModel();

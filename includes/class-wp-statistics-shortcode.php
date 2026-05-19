@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Traits\TransientCacheTrait;
@@ -203,8 +205,8 @@ class ShortCode
                 $args['date'] = $timeMap[$atts['time']];
             } elseif (is_numeric($atts['time'])) {
                 $args['date'] = [
-                    'from' => date('Y-m-d', strtotime("{$atts['time']} days")),
-                    'to'   => date('Y-m-d'),
+                    'from' => gmdate('Y-m-d', strtotime("{$atts['time']} days")),
+                    'to'   => gmdate('Y-m-d'),
                 ];
             } else {
                 $args['date'] = $atts['time'];

@@ -2,12 +2,15 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Globals\Context;
 use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
+use WP_Statistics\Service\Admin\Optimization\OptimizationActions;
 
 class Admin_Assets
 {
@@ -253,10 +256,10 @@ class Admin_Assets
             wp_enqueue_style('thickbox');
         }
 
-        // Add RangeDatePicker
+        // Add RangeDatePicker (moment is shipped by WordPress core; daterangepicker depends on it)
         if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
-            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.30.2", ['in_footer' => true]);
-            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
+            wp_enqueue_script('moment');
+            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array('moment'), "1.13.2", ['in_footer' => true]);
         }
 
         if (Menus::in_page('pages')) {
@@ -489,6 +492,7 @@ class Admin_Assets
         $list['ajax_url']            = admin_url('admin-ajax.php');
         $list['assets_url']          = self::$plugin_url . self::$asset_dir;
         $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
+        $list['optimization_nonce']  = wp_create_nonce(OptimizationActions::NONCE_ACTION);
         $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
         // Rest-API Export/Import Url

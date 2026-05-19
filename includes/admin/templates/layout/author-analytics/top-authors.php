@@ -45,6 +45,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                 'author_name'   => $author->name,
                                 'count'         => $author->total_views,
                                 'counter'       => $counter,
+                                /* translators: %s: string value */
                                 'count_label'   => sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
@@ -75,6 +76,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                 'author_name'   => $author->name,
                                 'count'         => $author->post_count,
                                 'counter'       => $counter,
+                                /* translators: %s: string value */
                                 'count_label'   => sprintf(esc_html__('%s published', 'wp-statistics'), strtolower($postTypeNamePlural)),
                             ]);
                             $counter++;
@@ -93,7 +95,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
         <div class="wps-flex-half">
             <div class="wps-tabs">
                 <input type="radio" name="side-tabs" id="views-post" checked>
-                <label for="views-post"><?php echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
+                <label for="views-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
                 <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
@@ -108,6 +110,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                 'author_name'   => $author->name,
                                 'count'         => $author->average_views,
                                 'counter'       => $counter,
+                                /* translators: %s: string value */
                                 'count_label'   => sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
@@ -124,7 +127,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
                 <?php if (post_type_supports($postType, 'comments')) : ?>
                     <input type="radio" name="side-tabs" id="comments-post">
-                    <label for="comments-post"><?php echo sprintf(esc_html__('Comments/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
+                    <label for="comments-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Comments/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
                     <div class="wps-tabs__content">
                         <?php
                         /** @var stdClass[] */
@@ -139,6 +142,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                     'author_name'   => $author->name,
                                     'count'         => $author->average_comments,
                                     'counter'       => $counter,
+                                    /* translators: %s: string value */
                                     'count_label'   => sprintf(esc_html__('comments/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                                 ]);
                                 $counter++;
@@ -156,7 +160,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
                 <?php if (WordCountService::isActive()) : ?>
                     <input type="radio" name="side-tabs" id="words-post">
-                    <label for="words-post"><?php echo sprintf(esc_html__('Words/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
+                    <label for="words-post"><?php /* translators: %s: string value */ echo sprintf(esc_html__('Words/Per %s', 'wp-statistics'), $postTypeNameSingular) ?></label>
                     <div class="wps-tabs__content">
                         <?php
                         /** @var stdClass[] */
@@ -171,6 +175,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                     'author_name'   => $author->name,
                                     'count'         => $author->average_words,
                                     'counter'       => $counter,
+                                    /* translators: %s: string value */
                                     'count_label'   => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                                 ]);
                                 $counter++;

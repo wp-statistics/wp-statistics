@@ -132,7 +132,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     public function getLastDatabaseFileUpdated()
     {
         if ($this->isDatabaseExist()) {
-            return date('Y-m-d H:i:s', filemtime($this->getDatabasePath()));
+            return gmdate('Y-m-d H:i:s', filemtime($this->getDatabasePath()));
         }
     }
 
@@ -180,7 +180,66 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
          *
          * @param string $defaultUrl The default download URL.
          */
-        return apply_filters('wp_statistics_geolocation_download_url', $defaultUrl);
+        $url = apply_filters('wp_statistics_geolocation_download_url', $defaultUrl);
+
+        return self::sanitizeDownloadUrl((string) $url, $defaultUrl);
+    }
+
+    /**
+     * Whitelist a filtered GeoIP download URL before it reaches wp_remote_get().
+     * Returns $defaultUrl on any failure so SSRF attempts silently no-op.
+     */
+    private static function sanitizeDownloadUrl($url, $defaultUrl)
+    {
+        if ($url === '' || $url === $defaultUrl) {
+            return $defaultUrl;
+        }
+
+        $parts = wp_parse_url($url);
+
+        if (!is_array($parts) || empty($parts['scheme']) || empty($parts['host'])) {
+            return $defaultUrl;
+        }
+
+        if (!in_array(strtolower($parts['scheme']), ['http', 'https'], true)) {
+            return $defaultUrl;
+        }
+
+        if (!empty($parts['user']) || !empty($parts['pass'])) {
+            return $defaultUrl;
+        }
+
+        if (isset($parts['port']) && !in_array((int) $parts['port'], [80, 443, 8080, 8443], true)) {
+            return $defaultUrl;
+        }
+
+        $host = strtolower($parts['host']);
+
+        $blockedHosts = [
+            '169.254.169.254',
+            'metadata.google.internal',
+            'metadata.goog',
+            'localhost',
+            '0.0.0.0',
+        ];
+
+        if (in_array($host, $blockedHosts, true)) {
+            return $defaultUrl;
+        }
+
+        if (strpos($host, '[fe80') === 0 || strpos($host, '[fd00:ec2') === 0 || $host === '[::1]') {
+            return $defaultUrl;
+        }
+
+        // RFC 1918 hosts are intentionally allowed because mirroring the GeoIP
+        // database on a private network is a documented setup. The 127.0.0.0/8
+        // loopback range is rejected explicitly so attacker-controlled filter
+        // values cannot point at local-machine services.
+        if (filter_var($host, FILTER_VALIDATE_IP) && strpos($host, '127.') === 0) {
+            return $defaultUrl;
+        }
+
+        return $url;
     }
 
     /**

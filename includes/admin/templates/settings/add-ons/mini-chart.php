@@ -14,8 +14,8 @@ $miniChartDefaultPostTypes = get_post_types(array(
 ), 'objects');
 
 $miniChartPostTypes = [
-    'post' => __('Posts', 'wp-statistics-mini-chart'),
-    'page' => __('Pages', 'wp-statistics-mini-chart'),
+    'post' => __('Posts', 'wp-statistics'),
+    'page' => __('Pages', 'wp-statistics'),
 ];
 foreach ($miniChartDefaultPostTypes as $postType) {
     $miniChartPostTypes[$postType->name] = $postType->label;
@@ -24,7 +24,7 @@ foreach ($miniChartDefaultPostTypes as $postType) {
 $miniChartPostTypesOptions = array();
 foreach ($miniChartPostTypes as $name => $label) {
     // translators: %s: Post type label.
-    $miniChartPostTypesOptions[$name] = sprintf(__('Enable Mini Chart for %s', 'wp-statistics-mini-chart'), $label);
+    $miniChartPostTypesOptions[$name] = sprintf(__('Enable Mini Chart for %s', 'wp-statistics'), $label);
 }
 ?>
 
@@ -84,7 +84,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
                     <option value="views" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'views'), 'views'); ?>><?php esc_html_e('Views', 'wp-statistics'); ?></option>
                 </select>
                 <p class="description">
-                    <?php _e('Choose the metric to display on the chart.', 'wp-statistics'); ?>
+                    <?php esc_html_e('Choose the metric to display on the chart.', 'wp-statistics'); ?>
                 </p>
             </td>
         </tr>
@@ -103,7 +103,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
                     <option value="180" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '180'); ?>><?php esc_html_e('180 days', 'wp-statistics'); ?></option>
                 </select>
                 <p class="description">
-                    <?php _e('Select the date range for displaying the chart data.', 'wp-statistics'); ?>
+                    <?php esc_html_e('Select the date range for displaying the chart data.', 'wp-statistics'); ?>
                 </p>
             </td>
         </tr>
@@ -120,7 +120,7 @@ if ($isMiniChartActive && !$isLicenseValid) {
                     <option value="total" <?php selected(WP_STATISTICS\Option::getByAddon('count_display', 'mini_chart', 'total'), 'total'); ?>><?php esc_html_e('Show Total Count', 'wp-statistics'); ?></option>
                 </select>
                 <p class="description">
-                    <?php _e('Choose how to display the count under the chart.', 'wp-statistics'); ?>
+                    <?php esc_html_e('Choose how to display the count under the chart.', 'wp-statistics'); ?>
                 </p>
             </td>
         </tr>

@@ -838,7 +838,7 @@ class Helper
             } else {
                 $report_date = sprintf(
                 // translators: 1: Report start date - 2: Report end date.
-                    __('%s - %s', 'wp-statistics'),
+                    __('%1$s - %2$s', 'wp-statistics'),
                     esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['start']))),
                     esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['end'])))
                 );
@@ -1064,7 +1064,7 @@ class Helper
                 break;
             case 'week-ex-today':
                 // Week, excluding today
-                $fromDate = date('Y-m-d', strtotime('-1 week'));
+                $fromDate = gmdate('Y-m-d', strtotime('-1 week'));
                 $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
@@ -1073,7 +1073,7 @@ class Helper
                 $where = $field_sql(-13);
                 break;
             case 'two-weeks-ex-today':
-                $fromDate = date('Y-m-d', strtotime('-2 week'));
+                $fromDate = gmdate('Y-m-d', strtotime('-2 week'));
                 $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
@@ -1100,7 +1100,7 @@ class Helper
                 break;
             case 'month-ex-today':
                 // Month, excluding today
-                $fromDate = date('Y-m-d', strtotime('-30 days'));
+                $fromDate = gmdate('Y-m-d', strtotime('-30 days'));
                 $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
@@ -1129,7 +1129,7 @@ class Helper
                 break;
             case 'year-ex-today':
                 // Year, excluding today
-                $fromDate = date('Y-m-d', strtotime('-1 year'));
+                $fromDate = gmdate('Y-m-d', strtotime('-1 year'));
                 $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
@@ -2054,7 +2054,7 @@ class Helper
     public static function checkUrlForParams($url, $params)
     {
         // Parse the URL and extract the query string
-        $queryString = parse_url($url, PHP_URL_QUERY);
+        $queryString = wp_parse_url($url, PHP_URL_QUERY);
 
         // If there's no query string, return false
         if (!$queryString) {

@@ -1,5 +1,5 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
-<div class="wps-mb-16"><?php echo esc_html__('Our system has found that User IDs have previously been recorded in your database, which may have occurred while the “Record User Page Visits” feature was active. To ensure the privacy and security of your users, we recommend removing these User IDs from your database.') ?></div>
+<div class="wps-mb-16"><?php echo esc_html__('Our system has found that User IDs have previously been recorded in your database, which may have occurred while the “Record User Page Visits” feature was active. To ensure the privacy and security of your users, we recommend removing these User IDs from your database.', 'wp-statistics') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('How to Remove User IDs?', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
@@ -14,6 +14,6 @@
 <div class="wps-audit-card__suggestion">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Need More Information?', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
-        <?php echo __('<p>For step-by-step instructions and additional details on the importance of removing User IDs, please consult our guide: <a target="_blank" href="https://wp-statistics.com/resources/removing-user-ids-from-your-database/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Removing User IDs from Your Database</a>.</p>', 'wp-statistics') ?>
+        <?php echo wp_kses_post(__('<p>For step-by-step instructions and additional details on the importance of removing User IDs, please consult our guide: <a target="_blank" href="https://wp-statistics.com/resources/removing-user-ids-from-your-database/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Removing User IDs from Your Database</a>.</p>', 'wp-statistics')) ?>
     </div>
 </div>

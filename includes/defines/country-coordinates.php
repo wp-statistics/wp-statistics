@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 # This is a list of all known country codes and their lat/long values.
 # It is used for the map in the overview page.

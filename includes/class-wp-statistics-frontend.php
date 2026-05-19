@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
@@ -139,6 +141,7 @@ class Frontend
             'post_type'     => '',
         ]);
 
+        /* translators: %s: string value */
         $hits_html = '<p>' . sprintf(__('Views: %s', 'wp-statistics'), $hits) . '</p>';
 
         // Check hits position

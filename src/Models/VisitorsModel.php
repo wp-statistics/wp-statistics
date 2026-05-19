@@ -1407,7 +1407,7 @@ class VisitorsModel extends BaseModel
         $range = DateRange::get('30days');
 
         $startDate = $range['from'] . ' 00:00:00';
-        $endDate   = date('Y-m-d', strtotime($range['to'] . ' +1 day')) . ' 00:00:00';
+        $endDate   = gmdate('Y-m-d', strtotime($range['to'] . ' +1 day')) . ' 00:00:00';
 
         $fields = [
             '`visitor`.`last_counter` AS `date`',

@@ -8,10 +8,6 @@ use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 use WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider;
 use WP_STATISTICS\Option;
 
-if (!defined('ABSPATH')) {
-    exit;
-} // Exit if accessed directly
-
 $is_rtl             = is_rtl();
 $text_align         = $is_rtl ? 'right' : 'left';
 $text_align_reverse = $is_rtl ? 'left' : 'right';
@@ -67,7 +63,7 @@ if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceS
 $tipOfEmail = Helper::getReportEmailTip();
 
 // "Your performance at a glance" section variables
-$startDate = date('Y-m-d', strtotime('-1 month'));
+$startDate = gmdate('Y-m-d', strtotime('-1 month'));
 $endDate   = '';
 if (!empty($schedule)) {
     $startDate = $schedule['start'];

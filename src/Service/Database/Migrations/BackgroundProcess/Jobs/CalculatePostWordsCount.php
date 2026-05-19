@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Database\Migrations\BackgroundProcess\Jobs;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Abstracts\BaseBackgroundProcess;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
@@ -119,6 +121,7 @@ class CalculatePostWordsCount extends BaseBackgroundProcess
             $actionUrl = $this->getActionUrl($force);
 
             $message = sprintf(
+                /* translators: %s: string value */
                 __('Please <a href="%s">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
                 esc_url($actionUrl)
             );

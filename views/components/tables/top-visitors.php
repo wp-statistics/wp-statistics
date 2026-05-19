@@ -80,7 +80,7 @@ use WP_Statistics\Utils\Url;
                                     </div>
                                 <?php
                                 else :
-                                    echo Admin_Template::UnknownColumn();
+                                    echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 endif;
                                 ?>
                             </td>
@@ -92,7 +92,7 @@ use WP_Statistics\Utils\Url;
                                         'title' => $page['title'],
                                     ]);
                                 else : ?>
-                                    <?php echo Admin_Template::UnknownColumn() ?>
+                                    <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 <?php endif; ?>
                             </td>
                         </tr>

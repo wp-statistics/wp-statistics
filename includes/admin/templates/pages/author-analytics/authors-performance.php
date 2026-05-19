@@ -18,6 +18,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
         <?php
         $metrics = [
             [
+                /* translators: %s: string value */
                 'label'  => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeNamePlural),
                 'value'  => Helper::formatNumberWithUnit($data['glance']['posts']['value']),
                 'change' => $data['glance']['posts']['change']
@@ -46,6 +47,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             ];
 
             $metrics[] = [
+                /* translators: %s: string value */
                 'label' => sprintf(esc_html__('Avg. words per %s', 'wp-statistics'), $postTypeNamePlural),
                 'value' => Helper::formatNumberWithUnit($data['glance']['words_avg']['value']),
             ];
@@ -59,6 +61,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             ];
 
             $metrics[] = [
+                /* translators: %s: string value */
                 'label'  => sprintf(esc_html__('Avg. comments per %s', 'wp-statistics'), $postTypeNamePlural),
                 'value'  => Helper::formatNumberWithUnit($data['glance']['comments_avg']['value']),
                 'change' => $data['glance']['comments_avg']['change']
@@ -74,6 +77,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
         Admin_Template::get_template(['layout/author-analytics/publishing-overview'], [
             'title'       => esc_html__('Publishing Overview', 'wp-statistics'),
             'tooltip'     => sprintf(
+                /* translators: %s: string value */
                 esc_html__('This heatmap displays the publishing activity of authors over the past 12 months. Darker squares represent more published %s.', 'wp-statistics'),
                 strtolower($postTypeNamePlural)
             ),
@@ -83,6 +87,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
         Admin_Template::get_template(['layout/author-analytics/top-authors'], [
             'title'   => esc_html__('Top Authors', 'wp-statistics'),
             'tooltip' => sprintf(
+                /* translators: %1$s: string value */
                 esc_html__('This section ranks authors based on various performance metrics such as views, publishing frequency, comments per %1$s, and average words per %1$s. Use the tabs to switch between different metrics to see how each author is performing.', 'wp-statistics'),
                 strtolower($postTypeNameSingular)
             ),
@@ -90,8 +95,10 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
         ]);
 
         Admin_Template::get_template(['layout/author-analytics/published-posts'], [
+            /* translators: %s: string value */
             'title'   => sprintf(esc_html__('Views/Published %s', 'wp-statistics'), $postTypeNamePlural),
             'tooltip' => sprintf(
+                /* translators: %1$s: string value */
                 esc_html__('This scatter plot shows the relationship between the number of %1$s published by an author and the number of views those %1$s have received. Each point represents an author.', 'wp-statistics'),
                 strtolower($postTypeNamePlural)
             )

@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
@@ -206,18 +208,18 @@ class PostsManager
         // Use a short date format for indexes and `chartDates` for values
         // Short date format will be displayed below summary charts
         foreach ($miniChartHelper->getChartDates() as $date) {
-            $shortDate             = date('d M', strtotime($date));
+            $shortDate             = gmdate('d M', strtotime($date));
             $chartData[$shortDate] = [
-                'ymdDate'   => date('Y-m-d', strtotime($date)),
+                'ymdDate'   => gmdate('Y-m-d', strtotime($date)),
                 'hits'      => 0,
-                'fullDate'  => date($wpDateFormat, strtotime($date)),
+                'fullDate'  => gmdate($wpDateFormat, strtotime($date)),
             ];
         }
 
         // Set date range for charts based on MiniChart's `date_range` option
         // Also change `to_date` to include today's stats in charts too
         $dataProvider->setFrom(TimeZone::getTimeAgo($miniChartHelper->isMiniChartActive() ? Option::getByAddon('date_range', 'mini_chart', '14') : 14));
-        $dataProvider->setTo(date('Y-m-d'));
+        $dataProvider->setTo(gmdate('Y-m-d'));
 
         // Fill `$dailyHits` based on MiniChart's `metric` option
         $dailyHits = Helper::checkMiniChartOption('metric', 'views', 'visitors') ? $dataProvider->getDailyViews() : $dataProvider->getDailyVisitors();
@@ -228,11 +230,11 @@ class PostsManager
                 continue;
             }
 
-            $shortDate             = date('d M', strtotime($hit->date));
+            $shortDate             = gmdate('d M', strtotime($hit->date));
             $chartData[$shortDate] = [
                 'ymdDate'   => $hit->date,
                 'hits'      => !empty($hit->visitors) ? intval($hit->visitors) : intval($hit->views),
-                'fullDate'  => date($wpDateFormat, strtotime($hit->date)),
+                'fullDate'  => gmdate($wpDateFormat, strtotime($hit->date)),
             ];
         }
 

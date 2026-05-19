@@ -27,7 +27,7 @@ $postTypeNameSingular = Helper::getPostTypeName($postType, true);
                                     </th>
                                     <th class="wps-pd-l">
                                         <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('total_views')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'total_views') ? esc_attr($order) : ''; ?>">
-                                            <?php echo sprintf(esc_html__('%s Views', 'wp-statistics'), $postTypeNameSingular) ?>
+                                            <?php /* translators: %s: string value */ echo sprintf(esc_html__('%s Views', 'wp-statistics'), $postTypeNameSingular) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                         </a>
                                     </th>
                                     <th class="wps-pd-l">
@@ -51,19 +51,19 @@ $postTypeNameSingular = Helper::getPostTypeName($postType, true);
                                     </th>
                                     <th class="wps-pd-l">
                                         <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('average_comments')) ?>" class="sort <?php echo Request::compare('order_by', 'average_comments') ? esc_attr($order) : ''; ?>">
-                                            <?php echo sprintf(esc_html__('Comments/Per %s', 'wp-statistics'), $postTypeNameSingular) ?>
+                                            <?php /* translators: %s: string value */ echo sprintf(esc_html__('Comments/Per %s', 'wp-statistics'), $postTypeNameSingular) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                         </a>
                                     </th>
                                     <th class="wps-pd-l">
                                         <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('average_views')) ?>" class="sort <?php echo Request::compare('order_by', 'average_views') ? esc_attr($order) : ''; ?>">
-                                            <?php echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) ?>
+                                            <?php /* translators: %s: string value */ echo sprintf(esc_html__('Views/Per %s', 'wp-statistics'), $postTypeNameSingular) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                         </a>
                                     </th>
 
                                     <?php if (WordCountService::isActive()) : ?>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('average_words')) ?>" class="sort <?php echo Request::compare('order_by', 'average_words') ? esc_attr($order) : ''; ?>">
-                                                <?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeNameSingular) ?>
+                                                <?php /* translators: %s: string value */ echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeNameSingular) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                             </a>
                                         </th>
                                     <?php endif; ?>

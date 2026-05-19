@@ -26,6 +26,7 @@ class InspectColumns extends AbstractTableOperation
 
             return $this;
         } catch (\Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException(
                 sprintf("Failed to inspect table `%s`: %s", $this->tableName, $e->getMessage())
             );
@@ -50,6 +51,7 @@ class InspectColumns extends AbstractTableOperation
         );
 
         if ($columns === null) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException(
                 sprintf('MySQL Error while fetching columns: %s', $this->wpdb->last_error)
             );

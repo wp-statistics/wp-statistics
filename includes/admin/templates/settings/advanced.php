@@ -88,7 +88,7 @@ add_thickbox();
                         <?php endif; ?>
                         dataType: 'json',
                         beforeSend: function () {
-                            jQuery("#js-ipService").val('<?php _e('Loading...', 'wp-statistics'); ?>');
+                            jQuery("#js-ipService").val('<?php esc_html_e('Loading...', 'wp-statistics'); ?>');
                         },
                         error: function (jqXHR) {
                             if (jqXHR.status == 0) {
@@ -141,7 +141,7 @@ add_thickbox();
                 </select>
                 <div class="js-wps-show_if_ip_method_equal_sequential">
                     <p class="description">
-                        <?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?>
+                        <?php echo wp_kses_post(__('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics')); ?>
                     </p>
                 </div>
 
@@ -151,10 +151,10 @@ add_thickbox();
                     </div>
 
                     <p class="description">
-                        <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
-                        <a aria-label="<?php esc_attr_e('Open modal to view available headers on your server', 'wp-statistics'); ?>" href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
+                        <?php echo wp_kses_post(__('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics'));  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
+                        <a aria-label="<?php esc_attr_e('Open modal to view available headers on your server', 'wp-statistics'); ?>" href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php esc_html_e('View available headers on your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
                     </p>
-                    <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics'));  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
                 </div>
             </td>
         </tr>
@@ -219,6 +219,7 @@ add_thickbox();
                     /* translators: %s: Link to maxmind */
                     echo sprintf(
                         wp_kses(
+                            /* translators: %s: string value */
                             __('Enter your <strong>MaxMind license key</strong> to enable the <strong>premium MaxMind GeoIP database</strong>, which provides more precise location data. The plugin uses the free database by default. %s', 'wp-statistics'),
                             [
                                 'strong' => [],
@@ -250,6 +251,7 @@ add_thickbox();
                     /* translators: %s: Link to dbip */
                     echo sprintf(
                         wp_kses(
+                            /* translators: %s: string value */
                             __('Enter your DB-IP license key to enable the premium DB-IP database, replacing the free version with a more detailed dataset.<br /> The premium DB-IP database is <strong>1.1GB</strong> in size. Make sure your server has enough storage space before enabling it, as the plugin downloads and stores this database. %s', 'wp-statistics'),
                             [
                                 'br'     => [],
@@ -466,6 +468,7 @@ add_thickbox();
                 <p class="description">
                     <?php
                     echo sprintf(
+                        /* translators: %s: string value */
                         esc_html__(
                             'Reduce database size and speed up reports. Each night at 00:00 (your WordPress timezone), data older than the period below is aggregated: we keep total Visitors and Views for the whole site and for each page, and delete the detailed rows. This cannot be undone. All-time reports still show Visitors/Views. %s',
                             'wp-statistics'
@@ -513,7 +516,7 @@ Modal::render('enable-automatic-data-deletion');
             <td>
                 <input id="wps_share_anonymous_data" type="checkbox" name="wps_share_anonymous_data" <?php echo WP_STATISTICS\Option::get('share_anonymous_data') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'>
                 <label for="wps_share_anonymous_data"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php printf(esc_html__('Sends non-personal, anonymized data to help us improve WP Statistics. No personal or identifying information is collected or shared. %s', 'wp-statistics'), '<a href="https://wp-statistics.com/resources/sharing-your-data-with-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">' . esc_html__('Learn more.', 'wp-statistics') . '</a>'); ?></p>
+                <p class="description"><?php /* translators: %s: string value */ printf(esc_html__('Sends non-personal, anonymized data to help us improve WP Statistics. No personal or identifying information is collected or shared. %s', 'wp-statistics'), '<a href="https://wp-statistics.com/resources/sharing-your-data-with-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">' . esc_html__('Learn more.', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
         </tbody>

@@ -60,6 +60,7 @@ $postType = get_post_type($postId);
             $metrics[] = [
                 'label'   => esc_html__('Words', 'wp-statistics'),
                 'value'   => Helper::formatNumberWithUnit($data['glance']['words']['value']),
+                /* translators: %s: string value */
                 'tooltip' => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
             ];
         }
@@ -69,6 +70,7 @@ $postType = get_post_type($postId);
                 'label'   => esc_html__('Comments', 'wp-statistics'),
                 'value'   => Helper::formatNumberWithUnit($data['glance']['comments']['value']),
                 'change'  => $data['glance']['comments']['change'],
+                /* translators: %s: string value */
                 'tooltip' => sprintf(esc_html__('Approved comments on this %s.', 'wp-statistics'), strtolower($postType)),
             ];
         }

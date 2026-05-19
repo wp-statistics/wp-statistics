@@ -46,8 +46,10 @@ class Purge
                     }
                 }
 
+                /* translators: %1$s: string value, %2$s: string value */
                 $result_string = sprintf(__('Data from %1$s Older Than %2$s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
+                /* translators: %s: string value */
                 $result_string = sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
@@ -82,8 +84,10 @@ class Purge
                 $table_name = DB::table('visitor_relationships');
                 $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `date` < %s", $date_string));
 
+                /* translators: %1$s: string value, %2$s: string value */
                 $result_string .= '<br>' . sprintf(__('Data from %1$s Older Than %2$s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
+                /* translators: %s: string value */
                 $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
@@ -95,8 +99,10 @@ class Purge
             $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `date` < %s", $date_string));
 
             if ($result) {
+                /* translators: %1$s: string value, %2$s: string value */
                 $result_string .= '<br>' . sprintf(__('Data from %1$s Older Than %2$s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
+                /* translators: %s: string value */
                 $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
@@ -161,8 +167,10 @@ class Purge
             $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `date` < %s", $date_string));
 
             if ($result) {
+                /* translators: %1$s: string value, %2$s: string value */
                 $result_string .= '<br>' . sprintf(__('Data from %1$s Older Than %2$s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
             } else {
+                /* translators: %s: string value */
                 $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
@@ -201,6 +209,7 @@ class Purge
                 }
 
                 $result_string = sprintf(
+                    /* translators: %s: string value */
                     __('%s Records Successfully Purged.', 'wp-statistics'),
                     '<code>' . count($to_delete) . '</code>'
                 );

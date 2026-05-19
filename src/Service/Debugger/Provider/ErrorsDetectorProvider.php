@@ -75,7 +75,7 @@ class ErrorsDetectorProvider extends AbstractDebuggerProvider
         Option::saveOptionGroup(
             $index,
             [
-                'date'    => date('Y-m-d H:i:s'),
+                'date'    => gmdate('Y-m-d H:i:s'),
                 'name'    => $errorName,
                 'message' => $errorMessage,
                 'file'    => $error['file'],

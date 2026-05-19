@@ -74,7 +74,7 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
         $errorName = $this->getErrorSeverity(isset($error['type']) ? $error['type'] : E_ERROR);
 
         $this->errors[] = [
-            'date' => date('Y-m-d H:i:s'),
+            'date' => gmdate('Y-m-d H:i:s'),
             'name' => $errorName,
             'message' => isset($error['message']) ? $error['message'] : '',
             'file' => isset($error['file']) ? $error['file'] : '',

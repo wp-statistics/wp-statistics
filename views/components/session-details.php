@@ -33,7 +33,7 @@ use WP_Statistics\Components\View;
             <?php if (!empty($visitor->getReferral()->getReferrer())) :
                 View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
             else : ?>
-                <?php echo Admin_Template::UnknownColumn() ?>
+                <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             <?php endif; ?>
         </div>
     </div>
@@ -44,7 +44,7 @@ use WP_Statistics\Components\View;
             <?php if (!empty($visitor->getReferral()->getSourceChannel())) : ?>
                 <span><?php echo esc_html($visitor->getReferral()->getSourceChannel()) ?></span>
             <?php else : ?>
-                <?php echo Admin_Template::UnknownColumn() ?>
+                <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             <?php endif; ?>
         </div>
     </div>
@@ -114,7 +114,7 @@ use WP_Statistics\Components\View;
                     'tooltip' => $page['query'] ? "?{$page['query']}" : ''
                 ]) ;
             else :
-                echo Admin_Template::UnknownColumn();
+                echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             endif;
             ?>
         </div>
@@ -132,7 +132,7 @@ use WP_Statistics\Components\View;
                     'title'   => $page['title']
                 ]);
             else :
-                echo Admin_Template::UnknownColumn();
+                echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             endif;
             ?>
         </div>

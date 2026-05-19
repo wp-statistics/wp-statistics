@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
 class Pages
@@ -377,6 +379,7 @@ class Pages
                     break;
                 case "home":
                     $arg = array(
+                        /* translators: %s: string value */
                         'title' => $page_id ? sprintf(__('Home Page: %s', 'wp-statistics'), get_the_title($page_id)) : __('Home Page', 'wp-statistics'),
                         'link'  => get_site_url(),
                         'meta'  => array(
@@ -410,6 +413,7 @@ class Pages
                     $arg['title'] = __('Search Page', 'wp-statistics');
                     break;
                 case "404":
+                    /* translators: %s: string value */
                     $arg['title'] = sprintf(__('404 not found (%s)', 'wp-statistics'), esc_html(substr($slug, 0, 20)));
                     break;
                 case "archive":
@@ -418,9 +422,11 @@ class Pages
                         $post_object = get_post_type_object($post_type);
 
                         if ($post_object instanceof \WP_Post_Type) {
+                            /* translators: %s: string value */
                             $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $post_object->labels->name);
                             $arg['link']  = get_post_type_archive_link($post_type);
                         } else {
+                            /* translators: %s: string value */
                             $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $slug);
                             $arg['link']  = home_url($slug);
                         }

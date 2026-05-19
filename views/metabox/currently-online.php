@@ -63,7 +63,7 @@ use WP_STATISTICS\Menus;
                                 'tooltip'   => $page['query'] ? "?{$page['query']}" : ''
                             ]);
                         else : ?>
-                            <?php echo Admin_Template::UnknownColumn() ?>
+                            <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         <?php endif; ?>
                     </td>
 

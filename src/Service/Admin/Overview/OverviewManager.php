@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Service\Admin\Overview;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Service\Admin\Overview\OverviewPage;
 
 class OverviewManager

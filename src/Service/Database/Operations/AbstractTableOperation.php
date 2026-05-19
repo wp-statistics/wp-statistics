@@ -70,6 +70,7 @@ abstract class AbstractTableOperation extends AbstractDatabaseOperation
         }
 
         if ($details['status'] === 'failed') {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new RuntimeException($details['message']);
         }
 

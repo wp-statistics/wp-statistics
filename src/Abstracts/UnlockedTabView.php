@@ -1,6 +1,8 @@
 <?php
 namespace WP_Statistics\Abstracts;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 abstract class UnlockedTabView
 {
     protected $tab;

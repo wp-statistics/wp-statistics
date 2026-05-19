@@ -71,6 +71,7 @@ abstract class MultiViewPage extends BasePage
             // Check if the class does not have render method, throw exception
             if (!method_exists($views[$currentView], 'render')) {
                 throw new SystemErrorException(
+                    /* translators: %s: string value */
                     sprintf(esc_html__('render method is not defined within %s class.', 'wp-statistics'), $currentView)
                 );
             }

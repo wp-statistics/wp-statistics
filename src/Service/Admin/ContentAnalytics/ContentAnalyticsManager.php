@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_STATISTICS\Helper;
 
 class ContentAnalyticsManager

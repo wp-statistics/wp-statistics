@@ -46,6 +46,7 @@ class TableHandler
                         ->execute();
                 }
             } catch (\Exception $e) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
                 throw new \RuntimeException("Failed to inspect or create table `$tableName`: " . $e->getMessage(), 0, $e);
             }
         }
@@ -96,6 +97,7 @@ class TableHandler
                 ->setArgs($schema)
                 ->execute();
         } catch (\Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException("Failed to create table `$tableName`: " . $e->getMessage(), 0, $e);
         }
     }
@@ -114,6 +116,7 @@ class TableHandler
                 ->setName($tableName)
                 ->execute();
         } catch (\Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new \RuntimeException("Failed to drop table `$tableName`: " . $e->getMessage(), 0, $e);
         }
     }
@@ -132,6 +135,7 @@ class TableHandler
             try {
                 self::dropTable($tableName);
             } catch (\Exception $e) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
                 throw new \RuntimeException("Failed to drop table `$tableName`: " . $e->getMessage(), 0, $e);
             }
         }

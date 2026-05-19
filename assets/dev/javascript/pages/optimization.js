@@ -91,7 +91,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 type: 'post',
                 data: {
                     action: action,
-                    wps_nonce: wps_js.global.rest_api_nonce
+                    wps_nonce: wps_js.global.optimization_nonce
                 }
             })
                 .done(function (response) {

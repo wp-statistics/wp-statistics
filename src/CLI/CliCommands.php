@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\CLI;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use Exception;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Database\Managers\TableHandler;

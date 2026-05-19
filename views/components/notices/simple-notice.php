@@ -3,7 +3,7 @@
     <div><?php echo wp_kses_post($notice['message']); ?></div>
     <?php if ($notice['is_dismissible']) : ?>
         <?php if ($dismissUrl) : ?><a href="<?php echo esc_url($dismissUrl); ?>" class="notice-dismiss"><?php endif; ?>
-        <span class="screen-reader-text"><?php _e('Dismiss this notice.'); ?></span>
+        <span class="screen-reader-text"><?php esc_html_e('Dismiss this notice.', 'wp-statistics'); ?></span>
         <?php if ($dismissUrl) : ?></a><?php endif; ?>
     <?php endif; ?>
 </div>

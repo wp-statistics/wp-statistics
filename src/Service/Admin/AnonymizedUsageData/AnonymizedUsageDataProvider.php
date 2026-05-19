@@ -172,7 +172,7 @@ class AnonymizedUsageDataProvider
             $url = 'https://' . $url; // Default to HTTPS if no scheme
         }
 
-        $parsedUrl = parse_url($url);
+        $parsedUrl = wp_parse_url($url);
         $host      = preg_replace('/^www\./', '', $parsedUrl['host'] ?? '');
         $path      = $parsedUrl['path'] ?? '';
 

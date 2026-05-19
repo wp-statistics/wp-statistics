@@ -185,13 +185,12 @@ class HitColumnHandler
 
         global $wpdb;
 
-        // Get global Variable
-        $order = $wpQuery->query_vars['order'];
+        $order = strtoupper((string) $wpQuery->query_vars['order']) === 'ASC' ? 'ASC' : 'DESC';
 
         // Add date condition if needed
         $dateCondition = '';
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
-            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . date('Y-m-d') . '"';
+            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . gmdate('Y-m-d') . '"';
         }
 
         // Select Field
@@ -244,7 +243,7 @@ class HitColumnHandler
         // Add date condition if needed
         $dateCondition = '';
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
-            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . date('Y-m-d') . '"';
+            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . gmdate('Y-m-d') . '"';
         }
 
         // Select Field
@@ -300,7 +299,7 @@ class HitColumnHandler
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
             $hitArgs['date'] = [
                 'from' => TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))),
-                'to'   => date('Y-m-d'),
+                'to'   => gmdate('Y-m-d'),
             ];
         }
 

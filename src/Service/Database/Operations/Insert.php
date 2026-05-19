@@ -70,6 +70,7 @@ class Insert extends AbstractTableOperation
                 'message' => $e->getMessage()
             ], 'db');
 
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new RuntimeException(
                 sprintf("Failed to insert/update data in table `%s`: %s", $this->tableName, $e->getMessage())
             );
@@ -107,6 +108,7 @@ class Insert extends AbstractTableOperation
             // Update existing record
             $result = $this->wpdb->update($this->fullName, $mapping, $conditions);
             if ($result === false) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
                 throw new RuntimeException("Failed to update data: {$this->wpdb->last_error}");
             }
         } else {
@@ -114,6 +116,7 @@ class Insert extends AbstractTableOperation
             $mergedData = array_merge($mapping, $conditions);
             $result = $this->wpdb->insert($this->fullName, $mergedData);
             if ($result === false) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
                 throw new RuntimeException("Failed to insert data: {$this->wpdb->last_error}");
             }
         }
@@ -155,6 +158,7 @@ class Insert extends AbstractTableOperation
         );
 
         if ($rows === null || $rows === false) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new RuntimeException("Failed to fetch rows: {$this->wpdb->last_error}");
         }
 

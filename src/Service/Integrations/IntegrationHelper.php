@@ -157,6 +157,7 @@ class IntegrationHelper
                 'content' => sprintf(
                     '%s <br> %s · %s',
                     sprintf(
+                        /* translators: %s: string value */
                         __('We’ve detected <b>%s</b> on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin.', 'wp-statistics'),
                         $integration->getName()
                     ),

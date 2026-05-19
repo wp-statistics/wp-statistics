@@ -35,6 +35,7 @@ class PrivacyErasers
         $visitors = $wpdb->query($wpdb->prepare("DELETE FROM {$visitor_table} WHERE `user_id` = %s", $user->ID));
 
         if ($visitors) {
+            /* translators: %s: string value */
             $response['messages']      = array(sprintf(__('Visitor data deleted for %s.', 'wp-statistics'), $emailAddress));
             $response['items_removed'] = true;
         }

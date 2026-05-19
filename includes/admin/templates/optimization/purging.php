@@ -6,7 +6,7 @@
             classes: {
                 loading: 'wps-loading-button'
             },
-            nonce: '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
+            nonce: '<?php echo wp_create_nonce(WP_Statistics\Service\Admin\Optimization\OptimizationActions::NONCE_ACTION); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
         };
 
         function wpsHandlePurgeAction(wpsActionConfig) {

@@ -10,6 +10,7 @@
             <?php
             echo sprintf(
                  wp_kses_post(
+                    /* translators: %s: string value */
                     __('You are lowering the retention period to %s. At the next cleanup, data older than this will be aggregated to keep only <b>Visitors</b> and <b>Views</b> for the site and for each page. All other detailed rows will be permanently deleted. This cannot be undone. Consider backing up your database.', 'wp-statistics')
                 ),
                 '<strong><span></span></strong>'
@@ -20,6 +21,7 @@
         <div class="wps-alert wps-alert__danger">
             <p><?php
                 echo sprintf(
+                    /* translators: %s: string value */
                     esc_html__('Data older than %s days will be aggregated at the next cleanup. Detailed logs will be removed.', 'wp-statistics'),
                     '<strong><span></span></strong>'
                 ); ?>

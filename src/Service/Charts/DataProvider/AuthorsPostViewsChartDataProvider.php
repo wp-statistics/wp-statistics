@@ -54,8 +54,11 @@ class AuthorsPostViewsChartDataProvider extends AbstractChartDataProvider
 
         $this->setChartDatasets($data);
         $this->setChartLabels([
+            /* translators: %s: string value */
             'chart' => sprintf(esc_html__('Views/Published %s', 'wp-statistics'),Helper::getPostTypeName($this->args['post_type'])),
+            /* translators: %s: string value */
             'yAxis' => sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($this->args['post_type'])),
+            /* translators: %s: string value */
             'xAxis' => sprintf(esc_html__('%s Views', 'wp-statistics'), Helper::getPostTypeName($this->args['post_type'], true))
         ]);
 

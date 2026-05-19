@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\PageInsights;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 class PageInsightsManager
 {
 

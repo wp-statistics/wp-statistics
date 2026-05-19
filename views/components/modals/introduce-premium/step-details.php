@@ -48,6 +48,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    /* translators: %s: string value */
                     __('<p>Data Plus supercharges WP Statistics by unlocking advanced analytics features. Get deeper insights into your site\'s performance with tools that help you understand visitor behavior, optimize your content, and track engagement like never before. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
@@ -59,6 +60,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    /* translators: %s: string value */
                     __('<p>Take your marketing strategy to the next level with the Marketing Add-on. Track your campaign performance with detailed UTM reports, connect to Google Search Console for in-depth traffic analysis, and set conversion goals to measure success—all directly within WP Statistics. Optimize your campaigns, monitor search traffic, and drive results effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
@@ -70,6 +72,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    /* translators: %s: string value */
                     __('<p>Mini Chart gives you quick insights into how your posts, pages, and products are performing by displaying small, customizable charts directly in your admin panel. Track views and engagement at a glance and customize chart types and colors to match your preferences. Analyze content performance easily and stay on top of key metrics with minimal time. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
@@ -81,6 +84,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    /* translators: %s: string value */
                     __('<p>Advanced Reporting keeps you informed by sending detailed performance reports directly to your inbox. Gain insights into your website\'s traffic, views, and key metrics through customizable email reports. Schedule updates to receive data as often as you like, and export your data to CSV or PDF for offline analysis and sharing. Stay up-to-date on your website\'s performance with clear, graphical insights. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
@@ -92,6 +96,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    /* translators: %s: string value */
                     __('<p>You can monitor your website\'s traffic in real-time with the Real-Time add-on. Watch live data flow in, track online users, and analyze their activity without page refreshes. Stay connected with real-time insights to make informed decisions about your site’s performance, right when it matters most. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
@@ -103,6 +108,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    /* translators: %s: string value */
                     __('<p>Advanced Widgets improve your website by providing a flexible way to showcase key statistical insights. Whether through Gutenberg blocks or theme widgets, this add-on makes it easy to present vital stats like traffic, top pages, and browsers to your visitors, offering a richer, data-driven user experience. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
@@ -114,6 +120,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    /* translators: %s: string value */
                     __('<p>The Customization add-on is designed to help you white-label key areas of your dashboard. Easily replace the WP Statistics branding with your own, giving you full control over how the plugin looks and feels. Create a fully branded experience by customizing menus, headers, and even the Overview page with your own widgets. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
@@ -125,6 +132,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
+                    /* translators: %s: string value */
                     __('<p>Unlock powerful integration options with the Rest API add-on. This feature enables access to your website’s statistics through WordPress REST API endpoints, allowing seamless data retrieval for external applications, custom dashboards, and automation tools. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),

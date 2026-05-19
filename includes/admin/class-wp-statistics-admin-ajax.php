@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
@@ -260,6 +262,7 @@ class Ajax
         foreach ($visitors as $visitor) {
             $option = [
                 'id'   => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID]),
+                /* translators: %s: string value */
                 'text' => sprintf(esc_html__('Visitor (#%s)', 'wp-statistics'), $visitor->ID)
             ];
 

@@ -18,32 +18,38 @@ $isMarketingActive = Helper::isAddOnActive('marketing');
 
 
 if (!$isMarketingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp/?utm_source=wp-statistics&utm_medium=link&utm_campaign=marketing'),
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-marketing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=marketing'),
      'addon_title'        => __('Marketing Add-On', 'wp-statistics'),
      'addon_modal_target' => 'wp-statistics-marketing',
      'addon_campaign'     => 'marketing',
      'addon_description'  => sprintf(
+         /* translators: %s: string value */
          __('The settings on this page are part of the %s add-on, which upgrades WP Statistics from simple analytics to a full-fledged growth dashboard.', 'wp-statistics'),
          '<b>' . esc_html__('Marketing', 'wp-statistics') . '</b>'
      ),
      'addon_features'     => [
          sprintf(
+             /* translators: %s: string value */
              __('Pull %s keywords and traffic for every page without leaving WordPress.', 'wp-statistics'),
              '<b>' . esc_html__('Google Search Console', 'wp-statistics') . '</b>'
          ),
          sprintf(
+             /* translators: %s: string value */
              __('Track %s and instantly see which channels bring the best visitors.', 'wp-statistics'),
              '<b>' . esc_html__('campaigns & UTM links', 'wp-statistics') . '</b>'
          ),
          sprintf(
+             /* translators: %s: string value */
              __('%s on buttons, links, and other elements with a quick toggle.', 'wp-statistics'),
              '<b>' . esc_html__('Record click events', 'wp-statistics') . '</b>'
          ),
          sprintf(
+             /* translators: %s: string value */
              __('Create unlimited %s for custom interactions or funnels.', 'wp-statistics'),
              '<b>' . esc_html__('code-based events ', 'wp-statistics') . '</b>'
          ),
          sprintf(
+             /* translators: %s: string value */
              __('Set %s and watch progress toward your targets in real-time.', 'wp-statistics'),
              '<b>' . esc_html__('PageView goals', 'wp-statistics') . '</b>'
          )

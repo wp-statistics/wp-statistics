@@ -96,7 +96,7 @@ $viewTitle   = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') :
                                         </div>
                                     <?php
                                     else :
-                                        echo Admin_Template::UnknownColumn();
+                                        echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     endif;
                                     ?>
                                 </td>
@@ -113,7 +113,7 @@ $viewTitle   = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') :
                                             'title' => $page['title'],
                                         ]);
                                     else :
-                                        echo Admin_Template::UnknownColumn();
+                                        echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                     endif;
                                     ?>
                                 </td>

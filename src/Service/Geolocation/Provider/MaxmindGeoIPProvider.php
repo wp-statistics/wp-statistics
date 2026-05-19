@@ -142,11 +142,13 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             // Check the HTTP status code
             $statusCode = wp_remote_retrieve_response_code($response);
             if ($statusCode !== 200) {
-                throw new Exception(sprintf(__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $statusCode, $downloadUrl));
+                /* translators: %1$d: number value, %2$s: string value */
+                throw new Exception(sprintf(esc_html__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $statusCode, $downloadUrl));
             }
 
             if (is_wp_error($response)) {
-                throw new Exception(sprintf(__('Error downloading GeoIP database from: %1$s - %2$s', 'wp-statistics'), $downloadUrl, $response->get_error_message()));
+                /* translators: %1$s: string value, %2$s: string value */
+                throw new Exception(sprintf(esc_html__('Error downloading GeoIP database from: %1$s - %2$s', 'wp-statistics'), $downloadUrl, $response->get_error_message()));
             }
 
             $dbFile = $this->getDatabasePath();
@@ -194,7 +196,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
              */
             if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
                 if (!class_exists('PharData')) {
-                    throw new Exception(__('PharData class not found.', 'wp-statistics'));
+                    throw new Exception(esc_html__('PharData class not found.', 'wp-statistics'));
                 }
 
                 $tarGz         = new PharData($gzFilePath);
@@ -213,7 +215,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
                 }
 
                 // Remove the extracted file and its parent directory
-                unlink($fileExtractedPath);
+                wp_delete_file($fileExtractedPath);
                 rmdir(dirname($fileExtractedPath));
 
                 return;
@@ -221,13 +223,13 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 
             $gzHandle = gzopen($gzFilePath, 'rb');
             if (!$gzHandle) {
-                throw new Exception(__('Failed to open GZ archive.', 'wp-statistics'));
+                throw new Exception(esc_html__('Failed to open GZ archive.', 'wp-statistics'));
             }
 
             $dbFileHandle = fopen($destinationPath, 'wb'); // Open the destination file for writing
             if (!$dbFileHandle) {
                 gzclose($gzHandle);
-                throw new Exception(__('Failed to open destination file for writing.', 'wp-statistics'));
+                throw new Exception(esc_html__('Failed to open destination file for writing.', 'wp-statistics'));
             }
 
             while (!gzeof($gzHandle)) {
@@ -238,10 +240,11 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             fclose($dbFileHandle);
 
             if (!file_exists($destinationPath)) {
-                throw new Exception(__('Error extracting GeoIP database file.', 'wp-statistics'));
+                throw new Exception(esc_html__('Error extracting GeoIP database file.', 'wp-statistics'));
             }
 
         } catch (Exception $e) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new Exception("Failed to extract the database file: " . $e->getMessage());
         }
     }
@@ -272,11 +275,12 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         try {
             // Ensure the database file exists
             if (!$this->isDatabaseExist()) {
-                throw new Exception(__('GeoIP database does not exist.', 'wp-statistics'));
+                throw new Exception(esc_html__('GeoIP database does not exist.', 'wp-statistics'));
             }
 
             if (empty($this->reader) || !method_exists($this->reader, 'metadata')) {
                 throw new Exception(
+                    /* translators: %s: string value */
                     sprintf(__('Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it.', 'wp-statistics'), $this->getDatabasePath())
                 );
             }
@@ -284,7 +288,8 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             // Verify the database type and metadata
             $databaseType = $this->reader->metadata()->databaseType;
             if ($databaseType !== 'GeoLite2-City') {
-                throw new Exception(sprintf(__('Unexpected database type %s', 'wp-statistics'), $databaseType));
+                /* translators: %s: string value */
+                throw new Exception(sprintf(esc_html__('Unexpected database type %s', 'wp-statistics'), $databaseType));
             }
 
             return true;

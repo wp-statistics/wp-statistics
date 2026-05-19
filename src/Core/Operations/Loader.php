@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Core\Operations;
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 use WP_Statistics\Core\AbstractCore;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Option;

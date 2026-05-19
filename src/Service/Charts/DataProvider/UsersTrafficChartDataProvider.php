@@ -82,7 +82,7 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
         foreach ($dates as $date) {
             $parsedData['labels'][] = [
                 'formatted_date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                'date'           => date('Y-m-d', strtotime($date)),
+                'date'           => gmdate('Y-m-d', strtotime($date)),
                 'month_i18n'     => date_i18n('F', strtotime($date)),
                 'day'            => date_i18n('D', strtotime($date))
             ];
