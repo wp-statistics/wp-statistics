@@ -70,7 +70,12 @@ class TabsView extends BaseTabView
         $license = Request::get('license_key');
 
         if (!empty($license)) {
-            $this->apiCommunicator->validateLicense($license);
+            try {
+                $this->apiCommunicator->validateLicense($license);
+            } catch (Exception $e) {
+                // Show a notice instead of letting a transient validation failure fatal the page.
+                Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
+            }
         }
     }
 
