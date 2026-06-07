@@ -123,6 +123,19 @@ class HistoricalModel
             return $this->resourceId;
         }
 
+        // Content Analytics (and ViewsModel::countViews) map `post_id` to
+        // `resource_id`, so a single post/page/CPT arrives here as
+        // `resource_id` with no `post_id`. Without this branch getResourceId()
+        // returns null, the page_id/uri filters in getViews() drop out, and
+        // the query collapses to `category = 'visits'` - adding the site-wide
+        // historical baseline to every resource's total. (#15137)
+        if (!empty($args['resource_id'])) {
+            $this->resourceId = $args['resource_id'];
+            $this->type       = 'post';
+
+            return $this->resourceId;
+        }
+
         $this->resourceId = null;
         $this->type       = null;
 
