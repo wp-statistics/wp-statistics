@@ -96,6 +96,7 @@ class HistoricalModel
      * @type int $post_id Optional. Post ID to retrieve.
      * @type int $term Optional. Term ID to retrieve.
      * @type int $author_id Optional. Author ID to retrieve.
+     * @type int $resource_id Optional. Resource (post/page/CPT) ID to retrieve; alias of $post_id used by Content Analytics.
      * }
      *
      * @return int|null The ID of the first found resource, or null if no resource ID specified
