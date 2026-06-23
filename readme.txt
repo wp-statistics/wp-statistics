@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.0
-Stable tag: 14.16.8
+Stable tag: 14.16.9
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -146,6 +146,10 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.9 - 2026-06-** =
+- **Fix:** Content Analytics no longer adds the site-wide historical baseline into each post's Total Views, so per-post totals are accurate again (issue [#1097](https://github.com/wp-statistics/wp-statistics/issues/1097)).
+- **Fix:** Prevented a fatal error on admin load when license validation fails or the license key is empty.
+
 = 14.16.8 - 2026-05-19 =
 - **Enhancement:** Hardened input handling across admin AJAX endpoints, the dynamic query builder, the referrer pipeline, and the GeoIP download URL.
 - **Enhancement:** Removed the bundled moment.min.js in favor of the copy shipped with WordPress core.
