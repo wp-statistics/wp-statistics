@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "❓ Support & Questions"
+    url: https://wordpress.org/support/plugin/wp-statistics/
+    about: For usage questions and general support, please use the WordPress.org support forum.
+  - name: "📚 Documentation"
+    url: https://wp-statistics.com/documentation/
+    about: Browse the docs — your answer may already be there.
+  - name: "🔒 Report a security vulnerability"
+    url: https://patchstack.com/database/vdp/wp-statistics
+    about: Please report security issues privately via Patchstack, not as a public issue.

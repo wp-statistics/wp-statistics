@@ -1,0 +1,42 @@
+name: "💡 Feature Request"
+description: Suggest an idea or improvement for WP Statistics
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping shape the future of WP Statistics. Describe your idea below.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: 'Is it related to a frustration? e.g. "I''m always annoyed when ..."'
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Mockups, screenshots, links, anything that helps.
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this hasn't been requested yet.
+          required: true

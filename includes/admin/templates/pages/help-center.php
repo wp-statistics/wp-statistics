@@ -153,7 +153,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
                 'category'        => esc_html__('FEATURE REQUESTS', 'wp-statistics'),
                 'title'           => esc_html__('Help Shape The Future.', 'wp-statistics'),
                 'view_more_title' => esc_html__('Submit Request', 'wp-statistics'),
-                'view_more_link'  => 'https://feedback.veronalabs.com/boards/wp-statistics',
+                'view_more_link'  => 'https://github.com/wp-statistics/wp-statistics/issues/new/choose',
                 'description'     => esc_html__('Submit your ideas or vote on features requested by others. Your feedback helps us improve WP Statistics based on what matters most to you.', 'wp-statistics')
             ];
 
@@ -203,7 +203,7 @@ $notificationCount       = NotificationFactory::getNewNotificationCount();
         } else {
             $cta = [
                 'cta_title'   => esc_html__('Submit a Feature Request', 'wp-statistics'),
-                'cta_link'    => 'https://feedback.veronalabs.com/boards/wp-statistics',
+                'cta_link'    => 'https://github.com/wp-statistics/wp-statistics/issues/new/choose',
                 'title'       => esc_html__('Got Ideas for New Features?', 'wp-statistics'),
                 'description' => esc_html__('We’re building WP Statistics with you in mind. Share your suggestions or upvote existing ones to help shape what comes next.', 'wp-statistics')
             ];

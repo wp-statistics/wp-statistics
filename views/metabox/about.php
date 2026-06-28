@@ -26,7 +26,7 @@
                     <?php esc_html_e('Release Notes', 'wp-statistics'); ?>
                 </a>
 
-                <a href="<?php echo esc_url('https://feedback.veronalabs.com/boards/wp-statistics'); ?>" target="_blank">
+                <a href="<?php echo esc_url('https://github.com/wp-statistics/wp-statistics/issues/new/choose'); ?>" target="_blank">
                     <span class="c-about__links--icon c-about__links--icon__request"></span>
                     <?php esc_html_e('Request a feature', 'wp-statistics'); ?>
                 </a>
