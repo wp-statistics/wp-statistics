@@ -42,7 +42,10 @@ abstract class AbstractLoggerProvider implements LoggerServiceProviderInterface
         // Notices
         E_NOTICE => 'notice',
         E_USER_NOTICE => 'notice',
-        E_STRICT => 'notice',
+        // 2048 is the integer value of the E_STRICT constant, which is deprecated
+        // as of PHP 8.4 and emits a deprecation notice when referenced by name.
+        // Using the literal value keeps the mapping without triggering that notice.
+        2048 => 'notice',
 
         // Deprecation notices
         E_DEPRECATED => 'deprecated',
