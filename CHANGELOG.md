@@ -1,4 +1,5 @@
 14.16.9 - 2026-06-**
+- **Security:** Hardened input handling and output escaping across the visitor and referral reports.
 - **Fix:** Content Analytics no longer adds the site-wide historical baseline into each post's Total Views, so per-post totals are accurate again (issue [#1097](https://github.com/wp-statistics/wp-statistics/issues/1097)).
 - **Fix:** Prevented a fatal error on admin load when license validation fails or the license key is empty.
 

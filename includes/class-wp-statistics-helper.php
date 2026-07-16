@@ -1462,7 +1462,7 @@ class Helper
     public static function getRequestUri()
     {
         if (self::is_rest_request() and isset($_REQUEST['page_uri'])) {
-            return base64_decode($_REQUEST['page_uri']);
+            return sanitize_url(base64_decode($_REQUEST['page_uri']));
         }
 
         return sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
