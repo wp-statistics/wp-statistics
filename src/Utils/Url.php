@@ -92,8 +92,11 @@ class Url
         // Parse query string
         parse_str($parsedUrl['query'], $params);
 
-        // Return the query parameter value
-        return $params[$param] ?? null;
+        // Return the query parameter value. A single parameter is expected to be
+        // scalar, so ignore array-style values (e.g. param[]=x) to avoid warnings.
+        $value = $params[$param] ?? null;
+
+        return is_array($value) ? null : $value;
     }
 
     /**

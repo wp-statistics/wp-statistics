@@ -70,7 +70,7 @@ class Hits extends Singleton
          *
          * @param string $pageUri The page URI (decoded)
          */
-        $pageUri  = isset($this->rest_hits->page_uri) ? base64_decode($this->rest_hits->page_uri) : '';
+        $pageUri  = (isset($this->rest_hits->page_uri) && is_string($this->rest_hits->page_uri)) ? sanitize_url(base64_decode($this->rest_hits->page_uri)) : '';
         $resolved = apply_filters('wp_statistics_resolve_page_from_uri', $pageUri);
 
         if (is_array($resolved) && isset($resolved['type']) && $resolved['type'] !== 'unknown') {
@@ -101,7 +101,7 @@ class Hits extends Singleton
      */
     public function set_page_uri($page_uri)
     {
-        return isset($this->rest_hits->page_uri) ? sanitize_url(base64_decode($this->rest_hits->page_uri)) : $page_uri;
+        return (isset($this->rest_hits->page_uri) && is_string($this->rest_hits->page_uri)) ? sanitize_url(base64_decode($this->rest_hits->page_uri)) : $page_uri;
     }
 
     /**

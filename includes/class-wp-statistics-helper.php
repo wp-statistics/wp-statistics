@@ -1461,7 +1461,7 @@ class Helper
 
     public static function getRequestUri()
     {
-        if (self::is_rest_request() and isset($_REQUEST['page_uri'])) {
+        if (self::is_rest_request() and isset($_REQUEST['page_uri']) and is_string($_REQUEST['page_uri'])) {
             return sanitize_url(base64_decode($_REQUEST['page_uri']));
         }
 
