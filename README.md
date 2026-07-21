@@ -5,6 +5,8 @@
 
 # WP Statistics – Simple, privacy-friendly Google Analytics alternative
 
+> 🚀 **WP Statistics v15 Early Access is open** — a major rewrite, and we'd love your feedback. Developers and active users welcome. **[Want in? Comment here →](https://github.com/wp-statistics/wp-statistics/discussions/1098)**
+
 ## Requirements
 - Requires at least: 5.0
 - Tested up to: 6.7
