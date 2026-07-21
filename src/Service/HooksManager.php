@@ -4,6 +4,7 @@ namespace WP_Statistics\Service;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use Exception;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Globals\Context;
@@ -43,10 +44,15 @@ class HooksManager
             }
 
             if (method_exists($class, 'getCurrentViewClass')) {
-                $view = $class->getCurrentViewClass();
+                try {
+                    $view = $class->getCurrentViewClass();
 
-                if (method_exists($view, 'getCurrentTab')) {
-                    $wpsPage['tab'] = $view->getCurrentTab();
+                    if (method_exists($view, 'getCurrentTab')) {
+                        $wpsPage['tab'] = $view->getCurrentTab();
+                    }
+                } catch (Exception $e) {
+                    // View is built only to populate page context; never let its constructor fatal the admin.
+                    \WP_Statistics::log($e->getMessage(), 'error');
                 }
             }
 

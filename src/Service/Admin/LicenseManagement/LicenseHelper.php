@@ -39,6 +39,10 @@ class LicenseHelper
      */
     public static function getLicenseInfo($licenseKey)
     {
+        if (empty($licenseKey)) {
+            return false;
+        }
+
         $licenses = self::getLicenses('all');
         return $licenses[$licenseKey] ?? false;
     }

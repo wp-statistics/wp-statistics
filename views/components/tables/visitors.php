@@ -89,7 +89,7 @@ $viewTitle   = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') :
                                             ]);
                                             ?>
 
-                                            <?php $campaign = Url::getParam('?' . $page['query'], 'utm_campaign'); ?>
+                                            <?php $campaign = sanitize_text_field((string) Url::getParam('?' . $page['query'], 'utm_campaign')); ?>
                                             <?php if ($campaign) : ?>
                                                 <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr($campaign); ?>"><?php echo esc_html($campaign); ?></span>
                                             <?php endif; ?>

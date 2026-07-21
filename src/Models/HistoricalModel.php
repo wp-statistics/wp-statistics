@@ -96,6 +96,7 @@ class HistoricalModel
      * @type int $post_id Optional. Post ID to retrieve.
      * @type int $term Optional. Term ID to retrieve.
      * @type int $author_id Optional. Author ID to retrieve.
+     * @type int $resource_id Optional. Resource (post/page/CPT) ID to retrieve; alias of $post_id used by Content Analytics.
      * }
      *
      * @return int|null The ID of the first found resource, or null if no resource ID specified
@@ -119,6 +120,19 @@ class HistoricalModel
         if (!empty($args['author_id'])) {
             $this->resourceId = $args['author_id'];
             $this->type       = 'author';
+
+            return $this->resourceId;
+        }
+
+        // Content Analytics (and ViewsModel::countViews) map `post_id` to
+        // `resource_id`, so a single post/page/CPT arrives here as
+        // `resource_id` with no `post_id`. Without this branch getResourceId()
+        // returns null, the page_id/uri filters in getViews() drop out, and
+        // the query collapses to `category = 'visits'` - adding the site-wide
+        // historical baseline to every resource's total. (#15137)
+        if (!empty($args['resource_id'])) {
+            $this->resourceId = $args['resource_id'];
+            $this->type       = 'post';
 
             return $this->resourceId;
         }
