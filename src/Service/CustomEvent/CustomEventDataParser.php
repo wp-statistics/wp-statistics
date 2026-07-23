@@ -11,11 +11,23 @@ class CustomEventDataParser
     protected $eventFields;
     protected $visitorProfile;
 
-    public function __construct($eventName, $eventData = [], $visitorProfile = null)
+    /**
+     * Whether the event data comes from a trusted server-side caller.
+     *
+     * Untrusted callers (the public admin-ajax endpoint) may only attribute an
+     * event to a publicly-viewable post; a trusted caller (the server-side
+     * wp_statistics_event() helper) may attribute it to any existing post.
+     *
+     * @var bool
+     */
+    protected $trusted;
+
+    public function __construct($eventName, $eventData = [], $visitorProfile = null, $trusted = false)
     {
         $this->eventName        = $eventName;
         $this->eventData        = is_array($eventData) ? $eventData : [];
         $this->visitorProfile   = $visitorProfile;
+        $this->trusted          = (bool) $trusted;
 
         if (!$visitorProfile) {
             $this->visitorProfile = new VisitorProfile();
@@ -125,9 +137,12 @@ class CustomEventDataParser
     /**
      * Resolves the resource id for the event.
      *
-     * A client-supplied resource id is accepted only when it is a positive
-     * integer that maps to an existing, publicly-viewable post; otherwise the
-     * server-detected current resource id is used.
+     * For an untrusted caller a client-supplied resource id is accepted only
+     * when it maps to an existing, publicly-viewable post. For a trusted
+     * server-side caller it is accepted when it maps to any existing post
+     * (including private posts and non-public custom post types). When the
+     * supplied id is not acceptable, the server-detected current resource id is
+     * used.
      *
      * @return int|null
      */
@@ -136,7 +151,7 @@ class CustomEventDataParser
         if (array_key_exists('resource_id', $this->eventData)) {
             $candidate = absint($this->eventData['resource_id']);
 
-            if ($candidate && $this->isPubliclyViewablePost($candidate)) {
+            if ($candidate && $this->isAcceptableResource($candidate)) {
                 return $candidate;
             }
         }
@@ -144,6 +159,21 @@ class CustomEventDataParser
         $currentPage = $this->visitorProfile->getCurrentPageType();
 
         return !empty($currentPage['id']) ? absint($currentPage['id']) : null;
+    }
+
+    /**
+     * Checks whether the given id is an acceptable resource for this caller.
+     *
+     * @param int $postId
+     * @return bool
+     */
+    private function isAcceptableResource($postId)
+    {
+        if ($this->trusted) {
+            return (bool) get_post($postId);
+        }
+
+        return $this->isPubliclyViewablePost($postId);
     }
 
     /**
