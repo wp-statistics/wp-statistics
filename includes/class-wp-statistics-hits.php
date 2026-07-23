@@ -36,8 +36,14 @@ class Hits extends Singleton
     public function __construct()
     {
 
-        // Sanitize Hit Data if Has Rest-Api Process
-        if (self::is_rest_hit()) {
+        // Sanitize Hit Data if Has Rest-Api Process.
+        //
+        // Client-supplied page identity (source_type, source_id, page_uri, ...)
+        // is only trusted when the request carries a valid signature. Otherwise
+        // any request that merely looks like a REST hit — including ordinary
+        // front-end and login-page loads carrying a spoofed rest_route — could
+        // inject arbitrary page data on the unsigned server-side recording paths.
+        if (self::is_rest_hit() && Helper::verifyHitSignature()) {
 
             // Get Hit Data
             $this->rest_hits = (object)self::rest_params();

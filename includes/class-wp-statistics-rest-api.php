@@ -98,16 +98,11 @@ class RestAPI
      */
     protected function checkSignature($request)
     {
-        if (Helper::isRequestSignatureEnabled()) {
-            $signature = $request->get_param('signature');
-            $payload   = [
-                $request->get_param('source_type'),
-                (int)$request->get_param('source_id'),
-            ];
-
-            if (!Signature::check($payload, $signature)) {
-                return new \WP_Error('rest_forbidden', __('Invalid signature', 'wp-statistics'), array('status' => 403));
-            }
+        // Verify the signature against the same request data that is recorded,
+        // so a request cannot be authenticated with one identity while a
+        // different identity is stored.
+        if (!Helper::verifyHitSignature()) {
+            return new \WP_Error('rest_forbidden', __('Invalid signature', 'wp-statistics'), array('status' => 403));
         }
 
         return true;

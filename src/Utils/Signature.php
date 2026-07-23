@@ -25,6 +25,12 @@ class Signature
      */
     public static function check($payload, $signature)
     {
-        return self::generate($payload) === $signature;
+        // Reject non-string input before comparing, and use a constant-time
+        // comparison so the check does not leak match progress through timing.
+        if (!is_string($signature)) {
+            return false;
+        }
+
+        return hash_equals(self::generate($payload), $signature);
     }
 }
