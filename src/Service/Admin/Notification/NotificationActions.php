@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Notification;
 
+use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Ajax;
 
@@ -17,8 +18,22 @@ class NotificationActions
      */
     public function register()
     {
-        Ajax::register('dismiss_notification', [$this, 'dismissNotification']);
-        Ajax::register('update_notifications_status', [$this, 'updateNotificationsStatus']);
+        Ajax::register('dismiss_notification', [$this, 'dismissNotification'], false);
+        Ajax::register('update_notifications_status', [$this, 'updateNotificationsStatus'], false);
+    }
+
+    /**
+     * Ensures the current user is allowed to change the notification state.
+     *
+     * @return void Sends a 403 JSON response and exits when the user has no access.
+     */
+    private function checkAccess()
+    {
+        if (!User::Access('manage')) {
+            wp_send_json_error([
+                'message' => esc_html__('Unauthorized.', 'wp-statistics')
+            ], 403);
+        }
     }
 
     /**
@@ -33,6 +48,8 @@ class NotificationActions
     public function dismissNotification()
     {
         check_ajax_referer('wp_rest', 'wps_nonce');
+
+        $this->checkAccess();
 
         $notificationId = Request::get('notification_id');
 
@@ -54,6 +71,8 @@ class NotificationActions
     public function updateNotificationsStatus()
     {
         check_ajax_referer('wp_rest', 'wps_nonce');
+
+        $this->checkAccess();
 
         $hasUpdatedNotifications = NotificationProcessor::updateNotificationsStatus();
 
