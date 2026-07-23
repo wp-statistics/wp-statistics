@@ -220,6 +220,12 @@ abstract class BaseMetabox
             throw new \Exception('Invalid nonce.');
         }
 
+        if (!User::Access('read')) {
+            wp_send_json_error([
+                'message' => esc_html__('Unauthorized.', 'wp-statistics')
+            ], 403);
+        }
+
         $this->storeFilters();
 
         $response = [
@@ -243,8 +249,7 @@ abstract class BaseMetabox
      */
     public function register()
     {
-        $userCapability = Option::get('read_capability');
-        $screens        = $this->getScreen();
+        $screens = $this->getScreen();
 
         // If the dashboard widgets are disabled, remove them from the screens
         if (Option::get('disable_dashboard') && in_array('dashboard', $screens)) {
@@ -252,7 +257,7 @@ abstract class BaseMetabox
         }
 
         // Return early if the user doesn't have the capability to view the stats
-        if ($userCapability && !current_user_can($userCapability)) {
+        if (!User::Access('read')) {
             return;
         }
 
