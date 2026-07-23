@@ -11,11 +11,23 @@ class CustomEventDataParser
     protected $eventFields;
     protected $visitorProfile;
 
-    public function __construct($eventName, $eventData = [], $visitorProfile = null)
+    /**
+     * Whether the event data comes from a trusted server-side caller.
+     *
+     * Untrusted callers (the public admin-ajax endpoint) may only attribute an
+     * event to a publicly-viewable post; a trusted caller (the server-side
+     * wp_statistics_event() helper) may attribute it to any existing post.
+     *
+     * @var bool
+     */
+    protected $trusted;
+
+    public function __construct($eventName, $eventData = [], $visitorProfile = null, $trusted = false)
     {
         $this->eventName        = $eventName;
         $this->eventData        = is_array($eventData) ? $eventData : [];
         $this->visitorProfile   = $visitorProfile;
+        $this->trusted          = (bool) $trusted;
 
         if (!$visitorProfile) {
             $this->visitorProfile = new VisitorProfile();
@@ -79,9 +91,16 @@ class CustomEventDataParser
     }
 
     /**
-     * Sets default fields for the custom event data if they are not already present.
+     * Sets the identity fields for the custom event data.
      *
-     * The following fields are set if they are not already present:
+     * The visitor, user and resource an event is attributed to are always
+     * derived server-side and never taken from the request payload, so a caller
+     * cannot record events on behalf of an arbitrary visitor, WordPress user or
+     * post. A client-supplied resource id is only honoured when it references an
+     * existing, publicly-viewable post; otherwise the server-detected current
+     * resource is used.
+     *
+     * The following fields are set:
      * - visitor_id: The id of the current visitor.
      * - user_id: The id of the current user.
      * - resource_id: The id of the current resource (e.g. page, post, etc.).
@@ -90,32 +109,92 @@ class CustomEventDataParser
      */
     private function setDefaultFields()
     {
-        // Set visitor id
-        if (!array_key_exists('visitor_id', $this->eventData)) {
-            $visitorId = $this->visitorProfile->getVisitorId();
+        // Set visitor id (server-derived, overriding any client-supplied value)
+        $visitorId = $this->visitorProfile->getVisitorId();
+        if ($visitorId) {
+            $this->eventData['visitor_id'] = $visitorId;
+        } else {
+            unset($this->eventData['visitor_id']);
+        }
 
-            if ($visitorId) {
-                $this->eventData['visitor_id'] = $visitorId;
+        // Set user id (server-derived, overriding any client-supplied value)
+        $userId = $this->visitorProfile->getUserId();
+        if ($userId) {
+            $this->eventData['user_id'] = $userId;
+        } else {
+            unset($this->eventData['user_id']);
+        }
+
+        // Set resource id (validated client value, or the current resource)
+        $resourceId = $this->resolveResourceId();
+        if (!empty($resourceId)) {
+            $this->eventData['resource_id'] = $resourceId;
+        } else {
+            unset($this->eventData['resource_id']);
+        }
+    }
+
+    /**
+     * Resolves the resource id for the event.
+     *
+     * For an untrusted caller a client-supplied resource id is accepted only
+     * when it maps to an existing, publicly-viewable post. For a trusted
+     * server-side caller it is accepted when it maps to any existing post
+     * (including private posts and non-public custom post types). When the
+     * supplied id is not acceptable, the server-detected current resource id is
+     * used.
+     *
+     * @return int|null
+     */
+    private function resolveResourceId()
+    {
+        if (array_key_exists('resource_id', $this->eventData)) {
+            $candidate = absint($this->eventData['resource_id']);
+
+            if ($candidate && $this->isAcceptableResource($candidate)) {
+                return $candidate;
             }
         }
 
-        // Set user id
-        if (!array_key_exists('user_id', $this->eventData)) {
-            $userId = $this->visitorProfile->getUserId();
+        $currentPage = $this->visitorProfile->getCurrentPageType();
 
-            if ($userId) {
-                $this->eventData['user_id'] = $userId;
-            }
+        return !empty($currentPage['id']) ? absint($currentPage['id']) : null;
+    }
+
+    /**
+     * Checks whether the given id is an acceptable resource for this caller.
+     *
+     * @param int $postId
+     * @return bool
+     */
+    private function isAcceptableResource($postId)
+    {
+        if ($this->trusted) {
+            return (bool) get_post($postId);
         }
 
-        // Set resource id
-        if (!array_key_exists('resource_id', $this->eventData)) {
-            $resourceId = $this->visitorProfile->getCurrentPageType();
+        return $this->isPubliclyViewablePost($postId);
+    }
 
-            if (!empty($resourceId['id'])) {
-                $this->eventData['resource_id'] = $resourceId['id'];
-            }
+    /**
+     * Checks whether the given id is an existing, publicly-viewable post.
+     *
+     * @param int $postId
+     * @return bool
+     */
+    private function isPubliclyViewablePost($postId)
+    {
+        $post = get_post($postId);
+
+        if (!$post) {
+            return false;
         }
+
+        if (function_exists('is_post_publicly_viewable')) {
+            return is_post_publicly_viewable($post);
+        }
+
+        return get_post_status($post) === 'publish';
     }
 
     /**

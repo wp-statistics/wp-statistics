@@ -157,6 +157,13 @@ class Request
 
             // Decode if it's base64 encoded
             if (!empty($validation['encoding'])) {
+                // An encoded parameter must be a string; a non-string value
+                // (e.g. an array passed as param[]=x) would raise a TypeError
+                // in the decode functions on PHP 8, so reject it as invalid.
+                if (!is_string($paramValue)) {
+                    return false;
+                }
+
                 if ($validation['encoding'] === 'base64') {
                     $paramValue = base64_decode($paramValue);
                 } else if ($validation['encoding'] === 'url') {

@@ -97,6 +97,29 @@ abstract class ExportData
     // In subclasses generateRow will take $row array and return string of it formatted for export type
     abstract protected function generateRow($row);
 
+    /**
+     * Escapes a single cell value for delimited (CSV/TSV) output.
+     *
+     * Neutralises spreadsheet formula injection by prefixing a value that
+     * begins with a formula trigger (=, +, -, @, tab or carriage return) with a
+     * single quote, and applies RFC 4180 quoting (wrap in the enclosure and
+     * double any literal enclosure character inside the value).
+     *
+     * @param mixed  $value     The raw cell value.
+     * @param string $enclosure The enclosure character (defaults to a double quote).
+     * @return string
+     */
+    protected function escapeCell($value, $enclosure = '"')
+    {
+        $value = (string) ($value === null ? '' : $value);
+
+        if ($value !== '' && in_array($value[0], array('=', '+', '-', '@', "\t", "\r"), true)) {
+            $value = "'" . $value;
+        }
+
+        return $enclosure . str_replace($enclosure, $enclosure . $enclosure, $value) . $enclosure;
+    }
+
 }
 
 /**
@@ -108,9 +131,9 @@ class ExportDataTSV extends ExportData
     function generateRow($row)
     {
         foreach ($row as $key => $value) {
-            // Escape inner quotes and wrap all contents in new quotes.
-            // Note that we are using \" to escape double quote not ""
-            $row[$key] = '"' . str_replace('"', '\"', $value) . '"';
+            // Neutralise formula injection and wrap the value in quotes,
+            // doubling any embedded quote (RFC 4180).
+            $row[$key] = $this->escapeCell($value);
         }
         return implode("\t", $row) . "\n";
     }
@@ -131,12 +154,9 @@ class ExportDataCSV extends ExportData
     function generateRow($row)
     {
         foreach ($row as $key => $value) {
-            // Compatibility
-            $value = $value ? $value : '';
-
-            // Escape inner quotes and wrap all contents in new quotes.
-            // Note that we are using \" to escape double quote not ""
-            $row[$key] = '"' . str_replace('"', '\"', $value) . '"';
+            // Neutralise formula injection and wrap the value in quotes,
+            // doubling any embedded quote (RFC 4180).
+            $row[$key] = $this->escapeCell($value);
         }
         return implode(",", $row) . "\n";
     }

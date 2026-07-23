@@ -76,10 +76,22 @@ class IP
 
         // Check IP detection method
         if ($ip_method === 'sequential') {
-            foreach (self::$ip_methods_server as $method) {
-                if (isset($_SERVER[$method])) {
-                    $ip = $_SERVER[$method];
-                    break;
+            // Default behaviour: honour the first available forwarding header.
+            // This preserves correct visitor IPs for sites behind a proxy/CDN
+            // that do not restore the client address into REMOTE_ADDR.
+            //
+            // Security-conscious sites can opt in to strict resolution, which
+            // ignores forwarding headers unless the connecting peer is a trusted
+            // proxy, by returning true from wp_statistics_use_trusted_proxy_resolution
+            // (and extending the trusted list via wp_statistics_trusted_proxies).
+            if (apply_filters('wp_statistics_use_trusted_proxy_resolution', false)) {
+                $ip = self::resolveSequentialIp();
+            } else {
+                foreach (self::$ip_methods_server as $method) {
+                    if (isset($_SERVER[$method])) {
+                        $ip = $_SERVER[$method];
+                        break;
+                    }
                 }
             }
         } else {
@@ -112,6 +124,75 @@ class IP
         }
 
         return apply_filters('wp_statistics_user_ip', sanitize_text_field($ip));
+    }
+
+    /**
+     * Resolves the client IP in the default "sequential" mode.
+     *
+     * Client-supplied forwarding headers (X-Forwarded-For, etc.) are only
+     * honoured when the request reaches the site through a trusted proxy;
+     * otherwise any visitor could set those headers to spoof their address,
+     * defeating IP-based exclusions and the per-IP robot threshold. When the
+     * connecting peer is not a trusted proxy the connecting address
+     * (REMOTE_ADDR) is used instead.
+     *
+     * @return string|false
+     */
+    private static function resolveSequentialIp()
+    {
+        $remoteAddr = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : false;
+
+        // Only consult forwarding headers behind a trusted proxy.
+        if (self::isTrustedProxy($remoteAddr)) {
+            foreach (self::$ip_methods_server as $method) {
+                if ($method === 'REMOTE_ADDR') {
+                    continue;
+                }
+
+                if (!empty($_SERVER[$method])) {
+                    return $_SERVER[$method];
+                }
+            }
+        }
+
+        return $remoteAddr;
+    }
+
+    /**
+     * Determines whether the connecting address is a trusted proxy allowed to
+     * set client-IP forwarding headers.
+     *
+     * Defaults to the local/private ranges, which covers the common reverse
+     * proxy running on the same host or network. Sites behind a CDN or load
+     * balancer with a public address can extend the list via the
+     * `wp_statistics_trusted_proxies` filter.
+     *
+     * @param string|false $ip The connecting (REMOTE_ADDR) address.
+     * @return bool
+     */
+    private static function isTrustedProxy($ip)
+    {
+        if (empty($ip)) {
+            return false;
+        }
+
+        /**
+         * Filters the list of trusted proxy IPs / CIDR ranges whose forwarding
+         * headers are honoured when resolving the visitor IP.
+         *
+         * @param array $trustedProxies Array of IP addresses or CIDR ranges.
+         */
+        $trustedProxies = apply_filters('wp_statistics_trusted_proxies', self::$private_SubNets);
+
+        if (empty($trustedProxies) || !is_array($trustedProxies)) {
+            return false;
+        }
+
+        try {
+            return self::checkIPRange($trustedProxies, $ip);
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     public static function getIpVersion()
