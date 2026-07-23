@@ -38,12 +38,14 @@ class Hits extends Singleton
 
         // Sanitize Hit Data if Has Rest-Api Process.
         //
-        // Client-supplied page identity (source_type, source_id, page_uri, ...)
-        // is only trusted when the request carries a valid signature. Otherwise
-        // any request that merely looks like a REST hit — including ordinary
-        // front-end and login-page loads carrying a spoofed rest_route — could
-        // inject arbitrary page data on the unsigned server-side recording paths.
-        if (self::is_rest_hit() && Helper::verifyHitSignature()) {
+        // The client-data filters are installed here, but whether the
+        // client-supplied page identity is actually trusted is decided at record
+        // time inside the filter callbacks (set_current_page / set_page_uri),
+        // where the signature is verified. Deciding it here would be too early:
+        // the constructor runs on plugins_loaded, before a theme/init-registered
+        // wp_statistics_request_signature_enabled filter is in effect, so an
+        // early signature check could wrongly discard a legitimate page.
+        if (self::is_rest_hit()) {
 
             // Get Hit Data
             $this->rest_hits = (object)self::rest_params();
@@ -71,6 +73,14 @@ class Hits extends Singleton
      */
     public function set_current_page($current_page)
     {
+        // Only trust client-supplied page identity when the request carries a
+        // valid signature. Verified here, at record time, so a late-registered
+        // wp_statistics_request_signature_enabled filter is honoured and an
+        // unsigned/spoofed request cannot inject a page identity.
+        if (!Helper::verifyHitSignature()) {
+            return $current_page;
+        }
+
         /**
          * Filter to resolve page type and ID from URL for SPA tracking.
          *
@@ -107,6 +117,12 @@ class Hits extends Singleton
      */
     public function set_page_uri($page_uri)
     {
+        // Only trust the client-supplied page URI when the request is signed
+        // (verified at record time, mirroring set_current_page).
+        if (!Helper::verifyHitSignature()) {
+            return $page_uri;
+        }
+
         return (isset($this->rest_hits->page_uri) && is_string($this->rest_hits->page_uri)) ? sanitize_url(base64_decode($this->rest_hits->page_uri)) : $page_uri;
     }
 
