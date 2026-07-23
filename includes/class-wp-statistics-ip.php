@@ -76,7 +76,24 @@ class IP
 
         // Check IP detection method
         if ($ip_method === 'sequential') {
-            $ip = self::resolveSequentialIp();
+            // Default behaviour: honour the first available forwarding header.
+            // This preserves correct visitor IPs for sites behind a proxy/CDN
+            // that do not restore the client address into REMOTE_ADDR.
+            //
+            // Security-conscious sites can opt in to strict resolution, which
+            // ignores forwarding headers unless the connecting peer is a trusted
+            // proxy, by returning true from wp_statistics_use_trusted_proxy_resolution
+            // (and extending the trusted list via wp_statistics_trusted_proxies).
+            if (apply_filters('wp_statistics_use_trusted_proxy_resolution', false)) {
+                $ip = self::resolveSequentialIp();
+            } else {
+                foreach (self::$ip_methods_server as $method) {
+                    if (isset($_SERVER[$method])) {
+                        $ip = $_SERVER[$method];
+                        break;
+                    }
+                }
+            }
         } else {
             $ip = isset($_SERVER[$ip_method]) ? $_SERVER[$ip_method] : false;
 
