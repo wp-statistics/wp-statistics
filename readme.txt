@@ -146,8 +146,8 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.16.10 - 2026-07-23 =
-- **Enhancement:** General security hardening and internal improvements in the admin area.
+= 14.16.10 - 2026-07-25 =
+- **Enhancement:** General security hardening and internal improvements.
 
 = 14.16.9 - 2026-07-21 =
 - **Fix:** Content Analytics no longer adds the site-wide historical baseline into each post's Total Views, so per-post totals are accurate again (issue [#1097](https://github.com/wp-statistics/wp-statistics/issues/1097)).
