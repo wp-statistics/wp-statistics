@@ -24,13 +24,20 @@ class Referrals
         if (Helper::is_rest_request() && Request::has('referred')) {
             // Keep the value raw here: sanitize_url() would strip the `+` and `=`
             // padding that base64-decoded cache-plugin payloads depend on.
-            $referrer = Request::get('referred', '', 'raw');
+            $referred = Request::get('referred', '', 'raw');
 
-            if (Option::get('use_cache_plugin')) {
-                $referrer = base64_decode($referrer);
+            // The parameter must be a string; a non-string value (e.g. an array
+            // passed as referred[]=x) would raise a TypeError in the decode
+            // calls below, so ignore it and keep the request header value.
+            if (is_string($referred)) {
+                $referrer = $referred;
+
+                if (Option::get('use_cache_plugin')) {
+                    $referrer = base64_decode($referrer);
+                }
+
+                $referrer = urldecode($referrer);
             }
-
-            $referrer = urldecode($referrer);
         }
 
         $referrer = wp_strip_all_tags((string) $referrer);

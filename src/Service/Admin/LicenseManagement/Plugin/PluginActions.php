@@ -50,6 +50,10 @@ class PluginActions
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         try {
+            if (!User::Access('manage')) {
+                throw new Exception(esc_html__('Unauthorized access.', 'wp-statistics'));
+            }
+
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
             $addOn      = Request::get('addon_slug');
 
@@ -129,6 +133,10 @@ class PluginActions
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         try {
+            if (!User::Access('manage')) {
+                throw new Exception(esc_html__('Unauthorized access.', 'wp-statistics'));
+            }
+
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
             if (!$pluginSlug) {
                 throw new Exception(__('Plugin slug is missing.', 'wp-statistics'));

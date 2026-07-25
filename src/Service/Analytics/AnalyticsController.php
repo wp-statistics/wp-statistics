@@ -43,16 +43,11 @@ class AnalyticsController
      */
     private function checkSignature()
     {
-        if (Helper::isRequestSignatureEnabled()) {
-            $signature = ! empty($_REQUEST['signature']) ? sanitize_text_field($_REQUEST['signature']) : '';
-            $payload   = [
-                ! empty($_REQUEST['source_type']) ? sanitize_text_field($_REQUEST['source_type']) : '',
-                ! empty($_REQUEST['source_id']) ? (int)sanitize_text_field($_REQUEST['source_id']) : 0,
-            ];
-
-            if (!Signature::check($payload, $signature)) {
-                throw new Exception(esc_html__('Invalid signature', 'wp-statistics'), 403);
-            }
+        // Verify the signature against the same request data that is recorded,
+        // so a request cannot be authenticated with one identity while a
+        // different identity is stored.
+        if (!Helper::verifyHitSignature()) {
+            throw new Exception(esc_html__('Invalid signature', 'wp-statistics'), 403);
         }
     }
 }

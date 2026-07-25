@@ -1918,6 +1918,32 @@ class Helper
     }
 
     /**
+     * Verifies the hit request signature against the request data that is
+     * actually recorded.
+     *
+     * The signed payload is read from the same source ($_REQUEST) that the
+     * recording path uses, so the values that are authenticated are always the
+     * values that get stored. Reading the signed fields from a different source
+     * (for example WP_REST_Request::get_param(), which prefers a JSON body over
+     * the query string) would let a request be authenticated with one identity
+     * while a different identity is recorded.
+     *
+     * @return bool True when signatures are disabled or the signature is valid.
+     */
+    public static function verifyHitSignature()
+    {
+        if (!self::isRequestSignatureEnabled()) {
+            return true;
+        }
+
+        $signature  = (isset($_REQUEST['signature']) && is_string($_REQUEST['signature'])) ? wp_unslash($_REQUEST['signature']) : '';
+        $sourceType = (isset($_REQUEST['source_type']) && is_string($_REQUEST['source_type'])) ? wp_unslash($_REQUEST['source_type']) : '';
+        $sourceId   = isset($_REQUEST['source_id']) ? (int) $_REQUEST['source_id'] : 0;
+
+        return Signature::check([$sourceType, $sourceId], $signature);
+    }
+
+    /**
      * Generates a URL with the specified column as the `order_by` parameter and the current order as the `order` parameter.
      * @param string $orderBy The column name to sort by
      * @return string The generated URL.
