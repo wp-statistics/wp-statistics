@@ -1,4 +1,5 @@
 14.16.10 - 2026-07-25
+- **Fix:** Prevented a fatal error on the tracking request when the referrer parameter was sent as an array instead of a single value.
 - **Enhancement:** General security hardening and internal improvements.
 
 14.16.9 - 2026-07-21

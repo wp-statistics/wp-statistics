@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.16.9\n"
+"Project-Id-Version: WP Statistics 14.16.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-21T06:08:22+00:00\n"
+"POT-Creation-Date: 2026-07-25T06:00:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -45,6 +45,8 @@ msgid "https://veronalabs.com/"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-ajax.php:112
+#: src/Abstracts/BaseMetabox.php:225
+#: src/Service/Admin/Notification/NotificationActions.php:34
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:24
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:48
 msgid "Unauthorized."
@@ -1013,7 +1015,7 @@ msgid "This will replace all IP addresses in the database with hash values and c
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:469
-#: includes/class-wp-statistics-helper.php:2267
+#: includes/class-wp-statistics-helper.php:2293
 #: views/components/tables/most-active-visitors.php:114
 #: views/metabox/horizontal-bar.php:16
 #: views/metabox/most-active-visitors.php:114
@@ -1024,7 +1026,7 @@ msgid "No data found for this date range."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:470
-#: includes/class-wp-statistics-helper.php:2270
+#: includes/class-wp-statistics-helper.php:2296
 #: views/components/tables/most-active-visitors.php:116
 #: views/metabox/horizontal-bar.php:18
 #: views/metabox/latest-visitor.php:78
@@ -5428,7 +5430,7 @@ msgstr ""
 msgid "Real-Time Stats"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2048
+#: includes/class-wp-statistics-helper.php:2074
 msgid "Invalid hit/online request."
 msgstr ""
 
@@ -5476,7 +5478,7 @@ msgstr ""
 msgid "Item processed"
 msgstr ""
 
-#: includes/class-wp-statistics-ip.php:275
+#: includes/class-wp-statistics-ip.php:356
 msgid "Invalid IP address or Range."
 msgstr ""
 
@@ -5564,8 +5566,8 @@ msgstr ""
 msgid "Number of views must be greater than or equal to 10!"
 msgstr ""
 
-#: includes/class-wp-statistics-rest-api.php:109
-#: src/Service/Analytics/AnalyticsController.php:54
+#: includes/class-wp-statistics-rest-api.php:105
+#: src/Service/Analytics/AnalyticsController.php:50
 msgid "Invalid signature"
 msgstr ""
 
@@ -6234,41 +6236,43 @@ msgstr ""
 msgid "Failed to migrate license for %1$s: %2$s"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:57
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:99
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:54
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:84
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:137
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:164
+msgid "Unauthorized access."
+msgstr ""
+
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:61
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:103
 msgid "License key is missing."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:63
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:67
 #: views/pages/license-manager/downloads.php:16
 #: views/pages/license-manager/get-started.php:14
 msgid "You're All Set! Your License is Successfully Activated!"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:80
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:156
-msgid "Unauthorized access."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:87
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:91
 msgid "Plugin installation is not permitted on this sub-site. Please contact your network administrator to install the plugin across the entire network."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:91
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:134
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:162
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:95
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:142
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:170
 msgid "Plugin slug is missing."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:104
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:108
 msgid "Download URL not found!"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:111
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:115
 msgid "Plugin downloaded and installed successfully."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:168
+#: src/Service/Admin/LicenseManagement/Plugin/PluginActions.php:176
 msgid "Plugin activated successfully."
 msgstr ""
 
@@ -6601,19 +6605,19 @@ msgstr ""
 msgid "<b>WP Statistics:</b> Your database needs a quick update. <a href=\"%1$s\">Run the Database Maintenance tool</a> to keep your stats accurate."
 msgstr ""
 
-#: src/Service/Admin/Notification/NotificationActions.php:41
+#: src/Service/Admin/Notification/NotificationActions.php:58
 msgid "All notifications have been dismissed."
 msgstr ""
 
-#: src/Service/Admin/Notification/NotificationActions.php:44
+#: src/Service/Admin/Notification/NotificationActions.php:61
 msgid "Notification has been dismissed."
 msgstr ""
 
-#: src/Service/Admin/Notification/NotificationActions.php:61
+#: src/Service/Admin/Notification/NotificationActions.php:80
 msgid "Notifications status has been updated."
 msgstr ""
 
-#: src/Service/Admin/Notification/NotificationActions.php:63
+#: src/Service/Admin/Notification/NotificationActions.php:82
 msgid "Notifications status has not been updated."
 msgstr ""
 
@@ -7446,20 +7450,20 @@ msgstr ""
 msgid "Event recorded successfully."
 msgstr ""
 
-#: src/Service/CustomEvent/CustomEventDataParser.php:59
+#: src/Service/CustomEvent/CustomEventDataParser.php:71
 msgid "The event name you entered is not valid."
 msgstr ""
 
-#: src/Service/CustomEvent/CustomEventDataParser.php:64
+#: src/Service/CustomEvent/CustomEventDataParser.php:76
 msgid "The event does not exist, or is not active."
 msgstr ""
 
-#: src/Service/CustomEvent/CustomEventDataParser.php:69
+#: src/Service/CustomEvent/CustomEventDataParser.php:81
 msgid "The event data is not valid."
 msgstr ""
 
 #. translators: %s: string value
-#: src/Service/CustomEvent/CustomEventDataParser.php:76
+#: src/Service/CustomEvent/CustomEventDataParser.php:88
 #, php-format
 msgid "The value for the key \"%s\" in the event data is an array. Only strings, numbers and booleans are allowed."
 msgstr ""
