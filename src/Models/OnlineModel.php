@@ -34,8 +34,27 @@ class OnlineModel extends BaseModel
             'timeframe' => 5
         ]);
 
+        /**
+         * How many minutes a visitor counts as "online" for.
+         *
+         * The window was fixed at 5 minutes, so sites that wanted a different value had to
+         * edit the plugin on every update. This filter lets it be set once, from a small
+         * snippet, and it holds through updates. A whole-number of minutes is expected.
+         *
+         * @param int $minutes The online window in minutes.
+         *
+         * @example add_filter('wp_statistics_online_visitors_timeframe', function () { return 240; });
+         */
+        $minutes = (int) apply_filters('wp_statistics_online_visitors_timeframe', (int) $args['timeframe']);
+
+        // Guard against a snippet returning zero or a negative, which would make the window
+        // empty and always report nobody online.
+        if ($minutes < 1) {
+            $minutes = 5;
+        }
+
         $this->timeframe = [
-            'from' => DateTime::get('-' . $args['timeframe'] . ' min', 'Y-m-d H:i:s'),
+            'from' => DateTime::get('-' . $minutes . ' min', 'Y-m-d H:i:s'),
             'to'   => DateTime::get('now', 'Y-m-d H:i:s')
         ];
     }
