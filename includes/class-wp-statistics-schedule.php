@@ -63,8 +63,9 @@ class Schedule
 
         // Remove the report schedule if its frequency has changed or reports are disabled.
         if ($scheduledReportEvent && $scheduledReportEvent->schedule !== $timeReports) {
-            wp_unschedule_event($scheduledReportEvent->timestamp, 'wp_statistics_report_hook');
-            $scheduledReportEvent = false;
+            if (wp_unschedule_event($scheduledReportEvent->timestamp, 'wp_statistics_report_hook')) {
+                $scheduledReportEvent = false;
+            }
         }
 
         // Add the report schedule if it doesn't exist and is enabled.
@@ -73,7 +74,10 @@ class Schedule
 
             if (isset($schedulesInterval[$timeReports], $schedulesInterval[$timeReports]['next_schedule'])) {
                 $scheduleTime = $schedulesInterval[$timeReports]['next_schedule'];
-                wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook');
+
+                if (wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook')) {
+                    $scheduledReportEvent = true;
+                }
             }
         }
 
