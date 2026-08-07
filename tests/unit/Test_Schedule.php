@@ -42,7 +42,10 @@ class Test_Schedule extends WP_UnitTestCase
     public function test_report_event_is_rescheduled_when_frequency_changes()
     {
         Option::update('time_report', 'weekly');
-        wp_schedule_event(time() + HOUR_IN_SECONDS, 'daily', self::REPORT_HOOK);
+        wp_clear_scheduled_hook(self::REPORT_HOOK);
+
+        $this->assertTrue(wp_schedule_event(time() + HOUR_IN_SECONDS, 'daily', self::REPORT_HOOK));
+        $this->assertSame('daily', wp_get_schedule(self::REPORT_HOOK));
 
         Schedule::get_instance()->maybe_schedule_hooks();
 
