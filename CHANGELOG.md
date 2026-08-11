@@ -1,6 +1,7 @@
 14.16.11 - Unreleased
 - **Fix:** Email report schedules now update when the configured report frequency changes.
 - **Enhancement:** Added the `wp_statistics_online_visitors_timeframe` filter to change how many minutes a visitor counts as online. The window was fixed at 5 minutes, so sites that wanted a different value had to edit the plugin after every update; the filter now holds through updates.
+- **Enhancement:** Reduced admin dashboard work by skipping statistics metabox discovery and assets for users without statistics access.
 
 14.16.10 - 2026-07-25
 - **Fix:** Prevented a fatal error on the tracking request when the referrer parameter was sent as an array instead of a single value.
