@@ -47,6 +47,7 @@ class Test_AdminAccessGuards extends WP_UnitTestCase
         }
 
         remove_role('wps_manager_only');
+        remove_role('wps_reader_only');
         wp_set_current_user(0);
         set_current_screen('front');
 
@@ -93,7 +94,24 @@ class Test_AdminAccessGuards extends WP_UnitTestCase
 
     public function test_authorized_readers_receive_admin_assets()
     {
-        $this->setCurrentUserWithRole('administrator');
+        add_role(
+            'wps_reader_only',
+            'WP Statistics Reader',
+            [
+                'read'           => true,
+                'wps_read_stats' => true,
+            ]
+        );
+
+        $options                      = Option::getOptions();
+        $options['manage_capability'] = 'wps_manage_stats';
+        $options['read_capability']   = 'wps_read_stats';
+        Option::save_options($options);
+
+        $this->setCurrentUserWithRole('wps_reader_only');
+
+        $this->assertTrue(User::Access('read'));
+        $this->assertFalse(User::Access('manage'));
 
         $this->assets->admin_styles();
         $this->assets->admin_scripts('index.php');
