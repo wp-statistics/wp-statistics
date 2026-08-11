@@ -58,20 +58,27 @@ class Schedule
             wp_schedule_event(time(), 'monthly', 'wp_statistics_referrals_db_hook');
         }
 
+        $timeReports          = Option::get('time_report');
+        $scheduledReportEvent = wp_get_scheduled_event('wp_statistics_report_hook');
+
+        // Remove the report schedule if its frequency has changed or reports are disabled.
+        if ($scheduledReportEvent && $scheduledReportEvent->schedule !== $timeReports) {
+            if (wp_unschedule_event($scheduledReportEvent->timestamp, 'wp_statistics_report_hook')) {
+                $scheduledReportEvent = false;
+            }
+        }
+
         // Add the report schedule if it doesn't exist and is enabled.
-        if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
-            $timeReports       = Option::get('time_report');
+        if (!$scheduledReportEvent && $timeReports != '0') {
             $schedulesInterval = self::getSchedules();
 
             if (isset($schedulesInterval[$timeReports], $schedulesInterval[$timeReports]['next_schedule'])) {
                 $scheduleTime = $schedulesInterval[$timeReports]['next_schedule'];
-                wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook');
-            }
-        }
 
-        // Remove the report schedule if it does exist and is disabled.
-        if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') == '0') {
-            wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
+                if (wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook')) {
+                    $scheduledReportEvent = true;
+                }
+            }
         }
 
         // Schedule license migration
