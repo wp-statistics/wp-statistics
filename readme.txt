@@ -146,9 +146,11 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.11 - Unreleased =
+- **Fix:** Email report schedules now update when the configured report frequency changes.
+
 = 14.16.10 - 2026-07-25 =
 - **Fix:** Prevented a fatal error on the tracking request when the referrer parameter was sent as an array instead of a single value.
-- **Fix:** Email report schedules now update when the configured report frequency changes.
 - **Enhancement:** General security hardening and internal improvements.
 
 = 14.16.9 - 2026-07-21 =
