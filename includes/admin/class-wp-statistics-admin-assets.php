@@ -508,7 +508,7 @@ class Admin_Assets
         // For developers: WordPress debugging mode.
         $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
 
-        $list['meta_boxes'] = MetaboxHelper::getScreenMetaboxes();
+        $list['meta_boxes'] = User::Access('read') ? MetaboxHelper::getScreenMetaboxes() : [];
 
         $list['wps_page'] = Context::get('wps_page');
 

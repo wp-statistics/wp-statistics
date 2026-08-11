@@ -131,6 +131,7 @@ class Test_AdminAccessGuards extends WP_UnitTestCase
 
         $this->assertTrue(wp_style_is(Admin_Assets::$prefix, 'enqueued'));
         $this->assertTrue(wp_script_is(Admin_Assets::$prefix, 'enqueued'));
+        $this->assertSame(0, $this->metaboxListCalls);
     }
 
     private function setCurrentUserWithRole(string $role): void
