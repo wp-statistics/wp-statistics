@@ -144,6 +144,9 @@ class Admin_Assets
      */
     public function admin_styles()
     {
+        if (!User::Access()) {
+            return;
+        }
 
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
@@ -185,6 +188,9 @@ class Admin_Assets
      */
     public function admin_scripts($hook)
     {
+        if (!User::Access()) {
+            return;
+        }
 
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
