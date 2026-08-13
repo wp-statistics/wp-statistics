@@ -144,6 +144,9 @@ class Admin_Assets
      */
     public function admin_styles()
     {
+        if (!User::Access()) {
+            return;
+        }
 
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
@@ -185,6 +188,9 @@ class Admin_Assets
      */
     public function admin_scripts($hook)
     {
+        if (!User::Access()) {
+            return;
+        }
 
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
@@ -502,7 +508,7 @@ class Admin_Assets
         // For developers: WordPress debugging mode.
         $list['wp_debug'] = defined('WP_DEBUG') && WP_DEBUG ? true : false;
 
-        $list['meta_boxes'] = MetaboxHelper::getScreenMetaboxes();
+        $list['meta_boxes'] = User::Access('read') ? MetaboxHelper::getScreenMetaboxes() : [];
 
         $list['wps_page'] = Context::get('wps_page');
 

@@ -31,7 +31,16 @@ class OnlineModel extends BaseModel
     public function setArgs($args = [])
     {
         $args = wp_parse_args($args, [
-            'timeframe' => 5
+            /**
+             * How many minutes a visitor counts as "online" for.
+             *
+             * The window was fixed at 5 minutes, so sites that wanted a different value had
+             * to edit the plugin on every update. This filter lets it be set once, from a
+             * small snippet, and it holds through updates.
+             *
+             * @example add_filter('wp_statistics_online_visitors_timeframe', function () { return 240; });
+             */
+            'timeframe' => apply_filters('wp_statistics_online_visitors_timeframe', 5)
         ]);
 
         $this->timeframe = [
