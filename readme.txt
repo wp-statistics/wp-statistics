@@ -3,7 +3,7 @@ Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 14.16.10
 Requires PHP: 7.4
 License: GPL-2.0+
