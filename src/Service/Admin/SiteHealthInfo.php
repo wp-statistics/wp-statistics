@@ -145,7 +145,7 @@ class SiteHealthInfo
             'geoIpDatabaseValidation'        => [
                 'label' => esc_html__('GeoIP Database Validation', 'wp-statistics'),
                 'value' => is_wp_error($geoIpProviderValidity) ? esc_html__('No', 'wp-statistics') : esc_html__('Yes', 'wp-statistics'),
-                'debug' => is_wp_error($geoIpProviderValidity) ? $geoIpProviderValidity->get_error_code() : 'Yes',
+                'debug' => is_wp_error($geoIpProviderValidity) ? $geoIpProviderValidity->get_error_message() : 'Yes',
             ],
 
             /**
