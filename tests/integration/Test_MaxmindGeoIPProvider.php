@@ -69,6 +69,36 @@ class Test_MaxmindGeoIPProvider extends WP_UnitTestCase
         $this->assertStringContainsString('switch to DB-IP', $result->get_error_message());
         $this->assertSame($this->originalDatabase, file_get_contents($this->databasePath));
         $this->assertFileDoesNotExist($this->databasePath . '.tmp');
+        $this->assertFileDoesNotExist(dirname($this->databasePath) . '/GeoLite2-City.mmdb.gz');
+        $this->assertSame(12345, Option::get('last_geoip_dl'));
+    }
+
+    public function test_malformed_archive_keeps_existing_database_and_cleans_up_files()
+    {
+        Option::update('geoip_license_type', 'user-license');
+        Option::update('geoip_license_key', 'test-license-key');
+
+        add_filter('pre_http_request', function ($response, $args) {
+            file_put_contents($args['filename'], "\x1f\x8b\x08");
+
+            return [
+                'headers'  => [],
+                'body'     => '',
+                'response' => [
+                    'code'    => 200,
+                    'message' => 'OK',
+                ],
+                'cookies'  => [],
+            ];
+        }, 10, 2);
+
+        $result = $this->provider->downloadDatabase();
+
+        $this->assertWPError($result);
+        $this->assertStringContainsString('Failed to extract the database file', $result->get_error_message());
+        $this->assertSame($this->originalDatabase, file_get_contents($this->databasePath));
+        $this->assertFileDoesNotExist($this->databasePath . '.tmp');
+        $this->assertFileDoesNotExist(dirname($this->databasePath) . '/GeoLite2-City.mmdb.gz');
         $this->assertSame(12345, Option::get('last_geoip_dl'));
     }
 
@@ -88,6 +118,8 @@ class Test_MaxmindGeoIPProvider extends WP_UnitTestCase
         $this->assertWPError($result);
         $this->assertStringContainsString('Connection failed.', $result->get_error_message());
         $this->assertStringNotContainsString($licenseKey, $result->get_error_message());
+        $this->assertSame($this->originalDatabase, file_get_contents($this->databasePath));
+        $this->assertSame(12345, Option::get('last_geoip_dl'));
 
         remove_all_filters('pre_http_request');
         add_filter('pre_http_request', function () {
@@ -107,6 +139,8 @@ class Test_MaxmindGeoIPProvider extends WP_UnitTestCase
         $this->assertWPError($result);
         $this->assertStringContainsString('HTTP status code 403', $result->get_error_message());
         $this->assertStringNotContainsString($licenseKey, $result->get_error_message());
+        $this->assertSame($this->originalDatabase, file_get_contents($this->databasePath));
+        $this->assertSame(12345, Option::get('last_geoip_dl'));
     }
 
     public function test_cloudflare_download_is_a_successful_no_op()
