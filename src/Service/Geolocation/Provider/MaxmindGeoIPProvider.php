@@ -144,15 +144,15 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             ]);
 
             if (is_wp_error($response)) {
-                /* translators: %1$s: string value, %2$s: string value */
-                throw new Exception(sprintf(esc_html__('Error downloading GeoIP database from: %1$s - %2$s', 'wp-statistics'), $downloadUrl, $response->get_error_message()));
+                /* translators: %s: transport error message */
+                throw new Exception(sprintf(esc_html__('Error downloading GeoIP database: %s', 'wp-statistics'), $response->get_error_message()));
             }
 
             // Check the HTTP status code
             $statusCode = wp_remote_retrieve_response_code($response);
             if ($statusCode !== 200) {
-                /* translators: %1$d: number value, %2$s: string value */
-                throw new Exception(sprintf(esc_html__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $statusCode, $downloadUrl));
+                /* translators: %d: HTTP status code */
+                throw new Exception(sprintf(esc_html__('Unexpected HTTP status code %d while downloading GeoIP database.', 'wp-statistics'), $statusCode));
             }
 
             $this->extractGzFile($gzFilePath, $tempDbFile);

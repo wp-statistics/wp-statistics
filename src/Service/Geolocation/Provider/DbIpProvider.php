@@ -120,6 +120,11 @@ class DbIpProvider extends AbstractGeoIPProvider
         return $this->getFilteredDownloadUrl($defaultUrl);
     }
 
+    /**
+     * Download the GeoIP database, extract it, and handle updates.
+     *
+     * @return bool|WP_Error True on success, or WP_Error on failure.
+     */
     public function downloadDatabase()
     {
         $gzFilePath = $this->getFilePath('dbip-city-lite.mmdb.gz');

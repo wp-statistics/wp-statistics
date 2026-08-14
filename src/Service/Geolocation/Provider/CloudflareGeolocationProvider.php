@@ -6,6 +6,7 @@ use WP_STATISTICS\Country;
 use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 use Exception;
+use WP_Error;
 
 class CloudflareGeolocationProvider extends AbstractGeoIPProvider
 {
@@ -140,9 +141,14 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
         return '';
     }
 
+    /**
+     * Cloudflare does not require a local database download.
+     *
+     * @return bool|WP_Error True on success, or WP_Error on failure.
+     */
     public function downloadDatabase()
     {
-        return [];
+        return true;
     }
 
     public function getDatabaseType()

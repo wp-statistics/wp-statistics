@@ -4,6 +4,8 @@ namespace WP_Statistics\Tests\Service\Geolocation\Provider;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use WP_Error;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_STATISTICS\Option;
 use WP_UnitTestCase;
@@ -68,5 +70,49 @@ class Test_MaxmindGeoIPProvider extends WP_UnitTestCase
         $this->assertSame($this->originalDatabase, file_get_contents($this->databasePath));
         $this->assertFileDoesNotExist($this->databasePath . '.tmp');
         $this->assertSame(12345, Option::get('last_geoip_dl'));
+    }
+
+    public function test_download_error_does_not_expose_maxmind_license_key()
+    {
+        $licenseKey = 'secret-license-key';
+
+        Option::update('geoip_license_type', 'user-license');
+        Option::update('geoip_license_key', $licenseKey);
+
+        add_filter('pre_http_request', function () {
+            return new WP_Error('http_request_failed', 'Connection failed.');
+        });
+
+        $result = $this->provider->downloadDatabase();
+
+        $this->assertWPError($result);
+        $this->assertStringContainsString('Connection failed.', $result->get_error_message());
+        $this->assertStringNotContainsString($licenseKey, $result->get_error_message());
+
+        remove_all_filters('pre_http_request');
+        add_filter('pre_http_request', function () {
+            return [
+                'headers'  => [],
+                'body'     => '',
+                'response' => [
+                    'code'    => 403,
+                    'message' => 'Forbidden',
+                ],
+                'cookies'  => [],
+            ];
+        });
+
+        $result = $this->provider->downloadDatabase();
+
+        $this->assertWPError($result);
+        $this->assertStringContainsString('HTTP status code 403', $result->get_error_message());
+        $this->assertStringNotContainsString($licenseKey, $result->get_error_message());
+    }
+
+    public function test_cloudflare_download_is_a_successful_no_op()
+    {
+        $provider = new CloudflareGeolocationProvider();
+
+        $this->assertTrue($provider->downloadDatabase());
     }
 }
