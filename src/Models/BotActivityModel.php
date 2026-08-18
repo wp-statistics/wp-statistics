@@ -3,7 +3,6 @@
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
-use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Query;
 
 class BotActivityModel extends BaseModel
@@ -22,7 +21,7 @@ class BotActivityModel extends BaseModel
         ]);
 
         $this->timeframe = [
-            'from' => (int) DateTime::get('-' . absint($args['timeframe']) . ' min', 'U'),
+            'from' => time() - (absint($args['timeframe']) * MINUTE_IN_SECONDS),
         ];
     }
 

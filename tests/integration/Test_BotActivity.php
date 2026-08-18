@@ -5,7 +5,6 @@ namespace WP_Statistics\Tests;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Exclusion;
 use WP_STATISTICS\Option;
-use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\BotActivityModel;
 use WP_Statistics\Service\Analytics\BotActivity;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
@@ -81,7 +80,7 @@ class Test_BotActivity extends WP_UnitTestCase
         $table = DB::table('bot_activity');
         $wpdb->update(
             $table,
-            ['last_view' => (int) DateTime::get('+1 second', 'U')],
+            ['last_view' => time() + 1],
             ['ID' => $wpdb->get_var("SELECT ID FROM `{$table}`")]
         );
 

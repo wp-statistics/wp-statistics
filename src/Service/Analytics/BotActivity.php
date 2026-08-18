@@ -87,7 +87,7 @@ class BotActivity
         $botName     = self::limit(self::getBotName($visitorProfile, $reason), 180);
         $activityKey = md5($ip . '|' . $userAgent . '|' . $uri);
         $date        = DateTime::get();
-        $lastView    = (int) DateTime::get('now', 'U');
+        $lastView    = time();
         $tableName   = DB::table('bot_activity');
 
         $recorded = $wpdb->query(
