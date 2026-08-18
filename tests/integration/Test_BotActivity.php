@@ -33,6 +33,22 @@ class Test_BotActivity extends WP_UnitTestCase
         parent::tearDown();
     }
 
+    public function test_detects_an_existing_table_when_a_like_pattern_also_matches()
+    {
+        global $wpdb;
+
+        $table          = DB::table('bot_activity');
+        $lookalikeTable = str_replace('_', '0', $table);
+
+        $wpdb->query("CREATE TABLE `{$lookalikeTable}` (`ID` bigint(20) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`ID`))");
+
+        try {
+            $this->assertTrue(BotActivity::ensureTable());
+        } finally {
+            $wpdb->query("DROP TABLE IF EXISTS `{$lookalikeTable}`");
+        }
+    }
+
     public function test_records_only_enabled_bot_exclusions_and_updates_recent_activity()
     {
         global $wpdb;

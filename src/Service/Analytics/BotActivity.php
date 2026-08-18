@@ -49,7 +49,7 @@ class BotActivity
     {
         $tableName = DB::table('bot_activity');
 
-        if (DB::ExistTable($tableName)) {
+        if (self::tableExists($tableName)) {
             return true;
         }
 
@@ -60,7 +60,24 @@ class BotActivity
             return false;
         }
 
-        return DB::ExistTable($tableName);
+        return self::tableExists($tableName);
+    }
+
+    /**
+     * Check for the exact activity table name without treating underscores as LIKE wildcards.
+     *
+     * @param string $tableName Full table name.
+     * @return bool
+     */
+    private static function tableExists($tableName)
+    {
+        global $wpdb;
+
+        $result = $wpdb->get_var(
+            $wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($tableName))
+        );
+
+        return $result === $tableName;
     }
 
     /**
