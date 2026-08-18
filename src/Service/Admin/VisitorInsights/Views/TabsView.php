@@ -18,6 +18,7 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 class TabsView extends BaseTabView
 {
     private $isTrackLoggedInUsersEnabled;
+    private $isBotActivityEnabled;
     protected $defaultTab = 'overview';
     protected $tabs = [
         'overview',
@@ -31,9 +32,14 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $this->isTrackLoggedInUsersEnabled = Option::get('visitors_log') ? true : false;
+        $this->isBotActivityEnabled         = Option::get('bot_activity') ? true : false;
 
         if ($this->isTrackLoggedInUsersEnabled) {
             $this->tabs[] = 'logged-in-users';
+        }
+
+        if ($this->isBotActivityEnabled) {
+            $this->tabs[] = 'bot-activity';
         }
 
         $this->dataProvider = new VisitorInsightsDataProvider([
@@ -72,6 +78,11 @@ class TabsView extends BaseTabView
     public function getOnlineData()
     {
         return $this->dataProvider->getOnlineVisitorsData();
+    }
+
+    public function getBotActivityData()
+    {
+        return $this->dataProvider->getBotActivityData();
     }
 
     public function getTopVisitorsData()
@@ -134,6 +145,14 @@ class TabsView extends BaseTabView
 
                 ],
                 [
+                    'id'      => 'bot-activity',
+                    'link'    => Menus::admin_url('visitors', ['tab' => 'bot-activity']),
+                    'title'   => esc_html__('Bot Activity', 'wp-statistics'),
+                    'tooltip' => esc_html__('Review recently excluded bot traffic separately from normal visitor statistics.', 'wp-statistics'),
+                    'class'   => $this->isTab('bot-activity') ? 'current' : '',
+                    'hidden'  => !$this->isBotActivityEnabled,
+                ],
+                [
                     'id'     => 'top-visitors',
                     'link'   => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                     'title'  => esc_html__('Top Visitors', 'wp-statistics'),
@@ -182,7 +201,7 @@ class TabsView extends BaseTabView
             $args['tabs'] = $tabs;
         }
 
-        if ($this->isTab('online')) {
+        if ($this->isTab(['online', 'bot-activity'])) {
             $args['hasDateRang']        = false;
             $args['real_time_button']   = true;
         }

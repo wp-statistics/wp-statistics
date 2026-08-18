@@ -39,6 +39,7 @@ class Option
 
         $options = array(
             'robotlist'                       => '',
+            'bot_activity'                    => false,
             'query_params_allow_list'         => Helper::get_default_query_params_allow_list('string'),
             'anonymize_ips'                   => true,
             'hash_ips'                        => true,

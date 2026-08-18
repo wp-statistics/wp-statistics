@@ -99,6 +99,25 @@ class Manager
                 'reason' => 'KEY reason (reason)',
             ],
         ],
+        'bot_activity'          => [
+            'columns'     => [
+                'ID'           => 'bigint(20) NOT NULL AUTO_INCREMENT',
+                'last_counter' => 'date NOT NULL',
+                'activity_key' => 'char(32) NOT NULL',
+                'ip'           => 'varchar(60) NOT NULL',
+                'user_agent'   => 'varchar(190) NOT NULL',
+                'bot_name'     => 'varchar(180) DEFAULT NULL',
+                'reason'       => 'varchar(50) NOT NULL',
+                'uri'          => 'varchar(190) NOT NULL',
+                'hits'         => 'bigint(20) NOT NULL',
+                'last_view'    => 'datetime NOT NULL',
+            ],
+            'constraints' => [
+                'ID'               => 'PRIMARY KEY (ID)',
+                'last_view'        => 'KEY last_view (last_view)',
+                'date_activity_key' => 'UNIQUE KEY date_activity_key (last_counter, activity_key)',
+            ],
+        ],
         'events'                => [
             'columns'     => [
                 'ID'         => 'bigint(20) NOT NULL AUTO_INCREMENT',

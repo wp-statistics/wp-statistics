@@ -107,6 +107,23 @@ class Purge
             }
 
             /**
+             * Purge the optional bot activity data.
+             */
+            $table_name = DB::table('bot_activity');
+
+            if (DB::ExistTable($table_name)) {
+                $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
+
+                if ($result) {
+                    /* translators: %1$s: string value, %2$s: string value */
+                    $result_string .= '<br>' . sprintf(__('Data from %1$s Older Than %2$s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
+                } else {
+                    /* translators: %s: string value */
+                    $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
+                }
+            }
+
+            /**
              * Purge the pages data, this is more complex as we want to save the historical data per page.
              */
             $table_name = DB::table('pages');

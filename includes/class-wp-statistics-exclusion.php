@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Analytics\BotActivity;
 use WP_Statistics\Utils\Request;
 
 class Exclusion
@@ -94,11 +95,16 @@ class Exclusion
     /**
      * Record Exclusion in WP Statistics DB.
      *
-     * @param array $exclusion
+     * @param array               $exclusion
+     * @param VisitorProfile|null $visitorProfile
      */
-    public static function record($exclusion = array())
+    public static function record($exclusion = array(), $visitorProfile = null)
     {
         global $wpdb;
+
+        if ($visitorProfile instanceof VisitorProfile) {
+            BotActivity::record($exclusion, $visitorProfile);
+        }
 
         // If we're not storing exclusions, just return.
         if (self::record_active() != true) {

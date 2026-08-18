@@ -36,7 +36,7 @@ class CustomEventActions
 
             $exclusion = Exclusion::check($visitorProfile);
             if ($exclusion['exclusion_match'] === true) {
-                Exclusion::record($exclusion);
+                Exclusion::record($exclusion, $visitorProfile);
 
                 throw new Exception($exclusion['exclusion_reason']);
             }

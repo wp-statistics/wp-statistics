@@ -193,7 +193,7 @@ class Hits extends Singleton
          * Record exclusion if needed & then skip the tracking
          */
         if ($exclusion['exclusion_match'] === true) {
-            Exclusion::record($exclusion);
+            Exclusion::record($exclusion, $visitorProfile);
             self::errorListener();
 
             // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML

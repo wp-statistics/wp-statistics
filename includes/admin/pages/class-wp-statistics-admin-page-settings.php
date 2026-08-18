@@ -8,6 +8,7 @@ use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Analytics\BotActivity;
 use WP_Statistics\Utils\Request;
 
 class settings_page extends Singleton
@@ -304,6 +305,7 @@ class settings_page extends Singleton
         // Save Exclusion
         $wps_option_list = array(
             'wps_record_exclusions',
+            'wps_bot_activity',
             'wps_robotlist',
             'wps_query_params_allow_list',
             'wps_exclude_ip',
@@ -318,6 +320,11 @@ class settings_page extends Singleton
 
         foreach ($wps_option_list as $option) {
             $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_textarea_field($_POST[$option]) : '');
+        }
+
+        if (!empty($_POST['wps_bot_activity']) && !BotActivity::ensureTable()) {
+            $wp_statistics_options['bot_activity'] = '';
+            Notice::addFlashNotice(esc_html__('The bot activity log could not be enabled because its database table could not be created.', 'wp-statistics'), 'error');
         }
 
         return $wp_statistics_options;

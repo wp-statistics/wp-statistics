@@ -7,6 +7,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\OnlineModel;
+use WP_Statistics\Models\BotActivityModel;
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
@@ -17,6 +18,7 @@ class VisitorInsightsDataProvider
     protected $args;
     protected $visitorsModel;
     protected $onlineModel;
+    protected $botActivityModel;
     protected $viewsModel;
 
     protected $isTrackLoggedInUsersEnabled;
@@ -29,9 +31,10 @@ class VisitorInsightsDataProvider
 
         $this->isTrackLoggedInUsersEnabled = Option::get('visitors_log') ? true : false;
 
-        $this->visitorsModel = new VisitorsModel();
-        $this->onlineModel   = new OnlineModel();
-        $this->viewsModel    = new ViewsModel();
+        $this->visitorsModel    = new VisitorsModel();
+        $this->onlineModel      = new OnlineModel();
+        $this->botActivityModel = new BotActivityModel();
+        $this->viewsModel       = new ViewsModel();
     }
 
     public function getOverviewData()
@@ -161,6 +164,20 @@ class VisitorInsightsDataProvider
                 'per_page'  => Admin_Template::$item_per_page
             ])),
             'total' => $this->onlineModel->countOnlines($this->args)
+        ];
+    }
+
+    public function getBotActivityData()
+    {
+        return [
+            'data'  => $this->botActivityModel->getActivities([
+                'ip'       => $this->args['ip'] ?? '',
+                'page'     => Admin_Template::getCurrentPaged(),
+                'per_page' => Admin_Template::$item_per_page,
+            ]),
+            'total' => $this->botActivityModel->countActivities([
+                'ip' => $this->args['ip'] ?? '',
+            ]),
         ];
     }
 
