@@ -81,10 +81,11 @@ class BotActivity
 
         $requestUri  = $visitorProfile->getRequestUri();
         $requestPath = wp_parse_url($requestUri, PHP_URL_PATH);
-        $userAgent   = self::limit(sanitize_text_field($visitorProfile->getHttpUserAgent()), 190);
         $ip          = self::limit(sanitize_text_field($visitorProfile->getProcessedIPForStorage()), 60);
         $uri         = self::limit(sanitize_text_field($requestPath ?: '/'), 190);
         $botName     = self::limit(self::getBotName($visitorProfile, $reason), 180);
+        $rawAgent    = Option::get('store_ua') ? $visitorProfile->getHttpUserAgent() : $botName;
+        $userAgent   = self::limit(sanitize_text_field($rawAgent), 190);
         $activityKey = md5($ip . '|' . $userAgent . '|' . $uri);
         $date        = DateTime::get();
         $lastView    = time();

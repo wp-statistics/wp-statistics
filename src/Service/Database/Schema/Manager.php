@@ -113,8 +113,9 @@ class Manager
                 'last_view'    => 'bigint(20) NOT NULL',
             ],
             'constraints' => [
-                'ID'               => 'PRIMARY KEY (ID)',
-                'last_view'        => 'KEY last_view (last_view)',
+                'ID'                => 'PRIMARY KEY (ID)',
+                'last_view'         => 'KEY last_view (last_view)',
+                'activity_filters'  => 'KEY activity_filters (ip, reason, last_view)',
                 'date_activity_key' => 'UNIQUE KEY date_activity_key (last_counter, activity_key)',
             ],
         ],

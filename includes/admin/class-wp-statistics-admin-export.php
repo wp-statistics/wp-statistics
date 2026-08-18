@@ -48,6 +48,10 @@ class Export
                     $table = false;
                 }
 
+                if ($table && !DB::ExistTable(DB::table($table))) {
+                    $table = false;
+                }
+
                 // Validate the file type the user passed to us.
                 if (!($type == "xml" || $type == "csv" || $type == "tsv")) {
                     $table = false;

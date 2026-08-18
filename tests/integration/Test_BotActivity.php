@@ -20,6 +20,7 @@ class Test_BotActivity extends WP_UnitTestCase
         BotActivity::ensureTable();
         Option::update('bot_activity', false);
         Option::update('record_exclusions', false);
+        Option::update('store_ua', false);
 
         global $wpdb;
         $wpdb->query('TRUNCATE TABLE `' . DB::table('bot_activity') . '`');
@@ -28,6 +29,7 @@ class Test_BotActivity extends WP_UnitTestCase
     public function tearDown(): void
     {
         Option::update('bot_activity', false);
+        Option::update('store_ua', false);
         parent::tearDown();
     }
 
@@ -42,6 +44,7 @@ class Test_BotActivity extends WP_UnitTestCase
         $this->assertSame('0', $wpdb->get_var("SELECT COUNT(*) FROM `{$table}`"));
 
         Option::update('bot_activity', true);
+        Option::update('store_ua', true);
 
         Exclusion::record(['exclusion_reason' => 'excluded url'], $profile);
         $this->assertSame('0', $wpdb->get_var("SELECT COUNT(*) FROM `{$table}`"));
@@ -68,6 +71,28 @@ class Test_BotActivity extends WP_UnitTestCase
         $this->assertSame(1, $model->countActivities());
         $this->assertCount(1, $activities);
         $this->assertSame('robot', $activities[0]->reason);
+        $this->assertSame(1, $model->countActivities(['ip' => '203.0.113.8', 'reason' => 'robot']));
+        $this->assertSame(0, $model->countActivities(['reason' => 'headless']));
+    }
+
+    public function test_respects_user_agent_storage_setting()
+    {
+        global $wpdb;
+
+        Option::update('bot_activity', true);
+
+        $profile = $this->createVisitorProfile();
+        $table   = DB::table('bot_activity');
+
+        Exclusion::record(['exclusion_reason' => 'robot'], $profile);
+        $this->assertSame('', $wpdb->get_row("SELECT * FROM `{$table}`")->user_agent);
+
+        Option::update('store_ua', true);
+        Exclusion::record(['exclusion_reason' => 'robot'], $profile);
+
+        $activities = $wpdb->get_results("SELECT * FROM `{$table}` ORDER BY ID");
+        $this->assertSame('', $activities[0]->user_agent);
+        $this->assertSame('ExampleBot/1.0', $activities[1]->user_agent);
     }
 
     public function test_includes_recent_activity_at_the_upper_time_boundary()
