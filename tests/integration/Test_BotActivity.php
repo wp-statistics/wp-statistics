@@ -5,6 +5,7 @@ namespace WP_Statistics\Tests;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Exclusion;
 use WP_STATISTICS\Option;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\BotActivityModel;
 use WP_Statistics\Service\Analytics\BotActivity;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
@@ -68,6 +69,26 @@ class Test_BotActivity extends WP_UnitTestCase
         $this->assertSame(1, $model->countActivities());
         $this->assertCount(1, $activities);
         $this->assertSame('robot', $activities[0]->reason);
+    }
+
+    public function test_includes_recent_activity_at_the_upper_time_boundary()
+    {
+        global $wpdb;
+
+        Option::update('bot_activity', true);
+        Exclusion::record(['exclusion_reason' => 'robot'], $this->createVisitorProfile());
+
+        $table = DB::table('bot_activity');
+        $wpdb->update(
+            $table,
+            ['last_view' => (int) DateTime::get('+1 second', 'U')],
+            ['ID' => $wpdb->get_var("SELECT ID FROM `{$table}`")]
+        );
+
+        $model = new BotActivityModel();
+
+        $this->assertSame(1, $model->countActivities());
+        $this->assertCount(1, $model->getActivities());
     }
 
     private function createVisitorProfile()
