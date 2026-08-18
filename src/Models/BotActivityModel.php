@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Models;
 
-use WP_STATISTICS\DB;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Query;
@@ -35,10 +34,6 @@ class BotActivityModel extends BaseModel
      */
     public function countActivities($args = [])
     {
-        if (!DB::ExistTable(DB::table('bot_activity'))) {
-            return 0;
-        }
-
         $args = $this->parseArgs($args, [
             'ip'     => '',
             'reason' => '',
@@ -62,10 +57,6 @@ class BotActivityModel extends BaseModel
      */
     public function getActivities($args = [])
     {
-        if (!DB::ExistTable(DB::table('bot_activity'))) {
-            return [];
-        }
-
         $args = $this->parseArgs($args, [
             'ip'       => '',
             'reason'   => '',
