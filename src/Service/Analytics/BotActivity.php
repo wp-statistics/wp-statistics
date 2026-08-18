@@ -80,31 +80,17 @@ class BotActivity
             return false;
         }
 
-<<<<<<< Updated upstream
-        $requestUri  = $visitorProfile->getRequestUri();
-        $requestPath = wp_parse_url($requestUri, PHP_URL_PATH);
-        $ip          = self::limit(sanitize_text_field($visitorProfile->getProcessedIPForStorage()), 60);
-        $uri         = self::limit(sanitize_text_field($requestPath ?: '/'), 190);
-        $botName     = self::limit(self::getBotName($visitorProfile, $reason), 180);
-        $rawAgent    = Option::get('store_ua') ? $visitorProfile->getHttpUserAgent() : $botName;
-        $userAgent   = self::limit(sanitize_text_field($rawAgent), 190);
-        $activityKey = md5($ip . '|' . $userAgent . '|' . $uri);
-        $date        = DateTime::get();
-        $lastView    = time();
-        $tableName   = DB::table('bot_activity');
-=======
-        $requestUri    = $visitorProfile->getRequestUri();
-        $requestPath   = wp_parse_url($requestUri, PHP_URL_PATH);
+        $requestUri     = $visitorProfile->getRequestUri();
+        $requestPath    = wp_parse_url($requestUri, PHP_URL_PATH);
         $storeUserAgent = Option::get('store_ua') && !IntegrationHelper::shouldTrackAnonymously();
-        $userAgent     = $storeUserAgent ? self::limit(sanitize_text_field($visitorProfile->getHttpUserAgent()), 190) : '';
-        $ip            = self::limit(sanitize_text_field($visitorProfile->getProcessedIPForStorage()), 60);
-        $uri           = self::limit(sanitize_text_field($requestPath ?: '/'), 190);
-        $botName       = self::limit(self::getBotName($visitorProfile, $reason), 180);
-        $activityKey   = md5($ip . '|' . $userAgent . '|' . $botName . '|' . $reason . '|' . $uri);
-        $date          = DateTime::get();
-        $lastView      = time();
-        $tableName     = DB::table('bot_activity');
->>>>>>> Stashed changes
+        $userAgent      = $storeUserAgent ? self::limit(sanitize_text_field($visitorProfile->getHttpUserAgent()), 190) : '';
+        $ip             = self::limit(sanitize_text_field($visitorProfile->getProcessedIPForStorage()), 60);
+        $uri            = self::limit(sanitize_text_field($requestPath ?: '/'), 190);
+        $botName        = self::limit(self::getBotName($visitorProfile, $reason), 180);
+        $activityKey    = md5($ip . '|' . $userAgent . '|' . $botName . '|' . $reason . '|' . $uri);
+        $date           = DateTime::get();
+        $lastView       = time();
+        $tableName      = DB::table('bot_activity');
 
         $recorded = $wpdb->query(
             $wpdb->prepare(

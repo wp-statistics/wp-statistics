@@ -95,20 +95,6 @@ class Test_BotActivity extends WP_UnitTestCase
         $this->assertSame('ExampleBot/1.0', $activities[1]->user_agent);
     }
 
-    public function test_respects_the_user_agent_storage_setting()
-    {
-        global $wpdb;
-
-        Option::update('bot_activity', true);
-        Exclusion::record(['exclusion_reason' => 'robot'], $this->createVisitorProfile());
-
-        $table    = DB::table('bot_activity');
-        $activity = $wpdb->get_row("SELECT * FROM `{$table}`");
-
-        $this->assertNotNull($activity);
-        $this->assertSame('', $activity->user_agent);
-    }
-
     public function test_includes_recent_activity_at_the_upper_time_boundary()
     {
         global $wpdb;

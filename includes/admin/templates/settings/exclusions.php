@@ -110,11 +110,7 @@ use WP_STATISTICS\Option;
                 <td>
                     <input id="wps-bot-activity" type="checkbox" value="1" name="wps_bot_activity" <?php checked(Option::get('bot_activity')); ?>>
                     <label for="wps-bot-activity"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-<<<<<<< Updated upstream
-                    <p class="description"><?php esc_html_e('Show the last five minutes of traffic excluded as robots, headless browsers, or by the robot view threshold. Stored records follow your configured data retention schedule, and the log never changes normal visitor, online, view, or traffic totals. Stored IP addresses follow your privacy settings.', 'wp-statistics'); ?></p>
-=======
-                    <p class="description"><?php esc_html_e('Keep a separate five-minute activity log for traffic excluded as robots, headless browsers, or by the robot view threshold. The log appears under Visitor Insights > Bot Activity and never changes normal visitor, online, view, or traffic totals. Stored IP addresses and full user-agent strings follow your privacy settings.', 'wp-statistics'); ?></p>
->>>>>>> Stashed changes
+                    <p class="description"><?php esc_html_e('Show the last five minutes of traffic excluded as robots, headless browsers, or by the robot view threshold. Stored records follow your configured data retention schedule, and the log never changes normal visitor, online, view, or traffic totals. Stored IP addresses and full user-agent strings follow your privacy settings.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>
