@@ -110,7 +110,7 @@ class Manager
                 'reason'       => 'varchar(50) NOT NULL',
                 'uri'          => 'varchar(190) NOT NULL',
                 'hits'         => 'bigint(20) NOT NULL',
-                'last_view'    => 'datetime NOT NULL',
+                'last_view'    => 'bigint(20) NOT NULL',
             ],
             'constraints' => [
                 'ID'               => 'PRIMARY KEY (ID)',

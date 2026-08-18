@@ -23,8 +23,8 @@ class BotActivityModel extends BaseModel
         ]);
 
         $this->timeframe = [
-            'from' => DateTime::get('-' . absint($args['timeframe']) . ' min', 'Y-m-d H:i:s'),
-            'to'   => DateTime::get('now', 'Y-m-d H:i:s'),
+            'from' => (int) DateTime::get('-' . absint($args['timeframe']) . ' min', 'U'),
+            'to'   => (int) DateTime::get('now', 'U'),
         ];
     }
 
@@ -49,7 +49,8 @@ class BotActivityModel extends BaseModel
             ->from('bot_activity')
             ->where('ip', '=', $args['ip'])
             ->where('reason', '=', $args['reason'])
-            ->whereDate('last_view', $this->timeframe)
+            ->where('last_view', '>=', $this->timeframe['from'])
+            ->where('last_view', '<=', $this->timeframe['to'])
             ->getVar();
 
         return $result ? (int) $result : 0;
@@ -80,7 +81,8 @@ class BotActivityModel extends BaseModel
             ->from('bot_activity')
             ->where('ip', '=', $args['ip'])
             ->where('reason', '=', $args['reason'])
-            ->whereDate('last_view', $this->timeframe)
+            ->where('last_view', '>=', $this->timeframe['from'])
+            ->where('last_view', '<=', $this->timeframe['to'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->getAll();

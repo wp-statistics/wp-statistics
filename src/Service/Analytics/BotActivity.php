@@ -87,12 +87,12 @@ class BotActivity
         $botName     = self::limit(self::getBotName($visitorProfile, $reason), 180);
         $activityKey = md5($ip . '|' . $userAgent . '|' . $uri);
         $date        = DateTime::get();
-        $lastView    = DateTime::get('now', 'Y-m-d H:i:s');
+        $lastView    = (int) DateTime::get('now', 'U');
         $tableName   = DB::table('bot_activity');
 
         $recorded = $wpdb->query(
             $wpdb->prepare(
-                "INSERT INTO `{$tableName}` (`last_counter`, `activity_key`, `ip`, `user_agent`, `bot_name`, `reason`, `uri`, `hits`, `last_view`) VALUES (%s, %s, %s, %s, %s, %s, %s, 1, %s) ON DUPLICATE KEY UPDATE `hits` = `hits` + 1, `last_view` = VALUES(`last_view`), `reason` = VALUES(`reason`), `bot_name` = VALUES(`bot_name`)",
+                "INSERT INTO `{$tableName}` (`last_counter`, `activity_key`, `ip`, `user_agent`, `bot_name`, `reason`, `uri`, `hits`, `last_view`) VALUES (%s, %s, %s, %s, %s, %s, %s, 1, %d) ON DUPLICATE KEY UPDATE `hits` = `hits` + 1, `last_view` = VALUES(`last_view`), `reason` = VALUES(`reason`), `bot_name` = VALUES(`bot_name`)",
                 $date,
                 $activityKey,
                 $ip,
