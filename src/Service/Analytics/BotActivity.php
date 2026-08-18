@@ -8,6 +8,7 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Database\Schema\Manager;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class BotActivity
 {
@@ -79,6 +80,7 @@ class BotActivity
             return false;
         }
 
+<<<<<<< Updated upstream
         $requestUri  = $visitorProfile->getRequestUri();
         $requestPath = wp_parse_url($requestUri, PHP_URL_PATH);
         $ip          = self::limit(sanitize_text_field($visitorProfile->getProcessedIPForStorage()), 60);
@@ -90,6 +92,19 @@ class BotActivity
         $date        = DateTime::get();
         $lastView    = time();
         $tableName   = DB::table('bot_activity');
+=======
+        $requestUri    = $visitorProfile->getRequestUri();
+        $requestPath   = wp_parse_url($requestUri, PHP_URL_PATH);
+        $storeUserAgent = Option::get('store_ua') && !IntegrationHelper::shouldTrackAnonymously();
+        $userAgent     = $storeUserAgent ? self::limit(sanitize_text_field($visitorProfile->getHttpUserAgent()), 190) : '';
+        $ip            = self::limit(sanitize_text_field($visitorProfile->getProcessedIPForStorage()), 60);
+        $uri           = self::limit(sanitize_text_field($requestPath ?: '/'), 190);
+        $botName       = self::limit(self::getBotName($visitorProfile, $reason), 180);
+        $activityKey   = md5($ip . '|' . $userAgent . '|' . $botName . '|' . $reason . '|' . $uri);
+        $date          = DateTime::get();
+        $lastView      = time();
+        $tableName     = DB::table('bot_activity');
+>>>>>>> Stashed changes
 
         $recorded = $wpdb->query(
             $wpdb->prepare(
