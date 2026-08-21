@@ -148,6 +148,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.16.11 - Unreleased =
 - **Fix:** Email report schedules now update when the configured report frequency changes.
+- **New:** Added a site-wide Bounce Rate to the Visitor Insights overview and a Bounce Rate column to the entry pages reports. Bounce rate is the share of visits that viewed only one page, where a visit is one visitor on one day.
+- **Enhancement:** Bounce rate is now counted from the stored per-visit page count instead of scanning the visitor-page relationships table, so the reports load faster and cache correctly. Existing per-content bounce rates may shift slightly.
 
 = 14.16.10 - 2026-07-25 =
 - **Fix:** Prevented a fatal error on the tracking request when the referrer parameter was sent as an array instead of a single value.

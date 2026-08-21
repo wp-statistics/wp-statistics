@@ -22,6 +22,9 @@ use WP_Statistics\Components\View;
                         <span class="wps-order"><?php esc_html_e('Unique Entrances', 'wp-statistics') ?></span>
                     </th>
                     <th scope="col" class="wps-pd-l">
+                        <?php esc_html_e('Bounce Rate', 'wp-statistics') ?>
+                    </th>
+                    <th scope="col" class="wps-pd-l">
                         <?php esc_html_e('Publish Date', 'wp-statistics') ?>
                     </th>
                     <th scope="col">
@@ -44,6 +47,10 @@ use WP_Statistics\Components\View;
 
                         <td class="wps-pd-l">
                             <span><?php echo esc_html(number_format_i18n($page->visitors)); ?></span>
+                        </td>
+
+                        <td class="wps-pd-l">
+                            <span><?php echo esc_html(round((float) ($page->bounce_rate ?? 0), 1) . '%'); ?></span>
                         </td>
 
                         <td class="wps-pd-l">

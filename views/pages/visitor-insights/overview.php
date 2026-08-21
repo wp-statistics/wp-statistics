@@ -22,6 +22,13 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
         $metrics = [
             ['label' => esc_html__('Visitors', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['visitors']['value']), 'change' => $data['glance']['visitors']['change']],
             ['label' => esc_html__('Views', 'wp-statistics'), 'value' => Helper::formatNumberWithUnit($data['glance']['views']['value']), 'change' => $data['glance']['views']['change']],
+            [
+                'label'    => esc_html__('Bounce Rate', 'wp-statistics'),
+                'value'    => $data['glance']['bounce_rate']['value'],
+                'change'   => $data['glance']['bounce_rate']['change'],
+                'polarity' => 'negative',
+                'tooltip'  => esc_html__('Share of visits that viewed only one page. A visit is one visitor on one day.', 'wp-statistics'),
+            ],
             ['label' => esc_html__('Top Country', 'wp-statistics'), 'value' => $data['glance']['country']],
             ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'link-title' => $data['glance']['referrer'], 'link-href' => Url::formatUrl($data['glance']['referrer'])],
         ];
