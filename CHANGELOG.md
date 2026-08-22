@@ -1,10 +1,10 @@
-14.16.11 - Unreleased
-- **Fix:** Email report schedules now update when the configured report frequency changes.
-- **New:** Added a site-wide Bounce Rate to the Visitor Insights overview and a Bounce Rate column to the entry pages reports. Bounce rate is the share of visits that viewed only one page, where a visit is one visitor on one day.
-- **Enhancement:** Bounce rate is now counted from the stored per-visit page count instead of scanning the visitor-page relationships table, so the reports load faster and cache correctly. Existing per-content bounce rates may shift slightly.
-- **Enhancement:** Added the `wp_statistics_online_visitors_timeframe` filter to change how many minutes a visitor counts as online. The window was fixed at 5 minutes, so sites that wanted a different value had to edit the plugin after every update; the filter now holds through updates.
-- **Enhancement:** Reduced admin dashboard work by skipping statistics metabox discovery and assets for users without statistics access.
-- **Enhancement:** Tested up to WordPress v7.1.
+14.16.11 - 2026-08-22
+- **New:** Bounce Rate in Visitor Insights and a Bounce Rate column in the Entry Pages report.
+- **Enhancement:** Faster bounce rate calculation. Existing per-content bounce rates may shift slightly.
+- **Enhancement:** New `wp_statistics_online_visitors_timeframe` filter to set how long a visitor counts as online.
+- **Enhancement:** Lighter admin dashboard for users without statistics access.
+- **Fix:** Email report schedules now update when the report frequency changes.
+- **Enhancement:** Tested up to WordPress 7.1.
 
 14.16.10 - 2026-07-25
 - **Fix:** Prevented a fatal error on the tracking request when the referrer parameter was sent as an array instead of a single value.

@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.10
+Stable tag: 14.16.11
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Fully integrate with your WordPress and your content structure and you have the all reports all in your WP dashboard
 * Content and Category Analytics: Track performance based on your site’s content and categories.
 * Simple analytics dashboard
+* Bounce Rate Tracking: See your site-wide bounce rate in Visitor Insights and per-page bounce rate in the Entry Pages report, so you can spot pages that lose visitors after a single page view.
 * Super easy to install. No coding or technical knowledge needed
 * Advanced data privacy settings that are customizable to fit your needs, in compliance with diverse data protection laws
 * Track URL parameters, including UTMs, for campaign analysis
@@ -110,6 +111,9 @@ Yes, you can run them both at the same time without any problems.
 = Are bot visits counted? =
 We filter out bot visits using best practice techniques. Compared to Google Analytics, your views and visitors are very similar. The "[Enhancing Data Accuracy](https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wporg&utm_medium=link&utm_campaign=doc)" article can help you eliminate bots even further.
 
+= Does WP Statistics show bounce rate? =
+Yes. WP Statistics reports your site-wide bounce rate in Visitor Insights and a bounce rate for each entry page. Bounce rate is the share of visits that viewed only one page, where a visit is one visitor on one day. No Google Analytics account is needed.
+
 = Can I export data? =
 Data can be exported to XML, CSV, or TSV files for backup or reporting purposes.
 
@@ -146,10 +150,13 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.16.11 - Unreleased =
-- **Fix:** Email report schedules now update when the configured report frequency changes.
-- **New:** Added a site-wide Bounce Rate to the Visitor Insights overview and a Bounce Rate column to the entry pages reports. Bounce rate is the share of visits that viewed only one page, where a visit is one visitor on one day.
-- **Enhancement:** Bounce rate is now counted from the stored per-visit page count instead of scanning the visitor-page relationships table, so the reports load faster and cache correctly. Existing per-content bounce rates may shift slightly.
+= 14.16.11 - 2026-08-22 =
+- **New:** Bounce Rate in Visitor Insights and a Bounce Rate column in the Entry Pages report.
+- **Enhancement:** Faster bounce rate calculation. Existing per-content bounce rates may shift slightly.
+- **Enhancement:** New `wp_statistics_online_visitors_timeframe` filter to set how long a visitor counts as online.
+- **Enhancement:** Lighter admin dashboard for users without statistics access.
+- **Fix:** Email report schedules now update when the report frequency changes.
+- **Enhancement:** Tested up to WordPress 7.1.
 
 = 14.16.10 - 2026-07-25 =
 - **Fix:** Prevented a fatal error on the tracking request when the referrer parameter was sent as an array instead of a single value.
