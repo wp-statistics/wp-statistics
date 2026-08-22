@@ -45,7 +45,7 @@ $postType = get_post_type($postId);
                 'value'    => $data['glance']['bounce_rate']['value'],
                 'change'   => $data['glance']['bounce_rate']['change'],
                 'polarity' => 'negative',
-                'tooltip'  => esc_html__('Percentage of single-page sessions that began and ended on this content.', 'wp-statistics'),
+                'tooltip'  => esc_html__('Share of visits that landed on this content and viewed no other page. A visit is one visitor on one day.', 'wp-statistics'),
             ],
             [
                 'label'    => esc_html__('Exit Rate', 'wp-statistics'),

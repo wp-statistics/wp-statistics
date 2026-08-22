@@ -20,6 +20,9 @@ use WP_STATISTICS\Visitor;
                     <th class="wps-pd-l">
                         <?php esc_html_e('Unique Entrances', 'wp-statistics') ?>
                     </th>
+                    <th class="wps-pd-l">
+                        <?php esc_html_e('Bounce Rate', 'wp-statistics') ?>
+                    </th>
                     <th class="wps-pd-l"></th>
                 </tr>
                 </thead>
@@ -37,6 +40,10 @@ use WP_STATISTICS\Visitor;
 
                         <td class="wps-pd-l">
                             <span><?php echo esc_html(number_format_i18n($page->visitors)); ?></span>
+                        </td>
+
+                        <td class="wps-pd-l">
+                            <span><?php echo esc_html(round((float) ($page->bounce_rate ?? 0), 1) . '%'); ?></span>
                         </td>
 
                         <td class="wps-pd-l view-more view-more__arrow">

@@ -1490,6 +1490,20 @@ class VisitorsModel extends BaseModel
         return intval($result);
     }
 
+    /**
+     * Returns the bounce rate as a percentage.
+     *
+     * A bounce is a visit that viewed only one page. WP Statistics stores one visitor row per
+     * IP/browser per calendar day, so a "visit" here means one visitor on one day, not a
+     * 30-minute session. Reloading the same page counts as a second view, so a reload is not
+     * a bounce.
+     *
+     * When a resource is passed, the rate is scoped to the visits that landed on that resource
+     * (the landing page bounce rate). Without a resource it returns the site-wide bounce rate.
+     *
+     * @param array $args
+     * @return float
+     */
     public function getBounceRate($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -1499,27 +1513,58 @@ class VisitorsModel extends BaseModel
             'query_param'   => ''
         ]);
 
-        $singlePageVisitors = Query::select('visitor_id')
-            ->from('visitor_relationships')
-            ->whereDate('date', $args['date'])
-            ->groupBy('visitor_id')
-            ->having('COUNT(page_id) = 1')
-            ->getQuery();
+        $bounceVisitors = $this->countBounceVisitors($args);
 
-        $query = Query::select(['COUNT(visitor.ID) as visitors'])
-            ->fromQuery($singlePageVisitors, 'single')
-            ->join('visitor', ['visitor.ID', 'single.visitor_id'])
-            ->join('pages', ['visitor.first_page', 'pages.page_id'])
-            ->where('pages.id', '=', $args['resource_id'])
-            ->where('pages.type', 'IN', $args['resource_type'])
-            ->where('pages.uri', '=', $args['query_param']);
+        $totalVisitors = $this->isResourceScoped($args)
+            ? $this->countEntryPageVisitors($args)
+            : $this->countVisitors(['date' => $args['date']]);
 
-        $singlePageVisits = $query->getVar() ?? 0;
-        $totalPageEntries = $this->countEntryPageVisitors($args);
+        return Helper::calculatePercentage($bounceVisitors, $totalVisitors);
+    }
 
-        $result = Helper::calculatePercentage($singlePageVisits, $totalPageEntries);
+    /**
+     * Counts the visits that viewed a single page.
+     *
+     * `visitor.hits` is incremented on every recorded hit, so `hits = 1` is the number of
+     * single-page visits without touching any other table.
+     *
+     * @param array $args
+     * @return int
+     */
+    public function countBounceVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'resource_id'   => '',
+            'resource_type' => '',
+            'query_param'   => ''
+        ]);
 
-        return $result;
+        $query = Query::select(['COUNT(DISTINCT visitor.ID) as visitors'])
+            ->from('visitor')
+            ->where('visitor.hits', '=', 1)
+            ->whereDate('visitor.last_counter', $args['date']);
+
+        if ($this->isResourceScoped($args)) {
+            $query
+                ->join('pages', ['visitor.first_page', 'pages.page_id'])
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('pages.uri', '=', $args['query_param']);
+        }
+
+        return intval($query->getVar());
+    }
+
+    /**
+     * Whether the given arguments limit the query to a specific resource.
+     *
+     * @param array $args
+     * @return bool
+     */
+    private function isResourceScoped($args)
+    {
+        return !empty($args['resource_id']) || !empty($args['resource_type']) || !empty($args['query_param']);
     }
 
     public function countEntryPageVisitors($args = [])
@@ -1584,6 +1629,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select([
             'COUNT(visitor.ID) as visitors',
+            'COALESCE(SUM(CASE WHEN visitor.hits = 1 THEN 1 ELSE 0 END) / COUNT(visitor.ID), 0) * 100 as bounce_rate',
             'pages.id as post_id',
             'pages.page_id',
             'posts.post_title',

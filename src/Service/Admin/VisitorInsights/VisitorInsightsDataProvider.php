@@ -51,6 +51,9 @@ class VisitorInsightsDataProvider
         $loggedInShare      = Helper::calculatePercentage($loggedIn, $visitors);
         $prevLoggedInShare  = Helper::calculatePercentage($prevLoggedIn, $prevVisitors);
 
+        $bounceRate     = $this->visitorsModel->getBounceRate();
+        $prevBounceRate = $this->visitorsModel->getBounceRate(['date' => DateRange::getPrevPeriod()]);
+
         $referrers      = $this->visitorsModel->getReferrers(['decorate' => true, 'per_page' => 5]);
         $topVisitors    = $this->visitorsModel->getVisitorsData(['order_by' => 'hits', 'order' => 'DESC', 'page' => 1, 'per_page' => 5]);
         $entryPages     = $this->visitorsModel->getEntryPages(['per_page' => 5]);
@@ -63,6 +66,11 @@ class VisitorInsightsDataProvider
             'views'     => [
                 'value'     => $views,
                 'change'    => Helper::calculatePercentageChange($prevViews, $views)
+            ],
+            'bounce_rate' => [
+                'value'     => $bounceRate . '%',
+                // Percentage metrics report an absolute point difference, not a relative change.
+                'change'    => ($prevVisitors == 0) ? null : round($bounceRate - $prevBounceRate, 1)
             ],
             'country'   => $overviewChartData['countries']['labels'][0] ?? '',
             'referrer'  => isset($referrers[0]) ? $referrers[0]->getRawReferrer() : '',

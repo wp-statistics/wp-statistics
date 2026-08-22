@@ -383,10 +383,17 @@ add_thickbox();
                         geoipClickedButton.classList.remove('wps-loading-button');
                         var alertClass = result.success ? 'wps-alert__success' : 'wps-alert__danger';
                         var message = result.data && result.data.message ? result.data.message : '';
-                        jQuery(geoipClickedButton).after("<div class='wps-alert wps-alert-box " + alertClass + "'><span>" + message + "</span></div>");
-                    }).fail(function () {
+                        var alert = jQuery("<div class='wps-alert wps-alert-box " + alertClass + "'><span></span></div>");
+                        alert.find('span').text(message);
+                        jQuery(geoipClickedButton).after(alert);
+                    }).fail(function (xhr) {
                         geoipClickedButton.classList.remove('wps-loading-button');
-                        jQuery(geoipClickedButton).after("<div class='wps-alert wps-alert-box wps-alert__danger'><span><?php esc_html_e('Oops! Something went wrong. Please try again. For more details, check the PHP Error Log.', 'wp-statistics'); ?></span></div>");
+                        var message = xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message
+                            ? xhr.responseJSON.data.message
+                            : '<?php echo esc_js(__('Oops! Something went wrong. Please try again. For more details, check the PHP Error Log.', 'wp-statistics')); ?>';
+                        var alert = jQuery("<div class='wps-alert wps-alert-box wps-alert__danger'><span></span></div>");
+                        alert.find('span').text(message);
+                        jQuery(geoipClickedButton).after(alert);
                     });
                 });
             });

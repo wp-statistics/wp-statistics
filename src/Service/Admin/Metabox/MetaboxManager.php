@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Screen;
 use WP_Statistics\Core\CoreFactory;
+use WP_STATISTICS\User;
 
 class MetaboxManager
 {
@@ -22,6 +23,10 @@ class MetaboxManager
      */
     public function registerMetaboxes()
     {
+        if (!User::Access('read')) {
+            return;
+        }
+
         $metaboxes = MetaboxHelper::getActiveMetaboxes();
 
         foreach ($metaboxes as $metabox) {
@@ -39,6 +44,10 @@ class MetaboxManager
      */
     public function hideDashboardMetaboxes()
     {
+        if (!User::Access('read')) {
+            return;
+        }
+
         $userId             = get_current_user_id();
         $hiddenMetaboxesKey = 'metaboxhidden_dashboard';
         $metaboxInitFlagKey = 'wp_statistics_metaboxhidden_dashboard_initialized';

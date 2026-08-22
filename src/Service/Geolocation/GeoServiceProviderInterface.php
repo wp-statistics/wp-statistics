@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Geolocation;
 
+use WP_Error;
+
 interface GeoServiceProviderInterface
 {
     /**
@@ -22,7 +24,7 @@ interface GeoServiceProviderInterface
     /**
      * Download the GeoIP database, extract it, and handle updates.
      *
-     * @return array
+     * @return bool|WP_Error True on success, or WP_Error on failure.
      */
     public function downloadDatabase();
 

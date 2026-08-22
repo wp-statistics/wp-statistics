@@ -120,6 +120,11 @@ class DbIpProvider extends AbstractGeoIPProvider
         return $this->getFilteredDownloadUrl($defaultUrl);
     }
 
+    /**
+     * Download the GeoIP database, extract it, and handle updates.
+     *
+     * @return bool|WP_Error True on success, or WP_Error on failure.
+     */
     public function downloadDatabase()
     {
         $gzFilePath = $this->getFilePath('dbip-city-lite.mmdb.gz');
@@ -233,7 +238,7 @@ class DbIpProvider extends AbstractGeoIPProvider
             if (empty($this->reader) || !method_exists($this->reader, 'metadata')) {
                 throw new Exception(
                     /* translators: %s: string value */
-                    sprintf(__('Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it.', 'wp-statistics'), $this->getDatabasePath())
+                    sprintf(__('Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it.', 'wp-statistics'), $this->getRelativeDatabasePath())
                 );
             }
 

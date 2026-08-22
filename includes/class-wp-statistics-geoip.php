@@ -42,7 +42,7 @@ class GeoIP
     /**
      * Downloads the GeoIP database from MaxMind.
      *
-     * @return mixed Array containing status and notice messages.
+     * @return bool|\WP_Error True on success, or WP_Error on failure.
      * @deprecated This method is deprecated and should not be used in new development. use GeolocationFactory::downloadDatabase() instead.
      */
     public static function download()
