@@ -27,7 +27,7 @@ $isTrackLoggedInUsersEnabled = Option::get('visitors_log');
                 'value'    => $data['glance']['bounce_rate']['value'],
                 'change'   => $data['glance']['bounce_rate']['change'],
                 'polarity' => 'negative',
-                'tooltip'  => esc_html__('Share of visits that viewed only one page. A visit is one visitor on one day.', 'wp-statistics'),
+                'tooltip'  => esc_html__('Share of visits that recorded a single page view. A visit is one visitor on one day, and reloading a page counts as another view.', 'wp-statistics'),
             ],
             ['label' => esc_html__('Top Country', 'wp-statistics'), 'value' => $data['glance']['country']],
             ['label' => esc_html__('Top Referrer', 'wp-statistics'), 'link-title' => $data['glance']['referrer'], 'link-href' => Url::formatUrl($data['glance']['referrer'])],

@@ -112,7 +112,7 @@ Yes, you can run them both at the same time without any problems.
 We filter out bot visits using best practice techniques. Compared to Google Analytics, your views and visitors are very similar. The "[Enhancing Data Accuracy](https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wporg&utm_medium=link&utm_campaign=doc)" article can help you eliminate bots even further.
 
 = Does WP Statistics show bounce rate? =
-Yes. WP Statistics reports your site-wide bounce rate in Visitor Insights and a bounce rate for each entry page. Bounce rate is the share of visits that viewed only one page, where a visit is one visitor on one day. No Google Analytics account is needed.
+Yes. WP Statistics reports your site-wide bounce rate in Visitor Insights and a bounce rate for each entry page. Bounce rate is the share of visits that recorded a single page view, where a visit is one visitor on one day. No Google Analytics account is needed.
 
 = Can I export data? =
 Data can be exported to XML, CSV, or TSV files for backup or reporting purposes.

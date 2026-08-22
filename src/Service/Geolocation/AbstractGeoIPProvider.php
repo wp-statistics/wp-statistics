@@ -125,6 +125,26 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     }
 
     /**
+     * Get the database path relative to the WordPress root.
+     *
+     * Error messages are surfaced in Site Health, which site owners routinely paste into
+     * public support threads, so the absolute server path is trimmed off.
+     *
+     * @return string
+     */
+    public function getRelativeDatabasePath()
+    {
+        $databasePath = wp_normalize_path($this->getDatabasePath());
+        $rootPath     = wp_normalize_path(ABSPATH);
+
+        if (strpos($databasePath, $rootPath) === 0) {
+            return ltrim(substr($databasePath, strlen($rootPath)), '/');
+        }
+
+        return wp_basename($databasePath);
+    }
+
+    /**
      * Get the last updated timestamp for the Geolocation database file.
      *
      * @return false|string
