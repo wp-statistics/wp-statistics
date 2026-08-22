@@ -135,10 +135,10 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     public function getRelativeDatabasePath()
     {
         $databasePath = wp_normalize_path($this->getDatabasePath());
-        $rootPath     = wp_normalize_path(ABSPATH);
+        $rootPath     = trailingslashit(wp_normalize_path(ABSPATH));
 
         if (strpos($databasePath, $rootPath) === 0) {
-            return ltrim(substr($databasePath, strlen($rootPath)), '/');
+            return substr($databasePath, strlen($rootPath));
         }
 
         return wp_basename($databasePath);
