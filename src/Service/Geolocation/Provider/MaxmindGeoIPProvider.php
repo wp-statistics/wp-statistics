@@ -105,28 +105,6 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
     }
 
     /**
-     * Close the GeoIP Reader and release its file handle.
-     *
-     * @return void
-     */
-    protected function closeReader()
-    {
-        if (empty($this->reader)) {
-            return;
-        }
-
-        try {
-            if (method_exists($this->reader, 'close')) {
-                $this->reader->close();
-            }
-        } catch (Exception $e) {
-            WP_Statistics::log('Failed to close GeoIP reader: ' . $e->getMessage());
-        }
-
-        $this->reader = null;
-    }
-
-    /**
      * Get the download URL for the Maxmind GeoIP database.
      *
      * @return string
@@ -180,10 +158,6 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             $this->extractGzFile($gzFilePath, $tempDbFile);
             $this->validateDownloadedDatabaseFile($tempDbFile);
 
-            // Windows refuses to rename over a file that is still open, so release the
-            // active reader's handle before swapping the new database in.
-            $this->closeReader();
-
             if (!rename($tempDbFile, $dbFile)) {
                 throw new Exception(esc_html__('Failed to replace the existing GeoIP database. The existing database was left unchanged.', 'wp-statistics'));
             }
@@ -205,12 +179,6 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         } catch (Exception $e) {
             $this->deleteFile($gzFilePath); // Ensure temporary file is deleted in case of an error
             $this->deleteFile($tempDbFile);
-
-            // The reader may have been closed before a failed swap. Reopen it against the
-            // database that is still in place, without re-entering the download path.
-            if (empty($this->reader) && $this->isDatabaseExist()) {
-                $this->initializeReader();
-            }
 
             WP_Statistics::log($e->getMessage()); // Log the error for debugging
 
