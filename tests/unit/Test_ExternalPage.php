@@ -21,6 +21,29 @@ class Test_ExternalPage extends WP_UnitTestCase
         $this->assertTrue((new ExternalPage())->check_origin($request));
     }
 
+    public function test_accepts_origin_without_an_explicit_default_port()
+    {
+        $origins = array(
+            array('http://example.org:80', 'http://example.org'),
+            array('https://example.org:443', 'https://example.org'),
+        );
+
+        foreach ($origins as $originsPair) {
+            $homeUrlFilter = function () use ($originsPair) {
+                return $originsPair[0];
+            };
+            add_filter('home_url', $homeUrlFilter);
+
+            $request = new \WP_REST_Request('POST', '/wp-statistics/v2/external-page');
+            $request->set_header('Origin', $originsPair[1]);
+            $result = (new ExternalPage())->check_origin($request);
+
+            remove_filter('home_url', $homeUrlFilter);
+
+            $this->assertTrue($result, $originsPair[0]);
+        }
+    }
+
     public function test_rejects_requests_without_a_matching_origin()
     {
         $tracker = new ExternalPage();

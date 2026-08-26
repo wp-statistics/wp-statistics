@@ -203,9 +203,13 @@ class ExternalPage extends \WP_STATISTICS\RestAPI
             return '';
         }
 
-        $origin = strtolower($parts['scheme']) . '://' . strtolower($parts['host']);
-        if (!empty($parts['port'])) {
-            $origin .= ':' . (int)$parts['port'];
+        $scheme        = strtolower($parts['scheme']);
+        $port          = !empty($parts['port']) ? (int)$parts['port'] : null;
+        $isDefaultPort = ($scheme === 'http' && $port === 80) || ($scheme === 'https' && $port === 443);
+        $origin        = $scheme . '://' . strtolower($parts['host']);
+
+        if ($port && !$isDefaultPort) {
+            $origin .= ':' . $port;
         }
 
         return $origin;
