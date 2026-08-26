@@ -104,22 +104,34 @@ class Test_ExternalPage extends WP_UnitTestCase
         $request->set_header('Origin', home_url());
         $request->set_param('page_uri', '/tools/meshtastic-lab');
         $request->set_param('referred', '');
+
+        $hadUserAgent      = array_key_exists('HTTP_USER_AGENT', $_SERVER);
+        $originalUserAgent = $hadUserAgent ? $_SERVER['HTTP_USER_AGENT'] : null;
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36';
-        do_action('rest_api_init');
 
-        $response = rest_do_request($request);
-        $responseData = $response->get_data();
+        try {
+            do_action('rest_api_init');
 
-        $this->assertTrue($responseData['status'], wp_json_encode($responseData));
-        $this->assertSame(
-            '1',
-            $wpdb->get_var(
-                $wpdb->prepare(
-                    'SELECT COUNT(*) FROM ' . \WP_STATISTICS\DB::table('pages') . ' WHERE `type` = %s AND `uri` = %s',
-                    'external',
-                    '/tools/meshtastic-lab'
+            $response = rest_do_request($request);
+            $responseData = $response->get_data();
+
+            $this->assertTrue($responseData['status'], wp_json_encode($responseData));
+            $this->assertSame(
+                '1',
+                $wpdb->get_var(
+                    $wpdb->prepare(
+                        'SELECT COUNT(*) FROM ' . \WP_STATISTICS\DB::table('pages') . ' WHERE `type` = %s AND `uri` = %s',
+                        'external',
+                        '/tools/meshtastic-lab'
+                    )
                 )
-            )
-        );
+            );
+        } finally {
+            if ($hadUserAgent) {
+                $_SERVER['HTTP_USER_AGENT'] = $originalUserAgent;
+            } else {
+                unset($_SERVER['HTTP_USER_AGENT']);
+            }
+        }
     }
 }
