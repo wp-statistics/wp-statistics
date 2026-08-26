@@ -80,4 +80,7 @@ Having trouble with a bug? Please [create an issue](https://github.com/wp-statis
 4. Go to the plugin settings page and configure as required (note this will also include downloading the GeoIP database for the first time).
 
 ## Development Guide
-For more information on how to contribute to WP Statistics, please refer to the [Development Guide](https://github.com/wp-statistics/wp-statistics/wiki)
+For more information on how to contribute to WP Statistics, please refer to the [Development Guide](https://github.com/wp-statistics/wp-statistics/wiki).
+
+Developer resources:
+- [Track standalone pages on the WordPress domain](docs/external-page-tracking.md)

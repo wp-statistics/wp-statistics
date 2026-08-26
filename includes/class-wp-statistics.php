@@ -229,6 +229,7 @@ final class WP_Statistics
 
         // Rest-Api
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-hit.php';
+        require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-external-page.php';
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-meta-box.php';
 
         // WordPress Cron

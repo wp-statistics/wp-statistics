@@ -403,6 +403,13 @@ class Pages
                         ]
                     );
                     break;
+                case "external":
+                    /* translators: %s: external page path */
+                    $arg = array(
+                        'title' => sprintf(__('External Page: %s', 'wp-statistics'), esc_html($slug)),
+                        'link'  => home_url($slug),
+                    );
+                    break;
                 case "feed":
                     $arg['title'] = __('Feed', 'wp-statistics');
                     break;
