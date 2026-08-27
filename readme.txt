@@ -150,6 +150,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.12 - unreleased =
+- **Enhancement:** General hardening of output escaping in the visitor and referral reports.
+
 = 14.16.11 - 2026-08-22 =
 - **New:** Bounce Rate in Visitor Insights and a Bounce Rate column in the Entry Pages report.
 - **Enhancement:** Faster bounce rate calculation. Existing per-content bounce rates may shift slightly.
