@@ -2352,4 +2352,35 @@ class Helper
 
         return $array;
     }
+
+    /**
+     * Flattens a value that will be rendered inside an HTML attribute which a
+     * client-side library may later re-parse (for example tooltip titles).
+     *
+     * Escaping functions such as esc_attr() do not double encode, so an entity
+     * sequence like "&lt;img onerror=...&gt;" survives the attribute untouched
+     * and becomes a live element again once the browser decodes the attribute
+     * value. Decoding first, then stripping tags, removes that possibility.
+     *
+     * @param string|null $value
+     * @return string
+     */
+    public static function plainText($value)
+    {
+        $value = (string)$value;
+
+        // Decode until the value stops changing, so multi-encoded entities
+        // cannot survive. The counter is only a runaway guard.
+        for ($i = 0; $i < 20; $i++) {
+            $decoded = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+
+            if ($decoded === $value) {
+                break;
+            }
+
+            $value = $decoded;
+        }
+
+        return wp_strip_all_tags($value);
+    }
 }
