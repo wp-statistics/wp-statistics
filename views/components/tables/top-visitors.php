@@ -2,6 +2,7 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
@@ -75,7 +76,7 @@ use WP_Statistics\Utils\Url;
 
                                         <?php $campaign = sanitize_text_field((string) Url::getParam('?' . $page['query'], 'utm_campaign')); ?>
                                         <?php if ($campaign) : ?>
-                                            <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr($campaign); ?>"><?php echo esc_html($campaign); ?></span>
+                                            <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr(Helper::plainText($campaign)); ?>"><?php echo esc_html(Helper::plainText($campaign)); ?></span>
                                         <?php endif; ?>
                                     </div>
                                 <?php

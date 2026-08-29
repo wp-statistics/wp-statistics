@@ -268,13 +268,13 @@ wps_js.tooltip = function () {
     jQuery('.wps-tooltip').tooltipster({
         theme: 'tooltipster-shadow',
         contentCloning: true,
-        contentAsHTML: true
+        contentAsHTML: false
     });
 
     jQuery('body').on('mouseenter touchstart', '.wps-tooltip:not(.tooltipstered)', function () {
         $(this).tooltipster({
             theme: 'tooltipster-shadow',
-            contentAsHTML: true
+            contentAsHTML: false
         }).tooltipster('open');
     });
 };
