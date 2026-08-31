@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.11
+Stable tag: 14.16.12
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.12 - 2026-08-31
+- **Enhancement:** General security hardening and internal improvements.
+
 = 14.16.11 - 2026-08-22 =
 - **New:** Bounce Rate in Visitor Insights and a Bounce Rate column in the Entry Pages report.
 - **Enhancement:** Faster bounce rate calculation. Existing per-content bounce rates may shift slightly.

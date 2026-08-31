@@ -201,4 +201,40 @@ class Test_Helper extends WP_UnitTestCase
 
         $this->assertEquals(33, $result, 'Should round to whole number when decimals is 0.');
     }
+
+    /**
+     * Test plainText removes markup hidden behind HTML entities.
+     */
+    public function test_plain_text_strips_entity_encoded_markup()
+    {
+        $value = '&lt;img src=/x.png onerror=document.title=7331&gt;';
+
+        $this->assertEquals('', Helper::plainText($value), 'Entity encoded markup should not survive.');
+    }
+
+    /**
+     * Test plainText removes markup hidden behind repeatedly encoded entities.
+     */
+    public function test_plain_text_strips_multi_encoded_markup()
+    {
+        $value = '&amp;amp;amp;lt;img src=x onerror=alert(1)&amp;amp;amp;gt;';
+
+        $this->assertEquals('', Helper::plainText($value), 'Repeatedly encoded markup should not survive.');
+    }
+
+    /**
+     * Test plainText keeps an ampersand that is not part of an entity.
+     */
+    public function test_plain_text_keeps_ampersand()
+    {
+        $this->assertEquals('sale & clearance', Helper::plainText('sale & clearance'), 'A bare ampersand should be unchanged.');
+    }
+
+    /**
+     * Test plainText keeps ordinary campaign values untouched.
+     */
+    public function test_plain_text_keeps_plain_values()
+    {
+        $this->assertEquals('summer-sale 2026', Helper::plainText('summer-sale 2026'), 'Plain values should be unchanged.');
+    }
 }
