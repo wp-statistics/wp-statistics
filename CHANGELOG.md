@@ -1,5 +1,5 @@
-14.16.12 - unreleased
-- **Enhancement:** General hardening of output escaping in the visitor and referral reports.
+14.16.12 - 2026-08-31
+- **Enhancement:** General security hardening and internal improvements.
 
 14.16.11 - 2026-08-22
 - **New:** Bounce Rate in Visitor Insights and a Bounce Rate column in the Entry Pages report.
