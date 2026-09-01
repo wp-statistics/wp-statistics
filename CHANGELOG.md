@@ -1,3 +1,6 @@
+14.16.13 - Unreleased
+- **Fix:** Reduced repeated licence API requests after authoritative refusals on multisite networks.
+
 14.16.12 - 2026-08-31
 - **Enhancement:** General security hardening and internal improvements.
 
