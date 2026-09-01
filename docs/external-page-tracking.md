@@ -19,6 +19,18 @@ The request accepts:
 | `page_uri` | Yes | A same-origin path such as `/tools/meshtastic-lab`. The query string is optional. |
 | `referred` | No | The referring URL, when available. |
 
+## Why the existing signed `/hit` flow is not used
+
+The existing [headless tracking guide](https://wp-statistics.com/2024/05/how-to-track-visitor-statistics-in-headless-wordpress-themes-using-wp-statistics/) and [request-signature guide](https://wp-statistics.com/resources/managing-request-signatures/) describe `/wp-json/wp-statistics/v2/hit`. That route remains appropriate for WordPress-rendered cached or headless applications that can generate tracking parameters on the server. It does not provide a safe, self-contained integration for a static HTML page:
+
+- `/hit` is registered only when **Cache Compatibility** is enabled; it is not a general standalone-page endpoint.
+- Its signature is generated from the WordPress salt and the page type/ID. A static page cannot generate it without exposing the salt, and disabling signature verification would accept unsigned page identities.
+- Embedding one server-generated signature is not a safe substitute. The signature can be reused and does not authenticate `page_uri`, so someone who copies it could submit different page paths.
+- The [SPA page-view guide](https://wp-statistics.com/resources/tracking-page-views-in-spas-and-the-wordpress-interactivity-api-with-wp-statistics/) assumes a WordPress-rendered application with the tracker configuration and a PHP URL-resolver filter. It does not initialize tracking on an HTML page outside WordPress.
+- [Custom Event Tracking](https://wp-statistics.com/resources/custom-event-tracking/) records registered interactions as events, not ordinary page views, and its JavaScript helper must already be loaded by WordPress.
+
+A standalone PHP page that loads WordPress can generate the normal signed tracking context server-side and may continue to use `/hit`. The dedicated route is for static HTML and small same-origin applications that cannot safely do that. It trades the reusable signature for a strict browser `Origin` check and accepts only a same-origin path.
+
 ## Browser snippet
 
 Replace the endpoint if the WordPress REST API does not live at `/wp-json/`. Run this code only after any consent tool used by the site has allowed statistics tracking.
