@@ -150,6 +150,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.13 - unreleased =
+- **Fix:** Reduced repeated licence API requests after authoritative refusals on multisite networks.
+
 = 14.16.12 - 2026-08-31
 - **Enhancement:** General security hardening and internal improvements.
 
