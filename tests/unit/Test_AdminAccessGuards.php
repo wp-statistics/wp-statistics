@@ -185,9 +185,19 @@ class Test_AdminAccessGuards extends WP_UnitTestCase
         $this->assets->admin_styles();
         $this->assets->admin_scripts('statistics_page_wps_content-analytics_page');
 
+        $this->assertTrue(wp_style_is(Admin_Assets::$prefix, 'enqueued'));
         $this->assertTrue(wp_style_is(Admin_Assets::$prefix . '-daterangepicker', 'enqueued'));
+        $this->assertTrue(wp_style_is(Admin_Assets::$prefix . '-customize', 'enqueued'));
+        $this->assertTrue(wp_script_is('moment', 'enqueued'));
         $this->assertTrue(wp_script_is(Admin_Assets::$prefix, 'enqueued'));
         $this->assertTrue(wp_script_is(Admin_Assets::$prefix . '-daterangepicker', 'enqueued'));
+
+        $localizedData = wp_scripts()->get_data(Admin_Assets::$prefix, 'data');
+        $this->assertIsString($localizedData);
+        $this->assertStringContainsString('var wps_global = ', $localizedData);
+        $this->assertStringContainsString('"str_custom":', $localizedData);
+        $this->assertStringContainsString('"from":', $localizedData);
+        $this->assertStringContainsString('"to":', $localizedData);
     }
 
     public function grantContentAnalyticsAccess(array $menus): array
