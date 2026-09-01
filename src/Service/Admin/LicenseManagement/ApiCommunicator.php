@@ -14,11 +14,14 @@ class ApiCommunicator
     use TransientCacheTrait;
 
     /**
-     * Cache duration for failed requests (5 minutes).
-     * Short duration allows users to retry quickly after fixing license issues
-     * (e.g., adding domain to license, renewing expired license).
+     * Cache duration for transient request failures.
      */
     const NEGATIVE_CACHE_DURATION = 5 * MINUTE_IN_SECONDS;
+
+    /**
+     * Cache duration for authoritative license refusals.
+     */
+    const AUTHORITATIVE_NEGATIVE_CACHE_DURATION = 12 * HOUR_IN_SECONDS;
 
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
@@ -73,6 +76,19 @@ class ApiCommunicator
     }
 
     /**
+     * Generate a network-wide negative cache key for product info.
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     *
+     * @return string The cache key.
+     */
+    private function getProductInfoNegativeCacheKey($pluginSlug, $licenseKey)
+    {
+        return 'wp_statistics_product_info_negative_' . md5($pluginSlug . '_' . $licenseKey);
+    }
+
+    /**
      * Clear cached product info for a specific plugin and license.
      *
      * Call this method when license is validated/changed to ensure fresh data.
@@ -86,10 +102,12 @@ class ApiCommunicator
     {
         if ($pluginSlug) {
             delete_transient($this->getProductInfoCacheKey($pluginSlug, $licenseKey));
+            delete_site_transient($this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey));
         } else {
             // Clear cache for all known add-ons when no specific slug provided
             foreach (array_keys(PluginHelper::$plugins) as $addon) {
                 delete_transient($this->getProductInfoCacheKey($addon, $licenseKey));
+                delete_site_transient($this->getProductInfoNegativeCacheKey($addon, $licenseKey));
             }
         }
     }
@@ -105,9 +123,16 @@ class ApiCommunicator
      */
     public function getDownloadUrl($licenseKey, $pluginSlug)
     {
-        $cacheKey = $this->getProductInfoCacheKey($pluginSlug, $licenseKey);
+        $cacheKey         = $this->getProductInfoCacheKey($pluginSlug, $licenseKey);
+        $negativeCacheKey = $this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey);
 
-        // Check for negative cache (failed requests cached for 5 minutes)
+        // The negative cache is shared across subsites because the refusal applies to the license.
+        $cached = get_site_transient($negativeCacheKey);
+        if ($cached !== false && is_object($cached) && isset($cached->_negative_cache)) {
+            return null;
+        }
+
+        // Honor legacy per-site negative cache entries until they expire.
         $cached = get_transient($cacheKey);
         if ($cached !== false && is_object($cached) && isset($cached->_negative_cache)) {
             return null;
@@ -124,11 +149,30 @@ class ApiCommunicator
             return $remoteRequest->execute(true, true, DAY_IN_SECONDS, $cacheKey);
 
         } catch (Exception $e) {
-            // Negative cache: store failed requests for 5 minutes to prevent API hammering
-            // while still allowing users to retry quickly after fixing issues
-            set_transient($cacheKey, (object)['_negative_cache' => true], self::NEGATIVE_CACHE_DURATION);
+            $responseCode = $remoteRequest->getResponseCode();
+            $duration     = $this->isAuthoritativeRefusal($responseCode)
+                ? self::AUTHORITATIVE_NEGATIVE_CACHE_DURATION
+                : self::NEGATIVE_CACHE_DURATION;
+
+            set_site_transient($negativeCacheKey, (object)['_negative_cache' => true], $duration);
             throw $e;
         }
+    }
+
+    /**
+     * Determine whether the API returned a stable client-side refusal.
+     *
+     * Request timeouts and rate limits can recover quickly, so they retain the short cache duration.
+     *
+     * @param int|null $responseCode HTTP response code.
+     *
+     * @return bool
+     */
+    private function isAuthoritativeRefusal($responseCode)
+    {
+        return $responseCode >= 400
+            && $responseCode < 500
+            && !in_array($responseCode, [408, 429], true);
     }
 
     /**
