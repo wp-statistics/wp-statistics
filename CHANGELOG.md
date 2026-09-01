@@ -1,3 +1,6 @@
+14.16.13 - Unreleased
+- **Fix:** Restored complete date range controls for authorized custom roles on analytics pages.
+
 14.16.12 - 2026-08-31
 - **Enhancement:** General security hardening and internal improvements.
 

@@ -2,6 +2,7 @@
 
 use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
 use WP_STATISTICS\Admin_Assets;
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\User;
 
@@ -33,6 +34,9 @@ class Test_AdminAccessGuards extends WP_UnitTestCase
 
     public function tearDown(): void
     {
+        global $pagenow;
+
+        remove_filter('wp_statistics_admin_menu_list', [$this, 'grantContentAnalyticsAccess']);
         remove_filter('wp_statistics_metabox_list', [$this, 'recordMetaboxList']);
         remove_action('admin_init', [$this->metaboxManager, 'registerMetaboxes']);
         remove_action('admin_init', [$this->metaboxManager, 'hideDashboardMetaboxes']);
@@ -48,7 +52,10 @@ class Test_AdminAccessGuards extends WP_UnitTestCase
 
         remove_role('wps_manager_only');
         remove_role('wps_reader_only');
+        remove_role('wps_content_analyst');
         wp_set_current_user(0);
+        unset($_REQUEST['page']);
+        $pagenow = 'index.php';
         set_current_screen('front');
 
         parent::tearDown();
@@ -150,6 +157,44 @@ class Test_AdminAccessGuards extends WP_UnitTestCase
         $this->assertTrue(wp_style_is(Admin_Assets::$prefix, 'enqueued'));
         $this->assertTrue(wp_script_is(Admin_Assets::$prefix, 'enqueued'));
         $this->assertSame(0, $this->metaboxListCalls);
+    }
+
+    public function test_custom_role_admitted_to_content_analytics_receives_date_picker_assets()
+    {
+        global $pagenow;
+
+        add_role(
+            'wps_content_analyst',
+            'WP Statistics Content Analyst',
+            [
+                'read'                       => true,
+                'wps_view_content_analytics' => true,
+            ]
+        );
+
+        add_filter('wp_statistics_admin_menu_list', [$this, 'grantContentAnalyticsAccess']);
+        $this->setCurrentUserWithRole('wps_content_analyst');
+
+        $menu = Menus::get_menu_list();
+        $this->assertTrue(current_user_can($menu['content_analytics']['cap']));
+        $this->assertFalse(User::Access());
+
+        $pagenow          = 'admin.php';
+        $_REQUEST['page'] = Menus::get_page_slug('content-analytics');
+
+        $this->assets->admin_styles();
+        $this->assets->admin_scripts('statistics_page_wps_content-analytics_page');
+
+        $this->assertTrue(wp_style_is(Admin_Assets::$prefix . '-daterangepicker', 'enqueued'));
+        $this->assertTrue(wp_script_is(Admin_Assets::$prefix, 'enqueued'));
+        $this->assertTrue(wp_script_is(Admin_Assets::$prefix . '-daterangepicker', 'enqueued'));
+    }
+
+    public function grantContentAnalyticsAccess(array $menus): array
+    {
+        $menus['content_analytics']['cap'] = 'wps_view_content_analytics';
+
+        return $menus;
     }
 
     private function setCurrentUserWithRole(string $role): void

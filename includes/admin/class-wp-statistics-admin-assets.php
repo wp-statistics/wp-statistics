@@ -144,7 +144,8 @@ class Admin_Assets
      */
     public function admin_styles()
     {
-        if (!User::Access()) {
+        // WordPress has already enforced the registered menu capability on plugin pages.
+        if (!Menus::in_plugin_page() && !User::Access()) {
             return;
         }
 
@@ -188,7 +189,8 @@ class Admin_Assets
      */
     public function admin_scripts($hook)
     {
-        if (!User::Access()) {
+        // WordPress has already enforced the registered menu capability on plugin pages.
+        if (!Menus::in_plugin_page() && !User::Access()) {
             return;
         }
 
