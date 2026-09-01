@@ -79,5 +79,6 @@ Having trouble with a bug? Please [create an issue](https://github.com/wp-statis
 3. Make sure the Date and Time are set correctly in WordPress.
 4. Go to the plugin settings page and configure as required (note this will also include downloading the GeoIP database for the first time).
 
-## Development Guide
-For more information on how to contribute to WP Statistics, please refer to the [Development Guide](https://github.com/wp-statistics/wp-statistics/wiki)
+## Developer Guides
+- [Track standalone same-domain pages with the existing headless hit route](docs/same-domain-external-page-tracking.md)
+- [Contribute to WP Statistics](https://github.com/wp-statistics/wp-statistics/wiki)
