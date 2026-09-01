@@ -24,6 +24,16 @@ class ApiCommunicator
     const AUTHORITATIVE_NEGATIVE_CACHE_DURATION = 12 * HOUR_IN_SECONDS;
 
     /**
+     * Maximum cache duration after repeated authoritative refusals.
+     */
+    const AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION = 2 * DAY_IN_SECONDS;
+
+    /**
+     * How long to remember the previous refusal interval for backoff.
+     */
+    const AUTHORITATIVE_NEGATIVE_CACHE_BACKOFF_STATE_DURATION = WEEK_IN_SECONDS;
+
+    /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
      *
      * @return array
@@ -89,6 +99,33 @@ class ApiCommunicator
     }
 
     /**
+     * Generate the network-wide cache key used to track refusal backoff.
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     *
+     * @return string The cache key.
+     */
+    private function getProductInfoNegativeCacheBackoffKey($pluginSlug, $licenseKey)
+    {
+        return $this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey) . '_backoff';
+    }
+
+    /**
+     * Clear the network-wide refusal marker and its backoff state.
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     *
+     * @return void
+     */
+    private function clearProductInfoNegativeCache($pluginSlug, $licenseKey)
+    {
+        delete_site_transient($this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey));
+        delete_site_transient($this->getProductInfoNegativeCacheBackoffKey($pluginSlug, $licenseKey));
+    }
+
+    /**
      * Clear cached product info for a specific plugin and license.
      *
      * Call this method when license is validated/changed to ensure fresh data.
@@ -102,12 +139,12 @@ class ApiCommunicator
     {
         if ($pluginSlug) {
             delete_transient($this->getProductInfoCacheKey($pluginSlug, $licenseKey));
-            delete_site_transient($this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey));
+            $this->clearProductInfoNegativeCache($pluginSlug, $licenseKey);
         } else {
             // Clear cache for all known add-ons when no specific slug provided
             foreach (array_keys(PluginHelper::$plugins) as $addon) {
                 delete_transient($this->getProductInfoCacheKey($addon, $licenseKey));
-                delete_site_transient($this->getProductInfoNegativeCacheKey($addon, $licenseKey));
+                $this->clearProductInfoNegativeCache($addon, $licenseKey);
             }
         }
     }
@@ -126,14 +163,14 @@ class ApiCommunicator
         $cacheKey         = $this->getProductInfoCacheKey($pluginSlug, $licenseKey);
         $negativeCacheKey = $this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey);
 
-        // The negative cache is shared across subsites because the refusal applies to the license.
-        $cached = get_site_transient($negativeCacheKey);
-        if ($cached !== false && is_object($cached) && isset($cached->_negative_cache)) {
-            return null;
+        // Keep existing successful product data site-specific and usable for its normal lifetime.
+        $cached = get_transient($cacheKey);
+        if ($cached !== false) {
+            return is_object($cached) && isset($cached->_negative_cache) ? null : $cached;
         }
 
-        // Honor legacy per-site negative cache entries until they expire.
-        $cached = get_transient($cacheKey);
+        // The negative cache is shared across subsites because the refusal applies to the license.
+        $cached = get_site_transient($negativeCacheKey);
         if ($cached !== false && is_object($cached) && isset($cached->_negative_cache)) {
             return null;
         }
@@ -145,13 +182,18 @@ class ApiCommunicator
                 'plugin_slug' => $pluginSlug,
             ]);
 
-            // Use custom cache key for proper multisite/multilingual support
-            return $remoteRequest->execute(true, true, DAY_IN_SECONDS, $cacheKey);
+            // Use custom cache key for proper multisite/multilingual support.
+            $productInfo = $remoteRequest->execute(true, true, DAY_IN_SECONDS, $cacheKey);
+
+            // A successful response proves the previous refusal state is stale.
+            $this->clearProductInfoNegativeCache($pluginSlug, $licenseKey);
+
+            return $productInfo;
 
         } catch (Exception $e) {
             $responseCode = $remoteRequest->getResponseCode();
             $duration     = $this->isAuthoritativeRefusal($responseCode)
-                ? self::AUTHORITATIVE_NEGATIVE_CACHE_DURATION
+                ? $this->getAuthoritativeNegativeCacheDuration($pluginSlug, $licenseKey)
                 : self::NEGATIVE_CACHE_DURATION;
 
             set_site_transient($negativeCacheKey, (object)['_negative_cache' => true], $duration);
@@ -173,6 +215,32 @@ class ApiCommunicator
         return $responseCode >= 400
             && $responseCode < 500
             && !in_array($responseCode, [408, 429], true);
+    }
+
+    /**
+     * Get and persist the next bounded backoff duration for a refusal.
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     *
+     * @return int Cache duration in seconds.
+     */
+    private function getAuthoritativeNegativeCacheDuration($pluginSlug, $licenseKey)
+    {
+        $backoffKey       = $this->getProductInfoNegativeCacheBackoffKey($pluginSlug, $licenseKey);
+        $previousDuration = (int) get_site_transient($backoffKey);
+
+        if ($previousDuration < self::AUTHORITATIVE_NEGATIVE_CACHE_DURATION
+            || $previousDuration > self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION
+        ) {
+            $duration = self::AUTHORITATIVE_NEGATIVE_CACHE_DURATION;
+        } else {
+            $duration = min($previousDuration * 2, self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION);
+        }
+
+        set_site_transient($backoffKey, $duration, self::AUTHORITATIVE_NEGATIVE_CACHE_BACKOFF_STATE_DURATION);
+
+        return $duration;
     }
 
     /**
