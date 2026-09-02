@@ -152,6 +152,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.16.13 - unreleased =
 - **Fix:** Unrecognized date period names no longer trigger PHP warnings; the date filter is skipped instead (issue [#1130](https://github.com/wp-statistics/wp-statistics/issues/1130)).
+- **Fix:** Custom roles granted access to a single analytics page now get the full date range picker again (issue [#1126](https://github.com/wp-statistics/wp-statistics/issues/1126)).
+- **Fix:** WP Statistics capabilities granted directly to a user, rather than through a role, are now recognised.
 
 = 14.16.12 - 2026-08-31 =
 - **Enhancement:** General security hardening and internal improvements.

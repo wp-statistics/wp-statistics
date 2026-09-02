@@ -144,7 +144,7 @@ class Admin_Assets
      */
     public function admin_styles()
     {
-        if (!User::Access()) {
+        if (!User::hasPageAccess()) {
             return;
         }
 
@@ -188,7 +188,7 @@ class Admin_Assets
      */
     public function admin_scripts($hook)
     {
-        if (!User::Access()) {
+        if (!User::hasPageAccess()) {
             return;
         }
 
