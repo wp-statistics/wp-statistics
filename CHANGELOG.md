@@ -1,3 +1,6 @@
+14.16.13 - unreleased
+- **Fix:** Unrecognized date period names no longer trigger PHP warnings; the date filter is skipped instead (issue [#1130](https://github.com/wp-statistics/wp-statistics/issues/1130)).
+
 14.16.12 - 2026-08-31
 - **Enhancement:** General security hardening and internal improvements.
 
