@@ -150,6 +150,10 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.13 - unreleased =
+- **Fix:** Custom roles granted access to a single analytics page now get the full date range picker and page data again (issue [#1126](https://github.com/wp-statistics/wp-statistics/issues/1126)).
+- **Fix:** WP Statistics capabilities granted directly to a user, rather than through a role, are now recognised.
+
 = 14.16.12 - 2026-08-31
 - **Enhancement:** General security hardening and internal improvements.
 
