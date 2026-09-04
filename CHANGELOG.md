@@ -1,5 +1,6 @@
 14.16.12 - 2026-08-31
 - **Enhancement:** General security hardening and internal improvements.
+- **Fix:** Category Analytics report links now use term IDs instead of taxonomy IDs.
 
 14.16.11 - 2026-08-22
 - **New:** Bounce Rate in Visitor Insights and a Bounce Rate column in the Entry Pages report.
