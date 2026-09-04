@@ -10,6 +10,13 @@ class Test_Pages extends WP_UnitTestCase
     private $term;
     private $pagesTable;
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        TableHandler::createTable('pages', Manager::getSchemaForTable('pages'));
+    }
+
     public function setUp(): void
     {
         parent::setUp();
@@ -17,7 +24,6 @@ class Test_Pages extends WP_UnitTestCase
         global $wpdb;
 
         $this->pagesTable = DB::table('pages');
-        TableHandler::createTable('pages', Manager::getSchemaForTable('pages'));
         $wpdb->query("DELETE FROM `{$this->pagesTable}`");
 
         $this->term = $this->createTermWithDifferentTaxonomyId();
