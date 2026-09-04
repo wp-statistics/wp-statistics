@@ -368,7 +368,7 @@ class Pages
                             'title'     => esc_html($term->name),
                             'link'      => (is_wp_error(get_term_link($page_id)) === true ? '' : get_term_link($page_id)),
                             'edit_link' => get_edit_term_link($page_id),
-                            'report'    => Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_taxonomy_id]),
+                            'report'    => Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id]),
                             'meta'      => array(
                                 'taxonomy'         => $term->taxonomy,
                                 'term_taxonomy_id' => $term->term_taxonomy_id,
@@ -546,7 +546,7 @@ class Pages
 
             $reportUrl = '';
             if (isset($page_info['meta']['term_taxonomy_id'])) {
-                $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $page_info['meta']['term_taxonomy_id']]);
+                $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $item->id]);
             } else if (isset($page_info['meta']['author_id'])) {
                 $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page_info['meta']['author_id']]);
             } else if (isset($page_info['meta']['post_type'])) {
