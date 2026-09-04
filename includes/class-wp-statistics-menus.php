@@ -290,7 +290,7 @@ class Menus
         $currentPage = reset($currentPage);
 
         $currentPage = array_filter($pagesList, function ($page) use ($currentPage) {
-            return $page['page_url'] === $currentPage;
+            return isset($page['page_url']) && $page['page_url'] === $currentPage;
         });
 
         return reset($currentPage);
