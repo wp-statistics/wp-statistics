@@ -13,7 +13,7 @@ class Test_TrackerDebuggerPhp85 extends WP_UnitTestCase
      */
     public function test_tracker_checks_do_not_emit_deprecations()
     {
-        add_filter('pre_http_request', static function () {
+        $httpRequestFilter = static function () {
             return [
                 'headers'  => [],
                 'body'     => '{"status":true}',
@@ -21,7 +21,8 @@ class Test_TrackerDebuggerPhp85 extends WP_UnitTestCase
                 'cookies'  => [],
                 'filename' => null,
             ];
-        });
+        };
+        add_filter('pre_http_request', $httpRequestFilter);
 
         $previousOptions = Option::getOptions();
         $deprecations    = [];
@@ -41,6 +42,7 @@ class Test_TrackerDebuggerPhp85 extends WP_UnitTestCase
                 (new DebuggerFactory())->getAllProviders();
             }
         } finally {
+            remove_filter('pre_http_request', $httpRequestFilter);
             restore_error_handler();
             Option::save_options($previousOptions);
         }
