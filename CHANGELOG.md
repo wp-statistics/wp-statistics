@@ -1,9 +1,8 @@
-14.16.13 - unreleased
-- **Fix:** Category Analytics report links now use term IDs instead of taxonomy IDs.
-- **Dev:** Added PHP 8.5 test coverage for deprecated `SplObjectStorage` method calls in tracker debugger checks (issue [#1133](https://github.com/wp-statistics/wp-statistics/issues/1133)).
-- **Fix:** Unrecognized date period names no longer trigger PHP warnings; the date filter is skipped instead (issue [#1130](https://github.com/wp-statistics/wp-statistics/issues/1130)).
-- **Fix:** Custom roles granted access to a single analytics page now get the full date range picker again (issue [#1126](https://github.com/wp-statistics/wp-statistics/issues/1126)).
-- **Fix:** WP Statistics capabilities granted directly to a user, rather than through a role, are now recognised.
+14.16.13 - 2026-09-05
+- **Fix:** Corrected report links in Category Analytics.
+- **Fix:** Date filters no longer trigger PHP warnings when the period name is unrecognized (issue [#1130](https://github.com/wp-statistics/wp-statistics/issues/1130)).
+- **Fix:** Analytics page access and the date range picker now work correctly for custom roles and per-user capabilities (issue [#1126](https://github.com/wp-statistics/wp-statistics/issues/1126)).
+- **Enhancement:** Internal improvements and PHP 8.5 compatibility.
 
 14.16.12 - 2026-08-31
 - **Enhancement:** General security hardening and internal improvements.
