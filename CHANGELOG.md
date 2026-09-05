@@ -1,5 +1,6 @@
 14.16.13 - 2026-09-05
 - **Fix:** Corrected report links in Category Analytics.
+- **Fix:** Top Pages "View" links now open the correct term archive for categories, tags, and taxonomies (issue [#1138](https://github.com/wp-statistics/wp-statistics/issues/1138)).
 - **Fix:** Date filters no longer trigger PHP warnings when the period name is unrecognized (issue [#1130](https://github.com/wp-statistics/wp-statistics/issues/1130)).
 - **Fix:** Analytics page access and the date range picker now work correctly for custom roles and per-user capabilities (issue [#1126](https://github.com/wp-statistics/wp-statistics/issues/1126)).
 - **Enhancement:** Internal improvements and PHP 8.5 compatibility.
