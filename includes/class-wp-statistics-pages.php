@@ -366,7 +366,7 @@ class Pages
                     if (!is_wp_error($term) and $term !== null) {
                         $arg = array(
                             'title'     => esc_html($term->name),
-                            'link'      => (is_wp_error(get_term_link($page_id)) === true ? '' : get_term_link($page_id)),
+                            'link'      => (is_wp_error(get_term_link($term)) === true ? '' : get_term_link($term)),
                             'edit_link' => get_edit_term_link($page_id),
                             'report'    => Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id]),
                             'meta'      => array(
