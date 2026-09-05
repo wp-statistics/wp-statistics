@@ -46,6 +46,13 @@ class Test_Pages extends WP_UnitTestCase
         $this->assertSame((string)$this->term->term_id, $query['term_id']);
     }
 
+    public function test_get_page_info_uses_term_archive_url_for_numeric_string_id()
+    {
+        $pageInfo = Pages::get_page_info((string)$this->term->term_id, 'category');
+
+        $this->assertSame(get_term_link($this->term), $pageInfo['link']);
+    }
+
     public function test_get_top_uses_term_id_in_category_analytics_url()
     {
         global $wpdb;
