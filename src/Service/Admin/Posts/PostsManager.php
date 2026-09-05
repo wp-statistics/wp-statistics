@@ -158,7 +158,7 @@ class PostsManager
         $wpdb->query(
             $wpdb->prepare(
                 "DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = %s);",
-                $ttId,
+                $term,
                 $taxSlug
             )
         );
