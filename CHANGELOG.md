@@ -1,5 +1,13 @@
-14.16.13 - Unreleased
-- **Fix:** Reduced repeated licence API requests after authoritative refusals on multisite networks.
+14.16.14 - unreleased
+- **Fix:** Corrected taxonomy archive view attribution and cleanup when term and taxonomy IDs differ (issue [#1139](https://github.com/wp-statistics/wp-statistics/issues/1139)).
+- **Fix:** Reduced repeated licence API requests after an authoritative refusal, so a refused site no longer asks every five minutes (issue [#1123](https://github.com/wp-statistics/wp-statistics/issues/1123)).
+
+14.16.13 - 2026-09-05
+- **Fix:** Corrected report links in Category Analytics.
+- **Fix:** Top Pages "View" links now open the correct term archive for categories, tags, and taxonomies (issue [#1138](https://github.com/wp-statistics/wp-statistics/issues/1138)).
+- **Fix:** Date filters no longer trigger PHP warnings when the period name is unrecognized (issue [#1130](https://github.com/wp-statistics/wp-statistics/issues/1130)).
+- **Fix:** Analytics page access and the date range picker now work correctly for custom roles and per-user capabilities (issue [#1126](https://github.com/wp-statistics/wp-statistics/issues/1126)).
+- **Enhancement:** Internal improvements and PHP 8.5 compatibility.
 
 14.16.12 - 2026-08-31
 - **Enhancement:** General security hardening and internal improvements.

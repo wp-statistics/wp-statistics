@@ -198,8 +198,17 @@ class User
         switch ($type) {
             case "manage":
             case "read":
-                return current_user_can(self::ExistCapability(Option::get($list[$cap][0], $list[$cap][1])));
-                break;
+                $capability = Option::get($list[$cap][0], $list[$cap][1]);
+
+                // Honour the configured capability as it is, so grants made on the user
+                // rather than the role are recognised too.
+                if (!empty($capability) && current_user_can($capability)) {
+                    return true;
+                }
+
+                // Fall back to the resolved capability, which degrades to manage_options
+                // when the configured one is not registered on any role.
+                return current_user_can(self::ExistCapability($capability));
             case "both":
                 foreach (array('manage', 'read') as $c) {
                     if (self::Access($c) === true) {
@@ -210,6 +219,36 @@ class User
         }
 
         return false;
+    }
+
+    /**
+     * Check User Access To The WP Statistics Admin Page Being Requested
+     *
+     * Page capabilities can be replaced one page at a time through the
+     * `wp_statistics_admin_menu_list` filter, so a role can be admitted to a single
+     * page without holding the global read or manage capability. Outside plugin pages
+     * this is the plain access check.
+     *
+     * @return bool
+     */
+    public static function hasPageAccess()
+    {
+        if (self::Access() === true) {
+            return true;
+        }
+
+        if (!Menus::in_plugin_page()) {
+            return false;
+        }
+
+        $page = Menus::getCurrentPage();
+
+        // Pages without their own capability are covered by the check above.
+        if (empty($page['cap'])) {
+            return false;
+        }
+
+        return current_user_can($page['cap']);
     }
 
     /**

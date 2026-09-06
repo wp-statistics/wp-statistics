@@ -189,6 +189,9 @@ class Query
     {
         if (empty($date)) return $this;
 
+        $from = '';
+        $to   = '';
+
         if (is_array($date)) {
             $from = isset($date['from']) ? $date['from'] : '';
             $to   = isset($date['to']) ? $date['to'] : '';
@@ -196,8 +199,8 @@ class Query
 
         if (is_string($date)) {
             $date = DateRange::get($date);
-            $from = $date['from'];
-            $to   = $date['to'];
+            $from = isset($date['from']) ? $date['from'] : '';
+            $to   = isset($date['to']) ? $date['to'] : '';
         }
 
         if (!empty($from) && !empty($to)) {
