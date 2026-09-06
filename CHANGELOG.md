@@ -1,5 +1,6 @@
 14.16.14 - unreleased
 - **Fix:** Corrected taxonomy archive view attribution and cleanup when term and taxonomy IDs differ (issue [#1139](https://github.com/wp-statistics/wp-statistics/issues/1139)).
+- **Fix:** Reduced repeated licence API requests after an authoritative refusal, so a refused site no longer asks every five minutes (issue [#1123](https://github.com/wp-statistics/wp-statistics/issues/1123)).
 
 14.16.13 - 2026-09-05
 - **Fix:** Corrected report links in Category Analytics.

@@ -1,0 +1,288 @@
+<?php
+
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+
+/**
+ * Covers how a refused licence is remembered, which is what issue #1123 is about:
+ * a refused install used to ask the licence API every five minutes, per add-on, per
+ * subsite, forever.
+ */
+class Test_ApiCommunicator extends WP_UnitTestCase
+{
+    private $licenseKey = '12345678901234567890123456789012';
+    private $pluginSlug = 'wp-statistics-advanced-reporting';
+
+    public function tearDown(): void
+    {
+        delete_transient($this->getProductInfoCacheKey());
+        $this->deleteEntry($this->getRefusalKey());
+        $this->deleteEntry($this->getRefusalKey() . '_attempts');
+        $this->deleteEntry($this->getRefusalKey() . '_backoff');
+        $this->deleteEntry($this->getRefusalIndexKey());
+        remove_all_filters('pre_http_request');
+        remove_all_filters('home_url');
+
+        parent::tearDown();
+    }
+
+    public function test_an_authoritative_refusal_is_remembered_for_twelve_hours()
+    {
+        $requests     = $this->answerWith(400);
+        $communicator = new ApiCommunicator();
+
+        $this->assertDownloadFails($communicator);
+        $this->assertSame(1, $requests->count);
+        $this->assertRefusalLasts(12 * HOUR_IN_SECONDS);
+
+        // The remembered refusal answers on its own; no second request goes out.
+        $this->assertNull($communicator->getDownloadUrl($this->licenseKey, $this->pluginSlug));
+        $this->assertSame(1, $requests->count);
+    }
+
+    /**
+     * @dataProvider undecidedResponses
+     */
+    public function test_a_failure_that_decides_nothing_keeps_the_short_wait($response)
+    {
+        add_filter('pre_http_request', function () use ($response) {
+            return is_int($response)
+                ? ['response' => ['code' => $response], 'body' => wp_json_encode(['status' => 'error'])]
+                : new WP_Error('http_request_failed', 'Connection timed out');
+        });
+
+        $this->assertDownloadFails(new ApiCommunicator());
+        $this->assertRefusalLasts(5 * MINUTE_IN_SECONDS);
+    }
+
+    public function undecidedResponses()
+    {
+        return [
+            'transport failure' => ['wp_error'],
+            'forbidden by an edge rule' => [403],
+            'route not found' => [404],
+            'request timeout' => [408],
+            'rate limited' => [429],
+            'server error' => [500],
+        ];
+    }
+
+    public function test_repeated_refusals_lengthen_the_wait()
+    {
+        $requests = $this->answerWith(400);
+        $communicator = new ApiCommunicator();
+
+        foreach ([12 * HOUR_IN_SECONDS, DAY_IN_SECONDS, 2 * DAY_IN_SECONDS, 2 * DAY_IN_SECONDS] as $expected) {
+            $this->assertDownloadFails($communicator);
+            $this->assertRefusalLasts($expected);
+
+            // Let the refusal expire while the backoff state survives, as it does in life.
+            $this->deleteEntry($this->getRefusalKey());
+        }
+
+        $this->assertSame(4, $requests->count);
+    }
+
+    public function test_repeated_outages_lengthen_the_wait()
+    {
+        add_filter('pre_http_request', function () {
+            return new WP_Error('http_request_failed', 'Connection timed out');
+        });
+
+        $communicator = new ApiCommunicator();
+
+        foreach ([5 * MINUTE_IN_SECONDS, 10 * MINUTE_IN_SECONDS, 20 * MINUTE_IN_SECONDS] as $expected) {
+            $this->assertDownloadFails($communicator);
+            $this->assertRefusalLasts($expected);
+
+            $this->deleteEntry($this->getRefusalKey());
+        }
+    }
+
+    public function test_an_answer_forgets_the_outage_history()
+    {
+        add_filter('pre_http_request', function () {
+            return new WP_Error('http_request_failed', 'Connection timed out');
+        });
+
+        $communicator = new ApiCommunicator();
+
+        // Three outages in a row would put the next wait at twenty minutes.
+        for ($i = 0; $i < 3; $i++) {
+            $this->assertDownloadFails($communicator);
+            $this->deleteEntry($this->getRefusalKey());
+        }
+
+        // An answer, even a refusal, proves the server is reachable.
+        remove_all_filters('pre_http_request');
+        $this->answerWith(400);
+        $this->assertDownloadFails($communicator);
+        $this->deleteEntry($this->getRefusalKey());
+
+        remove_all_filters('pre_http_request');
+        add_filter('pre_http_request', function () {
+            return new WP_Error('http_request_failed', 'Connection timed out');
+        });
+
+        $this->assertDownloadFails($communicator);
+        $this->assertRefusalLasts(5 * MINUTE_IN_SECONDS);
+    }
+
+    public function test_a_success_clears_the_refusal_and_its_backoff()
+    {
+        $this->answerWith(400);
+        $communicator = new ApiCommunicator();
+        $this->assertDownloadFails($communicator);
+
+        $this->deleteEntry($this->getRefusalKey());
+        remove_all_filters('pre_http_request');
+        add_filter('pre_http_request', function () {
+            return [
+                'response' => ['code' => 200],
+                'body'     => wp_json_encode(['download_url' => 'https://example.com/add-on.zip']),
+            ];
+        });
+
+        $this->assertIsObject($communicator->getDownloadUrl($this->licenseKey, $this->pluginSlug));
+        $this->assertFalse($this->readEntry($this->getRefusalKey()));
+        $this->assertFalse($this->readEntry($this->getRefusalKey() . '_backoff'));
+        $this->assertFalse($this->readEntry($this->getRefusalKey() . '_attempts'));
+    }
+
+    public function test_validating_a_licence_clears_refusals_recorded_elsewhere()
+    {
+        $this->answerWith(400);
+        $this->assertDownloadFails(new ApiCommunicator());
+
+        // A refusal recorded by another subsite of the same network, reachable through
+        // the index. A customer renewing on one subsite must free all of them.
+        $otherBlogKey = 'wp_statistics_license_refusal_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_99');
+        $this->writeEntry($otherBlogKey, ['code' => 400], 12 * HOUR_IN_SECONDS);
+        $index   = (array) $this->readEntry($this->getRefusalIndexKey());
+        $index[] = $otherBlogKey;
+        $this->writeEntry($this->getRefusalIndexKey(), $index, DAY_IN_SECONDS);
+
+        (new ApiCommunicator())->clearProductInfoCache($this->licenseKey);
+
+        $this->assertFalse($this->readEntry($this->getRefusalKey()));
+        $this->assertFalse($this->readEntry($otherBlogKey));
+
+        $this->deleteEntry($otherBlogKey);
+    }
+
+    /**
+     * A second language must not produce a second request. PR #451 removed home_url()
+     * from the licence cache key because a multilingual site multiplied one install into
+     * one request per language; the refusal must not put it back.
+     */
+    public function test_a_second_language_does_not_ask_again()
+    {
+        $requests     = $this->answerWith(400);
+        $communicator = new ApiCommunicator();
+
+        $this->assertDownloadFails($communicator);
+        $this->assertSame(1, $requests->count);
+
+        add_filter('home_url', function () {
+            return 'https://example.org/fr';
+        });
+
+        $this->assertNull($communicator->getDownloadUrl($this->licenseKey, $this->pluginSlug));
+        $this->assertSame(1, $requests->count);
+    }
+
+    /**
+     * The previous release wrote its marker into the success cache, which RemoteRequest
+     * reads and returns. An upgraded site must not be served that marker as product info.
+     */
+    public function test_the_previous_releases_marker_is_discarded()
+    {
+        set_transient($this->getProductInfoCacheKey(), (object)['_negative_cache' => true], 5 * MINUTE_IN_SECONDS);
+
+        $requests = $this->answerWith(200, ['download_url' => 'https://example.com/add-on.zip']);
+
+        $productInfo = (new ApiCommunicator())->getDownloadUrl($this->licenseKey, $this->pluginSlug);
+
+        $this->assertSame(1, $requests->count);
+        $this->assertSame('https://example.com/add-on.zip', $productInfo->download_url);
+    }
+
+    private function answerWith($code, $body = ['status' => 'suspended'])
+    {
+        $requests = (object)['count' => 0];
+
+        add_filter('pre_http_request', function () use (&$requests, $code, $body) {
+            $requests->count++;
+
+            return [
+                'response' => ['code' => $code],
+                'body'     => wp_json_encode($body),
+            ];
+        });
+
+        return $requests;
+    }
+
+    private function assertDownloadFails($communicator)
+    {
+        try {
+            $communicator->getDownloadUrl($this->licenseKey, $this->pluginSlug);
+            $this->fail('Expected the failed request to throw an exception.');
+        } catch (Exception $e) {
+            $this->assertNotEmpty($e->getMessage());
+        }
+    }
+
+    private function assertRefusalLasts($expectedDuration)
+    {
+        $this->assertIsArray($this->readEntry($this->getRefusalKey()));
+
+        // There is no public API for a transient's remaining life, so the timeout option
+        // is read directly. A persistent object cache keeps transients out of the options
+        // table entirely, so the length cannot be asserted there.
+        if (wp_using_ext_object_cache()) {
+            return;
+        }
+
+        $timeout = $this->getRefusalTimeout();
+
+        $this->assertGreaterThanOrEqual(time() + $expectedDuration - MINUTE_IN_SECONDS, $timeout);
+        $this->assertLessThanOrEqual(time() + $expectedDuration + MINUTE_IN_SECONDS, $timeout);
+    }
+
+    private function getRefusalTimeout()
+    {
+        $optionName = (is_multisite() ? '_site_transient_timeout_' : '_transient_timeout_') . $this->getRefusalKey();
+
+        return (int) (is_multisite() ? get_site_option($optionName) : get_option($optionName));
+    }
+
+    private function getProductInfoCacheKey()
+    {
+        return 'wp_statistics_product_info_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_' . get_current_blog_id());
+    }
+
+    private function getRefusalKey()
+    {
+        return 'wp_statistics_license_refusal_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_' . get_current_blog_id());
+    }
+
+    private function getRefusalIndexKey()
+    {
+        return 'wp_statistics_license_refusal_index_' . md5($this->licenseKey);
+    }
+
+    private function readEntry($key)
+    {
+        return is_multisite() ? get_site_transient($key) : get_transient($key);
+    }
+
+    private function writeEntry($key, $value, $duration)
+    {
+        is_multisite() ? set_site_transient($key, $value, $duration) : set_transient($key, $value, $duration);
+    }
+
+    private function deleteEntry($key)
+    {
+        is_multisite() ? delete_site_transient($key) : delete_transient($key);
+    }
+}
