@@ -14,24 +14,47 @@ class ApiCommunicator
     use TransientCacheTrait;
 
     /**
-     * Cache duration for transient request failures.
+     * How long a failure that decided nothing is remembered (5 minutes).
+     *
+     * A timeout, a DNS failure or a 5xx says nothing about the licence — the answer may
+     * be different in a moment — so this stays short. It is the starting point of the
+     * backoff in {@see self::undecidedRetryDelay()}, not a fixed interval.
      */
     const NEGATIVE_CACHE_DURATION = 5 * MINUTE_IN_SECONDS;
 
     /**
-     * Cache duration for authoritative license refusals.
+     * How long the first refusal from the licence server is remembered (12 hours).
+     *
+     * An expired or suspended licence, or a domain that is not on it, is a decision the
+     * server has already made. Asking again in five minutes cannot change it, and 288
+     * asks a day per add-on per subsite is what issue #1123 measured. Twelve hours is a
+     * working day either side, and {@see self::clearProductInfoCache()} clears this the
+     * moment a licence is validated, so a customer who renews waits no time at all.
      */
     const AUTHORITATIVE_NEGATIVE_CACHE_DURATION = 12 * HOUR_IN_SECONDS;
 
     /**
-     * Maximum cache duration after repeated authoritative refusals.
+     * The longest a repeated refusal is remembered (48 hours).
      */
     const AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION = 2 * DAY_IN_SECONDS;
 
     /**
-     * How long to remember the previous refusal interval for backoff.
+     * The longest an undecided failure is remembered once its backoff has stretched.
      */
-    const AUTHORITATIVE_NEGATIVE_CACHE_BACKOFF_STATE_DURATION = WEEK_IN_SECONDS;
+    const MAX_UNDECIDED_CACHE_DURATION = 6 * HOUR_IN_SECONDS;
+
+    /**
+     * The 4xx codes that are not an answer about the licence.
+     *
+     * 429 is the server asking us to slow down. A 404 is a route that has moved — rename
+     * the endpoint during a deploy and every install would otherwise cache "refused" for
+     * twelve hours and stay dead long after the rollback. A 403 is what an edge rule or a
+     * WAF returns, with no licence involved at all. 408 is a timeout wearing a 4xx.
+     *
+     * Each of these still heals quickly, and each is now covered by the backoff below, so
+     * a fleet that keeps hitting one is no longer a fixed-rate flood.
+     */
+    const UNDECIDED_CLIENT_CODES = [403, 404, 408, 429];
 
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
@@ -86,33 +109,76 @@ class ApiCommunicator
     }
 
     /**
-     * Generate a network-wide negative cache key for product info.
+     * Generate the cache key for a refusal.
+     *
+     * Keyed on the blog, exactly like the success cache above — deliberately NOT on
+     * `home_url()` and deliberately not shared network-wide.
+     *
+     * Not the address: on a multilingual subdirectory site `home_url()` returns `/en`,
+     * `/fr`, `/de`, so one install would multiply into one entry and one request per
+     * language, in a change whose entire purpose is to reduce request volume.
+     *
+     * Not network-wide either: the server judges the `domain` we send, so one subsite of
+     * a network can be entitled while another is refused. A single shared refusal would
+     * let a refused subsite deny updates to an entitled one for up to 48 hours. Keyed on
+     * the blog, a refusal and the success it replaces live under the same unit, so the
+     * two can never disagree about whether this install is entitled.
      *
      * @param string $pluginSlug The plugin slug.
      * @param string $licenseKey The license key.
      *
      * @return string The cache key.
      */
-    private function getProductInfoNegativeCacheKey($pluginSlug, $licenseKey)
+    private function getRefusalCacheKey($pluginSlug, $licenseKey)
     {
-        return 'wp_statistics_product_info_negative_' . md5($pluginSlug . '_' . $licenseKey);
+        return 'wp_statistics_license_refusal_' . md5($pluginSlug . '_' . $licenseKey . '_' . get_current_blog_id());
     }
 
     /**
-     * Generate the network-wide cache key used to track refusal backoff.
+     * The entry that counts consecutive failures which decided nothing.
+     *
+     * Kept apart from the refusal, and outliving it. Holding the counter inside the
+     * refusal cannot work: the refusal expiring is the only thing that lets another
+     * attempt happen, so by the time it is read back it is always gone and the count is
+     * always one — which would leave the backoff at a fixed five minutes forever.
      *
      * @param string $pluginSlug The plugin slug.
      * @param string $licenseKey The license key.
      *
      * @return string The cache key.
      */
-    private function getProductInfoNegativeCacheBackoffKey($pluginSlug, $licenseKey)
+    private function getRefusalAttemptsKey($pluginSlug, $licenseKey)
     {
-        return $this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey) . '_backoff';
+        return $this->getRefusalCacheKey($pluginSlug, $licenseKey) . '_attempts';
     }
 
     /**
-     * Clear the network-wide refusal marker and its backoff state.
+     * The entry that remembers how long the last refusal was held for.
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     *
+     * @return string The cache key.
+     */
+    private function getRefusalBackoffKey($pluginSlug, $licenseKey)
+    {
+        return $this->getRefusalCacheKey($pluginSlug, $licenseKey) . '_backoff';
+    }
+
+    /**
+     * The entry that lists every refusal key written for a licence.
+     *
+     * @param string $licenseKey The license key.
+     *
+     * @return string The cache key.
+     */
+    private function getRefusalIndexKey($licenseKey)
+    {
+        return 'wp_statistics_license_refusal_index_' . md5($licenseKey);
+    }
+
+    /**
+     * Clear the refusal for this add-on and blog, with its backoff state.
      *
      * @param string $pluginSlug The plugin slug.
      * @param string $licenseKey The license key.
@@ -121,8 +187,26 @@ class ApiCommunicator
      */
     private function clearProductInfoNegativeCache($pluginSlug, $licenseKey)
     {
-        delete_site_transient($this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey));
-        delete_site_transient($this->getProductInfoNegativeCacheBackoffKey($pluginSlug, $licenseKey));
+        $this->deleteEntry($this->getRefusalCacheKey($pluginSlug, $licenseKey));
+        $this->deleteEntry($this->getRefusalAttemptsKey($pluginSlug, $licenseKey));
+        $this->deleteEntry($this->getRefusalBackoffKey($pluginSlug, $licenseKey));
+    }
+
+    /**
+     * Read a remembered refusal.
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     *
+     * @return array|false The stored refusal, or false when there is none.
+     */
+    private function getRefusal($pluginSlug, $licenseKey)
+    {
+        $refusal = $this->readEntry($this->getRefusalCacheKey($pluginSlug, $licenseKey));
+
+        // Anything that is not our own shape is treated as absent rather than trusted:
+        // the previous release stored an object, and an upgrade must not trip on it.
+        return is_array($refusal) && isset($refusal['code']) ? $refusal : false;
     }
 
     /**
@@ -147,6 +231,11 @@ class ApiCommunicator
                 $this->clearProductInfoNegativeCache($addon, $licenseKey);
             }
         }
+
+        // And every other blog this licence was refused on. A network renews on one
+        // subsite; the rest must not stay refused for the remaining twelve hours —
+        // which would be worse than the five minutes they used to wait.
+        $this->clearAllRefusals($licenseKey);
     }
 
     /**
@@ -160,53 +249,88 @@ class ApiCommunicator
      */
     public function getDownloadUrl($licenseKey, $pluginSlug)
     {
-        $cacheKey         = $this->getProductInfoCacheKey($pluginSlug, $licenseKey);
-        $negativeCacheKey = $this->getProductInfoNegativeCacheKey($pluginSlug, $licenseKey);
+        $cacheKey = $this->getProductInfoCacheKey($pluginSlug, $licenseKey);
 
-        // Keep existing successful product data site-specific and usable for its normal lifetime.
-        $cached = get_transient($cacheKey);
-        if ($cached !== false) {
-            return is_object($cached) && isset($cached->_negative_cache) ? null : $cached;
-        }
-
-        // The negative cache is shared across subsites because the refusal applies to the license.
-        $cached = get_site_transient($negativeCacheKey);
-        if ($cached !== false && is_object($cached) && isset($cached->_negative_cache)) {
+        // A remembered refusal answers for the whole of its life. This blog asked, the
+        // server said no, and asking again before it expires only adds traffic.
+        if ($this->getRefusal($pluginSlug, $licenseKey) !== false) {
             return null;
         }
 
-        try {
-            $remoteRequest = new RemoteRequest(ApiEndpoints::PRODUCT_DOWNLOAD, 'GET', [
-                'license_key' => $licenseKey,
-                'domain'      => home_url(),
-                'plugin_slug' => $pluginSlug,
-            ]);
+        // The release before this one wrote its marker into the *success* key, which
+        // RemoteRequest reads and hands straight back. Without this, an upgraded site is
+        // served {_negative_cache: true} as though it were product info — no
+        // download_url, no version. Cleared and then ignored, rather than answered with
+        // null: the marker means the old code failed once, up to five minutes ago.
+        $this->discardLegacyNegativeEntry($cacheKey);
 
+        $remoteRequest = new RemoteRequest(ApiEndpoints::PRODUCT_DOWNLOAD, 'GET', [
+            'license_key' => $licenseKey,
+            'domain'      => home_url(),
+            'plugin_slug' => $pluginSlug,
+        ]);
+
+        try {
             // Use custom cache key for proper multisite/multilingual support.
             $productInfo = $remoteRequest->execute(true, true, DAY_IN_SECONDS, $cacheKey);
 
-            // A successful response proves the previous refusal state is stale.
+            // A licence that answers again clears whatever we were remembering about it,
+            // so a customer who renews is never held back by a stale refusal.
             $this->clearProductInfoNegativeCache($pluginSlug, $licenseKey);
 
             return $productInfo;
 
         } catch (Exception $e) {
-            $responseCode = $remoteRequest->getResponseCode();
-            $duration     = $this->isAuthoritativeRefusal($responseCode)
-                ? $this->getAuthoritativeNegativeCacheDuration($pluginSlug, $licenseKey)
-                : self::NEGATIVE_CACHE_DURATION;
+            $this->rememberRefusal($pluginSlug, $licenseKey, $remoteRequest->getResponseCode());
 
-            set_site_transient($negativeCacheKey, (object)['_negative_cache' => true], $duration);
             throw $e;
         }
     }
 
     /**
-     * Determine whether the API returned a stable client-side refusal.
+     * Remember that this add-on, licence and blog was turned away.
      *
-     * Request timeouts and rate limits can recover quickly, so they retain the short cache duration.
+     * The response code is the whole decision. RemoteRequest throws the same plain
+     * Exception whether WordPress could not reach the host at all or the server answered
+     * "this licence expired", and treating those alike is what made a refused install ask
+     * every five minutes forever.
      *
-     * @param int|null $responseCode HTTP response code.
+     * - **A 4xx** is the server's considered answer about the licence, held for twelve
+     *   hours and longer if it repeats — except {@see self::UNDECIDED_CLIENT_CODES}.
+     * - **No code at all** means `wp_remote_request` returned a `WP_Error`: a timeout, a
+     *   DNS failure, a refused connection. Nothing has been decided.
+     * - **A 5xx** means the server is unwell. Also nothing decided.
+     *
+     * @param string   $pluginSlug   The plugin slug.
+     * @param string   $licenseKey   The license key.
+     * @param int|null $responseCode HTTP response code, if one arrived.
+     *
+     * @return void
+     */
+    private function rememberRefusal($pluginSlug, $licenseKey, $responseCode)
+    {
+        $code = is_numeric($responseCode) ? (int) $responseCode : 0;
+
+        if ($this->isAuthoritativeRefusal($code)) {
+            // An answer, even an unwelcome one, proves the server is reachable — so the
+            // outage history goes with it. Without this a site that timed out three times
+            // and then got a clean 400 would wait 40 minutes for its next blip.
+            $this->deleteEntry($this->getRefusalAttemptsKey($pluginSlug, $licenseKey));
+            $this->storeRefusal($pluginSlug, $licenseKey, $this->authoritativeRefusalDuration($pluginSlug, $licenseKey), $code);
+
+            return;
+        }
+
+        // Transport failure, 5xx, 429 and the rest: try again, but not as often each time.
+        $attempts = $this->recordAttempt($pluginSlug, $licenseKey);
+
+        $this->storeRefusal($pluginSlug, $licenseKey, $this->undecidedRetryDelay($attempts), $code);
+    }
+
+    /**
+     * Determine whether the API returned a stable answer about the licence.
+     *
+     * @param int $responseCode HTTP response code.
      *
      * @return bool
      */
@@ -214,21 +338,24 @@ class ApiCommunicator
     {
         return $responseCode >= 400
             && $responseCode < 500
-            && !in_array($responseCode, [408, 429], true);
+            && !in_array($responseCode, self::UNDECIDED_CLIENT_CODES, true);
     }
 
     /**
-     * Get and persist the next bounded backoff duration for a refusal.
+     * How long to hold this refusal, lengthening while it keeps repeating.
+     *
+     * Twelve hours, then a day, then two, which is the cap. Kept in an entry of its own
+     * so it outlives the refusal whose expiry is the only thing that allows another ask.
      *
      * @param string $pluginSlug The plugin slug.
      * @param string $licenseKey The license key.
      *
-     * @return int Cache duration in seconds.
+     * @return int Seconds.
      */
-    private function getAuthoritativeNegativeCacheDuration($pluginSlug, $licenseKey)
+    private function authoritativeRefusalDuration($pluginSlug, $licenseKey)
     {
-        $backoffKey       = $this->getProductInfoNegativeCacheBackoffKey($pluginSlug, $licenseKey);
-        $previousDuration = (int) get_site_transient($backoffKey);
+        $backoffKey       = $this->getRefusalBackoffKey($pluginSlug, $licenseKey);
+        $previousDuration = (int) $this->readEntry($backoffKey);
 
         if ($previousDuration < self::AUTHORITATIVE_NEGATIVE_CACHE_DURATION
             || $previousDuration > self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION
@@ -238,9 +365,190 @@ class ApiCommunicator
             $duration = min($previousDuration * 2, self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION);
         }
 
-        set_site_transient($backoffKey, $duration, self::AUTHORITATIVE_NEGATIVE_CACHE_BACKOFF_STATE_DURATION);
+        $this->writeEntry($backoffKey, $duration, self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
 
         return $duration;
+    }
+
+    /**
+     * Count this failure, and return how many there have now been in a row.
+     *
+     * Given the longest wait plus an hour, so a site that recovers stops carrying its
+     * history around and one that does not keeps climbing.
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     *
+     * @return int
+     */
+    private function recordAttempt($pluginSlug, $licenseKey)
+    {
+        $key      = $this->getRefusalAttemptsKey($pluginSlug, $licenseKey);
+        $attempts = (int) $this->readEntry($key) + 1;
+
+        $this->writeEntry($key, $attempts, self::MAX_UNDECIDED_CACHE_DURATION + HOUR_IN_SECONDS);
+
+        return $attempts;
+    }
+
+    /**
+     * How long to wait after a failure that decided nothing.
+     *
+     * Doubles per consecutive attempt from five minutes, capped at six hours. A site that
+     * cannot reach us keeps trying, but a whole fleet that cannot reach us does not turn
+     * into a fixed-rate flood the moment the server comes back.
+     *
+     * @param int $attempts
+     *
+     * @return int Seconds.
+     */
+    private function undecidedRetryDelay($attempts)
+    {
+        // 2 ** 10 is already far past the cap; clamping keeps the shift cheap and safe.
+        $exponent = max(0, min((int) $attempts - 1, 10));
+        $delay    = self::NEGATIVE_CACHE_DURATION * (2 ** $exponent);
+
+        return (int) min($delay, self::MAX_UNDECIDED_CACHE_DURATION);
+    }
+
+    /**
+     * Write the refusal, and note its key against the licence.
+     *
+     * @param string $pluginSlug The plugin slug.
+     * @param string $licenseKey The license key.
+     * @param int    $duration   Seconds to hold it for.
+     * @param int    $code       The response code that produced it.
+     *
+     * @return void
+     */
+    private function storeRefusal($pluginSlug, $licenseKey, $duration, $code)
+    {
+        $refusalKey = $this->getRefusalCacheKey($pluginSlug, $licenseKey);
+
+        $this->writeEntry($refusalKey, ['code' => (int) $code], $duration);
+        $this->rememberRefusalKey($licenseKey, $refusalKey);
+    }
+
+    /**
+     * Note that a refusal exists under this key.
+     *
+     * One licence collects one refusal per subsite. Clearing only the subsite the
+     * customer happened to renew on would leave the other thirty-nine refused for twelve
+     * hours — worse than the five minutes they used to wait. This index is how
+     * {@see self::clearProductInfoCache()} finds them all.
+     *
+     * @param string $licenseKey The license key.
+     * @param string $refusalKey The refusal cache key.
+     *
+     * @return void
+     */
+    private function rememberRefusalKey($licenseKey, $refusalKey)
+    {
+        $indexKey = $this->getRefusalIndexKey($licenseKey);
+        $stored   = $this->readEntry($indexKey);
+        $index    = is_array($stored) ? $stored : [];
+
+        if (!in_array($refusalKey, $index, true)) {
+            $index[] = $refusalKey;
+        }
+
+        // Rewritten on every refusal, not only when the list changes. Letting the TTL
+        // count down while the refusals it points at are renewed is the same mistake as
+        // holding the attempt counter inside the refusal: the index would expire first, a
+        // later refusal would recreate it holding only itself, and a renewal would then
+        // free one subsite while the rest stayed refused.
+        $this->writeEntry($indexKey, $index, self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
+    }
+
+    /**
+     * Clear every refusal recorded for a licence, whichever blog recorded it.
+     *
+     * @param string $licenseKey The license key.
+     *
+     * @return void
+     */
+    private function clearAllRefusals($licenseKey)
+    {
+        $indexKey = $this->getRefusalIndexKey($licenseKey);
+        $stored   = $this->readEntry($indexKey);
+
+        foreach (is_array($stored) ? $stored : [] as $refusalKey) {
+            if (!is_string($refusalKey)) {
+                continue;
+            }
+
+            $this->deleteEntry($refusalKey);
+            $this->deleteEntry($refusalKey . '_attempts');
+            $this->deleteEntry($refusalKey . '_backoff');
+        }
+
+        $this->deleteEntry($indexKey);
+    }
+
+    /**
+     * Clear the previous release's marker out of the success cache.
+     *
+     * @param string $cacheKey The product info cache key.
+     *
+     * @return void
+     */
+    private function discardLegacyNegativeEntry($cacheKey)
+    {
+        $cached = get_transient($cacheKey);
+
+        if (is_object($cached) && isset($cached->_negative_cache)) {
+            delete_transient($cacheKey);
+        }
+    }
+
+    /**
+     * Read one entry, network-wide on multisite.
+     *
+     * Site transients on multisite, so the row lives in one place rather than in every
+     * subsite's own options table and a renewal on any subsite can reach the rest. The
+     * key carries the blog ID, so each subsite still keeps its own verdict.
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    private function readEntry($key)
+    {
+        return is_multisite() ? get_site_transient($key) : get_transient($key);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     * @param int    $duration
+     *
+     * @return void
+     */
+    private function writeEntry($key, $value, $duration)
+    {
+        if (is_multisite()) {
+            set_site_transient($key, $value, $duration);
+
+            return;
+        }
+
+        set_transient($key, $value, $duration);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return void
+     */
+    private function deleteEntry($key)
+    {
+        if (is_multisite()) {
+            delete_site_transient($key);
+
+            return;
+        }
+
+        delete_transient($key);
     }
 
     /**
