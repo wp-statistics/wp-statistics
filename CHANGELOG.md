@@ -1,4 +1,5 @@
 14.16.14 - unreleased
+- **Enhancement:** Visits from DuckDuckGo's noai, html, lite and start endpoints are now counted as DuckDuckGo search traffic instead of a generic referrer (issue [#1142](https://github.com/wp-statistics/wp-statistics/issues/1142)).
 - **Fix:** Corrected taxonomy archive view attribution and cleanup when term and taxonomy IDs differ (issue [#1139](https://github.com/wp-statistics/wp-statistics/issues/1139)).
 - **Fix:** Reduced repeated licence API requests after an authoritative refusal, so a refused site no longer asks every five minutes (issue [#1123](https://github.com/wp-statistics/wp-statistics/issues/1123)).
 

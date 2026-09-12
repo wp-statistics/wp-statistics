@@ -470,7 +470,11 @@
         "identifier": "duckduckgo",
         "domains": [
           "duckduckgo",
-          "duckduckgo.com"
+          "duckduckgo.com",
+          "noai.duckduckgo.com",
+          "html.duckduckgo.com",
+          "lite.duckduckgo.com",
+          "start.duckduckgo.com"
         ]
       },
       {
@@ -6574,7 +6578,11 @@
         "identifier": "duckduckgo",
         "domains": [
           "duckduckgo",
-          "duckduckgo.com"
+          "duckduckgo.com",
+          "noai.duckduckgo.com",
+          "html.duckduckgo.com",
+          "lite.duckduckgo.com",
+          "start.duckduckgo.com"
         ]
       },
       {
