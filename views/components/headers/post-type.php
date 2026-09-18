@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
-$postId           = Request::get('post_id');
+$postId           = Request::get('post_id', 0, 'number');
 $postAuthor       = get_post_field('post_author', $postId);
 $postType         = get_post_type($postId);
 $postTypeSingular = Helper::getPostTypeName($postType, true);
@@ -75,7 +75,7 @@ $dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $p
 
                         printf(
                             '<a href="%1$s" class="%2$s">%3$s</a>',
-                            Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id]),
+                            esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])),
                             esc_attr($termClass),
                             esc_html($term->name)
                         );

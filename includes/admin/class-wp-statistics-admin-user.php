@@ -53,7 +53,7 @@ class Admin_User
             case 'visits' :
                 $visitorsModel  = new VisitorsModel();
                 $count          = $visitorsModel->getVisitorHits(['user_id' => $user_id, 'ignore_date' => true]);
-                return '<a href="' . Menus::admin_url('visitors', array_merge(['user_id' => $user_id], DateRange::get('total'))) . '" class="wps-text-muted" target="_blank">' . number_format_i18n($count) . '</a>';
+                return '<a href="' . esc_url(Menus::admin_url('visitors', array_merge(['user_id' => $user_id], DateRange::get('total')))) . '" class="wps-text-muted" target="_blank">' . number_format_i18n($count) . '</a>';
             default:
         }
         return $val;

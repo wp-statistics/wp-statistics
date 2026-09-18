@@ -30,9 +30,11 @@ $email       = $hasUserData ? $userData->user_email : '';
         </div>
         <div class="wps-author-analytics--header__info">
             <span class="wps-author-analytics--header__joined"><?php echo esc_html__('Joined on', 'wp-statistics') ?> <?php echo esc_html($formattedDate); ?></span>
-            <a href="<?php echo esc_url(get_edit_user_link($authorId)); ?>"><?php echo esc_html__('Visit Profile', 'wp-statistics') ?></a>
-            <a href="<?php echo esc_url(Menus::admin_url('pages', ['tab' => 'top', 'author_id' => $authorId, 'pt' => 'post'])); ?>"><?php echo esc_html__('View Author Posts', 'wp-statistics') ?></a>
-            <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html__('Email to Author', 'wp-statistics') ?></a>
+            <?php if ($hasUserData): ?>
+                <a href="<?php echo esc_url(get_edit_user_link($authorId)); ?>"><?php echo esc_html__('Visit Profile', 'wp-statistics') ?></a>
+                <a href="<?php echo esc_url(Menus::admin_url('pages', ['tab' => 'top', 'author_id' => $authorId, 'pt' => 'post'])); ?>"><?php echo esc_html__('View Author Posts', 'wp-statistics') ?></a>
+                <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html__('Email to Author', 'wp-statistics') ?></a>
+            <?php endif; ?>
         </div>
     </div>
 </div>
