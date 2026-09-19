@@ -166,15 +166,23 @@ class ApiCommunicator
     }
 
     /**
-     * The entry that lists every refusal key written for a licence.
+     * The entry that records when a licence was last validated.
+     *
+     * One licence collects one refusal per subsite. Clearing only the subsite the
+     * customer happened to renew on would leave the other thirty-nine refused for twelve
+     * hours — worse than the five minutes they used to wait. Rather than keep a list of
+     * every refusal key (a read-modify-write that concurrent refusals could race, losing
+     * a key and leaving that subsite refused after renewal), this holds one timestamp.
+     * Every refusal, attempt count and backoff carries the moment it was written, and
+     * anything written before this moment is treated as absent.
      *
      * @param string $licenseKey The license key.
      *
      * @return string The cache key.
      */
-    private function getRefusalIndexKey($licenseKey)
+    private function getRefusalClearedKey($licenseKey)
     {
-        return 'wp_statistics_license_refusal_index_' . md5($licenseKey);
+        return 'wp_statistics_license_refusal_cleared_' . md5($licenseKey);
     }
 
     /**
@@ -202,11 +210,9 @@ class ApiCommunicator
      */
     private function getRefusal($pluginSlug, $licenseKey)
     {
-        $refusal = $this->readEntry($this->getRefusalCacheKey($pluginSlug, $licenseKey));
+        $refusal = $this->readLiveEntry($this->getRefusalCacheKey($pluginSlug, $licenseKey), $licenseKey);
 
-        // Anything that is not our own shape is treated as absent rather than trusted:
-        // the previous release stored an object, and an upgrade must not trip on it.
-        return is_array($refusal) && isset($refusal['code']) ? $refusal : false;
+        return $refusal !== false && isset($refusal['code']) ? $refusal : false;
     }
 
     /**
@@ -235,7 +241,7 @@ class ApiCommunicator
         // And every other blog this licence was refused on. A network renews on one
         // subsite; the rest must not stay refused for the remaining twelve hours —
         // which would be worse than the five minutes they used to wait.
-        $this->clearAllRefusals($licenseKey);
+        $this->markRefusalsCleared($licenseKey);
     }
 
     /**
@@ -355,7 +361,8 @@ class ApiCommunicator
     private function authoritativeRefusalDuration($pluginSlug, $licenseKey)
     {
         $backoffKey       = $this->getRefusalBackoffKey($pluginSlug, $licenseKey);
-        $previousDuration = (int) $this->readEntry($backoffKey);
+        $previous         = $this->readLiveEntry($backoffKey, $licenseKey);
+        $previousDuration = $previous !== false && isset($previous['duration']) ? (int) $previous['duration'] : 0;
 
         if ($previousDuration < self::AUTHORITATIVE_NEGATIVE_CACHE_DURATION
             || $previousDuration > self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION
@@ -365,7 +372,7 @@ class ApiCommunicator
             $duration = min($previousDuration * 2, self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION);
         }
 
-        $this->writeEntry($backoffKey, $duration, self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
+        $this->writeStampedEntry($backoffKey, ['duration' => $duration], self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
 
         return $duration;
     }
@@ -384,9 +391,10 @@ class ApiCommunicator
     private function recordAttempt($pluginSlug, $licenseKey)
     {
         $key      = $this->getRefusalAttemptsKey($pluginSlug, $licenseKey);
-        $attempts = (int) $this->readEntry($key) + 1;
+        $stored   = $this->readLiveEntry($key, $licenseKey);
+        $attempts = ($stored !== false && isset($stored['attempts']) ? (int) $stored['attempts'] : 0) + 1;
 
-        $this->writeEntry($key, $attempts, self::MAX_UNDECIDED_CACHE_DURATION + HOUR_IN_SECONDS);
+        $this->writeStampedEntry($key, ['attempts' => $attempts], self::MAX_UNDECIDED_CACHE_DURATION + HOUR_IN_SECONDS);
 
         return $attempts;
     }
@@ -412,7 +420,7 @@ class ApiCommunicator
     }
 
     /**
-     * Write the refusal, and note its key against the licence.
+     * Write the refusal.
      *
      * @param string $pluginSlug The plugin slug.
      * @param string $licenseKey The license key.
@@ -423,66 +431,68 @@ class ApiCommunicator
      */
     private function storeRefusal($pluginSlug, $licenseKey, $duration, $code)
     {
-        $refusalKey = $this->getRefusalCacheKey($pluginSlug, $licenseKey);
-
-        $this->writeEntry($refusalKey, ['code' => (int) $code], $duration);
-        $this->rememberRefusalKey($licenseKey, $refusalKey);
+        $this->writeStampedEntry($this->getRefusalCacheKey($pluginSlug, $licenseKey), ['code' => (int) $code], $duration);
     }
 
     /**
-     * Note that a refusal exists under this key.
+     * Void every refusal recorded for a licence, whichever blog recorded it.
      *
-     * One licence collects one refusal per subsite. Clearing only the subsite the
-     * customer happened to renew on would leave the other thirty-nine refused for twelve
-     * hours — worse than the five minutes they used to wait. This index is how
-     * {@see self::clearProductInfoCache()} finds them all.
+     * Nothing is deleted. The rows stay until their own TTL runs out, but
+     * {@see self::readLiveEntry()} treats anything written before this moment as absent.
+     * A single scalar write cannot lose a concurrent refusal the way a shared list can.
      *
-     * @param string $licenseKey The license key.
-     * @param string $refusalKey The refusal cache key.
-     *
-     * @return void
-     */
-    private function rememberRefusalKey($licenseKey, $refusalKey)
-    {
-        $indexKey = $this->getRefusalIndexKey($licenseKey);
-        $stored   = $this->readEntry($indexKey);
-        $index    = is_array($stored) ? $stored : [];
-
-        if (!in_array($refusalKey, $index, true)) {
-            $index[] = $refusalKey;
-        }
-
-        // Rewritten on every refusal, not only when the list changes. Letting the TTL
-        // count down while the refusals it points at are renewed is the same mistake as
-        // holding the attempt counter inside the refusal: the index would expire first, a
-        // later refusal would recreate it holding only itself, and a renewal would then
-        // free one subsite while the rest stayed refused.
-        $this->writeEntry($indexKey, $index, self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
-    }
-
-    /**
-     * Clear every refusal recorded for a licence, whichever blog recorded it.
+     * Held a day past the longest refusal so that it outlives everything it voids.
      *
      * @param string $licenseKey The license key.
      *
      * @return void
      */
-    private function clearAllRefusals($licenseKey)
+    private function markRefusalsCleared($licenseKey)
     {
-        $indexKey = $this->getRefusalIndexKey($licenseKey);
-        $stored   = $this->readEntry($indexKey);
+        $this->writeEntry($this->getRefusalClearedKey($licenseKey), microtime(true), self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
+    }
 
-        foreach (is_array($stored) ? $stored : [] as $refusalKey) {
-            if (!is_string($refusalKey)) {
-                continue;
-            }
+    /**
+     * Read an entry, unless the licence has been validated since it was written.
+     *
+     * @param string $key        The cache key.
+     * @param string $licenseKey The license key.
+     *
+     * @return array|false The stored array, or false when absent, malformed or voided.
+     */
+    private function readLiveEntry($key, $licenseKey)
+    {
+        $stored = $this->readEntry($key);
 
-            $this->deleteEntry($refusalKey);
-            $this->deleteEntry($refusalKey . '_attempts');
-            $this->deleteEntry($refusalKey . '_backoff');
+        // Anything that is not our own shape is treated as absent rather than trusted:
+        // the previous release stored an object, and an upgrade must not trip on it.
+        if (!is_array($stored) || !isset($stored['written']) || !is_numeric($stored['written'])) {
+            return false;
         }
 
-        $this->deleteEntry($indexKey);
+        $clearedAt = $this->readEntry($this->getRefusalClearedKey($licenseKey));
+
+        if (is_numeric($clearedAt) && (float) $stored['written'] < (float) $clearedAt) {
+            return false;
+        }
+
+        return $stored;
+    }
+
+    /**
+     * Write an entry with the moment it was written, for {@see self::readLiveEntry()}.
+     *
+     * @param string $key      The cache key.
+     * @param array  $value    The entry.
+     * @param int    $duration Seconds to hold it for.
+     *
+     * @return void
+     */
+    private function writeStampedEntry($key, array $value, $duration)
+    {
+        $value['written'] = microtime(true);
+
+        $this->writeEntry($key, $value, $duration);
     }
 
     /**

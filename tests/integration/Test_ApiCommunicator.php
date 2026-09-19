@@ -18,7 +18,7 @@ class Test_ApiCommunicator extends WP_UnitTestCase
         $this->deleteEntry($this->getRefusalKey());
         $this->deleteEntry($this->getRefusalKey() . '_attempts');
         $this->deleteEntry($this->getRefusalKey() . '_backoff');
-        $this->deleteEntry($this->getRefusalIndexKey());
+        $this->deleteEntry($this->getRefusalClearedKey());
         remove_all_filters('pre_http_request');
         remove_all_filters('home_url');
 
@@ -153,20 +153,37 @@ class Test_ApiCommunicator extends WP_UnitTestCase
         $this->answerWith(400);
         $this->assertDownloadFails(new ApiCommunicator());
 
-        // A refusal recorded by another subsite of the same network, reachable through
-        // the index. A customer renewing on one subsite must free all of them.
-        $otherBlogKey = 'wp_statistics_license_refusal_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_99');
-        $this->writeEntry($otherBlogKey, ['code' => 400], 12 * HOUR_IN_SECONDS);
-        $index   = (array) $this->readEntry($this->getRefusalIndexKey());
-        $index[] = $otherBlogKey;
-        $this->writeEntry($this->getRefusalIndexKey(), $index, DAY_IN_SECONDS);
+        // Refusals recorded by other subsites of the same network. There is no shared
+        // list to find them by — a list is a read-modify-write that concurrent refusals
+        // can race, losing a key — so validation records a moment instead, and every
+        // refusal written before it is void. A customer renewing on one subsite must
+        // free all of them, however many were written at once.
+        $otherBlogKeys = [];
+        foreach ($this->otherBlogIds() as $blogId) {
+            $otherBlogKeys[$blogId] = 'wp_statistics_license_refusal_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_' . $blogId);
+            $this->writeEntry($otherBlogKeys[$blogId], ['code' => 400, 'written' => microtime(true)], 12 * HOUR_IN_SECONDS);
+        }
 
         (new ApiCommunicator())->clearProductInfoCache($this->licenseKey);
 
         $this->assertFalse($this->readEntry($this->getRefusalKey()));
-        $this->assertFalse($this->readEntry($otherBlogKey));
 
-        $this->deleteEntry($otherBlogKey);
+        foreach ($otherBlogKeys as $blogId => $otherBlogKey) {
+            $this->assertRefusalIsVoid($otherBlogKey, $blogId);
+            $this->deleteEntry($otherBlogKey);
+        }
+    }
+
+    public function test_a_refusal_after_validation_still_counts()
+    {
+        (new ApiCommunicator())->clearProductInfoCache($this->licenseKey);
+
+        $requests = $this->answerWith(400);
+        $communicator = new ApiCommunicator();
+
+        $this->assertDownloadFails($communicator);
+        $this->assertNull($communicator->getDownloadUrl($this->licenseKey, $this->pluginSlug));
+        $this->assertSame(1, $requests->count);
     }
 
     /**
@@ -226,10 +243,59 @@ class Test_ApiCommunicator extends WP_UnitTestCase
     {
         try {
             $communicator->getDownloadUrl($this->licenseKey, $this->pluginSlug);
-            $this->fail('Expected the failed request to throw an exception.');
         } catch (Exception $e) {
             $this->assertNotEmpty($e->getMessage());
+
+            return;
         }
+
+        // Outside the try: fail() throws an Exception subclass, which the catch above
+        // would otherwise swallow and pass.
+        $this->fail('Expected the failed request to throw an exception.');
+    }
+
+    /**
+     * Two other subsites of the network. Real ones on multisite, so that they can be
+     * switched to; on a single site the IDs only shape the key.
+     *
+     * @return int[]
+     */
+    private function otherBlogIds()
+    {
+        if (!is_multisite()) {
+            return [98, 99];
+        }
+
+        return [self::factory()->blog->create(), self::factory()->blog->create()];
+    }
+
+    /**
+     * The row is still there — nothing deletes it — but the blog it belongs to no longer
+     * honours it: its next request goes to the server.
+     */
+    private function assertRefusalIsVoid($refusalKey, $blogId)
+    {
+        $refusal = $this->readEntry($refusalKey);
+
+        $this->assertIsArray($refusal);
+        $this->assertLessThan((float) $this->readEntry($this->getRefusalClearedKey()), (float) $refusal['written']);
+
+        if (!is_multisite()) {
+            return;
+        }
+
+        remove_all_filters('pre_http_request');
+        $requests = $this->answerWith(200, ['download_url' => 'https://example.com/add-on.zip']);
+
+        switch_to_blog($blogId);
+        try {
+            (new ApiCommunicator())->getDownloadUrl($this->licenseKey, $this->pluginSlug);
+            delete_transient($this->getProductInfoCacheKey());
+        } finally {
+            restore_current_blog();
+        }
+
+        $this->assertSame(1, $requests->count);
     }
 
     private function assertRefusalLasts($expectedDuration)
@@ -266,9 +332,9 @@ class Test_ApiCommunicator extends WP_UnitTestCase
         return 'wp_statistics_license_refusal_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_' . get_current_blog_id());
     }
 
-    private function getRefusalIndexKey()
+    private function getRefusalClearedKey()
     {
-        return 'wp_statistics_license_refusal_index_' . md5($this->licenseKey);
+        return 'wp_statistics_license_refusal_cleared_' . md5($this->licenseKey);
     }
 
     private function readEntry($key)
