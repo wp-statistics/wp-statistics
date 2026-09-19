@@ -472,7 +472,9 @@ class ApiCommunicator
 
         $clearedAt = $this->readEntry($this->getRefusalClearedKey($licenseKey));
 
-        if (is_numeric($clearedAt) && (float) $stored['written'] < (float) $clearedAt) {
+        // Equal timestamps prove nothing about order, so they are voided too. The cost is
+        // one extra request; the alternative is a renewed licence refused for two days.
+        if (is_numeric($clearedAt) && (float) $stored['written'] <= (float) $clearedAt) {
             return false;
         }
 
