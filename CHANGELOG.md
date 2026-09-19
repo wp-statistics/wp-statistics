@@ -1,8 +1,8 @@
-14.16.14 - unreleased
-- **Enhancement:** Security hardening for links in admin reports.
-- **Enhancement:** Visits from DuckDuckGo's noai, html, lite and start endpoints are now counted as DuckDuckGo search traffic instead of a generic referrer (issue [#1142](https://github.com/wp-statistics/wp-statistics/issues/1142)).
-- **Fix:** Corrected taxonomy archive view attribution and cleanup when term and taxonomy IDs differ (issue [#1139](https://github.com/wp-statistics/wp-statistics/issues/1139)).
-- **Fix:** Reduced repeated licence API requests after an authoritative refusal, so a refused site no longer asks every five minutes (issue [#1123](https://github.com/wp-statistics/wp-statistics/issues/1123)).
+14.16.14 - 2026-09-19
+- **Enhancement:** DuckDuckGo noai, html, lite and start endpoints now count as DuckDuckGo search traffic (issue [#1142](https://github.com/wp-statistics/wp-statistics/issues/1142)).
+- **Enhancement:** Hardened link escaping in admin reports.
+- **Fix:** Taxonomy archive views are now attributed correctly when term and taxonomy IDs differ (issue [#1139](https://github.com/wp-statistics/wp-statistics/issues/1139)).
+- **Fix:** Fewer repeated licence API requests after a refusal (issue [#1123](https://github.com/wp-statistics/wp-statistics/issues/1123)).
 
 14.16.13 - 2026-09-05
 - **Fix:** Corrected report links in Category Analytics.
