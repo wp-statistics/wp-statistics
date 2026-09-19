@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.13
+Stable tag: 14.16.14
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,12 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.14 - 2026-09-19 =
+- **Enhancement:** DuckDuckGo noai, html, lite and start endpoints now count as DuckDuckGo search traffic (issue [#1142](https://github.com/wp-statistics/wp-statistics/issues/1142)).
+- **Enhancement:** Hardened link escaping in admin reports.
+- **Fix:** Taxonomy archive views are now attributed correctly when term and taxonomy IDs differ (issue [#1139](https://github.com/wp-statistics/wp-statistics/issues/1139)).
+- **Fix:** Fewer repeated licence API requests after a refusal (issue [#1123](https://github.com/wp-statistics/wp-statistics/issues/1123)).
+
 = 14.16.13 - 2026-09-05 =
 - **Fix:** Corrected report links in Category Analytics.
 - **Fix:** Date filters no longer trigger PHP warnings when the period name is unrecognized (issue [#1130](https://github.com/wp-statistics/wp-statistics/issues/1130)).

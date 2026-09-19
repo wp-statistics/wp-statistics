@@ -1,5 +1,12 @@
+14.16.14 - 2026-09-19
+- **Enhancement:** DuckDuckGo noai, html, lite and start endpoints now count as DuckDuckGo search traffic (issue [#1142](https://github.com/wp-statistics/wp-statistics/issues/1142)).
+- **Enhancement:** Hardened link escaping in admin reports.
+- **Fix:** Taxonomy archive views are now attributed correctly when term and taxonomy IDs differ (issue [#1139](https://github.com/wp-statistics/wp-statistics/issues/1139)).
+- **Fix:** Fewer repeated licence API requests after a refusal (issue [#1123](https://github.com/wp-statistics/wp-statistics/issues/1123)).
+
 14.16.13 - 2026-09-05
 - **Fix:** Corrected report links in Category Analytics.
+- **Fix:** Top Pages "View" links now open the correct term archive for categories, tags, and taxonomies (issue [#1138](https://github.com/wp-statistics/wp-statistics/issues/1138)).
 - **Fix:** Date filters no longer trigger PHP warnings when the period name is unrecognized (issue [#1130](https://github.com/wp-statistics/wp-statistics/issues/1130)).
 - **Fix:** Analytics page access and the date range picker now work correctly for custom roles and per-user capabilities (issue [#1126](https://github.com/wp-statistics/wp-statistics/issues/1126)).
 - **Enhancement:** Internal improvements and PHP 8.5 compatibility.

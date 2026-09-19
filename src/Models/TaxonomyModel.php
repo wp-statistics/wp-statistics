@@ -58,7 +58,7 @@ class TaxonomyModel extends BaseModel
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
             ->join('term_relationships', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'term_relationships.object_id'], [['posts.post_type', 'IN', $args['post_type']], ['posts.post_status', '=', 'publish']], 'LEFT')
-            ->joinQuery($categoryViewsQuery, ['category.id', 'term_taxonomy.term_taxonomy_id'], 'category', 'LEFT')
+            ->joinQuery($categoryViewsQuery, ['category.id', 'term_taxonomy.term_id'], 'category', 'LEFT')
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
             ->where('posts.post_author', '=', $args['author_id'])
             ->groupBy(['taxonomy', 'terms.term_id', 'terms.name'])

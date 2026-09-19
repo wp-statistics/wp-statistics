@@ -99,7 +99,7 @@ $order                = Request::get('order', 'desc');
                         </td>
 
                         <td class="wps-pd-l view-more view-more__arrow">
-                            <a target="_blank" href="<?php echo get_the_permalink($post->post_id) ?>"><?php esc_html_e('View Page', 'wp-statistics') ?></a>
+                            <a target="_blank" href="<?php echo esc_url(get_the_permalink($post->post_id)) ?>"><?php esc_html_e('View Page', 'wp-statistics') ?></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
