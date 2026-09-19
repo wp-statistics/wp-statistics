@@ -166,23 +166,25 @@ class ApiCommunicator
     }
 
     /**
-     * The entry that records when a licence was last validated.
+     * The entry that holds the licence's current refusal generation.
      *
      * One licence collects one refusal per subsite. Clearing only the subsite the
      * customer happened to renew on would leave the other thirty-nine refused for twelve
      * hours — worse than the five minutes they used to wait. Rather than keep a list of
      * every refusal key (a read-modify-write that concurrent refusals could race, losing
-     * a key and leaving that subsite refused after renewal), this holds one timestamp.
-     * Every refusal, attempt count and backoff carries the moment it was written, and
-     * anything written before this moment is treated as absent.
+     * a key and leaving that subsite refused after renewal), this holds one opaque token
+     * that validation replaces. Every refusal, attempt count and backoff carries the
+     * token that was current when it was written; one that carries any other token is
+     * treated as absent. A token rather than a timestamp, so that two web nodes with
+     * different clocks cannot disagree about which came first.
      *
      * @param string $licenseKey The license key.
      *
      * @return string The cache key.
      */
-    private function getRefusalClearedKey($licenseKey)
+    private function getRefusalGenerationKey($licenseKey)
     {
-        return 'wp_statistics_license_refusal_cleared_' . md5($licenseKey);
+        return 'wp_statistics_license_refusal_generation_' . md5($licenseKey);
     }
 
     /**
@@ -372,7 +374,7 @@ class ApiCommunicator
             $duration = min($previousDuration * 2, self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION);
         }
 
-        $this->writeStampedEntry($backoffKey, ['duration' => $duration], self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
+        $this->writeStampedEntry($backoffKey, $licenseKey, ['duration' => $duration], self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
 
         return $duration;
     }
@@ -394,7 +396,7 @@ class ApiCommunicator
         $stored   = $this->readLiveEntry($key, $licenseKey);
         $attempts = ($stored !== false && isset($stored['attempts']) ? (int) $stored['attempts'] : 0) + 1;
 
-        $this->writeStampedEntry($key, ['attempts' => $attempts], self::MAX_UNDECIDED_CACHE_DURATION + HOUR_IN_SECONDS);
+        $this->writeStampedEntry($key, $licenseKey, ['attempts' => $attempts], self::MAX_UNDECIDED_CACHE_DURATION + HOUR_IN_SECONDS);
 
         return $attempts;
     }
@@ -431,15 +433,15 @@ class ApiCommunicator
      */
     private function storeRefusal($pluginSlug, $licenseKey, $duration, $code)
     {
-        $this->writeStampedEntry($this->getRefusalCacheKey($pluginSlug, $licenseKey), ['code' => (int) $code], $duration);
+        $this->writeStampedEntry($this->getRefusalCacheKey($pluginSlug, $licenseKey), $licenseKey, ['code' => (int) $code], $duration);
     }
 
     /**
      * Void every refusal recorded for a licence, whichever blog recorded it.
      *
-     * Nothing is deleted. The rows stay until their own TTL runs out, but
-     * {@see self::readLiveEntry()} treats anything written before this moment as absent.
-     * A single scalar write cannot lose a concurrent refusal the way a shared list can.
+     * Nothing is deleted here. The rows stay until their own TTL runs out, or until
+     * {@see self::readLiveEntry()} meets one and finds it stale. A single scalar write
+     * cannot lose a concurrent refusal the way a shared list can.
      *
      * Held a day past the longest refusal so that it outlives everything it voids.
      *
@@ -449,11 +451,29 @@ class ApiCommunicator
      */
     private function markRefusalsCleared($licenseKey)
     {
-        $this->writeEntry($this->getRefusalClearedKey($licenseKey), microtime(true), self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
+        $this->writeEntry($this->getRefusalGenerationKey($licenseKey), wp_generate_uuid4(), self::AUTHORITATIVE_NEGATIVE_CACHE_MAX_DURATION + DAY_IN_SECONDS);
+    }
+
+    /**
+     * The token a refusal written now must carry to be honoured.
+     *
+     * @param string $licenseKey The license key.
+     *
+     * @return string Empty when the licence has never been validated on this install.
+     */
+    private function currentGeneration($licenseKey)
+    {
+        $generation = $this->readEntry($this->getRefusalGenerationKey($licenseKey));
+
+        return is_string($generation) ? $generation : '';
     }
 
     /**
      * Read an entry, unless the licence has been validated since it was written.
+     *
+     * A stale entry is deleted on sight. Otherwise, should the generation token be
+     * evicted from a persistent object cache before the entry expires, the entry would
+     * come back to life and the renewed licence be refused again.
      *
      * @param string $key        The cache key.
      * @param string $licenseKey The license key.
@@ -466,15 +486,13 @@ class ApiCommunicator
 
         // Anything that is not our own shape is treated as absent rather than trusted:
         // the previous release stored an object, and an upgrade must not trip on it.
-        if (!is_array($stored) || !isset($stored['written']) || !is_numeric($stored['written'])) {
+        if (!is_array($stored) || !array_key_exists('generation', $stored)) {
             return false;
         }
 
-        $clearedAt = $this->readEntry($this->getRefusalClearedKey($licenseKey));
+        if ($stored['generation'] !== $this->currentGeneration($licenseKey)) {
+            $this->deleteEntry($key);
 
-        // Equal timestamps prove nothing about order, so they are voided too. The cost is
-        // one extra request; the alternative is a renewed licence refused for two days.
-        if (is_numeric($clearedAt) && (float) $stored['written'] <= (float) $clearedAt) {
             return false;
         }
 
@@ -482,17 +500,18 @@ class ApiCommunicator
     }
 
     /**
-     * Write an entry with the moment it was written, for {@see self::readLiveEntry()}.
+     * Write an entry carrying the current generation, for {@see self::readLiveEntry()}.
      *
-     * @param string $key      The cache key.
-     * @param array  $value    The entry.
-     * @param int    $duration Seconds to hold it for.
+     * @param string $key        The cache key.
+     * @param string $licenseKey The license key.
+     * @param array  $value      The entry.
+     * @param int    $duration   Seconds to hold it for.
      *
      * @return void
      */
-    private function writeStampedEntry($key, array $value, $duration)
+    private function writeStampedEntry($key, $licenseKey, array $value, $duration)
     {
-        $value['written'] = microtime(true);
+        $value['generation'] = $this->currentGeneration($licenseKey);
 
         $this->writeEntry($key, $value, $duration);
     }

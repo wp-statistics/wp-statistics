@@ -18,7 +18,7 @@ class Test_ApiCommunicator extends WP_UnitTestCase
         $this->deleteEntry($this->getRefusalKey());
         $this->deleteEntry($this->getRefusalKey() . '_attempts');
         $this->deleteEntry($this->getRefusalKey() . '_backoff');
-        $this->deleteEntry($this->getRefusalClearedKey());
+        $this->deleteEntry($this->getRefusalGenerationKey());
         remove_all_filters('pre_http_request');
         remove_all_filters('home_url');
 
@@ -155,13 +155,14 @@ class Test_ApiCommunicator extends WP_UnitTestCase
 
         // Refusals recorded by other subsites of the same network. There is no shared
         // list to find them by — a list is a read-modify-write that concurrent refusals
-        // can race, losing a key — so validation records a moment instead, and every
-        // refusal written before it is void. A customer renewing on one subsite must
-        // free all of them, however many were written at once.
+        // can race, losing a key — so validation replaces a generation token instead,
+        // and every refusal carrying the old token is void. A customer renewing on one
+        // subsite must free all of them, however many were written at once.
+        $generation    = (string) $this->readEntry($this->getRefusalGenerationKey());
         $otherBlogKeys = [];
         foreach ($this->otherBlogIds() as $blogId) {
-            $otherBlogKeys[$blogId] = 'wp_statistics_license_refusal_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_' . $blogId);
-            $this->writeEntry($otherBlogKeys[$blogId], ['code' => 400, 'written' => microtime(true)], 12 * HOUR_IN_SECONDS);
+            $otherBlogKeys[$blogId] = $this->getRefusalKey($blogId);
+            $this->writeEntry($otherBlogKeys[$blogId], ['code' => 400, 'generation' => $generation], 12 * HOUR_IN_SECONDS);
         }
 
         (new ApiCommunicator())->clearProductInfoCache($this->licenseKey);
@@ -172,6 +173,24 @@ class Test_ApiCommunicator extends WP_UnitTestCase
             $this->assertRefusalIsVoid($otherBlogKey, $blogId);
             $this->deleteEntry($otherBlogKey);
         }
+    }
+
+    /**
+     * The void is decided by the token alone — no clock, so two web nodes whose clocks
+     * disagree cannot disagree about it either. And the stale row is deleted on sight:
+     * were the token later evicted from a persistent object cache, an undeleted row
+     * would come back to life.
+     */
+    public function test_a_refusal_from_before_validation_is_void_and_removed()
+    {
+        (new ApiCommunicator())->clearProductInfoCache($this->licenseKey);
+
+        $this->writeEntry($this->getRefusalKey(), ['code' => 400, 'generation' => 'before-renewal'], 12 * HOUR_IN_SECONDS);
+        $requests = $this->answerWith(200, ['download_url' => 'https://example.com/add-on.zip']);
+
+        $this->assertIsObject((new ApiCommunicator())->getDownloadUrl($this->licenseKey, $this->pluginSlug));
+        $this->assertSame(1, $requests->count);
+        $this->assertFalse($this->readEntry($this->getRefusalKey()));
     }
 
     public function test_a_refusal_after_validation_still_counts()
@@ -244,6 +263,9 @@ class Test_ApiCommunicator extends WP_UnitTestCase
         try {
             $communicator->getDownloadUrl($this->licenseKey, $this->pluginSlug);
         } catch (Exception $e) {
+            // PHPUnit converts notices and deprecations into exceptions too; a bug in the
+            // code under test must not pass as the refusal it was meant to produce.
+            $this->assertNotInstanceOf(\PHPUnit\Framework\Exception::class, $e);
             $this->assertNotEmpty($e->getMessage());
 
             return;
@@ -278,7 +300,7 @@ class Test_ApiCommunicator extends WP_UnitTestCase
         $refusal = $this->readEntry($refusalKey);
 
         $this->assertIsArray($refusal);
-        $this->assertLessThan((float) $this->readEntry($this->getRefusalClearedKey()), (float) $refusal['written']);
+        $this->assertNotSame($this->readEntry($this->getRefusalGenerationKey()), $refusal['generation']);
 
         if (!is_multisite()) {
             return;
@@ -327,14 +349,16 @@ class Test_ApiCommunicator extends WP_UnitTestCase
         return 'wp_statistics_product_info_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_' . get_current_blog_id());
     }
 
-    private function getRefusalKey()
+    private function getRefusalKey($blogId = null)
     {
-        return 'wp_statistics_license_refusal_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_' . get_current_blog_id());
+        $blogId = $blogId === null ? get_current_blog_id() : $blogId;
+
+        return 'wp_statistics_license_refusal_' . md5($this->pluginSlug . '_' . $this->licenseKey . '_' . $blogId);
     }
 
-    private function getRefusalClearedKey()
+    private function getRefusalGenerationKey()
     {
-        return 'wp_statistics_license_refusal_cleared_' . md5($this->licenseKey);
+        return 'wp_statistics_license_refusal_generation_' . md5($this->licenseKey);
     }
 
     private function readEntry($key)
