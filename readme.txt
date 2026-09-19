@@ -151,6 +151,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.16.14 - unreleased =
+- **Enhancement:** Security hardening for links in admin reports.
 - **Fix:** Reduced repeated licence API requests after an authoritative refusal, so a refused site no longer asks every five minutes (issue [#1123](https://github.com/wp-statistics/wp-statistics/issues/1123)).
 
 = 14.16.13 - 2026-09-05 =
