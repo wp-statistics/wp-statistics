@@ -364,7 +364,7 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
     }
 
     if (!filterConfig.selected && defaultValue) {
-        dropdownHTML += `<a href="${baseUrl}" data-index="0" class="${!selectedOption ? 'selected' : ''}" role="option">${defaultValue}</a>`;
+        dropdownHTML += `<a href="${wps_js.escapeHtml(baseUrl)}" data-index="0" class="${!selectedOption ? 'selected' : ''}" role="option">${defaultValue}</a>`;
     }
     if (args) {
         args.forEach((item, key) => {
@@ -380,7 +380,7 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
                 </a>`;
             } else {
                 dropdownHTML += `
-                 <a href="${item.url}" data-index="${key}" title="${item.name}" class="${classList.join(" ")}" role="option" aria-label="${item.name}">
+                 <a href="${wps_js.escapeHtml(item.url)}" data-index="${key}" title="${item.name}" class="${classList.join(" ")}" role="option" aria-label="${item.name}">
                     ${item.name}
                 </a>`;
             }
