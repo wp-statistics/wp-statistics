@@ -214,23 +214,23 @@ class ReferralsPage extends MultiViewPage
     public function getUtmParamsFilter()
     {
         $queryKey   = 'utm_param';
-        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey])));
+        $baseUrl    = esc_url_raw(remove_query_arg([$queryKey]));
 
         $args = [
             [
                 'slug'  => 'utm_campaign',
                 'name'  => esc_html__('UTM Campaign', 'wp-statistics'),
-                'url'   => add_query_arg([$queryKey => 'utm_campaign'], $baseUrl),
+                'url'   => esc_url_raw(add_query_arg([$queryKey => 'utm_campaign'], $baseUrl)),
             ],
             [
                 'slug'  => 'utm_source',
                 'name'  => esc_html__('UTM Source', 'wp-statistics'),
-                'url'   => add_query_arg([$queryKey => 'utm_source'], $baseUrl),
+                'url'   => esc_url_raw(add_query_arg([$queryKey => 'utm_source'], $baseUrl)),
             ],
             [
                 'slug'  => 'utm_medium',
                 'name'  => esc_html__('UTM Medium', 'wp-statistics'),
-                'url'   => add_query_arg([$queryKey => 'utm_medium'], $baseUrl),
+                'url'   => esc_url_raw(add_query_arg([$queryKey => 'utm_medium'], $baseUrl)),
             ]
         ];
 
@@ -249,13 +249,13 @@ class ReferralsPage extends MultiViewPage
     private function getSearchChannels()
     {
         $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['search', 'paid_search']);
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'])));
+        $baseUrl  = esc_url_raw(remove_query_arg(['source_channel', 'pid']));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
                 'slug'  => esc_attr($key),
                 'name'  => esc_html($channel),
-                'url'   => add_query_arg(['source_channel' => $key]),
+                'url'   => esc_url_raw(add_query_arg(['source_channel' => $key])),
             ];
         }
 
@@ -274,13 +274,13 @@ class ReferralsPage extends MultiViewPage
     private function getSocialChannels()
     {
         $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['social', 'paid_social']);
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'])));
+        $baseUrl  = esc_url_raw(remove_query_arg(['source_channel', 'pid']));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
                 'slug'  => esc_attr($key),
                 'name'  => esc_html($channel),
-                'url'   => add_query_arg(['source_channel' => $key]),
+                'url'   => esc_url_raw(add_query_arg(['source_channel' => $key])),
             ];
         }
 
@@ -301,13 +301,13 @@ class ReferralsPage extends MultiViewPage
         $channels = SourceChannels::getList();
         unset($channels['direct']);
 
-        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'])));
+        $baseUrl = esc_url_raw(remove_query_arg(['source_channel', 'pid']));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
                 'slug'  => esc_attr($key),
                 'name'  => esc_html($channel),
-                'url'   => add_query_arg(['source_channel' => $key]),
+                'url'   => esc_url_raw(add_query_arg(['source_channel' => $key])),
             ];
         }
 

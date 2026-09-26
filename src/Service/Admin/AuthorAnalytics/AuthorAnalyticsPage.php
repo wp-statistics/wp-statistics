@@ -59,13 +59,13 @@ class AuthorAnalyticsPage extends MultiViewPage
         $postTypes = Helper::get_list_post_type();
 
         $queryKey   = 'pt';
-        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey])));
+        $baseUrl    = esc_url_raw(remove_query_arg([$queryKey]));
 
         foreach ($postTypes as $postType) {
             $args[] = [
                 'slug'    => esc_html($postType),
                 'name'    => esc_html(Helper::getPostTypeName($postType)),
-                'url'     => add_query_arg([$queryKey => $postType], $baseUrl),
+                'url'     => esc_url_raw(add_query_arg([$queryKey => $postType], $baseUrl)),
                 'premium' => Helper::isCustomPostType($postType) && !Helper::isAddOnActive('data-plus')
             ];
         }
