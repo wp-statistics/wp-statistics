@@ -1,3 +1,7 @@
+14.16.15 - 2026-10-01
+- **Enhancement:** Hardened URL escaping in the filter dropdowns of the Referrals and Author Analytics reports.
+- **Enhancement:** Removed the unused `tracker.min.js` file. The tracker loads `js/tracker.js`.
+
 14.16.14 - 2026-09-19
 - **Enhancement:** DuckDuckGo noai, html, lite and start endpoints now count as DuckDuckGo search traffic (issue [#1142](https://github.com/wp-statistics/wp-statistics/issues/1142)).
 - **Enhancement:** Hardened link escaping in admin reports.
