@@ -373,7 +373,7 @@ class FilterManager
         $currentPage = admin_url("admin.php{$page}");
 
         $queryKey  = 'pt';
-        $baseUrl   = htmlspecialchars_decode(esc_url(remove_query_arg(['pt', 'pid'], $currentPage)));
+        $baseUrl   = esc_url_raw(remove_query_arg(['pt', 'pid'], $currentPage));
         $postTypes = Helper::get_list_post_type();
 
         $args = [];
@@ -382,7 +382,7 @@ class FilterManager
             $args[] = [
                 'slug' => esc_html($postType),
                 'name' => esc_html(Helper::getPostTypeName($postType)),
-                'url' => add_query_arg([$queryKey => $postType], $baseUrl),
+                'url' => esc_url_raw(add_query_arg([$queryKey => $postType], $baseUrl)),
                 'premium' => Helper::isCustomPostType($postType) && !Helper::isAddOnActive('data-plus')
             ];
         }
@@ -405,7 +405,7 @@ class FilterManager
         $currentPage = admin_url("admin.php{$page}");
 
         $queryKey = 'author_id';
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], $currentPage)));
+        $baseUrl  = esc_url_raw(remove_query_arg([$queryKey, 'pid'], $currentPage));
         $authors  = get_users(['has_published_posts' => true]);
 
         $args = [];
@@ -414,7 +414,7 @@ class FilterManager
             $args[] = [
                 'slug' => esc_attr($author->ID),
                 'name' => esc_html($author->display_name),
-                'url' => add_query_arg([$queryKey => $author->ID], $baseUrl),
+                'url' => esc_url_raw(add_query_arg([$queryKey => $author->ID], $baseUrl)),
             ];
         }
 
@@ -436,7 +436,7 @@ class FilterManager
 
         $queryKey   = 'tx';
         $taxonomies = Helper::get_list_taxonomy(true);
-        $baseUrl    = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey, 'pid'], $currentPage)));
+        $baseUrl    = esc_url_raw(remove_query_arg([$queryKey, 'pid'], $currentPage));
 
         $args = [];
 
@@ -444,7 +444,7 @@ class FilterManager
             $args[] = [
                 'slug' => esc_attr($key),
                 'name' => esc_html(ucwords($name)),
-                'url' => add_query_arg([$queryKey => $key], $baseUrl),
+                'url' => esc_url_raw(add_query_arg([$queryKey => $key], $baseUrl)),
             ];
         }
 
@@ -465,13 +465,13 @@ class FilterManager
         $currentPage = admin_url("admin.php{$page}");
 
         $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['search', 'paid_search']);
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+        $baseUrl  = esc_url_raw(remove_query_arg(['source_channel', 'pid'], $currentPage));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
                 'slug' => esc_attr($key),
                 'name' => esc_html($channel),
-                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+                'url' => esc_url_raw(add_query_arg(['source_channel' => $key], $baseUrl)),
             ];
         }
 
@@ -492,13 +492,13 @@ class FilterManager
         $currentPage = admin_url("admin.php{$page}");
 
         $channels = Helper::filterArrayByKeys(SourceChannels::getList(), ['social', 'paid_social']);
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+        $baseUrl  = esc_url_raw(remove_query_arg(['source_channel', 'pid'], $currentPage));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
                 'slug' => esc_attr($key),
                 'name' => esc_html($channel),
-                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+                'url' => esc_url_raw(add_query_arg(['source_channel' => $key], $baseUrl)),
             ];
         }
 
@@ -521,13 +521,13 @@ class FilterManager
         $channels = SourceChannels::getList();
         unset($channels['direct']);
 
-        $baseUrl = htmlspecialchars_decode(esc_url(remove_query_arg(['source_channel', 'pid'], $currentPage)));
+        $baseUrl = esc_url_raw(remove_query_arg(['source_channel', 'pid'], $currentPage));
 
         foreach ($channels as $key => $channel) {
             $args[] = [
                 'slug' => esc_attr($key),
                 'name' => esc_html($channel),
-                'url' => add_query_arg(['source_channel' => $key], $baseUrl),
+                'url' => esc_url_raw(add_query_arg(['source_channel' => $key], $baseUrl)),
             ];
         }
 
@@ -549,7 +549,7 @@ class FilterManager
 
         $queryKey = 'role';
         $roles    = wp_roles()->role_names;
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey],$currentPage)));
+        $baseUrl  = esc_url_raw(remove_query_arg([$queryKey],$currentPage));
 
         $args = [];
 
@@ -557,7 +557,7 @@ class FilterManager
             $args[] = [
                 'slug' => esc_attr($key),
                 'name' => esc_html($role),
-                'url' => add_query_arg([$queryKey => $key], $baseUrl),
+                'url' => esc_url_raw(add_query_arg([$queryKey => $key], $baseUrl)),
             ];
         }
 
@@ -578,7 +578,7 @@ class FilterManager
         $currentPage = admin_url("admin.php{$page}");
 
         $queryKey = 'qp';
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
+        $baseUrl  = esc_url_raw(remove_query_arg([$queryKey], $currentPage));
         $postId   = Request::get('post_id', '', 'number');
 
         $viewsModel = new ViewsModel();
@@ -593,7 +593,7 @@ class FilterManager
             $args[] = [
                 'slug' => esc_attr($parameter->page_id),
                 'name' => !empty($title) ? esc_html($title) : esc_html($parameter->uri),
-                'url' => add_query_arg([$queryKey => $parameter->page_id], $baseUrl)
+                'url' => esc_url_raw(add_query_arg([$queryKey => $parameter->page_id], $baseUrl))
             ];
         }
 
@@ -624,7 +624,7 @@ class FilterManager
         $currentPage = admin_url("admin.php{$queryString}");
 
         $queryKey = 'pid';
-        $baseUrl  = htmlspecialchars_decode(esc_url(remove_query_arg([$queryKey], $currentPage)));
+        $baseUrl  = esc_url_raw(remove_query_arg([$queryKey], $currentPage));
 
         $query = new \WP_Query([
             'post_status'    => 'publish',
@@ -642,7 +642,7 @@ class FilterManager
                 $query->the_post();
 
                 $option = [
-                    'id'   => add_query_arg(['pid' => get_the_ID()], $baseUrl),
+                    'id'   => esc_url_raw(add_query_arg(['pid' => get_the_ID()], $baseUrl)),
                     'text' => get_the_title()
                 ];
 
