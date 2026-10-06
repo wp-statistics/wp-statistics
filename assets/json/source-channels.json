@@ -6300,6 +6300,93 @@
   },
 
   {
+    "type": "ai_assistants",
+    "description": "Traffic from AI assistants",
+    "channels": [
+      {
+        "name": "ChatGPT",
+        "identifier": "chatgpt",
+        "domains": [
+          "chatgpt.com",
+          "chat.openai.com"
+        ]
+      },
+      {
+        "name": "Perplexity",
+        "identifier": "perplexity",
+        "domains": [
+          "perplexity.ai",
+          "www.perplexity.ai"
+        ]
+      },
+      {
+        "name": "Gemini",
+        "identifier": "gemini",
+        "domains": [
+          "gemini.google.com"
+        ]
+      },
+      {
+        "name": "Claude",
+        "identifier": "claude",
+        "domains": [
+          "claude.ai"
+        ]
+      },
+      {
+        "name": "Microsoft Copilot",
+        "identifier": "copilot",
+        "domains": [
+          "copilot.microsoft.com"
+        ]
+      },
+      {
+        "name": "DeepSeek",
+        "identifier": "deepseek",
+        "domains": [
+          "chat.deepseek.com"
+        ]
+      },
+      {
+        "name": "Grok",
+        "identifier": "grok",
+        "domains": [
+          "grok.com"
+        ]
+      },
+      {
+        "name": "Mistral Le Chat",
+        "identifier": "mistral",
+        "domains": [
+          "chat.mistral.ai"
+        ]
+      },
+      {
+        "name": "Meta AI",
+        "identifier": "meta_ai",
+        "domains": [
+          "meta.ai"
+        ]
+      },
+      {
+        "name": "You.com",
+        "identifier": "you",
+        "domains": [
+          "you.com"
+        ]
+      },
+      {
+        "name": "Phind",
+        "identifier": "phind",
+        "domains": [
+          "phind.com"
+        ]
+      }
+    ],
+    "rules": []
+  },
+
+  {
     "type": "search",
     "description": "Organic traffic from search engines",
     "channels": [
@@ -6764,20 +6851,6 @@
         "domains": [
           "startsiden",
           "startsiden.no"
-        ]
-      },
-      {
-        "name": "ChatGPT",
-        "identifier": "chatgpt",
-        "domains": [
-          "chatgpt.com"
-        ]
-      },
-      {
-        "name": "Perplexity",
-        "identifier": "perplexity",
-        "domains": [
-          "perplexity.ai"
         ]
       },
       {

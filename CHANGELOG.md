@@ -1,3 +1,6 @@
+14.16.16 - unreleased
+- **New:** Added a separate AI Assistants traffic channel for ChatGPT, Perplexity, Gemini, Claude, Copilot, DeepSeek, Grok, Mistral Le Chat, Meta AI, You.com, and Phind. Existing visits are not reclassified (issue [#1152](https://github.com/wp-statistics/wp-statistics/issues/1152)).
+
 14.16.15 - 2026-10-01
 - **Enhancement:** Hardened URL escaping in the filter dropdowns of the Referrals and Author Analytics reports.
 - **Enhancement:** Removed the unused `tracker.min.js` file. The tracker loads `js/tracker.js`.
