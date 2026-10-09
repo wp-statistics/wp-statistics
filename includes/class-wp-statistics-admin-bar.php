@@ -117,7 +117,14 @@ class AdminBar
                 $menu_title .= ' - ';
             }
 
-            $menu_title .= sprintf('Online: %s', number_format(wp_statistics_useronline()));
+            $onlineUsers = wp_statistics_useronline();
+            $menu_title .= sprintf('Online: %s', number_format($onlineUsers));
+
+            // Reuse this render's metrics in both the menu and add-on data.
+            $todayVisitors = wp_statistics_visitor('today');
+            $yesterdayVisitors = wp_statistics_visitor('yesterday');
+            $todayVisits = wp_statistics_visit('today');
+            $yesterdayVisits = wp_statistics_visit('yesterday');
 
             /**
              * List Of Admin Bar WordPress
@@ -143,16 +150,16 @@ class AdminBar
                 'wp-statistics-menu-visitors-today'   => array(
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => '<div class="wp-statistics-menu-visitors-today__title">' . __('Visitors Today', 'wp-statistics') . '</div>'
-                        . '<div class="wp-statistics-menu-visitors-today__count">' . wp_statistics_visitor('today') . '</div>'
+                        . '<div class="wp-statistics-menu-visitors-today__count">' . $todayVisitors . '</div>'
                         /* translators: %s: string value */
-                        . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visitor('yesterday')) . '</div>'
+                        . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), $yesterdayVisitors) . '</div>'
                 ),
                 'wp-statistics-menu-views-today'      => array(
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => '<div class="wp-statistics-menu-views-today__title">' . __('Views Today', 'wp-statistics') . '</div>'
-                        . '<div class="wp-statistics-menu-views-today__count">' . wp_statistics_visit('today') . '</div>'
+                        . '<div class="wp-statistics-menu-views-today__count">' . $todayVisits . '</div>'
                         /* translators: %s: string value */
-                        . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('yesterday')) . '</div>'
+                        . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), $yesterdayVisits) . '</div>'
 
                 ),
                 'wp-statistics-menu-page'             => array(
@@ -192,11 +199,11 @@ class AdminBar
                 'footer_text'        => $footerText,
                 'footer_link'        => $footerLink,
                 'menu_href'          => Menus::admin_url('overview'),
-                'today_visits'       => number_format(wp_statistics_visit('today')),
-                'today_visitors'     => number_format(wp_statistics_visitor('today')),
-                'yesterday_visits'   => number_format(wp_statistics_visit('yesterday')),
-                'yesterday_visitors' => number_format(wp_statistics_visitor('yesterday')),
-                'online_users'       => number_format(wp_statistics_useronline()),
+                'today_visits'       => number_format($todayVisits),
+                'today_visitors'     => number_format($todayVisitors),
+                'yesterday_visits'   => number_format($yesterdayVisits),
+                'yesterday_visitors' => number_format($yesterdayVisitors),
+                'online_users'       => number_format($onlineUsers),
             ];
 
             /**
