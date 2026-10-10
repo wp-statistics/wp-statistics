@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', function handler() {
     if (consentIntegration === 'real_cookie_banner') {
         handleRealCookieBannerIntegration();
     }
+
+    // If CookieYes integration is enabled
+    if (consentIntegration === 'cookieyes') {
+        handleCookieYesIntegration();
+    }
 });
 
 
@@ -65,4 +70,38 @@ function handleRealCookieBannerIntegration() {
                 console.log("WP Statistics: Real Cookie Banner consent is not given to track visitor information.");
             }
         });
+}
+
+function handleCookieYesIntegration() {
+    let started = false;
+
+    const startTracking = () => {
+        if (started) return;
+        started = true;
+        WpStatisticsUserTracker.init();
+        WpStatisticsEventTracker.init();
+    };
+
+    const hasAnalyticsConsent = () => {
+        if (typeof window.getCkyConsent === 'function') {
+            const consent = window.getCkyConsent();
+            return !!(consent && consent.categories && consent.categories.analytics === true);
+        }
+
+        // Fallback when the CookieYes script is not loaded yet: read its consent cookie
+        const match = document.cookie.match(/(?:^|;\s*)cookieyes-consent=([^;]*)/);
+        return !!match && decodeURIComponent(match[1]).split(',').indexOf('analytics:yes') !== -1;
+    };
+
+    if (hasAnalyticsConsent()) {
+        startTracking();
+    }
+
+    document.addEventListener('cookieyes_consent_update', function (e) {
+        const accepted = (e.detail && e.detail.accepted) || [];
+
+        if (accepted.indexOf('analytics') !== -1 || hasAnalyticsConsent()) {
+            startTracking();
+        }
+    });
 }
