@@ -49,7 +49,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
 * Devices Report: Detailed device-specific analytics covering browsers, operating systems, device categories and device models.
 * Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
-* Integrate with WP Consent API: Ensures compatibility with consent plugins like Complianz and Cookiebot.
+* Consent plugin integration: Works directly with CookieYes, Real Cookie Banner and Borlabs Cookie, and through WP Consent API with plugins like Complianz and Cookiebot.
 * Email reports with customizable content
 * Customize role-based access to view analytics and modify settings.
 * Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.

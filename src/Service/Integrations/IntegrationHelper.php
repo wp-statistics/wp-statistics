@@ -7,6 +7,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
 use WP_Statistics\Service\Integrations\Plugins\RealCookieBanner;
 use WP_Statistics\Service\Integrations\Plugins\BorlabsCookie;
+use WP_Statistics\Service\Integrations\Plugins\CookieYes;
 use WP_Statistics\Service\Integrations\Plugins\AbstractIntegration;
 
 
@@ -20,6 +21,7 @@ class IntegrationHelper
         WpConsentApi::class,
         RealCookieBanner::class,
         BorlabsCookie::class,
+        CookieYes::class,
     ];
 
     /**
