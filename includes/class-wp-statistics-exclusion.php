@@ -533,10 +533,18 @@ class Exclusion
 
     /**
      * Detect if Cross Site
+     *
+     * A page load from a link on another site (search results, social apps,
+     * ads) is a cross-site navigation. That is a real visit, so only
+     * cross-site background requests (fetch, XHR, beacon) are excluded.
      */
     public static function exclusion_cross_site()
     {
-        return isset($_SERVER['HTTP_SEC_FETCH_SITE']) && 'cross-site' === $_SERVER['HTTP_SEC_FETCH_SITE'];
+        if (!isset($_SERVER['HTTP_SEC_FETCH_SITE']) || 'cross-site' !== $_SERVER['HTTP_SEC_FETCH_SITE']) {
+            return false;
+        }
+
+        return !isset($_SERVER['HTTP_SEC_FETCH_MODE']) || 'navigate' !== $_SERVER['HTTP_SEC_FETCH_MODE'];
     }
 
     /**
