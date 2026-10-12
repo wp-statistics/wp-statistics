@@ -3,6 +3,7 @@
 - **Enhancement:** The admin bar and the Pages list no longer repeat the same statistics queries, so admin screens load a little faster ([#1155](https://github.com/wp-statistics/wp-statistics/pull/1155), thanks to @superdav42).
 - **New:** CookieYes is now an option under Consent Plugin Integration, so it works without WP Consent API (issue [#1159](https://github.com/wp-statistics/wp-statistics/issues/1159)).
 - **Fix:** CookieHub now shows correctly in the WP Consent API compatible plugins list (issue [#1159](https://github.com/wp-statistics/wp-statistics/issues/1159)).
+- **Fix:** Opening the network admin URL (`/wp-admin/network/admin.php`) on a single-site install no longer causes a fatal error about `get_sites()`; WordPress shows its normal "Multisite support is not enabled" message instead (issue [#1161](https://github.com/wp-statistics/wp-statistics/issues/1161)).
 - **Fix:** With Server Side Tracking, visitors arriving from a link on another site (search, social, ads) are no longer excluded as cross-site requests (issue [#1157](https://github.com/wp-statistics/wp-statistics/issues/1157)).
 
 14.16.15 - 2026-10-01
