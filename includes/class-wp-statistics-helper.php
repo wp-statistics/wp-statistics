@@ -18,10 +18,17 @@ class Helper
     /**
      * Returns an array of site id's
      *
+     * On a single site, get_sites() is not loaded (it lives in ms-site.php),
+     * so the current site is the only one.
+     *
      * @return array
      */
     public static function get_wp_sites_list()
     {
+        if (!is_multisite()) {
+            return array(get_current_blog_id());
+        }
+
         $site_list = array();
         $sites     = get_sites();
         foreach ($sites as $site) {
