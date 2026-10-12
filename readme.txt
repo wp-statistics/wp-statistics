@@ -1,7 +1,7 @@
 === WP Statistics – Simple, privacy-friendly Google Analytics alternative ===
 Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
-Tags: analytics, google analytics, insights, stats, site visitors
+Tags: analytics, google analytics, gdpr, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.1
 Stable tag: 14.16.16
