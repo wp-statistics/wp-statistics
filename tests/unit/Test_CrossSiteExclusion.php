@@ -11,7 +11,7 @@ class Test_CrossSiteExclusion extends WP_UnitTestCase
 {
     public function tearDown(): void
     {
-        unset($_SERVER['HTTP_SEC_FETCH_SITE'], $_SERVER['HTTP_SEC_FETCH_MODE']);
+        unset($_SERVER['HTTP_SEC_FETCH_SITE'], $_SERVER['HTTP_SEC_FETCH_MODE'], $_SERVER['HTTP_SEC_FETCH_DEST']);
         parent::tearDown();
     }
 
@@ -25,6 +25,24 @@ class Test_CrossSiteExclusion extends WP_UnitTestCase
         $_SERVER['HTTP_SEC_FETCH_MODE'] = 'navigate';
 
         $this->assertFalse(Exclusion::exclusion_cross_site());
+
+        $_SERVER['HTTP_SEC_FETCH_DEST'] = 'document';
+        $this->assertFalse(Exclusion::exclusion_cross_site());
+    }
+
+    /**
+     * Another site framing the page also sends Sec-Fetch-Mode: navigate,
+     * but with Sec-Fetch-Dest: iframe or embed. That is not a visit.
+     */
+    public function test_cross_site_framed_navigation_is_excluded()
+    {
+        $_SERVER['HTTP_SEC_FETCH_SITE'] = 'cross-site';
+        $_SERVER['HTTP_SEC_FETCH_MODE'] = 'navigate';
+
+        foreach (['iframe', 'frame', 'embed', 'object'] as $dest) {
+            $_SERVER['HTTP_SEC_FETCH_DEST'] = $dest;
+            $this->assertTrue(Exclusion::exclusion_cross_site(), $dest);
+        }
     }
 
     public function test_cross_site_background_request_is_excluded()
