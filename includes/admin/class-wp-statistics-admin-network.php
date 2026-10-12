@@ -11,6 +11,16 @@ class Network
      */
     public function __construct()
     {
+        /**
+         * The network admin only exists on multisite. On a single site,
+         * wp-admin/network/admin.php still fires network_admin_menu before it
+         * stops with "Multisite support is not enabled.", and the multisite
+         * functions this menu needs (get_sites()) are not loaded.
+         */
+        if (!is_multisite()) {
+            return;
+        }
+
         add_action('network_admin_menu', array($this, 'wp_admin_menu'));
     }
 

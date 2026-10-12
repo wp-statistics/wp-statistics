@@ -118,7 +118,7 @@ class WpConsentApi extends AbstractIntegration
         }
 
         if (is_plugin_active('cookiehub/cookiehub.php')) {
-            $plugins['cookie-law-info/cookie-law-info.php'] = esc_html__('CookieHub', 'wp-statistics');
+            $plugins['cookiehub/cookiehub.php'] = esc_html__('CookieHub', 'wp-statistics');
         }
 
         if (is_plugin_active('cookie-law-info/cookie-law-info.php')) {

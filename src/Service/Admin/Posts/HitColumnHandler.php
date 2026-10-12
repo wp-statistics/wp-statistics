@@ -312,7 +312,6 @@ class HitColumnHandler
             $hitCount      = $visitorsModel->countVisitors(array_merge($hitArgs, ['resource_id' => $objectId]));
         } else {
             $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId]));
 
             // Consider historical if `count_display` is equal to 'total'
             if ($this->miniChartHelper->getCountDisplay() === 'total') {
@@ -320,6 +319,8 @@ class HitColumnHandler
                 $uri = !is_wp_error($uri) ? wp_make_link_relative($uri) : '';
 
                 $hitCount = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId, 'uri' => $uri, 'historical' => true]));
+            } else {
+                $hitCount = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId]));
             }
         }
 

@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.15
+Stable tag: 14.16.16
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -49,7 +49,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
 * Devices Report: Detailed device-specific analytics covering browsers, operating systems, device categories and device models.
 * Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
-* Integrate with WP Consent API: Ensures compatibility with consent plugins like Complianz and Cookiebot.
+* Consent plugin integration: Works directly with CookieYes, Real Cookie Banner and Borlabs Cookie, and through WP Consent API with plugins like Complianz and Cookiebot.
 * Email reports with customizable content
 * Customize role-based access to view analytics and modify settings.
 * Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
@@ -150,6 +150,14 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.16 - 2026-10-12 =
+- **New:** Added a separate AI Assistants traffic channel for ChatGPT, Perplexity, Gemini, Claude, Copilot, DeepSeek, Grok, Mistral Le Chat, Meta AI, You.com, and Phind. Existing visits are not reclassified (issue [#1152](https://github.com/wp-statistics/wp-statistics/issues/1152)).
+- **New:** CookieYes is now an option under Consent Plugin Integration, so it works without WP Consent API (issue [#1159](https://github.com/wp-statistics/wp-statistics/issues/1159)).
+- **Enhancement:** The admin bar and the Pages list no longer repeat the same statistics queries, so admin screens load a little faster ([#1155](https://github.com/wp-statistics/wp-statistics/pull/1155), thanks to @superdav42).
+- **Fix:** With Server Side Tracking, visitors arriving from a link on another site (search, social, ads) are no longer excluded as cross-site requests (issue [#1157](https://github.com/wp-statistics/wp-statistics/issues/1157)).
+- **Fix:** CookieHub now shows correctly in the WP Consent API compatible plugins list (issue [#1159](https://github.com/wp-statistics/wp-statistics/issues/1159)).
+- **Fix:** Opening the network admin URL (`/wp-admin/network/admin.php`) on a single-site install no longer causes a fatal error about `get_sites()`; WordPress shows its normal "Multisite support is not enabled" message instead (issue [#1161](https://github.com/wp-statistics/wp-statistics/issues/1161)).
+
 = 14.16.15 - 2026-10-01 =
 - **Enhancement:** Hardened URL escaping in the filter dropdowns of the Referrals and Author Analytics reports.
 - **Enhancement:** Removed the unused `tracker.min.js` file. The tracker loads `js/tracker.js`.
