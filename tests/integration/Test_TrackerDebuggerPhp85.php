@@ -4,6 +4,7 @@ namespace WP_Statistics\Tests\Service\Debugger;
 
 use WP_Statistics\Option;
 use WP_Statistics\Service\Debugger\DebuggerFactory;
+use WP_Statistics\Service\Debugger\Provider\TrackerProvider;
 use WP_UnitTestCase;
 
 class Test_TrackerDebuggerPhp85 extends WP_UnitTestCase
@@ -48,5 +49,49 @@ class Test_TrackerDebuggerPhp85 extends WP_UnitTestCase
         }
 
         $this->assertSame([], $deprecations, implode("\n", $deprecations));
+    }
+
+    public function test_reports_broken_tracker_url_from_cached_frontend_html()
+    {
+        $previousOptions = Option::getOptions();
+        $cachedTrackerUrl = home_url('/?cached_tracker=old-hash.js&ver=14.16.13');
+
+        Option::update('use_cache_plugin', true);
+        Option::update('bypass_ad_blockers', false);
+
+        $httpRequestFilter = static function ($preempt, $args, $url) use ($cachedTrackerUrl) {
+            $responseCode = 200;
+            $body         = '{"status":true}';
+
+            if ($url === home_url('/')) {
+                $body = sprintf('<html><body><script src="%s" id="wp-statistics-tracker-js"></script></body></html>', esc_url($cachedTrackerUrl));
+            } elseif ($url === $cachedTrackerUrl) {
+                $responseCode = 404;
+                $body         = 'File not found.';
+            }
+
+            return [
+                'headers'  => [],
+                'body'     => $body,
+                'response' => ['code' => $responseCode, 'message' => $responseCode === 200 ? 'OK' : 'Not Found'],
+                'cookies'  => [],
+                'filename' => null,
+            ];
+        };
+
+        add_filter('pre_http_request', $httpRequestFilter, 10, 3);
+
+        try {
+            $status = (new TrackerProvider())->getTrackerStatus();
+        } finally {
+            remove_filter('pre_http_request', $httpRequestFilter, 10);
+            Option::save_options($previousOptions);
+        }
+
+        $this->assertTrue($status['frontendStatus']['checked']);
+        $this->assertTrue($status['frontendStatus']['found']);
+        $this->assertSame($cachedTrackerUrl, $status['frontendStatus']['url']);
+        $this->assertSame(404, $status['frontendStatus']['responseCode']);
+        $this->assertFalse($status['frontendStatus']['isAccessible']);
     }
 }
