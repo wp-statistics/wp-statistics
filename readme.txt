@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.16
+Stable tag: 14.16.17
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,11 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.17 - 2026-10-14 =
+- **Enhancement:** The Tracker Debugger now checks the tracker URL served on the public homepage and warns when cached pages reference an unavailable tracker ([#1167](https://github.com/wp-statistics/wp-statistics/pull/1167)).
+- **Fix:** Obfuscated tracker URLs cached by page or CDN caches continue working after WP Statistics updates, preventing traffic from dropping until caches are purged ([#1166](https://github.com/wp-statistics/wp-statistics/pull/1166)).
+- **Fix:** Added the missing space between the site title and report title in email report subjects (issue [#1164](https://github.com/wp-statistics/wp-statistics/issues/1164)).
+
 = 14.16.16 - 2026-10-12 =
 - **New:** Added a separate AI Assistants traffic channel for ChatGPT, Perplexity, Gemini, Claude, Copilot, DeepSeek, Grok, Mistral Le Chat, Meta AI, You.com, and Phind. Existing visits are not reclassified (issue [#1152](https://github.com/wp-statistics/wp-statistics/issues/1152)).
 - **New:** CookieYes is now an option under Consent Plugin Integration, so it works without WP Consent API (issue [#1159](https://github.com/wp-statistics/wp-statistics/issues/1159)).
