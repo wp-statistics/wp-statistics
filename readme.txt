@@ -1,7 +1,7 @@
 === WP Statistics – Simple, privacy-friendly Google Analytics alternative ===
 Contributors: veronalabs, mostafa.s1990, kashani, GregRoss
 Donate link: https://wp-statistics.com/donate/
-Tags: analytics, google analytics, gdpr, stats, site visitors
+Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
 Tested up to: 7.1
 Stable tag: 14.16.16
@@ -9,7 +9,7 @@ Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing.
+Cookieless, privacy-friendly WordPress analytics. GDPR/CCPA compliant visitor data and clear graphs, with no data sharing.
 
 == Description ==
 Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
