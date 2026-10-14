@@ -187,10 +187,6 @@ class TrackerProvider extends AbstractDebuggerProvider
             'isAccessible' => null,
         ];
 
-        if (!Option::get('use_cache_plugin')) {
-            return $status;
-        }
-
         $response = wp_safe_remote_get(home_url('/'), array_merge($this->args, [
             'redirection' => 3,
         ]));
@@ -203,6 +199,10 @@ class TrackerProvider extends AbstractDebuggerProvider
         $trackerUrl        = $this->extractFrontendTrackerUrl(wp_remote_retrieve_body($response));
 
         if (empty($trackerUrl)) {
+            if (!Option::get('use_cache_plugin')) {
+                $status['isAccessible'] = true;
+            }
+
             return $status;
         }
 
@@ -256,19 +256,44 @@ class TrackerProvider extends AbstractDebuggerProvider
                 continue;
             }
 
-            if (strpos($src, '//') === 0) {
-                $scheme = wp_parse_url(home_url('/'), PHP_URL_SCHEME);
-                $src    = $scheme . ':' . $src;
-            } elseif (strpos($src, '/') === 0) {
-                $src = home_url($src);
-            } elseif (empty(wp_parse_url($src, PHP_URL_SCHEME))) {
-                $src = home_url('/' . ltrim($src, '/'));
-            }
-
-            return esc_url_raw($src);
+            return $this->resolveFrontendTrackerUrl($src);
         }
 
         return '';
+    }
+
+    /**
+     * Resolves a frontend script source to an absolute URL.
+     *
+     * @param string $src
+     * @return string
+     */
+    private function resolveFrontendTrackerUrl($src)
+    {
+        $homeUrl = home_url('/');
+
+        if (strpos($src, '//') === 0) {
+            $scheme = wp_parse_url($homeUrl, PHP_URL_SCHEME);
+            $src    = $scheme . ':' . $src;
+        } elseif (strpos($src, '/') === 0) {
+            $parts = wp_parse_url($homeUrl);
+
+            if (empty($parts['scheme']) || empty($parts['host'])) {
+                return '';
+            }
+
+            $host = $parts['host'];
+            if (strpos($host, ':') !== false && strpos($host, '[') !== 0) {
+                $host = '[' . $host . ']';
+            }
+
+            $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+            $src  = $parts['scheme'] . '://' . $host . $port . $src;
+        } elseif (empty(wp_parse_url($src, PHP_URL_SCHEME))) {
+            $src = home_url('/' . ltrim($src, '/'));
+        }
+
+        return esc_url_raw($src);
     }
 
     /**

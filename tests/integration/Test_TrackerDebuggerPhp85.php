@@ -51,12 +51,15 @@ class Test_TrackerDebuggerPhp85 extends WP_UnitTestCase
         $this->assertSame([], $deprecations, implode("\n", $deprecations));
     }
 
+    /**
+     * Detects stale cached tracker URLs even when cache compatibility is disabled.
+     */
     public function test_reports_broken_tracker_url_from_cached_frontend_html()
     {
         $previousOptions = Option::getOptions();
         $cachedTrackerUrl = home_url('/?cached_tracker=old-hash.js&ver=14.16.13');
 
-        Option::update('use_cache_plugin', true);
+        Option::update('use_cache_plugin', false);
         Option::update('bypass_ad_blockers', false);
 
         $httpRequestFilter = static function ($preempt, $args, $url) use ($cachedTrackerUrl) {
@@ -93,5 +96,73 @@ class Test_TrackerDebuggerPhp85 extends WP_UnitTestCase
         $this->assertSame($cachedTrackerUrl, $status['frontendStatus']['url']);
         $this->assertSame(404, $status['frontendStatus']['responseCode']);
         $this->assertFalse($status['frontendStatus']['isAccessible']);
+    }
+
+    /**
+     * Treats tracker request errors as inconclusive instead of successful.
+     */
+    public function test_frontend_tracker_request_error_is_inconclusive()
+    {
+        $previousOptions = Option::getOptions();
+        $trackerUrl      = home_url('/tracker.js');
+
+        $httpRequestFilter = static function ($preempt, $args, $url) use ($trackerUrl) {
+            if ($url === $trackerUrl) {
+                return new \WP_Error('http_request_failed', 'Connection failed.');
+            }
+
+            $body = $url === home_url('/')
+                ? sprintf('<html><body><script src="%s" id="wp-statistics-tracker-js"></script></body></html>', esc_url($trackerUrl))
+                : '{"status":true}';
+
+            return [
+                'headers'  => [],
+                'body'     => $body,
+                'response' => ['code' => 200, 'message' => 'OK'],
+                'cookies'  => [],
+                'filename' => null,
+            ];
+        };
+
+        add_filter('pre_http_request', $httpRequestFilter, 10, 3);
+
+        try {
+            $status = (new TrackerProvider())->getTrackerStatus();
+        } finally {
+            remove_filter('pre_http_request', $httpRequestFilter, 10);
+            Option::save_options($previousOptions);
+        }
+
+        $this->assertTrue($status['frontendStatus']['found']);
+        $this->assertNull($status['frontendStatus']['responseCode']);
+        $this->assertNull($status['frontendStatus']['isAccessible']);
+    }
+
+    /**
+     * Resolves root-relative tracker sources against the home URL origin.
+     */
+    public function test_root_relative_tracker_url_uses_home_origin()
+    {
+        $homeUrlFilter = static function () {
+            return 'https://example.com/blog/';
+        };
+
+        add_filter('home_url', $homeUrlFilter);
+
+        try {
+            $reflection = new \ReflectionClass(TrackerProvider::class);
+            $provider   = $reflection->newInstanceWithoutConstructor();
+            $method     = $reflection->getMethod('extractFrontendTrackerUrl');
+            $method->setAccessible(true);
+
+            $url = $method->invoke(
+                $provider,
+                '<script src="/blog/tracker.js?ver=14.16.17" id="wp-statistics-tracker-js"></script>'
+            );
+        } finally {
+            remove_filter('home_url', $homeUrlFilter);
+        }
+
+        $this->assertSame('https://example.com/blog/tracker.js?ver=14.16.17', $url);
     }
 }

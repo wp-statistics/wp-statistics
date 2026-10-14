@@ -61,6 +61,15 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'suggestion'  => esc_html__('Purge all page and CDN caches. If the problem returns after a plugin update, update WP Statistics to a version that supports cached tracker URLs from older releases.', 'wp-statistics'),
                         'status'      => 'danger'
                     ];
+                } elseif (($frontendStatus['isAccessible'] ?? null) === null) {
+                    $trackerData = [
+                        'svg'         => $trackerIcon,
+                        'title'       => __('Tracker.js Frontend Check: Inconclusive', 'wp-statistics'),
+                        'description' => esc_html__('The debugger could not verify the tracker URL served on your public site.', 'wp-statistics'),
+                        'content'     => esc_html__('The current tracker file may be available, but the public frontend tracker URL could not be confirmed.', 'wp-statistics'),
+                        'suggestion'  => esc_html__('Check the public page source and browser network requests, then retry after confirming that loopback requests are allowed.', 'wp-statistics'),
+                        'status'      => 'info'
+                    ];
                 } elseif (!empty($trackerStatus['exists'])) {
                     $trackerData = [
                         'svg'         => $trackerIcon,
