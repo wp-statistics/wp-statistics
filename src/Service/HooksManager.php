@@ -110,9 +110,10 @@ class HooksManager
         $assetNameObfuscator = new AssetNameObfuscator();
         $dynamicAssetKey     = $assetNameObfuscator->getDynamicAssetKey();
 
-        if (isset($_GET[$dynamicAssetKey])) {
-            $asset = sanitize_text_field($_GET[$dynamicAssetKey]);
-            $assetNameObfuscator->serveAssetByHash($asset);
+        if (isset($_GET[$dynamicAssetKey]) && is_string($_GET[$dynamicAssetKey])) {
+            $asset   = sanitize_text_field(wp_unslash($_GET[$dynamicAssetKey]));
+            $version = isset($_GET['ver']) && is_string($_GET['ver']) ? sanitize_text_field(wp_unslash($_GET['ver'])) : '';
+            $assetNameObfuscator->serveAssetByHash($asset, $version);
         }
     }
 }

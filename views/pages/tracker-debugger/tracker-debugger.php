@@ -49,7 +49,28 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'status'      => 'danger'
                 ];
 
-                if (!empty($trackerStatus['exists'])) {
+                $frontendStatus = $trackerStatus['frontendStatus'] ?? [];
+
+                if (($frontendStatus['isAccessible'] ?? null) === false) {
+                    $trackerData = [
+                        'svg'         => $trackerIcon,
+                        'title'       => __('Tracker.js Status: Cached Frontend URL Failed', 'wp-statistics'),
+                        'description' => esc_html__('The tracker URL served on your public site is unavailable.', 'wp-statistics'),
+                        /* translators: %d: HTTP response status code. */
+                        'content'     => sprintf(esc_html__('The public page is loading a tracker.js URL that returns HTTP %d, so visits from cached pages may not be recorded.', 'wp-statistics'), (int)$frontendStatus['responseCode']),
+                        'suggestion'  => esc_html__('Purge all page and CDN caches. If the problem returns after a plugin update, update WP Statistics to a version that supports cached tracker URLs from older releases.', 'wp-statistics'),
+                        'status'      => 'danger'
+                    ];
+                } elseif (($frontendStatus['isAccessible'] ?? null) === null) {
+                    $trackerData = [
+                        'svg'         => $trackerIcon,
+                        'title'       => __('Tracker.js Frontend Check: Inconclusive', 'wp-statistics'),
+                        'description' => esc_html__('The debugger could not verify the tracker URL served on your public site.', 'wp-statistics'),
+                        'content'     => esc_html__('The current tracker file may be available, but the public frontend tracker URL could not be confirmed.', 'wp-statistics'),
+                        'suggestion'  => esc_html__('Check the public page source and browser network requests, then retry after confirming that loopback requests are allowed.', 'wp-statistics'),
+                        'status'      => 'info'
+                    ];
+                } elseif (!empty($trackerStatus['exists'])) {
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => __('Tracker.js Status: Loaded Successfully', 'wp-statistics'),

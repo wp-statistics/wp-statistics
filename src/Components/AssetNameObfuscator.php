@@ -111,7 +111,7 @@ class AssetNameObfuscator
             ];
         }
 
-        $this->hashedFileName = $this->generateShortHash(WP_STATISTICS_VERSION . $this->hashedFileOptionKey);
+        $this->hashedFileName = $this->generateShortHash($this->hashedFileOptionKey);
         $this->hashedFileName .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
         $this->hashedFileName = $this->cleanHashedFileName($this->hashedFileName);
         $this->hashedFileName = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
@@ -168,6 +168,10 @@ class AssetNameObfuscator
         $entry = $this->hashedAssetsArray[$this->hashedFileOptionKey] ?? [];
 
         if (($entry[self::KEY_VERSION] ?? null) !== WP_STATISTICS_VERSION) {
+            return false;
+        }
+
+        if (($entry[self::KEY_NAME] ?? null) !== $this->hashedFileName) {
             return false;
         }
 
@@ -279,14 +283,15 @@ class AssetNameObfuscator
      * Proxies requested asset files through PHP to serve them securely.
      *
      * @param string $asset
+     * @param string $version
      *
      * @return void
      */
-    public function serveAssetByHash($asset)
+    public function serveAssetByHash($asset, $version = '')
     {
         $asset             = $this->cleanHashedFileName($asset);
         $hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
-        $originalFilePath  = $this->getHashedAssetPath($asset, $hashedAssetsArray);
+        $originalFilePath  = $this->getHashedAssetPath($asset, $hashedAssetsArray, $version);
 
         if ($originalFilePath && file_exists($originalFilePath)) {
             $extension   = pathinfo($originalFilePath, PATHINFO_EXTENSION);
@@ -313,10 +318,11 @@ class AssetNameObfuscator
      * @param string $hashedFileName
      *
      * @param array $hashedAssetsArray
+     * @param string $version
      *
      * @return string|null
      */
-    private function getHashedAssetPath($hashedFileName, $hashedAssetsArray)
+    private function getHashedAssetPath($hashedFileName, $hashedAssetsArray, $version = '')
     {
         if (empty($hashedAssetsArray)) {
             return null;
@@ -328,6 +334,14 @@ class AssetNameObfuscator
             if (isset($info[self::KEY_NAME]) && $info[self::KEY_NAME] === $hashedFileName) {
                 if (!empty($info[self::KEY_DIR]) && file_exists($info[self::KEY_DIR])) {
                     return $info[self::KEY_DIR];
+                }
+            }
+
+            if ($this->isVersionedHashMatch($hashedFileName, $originalKey, $version)) {
+                foreach ($this->legacyFallbackCandidates($originalKey, $info[self::KEY_DIR] ?? '') as $candidate) {
+                    if (file_exists($candidate) && !$this->isLegacyUploadsPath($candidate)) {
+                        return $candidate;
+                    }
                 }
             }
 
@@ -346,6 +360,30 @@ class AssetNameObfuscator
         }
 
         return null;
+    }
+
+    /**
+     * Checks hashes generated before tracker URLs became stable across updates.
+     *
+     * @param string $hashedFileName
+     * @param string $originalKey
+     * @param string $version
+     * @return bool
+     */
+    private function isVersionedHashMatch($hashedFileName, $originalKey, $version)
+    {
+        if (empty($version) || !is_string($version) || !preg_match('/^[A-Za-z0-9._-]{1,64}$/', $version)) {
+            return false;
+        }
+
+        $extension = pathinfo($originalKey, PATHINFO_EXTENSION);
+        if (empty($extension)) {
+            return false;
+        }
+
+        $expectedFileName = $this->generateShortHash($version . $originalKey) . '.' . $extension;
+
+        return hash_equals($expectedFileName, $hashedFileName);
     }
 
     /**

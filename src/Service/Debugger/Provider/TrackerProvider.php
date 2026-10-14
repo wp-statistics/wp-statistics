@@ -166,9 +166,134 @@ class TrackerProvider extends AbstractDebuggerProvider
         $this->trackerStatus = [
             'exists'             => $fileExists,
             'path'               => $this->trackerPath,
+            'frontendStatus'     => $this->checkFrontendTracker(),
             'cacheStatus'        => $this->getCacheStatus(),
             'hitRecordingStatus' => $this->checkHitRecording()
         ];
+    }
+
+    /**
+     * Checks the tracker URL included in the public homepage response.
+     *
+     * @return array
+     */
+    private function checkFrontendTracker()
+    {
+        $status = [
+            'checked'      => false,
+            'found'        => false,
+            'url'          => '',
+            'responseCode' => null,
+            'isAccessible' => null,
+        ];
+
+        $response = wp_safe_remote_get(home_url('/'), array_merge($this->args, [
+            'redirection' => 3,
+        ]));
+
+        if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
+            return $status;
+        }
+
+        $status['checked'] = true;
+        $trackerUrl        = $this->extractFrontendTrackerUrl(wp_remote_retrieve_body($response));
+
+        if (empty($trackerUrl)) {
+            if (!Option::get('use_cache_plugin')) {
+                $status['isAccessible'] = true;
+            }
+
+            return $status;
+        }
+
+        $status['found'] = true;
+        $status['url']   = $trackerUrl;
+
+        $trackerResponse = wp_safe_remote_get($trackerUrl, array_merge($this->args, [
+            'redirection'         => 3,
+            'limit_response_size' => 1024,
+        ]));
+
+        if (is_wp_error($trackerResponse)) {
+            return $status;
+        }
+
+        $status['responseCode'] = wp_remote_retrieve_response_code($trackerResponse);
+        $status['isAccessible'] = $status['responseCode'] === 200;
+
+        return $status;
+    }
+
+    /**
+     * Extracts the WP Statistics tracker URL from frontend HTML.
+     *
+     * @param string $html
+     * @return string
+     */
+    private function extractFrontendTrackerUrl($html)
+    {
+        if (empty($html) || !class_exists('WP_HTML_Tag_Processor')) {
+            return '';
+        }
+
+        $processor            = new \WP_HTML_Tag_Processor($html);
+        $assetNameObfuscator  = new AssetNameObfuscator();
+        $dynamicAssetKey      = $assetNameObfuscator->getDynamicAssetKey();
+
+        while ($processor->next_tag(['tag_name' => 'SCRIPT'])) {
+            $id  = $processor->get_attribute('id');
+            $src = $processor->get_attribute('src');
+
+            if (!is_string($src) || empty($src)) {
+                continue;
+            }
+
+            $isTrackerHandle = $id === 'wp-statistics-tracker-js';
+            $isTrackerPath   = strpos($src, '/wp-statistics/assets/js/tracker.js') !== false;
+            $isObfuscated    = strpos($src, '?' . $dynamicAssetKey . '=') !== false || strpos($src, '&' . $dynamicAssetKey . '=') !== false;
+
+            if (!$isTrackerHandle && !$isTrackerPath && !$isObfuscated) {
+                continue;
+            }
+
+            return $this->resolveFrontendTrackerUrl($src);
+        }
+
+        return '';
+    }
+
+    /**
+     * Resolves a frontend script source to an absolute URL.
+     *
+     * @param string $src
+     * @return string
+     */
+    private function resolveFrontendTrackerUrl($src)
+    {
+        $homeUrl = home_url('/');
+
+        if (strpos($src, '//') === 0) {
+            $scheme = wp_parse_url($homeUrl, PHP_URL_SCHEME);
+            $src    = $scheme . ':' . $src;
+        } elseif (strpos($src, '/') === 0) {
+            $parts = wp_parse_url($homeUrl);
+
+            if (empty($parts['scheme']) || empty($parts['host'])) {
+                return '';
+            }
+
+            $host = $parts['host'];
+            if (strpos($host, ':') !== false && strpos($host, '[') !== 0) {
+                $host = '[' . $host . ']';
+            }
+
+            $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+            $src  = $parts['scheme'] . '://' . $host . $port . $src;
+        } elseif (empty(wp_parse_url($src, PHP_URL_SCHEME))) {
+            $src = home_url('/' . ltrim($src, '/'));
+        }
+
+        return esc_url_raw($src);
     }
 
     /**
