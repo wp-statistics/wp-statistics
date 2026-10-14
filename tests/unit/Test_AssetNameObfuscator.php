@@ -51,6 +51,62 @@ class Test_AssetNameObfuscator extends WP_UnitTestCase
         $hashedFileName = $this->obfuscator->getHashedFileName();
         $this->assertNotEmpty($hashedFileName);
         $this->assertStringEndsWith('.js', $hashedFileName);
+        $this->assertSame(substr(wp_hash($this->testFile), 0, 10) . '.js', $hashedFileName);
+    }
+
+    public function test_resolves_cached_hash_from_previous_version()
+    {
+        $previousVersion = '14.16.13';
+        $hashedFileName  = substr(wp_hash($previousVersion . $this->testFile), 0, 10) . '.js';
+        $method          = new ReflectionMethod(AssetNameObfuscator::class, 'getHashedAssetPath');
+        $option          = get_option('wp_statistics_hashed_assets');
+
+        $method->setAccessible(true);
+
+        $this->assertSame(
+            $this->testFile,
+            $method->invoke($this->obfuscator, $hashedFileName, $option, $previousVersion)
+        );
+    }
+
+    public function test_regenerates_current_version_mapping_with_legacy_hash()
+    {
+        $option      = get_option('wp_statistics_hashed_assets');
+        $originalKey = null;
+
+        foreach ($option as $key => $entry) {
+            if (($entry['name'] ?? null) === $this->obfuscator->getHashedFileName()) {
+                $originalKey = $key;
+                break;
+            }
+        }
+
+        $this->assertNotNull($originalKey);
+
+        $legacyName = substr(wp_hash(WP_STATISTICS_VERSION . $originalKey), 0, 10) . '.js';
+
+        Option::saveOptionGroup($originalKey, [
+            'version' => WP_STATISTICS_VERSION,
+            'dir'     => $this->testFile,
+            'name'    => $legacyName,
+        ], 'hashed_assets');
+
+        $obfuscator = new AssetNameObfuscator($this->testFile);
+        $option     = get_option('wp_statistics_hashed_assets');
+
+        $this->assertNotSame($legacyName, $obfuscator->getHashedFileName());
+        $this->assertSame($obfuscator->getHashedFileName(), $option[$originalKey]['name']);
+    }
+
+    public function test_rejects_cached_hash_with_wrong_version()
+    {
+        $hashedFileName = substr(wp_hash('14.16.13' . $this->testFile), 0, 10) . '.js';
+        $method         = new ReflectionMethod(AssetNameObfuscator::class, 'getHashedAssetPath');
+        $option         = get_option('wp_statistics_hashed_assets');
+
+        $method->setAccessible(true);
+
+        $this->assertNull($method->invoke($this->obfuscator, $hashedFileName, $option, '14.16.12'));
     }
 
     /**
