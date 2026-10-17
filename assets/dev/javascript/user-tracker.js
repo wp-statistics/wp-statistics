@@ -88,8 +88,7 @@ if (!window.WpStatisticsUserTracker) {
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
-                            const responseData = JSON.parse(xhr.responseText);
-                            this.hitRequestSuccessful = responseData.status !== false;
+                            this.hitRequestSuccessful = this.parseHitResponse(xhr.responseText).status !== false;
                         } else {
                             this.hitRequestSuccessful = false;
                             console.warn('WP Statistics: Hit request failed with status ' + xhr.status);
@@ -99,6 +98,29 @@ if (!window.WpStatisticsUserTracker) {
             } catch (error) {
                 this.hitRequestSuccessful = false;
                 console.error('WP Statistics: Error sending hit request:', error);
+            }
+        },
+
+        // Read the hit response. Another plugin or the theme can print a PHP notice before
+        // the JSON when display_errors is on; the visit is already saved by then, so read the
+        // JSON after the notice instead of failing on it (#1170).
+        parseHitResponse: function (responseText) {
+            try {
+                return JSON.parse(responseText);
+            } catch (error) {
+                const start = responseText.indexOf('{"');
+
+                if (start > -1) {
+                    try {
+                        return JSON.parse(responseText.slice(start));
+                    } catch (innerError) {
+                        // Fall through to the warning below.
+                    }
+                }
+
+                console.warn('WP Statistics: The hit response was not valid JSON. Another plugin or the theme may be printing PHP notices.');
+
+                return {status: true};
             }
         },
 

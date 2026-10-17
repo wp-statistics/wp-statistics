@@ -47,6 +47,14 @@ class ErrorsDetectorProvider extends AbstractDebuggerProvider
             return;
         }
 
+        // error_get_last() keeps returning the same error for the rest of the request, so
+        // clear it once read: the next listener call would otherwise log it again.
+        error_clear_last();
+
+        if (!$this->isOwnError($error)) {
+            return;
+        }
+
         $errorName   = LoggerFactory::logger('tracker')->getErrorSeverity($error['type']);
         $currentLogs = Option::getOptionGroup(self::ERROR_LOG_OPTION, null, []);
         $count       = count($currentLogs);
@@ -83,6 +91,52 @@ class ErrorsDetectorProvider extends AbstractDebuggerProvider
             ],
             self::ERROR_LOG_OPTION
         );
+    }
+
+    /**
+     * Whether an error was raised by WP Statistics or one of its add-ons.
+     *
+     * error_get_last() returns the last error of the whole request, whoever raised it. A
+     * theme or another plugin printing a deprecation (for example Kirki on PHP 8.2+) was
+     * shown in the debugger as "PHP Errors Detected in tracker.js", which sent site owners
+     * looking for a fault in the tracker that was not there (#1170).
+     *
+     * @param array $error The array returned by error_get_last().
+     * @return bool
+     */
+    private function isOwnError($error)
+    {
+        $file = isset($error['file']) ? wp_normalize_path((string) $error['file']) : '';
+        $own  = false;
+
+        if ($file !== '') {
+            // The plugin itself, or an add-on folder such as wp-statistics-data-plus. Each
+            // folder is compared as written and as resolved: PHP reports the real path, and a
+            // symlinked plugins folder would otherwise never match.
+            $prefixes = [];
+            foreach ([WP_STATISTICS_DIR => '', WP_PLUGIN_DIR => '/wp-statistics-'] as $dir => $suffix) {
+                foreach (array_unique([$dir, (string) realpath($dir)]) as $path) {
+                    if ($path !== '') {
+                        $prefixes[] = untrailingslashit(wp_normalize_path($path)) . ($suffix === '' ? '/' : $suffix);
+                    }
+                }
+            }
+
+            foreach ($prefixes as $prefix) {
+                if (strpos($file, $prefix) === 0) {
+                    $own = true;
+                    break;
+                }
+            }
+        }
+
+        /**
+         * Filters whether an error is logged in the tracker debugger.
+         *
+         * @param bool  $own   Whether the error was raised inside WP Statistics or an add-on.
+         * @param array $error The error from error_get_last().
+         */
+        return (bool) apply_filters('wp_statistics_tracker_debugger_log_error', $own, $error);
     }
 
     /**

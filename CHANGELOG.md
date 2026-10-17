@@ -1,3 +1,6 @@
+14.16.18 - unreleased
+- **Fix:** The Tracker Debugger no longer shows PHP notices from the theme or other plugins as "PHP Errors Detected in tracker.js", and the tracker no longer shows a console error when such a notice is printed before its response (issue [#1170](https://github.com/wp-statistics/wp-statistics/issues/1170)).
+
 14.16.17 - 2026-10-14
 - **Enhancement:** The Tracker Debugger now checks the tracker URL served on the public homepage and warns when cached pages reference an unavailable tracker ([#1167](https://github.com/wp-statistics/wp-statistics/pull/1167)).
 - **Fix:** Obfuscated tracker URLs cached by page or CDN caches continue working after WP Statistics updates, preventing traffic from dropping until caches are purged ([#1166](https://github.com/wp-statistics/wp-statistics/pull/1166)).
