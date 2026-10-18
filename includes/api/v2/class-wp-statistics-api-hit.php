@@ -81,7 +81,13 @@ class Hit extends \WP_STATISTICS\RestAPI
 
         try {
             Helper::validateHitRequest();
-            Hits::record();
+
+            // A Tracker Debugger test hit is checked like a real visit but not recorded.
+            if (Hits::isDebuggerTestHit()) {
+                $responseData['test'] = true;
+            } else {
+                Hits::record();
+            }
 
             $responseData['status'] = true;
 

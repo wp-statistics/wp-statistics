@@ -22,6 +22,16 @@ class Hits extends Singleton
     public static $rest_hits_key = 'wp_statistics_hit';
 
     /**
+     * Request key that marks a hit as a Tracker Debugger test.
+     *
+     * A test hit goes through the same signature and parameter checks as a
+     * real visit, but it is not recorded.
+     *
+     * @var string
+     */
+    public static $debugger_test_key = 'wp_statistics_debugger_test';
+
+    /**
      * Rest-Api Hit Data
      *
      * @var object
@@ -148,6 +158,16 @@ class Hits extends Singleton
      *
      * @return bool
      */
+    /**
+     * Whether the current hit request is a Tracker Debugger test.
+     *
+     * @return bool
+     */
+    public static function isDebuggerTestHit()
+    {
+        return !empty($_REQUEST[self::$debugger_test_key]); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    }
+
     public static function is_rest_hit()
     {
         return (Helper::is_rest_request() and isset($_REQUEST[self::$rest_hits_key]));
