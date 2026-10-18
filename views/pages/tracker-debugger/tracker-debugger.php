@@ -86,16 +86,34 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'svg'         => $trackerIcon,
                     'title'       => esc_html__('Hit Endpoint Status: Successful', 'wp-statistics'),
                     'description' => '',
-                    'content'     => esc_html__('Hit recording is responding as expected.', 'wp-statistics'),
+                    'content'     => esc_html__('The hit endpoint accepted a test visit sent the same way tracker.js sends one. The test visit is not saved in your statistics.', 'wp-statistics'),
                     'status'      => 'success',
                 ];
 
                 if (empty($trackerStatus['hitRecordingStatus'])) {
+                    $hitDetails      = $trackerStatus['hitRecordingDetails'] ?? [];
+                    $hitResponseCode = $hitDetails['responseCode'] ?? null;
+                    $hitMessage      = $hitDetails['message'] ?? '';
+
+                    $hitResult = $hitResponseCode
+                        /* translators: %d: HTTP response status code. */
+                        ? sprintf(esc_html__('The endpoint answered with HTTP %d.', 'wp-statistics'), (int)$hitResponseCode)
+                        : esc_html__('The endpoint did not answer.', 'wp-statistics');
+
+                    if (!empty($hitMessage)) {
+                        /* translators: %s: error message returned by the hit endpoint. */
+                        $hitResult .= ' ' . sprintf(esc_html__('Message: %s', 'wp-statistics'), '<code>' . esc_html($hitMessage) . '</code>');
+                    }
+
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => esc_html__('Hit Endpoint Status: Unexpected Response', 'wp-statistics'),
-                        'description' => esc_html__('Hit recording is not responding as expected.', 'wp-statistics'),
-                        'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>', esc_html__('Hit recording is not responding as expected.', 'wp-statistics')),
+                        'description' => esc_html__('The hit endpoint did not accept a test visit, so visits may not be recorded.', 'wp-statistics'),
+                        'content'     => sprintf(
+                            '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s',
+                            esc_html__('The hit endpoint did not accept a test visit, so visits may not be recorded.', 'wp-statistics'),
+                            $hitResult
+                        ),
                         'suggestion'  => sprintf(
                         /* %1$s: documentation URL */
                             /* translators: %1$s: string value */
