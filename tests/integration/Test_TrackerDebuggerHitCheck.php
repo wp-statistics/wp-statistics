@@ -3,6 +3,7 @@
 namespace WP_Statistics\Tests\Service\Debugger;
 
 use WP_STATISTICS\Api\v2\Hit;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Debugger\Provider\TrackerProvider;
@@ -239,6 +240,93 @@ class Test_TrackerDebuggerHitCheck extends WP_UnitTestCase
         if ($isDebuggerTest) {
             $_REQUEST[Hits::$debugger_test_key] = 1;
         }
+    }
+
+    /**
+     * Provides invalid hit values and the parameter each error should name.
+     *
+     * @return array
+     */
+    public function invalidHitParameterProvider()
+    {
+        return [
+            'page URI is the first invalid parameter' => [
+                'page_uri',
+                [
+                    'page_uri'  => base64_encode("' UNION SELECT 1"),
+                    'source_id' => 'not-a-number',
+                ],
+                [],
+            ],
+            'search query' => [
+                'search_query',
+                ['search_query' => ['not-a-string']],
+                [],
+            ],
+            'source ID' => [
+                'source_id',
+                [],
+                ['source_id'],
+            ],
+            'referrer' => [
+                'referred',
+                ['referred' => base64_encode('not a URL')],
+                [],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidHitParameterProvider
+     */
+    public function test_invalid_hit_message_names_the_first_failing_parameter($expectedParam, $overrides, $missingParams)
+    {
+        $this->setHitRequest(false);
+        $_REQUEST = array_replace($_REQUEST, $overrides);
+
+        foreach ($missingParams as $missingParam) {
+            unset($_REQUEST[$missingParam]);
+        }
+
+        $actionCalls = [];
+        $spy         = function ($isValid, $ipAddress) use (&$actionCalls) {
+            $actionCalls[] = [$isValid, $ipAddress];
+        };
+
+        add_action('wp_statistics_invalid_hit_request', $spy, 10, 2);
+
+        try {
+            Helper::validateHitRequest();
+            $this->fail('Invalid hit parameters must throw an ErrorException.');
+        } catch (\ErrorException $e) {
+            $this->assertSame("Invalid hit/online request ({$expectedParam}).", $e->getMessage());
+        } finally {
+            remove_action('wp_statistics_invalid_hit_request', $spy, 10);
+        }
+
+        $this->assertCount(1, $actionCalls);
+        $this->assertFalse($actionCalls[0][0]);
+        $this->assertNotEmpty($actionCalls[0][1]);
+    }
+
+    public function test_valid_hit_request_still_passes_without_firing_the_invalid_action()
+    {
+        $this->setHitRequest(false);
+
+        $actionCalls = 0;
+        $spy         = function () use (&$actionCalls) {
+            $actionCalls++;
+        };
+
+        add_action('wp_statistics_invalid_hit_request', $spy);
+
+        try {
+            $this->assertTrue(Helper::validateHitRequest());
+        } finally {
+            remove_action('wp_statistics_invalid_hit_request', $spy);
+        }
+
+        $this->assertSame(0, $actionCalls);
     }
 
     public function test_debugger_test_hit_is_accepted_but_not_recorded()
