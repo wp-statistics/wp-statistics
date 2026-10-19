@@ -1,6 +1,7 @@
 14.16.18 - unreleased
 - **Fix:** The Tracker Debugger no longer shows PHP notices from the theme or other plugins as "PHP Errors Detected in tracker.js", and the tracker no longer shows a console error when such a notice is printed before its response (issue [#1170](https://github.com/wp-statistics/wp-statistics/issues/1170)).
 - **Fix:** The Tracker Debugger's "Hit Endpoint" check now sends a signed test visit (not saved in your statistics) and only shows "Successful" when the endpoint accepts it. When it fails, the card shows the HTTP status and the error message (issue [#1172](https://github.com/wp-statistics/wp-statistics/issues/1172)).
+- **Enhancement:** When a visit is rejected with "Invalid hit/online request", the message now names the value that failed (`page_uri`, `search_query`, `source_id` or `referred`), so the Tracker Debugger and the browser console show the cause.
 
 14.16.17 - 2026-10-14
 - **Enhancement:** The Tracker Debugger now checks the tracker URL served on the public homepage and warns when cached pages reference an unavailable tracker ([#1167](https://github.com/wp-statistics/wp-statistics/pull/1167)).
