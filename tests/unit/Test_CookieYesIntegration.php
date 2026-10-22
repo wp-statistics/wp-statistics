@@ -62,6 +62,9 @@ class Test_CookieYesIntegration extends WP_UnitTestCase
 
         $_COOKIE['cookielawinfo-checkbox-analytics'] = 'no';
         $this->assertFalse((new CookieYes())->hasConsent());
+
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = '';
+        $this->assertFalse((new CookieYes())->hasConsent());
     }
 
     /**

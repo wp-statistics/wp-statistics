@@ -117,6 +117,6 @@ class CookieYes extends AbstractIntegration
         }
 
         return !isset($_COOKIE['cookielawinfo-checkbox-analytics'])
-            || sanitize_text_field(wp_unslash($_COOKIE['cookielawinfo-checkbox-analytics'])) !== 'no';
+            || sanitize_text_field(wp_unslash($_COOKIE['cookielawinfo-checkbox-analytics'])) === 'yes';
     }
 }

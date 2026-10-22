@@ -117,7 +117,8 @@ function handleCookieYesIntegration() {
         }
 
         // A banner without an Analytics category sets no analytics cookie: accepting it is enough.
-        return readCookie('cookielawinfo-checkbox-analytics') !== 'no';
+        const analytics = readCookie('cookielawinfo-checkbox-analytics');
+        return analytics === null || analytics === 'yes';
     };
 
     // With "Reload after Accept" on, the banner reloads the page and the new page sends the hit.
