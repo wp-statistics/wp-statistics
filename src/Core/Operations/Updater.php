@@ -49,16 +49,6 @@ class Updater extends AbstractCore
             $this->initializeDefaultOptions();
         }
 
-        /**
-         * The Tracker Debugger no longer stores PHP errors raised during hits, so drop
-         * the log it kept. This must run before the version-change gate because release
-         * candidates can already report 14.16.18.
-         */
-        $storedVersion = get_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
-        if (version_compare($storedVersion, '14.16.19', '<')) {
-            delete_option('wp_statistics_tracker_js_errors');
-        }
-
         if (!$this->isUpdated()) {
             return;
         }
@@ -313,6 +303,14 @@ class Updater extends AbstractCore
          */
         if (version_compare($this->latestVersion, '14.16', '>=')) {
             Event::unschedule('wp_statistics_referrerspam_hook');
+        }
+
+        /**
+         * The Tracker Debugger no longer stores PHP errors raised during hits, so drop
+         * the log it kept.
+         */
+        if (version_compare($this->currentVersion, '14.16.19', '<')) {
+            delete_option('wp_statistics_tracker_js_errors');
         }
 
         /**
