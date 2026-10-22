@@ -3,6 +3,8 @@
 namespace WP_Statistics\Tests\Service\Debugger;
 
 use WP_STATISTICS\DB;
+use WP_Statistics\Components\View;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Database\Schema\Manager;
 use WP_Statistics\Service\Debugger\Provider\VisitorProvider;
@@ -160,5 +162,105 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
 
         $this->assertTrue($status['error']);
         $this->assertNull($status['visitors_week_before']);
+    }
+
+    public function test_debugger_describes_anonymous_consent_tracking()
+    {
+        $previousOptions       = Option::getOptions();
+        $previousActivePlugins = get_option('active_plugins', []);
+
+        Option::update('consent_integration', 'borlabs_cookie');
+        Option::update('anonymous_tracking', true);
+        update_option('active_plugins', ['borlabs-cookie/borlabs-cookie.php']);
+
+        $options = new class {
+            public function getExcludedIPs()
+            {
+                return [];
+            }
+
+            public function getUserRoleExclusions()
+            {
+                return [];
+            }
+
+            public function getExcludedUrls()
+            {
+                return [];
+            }
+
+            public function getIncludedCountries()
+            {
+                return [];
+            }
+
+            public function getExcludedCountries()
+            {
+                return [];
+            }
+
+            public function getOption($name)
+            {
+                return false;
+            }
+
+            public function formatValuesAsHtml($values, $tag)
+            {
+                return '';
+            }
+        };
+
+        $tracker = new class {
+            public function getTrackerStatus()
+            {
+                return [
+                    'exists'         => true,
+                    'frontendStatus' => ['isAccessible' => true],
+                ];
+            }
+
+            public function getCacheStatus()
+            {
+                return false;
+            }
+
+            public function getCachePlugin()
+            {
+                return '';
+            }
+        };
+
+        $visitors = new class {
+            public function getRecordingStatus()
+            {
+                return [
+                    'last_visit'           => TimeZone::getCurrentDate('Y-m-d H:i:s', -3),
+                    'seconds_since'        => 3 * DAY_IN_SECONDS,
+                    'visitors_24h'         => 0,
+                    'visitors_week_before' => 10,
+                    'error'                => false,
+                ];
+            }
+
+            public function getLatestVisitors()
+            {
+                return [];
+            }
+
+            public function getVisitor()
+            {
+                return [];
+            }
+        };
+
+        try {
+            $html = View::load('pages/tracker-debugger/tracker-debugger', compact('options', 'tracker', 'visitors'), true);
+        } finally {
+            update_option('active_plugins', $previousActivePlugins);
+            Option::save_options($previousOptions);
+        }
+
+        $this->assertStringContainsString('Visitors who have not given consent are recorded anonymously.', $html);
+        $this->assertStringNotContainsString('so a visit is only recorded after the visitor gives consent.', $html);
     }
 }

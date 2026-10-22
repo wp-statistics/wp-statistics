@@ -22,6 +22,7 @@ $consent            = IntegrationHelper::getActiveIntegration();
 // Borlabs Cookie decides in the browser and gives the server no way to read its consent.
 $consentReadable    = $consent && $consent->getKey() !== 'borlabs_cookie';
 $consentGiven       = $consentReadable ? $consent->hasConsent() : null;
+$consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
 ?>
 
 <div class="postbox-container wps-postbox-tracker__container">
@@ -80,7 +81,7 @@ $consentGiven       = $consentReadable ? $consent->hasConsent() : null;
                     } else {
                         $recordingCause = esc_html__('If your site usually gets visitors every day, something is stopping visits from being recorded. Check the other items on this page.', 'wp-statistics');
 
-                        if ($consent) {
+                        if ($consent && !$consentAnonymous) {
                             /* translators: %s: consent plugin name, for example "CookieYes". */
                             $recordingCause = sprintf(esc_html__('Consent Plugin Integration is set to %s, so a visit is only recorded after the visitor gives consent. If visitors accept the banner and are still not recorded, set Consent Plugin Integration to None to confirm, and contact us.', 'wp-statistics'), esc_html($consent->getName()));
                         }
@@ -250,7 +251,9 @@ $consentGiven       = $consentReadable ? $consent->hasConsent() : null;
                         esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                     );
 
-                    $consentRule = esc_html__('Visitors are recorded only after they give consent in the cookie banner.', 'wp-statistics');
+                    $consentRule = $consentAnonymous
+                        ? esc_html__('Visitors who have not given consent are recorded anonymously.', 'wp-statistics')
+                        : esc_html__('Visitors who have not given consent are not recorded.', 'wp-statistics');
 
                     if ($consentGiven === null) {
                         /* translators: %s: consent plugin name. */
