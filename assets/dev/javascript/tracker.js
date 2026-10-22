@@ -90,7 +90,29 @@ function handleCookieYesIntegration() {
 
         // Fallback when the CookieYes script is not loaded yet: read its consent cookie
         const match = document.cookie.match(/(?:^|;\s*)cookieyes-consent=([^;]*)/);
-        return !!match && decodeURIComponent(match[1]).split(',').indexOf('analytics:yes') !== -1;
+        if (match) {
+            return decodeURIComponent(match[1]).split(',').indexOf('analytics:yes') !== -1;
+        }
+
+        return hasLegacyAnalyticsConsent();
+    };
+
+    // CookieYes in its legacy mode (the older "GDPR Cookie Consent" banner) stores one cookie per
+    // category, e.g. cookielawinfo-checkbox-analytics=yes, and has no getCkyConsent() or consent
+    // event. A banner without an Analytics category has no such cookie, so the visitor's answer to
+    // the banner itself (viewed_cookie_policy) decides.
+    const readCookie = (name) => {
+        const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : null;
+    };
+
+    const hasLegacyAnalyticsConsent = () => {
+        const analytics = readCookie('cookielawinfo-checkbox-analytics');
+        if (analytics !== null) {
+            return analytics === 'yes';
+        }
+
+        return readCookie('viewed_cookie_policy') === 'yes';
     };
 
     if (hasAnalyticsConsent()) {
@@ -102,6 +124,19 @@ function handleCookieYesIntegration() {
 
         if (accepted.indexOf('analytics') !== -1 || hasAnalyticsConsent()) {
             startTracking();
+        }
+    });
+
+    // The legacy banner sends no event, so check again once the visitor clicks in it.
+    document.addEventListener('click', function (e) {
+        if (started || !e.target || typeof e.target.closest !== 'function') return;
+
+        if (e.target.closest('#cookie-law-info-bar, #cliSettingsPopup, .cli-modal, .cli-bar-container')) {
+            setTimeout(function () {
+                if (hasAnalyticsConsent()) {
+                    startTracking();
+                }
+            }, 300);
         }
     });
 }

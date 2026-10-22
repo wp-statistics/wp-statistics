@@ -37,7 +37,7 @@ class CookieYes extends AbstractIntegration
     public function hasConsent()
     {
         if (empty($_COOKIE['cookieyes-consent'])) {
-            return false;
+            return $this->hasLegacyConsent();
         }
 
         $consent = sanitize_text_field(wp_unslash($_COOKIE['cookieyes-consent']));
@@ -66,5 +66,24 @@ class CookieYes extends AbstractIntegration
     public function getJsHandles()
     {
         return [];
+    }
+
+    /**
+     * CookieYes in its legacy mode (the older "GDPR Cookie Consent" banner) has no
+     * cookieyes-consent cookie. It stores one cookie per category, such as
+     * cookielawinfo-checkbox-analytics=yes, and viewed_cookie_policy for the
+     * visitor's answer to the banner. A banner without an Analytics category sets
+     * no analytics cookie, so that answer decides.
+     *
+     * @return bool
+     */
+    private function hasLegacyConsent()
+    {
+        if (isset($_COOKIE['cookielawinfo-checkbox-analytics'])) {
+            return sanitize_text_field(wp_unslash($_COOKIE['cookielawinfo-checkbox-analytics'])) === 'yes';
+        }
+
+        return isset($_COOKIE['viewed_cookie_policy'])
+            && sanitize_text_field(wp_unslash($_COOKIE['viewed_cookie_policy'])) === 'yes';
     }
 }

@@ -12,7 +12,7 @@ class Test_CookieYesIntegration extends WP_UnitTestCase
 {
     public function tearDown(): void
     {
-        unset($_COOKIE['cookieyes-consent']);
+        unset($_COOKIE['cookieyes-consent'], $_COOKIE['cookielawinfo-checkbox-analytics'], $_COOKIE['viewed_cookie_policy']);
         parent::tearDown();
     }
 
@@ -39,6 +39,40 @@ class Test_CookieYesIntegration extends WP_UnitTestCase
         $this->assertFalse((new CookieYes())->hasConsent());
 
         $_COOKIE['cookieyes-consent'] = 'consentid:abc,consent:yes,action:yes,necessary:yes';
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    /**
+     * Legacy mode (the older "GDPR Cookie Consent" banner) stores one cookie per category.
+     */
+    public function test_legacy_analytics_category_decides()
+    {
+        $_COOKIE['viewed_cookie_policy'] = 'yes';
+
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+        $this->assertTrue((new CookieYes())->hasConsent());
+
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'no';
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    /**
+     * A legacy banner without an Analytics category: the answer to the banner decides.
+     */
+    public function test_legacy_banner_without_analytics_category()
+    {
+        $_COOKIE['viewed_cookie_policy'] = 'yes';
+        $this->assertTrue((new CookieYes())->hasConsent());
+
+        $_COOKIE['viewed_cookie_policy'] = 'no';
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    public function test_new_mode_cookie_wins_over_legacy_cookies()
+    {
+        $_COOKIE['cookieyes-consent']               = 'consentid:abc,consent:yes,action:yes,necessary:yes,analytics:no';
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+
         $this->assertFalse((new CookieYes())->hasConsent());
     }
 }
