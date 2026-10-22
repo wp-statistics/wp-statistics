@@ -189,7 +189,7 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         $this->assertNull($status['visitors_week_before']);
     }
 
-    public function test_debugger_describes_anonymous_consent_tracking()
+    private function renderDebugger($recording)
     {
         $previousOptions       = Option::getOptions();
         $previousActivePlugins = get_option('active_plugins', []);
@@ -255,16 +255,17 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
             }
         };
 
-        $visitors = new class {
+        $visitors = new class($recording) {
+            private $recording;
+
+            public function __construct($recording)
+            {
+                $this->recording = $recording;
+            }
+
             public function getRecordingStatus()
             {
-                return [
-                    'last_visit'           => TimeZone::getCurrentDate('Y-m-d H:i:s', -3),
-                    'seconds_since'        => 3 * DAY_IN_SECONDS,
-                    'visitors_24h'         => 0,
-                    'visitors_week_before' => 10,
-                    'error'                => false,
-                ];
+                return $this->recording;
             }
 
             public function getLatestVisitors()
@@ -279,13 +280,38 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         };
 
         try {
-            $html = View::load('pages/tracker-debugger/tracker-debugger', compact('options', 'tracker', 'visitors'), true);
+            return View::load('pages/tracker-debugger/tracker-debugger', compact('options', 'tracker', 'visitors'), true);
         } finally {
             update_option('active_plugins', $previousActivePlugins);
             Option::save_options($previousOptions);
         }
+    }
+
+    public function test_debugger_describes_anonymous_consent_tracking()
+    {
+        $html = $this->renderDebugger([
+            'last_visit'           => TimeZone::getCurrentDate('Y-m-d H:i:s', -3),
+            'seconds_since'        => 3 * DAY_IN_SECONDS,
+            'visitors_24h'         => 0,
+            'visitors_week_before' => 10,
+            'error'                => false,
+        ]);
 
         $this->assertStringContainsString('Visitors who have not given consent are recorded anonymously.', $html);
         $this->assertStringNotContainsString('so a visit is only recorded after the visitor gives consent.', $html);
+    }
+
+    public function test_long_outage_is_not_downgraded_for_a_quiet_site()
+    {
+        $html = $this->renderDebugger([
+            'last_visit'           => TimeZone::getCurrentDate('Y-m-d H:i:s', -60),
+            'seconds_since'        => 60 * DAY_IN_SECONDS,
+            'visitors_24h'         => 0,
+            'visitors_week_before' => 1,
+            'error'                => false,
+        ]);
+
+        $this->assertMatchesRegularExpression('/wps-audit-card--warning.*Visit Recording: No Recent Visits/s', $html);
+        $this->assertStringNotContainsString('so a day without visits can be normal.', $html);
     }
 }

@@ -89,8 +89,11 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                             $recordingCause = sprintf(esc_html__('Consent Plugin Integration is set to %s, so a visit is only recorded after the visitor gives consent. If visitors accept the banner and are still not recorded, set Consent Plugin Integration to None to confirm, and contact us.', 'wp-statistics'), esc_html($consent->getName()));
                         }
 
-                        // A site that had only a few visitors in the week before can go a day without one.
-                        $quietSite = $recording['visitors_week_before'] !== null && $recording['visitors_week_before'] < 7;
+                        // A site that had only a few visitors in the week before can go a day without one,
+                        // but a prolonged outage should still be shown as a warning.
+                        $quietSite = $recording['seconds_since'] <= 2 * DAY_IN_SECONDS
+                            && $recording['visitors_week_before'] !== null
+                            && $recording['visitors_week_before'] < 7;
 
                         if ($quietSite) {
                             /* translators: %s: number of visitors. */
