@@ -254,7 +254,8 @@ class Hits extends Singleton
             try {
                 self::record();
             } catch (Exception $e) {
-                // An exclusion ends the hit with an exception; nothing else to do.
+                // An exclusion ends the hit with an exception, and so can a failed write. The hit is
+                // simply not recorded; WordPress's debug log has any PHP error behind it.
             }
         }
     }
@@ -279,7 +280,8 @@ class Hits extends Singleton
             }
 
         } catch (Exception $e) {
-            // An exclusion ends the hit with an exception; nothing else to do.
+            // An exclusion ends the hit with an exception, and so can a failed write. The hit is
+            // simply not recorded; WordPress's debug log has any PHP error behind it.
         }
     }
 }

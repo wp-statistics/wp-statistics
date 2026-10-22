@@ -22,6 +22,14 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         TableHandler::createTable('visitor', Manager::getSchemaForTable('visitor'));
     }
 
+    public static function tearDownAfterClass(): void
+    {
+        global $wpdb;
+        $wpdb->query('DROP TABLE IF EXISTS `' . DB::table('visitor') . '`'); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+        parent::tearDownAfterClass();
+    }
+
     public function setUp(): void
     {
         parent::setUp();
@@ -76,5 +84,53 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         $this->assertSame($eightDaysAgo, $status['last_visit']);
         $this->assertSame(0, $status['visitors_24h']);
         $this->assertGreaterThan(7 * DAY_IN_SECONDS, $status['seconds_since']);
+    }
+
+    public function test_last_visit_is_the_latest_date_not_the_highest_id()
+    {
+        // A restored row with an older date gets a higher ID than the real last visit.
+        $twoDaysAgo  = TimeZone::getCurrentDate('Y-m-d H:i:s', -3);
+        $tenDaysAgo  = TimeZone::getCurrentDate('Y-m-d H:i:s', -10);
+        $this->addVisitor($twoDaysAgo, '10.0.0.4');
+        $this->addVisitor($tenDaysAgo, '10.0.0.5');
+
+        $this->assertSame($twoDaysAgo, (new VisitorProvider())->getRecordingStatus()['last_visit']);
+    }
+
+    public function test_counts_the_week_before_a_stopped_site()
+    {
+        for ($day = 3; $day <= 9; $day++) {
+            $this->addVisitor(TimeZone::getCurrentDate('Y-m-d H:i:s', -$day), '10.1.0.' . $day);
+            $this->addVisitor(TimeZone::getCurrentDate('Y-m-d H:i:s', -$day), '10.2.0.' . $day);
+        }
+
+        $status = (new VisitorProvider())->getRecordingStatus();
+
+        $this->assertSame(14, $status['visitors_week_before']);
+    }
+
+    public function test_no_week_before_count_while_visits_arrive()
+    {
+        $this->addVisitor(TimeZone::getCurrentDate(), '10.0.0.6');
+
+        $this->assertNull((new VisitorProvider())->getRecordingStatus()['visitors_week_before']);
+    }
+
+    public function test_a_failed_query_is_reported_as_an_error()
+    {
+        global $wpdb;
+
+        $breakQuery = static function ($query) {
+            return str_replace(DB::table('visitor'), 'wp_statistics_missing_table', $query);
+        };
+
+        add_filter('query', $breakQuery);
+        $suppress = $wpdb->suppress_errors(true);
+        $status   = (new VisitorProvider())->getRecordingStatus();
+        $wpdb->suppress_errors($suppress);
+        remove_filter('query', $breakQuery);
+
+        $this->assertTrue($status['error']);
+        $this->assertNull($status['last_visit']);
     }
 }

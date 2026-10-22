@@ -19,8 +19,9 @@ $excludeCountries   = $options->getExcludedCountries();
 $trackerStatus      = $tracker->getTrackerStatus();
 $recording          = $visitors->getRecordingStatus();
 $consent            = IntegrationHelper::getActiveIntegration();
-$consentGiven       = $consent ? $consent->hasConsent() : true;
-$consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
+// Borlabs Cookie decides in the browser and gives the server no way to read its consent.
+$consentReadable    = $consent && $consent->getKey() !== 'borlabs_cookie';
+$consentGiven       = $consentReadable ? $consent->hasConsent() : null;
 ?>
 
 <div class="postbox-container wps-postbox-tracker__container">
@@ -79,9 +80,17 @@ $consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
                     } else {
                         $recordingCause = esc_html__('If your site usually gets visitors every day, something is stopping visits from being recorded. Check the other items on this page.', 'wp-statistics');
 
-                        if ($consent && !$consentAnonymous) {
+                        if ($consent) {
                             /* translators: %s: consent plugin name, for example "CookieYes". */
                             $recordingCause = sprintf(esc_html__('Consent Plugin Integration is set to %s, so a visit is only recorded after the visitor gives consent. If visitors accept the banner and are still not recorded, set Consent Plugin Integration to None to confirm, and contact us.', 'wp-statistics'), esc_html($consent->getName()));
+                        }
+
+                        // A site that had only a few visitors in the week before can go a day without one.
+                        $quietSite = $recording['visitors_week_before'] !== null && $recording['visitors_week_before'] < 7;
+
+                        if ($quietSite) {
+                            /* translators: %s: number of visitors. */
+                            $recordingCause = sprintf(esc_html(_n('Your site had %s visitor in the week before, so a day without visits can be normal.', 'Your site had %s visitors in the week before, so a day without visits can be normal.', $recording['visitors_week_before'], 'wp-statistics')), esc_html(number_format_i18n($recording['visitors_week_before']))) . ' ' . $recordingCause;
                         }
 
                         $recordingData = [
@@ -90,7 +99,7 @@ $consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
                             'description' => $lastVisitText,
                             'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', $lastVisitText, $recordingCause),
                             'suggestion'  => esc_html__('Open your site in a private window, accept the cookie banner if there is one, visit a few pages, then reload this page.', 'wp-statistics'),
-                            'status'      => 'warning',
+                            'status'      => $quietSite ? 'info' : 'warning',
                         ];
                     }
                 }
@@ -241,9 +250,16 @@ $consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
                         esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                     );
 
-                    $consentRule = $consentAnonymous
-                        ? esc_html__('Visitors who have not given consent are recorded anonymously.', 'wp-statistics')
-                        : esc_html__('Visitors who have not given consent are not recorded.', 'wp-statistics');
+                    $consentRule = esc_html__('Visitors are recorded only after they give consent in the cookie banner.', 'wp-statistics');
+
+                    if ($consentGiven === null) {
+                        /* translators: %s: consent plugin name. */
+                        $consentBrowser = sprintf(esc_html__('%s decides in the browser, so consent in your browser cannot be checked from here.', 'wp-statistics'), esc_html($consent->getName()));
+                    } elseif ($consentGiven) {
+                        $consentBrowser = esc_html__('Consent is given in this browser.', 'wp-statistics');
+                    } else {
+                        $consentBrowser = esc_html__('Consent is not given in this browser. If you already accepted the cookie banner on your site in this browser, WP Statistics cannot read your consent plugin, and visitors who accept are not recorded either.', 'wp-statistics');
+                    }
 
                     /* translators: %s: consent plugin name, for example "CookieYes". */
                     $consentTitle = sprintf(__('Consent Plugin Integration: %s', 'wp-statistics'), $consent->getName());
@@ -257,9 +273,7 @@ $consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
                         'content'     => sprintf(
                             '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s',
                             $consentRule,
-                            $consentGiven
-                                ? esc_html__('Consent is given in your browser, so your own visits are recorded.', 'wp-statistics')
-                                : esc_html__('Consent is not given in your browser. If you already accepted the cookie banner on your site in this browser, WP Statistics cannot read your consent plugin, and visitors who accept are not recorded either.', 'wp-statistics')
+                            $consentBrowser
                         ),
                         'suggestion'  => $consentGuide,
                         'status'      => 'info'
