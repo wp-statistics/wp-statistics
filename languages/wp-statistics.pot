@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.16.14\n"
+"Project-Id-Version: WP Statistics 14.16.18\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-19T05:09:05+00:00\n"
+"POT-Creation-Date: 2026-10-22T06:53:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -161,7 +161,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:333
 #: includes/admin/class-wp-statistics-admin-assets.php:359
-#: includes/admin/class-wp-statistics-admin-network.php:64
+#: includes/admin/class-wp-statistics-admin-network.php:74
 #: includes/admin/templates/emails/layout.php:147
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:32
 #: includes/admin/templates/pages/category-analytics/category-performance.php:22
@@ -211,7 +211,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:334
 #: includes/admin/class-wp-statistics-admin-assets.php:371
 #: includes/admin/class-wp-statistics-admin-assets.php:440
-#: includes/admin/class-wp-statistics-admin-network.php:62
+#: includes/admin/class-wp-statistics-admin-network.php:72
 #: includes/admin/class-wp-statistics-admin-user.php:38
 #: includes/admin/templates/emails/layout.php:161
 #: includes/admin/templates/layout/author-analytics/top-authors.php:33
@@ -408,7 +408,7 @@ msgid "Time"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:355
-#: includes/admin/class-wp-statistics-admin-network.php:70
+#: includes/admin/class-wp-statistics-admin-network.php:80
 #: includes/admin/templates/pages/category-analytics/category-performance.php:70
 #: includes/admin/templates/pages/category-analytics/category-single.php:69
 #: includes/admin/templates/pages/content-analytics/post-type.php:85
@@ -679,7 +679,7 @@ msgstr ""
 #: views/components/tables/views.php:84
 #: views/components/tables/visitors.php:133
 #: views/pages/referrals/source-categories.php:66
-#: views/pages/tracker-debugger/tracker-debugger.php:404
+#: views/pages/tracker-debugger/tracker-debugger.php:497
 msgid "No recent data available."
 msgstr ""
 
@@ -809,7 +809,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:434
 #: includes/admin/templates/settings/notifications.php:81
-#: src/Service/Analytics/Referrals/SourceChannels.php:20
+#: src/Service/Analytics/Referrals/SourceChannels.php:21
 msgid "Email"
 msgstr ""
 
@@ -1015,7 +1015,7 @@ msgid "This will replace all IP addresses in the database with hash values and c
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:475
-#: includes/class-wp-statistics-helper.php:2293
+#: includes/class-wp-statistics-helper.php:2312
 #: views/components/tables/most-active-visitors.php:115
 #: views/metabox/horizontal-bar.php:16
 #: views/metabox/most-active-visitors.php:115
@@ -1026,7 +1026,7 @@ msgid "No data found for this date range."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:476
-#: includes/class-wp-statistics-helper.php:2296
+#: includes/class-wp-statistics-helper.php:2315
 #: views/components/tables/most-active-visitors.php:117
 #: views/metabox/horizontal-bar.php:18
 #: views/metabox/latest-visitor.php:78
@@ -1053,14 +1053,14 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:28
+#: includes/admin/class-wp-statistics-admin-network.php:38
 #: includes/class-wp-statistics-widget.php:16
 #: src/Service/Admin/Overview/OverviewManager.php:25
 msgid "Statistics"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:31
-#: includes/admin/class-wp-statistics-admin-network.php:61
+#: includes/admin/class-wp-statistics-admin-network.php:41
+#: includes/admin/class-wp-statistics-admin-network.php:71
 #: includes/admin/templates/header.php:34
 #: src/Service/Admin/Devices/Views/TabsView.php:104
 #: src/Service/Admin/Geographic/Views/TabsView.php:93
@@ -1072,25 +1072,25 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:52
+#: includes/admin/class-wp-statistics-admin-network.php:62
 msgid "Website Details"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:53
+#: includes/admin/class-wp-statistics-admin-network.php:63
 msgid "Options"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:63
+#: includes/admin/class-wp-statistics-admin-network.php:73
 msgid "Online"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:65
+#: includes/admin/class-wp-statistics-admin-network.php:75
 #: includes/admin/templates/settings/add-ons/rest-api.php:23
 #: src/Service/Admin/Referrals/Views/TabsView.php:126
 msgid "Referrers"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:66
+#: includes/admin/class-wp-statistics-admin-network.php:76
 #: includes/admin/templates/pages/category-analytics/category-performance.php:131
 #: includes/admin/templates/pages/category-analytics/category-single.php:113
 #: includes/admin/templates/pages/content-analytics/post-type.php:131
@@ -1101,15 +1101,15 @@ msgstr ""
 msgid "Search Engines"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:67
+#: includes/admin/class-wp-statistics-admin-network.php:77
 msgid "Post Types"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:68
+#: includes/admin/class-wp-statistics-admin-network.php:78
 msgid "Taxonomies"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:69
+#: includes/admin/class-wp-statistics-admin-network.php:79
 #: includes/admin/templates/header.php:60
 #: includes/admin/templates/header.php:114
 #: includes/admin/templates/settings/add-ons/customization.php:22
@@ -1118,7 +1118,7 @@ msgstr ""
 msgid "Author Analytics"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:71
+#: includes/admin/class-wp-statistics-admin-network.php:81
 #: includes/admin/templates/pages/category-analytics/category-performance.php:63
 #: includes/admin/templates/pages/category-analytics/category-single.php:62
 #: includes/admin/templates/pages/content-analytics/post-type.php:78
@@ -1128,25 +1128,25 @@ msgstr ""
 msgid "Operating Systems"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:72
+#: includes/admin/class-wp-statistics-admin-network.php:82
 msgid "Top Visitors Today"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:73
+#: includes/admin/class-wp-statistics-admin-network.php:83
 #: includes/admin/templates/pages/exclusions.php:36
 #: includes/admin/templates/settings/add-ons/customization.php:31
 #: src/Service/Admin/Exclusions/ExclusionsManager.php:27
 msgid "Exclusions"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:74
+#: includes/admin/class-wp-statistics-admin-network.php:84
 #: includes/admin/templates/settings/add-ons/customization.php:30
 #: src/Service/Admin/Optimization/OptimizationManager.php:27
 #: src/Service/Admin/Optimization/OptimizationPage.php:25
 msgid "Optimization"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-network.php:75
+#: includes/admin/class-wp-statistics-admin-network.php:85
 #: includes/admin/pages/class-wp-statistics-admin-page-settings.php:38
 #: includes/admin/templates/header.php:84
 #: includes/admin/templates/header.php:117
@@ -1368,7 +1368,7 @@ msgid "Here's a quick overview of your website activity:"
 msgstr ""
 
 #: includes/admin/templates/emails/default.php:11
-#: includes/class-wp-statistics-admin-bar.php:152
+#: includes/class-wp-statistics-admin-bar.php:159
 msgid "Views Today"
 msgstr ""
 
@@ -1693,7 +1693,7 @@ msgstr ""
 #: includes/admin/templates/layout/title.php:76
 #: includes/admin/templates/pages/geographic/countries.php:66
 #: includes/admin/templates/pages/geographic/europe.php:65
-#: includes/class-wp-statistics-admin-bar.php:164
+#: includes/class-wp-statistics-admin-bar.php:171
 #: src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php:49
 #: src/Service/Admin/AuthorAnalytics/Views/PerformanceView.php:62
 #: src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php:21
@@ -1853,7 +1853,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:76
 #: includes/admin/templates/settings/add-ons/mini-chart.php:31
-#: includes/class-wp-statistics-helper.php:1773
+#: includes/class-wp-statistics-helper.php:1780
 #: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:16
 msgid "Mini Chart"
 msgstr ""
@@ -2797,7 +2797,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/devices/categories.php:20
 #: includes/admin/templates/pages/devices/overview.php:219
-#: includes/class-wp-statistics-helper.php:938
+#: includes/class-wp-statistics-helper.php:945
 msgid "Category"
 msgstr ""
 
@@ -4698,7 +4698,7 @@ msgid "Geolocation Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:119
-#: views/pages/tracker-debugger/tracker-debugger.php:262
+#: views/pages/tracker-debugger/tracker-debugger.php:396
 msgid "Exclude Countries"
 msgstr ""
 
@@ -4707,7 +4707,7 @@ msgid "Enter the country codes of the countries you want to exclude from trackin
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:127
-#: views/pages/tracker-debugger/tracker-debugger.php:255
+#: views/pages/tracker-debugger/tracker-debugger.php:389
 msgid "Include Countries"
 msgstr ""
 
@@ -4924,7 +4924,7 @@ msgid "Delivery Method"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:83
-#: src/Service/Analytics/Referrals/SourceChannels.php:30
+#: src/Service/Analytics/Referrals/SourceChannels.php:31
 msgid "SMS"
 msgstr ""
 
@@ -5100,7 +5100,7 @@ msgid "Respects the visitor's browser setting to not track their web activity. P
 msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:47
-#: includes/class-wp-statistics-admin-bar.php:181
+#: includes/class-wp-statistics-admin-bar.php:188
 msgid "Explore Details"
 msgstr ""
 
@@ -5149,31 +5149,31 @@ msgstr ""
 msgid "Total Website Views"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:135
+#: includes/class-wp-statistics-admin-bar.php:142
 msgid "Global Data"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:140
+#: includes/class-wp-statistics-admin-bar.php:147
 msgid "Current Page Data"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:145
+#: includes/class-wp-statistics-admin-bar.php:152
 msgid "Visitors Today"
 msgstr ""
 
 #. translators: %s: string value
-#: includes/class-wp-statistics-admin-bar.php:148
 #: includes/class-wp-statistics-admin-bar.php:155
+#: includes/class-wp-statistics-admin-bar.php:162
 #, php-format
 msgid "was %s last day"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:162
-#: includes/class-wp-statistics-admin-bar.php:163
+#: includes/class-wp-statistics-admin-bar.php:169
+#: includes/class-wp-statistics-admin-bar.php:170
 msgid "Unlock the Full Power of WP Statistics"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:179
+#: includes/class-wp-statistics-admin-bar.php:186
 msgid "Mini Chart Logo"
 msgstr ""
 
@@ -5301,140 +5301,142 @@ msgstr ""
 msgid "Views: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:156
+#: includes/class-wp-statistics-helper.php:163
 msgid "WordPress Object Cache"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:161
+#: includes/class-wp-statistics-helper.php:168
 msgid "WP Rocket"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:166
+#: includes/class-wp-statistics-helper.php:173
 msgid "WP Super Cache"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:171
+#: includes/class-wp-statistics-helper.php:178
 msgid "Comet Cache"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:176
+#: includes/class-wp-statistics-helper.php:183
 msgid "WP Fastest Cache"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:181
+#: includes/class-wp-statistics-helper.php:188
 msgid "Cache Enabler"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:186
+#: includes/class-wp-statistics-helper.php:193
 msgid "W3 Total Cache"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:191
+#: includes/class-wp-statistics-helper.php:198
 msgid "WP-Optimize"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:196
+#: includes/class-wp-statistics-helper.php:203
 msgid "Speed Optimizer"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:201
+#: includes/class-wp-statistics-helper.php:208
 msgid "LiteSpeed Cache"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:831
+#: includes/class-wp-statistics-helper.php:838
 msgid "Your Website Performance Overview"
 msgstr ""
 
 #. translators: 1: Report start date - 2: Report end date.
-#: includes/class-wp-statistics-helper.php:841
+#: includes/class-wp-statistics-helper.php:848
 #, php-format
 msgid "%1$s - %2$s"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:938
+#: includes/class-wp-statistics-helper.php:945
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1623
+#: includes/class-wp-statistics-helper.php:1630
 msgid "a year"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1625
+#: includes/class-wp-statistics-helper.php:1632
 msgid "a month"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1628
+#: includes/class-wp-statistics-helper.php:1635
 msgid "a week"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1630
+#: includes/class-wp-statistics-helper.php:1637
 msgid "a day"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1716
+#: includes/class-wp-statistics-helper.php:1723
 msgid "Optimize Your Content Strategy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1718
+#: includes/class-wp-statistics-helper.php:1725
 #, php-format
 msgid "For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style=\"margin-top: 16px\">For more details, read <a href=\"%1$s\" style=\"color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none\" target=\"_blank\">%2$s <img width=\"6.67\" height=\"10.91\" style=\"margin-"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1725
+#: includes/class-wp-statistics-helper.php:1732
 msgid "Optimize Your Data Accuracy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1729
+#: includes/class-wp-statistics-helper.php:1736
 msgid "Keep the plugin up-to-date"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1730
+#: includes/class-wp-statistics-helper.php:1737
 msgid "Ensure that your WP Statistics plugin is up-to-date in order to get the latest features and security improvements."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1733
+#: includes/class-wp-statistics-helper.php:1740
 msgid "Maintain Privacy Compliance"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1737
+#: includes/class-wp-statistics-helper.php:1744
 msgid "WordPress Export and Erasure"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1741
+#: includes/class-wp-statistics-helper.php:1748
 msgid "Track Links and Downloads"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1745
+#: includes/class-wp-statistics-helper.php:1752
 msgid "Advanced Filtering"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1749
+#: includes/class-wp-statistics-helper.php:1756
 msgid "Weekly Performance Overview"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1753
+#: includes/class-wp-statistics-helper.php:1760
 msgid "Traffic by Hour Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1757
+#: includes/class-wp-statistics-helper.php:1764
 msgid "Content-Specific Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1761
+#: includes/class-wp-statistics-helper.php:1768
 msgid "Custom Post Type Tracking"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1765
+#: includes/class-wp-statistics-helper.php:1772
 msgid "Custom Taxonomy Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1769
+#: includes/class-wp-statistics-helper.php:1776
 #: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:16
 msgid "Real-Time Stats"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:2074
-msgid "Invalid hit/online request."
+#. translators: %s: Name of the request parameter that failed validation.
+#: includes/class-wp-statistics-helper.php:2093
+#, php-format
+msgid "Invalid hit/online request (%s)."
 msgstr ""
 
 #: includes/class-wp-statistics-install.php:207
@@ -5570,7 +5572,7 @@ msgid "Number of views must be greater than or equal to 10!"
 msgstr ""
 
 #: includes/class-wp-statistics-rest-api.php:105
-#: src/Service/Analytics/AnalyticsController.php:50
+#: src/Service/Analytics/AnalyticsController.php:55
 msgid "Invalid signature"
 msgstr ""
 
@@ -5842,11 +5844,11 @@ msgstr ""
 msgid "render method is not defined within %s class."
 msgstr ""
 
-#: src/Components/AssetNameObfuscator.php:306
+#: src/Components/AssetNameObfuscator.php:311
 msgid "File not found."
 msgstr ""
 
-#: src/Components/AssetNameObfuscator.php:306
+#: src/Components/AssetNameObfuscator.php:311
 msgid "404 Not Found"
 msgstr ""
 
@@ -6191,20 +6193,20 @@ msgstr ""
 msgid "Unable to retrieve product list from the remote server, %s. Please check the remote server connection or your remote work configuration."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/ApiCommunicator.php:591
+#: src/Service/Admin/LicenseManagement/ApiCommunicator.php:622
 msgid "License key is not valid. Please enter a valid license and try again."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/ApiCommunicator.php:604
+#: src/Service/Admin/LicenseManagement/ApiCommunicator.php:635
 msgid "Invalid license response!"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/ApiCommunicator.php:610
+#: src/Service/Admin/LicenseManagement/ApiCommunicator.php:641
 msgid "Unknown error!"
 msgstr ""
 
 #. translators: %s: string value
-#: src/Service/Admin/LicenseManagement/ApiCommunicator.php:621
+#: src/Service/Admin/LicenseManagement/ApiCommunicator.php:652
 #, php-format
 msgid "The license is not related to the requested Add-on <b>%s</b>."
 msgstr ""
@@ -6800,7 +6802,7 @@ msgstr ""
 msgid "Exit Pages"
 msgstr ""
 
-#: src/Service/Admin/Posts/HitColumnHandler.php:411
+#: src/Service/Admin/Posts/HitColumnHandler.php:412
 msgid "Unlock"
 msgstr ""
 
@@ -7358,58 +7360,62 @@ msgid "Organic Search"
 msgstr ""
 
 #: src/Service/Analytics/Referrals/SourceChannels.php:16
-msgid "Paid Search"
+msgid "AI Assistants"
 msgstr ""
 
 #: src/Service/Analytics/Referrals/SourceChannels.php:17
-msgid "Affiliates"
+msgid "Paid Search"
 msgstr ""
 
 #: src/Service/Analytics/Referrals/SourceChannels.php:18
-msgid "Audio"
+msgid "Affiliates"
 msgstr ""
 
 #: src/Service/Analytics/Referrals/SourceChannels.php:19
+msgid "Audio"
+msgstr ""
+
+#: src/Service/Analytics/Referrals/SourceChannels.php:20
 msgid "Display"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:21
+#: src/Service/Analytics/Referrals/SourceChannels.php:22
 msgid "Mobile Notification"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:22
+#: src/Service/Analytics/Referrals/SourceChannels.php:23
 msgid "Organic Shopping"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:23
+#: src/Service/Analytics/Referrals/SourceChannels.php:24
 msgid "Organic Social"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:24
+#: src/Service/Analytics/Referrals/SourceChannels.php:25
 msgid "Organic Video"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:25
+#: src/Service/Analytics/Referrals/SourceChannels.php:26
 msgid "Paid Shopping"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:26
+#: src/Service/Analytics/Referrals/SourceChannels.php:27
 msgid "Paid Social"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:27
+#: src/Service/Analytics/Referrals/SourceChannels.php:28
 msgid "Paid Video"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:28
+#: src/Service/Analytics/Referrals/SourceChannels.php:29
 msgid "Paid Other"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:29
+#: src/Service/Analytics/Referrals/SourceChannels.php:30
 msgid "Referral"
 msgstr ""
 
-#: src/Service/Analytics/Referrals/SourceChannels.php:31
+#: src/Service/Analytics/Referrals/SourceChannels.php:32
 msgid "Unassigned Traffic"
 msgstr ""
 
@@ -7628,6 +7634,10 @@ msgstr ""
 msgid "Run this brief update to keep your stats accurate."
 msgstr ""
 
+#: src/Service/Debugger/Provider/TrackerProvider.php:195
+msgid "The endpoint did not return a valid JSON response."
+msgstr ""
+
 #: src/Service/Geolocation/AbstractGeoIPProvider.php:293
 #: src/Service/Geolocation/AbstractGeoIPProvider.php:297
 msgid "GeoIP update on"
@@ -7722,26 +7732,31 @@ msgstr ""
 msgid "Get Premium"
 msgstr ""
 
-#: src/Service/Integrations/IntegrationHelper.php:156
+#: src/Service/Integrations/IntegrationHelper.php:158
 msgid "WP Statistics - Consent Plugin Detected"
 msgstr ""
 
 #. translators: %s: string value
-#: src/Service/Integrations/IntegrationHelper.php:161
+#: src/Service/Integrations/IntegrationHelper.php:163
 #, php-format
 msgid "We’ve detected <b>%s</b> on your site. To ensure WP Statistics respects visitor consent preferences, you can enable integration with this plugin."
 msgstr ""
 
-#: src/Service/Integrations/IntegrationHelper.php:164
+#: src/Service/Integrations/IntegrationHelper.php:166
 msgid "Activate integration ›"
 msgstr ""
 
-#: src/Service/Integrations/IntegrationHelper.php:165
+#: src/Service/Integrations/IntegrationHelper.php:167
 msgid "Learn More ›"
 msgstr ""
 
 #: src/Service/Integrations/Plugins/BorlabsCookie.php:21
 msgid "Borlabs Cookie"
+msgstr ""
+
+#: src/Service/Integrations/Plugins/CookieYes.php:19
+#: src/Service/Integrations/Plugins/WpConsentApi.php:125
+msgid "CookieYes"
 msgstr ""
 
 #: src/Service/Integrations/Plugins/RealCookieBanner.php:21
@@ -7770,10 +7785,6 @@ msgstr ""
 
 #: src/Service/Integrations/Plugins/WpConsentApi.php:121
 msgid "CookieHub"
-msgstr ""
-
-#: src/Service/Integrations/Plugins/WpConsentApi.php:125
-msgid "CookieYes"
 msgstr ""
 
 #: src/Service/Integrations/Plugins/WpConsentApi.php:129
@@ -7814,24 +7825,6 @@ msgstr ""
 
 #: src/Service/Integrations/Plugins/WpConsentApi.php:165
 msgid "iubenda Cookie Consent"
-msgstr ""
-
-#. translators: %1$s: string value, %2$s: string value
-#: src/Service/Logger/Provider/TrackerProvider.php:34
-#, php-format
-msgid "%1$s at %2$s"
-msgstr ""
-
-#: src/Service/Logger/Provider/TrackerProvider.php:45
-msgid "Type:"
-msgstr ""
-
-#: src/Service/Logger/Provider/TrackerProvider.php:47
-msgid "Message:"
-msgstr ""
-
-#: src/Service/Logger/Provider/TrackerProvider.php:49
-msgid "Occurred At:"
 msgstr ""
 
 #: src/Traits/AjaxUtilityTrait.php:20
@@ -8887,7 +8880,7 @@ msgstr ""
 #: views/components/tables/top-visitors.php:26
 #: views/components/tables/views.php:21
 #: views/components/tables/visitors.php:27
-#: views/pages/tracker-debugger/tracker-debugger.php:373
+#: views/pages/tracker-debugger/tracker-debugger.php:466
 msgid "Visitor Information"
 msgstr ""
 
@@ -9270,265 +9263,377 @@ msgstr ""
 msgid "Percentage"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:26
+#: views/pages/tracker-debugger/tracker-debugger.php:36
 msgid "Tracker.js Diagnostics Tool"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:27
+#: views/pages/tracker-debugger/tracker-debugger.php:37
 msgid "Use this tool to identify and resolve issues affecting tracker.js. Below, you'll find diagnostics results, real-time data, and suggestions to ensure your visitor tracking is functioning properly."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:32
+#: views/pages/tracker-debugger/tracker-debugger.php:42
 msgid "Potential Issues"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:44
+#: views/pages/tracker-debugger/tracker-debugger.php:56
+msgid "Visit Recording: No Visits Yet"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:57
+msgid "No visit has been recorded on this site yet."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:58
+msgid "Open your site in a private window and visit a few pages, then reload this page."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:65
+msgid "Visit Recording: Could Not Check"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:66
+msgid "The visitor table could not be read."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:67
+msgid "The debugger could not read the visitor table, so it cannot tell when the last visit was recorded. Check Statistics → Optimization for database problems."
+msgstr ""
+
+#. translators: %s: how long ago, for example "5 mins" or "8 days".
+#: views/pages/tracker-debugger/tracker-debugger.php:72
+#, php-format
+msgid "Last visit recorded %s ago."
+msgstr ""
+
+#. translators: %s: number of visitors.
+#: views/pages/tracker-debugger/tracker-debugger.php:74
+#, php-format
+msgid "%s visitor in the last 24 hours."
+msgid_plural "%s visitors in the last 24 hours."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:79
+msgid "Visit Recording: Working"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:85
+msgid "If your site usually gets visitors every day, something is stopping visits from being recorded. Check the other items on this page."
+msgstr ""
+
+#. translators: %s: consent plugin name, for example "CookieYes".
+#: views/pages/tracker-debugger/tracker-debugger.php:89
+#, php-format
+msgid "Consent Plugin Integration is set to %s, so a visit is only recorded after the visitor gives consent. If visitors accept the banner and are still not recorded, set Consent Plugin Integration to None to confirm, and contact us."
+msgstr ""
+
+#. translators: %s: number of visitors.
+#: views/pages/tracker-debugger/tracker-debugger.php:97
+#, php-format
+msgid "Your site had %s visitor in the week before, so a day without visits can be normal."
+msgid_plural "Your site had %s visitors in the week before, so a day without visits can be normal."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:102
+msgid "Visit Recording: No Recent Visits"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:105
+msgid "Open your site in a private window, accept the cookie banner if there is one, visit a few pages, then reload this page."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:115
 msgid "Tracker.js Not Found"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:45
-#: views/pages/tracker-debugger/tracker-debugger.php:46
+#: views/pages/tracker-debugger/tracker-debugger.php:116
+#: views/pages/tracker-debugger/tracker-debugger.php:117
 msgid "The tracker.js file is missing or incorrectly placed."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:46
+#: views/pages/tracker-debugger/tracker-debugger.php:117
 msgid "Oops! We couldn't find your tracker.js file. This means it might be missing or the path is incorrect."
 msgstr ""
 
 #. translators: %s: string value
-#: views/pages/tracker-debugger/tracker-debugger.php:48
+#: views/pages/tracker-debugger/tracker-debugger.php:119
 #, php-format
 msgid "Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href=\"%s\" target=\"_blank\" rel=\"noopener\">documentation</a> for guidance."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:55
+#: views/pages/tracker-debugger/tracker-debugger.php:128
+msgid "Tracker.js Status: Cached Frontend URL Failed"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:129
+msgid "The tracker URL served on your public site is unavailable."
+msgstr ""
+
+#. translators: %d: HTTP response status code.
+#: views/pages/tracker-debugger/tracker-debugger.php:131
+#, php-format
+msgid "The public page is loading a tracker.js URL that returns HTTP %d, so visits from cached pages may not be recorded."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:132
+msgid "Purge all page and CDN caches. If the problem returns after a plugin update, update WP Statistics to a version that supports cached tracker URLs from older releases."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:138
+msgid "Tracker.js Frontend Check: Inconclusive"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:139
+msgid "The debugger could not verify the tracker URL served on your public site."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:140
+msgid "The current tracker file may be available, but the public frontend tracker URL could not be confirmed."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:141
+msgid "Check the public page source and browser network requests, then retry after confirming that loopback requests are allowed."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:147
 msgid "Tracker.js Status: Loaded Successfully"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:57
+#: views/pages/tracker-debugger/tracker-debugger.php:149
 msgid "Your tracker.js file is loading correctly with a status code of 200. No issues detected here."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:66
+#: views/pages/tracker-debugger/tracker-debugger.php:158
 msgid "Hit Endpoint Status: Successful"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:68
-msgid "Hit recording is responding as expected."
+#: views/pages/tracker-debugger/tracker-debugger.php:160
+msgid "The hit endpoint accepted a test visit sent the same way tracker.js sends one. The test visit is not saved in your statistics."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:75
+#. translators: %d: HTTP response status code.
+#: views/pages/tracker-debugger/tracker-debugger.php:171
+#, php-format
+msgid "The endpoint answered with HTTP %d."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:172
+msgid "The endpoint did not answer."
+msgstr ""
+
+#. translators: %s: error message returned by the hit endpoint.
+#: views/pages/tracker-debugger/tracker-debugger.php:176
+#, php-format
+msgid "Message: %s"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:181
 msgid "Hit Endpoint Status: Unexpected Response"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:76
-#: views/pages/tracker-debugger/tracker-debugger.php:77
-msgid "Hit recording is not responding as expected."
+#: views/pages/tracker-debugger/tracker-debugger.php:182
+#: views/pages/tracker-debugger/tracker-debugger.php:185
+msgid "The hit endpoint did not accept a test visit, so visits may not be recorded."
 msgstr ""
 
 #. translators: %1$s: string value
-#: views/pages/tracker-debugger/tracker-debugger.php:81
+#: views/pages/tracker-debugger/tracker-debugger.php:191
 #, php-format
 msgid "Please check your security plugins, firewall settings, or any third-party services that might be affecting the request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %1$s."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:82
+#: views/pages/tracker-debugger/tracker-debugger.php:192
 msgid "troubleshooting guide"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:94
+#: views/pages/tracker-debugger/tracker-debugger.php:206
 msgid "Helpful Notes"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:106
+#: views/pages/tracker-debugger/tracker-debugger.php:218
 msgid "Do Not Track (DNT) is Enabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:107
-#: views/pages/tracker-debugger/tracker-debugger.php:108
+#: views/pages/tracker-debugger/tracker-debugger.php:219
+#: views/pages/tracker-debugger/tracker-debugger.php:220
 msgid "Some visitors are excluded from tracking based on their browser settings."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:108
+#: views/pages/tracker-debugger/tracker-debugger.php:220
 msgid "Your site respects visitors' browser settings to not track their web activity. This may result in a lower number of tracked visitors."
 msgstr ""
 
 #. translators: %s: string value
-#: views/pages/tracker-debugger/tracker-debugger.php:110
+#: views/pages/tracker-debugger/tracker-debugger.php:222
 #, php-format
 msgid "For more details, visit our DNT feature <a href=\"%s\" target=\"_blank\" rel=\"noopener\">documentation</a>."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:117
+#: views/pages/tracker-debugger/tracker-debugger.php:229
 msgid "Do Not Track (DNT) is Disabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:119
+#: views/pages/tracker-debugger/tracker-debugger.php:231
 msgid "All visitors will be tracked regardless of their browser's DNT settings."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:134
-msgid "Consent Plugin Integration is Active"
+#: views/pages/tracker-debugger/tracker-debugger.php:244
+msgid "Consent Management is Disabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:135
-#: views/pages/tracker-debugger/tracker-debugger.php:136
-msgid "Visitors must give consent before tracker.js runs."
-msgstr ""
-
-#: views/pages/tracker-debugger/tracker-debugger.php:136
-msgid "Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked."
+#: views/pages/tracker-debugger/tracker-debugger.php:246
+msgid "Tracker.js runs for all visitors immediately. If you require consent management, please enable it in the settings."
 msgstr ""
 
 #. translators: %s: string value
-#: views/pages/tracker-debugger/tracker-debugger.php:139
+#: views/pages/tracker-debugger/tracker-debugger.php:253
 #, php-format
 msgid "Learn more in our <a target=\"_blank\" href=\"%s\">Consent Integration guide</a>."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:148
-msgid "Consent Management is Disabled"
+#: views/pages/tracker-debugger/tracker-debugger.php:258
+msgid "Visitors who have not given consent are recorded anonymously."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:150
-msgid "Tracker.js runs for all visitors immediately. If you require consent management, please enable it in the settings."
+#: views/pages/tracker-debugger/tracker-debugger.php:259
+msgid "Visitors who have not given consent are not recorded."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:161
+#. translators: %s: consent plugin name.
+#: views/pages/tracker-debugger/tracker-debugger.php:263
+#, php-format
+msgid "%s decides in the browser, so consent in your browser cannot be checked from here."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:265
+msgid "Consent is given in this browser."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:267
+msgid "Consent is not given in this browser. If you already accepted the cookie banner on your site in this browser, WP Statistics cannot read your consent plugin, and visitors who accept are not recorded either."
+msgstr ""
+
+#. translators: %s: consent plugin name, for example "CookieYes".
+#: views/pages/tracker-debugger/tracker-debugger.php:271
+#, php-format
+msgid "Consent Plugin Integration: %s"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:295
 msgid "Verified Items"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:172
+#: views/pages/tracker-debugger/tracker-debugger.php:306
 msgid "Ad-blocker Bypass is Disabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:173
-#: views/pages/tracker-debugger/tracker-debugger.php:174
+#: views/pages/tracker-debugger/tracker-debugger.php:307
+#: views/pages/tracker-debugger/tracker-debugger.php:308
 msgid "Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:175
+#: views/pages/tracker-debugger/tracker-debugger.php:309
 msgid "Enable the \"Bypass Ad-blocker\" option to ensure tracker.js loads for all visitors. Refer to our Ad-blocker Bypass guide for instructions."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:182
+#: views/pages/tracker-debugger/tracker-debugger.php:316
 msgid "Ad-blocker Bypass is Enabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:183
-#: views/pages/tracker-debugger/tracker-debugger.php:184
+#: views/pages/tracker-debugger/tracker-debugger.php:317
+#: views/pages/tracker-debugger/tracker-debugger.php:318
 msgid "Tracker.js is working for all visitors, including those using ad-blockers."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:184
+#: views/pages/tracker-debugger/tracker-debugger.php:318
 msgid "Tracker.js is configured to load even for visitors using ad-blockers."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:202
+#: views/pages/tracker-debugger/tracker-debugger.php:336
 msgid "No Known Caching Plugins Detected"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:203
-#: views/pages/tracker-debugger/tracker-debugger.php:204
+#: views/pages/tracker-debugger/tracker-debugger.php:337
+#: views/pages/tracker-debugger/tracker-debugger.php:338
 msgid "No recognized caching plugins were detected."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:204
+#: views/pages/tracker-debugger/tracker-debugger.php:338
 msgid "We didn't detect any known caching plugins. If you're using a caching solution that's not recognized, it might still affect tracker.js."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:205
+#: views/pages/tracker-debugger/tracker-debugger.php:339
 msgid "Review your caching settings and consult our Caching guide for more information."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:222
+#: views/pages/tracker-debugger/tracker-debugger.php:356
 msgid "Caching Plugins Detected"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:223
-#: views/pages/tracker-debugger/tracker-debugger.php:226
+#: views/pages/tracker-debugger/tracker-debugger.php:357
+#: views/pages/tracker-debugger/tracker-debugger.php:360
 msgid "We have detected the following caching plugin(s) active on your site:"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:228
+#: views/pages/tracker-debugger/tracker-debugger.php:362
 msgid "Caching may interfere with tracker.js loading properly."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:230
+#: views/pages/tracker-debugger/tracker-debugger.php:364
 msgid "Configure your caching plugin to exclude tracker.js from being cached. See our Caching Compatibility guide for detailed steps."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:241
+#: views/pages/tracker-debugger/tracker-debugger.php:375
 msgid "IP Addresses"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:248
+#: views/pages/tracker-debugger/tracker-debugger.php:382
 msgid "Roles"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:269
+#: views/pages/tracker-debugger/tracker-debugger.php:403
 msgid "URLs"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:284
+#: views/pages/tracker-debugger/tracker-debugger.php:418
 msgid "No Filters or Exceptions are Applied"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:285
-#: views/pages/tracker-debugger/tracker-debugger.php:288
+#: views/pages/tracker-debugger/tracker-debugger.php:419
+#: views/pages/tracker-debugger/tracker-debugger.php:422
 msgid "All visitors are being tracked without exclusions."
 msgstr ""
 
 #. translators: %s: string value
-#: views/pages/tracker-debugger/tracker-debugger.php:292
-#: views/pages/tracker-debugger/tracker-debugger.php:306
+#: views/pages/tracker-debugger/tracker-debugger.php:426
+#: views/pages/tracker-debugger/tracker-debugger.php:440
 #, php-format
 msgid "Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target=\"_blank\" href=\"%s\">Learn more</a>."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:301
+#: views/pages/tracker-debugger/tracker-debugger.php:435
 msgid "Filters or Exceptions are Applied"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:325
-msgid "No PHP Errors Detected"
-msgstr ""
-
-#: views/pages/tracker-debugger/tracker-debugger.php:326
-msgid "Tracker.js is functioning without any PHP errors."
-msgstr ""
-
-#: views/pages/tracker-debugger/tracker-debugger.php:342
-msgid "PHP Errors Detected in tracker.js"
-msgstr ""
-
-#: views/pages/tracker-debugger/tracker-debugger.php:343
-#: views/pages/tracker-debugger/tracker-debugger.php:346
-msgid "We found the following error:"
-msgstr ""
-
-#: views/pages/tracker-debugger/tracker-debugger.php:349
-msgid "Suggestion: Please refer to our Error Troubleshooting guide to resolve these issues."
-msgstr ""
-
-#: views/pages/tracker-debugger/tracker-debugger.php:361
+#: views/pages/tracker-debugger/tracker-debugger.php:454
 msgid "Recent Tracker Activity"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:362
+#: views/pages/tracker-debugger/tracker-debugger.php:455
 msgid "Get detailed logs of recent user visits for accurate debugging."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:370
+#: views/pages/tracker-debugger/tracker-debugger.php:463
 msgid "Timestamp"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:417
+#: views/pages/tracker-debugger/tracker-debugger.php:510
 msgid "Need More Help?"
 msgstr ""
 
 #. translators: %1$s: string value, %2$s: string value
-#: views/pages/tracker-debugger/tracker-debugger.php:422
+#: views/pages/tracker-debugger/tracker-debugger.php:515
 #, php-format
 msgid "If tracker.js is still not working, visit our <a target=\"_blank\" href=\"%1$s\">troubleshooting guide</a> for detailed steps or <a target=\"_blank\" href=\"%2$s\">contact our support team</a> for assistance."
 msgstr ""
