@@ -62,6 +62,18 @@ class Test_ErrorsDetectorProvider extends WP_UnitTestCase
         $this->assertSame([], $this->loggedMessages());
     }
 
+    public function test_an_error_from_another_plugin_is_not_cleared()
+    {
+        $message = 'An error owned by another plugin';
+        $this->raiseFrom(WP_PLUGIN_DIR . '/kirki-test-fixture/field.php', $message);
+
+        (new ErrorsDetectorProvider())->errorListener();
+
+        $lastError = error_get_last();
+        $this->assertNotNull($lastError);
+        $this->assertSame($message, $lastError['message']);
+    }
+
     public function test_an_error_from_wp_statistics_is_logged()
     {
         $this->raiseFrom(WP_STATISTICS_DIR . 'tests/tmp-error-fixture/source.php', 'An error inside WP Statistics');

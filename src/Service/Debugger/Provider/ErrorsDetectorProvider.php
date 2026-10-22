@@ -47,13 +47,13 @@ class ErrorsDetectorProvider extends AbstractDebuggerProvider
             return;
         }
 
-        // error_get_last() keeps returning the same error for the rest of the request, so
-        // clear it once read: the next listener call would otherwise log it again.
-        error_clear_last();
-
         if (!$this->isOwnError($error)) {
             return;
         }
+
+        // Clear only errors handled by this listener. Other code may still need
+        // to inspect errors raised by a different plugin or the active theme.
+        error_clear_last();
 
         $errorName   = LoggerFactory::logger('tracker')->getErrorSeverity($error['type']);
         $currentLogs = Option::getOptionGroup(self::ERROR_LOG_OPTION, null, []);
