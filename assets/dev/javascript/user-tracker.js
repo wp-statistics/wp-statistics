@@ -88,7 +88,11 @@ if (!window.WpStatisticsUserTracker) {
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
-                            this.hitRequestSuccessful = this.parseHitResponse(xhr.responseText).status !== false;
+                            const responseData = this.parseHitResponse(xhr.responseText);
+                            this.hitRequestSuccessful = responseData !== null
+                                && typeof responseData === 'object'
+                                && !Array.isArray(responseData)
+                                && responseData.status === true;
                         } else {
                             this.hitRequestSuccessful = false;
                             const responseData = this.parseHitResponse(xhr.responseText);
