@@ -1,3 +1,7 @@
+14.16.19 - unreleased
+- **Enhancement:** The Tracker Debugger now starts with "Visit Recording": when the last visit was recorded and how many visitors were recorded in the last 24 hours, with a warning when no visit arrived for over a day. It also names the active consent plugin and says whether consent is given in your own browser, so a consent plugin that blocks every visit is visible at a glance (issue [#1178](https://github.com/wp-statistics/wp-statistics/issues/1178)).
+- **Removed:** The Tracker Debugger's "PHP Errors" card, and the error log WP Statistics kept during each hit. WordPress's own debug log covers PHP errors. Visits no longer do this extra work (issue [#1178](https://github.com/wp-statistics/wp-statistics/issues/1178)).
+
 14.16.18 - 2026-10-22
 - **Fix:** With Consent Plugin Integration set to CookieYes, visits are recorded again on sites where CookieYes runs in its legacy mode (the older "GDPR Cookie Consent" banner). WP Statistics only understood the newer CookieYes banner, so these sites recorded no visits at all (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
 - **Fix:** The Tracker Debugger no longer shows PHP notices from the theme or other plugins as "PHP Errors Detected in tracker.js", and the tracker no longer shows a console error when such a notice is printed before its response (issue [#1170](https://github.com/wp-statistics/wp-statistics/issues/1170)).

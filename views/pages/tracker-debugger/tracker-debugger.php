@@ -7,6 +7,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\TimeZone;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 $currentDate = TimeZone::getCurrentDate();
 
@@ -16,6 +17,10 @@ $excludedUrls       = $options->getExcludedUrls();
 $includeCountries   = $options->getIncludedCountries();
 $excludeCountries   = $options->getExcludedCountries();
 $trackerStatus      = $tracker->getTrackerStatus();
+$recording          = $visitors->getRecordingStatus();
+$consent            = IntegrationHelper::getActiveIntegration();
+$consentGiven       = $consent ? $consent->hasConsent() : true;
+$consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
 ?>
 
 <div class="postbox-container wps-postbox-tracker__container">
@@ -38,6 +43,51 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M8.75 19.25H12.25C15.5498 19.25 17.1998 19.25 18.2248 18.2248C19.25 17.1998 19.25 15.5498 19.25 12.25V11.8675C19.25 11.1038 19.25 10.5301 19.2127 10.0626H15.75H15.667C14.707 10.0627 13.8587 10.0628 13.1748 9.9708C12.4336 9.87114 11.6925 9.64232 11.0877 9.03744C10.4828 8.4326 10.254 7.69149 10.1543 6.95026C10.0623 6.26644 10.0624 5.41806 10.0625 4.4581L10.0705 1.978C10.0708 1.90586 10.077 1.83452 10.0887 1.76458C9.73122 1.75 9.30633 1.75 8.77608 1.75C5.45885 1.75 3.80026 1.75 2.77512 2.77512C1.75 3.80026 1.75 5.45017 1.75 8.75V12.25C1.75 15.5498 1.75 17.1998 2.77512 18.2248C3.80026 19.25 5.45017 19.25 8.75 19.25ZM9.59849 13.536C9.85477 13.2797 10.2702 13.2797 10.5265 13.536L11.4015 14.411C11.6578 14.6673 11.6578 15.0827 11.4015 15.339L10.5265 16.214C10.2702 16.4703 9.85477 16.4703 9.59849 16.214C9.3422 15.9577 9.3422 15.5423 9.59849 15.286L10.0094 14.875L9.59849 14.464C9.3422 14.2077 9.3422 13.7923 9.59849 13.536ZM9.36442 12.4804C9.49174 12.1411 9.3198 11.7628 8.98039 11.6356C8.64106 11.5083 8.26279 11.6802 8.13553 12.0196L6.82303 15.5196C6.69577 15.8589 6.86772 16.2372 7.20708 16.3644C7.54644 16.4917 7.92471 16.3198 8.05197 15.9804L9.36442 12.4804ZM6.58904 11.786C6.84532 12.0423 6.84532 12.4577 6.58904 12.714L6.17808 13.125L6.58904 13.536C6.84532 13.7923 6.84532 14.2077 6.58904 14.464C6.33276 14.7203 5.91724 14.7203 5.66096 14.464L4.78596 13.589C4.52968 13.3327 4.52968 12.9173 4.78596 12.661L5.66096 11.786C5.91724 11.5297 6.33276 11.5297 6.58904 11.786Z" fill="#019939"/>
                     </svg>
                     ';
+
+                // What actually reached the database. The other checks look at the server;
+                // this one sees any cause that stops visits, including one in the browser.
+                $recordingData = [
+                    'svg'         => $trackerIcon,
+                    'title'       => __('Visit Recording: No Visits Yet', 'wp-statistics'),
+                    'description' => esc_html__('No visit has been recorded on this site yet.', 'wp-statistics'),
+                    'content'     => esc_html__('Open your site in a private window and visit a few pages, then reload this page.', 'wp-statistics'),
+                    'status'      => 'info',
+                ];
+
+                if ($recording['last_visit'] !== null) {
+                    /* translators: %s: how long ago, for example "5 mins" or "8 days". */
+                    $lastVisitText = sprintf(esc_html__('Last visit recorded %s ago.', 'wp-statistics'), esc_html(human_time_diff(time() - (int)$recording['seconds_since'], time())));
+                    /* translators: %s: number of visitors. */
+                    $last24hText = sprintf(esc_html(_n('%s visitor in the last 24 hours.', '%s visitors in the last 24 hours.', $recording['visitors_24h'], 'wp-statistics')), esc_html(number_format_i18n($recording['visitors_24h'])));
+
+                    if ($recording['seconds_since'] <= DAY_IN_SECONDS) {
+                        $recordingData = [
+                            'svg'         => $trackerIcon,
+                            'title'       => __('Visit Recording: Working', 'wp-statistics'),
+                            'description' => '',
+                            'content'     => $lastVisitText . ' ' . $last24hText,
+                            'status'      => 'success',
+                        ];
+                    } else {
+                        $recordingCause = esc_html__('If your site usually gets visitors every day, something is stopping visits from being recorded. Check the other items on this page.', 'wp-statistics');
+
+                        if ($consent && !$consentAnonymous) {
+                            /* translators: %s: consent plugin name, for example "CookieYes". */
+                            $recordingCause = sprintf(esc_html__('Consent Plugin Integration is set to %s, so a visit is only recorded after the visitor gives consent. If visitors accept the banner and are still not recorded, set Consent Plugin Integration to None to confirm, and contact us.', 'wp-statistics'), esc_html($consent->getName()));
+                        }
+
+                        $recordingData = [
+                            'svg'         => $trackerIcon,
+                            'title'       => __('Visit Recording: No Recent Visits', 'wp-statistics'),
+                            'description' => $lastVisitText,
+                            'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', $lastVisitText, $recordingCause),
+                            'suggestion'  => esc_html__('Open your site in a private window, accept the cookie banner if there is one, visit a few pages, then reload this page.', 'wp-statistics'),
+                            'status'      => 'warning',
+                        ];
+                    }
+                }
+
+                View::load("components/audit-card", $recordingData);
 
                 $trackerData = [
                     'svg'         => $trackerIcon,
@@ -168,28 +218,43 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M11.8689 2.13321C11.5449 2 11.1341 2 10.3125 2C9.49087 2 9.08006 2 8.75605 2.13321C8.32397 2.31083 7.9807 2.65151 7.80174 3.0803C7.72004 3.27605 7.68807 3.50369 7.67555 3.83574C7.65717 4.32372 7.40501 4.7754 6.9789 5.01956C6.55278 5.26372 6.03256 5.2546 5.59755 5.02641C5.30153 4.87114 5.0869 4.78479 4.87524 4.75714C4.41158 4.69656 3.94266 4.82125 3.57164 5.1038C3.29337 5.31571 3.08796 5.66879 2.67716 6.37494C2.26636 7.0811 2.06096 7.43417 2.01518 7.7793C1.95413 8.23945 2.07978 8.70483 2.36448 9.07306C2.49443 9.24115 2.67705 9.38237 2.96049 9.55912C3.37717 9.819 3.64528 10.2617 3.64525 10.75C3.64523 11.2383 3.37713 11.6809 2.96049 11.9407C2.677 12.1175 2.49435 12.2589 2.36439 12.4269C2.07969 12.7951 1.95405 13.2605 2.01509 13.7206C2.06087 14.0657 2.26628 14.4189 2.67707 15.125C3.08788 15.8311 3.29328 16.1843 3.57155 16.3961C3.94257 16.6786 4.41149 16.8033 4.87515 16.7428C5.08681 16.7151 5.30142 16.6288 5.59741 16.4736C6.03245 16.2454 6.55271 16.2362 6.97885 16.4804C7.40499 16.7246 7.65716 17.1763 7.67555 17.6643C7.68807 17.9963 7.72004 18.224 7.80174 18.4197C7.9807 18.8485 8.32397 19.1892 8.75605 19.3668C9.08006 19.5 9.49087 19.5 10.3125 19.5C11.1341 19.5 11.5449 19.5 11.8689 19.3668C12.301 19.1892 12.6443 18.8485 12.8232 18.4197C12.9049 18.224 12.937 17.9963 12.9495 17.6643C12.9679 17.1763 13.2199 16.7246 13.6461 16.4804C14.0722 16.2362 14.5925 16.2454 15.0275 16.4736C15.3235 16.6288 15.5381 16.7151 15.7497 16.7427C16.2134 16.8033 16.6823 16.6786 17.0533 16.3961C17.3317 16.1842 17.537 15.8311 17.9478 15.1249C18.3586 14.4188 18.564 14.0657 18.6099 13.7206C18.6708 13.2605 18.5452 12.795 18.2606 12.4269C18.1305 12.2588 17.9479 12.1174 17.6644 11.9407C17.2478 11.6809 16.9797 11.2382 16.9797 10.7499C16.9797 10.2616 17.2478 9.81909 17.6644 9.5593C17.948 9.38246 18.1306 9.24124 18.2606 9.07306C18.5453 8.70489 18.6709 8.23951 18.6099 7.77935C18.5641 7.43423 18.3587 7.08115 17.9479 6.375C17.5371 5.66885 17.3317 5.31577 17.0534 5.10386C16.6824 4.82131 16.2135 4.69662 15.7498 4.7572C15.5382 4.78485 15.3235 4.87119 15.0276 5.02645C14.5926 5.25464 14.0723 5.26377 13.6462 5.01959C13.22 4.77542 12.9679 4.3237 12.9494 3.8357C12.9369 3.50367 12.9049 3.27604 12.8232 3.0803C12.6443 2.65151 12.301 2.31083 11.8689 2.13321ZM10.3125 13.375C11.7733 13.375 12.9574 12.1998 12.9574 10.75C12.9574 9.30021 11.7733 8.125 10.3125 8.125C8.85169 8.125 7.66751 9.30021 7.66751 10.75C7.66751 12.1998 8.85169 13.375 10.3125 13.375Z" fill="#019939"/>
                     </svg>';
 
-                $consentIntegration = $options->getOption('consent_integration');
-
                 $atData = [
                     'svg'         => $atIcon,
-                    'title'       => __('Consent Plugin Integration is Active', 'wp-statistics'),
-                    'description' => esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'),
-                    'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'), esc_html__('Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked.', 'wp-statistics')),
-                    'suggestion'  => sprintf(
+                    'title'       => __('Consent Management is Disabled', 'wp-statistics'),
+                    'description' => '',
+                    'content'     => esc_html__('Tracker.js runs for all visitors immediately. If you require consent management, please enable it in the settings.', 'wp-statistics'),
+                    'status'      => 'success'
+                ];
+
+                if ($consent) {
+                    $consentGuide = sprintf(
                         /* translators: %s: string value */
                         __('Learn more in our <a target="_blank" href="%s">Consent Integration guide</a>.', 'wp-statistics'),
                         esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
-                    ),
-                    'status'      => 'info'
-                ];
+                    );
 
-                if (empty($consentIntegration)) {
+                    $consentRule = $consentAnonymous
+                        ? esc_html__('Visitors who have not given consent are recorded anonymously.', 'wp-statistics')
+                        : esc_html__('Visitors who have not given consent are not recorded.', 'wp-statistics');
+
+                    /* translators: %s: consent plugin name, for example "CookieYes". */
+                    $consentTitle = sprintf(__('Consent Plugin Integration: %s', 'wp-statistics'), $consent->getName());
+
+                    // Read from this browser's cookies, the same way a visit is checked. A "no" after
+                    // accepting the banner means the integration cannot read the consent plugin (#1175).
                     $atData = [
                         'svg'         => $atIcon,
-                        'title'       => __('Consent Management is Disabled', 'wp-statistics'),
-                        'description' => '',
-                        'content'     => esc_html__('Tracker.js runs for all visitors immediately. If you require consent management, please enable it in the settings.', 'wp-statistics'),
-                        'status'      => 'success'
+                        'title'       => $consentTitle,
+                        'description' => $consentRule,
+                        'content'     => sprintf(
+                            '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s',
+                            $consentRule,
+                            $consentGiven
+                                ? esc_html__('Consent is given in your browser, so your own visits are recorded.', 'wp-statistics')
+                                : esc_html__('Consent is not given in your browser. If you already accepted the cookie banner on your site in this browser, WP Statistics cannot read your consent plugin, and visitors who accept are not recorded either.', 'wp-statistics')
+                        ),
+                        'suggestion'  => $consentGuide,
+                        'status'      => 'info'
                     ];
                 }
 
@@ -352,47 +417,6 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 }
 
                 View::load("components/audit-card", $filterData);
-
-                $errorIcon = '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10.5 19.6875C15.5741 19.6875 19.6875 15.5741 19.6875 10.5C19.6875 5.42588 15.5741 1.3125 10.5 1.3125C5.42588 1.3125 1.3125 5.42588 1.3125 10.5C1.3125 15.5741 5.42588 19.6875 10.5 19.6875Z" fill="#019939"/>
-                    <path d="M9.47567 6.5625H10.5782L10.2666 8.21901H11.2573C11.8006 8.23062 12.2053 8.35203 12.4716 8.58329C12.7433 8.81449 12.8232 9.25404 12.7114 9.90157L12.1761 12.7896H11.0576L11.5688 10.0316C11.6221 9.74249 11.6061 9.53728 11.5209 9.41587C11.4358 9.29447 11.252 9.23377 10.9697 9.23377L10.0828 9.2251L9.4277 12.7896H8.3252L9.47567 6.5625Z" fill="white"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.42373 8.21875H6.56486C7.19329 8.22446 7.64872 8.42114 7.93104 8.80846C8.21336 9.19584 8.30655 9.72484 8.21067 10.3956C8.17346 10.7021 8.09084 11.0027 7.963 11.2976C7.84048 11.5925 7.67012 11.8584 7.45172 12.0955C7.18535 12.3961 6.9004 12.5869 6.59682 12.6679C6.29323 12.7489 5.97894 12.7893 5.65409 12.7893H4.69536L4.39177 14.4372H3.28125L4.42373 8.21875ZM4.87912 11.8093L5.35688 9.21612H5.51827C5.57691 9.21612 5.63811 9.21317 5.70202 9.20746C6.12817 9.20168 6.48227 9.24506 6.76462 9.33753C7.05219 9.42999 7.14807 9.77984 7.05219 10.3869C6.93512 11.1097 6.70596 11.5318 6.36514 11.6532C6.02431 11.7689 5.59816 11.8237 5.08684 11.818H4.97499C4.94303 11.818 4.91108 11.815 4.87912 11.8093Z" fill="white"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.0365 8.21875H13.8954L12.7529 14.4372H13.8634L14.1671 12.7893H15.1258C15.4506 12.7893 15.7649 12.7489 16.0685 12.6679C16.3721 12.5869 16.657 12.3961 16.9234 12.0955C17.1418 11.8584 17.3122 11.5925 17.4347 11.2976C17.5625 11.0027 17.6451 10.7021 17.6824 10.3956C17.7782 9.72484 17.6851 9.19584 17.4027 8.80846C17.1204 8.42114 16.665 8.22446 16.0365 8.21875ZM14.8286 9.21612L14.3508 11.8093C14.3828 11.815 14.4148 11.818 14.4467 11.818H14.5585C15.0699 11.8237 15.496 11.7689 15.8368 11.6532C16.1776 11.5318 16.4068 11.1097 16.5239 10.3869C16.6198 9.77984 16.5239 9.42999 16.2363 9.33753C15.954 9.24506 15.5999 9.20168 15.1737 9.20746C15.1098 9.21317 15.0486 9.21612 14.99 9.21612H14.8286Z" fill="white"/>
-                    </svg>
-                    ';
-
-                $errorData = [
-                    'svg'     => $errorIcon,
-                    'title'   => __('No PHP Errors Detected', 'wp-statistics'),
-                    'content' => __('Tracker.js is functioning without any PHP errors.', 'wp-statistics'),
-                    'status'  => 'success'
-                ];
-
-                if (count($errors->getErrors()) > 0) {
-                    $filters = [
-                        [
-                            'content' => $errors->printError(),
-                        ],
-                    ];
-
-                    ob_start();
-                    View::load('components/objects/tracker-filter-list', ['filters' => $filters]);
-                    $filterListsHtml = ob_get_clean();
-                    $errorData       = [
-                        'svg'         => $errorIcon,
-                        'title'       => __('PHP Errors Detected in tracker.js', 'wp-statistics'),
-                        'description' => esc_html__('We found the following error:', 'wp-statistics'),
-                        'content'     => sprintf(
-                            '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s',
-                            esc_html__('We found the following error:', 'wp-statistics'),
-                            $filterListsHtml
-                        ),
-                        'suggestion'  => esc_html__('Suggestion: Please refer to our Error Troubleshooting guide to resolve these issues.', 'wp-statistics'),
-                        'status'      => 'warning'
-                    ];
-                }
-
-                View::load("components/audit-card", $errorData);
                 ?>
             </div>
         </div>

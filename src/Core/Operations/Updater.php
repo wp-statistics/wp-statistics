@@ -306,6 +306,12 @@ class Updater extends AbstractCore
         }
 
         /**
+         * The Tracker Debugger no longer stores PHP errors raised during hits, so drop
+         * the log it kept. Harmless when it was never written.
+         */
+        delete_option('wp_statistics_tracker_js_errors');
+
+        /**
          * Update consent integration to WP Consent API for backward compatibility
          */
         $integration          = Option::get('consent_integration');
