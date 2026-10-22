@@ -98,7 +98,9 @@ for (const file of trackerFiles) {
             [403, '<html><body>Forbidden</body></html>', null],
             // A proxy answers with a JSON null.
             [500, 'null', null],
-            // The endpoint names the value that failed.
+            // REST validation errors use HTTP 200 with status false.
+            [200, '{"status":false,"data":"Invalid hit/online request (referred)."}', 'Invalid hit/online request (referred).'],
+            // AJAX and other endpoint failures can use a non-200 status.
             [400, '{"status":false,"data":"Invalid hit/online request (referred)."}', 'Invalid hit/online request (referred).'],
         ];
 

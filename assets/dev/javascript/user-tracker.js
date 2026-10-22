@@ -93,6 +93,11 @@ if (!window.WpStatisticsUserTracker) {
                                 && typeof responseData === 'object'
                                 && !Array.isArray(responseData)
                                 && responseData.status === true;
+
+                            if (!this.hitRequestSuccessful) {
+                                const responseError = responseData && (typeof responseData.data === 'string' ? responseData.data : responseData.message);
+                                console.warn('WP Statistics: Hit request failed with status ' + xhr.status + (responseError ? ': ' + responseError : ''));
+                            }
                         } else {
                             this.hitRequestSuccessful = false;
                             // An empty or HTML body (blocked request, error page) is not a PHP notice.
