@@ -109,11 +109,17 @@ class VisitorProvider extends AbstractDebuggerProvider
         if ($lastVisit !== null && $lastVisit < $since && !$failed) {
             // Visitors in the 7 days before the last visit. A site that gets a few visits a week
             // can go a day without one; a site that got hundreds has stopped recording.
-            $weekBefore = (int)$wpdb->get_var($wpdb->prepare(
+            $weekBeforeResult = $wpdb->get_var($wpdb->prepare(
                 "SELECT COUNT(*) FROM `{$table}` WHERE `last_counter` >= %s AND `last_counter` <= %s",
                 gmdate('Y-m-d', strtotime($lastVisit . ' -7 days')),
                 substr($lastVisit, 0, 10)
             ));
+
+            if ($weekBeforeResult === null && $wpdb->last_error !== '') {
+                $failed = true;
+            } else {
+                $weekBefore = (int)$weekBeforeResult;
+            }
         }
         // phpcs:enable
 

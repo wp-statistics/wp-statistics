@@ -133,4 +133,32 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         $this->assertTrue($status['error']);
         $this->assertNull($status['last_visit']);
     }
+
+    public function test_a_failed_week_before_query_is_reported_as_an_error()
+    {
+        global $wpdb;
+
+        $this->addVisitor(TimeZone::getCurrentDate('Y-m-d H:i:s', -3), '10.0.0.7');
+
+        $breakWeekBeforeQuery = static function ($query) {
+            if (strpos($query, 'SELECT COUNT(*) FROM `' . DB::table('visitor') . '`') === false) {
+                return $query;
+            }
+
+            return str_replace(DB::table('visitor'), 'wp_statistics_missing_table', $query);
+        };
+
+        add_filter('query', $breakWeekBeforeQuery);
+        $suppress = $wpdb->suppress_errors(true);
+
+        try {
+            $status = (new VisitorProvider())->getRecordingStatus();
+        } finally {
+            $wpdb->suppress_errors($suppress);
+            remove_filter('query', $breakWeekBeforeQuery);
+        }
+
+        $this->assertTrue($status['error']);
+        $this->assertNull($status['visitors_week_before']);
+    }
 }
