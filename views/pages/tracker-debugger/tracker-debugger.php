@@ -22,7 +22,10 @@ $consent            = IntegrationHelper::getActiveIntegration();
 // Borlabs Cookie decides in the browser and gives the server no way to read its consent.
 $consentReadable    = $consent && $consent->getKey() !== 'borlabs_cookie';
 $consentGiven       = $consentReadable ? $consent->hasConsent() : null;
-$consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
+// Only Borlabs makes anonymous recording a site setting (Anonymous Tracking). For WP Consent API
+// and Real Cookie Banner, trackAnonymously() answers for the current browser's own choice, so it
+// would describe the admin's consent, not what happens to visitors.
+$consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $consent->trackAnonymously();
 ?>
 
 <div class="postbox-container wps-postbox-tracker__container">
