@@ -40,6 +40,8 @@ class Test_TrackerDebuggerHitCheck extends WP_UnitTestCase
         $this->previousOptions = Option::getOptions();
         $this->previousRequest = $_REQUEST;
         $this->hitRequests     = [];
+
+        Option::update('use_cache_plugin', true);
     }
 
     public function tear_down()
@@ -172,6 +174,19 @@ class Test_TrackerDebuggerHitCheck extends WP_UnitTestCase
         $this->assertTrue($status['hitRecordingStatus']);
         $this->assertSame(200, $status['hitRecordingDetails']['responseCode']);
         $this->assertSame('', $status['hitRecordingDetails']['message']);
+    }
+
+    public function test_server_side_tracking_does_not_check_an_unregistered_hit_endpoint()
+    {
+        Option::update('use_cache_plugin', false);
+
+        $status = $this->runDebugger($this->reply(404, [
+            'code'    => 'rest_no_route',
+            'message' => 'No route was found matching the URL and request method.',
+        ]));
+
+        $this->assertCount(0, $this->hitRequests);
+        $this->assertNull($status['hitRecordingStatus']);
     }
 
     public function test_cloudflare_challenge_is_still_not_a_failure()

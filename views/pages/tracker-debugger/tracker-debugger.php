@@ -90,7 +90,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'status'      => 'success',
                 ];
 
-                if (empty($trackerStatus['hitRecordingStatus'])) {
+                if (isset($trackerStatus['hitRecordingStatus']) && empty($trackerStatus['hitRecordingStatus'])) {
                     $hitDetails      = $trackerStatus['hitRecordingDetails'] ?? [];
                     $hitResponseCode = $hitDetails['responseCode'] ?? null;
                     $hitMessage      = $hitDetails['message'] ?? '';
@@ -124,7 +124,9 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     ];
                 }
 
-                View::load("components/audit-card", $trackerData);
+                if (isset($trackerStatus['hitRecordingStatus'])) {
+                    View::load("components/audit-card", $trackerData);
+                }
                 ?>
             </div>
         </div>

@@ -72,10 +72,14 @@ class TrackerProvider extends AbstractDebuggerProvider
      * as a debugger test so it is not recorded. The check passes only when the
      * endpoint answers with a success status and `"status": true`.
      *
-     * @return bool
+     * @return bool|null Null when client-side tracking and its hit endpoint are disabled.
      */
     public function checkHitRecording()
     {
+        if (!Option::get('use_cache_plugin')) {
+            return null;
+        }
+
         $adBlocker = Option::get('bypass_ad_blockers', false);
 
         return $adBlocker ? $this->checkAjaxHit() : $this->checkRestHit();
