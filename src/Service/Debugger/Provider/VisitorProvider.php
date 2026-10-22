@@ -84,13 +84,16 @@ class VisitorProvider extends AbstractDebuggerProvider
 
         $now   = TimeZone::getCurrentDate();
         $since = TimeZone::getCurrentDate('Y-m-d H:i:s', -1);
+        $today = substr($now, 0, 10);
         $table = DB::table('visitor');
 
         // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from DB::table()
         $recent = $wpdb->get_row($wpdb->prepare(
-            "SELECT MAX(`last_view`) AS last_visit, SUM(`last_view` >= %s) AS visitors_24h FROM `{$table}` WHERE `last_counter` >= %s",
+            "SELECT MAX(`last_view`) AS last_visit, SUM(`last_view` >= %s) AS visitors_24h FROM `{$table}` WHERE `last_counter` >= %s AND `last_counter` <= %s AND (`last_view` IS NULL OR `last_view` <= %s)",
             $since,
-            substr($since, 0, 10)
+            substr($since, 0, 10),
+            $today,
+            $now
         ));
 
         $failed     = $recent === null && $wpdb->last_error !== '';
@@ -99,9 +102,13 @@ class VisitorProvider extends AbstractDebuggerProvider
 
         if ($lastVisit === null && !$failed) {
             // The latest visit by date, not by ID: imported or restored rows can have higher IDs.
-            $lastVisit = $wpdb->get_var(
-                "SELECT COALESCE(MAX(`last_view`), MAX(`last_counter`)) FROM `{$table}` WHERE `last_counter` = (SELECT MAX(`last_counter`) FROM `{$table}`)"
-            );
+            // Ignore future rows so an imported or clock-skewed timestamp cannot keep the card green.
+            $lastVisit = $wpdb->get_var($wpdb->prepare(
+                "SELECT COALESCE(MAX(`last_view`), MAX(`last_counter`)) FROM `{$table}` WHERE `last_counter` = (SELECT MAX(`last_counter`) FROM `{$table}` WHERE `last_counter` <= %s AND (`last_view` IS NULL OR `last_view` <= %s)) AND (`last_view` IS NULL OR `last_view` <= %s)",
+                $today,
+                $now,
+                $now
+            ));
             $failed    = $lastVisit === null && $wpdb->last_error !== '';
             $lastVisit = !empty($lastVisit) ? (string)$lastVisit : null;
         }

@@ -99,6 +99,20 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         $this->assertSame($twoDaysAgo, (new VisitorProvider())->getRecordingStatus()['last_visit']);
     }
 
+    public function test_future_rows_do_not_make_recording_look_current()
+    {
+        $threeDaysAgo = TimeZone::getCurrentDate('Y-m-d H:i:s', -3);
+        $nextMonth    = TimeZone::getCurrentDate('Y-m-d H:i:s', 30);
+        $this->addVisitor($threeDaysAgo, '10.0.0.8');
+        $this->addVisitor($nextMonth, '10.0.0.9');
+
+        $status = (new VisitorProvider())->getRecordingStatus();
+
+        $this->assertSame($threeDaysAgo, $status['last_visit']);
+        $this->assertSame(0, $status['visitors_24h']);
+        $this->assertGreaterThan(2 * DAY_IN_SECONDS, $status['seconds_since']);
+    }
+
     public function test_counts_the_week_before_a_stopped_site()
     {
         for ($day = 3; $day <= 9; $day++) {
