@@ -122,7 +122,7 @@ if (!window.WpStatisticsUserTracker) {
 
                 console.warn('WP Statistics: The hit response was not valid JSON. Another plugin or the theme may be printing PHP notices.');
 
-                return {status: true};
+                return {status: false};
             }
         },
 
