@@ -113,6 +113,27 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         $this->assertGreaterThan(2 * DAY_IN_SECONDS, $status['seconds_since']);
     }
 
+    public function test_future_timestamp_on_the_latest_day_does_not_hide_recording_history()
+    {
+        global $wpdb;
+
+        $threeDaysAgo = TimeZone::getCurrentDate('Y-m-d H:i:s', -3);
+        $this->addVisitor($threeDaysAgo, '10.0.0.10');
+
+        $wpdb->insert(DB::table('visitor'), [
+            'last_counter' => TimeZone::getCurrentDate('Y-m-d'),
+            'last_view'    => TimeZone::getCurrentDate('Y-m-d H:i:s', 1),
+            'referred'     => '',
+            'agent'        => 'Chrome',
+            'platform'     => 'Windows',
+            'version'      => '141',
+            'ip'           => '10.0.0.11',
+            'user_id'      => 0,
+        ]);
+
+        $this->assertSame($threeDaysAgo, (new VisitorProvider())->getRecordingStatus()['last_visit']);
+    }
+
     public function test_counts_the_week_before_a_stopped_site()
     {
         for ($day = 3; $day <= 9; $day++) {
