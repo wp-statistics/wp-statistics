@@ -3,6 +3,8 @@
 namespace WP_Statistics\Tests\Service\Debugger;
 
 use WP_STATISTICS\DB;
+use WP_Statistics\Service\Database\Managers\TableHandler;
+use WP_Statistics\Service\Database\Schema\Manager;
 use WP_Statistics\Service\Debugger\Provider\VisitorProvider;
 use WP_STATISTICS\TimeZone;
 use WP_UnitTestCase;
@@ -13,6 +15,13 @@ use WP_UnitTestCase;
  */
 class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        TableHandler::createTable('visitor', Manager::getSchemaForTable('visitor'));
+    }
+
     public function setUp(): void
     {
         parent::setUp();
