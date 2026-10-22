@@ -36,7 +36,7 @@ class CookieYes extends AbstractIntegration
      */
     public function hasConsent()
     {
-        if (empty($_COOKIE['cookieyes-consent'])) {
+        if (!array_key_exists('cookieyes-consent', $_COOKIE)) {
             return $this->hasLegacyConsent();
         }
 

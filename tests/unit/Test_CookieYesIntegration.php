@@ -70,7 +70,15 @@ class Test_CookieYesIntegration extends WP_UnitTestCase
 
     public function test_new_mode_cookie_wins_over_legacy_cookies()
     {
-        $_COOKIE['cookieyes-consent']               = 'consentid:abc,consent:yes,action:yes,necessary:yes,analytics:no';
+        $_COOKIE['cookieyes-consent']                = 'consentid:abc,consent:yes,action:yes,necessary:yes,analytics:no';
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    public function test_empty_new_mode_cookie_still_wins_over_legacy_cookies()
+    {
+        $_COOKIE['cookieyes-consent']                = '';
         $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
 
         $this->assertFalse((new CookieYes())->hasConsent());
