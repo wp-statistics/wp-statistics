@@ -309,7 +309,7 @@ class Updater extends AbstractCore
          * The Tracker Debugger no longer stores PHP errors raised during hits, so drop
          * the log it kept.
          */
-        if (version_compare($this->currentVersion, '14.16.18', '<')) {
+        if (version_compare($this->currentVersion, '14.16.19', '<')) {
             delete_option('wp_statistics_tracker_js_errors');
         }
 
