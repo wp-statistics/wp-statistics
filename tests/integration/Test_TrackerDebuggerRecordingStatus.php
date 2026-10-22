@@ -111,6 +111,17 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         $this->assertSame(14, $status['visitors_week_before']);
     }
 
+    public function test_week_before_count_uses_seven_calendar_days()
+    {
+        for ($day = 3; $day <= 10; $day++) {
+            $this->addVisitor(TimeZone::getCurrentDate('Y-m-d H:i:s', -$day), '10.3.0.' . $day);
+        }
+
+        $status = (new VisitorProvider())->getRecordingStatus();
+
+        $this->assertSame(7, $status['visitors_week_before']);
+    }
+
     public function test_no_week_before_count_while_visits_arrive()
     {
         $this->addVisitor(TimeZone::getCurrentDate(), '10.0.0.6');
