@@ -8,12 +8,12 @@ namespace WP_Statistics\Traits;
  * The Tracker Debugger no longer stores PHP errors raised during hits, so
  * errorListener() does nothing. WordPress's debug log covers PHP errors.
  *
- * @deprecated 14.16.19
+ * @deprecated 14.16.18
  */
 trait ErrorLoggerTrait
 {
     /**
-     * @deprecated 14.16.19 No longer logs anything.
+     * @deprecated 14.16.18 No longer logs anything.
      *
      * @return void
      */
