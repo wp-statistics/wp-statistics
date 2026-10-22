@@ -153,9 +153,13 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
 
         add_filter('query', $breakQuery);
         $suppress = $wpdb->suppress_errors(true);
-        $status   = (new VisitorProvider())->getRecordingStatus();
-        $wpdb->suppress_errors($suppress);
-        remove_filter('query', $breakQuery);
+
+        try {
+            $status = (new VisitorProvider())->getRecordingStatus();
+        } finally {
+            $wpdb->suppress_errors($suppress);
+            remove_filter('query', $breakQuery);
+        }
 
         $this->assertTrue($status['error']);
         $this->assertNull($status['last_visit']);
