@@ -91,7 +91,9 @@ if (!window.WpStatisticsUserTracker) {
                             this.hitRequestSuccessful = this.parseHitResponse(xhr.responseText).status !== false;
                         } else {
                             this.hitRequestSuccessful = false;
-                            console.warn('WP Statistics: Hit request failed with status ' + xhr.status);
+                            const responseData = this.parseHitResponse(xhr.responseText);
+                            const responseError = typeof responseData.data === 'string' ? responseData.data : responseData.message;
+                            console.warn('WP Statistics: Hit request failed with status ' + xhr.status + (responseError ? ': ' + responseError : ''));
                         }
                     }
                 }.bind(this);
