@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.17
+Stable tag: 14.16.18
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,12 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.16.18 - 2026-10-22 =
+- **Fix:** With Consent Plugin Integration set to CookieYes, visits are recorded again on sites where CookieYes runs in its legacy mode (the older "GDPR Cookie Consent" banner). WP Statistics only understood the newer CookieYes banner, so these sites recorded no visits at all (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
+- **Fix:** The Tracker Debugger no longer shows PHP notices from the theme or other plugins as "PHP Errors Detected in tracker.js", and the tracker no longer shows a console error when such a notice is printed before its response (issue [#1170](https://github.com/wp-statistics/wp-statistics/issues/1170)).
+- **Fix:** The Tracker Debugger's "Hit Endpoint" check now sends a signed test visit (not saved in your statistics) and only shows "Successful" when the endpoint accepts it. When it fails, the card shows the HTTP status and the error message (issue [#1172](https://github.com/wp-statistics/wp-statistics/issues/1172)).
+- **Enhancement:** When a visit is rejected with "Invalid hit/online request", the message now names the value that failed (`page_uri`, `search_query`, `source_id` or `referred`), so the Tracker Debugger and the browser console show the cause.
+
 = 14.16.17 - 2026-10-14 =
 - **Enhancement:** The Tracker Debugger now checks the tracker URL served on the public homepage and warns when cached pages reference an unavailable tracker ([#1167](https://github.com/wp-statistics/wp-statistics/pull/1167)).
 - **Fix:** Obfuscated tracker URLs cached by page or CDN caches continue working after WP Statistics updates, preventing traffic from dropping until caches are purged ([#1166](https://github.com/wp-statistics/wp-statistics/pull/1166)).
