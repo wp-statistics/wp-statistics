@@ -10,6 +10,7 @@ const trackerFiles = [
 
 function loadTracker(file) {
     let request;
+    const warnings = [];
 
     class FakeXMLHttpRequest {
         constructor() {
@@ -36,7 +37,7 @@ function loadTracker(file) {
             querySelector() { return null; },
             getElementById() { return null; },
         },
-        console: {log() {}, warn() {}, error() {}},
+        console: {log() {}, warn(message) { warnings.push(String(message)); }, error() {}},
         TextEncoder,
         URLSearchParams,
         XMLHttpRequest: FakeXMLHttpRequest,
@@ -57,6 +58,7 @@ function loadTracker(file) {
     return {
         tracker: context.window.WpStatisticsUserTracker,
         getRequest: () => request,
+        warnings,
     };
 }
 
@@ -83,6 +85,39 @@ for (const file of trackerFiles) {
 
             assert.doesNotThrow(() => request.onreadystatechange(), body);
             assert.equal(tracker.hitRequestSuccessful, expected, body);
+        }
+    });
+}
+
+for (const file of trackerFiles) {
+    test(`${file} reports a failed hit without blaming PHP notices or throwing`, async () => {
+        const cases = [
+            // A blocked request (ad blocker, network error) has status 0 and no body.
+            [0, '', null],
+            // A firewall or error page answers with HTML.
+            [403, '<html><body>Forbidden</body></html>', null],
+            // A proxy answers with a JSON null.
+            [500, 'null', null],
+            // The endpoint names the value that failed.
+            [400, '{"status":false,"data":"Invalid hit/online request (referred)."}', 'Invalid hit/online request (referred).'],
+        ];
+
+        for (const [status, body, named] of cases) {
+            const {tracker, getRequest, warnings} = loadTracker(file);
+            await tracker.sendHitRequest();
+
+            const request = getRequest();
+            request.readyState = 4;
+            request.status = status;
+            request.responseText = body;
+
+            assert.doesNotThrow(() => request.onreadystatechange(), body);
+            assert.equal(tracker.hitRequestSuccessful, false, body);
+            assert.ok(!warnings.some(w => /PHP notices/.test(w)), 'no PHP-notice hint for ' + status);
+            assert.ok(warnings.some(w => w.includes('failed with status ' + status)), 'status logged for ' + status);
+            if (named) {
+                assert.ok(warnings.some(w => w.includes(named)), 'endpoint error logged');
+            }
         }
     });
 }

@@ -54,7 +54,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                 $recordingData = [
                     'svg'         => $trackerIcon,
                     'title'       => __('Visit Recording: No Visits Yet', 'wp-statistics'),
-                    'description' => esc_html__('No visit has been recorded on this site yet.', 'wp-statistics'),
+                    'description' => __('No visit has been recorded on this site yet.', 'wp-statistics'),
                     'content'     => esc_html__('Open your site in a private window and visit a few pages, then reload this page.', 'wp-statistics'),
                     'status'      => 'info',
                 ];
@@ -63,7 +63,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     $recordingData = [
                         'svg'         => $trackerIcon,
                         'title'       => __('Visit Recording: Could Not Check', 'wp-statistics'),
-                        'description' => esc_html__('The visitor table could not be read.', 'wp-statistics'),
+                        'description' => __('The visitor table could not be read.', 'wp-statistics'),
                         'content'     => esc_html__('The debugger could not read the visitor table, so it cannot tell when the last visit was recorded. Check Statistics → Optimization for database problems.', 'wp-statistics'),
                         'status'      => 'warning',
                     ];
@@ -103,7 +103,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                         $recordingData = [
                             'svg'         => $trackerIcon,
                             'title'       => __('Visit Recording: No Recent Visits', 'wp-statistics'),
-                            'description' => $lastVisitText,
+                            'description' => wp_specialchars_decode($lastVisitText, ENT_QUOTES), // audit-card escapes it
                             'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', $lastVisitText, $recordingCause),
                             'suggestion'  => esc_html__('Open your site in a private window, accept the cookie banner if there is one, visit a few pages, then reload this page.', 'wp-statistics'),
                             'status'      => $quietSite ? 'info' : 'warning',
@@ -116,7 +116,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                 $trackerData = [
                     'svg'         => $trackerIcon,
                     'title'       => __('Tracker.js Not Found', 'wp-statistics'),
-                    'description' => esc_html__('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'),
+                    'description' => __('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'),
                     'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'), esc_html__('Oops! We couldn\'t find your tracker.js file. This means it might be missing or the path is incorrect.', 'wp-statistics')),
                     /* translators: %s: string value */
                     'suggestion'  => sprintf(__('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="%s" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
@@ -129,7 +129,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => __('Tracker.js Status: Cached Frontend URL Failed', 'wp-statistics'),
-                        'description' => esc_html__('The tracker URL served on your public site is unavailable.', 'wp-statistics'),
+                        'description' => __('The tracker URL served on your public site is unavailable.', 'wp-statistics'),
                         /* translators: %d: HTTP response status code. */
                         'content'     => sprintf(esc_html__('The public page is loading a tracker.js URL that returns HTTP %d, so visits from cached pages may not be recorded.', 'wp-statistics'), (int)$frontendStatus['responseCode']),
                         'suggestion'  => esc_html__('Purge all page and CDN caches. If the problem returns after a plugin update, update WP Statistics to a version that supports cached tracker URLs from older releases.', 'wp-statistics'),
@@ -139,7 +139,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => __('Tracker.js Frontend Check: Inconclusive', 'wp-statistics'),
-                        'description' => esc_html__('The debugger could not verify the tracker URL served on your public site.', 'wp-statistics'),
+                        'description' => __('The debugger could not verify the tracker URL served on your public site.', 'wp-statistics'),
                         'content'     => esc_html__('The current tracker file may be available, but the public frontend tracker URL could not be confirmed.', 'wp-statistics'),
                         'suggestion'  => esc_html__('Check the public page source and browser network requests, then retry after confirming that loopback requests are allowed.', 'wp-statistics'),
                         'status'      => 'info'
@@ -182,7 +182,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => esc_html__('Hit Endpoint Status: Unexpected Response', 'wp-statistics'),
-                        'description' => esc_html__('The hit endpoint did not accept a test visit, so visits may not be recorded.', 'wp-statistics'),
+                        'description' => __('The hit endpoint did not accept a test visit, so visits may not be recorded.', 'wp-statistics'),
                         'content'     => sprintf(
                             '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s',
                             esc_html__('The hit endpoint did not accept a test visit, so visits may not be recorded.', 'wp-statistics'),
@@ -219,7 +219,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                 $dntData = [
                     'svg'         => $dntIcon,
                     'title'       => __('Do Not Track (DNT) is Enabled', 'wp-statistics'),
-                    'description' => esc_html__('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'),
+                    'description' => __('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'),
                     'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'), esc_html__('Your site respects visitors\' browser settings to not track their web activity. This may result in a lower number of tracked visitors.', 'wp-statistics')),
                     /* translators: %s: string value */
                     'suggestion'  => sprintf(__('For more details, visit our DNT feature <a href="%s" target="_blank" rel="noopener">documentation</a>.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/do-not-track/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
@@ -278,7 +278,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     $atData = [
                         'svg'         => $atIcon,
                         'title'       => $consentTitle,
-                        'description' => $consentRule,
+                        'description' => wp_specialchars_decode($consentRule, ENT_QUOTES), // audit-card escapes it
                         'content'     => sprintf(
                             '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s',
                             $consentRule,
@@ -307,7 +307,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                 $adBlockerData = [
                     'svg'         => $adBlockerIcon,
                     'title'       => __('Ad-blocker Bypass is Disabled', 'wp-statistics'),
-                    'description' => esc_html__('Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data.', 'wp-statistics'),
+                    'description' => __('Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data.', 'wp-statistics'),
                     'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>', esc_html__('Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data.', 'wp-statistics')),
                     'suggestion'  => esc_html__('Enable the "Bypass Ad-blocker" option to ensure tracker.js loads for all visitors. Refer to our Ad-blocker Bypass guide for instructions.', 'wp-statistics'),
                     'status'      => 'info'
@@ -317,7 +317,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     $adBlockerData = [
                         'svg'         => $adBlockerIcon,
                         'title'       => __('Ad-blocker Bypass is Enabled', 'wp-statistics'),
-                        'description' => esc_html__('Tracker.js is working for all visitors, including those using ad-blockers.', 'wp-statistics'),
+                        'description' => __('Tracker.js is working for all visitors, including those using ad-blockers.', 'wp-statistics'),
                         'content'     => sprintf('<div class="wps-debugger-desc">%1$s</div>%2$s', esc_html__('Tracker.js is working for all visitors, including those using ad-blockers.', 'wp-statistics'), esc_html__('Tracker.js is configured to load even for visitors using ad-blockers.', 'wp-statistics')),
                         'status'      => 'success'
                     ];
@@ -337,7 +337,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                 $cacheData = [
                     'svg'         => $cacheIcon,
                     'title'       => __('No Known Caching Plugins Detected', 'wp-statistics'),
-                    'description' => esc_html__('No recognized caching plugins were detected.', 'wp-statistics'),
+                    'description' => __('No recognized caching plugins were detected.', 'wp-statistics'),
                     'content'     => sprintf('<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s', esc_html__('No recognized caching plugins were detected.', 'wp-statistics'), esc_html__('We didn\'t detect any known caching plugins. If you\'re using a caching solution that\'s not recognized, it might still affect tracker.js.', 'wp-statistics')),
                     'suggestion'  => __('Review your caching settings and consult our Caching guide for more information.', 'wp-statistics'),
                     'status'      => 'success'
@@ -357,7 +357,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                     $cacheData = [
                         'svg'         => $cacheIcon,
                         'title'       => __('Caching Plugins Detected', 'wp-statistics'),
-                        'description' => esc_html__('We have detected the following caching plugin(s) active on your site:', 'wp-statistics'),
+                        'description' => __('We have detected the following caching plugin(s) active on your site:', 'wp-statistics'),
                         'content'     => sprintf(
                             '<div class="wps-mb-16 wps-debugger-desc">%1$s</div>%2$s<div>%3$s</div>',
                             esc_html__('We have detected the following caching plugin(s) active on your site:', 'wp-statistics'),
@@ -419,7 +419,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                 $filterData = [
                     'svg'         => $filtersIcon,
                     'title'       => __('No Filters or Exceptions are Applied', 'wp-statistics'),
-                    'description' => esc_html__('All visitors are being tracked without exclusions.', 'wp-statistics'),
+                    'description' => __('All visitors are being tracked without exclusions.', 'wp-statistics'),
                     'content'     => sprintf(
                         '<div class="wps-mb-16 wps-debugger-desc">%s</div>',
                         esc_html__('All visitors are being tracked without exclusions.', 'wp-statistics')

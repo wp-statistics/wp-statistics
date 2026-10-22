@@ -104,9 +104,10 @@ class VisitorProvider extends AbstractDebuggerProvider
             // The latest visit by date, not by ID: imported or restored rows can have higher IDs.
             // Ignore future rows so an imported or clock-skewed timestamp cannot keep the card green.
             $lastVisit = $wpdb->get_var($wpdb->prepare(
-                "SELECT COALESCE(MAX(`last_view`), MAX(`last_counter`)) FROM `{$table}` WHERE `last_counter` = (SELECT MAX(`last_counter`) FROM `{$table}` WHERE `last_counter` <= %s AND (`last_view` IS NULL OR `last_view` <= %s)) AND (`last_view` IS NULL OR `last_view` <= %s)",
+                // The day comes from the index alone (MAX on the leading column of date_ip_agent);
+                // filtering on last_view in the subquery would read every visitor row.
+                "SELECT COALESCE(MAX(`last_view`), MAX(`last_counter`)) FROM `{$table}` WHERE `last_counter` = (SELECT MAX(`last_counter`) FROM `{$table}` WHERE `last_counter` <= %s) AND (`last_view` IS NULL OR `last_view` <= %s)",
                 $today,
-                $now,
                 $now
             ));
             $failed    = $lastVisit === null && $wpdb->last_error !== '';

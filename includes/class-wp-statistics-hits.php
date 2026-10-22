@@ -152,11 +152,6 @@ class Hits extends Singleton
     }
 
     /**
-     * Check If Record Hits in Rest-Api Request
-     *
-     * @return bool
-     */
-    /**
      * Whether the current hit request is a Tracker Debugger test.
      *
      * @return bool
@@ -166,6 +161,11 @@ class Hits extends Singleton
         return !empty($_REQUEST[self::$debugger_test_key]); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     }
 
+    /**
+     * Check If Record Hits in Rest-Api Request
+     *
+     * @return bool
+     */
     public static function is_rest_hit()
     {
         return (Helper::is_rest_request() and isset($_REQUEST[self::$rest_hits_key]));

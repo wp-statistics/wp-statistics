@@ -98,22 +98,30 @@ function handleCookieYesIntegration() {
     };
 
     // CookieYes in its legacy mode (the older "GDPR Cookie Consent" banner) stores one cookie per
-    // category, e.g. cookielawinfo-checkbox-analytics=yes, and has no getCkyConsent() or consent
-    // event. A banner without an Analytics category has no such cookie, so the visitor's answer to
-    // the banner itself (viewed_cookie_policy) decides.
+    // category, e.g. cookielawinfo-checkbox-analytics=yes, plus viewed_cookie_policy for the
+    // visitor's answer to the banner. It has no getCkyConsent() or consent event. The category
+    // cookie is written on the first page load from the category's default, before any answer,
+    // so it only counts once the visitor accepted the banner, as CookieYes itself checks (#1175).
+    // Only read in legacy mode, so old legacy cookies cannot count on the newer banner.
+    const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
+    const isLegacy = consentStatus.legacy === true || typeof window.Cli_Data !== 'undefined';
+
     const readCookie = (name) => {
         const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
         return match ? decodeURIComponent(match[1]) : null;
     };
 
     const hasLegacyAnalyticsConsent = () => {
-        const analytics = readCookie('cookielawinfo-checkbox-analytics');
-        if (analytics !== null) {
-            return analytics === 'yes';
+        if (!isLegacy || readCookie('viewed_cookie_policy') !== 'yes') {
+            return false;
         }
 
-        return readCookie('viewed_cookie_policy') === 'yes';
+        // A banner without an Analytics category sets no analytics cookie: accepting it is enough.
+        return readCookie('cookielawinfo-checkbox-analytics') !== 'no';
     };
+
+    // With "Reload after Accept" on, the banner reloads the page and the new page sends the hit.
+    const legacyReloadsOnAccept = () => !!(window.CLI && window.CLI.settings && Boolean(window.CLI.settings.accept_close_reload) === true);
 
     if (hasAnalyticsConsent()) {
         startTracking();
@@ -129,7 +137,7 @@ function handleCookieYesIntegration() {
 
     // The legacy banner sends no event, so check again once the visitor clicks in it.
     document.addEventListener('click', function (e) {
-        if (started || !e.target || typeof e.target.closest !== 'function') return;
+        if (started || !isLegacy || legacyReloadsOnAccept() || !e.target || typeof e.target.closest !== 'function') return;
 
         if (e.target.closest('#cookie-law-info-bar, #cliSettingsPopup, .cli-modal, .cli-bar-container')) {
             setTimeout(function () {
