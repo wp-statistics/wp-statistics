@@ -167,13 +167,21 @@ class Test_TrackerDebuggerHitCheck extends WP_UnitTestCase
         $this->assertSame('Connection timed out.', $status['hitRecordingDetails']['message']);
     }
 
-    public function test_accepted_hit_is_a_success()
+    public function test_accepted_test_hit_is_a_success()
     {
         $status = $this->runDebugger($this->reply(200, ['status' => true, 'test' => true]));
 
         $this->assertTrue($status['hitRecordingStatus']);
         $this->assertSame(200, $status['hitRecordingDetails']['responseCode']);
         $this->assertSame('', $status['hitRecordingDetails']['message']);
+    }
+
+    public function test_accepted_hit_without_test_acknowledgement_is_a_failure()
+    {
+        $status = $this->runDebugger($this->reply(200, ['status' => true]));
+
+        $this->assertFalse($status['hitRecordingStatus']);
+        $this->assertSame(200, $status['hitRecordingDetails']['responseCode']);
     }
 
     public function test_server_side_tracking_does_not_check_an_unregistered_hit_endpoint()

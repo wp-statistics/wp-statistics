@@ -196,7 +196,11 @@ class TrackerProvider extends AbstractDebuggerProvider
             return false;
         }
 
-        $isAccepted = $responseCode >= 200 && $responseCode < 300 && isset($body['status']) && true === $body['status'];
+        $isAccepted = $responseCode >= 200
+            && $responseCode < 300
+            && isset($body['status'], $body['test'])
+            && true === $body['status']
+            && true === $body['test'];
 
         if (!$isAccepted) {
             $this->hitRecordingDetails['message'] = $this->getErrorMessage($body);
