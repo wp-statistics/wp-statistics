@@ -54,7 +54,15 @@ $consentAnonymous   = $consent ? $consent->trackAnonymously() : false;
                     'status'      => 'info',
                 ];
 
-                if ($recording['last_visit'] !== null) {
+                if (!empty($recording['error'])) {
+                    $recordingData = [
+                        'svg'         => $trackerIcon,
+                        'title'       => __('Visit Recording: Could Not Check', 'wp-statistics'),
+                        'description' => esc_html__('The visitor table could not be read.', 'wp-statistics'),
+                        'content'     => esc_html__('The debugger could not read the visitor table, so it cannot tell when the last visit was recorded. Check Statistics → Optimization for database problems.', 'wp-statistics'),
+                        'status'      => 'warning',
+                    ];
+                } elseif ($recording['last_visit'] !== null) {
                     /* translators: %s: how long ago, for example "5 mins" or "8 days". */
                     $lastVisitText = sprintf(esc_html__('Last visit recorded %s ago.', 'wp-statistics'), esc_html(human_time_diff(time() - (int)$recording['seconds_since'], time())));
                     /* translators: %s: number of visitors. */

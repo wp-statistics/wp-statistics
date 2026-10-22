@@ -74,7 +74,7 @@ class VisitorProvider extends AbstractDebuggerProvider
      * for an older last visit reads the newest row by primary key. Dates are in the site's
      * timezone, as WP Statistics stores them.
      *
-     * @return array{last_visit: string|null, seconds_since: int|null, visitors_24h: int}
+     * @return array{last_visit: string|null, seconds_since: int|null, visitors_24h: int, error: bool}
      */
     public function getRecordingStatus()
     {
@@ -91,10 +91,12 @@ class VisitorProvider extends AbstractDebuggerProvider
             substr($since, 0, 10)
         ));
 
+        $failed    = $recent === null && $wpdb->last_error !== '';
         $lastVisit = !empty($recent->last_visit) ? (string)$recent->last_visit : null;
 
-        if ($lastVisit === null) {
+        if ($lastVisit === null && !$failed) {
             $lastVisit = $wpdb->get_var("SELECT COALESCE(`last_view`, `last_counter`) FROM `{$table}` ORDER BY `ID` DESC LIMIT 1");
+            $failed    = $lastVisit === null && $wpdb->last_error !== '';
             $lastVisit = !empty($lastVisit) ? (string)$lastVisit : null;
         }
         // phpcs:enable
@@ -103,6 +105,8 @@ class VisitorProvider extends AbstractDebuggerProvider
             'last_visit'    => $lastVisit,
             'seconds_since' => $lastVisit ? max(0, strtotime($now) - strtotime($lastVisit)) : null,
             'visitors_24h'  => !empty($recent->visitors_24h) ? (int)$recent->visitors_24h : 0,
+            // A failed query is not "no visits": the card says it could not check.
+            'error'         => $failed,
         ];
     }
 }
