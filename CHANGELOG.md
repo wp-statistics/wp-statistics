@@ -1,3 +1,11 @@
+14.16.18 - 2026-10-23
+- **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
+- **Enhancement:** Tracker Debugger shows when the last visit was recorded, warns when visits stop, and shows whether your consent plugin is blocking them (issue [#1178](https://github.com/wp-statistics/wp-statistics/issues/1178)).
+- **Fix:** Tracker Debugger's "Hit Endpoint" check sends a real test visit (not saved) and shows the error when it fails (issue [#1172](https://github.com/wp-statistics/wp-statistics/issues/1172)).
+- **Enhancement:** The "Invalid hit/online request" error names the value that failed.
+- **Fix:** No browser console error when another plugin prints a PHP notice before the tracker's response (issue [#1170](https://github.com/wp-statistics/wp-statistics/issues/1170)).
+- **Removed:** Tracker Debugger's "PHP Errors" card and the error log saved on every visit, so visits do less work (issue [#1178](https://github.com/wp-statistics/wp-statistics/issues/1178)).
+
 14.16.17 - 2026-10-14
 - **Enhancement:** The Tracker Debugger now checks the tracker URL served on the public homepage and warns when cached pages reference an unavailable tracker ([#1167](https://github.com/wp-statistics/wp-statistics/pull/1167)).
 - **Fix:** Obfuscated tracker URLs cached by page or CDN caches continue working after WP Statistics updates, preventing traffic from dropping until caches are purged ([#1166](https://github.com/wp-statistics/wp-statistics/pull/1166)).

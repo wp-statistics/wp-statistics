@@ -8,11 +8,9 @@ use Exception;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
-use WP_Statistics\Traits\ErrorLoggerTrait;
 
 class Hits extends Singleton
 {
-    use ErrorLoggerTrait;
 
     /**
      * Rest-APi Hit Record Params Key
@@ -20,6 +18,16 @@ class Hits extends Singleton
      * @var string
      */
     public static $rest_hits_key = 'wp_statistics_hit';
+
+    /**
+     * Request key that marks a hit as a Tracker Debugger test.
+     *
+     * A test hit goes through the same signature and parameter checks as a
+     * real visit, but it is not recorded.
+     *
+     * @var string
+     */
+    public static $debugger_test_key = 'wp_statistics_debugger_test';
 
     /**
      * Rest-Api Hit Data
@@ -144,6 +152,16 @@ class Hits extends Singleton
     }
 
     /**
+     * Whether the current hit request is a Tracker Debugger test.
+     *
+     * @return bool
+     */
+    public static function isDebuggerTestHit()
+    {
+        return !empty($_REQUEST[self::$debugger_test_key]); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    }
+
+    /**
      * Check If Record Hits in Rest-Api Request
      *
      * @return bool
@@ -194,7 +212,6 @@ class Hits extends Singleton
          */
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
-            self::errorListener();
 
             // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- internal exception, message is not rendered to HTML
             throw new Exception($exclusion['exclusion_reason'], 200);
@@ -223,8 +240,6 @@ class Hits extends Singleton
             Visitor::save_visitors_relationships($pageId, $visitorId);
         }
 
-        self::errorListener();
-
         return $exclusion;
     }
 
@@ -239,7 +254,8 @@ class Hits extends Singleton
             try {
                 self::record();
             } catch (Exception $e) {
-                self::errorListener();
+                // An exclusion ends the hit with an exception, and so can a failed write. The hit is
+                // simply not recorded; WordPress's debug log has any PHP error behind it.
             }
         }
     }
@@ -264,7 +280,8 @@ class Hits extends Singleton
             }
 
         } catch (Exception $e) {
-            self::errorListener();
+            // An exclusion ends the hit with an exception, and so can a failed write. The hit is
+            // simply not recorded; WordPress's debug log has any PHP error behind it.
         }
     }
 }

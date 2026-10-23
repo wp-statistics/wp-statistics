@@ -8,11 +8,17 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Integrations\Plugins\CookieYes;
 use WP_UnitTestCase;
 
+// CookieYes is not installed in the test environment; this stands in for its legacy-mode check.
+// Defined through eval so it lands in the global namespace, where CookieYes declares it.
+if (!function_exists('cky_is_legacy')) {
+    eval('function cky_is_legacy() { return !empty($GLOBALS["wp_statistics_test_cky_legacy"]); }'); // phpcs:ignore Squiz.PHP.Eval.Discouraged
+}
+
 class Test_CookieYesIntegration extends WP_UnitTestCase
 {
     public function tearDown(): void
     {
-        unset($_COOKIE['cookieyes-consent']);
+        unset($_COOKIE['cookieyes-consent'], $_COOKIE['cookielawinfo-checkbox-analytics'], $_COOKIE['viewed_cookie_policy'], $GLOBALS['wp_statistics_test_cky_legacy']);
         parent::tearDown();
     }
 
@@ -39,6 +45,88 @@ class Test_CookieYesIntegration extends WP_UnitTestCase
         $this->assertFalse((new CookieYes())->hasConsent());
 
         $_COOKIE['cookieyes-consent'] = 'consentid:abc,consent:yes,action:yes,necessary:yes';
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    /**
+     * Legacy mode (the older "GDPR Cookie Consent" banner) stores one cookie per category,
+     * plus viewed_cookie_policy for the answer to the banner.
+     */
+    public function test_legacy_needs_an_accepted_banner_and_analytics_allowed()
+    {
+        $GLOBALS['wp_statistics_test_cky_legacy'] = true;
+        $_COOKIE['viewed_cookie_policy']           = 'yes';
+
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+        $this->assertTrue((new CookieYes())->hasConsent());
+
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'no';
+        $this->assertFalse((new CookieYes())->hasConsent());
+
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = '';
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    /**
+     * CookieYes writes the category cookie from its default on the first page load, before
+     * the visitor answers. That alone is not consent.
+     */
+    public function test_legacy_category_default_before_any_answer_is_not_consent()
+    {
+        $GLOBALS['wp_statistics_test_cky_legacy']   = true;
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    /**
+     * A legacy banner without an Analytics category: the answer to the banner decides.
+     */
+    public function test_legacy_banner_without_analytics_category()
+    {
+        $GLOBALS['wp_statistics_test_cky_legacy'] = true;
+
+        $_COOKIE['viewed_cookie_policy'] = 'yes';
+        $this->assertTrue((new CookieYes())->hasConsent());
+
+        $_COOKIE['viewed_cookie_policy'] = 'no';
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    /**
+     * After moving to the newer banner, cookies left from legacy mode do not count.
+     */
+    public function test_leftover_legacy_cookies_are_ignored_outside_legacy_mode()
+    {
+        $GLOBALS['wp_statistics_test_cky_legacy']   = false;
+        $_COOKIE['viewed_cookie_policy']             = 'yes';
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    public function test_status_tells_the_tracker_about_legacy_mode()
+    {
+        $GLOBALS['wp_statistics_test_cky_legacy'] = true;
+        $this->assertTrue((new CookieYes())->getStatus()['legacy']);
+
+        $GLOBALS['wp_statistics_test_cky_legacy'] = false;
+        $this->assertFalse((new CookieYes())->getStatus()['legacy']);
+    }
+
+    public function test_new_mode_cookie_wins_over_legacy_cookies()
+    {
+        $_COOKIE['cookieyes-consent']                = 'consentid:abc,consent:yes,action:yes,necessary:yes,analytics:no';
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+
+        $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    public function test_empty_new_mode_cookie_still_wins_over_legacy_cookies()
+    {
+        $_COOKIE['cookieyes-consent']                = '';
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+
         $this->assertFalse((new CookieYes())->hasConsent());
     }
 }
