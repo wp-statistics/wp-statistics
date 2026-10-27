@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Tests;
 
+use WP_Error;
 use WP_Statistics\Abstracts\BaseBackgroundProcess;
 use WP_STATISTICS\WP_Background_Process;
 use WP_UnitTestCase;
@@ -68,11 +69,48 @@ class Test_BaseBackgroundProcess extends WP_UnitTestCase
             remove_filter($hook, '__return_false');
         }
     }
+
+    public function test_cron_healthcheck_processes_queue_without_an_ajax_loopback()
+    {
+        $loopbackRequests = 0;
+        $cronContinued    = false;
+        $blockLoopback    = static function ($preempt, $args, $url) use (&$loopbackRequests) {
+            if (false !== strpos($url, 'admin-ajax.php')) {
+                $loopbackRequests++;
+                return new WP_Error('loopback_blocked', 'Loopback blocked for the test.');
+            }
+
+            return $preempt;
+        };
+        $afterHealthcheck = static function () use (&$cronContinued) {
+            $cronContinued = true;
+        };
+
+        $this->process->queueItem('queued item');
+        $this->process->scheduleHealthcheck();
+        add_filter('pre_http_request', $blockLoopback, 10, 3);
+        add_action($this->process->getCronHook(), $afterHealthcheck, 20);
+
+        try {
+            do_action($this->process->getCronHook());
+
+            $this->assertSame(['queued item'], $this->process->getHandledItems());
+            $this->assertSame(0, $this->process->getBatchCount());
+            $this->assertSame(0, $loopbackRequests);
+            $this->assertTrue($cronContinued);
+            $this->assertFalse(wp_next_scheduled($this->process->getCronHook()));
+        } finally {
+            remove_filter('pre_http_request', $blockLoopback, 10);
+            remove_action($this->process->getCronHook(), $afterHealthcheck, 20);
+        }
+    }
 }
 
 class Test_BackgroundProcess extends BaseBackgroundProcess
 {
     protected $action = 'test_background_process';
+
+    private $handledItems = [];
 
     public function process()
     {
@@ -81,7 +119,23 @@ class Test_BackgroundProcess extends BaseBackgroundProcess
 
     protected function task($item)
     {
+        $this->handledItems[] = $item;
         return false;
+    }
+
+    public function queueItem($item)
+    {
+        $this->push_to_queue($item)->save();
+    }
+
+    public function getHandledItems()
+    {
+        return $this->handledItems;
+    }
+
+    public function getBatchCount()
+    {
+        return count($this->get_batches());
     }
 
     public function getIdentifier()
