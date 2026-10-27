@@ -370,9 +370,17 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
         }
 
         // handle() ends with wp_die(), which would stop the remaining cron events.
-        add_filter($this->identifier . '_wp_die', '__return_false');
-        $this->handle();
-        remove_filter($this->identifier . '_wp_die', '__return_false');
+        $preventWpDie = static function () {
+            return false;
+        };
+
+        add_filter($this->identifier . '_wp_die', $preventWpDie);
+
+        try {
+            $this->handle();
+        } finally {
+            remove_filter($this->identifier . '_wp_die', $preventWpDie);
+        }
     }
 
     /**

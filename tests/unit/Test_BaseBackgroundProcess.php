@@ -51,6 +51,23 @@ class Test_BaseBackgroundProcess extends WP_UnitTestCase
             remove_action($this->process->getIdentifier() . '_cancelled', $callback);
         }
     }
+
+    public function test_cron_healthcheck_preserves_existing_wp_die_filter()
+    {
+        $hook = $this->process->getIdentifier() . '_wp_die';
+
+        add_filter($hook, '__return_false');
+        $this->process->push_to_queue('item')->save();
+
+        try {
+            $this->process->handle_cron_healthcheck();
+
+            $this->assertSame(10, has_filter($hook, '__return_false'));
+            $this->assertFalse($this->process->hasQueuedItems());
+        } finally {
+            remove_filter($hook, '__return_false');
+        }
+    }
 }
 
 class Test_BackgroundProcess extends BaseBackgroundProcess
@@ -90,5 +107,10 @@ class Test_BackgroundProcess extends BaseBackgroundProcess
     public function scheduleHealthcheck()
     {
         $this->schedule_event();
+    }
+
+    public function hasQueuedItems()
+    {
+        return !$this->is_queue_empty();
     }
 }
