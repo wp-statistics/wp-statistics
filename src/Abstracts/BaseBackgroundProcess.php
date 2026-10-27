@@ -356,6 +356,19 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
             return;
         }
 
+        // Same checks as maybe_handle(), so a paused or cancelled job is not resumed here.
+        if ($this->is_cancelled()) {
+            $this->clear_scheduled_event();
+            $this->delete_all();
+            return;
+        }
+
+        if ($this->is_paused()) {
+            $this->clear_scheduled_event();
+            $this->paused();
+            return;
+        }
+
         // handle() ends with wp_die(), which would stop the remaining cron events.
         add_filter($this->identifier . '_wp_die', '__return_false');
         $this->handle();
