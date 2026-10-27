@@ -1,0 +1,94 @@
+<?php
+
+namespace WP_Statistics\Tests;
+
+use WP_Statistics\Abstracts\BaseBackgroundProcess;
+use WP_STATISTICS\WP_Background_Process;
+use WP_UnitTestCase;
+
+class Test_BaseBackgroundProcess extends WP_UnitTestCase
+{
+    /**
+     * @var Test_BackgroundProcess
+     */
+    private $process;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->process = new Test_BackgroundProcess();
+    }
+
+    public function tearDown(): void
+    {
+        wp_clear_scheduled_hook($this->process->getCronHook());
+        delete_site_option($this->process->getStatusKey());
+        delete_site_transient($this->process->getProcessLockKey());
+        $this->process->delete_all();
+
+        parent::tearDown();
+    }
+
+    public function test_cancelled_empty_queue_is_finalized_by_cron_healthcheck()
+    {
+        $cancelled = 0;
+        $callback  = static function () use (&$cancelled) {
+            $cancelled++;
+        };
+
+        update_site_option($this->process->getStatusKey(), WP_Background_Process::STATUS_CANCELLED);
+        $this->process->scheduleHealthcheck();
+        add_action($this->process->getIdentifier() . '_cancelled', $callback);
+
+        try {
+            $this->process->handle_cron_healthcheck();
+
+            $this->assertFalse(get_site_option($this->process->getStatusKey(), false));
+            $this->assertSame(1, $cancelled);
+            $this->assertFalse(wp_next_scheduled($this->process->getCronHook()));
+        } finally {
+            remove_action($this->process->getIdentifier() . '_cancelled', $callback);
+        }
+    }
+}
+
+class Test_BackgroundProcess extends BaseBackgroundProcess
+{
+    protected $action = 'test_background_process';
+
+    public function process()
+    {
+        return true;
+    }
+
+    protected function task($item)
+    {
+        return false;
+    }
+
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+    public function getCronHook()
+    {
+        return $this->cron_hook_identifier;
+    }
+
+    public function getStatusKey()
+    {
+        return $this->get_status_key();
+    }
+
+    public function getProcessLockKey()
+    {
+        return $this->identifier . '_process_lock';
+    }
+
+    public function scheduleHealthcheck()
+    {
+        $this->schedule_event();
+    }
+}

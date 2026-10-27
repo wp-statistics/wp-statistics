@@ -351,11 +351,6 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
             return;
         }
 
-        if ($this->is_queue_empty()) {
-            $this->clear_scheduled_event();
-            return;
-        }
-
         // Same checks as maybe_handle(), so a paused or cancelled job is not resumed here.
         if ($this->is_cancelled()) {
             $this->clear_scheduled_event();
@@ -366,6 +361,11 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
         if ($this->is_paused()) {
             $this->clear_scheduled_event();
             $this->paused();
+            return;
+        }
+
+        if ($this->is_queue_empty()) {
+            $this->clear_scheduled_event();
             return;
         }
 
