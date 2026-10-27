@@ -336,6 +336,33 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     }
 
     /**
+     * Process the queue directly when the WP-Cron healthcheck fires.
+     *
+     * The parent sends another loopback request to admin-ajax.php here. When a firewall
+     * blocks that request (for example a Cloudflare challenge on /wp-admin/*), the job
+     * never starts and its progress stays at 0. Cron already runs on the server, so the
+     * batch is handled in this request instead.
+     *
+     * @return void
+     */
+    public function handle_cron_healthcheck()
+    {
+        if ($this->is_processing()) {
+            return;
+        }
+
+        if ($this->is_queue_empty()) {
+            $this->clear_scheduled_event();
+            return;
+        }
+
+        // handle() ends with wp_die(), which would stop the remaining cron events.
+        add_filter($this->identifier . '_wp_die', '__return_false');
+        $this->handle();
+        remove_filter($this->identifier . '_wp_die', '__return_false');
+    }
+
+    /**
      * Triggers the background process.
      *
      * @abstract
