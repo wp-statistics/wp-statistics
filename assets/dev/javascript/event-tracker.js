@@ -2,10 +2,13 @@ if (!window.WpStatisticsEventTracker) {
     window.WpStatisticsEventTracker = {
         // Prevent init() from running more than once
         hasEventsInitializedOnce: false,
+        isTrackingEnabled: false,
         downloadTracker: false,
         linkTracker: false,
 
         init: async function () {
+            this.isTrackingEnabled = true;
+
             if (this.hasEventsInitializedOnce || WP_Statistics_Tracker_Object.isLegacyEventLoaded) {
                 return;
             }
@@ -28,6 +31,10 @@ if (!window.WpStatisticsEventTracker) {
         if (typeof WP_Statistics_Marketing_Event_Object !== 'undefined') {
             this.captureCustomClickEvents();
         }
+    },
+
+    stop: function () {
+        this.isTrackingEnabled = false;
     },
 
     // Handles preparing and sending marketing custom events to the server
@@ -190,6 +197,10 @@ if (!window.WpStatisticsEventTracker) {
         },
 
     sendEventData: async function (eventData, ajaxUrl) {
+        if (!this.isTrackingEnabled) {
+            return;
+        }
+
         const formData = new URLSearchParams();
         for (const key in eventData) {
             formData.append(key, eventData[key]);

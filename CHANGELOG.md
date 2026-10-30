@@ -1,5 +1,6 @@
 14.16.19 - Unreleased
 - **Fix:** Background jobs (such as Migrate Visitor Data Columns and Update GeoIP) now finish through WP-Cron when a firewall or CDN rule blocks requests to `/wp-admin/admin-ajax.php`. Before, they stayed at 0% with no error (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
+- **Fix:** Tracking now stops immediately when a visitor withdraws consent without reloading the page (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
 
 14.16.18 - 2026-10-23
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).

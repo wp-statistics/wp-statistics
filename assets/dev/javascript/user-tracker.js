@@ -13,6 +13,9 @@ if (!window.WpStatisticsUserTracker) {
         // Prevent init() from running more than once
         hasTrackerInitializedOnce: false,
 
+        // Stop future requests when consent is withdrawn
+        isTrackingEnabled: false,
+
         // Prevent trackUrlChange() from running more than once
         hasUrlChangeTrackerInitialized: false,
 
@@ -20,6 +23,8 @@ if (!window.WpStatisticsUserTracker) {
         hitRequestSuccessful: true,
 
         init: function () {
+            this.isTrackingEnabled = true;
+
             if (this.hasTrackerInitializedOnce) {
                 return;
             }
@@ -36,6 +41,10 @@ if (!window.WpStatisticsUserTracker) {
             }
 
             this.trackUrlChange();
+        },
+
+        stop: function () {
+            this.isTrackingEnabled = false;
         },
 
         // Method to Base64 encode a string using modern approach
@@ -60,6 +69,10 @@ if (!window.WpStatisticsUserTracker) {
 
         // Check Conditions for Sending Hit Request
         checkHitRequestConditions: function () {
+            if (!this.isTrackingEnabled) {
+                return;
+            }
+
             if (WP_Statistics_Tracker_Object.option.dntEnabled) {
                 if (this.isDndActive !== 1) {
                     this.sendHitRequest();
