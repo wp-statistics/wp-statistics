@@ -122,23 +122,30 @@ function handleCookieYesIntegration() {
         return analytics === null || analytics === 'yes';
     };
 
-    const hasCompletedConsentAction = () => {
+    const hasAnalyticsDecline = () => {
         if (typeof window.getCkyConsent === 'function') {
             const consent = window.getCkyConsent();
-            return !!(consent && consent.isUserActionCompleted === true);
+            return !!(consent
+                && consent.isUserActionCompleted === true
+                && consent.categories
+                && consent.categories.analytics === false);
         }
 
         const consent = readCookie('cookieyes-consent');
         if (consent !== null) {
-            return consent.split(',').indexOf('action:yes') !== -1;
+            const values = consent.split(',');
+            return values.indexOf('action:yes') !== -1
+                && values.indexOf('analytics:no') !== -1;
         }
 
         const legacyAnswer = readCookie('viewed_cookie_policy');
-        return isLegacy && (legacyAnswer === 'yes' || legacyAnswer === 'no');
+        return isLegacy
+            && (legacyAnswer === 'yes' || legacyAnswer === 'no')
+            && !hasLegacyAnalyticsConsent();
     };
 
     const shouldStartTracking = () => hasAnalyticsConsent()
-        || (anonymousTrackingEnabled && hasCompletedConsentAction());
+        || (anonymousTrackingEnabled && hasAnalyticsDecline());
 
     // With "Reload after Accept" on, the banner reloads the page and the new page sends the hit.
     const legacyReloadsOnAccept = () => !!(window.CLI && window.CLI.settings && Boolean(window.CLI.settings.accept_close_reload) === true);

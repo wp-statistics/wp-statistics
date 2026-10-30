@@ -81,6 +81,16 @@ for (const file of trackerFiles) {
         assert.equal(unanswered.userTrackerStarts, 0);
         assert.equal(unanswered.eventTrackerStarts, 0);
 
+        const missingAnalyticsCategory = loadCookieYesTracker(file, {
+            anonymousTracking: true,
+            consent: {
+                categories: {},
+                isUserActionCompleted: true,
+            },
+        });
+        assert.equal(missingAnalyticsCategory.userTrackerStarts, 0);
+        assert.equal(missingAnalyticsCategory.eventTrackerStarts, 0);
+
         const disabled = loadCookieYesTracker(file, {
             anonymousTracking: false,
             consent: {
@@ -122,5 +132,11 @@ for (const file of trackerFiles) {
             cookie: 'cookieyes-consent=consentid%3Aabc%2Caction%3Ano%2Canalytics%3Ano',
         });
         assert.equal(unanswered.userTrackerStarts, 0);
+
+        const missingAnalyticsCategory = loadCookieYesTracker(file, {
+            anonymousTracking: true,
+            cookie: 'cookieyes-consent=consentid%3Aabc%2Caction%3Ayes%2Cnecessary%3Ayes',
+        });
+        assert.equal(missingAnalyticsCategory.userTrackerStarts, 0);
     });
 }
