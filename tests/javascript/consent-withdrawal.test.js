@@ -12,11 +12,15 @@ const trackerBundles = {
     built: ['assets/js/tracker.js'],
 };
 
-function loadTracker(files, integration) {
+function loadTracker(files, integration, options = {}) {
     const documentListeners = {};
     const windowListeners = {};
     let hits = 0;
     let consentGranted = true;
+    let resolveInitialConsent;
+    const initialConsent = options.deferInitialConsent
+        ? new Promise(resolve => { resolveInitialConsent = resolve; })
+        : null;
 
     class FakeXMLHttpRequest {
         open() {}
@@ -64,6 +68,10 @@ function loadTracker(files, integration) {
         },
         consentApi: {
             consent() {
+                if (initialConsent) {
+                    return initialConsent;
+                }
+
                 return consentGranted ? Promise.resolve() : Promise.reject(new Error('denied'));
             },
             consentSync(service) {
@@ -104,6 +112,7 @@ function loadTracker(files, integration) {
         context,
         dispatchDocument(type, detail) { dispatch(documentListeners, type, detail); },
         getHits() { return hits; },
+        resolveInitialConsent() { resolveInitialConsent(); },
         withdraw() { consentGranted = false; },
     };
 }
@@ -145,4 +154,22 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
             assert.equal(tracker.getHits(), 1, 'withdrawal prevents another hit');
         });
     }
+
+    test(`${bundle} tracker stays stopped when Real Cookie Banner consent resolves after withdrawal`, async () => {
+        const tracker = loadTracker(files, 'real_cookie_banner', {deferInitialConsent: true});
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        tracker.withdraw();
+        tracker.dispatchDocument('RCB/OptOut');
+        tracker.resolveInitialConsent();
+        await Promise.resolve();
+        await Promise.resolve();
+
+        tracker.context.location.href = 'https://example.test/next';
+        tracker.context.location.pathname = '/next';
+        tracker.context.history.pushState({}, '', '/next');
+        await Promise.resolve();
+
+        assert.equal(tracker.getHits(), 0, 'stale initial consent must not restart tracking');
+    });
 }

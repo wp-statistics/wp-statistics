@@ -68,23 +68,6 @@ function handleWpConsentApiIntegration() {
 }
 
 function handleRealCookieBannerIntegration() {
-    (window.consentApi?.consent("wp-statistics") || Promise.resolve())
-        .then(() => {
-            // In case the user has given consent
-            startTracking();
-        })
-        .catch(() => {
-            // In case the user has not given base consent,
-            // check if they have given consent for data processing service
-            const dataProcessing = window.consentApi?.consentSync("wp-statistics-with-data-processing");
-
-            if (dataProcessing.cookie != null && dataProcessing.cookieOptIn) {
-                startTracking();
-            } else {
-                console.log("WP Statistics: Real Cookie Banner consent is not given to track visitor information.");
-            }
-        });
-
     const updateTracking = () => {
         const baseConsent = window.consentApi?.consentSync("wp-statistics");
         const dataProcessingConsent = window.consentApi?.consentSync("wp-statistics-with-data-processing");
@@ -92,10 +75,20 @@ function handleRealCookieBannerIntegration() {
 
         if (hasConsent(baseConsent) || hasConsent(dataProcessingConsent)) {
             startTracking();
-        } else {
-            stopTracking();
+            return true;
         }
+
+        stopTracking();
+        return false;
     };
+
+    (window.consentApi?.consent("wp-statistics") || Promise.resolve())
+        .then(updateTracking)
+        .catch(() => {
+            if (!updateTracking()) {
+                console.log("WP Statistics: Real Cookie Banner consent is not given to track visitor information.");
+            }
+        });
 
     document.addEventListener('RCB/OptIn', updateTracking);
     document.addEventListener('RCB/OptOut', updateTracking);
