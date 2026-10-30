@@ -4,6 +4,8 @@ namespace WP_Statistics\Service\Integrations\Plugins;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use WP_STATISTICS\Option;
+
 class CookieYes extends AbstractIntegration
 {
     protected $key = 'cookieyes';
@@ -40,17 +42,36 @@ class CookieYes extends AbstractIntegration
             return $this->hasLegacyConsent();
         }
 
-        $consent = sanitize_text_field(wp_unslash($_COOKIE['cookieyes-consent']));
+        $consent = $this->getConsentCookieValues();
+        return isset($consent['analytics']) && $consent['analytics'] === 'yes';
+    }
 
-        foreach (explode(',', $consent) as $pair) {
-            $parts = explode(':', $pair, 2);
-
-            if (count($parts) === 2 && trim($parts[0]) === 'analytics') {
-                return trim($parts[1]) === 'yes';
-            }
+    /**
+     * Count an explicit CookieYes Analytics decline without storing personal data.
+     *
+     * @return bool
+     */
+    public function trackAnonymously()
+    {
+        if (!Option::get('anonymous_tracking', false)) {
+            return false;
         }
 
-        return false;
+        if (array_key_exists('cookieyes-consent', $_COOKIE)) {
+            $consent = $this->getConsentCookieValues();
+
+            return isset($consent['action'], $consent['analytics'])
+                && $consent['action'] === 'yes'
+                && $consent['analytics'] === 'no';
+        }
+
+        if (!$this->isLegacyMode() || !isset($_COOKIE['viewed_cookie_policy'])) {
+            return false;
+        }
+
+        $answer = sanitize_text_field(wp_unslash($_COOKIE['viewed_cookie_policy']));
+
+        return in_array($answer, ['yes', 'no'], true) && !$this->hasLegacyConsent();
     }
 
     /**
@@ -77,8 +98,30 @@ class CookieYes extends AbstractIntegration
     public function getStatus()
     {
         return array_merge(parent::getStatus(), [
-            'legacy' => $this->isLegacyMode(),
+            'legacy'             => $this->isLegacyMode(),
+            'anonymous_tracking' => Option::get('anonymous_tracking', false) != false,
         ]);
+    }
+
+    /**
+     * Parse the current CookieYes consent cookie into category values.
+     *
+     * @return array
+     */
+    private function getConsentCookieValues()
+    {
+        $values  = [];
+        $consent = sanitize_text_field(wp_unslash($_COOKIE['cookieyes-consent']));
+
+        foreach (explode(',', $consent) as $pair) {
+            $parts = explode(':', $pair, 2);
+
+            if (count($parts) === 2) {
+                $values[trim($parts[0])] = trim($parts[1]);
+            }
+        }
+
+        return $values;
     }
 
     /**

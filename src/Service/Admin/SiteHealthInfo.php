@@ -324,7 +324,7 @@ class SiteHealthInfo
             'debug' => !empty($consentIntegration) ? $consentIntegration : 'None',
         ];
 
-        if ($consentIntegration === 'borlabs_cookie') {
+        if (in_array($consentIntegration, ['borlabs_cookie', 'cookieyes'], true)) {
             $settings['anonymousTracking'] = [
                 'label' => esc_html__('Anonymous Tracking', 'wp-statistics'),
                 'value' => Option::get('anonymous_tracking') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
