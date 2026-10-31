@@ -1,4 +1,5 @@
 14.16.19 - Unreleased
+- **Enhancement:** CookieYes can count visitors who decline Analytics anonymously when Anonymous Tracking is enabled, matching server-side and JavaScript tracking (issue [#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
 - **Fix:** Background jobs (such as Migrate Visitor Data Columns and Update GeoIP) now finish through WP-Cron when a firewall or CDN rule blocks requests to `/wp-admin/admin-ajax.php`. Before, they stayed at 0% with no error (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
 - **Fix:** Tracking now stops immediately when a visitor withdraws consent without reloading the page (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
 

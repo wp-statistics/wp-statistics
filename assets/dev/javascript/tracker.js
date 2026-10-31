@@ -114,6 +114,14 @@ function handleBorlabsCookieIntegration() {
 }
 
 function handleCookieYesIntegration() {
+    const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
+    const isLegacy = consentStatus.legacy === true || typeof window.Cli_Data !== 'undefined';
+    const anonymousTrackingEnabled = consentStatus.anonymous_tracking === true;
+
+    const readCookie = (name) => {
+        const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : null;
+    };
     const hasAnalyticsConsent = () => {
         if (typeof window.getCkyConsent === 'function') {
             const consent = window.getCkyConsent();
@@ -121,9 +129,9 @@ function handleCookieYesIntegration() {
         }
 
         // Fallback when the CookieYes script is not loaded yet: read its consent cookie
-        const match = document.cookie.match(/(?:^|;\s*)cookieyes-consent=([^;]*)/);
-        if (match) {
-            return decodeURIComponent(match[1]).split(',').indexOf('analytics:yes') !== -1;
+        const consent = readCookie('cookieyes-consent');
+        if (consent !== null) {
+            return consent.split(',').indexOf('analytics:yes') !== -1;
         }
 
         return hasLegacyAnalyticsConsent();
@@ -135,14 +143,6 @@ function handleCookieYesIntegration() {
     // cookie is written on the first page load from the category's default, before any answer,
     // so it only counts once the visitor accepted the banner, as CookieYes itself checks (#1175).
     // Only read in legacy mode, so old legacy cookies cannot count on the newer banner.
-    const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
-    const isLegacy = consentStatus.legacy === true || typeof window.Cli_Data !== 'undefined';
-
-    const readCookie = (name) => {
-        const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
-        return match ? decodeURIComponent(match[1]) : null;
-    };
-
     const hasLegacyAnalyticsConsent = () => {
         if (!isLegacy || readCookie('viewed_cookie_policy') !== 'yes') {
             return false;
@@ -153,10 +153,35 @@ function handleCookieYesIntegration() {
         return analytics === null || analytics === 'yes';
     };
 
+    const hasAnalyticsDecline = () => {
+        if (typeof window.getCkyConsent === 'function') {
+            const consent = window.getCkyConsent();
+            return !!(consent
+                && consent.isUserActionCompleted === true
+                && consent.categories
+                && consent.categories.analytics === false);
+        }
+
+        const consent = readCookie('cookieyes-consent');
+        if (consent !== null) {
+            const values = consent.split(',');
+            return values.indexOf('action:yes') !== -1
+                && values.indexOf('analytics:no') !== -1;
+        }
+
+        const legacyAnswer = readCookie('viewed_cookie_policy');
+        return isLegacy
+            && (legacyAnswer === 'yes' || legacyAnswer === 'no')
+            && !hasLegacyAnalyticsConsent();
+    };
+
+    const shouldStartTracking = () => hasAnalyticsConsent()
+        || (anonymousTrackingEnabled && hasAnalyticsDecline());
+
     // With "Reload after Accept" on, the banner reloads the page and the new page sends the hit.
     const legacyReloadsOnAccept = () => !!(window.CLI && window.CLI.settings && Boolean(window.CLI.settings.accept_close_reload) === true);
 
-    if (hasAnalyticsConsent()) {
+    if (shouldStartTracking()) {
         startTracking();
     }
 
@@ -164,10 +189,14 @@ function handleCookieYesIntegration() {
         const accepted = (e.detail && e.detail.accepted) || [];
         const rejected = (e.detail && e.detail.rejected) || [];
 
-        if (rejected.indexOf('analytics') !== -1) {
-            stopTracking();
-        } else if (accepted.indexOf('analytics') !== -1 || hasAnalyticsConsent()) {
+        const analyticsRejected = rejected.indexOf('analytics') !== -1;
+
+        if (accepted.indexOf('analytics') !== -1
+            || (anonymousTrackingEnabled && analyticsRejected)
+            || (!analyticsRejected && shouldStartTracking())) {
             startTracking();
+        } else {
+            stopTracking();
         }
     });
 
@@ -177,7 +206,7 @@ function handleCookieYesIntegration() {
 
         if (e.target.closest('#cookie-law-info-bar, #cliSettingsPopup, .cli-modal, .cli-bar-container')) {
             setTimeout(function () {
-                if (hasAnalyticsConsent()) {
+                if (shouldStartTracking()) {
                     startTracking();
                 } else {
                     stopTracking();
