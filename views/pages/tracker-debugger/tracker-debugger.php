@@ -6,6 +6,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\TimeZone;
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 
@@ -22,10 +23,12 @@ $consent            = IntegrationHelper::getActiveIntegration();
 // Borlabs Cookie decides in the browser and gives the server no way to read its consent.
 $consentReadable    = $consent && $consent->getKey() !== 'borlabs_cookie';
 $consentGiven       = $consentReadable ? $consent->hasConsent() : null;
-// Only Borlabs makes anonymous recording a site setting (Anonymous Tracking). For WP Consent API
-// and Real Cookie Banner, trackAnonymously() answers for the current browser's own choice, so it
+// Borlabs and CookieYes expose anonymous recording as a site setting. For WP Consent API and
+// Real Cookie Banner, trackAnonymously() answers for the current browser's own choice, so it
 // would describe the admin's consent, not what happens to visitors.
-$consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $consent->trackAnonymously();
+$consentAnonymous   = $consent
+    && in_array($consent->getKey(), ['borlabs_cookie', 'cookieyes'], true)
+    && Option::get('anonymous_tracking', false);
 ?>
 
 <div class="postbox-container wps-postbox-tracker__container">

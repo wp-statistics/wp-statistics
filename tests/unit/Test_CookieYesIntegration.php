@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 use WP_Statistics\Service\Integrations\Plugins\CookieYes;
+use WP_STATISTICS\Option;
 use WP_UnitTestCase;
 
 // CookieYes is not installed in the test environment; this stands in for its legacy-mode check.
@@ -16,9 +17,18 @@ if (!function_exists('cky_is_legacy')) {
 
 class Test_CookieYesIntegration extends WP_UnitTestCase
 {
+    private $previousOptions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->previousOptions = Option::getOptions();
+    }
+
     public function tearDown(): void
     {
         unset($_COOKIE['cookieyes-consent'], $_COOKIE['cookielawinfo-checkbox-analytics'], $_COOKIE['viewed_cookie_policy'], $GLOBALS['wp_statistics_test_cky_legacy']);
+        Option::save_options($this->previousOptions);
         parent::tearDown();
     }
 
@@ -105,13 +115,17 @@ class Test_CookieYesIntegration extends WP_UnitTestCase
         $this->assertFalse((new CookieYes())->hasConsent());
     }
 
-    public function test_status_tells_the_tracker_about_legacy_mode()
+    public function test_status_tells_the_tracker_about_legacy_and_anonymous_modes()
     {
         $GLOBALS['wp_statistics_test_cky_legacy'] = true;
         $this->assertTrue((new CookieYes())->getStatus()['legacy']);
+        $this->assertFalse((new CookieYes())->getStatus()['anonymous_tracking']);
 
         $GLOBALS['wp_statistics_test_cky_legacy'] = false;
+        Option::update('anonymous_tracking', true);
+
         $this->assertFalse((new CookieYes())->getStatus()['legacy']);
+        $this->assertTrue((new CookieYes())->getStatus()['anonymous_tracking']);
     }
 
     public function test_new_mode_cookie_wins_over_legacy_cookies()
@@ -128,5 +142,39 @@ class Test_CookieYesIntegration extends WP_UnitTestCase
         $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
 
         $this->assertFalse((new CookieYes())->hasConsent());
+    }
+
+    public function test_anonymous_tracking_requires_an_explicit_modern_decline_and_the_opt_in()
+    {
+        $_COOKIE['cookieyes-consent'] = 'consentid:abc,consent:no,action:yes,necessary:yes,analytics:no';
+
+        $this->assertFalse((new CookieYes())->trackAnonymously());
+
+        Option::update('anonymous_tracking', true);
+        $this->assertTrue((new CookieYes())->trackAnonymously());
+
+        $_COOKIE['cookieyes-consent'] = 'consentid:abc,consent:no,action:no,necessary:yes,analytics:no';
+        $this->assertFalse((new CookieYes())->trackAnonymously());
+
+        $_COOKIE['cookieyes-consent'] = 'consentid:abc,consent:yes,action:yes,necessary:yes,analytics:yes';
+        $this->assertFalse((new CookieYes())->trackAnonymously());
+    }
+
+    public function test_anonymous_tracking_counts_explicit_legacy_declines_only()
+    {
+        $GLOBALS['wp_statistics_test_cky_legacy'] = true;
+        Option::update('anonymous_tracking', true);
+
+        $this->assertFalse((new CookieYes())->trackAnonymously());
+
+        $_COOKIE['viewed_cookie_policy'] = 'no';
+        $this->assertTrue((new CookieYes())->trackAnonymously());
+
+        $_COOKIE['viewed_cookie_policy']             = 'yes';
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'no';
+        $this->assertTrue((new CookieYes())->trackAnonymously());
+
+        $_COOKIE['cookielawinfo-checkbox-analytics'] = 'yes';
+        $this->assertFalse((new CookieYes())->trackAnonymously());
     }
 }
