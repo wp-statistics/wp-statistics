@@ -9,10 +9,14 @@ document.addEventListener('DOMContentLoaded', function handler() {
 
     const consentIntegration = WP_Statistics_Tracker_Object.option.consentIntegration.name;
 
-    // If there's no consent integration, or borlabs cookie integration is enabled
-    if (!consentIntegration || consentIntegration === 'borlabs_cookie') {
-        WpStatisticsUserTracker.init();
-        WpStatisticsEventTracker.init();
+    // If there's no consent integration
+    if (!consentIntegration) {
+        startTracking();
+    }
+
+    // If Borlabs Cookie integration is enabled
+    if (consentIntegration === 'borlabs_cookie') {
+        handleBorlabsCookieIntegration();
     }
 
     // If WP Consent API integration is enabled
@@ -31,20 +35,32 @@ document.addEventListener('DOMContentLoaded', function handler() {
     }
 });
 
+function startTracking() {
+    WpStatisticsUserTracker.init();
+    WpStatisticsEventTracker.init();
+}
+
+function stopTracking() {
+    WpStatisticsUserTracker.stop();
+    WpStatisticsEventTracker.stop();
+}
 
 function handleWpConsentApiIntegration() {
     if (wp_has_consent('statistics') || wp_has_consent('statistics-anonymous')) {
-        WpStatisticsUserTracker.init();
-        WpStatisticsEventTracker.init();
+        startTracking();
     }
 
     document.addEventListener("wp_listen_for_consent_change", function (e) {
         const changedConsentCategory = e.detail;
         for (let key in changedConsentCategory) {
             if (changedConsentCategory.hasOwnProperty(key)) {
-                if ((key === 'statistics' || key === 'statistics-anonymous') && changedConsentCategory[key] === 'allow') {
-                    WpStatisticsUserTracker.init();
-                    WpStatisticsEventTracker.init();
+                if (key === 'statistics' || key === 'statistics-anonymous') {
+                    if (wp_has_consent('statistics') || wp_has_consent('statistics-anonymous')) {
+                        startTracking();
+                    } else {
+                        stopTracking();
+                    }
+                    break;
                 }
             }
         }
@@ -52,45 +68,60 @@ function handleWpConsentApiIntegration() {
 }
 
 function handleRealCookieBannerIntegration() {
-    (window.consentApi?.consent("wp-statistics") || Promise.resolve())
-        .then(() => {
-            // In case the user has given consent
-            WpStatisticsUserTracker.init();
-            WpStatisticsEventTracker.init();
-        })
-        .catch(() => {
-            // In case the user has not given base consent,
-            // check if they have given consent for data processing service
-            const dataProcessing = window.consentApi?.consentSync("wp-statistics-with-data-processing");
+    const updateTracking = () => {
+        const baseConsent = window.consentApi?.consentSync("wp-statistics");
+        const dataProcessingConsent = window.consentApi?.consentSync("wp-statistics-with-data-processing");
+        const hasConsent = consent => consent && consent.cookie != null && consent.cookieOptIn;
 
-            if (dataProcessing.cookie != null && dataProcessing.cookieOptIn) {
-                WpStatisticsUserTracker.init();
-                WpStatisticsEventTracker.init();
-            } else {
+        if (hasConsent(baseConsent) || hasConsent(dataProcessingConsent)) {
+            startTracking();
+            return true;
+        }
+
+        stopTracking();
+        return false;
+    };
+
+    (window.consentApi?.consent("wp-statistics") || Promise.resolve())
+        .then(updateTracking)
+        .catch(() => {
+            if (!updateTracking()) {
                 console.log("WP Statistics: Real Cookie Banner consent is not given to track visitor information.");
             }
         });
+
+    document.addEventListener('RCB/OptIn', updateTracking);
+    document.addEventListener('RCB/OptOut', updateTracking);
+}
+
+function handleBorlabsCookieIntegration() {
+    // Borlabs only releases this script after the WP Statistics service is accepted.
+    startTracking();
+
+    document.addEventListener('borlabs-cookie-consent-saved', function () {
+        const consents = window.BorlabsCookie && window.BorlabsCookie.Consents;
+
+        if (!consents || typeof consents.hasConsent !== 'function') {
+            return;
+        }
+
+        if (consents.hasConsent('wp-statistics')) {
+            startTracking();
+        } else {
+            stopTracking();
+        }
+    });
 }
 
 function handleCookieYesIntegration() {
-    let started = false;
-
     const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
     const isLegacy = consentStatus.legacy === true || typeof window.Cli_Data !== 'undefined';
     const anonymousTrackingEnabled = consentStatus.anonymous_tracking === true;
-
-    const startTracking = () => {
-        if (started) return;
-        started = true;
-        WpStatisticsUserTracker.init();
-        WpStatisticsEventTracker.init();
-    };
 
     const readCookie = (name) => {
         const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
         return match ? decodeURIComponent(match[1]) : null;
     };
-
     const hasAnalyticsConsent = () => {
         if (typeof window.getCkyConsent === 'function') {
             const consent = window.getCkyConsent();
@@ -158,21 +189,27 @@ function handleCookieYesIntegration() {
         const accepted = (e.detail && e.detail.accepted) || [];
         const rejected = (e.detail && e.detail.rejected) || [];
 
+        const analyticsRejected = rejected.indexOf('analytics') !== -1;
+
         if (accepted.indexOf('analytics') !== -1
-            || (anonymousTrackingEnabled && rejected.indexOf('analytics') !== -1)
-            || shouldStartTracking()) {
+            || (anonymousTrackingEnabled && analyticsRejected)
+            || (!analyticsRejected && shouldStartTracking())) {
             startTracking();
+        } else {
+            stopTracking();
         }
     });
 
     // The legacy banner sends no event, so check again once the visitor clicks in it.
     document.addEventListener('click', function (e) {
-        if (started || !isLegacy || legacyReloadsOnAccept() || !e.target || typeof e.target.closest !== 'function') return;
+        if (!isLegacy || legacyReloadsOnAccept() || !e.target || typeof e.target.closest !== 'function') return;
 
         if (e.target.closest('#cookie-law-info-bar, #cliSettingsPopup, .cli-modal, .cli-bar-container')) {
             setTimeout(function () {
                 if (shouldStartTracking()) {
                     startTracking();
+                } else {
+                    stopTracking();
                 }
             }, 300);
         }
