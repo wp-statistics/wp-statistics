@@ -39,7 +39,9 @@ if (!window.WpStatisticsEventTracker) {
 
     // Handles preparing and sending marketing custom events to the server
     handleCustomEvent: function (eventName, eventData = {}) {
-        const ajaxUrl = WP_Statistics_Tracker_Object.customEventAjaxUrl;
+        // The nonce travels in the POST body, so no tracking URL with a query string is printed in the page HTML.
+        // customEventAjaxUrl only exists on pages cached before this change.
+        const ajaxUrl = WP_Statistics_Tracker_Object.customEventAjaxUrl || WP_Statistics_Tracker_Object.ajaxUrl;
 
         // Add timestamp
         eventData.timestamp = Date.now();
@@ -53,6 +55,11 @@ if (!window.WpStatisticsEventTracker) {
             event_name: eventName,
             event_data: JSON.stringify(eventData)
         };
+
+        if (WP_Statistics_Tracker_Object.customEventNonce) {
+            data.action = 'wp_statistics_custom_event';
+            data.nonce = WP_Statistics_Tracker_Object.customEventNonce;
+        }
 
         this.sendEventData(data, ajaxUrl);
     },
