@@ -9,25 +9,25 @@ Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Cookieless, privacy-friendly WordPress analytics. GDPR/CCPA compliant visitor data and clear graphs, with no data sharing.
+Cookieless, privacy-friendly WordPress analytics. Clear graphs and visitor data kept on your own server, with no data sharing.
 
 == Description ==
-Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
+Discover privacy-friendly analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
 
-= GDPR Compliant (Data Privacy) =
-WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
+= Privacy-Friendly by Default (GDPR and Data Privacy) =
+WP Statistics is privacy-friendly by default. Whether you need consent depends on your country and your settings.
 
 * We do not use cookies
 * We do not store personally identifiable information (PII) by default
 * 100% data ownership. Data is entirely created and stored on your server
 * Enhance IP Hashing with Random Daily Salt Mechanism
 * Features to export and delete data for GDPR
-* Respect for User Privacy with Do Not Track (DNT)
-* Privacy Audit Tool for compliance with privacy laws
+* Optional support for the Do Not Track (DNT) signal
+* Privacy Audit Tool to help you review your settings
 
-Your site won't need to have a cookie popup since WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
+WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
 
 You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
 
@@ -37,7 +37,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Simple analytics dashboard
 * Bounce Rate Tracking: See your site-wide bounce rate in Visitor Insights and per-page bounce rate in the Entry Pages report, so you can spot pages that lose visitors after a single page view.
 * Super easy to install. No coding or technical knowledge needed
-* Advanced data privacy settings that are customizable to fit your needs, in compliance with diverse data protection laws
+* Advanced data privacy settings that are customizable to fit your needs, to match the data protection laws that apply to you
 * Track URL parameters, including UTMs, for campaign analysis
 * With configurable settings, manage large amounts of data on high-traffic websites
 * Monitor live online user traffic in real-time
@@ -94,7 +94,7 @@ No, WP Statistics focuses on simplicity. You don't need any coding skills to use
 Your site's loading times will remain quick with WP Statistics. With our "Optimization" settings page, you can fine-tune how data is handled for high-traffic sites, providing you with the tools to optimize performance.
 
 = Is it GDPR compliant? =
-Yes, WP Statistics is GDPR compliant by default. You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
+WP Statistics is built to be privacy-friendly by default: it sets no cookies, and new installs anonymize and hash IP addresses. Whether your site meets the GDPR depends on your country, your settings and how you use the plugin. You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
 
 = Are individual page analytics available? =
 Every post, page, and custom post type is tracked in detail.
@@ -148,6 +148,9 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 = 14.15 =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
+
+== Third-Party Data ==
+This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
 
 == Changelog ==
 = 14.16.18 - 2026-10-23 =

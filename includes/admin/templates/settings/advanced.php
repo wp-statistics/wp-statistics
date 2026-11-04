@@ -188,6 +188,14 @@ add_thickbox();
                     );
                     ?>
                 </p>
+                <p class="description">
+                    <?php
+                    echo wp_kses(
+                        __('This product includes GeoLite2 Data created by MaxMind, available from <a href="https://www.maxmind.com" target="_blank">https://www.maxmind.com</a>. <a href="https://db-ip.com" target="_blank">IP Geolocation by DB-IP</a>.', 'wp-statistics'),
+                        ['a' => ['href' => [], 'target' => []]]
+                    );
+                    ?>
+                </p>
             </td>
         </tr>
 

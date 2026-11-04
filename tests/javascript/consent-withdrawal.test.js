@@ -155,6 +155,41 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         });
     }
 
+    test(`${bundle} tracker does not define generic global function names`, () => {
+        const tracker = loadTracker(files, 'cookieyes');
+
+        assert.equal(typeof tracker.context.startTracking, 'undefined');
+        assert.equal(typeof tracker.context.stopTracking, 'undefined');
+    });
+
+    test(`${bundle} tracker does not start when CookieYes reports a decline`, async () => {
+        const tracker = loadTracker(files, 'cookieyes');
+
+        tracker.withdraw();
+        tracker.dispatchDocument('DOMContentLoaded');
+        tracker.dispatchDocument('cookieyes_consent_update', {rejected: ['analytics']});
+        await Promise.resolve();
+
+        assert.equal(tracker.getHits(), 0, 'a decline records no visit');
+    });
+
+    test(`${bundle} tracker keeps counting on Borlabs when Anonymous Tracking is on`, async () => {
+        const tracker = loadTracker(files, 'borlabs_cookie');
+
+        tracker.context.WP_Statistics_Tracker_Object.option.consentIntegration.status = {anonymous_tracking: true};
+        tracker.dispatchDocument('DOMContentLoaded');
+        await Promise.resolve();
+        tracker.withdraw();
+        tracker.dispatchDocument('borlabs-cookie-consent-saved');
+
+        tracker.context.location.href = 'https://example.test/next';
+        tracker.context.location.pathname = '/next';
+        tracker.context.history.pushState({}, '', '/next');
+        await Promise.resolve();
+
+        assert.equal(tracker.getHits(), 2, 'the second page is still counted');
+    });
+
     test(`${bundle} tracker stays stopped when Real Cookie Banner consent resolves after withdrawal`, async () => {
         const tracker = loadTracker(files, 'real_cookie_banner', {deferInitialConsent: true});
 

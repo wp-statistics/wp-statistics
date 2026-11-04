@@ -17,22 +17,22 @@
 - License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 ## Description
-Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
+Discover privacy-friendly analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](https://wordpress.org/plugins/wp-statistics#screenshots)
 
-### GDPR Compliant (Data Privacy)
-WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
+### Privacy-Friendly by Default (GDPR and Data Privacy)
+WP Statistics is privacy-friendly by default. Whether you need consent depends on your country and your settings.
 
 - We do not use cookies
 - We do not store personally identifiable information (PII) by default
 - 100% data ownership. Data is entirely created and stored on your server
 - Enhance IP Hashing with Random Daily Salt Mechanism
 - Features to export and delete data for GDPR
-- Respect for User Privacy with Do Not Track (DNT)
-- Privacy Audit Tool for compliance with privacy laws
+- Optional support for the Do Not Track (DNT) signal
+- Privacy Audit Tool to help you review your settings
 
-Your site won't need to have a cookie popup since WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
+WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
 
 For more information, see "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
 
@@ -40,7 +40,7 @@ For more information, see "[What we collect](https://wp-statistics.com/resources
 - Fully integrate with your WordPress and your content structure, with all reports in your WP dashboard
 - Simple analytics dashboard
 - Super easy to install. No coding or technical knowledge needed
-- Advanced data privacy settings customizable to fit your needs, in compliance with diverse data protection laws
+- Advanced data privacy settings customizable to fit your needs, to match the data protection laws that apply to you
 - Track URL parameters, including UTMs, for campaign analysis
 - Manage large amounts of data on high-traffic websites with configurable settings
 - Monitor live online user traffic in real-time

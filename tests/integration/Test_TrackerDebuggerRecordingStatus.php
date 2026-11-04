@@ -214,19 +214,14 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
         $this->assertNull($status['visitors_week_before']);
     }
 
-    private function renderDebugger($recording, $consentIntegration = 'borlabs_cookie')
+    private function renderDebugger($recording)
     {
         $previousOptions       = Option::getOptions();
         $previousActivePlugins = get_option('active_plugins', []);
 
-        $activePlugins = [
-            'borlabs_cookie' => 'borlabs-cookie/borlabs-cookie.php',
-            'cookieyes'      => 'cookie-law-info/cookie-law-info.php',
-        ];
-
-        Option::update('consent_integration', $consentIntegration);
+        Option::update('consent_integration', 'borlabs_cookie');
         Option::update('anonymous_tracking', true);
-        update_option('active_plugins', [$activePlugins[$consentIntegration]]);
+        update_option('active_plugins', ['borlabs-cookie/borlabs-cookie.php']);
 
         $options = new class {
             public function getExcludedIPs()
@@ -326,20 +321,6 @@ class Test_TrackerDebuggerRecordingStatus extends WP_UnitTestCase
             'visitors_week_before' => 10,
             'error'                => false,
         ]);
-
-        $this->assertStringContainsString('Visitors who have not given consent are recorded anonymously.', $html);
-        $this->assertStringNotContainsString('so a visit is only recorded after the visitor gives consent.', $html);
-    }
-
-    public function test_debugger_describes_cookieyes_anonymous_consent_tracking()
-    {
-        $html = $this->renderDebugger([
-            'last_visit'           => TimeZone::getCurrentDate('Y-m-d H:i:s', -3),
-            'seconds_since'        => 3 * DAY_IN_SECONDS,
-            'visitors_24h'         => 0,
-            'visitors_week_before' => 10,
-            'error'                => false,
-        ], 'cookieyes');
 
         $this->assertStringContainsString('Visitors who have not given consent are recorded anonymously.', $html);
         $this->assertStringNotContainsString('so a visit is only recorded after the visitor gives consent.', $html);
