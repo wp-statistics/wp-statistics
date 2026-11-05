@@ -457,8 +457,8 @@ $consentAnonymous   = $consent
 
         <div class="wps-postbox-tracker__activity">
             <div class="wps-postbox-tracker__activity-head">
-                <h4><?php echo esc_html_e('Recent Tracker Activity', 'wp-statistics'); ?></h4>
-                <p><?php echo esc_html_e('Get detailed logs of recent user visits for accurate debugging.', 'wp-statistics'); ?></p>
+                <h4><?php esc_html_e('Recent Tracker Activity', 'wp-statistics'); ?></h4>
+                <p><?php esc_html_e('Get detailed logs of recent user visits for accurate debugging.', 'wp-statistics'); ?></p>
             </div>
             <div class="wps-postbox-tracker__activity-table">
                 <div class="o-table-wrapper">
@@ -466,10 +466,10 @@ $consentAnonymous   = $consent
                         <thead>
                         <tr>
                             <th class="wps-pd-l">
-                                <?php echo esc_html_e('Timestamp', 'wp-statistics'); ?>
+                                <?php esc_html_e('Timestamp', 'wp-statistics'); ?>
                             </th>
                             <th class="wps-pd-l">
-                                <?php echo esc_html_e('Visitor Information', 'wp-statistics'); ?>
+                                <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                             </th>
                         </tr>
                         </thead>
@@ -513,7 +513,7 @@ $consentAnonymous   = $consent
         </div>
 
         <div class="wps-postbox-tracker__help">
-            <h4><?php echo esc_html_e('Need More Help?', 'wp-statistics'); ?></h4>
+            <h4><?php esc_html_e('Need More Help?', 'wp-statistics'); ?></h4>
             <p>
                 <?php
                 echo sprintf(
