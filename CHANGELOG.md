@@ -1,4 +1,5 @@
 14.16.19 - Unreleased
+- **Fix:** Searches from the WooCommerce product search box (`/?post_type=product&s=...`) now show up in Search Terms. Before, they were counted as views of the Shop page and the search term was lost (issue [#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
 - **Fix:** Custom event tracking no longer prints a URL with a changing nonce in the page source, so these URLs stop building up in Google Search Console (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
 - **Enhancement:** CookieYes can count visitors who decline Analytics anonymously when Anonymous Tracking is enabled, matching server-side and JavaScript tracking (issue [#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
 - **Fix:** Background jobs (such as Migrate Visitor Data Columns and Update GeoIP) now finish through WP-Cron when a firewall or CDN rule blocks requests to `/wp-admin/admin-ajax.php`. Before, they stayed at 0% with no error (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).

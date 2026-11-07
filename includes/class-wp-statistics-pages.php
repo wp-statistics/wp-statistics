@@ -38,7 +38,9 @@ class Pages
             if (is_product()) {
                 return wp_parse_args(array("type" => "product"), $current_page);
             }
-            if (is_shop()) {
+            // A product search (/?post_type=product&s=...) is also the shop archive;
+            // leave it to the search check below so the search term is recorded.
+            if (is_shop() && !is_search()) {
                 // Get Shop Page ID
                 $shopPageID = wc_get_page_id('shop');
 
