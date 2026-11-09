@@ -121,6 +121,30 @@ class Test_BaseBackgroundProcess extends WP_UnitTestCase
             remove_action($this->process->getCronHook(), $afterHealthcheck, 20);
         }
     }
+
+    public function test_failing_task_does_not_stop_wp_cron_and_releases_the_lock()
+    {
+        $cronContinued    = false;
+        $afterHealthcheck = static function () use (&$cronContinued) {
+            $cronContinued = true;
+        };
+        $logFile          = ini_get('error_log');
+        ini_set('error_log', '/dev/null');
+
+        $this->process->queueItem('throw');
+        $this->process->scheduleHealthcheck();
+        add_action($this->process->getCronHook(), $afterHealthcheck, 20);
+
+        try {
+            do_action($this->process->getCronHook());
+
+            $this->assertTrue($cronContinued);
+            $this->assertFalse(get_site_transient($this->process->getProcessLockKey()));
+        } finally {
+            remove_action($this->process->getCronHook(), $afterHealthcheck, 20);
+            ini_set('error_log', $logFile);
+        }
+    }
 }
 
 class Test_BackgroundProcess extends BaseBackgroundProcess
@@ -136,6 +160,10 @@ class Test_BackgroundProcess extends BaseBackgroundProcess
 
     protected function task($item)
     {
+        if ($item === 'throw') {
+            throw new \RuntimeException('Task failed for the test.');
+        }
+
         $this->handledItems[] = $item;
         return false;
     }

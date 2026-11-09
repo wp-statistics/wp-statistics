@@ -378,6 +378,11 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
 
         try {
             $this->handle();
+        } catch (\Throwable $e) {
+            // A failing task must not end the whole WP-Cron run. Release the lock so the
+            // next healthcheck can retry, and leave a trace for debugging.
+            $this->unlock_process();
+            error_log(sprintf('WP Statistics: background job %s failed during WP-Cron: %s', $this->identifier, $e->getMessage())); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
         } finally {
             remove_filter($this->identifier . '_wp_die', $preventWpDie, PHP_INT_MAX);
         }
