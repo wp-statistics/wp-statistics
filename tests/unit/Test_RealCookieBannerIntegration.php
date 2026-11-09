@@ -60,6 +60,14 @@ class Test_RealCookieBannerIntegration extends WP_UnitTestCase
         $this->assertFalse((new RealCookieBanner())->hasConsent());
     }
 
+    public function test_visitor_is_not_counted_when_the_base_service_was_never_added()
+    {
+        Option::update('hash_ips', false);
+        $GLOBALS['wp_statistics_test_rcb_services'] = [];
+
+        $this->assertFalse((new RealCookieBanner())->hasConsent());
+    }
+
     public function test_accepted_visitor_is_tracked_anonymously_when_the_data_processing_service_was_never_added()
     {
         Option::update('hash_ips', false);
