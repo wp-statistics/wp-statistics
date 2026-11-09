@@ -197,8 +197,13 @@ add_thickbox();
                     ?>
                 </p>
                 <script>
-                    document.getElementById('wps_settings[geoip_location_detection_method]').addEventListener('change', function () {
-                        document.getElementById('wps-geoip-credit').style.display = this.value === 'cf' ? 'none' : '';
+                    jQuery(function ($) {
+                        const $locationMethod = $('#wps_settings\\[geoip_location_detection_method\\]');
+                        const $credit = $('#wps-geoip-credit');
+
+                        $locationMethod.on('change', function () {
+                            $credit.toggle($(this).val() !== 'cf');
+                        });
                     });
                 </script>
             </td>
