@@ -50,4 +50,30 @@ class Test_RealCookieBannerIntegration extends WP_UnitTestCase
         $GLOBALS['wp_statistics_test_rcb_services'] = ['wp-statistics' => false, 'wp-statistics-with-data-processing' => false];
         $this->assertFalse((new RealCookieBanner())->hasConsent());
     }
+
+    public function test_declined_visitor_is_not_counted_when_the_data_processing_service_was_never_added()
+    {
+        // IPs not hashed, but the owner only created the base service in Real Cookie Banner.
+        Option::update('hash_ips', false);
+        $GLOBALS['wp_statistics_test_rcb_services'] = ['wp-statistics' => false];
+
+        $this->assertFalse((new RealCookieBanner())->hasConsent());
+    }
+
+    public function test_accepted_visitor_is_tracked_anonymously_when_the_data_processing_service_was_never_added()
+    {
+        Option::update('hash_ips', false);
+        $GLOBALS['wp_statistics_test_rcb_services'] = ['wp-statistics' => true];
+
+        $this->assertTrue((new RealCookieBanner())->hasConsent());
+        $this->assertTrue((new RealCookieBanner())->trackAnonymously());
+    }
+
+    public function test_full_tracking_when_both_services_are_accepted()
+    {
+        Option::update('hash_ips', false);
+        $GLOBALS['wp_statistics_test_rcb_services'] = ['wp-statistics' => true, 'wp-statistics-with-data-processing' => true];
+
+        $this->assertFalse((new RealCookieBanner())->trackAnonymously());
+    }
 }
