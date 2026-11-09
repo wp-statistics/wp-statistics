@@ -1,5 +1,29 @@
 <?php
 
+namespace WP_STATISTICS {
+    function is_product()
+    {
+        return !empty($GLOBALS['wp_statistics_test_is_product']);
+    }
+
+    function is_shop()
+    {
+        return !empty($GLOBALS['wp_statistics_test_is_shop']);
+    }
+
+    function wc_get_page_id($page)
+    {
+        return $page === 'shop' ? $GLOBALS['wp_statistics_test_shop_page_id'] : -1;
+    }
+}
+
+namespace {
+    if (!class_exists('WooCommerce')) {
+        class WooCommerce
+        {
+        }
+    }
+
 /**
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
@@ -9,22 +33,6 @@ class Test_Pages_WooCommerce extends WP_UnitTestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        if (!class_exists('WooCommerce')) {
-            eval('class WooCommerce {}'); // phpcs:ignore Squiz.PHP.Eval.Discouraged
-        }
-
-        if (!function_exists('is_product')) {
-            eval('function is_product() { return !empty($GLOBALS["wp_statistics_test_is_product"]); }'); // phpcs:ignore Squiz.PHP.Eval.Discouraged
-        }
-
-        if (!function_exists('is_shop')) {
-            eval('function is_shop() { return !empty($GLOBALS["wp_statistics_test_is_shop"]); }'); // phpcs:ignore Squiz.PHP.Eval.Discouraged
-        }
-
-        if (!function_exists('wc_get_page_id')) {
-            eval('function wc_get_page_id($page) { return $page === "shop" ? $GLOBALS["wp_statistics_test_shop_page_id"] : -1; }'); // phpcs:ignore Squiz.PHP.Eval.Discouraged
-        }
 
         $GLOBALS['wp_statistics_test_is_product']   = false;
         $GLOBALS['wp_statistics_test_is_shop']      = false;
@@ -68,4 +76,5 @@ class Test_Pages_WooCommerce extends WP_UnitTestCase
             WP_STATISTICS\Pages::get_page_type()
         );
     }
+}
 }
