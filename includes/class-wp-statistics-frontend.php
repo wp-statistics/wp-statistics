@@ -91,7 +91,7 @@ class Frontend
                 $dependencies = $integration->getJsHandles();
             }
 
-            Assets::script('tracker', 'js/tracker-v2.js', $dependencies, $jsArgs, true, Option::get('bypass_ad_blockers', false));
+            Assets::script('tracker', 'js/tracker.js', $dependencies, $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
 
         // Load Chart.js library

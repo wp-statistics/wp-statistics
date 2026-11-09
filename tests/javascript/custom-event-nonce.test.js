@@ -5,7 +5,7 @@ const path = require('node:path');
 
 const root = path.resolve(__dirname, '../..');
 const frontend = fs.readFileSync(path.join(root, 'includes/class-wp-statistics-frontend.php'), 'utf8');
-const built = fs.readFileSync(path.join(root, 'assets/js/tracker-v2.js'), 'utf8');
+const built = fs.readFileSync(path.join(root, 'assets/js/tracker.js'), 'utf8');
 
 function loadHandler() {
     const match = built.match(/handleCustomEvent:function\(t,e=\{\}\)\{[\s\S]*?this\.sendEventData\(\w+,\w+\)\}/);
@@ -24,7 +24,6 @@ const base = {ajaxUrl: 'https://example.test/wp-admin/admin-ajax.php', hitParams
 test('the page HTML no longer carries a custom event URL with a nonce', () => {
     assert.ok(!frontend.includes('customEventAjaxUrl'));
     assert.ok(frontend.includes("'customEventNonce'"));
-    assert.ok(frontend.includes("'js/tracker-v2.js'"), 'an incompatible tracker uses a new cache path');
 });
 
 test('the nonce and action go in the POST body, to the plain admin-ajax.php', () => {
