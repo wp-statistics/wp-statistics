@@ -113,6 +113,7 @@ function loadTracker(files, integration, options = {}) {
         dispatchDocument(type, detail) { dispatch(documentListeners, type, detail); },
         dispatchWindow(type, detail) { dispatch(windowListeners, type, detail); },
         getHits() { return hits; },
+        grant() { consentGranted = true; },
         resolveInitialConsent() { resolveInitialConsent(); },
         withdraw() { consentGranted = false; },
     };
@@ -207,5 +208,30 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         await Promise.resolve();
 
         assert.equal(tracker.getHits(), 0, 'stale initial consent must not restart tracking');
+    });
+
+    test(`${bundle} tracker records the current SPA page when consent is restored`, async () => {
+        const tracker = loadTracker(files, 'wp_consent_api');
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        await Promise.resolve();
+        assert.equal(tracker.getHits(), 1, 'initial page is tracked');
+
+        tracker.withdraw();
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+        tracker.context.location.href = 'https://example.test/next';
+        tracker.context.location.pathname = '/next';
+        tracker.context.history.pushState({}, '', '/next');
+        await Promise.resolve();
+        assert.equal(tracker.getHits(), 1, 'page change is held while consent is withdrawn');
+
+        tracker.grant();
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'allow'});
+        await Promise.resolve();
+        assert.equal(tracker.getHits(), 2, 'the current page is tracked after consent returns');
+
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'allow'});
+        await Promise.resolve();
+        assert.equal(tracker.getHits(), 2, 'repeated consent updates do not duplicate the hit');
     });
 }

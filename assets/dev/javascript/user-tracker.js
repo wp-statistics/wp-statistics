@@ -16,6 +16,9 @@ if (!window.WpStatisticsUserTracker) {
         // Stop future requests when consent is withdrawn
         isTrackingEnabled: false,
 
+        // Record a URL change that happened while tracking was disabled
+        hasPendingHit: false,
+
         // Prevent trackUrlChange() from running more than once
         hasUrlChangeTrackerInitialized: false,
 
@@ -23,9 +26,15 @@ if (!window.WpStatisticsUserTracker) {
         hitRequestSuccessful: true,
 
         init: function () {
+            const wasTrackingEnabled = this.isTrackingEnabled;
             this.isTrackingEnabled = true;
 
             if (this.hasTrackerInitializedOnce) {
+                if (!wasTrackingEnabled && this.hasPendingHit) {
+                    this.hasPendingHit = false;
+                    this.checkHitRequestConditions();
+                }
+
                 return;
             }
             this.hasTrackerInitializedOnce = true;
@@ -266,6 +275,11 @@ if (!window.WpStatisticsUserTracker) {
             if (window.location.href !== this.lastUrl) {
                 this.lastUrl = window.location.href;
                 this.updateTrackerObject(function () {
+                    if (!self.isTrackingEnabled) {
+                        self.hasPendingHit = true;
+                        return;
+                    }
+
                     self.checkHitRequestConditions();
                 });
             }
