@@ -16,8 +16,12 @@ if (!window.WpStatisticsUserTracker) {
         // Stop future requests when consent is withdrawn
         isTrackingEnabled: false,
 
-        // Record a URL change that happened while tracking was disabled
-        hasPendingHit: false,
+        // Record the latest URL change that happened while tracking was disabled
+        pendingHit: null,
+
+        // Wait for the current SPA page identity before restoring a pending hit
+        isRestoringPendingHit: false,
+        pendingUrlChangeGenerations: {},
 
         // Prevent trackUrlChange() from running more than once
         hasUrlChangeTrackerInitialized: false,
@@ -36,9 +40,12 @@ if (!window.WpStatisticsUserTracker) {
             this.isTrackingEnabled = true;
 
             if (this.hasTrackerInitializedOnce) {
-                if (!wasTrackingEnabled && this.hasPendingHit) {
-                    this.hasPendingHit = false;
-                    this.checkHitRequestConditions();
+                if (!wasTrackingEnabled && (this.pendingHit || Object.keys(this.pendingUrlChangeGenerations).length > 0)) {
+                    this.isRestoringPendingHit = true;
+
+                    if (Object.keys(this.pendingUrlChangeGenerations).length === 0) {
+                        this.flushPendingHit();
+                    }
                 }
 
                 return;
@@ -70,9 +77,7 @@ if (!window.WpStatisticsUserTracker) {
         },
 
         // Extract Path and Query String from Current URL and Base64 encode it
-        getPathAndQueryString: function () {
-            const pathname = window.location.pathname;
-            const queryString = window.location.search;
+        getPathAndQueryString: function (pathname = window.location.pathname, queryString = window.location.search) {
             const fullPath = pathname + queryString;
             return this.base64Encode(fullPath);
         },
@@ -83,30 +88,42 @@ if (!window.WpStatisticsUserTracker) {
         },
 
         // Check Conditions for Sending Hit Request
-        checkHitRequestConditions: function () {
+        checkHitRequestConditions: function (trackerObject = WP_Statistics_Tracker_Object, pageUri = this.getPathAndQueryString()) {
             if (!this.isTrackingEnabled) {
                 return;
             }
 
-            if (WP_Statistics_Tracker_Object.option.dntEnabled) {
+            if (trackerObject.option.dntEnabled) {
                 if (this.isDndActive !== 1) {
-                    this.sendHitRequest();
+                    this.sendHitRequest(trackerObject, pageUri);
                 } else {
                     console.log('WP Statistics: Do Not Track (DNT) is enabled. Hit request not sent.');
                 }
             } else {
-                this.sendHitRequest();
+                this.sendHitRequest(trackerObject, pageUri);
             }
         },
 
+        flushPendingHit: function () {
+            if (!this.pendingHit) {
+                this.isRestoringPendingHit = false;
+                return;
+            }
+
+            const pendingHit = this.pendingHit;
+            this.pendingHit = null;
+            this.isRestoringPendingHit = false;
+            this.checkHitRequestConditions(pendingHit.trackerObject, pendingHit.pageUri);
+        },
+
         // Sending Hit Request
-        sendHitRequest: async function () {
+        sendHitRequest: async function (trackerObject = WP_Statistics_Tracker_Object, pageUri = this.getPathAndQueryString()) {
             try {
-                let requestUrl = this.getRequestUrl();
+                let requestUrl = this.getRequestUrl(trackerObject);
                 const params = new URLSearchParams({
-                    ...WP_Statistics_Tracker_Object.hitParams,
+                    ...trackerObject.hitParams,
                     referred: this.getReferred(), // Use the getReferred method
-                    page_uri: this.getPathAndQueryString() // Use the correct key for the path and query string (Base64 encoded)
+                    page_uri: pageUri // Use the path and query string captured for this navigation
                 }).toString();
 
                 const xhr = new XMLHttpRequest();
@@ -166,13 +183,13 @@ if (!window.WpStatisticsUserTracker) {
             }
         },
 
-        getRequestUrl: function () {
-            let requestUrl = `${WP_Statistics_Tracker_Object.requestUrl}/`;
+        getRequestUrl: function (trackerObject = WP_Statistics_Tracker_Object) {
+            let requestUrl = `${trackerObject.requestUrl}/`;
 
-            if (WP_Statistics_Tracker_Object.option.bypassAdBlockers) {
-                requestUrl = WP_Statistics_Tracker_Object.ajaxUrl;
+            if (trackerObject.option.bypassAdBlockers) {
+                requestUrl = trackerObject.ajaxUrl;
             } else {
-                requestUrl += WP_Statistics_Tracker_Object.hitParams.endpoint;
+                requestUrl += trackerObject.hitParams.endpoint;
             }
 
             return requestUrl;
@@ -185,6 +202,13 @@ if (!window.WpStatisticsUserTracker) {
             let attempts = 0;
             const maxAttempts = 20; // Maximum 2 seconds (20 * 100ms)
 
+            const finish = function (trackerObject) {
+                if (!callbackCalled && callback) {
+                    callbackCalled = true;
+                    callback(trackerObject);
+                }
+            };
+
             const tryUpdate = function () {
                 // Re-query the script tag each time (it may be replaced by Interactivity API)
                 const scriptTag = document.getElementById("wp-statistics-tracker-js-extra");
@@ -193,9 +217,8 @@ if (!window.WpStatisticsUserTracker) {
                     attempts++;
                     if (attempts < maxAttempts) {
                         setTimeout(tryUpdate, 100);
-                    } else if (!callbackCalled && callback) {
-                        callbackCalled = true;
-                        callback();
+                    } else {
+                        finish(WP_Statistics_Tracker_Object);
                     }
                     return;
                 }
@@ -211,35 +234,27 @@ if (!window.WpStatisticsUserTracker) {
 
                         if (dataChanged) {
                             WP_Statistics_Tracker_Object = newData;
-                            if (!callbackCalled && callback) {
-                                callbackCalled = true;
-                                callback();
-                            }
+                            finish(newData);
                         } else {
                             // Data hasn't changed yet, try again
                             attempts++;
                             if (attempts < maxAttempts) {
                                 setTimeout(tryUpdate, 100);
-                            } else if (!callbackCalled && callback) {
-                                callbackCalled = true;
-                                callback();
+                            } else {
+                                finish(WP_Statistics_Tracker_Object);
                             }
                         }
                     } else {
                         attempts++;
                         if (attempts < maxAttempts) {
                             setTimeout(tryUpdate, 100);
-                        } else if (!callbackCalled && callback) {
-                            callbackCalled = true;
-                            callback();
+                        } else {
+                            finish(WP_Statistics_Tracker_Object);
                         }
                     }
                 } catch (error) {
                     console.error("WP Statistics: Error parsing WP_Statistics_Tracker_Object", error);
-                    if (!callbackCalled && callback) {
-                        callbackCalled = true;
-                        callback();
-                    }
+                    finish(WP_Statistics_Tracker_Object);
                 }
             };
 
@@ -284,23 +299,43 @@ if (!window.WpStatisticsUserTracker) {
                 const now = Date.now();
                 if (now - this.lastUrlChangeAt < 100) {
                     this.supersededUrlChangeGenerations[this.urlChangeGeneration] = true;
+                    delete this.pendingUrlChangeGenerations[this.urlChangeGeneration];
                 }
                 this.lastUrlChangeAt = now;
 
                 const generation = ++this.urlChangeGeneration;
+                const pageUri = this.getPathAndQueryString(window.location.pathname, window.location.search);
+                this.pendingUrlChangeGenerations[generation] = true;
 
-                this.updateTrackerObject(function () {
+                this.updateTrackerObject(function (trackerObject = WP_Statistics_Tracker_Object) {
+                    delete self.pendingUrlChangeGenerations[generation];
+
                     if (self.supersededUrlChangeGenerations[generation]) {
                         delete self.supersededUrlChangeGenerations[generation];
                         return;
                     }
 
+                    const pendingHit = {generation, trackerObject, pageUri};
+
                     if (!self.isTrackingEnabled) {
-                        self.hasPendingHit = true;
+                        if (!self.pendingHit || generation > self.pendingHit.generation) {
+                            self.pendingHit = pendingHit;
+                        }
                         return;
                     }
 
-                    self.checkHitRequestConditions();
+                    if (self.isRestoringPendingHit) {
+                        if (!self.pendingHit || generation > self.pendingHit.generation) {
+                            self.pendingHit = pendingHit;
+                        }
+
+                        if (Object.keys(self.pendingUrlChangeGenerations).length === 0) {
+                            self.flushPendingHit();
+                        }
+                        return;
+                    }
+
+                    self.checkHitRequestConditions(trackerObject, pageUri);
                 });
             }
         }

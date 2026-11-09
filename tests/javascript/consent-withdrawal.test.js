@@ -16,6 +16,7 @@ function loadTracker(files, integration, options = {}) {
     const documentListeners = {};
     const windowListeners = {};
     let hits = 0;
+    const requests = [];
     let legacyEvents = 0;
     let consentGranted = true;
     let resolveInitialConsent;
@@ -26,7 +27,10 @@ function loadTracker(files, integration, options = {}) {
     class FakeXMLHttpRequest {
         open() {}
         setRequestHeader() {}
-        send() { hits++; }
+        send(body) {
+            hits++;
+            requests.push(Object.fromEntries(new URLSearchParams(body)));
+        }
     }
 
     const addListener = listeners => (type, callback) => {
@@ -117,6 +121,7 @@ function loadTracker(files, integration, options = {}) {
         dispatchDocument(type, detail) { dispatch(documentListeners, type, detail); },
         dispatchWindow(type, detail) { dispatch(windowListeners, type, detail); },
         getHits() { return hits; },
+        getRequests() { return requests; },
         getLegacyEvents() { return legacyEvents; },
         grant() { consentGranted = true; },
         resolveInitialConsent() { resolveInitialConsent(); },
@@ -201,6 +206,47 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         assert.equal(tracker.getHits(), 2, 'only the final SPA page is recorded once');
     });
 
+    test(`${bundle} tracker waits for the current SPA page before restoring a pending hit`, async () => {
+        const tracker = loadTracker(files, 'wp_consent_api');
+        const callbacks = [];
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        await Promise.resolve();
+        tracker.context.WpStatisticsUserTracker.updateTrackerObject = callback => callbacks.push(callback);
+
+        tracker.withdraw();
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+        tracker.context.location.href = 'https://example.test/one';
+        tracker.context.location.pathname = '/one';
+        tracker.context.history.pushState({}, '', '/one');
+        callbacks[0]({
+            ...tracker.context.WP_Statistics_Tracker_Object,
+            hitParams: {endpoint: 'hit', source_id: 101},
+        });
+
+        tracker.context.WpStatisticsUserTracker.lastUrlChangeAt -= 1000;
+        tracker.context.location.href = 'https://example.test/two';
+        tracker.context.location.pathname = '/two';
+        tracker.context.history.pushState({}, '', '/two');
+
+        tracker.grant();
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'allow'});
+        assert.equal(tracker.getHits(), 1, 'restoration waits while the current page identity is unresolved');
+
+        callbacks[1]({
+            ...tracker.context.WP_Statistics_Tracker_Object,
+            hitParams: {endpoint: 'hit', source_id: 102},
+        });
+
+        const restoredRequests = tracker.getRequests().slice(1).map(request => ({
+            path: Buffer.from(request.page_uri, 'base64').toString('utf8'),
+            sourceId: request.source_id,
+        }));
+        assert.deepEqual(restoredRequests, [
+            {path: '/two', sourceId: '102'},
+        ], 'restoration records the current page exactly once with its matching identity');
+    });
+
     test(`${bundle} tracker records every separate SPA navigation`, async () => {
         const tracker = loadTracker(files, 'wp_consent_api');
         const callbacks = [];
@@ -218,10 +264,23 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         tracker.context.location.pathname = '/two';
         tracker.context.history.pushState({}, '', '/two');
 
-        callbacks[0]();
-        callbacks[1]();
+        callbacks[0]({
+            ...tracker.context.WP_Statistics_Tracker_Object,
+            hitParams: {endpoint: 'hit', source_id: 101},
+        });
+        callbacks[1]({
+            ...tracker.context.WP_Statistics_Tracker_Object,
+            hitParams: {endpoint: 'hit', source_id: 102},
+        });
 
-        assert.equal(tracker.getHits(), 3, 'the first page, /one and /two are each recorded');
+        const navigationRequests = tracker.getRequests().slice(1).map(request => ({
+            path: Buffer.from(request.page_uri, 'base64').toString('utf8'),
+            sourceId: request.source_id,
+        }));
+        assert.deepEqual(navigationRequests, [
+            {path: '/one', sourceId: '101'},
+            {path: '/two', sourceId: '102'},
+        ], 'each separate navigation keeps its matching page identity');
     });
 
     test(`${bundle} tracker keeps older separate SPA navigations when a later pair is coalesced`, async () => {
