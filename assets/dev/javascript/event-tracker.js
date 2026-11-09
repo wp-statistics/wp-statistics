@@ -44,7 +44,8 @@ if (!window.WpStatisticsEventTracker) {
     },
 
     guardLegacyEventTracker: function () {
-        const legacyTracker = window.wpStatisticsDataPlusEvents;
+        // Older Data Plus declares this with a top-level `let`, so it is a global binding, not a window property.
+        const legacyTracker = typeof wpStatisticsDataPlusEvents !== 'undefined' ? wpStatisticsDataPlusEvents : window.wpStatisticsDataPlusEvents;
 
         if (!legacyTracker || typeof legacyTracker.sendEventData !== 'function' || this.guardedLegacyEventTracker === legacyTracker) {
             return;

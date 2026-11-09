@@ -9,7 +9,7 @@ const trackerBundles = {
         'assets/dev/javascript/event-tracker.js',
         'assets/dev/javascript/tracker.js',
     ],
-    built: ['assets/js/tracker-v2.js'],
+    built: ['assets/js/tracker.js'],
 };
 
 function loadTracker(files, integration, options = {}) {
@@ -59,12 +59,7 @@ function loadTracker(files, integration, options = {}) {
         XMLHttpRequest: FakeXMLHttpRequest,
         btoa: value => Buffer.from(value, 'binary').toString('base64'),
         fetch: async () => ({ok: true}),
-        wpStatisticsDataPlusEvents: {
-            sendEventData() {
-                legacyEvents++;
-                return Promise.resolve();
-            },
-        },
+        countLegacyEvent() { legacyEvents++; },
         setTimeout(callback) { callback(); },
         clearTimeout() {},
         wp_has_consent(category) {
@@ -111,6 +106,8 @@ function loadTracker(files, integration, options = {}) {
     context.window = context;
 
     vm.createContext(context);
+    // Older Data Plus builds declare their tracker with a top-level `let`, which never becomes a window property.
+    vm.runInContext('let wpStatisticsDataPlusEvents = {sendEventData() { countLegacyEvent(); return Promise.resolve(); }};', context);
     for (const file of files) {
         vm.runInContext(fs.readFileSync(file, 'utf8'), context, {filename: file});
     }
@@ -169,12 +166,12 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         const tracker = loadTracker(files, 'wp_consent_api', {legacyEventLoaded: true});
 
         tracker.dispatchDocument('DOMContentLoaded');
-        await tracker.context.wpStatisticsDataPlusEvents.sendEventData();
+        await vm.runInContext('wpStatisticsDataPlusEvents.sendEventData()', tracker.context);
         assert.equal(tracker.getLegacyEvents(), 1, 'legacy event is sent while consent is active');
 
         tracker.withdraw();
         tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
-        await tracker.context.wpStatisticsDataPlusEvents.sendEventData();
+        await vm.runInContext('wpStatisticsDataPlusEvents.sendEventData()', tracker.context);
 
         assert.equal(tracker.getLegacyEvents(), 1, 'legacy event is blocked after withdrawal');
     });
@@ -202,6 +199,29 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         callbacks[1]();
 
         assert.equal(tracker.getHits(), 2, 'only the final SPA page is recorded once');
+    });
+
+    test(`${bundle} tracker records every separate SPA navigation`, async () => {
+        const tracker = loadTracker(files, 'wp_consent_api');
+        const callbacks = [];
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        await Promise.resolve();
+        const userTracker = tracker.context.WpStatisticsUserTracker;
+        userTracker.updateTrackerObject = callback => callbacks.push(callback);
+
+        tracker.context.location.href = 'https://example.test/one';
+        tracker.context.location.pathname = '/one';
+        tracker.context.history.pushState({}, '', '/one');
+        userTracker.lastUrlChangeAt -= 1000; // the visitor stays on /one for a second
+        tracker.context.location.href = 'https://example.test/two';
+        tracker.context.location.pathname = '/two';
+        tracker.context.history.pushState({}, '', '/two');
+
+        callbacks[0]();
+        callbacks[1]();
+
+        assert.equal(tracker.getHits(), 3, 'the first page, /one and /two are each recorded');
     });
 
     test(`${bundle} tracker does not define generic global function names`, () => {

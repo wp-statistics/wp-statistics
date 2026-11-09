@@ -22,8 +22,11 @@ if (!window.WpStatisticsUserTracker) {
         // Prevent trackUrlChange() from running more than once
         hasUrlChangeTrackerInitialized: false,
 
-        // Ignore stale polling callbacks from superseded SPA navigations
+        // Coalesce only URL changes that come right after each other (a pushState then a
+        // replaceState for the same navigation). Separate navigations each send a hit.
         urlChangeGeneration: 0,
+        supersededUrlChangeGeneration: 0,
+        lastUrlChangeAt: 0,
 
         // Flag to track hit request status
         hitRequestSuccessful: true,
@@ -277,10 +280,17 @@ if (!window.WpStatisticsUserTracker) {
 
             if (window.location.href !== this.lastUrl) {
                 this.lastUrl = window.location.href;
+
+                const now = Date.now();
+                if (now - this.lastUrlChangeAt < 100) {
+                    this.supersededUrlChangeGeneration = this.urlChangeGeneration;
+                }
+                this.lastUrlChangeAt = now;
+
                 const generation = ++this.urlChangeGeneration;
 
                 this.updateTrackerObject(function () {
-                    if (generation !== self.urlChangeGeneration) {
+                    if (generation <= self.supersededUrlChangeGeneration) {
                         return;
                     }
 
