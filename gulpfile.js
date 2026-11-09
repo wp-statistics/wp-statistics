@@ -86,7 +86,7 @@ function frontScripts(done) {
         .pipe(replace("\\t", ''))
         .pipe(replace("  ", ''))
         .pipe(uglify())
-        .pipe(concat('tracker.js'))
+        .pipe(concat('tracker-v2.js'))
         .pipe(gulp.dest('./assets/js/'));
 
     done()
