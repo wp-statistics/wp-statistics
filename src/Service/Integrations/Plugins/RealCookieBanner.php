@@ -49,7 +49,9 @@ class RealCookieBanner extends AbstractIntegration
             return true;
         }
 
-        $baseConsent = $this->isOptedIn('wp-statistics');
+        // Same as before 14.16.19: the base service does not have to exist in Real Cookie Banner.
+        $baseConsent = wp_rcb_consent_given('wp-statistics');
+        $baseConsent = !empty($baseConsent['cookieOptIn']);
 
         return $baseConsent || $this->isOptedIn('wp-statistics-with-data-processing');
     }

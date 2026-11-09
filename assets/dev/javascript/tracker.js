@@ -71,9 +71,12 @@ function handleRealCookieBannerIntegration() {
     const updateTracking = () => {
         const baseConsent = window.consentApi?.consentSync("wp-statistics");
         const dataProcessingConsent = window.consentApi?.consentSync("wp-statistics-with-data-processing");
-        const hasConsent = consent => consent && consent.cookie != null && consent.cookieOptIn;
+        // The base service counts as before even when the owner never added it in Real Cookie Banner.
+        // The data-processing service must exist, so a declined visitor is not counted when IPs are hashed.
+        const baseOptIn = !!(baseConsent && baseConsent.cookieOptIn);
+        const dataProcessingOptIn = !!(dataProcessingConsent && dataProcessingConsent.cookie != null && dataProcessingConsent.cookieOptIn);
 
-        if (hasConsent(baseConsent) || hasConsent(dataProcessingConsent)) {
+        if (baseOptIn || dataProcessingOptIn) {
             wpStatisticsStartTracking();
             return true;
         }
