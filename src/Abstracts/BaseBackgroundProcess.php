@@ -374,12 +374,12 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
             return false;
         };
 
-        add_filter($this->identifier . '_wp_die', $preventWpDie);
+        add_filter($this->identifier . '_wp_die', $preventWpDie, PHP_INT_MAX);
 
         try {
             $this->handle();
         } finally {
-            remove_filter($this->identifier . '_wp_die', $preventWpDie);
+            remove_filter($this->identifier . '_wp_die', $preventWpDie, PHP_INT_MAX);
         }
     }
 

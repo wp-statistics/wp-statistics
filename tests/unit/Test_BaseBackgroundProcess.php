@@ -70,6 +70,23 @@ class Test_BaseBackgroundProcess extends WP_UnitTestCase
         }
     }
 
+    public function test_cron_healthcheck_overrides_a_later_wp_die_filter()
+    {
+        $hook = $this->process->getIdentifier() . '_wp_die';
+
+        add_filter($hook, '__return_true', 20);
+        $this->process->push_to_queue('item')->save();
+
+        try {
+            $this->process->handle_cron_healthcheck();
+
+            $this->assertSame(20, has_filter($hook, '__return_true'));
+            $this->assertFalse($this->process->hasQueuedItems());
+        } finally {
+            remove_filter($hook, '__return_true', 20);
+        }
+    }
+
     public function test_cron_healthcheck_processes_queue_without_an_ajax_loopback()
     {
         $loopbackRequests = 0;
