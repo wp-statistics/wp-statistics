@@ -9,13 +9,14 @@ const trackerBundles = {
         'assets/dev/javascript/event-tracker.js',
         'assets/dev/javascript/tracker.js',
     ],
-    built: ['assets/js/tracker.js'],
+    built: ['assets/js/tracker-v2.js'],
 };
 
 function loadTracker(files, integration, options = {}) {
     const documentListeners = {};
     const windowListeners = {};
     let hits = 0;
+    let legacyEvents = 0;
     let consentGranted = true;
     let resolveInitialConsent;
     const initialConsent = options.deferInitialConsent
@@ -58,6 +59,12 @@ function loadTracker(files, integration, options = {}) {
         XMLHttpRequest: FakeXMLHttpRequest,
         btoa: value => Buffer.from(value, 'binary').toString('base64'),
         fetch: async () => ({ok: true}),
+        wpStatisticsDataPlusEvents: {
+            sendEventData() {
+                legacyEvents++;
+                return Promise.resolve();
+            },
+        },
         setTimeout(callback) { callback(); },
         clearTimeout() {},
         wp_has_consent(category) {
@@ -98,7 +105,7 @@ function loadTracker(files, integration, options = {}) {
             hitParams: {endpoint: 'hit'},
             requestUrl: 'https://example.test',
             ajaxUrl: 'https://example.test/ajax',
-            isLegacyEventLoaded: false,
+            isLegacyEventLoaded: Boolean(options.legacyEventLoaded),
         },
     };
     context.window = context;
@@ -113,6 +120,7 @@ function loadTracker(files, integration, options = {}) {
         dispatchDocument(type, detail) { dispatch(documentListeners, type, detail); },
         dispatchWindow(type, detail) { dispatch(windowListeners, type, detail); },
         getHits() { return hits; },
+        getLegacyEvents() { return legacyEvents; },
         grant() { consentGranted = true; },
         resolveInitialConsent() { resolveInitialConsent(); },
         withdraw() { consentGranted = false; },
@@ -156,6 +164,20 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
             assert.equal(tracker.getHits(), 1, 'withdrawal prevents another hit');
         });
     }
+
+    test(`${bundle} tracker stops legacy Data Plus events when consent is withdrawn`, async () => {
+        const tracker = loadTracker(files, 'wp_consent_api', {legacyEventLoaded: true});
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        await tracker.context.wpStatisticsDataPlusEvents.sendEventData();
+        assert.equal(tracker.getLegacyEvents(), 1, 'legacy event is sent while consent is active');
+
+        tracker.withdraw();
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+        await tracker.context.wpStatisticsDataPlusEvents.sendEventData();
+
+        assert.equal(tracker.getLegacyEvents(), 1, 'legacy event is blocked after withdrawal');
+    });
 
     test(`${bundle} tracker does not define generic global function names`, () => {
         const tracker = loadTracker(files, 'cookieyes');

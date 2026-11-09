@@ -5,11 +5,17 @@ if (!window.WpStatisticsEventTracker) {
         isTrackingEnabled: false,
         downloadTracker: false,
         linkTracker: false,
+        guardedLegacyEventTracker: null,
 
         init: async function () {
             this.isTrackingEnabled = true;
 
-            if (this.hasEventsInitializedOnce || WP_Statistics_Tracker_Object.isLegacyEventLoaded) {
+            if (WP_Statistics_Tracker_Object.isLegacyEventLoaded) {
+                this.guardLegacyEventTracker();
+                return;
+            }
+
+            if (this.hasEventsInitializedOnce) {
                 return;
             }
             this.hasEventsInitializedOnce = true;
@@ -35,6 +41,26 @@ if (!window.WpStatisticsEventTracker) {
 
     stop: function () {
         this.isTrackingEnabled = false;
+    },
+
+    guardLegacyEventTracker: function () {
+        const legacyTracker = window.wpStatisticsDataPlusEvents;
+
+        if (!legacyTracker || typeof legacyTracker.sendEventData !== 'function' || this.guardedLegacyEventTracker === legacyTracker) {
+            return;
+        }
+
+        const eventTracker = this;
+        const sendEventData = legacyTracker.sendEventData;
+
+        legacyTracker.sendEventData = function () {
+            if (!eventTracker.isTrackingEnabled) {
+                return Promise.resolve();
+            }
+
+            return sendEventData.apply(this, arguments);
+        };
+        this.guardedLegacyEventTracker = legacyTracker;
     },
 
     // Handles preparing and sending marketing custom events to the server
