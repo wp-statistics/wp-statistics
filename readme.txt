@@ -155,11 +155,13 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 == Changelog ==
 = 14.16.19 - Unreleased =
 - **Fix:** Background jobs (such as Migrate Visitor Data Columns and Update GeoIP) now finish through WP-Cron when a firewall or CDN blocks `/wp-admin/admin-ajax.php`. Before, they stayed at 0% (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
-- **Fix:** Tracking stops right away when a visitor withdraws consent, without a page reload (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Fix:** Tracking stops right away when a visitor withdraws consent, without a page reload. With Borlabs Cookie and Anonymous Tracking enabled, tracking continues anonymously by design (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Fix:** SPA sites now attribute each separate navigation to the correct page while avoiding duplicate hits from immediate URL updates.
 - **Fix:** Real Cookie Banner: fixed a timing issue with consent, and declines are no longer counted when IP addresses are hashed.
 - **Change:** CookieYes: a visitor who declines is no longer counted, even with Anonymous Tracking on (issue [#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
 - **Fix:** Searches from the WooCommerce product search box now show in Search Terms instead of counting as Shop page views (issue [#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
 - **Fix:** Custom event tracking no longer prints a URL with a changing nonce in the page source (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
+- **Fix:** Database upgrade progress and completion messages now render correctly when translations contain JavaScript-sensitive punctuation.
 - **Enhancement:** Plainer privacy wording in the plugin description, and the MaxMind and DB-IP data credit in the settings.
 
 = 14.16.18 - 2026-10-23 =
