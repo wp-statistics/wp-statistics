@@ -98,7 +98,7 @@ function handleBorlabsCookieIntegration() {
     // Borlabs only releases this script after the WP Statistics service is accepted.
     wpStatisticsStartTracking();
 
-    document.addEventListener('borlabs-cookie-consent-saved', function () {
+    window.addEventListener('borlabs-cookie-consent-saved', function () {
         const consents = window.BorlabsCookie && window.BorlabsCookie.Consents;
 
         const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};

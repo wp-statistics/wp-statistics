@@ -111,6 +111,7 @@ function loadTracker(files, integration, options = {}) {
     return {
         context,
         dispatchDocument(type, detail) { dispatch(documentListeners, type, detail); },
+        dispatchWindow(type, detail) { dispatch(windowListeners, type, detail); },
         getHits() { return hits; },
         resolveInitialConsent() { resolveInitialConsent(); },
         withdraw() { consentGranted = false; },
@@ -128,7 +129,7 @@ const withdrawals = {
         tracker.dispatchDocument('RCB/OptOut');
     },
     borlabs_cookie(tracker) {
-        tracker.dispatchDocument('borlabs-cookie-consent-saved');
+        tracker.dispatchWindow('borlabs-cookie-consent-saved');
     },
 };
 
@@ -180,7 +181,7 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         tracker.dispatchDocument('DOMContentLoaded');
         await Promise.resolve();
         tracker.withdraw();
-        tracker.dispatchDocument('borlabs-cookie-consent-saved');
+        tracker.dispatchWindow('borlabs-cookie-consent-saved');
 
         tracker.context.location.href = 'https://example.test/next';
         tracker.context.location.pathname = '/next';
