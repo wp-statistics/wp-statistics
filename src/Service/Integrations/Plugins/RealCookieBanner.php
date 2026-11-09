@@ -40,13 +40,7 @@ class RealCookieBanner extends AbstractIntegration
             return false;
         }
 
-        $baseConsent            = wp_rcb_consent_given('wp-statistics');
-        $dataProcessingConsent  = wp_rcb_consent_given('wp-statistics-with-data-processing');
-
-        $baseConsent            = $baseConsent['cookieOptIn'];
-        $dataProcessingConsent  = $dataProcessingConsent['cookieOptIn'];
-
-        return $baseConsent && !$dataProcessingConsent;
+        return $this->isOptedIn('wp-statistics') && !$this->isOptedIn('wp-statistics-with-data-processing');
     }
 
     public function hasConsent()
@@ -55,13 +49,27 @@ class RealCookieBanner extends AbstractIntegration
             return true;
         }
 
-        $baseConsent            = wp_rcb_consent_given('wp-statistics');
-        $dataProcessingConsent  = wp_rcb_consent_given('wp-statistics-with-data-processing');
+        $baseConsent = wp_rcb_consent_given('wp-statistics');
+        $baseConsent = !empty($baseConsent['cookieOptIn']);
 
-        $baseConsent            = $baseConsent['cookieOptIn'];
-        $dataProcessingConsent  = $dataProcessingConsent['cookieOptIn'];
+        return $baseConsent || $this->isOptedIn('wp-statistics-with-data-processing');
+    }
 
-        return $baseConsent || $dataProcessingConsent;
+    /**
+     * Whether the visitor accepted a service the site owner created in Real Cookie Banner.
+     *
+     * Real Cookie Banner reports cookieOptIn = true for a service that does not exist, so a missing
+     * data-processing service (never added, or not registered because IPs are hashed) would count
+     * visitors who declined. Same check as the tracker's `dataProcessing.cookie != null`.
+     *
+     * @param string $service
+     * @return bool
+     */
+    private function isOptedIn($service)
+    {
+        $consent = wp_rcb_consent_given($service);
+
+        return !empty($consent['cookie']) && !empty($consent['cookieOptIn']);
     }
 
     public function handleIntegration($integration)
