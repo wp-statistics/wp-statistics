@@ -25,7 +25,7 @@ if (!window.WpStatisticsUserTracker) {
         // Coalesce only URL changes that come right after each other (a pushState then a
         // replaceState for the same navigation). Separate navigations each send a hit.
         urlChangeGeneration: 0,
-        supersededUrlChangeGeneration: 0,
+        supersededUrlChangeGenerations: {},
         lastUrlChangeAt: 0,
 
         // Flag to track hit request status
@@ -283,14 +283,15 @@ if (!window.WpStatisticsUserTracker) {
 
                 const now = Date.now();
                 if (now - this.lastUrlChangeAt < 100) {
-                    this.supersededUrlChangeGeneration = this.urlChangeGeneration;
+                    this.supersededUrlChangeGenerations[this.urlChangeGeneration] = true;
                 }
                 this.lastUrlChangeAt = now;
 
                 const generation = ++this.urlChangeGeneration;
 
                 this.updateTrackerObject(function () {
-                    if (generation <= self.supersededUrlChangeGeneration) {
+                    if (self.supersededUrlChangeGenerations[generation]) {
+                        delete self.supersededUrlChangeGenerations[generation];
                         return;
                     }
 

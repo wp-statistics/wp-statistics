@@ -224,6 +224,33 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         assert.equal(tracker.getHits(), 3, 'the first page, /one and /two are each recorded');
     });
 
+    test(`${bundle} tracker keeps older separate SPA navigations when a later pair is coalesced`, async () => {
+        const tracker = loadTracker(files, 'wp_consent_api');
+        const callbacks = [];
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        await Promise.resolve();
+        const userTracker = tracker.context.WpStatisticsUserTracker;
+        userTracker.updateTrackerObject = callback => callbacks.push(callback);
+
+        for (const path of ['/one', '/two', '/three']) {
+            tracker.context.location.href = `https://example.test${path}`;
+            tracker.context.location.pathname = path;
+            tracker.context.history.pushState({}, '', path);
+            if (path !== '/three') {
+                userTracker.lastUrlChangeAt -= 1000;
+            }
+        }
+
+        tracker.context.location.href = 'https://example.test/four';
+        tracker.context.location.pathname = '/four';
+        tracker.context.history.replaceState({}, '', '/four');
+
+        callbacks.forEach(callback => callback());
+
+        assert.equal(tracker.getHits(), 4, 'the first page, /one, /two and coalesced /four are recorded');
+    });
+
     test(`${bundle} tracker does not define generic global function names`, () => {
         const tracker = loadTracker(files, 'cookieyes');
 
