@@ -70,6 +70,9 @@ Upgrade your analytics toolkit with our range of premium add-ons, including [Dat
 
 **Special Offer:** Purchase the [bundle pack](https://wp-statistics.com/product/add-ons-bundle/?utm_source=wporg&utm_medium=link&utm_campaign=premium) and Enjoy Savings of up to 60%!
 
+## Credits
+This product includes GeoLite2 Data created by [MaxMind](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
+
 ## Report Bugs
 Having trouble with a bug? Please [create an issue](https://github.com/wp-statistics/wp-statistics/issues/new) on GitHub. Kindly note that [GitHub](https://github.com/wp-statistics/wp-statistics) is exclusively for bug reports; other inquiries will be closed.
 

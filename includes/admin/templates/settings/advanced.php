@@ -188,7 +188,7 @@ add_thickbox();
                     );
                     ?>
                 </p>
-                <p class="description">
+                <p class="description" id="wps-geoip-credit"<?php echo WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind') === 'cf' ? ' style="display:none"' : ''; ?>>
                     <?php
                     echo wp_kses(
                         __('This product includes GeoLite2 Data created by MaxMind, available from <a href="https://www.maxmind.com" target="_blank">https://www.maxmind.com</a>. <a href="https://db-ip.com" target="_blank">IP Geolocation by DB-IP</a>.', 'wp-statistics'),
@@ -196,6 +196,11 @@ add_thickbox();
                     );
                     ?>
                 </p>
+                <script>
+                    document.getElementById('wps_settings[geoip_location_detection_method]').addEventListener('change', function () {
+                        document.getElementById('wps-geoip-credit').style.display = this.value === 'cf' ? 'none' : '';
+                    });
+                </script>
             </td>
         </tr>
 

@@ -9,7 +9,7 @@ Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Cookieless, privacy-friendly WordPress analytics. Clear graphs and visitor data kept on your own server, with no data sharing.
+Cookieless, privacy-friendly WordPress analytics. Clear graphs and visitor data kept on your own server.
 
 == Description ==
 Discover privacy-friendly analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.

@@ -155,7 +155,7 @@ $consentIntegration      = Option::get('consent_integration');
                 <td>
                     <input id="anonymous_tracking" type="checkbox" value="1" name="wps_anonymous_tracking" <?php echo WP_STATISTICS\Option::get('anonymous_tracking', false) == true ? 'checked="checked"' : ''; ?> />
                     <label for="anonymous_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('When this option is enabled, all users will be tracked anonymously by default, without recording any Personally Identifiable Information (PII), regardless of consent. This anonymous tracking data is classified as "Functional" to align with privacy regulations. PII data will only be collected when explicit consent is provided by the website visitor.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('When this option is enabled, visitors are tracked without recording any Personally Identifiable Information (PII) until they give consent. With Borlabs Cookie, visitors who decline are still counted anonymously. With CookieYes, a visitor who declines is not counted at all. PII data is only collected when the visitor gives explicit consent.', 'wp-statistics'); ?></p>
                     <p class="description"><?php echo wp_kses_post(__('<b>Note</b>: This feature is currently in beta and enables user tracking while adhering to privacy laws. Users are advised to review and ensure compliance with applicable legal requirements in their jurisdiction.', 'wp-statistics')); ?></p>
                 </td>
             </tr>

@@ -4,6 +4,7 @@
 - **Improvement:** Reworded the privacy wording in the plugin description: compliance depends on the site's country and settings.
 - **Improvement:** Added the MaxMind and DB-IP data credit to the plugin settings and description.
 - **Fix:** Tracking now stops immediately when a visitor withdraws consent without reloading the page (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Change:** CookieYes: a visitor who declines is no longer counted, even with Anonymous Tracking on.
 
 14.16.18 - 2026-10-23
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
