@@ -179,6 +179,31 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         assert.equal(tracker.getLegacyEvents(), 1, 'legacy event is blocked after withdrawal');
     });
 
+    test(`${bundle} tracker coalesces rapid SPA changes around consent restoration`, async () => {
+        const tracker = loadTracker(files, 'wp_consent_api');
+        const callbacks = [];
+
+        tracker.dispatchDocument('DOMContentLoaded');
+        await Promise.resolve();
+        tracker.context.WpStatisticsUserTracker.updateTrackerObject = callback => callbacks.push(callback);
+
+        tracker.withdraw();
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'deny'});
+        tracker.context.location.href = 'https://example.test/one';
+        tracker.context.location.pathname = '/one';
+        tracker.context.history.pushState({}, '', '/one');
+        tracker.context.location.href = 'https://example.test/two';
+        tracker.context.location.pathname = '/two';
+        tracker.context.history.pushState({}, '', '/two');
+
+        callbacks[0]();
+        tracker.grant();
+        tracker.dispatchDocument('wp_listen_for_consent_change', {statistics: 'allow'});
+        callbacks[1]();
+
+        assert.equal(tracker.getHits(), 2, 'only the final SPA page is recorded once');
+    });
+
     test(`${bundle} tracker does not define generic global function names`, () => {
         const tracker = loadTracker(files, 'cookieyes');
 

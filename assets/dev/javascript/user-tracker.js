@@ -22,6 +22,9 @@ if (!window.WpStatisticsUserTracker) {
         // Prevent trackUrlChange() from running more than once
         hasUrlChangeTrackerInitialized: false,
 
+        // Ignore stale polling callbacks from superseded SPA navigations
+        urlChangeGeneration: 0,
+
         // Flag to track hit request status
         hitRequestSuccessful: true,
 
@@ -274,7 +277,13 @@ if (!window.WpStatisticsUserTracker) {
 
             if (window.location.href !== this.lastUrl) {
                 this.lastUrl = window.location.href;
+                const generation = ++this.urlChangeGeneration;
+
                 this.updateTrackerObject(function () {
+                    if (generation !== self.urlChangeGeneration) {
+                        return;
+                    }
+
                     if (!self.isTrackingEnabled) {
                         self.hasPendingHit = true;
                         return;
