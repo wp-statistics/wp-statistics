@@ -8,7 +8,7 @@ const frontend = fs.readFileSync(path.join(root, 'includes/class-wp-statistics-f
 const built = fs.readFileSync(path.join(root, 'assets/js/tracker-v2.js'), 'utf8');
 
 function loadHandler() {
-    const match = built.match(/handleCustomEvent:function\(t,e=\{\}\)\{[\s\S]*?this\.sendEventData\(t,n\)\}/);
+    const match = built.match(/handleCustomEvent:function\(t,e=\{\}\)\{[\s\S]*?this\.sendEventData\(\w+,\w+\)\}/);
     assert.ok(match, 'handleCustomEvent found in the built tracker');
     return new Function('WP_Statistics_Tracker_Object', `return ({${match[0]}}).handleCustomEvent;`);
 }
