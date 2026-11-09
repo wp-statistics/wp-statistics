@@ -19,7 +19,6 @@ $consentIntegration      = Option::get('consent_integration');
             };
             switch (selectElement.value) {
                 case 'borlabs_cookie':
-                case 'cookieyes':
                     updateVisibility(anonymousTracking, true);
                     break;
                 default:
@@ -156,7 +155,7 @@ $consentIntegration      = Option::get('consent_integration');
                 <td>
                     <input id="anonymous_tracking" type="checkbox" value="1" name="wps_anonymous_tracking" <?php echo WP_STATISTICS\Option::get('anonymous_tracking', false) == true ? 'checked="checked"' : ''; ?> />
                     <label for="anonymous_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('When this option is enabled, visitors who decline analytics consent are still counted without recording Personally Identifiable Information (PII). Their IP address is anonymized and hashed, and their user ID and user-agent string are not stored. Full visitor data is collected only after analytics consent is given.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('When this option is enabled, visitors are tracked without recording any Personally Identifiable Information (PII) until they give consent. With Borlabs Cookie, visitors who decline are still counted anonymously. With CookieYes, a visitor who declines is not counted at all. PII data is only collected when the visitor gives explicit consent.', 'wp-statistics'); ?></p>
                     <p class="description"><?php echo wp_kses_post(__('<b>Note</b>: This feature is currently in beta and enables user tracking while adhering to privacy laws. Users are advised to review and ensure compliance with applicable legal requirements in their jurisdiction.', 'wp-statistics')); ?></p>
                 </td>
             </tr>

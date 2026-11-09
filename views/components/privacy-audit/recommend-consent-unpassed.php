@@ -7,7 +7,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 $notices = IntegrationHelper::getDetectionNotice();
 ?>
 
-<div class="wps-mb-16"><?php echo esc_html__('WP Statistics does not require consent by default, as it doesn’t record any Personally Identifiable Information (PII). However, one of your enabled settings collects PII, making visitor consent mandatory to stay compliant with GDPR, CCPA, and other privacy regulations.', 'wp-statistics') ?></div>
+<div class="wps-mb-16"><?php echo esc_html__('WP Statistics does not require consent by default, as it doesn’t record any Personally Identifiable Information (PII). However, one of your enabled settings collects PII, so visitor consent may be required under GDPR, CCPA, and other privacy regulations that apply to you.', 'wp-statistics') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Why is This Important?', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">

@@ -14,7 +14,7 @@
             <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">Configuring for Maximum Privacy: A Guide to Avoiding PII Data Collection</a>', 'wp-statistics')); ?>
         </li>
         <li>
-            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/what-we-collect/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">GDPR, CCPA and cookie law compliant site analytics</a>', 'wp-statistics')); ?>
+            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/what-we-collect/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">How WP Statistics handles visitor data</a>', 'wp-statistics')); ?>
         </li>
         <li>
             <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">Counting Unique Visitors Without Cookies</a>', 'wp-statistics')); ?>

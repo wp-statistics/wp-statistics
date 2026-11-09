@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function handler() {
 
     // If there's no consent integration
     if (!consentIntegration) {
-        startTracking();
+        wpStatisticsStartTracking();
     }
 
     // If Borlabs Cookie integration is enabled
@@ -35,19 +35,19 @@ document.addEventListener('DOMContentLoaded', function handler() {
     }
 });
 
-function startTracking() {
+function wpStatisticsStartTracking() {
     WpStatisticsUserTracker.init();
     WpStatisticsEventTracker.init();
 }
 
-function stopTracking() {
+function wpStatisticsStopTracking() {
     WpStatisticsUserTracker.stop();
     WpStatisticsEventTracker.stop();
 }
 
 function handleWpConsentApiIntegration() {
     if (wp_has_consent('statistics') || wp_has_consent('statistics-anonymous')) {
-        startTracking();
+        wpStatisticsStartTracking();
     }
 
     document.addEventListener("wp_listen_for_consent_change", function (e) {
@@ -56,9 +56,9 @@ function handleWpConsentApiIntegration() {
             if (changedConsentCategory.hasOwnProperty(key)) {
                 if (key === 'statistics' || key === 'statistics-anonymous') {
                     if (wp_has_consent('statistics') || wp_has_consent('statistics-anonymous')) {
-                        startTracking();
+                        wpStatisticsStartTracking();
                     } else {
-                        stopTracking();
+                        wpStatisticsStopTracking();
                     }
                     break;
                 }
@@ -74,11 +74,11 @@ function handleRealCookieBannerIntegration() {
         const hasConsent = consent => consent && consent.cookie != null && consent.cookieOptIn;
 
         if (hasConsent(baseConsent) || hasConsent(dataProcessingConsent)) {
-            startTracking();
+            wpStatisticsStartTracking();
             return true;
         }
 
-        stopTracking();
+        wpStatisticsStopTracking();
         return false;
     };
 
@@ -96,32 +96,27 @@ function handleRealCookieBannerIntegration() {
 
 function handleBorlabsCookieIntegration() {
     // Borlabs only releases this script after the WP Statistics service is accepted.
-    startTracking();
+    wpStatisticsStartTracking();
 
     document.addEventListener('borlabs-cookie-consent-saved', function () {
         const consents = window.BorlabsCookie && window.BorlabsCookie.Consents;
 
-        if (!consents || typeof consents.hasConsent !== 'function') {
+        const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
+
+        // With Anonymous Tracking on, the site owner chose to keep counting visitors without consent.
+        if (consentStatus.anonymous_tracking === true || !consents || typeof consents.hasConsent !== 'function') {
             return;
         }
 
         if (consents.hasConsent('wp-statistics')) {
-            startTracking();
+            wpStatisticsStartTracking();
         } else {
-            stopTracking();
+            wpStatisticsStopTracking();
         }
     });
 }
 
 function handleCookieYesIntegration() {
-    const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
-    const isLegacy = consentStatus.legacy === true || typeof window.Cli_Data !== 'undefined';
-    const anonymousTrackingEnabled = consentStatus.anonymous_tracking === true;
-
-    const readCookie = (name) => {
-        const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
-        return match ? decodeURIComponent(match[1]) : null;
-    };
     const hasAnalyticsConsent = () => {
         if (typeof window.getCkyConsent === 'function') {
             const consent = window.getCkyConsent();
@@ -129,9 +124,9 @@ function handleCookieYesIntegration() {
         }
 
         // Fallback when the CookieYes script is not loaded yet: read its consent cookie
-        const consent = readCookie('cookieyes-consent');
-        if (consent !== null) {
-            return consent.split(',').indexOf('analytics:yes') !== -1;
+        const match = document.cookie.match(/(?:^|;\s*)cookieyes-consent=([^;]*)/);
+        if (match) {
+            return decodeURIComponent(match[1]).split(',').indexOf('analytics:yes') !== -1;
         }
 
         return hasLegacyAnalyticsConsent();
@@ -143,6 +138,14 @@ function handleCookieYesIntegration() {
     // cookie is written on the first page load from the category's default, before any answer,
     // so it only counts once the visitor accepted the banner, as CookieYes itself checks (#1175).
     // Only read in legacy mode, so old legacy cookies cannot count on the newer banner.
+    const consentStatus = (WP_Statistics_Tracker_Object.option.consentIntegration || {}).status || {};
+    const isLegacy = consentStatus.legacy === true || typeof window.Cli_Data !== 'undefined';
+
+    const readCookie = (name) => {
+        const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : null;
+    };
+
     const hasLegacyAnalyticsConsent = () => {
         if (!isLegacy || readCookie('viewed_cookie_policy') !== 'yes') {
             return false;
@@ -153,63 +156,37 @@ function handleCookieYesIntegration() {
         return analytics === null || analytics === 'yes';
     };
 
-    const hasAnalyticsDecline = () => {
-        if (typeof window.getCkyConsent === 'function') {
-            const consent = window.getCkyConsent();
-            return !!(consent
-                && consent.isUserActionCompleted === true
-                && consent.categories
-                && consent.categories.analytics === false);
-        }
-
-        const consent = readCookie('cookieyes-consent');
-        if (consent !== null) {
-            const values = consent.split(',');
-            return values.indexOf('action:yes') !== -1
-                && values.indexOf('analytics:no') !== -1;
-        }
-
-        const legacyAnswer = readCookie('viewed_cookie_policy');
-        return isLegacy
-            && (legacyAnswer === 'yes' || legacyAnswer === 'no')
-            && !hasLegacyAnalyticsConsent();
-    };
-
-    const shouldStartTracking = () => hasAnalyticsConsent()
-        || (anonymousTrackingEnabled && hasAnalyticsDecline());
-
     // With "Reload after Accept" on, the banner reloads the page and the new page sends the hit.
     const legacyReloadsOnAccept = () => !!(window.CLI && window.CLI.settings && Boolean(window.CLI.settings.accept_close_reload) === true);
 
-    if (shouldStartTracking()) {
-        startTracking();
+    if (hasAnalyticsConsent()) {
+        wpStatisticsStartTracking();
     }
 
     document.addEventListener('cookieyes_consent_update', function (e) {
         const accepted = (e.detail && e.detail.accepted) || [];
+
         const rejected = (e.detail && e.detail.rejected) || [];
 
-        const analyticsRejected = rejected.indexOf('analytics') !== -1;
-
-        if (accepted.indexOf('analytics') !== -1
-            || (anonymousTrackingEnabled && analyticsRejected)
-            || (!analyticsRejected && shouldStartTracking())) {
-            startTracking();
+        if (rejected.indexOf('analytics') !== -1) {
+            wpStatisticsStopTracking();
+        } else if (accepted.indexOf('analytics') !== -1 || hasAnalyticsConsent()) {
+            wpStatisticsStartTracking();
         } else {
-            stopTracking();
+            wpStatisticsStopTracking();
         }
     });
 
     // The legacy banner sends no event, so check again once the visitor clicks in it.
     document.addEventListener('click', function (e) {
-        if (!isLegacy || legacyReloadsOnAccept() || !e.target || typeof e.target.closest !== 'function') return;
+        if (!isLegacy || !e.target || typeof e.target.closest !== 'function') return;
 
         if (e.target.closest('#cookie-law-info-bar, #cliSettingsPopup, .cli-modal, .cli-bar-container')) {
             setTimeout(function () {
-                if (shouldStartTracking()) {
-                    startTracking();
-                } else {
-                    stopTracking();
+                if (!hasAnalyticsConsent()) {
+                    wpStatisticsStopTracking();
+                } else if (!legacyReloadsOnAccept()) {
+                    wpStatisticsStartTracking();
                 }
             }, 300);
         }
