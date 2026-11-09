@@ -7,6 +7,7 @@ const files = [
     'src/Service/Admin/PrivacyAudit/Audits/RecommendConsent.php',
     'views/components/privacy-audit/cookie-banner.php',
     'views/components/privacy-audit/recommend-consent-unpassed.php',
+    'includes/admin/templates/settings/privacy.php',
 ];
 
 test('Privacy Audit does not guarantee compliance or unconditional consent rules', () => {
@@ -18,6 +19,8 @@ test('Privacy Audit does not guarantee compliance or unconditional consent rules
         'does not require consent by default',
         'Consent Plugin Required for Privacy Compliance',
         'is essential to protect user data',
+        'adhering to privacy laws',
+        'until they give consent',
     ]) {
         assert.doesNotMatch(copy, new RegExp(claim, 'i'), `remove unconditional claim: ${claim}`);
     }
