@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-09T17:55:07+00:00\n"
+"POT-Creation-Date: 2026-11-09T20:09:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -5087,7 +5087,7 @@ msgid "Anonymous Tracking"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:158
-msgid "When this option is enabled, WP Statistics avoids recording Personally Identifiable Information (PII). With Borlabs Cookie, this anonymous mode applies to all recorded visits, including after consent; visitors who decline are still counted anonymously. With CookieYes, visitors who decline are not counted."
+msgid "When this option is enabled, WP Statistics avoids recording Personally Identifiable Information (PII). With Borlabs Cookie, visits recorded after consent are anonymous; visitors who decline are not counted, because Borlabs Cookie does not load the tracker for them. With CookieYes, visitors who decline are not counted."
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:159
