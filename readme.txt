@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.18
+Stable tag: 14.16.19
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -153,6 +153,15 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
 
 == Changelog ==
+= 14.16.19 - Unreleased =
+- **Fix:** Background jobs (such as Migrate Visitor Data Columns and Update GeoIP) now finish through WP-Cron when a firewall or CDN blocks `/wp-admin/admin-ajax.php`. Before, they stayed at 0% (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
+- **Fix:** Tracking stops right away when a visitor withdraws consent, without a page reload (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Fix:** Real Cookie Banner: fixed a timing issue with consent, and declines are no longer counted when IP addresses are hashed.
+- **Change:** CookieYes: a visitor who declines is no longer counted, even with Anonymous Tracking on (issue [#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
+- **Fix:** Searches from the WooCommerce product search box now show in Search Terms instead of counting as Shop page views (issue [#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
+- **Fix:** Custom event tracking no longer prints a URL with a changing nonce in the page source (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
+- **Enhancement:** Plainer privacy wording in the plugin description, and the MaxMind and DB-IP data credit in the settings.
+
 = 14.16.18 - 2026-10-23 =
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
 - **Enhancement:** Tracker Debugger shows when the last visit was recorded, warns when visits stop, and shows whether your consent plugin is blocking them (issue [#1178](https://github.com/wp-statistics/wp-statistics/issues/1178)).
