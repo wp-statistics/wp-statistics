@@ -55,11 +55,17 @@ class RealCookieBanner extends AbstractIntegration
             return true;
         }
 
-        $baseConsent            = wp_rcb_consent_given('wp-statistics');
-        $dataProcessingConsent  = wp_rcb_consent_given('wp-statistics-with-data-processing');
+        $baseConsent = wp_rcb_consent_given('wp-statistics');
+        $baseConsent = !empty($baseConsent['cookieOptIn']);
 
-        $baseConsent            = $baseConsent['cookieOptIn'];
-        $dataProcessingConsent  = $dataProcessingConsent['cookieOptIn'];
+        // The data-processing service is only registered when IPs are not hashed (see handleIntegration).
+        // When it is missing, Real Cookie Banner reports it as opted in, which would count visitors who declined.
+        if (boolval(Option::get('hash_ips', true))) {
+            return $baseConsent;
+        }
+
+        $dataProcessingConsent = wp_rcb_consent_given('wp-statistics-with-data-processing');
+        $dataProcessingConsent = !empty($dataProcessingConsent['cookieOptIn']);
 
         return $baseConsent || $dataProcessingConsent;
     }
