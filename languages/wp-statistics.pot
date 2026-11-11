@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-09T20:09:59+00:00\n"
+"POT-Creation-Date: 2026-11-11T12:06:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -2711,7 +2711,7 @@ msgstr ""
 #. translators: %s: string value
 #: includes/admin/templates/pages/content-analytics/post-type.php:119
 #, php-format
-msgid "Displays the most popular, most commented, and most recent  %s in the selected period."
+msgid "Displays the most popular, most commented, and most recent %s in the selected period."
 msgstr ""
 
 #: includes/admin/templates/pages/content-analytics/single-resource.php:63
@@ -3135,7 +3135,7 @@ msgid "We’re building WP Statistics with you in mind. Share your suggestions o
 msgstr ""
 
 #: includes/admin/templates/pages/privacy-audit.php:13
-msgid "Are you sure you want manually resolve this item?"
+msgid "Are you sure you want to manually resolve this item?"
 msgstr ""
 
 #: includes/admin/templates/pages/privacy-audit.php:14
@@ -3173,7 +3173,7 @@ msgstr ""
 #. translators: %s: string value
 #: includes/admin/templates/settings/access-level.php:109
 #, php-format
-msgid "For a deeper understanding of user roles and capabilities in WordPress, you can refer to the <a target=_blank href=\"%s\">WordPress Roles and Capabilities</a> page."
+msgid "For a deeper understanding of user roles and capabilities in WordPress, you can refer to the <a target=\"_blank\" href=\"%s\">WordPress Roles and Capabilities</a> page."
 msgstr ""
 
 #. translators: %s: string value
@@ -3188,7 +3188,7 @@ msgstr ""
 #. translators: %s: string value
 #: includes/admin/templates/settings/access-level.php:112
 #, php-format
-msgid "If your needs go beyond the default capabilities and roles, or you wish for a more granular control, consider using the <a href=\"%s\" target=_blank> Capability Manager Enhanced </a> plugin for a robust solution."
+msgid "If your needs go beyond the default capabilities and roles, or you wish for a more granular control, consider using the <a href=\"%s\" target=\"_blank\">Capability Manager Enhanced</a> plugin for a robust solution."
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:120
@@ -4357,7 +4357,7 @@ msgid "Update Now"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:303
-msgid "Click here to update the Geolocation database immediately for the database."
+msgid "Click here to update the Geolocation database immediately."
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:309
@@ -4694,7 +4694,7 @@ msgid "Robot View Threshold"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:104
-msgid "Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots."
+msgid "Set a threshold for daily robot visits. Robots that exceed this number of daily visits will be identified as bots."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:115
@@ -5036,7 +5036,7 @@ msgid "Hash IP Addresses"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:80
-msgid "Transforms IP addresses into a unique, non-reversible string using a secure algorithm, enhancing privacy protection and complying with data privacy regulations. For an in-depth explanation, refer to <a href=\"https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"blank\">Counting Unique Visitors Without Cookies</a>."
+msgid "Transforms IP addresses into a unique, non-reversible string using a secure algorithm, enhancing privacy protection and complying with data privacy regulations. For an in-depth explanation, refer to <a href=\"https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Counting Unique Visitors Without Cookies</a>."
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:90
@@ -7574,7 +7574,7 @@ msgid "Refresh Summary Totals"
 msgstr ""
 
 #: src/Service/Database/Migrations/BackgroundProcess/Jobs/SummaryTotalsDataMigration.php:56
-msgid "This recalculate daily totals from your current data. Days without detail will stay unchanged."
+msgid "This recalculates daily totals from your current data. Days without detail will stay unchanged."
 msgstr ""
 
 #: src/Service/Database/Migrations/BackgroundProcess/Jobs/SummaryTotalsDataMigration.php:57
@@ -7941,7 +7941,7 @@ msgstr ""
 #: views/components/charts/income-visitor-chart.php:20
 #: views/components/charts/social-media.php:19
 #: views/components/charts/source-categories.php:20
-msgid "Income visitor chart"
+msgid "Incoming visitor chart"
 msgstr ""
 
 #: views/components/charts/performance.php:40
@@ -8322,7 +8322,7 @@ msgstr ""
 #. translators: %1$s: string value, %2$s: string value
 #: views/components/notices/no-license.php:9
 #, php-format
-msgid "You haven’t registered a WP Statistics license yet. Having a valid license unlocks premium add-ons and features. <a href=\"%1$s\" target=\"_blank\">Purchase</a> or <a href=\"%2$s\">add a license</a> now to get started!."
+msgid "You haven’t registered a WP Statistics license yet. Having a valid license unlocks premium add-ons and features. <a href=\"%1$s\" target=\"_blank\">Purchase</a> or <a href=\"%2$s\">add a license</a> now to get started!"
 msgstr ""
 
 #: views/components/notices/simple-notice.php:6
@@ -8804,8 +8804,8 @@ msgstr ""
 msgid "To disable this feature, navigate to Settings -> General and uncheck \"Track Logged-In User Activity\"."
 msgstr ""
 
-#: views/components/privacy-audit/visitors-log.php:3
-msgid "This status indicates that individual user page views and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p><b>Why is this important?</b></p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target=\"_blank\" href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature."
+#: views/components/privacy-audit/visitors-log.php:2
+msgid "<p>This status indicates that individual user page views and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p><b>Why is this important?</b></p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target=\"_blank\" href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature.</p>"
 msgstr ""
 
 #: views/components/session-details.php:17
@@ -8998,7 +8998,7 @@ msgid "How to Customize This Widget"
 msgstr ""
 
 #: views/metabox/about.php:54
-msgid "Power by VeronaLabs"
+msgid "Powered by VeronaLabs"
 msgstr ""
 
 #: views/metabox/currently-online.php:82
@@ -9260,7 +9260,7 @@ msgstr ""
 #: views/pages/referrals/search-engines.php:13
 #: views/pages/referrals/social-media.php:13
 #: views/pages/referrals/source-categories.php:17
-msgid "Income Visitor Chart"
+msgid "Incoming Visitor Chart"
 msgstr ""
 
 #: views/pages/referrals/source-categories.php:43
