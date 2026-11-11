@@ -16,7 +16,7 @@ use WP_Statistics\Components\View;
             </div>
         </div>
         <div class="wps-postbox-chart--container c-chart__wps-skeleton">
-            <canvas id="socialMediaChart" aria-label="<?php echo esc_html__('Income visitor chart', 'wp-statistics') ?>" role="img">
+            <canvas id="socialMediaChart" aria-label="<?php echo esc_html__('Incoming visitor chart', 'wp-statistics') ?>" role="img">
         </div>
     </div>
 </div>

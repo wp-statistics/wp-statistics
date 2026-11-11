@@ -11,19 +11,19 @@
     <h3><?php esc_html_e('Useful Privacy Resources and References', 'wp-statistics'); ?></h3>
     <ul>
         <li>
-            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">Configuring for Maximum Privacy: A Guide to Avoiding PII Data Collection</a>', 'wp-statistics')); ?>
+            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="_blank">Configuring for Maximum Privacy: A Guide to Avoiding PII Data Collection</a>', 'wp-statistics')); ?>
         </li>
         <li>
-            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/what-we-collect/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">How WP Statistics handles visitor data</a>', 'wp-statistics')); ?>
+            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/what-we-collect/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="_blank">How WP Statistics handles visitor data</a>', 'wp-statistics')); ?>
         </li>
         <li>
-            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">Counting Unique Visitors Without Cookies</a>', 'wp-statistics')); ?>
+            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="_blank">Counting Unique Visitors Without Cookies</a>', 'wp-statistics')); ?>
         </li>
         <li>
-            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/compliant-with-wordpress-data-export-and-erasure/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">Compliant with WordPress Data Export and Erasure</a>', 'wp-statistics')); ?>
+            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/compliant-with-wordpress-data-export-and-erasure/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="_blank">Compliant with WordPress Data Export and Erasure</a>', 'wp-statistics')); ?>
         </li>
         <li>
-            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="blank">WP Consent Level Integration</a>', 'wp-statistics')); ?>
+            <?php echo wp_kses_post(__('<a href="'. esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy').'" target="_blank">WP Consent Level Integration</a>', 'wp-statistics')); ?>
         </li>
     </ul>
 </div>
