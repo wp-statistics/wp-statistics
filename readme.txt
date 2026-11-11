@@ -252,10 +252,10 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 - **Enhancement:** Updated Device Detector library (6.4.7 → 6.5.0) with latest browser, device, and bot detection rules.
 - **Enhancement:** Updated MaxMind DB Reader (1.12.1 → 1.13.1) and GeoIP2 libraries.
 
-= 14.16.3 - 2025-02-23 =
+= 14.16.3 - 2026-02-23 =
 - **Fix:** Minor improvements and fix version.
 
-= 14.16.1 - 2025-02-09 =
+= 14.16.1 - 2026-02-09 =
 - **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
 - **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
 - **Fix:** Fixed an issue where the Page ID was not correctly updated during Interactivity API navigation and barba.js transitions.

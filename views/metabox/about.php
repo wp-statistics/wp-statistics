@@ -51,7 +51,7 @@
                 </div>
             <?php } ?>
             <div class="c-about__veronalabs">
-                <a href="https://veronalabs.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=overview" target="_blank" title="<?php esc_html_e('Power by VeronaLabs', 'wp-statistics'); ?>">
+                <a href="https://veronalabs.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=overview" target="_blank" title="<?php esc_html_e('Powered by VeronaLabs', 'wp-statistics'); ?>">
                     <span class="c-about__veronalabs--icon"></span>
                 </a>
             </div>

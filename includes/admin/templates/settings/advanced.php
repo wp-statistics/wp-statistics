@@ -300,7 +300,7 @@ add_thickbox();
                     </button>
                 </div>
 
-                <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately for the database.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

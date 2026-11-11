@@ -116,7 +116,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             /* translators: %s: string value */
             'title'   => sprintf(esc_html__('Top %s', 'wp-statistics'), $postTypePlural),
             /* translators: %s: string value */
-            'tooltip' => sprintf(esc_html__('Displays the most popular, most commented, and most recent  %s in the selected period.', 'wp-statistics'), strtolower($postTypePlural)),
+            'tooltip' => sprintf(esc_html__('Displays the most popular, most commented, and most recent %s in the selected period.', 'wp-statistics'), strtolower($postTypePlural)),
             'data'    => $data['posts']
         ];
         Admin_Template::get_template(['layout/content-analytics/top-picks'], $topPages);
