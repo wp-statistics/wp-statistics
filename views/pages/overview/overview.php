@@ -1,21 +1,28 @@
 <?php
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use WP_STATISTICS\Option;
+use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-// A short banner when an installed add-on has no valid license or is expired.
-$licenseSummary = LicenseHelper::getLicenseSummary();
-$licenseNotice  = '';
+// Only license managers on the main site can act on this notice.
+$manageCap         = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
+$canManageLicenses = is_main_site() && $manageCap && current_user_can($manageCap);
+$licenseNotice     = '';
 
-if ($licenseSummary['expired'] > 0) {
-    /* translators: %d: number of add-ons */
-    $licenseNotice = sprintf(_n('%d add-on has an expired license.', '%d add-ons have an expired license.', $licenseSummary['expired'], 'wp-statistics'), $licenseSummary['expired']);
-} elseif ($licenseSummary['missing'] > 0) {
-    /* translators: %d: number of add-ons */
-    $licenseNotice = sprintf(_n('%d add-on has no license yet.', '%d add-ons have no license yet.', $licenseSummary['missing'], 'wp-statistics'), $licenseSummary['missing']);
+if ($canManageLicenses) {
+    $licenseSummary = LicenseHelper::getLicenseSummary();
+
+    if ($licenseSummary['expired'] > 0) {
+        /* translators: %d: number of add-ons */
+        $licenseNotice = sprintf(_n('%d add-on has an expired license.', '%d add-ons have an expired license.', $licenseSummary['expired'], 'wp-statistics'), $licenseSummary['expired']);
+    } elseif ($licenseSummary['missing'] > 0) {
+        /* translators: %d: number of add-ons */
+        $licenseNotice = sprintf(_n('%d add-on has no license yet.', '%d add-ons have no license yet.', $licenseSummary['missing'], 'wp-statistics'), $licenseSummary['missing']);
+    }
 }
 ?>
-<?php if ($licenseNotice) : ?>
+<?php if ($canManageLicenses && $licenseNotice) : ?>
     <div class="wps-license-banner" role="status">
         <span class="wps-license-banner__icon" aria-hidden="true">🔑</span>
         <span class="wps-license-banner__text">
