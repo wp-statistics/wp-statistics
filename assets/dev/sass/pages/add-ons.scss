@@ -1764,8 +1764,19 @@
     }
   }
 
+  &__list--keys li code {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: #F1F2F8;
+    color: #0C0C0D;
+    font-size: 14px;
+    word-break: break-all;
+  }
+
   &__actions {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 16px;
   }
@@ -1789,5 +1800,16 @@
   &__link {
     font-size: 14px;
     color: #56585A;
+  }
+}
+
+// Expired license: the red-tinted look the old notice had.
+.wps-licnotice--danger {
+  background: #FCF8F7;
+  border-color: #F3BDBB;
+
+  .wps-licnotice__icon {
+    background: #E8625C;
+    color: #fff;
   }
 }
