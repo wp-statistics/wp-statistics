@@ -28,11 +28,11 @@ $statusIcons = [
                     <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank">
                         <?php echo esc_html($addOn->getName())?><span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion())?></span>
                     </a>
-                    <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($statusClass); ?>"><?php echo isset($statusIcons[$statusClass]) ? $statusIcons[$statusClass] : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup above ?><?php echo esc_html($addOn->getStatusLabel()); ?></span>
                     <?php if (!empty($addOn->getLabel())) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
                     <?php endif; ?>
 
+                    <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($statusClass); ?>"><?php echo isset($statusIcons[$statusClass]) ? $statusIcons[$statusClass] : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup above ?><?php echo esc_html($addOn->getStatusLabel()); ?></span>
                     <?php if ($addOn->isLicenseValid() && $addOn->isUpdateAvailable()) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--updated"><?php esc_html_e('Update Available', 'wp-statistics'); ?></span>
                     <?php endif; ?>
