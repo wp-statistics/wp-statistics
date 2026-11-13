@@ -813,7 +813,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         line-height: 17px;
         border-radius: 50%;
         position: relative;
-        margin-left: 4px;
+        margin: -3px 0 -3px 4px; // the badge is 24px tall; keep the link as tall as the others (34px)
         opacity: 1 !important;
 
         span {
