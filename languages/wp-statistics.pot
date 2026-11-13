@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T12:06:54+00:00\n"
+"POT-Creation-Date: 2026-11-13T10:30:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -140,7 +140,7 @@ msgid "Reload"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:331
-#: includes/admin/templates/header.php:36
+#: includes/admin/templates/header.php:50
 #: includes/class-wp-statistics-shortcode.php:288
 #: includes/class-wp-statistics-widget.php:42
 #: includes/class-wp-statistics-widget.php:265
@@ -1061,7 +1061,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:41
 #: includes/admin/class-wp-statistics-admin-network.php:71
-#: includes/admin/templates/header.php:34
+#: includes/admin/templates/header.php:48
 #: src/Service/Admin/Devices/Views/TabsView.php:104
 #: src/Service/Admin/Geographic/Views/TabsView.php:93
 #: src/Service/Admin/Overview/OverviewManager.php:35
@@ -1110,8 +1110,7 @@ msgid "Taxonomies"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:79
-#: includes/admin/templates/header.php:60
-#: includes/admin/templates/header.php:114
+#: includes/admin/templates/header.php:31
 #: includes/admin/templates/settings/add-ons/customization.php:22
 #: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsManager.php:27
 #: src/Service/Admin/AuthorAnalytics/Views/PerformanceView.php:41
@@ -1148,8 +1147,8 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:85
 #: includes/admin/pages/class-wp-statistics-admin-page-settings.php:38
-#: includes/admin/templates/header.php:84
-#: includes/admin/templates/header.php:117
+#: includes/admin/templates/header.php:80
+#: includes/admin/templates/header.php:111
 #: includes/admin/templates/layout/menu-settings.php:10
 #: includes/class-wp-statistics-menus.php:162
 #: src/Service/HooksManager.php:75
@@ -1463,8 +1462,25 @@ msgstr ""
 msgid "Top Referral"
 msgstr ""
 
-#: includes/admin/templates/header.php:39
-#: includes/admin/templates/header.php:109
+#: includes/admin/templates/header.php:29
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:173
+#: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:16
+#: src/Service/Admin/PageInsights/Views/TabsView.php:131
+#: src/Service/Admin/SiteHealthInfo.php:403
+#: views/pages/page-insights/overview.php:16
+msgid "Top Pages"
+msgstr ""
+
+#: includes/admin/templates/header.php:30
+#: includes/admin/templates/settings/add-ons/customization.php:21
+#: includes/admin/templates/settings/advanced.php:428
+#: src/Service/Admin/ContentAnalytics/ContentAnalyticsManager.php:27
+#: src/Service/Admin/ContentAnalytics/Views/SingleView.php:73
+#: src/Service/Admin/ContentAnalytics/Views/TabsView.php:72
+msgid "Content Analytics"
+msgstr ""
+
+#: includes/admin/templates/header.php:36
 #: includes/admin/templates/settings/add-ons/customization.php:28
 #: src/Service/Admin/LicenseManagement/LicenseManagementManager.php:54
 #: src/Service/Admin/LicenseManagement/LicenseManagementManager.php:55
@@ -1474,31 +1490,11 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/templates/header.php:44
+#: includes/admin/templates/header.php:56
 msgid "Quick Access"
 msgstr ""
 
-#: includes/admin/templates/header.php:50
-#: includes/admin/templates/header.php:112
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:173
-#: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:16
-#: src/Service/Admin/PageInsights/Views/TabsView.php:131
-#: src/Service/Admin/SiteHealthInfo.php:403
-#: views/pages/page-insights/overview.php:16
-msgid "Top Pages"
-msgstr ""
-
-#: includes/admin/templates/header.php:55
-#: includes/admin/templates/header.php:113
-#: includes/admin/templates/settings/add-ons/customization.php:21
-#: includes/admin/templates/settings/advanced.php:428
-#: src/Service/Admin/ContentAnalytics/ContentAnalyticsManager.php:27
-#: src/Service/Admin/ContentAnalytics/Views/SingleView.php:73
-#: src/Service/Admin/ContentAnalytics/Views/TabsView.php:72
-msgid "Content Analytics"
-msgstr ""
-
-#: includes/admin/templates/header.php:79
+#: includes/admin/templates/header.php:75
 #: includes/admin/templates/settings/add-ons/customization.php:29
 #: includes/admin/templates/settings/privacy.php:95
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditManager.php:60
@@ -1506,9 +1502,9 @@ msgstr ""
 msgid "Privacy Audit"
 msgstr ""
 
-#: includes/admin/templates/header.php:89
-#: includes/admin/templates/header.php:129
-#: includes/admin/templates/header.php:131
+#: includes/admin/templates/header.php:85
+#: includes/admin/templates/header.php:123
+#: includes/admin/templates/header.php:125
 #: src/Service/Admin/HelpCenter/HelpCenterManager.php:42
 #: src/Service/Admin/HelpCenter/HelpCenterPage.php:35
 #: src/Service/Admin/HelpCenter/HelpCenterPage.php:36
@@ -1516,13 +1512,13 @@ msgstr ""
 msgid "Help Center"
 msgstr ""
 
-#: includes/admin/templates/header.php:94
-#: includes/admin/templates/header.php:123
+#: includes/admin/templates/header.php:90
+#: includes/admin/templates/header.php:117
 #: views/components/notification/side-bar.php:12
 msgid "Notifications"
 msgstr ""
 
-#: includes/admin/templates/header.php:104
+#: includes/admin/templates/header.php:100
 msgid "Menu"
 msgstr ""
 
@@ -3851,6 +3847,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/rest-api.php:68
 #: includes/admin/templates/settings/advanced.php:233
 #: includes/admin/templates/settings/advanced.php:265
+#: views/components/notification/card.php:28
 msgid "Copy"
 msgstr ""
 
@@ -5870,7 +5867,7 @@ msgstr ""
 msgid "Failed to get success response. URL: %1$s, Method: %2$s, Status Code: %3$s"
 msgstr ""
 
-#: src/Decorators/NotificationDecorator.php:145
+#: src/Decorators/NotificationDecorator.php:146
 msgid "ago"
 msgstr ""
 
@@ -6215,17 +6212,17 @@ msgstr ""
 msgid "The license is not related to the requested Add-on <b>%s</b>."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/LicenseHelper.php:258
+#: src/Service/Admin/LicenseManagement/LicenseHelper.php:310
 msgid "Upgrade To Premium"
 msgstr ""
 
 #. translators: %1$s: string value, %2$s: string value
-#: src/Service/Admin/LicenseManagement/LicenseHelper.php:264
+#: src/Service/Admin/LicenseManagement/LicenseHelper.php:316
 #, php-format
 msgid "License: %1$s/%2$s"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/LicenseHelper.php:272
+#: src/Service/Admin/LicenseManagement/LicenseHelper.php:324
 msgid "Upgrade"
 msgstr ""
 
@@ -8262,7 +8259,7 @@ msgid "Skip"
 msgstr ""
 
 #: views/components/notices/action-notice.php:22
-#: views/components/notification/card.php:35
+#: views/components/notification/card.php:44
 msgid "Dismiss"
 msgstr ""
 
@@ -8337,6 +8334,33 @@ msgstr ""
 #: views/components/notices/upgrade-to-premium.php:9
 #, php-format
 msgid "Want more powerful analytics? Upgrade to our Premium license to unlock advanced add-ons, enhanced features, and priority support. <br> <a href=\"%1$s\" target=\"_blank\">Upgrade Now</a> or <a href=\"%2$s\" target=\"_blank\">Learn More</a>. <br> Have questions? <a href=\"%3$s\" target=\"_blank\">Contact Support</a>"
+msgstr ""
+
+#: views/components/notification/card.php:11
+msgid "Black Friday"
+msgstr ""
+
+#: views/components/notification/card.php:11
+msgid "Ends in"
+msgstr ""
+
+#: views/components/notification/card.php:11
+msgctxt "days, short"
+msgid "d"
+msgstr ""
+
+#: views/components/notification/card.php:11
+msgctxt "hours, short"
+msgid "h"
+msgstr ""
+
+#: views/components/notification/card.php:11
+msgctxt "minutes, short"
+msgid "m"
+msgstr ""
+
+#: views/components/notification/card.php:28
+msgid "Copied"
 msgstr ""
 
 #: views/components/notification/no-data.php:13
@@ -9141,6 +9165,30 @@ msgstr ""
 
 #: views/pages/license-manager/get-started.php:49
 msgid "No, Take me to the Overview"
+msgstr ""
+
+#. translators: %d: number of add-ons
+#: views/pages/overview/overview.php:12
+#, php-format
+msgid "%d add-on has an expired license."
+msgid_plural "%d add-ons have an expired license."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of add-ons
+#: views/pages/overview/overview.php:15
+#, php-format
+msgid "%d add-on has no license yet."
+msgid_plural "%d add-ons have no license yet."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/pages/overview/overview.php:23
+msgid "Add your license key to keep getting updates and support."
+msgstr ""
+
+#: views/pages/overview/overview.php:25
+msgid "Add license"
 msgstr ""
 
 #: views/pages/page-insights/overview.php:74
