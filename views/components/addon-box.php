@@ -8,6 +8,15 @@ if (empty($addOn)) {
 }
 
 ?>
+<?php
+$statusClass = $addOn->getStatusClass();
+$statusIcons = [
+    'success' => '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8 12.4 2.8 2.8L16 9.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'danger'  => '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m9 9 6 6m0-6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+    'primary' => '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5v5l3 1.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'disable' => '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.2" fill="currentColor"/></svg>',
+];
+?>
 <div class="wps-postbox-addon__item">
     <div>
         <div class="wps-postbox-addon__item--info">
@@ -19,6 +28,7 @@ if (empty($addOn)) {
                     <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank">
                         <?php echo esc_html($addOn->getName())?><span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion())?></span>
                     </a>
+                    <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($statusClass); ?>"><?php echo isset($statusIcons[$statusClass]) ? $statusIcons[$statusClass] : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup above ?><?php echo esc_html($addOn->getStatusLabel()); ?></span>
                     <?php if (!empty($addOn->getLabel())) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
                     <?php endif; ?>
@@ -33,7 +43,6 @@ if (empty($addOn)) {
             </div>
         </div>
         <div class="wps-postbox-addon__item--actions">
-            <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($addOn->getStatusClass()); ?> "><?php echo esc_html($addOn->getStatusLabel()); ?></span>
             <div class="wps-postbox-addon__buttons">
                 <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
                     <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>

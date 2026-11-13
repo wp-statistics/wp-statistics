@@ -861,14 +861,16 @@
   }
 }
 
+// Status pill next to the add-on name, with a small icon.
 .wps-postbox-addon__status {
-  padding: 2px 4px;
-  gap: 3px;
-  border-radius: 4px;
+  padding: 3px 10px 3px 8px;
+  gap: 6px;
+  border-radius: 2px;
   font-size: 13px;
-  font-weight: 500;
-  line-height: 15.23px;
-  display: flex;
+  font-weight: 600;
+  line-height: 16px;
+  display: inline-flex;
+  vertical-align: middle;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
@@ -879,7 +881,7 @@
 
   &--success {
     color: #196140;
-    background: #1961400D;
+    background: #E8F4EE;
   }
 
   &--installed {
@@ -889,12 +891,12 @@
 
   &--danger {
     color: #D5201C;
-    background: #D5201C0D;
+    background: #FBE9E8;
   }
 
   &--primary {
     color: #56585A;
-    background: transparent;
+    background: #F1F2F4;
   }
 
   &--purple {
