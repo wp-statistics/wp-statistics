@@ -66,4 +66,15 @@ $features  = [
             </tr>
         </tbody>
     </table>
+
+    <div class="wps-showcase__guarantee">
+        <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true"><path d="M12 2.8 4.5 5.6v5.6c0 4.6 3.1 8.3 7.5 10 4.4-1.7 7.5-5.4 7.5-10V5.6L12 2.8Z" fill="none" stroke="#2F8A5B" stroke-width="1.6" stroke-linejoin="round"/><path d="m8.6 12.2 2.4 2.4 4.5-4.8" fill="none" stroke="#2F8A5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="wps-showcase__guarantee-text">
+            <strong><?php esc_html_e('14-Day Money Back Guarantee', 'wp-statistics'); ?></strong>
+            <span><?php esc_html_e('No questions asked. Full refund if not satisfied.', 'wp-statistics'); ?></span>
+        </div>
+        <div class="wps-lock-page__actions">
+            <a target="_blank" rel="noopener noreferrer" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url($buyUrl); ?>"><?php esc_html_e('Go Premium', 'wp-statistics'); ?></a>
+        </div>
+    </div>
 </section>

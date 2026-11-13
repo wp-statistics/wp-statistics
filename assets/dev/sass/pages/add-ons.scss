@@ -1500,7 +1500,7 @@
     td {
       font-size: 16px !important;
       line-height: 24px;
-      padding: 13px 24px;
+      padding: 13px 24px !important;
       border-top: 1px solid #EEF0F2;
       text-align: center !important;
       vertical-align: middle;
@@ -1515,7 +1515,7 @@
       color: #56585A;
       background: #FAFAFB;
       border-top: 0;
-      padding: 28px 24px 26px;
+      padding: 28px 24px 26px !important;
       border-bottom: 1px solid #E6E8EC;
 
       small {
@@ -1557,18 +1557,50 @@
     display: inline-flex;
     vertical-align: -4px;
     margin-left: 8px;
-    color: #9A9DA1;
+    color: #B9BCC1 !important;
     cursor: pointer;
     border-radius: 50%;
 
     &:hover,
     &:focus {
-      color: #404BF2;
+      color: #404BF2 !important;
     }
 
     &:focus-visible {
       outline: 2px solid #404BF2;
       outline-offset: 2px;
+    }
+  }
+
+  &__guarantee {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 16px 24px;
+    background: #EDFAF3;
+    border: 1px solid #BFE8D2;
+    border-radius: 12px;
+
+    .wps-lock-page__actions {
+      margin: 0 0 0 auto;
+      flex-shrink: 0;
+    }
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 22px;
+
+      strong {
+        font-size: 17px;
+        color: #1E5E3F;
+      }
+
+      span {
+        font-size: 15px;
+        color: #2F7A55;
+      }
     }
   }
 
