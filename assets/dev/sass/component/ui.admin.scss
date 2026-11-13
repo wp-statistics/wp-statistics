@@ -4505,10 +4505,13 @@ body.wps_page #screen-meta-links {
   }
 }
 
-// On the blue header the ring is white so it stays visible.
+// The blue header shows no focus border or ring (hover and active states carry the feedback).
+.wps-wrap .wps-adminHeader.wps-adminHeader :is(a, button, label, input):focus,
+.wps-wrap .wps-adminHeader.wps-adminHeader :is(a, button, label, input):focus-visible,
+.wps-adminHeader :is(a, button, label, input):focus,
 .wps-adminHeader :is(a, button, label, input):focus-visible {
-  outline: 2px solid #ffffff !important;
-  outline-offset: 2px;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 
