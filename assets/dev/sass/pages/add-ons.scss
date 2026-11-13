@@ -723,6 +723,7 @@
 
             &--disable {
               color: #56585A;
+              background: #F1F2F4;
             }
           }
 
@@ -911,7 +912,7 @@
 
   &--disable {
     color: #56585A;
-    background: transparent;
+    background: #F1F2F4;
   }
 
 }
@@ -1812,6 +1813,17 @@
 
   .wps-licnotice__icon {
     background: #E8625C;
+    color: #fff;
+  }
+}
+
+// Upgrade notice: the green look the old notice had.
+.wps-licnotice--success {
+  background: #F8FBF8;
+  border-color: #B9DDB9;
+
+  .wps-licnotice__icon {
+    background: #5FAE62;
     color: #fff;
   }
 }
