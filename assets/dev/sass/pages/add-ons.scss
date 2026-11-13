@@ -71,13 +71,13 @@
 .wps-postbox-addon-container {
   width: 764px;
   max-width: 100%;
-  float: left;
-  margin-right: 20px;
+  // Centred on the page, like the Add License screen.
+  float: none;
+  margin: 8px auto 24px;
 
   .rtl & {
-    float: right;
-    margin-right: 0;
-    margin-left: 20px;
+    float: none;
+    margin: 8px auto 24px;
   }
 
   .wps-postbox-addon {
@@ -1690,4 +1690,104 @@
   width: 100%;
   float: none;
   margin-right: 0;
+}
+
+// License notice on the Add-ons screen.
+.wps-licnotice {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 24px;
+  margin-bottom: 20px;
+  background: #fff;
+  border: 1px solid #DADCE0;
+  border-radius: 12px;
+
+  &__icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #FDECEA;
+    color: #D93025;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 32px;
+    text-align: center;
+  }
+
+  &__body {
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0 0 6px;
+    padding: 0;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+    color: #0C0C0D;
+  }
+
+  &__text {
+    margin: 0 0 12px;
+    font-size: 15px;
+    line-height: 22px;
+    color: #56585A;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0;
+    }
+
+    a {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: #F1F2F8;
+      color: #404BF2;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        background: #E6E8FF;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: #404BF2;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      background: #2F39D1;
+    }
+  }
+
+  &__link {
+    font-size: 14px;
+    color: #56585A;
+  }
 }
