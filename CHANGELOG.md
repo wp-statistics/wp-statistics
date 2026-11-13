@@ -8,6 +8,8 @@
 - **Fix:** Custom event tracking no longer prints a URL with a changing nonce in the page source (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
 - **Fix:** Database upgrade progress and completion messages now render correctly when translations contain JavaScript-sensitive punctuation.
 - **Enhancement:** Plainer privacy wording in the plugin description, and the MaxMind and DB-IP data credit in the settings.
+- **Enhancement:** Added scheduled promotional notifications with UTC start and end dates, live countdowns, and copyable offer codes.
+- **Enhancement:** The admin header and Overview now show license attention for installed add-ons, with improved navigation, Screen Options, and keyboard focus styling.
 
 14.16.18 - 2026-10-23
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
