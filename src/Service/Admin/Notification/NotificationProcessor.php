@@ -17,6 +17,15 @@ class NotificationProcessor
     {
         if (!empty($notifications) && is_array($notifications)) {
             foreach ($notifications as $key => $notification) {
+                // Switch on and off by the notification's own dates, so a daily fetch cannot show it early or late.
+                $now    = time();
+                $starts = self::utcTimestamp($notification['starts_at'] ?? null);
+                $ends   = self::utcTimestamp($notification['ends_at'] ?? null);
+                if (($starts !== null && $starts > $now) || ($ends !== null && $ends <= $now)) {
+                    unset($notifications[$key]);
+                    continue;
+                }
+
                 if (!empty($notification['tags']) && is_array($notification['tags'])) {
                     $condition = true;
                     foreach ($notification['tags'] as $tag) {
@@ -38,6 +47,26 @@ class NotificationProcessor
         }
 
         return $notifications;
+    }
+
+    /**
+     * Reads a date from the feed as UTC, whatever timezone the site uses.
+     * A date that is empty or cannot be read counts as "not set", so a bad value never hides an offer.
+     *
+     * @param mixed $value ISO 8601 string, with or without a timezone suffix.
+     * @return int|null
+     */
+    private static function utcTimestamp($value)
+    {
+        if (empty($value) || !is_string($value)) {
+            return null;
+        }
+
+        try {
+            return (new \DateTimeImmutable($value, new \DateTimeZone('UTC')))->getTimestamp();
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

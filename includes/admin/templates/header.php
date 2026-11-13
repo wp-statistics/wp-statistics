@@ -17,10 +17,24 @@ use WP_Statistics\Service\Admin\MarketingCampaign\MarketingCampaignFactory;
 $userOnline              = new \WP_STATISTICS\UserOnline();
 $isPremium               = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 $hasUpdatedNotifications = NotificationFactory::hasUpdatedNotifications();
+$bellBadge               = NotificationFactory::getBellBadge();
 $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? true : false;
 $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignByType('promo_banner');
 $manageCap               = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
 $hasManageCap            = $manageCap && current_user_can($manageCap);
+
+// The desktop menu and the mobile menu show the same links, so they are defined once here.
+$showAddonsLink  = !$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true);
+$quickAccessMenu = [
+    ['slug' => 'wps_pages_page', 'link_text' => __('Top Pages', 'wp-statistics'), 'icon_class' => 'top-pages'],
+    ['slug' => 'wps_content-analytics_page', 'link_text' => __('Content Analytics', 'wp-statistics'), 'icon_class' => 'content-analytics'],
+    ['slug' => 'wps_author-analytics_page', 'link_text' => __('Author Analytics', 'wp-statistics'), 'icon_class' => 'author-analytics'],
+];
+// A number on the Add-ons link when an installed add-on has no valid license, is expired or is switched off.
+$licenseAttention = $showAddonsLink || $isPremium ? LicenseHelper::getLicenseSummary()['attention'] : 0;
+$addonsLink       = $showAddonsLink
+    ? Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => $licenseAttention > 0 ? $licenseAttention : null], true)
+    : '';
 
 ?>
 
@@ -35,32 +49,14 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
             if ($userOnline::active()) {
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_visitors_page&tab=online', 'link_text' => __('Online Visitors', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => wp_statistics_useronline()], true);
             }
-            if (!$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true)) {
-                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
-            }
+            echo $addonsLink;
             if ($isPremium) {
                 echo Admin_Template::get_template('layout/partials/menu-link', [
                     'slug'        => '',
                     'link_text'   => __('Quick Access', 'wp-statistics'),
                     'icon_class'  => 'quick-access',
                     'badge_count' => null,
-                    'sub_menu'    => [
-                        [
-                            'slug'       => 'wps_pages_page',
-                            'link_text'  => __('Top Pages', 'wp-statistics'),
-                            'icon_class' => 'top-pages'
-                        ],
-                        [
-                            'slug'       => 'wps_content-analytics_page',
-                            'link_text'  => __('Content Analytics', 'wp-statistics'),
-                            'icon_class' => 'content-analytics'
-                        ],
-                        [
-                            'slug'       => 'wps_author-analytics_page',
-                            'link_text'  => __('Author Analytics', 'wp-statistics'),
-                            'icon_class' => 'author-analytics'
-                        ]
-                    ]
+                    'sub_menu'    => $quickAccessMenu
                 ], true);
             }
 
@@ -91,7 +87,7 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
 
             <?php if ($displayNotifications): ?>
 
-                <a href="#" title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?>"></a>
+                <a href="#" title="<?php esc_html_e('Notifications', 'wp-statistics'); ?>" class="wps-notifications js-wps-open-notification <?php echo $hasUpdatedNotifications ? esc_attr('wps-notifications--has-items') : ''; ?><?php echo $bellBadge ? esc_attr(' wps-notifications--has-badge') . ($bellBadge['urgent'] ? esc_attr(' wps-notifications--urgent') : '') : ''; ?>"<?php if ($bellBadge) : ?> data-badge="<?php echo esc_attr($bellBadge['text']); ?>"<?php endif; ?>></a>
             <?php endif; ?>
             <div class="wps-adminHeader__mobileMenu">
                 <input type="checkbox" id="wps-menu-toggle" class="hamburger-menu">
@@ -105,13 +101,11 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
                 </label>
                 <div class="wps-mobileMenuContent">
                     <?php
-                    if (!$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true)) {
-                        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
-                    }
+                    echo $addonsLink;
                     if ($isPremium) {
-                        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_pages_page', 'link_text' => __('Top Pages', 'wp-statistics'), 'icon_class' => 'top-pages', 'badge_count' => null], true);
-                        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_content-analytics_page', 'link_text' => __('Content Analytics', 'wp-statistics'), 'icon_class' => 'content-analytics', 'badge_count' => null], true);
-                        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_author-analytics_page', 'link_text' => __('Author Analytics', 'wp-statistics'), 'icon_class' => 'author-analytics', 'badge_count' => null], true);
+                        foreach ($quickAccessMenu as $quickLink) {
+                            echo Admin_Template::get_template('layout/partials/menu-link', $quickLink + ['badge_count' => null], true);
+                        }
                     }
                     if ($hasManageCap) {
                         echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_settings_page', 'link_text' => __('Settings', 'wp-statistics'), 'icon_class' => 'settings', 'badge_count' => null], true);

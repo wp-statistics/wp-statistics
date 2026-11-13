@@ -8,6 +8,34 @@ jQuery(document).ready(function () {
     const tabPanes = document.querySelectorAll('.wps-notification-sidebar__tab-pane');
     const dismissAllBtn = document.querySelector(".wps-notification-sidebar__dismiss-all");
 
+
+    // Promo notices: countdown and copy-code button.
+    const wpsCountdowns = document.querySelectorAll('.wps-notification-sidebar__countdown');
+    if (wpsCountdowns.length > 0) {
+        const renderCountdown = function (el) {
+            const left = Math.max(0, new Date(el.getAttribute('data-ends-at')).getTime() - Date.now());
+            const d = Math.floor(left / 86400000);
+            const h = Math.floor(left % 86400000 / 3600000);
+            const m = Math.floor(left % 3600000 / 60000);
+            el.innerHTML = el.getAttribute('data-prefix') + ' <strong>' + d + el.getAttribute('data-d') + ' ' + h + el.getAttribute('data-h') + ' ' + m + el.getAttribute('data-m') + '</strong>';
+        };
+        wpsCountdowns.forEach(renderCountdown);
+        setInterval(function () { wpsCountdowns.forEach(renderCountdown); }, 30000);
+    }
+
+    document.querySelectorAll('.wps-notification-sidebar__copy').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const original = btn.textContent;
+            const done = function () {
+                btn.textContent = btn.getAttribute('data-copied');
+                setTimeout(function () { btn.textContent = original; }, 1500);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(btn.getAttribute('data-code')).then(done);
+            }
+        });
+    });
+
     // Toggle notification menu
     if (tabs.length > 0 && tabPanes.length > 0) {
         tabs.forEach(function (tab) {

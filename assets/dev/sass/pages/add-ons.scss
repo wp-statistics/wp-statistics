@@ -1467,3 +1467,12 @@
     transform: rotate(359deg);
   }
 }
+// Keep the button looking the same when focused or pressed: no WordPress blue ring.
+.wps-install-addon-btn:focus,
+.wps-install-addon-btn:active,
+.wps-install-addon-btn:focus-visible {
+  outline: none;
+  box-shadow: none;
+  background: #12121B;
+  color: #FFFFFF !important;
+}

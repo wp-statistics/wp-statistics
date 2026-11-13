@@ -179,6 +179,58 @@ class LicenseHelper
     }
 
     /**
+     * One summary of the add-ons and their licenses, shared by the header badge and the Add-ons screen.
+     * Built once per request.
+     *
+     * @return array total, licensed, installed, missing, expired, inactive, not_installed, attention
+     */
+    public static function getLicenseSummary()
+    {
+        static $summary = null;
+
+        if ($summary !== null) {
+            return $summary;
+        }
+
+        $result = ['total' => 0, 'licensed' => 0, 'installed' => 0, 'missing' => 0, 'expired' => 0, 'inactive' => 0, 'not_installed' => 0, 'attention' => 0];
+
+        try {
+            foreach (PluginHelper::getRemotePlugins() as $plugin) {
+                $result['total']++;
+
+                $installed = $plugin->isInstalled();
+                $valid     = $plugin->isLicenseValid();
+
+                if ($valid) {
+                    $result['licensed']++;
+                }
+
+                if (!$installed) {
+                    $result['not_installed']++;
+                    continue;
+                }
+
+                $result['installed']++;
+
+                if ($plugin->isLicenseExpired()) {
+                    $result['expired']++;
+                } elseif (!$valid) {
+                    $result['missing']++;
+                } elseif (!$plugin->isActivated()) {
+                    $result['inactive']++;
+                }
+            }
+        } catch (\Throwable $e) {
+            return $result;
+        }
+
+        $result['attention'] = $result['missing'] + $result['expired'] + $result['inactive'];
+        $summary             = $result;
+
+        return $summary;
+    }
+
+    /**
      * Checks all stored licenses to see if they are valid or not.
      *
      * @return void

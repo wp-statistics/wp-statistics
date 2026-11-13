@@ -676,6 +676,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
   .wps-adminHeader__logo--container {
     margin-right: 64px;
+
+    @media screen and (min-width: 1280px) and (max-width: 1599px) {
+      margin-right: 32px;
+    }
     display: flex;
     gap: 5px;
     align-items: center;
@@ -683,6 +687,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     .rtl & {
       margin-right: 0;
       margin-left: 64px;
+
+      @media screen and (min-width: 1280px) and (max-width: 1599px) {
+        margin-left: 32px;
+      }
     }
 
 
@@ -709,6 +717,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     flex-wrap: wrap;
     flex: 0 0 50%;
     gap: 12px;
+
+    @media screen and (min-width: 1280px) {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
 
     a {
       display: flex;
@@ -834,6 +847,20 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     align-items: center;
     gap: 26px;
 
+    // On wide screens the side group joins the row, so it can never sit on top of the menu.
+    @media screen and (min-width: 1280px) {
+      position: static;
+      margin-inline-start: auto;
+      margin-inline-end: 13px;
+      margin-top: 9px;
+      flex-shrink: 0;
+    }
+
+    // Tighter spacing on mid-size screens so the menu keeps its single row.
+    @media screen and (min-width: 1280px) and (max-width: 1599px) {
+      gap: 16px;
+    }
+
     & > a {
       @media(max-width: 1030px) {
         display: none !important;
@@ -884,7 +911,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       height: 19px;
       transition: 0.3s all ease-out;
       opacity: 70%;
-      background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjIwIiBoZWlnaHQ9IjE5IiB2aWV3Qm94PSIwIDAgMjAgMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMy45NTgzIDE0LjU5MDVIMTAuNzkxNkw3LjI2ODcyIDE2LjkzMzhDNi43NDYyMiAxNy4yODIyIDYuMDQxNjUgMTYuOTEwMSA2LjA0MTY1IDE2LjI3NjhWMTQuNTkwNUMzLjY2NjY1IDE0LjU5MDUgMi4wODMzMSAxMy4wMDcyIDIuMDgzMzEgMTAuNjMyMlY1Ljg4MjE2QzIuMDgzMzEgMy41MDcxNiAzLjY2NjY1IDEuOTIzODMgNi4wNDE2NSAxLjkyMzgzSDEzLjk1ODNDMTYuMzMzMyAxLjkyMzgzIDE3LjkxNjYgMy41MDcxNiAxNy45MTY2IDUuODgyMTZWMTAuNjMyMkMxNy45MTY2IDEzLjAwNzIgMTYuMzMzMyAxNC41OTA1IDEzLjk1ODMgMTQuNTkwNVoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTAgOC45OTQxNFY4LjgyNzkyQzEwIDguMjg5NTkgMTAuMzMyNSA4LjAwNDU3IDEwLjY2NSA3Ljc3NDk5QzEwLjk4OTYgNy41NTMzMiAxMS4zMTQxIDcuMjY4MzMgMTEuMzE0MSA2Ljc0NTgzQzExLjMxNDEgNi4wMTc1IDEwLjcyODMgNS40MzE2NCAxMCA1LjQzMTY0QzkuMjcxNjYgNS40MzE2NCA4LjY4NTg1IDYuMDE3NSA4LjY4NTg1IDYuNzQ1ODMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTkuOTk2NDYgMTAuODg2MUgxMC4wMDM2IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=") center center/100% no-repeat;
+      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAyMCAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMy41IDExVjkuNmE2LjUgNi41IDAgMCAxIDEzIDBWMTEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB4PSIyLjMiIHk9IjEwLjIiIHdpZHRoPSIzLjIiIGhlaWdodD0iNSIgcng9IjEuMyIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48cmVjdCB4PSIxNC41IiB5PSIxMC4yIiB3aWR0aD0iMy4yIiBoZWlnaHQ9IjUiIHJ4PSIxLjMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHBhdGggZD0iTTE2LjEgMTUuMmMwIDEuMy0xLjMgMi4xLTMuMiAyLjFIMTEuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==") center center/100% no-repeat;
 
       &:hover {
         opacity: 1;
@@ -3210,6 +3237,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   &.wps-license-status--custom {
     position: relative;
     cursor: pointer;
+    opacity: 1;
+
+    &:hover {
+      opacity: 1;
+    }
 
     &.wps-marketing-campaign-text__light {
       color: #fff !important;
@@ -3221,8 +3253,13 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
     &.wps-marketing-campaign {
       &__danger {
-        background: #D5201C66;
-        border: 1px solid #D5201C66
+        background: #C8281E;
+        border: 1px solid #C8281E;
+
+        &:hover {
+          background: #C8281E;
+          border-color: #C8281E;
+        }
       }
 
       &__info {
@@ -4395,4 +4432,82 @@ body:has(.export-overlay.active) #wpadminbar {
   100% {
     transform: rotate(360deg);
   }
+}
+
+
+// WordPress "Screen Options" tab, styled like the header's own pills so it belongs to the header.
+// Applies to every WP Statistics page, not only the Overview.
+body.wps_page #screen-meta-links {
+  .screen-meta-toggle {
+    // Same place open or closed, lined up with the edge of the panel it opens.
+    margin: 0;
+  }
+
+  .screen-meta-toggle .button {
+    height: 20px !important;
+    min-height: 20px !important;
+    line-height: 18px !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding-block: 0;
+    padding-inline-start: 10px;
+    padding-inline-end: 0 !important;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: #b3bbff;
+    background: #0E0E224D;
+    border: 1px solid #0E0E2233;
+    border-top: 0;
+    border-radius: 0 0 6px 6px;
+    box-shadow: none;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+
+    &::after {
+      position: static;
+      margin: 0;
+      line-height: 18px;
+      color: inherit;
+    }
+
+    &:hover {
+      color: #dde1ff;
+      background: #0E0E2280;
+      border-color: #0E0E2233;
+    }
+
+    &:focus {
+      color: #dde1ff;
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #ffffffb3;
+      outline-offset: -2px;
+    }
+
+    &:active,
+    &[aria-expanded="true"] {
+      color: #dde1ff;
+      background: #0E0E2299;
+    }
+  }
+}
+
+// Keyboard focus: many controls drop the browser outline, so keyboard users saw nothing.
+// :focus-visible only shows for the keyboard, so mouse clicks stay clean.
+.wps-wrap,
+.wps-notification-sidebar {
+  :is(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid #404BF2 !important;
+    outline-offset: 2px;
+  }
+}
+
+// On the blue header the ring is white so it stays visible.
+.wps-adminHeader :is(a, button, label, input):focus-visible {
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px;
 }

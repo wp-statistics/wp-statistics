@@ -119,6 +119,7 @@ class NotificationDecorator
             'inherit' => '',
             'danger'  => 'wps-notification-sidebar__danger',
             'info'    => 'wps-notification-sidebar__info',
+            'promo'   => 'wps-notification-sidebar__promo',
             'warning' => 'wps-notification-sidebar__warning',
             'success' => 'wps-notification-sidebar__success'
         ];
@@ -156,5 +157,45 @@ class NotificationDecorator
     public function getDismiss()
     {
         return $this->notification->dismiss ?? null;
+    }
+
+    /**
+     * Short text shown on the bell while this notification is unread (optional, from extra_data).
+     *
+     * @return string|null
+     */
+    public function getBadge()
+    {
+        return $this->notification->extra_data['badge'] ?? null;
+    }
+
+    /**
+     * Coupon code shown with a copy button (optional, from extra_data).
+     *
+     * @return string|null
+     */
+    public function getCode()
+    {
+        return $this->notification->extra_data['code'] ?? null;
+    }
+
+    /**
+     * End time in UTC (ISO 8601), used for the countdown.
+     *
+     * @return string|null
+     */
+    public function getEndsAt()
+    {
+        return $this->notification->ends_at ?? null;
+    }
+
+    /**
+     * Whether this notification uses the promo (hero card) style.
+     *
+     * @return bool
+     */
+    public function isPromo()
+    {
+        return ($this->notification->background_color ?? '') === 'promo';
     }
 }

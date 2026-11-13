@@ -219,6 +219,9 @@ body.admin-bar .wps-notification-sidebar {
   }
 
   &__cards {
+    // Room under the last card. The last child can be a hidden "up to date" row, so a margin on it would not show.
+    padding-bottom: 16px;
+
     &--dismissed {
       .wps-notification-sidebar__dismiss {
         display: none;
@@ -228,14 +231,11 @@ body.admin-bar .wps-notification-sidebar {
 
   &__card {
     padding: 20px 16px;
-    border-bottom: 1px solid #DADCE0;
+    margin: 16px 16px 0;
+    border-bottom: 0;
     display: flex;
     gap: 16px;
     box-sizing: border-box;
-
-    &:last-child {
-      border-bottom: 0;
-    }
 
     &.wps-notification-sidebar__success {
       background: #DFF7DF;
@@ -386,5 +386,196 @@ body.admin-bar .wps-notification-sidebar {
       text-decoration: none;
       color: #0C0C0D;
     }
+  }
+}
+
+// Black Friday style notices: bell tag and hero card (optional fields from Horizon).
+.wps-adminHeader .wps-notifications.wps-notifications--has-badge {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  background-image: none !important;
+  opacity: 1;
+
+  // While an offer is unread the bell turns into a gift; the red dot keeps the unread mark.
+  &::before {
+    content: "🎁";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255, 77, 141, .22), rgba(255, 154, 61, .28));
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: -12px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #E5281F;
+  }
+
+  body.rtl & {
+    &::after {
+      right: auto;
+      left: -12px;
+    }
+  }
+}
+
+.wps-notification-sidebar__card.wps-notification-sidebar__promo {
+  background: linear-gradient(135deg, #15151A, #3A1010);
+  color: #fff;
+
+  .wps-notification-sidebar__card-icon span {
+    background-color: #ffffff1f !important;
+  }
+
+  .wps-notification-sidebar__card-title,
+  .wps-notification-sidebar__card-title > div,
+  .wps-notification-sidebar__card-content {
+    color: #fff;
+  }
+
+  .wps-notification-sidebar__card-date {
+    color: #ffffffb3;
+  }
+
+  .wps-notification-sidebar__button:first-of-type {
+    background: #E5281F;
+    border-color: #E5281F;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .wps-notification-sidebar__button:not(:first-of-type) {
+    background: transparent;
+    border-color: #ffffff55;
+    color: #fff;
+  }
+
+  a.wps-notification-sidebar__dismiss {
+    color: #ffffffb3;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  a.wps-notification-sidebar__button:first-of-type {
+    background: #E5281F;
+    border-color: #E5281F;
+    color: #fff;
+
+    &:hover, &:focus {
+      background: #CC2018;
+      border-color: #CC2018;
+      color: #fff;
+    }
+  }
+}
+
+.wps-notification-sidebar__code {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 0 0;
+  padding: 10px 12px 10px 16px;
+  border: 1.5px dashed #FF9C93;
+  border-radius: 8px;
+  background: #ffffff0d;
+  direction: ltr;
+
+  code {
+    background: none;
+    padding: 0;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    }
+}
+
+.wps-notification-sidebar__copy {
+  border: 0;
+  border-radius: 6px;
+  padding: 5px 12px;
+  background: #fff;
+  color: #15151A;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    background: #ffe3e0;
+  }
+}
+
+.wps-notification-sidebar__card-title:has(.wps-notification-sidebar__eyebrow) {
+  display: block;
+  width: 100%;
+}
+
+.wps-notification-sidebar__eyebrow span {
+  white-space: nowrap;
+}
+
+.wps-notification-sidebar__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-inline-end: 28px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #FDE2A8;
+}
+
+.wps-notification-sidebar__promo-title {
+  margin-top: 6px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.wps-notification-sidebar__countdown {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #ffffffbf;
+  direction: ltr;
+
+  strong {
+    color: #fff;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.wps-notification-sidebar__card.wps-notification-sidebar__promo {
+  margin: 16px;
+  border-radius: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+
+  .wps-notification-sidebar__card-actions {
+    margin-top: 14px;
+  }
+
+  .wps-notification-sidebar__button:first-of-type {
+    flex: 1;
+    text-align: center;
+    padding: 11px 16px;
+    font-size: 14px;
   }
 }
