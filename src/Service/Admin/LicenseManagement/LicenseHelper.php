@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 use Exception;
 use WP_Statistics\Exception\LicenseException;
 use WP_STATISTICS\Option;
+use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 class LicenseHelper
@@ -176,6 +177,30 @@ class LicenseHelper
         }
 
         return null;
+    }
+
+    /**
+     * Only license managers on the main site can act on license notices, so only they see them
+     * and only their page loads read the add-on list.
+     *
+     * @return bool
+     */
+    public static function canManageLicenses()
+    {
+        $manageCap = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
+
+        return is_main_site() && $manageCap && current_user_can($manageCap);
+    }
+
+    /**
+     * True for a site with no license and no add-on installed: the plain free plugin.
+     * Its Add-ons screen is a Premium tour, so the menu and title say "Go Premium".
+     *
+     * @return bool
+     */
+    public static function isFreeOnly()
+    {
+        return self::canManageLicenses() && empty(self::getLicenses('all')) && empty(self::getLicenseSummary()['installed']);
     }
 
     /**

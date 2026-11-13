@@ -199,7 +199,12 @@
   }
 
   #wpfooter {
-    margin-right: 0;
+    margin-left: 0;
+    margin-right: 160px;
+  }
+
+  &.folded #wpfooter {
+    margin-right: 36px;
   }
 
   .daterangepicker .ranges ul li{

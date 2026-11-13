@@ -337,6 +337,24 @@
 }
 
 .wps_page #wpfooter {
-  margin-left: 0;
+  // The footer is absolute, so it must start after the WordPress menu or it slides under it on short pages.
+  margin-left: 160px;
   position: absolute !important;
+}
+
+body.folded.wps_page #wpfooter {
+  margin-left: 36px;
+}
+
+@media screen and (max-width: 960px) {
+  body.wps_page:not(.folded) #wpfooter {
+    margin-left: 36px;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  body.wps_page #wpfooter,
+  body.wps_page:not(.folded) #wpfooter {
+    margin-left: 0;
+  }
 }

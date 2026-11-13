@@ -194,6 +194,16 @@ class NotificationDecorator
      *
      * @return bool
      */
+    /**
+     * True for a notice made on this site (not from the server), such as the license alert. It has no Dismiss.
+     *
+     * @return bool
+     */
+    public function isLocal()
+    {
+        return !empty($this->notification->local);
+    }
+
     public function isPromo()
     {
         return ($this->notification->background_color ?? '') === 'promo';

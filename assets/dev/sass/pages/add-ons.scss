@@ -1468,11 +1468,194 @@
   }
 }
 // Keep the button looking the same when focused or pressed: no WordPress blue ring.
+.wps-install-addon-btn,
+.wps-install-addon-btn:hover,
 .wps-install-addon-btn:focus,
 .wps-install-addon-btn:active,
 .wps-install-addon-btn:focus-visible {
+  border-radius: 6px !important;
   outline: none;
   box-shadow: none;
   background: #12121B;
   color: #FFFFFF !important;
+}
+
+// Premium tour on the free Add-ons screen: the lock-page layout (see lock-page.scss) with a Free vs Premium table.
+.wps-showcase {
+  // The lock pages sit 20px lower because of their wrapper, so match it here.
+  margin-top: 69px;
+  margin-bottom: 8px;
+
+  &__table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border: 1px solid #E6E8EC;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 32px;
+
+    th,
+    td {
+      font-size: 16px !important;
+      line-height: 24px;
+      padding: 13px 24px;
+      border-top: 1px solid #EEF0F2;
+      text-align: center !important;
+      vertical-align: middle;
+      color: #0C0C0D;
+    }
+
+    th {
+      font-size: 13px !important;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: #56585A;
+      background: #FAFAFB;
+      border-top: 0;
+      padding: 28px 24px 26px;
+      border-bottom: 1px solid #E6E8EC;
+
+      small {
+        text-transform: none;
+        letter-spacing: 0;
+        color: #404BF2;
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      &.is-premium {
+        background: #EEF0FF;
+        color: #404BF2;
+      }
+    }
+
+    td:first-child,
+    th:first-child {
+      text-align: left !important;
+      width: 52%;
+    }
+
+    td.is-premium {
+      background: #F6F7FF;
+    }
+
+    tbody tr:first-child td {
+      border-top: 0;
+    }
+  }
+
+  &__label {
+    font-size: 16px !important;
+    line-height: 24px;
+  }
+
+  // The (i) icon next to the name opens the premium popup.
+  &__info {
+    display: inline-flex;
+    vertical-align: -4px;
+    margin-left: 8px;
+    color: #9A9DA1;
+    cursor: pointer;
+    border-radius: 50%;
+
+    &:hover,
+    &:focus {
+      color: #404BF2;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #404BF2;
+      outline-offset: 2px;
+    }
+  }
+
+  &__no {
+    color: #9A9DA1 !important;
+  }
+
+  &__yes {
+    color: #1E8E5A !important;
+    font-weight: 700;
+  }
+
+  &__support {
+    color: #1E8E5A !important;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &__seal {
+    vertical-align: -4px;
+    margin-right: 4px;
+  }
+}
+
+// The add-ons and the license form sit under a fold on the free "Go Premium" screen.
+.wps-fold {
+  width: 913px;
+  max-width: 100%;
+  padding: 0 24px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  text-align: center;
+
+  &__summary {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 10px 14px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #404BF2;
+    text-decoration: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover > span:first-child {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #404BF2;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+  }
+
+  // A small chevron drawn with borders, so no text underline can cut through it.
+  &__chev {
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .2s ease-out, margin .2s ease-out;
+    font-size: 0;
+  }
+
+  &[open] &__chev {
+    transform: rotate(-135deg);
+    margin-top: 4px;
+  }
+
+  &__body {
+    text-align: left;
+    padding-top: 8px;
+  }
+}
+
+// On the free "Go Premium" screen the content uses the full width of the page.
+.wps-postbox-addon-container.wps-postbox-addon-container--tour {
+  width: 100%;
+  float: none;
+  margin-right: 0;
 }

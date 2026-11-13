@@ -30,7 +30,7 @@
         <?php endif; ?>
         <div class="wps-notification-sidebar__card-actions">
             <?php if ($notification->primaryButtonTitle() && $notification->primaryButtonUrl()): ?>
-                <a href="<?php echo esc_url($notification->primaryButtonUrl()); ?>" class="wps-notification-sidebar__button" target="_blank" rel="noopener noreferrer">
+                <a href="<?php echo esc_url($notification->primaryButtonUrl()); ?>" class="wps-notification-sidebar__button"<?php echo $notification->isLocal() ? '' : ' target="_blank" rel="noopener noreferrer"'; ?>>
                     <?php echo esc_html($notification->primaryButtonTitle()); ?>
                 </a>
             <?php endif; ?>
@@ -39,7 +39,7 @@
                     <?php echo esc_html($notification->secondaryButtonTitle()); ?>
                 </a>
             <?php endif; ?>
-            <?php if (!$notification->getDismiss()): ?>
+            <?php if (!$notification->getDismiss() && !$notification->isLocal()): ?>
                 <a href="#" role="button" class="wps-notification-sidebar__dismiss" data-notification-id="<?php echo esc_attr($notification->getID()); ?>">
                     <?php echo esc_html__('Dismiss', 'wp-statistics'); ?>
                 </a>

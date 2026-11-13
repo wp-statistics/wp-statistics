@@ -182,14 +182,15 @@ class TabsView extends BaseTabView
             ];
 
             if ($this->isTab('add-ons')) {
-                $args['title'] = esc_html__('Add-ons', 'wp-statistics');
+                $args['title'] = LicenseHelper::isFreeOnly() ? esc_html__('Premium Features', 'wp-statistics') : esc_html__('Add-ons', 'wp-statistics');
 
-                if (is_main_site()) {
+                if (is_main_site() && !LicenseHelper::isFreeOnly()) {
                     $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
                     $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
                 }
 
-                Admin_Template::get_template(['layout/header', 'layout/title'], $args);
+                // The free Premium tour has its own heading, so no page title bar there.
+                Admin_Template::get_template(LicenseHelper::isFreeOnly() ? ['layout/header'] : ['layout/header', 'layout/title'], $args);
             } else {
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }
