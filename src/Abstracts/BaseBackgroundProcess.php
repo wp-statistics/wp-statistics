@@ -336,6 +336,59 @@ abstract class BaseBackgroundProcess extends WP_Background_Process
     }
 
     /**
+     * Process the queue directly when the WP-Cron healthcheck fires.
+     *
+     * The parent sends another loopback request to admin-ajax.php here. When a firewall
+     * blocks that request (for example a Cloudflare challenge on /wp-admin/*), the job
+     * never starts and its progress stays at 0. Cron already runs on the server, so the
+     * batch is handled in this request instead.
+     *
+     * @return void
+     */
+    public function handle_cron_healthcheck()
+    {
+        if ($this->is_processing()) {
+            return;
+        }
+
+        // Same checks as maybe_handle(), so a paused or cancelled job is not resumed here.
+        if ($this->is_cancelled()) {
+            $this->clear_scheduled_event();
+            $this->delete_all();
+            return;
+        }
+
+        if ($this->is_paused()) {
+            $this->clear_scheduled_event();
+            $this->paused();
+            return;
+        }
+
+        if ($this->is_queue_empty()) {
+            $this->clear_scheduled_event();
+            return;
+        }
+
+        // handle() ends with wp_die(), which would stop the remaining cron events.
+        $preventWpDie = static function () {
+            return false;
+        };
+
+        add_filter($this->identifier . '_wp_die', $preventWpDie, PHP_INT_MAX);
+
+        try {
+            $this->handle();
+        } catch (\Throwable $e) {
+            // A failing task must not end the whole WP-Cron run. Release the lock so the
+            // next healthcheck can retry, and leave a trace for debugging.
+            $this->unlock_process();
+            error_log(sprintf('WP Statistics: background job %s failed during WP-Cron: %s', $this->identifier, $e->getMessage())); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+        } finally {
+            remove_filter($this->identifier . '_wp_die', $preventWpDie, PHP_INT_MAX);
+        }
+    }
+
+    /**
      * Triggers the background process.
      *
      * @abstract

@@ -14,7 +14,7 @@ use WP_STATISTICS\Menus;
         <div class="postbox mb-8">
             <div class="postbox-header--table-title">
                 <h2>
-                    <?php esc_html_e('Income Visitor Chart', 'wp-statistics'); ?>
+                    <?php esc_html_e('Incoming Visitor Chart', 'wp-statistics'); ?>
                 </h2>
             </div>
             <div class="inside">

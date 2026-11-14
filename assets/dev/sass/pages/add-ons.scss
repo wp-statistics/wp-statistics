@@ -71,13 +71,13 @@
 .wps-postbox-addon-container {
   width: 764px;
   max-width: 100%;
-  float: left;
-  margin-right: 20px;
+  // Centred on the page, like the Add License screen.
+  float: none;
+  margin: 8px auto 24px;
 
   .rtl & {
-    float: right;
-    margin-right: 0;
-    margin-left: 20px;
+    float: none;
+    margin: 8px auto 24px;
   }
 
   .wps-postbox-addon {
@@ -723,6 +723,7 @@
 
             &--disable {
               color: #56585A;
+              background: #F1F2F4;
             }
           }
 
@@ -853,22 +854,26 @@
   &--new {
     color: #404BF2;
     background: #ECEDFE;
+    border-radius: 13px;
   }
 
   &--updated {
     color: #4F2DBC;
     background: #EBE9F0;
+    border-radius: 13px;
   }
 }
 
+// Status pill next to the add-on name, with a small icon.
 .wps-postbox-addon__status {
-  padding: 2px 4px;
-  gap: 3px;
-  border-radius: 4px;
+  padding: 3px 10px 3px 8px;
+  gap: 6px;
+  border-radius: 2px;
   font-size: 13px;
-  font-weight: 500;
-  line-height: 15.23px;
-  display: flex;
+  font-weight: 600;
+  line-height: 16px;
+  display: inline-flex;
+  vertical-align: middle;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
@@ -879,39 +884,104 @@
 
   &--success {
     color: #196140;
-    background: #1961400D;
+    background: #E8F4EE;
   }
 
   &--installed {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: #196140;
-    background: transparent;
+    background: #E8F4EE;
+
+    &::before {
+      content: "";
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23196140'/%3E%3Cpath d='M4.6 8.2l2.4 2.4 4.4-4.8' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
   }
 
   &--danger {
     color: #D5201C;
-    background: #D5201C0D;
+    background: #FBE9E8;
   }
 
   &--primary {
     color: #56585A;
-    background: transparent;
+    background: #F1F2F4;
   }
 
   &--purple {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: #7362BF;
-    background: #7362BF0D;
+    background: transparent;
+
+    // Spinner while an add-on downloads or activates.
+    &::before {
+      content: "";
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #7362BF33;
+      border-top-color: #7362BF;
+      border-radius: 50%;
+      animation: wps-status-spin .7s linear infinite;
+    }
+  }
+
+  // Short pop when the status changes to Installed or Activated.
+  &--pop {
+    animation: wps-status-pop .45s cubic-bezier(.2, .9, .3, 1.3);
+
+    &::before {
+      animation: wps-status-check .45s ease-out;
+    }
   }
 
   &--waiting {
     color: #7362BF;
-    background: #7362BF0D;
+    background: transparent;
   }
 
   &--disable {
     color: #56585A;
-    background: transparent;
+    background: #F1F2F4;
   }
 
+}
+
+// Status text sits on the plain card, without a colored block behind them.
+.wps-postbox-addon__status.wps-postbox-addon__status {
+  background: transparent;
+  padding: 2px 4px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.wps-postbox-addon__status svg {
+  width: 12px;
+  height: 12px;
+}
+
+.wps-postbox-addon__status--installed::before {
+  width: 12px;
+  height: 12px;
+}
+
+.wps-postbox-addon__status--purple::before {
+  width: 10px;
+  height: 10px;
+}
+
+// Settings entry of an add-on that is installed but switched off.
+.wps-addon--submenu--disabled {
+  opacity: .45;
+  pointer-events: none;
+  cursor: default;
 }
 
 .wps-postbox-addon-button , .wps-wrap a.wps-postbox-addon-button{
@@ -1466,4 +1536,683 @@
   to {
     transform: rotate(359deg);
   }
+}
+// Keep the button looking the same when focused or pressed: no WordPress blue ring.
+.wps-install-addon-btn,
+.wps-install-addon-btn:hover,
+.wps-install-addon-btn:focus,
+.wps-install-addon-btn:active,
+.wps-install-addon-btn:focus-visible {
+  border-radius: 6px !important;
+  outline: none;
+  box-shadow: none;
+  background: #12121B;
+  color: #FFFFFF !important;
+}
+
+// Premium tour on the free Add-ons screen: the lock-page layout (see lock-page.scss) with a Free vs Premium table.
+.wps-showcase {
+  // The lock pages sit 20px lower because of their wrapper, so match it here.
+  margin-top: 69px;
+  margin-bottom: 8px;
+
+  &__table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border: 1px solid #E6E8EC;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 32px;
+
+    th,
+    td {
+      font-size: 16px !important;
+      line-height: 24px;
+      padding: 13px 24px !important;
+      border-top: 1px solid #EEF0F2;
+      text-align: center !important;
+      vertical-align: middle;
+      color: #0C0C0D;
+    }
+
+    th {
+      font-size: 13px !important;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: #56585A;
+      background: #FAFAFB;
+      border-top: 0;
+      padding: 28px 24px 26px !important;
+      border-bottom: 1px solid #E6E8EC;
+
+      small {
+        text-transform: none;
+        letter-spacing: 0;
+        color: #404BF2;
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      &.is-premium {
+        background: #EEF0FF;
+        color: #404BF2;
+      }
+    }
+
+    td:first-child,
+    th:first-child {
+      text-align: left !important;
+      width: 52%;
+    }
+
+    td.is-premium {
+      background: #F6F7FF;
+    }
+
+    tbody tr:first-child td {
+      border-top: 0;
+    }
+  }
+
+  &__label {
+    font-size: 16px !important;
+    line-height: 24px;
+  }
+
+  // The (i) icon next to the name opens the premium popup.
+  &__info {
+    display: inline-flex;
+    vertical-align: -4px;
+    margin-left: 8px;
+    color: #B9BCC1 !important;
+    cursor: pointer;
+    border-radius: 50%;
+
+    &:hover,
+    &:focus {
+      color: #404BF2 !important;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #404BF2;
+      outline-offset: 2px;
+    }
+  }
+
+  &__guarantee {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 16px 24px;
+    background: #EDFAF3;
+    border: 1px solid #BFE8D2;
+    border-radius: 12px;
+
+    .wps-lock-page__actions {
+      margin: 0 0 0 auto;
+      flex-shrink: 0;
+    }
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 22px;
+
+      strong {
+        font-size: 17px;
+        color: #1E5E3F;
+      }
+
+      span {
+        font-size: 15px;
+        color: #2F7A55;
+      }
+    }
+  }
+
+  &__no {
+    color: #9A9DA1 !important;
+  }
+
+  &__yes {
+    color: #1E8E5A !important;
+    font-weight: 700;
+  }
+
+  &__support {
+    color: #1E8E5A !important;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &__seal {
+    vertical-align: -4px;
+    margin-right: 4px;
+  }
+}
+
+// The add-ons and the license form sit under a fold on the free "Go Premium" screen.
+.wps-fold {
+  width: 913px;
+  max-width: 100%;
+  padding: 0 24px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  text-align: center;
+
+  &__summary {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 10px 14px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #404BF2;
+    text-decoration: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover > span:first-child {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #404BF2;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+  }
+
+  // A small chevron drawn with borders, so no text underline can cut through it.
+  &__chev {
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .2s ease-out, margin .2s ease-out;
+    font-size: 0;
+  }
+
+  &[open] &__chev {
+    transform: rotate(-135deg);
+    margin-top: 4px;
+  }
+
+  &__body {
+    text-align: left;
+    padding-top: 8px;
+  }
+}
+
+// On the free "Go Premium" screen the content uses the full width of the page.
+.wps-postbox-addon-container.wps-postbox-addon-container--tour {
+  width: 100%;
+  float: none;
+  margin-right: 0;
+}
+
+// License notice on the Add-ons screen.
+.wps-licnotice {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 24px;
+  margin-bottom: 20px;
+  background: #fff;
+  border: 1px solid #DADCE0;
+  border-radius: 12px;
+
+  &__icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #FDECEA;
+    color: #D93025;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 32px;
+    text-align: center;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0 0 6px;
+    padding: 0;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+    color: #0C0C0D;
+  }
+
+  &__text {
+    margin: 0 0 12px;
+    font-size: 15px;
+    line-height: 22px;
+    color: #56585A;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0;
+    }
+
+    a {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: #F1F2F8;
+      color: #404BF2;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        background: #E6E8FF;
+      }
+    }
+  }
+
+  &__list--keys li code {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: #F1F2F8;
+    color: #0C0C0D;
+    font-size: 14px;
+    word-break: break-all;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: #404BF2;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      background: #2F39D1;
+    }
+  }
+
+  &__link {
+    font-size: 14px;
+    color: #56585A;
+  }
+}
+
+// Expired license: the red-tinted look the old notice had.
+.wps-licnotice--danger {
+  background: #FCF8F7;
+  border-color: #F3BDBB;
+
+  .wps-licnotice__icon {
+    background: #E8625C;
+    color: #fff;
+  }
+}
+
+// Notice buttons and links: no blue ring and no dark fill on focus, a soft gray ring for the keyboard only.
+.wps-wrap .wps-licnotice :is(.wps-licnotice__button, .wps-licnotice__link, .wps-licnotice__list a):focus,
+.wps-wrap .wps-licnotice :is(.wps-licnotice__button, .wps-licnotice__link, .wps-licnotice__list a):focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.wps-wrap .wps-licnotice :is(.wps-licnotice__button, .wps-licnotice__link, .wps-licnotice__list a):focus-visible {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #D0D3D8 !important;
+}
+
+.wps-wrap .wps-licnotice .wps-licnotice__button:focus:not(:hover) {
+  background: #404BF2;
+}
+
+// Missing or inactive add-ons: orange tint, same family as the other notices.
+.wps-licnotice--warning {
+  background: #FFF9F4;
+  border-color: #F6D5BC;
+
+  .wps-licnotice__icon {
+    background: #ED7A34;
+    color: #fff;
+  }
+}
+
+// Upgrade notice: the green look the old notice had.
+.wps-licnotice--success {
+  background: #F8FBF8;
+  border-color: #B9DDB9;
+
+  .wps-licnotice__icon {
+    background: #5FAE62;
+    color: #fff;
+  }
+}
+
+// One short line, no buttons: the confirmation after a key is removed.
+.wps-licnotice--compact {
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+
+  .wps-licnotice__icon {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .wps-licnotice__text {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0C0C0D;
+  }
+}
+
+
+@keyframes wps-status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wps-status-pop {
+  0% {
+    opacity: 0;
+    transform: scale(.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes wps-status-check {
+  0% {
+    transform: scale(0) rotate(-90deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wps-postbox-addon__status--purple::before,
+  .wps-postbox-addon__status--pop,
+  .wps-postbox-addon__status--pop::before {
+    animation: none;
+  }
+}
+
+// Settings opens inside the dashboard, so it shows no external-link icon.
+.wps-addon--submenu.wps-addon--submenu__settings::after,
+.wps-addon--submenu.wps-addon--submenu__settings:after {
+  display: none !important;
+  content: none !important;
+}
+
+// Contact support sits at the far end of the notice actions, with a headset icon.
+.wps-licnotice__actions .wps-licnotice__support {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-inline-start: auto;
+  color: #404BF2;
+
+  &::before {
+    content: "";
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 14v-2a9 9 0 0 1 18 0v2'/%3E%3Cpath d='M21 15a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2z'/%3E%3Cpath d='M3 15a2 2 0 0 0 2 2h1v-5H5a2 2 0 0 0-2 2z'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 14v-2a9 9 0 0 1 18 0v2'/%3E%3Cpath d='M21 15a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2z'/%3E%3Cpath d='M3 15a2 2 0 0 0 2 2h1v-5H5a2 2 0 0 0-2 2z'/%3E%3C/svg%3E") no-repeat center / contain;
+  }
+}
+
+// Every link in a notice gets the same hover: a darker blue, text and icon together.
+.wps-wrap .wps-licnotice .wps-licnotice__link {
+  color: #404BF2;
+
+  &:hover,
+  &:focus-visible {
+    color: #2F39D1;
+  }
+}
+
+// "Your licenses" card on the Add-ons screen: one calm row per key.
+.wps-wrap .wps-liccard {
+  margin-bottom: 20px;
+  padding: 20px 24px;
+  background: #fff;
+  border: 1px solid #DADCE0;
+  border-radius: 12px;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  &__title {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: #0C0C0D;
+  }
+
+  &__add {
+    font-size: 13px;
+    font-weight: 500;
+    color: #56585A;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: #0C0C0D;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid #E3E5E8;
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #3E9B5F;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7.5' cy='15.5' r='4.5'/%3E%3Cpath d='M10.7 12.3L21 2'/%3E%3Cpath d='M17 6l3 3'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7.5' cy='15.5' r='4.5'/%3E%3Cpath d='M10.7 12.3L21 2'/%3E%3Cpath d='M17 6l3 3'/%3E%3C/svg%3E") no-repeat center / contain;
+  }
+
+  &__row--soon .wps-liccard__icon {
+    background-color: #B45309;
+  }
+
+  &__row--expired .wps-liccard__icon {
+    background-color: #D5201C;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
+    font-size: 14px;
+    line-height: 22px;
+    color: #0C0C0D;
+
+    strong {
+      font-weight: 600;
+    }
+
+    code {
+      padding: 0;
+      background: transparent;
+      font-size: 12px;
+      color: #8A8C8F;
+    }
+  }
+
+  &__facts {
+    font-size: 12px;
+    color: #8A8C8F;
+  }
+
+  &__meta {
+    font-size: 13px;
+    line-height: 20px;
+    color: #56585A;
+
+    &--soon {
+      color: #B45309;
+    }
+
+    &--expired {
+      color: #D5201C;
+    }
+  }
+
+  &__renew {
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: #12121B;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      background: #2B2B38;
+      color: #fff;
+    }
+  }
+
+  &__remove {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 30px;
+    height: 30px;
+    justify-content: center;
+    border-radius: 6px;
+    color: #8A8C8F;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+
+    &::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      background-color: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4h8v2'/%3E%3Cpath d='M19 6l-1 14H6L5 6'/%3E%3C/svg%3E") no-repeat center / contain;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4h8v2'/%3E%3Cpath d='M19 6l-1 14H6L5 6'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: #D5201C;
+      background: #F6F7F8;
+    }
+
+    &.is-armed {
+      padding: 0 10px;
+      color: #D5201C;
+      background: #FCF8F7;
+    }
+  }
+
+  // The label is for screen readers until the first click asks to confirm.
+  &__remove-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  &__remove.is-armed .wps-liccard__remove-label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+// Links and buttons in the licenses card: no blue ring, a soft gray one for the keyboard only.
+.wps-wrap .wps-liccard a:focus,
+.wps-wrap .wps-liccard a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.wps-wrap .wps-liccard a:focus-visible {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #D0D3D8 !important;
 }

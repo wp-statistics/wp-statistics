@@ -188,6 +188,24 @@ add_thickbox();
                     );
                     ?>
                 </p>
+                <p class="description" id="wps-geoip-credit"<?php echo WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind') === 'cf' ? ' style="display:none"' : ''; ?>>
+                    <?php
+                    echo wp_kses(
+                        __('This product includes GeoLite2 Data created by MaxMind, available from <a href="https://www.maxmind.com" target="_blank">https://www.maxmind.com</a>. <a href="https://db-ip.com" target="_blank">IP Geolocation by DB-IP</a>.', 'wp-statistics'),
+                        ['a' => ['href' => [], 'target' => []]]
+                    );
+                    ?>
+                </p>
+                <script>
+                    jQuery(function ($) {
+                        const $locationMethod = $('#wps_settings\\[geoip_location_detection_method\\]');
+                        const $credit = $('#wps-geoip-credit');
+
+                        $locationMethod.on('change', function () {
+                            $credit.toggle($(this).val() !== 'cf');
+                        });
+                    });
+                </script>
             </td>
         </tr>
 
@@ -282,7 +300,7 @@ add_thickbox();
                     </button>
                 </div>
 
-                <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately for the database.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Click here to update the Geolocation database immediately.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

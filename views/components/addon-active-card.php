@@ -33,7 +33,7 @@ if (empty($addOn)) {
             <?php if (in_array($addOn->getSlug(), $selectedAddOns) && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
                 <a class="wps-postbox-addon__button button-retry-addon-download js-addon-retry-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Retry', 'wp-statistics'); ?>"><?php esc_html_e('Retry', 'wp-statistics'); ?></a>
             <?php elseif ($addOn->isInstalled() && !$addOn->isActivated() ) : ?>
-                <a class="wps-postbox-addon__button button-activate-addon js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
+                <a class="wps-postbox-addon__button button-activate-addon js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Activate', 'wp-statistics'); ?>"><?php esc_html_e('Activate', 'wp-statistics'); ?></a>
             <?php endif; ?>
         </div>
 
@@ -42,7 +42,9 @@ if (empty($addOn)) {
             <span class="wps-addon--actions--show-more js-addon-show-more"></span>
             <ul class="wps-addon--submenus">
                 <?php if ($addOn->isActivated()) : ?>
-                    <li><a target="_blank" href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
+                <?php elseif ($addOn->isInstalled()) : ?>
+                    <li><a class="wps-addon--submenu wps-addon--submenu__settings wps-addon--submenu--disabled" aria-disabled="true" data-settings-url="<?php echo esc_url($addOn->getSettingsUrl()); ?>" title="<?php esc_attr_e('Activate the add-on to open its settings', 'wp-statistics'); ?>"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
                 <?php endif; ?>
                 <?php if (!empty($addOn->getProductUrl())) : ?>
                     <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>/?utm_source=wp-statistics&utm_medium=link&utm_campaign=<?php echo rawurlencode($addOn->getUtmCampaign()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-on Details', 'wp-statistics'); ?></a></li>

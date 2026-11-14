@@ -1,9 +1,9 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
-<div class="wps-mb-16"><?php echo esc_html__('Unlike many analytics solutions that rely on cookies to track users across a website, WP Statistics employs a method of counting unique visitors that does not involve the use of cookies. This approach ensures privacy compliance and minimizes the need for user consent related to cookie usage.', 'wp-statistics') ?></div>
+<div class="wps-mb-16"><?php echo esc_html__('WP Statistics counts unique visitors without cookies or storing identifiers on visitors’ devices. Cookieless tracking reduces data stored in the browser, but it does not by itself determine whether consent is required.', 'wp-statistics') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
-    <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Why a Cookie Banner is Not Required', 'wp-statistics') ?></div>
+    <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('When a Cookie Banner May Be Required', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
-        <?php echo esc_html__('WP Statistics distinguishes itself by utilizing a cookieless tracking mechanism. This means the plugin can provide accurate analytics insights without storing any data on visitors’ devices, thereby respecting user privacy and reducing regulatory burdens for website owners.', 'wp-statistics') ?>
+        <?php echo esc_html__('WP Statistics does not require cookies to provide analytics. Your site may still need a cookie banner for other technologies, and analytics consent requirements depend on your settings and applicable laws.', 'wp-statistics') ?>
     </div>
 </div>
 <div class="wps-audit-card__suggestion">

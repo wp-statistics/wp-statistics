@@ -77,7 +77,7 @@ $consentIntegration      = Option::get('consent_integration');
                 <td>
                     <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo WP_STATISTICS\Option::get('hash_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                     <label for="hash_ips"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php echo __('Transforms IP addresses into a unique, non-reversible string using a secure algorithm, enhancing privacy protection and complying with data privacy regulations. For an in-depth explanation, refer to <a href="https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="blank">Counting Unique Visitors Without Cookies</a>.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped		 ?></p>
+                    <p class="description"><?php echo __('Transforms IP addresses into a unique, non-reversible string using a secure algorithm, enhancing privacy protection and complying with data privacy regulations. For an in-depth explanation, refer to <a href="https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Counting Unique Visitors Without Cookies</a>.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped		 ?></p>
                 </td>
             </tr>
             </tbody>
@@ -155,8 +155,8 @@ $consentIntegration      = Option::get('consent_integration');
                 <td>
                     <input id="anonymous_tracking" type="checkbox" value="1" name="wps_anonymous_tracking" <?php echo WP_STATISTICS\Option::get('anonymous_tracking', false) == true ? 'checked="checked"' : ''; ?> />
                     <label for="anonymous_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('When this option is enabled, all users will be tracked anonymously by default, without recording any Personally Identifiable Information (PII), regardless of consent. This anonymous tracking data is classified as "Functional" to align with privacy regulations. PII data will only be collected when explicit consent is provided by the website visitor.', 'wp-statistics'); ?></p>
-                    <p class="description"><?php echo wp_kses_post(__('<b>Note</b>: This feature is currently in beta and enables user tracking while adhering to privacy laws. Users are advised to review and ensure compliance with applicable legal requirements in their jurisdiction.', 'wp-statistics')); ?></p>
+                    <p class="description"><?php esc_html_e('When this option is enabled, WP Statistics avoids recording Personally Identifiable Information (PII). With Borlabs Cookie, visits recorded after consent are anonymous; visitors who decline are not counted, because Borlabs Cookie does not load the tracker for them. With CookieYes, visitors who decline are not counted.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo wp_kses_post(__('<b>Note</b>: This feature is currently in beta and changes what visitor data is collected. Review your configuration against the legal requirements that apply in your jurisdiction.', 'wp-statistics')); ?></p>
                 </td>
             </tr>
 

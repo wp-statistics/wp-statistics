@@ -8,6 +8,51 @@ jQuery(document).ready(function () {
     const tabPanes = document.querySelectorAll('.wps-notification-sidebar__tab-pane');
     const dismissAllBtn = document.querySelector(".wps-notification-sidebar__dismiss-all");
 
+
+    // Promo notices: countdown and copy-code button.
+    const renderCountdown = function (el) {
+        const left = Math.max(0, new Date(el.getAttribute('data-ends-at')).getTime() - Date.now());
+        const d = Math.floor(left / 86400000);
+        const h = Math.floor(left % 86400000 / 3600000);
+        const m = Math.floor(left % 3600000 / 60000);
+        el.innerHTML = el.getAttribute('data-prefix') + ' <strong>' + d + el.getAttribute('data-d') + ' ' + h + el.getAttribute('data-h') + ' ' + m + el.getAttribute('data-m') + '</strong>';
+    };
+    const renderCountdowns = function () {
+        document.querySelectorAll('.wps-notification-sidebar__countdown').forEach(renderCountdown);
+    };
+    if (document.querySelectorAll('.wps-notification-sidebar__countdown').length > 0) {
+        renderCountdowns();
+        setInterval(renderCountdowns, 30000);
+    }
+
+    // The dismissed list receives cloned cards, so delegate copy clicks from the document.
+    document.addEventListener('click', function (event) {
+        const btn = event.target.closest('.wps-notification-sidebar__copy');
+        if (!btn) return;
+
+        const original = btn.textContent;
+        const done = function () {
+            btn.textContent = btn.getAttribute('data-copied');
+            setTimeout(function () { btn.textContent = original; }, 1500);
+        };
+        const code = btn.getAttribute('data-code');
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code).then(done).catch(function () {});
+            return;
+        }
+
+        const input = document.createElement('textarea');
+        input.value = code;
+        input.setAttribute('readonly', '');
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        if (document.execCommand('copy')) done();
+        input.remove();
+    });
+
     // Toggle notification menu
     if (tabs.length > 0 && tabPanes.length > 0) {
         tabs.forEach(function (tab) {
@@ -76,7 +121,7 @@ jQuery(document).ready(function () {
     };
 
     const checkEmptyNotifications = () => {
-        let notificationsHasItems = jQuery('.wps-notifications--has-items');
+        let notificationButtons = jQuery('.wps-notifications');
         let helpNotification = jQuery('.wps-help__notification');
         let activeCards = jQuery('.wps-notification-sidebar__tab-pane--active .wps-notification-sidebar__card:not(.wps-notification-sidebar__no-card)');
         let noCardMessages = jQuery('.wps-notification-sidebar__tab-pane--active .wps-notification-sidebar__no-card');
@@ -89,7 +134,9 @@ jQuery(document).ready(function () {
             noCardMessage.css('display', 'flex');
             if (isInboxTab) {
                 helpNotification.hide();
-                notificationsHasItems.removeClass('wps-notifications--has-items');
+                notificationButtons
+                    .removeClass('wps-notifications--has-items wps-notifications--has-badge wps-notifications--urgent')
+                    .removeAttr('data-badge');
             }
         } else {
             noCardMessage.hide();

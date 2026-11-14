@@ -72,7 +72,7 @@ class Frontend
                     'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
                 ],
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
-                'customEventAjaxUrl'    => add_query_arg(['action' => 'wp_statistics_custom_event', 'nonce' => wp_create_nonce('wp_statistics_custom_event')], admin_url('admin-ajax.php')),
+                'customEventNonce'      => wp_create_nonce('wp_statistics_custom_event'),
 
                 // Legacy params for backward compatibility with cached JS files after upgrade
                 'onlineParams' => array_merge($params, ['action' => 'wp_statistics_online_check']),

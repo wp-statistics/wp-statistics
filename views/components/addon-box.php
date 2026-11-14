@@ -8,6 +8,15 @@ if (empty($addOn)) {
 }
 
 ?>
+<?php
+$statusClass = $addOn->getStatusClass();
+$statusIcons = [
+    'success' => '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8 12.4 2.8 2.8L16 9.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'danger'  => '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m9 9 6 6m0-6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+    'primary' => '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5v5l3 1.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'disable' => '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.2" fill="currentColor"/></svg>',
+];
+?>
 <div class="wps-postbox-addon__item">
     <div>
         <div class="wps-postbox-addon__item--info">
@@ -23,6 +32,7 @@ if (empty($addOn)) {
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
                     <?php endif; ?>
 
+                    <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($statusClass); ?>"><?php echo isset($statusIcons[$statusClass]) ? $statusIcons[$statusClass] : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup above ?><?php echo esc_html($addOn->getStatusLabel()); ?></span>
                     <?php if ($addOn->isLicenseValid() && $addOn->isUpdateAvailable()) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--updated"><?php esc_html_e('Update Available', 'wp-statistics'); ?></span>
                     <?php endif; ?>
@@ -33,20 +43,24 @@ if (empty($addOn)) {
             </div>
         </div>
         <div class="wps-postbox-addon__item--actions">
-            <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($addOn->getStatusClass()); ?> "><?php echo esc_html($addOn->getStatusLabel()); ?></span>
             <div class="wps-postbox-addon__buttons">
                 <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
-                    <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
+                    <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Activate', 'wp-statistics'); ?>"><?php esc_html_e('Activate', 'wp-statistics'); ?></a>
                 <?php endif; ?>
                 <?php if ($addOn->isInstalled()) : ?>
-                    <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php esc_html_e('License', 'wp-statistics'); ?></a>
+                    <?php // An expired key still on the site counts too: the customer may have renewed it, so they edit it instead of entering a new one.
+                    $hasLicense = $addOn->isLicenseValid() || $addOn->isLicenseExpired() || !empty(WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::getLicenses('license_expired')); ?>
+                    <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo $hasLicense ? esc_html__('Edit License', 'wp-statistics') : esc_html__('Enter License', 'wp-statistics'); ?></a>
                 <?php endif; ?>
             </div>
             <div class="wps-addon--actions">
                 <span class="wps-addon--actions--show-more js-addon-show-more"></span>
                 <ul class="wps-addon--submenus">
                     <?php if ($addOn->isActivated()) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings" target="_blank"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
+                        <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
+                        <li><span class="wps-separator"></span></li>
+                    <?php elseif ($addOn->isInstalled()) : ?>
+                        <li><a class="wps-addon--submenu wps-addon--submenu__settings wps-addon--submenu--disabled" aria-disabled="true" data-settings-url="<?php echo esc_url($addOn->getSettingsUrl()); ?>" title="<?php esc_attr_e('Activate the add-on to open its settings', 'wp-statistics'); ?>"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
                         <li><span class="wps-separator"></span></li>
                     <?php endif; ?>
                     <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-on Details', 'wp-statistics'); ?></a></li>

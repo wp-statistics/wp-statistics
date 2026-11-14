@@ -4,30 +4,30 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.18
+Stable tag: 14.16.19
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Cookieless, privacy-friendly WordPress analytics. GDPR/CCPA compliant visitor data and clear graphs, with no data sharing.
+Cookieless, privacy-friendly WordPress analytics. Clear graphs and visitor data kept on your own server.
 
 == Description ==
-Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
+Discover privacy-friendly analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
 
-= GDPR Compliant (Data Privacy) =
-WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
+= Privacy-Friendly by Default (GDPR and Data Privacy) =
+WP Statistics is privacy-friendly by default. Whether you need consent depends on your country and your settings.
 
 * We do not use cookies
 * We do not store personally identifiable information (PII) by default
 * 100% data ownership. Data is entirely created and stored on your server
 * Enhance IP Hashing with Random Daily Salt Mechanism
 * Features to export and delete data for GDPR
-* Respect for User Privacy with Do Not Track (DNT)
-* Privacy Audit Tool for compliance with privacy laws
+* Optional support for the Do Not Track (DNT) signal
+* Privacy Audit Tool to help you review your settings
 
-Your site won't need to have a cookie popup since WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
+WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
 
 You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
 
@@ -37,7 +37,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Simple analytics dashboard
 * Bounce Rate Tracking: See your site-wide bounce rate in Visitor Insights and per-page bounce rate in the Entry Pages report, so you can spot pages that lose visitors after a single page view.
 * Super easy to install. No coding or technical knowledge needed
-* Advanced data privacy settings that are customizable to fit your needs, in compliance with diverse data protection laws
+* Advanced data privacy settings that are customizable to fit your needs, to match the data protection laws that apply to you
 * Track URL parameters, including UTMs, for campaign analysis
 * With configurable settings, manage large amounts of data on high-traffic websites
 * Monitor live online user traffic in real-time
@@ -94,7 +94,7 @@ No, WP Statistics focuses on simplicity. You don't need any coding skills to use
 Your site's loading times will remain quick with WP Statistics. With our "Optimization" settings page, you can fine-tune how data is handled for high-traffic sites, providing you with the tools to optimize performance.
 
 = Is it GDPR compliant? =
-Yes, WP Statistics is GDPR compliant by default. You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
+WP Statistics is built to be privacy-friendly by default: it sets no cookies, and new installs anonymize and hash IP addresses. Whether your site meets the GDPR depends on your country, your settings and how you use the plugin. You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
 
 = Are individual page analytics available? =
 Every post, page, and custom post type is tracked in detail.
@@ -149,7 +149,23 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
+== Third-Party Data ==
+This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
+
 == Changelog ==
+= 14.16.19 - Unreleased =
+- **Fix:** Background jobs (such as Migrate Visitor Data Columns and Update GeoIP) now finish through WP-Cron when a firewall or CDN blocks `/wp-admin/admin-ajax.php`. Before, they stayed at 0% (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
+- **Fix:** Tracking stops right away when a visitor withdraws consent, without a page reload. With Borlabs Cookie and Anonymous Tracking enabled, tracking continues anonymously by design (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Fix:** SPA sites now attribute each separate navigation to the correct page while avoiding duplicate hits from immediate URL updates.
+- **Change:** Real Cookie Banner: when the WP Statistics service is configured, visitors who decline or have not chosen yet are no longer counted, including with server-side tracking or hashed IP addresses. Sites using it may see lower numbers.
+- **Change:** CookieYes: a visitor who declines is no longer counted, even with Anonymous Tracking on (issue [#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
+- **Fix:** Searches from the WooCommerce product search box now show in Search Terms instead of counting as Shop page views (issue [#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
+- **Fix:** Custom event tracking no longer prints a URL with a changing nonce in the page source (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
+- **Fix:** Database upgrade progress and completion messages now render correctly when translations contain JavaScript-sensitive punctuation.
+- **Enhancement:** Plainer privacy wording in the plugin description, and the MaxMind and DB-IP data credit in the settings.
+- **Enhancement:** Added scheduled promotional notifications with UTC start and end dates, live countdowns, and copyable offer codes.
+- **Enhancement:** The admin header and Overview now show license attention for installed add-ons, with improved navigation, Screen Options, and keyboard focus styling.
+
 = 14.16.18 - 2026-10-23 =
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
 - **Enhancement:** Tracker Debugger shows when the last visit was recorded, warns when visits stop, and shows whether your consent plugin is blocking them (issue [#1178](https://github.com/wp-statistics/wp-statistics/issues/1178)).
@@ -238,10 +254,10 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Enhancement:** Updated Device Detector library (6.4.7 → 6.5.0) with latest browser, device, and bot detection rules.
 - **Enhancement:** Updated MaxMind DB Reader (1.12.1 → 1.13.1) and GeoIP2 libraries.
 
-= 14.16.3 - 2025-02-23 =
+= 14.16.3 - 2026-02-23 =
 - **Fix:** Minor improvements and fix version.
 
-= 14.16.1 - 2025-02-09 =
+= 14.16.1 - 2026-02-09 =
 - **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
 - **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
 - **Fix:** Fixed an issue where the Page ID was not correctly updated during Interactivity API navigation and barba.js transitions.

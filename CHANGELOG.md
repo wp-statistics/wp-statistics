@@ -1,3 +1,16 @@
+14.16.19 - Unreleased
+- **Fix:** Background jobs (such as Migrate Visitor Data Columns and Update GeoIP) now finish through WP-Cron when a firewall or CDN blocks `/wp-admin/admin-ajax.php`. Before, they stayed at 0% (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
+- **Fix:** Tracking stops right away when a visitor withdraws consent, without a page reload. With Borlabs Cookie and Anonymous Tracking enabled, tracking continues anonymously by design (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Fix:** SPA sites now attribute each separate navigation to the correct page while avoiding duplicate hits from immediate URL updates.
+- **Change:** Real Cookie Banner: when the WP Statistics service is configured, visitors who decline or have not chosen yet are no longer counted, including with server-side tracking or hashed IP addresses. Sites using it may see lower numbers.
+- **Change:** CookieYes: a visitor who declines is no longer counted, even with Anonymous Tracking on (issue [#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
+- **Fix:** Searches from the WooCommerce product search box now show in Search Terms instead of counting as Shop page views (issue [#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
+- **Fix:** Custom event tracking no longer prints a URL with a changing nonce in the page source (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
+- **Fix:** Database upgrade progress and completion messages now render correctly when translations contain JavaScript-sensitive punctuation.
+- **Enhancement:** Plainer privacy wording in the plugin description, and the MaxMind and DB-IP data credit in the settings.
+- **Enhancement:** Added scheduled promotional notifications with UTC start and end dates, live countdowns, and copyable offer codes.
+- **Enhancement:** The admin header and Overview now show license attention for installed add-ons, with improved navigation, Screen Options, and keyboard focus styling.
+
 14.16.18 - 2026-10-23
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
 - **Enhancement:** Tracker Debugger shows when the last visit was recorded, warns when visits stop, and shows whether your consent plugin is blocking them (issue [#1178](https://github.com/wp-statistics/wp-statistics/issues/1178)).
@@ -88,10 +101,10 @@
 - **Enhancement:** Updated Device Detector library (6.4.7 → 6.5.0) with latest browser, device, and bot detection rules.
 - **Enhancement:** Updated MaxMind DB Reader (1.12.1 → 1.13.1) and GeoIP2 libraries.
 
-14.16.3 - 2025-02-23
+14.16.3 - 2026-02-23
 - **Fix:** Minor improvements and fix version.
 
-14.16.1 - 2025-02-09
+14.16.1 - 2026-02-09
 - **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
 - **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
 - **Fix:** Fixed an issue where the Page ID was not correctly updated during Interactivity API navigation and barba.js transitions.
