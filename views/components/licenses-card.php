@@ -25,7 +25,10 @@ $renewUrl      = 'https://wp-statistics.com/my-account/subscriptions/?utm_source
             $time = !empty($license['valid_until']) ? strtotime($license['valid_until']) : false;
             if ($time !== false) {
                 $days = (int) ceil(($time - time()) / DAY_IN_SECONDS);
-                if ($expired || $days < 0) {
+                if ((int) gmdate('Y', $time) >= 2090) {
+                    // The store writes 2099-01-01 for a key that never expires.
+                    $line = __('Lifetime', 'wp-statistics');
+                } elseif ($expired || $days < 0) {
                     $tone = 'expired';
                     /* translators: %s: date */
                     $line = sprintf(__('Expired %s', 'wp-statistics'), wp_date(get_option('date_format'), $time));
