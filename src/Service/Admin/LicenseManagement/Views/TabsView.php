@@ -129,6 +129,8 @@ class TabsView extends BaseTabView
                 'status'  => $license['status'] ?? '',
                 'sku'     => $license['sku'] ?? '',
                 'covers'  => is_array($license['products'] ?? null) ? count($license['products']) : 0,
+                'valid_until' => $license['valid_until'] ?? null,
+                'max_domains' => $license['max_domains'] ?? null,
             ];
         }
 

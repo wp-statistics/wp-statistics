@@ -151,6 +151,7 @@ class LicenseHelper
             'type'        => $licenseData->license_details->type ?? null,
             'sku'         => $licenseData->license_details->sku ?? null,
             'max_domains' => $licenseData->license_details->max_domains ?? null,
+            'valid_until' => $licenseData->license_details->valid_until ?? null,
             'user'        => $licenseData->license_details->user ?? null,
             'products'    => isset($licenseData->products) ? wp_list_pluck($licenseData->products, 'slug') : null,
         ];
@@ -305,7 +306,7 @@ class LicenseHelper
                 if ($e->getStatus() === 'license_expired') {
                     $data['status'] = $e->getStatus();
                     LicenseHelper::updateLicense($key, $data);
-                    return;
+                    continue; // keep checking the other keys
                 }
 
                 // If license is invalid, remove the license

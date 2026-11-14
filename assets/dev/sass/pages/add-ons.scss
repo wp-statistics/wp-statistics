@@ -2111,9 +2111,35 @@
   }
 
   &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 8px;
     font-size: 13px;
     line-height: 20px;
     color: #56585A;
+  }
+
+  &__expiry--soon {
+    font-weight: 600;
+    color: #B45309;
+  }
+
+  &__expiry--expired {
+    font-weight: 600;
+    color: #D5201C;
+  }
+
+  &__renew {
+    font-weight: 600;
+    color: #404BF2;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover {
+      color: #2F39D1;
+      text-decoration: none;
+    }
   }
 
   &__remove {
