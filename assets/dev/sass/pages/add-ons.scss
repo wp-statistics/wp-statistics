@@ -1993,45 +1993,39 @@
   }
 }
 
-// "Your licenses" card on the Add-ons screen.
-.wps-liccard {
+// "Your licenses" card on the Add-ons screen: one calm row per key.
+.wps-wrap .wps-liccard {
   margin-bottom: 20px;
-  padding: 24px;
+  padding: 20px 24px;
   background: #fff;
   border: 1px solid #DADCE0;
   border-radius: 12px;
 
   &__head {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   &__title {
     margin: 0;
     padding: 0;
-    font-size: 18px;
-    line-height: 26px;
+    font-size: 16px;
+    line-height: 24px;
     font-weight: 600;
     color: #0C0C0D;
   }
 
   &__add {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 14px;
-    border: 1px solid #DADCE0;
-    border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
-    color: #0C0C0D;
+    color: #56585A;
     text-decoration: none;
 
-    &:hover {
-      background: #F6F7F8;
+    &:hover,
+    &:focus-visible {
       color: #0C0C0D;
     }
   }
@@ -2039,7 +2033,7 @@
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -2050,27 +2044,26 @@
     align-items: center;
     gap: 14px;
     margin: 0;
-    padding: 14px 16px;
-    border: 1px solid #B9DDB9;
+    padding: 12px 14px;
+    border: 1px solid #E3E5E8;
     border-radius: 10px;
-    background: #F8FBF8;
-
-    &--expired {
-      border-color: #F3BDBB;
-      background: #FCF8F7;
-    }
+    background: #fff;
   }
 
   &__icon {
     flex-shrink: 0;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     background-color: #3E9B5F;
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7.5' cy='15.5' r='4.5'/%3E%3Cpath d='M10.7 12.3L21 2'/%3E%3Cpath d='M17 6l3 3'/%3E%3C/svg%3E") no-repeat center / contain;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7.5' cy='15.5' r='4.5'/%3E%3Cpath d='M10.7 12.3L21 2'/%3E%3Cpath d='M17 6l3 3'/%3E%3C/svg%3E") no-repeat center / contain;
   }
 
-  &__row--expired &__icon {
+  &__row--soon .wps-liccard__icon {
+    background-color: #B45309;
+  }
+
+  &__row--expired .wps-liccard__icon {
     background-color: #D5201C;
   }
 
@@ -2083,8 +2076,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 8px;
-    font-size: 15px;
+    gap: 0 8px;
+    font-size: 14px;
     line-height: 22px;
     color: #0C0C0D;
 
@@ -2095,50 +2088,44 @@
     code {
       padding: 0;
       background: transparent;
-      font-size: 13px;
-      color: #56585A;
+      font-size: 12px;
+      color: #8A8C8F;
     }
   }
 
-  &__status {
-    font-size: 13px;
-    font-weight: 600;
-    color: #3E9B5F;
-  }
-
-  &__row--expired &__status {
-    color: #D5201C;
+  &__facts {
+    font-size: 12px;
+    color: #8A8C8F;
   }
 
   &__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0 8px;
     font-size: 13px;
     line-height: 20px;
     color: #56585A;
-  }
 
-  &__expiry--soon {
-    font-weight: 600;
-    color: #B45309;
-  }
+    &--soon {
+      color: #B45309;
+    }
 
-  &__expiry--expired {
-    font-weight: 600;
-    color: #D5201C;
+    &--expired {
+      color: #D5201C;
+    }
   }
 
   &__renew {
-    font-weight: 600;
-    color: #404BF2;
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: #12121B;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
 
-    &:hover {
-      color: #2F39D1;
-      text-decoration: none;
+    &:hover,
+    &:focus-visible {
+      background: #2B2B38;
+      color: #fff;
     }
   }
 
@@ -2147,18 +2134,20 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #56585A;
+    min-width: 30px;
+    height: 30px;
+    justify-content: center;
+    border-radius: 6px;
+    color: #8A8C8F;
     cursor: pointer;
     text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
 
     &::before {
       content: "";
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       background-color: currentColor;
       -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4h8v2'/%3E%3Cpath d='M19 6l-1 14H6L5 6'/%3E%3C/svg%3E") no-repeat center / contain;
       mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4h8v2'/%3E%3Cpath d='M19 6l-1 14H6L5 6'/%3E%3C/svg%3E") no-repeat center / contain;
@@ -2167,12 +2156,42 @@
     &:hover,
     &:focus-visible {
       color: #D5201C;
-      background: #fff;
+      background: #F6F7F8;
     }
 
     &.is-armed {
+      padding: 0 10px;
       color: #D5201C;
-      background: #fff;
+      background: #FCF8F7;
     }
   }
+
+  // The label is for screen readers until the first click asks to confirm.
+  &__remove-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  &__remove.is-armed .wps-liccard__remove-label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+// Links and buttons in the licenses card: no blue ring, a soft gray one for the keyboard only.
+.wps-wrap .wps-liccard a:focus,
+.wps-wrap .wps-liccard a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.wps-wrap .wps-liccard a:focus-visible {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #D0D3D8 !important;
 }

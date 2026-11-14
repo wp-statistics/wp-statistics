@@ -12,70 +12,64 @@ $renewUrl      = 'https://wp-statistics.com/my-account/subscriptions/?utm_source
 <section class="wps-liccard" aria-labelledby="wps-liccard-title">
     <div class="wps-liccard__head">
         <h2 class="wps-liccard__title" id="wps-liccard-title"><?php esc_html_e('Your licenses', 'wp-statistics'); ?></h2>
-        <a class="wps-liccard__add" href="<?php echo esc_url($addLicenseUrl); ?>"><?php esc_html_e('Add another key', 'wp-statistics'); ?></a>
+        <a class="wps-liccard__add" href="<?php echo esc_url($addLicenseUrl); ?>"><?php esc_html_e('Add a new license key', 'wp-statistics'); ?></a>
     </div>
     <ul class="wps-liccard__list">
         <?php foreach ($data['saved_licenses'] as $license) :
             $expired = $license['status'] === 'license_expired';
             $name    = $license['sku'] === 'premium' ? __('Premium', 'wp-statistics') : __('Add-on key', 'wp-statistics');
 
-            // When the key runs out: plain text, amber within 30 days, red once it is over.
-            $expiryText = '';
-            $expiryTone = 'ok';
-            $time       = !empty($license['valid_until']) ? strtotime($license['valid_until']) : false;
+            // One short line: when the key runs out. Amber within 30 days, red once it is over.
+            $line = '';
+            $tone = $expired ? 'expired' : 'ok';
+            $time = !empty($license['valid_until']) ? strtotime($license['valid_until']) : false;
             if ($time !== false) {
                 $days = (int) ceil(($time - time()) / DAY_IN_SECONDS);
                 if ($expired || $days < 0) {
-                    $expiryTone = 'expired';
+                    $tone = 'expired';
                     /* translators: %s: date */
-                    $expiryText = sprintf(__('Expired %s', 'wp-statistics'), wp_date(get_option('date_format'), $time));
+                    $line = sprintf(__('Expired %s', 'wp-statistics'), wp_date(get_option('date_format'), $time));
                 } elseif ($days <= 30) {
-                    $expiryTone = 'soon';
+                    $tone = 'soon';
                     /* translators: %d: number of days */
-                    $expiryText = $days === 0 ? __('Expires today', 'wp-statistics') : sprintf(_n('Expires in %d day', 'Expires in %d days', $days, 'wp-statistics'), $days);
+                    $line = $days === 0 ? __('Expires today', 'wp-statistics') : sprintf(_n('Expires in %d day', 'Expires in %d days', $days, 'wp-statistics'), $days);
                 } else {
                     /* translators: %s: date */
-                    $expiryText = sprintf(__('Expires %s', 'wp-statistics'), wp_date(get_option('date_format'), $time));
+                    $line = sprintf(__('Valid until %s', 'wp-statistics'), wp_date(get_option('date_format'), $time));
                 }
+            } elseif ($expired) {
+                $line = __('Expired', 'wp-statistics');
             }
 
-            // Sites the key allows.
-            $sitesText = '';
-            if (isset($license['max_domains']) && $license['max_domains'] !== '') {
-                $sites     = (int) $license['max_domains'];
+            // Small facts go in one faint bit of text next to the name, only when they say something.
+            $facts = [];
+            if ($license['covers'] > 0) {
+                /* translators: %d: number of add-ons */
+                $facts[] = sprintf(_n('%d add-on', '%d add-ons', $license['covers'], 'wp-statistics'), $license['covers']);
+            }
+            if (isset($license['max_domains']) && (int) $license['max_domains'] > 1) {
                 /* translators: %d: number of sites */
-                $sitesText = $sites > 0 ? sprintf(_n('%d site', '%d sites', $sites, 'wp-statistics'), $sites) : __('Unlimited sites', 'wp-statistics');
+                $facts[] = sprintf(__('%d sites', 'wp-statistics'), (int) $license['max_domains']);
             }
             ?>
-            <li class="wps-liccard__row<?php echo $expired ? ' wps-liccard__row--expired' : ''; ?>">
+            <li class="wps-liccard__row wps-liccard__row--<?php echo esc_attr($tone); ?>">
                 <span class="wps-liccard__icon" aria-hidden="true"></span>
                 <div class="wps-liccard__info">
                     <div class="wps-liccard__name">
                         <strong><?php echo esc_html($name); ?></strong>
                         <code><?php echo esc_html('…' . substr($license['masked'], -4)); ?></code>
-                        <span class="wps-liccard__status"><?php echo $expired ? esc_html__('Expired', 'wp-statistics') : esc_html__('Valid', 'wp-statistics'); ?></span>
-                    </div>
-                    <div class="wps-liccard__meta">
-                        <?php
-                        $parts = [];
-                        if ($license['covers'] > 0) {
-                            /* translators: %d: number of add-ons */
-                            $parts[] = '<span>' . esc_html(sprintf(_n('Unlocks %d add-on', 'Unlocks %d add-ons', $license['covers'], 'wp-statistics'), $license['covers'])) . '</span>';
-                        }
-                        if ($sitesText !== '') {
-                            $parts[] = '<span>' . esc_html($sitesText) . '</span>';
-                        }
-                        if ($expiryText !== '') {
-                            $parts[] = '<span class="wps-liccard__expiry wps-liccard__expiry--' . esc_attr($expiryTone) . '">' . esc_html($expiryText) . '</span>';
-                        }
-                        echo implode('<span aria-hidden="true">·</span>', $parts); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every part is escaped above
-                        ?>
-                        <?php if ($expiryTone !== 'ok') : ?>
-                            <a class="wps-liccard__renew" href="<?php echo esc_url($renewUrl); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Renew', 'wp-statistics'); ?></a>
+                        <?php if ($facts) : ?>
+                            <span class="wps-liccard__facts"><?php echo esc_html(implode(' · ', $facts)); ?></span>
                         <?php endif; ?>
                     </div>
+                    <?php if ($line !== '') : ?>
+                        <div class="wps-liccard__meta wps-liccard__meta--<?php echo esc_attr($tone); ?>"><?php echo esc_html($line); ?></div>
+                    <?php endif; ?>
                 </div>
-                <a class="wps-liccard__remove js-wps-license-remove" data-masked="<?php echo esc_attr($license['masked']); ?>" data-confirm="<?php esc_attr_e('Click again to remove', 'wp-statistics'); ?>" role="button" tabindex="0"><span><?php esc_html_e('Remove', 'wp-statistics'); ?></span></a>
+                <?php if ($tone !== 'ok') : ?>
+                    <a class="wps-liccard__renew" href="<?php echo esc_url($renewUrl); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Renew', 'wp-statistics'); ?></a>
+                <?php endif; ?>
+                <a class="wps-liccard__remove js-wps-license-remove" data-masked="<?php echo esc_attr($license['masked']); ?>" data-confirm="<?php esc_attr_e('Click again to remove', 'wp-statistics'); ?>" role="button" tabindex="0" title="<?php esc_attr_e('Remove license', 'wp-statistics'); ?>"><span class="wps-liccard__remove-label"><?php esc_html_e('Remove license', 'wp-statistics'); ?></span></a>
             </li>
         <?php endforeach; ?>
     </ul>

@@ -48,7 +48,7 @@ class NotificationFactory
         $summary = LicenseHelper::getLicenseSummary();
 
         if (empty($summary['attention'])) {
-            return null;
+            return self::getExpiringSoonNotification();
         }
 
         if ($summary['expired'] > 0) {
@@ -68,6 +68,52 @@ class NotificationFactory
             'description'      => wp_json_encode($text),
             'primary_button'   => ['title' => __('Enter license', 'wp-statistics'), 'url' => admin_url('admin.php?page=wps_plugins_page&tab=add-license')],
             'secondary_button' => ['title' => '', 'url' => ''],
+            'background_color' => 'warning',
+            'plugin_name'      => 'WP Statistics',
+            'activated_at'     => current_time('Y-m-d\TH:i'),
+            'dismiss'          => false,
+            'local'            => true,
+        ];
+    }
+
+    /**
+     * A quiet card for the key that runs out first, when it is 30 days away or less.
+     * It clears itself once the key is renewed, so it has no Dismiss button.
+     *
+     * @return array|null
+     */
+    private static function getExpiringSoonNotification()
+    {
+        $days = null;
+
+        foreach (LicenseHelper::getLicenses('valid') as $license) {
+            $time = !empty($license['valid_until']) ? strtotime($license['valid_until']) : false;
+
+            if ($time === false) {
+                continue;
+            }
+
+            $left = (int) ceil(($time - time()) / DAY_IN_SECONDS);
+
+            if ($left >= 0 && $left <= 30 && ($days === null || $left < $days)) {
+                $days = $left;
+            }
+        }
+
+        if ($days === null) {
+            return null;
+        }
+
+        /* translators: %d: number of days */
+        $title = $days === 0 ? __('A license expires today', 'wp-statistics') : sprintf(_n('A license expires in %d day', 'A license expires in %d days', $days, 'wp-statistics'), $days);
+
+        return [
+            'id'               => 'license-soon',
+            'title'            => $title,
+            'icon'             => wp_json_encode('⏳'),
+            'description'      => wp_json_encode(__('Renew to keep updates and support.', 'wp-statistics')),
+            'primary_button'   => ['title' => __('Renew license', 'wp-statistics'), 'url' => 'https://wp-statistics.com/my-account/subscriptions/?utm_source=wp-statistics&utm_medium=link&utm_campaign=license-soon'],
+            'secondary_button' => ['title' => __('Manage licenses', 'wp-statistics'), 'url' => admin_url('admin.php?page=wps_plugins_page')],
             'background_color' => 'warning',
             'plugin_name'      => 'WP Statistics',
             'activated_at'     => current_time('Y-m-d\TH:i'),
