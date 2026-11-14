@@ -48,7 +48,8 @@ $statusIcons = [
                     <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
                 <?php endif; ?>
                 <?php if ($addOn->isInstalled()) : ?>
-                    <?php $hasLicense = $addOn->isLicenseValid() || $addOn->isLicenseExpired(); ?>
+                    <?php // An expired key still on the site counts too: the customer may have renewed it, so they edit it instead of entering a new one.
+                    $hasLicense = $addOn->isLicenseValid() || $addOn->isLicenseExpired() || !empty(WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::getLicenses('license_expired')); ?>
                     <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo $hasLicense ? esc_html__('Edit License', 'wp-statistics') : esc_html__('Enter License', 'wp-statistics'); ?></a>
                 <?php endif; ?>
             </div>
