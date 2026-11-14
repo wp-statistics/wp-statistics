@@ -507,6 +507,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   color: #ED7A34 !important;
 }
 
+.wp-has-submenu.menu-top.toplevel_page_wps_overview_page .wps-addons-menu {
+  color: #5FAE62 !important;
+}
+
 .wp-has-submenu.menu-top.toplevel_page_wps_overview_page li a.addon-menu {
   margin-top: 10px !important;
 }
@@ -706,7 +710,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     height: 35px;
 
     &--premium {
-      width: 214px;
+      width: 229px;
     }
   }
 
@@ -2881,9 +2885,20 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   max-width: 100%;
   justify-content: space-between;
   align-items: center;
-  margin: 2px auto 22px;
+  margin: 6px auto 17px;
 
   .wps-step-link {
+    border-radius: 4px;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px #D0D3D8;
+    }
 
     &.disabled {
       a {
@@ -2896,6 +2911,17 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       display: flex;
       gap: 8px;
       align-items: center;
+      border-radius: 4px;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+
+      &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px #D0D3D8;
+      }
 
       &.disabled {
         pointer-events: none;
@@ -4503,6 +4529,14 @@ body.wps_page #screen-meta-links {
     outline: 2px solid #404BF2 !important;
     outline-offset: 2px;
   }
+}
+
+// Wizard steps: a soft gray ring for the keyboard instead of the blue one.
+.wps-wrap .wps-steps :is(.wps-step-link, .wps-step-link a):focus,
+.wps-wrap .wps-steps :is(.wps-step-link, .wps-step-link a):focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #D0D3D8 !important;
+  border-radius: 4px;
 }
 
 // The blue header shows no focus border or ring (hover and active states carry the feedback).

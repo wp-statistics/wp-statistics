@@ -854,11 +854,13 @@
   &--new {
     color: #404BF2;
     background: #ECEDFE;
+    border-radius: 13px;
   }
 
   &--updated {
     color: #4F2DBC;
     background: #EBE9F0;
+    border-radius: 13px;
   }
 }
 
@@ -886,8 +888,19 @@
   }
 
   &--installed {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: #196140;
-    background: transparent;
+    background: #E8F4EE;
+
+    &::before {
+      content: "";
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23196140'/%3E%3Cpath d='M4.6 8.2l2.4 2.4 4.4-4.8' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
   }
 
   &--danger {
@@ -901,13 +914,37 @@
   }
 
   &--purple {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: #7362BF;
-    background: #7362BF0D;
+    background: transparent;
+
+    // Spinner while an add-on downloads or activates.
+    &::before {
+      content: "";
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #7362BF33;
+      border-top-color: #7362BF;
+      border-radius: 50%;
+      animation: wps-status-spin .7s linear infinite;
+    }
+  }
+
+  // Short pop when the status changes to Installed or Activated.
+  &--pop {
+    animation: wps-status-pop .45s cubic-bezier(.2, .9, .3, 1.3);
+
+    &::before {
+      animation: wps-status-check .45s ease-out;
+    }
   }
 
   &--waiting {
     color: #7362BF;
-    background: #7362BF0D;
+    background: transparent;
   }
 
   &--disable {
@@ -915,6 +952,36 @@
     background: #F1F2F4;
   }
 
+}
+
+// Status text sits on the plain card, without a colored block behind them.
+.wps-postbox-addon__status.wps-postbox-addon__status {
+  background: transparent;
+  padding: 2px 4px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.wps-postbox-addon__status svg {
+  width: 12px;
+  height: 12px;
+}
+
+.wps-postbox-addon__status--installed::before {
+  width: 12px;
+  height: 12px;
+}
+
+.wps-postbox-addon__status--purple::before {
+  width: 10px;
+  height: 10px;
+}
+
+// Settings entry of an add-on that is installed but switched off.
+.wps-addon--submenu--disabled {
+  opacity: .45;
+  pointer-events: none;
+  cursor: default;
 }
 
 .wps-postbox-addon-button , .wps-wrap a.wps-postbox-addon-button{
@@ -1817,6 +1884,32 @@
   }
 }
 
+// Notice buttons and links: no blue ring and no dark fill on focus, a soft gray ring for the keyboard only.
+.wps-wrap .wps-licnotice :is(.wps-licnotice__button, .wps-licnotice__link, .wps-licnotice__list a):focus,
+.wps-wrap .wps-licnotice :is(.wps-licnotice__button, .wps-licnotice__link, .wps-licnotice__list a):focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.wps-wrap .wps-licnotice :is(.wps-licnotice__button, .wps-licnotice__link, .wps-licnotice__list a):focus-visible {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #D0D3D8 !important;
+}
+
+.wps-wrap .wps-licnotice .wps-licnotice__button:focus:not(:hover) {
+  background: #404BF2;
+}
+
+// Missing or inactive add-ons: orange tint, same family as the other notices.
+.wps-licnotice--warning {
+  background: #FFF9F4;
+  border-color: #F6D5BC;
+
+  .wps-licnotice__icon {
+    background: #ED7A34;
+    color: #fff;
+  }
+}
+
 // Upgrade notice: the green look the old notice had.
 .wps-licnotice--success {
   background: #F8FBF8;
@@ -1826,4 +1919,46 @@
     background: #5FAE62;
     color: #fff;
   }
+}
+
+
+@keyframes wps-status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wps-status-pop {
+  0% {
+    opacity: 0;
+    transform: scale(.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes wps-status-check {
+  0% {
+    transform: scale(0) rotate(-90deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wps-postbox-addon__status--purple::before,
+  .wps-postbox-addon__status--pop,
+  .wps-postbox-addon__status--pop::before {
+    animation: none;
+  }
+}
+
+// Settings opens inside the dashboard, so it shows no external-link icon.
+.wps-addon--submenu.wps-addon--submenu__settings::after,
+.wps-addon--submenu.wps-addon--submenu__settings:after {
+  display: none !important;
+  content: none !important;
 }

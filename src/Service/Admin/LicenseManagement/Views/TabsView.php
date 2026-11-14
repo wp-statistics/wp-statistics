@@ -102,6 +102,18 @@ class TabsView extends BaseTabView
     }
 
     /**
+     * Link to the download step with the saved valid license, or to the license step when there is none.
+     *
+     * @return string
+     */
+    private function getInstallLinkArgs()
+    {
+        $validKeys = array_keys(LicenseHelper::getLicenses('valid'));
+
+        return Menus::admin_url('plugins', !empty($validKeys) ? ['tab' => 'downloads', 'license_key' => $validKeys[0]] : ['tab' => 'add-license']);
+    }
+
+    /**
      * Returns data for "Add-ons" tab.
      *
      * @return array
@@ -117,6 +129,7 @@ class TabsView extends BaseTabView
         $addOnsData['inactive_installed_add_ons']   = $this->dataProvider->getInactiveInstalledAddOns();
         $addOnsData['license_notice_type']          = $this->dataProvider->getLicenseNoticeType();
         $addOnsData['install_addon_link']           = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
+        $addOnsData['download_addons_link']         = esc_url($this->getInstallLinkArgs());
 
         return $addOnsData;
     }
@@ -185,8 +198,10 @@ class TabsView extends BaseTabView
                 $args['title'] = LicenseHelper::isFreeOnly() ? esc_html__('Premium Features', 'wp-statistics') : esc_html__('Add-ons', 'wp-statistics');
 
                 if (is_main_site() && !LicenseHelper::isFreeOnly()) {
-                    $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
-                    $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
+                    $args['install_addon_btn_txt']  = esc_html__('Install Add-ons', 'wp-statistics');
+
+                    // With a valid license already saved, go straight to the download step instead of asking for the key again.
+                    $args['install_addon_btn_link'] = esc_url($this->getInstallLinkArgs());
                 }
 
                 // The free Premium tour has its own heading, so no page title bar there.

@@ -48,14 +48,18 @@ $statusIcons = [
                     <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
                 <?php endif; ?>
                 <?php if ($addOn->isInstalled()) : ?>
-                    <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php esc_html_e('License', 'wp-statistics'); ?></a>
+                    <?php $hasLicense = $addOn->isLicenseValid() || $addOn->isLicenseExpired(); ?>
+                    <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo $hasLicense ? esc_html__('Edit License', 'wp-statistics') : esc_html__('Enter License', 'wp-statistics'); ?></a>
                 <?php endif; ?>
             </div>
             <div class="wps-addon--actions">
                 <span class="wps-addon--actions--show-more js-addon-show-more"></span>
                 <ul class="wps-addon--submenus">
                     <?php if ($addOn->isActivated()) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings" target="_blank"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
+                        <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
+                        <li><span class="wps-separator"></span></li>
+                    <?php elseif ($addOn->isInstalled()) : ?>
+                        <li><a class="wps-addon--submenu wps-addon--submenu__settings wps-addon--submenu--disabled" aria-disabled="true" data-settings-url="<?php echo esc_url($addOn->getSettingsUrl()); ?>" title="<?php esc_attr_e('Activate the add-on to open its settings', 'wp-statistics'); ?>"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
                         <li><span class="wps-separator"></span></li>
                     <?php endif; ?>
                     <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-on Details', 'wp-statistics'); ?></a></li>
