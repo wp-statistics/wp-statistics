@@ -18,7 +18,7 @@ $supportUrl = 'https://wp-statistics.com/contact-us/?utm_source=wp-statistics&ut
         <div class="wps-licnotice__actions">
             <a class="wps-licnotice__button" href="<?php echo esc_url($renewUrl); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Renew license', 'wp-statistics'); ?></a>
             <a class="wps-licnotice__link" href="<?php echo esc_url($licenseUrl); ?>"><?php esc_html_e('Enter a new key', 'wp-statistics'); ?></a>
-            <a class="wps-licnotice__link" href="<?php echo esc_url($supportUrl); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Contact support', 'wp-statistics'); ?></a>
+            <a class="wps-licnotice__link wps-licnotice__support" href="<?php echo esc_url($supportUrl); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Contact support', 'wp-statistics'); ?></a>
         </div>
     </div>
 </div>

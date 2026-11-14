@@ -114,6 +114,28 @@ class TabsView extends BaseTabView
     }
 
     /**
+     * The license keys saved on this site, for the "Your licenses" card. Keys are masked, and the
+     * card refers to a key by its masked form, so a full key never reaches the page.
+     *
+     * @return array
+     */
+    private function getSavedLicenses()
+    {
+        $rows = [];
+
+        foreach (LicenseHelper::getLicenses('all') as $key => $license) {
+            $rows[] = [
+                'masked'  => LicenseHelper::maskKey($key),
+                'status'  => $license['status'] ?? '',
+                'sku'     => $license['sku'] ?? '',
+                'covers'  => is_array($license['products'] ?? null) ? count($license['products']) : 0,
+            ];
+        }
+
+        return $rows;
+    }
+
+    /**
      * Returns data for "Add-ons" tab.
      *
      * @return array
@@ -130,6 +152,7 @@ class TabsView extends BaseTabView
         $addOnsData['license_notice_type']          = $this->dataProvider->getLicenseNoticeType();
         $addOnsData['install_addon_link']           = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
         $addOnsData['download_addons_link']         = esc_url($this->getInstallLinkArgs());
+        $addOnsData['saved_licenses']               = LicenseHelper::canManageLicenses() ? $this->getSavedLicenses() : [];
 
         return $addOnsData;
     }

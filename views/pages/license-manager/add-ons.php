@@ -20,6 +20,11 @@ $isFreeTour = $type === 'no_license' && empty($data['active_addons']);
         $type = '';
     }
 
+    // Shown once after a license was removed from this site.
+    if (!empty($_GET['license_removed'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        View::load('components/notices/license-removed', ['data' => $data]);
+    }
+
     switch ($type) {
         case 'expired_license':
             View::load('components/notices/expired-license', ['data' => $data]);
@@ -39,6 +44,12 @@ $isFreeTour = $type === 'no_license' && empty($data['active_addons']);
         case 'upgrade_to_premium':
             View::load('components/notices/upgrade-to-premium', ['data' => $data]);
             break;
+    }
+    ?>
+
+    <?php
+    if (!$isFreeTour) {
+        View::load('components/licenses-card', ['data' => $data]);
     }
     ?>
 

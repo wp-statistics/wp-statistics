@@ -32,6 +32,34 @@ class LicenseHelper
     }
 
     /**
+     * Shows only the last four characters of a key.
+     *
+     * @param string $licenseKey
+     * @return string
+     */
+    public static function maskKey($licenseKey)
+    {
+        return str_repeat('•', max(0, strlen($licenseKey) - 4)) . substr($licenseKey, -4);
+    }
+
+    /**
+     * Finds the saved key that matches a masked key.
+     *
+     * @param string $masked
+     * @return string|null
+     */
+    public static function findKeyByMask($masked)
+    {
+        foreach (array_keys(self::getLicenses('all')) as $key) {
+            if (self::maskKey((string) $key) === $masked) {
+                return (string) $key;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns the stored info for a given license key.
      *
      * @param string $licenseKey

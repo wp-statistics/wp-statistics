@@ -1787,6 +1787,7 @@
   }
 
   &__body {
+    flex: 1;
     min-width: 0;
   }
 
@@ -1961,4 +1962,191 @@
 .wps-addon--submenu.wps-addon--submenu__settings:after {
   display: none !important;
   content: none !important;
+}
+
+// Contact support sits at the far end of the notice actions, with a headset icon.
+.wps-licnotice__actions .wps-licnotice__support {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-inline-start: auto;
+  color: #404BF2;
+
+  &::before {
+    content: "";
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 14v-2a9 9 0 0 1 18 0v2'/%3E%3Cpath d='M21 15a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2z'/%3E%3Cpath d='M3 15a2 2 0 0 0 2 2h1v-5H5a2 2 0 0 0-2 2z'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 14v-2a9 9 0 0 1 18 0v2'/%3E%3Cpath d='M21 15a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2z'/%3E%3Cpath d='M3 15a2 2 0 0 0 2 2h1v-5H5a2 2 0 0 0-2 2z'/%3E%3C/svg%3E") no-repeat center / contain;
+  }
+}
+
+// Every link in a notice gets the same hover: a darker blue, text and icon together.
+.wps-wrap .wps-licnotice .wps-licnotice__link {
+  color: #404BF2;
+
+  &:hover,
+  &:focus-visible {
+    color: #2F39D1;
+  }
+}
+
+// "Your licenses" card on the Add-ons screen.
+.wps-liccard {
+  margin-bottom: 20px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #DADCE0;
+  border-radius: 12px;
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+    color: #0C0C0D;
+  }
+
+  &__add {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border: 1px solid #DADCE0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0C0C0D;
+    text-decoration: none;
+
+    &:hover {
+      background: #F6F7F8;
+      color: #0C0C0D;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+    padding: 14px 16px;
+    border: 1px solid #B9DDB9;
+    border-radius: 10px;
+    background: #F8FBF8;
+
+    &--expired {
+      border-color: #F3BDBB;
+      background: #FCF8F7;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    background-color: #3E9B5F;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7.5' cy='15.5' r='4.5'/%3E%3Cpath d='M10.7 12.3L21 2'/%3E%3Cpath d='M17 6l3 3'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7.5' cy='15.5' r='4.5'/%3E%3Cpath d='M10.7 12.3L21 2'/%3E%3Cpath d='M17 6l3 3'/%3E%3C/svg%3E") no-repeat center / contain;
+  }
+
+  &__row--expired &__icon {
+    background-color: #D5201C;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 15px;
+    line-height: 22px;
+    color: #0C0C0D;
+
+    strong {
+      font-weight: 600;
+    }
+
+    code {
+      padding: 0;
+      background: transparent;
+      font-size: 13px;
+      color: #56585A;
+    }
+  }
+
+  &__status {
+    font-size: 13px;
+    font-weight: 600;
+    color: #3E9B5F;
+  }
+
+  &__row--expired &__status {
+    color: #D5201C;
+  }
+
+  &__meta {
+    font-size: 13px;
+    line-height: 20px;
+    color: #56585A;
+  }
+
+  &__remove {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #56585A;
+    cursor: pointer;
+    text-decoration: none;
+
+    &::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      background-color: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4h8v2'/%3E%3Cpath d='M19 6l-1 14H6L5 6'/%3E%3C/svg%3E") no-repeat center / contain;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4h8v2'/%3E%3Cpath d='M19 6l-1 14H6L5 6'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: #D5201C;
+      background: #fff;
+    }
+
+    &.is-armed {
+      color: #D5201C;
+      background: #fff;
+    }
+  }
 }

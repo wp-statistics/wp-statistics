@@ -189,6 +189,72 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         };
 
+        // Remove license: the first click asks to confirm, the second one removes the key from this site.
+        const handleRemoveLicense = (link) => {
+            const label = link.querySelector('span') || link;
+
+            if (!link.dataset.armed) {
+                link.dataset.armed = '1';
+                link.dataset.label = label.textContent;
+                label.textContent = link.dataset.confirm;
+                link.classList.add('is-armed');
+                setTimeout(() => {
+                    if (link.dataset.armed && !link.dataset.busy) {
+                        delete link.dataset.armed;
+                        label.textContent = link.dataset.label;
+                        link.classList.remove('is-armed');
+                    }
+                }, 5000);
+                return;
+            }
+
+            if (link.dataset.busy) return;
+            link.dataset.busy = '1';
+            label.textContent = '...';
+
+            jQuery.ajax({
+                url: wps_js.global.admin_url + 'admin-ajax.php',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    'wps_nonce': wps_js.global.rest_api_nonce,
+                    'action': 'wp_statistics_remove_license',
+                    'masked_key': link.dataset.masked
+                },
+                timeout: 30000,
+                success: function (data) {
+                    if (data.success) {
+                        window.location.href = 'admin.php?page=wps_plugins_page&tab=add-ons&license_removed=1';
+                        return;
+                    }
+                    delete link.dataset.busy;
+                    delete link.dataset.armed;
+                    label.textContent = data?.data?.message || link.dataset.label;
+                    link.classList.remove('is-armed');
+                },
+                error: function () {
+                    delete link.dataset.busy;
+                    delete link.dataset.armed;
+                    label.textContent = link.dataset.label;
+                    link.classList.remove('is-armed');
+                }
+            });
+        };
+
+        document.querySelectorAll('.js-wps-license-remove').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                handleRemoveLicense(link);
+            });
+            link.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    handleRemoveLicense(link);
+                }
+            });
+        });
+
         handleAddonAction(retry_addon_install_btn, 'wp_statistics_download_plugin', 'plugin_slug');
         handleAddonAction(active_addon_plugin_btn, 'wp_statistics_activate_plugin', 'plugin_slug');
 
