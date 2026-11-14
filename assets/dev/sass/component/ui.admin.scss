@@ -515,6 +515,23 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   margin-top: 10px !important;
 }
 
+// The Add-ons item keeps its state color (orange: needs attention, green: all good), so on its own
+// page "selected" is shown by bold text and a small dot instead of WordPress's white.
+.wp-has-submenu.menu-top.toplevel_page_wps_overview_page li.current a.addon-menu :is(.wps-text-warning, .wps-addons-menu) {
+  font-weight: 700;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-inline-start: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    vertical-align: middle;
+  }
+}
+
 .toplevel_page_wps_overview_page .wps-wrap,
 .statistics_page_wps_hits_page .wps-wrap,
 .statistics_page_wps_online_page .wps-wrap,
