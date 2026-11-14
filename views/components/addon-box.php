@@ -45,7 +45,7 @@ $statusIcons = [
         <div class="wps-postbox-addon__item--actions">
             <div class="wps-postbox-addon__buttons">
                 <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
-                    <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
+                    <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Activate', 'wp-statistics'); ?>"><?php esc_html_e('Activate', 'wp-statistics'); ?></a>
                 <?php endif; ?>
                 <?php if ($addOn->isInstalled()) : ?>
                     <?php // An expired key still on the site counts too: the customer may have renewed it, so they edit it instead of entering a new one.
