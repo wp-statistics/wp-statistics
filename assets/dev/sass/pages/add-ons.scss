@@ -1922,6 +1922,27 @@
   }
 }
 
+// One short line, no buttons: the confirmation after a key is removed.
+.wps-licnotice--compact {
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+
+  .wps-licnotice__icon {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .wps-licnotice__text {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0C0C0D;
+  }
+}
+
 
 @keyframes wps-status-spin {
   to {
