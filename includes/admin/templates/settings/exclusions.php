@@ -101,7 +101,7 @@ use WP_STATISTICS\Option;
                 </th>
                 <td>
                     <input id="wps_robot_threshold" type="text" size="5" name="wps_robot_threshold" value="<?php echo esc_attr(WP_STATISTICS\Option::get('robot_threshold')); ?>">
-                    <p class="description"><?php echo esc_html__('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo esc_html__('Set a threshold for daily robot visits. Robots that exceed this number of daily visits will be identified as bots.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>

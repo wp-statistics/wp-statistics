@@ -19,7 +19,7 @@
         <?php if ($notice['is_dismissible']) : ?>
             <?php if ($dismissUrl) : ?>
                 <a href="<?php echo esc_url($dismissUrl); ?>" class="notice--dismiss">
-                    <?php echo esc_html_e('Dismiss', 'wp-statistics'); ?>
+                    <?php esc_html_e('Dismiss', 'wp-statistics'); ?>
                 </a>
             <?php endif; ?>
         <?php endif; ?>

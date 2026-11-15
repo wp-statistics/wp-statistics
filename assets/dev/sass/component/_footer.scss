@@ -340,3 +340,10 @@
   margin-left: 0;
   position: absolute !important;
 }
+
+// The footer is absolute, so it needs one fixed parent that starts after the WordPress menu (#wpcontent,
+// which holds every admin page).
+// Without it the footer could start at the screen edge, under the menu, on short pages.
+.wps_page #wpcontent {
+  position: relative;
+}

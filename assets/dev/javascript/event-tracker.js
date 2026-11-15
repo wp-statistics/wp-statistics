@@ -2,11 +2,20 @@ if (!window.WpStatisticsEventTracker) {
     window.WpStatisticsEventTracker = {
         // Prevent init() from running more than once
         hasEventsInitializedOnce: false,
+        isTrackingEnabled: false,
         downloadTracker: false,
         linkTracker: false,
+        guardedLegacyEventTracker: null,
 
         init: async function () {
-            if (this.hasEventsInitializedOnce || WP_Statistics_Tracker_Object.isLegacyEventLoaded) {
+            this.isTrackingEnabled = true;
+
+            if (WP_Statistics_Tracker_Object.isLegacyEventLoaded) {
+                this.guardLegacyEventTracker();
+                return;
+            }
+
+            if (this.hasEventsInitializedOnce) {
                 return;
             }
             this.hasEventsInitializedOnce = true;
@@ -30,9 +39,36 @@ if (!window.WpStatisticsEventTracker) {
         }
     },
 
+    stop: function () {
+        this.isTrackingEnabled = false;
+    },
+
+    guardLegacyEventTracker: function () {
+        // Older Data Plus declares this with a top-level `let`, so it is a global binding, not a window property.
+        const legacyTracker = typeof wpStatisticsDataPlusEvents !== 'undefined' ? wpStatisticsDataPlusEvents : window.wpStatisticsDataPlusEvents;
+
+        if (!legacyTracker || typeof legacyTracker.sendEventData !== 'function' || this.guardedLegacyEventTracker === legacyTracker) {
+            return;
+        }
+
+        const eventTracker = this;
+        const sendEventData = legacyTracker.sendEventData;
+
+        legacyTracker.sendEventData = function () {
+            if (!eventTracker.isTrackingEnabled) {
+                return Promise.resolve();
+            }
+
+            return sendEventData.apply(this, arguments);
+        };
+        this.guardedLegacyEventTracker = legacyTracker;
+    },
+
     // Handles preparing and sending marketing custom events to the server
     handleCustomEvent: function (eventName, eventData = {}) {
-        const ajaxUrl = WP_Statistics_Tracker_Object.customEventAjaxUrl;
+        // The nonce travels in the POST body, so no tracking URL with a query string is printed in the page HTML.
+        // customEventAjaxUrl only exists on pages cached before this change.
+        const ajaxUrl = WP_Statistics_Tracker_Object.customEventAjaxUrl || WP_Statistics_Tracker_Object.ajaxUrl;
 
         // Add timestamp
         eventData.timestamp = Date.now();
@@ -46,6 +82,11 @@ if (!window.WpStatisticsEventTracker) {
             event_name: eventName,
             event_data: JSON.stringify(eventData)
         };
+
+        if (WP_Statistics_Tracker_Object.customEventNonce) {
+            data.action = 'wp_statistics_custom_event';
+            data.nonce = WP_Statistics_Tracker_Object.customEventNonce;
+        }
 
         this.sendEventData(data, ajaxUrl);
     },
@@ -190,6 +231,10 @@ if (!window.WpStatisticsEventTracker) {
         },
 
     sendEventData: async function (eventData, ajaxUrl) {
+        if (!this.isTrackingEnabled) {
+            return;
+        }
+
         const formData = new URLSearchParams();
         for (const key in eventData) {
             formData.append(key, eventData[key]);

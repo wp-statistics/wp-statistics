@@ -1,3 +1,15 @@
+14.16.19 - 2026-11-15
+- **Enhancement:** Plainer privacy wording and updated GeoIP credit.
+- **Enhancement:** Notifications, Add-ons page and license improvements.
+- **Change:** Real Cookie Banner: visitors who decline or have not chosen are no longer counted.
+- **Change:** CookieYes: visitors who decline are no longer counted ([#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
+- **Fix:** Background jobs now finish when a firewall blocks `admin-ajax.php` ([#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
+- **Fix:** Tracking stops right away when a visitor withdraws consent ([#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Fix:** SPA navigations are counted on the correct page, without duplicates.
+- **Fix:** WooCommerce product searches show in Search Terms ([#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
+- **Fix:** Custom events no longer print a changing nonce URL in the page source ([#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
+- **Fix:** Upgrade progress messages render correctly in translations.
+
 14.16.18 - 2026-10-23
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
 - **Enhancement:** Tracker Debugger shows when the last visit was recorded, warns when visits stop, and shows whether your consent plugin is blocking them (issue [#1178](https://github.com/wp-statistics/wp-statistics/issues/1178)).
@@ -88,10 +100,10 @@
 - **Enhancement:** Updated Device Detector library (6.4.7 → 6.5.0) with latest browser, device, and bot detection rules.
 - **Enhancement:** Updated MaxMind DB Reader (1.12.1 → 1.13.1) and GeoIP2 libraries.
 
-14.16.3 - 2025-02-23
+14.16.3 - 2026-02-23
 - **Fix:** Minor improvements and fix version.
 
-14.16.1 - 2025-02-09
+14.16.1 - 2026-02-09
 - **Fix:** Fixed an issue where historical data was not included in single-content/single-resource reports.
 - **Fix:** Improved compatibility with Bedrock when WP Statistics is placed in mu-plugins by fixing asset hashing and obfuscated tracker path resolution.
 - **Fix:** Fixed an issue where the Page ID was not correctly updated during Interactivity API navigation and barba.js transitions.

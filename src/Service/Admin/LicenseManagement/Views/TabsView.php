@@ -102,6 +102,42 @@ class TabsView extends BaseTabView
     }
 
     /**
+     * Link to the download step with the saved valid license, or to the license step when there is none.
+     *
+     * @return string
+     */
+    private function getInstallLinkArgs()
+    {
+        $validKeys = array_keys(LicenseHelper::getLicenses('valid'));
+
+        return Menus::admin_url('plugins', !empty($validKeys) ? ['tab' => 'downloads', 'license_key' => $validKeys[0]] : ['tab' => 'add-license']);
+    }
+
+    /**
+     * The license keys saved on this site, for the "Your licenses" card. Keys are masked, and the
+     * card refers to a key by its masked form, so a full key never reaches the page.
+     *
+     * @return array
+     */
+    private function getSavedLicenses()
+    {
+        $rows = [];
+
+        foreach (LicenseHelper::getLicenses('all') as $key => $license) {
+            $rows[] = [
+                'masked'  => LicenseHelper::maskKey($key),
+                'status'  => $license['status'] ?? '',
+                'sku'     => $license['sku'] ?? '',
+                'covers'  => is_array($license['products'] ?? null) ? count($license['products']) : 0,
+                'valid_until' => $license['valid_until'] ?? null,
+                'max_domains' => $license['max_domains'] ?? null,
+            ];
+        }
+
+        return $rows;
+    }
+
+    /**
      * Returns data for "Add-ons" tab.
      *
      * @return array
@@ -117,6 +153,8 @@ class TabsView extends BaseTabView
         $addOnsData['inactive_installed_add_ons']   = $this->dataProvider->getInactiveInstalledAddOns();
         $addOnsData['license_notice_type']          = $this->dataProvider->getLicenseNoticeType();
         $addOnsData['install_addon_link']           = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
+        $addOnsData['download_addons_link']         = esc_url($this->getInstallLinkArgs());
+        $addOnsData['saved_licenses']               = LicenseHelper::canManageLicenses() ? $this->getSavedLicenses() : [];
 
         return $addOnsData;
     }
@@ -182,14 +220,17 @@ class TabsView extends BaseTabView
             ];
 
             if ($this->isTab('add-ons')) {
-                $args['title'] = esc_html__('Add-ons', 'wp-statistics');
+                $args['title'] = LicenseHelper::isFreeOnly() ? esc_html__('Premium Features', 'wp-statistics') : esc_html__('Add-ons', 'wp-statistics');
 
-                if (is_main_site()) {
-                    $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
-                    $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
+                if (is_main_site() && !LicenseHelper::isFreeOnly()) {
+                    $args['install_addon_btn_txt']  = esc_html__('Install Add-ons', 'wp-statistics');
+
+                    // With a valid license already saved, go straight to the download step instead of asking for the key again.
+                    $args['install_addon_btn_link'] = esc_url($this->getInstallLinkArgs());
                 }
 
-                Admin_Template::get_template(['layout/header', 'layout/title'], $args);
+                // The free Premium tour has its own heading, so no page title bar there.
+                Admin_Template::get_template(LicenseHelper::isFreeOnly() ? ['layout/header'] : ['layout/header', 'layout/title'], $args);
             } else {
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }

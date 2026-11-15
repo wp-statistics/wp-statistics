@@ -96,6 +96,18 @@ class BorlabsCookie extends AbstractIntegration
     }
 
     /**
+     * Tells the tracker whether Anonymous Tracking is on, so a decline does not stop the count.
+     *
+     * @return  array
+     */
+    public function getStatus()
+    {
+        return array_merge(parent::getStatus(), [
+            'anonymous_tracking' => $this->trackAnonymously(),
+        ]);
+    }
+
+    /**
      * Return an array of js handles for this integration.
      * The result will be used as dependencies for the tracker js file
      *

@@ -1,5 +1,9 @@
 if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "plugins") {
     jQuery(document).ready(function () {
+        // Row action box that holds status label and buttons, for any add-on step layout.
+        const getActionBox = (el) => el.closest('.wps-addon__download__item--select, .wps-addon__download__item--actions') || el.parentElement.parentElement;
+        // Find the control for a slug: checkbox first, then activate, then retry button.
+        const findAddonControl = (slug) => document.querySelector(`.js-wps-addon-check-box[data-slug="${slug}"]`) || document.querySelector(`.js-addon-active-plugin-btn[data-slug="${slug}"]`) || document.querySelector(`.js-addon-retry-btn[data-slug="${slug}"]`) || document.querySelector(`[data-slug="${slug}"]`);
         const action_buttons = document.querySelectorAll('.js-addon-show-more');
         const license_buttons = document.querySelectorAll('.js-wps-addon-license-button');
         const addon_items = document.querySelectorAll('.js-wps-addon-check-box');
@@ -185,6 +189,72 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         };
 
+        // Remove license: the first click asks to confirm, the second one removes the key from this site.
+        const handleRemoveLicense = (link) => {
+            const label = link.querySelector('span') || link;
+
+            if (!link.dataset.armed) {
+                link.dataset.armed = '1';
+                link.dataset.label = label.textContent;
+                label.textContent = link.dataset.confirm;
+                link.classList.add('is-armed');
+                setTimeout(() => {
+                    if (link.dataset.armed && !link.dataset.busy) {
+                        delete link.dataset.armed;
+                        label.textContent = link.dataset.label;
+                        link.classList.remove('is-armed');
+                    }
+                }, 5000);
+                return;
+            }
+
+            if (link.dataset.busy) return;
+            link.dataset.busy = '1';
+            label.textContent = '...';
+
+            jQuery.ajax({
+                url: wps_js.global.admin_url + 'admin-ajax.php',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    'wps_nonce': wps_js.global.rest_api_nonce,
+                    'action': 'wp_statistics_remove_license',
+                    'masked_key': link.dataset.masked
+                },
+                timeout: 30000,
+                success: function (data) {
+                    if (data.success) {
+                        window.location.href = 'admin.php?page=wps_plugins_page&tab=add-ons&license_removed=1';
+                        return;
+                    }
+                    delete link.dataset.busy;
+                    delete link.dataset.armed;
+                    label.textContent = data?.data?.message || link.dataset.label;
+                    link.classList.remove('is-armed');
+                },
+                error: function () {
+                    delete link.dataset.busy;
+                    delete link.dataset.armed;
+                    label.textContent = link.dataset.label;
+                    link.classList.remove('is-armed');
+                }
+            });
+        };
+
+        document.querySelectorAll('.js-wps-license-remove').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                handleRemoveLicense(link);
+            });
+            link.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    handleRemoveLicense(link);
+                }
+            });
+        });
+
         handleAddonAction(retry_addon_install_btn, 'wp_statistics_download_plugin', 'plugin_slug');
         handleAddonAction(active_addon_plugin_btn, 'wp_statistics_activate_plugin', 'plugin_slug');
 
@@ -352,37 +422,38 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             }
             if (params.action === "wp_statistics_download_plugin") {
-                const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
+                const current_plugin_checkbox = findAddonControl(params.plugin_slug);
                 if (current_plugin_checkbox) {
-                    const downloadingStatus = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
+                    const downloadingStatus = getActionBox(current_plugin_checkbox).querySelector('.wps-postbox-addon__status');
                     if (downloadingStatus) {
                         downloadingStatus.remove();
                     }
                     const statusSpan = document.createElement('span');
                     statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--danger');
                     statusSpan.textContent = wps_js._('failed');
-                    current_plugin_checkbox.parentElement.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.parentElement.firstChild);
+                    getActionBox(current_plugin_checkbox).insertBefore(statusSpan, getActionBox(current_plugin_checkbox).firstChild);
 
                     if (params.tab === 'get-started') {
+                        getActionBox(current_plugin_checkbox).querySelectorAll('.js-addon-retry-btn').forEach(old => old.remove());
                         const retryBtn = document.createElement('a');
                         retryBtn.classList.add('wps-postbox-addon__button', 'button-retry-addon-download', 'js-addon-retry-btn');
                         retryBtn.textContent = wps_js._('retry');
                         retryBtn.setAttribute('data-slug', params.plugin_slug);
-                        current_plugin_checkbox.parentElement.parentElement.insertBefore(retryBtn, statusSpan.nextSibling);
+                        getActionBox(current_plugin_checkbox).insertBefore(retryBtn, statusSpan.nextSibling);
                     }
                 }
             }
             if (params.action === "wp_statistics_activate_plugin") {
-                const current_plugin = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
+                const current_plugin = findAddonControl(params.plugin_slug);
                 if (current_plugin) {
-                    const loadingStatus = current_plugin.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
+                    const loadingStatus = getActionBox(current_plugin).querySelector('.wps-postbox-addon__status');
                     if (loadingStatus) {
                         loadingStatus.remove();
                     }
                     const statusSpan = document.createElement('span');
                     statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--danger');
                     statusSpan.textContent = wps_js._('failed');
-                    current_plugin.parentElement.parentElement.insertBefore(statusSpan, current_plugin.parentElement.parentElement.firstChild);
+                    getActionBox(current_plugin).insertBefore(statusSpan, getActionBox(current_plugin).firstChild);
                     current_plugin.style.display = 'flex';
                 }
             }
@@ -392,18 +463,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (button)  wps_js.loading_button(button)
             if (params.action === "wp_statistics_download_plugin") {
 
-                const current_plugin = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
+                const current_plugin = findAddonControl(params.plugin_slug);
                 if (current_plugin) {
-                    const statusLable = current_plugin.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
+                    const statusLable = getActionBox(current_plugin).querySelector('.wps-postbox-addon__status');
                     if (statusLable) {
                         statusLable.remove();
                     }
                     const statusSpan = document.createElement('span');
                     statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--purple');
                     statusSpan.textContent = wps_js._('downloading');
-                    if (current_plugin && current_plugin.parentElement.parentElement) {
-                        current_plugin.parentElement.parentElement.insertBefore(statusSpan, current_plugin.parentElement.parentElement.firstChild);
+                    if (current_plugin && getActionBox(current_plugin)) {
+                        getActionBox(current_plugin).insertBefore(statusSpan, getActionBox(current_plugin).firstChild);
                         current_plugin.style.display = 'none';
+                        // The checkbox wrapper stays empty, so hide it too or its flex gap pushes the status away from the edge.
+                        if (current_plugin.parentElement && current_plugin.parentElement !== getActionBox(current_plugin) && current_plugin.parentElement.tagName === 'SPAN') {
+                            current_plugin.parentElement.style.display = 'none';
+                        }
                     }
 
                 }
@@ -411,18 +486,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             if (params.action === "wp_statistics_activate_plugin") {
 
-                const current_plugin = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
+                const current_plugin = findAddonControl(params.plugin_slug);
                 if (current_plugin) {
-                    const statusLable = current_plugin.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
+                    const statusLable = getActionBox(current_plugin).querySelector('.wps-postbox-addon__status');
                     if (statusLable) {
                         statusLable.remove();
                     }
                     const statusSpan = document.createElement('span');
                     statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--purple');
                     statusSpan.textContent = wps_js._('activating');
-                    if (current_plugin && current_plugin.parentElement.parentElement) {
-                        current_plugin.parentElement.parentElement.insertBefore(statusSpan, current_plugin.parentElement.parentElement.firstChild);
+                    if (current_plugin && getActionBox(current_plugin)) {
+                        getActionBox(current_plugin).insertBefore(statusSpan, getActionBox(current_plugin).firstChild);
                         current_plugin.style.display = 'none';
+                        // The checkbox wrapper stays empty, so hide it too or its flex gap pushes the status away from the edge.
+                        if (current_plugin.parentElement && current_plugin.parentElement !== getActionBox(current_plugin) && current_plugin.parentElement.tagName === 'SPAN') {
+                            current_plugin.parentElement.style.display = 'none';
+                        }
                     }
                 }
             }
@@ -466,10 +545,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                         }
                         if (params.action === "wp_statistics_download_plugin") {
-                            const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
+                            const current_plugin_checkbox = findAddonControl(params.plugin_slug);
                             if (current_plugin_checkbox) {
-                                const loadingStatus = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__status--purple');
-                                const updatedLable = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__label--updated');
+                                const loadingStatus = getActionBox(current_plugin_checkbox).querySelector('.wps-postbox-addon__status--purple');
+                                const updatedLable = getActionBox(current_plugin_checkbox).querySelector('.wps-postbox-addon__label--updated');
                                 if (loadingStatus) {
                                     loadingStatus.remove();
                                 }
@@ -477,10 +556,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                     updatedLable.remove();
                                 }
                                 const statusSpan = document.createElement('span');
-                                statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--installed');
+                                statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--installed', 'wps-postbox-addon__status--pop');
                                 statusSpan.textContent = wps_js._('already_installed');
-                                if (current_plugin_checkbox && current_plugin_checkbox.parentElement.parentElement) {
-                                    current_plugin_checkbox.parentElement.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.parentElement.firstChild);
+                                if (current_plugin_checkbox && getActionBox(current_plugin_checkbox)) {
+                                    getActionBox(current_plugin_checkbox).insertBefore(statusSpan, getActionBox(current_plugin_checkbox).firstChild);
                                 }
 
                                 if (params.tab === 'downloads') {
@@ -503,16 +582,25 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             }
                         }
                         if (params.action === "wp_statistics_activate_plugin") {
-                            const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
+                            const current_plugin_checkbox = findAddonControl(params.plugin_slug);
                             if (current_plugin_checkbox) {
-                                const loadingStatus = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__status--purple');
+                                const loadingStatus = getActionBox(current_plugin_checkbox).querySelector('.wps-postbox-addon__status--purple');
                                 if (loadingStatus) {
                                     loadingStatus.remove();
                                 }
                                 const statusSpan = document.createElement('span');
-                                statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--success');
+                                statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--success', 'wps-postbox-addon__status--pop');
                                 statusSpan.textContent = wps_js._('activated');
-                                current_plugin_checkbox.parentElement.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.parentElement.firstChild);
+                                getActionBox(current_plugin_checkbox).insertBefore(statusSpan, getActionBox(current_plugin_checkbox).firstChild);
+
+                                // The add-on is active now, so its Settings link in the menu works right away.
+                                const settingsLink = getActionBox(current_plugin_checkbox).querySelector('.wps-addon--submenu--disabled');
+                                if (settingsLink && settingsLink.dataset.settingsUrl) {
+                                    settingsLink.setAttribute('href', settingsLink.dataset.settingsUrl);
+                                    settingsLink.removeAttribute('aria-disabled');
+                                    settingsLink.removeAttribute('title');
+                                    settingsLink.classList.remove('wps-addon--submenu--disabled');
+                                }
                                 current_plugin_checkbox.remove();
                             }
                         }

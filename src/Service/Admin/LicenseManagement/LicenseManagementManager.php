@@ -49,10 +49,22 @@ class LicenseManagementManager
 
     public function addMenuItem($items)
     {
+        // A site with only the free plugin and no license sees "Go Premium" here.
+        $label = LicenseHelper::isFreeOnly() ? __('Go Premium', 'wp-statistics') : __('Add-ons', 'wp-statistics');
+
+        // Orange asks for a click: free-only sites, or a license problem. Green means the licenses are fine (switched-off add-ons do not count).
+        $labelClass = 'wps-text-warning';
+        if (!LicenseHelper::isFreeOnly() && LicenseHelper::canManageLicenses()) {
+            $summary = LicenseHelper::getLicenseSummary();
+            if ($summary['expired'] === 0 && $summary['missing'] === 0) {
+                $labelClass = 'wps-addons-menu';
+            }
+        }
+
         $items['plugins'] = [
             'sub'      => 'overview',
-            'title'    => __('Add-ons', 'wp-statistics'),
-            'name'     => '<span class="wps-text-warning">' . __('Add-ons', 'wp-statistics') . '</span>',
+            'title'    => $label,
+            'name'     => '<span class="' . $labelClass . '">' . $label . '</span>',
             'page_url' => 'plugins',
             'callback' => LicenseManagerPage::class,
             'cap'      => User::ExistCapability(Option::get('manage_capability', 'manage_options')),

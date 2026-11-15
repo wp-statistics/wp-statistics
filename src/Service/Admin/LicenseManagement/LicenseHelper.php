@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 use Exception;
 use WP_Statistics\Exception\LicenseException;
 use WP_STATISTICS\Option;
+use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 class LicenseHelper
@@ -28,6 +29,34 @@ class LicenseHelper
         }
 
         return $licenses;
+    }
+
+    /**
+     * Shows only the last four characters of a key.
+     *
+     * @param string $licenseKey
+     * @return string
+     */
+    public static function maskKey($licenseKey)
+    {
+        return str_repeat('•', max(0, strlen($licenseKey) - 4)) . substr($licenseKey, -4);
+    }
+
+    /**
+     * Finds the saved key that matches a masked key.
+     *
+     * @param string $masked
+     * @return string|null
+     */
+    public static function findKeyByMask($masked)
+    {
+        foreach (array_keys(self::getLicenses('all')) as $key) {
+            if (self::maskKey((string) $key) === $masked) {
+                return (string) $key;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -122,6 +151,7 @@ class LicenseHelper
             'type'        => $licenseData->license_details->type ?? null,
             'sku'         => $licenseData->license_details->sku ?? null,
             'max_domains' => $licenseData->license_details->max_domains ?? null,
+            'valid_until' => $licenseData->license_details->valid_until ?? null,
             'user'        => $licenseData->license_details->user ?? null,
             'products'    => isset($licenseData->products) ? wp_list_pluck($licenseData->products, 'slug') : null,
         ];
@@ -179,6 +209,82 @@ class LicenseHelper
     }
 
     /**
+     * Only license managers on the main site can act on license notices, so only they see them
+     * and only their page loads read the add-on list.
+     *
+     * @return bool
+     */
+    public static function canManageLicenses()
+    {
+        $manageCap = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
+
+        return is_main_site() && $manageCap && current_user_can($manageCap);
+    }
+
+    /**
+     * True for a site with no license and no add-on installed: the plain free plugin.
+     * Its Add-ons screen is a Premium tour, so the menu and title say "Go Premium".
+     *
+     * @return bool
+     */
+    public static function isFreeOnly()
+    {
+        return self::canManageLicenses() && empty(self::getLicenses('all')) && empty(self::getLicenseSummary()['installed']);
+    }
+
+    /**
+     * One summary of the add-ons and their licenses, shared by the header badge and the Add-ons screen.
+     * Built once per request.
+     *
+     * @return array total, licensed, installed, missing, expired, inactive, not_installed, attention
+     */
+    public static function getLicenseSummary()
+    {
+        static $summary = null;
+
+        if ($summary !== null) {
+            return $summary;
+        }
+
+        $result = ['total' => 0, 'licensed' => 0, 'installed' => 0, 'missing' => 0, 'expired' => 0, 'inactive' => 0, 'not_installed' => 0, 'attention' => 0];
+
+        try {
+            foreach (PluginHelper::getRemotePlugins() as $plugin) {
+                $result['total']++;
+
+                $installed = $plugin->isInstalled();
+                $valid     = $plugin->isLicenseValid();
+
+                if ($valid) {
+                    $result['licensed']++;
+                }
+
+                if (!$installed) {
+                    $result['not_installed']++;
+                    continue;
+                }
+
+                $result['installed']++;
+
+                if ($plugin->isLicenseExpired()) {
+                    $result['expired']++;
+                } elseif (!$valid) {
+                    $result['missing']++;
+                } elseif (!$plugin->isActivated()) {
+                    $result['inactive']++;
+                }
+            }
+        } catch (\Throwable $e) {
+            return $result;
+        }
+
+        $result['attention'] = $result['missing'] + $result['expired'] + $result['inactive'];
+        $summary             = $result;
+
+        return $summary;
+    }
+
+    /**
      * Checks all stored licenses to see if they are valid or not.
      *
      * @return void
@@ -200,7 +306,7 @@ class LicenseHelper
                 if ($e->getStatus() === 'license_expired') {
                     $data['status'] = $e->getStatus();
                     LicenseHelper::updateLicense($key, $data);
-                    return;
+                    continue; // keep checking the other keys
                 }
 
                 // If license is invalid, remove the license

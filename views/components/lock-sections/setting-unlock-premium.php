@@ -34,7 +34,7 @@ $allowed_html = [
     </div>
 <?php endif; ?>
 <h2 class="wps-premium-feature__info">
-    <?php echo esc_html_e('To unlock every premium feature in WP Statistics, upgrade to Premium.', 'wp-statistics'); ?>
+    <?php esc_html_e('To unlock every premium feature in WP Statistics, upgrade to Premium.', 'wp-statistics'); ?>
 </h2>
 <div class="wps-premium-feature__buttons">
     <a class="button button-primary" target="_blank" href="<?php

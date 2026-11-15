@@ -10,7 +10,7 @@ $isCompliant      = $data['compliance_status']['percentage_ready'] == 100;
 $privacyPolicyUrl = admin_url( 'privacy-policy-guide.php' );
 
 Modal::render('privacy-audit-confirmation', [
-    'title'                => __('Are you sure you want manually resolve this item?', 'wp-statistics'),
+    'title'                => __('Are you sure you want to manually resolve this item?', 'wp-statistics'),
     'primaryButtonText'    => __('Mark as Resolved', 'wp-statistics'),
     'primaryButtonStyle'   => 'danger',
     'secondaryButtonText'  => __('Cancel', 'wp-statistics'),

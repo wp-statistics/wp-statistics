@@ -39,6 +39,10 @@ class PluginActions
         ];
         $list[] = [
             'class'  => $this,
+            'action' => 'remove_license'
+        ];
+        $list[] = [
+            'class'  => $this,
             'action' => 'activate_plugin'
         ];
 
@@ -113,6 +117,48 @@ class PluginActions
 
             wp_send_json_success([
                 'message' => __('Plugin downloaded and installed successfully.', 'wp-statistics'),
+            ]);
+        } catch (Exception $e) {
+            wp_send_json_error([
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        exit;
+    }
+
+    /**
+     * Handles `remove_license` ajax call: deletes the license key of an add-on from this site.
+     *
+     * The seat on wp-statistics.com can only be freed by the license owner in their account,
+     * so the page tells the person where to do that after the key is gone.
+     *
+     * @return void
+     */
+    public function remove_license_action_callback()
+    {
+        check_ajax_referer('wp_rest', 'wps_nonce');
+
+        try {
+            if (!User::Access('manage')) {
+                throw new Exception(esc_html__('Unauthorized access.', 'wp-statistics'));
+            }
+
+            if (!is_main_site()) {
+                throw new Exception(esc_html__('Licenses are managed on the main site of the network.', 'wp-statistics'));
+            }
+
+            $masked     = Request::has('masked_key') ? sanitize_text_field(wp_unslash(Request::get('masked_key'))) : '';
+            $licenseKey = $masked !== '' ? LicenseHelper::findKeyByMask($masked) : null;
+
+            if (empty($licenseKey)) {
+                throw new Exception(esc_html__('This license was not found on this site.', 'wp-statistics'));
+            }
+
+            LicenseHelper::removeLicense($licenseKey);
+
+            wp_send_json_success([
+                'message' => __('License removed from this site.', 'wp-statistics'),
             ]);
         } catch (Exception $e) {
             wp_send_json_error([

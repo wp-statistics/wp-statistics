@@ -65,7 +65,7 @@ if (isset($backUrl, $backTitle, $_SERVER['HTTP_REFERER'])) {
         ?>
 
         <?php if ($is_realtime_active): ?>
-            <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php echo esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
+            <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
             </a>
         <?php else: ?>
