@@ -1,16 +1,16 @@
 14.16.19 - 2026-11-15
-- **Enhancement:** Promotional banner in the admin header and scheduled notifications, with UTC dates, live countdowns and copyable offer codes.
-- **Enhancement:** Add-ons page: a Your licenses card with end dates, Renew link and Remove option, clearer expired and missing license notices, and a bell notice before a key ends.
-- **Enhancement:** The admin header and Overview show license attention for installed add-ons.
-- **Enhancement:** Plainer privacy wording and an updated MaxMind and DB-IP credit.
-- **Change:** Real Cookie Banner: visitors who decline or have not chosen are no longer counted when the WP Statistics service is set up. Sites may see lower numbers.
-- **Change:** CookieYes: a visitor who declines is no longer counted, even with Anonymous Tracking on (issue [#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
-- **Fix:** Background jobs (Migrate Visitor Data Columns, Update GeoIP) now finish through WP-Cron when a firewall blocks `admin-ajax.php` (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
-- **Fix:** Tracking stops right away when a visitor withdraws consent. With Borlabs Cookie and Anonymous Tracking on, it continues anonymously by design (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
-- **Fix:** SPA sites attribute each navigation to the correct page, without duplicate hits.
-- **Fix:** WooCommerce product searches show in Search Terms, not as Shop page views (issue [#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
-- **Fix:** Custom event tracking no longer prints a changing nonce URL in the page source (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
-- **Fix:** Upgrade progress messages render correctly when translations contain special characters.
+- **Enhancement:** Promotional banner and scheduled notifications in the admin.
+- **Enhancement:** Add-ons page shows your licenses, with end dates, Renew and Remove.
+- **Enhancement:** License alerts for installed add-ons in the admin header and Overview.
+- **Enhancement:** Plainer privacy wording and updated GeoIP credit.
+- **Change:** Real Cookie Banner: visitors who decline or have not chosen are no longer counted.
+- **Change:** CookieYes: visitors who decline are no longer counted ([#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
+- **Fix:** Background jobs now finish when a firewall blocks `admin-ajax.php` ([#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
+- **Fix:** Tracking stops right away when a visitor withdraws consent ([#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Fix:** SPA navigations are counted on the correct page, without duplicates.
+- **Fix:** WooCommerce product searches show in Search Terms ([#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
+- **Fix:** Custom events no longer print a changing nonce URL in the page source ([#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
+- **Fix:** Upgrade progress messages render correctly in translations.
 
 14.16.18 - 2026-10-23
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
