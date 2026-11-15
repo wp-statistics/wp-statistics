@@ -1604,7 +1604,7 @@
 
     td:first-child,
     th:first-child {
-      text-align: left !important;
+      text-align: start !important;
       width: 52%;
     }
 
@@ -1626,7 +1626,7 @@
   &__info {
     display: inline-flex;
     vertical-align: -4px;
-    margin-left: 8px;
+    margin-inline-start: 8px;
     color: #B9BCC1 !important;
     cursor: pointer;
     border-radius: 50%;
@@ -1653,7 +1653,8 @@
     border-radius: 12px;
 
     .wps-lock-page__actions {
-      margin: 0 0 0 auto;
+      margin: 0;
+      margin-inline-start: auto;
       flex-shrink: 0;
     }
 
@@ -1691,7 +1692,7 @@
 
   &__seal {
     vertical-align: -4px;
-    margin-right: 4px;
+    margin-inline-end: 4px;
   }
 }
 
