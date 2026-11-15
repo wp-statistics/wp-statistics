@@ -153,19 +153,19 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
 
 == Changelog ==
-= 14.16.19 - Unreleased =
-- **Fix:** Background jobs (such as Migrate Visitor Data Columns and Update GeoIP) now finish through WP-Cron when a firewall or CDN blocks `/wp-admin/admin-ajax.php`. Before, they stayed at 0% (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
-- **Fix:** Tracking stops right away when a visitor withdraws consent, without a page reload. With Borlabs Cookie and Anonymous Tracking enabled, tracking continues anonymously by design (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
-- **Fix:** SPA sites now attribute each separate navigation to the correct page while avoiding duplicate hits from immediate URL updates.
-- **Change:** Real Cookie Banner: when the WP Statistics service is configured, visitors who decline or have not chosen yet are no longer counted, including with server-side tracking or hashed IP addresses. Sites using it may see lower numbers.
+= 14.16.19 - 2026-11-15 =
+- **Enhancement:** Promotional banner in the admin header and scheduled notifications, with UTC dates, live countdowns and copyable offer codes.
+- **Enhancement:** Add-ons page: a Your licenses card with end dates, Renew link and Remove option, clearer expired and missing license notices, and a bell notice before a key ends.
+- **Enhancement:** The admin header and Overview show license attention for installed add-ons.
+- **Enhancement:** Plainer privacy wording and an updated MaxMind and DB-IP credit.
+- **Change:** Real Cookie Banner: visitors who decline or have not chosen are no longer counted when the WP Statistics service is set up. Sites may see lower numbers.
 - **Change:** CookieYes: a visitor who declines is no longer counted, even with Anonymous Tracking on (issue [#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
-- **Fix:** Searches from the WooCommerce product search box now show in Search Terms instead of counting as Shop page views (issue [#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
-- **Fix:** Custom event tracking no longer prints a URL with a changing nonce in the page source (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
-- **Fix:** Database upgrade progress and completion messages now render correctly when translations contain JavaScript-sensitive punctuation.
-- **Enhancement:** Plainer privacy wording in the plugin description, and the MaxMind and DB-IP data credit in the settings.
-- **Enhancement:** Added scheduled promotional notifications with UTC start and end dates, live countdowns, and copyable offer codes.
-- **Enhancement:** The admin header and Overview now show license attention for installed add-ons, with improved navigation, Screen Options, and keyboard focus styling.
-- **Enhancement:** Add-ons page: a Your licenses card with each key's end date and a Renew link, clearer expired and missing license notices, a bell notice before a key ends, and a Remove license option.
+- **Fix:** Background jobs (Migrate Visitor Data Columns, Update GeoIP) now finish through WP-Cron when a firewall blocks `admin-ajax.php` (issue [#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
+- **Fix:** Tracking stops right away when a visitor withdraws consent. With Borlabs Cookie and Anonymous Tracking on, it continues anonymously by design (issue [#1183](https://github.com/wp-statistics/wp-statistics/issues/1183)).
+- **Fix:** SPA sites attribute each navigation to the correct page, without duplicate hits.
+- **Fix:** WooCommerce product searches show in Search Terms, not as Shop page views (issue [#1191](https://github.com/wp-statistics/wp-statistics/issues/1191)).
+- **Fix:** Custom event tracking no longer prints a changing nonce URL in the page source (issue [#1187](https://github.com/wp-statistics/wp-statistics/issues/1187)).
+- **Fix:** Upgrade progress messages render correctly when translations contain special characters.
 
 = 14.16.18 - 2026-10-23 =
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
