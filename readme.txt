@@ -154,8 +154,8 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 
 == Changelog ==
 = 14.16.19 - 2026-11-15 =
-- **Enhancement:** Notifications, Add-ons page and license improvements.
 - **Enhancement:** Plainer privacy wording and updated GeoIP credit.
+- **Enhancement:** Notifications, Add-ons page and license improvements.
 - **Change:** Real Cookie Banner: visitors who decline or have not chosen are no longer counted.
 - **Change:** CookieYes: visitors who decline are no longer counted ([#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
 - **Fix:** Background jobs now finish when a firewall blocks `admin-ajax.php` ([#1181](https://github.com/wp-statistics/wp-statistics/issues/1181)).
