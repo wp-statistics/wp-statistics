@@ -154,9 +154,7 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 
 == Changelog ==
 = 14.16.19 - 2026-11-15 =
-- **Enhancement:** Promotional banner and scheduled notifications in the admin.
-- **Enhancement:** Add-ons page shows your licenses, with end dates, Renew and Remove.
-- **Enhancement:** License alerts for installed add-ons in the admin header and Overview.
+- **Enhancement:** Notifications, Add-ons page and license improvements.
 - **Enhancement:** Plainer privacy wording and updated GeoIP credit.
 - **Change:** Real Cookie Banner: visitors who decline or have not chosen are no longer counted.
 - **Change:** CookieYes: visitors who decline are no longer counted ([#1184](https://github.com/wp-statistics/wp-statistics/issues/1184)).
