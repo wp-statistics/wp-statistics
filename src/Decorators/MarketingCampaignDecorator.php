@@ -36,7 +36,7 @@ class MarketingCampaignDecorator
      */
     public function getUrl()
     {
-        return $this->marketingCampaign->data['url'] ?? null;
+        return $this->field('url');
     }
 
     /**
@@ -46,7 +46,7 @@ class MarketingCampaignDecorator
      */
     public function getIcon()
     {
-        return json_decode($this->marketingCampaign->data['icon']) ?? null;
+        return json_decode((string) $this->field('icon', ''));
     }
 
     /**
@@ -56,7 +56,7 @@ class MarketingCampaignDecorator
      */
     public function getTitle()
     {
-        return $this->marketingCampaign->data['title'] ?? null;
+        return $this->field('title');
     }
 
     /**
@@ -66,7 +66,7 @@ class MarketingCampaignDecorator
      */
     public function getTooltip()
     {
-        return $this->marketingCampaign->data['tooltip'] ?? null;
+        return $this->field('tooltip');
     }
 
     /**
@@ -104,7 +104,7 @@ class MarketingCampaignDecorator
             'success' => 'wps-marketing-campaign__success'
         ];
 
-        return $backgroundColors[$this->marketingCampaign->data['background_color']] ?? null;
+        return $backgroundColors[$this->field('background_color', 'inherit')] ?? null;
     }
 
     /**
@@ -120,7 +120,7 @@ class MarketingCampaignDecorator
             'light'   => 'wps-marketing-campaign-text__light',
         ];
 
-        return $textColor[$this->marketingCampaign->data['text_color']] ?? null;
+        return $textColor[$this->field('text_color', 'inherit')] ?? null;
     }
 
     /**
@@ -131,5 +131,20 @@ class MarketingCampaignDecorator
     public function getType()
     {
         return $this->marketingCampaign->type ?? null;
+    }
+
+    /**
+     * One field of the campaign's `data`, or the default when the feed sent no data or no such field,
+     * so a badly formed campaign never raises PHP warnings or breaks the admin header.
+     *
+     * @param string $key
+     * @param mixed  $default
+     * @return mixed
+     */
+    private function field($key, $default = null)
+    {
+        $data = is_array($this->marketingCampaign->data ?? null) ? $this->marketingCampaign->data : [];
+
+        return $data[$key] ?? $default;
     }
 }
