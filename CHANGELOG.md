@@ -10,6 +10,7 @@
 - **Enhancement:** Plainer privacy wording in the plugin description, and the MaxMind and DB-IP data credit in the settings.
 - **Enhancement:** Added scheduled promotional notifications with UTC start and end dates, live countdowns, and copyable offer codes.
 - **Enhancement:** The admin header and Overview now show license attention for installed add-ons, with improved navigation, Screen Options, and keyboard focus styling.
+- **Enhancement:** Add-ons page: a Your licenses card with each key's end date and a Renew link, clearer expired and missing license notices, a bell notice before a key ends, and a Remove license option.
 
 14.16.18 - 2026-10-23
 - **Fix:** CookieYes integration: visits are recorded again on sites using the older CookieYes banner ("legacy mode"), after the visitor accepts it (issue [#1175](https://github.com/wp-statistics/wp-statistics/issues/1175)).
