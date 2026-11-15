@@ -27,6 +27,20 @@ class TabsView extends BaseTabView
 
     private $apiCommunicator;
 
+    /**
+     * Result of validating the license key sent in the URL, kept per key because this view is built more than once per request.
+     *
+     * @var array
+     */
+    private static $urlValidation = [];
+
+    /**
+     * Error from validating the URL key, shown once inside the page layout.
+     *
+     * @var \Exception|null
+     */
+    private $urlLicenseError = null;
+
     public function __construct()
     {
         $this->dataProvider    = new LicenseManagerDataProvider();
@@ -69,14 +83,21 @@ class TabsView extends BaseTabView
     {
         $license = Request::get('license_key');
 
-        if (!empty($license)) {
+        if (empty($license)) {
+            return;
+        }
+
+        if (!array_key_exists($license, self::$urlValidation)) {
             try {
                 $this->apiCommunicator->validateLicense($license);
+                self::$urlValidation[$license] = null;
             } catch (Exception $e) {
-                // Show a notice instead of letting a transient validation failure fatal the page.
-                Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
+                // Keep the error and show it inside the page, instead of letting a transient validation failure fatal the page.
+                self::$urlValidation[$license] = $e;
             }
         }
+
+        $this->urlLicenseError = self::$urlValidation[$license];
     }
 
     /**
@@ -233,6 +254,10 @@ class TabsView extends BaseTabView
                 Admin_Template::get_template(LicenseHelper::isFreeOnly() ? ['layout/header'] : ['layout/header', 'layout/title'], $args);
             } else {
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
+            }
+
+            if ($this->urlLicenseError) {
+                Notice::renderNotice($this->urlLicenseError->getMessage(), $this->urlLicenseError->getCode(), 'error');
             }
 
             View::load("pages/license-manager/$currentTab", $args);

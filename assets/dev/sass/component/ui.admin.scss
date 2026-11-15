@@ -8,6 +8,23 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+// The Add-ons / Go Premium screen and the locked (promoted) pages stay free of other plugins' and
+// WordPress's own notices, and of the usage-data prompt, so the page is the only thing to look at.
+// WordPress builds the page's body class from the translated menu title, so match the page slug part only.
+.wps_page[class*="_page_wps_plugins_page"],
+.wps_page:has(.wps-lock-page) {
+  #wpbody-content > .notice:not(.wp-statistics-notice),
+  #wpbody-content > .updated,
+  #wpbody-content > .error,
+  #wpbody-content > .update-nag,
+  #wpbody-content > #update-nag,
+  #wpbody-content > #message,
+  #wpbody-content > .wrap > .notice:not(.wp-statistics-notice),
+  .wp-statistics-notice:has(.notice--enable-usage) {
+    display: none !important;
+  }
+}
+
 .notice.wp-statistics-notice {
   padding: 11px 15px;
 }
@@ -516,20 +533,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 }
 
 // The Add-ons item keeps its state color (orange: needs attention, green: all good), so on its own
-// page "selected" is shown by bold text and a small dot instead of WordPress's white.
+// page "selected" is shown by bold text instead of WordPress's white.
 .wp-has-submenu.menu-top.toplevel_page_wps_overview_page li.current a.addon-menu :is(.wps-text-warning, .wps-addons-menu) {
   font-weight: 700;
-
-  &::after {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    margin-inline-start: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    vertical-align: middle;
-  }
 }
 
 .toplevel_page_wps_overview_page .wps-wrap,
