@@ -579,3 +579,22 @@ body.admin-bar .wps-notification-sidebar {
     font-size: 14px;
   }
 }
+
+// A dismissed offer is history: plain card, no countdown, code or button, so it never looks live.
+.wps-notification-sidebar__cards--dismissed .wps-notification-sidebar__card.wps-notification-sidebar__promo {
+  background: #fff;
+  color: #0C0C0D;
+
+  .wps-notification-sidebar__card-title,
+  .wps-notification-sidebar__card-title > div,
+  .wps-notification-sidebar__card-content,
+  .wps-notification-sidebar__promo-title {
+    color: #0C0C0D;
+  }
+
+  .wps-notification-sidebar__countdown,
+  .wps-notification-sidebar__code,
+  .wps-notification-sidebar__card-actions {
+    display: none;
+  }
+}

@@ -8,7 +8,7 @@
     <div class="wps-notification-sidebar__card-body">
         <div class="wps-notification-sidebar__card-title">
             <?php if ($notification->isPromo()): ?>
-                <div class="wps-notification-sidebar__eyebrow"><span><?php echo esc_html__('Black Friday', 'wp-statistics'); ?></span><?php if ($notification->getEndsAt()): ?><span class="wps-notification-sidebar__countdown" data-ends-at="<?php echo esc_attr($notification->getEndsAt()); ?>" data-prefix="<?php echo esc_attr__('Ends in', 'wp-statistics'); ?>" data-d="<?php echo esc_attr_x('d', 'days, short', 'wp-statistics'); ?>" data-h="<?php echo esc_attr_x('h', 'hours, short', 'wp-statistics'); ?>" data-m="<?php echo esc_attr_x('m', 'minutes, short', 'wp-statistics'); ?>"></span><?php endif; ?></div>
+                <div class="wps-notification-sidebar__eyebrow"><?php if ($notification->getEndsAt()): ?><span class="wps-notification-sidebar__countdown" data-ends-at="<?php echo esc_attr($notification->getEndsAt()); ?>" data-prefix="<?php echo esc_attr__('Ends in', 'wp-statistics'); ?>" data-d="<?php echo esc_attr_x('d', 'days, short', 'wp-statistics'); ?>" data-h="<?php echo esc_attr_x('h', 'hours, short', 'wp-statistics'); ?>" data-m="<?php echo esc_attr_x('m', 'minutes, short', 'wp-statistics'); ?>"></span><?php endif; ?></div>
                 <?php if ($notification->getTitle()): ?><div class="wps-notification-sidebar__promo-title"><?php echo esc_html($notification->getTitle()) ?></div><?php endif; ?>
             <?php elseif ($notification->getTitle()): ?>
                 <div><?php echo esc_html($notification->getTitle()) ?></div>

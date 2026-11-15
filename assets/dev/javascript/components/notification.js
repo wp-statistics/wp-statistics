@@ -12,6 +12,10 @@ jQuery(document).ready(function () {
     // Promo notices: countdown and copy-code button.
     const renderCountdown = function (el) {
         const left = Math.max(0, new Date(el.getAttribute('data-ends-at')).getTime() - Date.now());
+        if (left === 0) {
+            el.remove();
+            return;
+        }
         const d = Math.floor(left / 86400000);
         const h = Math.floor(left % 86400000 / 3600000);
         const m = Math.floor(left % 3600000 / 60000);
