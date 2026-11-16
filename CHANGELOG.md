@@ -1,3 +1,7 @@
+14.16.20 - unreleased
+- **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
+- **Enhancement:** Calmer focus style on locked pages, and the menu no longer shows a dot for them.
+
 14.16.19 - 2026-11-15
 - **Enhancement:** Plainer privacy wording and updated GeoIP credit.
 - **Enhancement:** Notifications, Add-ons page and license improvements.
