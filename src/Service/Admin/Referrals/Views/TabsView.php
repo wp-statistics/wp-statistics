@@ -23,11 +23,16 @@ class TabsView extends BaseTabView
         'referrers',
         'search-engines',
         'campaigns',
-        'utm-performance'
+        'utm-performance',
+        'social-media',
+        'source-categories',
+        'google-search',
     ];
 
     public function __construct()
     {
+        parent::__construct();
+
         $args = [
             'referrer'       => Request::get('referrer'),
             'source_channel' => Request::get('source_channel'),

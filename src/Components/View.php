@@ -25,6 +25,11 @@ class View
             $viewList = is_array($view) ? $view : [$view];
 
             foreach ($viewList as $view) {
+                // View names are relative paths inside views/; never allow leaving that directory.
+                if (!is_string($view) || preg_match('#(^|[\\\\/])\.\.([\\\\/]|$)|\\0#', $view)) {
+                    throw new SystemErrorException(esc_html__('Invalid view name.', 'wp-statistics'));
+                }
+
                 $viewPath = "$baseDir/views/$view.php";
 
                 if (!file_exists($viewPath)) {
