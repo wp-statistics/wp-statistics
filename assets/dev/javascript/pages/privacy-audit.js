@@ -5,7 +5,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             'wps_nonce': wps_js.global.rest_api_nonce,
             'action': 'wp_statistics_getPrivacyStatus'
         };
-        params = Object.assign(params, wps_js.global.request_params);
+        params = Object.assign({}, wps_js.global.request_params, params);
 
         jQuery.ajax({
             url: wps_js.global.admin_url + 'admin-ajax.php',
@@ -56,7 +56,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 'audit_name': auditName,
                 'audit_action': auditAction
             };
-            params = Object.assign(params, wps_js.global.request_params);
+            params = Object.assign({}, wps_js.global.request_params, params);
 
             jQuery.ajax({
                 url: wps_js.global.admin_url + 'admin-ajax.php',

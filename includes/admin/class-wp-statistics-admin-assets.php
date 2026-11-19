@@ -198,7 +198,7 @@ class Admin_Assets
         if (Menus::in_plugin_page() || in_array($screen_id, ['dashboard'])) {
             Assets::script('option-updater', 'js/option-updater.js', [], [
                 'admin_url' => admin_url(),
-                'nonce'     => wp_create_nonce('wp_rest')
+                'nonce'     => wp_create_nonce('wp_statistics_option_updater')
             ], true);
         }
 
@@ -307,8 +307,15 @@ class Admin_Assets
         );
 
         // WordPress Admin Page request Params
+        // Keys that drive AJAX requests or settings writes are never copied from the URL,
+        // so a crafted link cannot override what the page scripts send.
+        $blockedRequestParams = ['action', 'action2', 'wps_nonce', '_wpnonce', 'nonce', '_wp_http_referer', 'option', 'value', 'audit_name', 'audit_action'];
+
         if (isset($_GET)) {
             foreach ($_GET as $key => $value) {
+                if (in_array(strtolower((string)$key), $blockedRequestParams, true)) {
+                    continue;
+                }
                 if ($key == "page") {
                     $slug  = Menus::getPageKeyFromSlug(esc_html($value));
                     $value = $slug[0];

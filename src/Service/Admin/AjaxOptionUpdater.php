@@ -24,7 +24,18 @@ class AjaxOptionUpdater
             return;
         }
 
-        Ajax::register('option_updater', [$this, 'optionUpdater']);
+        Ajax::register('option_updater', [$this, 'optionUpdater'], false);
+    }
+
+    /**
+     * Options this endpoint is allowed to change. Capability, email and other
+     * sensitive settings must go through the settings page instead.
+     *
+     * @return array
+     */
+    public static function getAllowedOptions()
+    {
+        return ['share_anonymous_data'];
     }
 
     /**
@@ -38,10 +49,14 @@ class AjaxOptionUpdater
     {
         try {
             if (Request::isFrom('ajax') && User::Access('manage')) {
-                check_ajax_referer('wp_rest', 'wps_nonce');
+                check_ajax_referer('wp_statistics_option_updater', 'wps_nonce');
 
                 $option = Request::get('option');
                 $value  = Request::get('value');
+
+                if (!in_array($option, self::getAllowedOptions(), true)) {
+                    wp_send_json_error(__('This option cannot be changed here.', 'wp-statistics'), 403);
+                }
 
                 if ($value === 'true') {
                     $value = true;
