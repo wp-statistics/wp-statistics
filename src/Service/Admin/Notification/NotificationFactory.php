@@ -28,9 +28,30 @@ class NotificationFactory
             self::$visibleSource        = $source;
         }
 
-        $license = self::getLicenseNotification();
+        return self::promoFirst(self::$visibleNotifications, self::getLicenseNotification());
+    }
 
-        return $license ? array_merge([$license], self::$visibleNotifications) : self::$visibleNotifications;
+    /**
+     * Puts promo cards first, then the local alert (license), then the rest in their own order.
+     *
+     * @param array      $notifications Visible notifications from the server.
+     * @param array|null $local         The local alert, if any.
+     * @return array
+     */
+    public static function promoFirst($notifications, $local = null)
+    {
+        $promos = [];
+        $others = [];
+
+        foreach ($notifications as $notification) {
+            if (($notification['background_color'] ?? '') === 'promo') {
+                $promos[] = $notification;
+            } else {
+                $others[] = $notification;
+            }
+        }
+
+        return array_merge($promos, $local ? [$local] : [], $others);
     }
 
     /**
