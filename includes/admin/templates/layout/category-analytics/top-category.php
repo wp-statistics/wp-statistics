@@ -7,7 +7,8 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
 
-$taxonomy  = Request::get('tx', 'category');
+// The Category Analytics page selects the taxonomy with 'tab'
+$taxonomy  = Request::get('tab', Request::get('tx', 'category'));
 ?>
 
 <div class="wps-card">

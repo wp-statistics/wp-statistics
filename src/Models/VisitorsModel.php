@@ -13,6 +13,17 @@ use WP_Statistics\Utils\Query;
 
 class VisitorsModel extends BaseModel
 {
+    /**
+     * Page types that hold post rows for the given post types (all listed post types when empty).
+     * The `home` type is left out, as countViews() does.
+     *
+     * @param string|array $postType
+     * @return array
+     */
+    private function getPostResourceTypes($postType)
+    {
+        return $this->getResourceTypes(!empty($postType) ? $postType : Helper::get_list_post_type(), false);
+    }
 
     public function countVisitors($args = [])
     {
@@ -90,9 +101,11 @@ class VisitorsModel extends BaseModel
         }
 
         if (array_intersect(['post_type', 'author_id', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            // Only match post rows, like countViews(); home, term and author rows reuse the same IDs
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.type', 'IN', $this->getPostResourceTypes($args['post_type']))
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])
@@ -268,9 +281,11 @@ class VisitorsModel extends BaseModel
         }
 
         if (array_intersect(['post_type', 'author_id', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            // Only match post rows, like countViews(); home, term and author rows reuse the same IDs
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.type', 'IN', $this->getPostResourceTypes($args['post_type']))
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])

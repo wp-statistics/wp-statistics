@@ -20,11 +20,14 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
+        $this->tabs = array_keys(Helper::get_list_taxonomy(true));
+
+        // Reject unknown taxonomies before running any report query
+        parent::__construct();
+
         $this->dataProvider = new CategoryAnalyticsDataProvider([
             'taxonomy' => Request::get('tab', 'category')
         ]);
-
-        $this->tabs = array_keys(Helper::get_list_taxonomy(true));
     }
 
     public function renderLocked()

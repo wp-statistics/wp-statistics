@@ -115,17 +115,23 @@ abstract class BaseModel
      * (e.g. a custom post type becomes `post_type_{name}`, and `page` adds `home`).
      *
      * @param string|array $postTypes
+     * @param bool $includeHome Whether `page` also adds the `home` type (front page rows).
      * @return array
      */
-    protected function getResourceTypes($postTypes)
+    protected function getResourceTypes($postTypes, $includeHome = true)
     {
         if (empty($postTypes)) {
             return [];
         }
 
         $parsed = $this->parseResourceTypeArg(['resource_type' => $postTypes]);
+        $types  = $parsed['resource_type'];
 
-        return $parsed['resource_type'];
+        if (!$includeHome) {
+            $types = array_values(array_diff($types, ['home']));
+        }
+
+        return $types;
     }
 
     /**

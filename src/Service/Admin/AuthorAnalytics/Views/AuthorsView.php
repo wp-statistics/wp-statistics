@@ -9,6 +9,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\ExportImport\ExportTypes;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Request;
 
 class AuthorsView extends BaseView
@@ -29,6 +30,16 @@ class AuthorsView extends BaseView
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()
         ];
+
+        // Only allow the sortable columns of the report
+        $sortable = ['name', 'total_views', 'total_posts', 'total_comments', 'average_comments', 'average_views'];
+        if (WordCountService::isActive()) {
+            $sortable = array_merge($sortable, ['total_words', 'average_words']);
+        }
+
+        if (!in_array($orderBy, $sortable, true)) {
+            $orderBy = '';
+        }
 
         if ($orderBy) {
             $args['order_by'] = $orderBy;
