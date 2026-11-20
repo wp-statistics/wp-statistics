@@ -154,7 +154,8 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 
 == Changelog ==
 = 14.16.21 - unreleased =
-- **Fix:** Download Tracker now counts files served through a link parameter, such as `?protected_download=file.pdf` ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** Download Tracker now counts files served through a download parameter, such as `?protected_download=file.pdf`; more parameters can be added with the `wp_statistics_download_query_keys` filter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** Download Tracker keeps full file names that contain dots, such as `Report.final.pdf`.
 - **Fix:** The Top Pages box no longer shows a database error on SQLite sites, such as WordPress Playground.
 
 = 14.16.20 - 2026-11-20 =
