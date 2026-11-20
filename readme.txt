@@ -153,41 +153,12 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
 
 == Changelog ==
-= 14.16.21 - unreleased =
-- **Fix:** Download Tracker now counts files served through a download parameter, such as `?protected_download=file.pdf`; more parameters can be added with the `wp_statistics_download_query_keys` filter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
-- **Fix:** Download Tracker keeps full file names that contain dots, such as `Report.final.pdf`.
-- **Fix:** The Top Pages box no longer shows a database error on SQLite sites, such as WordPress Playground.
-- **Fix:** Opening a visitor that no longer exists shows a "Visitor does not exist" message instead of a blank error page.
-- **Fix:** A visitor's other sessions list only shows visits from the same IP address, not from similar-looking ones.
-- **Fix:** Page numbers on the Visitors, Top Visitors and Logged-in Users lists now match the rows when filtering by source category or part of an IP address.
-- **Fix:** The "Unassigned Traffic" source category filter on the Visitors list now shows visitors without a source instead of an empty list.
-- **Fix:** The user role filter works on sites with a custom database table prefix and on multisite subsites.
-- **Fix:** Page numbers on the Entry Pages, Referrers, Search Engines and Social Media lists now match the filtered rows.
-- **Fix:** A single URL report no longer adds the whole site's old visits to that URL's views when the range is All time.
-- **Fix:** Top Pages, top posts and post totals no longer add views of a category, tag or author archive that shares a post's ID.
-- **Fix:** The Top Pages URL filter finds addresses that contain a quote, and `_` or `%` are matched as typed.
-- **Fix:** The Direct Traffic row on Source Categories no longer links to an empty Referred Visitors list.
-- **Fix:** Content Analytics shows an "Invalid tab" message for an unknown post type instead of an empty report.
-- **Fix:** Query Parameter filter labels show the query string (or the full address) instead of cut-off text like `-2/`.
-- **Fix:** No PHP 8.4 deprecation notice when an invalid report tab is opened.
-- **Fix:** Author Analytics no longer adds front page, category or author archive views to an author's views and visitors, so the top authors list and the Authors report match the totals.
-- **Fix:** Page numbers on the Authors report now include every listed author.
-- **Fix:** The Authors report shows averages with one decimal instead of cutting them down to whole numbers.
-- **Fix:** Author links on Author Analytics keep the selected post type.
-- **Fix:** Sorting the Authors or Category report by an unknown column no longer shows a database error.
-- **Fix:** Top Categories "Publishing" counts every published post in the range, not only posts that have views, and leaves out drafts.
-- **Fix:** The Category report counts published posts even before their word count is ready, lists terms with new posts but no views, and no longer adds archive views that share a post's ID.
-- **Fix:** "See all" on the Tags and other taxonomy tabs opens the report for that taxonomy.
-- **Fix:** Category Analytics shows an "Invalid tab" message for an unknown taxonomy.
-- **Fix:** Cities with the same name in different countries or regions are listed separately.
-- **Fix:** The "(not set)" country row no longer links to a broken details page, and the Countries and Europe page numbers include it.
-- **Fix:** Visitors by Continent shows every continent, not only the first five.
-- **Fix:** The Regions tab is not available when the site's timezone has no country.
-- **Fix:** A single browser report shows page numbers when it has more than ten versions.
-- **Fix:** Browser, platform and model names that contain a quote now match their visitors.
-- **Fix:** Unused Devices tabs (resolutions, languages, timezones) no longer open an empty page.
-- **Enhancement:** The Top Pages word count joins only the word count field, so the list loads faster on stores with many product fields.
-- **Fix:** The Devices Models and Categories CSV exports now name their first column `model` and `category` instead of `os`.
+= 14.16.21 - 2026-11-21 =
+- **Fix:** Download Tracker counts files served through a link parameter, such as `?protected_download=file.pdf` ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** Top Pages no longer shows a database error on SQLite sites, such as WordPress Playground.
+- **Fix:** More accurate numbers in the Author, Category, Content and Top Pages reports.
+- **Fix:** Correct page numbers and filters in the Visitors, Referrals, Geographic and Devices reports.
+- **Enhancement:** Faster Top Pages and a shorter license notice in the add-on popup.
 
 = 14.16.20 - 2026-11-20 =
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
