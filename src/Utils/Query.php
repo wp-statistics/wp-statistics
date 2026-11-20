@@ -805,8 +805,11 @@ class Query
     {
         $query = '';
 
+        // Wrap each part as a derived table instead of "(SELECT ...) UNION (SELECT ...)".
+        // SQLite (e.g. WordPress Playground) rejects parenthesised SELECTs in a compound query.
+        $index = 0;
         foreach ($this->queries as $key => $value) {
-            $this->queries[$key] = "($value)";
+            $this->queries[$key] = "SELECT * FROM ($value) AS union_part_" . $index++;
         }
 
         $query = implode(' UNION ', $this->queries);
