@@ -20,7 +20,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             'wps_nonce': wps_js.global.rest_api_nonce,
             'action': 'wp_statistics_check_license'
         };
-        params = Object.assign(params, wps_js.global.request_params);
+        params = Object.assign({}, wps_js.global.request_params, params);
 
         if (params.page === 'plugins' && params?.tab === 'downloads' && addon_download_btn) {
             if (addon_items.length === 0) {
