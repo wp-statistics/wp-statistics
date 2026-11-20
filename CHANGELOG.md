@@ -32,6 +32,7 @@
 - **Fix:** Browser, platform and model names that contain a quote now match their visitors.
 - **Fix:** Unused Devices tabs (resolutions, languages, timezones) no longer open an empty page.
 - **Enhancement:** The Top Pages word count joins only the word count field, so the list loads faster on stores with many product fields.
+- **Fix:** The Devices Models and Categories CSV exports now name their first column `model` and `category` instead of `os`.
 
 14.16.20 - 2026-11-20
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
