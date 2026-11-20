@@ -193,29 +193,35 @@ if (!window.WpStatisticsEventTracker) {
             const isWooCommerceDownloadLink = event.currentTarget.classList.contains('woocommerce-MyAccount-downloads-file') || targetUrl.includes('download_file=');
             eventData.wcdl = isWooCommerceDownloadLink;
 
-            // Find the file: in the link path (/files/report.pdf), or in a query value
-            // for download handlers that serve files through a parameter (/?protected_download=report.pdf).
-            let filePath = '';
-            try {
-                const url = new URL(targetUrl);
-                if (fileExtRegex.test(url.pathname)) {
-                    filePath = url.pathname;
-                } else {
-                    filePath = Array.from(url.searchParams.values()).find(value => fileExtRegex.test(value)) || '';
-                }
-            } catch (e) {
-                // Not a valid URL, so not a download link
+            // Find the file: at the end of the link (/files/report.pdf), as before, or in one of the
+            // known download parameters (/?protected_download=report.pdf). Other parameters are not
+            // checked, so search, share and player links are not counted as downloads.
+            let fileName = '';
+            const linkPath = targetUrl.split(/[?#]/).shift();
+            if (fileExtRegex.test(targetUrl) && fileExtRegex.test(linkPath)) {
+                fileName = linkPath;
             }
+            if (!fileName) {
+                const queryKeys = (typeof WP_Statistics_Tracker_Object !== 'undefined' && Array.isArray(WP_Statistics_Tracker_Object.downloadQueryKeys)) ? WP_Statistics_Tracker_Object.downloadQueryKeys : [];
+                try {
+                    const params = new URL(targetUrl).searchParams;
+                    const key = queryKeys.find(k => fileExtRegex.test(params.get(k) || ''));
+                    fileName = key ? params.get(key) : '';
+                } catch (e) {
+                    // Not a valid URL, so not a download link
+                }
+            }
+            fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
 
             // Extract file name and extension from <a> tag href
-            if (filePath || isWooCommerceDownloadLink) {
+            if (fileName || isWooCommerceDownloadLink) {
                 eventData.df = isWooCommerceDownloadLink ? targetUrl.substring(targetUrl.lastIndexOf('download_file=') + 14).split('&').shift() : '';
                 eventData.dk = isWooCommerceDownloadLink ? targetUrl.substring(targetUrl.lastIndexOf('key=') + 4).split('&').shift() : '';
                 eventData.en = 'file_download';
 
                 // If the link is a WooCommerce download file, add a non empty value to file name and extension (so that they don't get skipped in the parser)
-                eventData.fn = isWooCommerceDownloadLink ? eventData.df : filePath.substring(filePath.lastIndexOf('/') + 1).split('.').shift();
-                eventData.fx = isWooCommerceDownloadLink ? eventData.df : filePath.split('.').pop();
+                eventData.fn = isWooCommerceDownloadLink ? eventData.df : fileName.substring(0, fileName.lastIndexOf('.'));
+                eventData.fx = isWooCommerceDownloadLink ? eventData.df : fileName.split('.').pop();
             }
 
             // If it's a click event
