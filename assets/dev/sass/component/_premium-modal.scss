@@ -349,8 +349,20 @@
               }
             }
 
-            &:hover {
-              background: #1f269c;
+            // No lag from the admin's "transition: all", and no focus ring or box-shadow.
+            transition: background-color .1s ease;
+
+            &:hover,
+            &:active {
+              background: #3039d9;
+              color: #fff;
+            }
+
+            &:focus,
+            &:focus-visible {
+              outline: none;
+              box-shadow: none;
+              color: #fff;
             }
 
           }
