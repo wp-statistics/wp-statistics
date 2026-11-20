@@ -1,4 +1,4 @@
-14.16.20 - unreleased
+14.16.20 - 2026-11-20
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
 - **Enhancement:** Improved offer cards in the notification inbox.
 - **Enhancement:** Calmer focus style on locked pages, and the menu no longer shows a dot for them.

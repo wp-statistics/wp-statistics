@@ -15,7 +15,7 @@ class NotificationFactory
     private static $visibleSource        = null;
 
     /**
-     * Stored notifications that are inside their dates and match the site's tags.
+     * Stored notifications that are inside their dates and match the site's tags, newest first as stored.
      *
      * @return array
      */
@@ -28,7 +28,17 @@ class NotificationFactory
             self::$visibleSource        = $source;
         }
 
-        return self::promoFirst(self::$visibleNotifications, self::getLicenseNotification());
+        return self::$visibleNotifications;
+    }
+
+    /**
+     * Visible notifications in display order: promo cards first, then the local alert, then the rest.
+     *
+     * @return array
+     */
+    private static function getDisplayNotifications()
+    {
+        return self::promoFirst(self::getVisibleNotifications(), self::getLicenseNotification());
     }
 
     /**
@@ -160,7 +170,7 @@ class NotificationFactory
      */
     public static function getAllNotifications()
     {
-        return NotificationProcessor::decorateNotifications(self::getVisibleNotifications());
+        return NotificationProcessor::decorateNotifications(self::getDisplayNotifications());
     }
 
     /**
@@ -170,7 +180,7 @@ class NotificationFactory
      */
     public static function hasUpdatedNotifications()
     {
-        $notifications = self::getVisibleNotifications();
+        $notifications = self::getDisplayNotifications();
 
         foreach ($notifications as $notification) {
             if (empty($notification['dismiss'])) {
@@ -209,7 +219,7 @@ class NotificationFactory
      */
     public static function getNewNotificationCount()
     {
-        $notifications = self::getVisibleNotifications();
+        $notifications = self::getDisplayNotifications();
 
         $count = 0;
 
