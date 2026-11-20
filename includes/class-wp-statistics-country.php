@@ -36,7 +36,7 @@ class Country
     public static function flag($location)
     {
         $list_country = self::getList();
-        if (!array_key_exists($location, $list_country)) {
+        if (!is_string($location) || !array_key_exists($location, $list_country)) {
             $location = self::$unknown_location;
         }
         return WP_STATISTICS_URL . 'assets/images/flags/' . strtolower($location) . '.svg';
@@ -51,7 +51,7 @@ class Country
     public static function getName($code)
     {
         $list_country = self::getList();
-        if (array_key_exists($code, $list_country)) {
+        if (is_string($code) && array_key_exists($code, $list_country)) {
             return $list_country[$code];
         }
 
