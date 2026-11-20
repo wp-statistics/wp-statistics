@@ -111,6 +111,24 @@ abstract class BaseModel
     }
 
     /**
+     * Convert post type names to the `type` values stored in the pages table
+     * (e.g. a custom post type becomes `post_type_{name}`, and `page` adds `home`).
+     *
+     * @param string|array $postTypes
+     * @return array
+     */
+    protected function getResourceTypes($postTypes)
+    {
+        if (empty($postTypes)) {
+            return [];
+        }
+
+        $parsed = $this->parseResourceTypeArg(['resource_type' => $postTypes]);
+
+        return $parsed['resource_type'];
+    }
+
+    /**
      * Parses the query_param argument.
      *
      * @return array The parsed arguments.

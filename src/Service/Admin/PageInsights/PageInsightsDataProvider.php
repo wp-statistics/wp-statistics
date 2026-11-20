@@ -50,8 +50,11 @@ class PageInsightsDataProvider
         unset($args['taxonomy']);
 
         if (! empty($args['url'])) {
-            $decodedUrl  = rawurldecode($args['url']);
-            $args['url'] = esc_sql($decodedUrl);;
+            global $wpdb;
+
+            // The query is prepared later, so only LIKE wildcards need escaping here
+            $decodedUrl  = rawurldecode(wp_unslash($args['url']));
+            $args['url'] = $wpdb->esc_like($decodedUrl);
         }
 
         $posts  = $this->postsModel->getPostsReportData($args);
