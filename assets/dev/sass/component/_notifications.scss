@@ -425,43 +425,6 @@ body.admin-bar .wps-notification-sidebar {
     line-height: 1;
   }
 
-  // The badge text from Horizon sits next to the gift as a small pill; it is also the unread mark.
-  &::after {
-    content: attr(data-badge);
-    display: inline-flex;
-    align-items: center;
-    height: 18px;
-    max-width: 96px;
-    padding: 0 8px;
-    border-radius: 9px;
-    background: #E5281F;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: .02em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  &:not([data-badge])::after {
-    display: none;
-  }
-
-  &.wps-notifications--urgent::after {
-    background: #B42318;
-  }
-
-  // Small screens keep the gift only, so the header row does not wrap.
-  @media (max-width: 782px) {
-    gap: 0;
-
-    &::after {
-      display: none;
-    }
-  }
 }
 
 .wps-notification-sidebar__card.wps-notification-sidebar__promo {
