@@ -20,10 +20,14 @@ class TabsView extends BaseTabView
         'category',
         'author',
         '404',
+        'entry-pages',
+        'exit-pages',
     ];
 
     public function __construct()
     {
+        parent::__construct();
+
         $args = [
             'order'     => Request::get('order', 'DESC'),
             'author_id' => Request::get('author_id', '', 'number'),

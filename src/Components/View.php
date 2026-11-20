@@ -25,10 +25,22 @@ class View
             $viewList = is_array($view) ? $view : [$view];
 
             foreach ($viewList as $view) {
+                if (!is_string($view) || strpos($view, "\0") !== false) {
+                    throw new SystemErrorException(esc_html__('Invalid view name.', 'wp-statistics'));
+                }
+
                 $viewPath = "$baseDir/views/$view.php";
 
                 if (!file_exists($viewPath)) {
                     throw new SystemErrorException(esc_html__("View file not found: {$viewPath}", 'wp-statistics'));
+                }
+
+                // The resolved file must stay inside the views directory (blocks "../" path traversal).
+                $viewsDir = realpath("$baseDir/views");
+                $realPath = realpath($viewPath);
+
+                if (!$viewsDir || !$realPath || strpos($realPath, $viewsDir . DIRECTORY_SEPARATOR) !== 0) {
+                    throw new SystemErrorException(esc_html__('Invalid view name.', 'wp-statistics'));
                 }
 
                 if (!empty($args)) {

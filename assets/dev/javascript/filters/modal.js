@@ -407,7 +407,7 @@ FilterModal.prototype.fetchFilters = function (spinner, dropdowns) {
         queryString: queryString,
     };
 
-    params = Object.assign(params, wps_js.global.request_params);
+    params = Object.assign({}, wps_js.global.request_params, params);
 
     jQuery.ajax({
         url: wps_js.global.admin_url + 'admin-ajax.php',

@@ -180,6 +180,46 @@ class NotificationDecorator
     }
 
     /**
+     * Big headline line of a promo card (optional, from extra_data).
+     *
+     * @return string|null
+     */
+    public function getHighlight()
+    {
+        $value = $this->notification->extra_data['highlight'] ?? null;
+
+        return is_string($value) && $value !== '' ? $value : null;
+    }
+
+    /**
+     * Small uppercase line above the title of a promo card (optional, from extra_data).
+     *
+     * @return string|null
+     */
+    public function getEyebrow()
+    {
+        $value = $this->notification->extra_data['eyebrow'] ?? null;
+
+        return is_string($value) && $value !== '' ? $value : null;
+    }
+
+    /**
+     * Whether the "Ends in" countdown is shown. Off unless extra_data has a truthy countdown ("1", "on", "true", "yes").
+     *
+     * @return bool
+     */
+    public function showCountdown()
+    {
+        $value = $this->notification->extra_data['countdown'] ?? null;
+
+        if (is_bool($value)) {
+            return $value;
+        }
+
+        return is_scalar($value) && in_array(strtolower(trim((string)$value)), ['1', 'on', 'true', 'yes'], true);
+    }
+
+    /**
      * End time in UTC (ISO 8601), used for the countdown.
      *
      * @return string|null

@@ -189,6 +189,22 @@ body.admin-bar .wps-notification-sidebar {
     align-items: center;
     gap: 7px;
 
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px #D0D3D8;
+      border-radius: 4px;
+
+      @media (forced-colors: active) {
+        outline: 2px solid CanvasText;
+        outline-offset: 2px;
+      }
+    }
+
     &:hover {
       color: #0C0C0D;
 
@@ -390,9 +406,12 @@ body.admin-bar .wps-notification-sidebar {
 }
 
 // Black Friday style notices: bell tag and hero card (optional fields from Horizon).
-.wps-adminHeader .wps-notifications.wps-notifications--has-badge {
+.wps-adminHeader .wps-adminHeader__side .wps-notifications.wps-notifications--has-badge {
   position: relative;
-  width: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
   height: 28px;
   background-image: none !important;
   opacity: 1;
@@ -411,23 +430,6 @@ body.admin-bar .wps-notification-sidebar {
     line-height: 1;
   }
 
-  &::after {
-    content: "";
-    position: absolute;
-    top: -4px;
-    right: -12px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #E5281F;
-  }
-
-  body.rtl & {
-    &::after {
-      right: auto;
-      left: -12px;
-    }
-  }
 }
 
 .wps-notification-sidebar__card.wps-notification-sidebar__promo {
@@ -518,7 +520,8 @@ body.admin-bar .wps-notification-sidebar {
   }
 }
 
-.wps-notification-sidebar__card-title:has(.wps-notification-sidebar__eyebrow) {
+.wps-notification-sidebar__card-title:has(.wps-notification-sidebar__eyebrow),
+.wps-notification-sidebar__card-title:has(.wps-notification-sidebar__promo-highlight) {
   display: block;
   width: 100%;
 }
@@ -537,6 +540,27 @@ body.admin-bar .wps-notification-sidebar {
   font-weight: 700;
   text-transform: uppercase;
   color: #FDE2A8;
+}
+
+.wps-notification-sidebar__promo-subtitle {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #fff;
+}
+
+// Big headline line of a promo card, for example the size of the discount.
+.wps-notification-sidebar__promo-highlight {
+  margin-top: 4px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(90deg, #FF9C93, #FDE2A8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .wps-notification-sidebar__promo-title {
@@ -588,8 +612,19 @@ body.admin-bar .wps-notification-sidebar {
   .wps-notification-sidebar__card-title,
   .wps-notification-sidebar__card-title > div,
   .wps-notification-sidebar__card-content,
-  .wps-notification-sidebar__promo-title {
+  .wps-notification-sidebar__promo-title,
+  .wps-notification-sidebar__promo-subtitle {
     color: #0C0C0D;
+  }
+
+  .wps-notification-sidebar__promo-highlight {
+    background: none;
+    -webkit-text-fill-color: #0C0C0D;
+    color: #0C0C0D;
+  }
+
+  .wps-notification-sidebar__eyebrow {
+    color: #747578;
   }
 
   .wps-notification-sidebar__countdown,
