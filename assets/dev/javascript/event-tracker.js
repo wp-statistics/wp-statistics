@@ -184,10 +184,13 @@ if (!window.WpStatisticsEventTracker) {
                 eventData.ev = targetValue;
             }
 
-            // Get target url from href attribute
-            if (targetUrl) {
-                eventData.tu = targetUrl;
+            // Only real links are tracked: no href, "#" or javascript: links are skipped
+            if (!targetUrl || /^(javascript|data|about):/i.test(targetUrl)) {
+                return false;
             }
+
+            // Get target url from href attribute
+            eventData.tu = targetUrl;
 
             // Detect if the link is a WooCommerce download file
             const isWooCommerceDownloadLink = event.currentTarget.classList.contains('woocommerce-MyAccount-downloads-file') || targetUrl.includes('download_file=');
@@ -213,10 +216,23 @@ if (!window.WpStatisticsEventTracker) {
             }
             fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
 
+            // Paths keep percent-encoding (My%20Report.pdf), so decode them like query values
+            try {
+                fileName = decodeURIComponent(fileName);
+            } catch (e) {
+                // Leave malformed encoding as it is
+            }
+
             // Extract file name and extension from <a> tag href
             if (fileName || isWooCommerceDownloadLink) {
-                eventData.df = isWooCommerceDownloadLink ? targetUrl.substring(targetUrl.lastIndexOf('download_file=') + 14).split('&').shift() : '';
-                eventData.dk = isWooCommerceDownloadLink ? targetUrl.substring(targetUrl.lastIndexOf('key=') + 4).split('&').shift() : '';
+                let wcParams = null;
+                try {
+                    wcParams = new URL(targetUrl).searchParams;
+                } catch (e) {
+                    // Not a valid URL
+                }
+                eventData.df = isWooCommerceDownloadLink && wcParams ? (wcParams.get('download_file') || '') : '';
+                eventData.dk = isWooCommerceDownloadLink && wcParams ? (wcParams.get('key') || '') : '';
                 eventData.en = 'file_download';
 
                 // If the link is a WooCommerce download file, add a non empty value to file name and extension (so that they don't get skipped in the parser)
@@ -224,8 +240,8 @@ if (!window.WpStatisticsEventTracker) {
                 eventData.fx = isWooCommerceDownloadLink ? eventData.df : fileName.split('.').pop();
             }
 
-            // If it's a click event
-            if (eventData.en === 'click') {
+            // If it's a click event (a middle click arrives as mouseup)
+            if (eventData.en === 'click' || eventData.en === 'mouseup') {
                 // If link tracker is disabled, skip tracking
                 if (!this.linkTracker) return false;
 

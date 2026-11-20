@@ -37,14 +37,14 @@ function loadEventTracker(file, {downloadQueryKeys = ['protected_download', 'dow
     return tracker;
 }
 
-function classify(tracker, href) {
+function classify(tracker, href, type = 'click') {
     const event = {
-        type: 'click',
+        type,
         button: 0,
         target: {textContent: 'link'},
         currentTarget: {tagName: 'A', id: '', className: '', href, classList: {contains: () => false}},
     };
-    return tracker.extractLinkData(event, {en: 'click', fn: '', fx: ''});
+    return tracker.extractLinkData(event, {en: type, fn: '', fx: ''});
 }
 
 for (const file of trackerFiles) {
@@ -86,5 +86,28 @@ for (const file of trackerFiles) {
         const tracker = loadEventTracker(file, {downloadQueryKeys: ['dl']});
         assert.equal(classify(tracker, 'https://site.test/?dl=a.zip').en, 'file_download');
         assert.equal(classify(tracker, 'https://site.test/?protected_download=a.zip'), false);
+    });
+
+    test(`${file}: encoded paths are decoded`, () => {
+        const data = classify(loadEventTracker(file), 'https://site.test/files/My%20Report.pdf');
+        assert.equal(data.fn, 'My Report');
+    });
+
+    test(`${file}: javascript links are not tracked`, () => {
+        assert.equal(classify(loadEventTracker(file), 'javascript:void(0)'), false);
+    });
+
+    test(`${file}: middle clicks follow the same rules as clicks`, () => {
+        const tracker = loadEventTracker(file);
+        assert.equal(classify(tracker, 'https://site.test/about/', 'mouseup'), false);
+        tracker.linkTracker = false;
+        assert.equal(classify(tracker, 'https://example.org/', 'mouseup'), false);
+    });
+
+    test(`${file}: WooCommerce download id and key come from their own parameters`, () => {
+        const data = classify(loadEventTracker(file), 'https://site.test/?download_file=12&order=wc_order_abc&key=file-1&api_key=zzz');
+        assert.equal(data.en, 'file_download');
+        assert.equal(data.df, '12');
+        assert.equal(data.dk, 'file-1');
     });
 }
