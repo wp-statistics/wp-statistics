@@ -14,6 +14,22 @@
 - **Fix:** Content Analytics shows an "Invalid tab" message for an unknown post type instead of an empty report.
 - **Fix:** Query Parameter filter labels show the query string (or the full address) instead of cut-off text like `-2/`.
 - **Fix:** No PHP 8.4 deprecation notice when an invalid report tab is opened.
+- **Fix:** Author Analytics no longer adds front page, category or author archive views to an author's views and visitors, so the top authors list and the Authors report match the totals.
+- **Fix:** Page numbers on the Authors report now include every listed author.
+- **Fix:** The Authors report shows averages with one decimal instead of cutting them down to whole numbers.
+- **Fix:** Author links on Author Analytics keep the selected post type.
+- **Fix:** Sorting the Authors or Category report by an unknown column no longer shows a database error.
+- **Fix:** Top Categories "Publishing" counts every published post in the range, not only posts that have views, and leaves out drafts.
+- **Fix:** The Category report counts published posts even before their word count is ready, lists terms with new posts but no views, and no longer adds archive views that share a post's ID.
+- **Fix:** "See all" on the Tags and other taxonomy tabs opens the report for that taxonomy.
+- **Fix:** Category Analytics shows an "Invalid tab" message for an unknown taxonomy.
+- **Fix:** Cities with the same name in different countries or regions are listed separately.
+- **Fix:** The "(not set)" country row no longer links to a broken details page, and the Countries and Europe page numbers include it.
+- **Fix:** Visitors by Continent shows every continent, not only the first five.
+- **Fix:** The Regions tab is not available when the site's timezone has no country.
+- **Fix:** A single browser report shows page numbers when it has more than ten versions.
+- **Fix:** Browser, platform and model names that contain a quote now match their visitors.
+- **Fix:** Unused Devices tabs (resolutions, languages, timezones) no longer open an empty page.
 - **Enhancement:** The Top Pages word count joins only the word count field, so the list loads faster on stores with many product fields.
 
 14.16.20 - 2026-11-20
