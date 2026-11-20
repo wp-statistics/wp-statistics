@@ -153,7 +153,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
 
 == Changelog ==
-= 14.16.21 - 2026-11-20 =
+= 14.16.21 - unreleased =
 - **Fix:** Download Tracker now counts files served through a link parameter, such as `?protected_download=file.pdf` ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
 
 = 14.16.20 - 2026-11-20 =

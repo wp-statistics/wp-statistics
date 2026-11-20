@@ -1,4 +1,4 @@
-14.16.21 - 2026-11-20
+14.16.21 - unreleased
 - **Fix:** Download Tracker now counts files served through a link parameter, such as `?protected_download=file.pdf` ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
 
 14.16.20 - 2026-11-20
