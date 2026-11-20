@@ -803,16 +803,25 @@ class Query
 
     protected function unionQuery()
     {
-        $query = '';
-
-        // Wrap each part as a derived table instead of "(SELECT ...) UNION (SELECT ...)".
-        // SQLite (e.g. WordPress Playground) rejects parenthesised SELECTs in a compound query.
+        // Join the parts as "SELECT ... UNION SELECT ...", without parentheses.
+        // SQLite (e.g. WordPress Playground) rejects "(SELECT ...) UNION (SELECT ...)".
+        // A part with its own ORDER BY or LIMIT is wrapped as a derived table, since
+        // neither engine accepts those on a bare part of a compound query.
+        // Built into a local array so building the query twice gives the same SQL.
+        $parts = [];
         $index = 0;
-        foreach ($this->queries as $key => $value) {
-            $this->queries[$key] = "SELECT * FROM ($value) AS union_part_" . $index++;
+        foreach (array_values($this->queries) as $part) {
+            $part = trim($part);
+
+            if (preg_match('/\b(ORDER\s+BY|LIMIT)\b/i', $part)) {
+                $part = "SELECT * FROM ($part) AS union_part_$index";
+            }
+
+            $parts[] = $part;
+            $index++;
         }
 
-        $query = implode(' UNION ', $this->queries);
+        $query = implode(' UNION ', $parts);
 
         // Append ORDER clauses
         if (!empty($this->orderClause)) {
