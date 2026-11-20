@@ -2,6 +2,19 @@
 - **Fix:** Download Tracker now counts files served through a download parameter, such as `?protected_download=file.pdf`; more parameters can be added with the `wp_statistics_download_query_keys` filter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
 - **Fix:** Download Tracker keeps full file names that contain dots, such as `Report.final.pdf`.
 - **Fix:** The Top Pages box no longer shows a database error on SQLite sites, such as WordPress Playground.
+- **Fix:** Opening a visitor that no longer exists shows a "Visitor does not exist" message instead of a blank error page.
+- **Fix:** A visitor's other sessions list only shows visits from the same IP address, not from similar-looking ones.
+- **Fix:** Page numbers on the Visitors, Top Visitors and Logged-in Users lists now match the rows when filtering by source category or part of an IP address.
+- **Fix:** The user role filter works on sites with a custom database table prefix and on multisite subsites.
+- **Fix:** Page numbers on the Entry Pages, Referrers, Search Engines and Social Media lists now match the filtered rows.
+- **Fix:** A single URL report no longer adds the whole site's old visits to that URL's views when the range is All time.
+- **Fix:** Top Pages, top posts and post totals no longer add views of a category, tag or author archive that shares a post's ID.
+- **Fix:** The Top Pages URL filter finds addresses that contain a quote, and `_` or `%` are matched as typed.
+- **Fix:** The Direct Traffic row on Source Categories no longer links to an empty Referred Visitors list.
+- **Fix:** Content Analytics shows an "Invalid tab" message for an unknown post type instead of an empty report.
+- **Fix:** Query Parameter filter labels show the query string (or the full address) instead of cut-off text like `-2/`.
+- **Fix:** No PHP 8.4 deprecation notice when an invalid report tab is opened.
+- **Enhancement:** The Top Pages word count joins only the word count field, so the list loads faster on stores with many product fields.
 
 14.16.20 - 2026-11-20
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
