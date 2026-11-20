@@ -74,12 +74,11 @@ class VisitorsModel extends BaseModel
         // Use the same IP and source_channel filters as getVisitorsData() so the total matches the list
         $this->applyIpFilter($query, $args['ip'], $args['exact_ip']);
 
-        $query->where('visitor.source_channel', 'IN', $args['source_channel']);
-
+        // `unassigned` means visitors without a source channel
         if ($args['source_channel'] === 'unassigned') {
             $query->whereNull('visitor.source_channel');
         } else {
-            $query->where('source_channel', '=', $args['source_channel']);
+            $query->where('visitor.source_channel', 'IN', $args['source_channel']);
         }
 
         if ($args['logged_in'] === true) {
@@ -738,7 +737,6 @@ class VisitorsModel extends BaseModel
             ->where('user_id', '=', $args['user_id'])
             ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
-            ->where('visitor.source_channel', 'IN', $args['source_channel'])
             ->where('visitor.source_name', 'IN', $args['source_name'])
             ->where('visitor.ID', 'NOT IN', $args['exclude_ids'])
             ->whereNotNull($args['not_null'])
@@ -759,7 +757,7 @@ class VisitorsModel extends BaseModel
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel']);
+                ->where('visitor.source_channel', 'IN', $args['source_channel']);
         }
 
         if (!empty($args['referred_visitors'])) {

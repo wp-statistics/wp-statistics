@@ -107,6 +107,19 @@ class Test_ReportTotals extends WP_UnitTestCase
         $this->assertSame(1, $model->countVisitors($args));
     }
 
+    public function test_unassigned_source_channel_lists_visitors_without_channel()
+    {
+        $this->addVisitor(['source_channel' => null]);
+        $this->addVisitor(['source_channel' => null]);
+        $this->addVisitor(['source_channel' => 'search']);
+
+        $model = new VisitorsModel();
+        $args  = ['date' => $this->range(), 'source_channel' => 'unassigned'];
+
+        $this->assertCount(2, $model->getVisitorsData($args));
+        $this->assertSame(2, $model->countVisitors($args));
+    }
+
     public function test_visitors_total_uses_partial_ip_like_the_list()
     {
         $this->addVisitor(['ip' => '198.51.100.1']);

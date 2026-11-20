@@ -5,6 +5,7 @@
 - **Fix:** Opening a visitor that no longer exists shows a "Visitor does not exist" message instead of a blank error page.
 - **Fix:** A visitor's other sessions list only shows visits from the same IP address, not from similar-looking ones.
 - **Fix:** Page numbers on the Visitors, Top Visitors and Logged-in Users lists now match the rows when filtering by source category or part of an IP address.
+- **Fix:** The "Unassigned Traffic" source category filter on the Visitors list now shows visitors without a source instead of an empty list.
 - **Fix:** The user role filter works on sites with a custom database table prefix and on multisite subsites.
 - **Fix:** Page numbers on the Entry Pages, Referrers, Search Engines and Social Media lists now match the filtered rows.
 - **Fix:** A single URL report no longer adds the whole site's old visits to that URL's views when the range is All time.
