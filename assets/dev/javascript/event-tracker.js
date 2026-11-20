@@ -193,17 +193,29 @@ if (!window.WpStatisticsEventTracker) {
             const isWooCommerceDownloadLink = event.currentTarget.classList.contains('woocommerce-MyAccount-downloads-file') || targetUrl.includes('download_file=');
             eventData.wcdl = isWooCommerceDownloadLink;
 
-            // Extract file name and extension from <a> tag href
-            if (fileExtRegex.test(targetUrl) || isWooCommerceDownloadLink) {
+            // Find the file: in the link path (/files/report.pdf), or in a query value
+            // for download handlers that serve files through a parameter (/?protected_download=report.pdf).
+            let filePath = '';
+            try {
                 const url = new URL(targetUrl);
-                const pathname = url.pathname;
+                if (fileExtRegex.test(url.pathname)) {
+                    filePath = url.pathname;
+                } else {
+                    filePath = Array.from(url.searchParams.values()).find(value => fileExtRegex.test(value)) || '';
+                }
+            } catch (e) {
+                // Not a valid URL, so not a download link
+            }
+
+            // Extract file name and extension from <a> tag href
+            if (filePath || isWooCommerceDownloadLink) {
                 eventData.df = isWooCommerceDownloadLink ? targetUrl.substring(targetUrl.lastIndexOf('download_file=') + 14).split('&').shift() : '';
                 eventData.dk = isWooCommerceDownloadLink ? targetUrl.substring(targetUrl.lastIndexOf('key=') + 4).split('&').shift() : '';
                 eventData.en = 'file_download';
 
                 // If the link is a WooCommerce download file, add a non empty value to file name and extension (so that they don't get skipped in the parser)
-                eventData.fn = isWooCommerceDownloadLink ? eventData.df : pathname.substring(pathname.lastIndexOf('/') + 1).split('.').shift();
-                eventData.fx = isWooCommerceDownloadLink ? eventData.df : pathname.split('.').pop();
+                eventData.fn = isWooCommerceDownloadLink ? eventData.df : filePath.substring(filePath.lastIndexOf('/') + 1).split('.').shift();
+                eventData.fx = isWooCommerceDownloadLink ? eventData.df : filePath.split('.').pop();
             }
 
             // If it's a click event

@@ -1,3 +1,6 @@
+14.16.21 - 2026-11-20
+- **Fix:** Download Tracker now counts files served through a link parameter, such as `?protected_download=file.pdf` ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+
 14.16.20 - 2026-11-20
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
 - **Enhancement:** Improved offer cards in the notification inbox.
