@@ -52,7 +52,12 @@ use WP_STATISTICS\Menus;
                                     <td class="wps-pd-l"><?php echo esc_html($referral->getSourceChannel()) ?></td>
 
                                     <td class="wps-pd-l start">
-                                        <a href="<?php echo esc_url(Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'source_channel' => $referral->getRawSourceChannel()])) ?>"><?php echo esc_html($referral->getTotalReferrals()) ?></a>
+                                        <?php if ($referral->getRawSourceChannel() === 'direct') : ?>
+                                            <?php // Direct visits are not referrals, so the Referred Visitors list has nothing to show for them ?>
+                                            <?php echo esc_html($referral->getTotalReferrals()) ?>
+                                        <?php else : ?>
+                                            <a href="<?php echo esc_url(Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'source_channel' => $referral->getRawSourceChannel()])) ?>"><?php echo esc_html($referral->getTotalReferrals()) ?></a>
+                                        <?php endif; ?>
                                     </td>
 
                                     <td class=" wps-pd-l"><?php echo esc_html(Helper::calculatePercentage($referral->getTotalReferrals(true), $data['total']) . '%') ?></td>
