@@ -26,6 +26,11 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
+        // The Regions tab needs the site's country (from the timezone); without it, the tab is hidden and not allowed
+        if (!Helper::getTimezoneCountry()) {
+            $this->tabs = array_values(array_diff($this->tabs, ['regions']));
+        }
+
         parent::__construct();
 
         $this->dataProvider = new GeographicDataProvider([

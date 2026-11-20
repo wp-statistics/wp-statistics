@@ -450,6 +450,30 @@ class VisitorsModel extends BaseModel
     }
 
     /**
+     * Counts the rows that getVisitorsDevicesVersions() returns (distinct versions), for pagination.
+     *
+     * @param array $args Same arguments as getVisitorsDevicesVersions().
+     *
+     * @return int
+     */
+    public function countVisitorsDevicesVersions($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'where_col' => 'agent',
+            'where_val' => '',
+        ]);
+
+        $result = Query::select('COUNT(DISTINCT CAST(`version` AS SIGNED)) AS `total`')
+            ->from('visitor')
+            ->where($args['where_col'], '=', $args['where_val'])
+            ->whereDate('last_counter', $args['date'])
+            ->getVar();
+
+        return $result ? intval($result) : 0;
+    }
+
+    /**
      * @deprecated Use SummaryChartDataProvider instead.
      */
     public function getVisitorsSummary($args = [])
@@ -1044,17 +1068,33 @@ class VisitorsModel extends BaseModel
     public function countGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'        => '',
-            'count_field' => 'location',
-            'continent'   => '',
-            'country'     => '',
-            'region'      => '',
-            'city'        => '',
-            'not_null'    => '',
+            'date'         => '',
+            'count_field'  => 'location',
+            'count_fields' => [],
+            'continent'    => '',
+            'country'      => '',
+            'region'       => '',
+            'city'         => '',
+            'include_null' => false,
         ]);
 
+        // Count the same groups that getVisitorsGeoData() lists
+        if (!empty($args['count_fields'])) {
+            $parts      = array_map(function ($field) {
+                return "COALESCE({$field}, '')";
+            }, (array)$args['count_fields']);
+            $countValue = "COUNT(DISTINCT CONCAT_WS('|', " . implode(', ', $parts) . '))';
+        } else {
+            $countValue = "COUNT(DISTINCT visitor.{$args['count_field']})";
+        }
+
+        // The list can keep rows without a value (e.g. countries with an unknown location) as one more row
+        if ($args['include_null']) {
+            $countValue .= " + COALESCE(MAX(visitor.{$args['count_field']} IS NULL), 0)";
+        }
+
         $result = Query::select([
-            "COUNT(DISTINCT {$args['count_field']}) as total"
+            "{$countValue} as total"
         ])
             ->from('visitor')
             ->whereDate('visitor.last_counter', $args['date'])
@@ -1062,7 +1102,7 @@ class VisitorsModel extends BaseModel
             ->where('visitor.location', '=', $args['country'])
             ->where('visitor.region', '=', $args['region'])
             ->where('visitor.city', '=', $args['city'])
-            ->whereNotNull("visitor.{$args['count_field']}")
+            ->whereNotNull($args['include_null'] ? '' : "visitor.{$args['count_field']}")
             ->getVar();
 
         return $result ? intval($result) : 0;

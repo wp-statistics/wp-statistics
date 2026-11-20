@@ -161,12 +161,12 @@ class DevicesDataProvider
         $args = array_merge($this->args, [
             'field'     => 'agent',
             'where_col' => 'agent',
-            'where_val' => esc_sql($this->args['browser']),
+            'where_val' => $this->args['browser'], // Query::where() prepares the value
         ]);
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
-            'total'    => $this->visitorsModel->countColumnDistinct(array_merge($this->args, ['field' => 'agent'])),
+            'total'    => $this->visitorsModel->countVisitorsDevicesVersions($args),
             'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
@@ -183,12 +183,12 @@ class DevicesDataProvider
         $args = array_merge($this->args, [
             'field'     => 'platform',
             'where_col' => 'platform',
-            'where_val' => esc_sql($selectedPlatform),
+            'where_val' => $selectedPlatform, // Query::where() prepares the value
         ]);
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
-            'total'    => $this->visitorsModel->countColumnDistinct(array_merge($this->args, ['field' => 'platform'])),
+            'total'    => $this->visitorsModel->countVisitorsDevicesVersions($args),
             'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
@@ -205,12 +205,12 @@ class DevicesDataProvider
         $args = array_merge($this->args, [
             'field'     => 'model',
             'where_col' => 'model',
-            'where_val' => esc_sql($selectedModel),
+            'where_val' => $selectedModel, // Query::where() prepares the value
         ]);
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
-            'total'    => $this->visitorsModel->countColumnDistinct(array_merge($this->args, ['field' => 'model'])),
+            'total'    => $this->visitorsModel->countVisitorsDevicesVersions($args),
             'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
