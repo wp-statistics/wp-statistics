@@ -141,4 +141,42 @@ class VisitorProvider extends AbstractDebuggerProvider
             'error'                => $failed,
         ];
     }
+
+    /**
+     * Reads a getRecordingStatus() result the way the Tracker Debugger card does.
+     *
+     * One rule for the card and for the "visits stopped" alert, so they never disagree:
+     * - error:     the visitor table could not be read, so nothing is known.
+     * - no_visits: no visit was ever recorded (a new or empty site, never an alert).
+     * - working:   a visit was recorded in the last 24 hours.
+     * - quiet:     no visit for 1-2 days, but the site had fewer than 7 visitors in the
+     *              week before, so a day without visits can be normal.
+     * - stopped:   anything older; the card shows "No Recent Visits" as a warning.
+     *
+     * @param array $status Result of getRecordingStatus().
+     * @return string One of error, no_visits, working, quiet, stopped.
+     */
+    public static function getRecordingState($status)
+    {
+        if (!empty($status['error'])) {
+            return 'error';
+        }
+
+        if (!isset($status['last_visit']) || $status['last_visit'] === null) {
+            return 'no_visits';
+        }
+
+        $secondsSince = (int)$status['seconds_since'];
+
+        if ($secondsSince <= DAY_IN_SECONDS) {
+            return 'working';
+        }
+
+        $quietSite = $secondsSince <= 2 * DAY_IN_SECONDS
+            && isset($status['visitors_week_before'])
+            && $status['visitors_week_before'] !== null
+            && $status['visitors_week_before'] < 7;
+
+        return $quietSite ? 'quiet' : 'stopped';
+    }
 }

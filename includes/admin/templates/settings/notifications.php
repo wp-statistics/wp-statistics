@@ -36,6 +36,27 @@ use WP_STATISTICS\Schedule;
     </table>
 </div>
 
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr class="wps-settings-box_head">
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Alerts', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr data-id="tracking_stopped_alert_tr">
+            <th scope="row">
+                <span class="wps-setting-label"><?php esc_html_e('Visits Stopped', 'wp-statistics'); ?></span>
+            </th>
+            <td>
+                <input id="wps_tracking_stopped_alert" type="checkbox" name="wps_tracking_stopped_alert" <?php checked((bool)Option::get('tracking_stopped_alert', true)); ?>>
+                <label for="wps_tracking_stopped_alert"><?php esc_html_e('Email me when visits stop being recorded', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Checks once a day. If your site usually gets visitors and none were recorded for more than a day, we send one email to the addresses above, and one more when visits are recorded again.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 <div class="postbox" id='wps_stats_report_option'>
     <table class="form-table">
         <tbody>
