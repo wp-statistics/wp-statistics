@@ -76,6 +76,7 @@ class Option
             'display_notifications'           => true,
             'word_count_analytics'            => true,
             'show_privacy_issues_in_report'   => false,
+            'tracking_stopped_alert'          => true,
         );
 
         return $options;

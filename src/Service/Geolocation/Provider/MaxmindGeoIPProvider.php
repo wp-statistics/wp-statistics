@@ -165,16 +165,9 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             $this->deleteFile($gzFilePath); // Clean up the temporary file
             $this->reader = new Reader($dbFile);
 
-            // Update options and send notifications
+            // Update options
             $this->updateLastDownloadTimestamp();
             $this->batchUpdateIncompleteGeoIp();
-
-            /*
-             * @since 14.11.3
-             * Email notification is currently disabled because the associated option was removed.
-             * However, the sendGeoIpUpdateEmail method is retained here in case future requirements necessitate enabling email notifications via a hook.
-             */
-            //$this->sendGeoIpUpdateEmail(__('GeoIP Database successfully updated.', 'wp-statistics'));
 
         } catch (Exception $e) {
             $this->deleteFile($gzFilePath); // Ensure temporary file is deleted in case of an error

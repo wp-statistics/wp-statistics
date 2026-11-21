@@ -49,12 +49,25 @@ use WP_Statistics\Utils\Url;
 
                             <td class="wps-pd-l">
                                 <?php
-                                View::load("components/objects/referrer-link", [
-                                    'label' => $visitor->getReferral()->getSourceChannel(),
-                                    'url'   => $visitor->getReferral()->getReferrer(),
-                                    'title' => $visitor->getReferral()->getRawReferrer()
-                                ]);
+                                // No referrer, but the source is known from the landing URL (for example
+                                // Microsoft Ads): show the source name where the domain would be.
+                                $referrerTitle = $visitor->getReferral()->getRawReferrer();
+                                $sourceName    = $visitor->getReferral()->getSourceName();
                                 ?>
+                                <?php if (empty($referrerTitle) && !empty($sourceName)) : ?>
+                                    <div class="wps-referral-link">
+                                        <span title="<?php echo esc_attr($sourceName) ?>"><?php echo esc_html($sourceName) ?></span>
+                                        <span class="wps-referral-label"><?php echo esc_html($visitor->getReferral()->getSourceChannel()) ?></span>
+                                    </div>
+                                <?php else : ?>
+                                    <?php
+                                    View::load("components/objects/referrer-link", [
+                                        'label' => $visitor->getReferral()->getSourceChannel(),
+                                        'url'   => $visitor->getReferral()->getReferrer(),
+                                        'title' => $referrerTitle
+                                    ]);
+                                    ?>
+                                <?php endif; ?>
                             </td>
 
                             <td class="wps-pd-l">
