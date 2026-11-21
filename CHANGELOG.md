@@ -1,9 +1,9 @@
-14.16.21 - 2026-11-21
-- **Fix:** Download Tracker counts files served through a link parameter, such as `?protected_download=file.pdf` ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
-- **Fix:** Top Pages no longer shows a database error on SQLite sites, such as WordPress Playground.
-- **Fix:** More accurate numbers in the Author, Category, Content and Top Pages reports.
-- **Fix:** Correct page numbers and filters in the Visitors, Referrals, Geographic and Devices reports.
-- **Enhancement:** Faster Top Pages and a shorter license notice in the add-on popup.
+14.17.0 - 2026-11-21
+- **New:** Email alert and notice when visits stop being recorded. Turn it off in Settings → Email Reports.
+- **New:** OpenAI Ads, Microsoft Ads and Facebook Ads clicks show as their own sources.
+- **Fix:** Download Tracker counts files behind a link parameter, such as `?protected_download=file.pdf`, and keeps dotted file names ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** More accurate numbers and filters in the Author, Category, Content, Visitors, Referrals, Geographic and Devices reports.
+- **Fix:** Top Pages works on SQLite sites, such as WordPress Playground, and loads faster.
 
 14.16.20 - 2026-11-20
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.

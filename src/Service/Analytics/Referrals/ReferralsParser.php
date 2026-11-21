@@ -37,8 +37,19 @@ class ReferralsParser
 
         foreach ($this->referralsList as $channelData) {
             // check if rules don't match, skip to the next channel
-            if (!$this->checkRules($channelData['rules'], $pageUrl)) {
+            if (!$this->checkRules($channelData['rules'], $pageUrl, $referrerUrl)) {
                 continue;
+            }
+
+            // A "rules_only" group is identified by its rules alone (for example an ad click id
+            // in the landing URL, which often comes without a referrer): when its rules match,
+            // its first channel is the source, whatever the referrer or utm_source says.
+            if (!empty($channelData['rules_only']) && !empty($channelData['channels'][0])) {
+                return [
+                    'name'       => $channelData['channels'][0]['name'],
+                    'identifier' => $channelData['channels'][0]['identifier'],
+                    'channel'    => $channelData['type'],
+                ];
             }
 
             foreach ($channelData['channels'] as $channel) {
@@ -133,17 +144,22 @@ class ReferralsParser
     }
 
     /**
-     * Checks if a given page URL passes a set of rules.
+     * Checks if a given page URL (and referrer domain) passes a set of rules.
+     *
+     * MATCH and NOT MATCH test the page URL. REFERRER MATCH tests the referrer domain,
+     * without "www." (for example "l.facebook.com"), and fails when there is no referrer.
      *
      * @param array $rules An array of regular expression patterns to match against the page URL.
      * @param string $pageUrl The URL of the page to check against the rules.
+     * @param string $referrerDomain The referrer domain, as returned by Url::getDomain().
      *
      * @return bool true if the page URL passes all rules, false otherwise.
      */
-    public function checkRules($rules, $pageUrl)
+    public function checkRules($rules, $pageUrl, $referrerDomain = '')
     {
         // If pageUrl is empty, set it to empty string
-        $pageUrl = !empty($pageUrl) ? strtolower($pageUrl) : '';
+        $pageUrl        = !empty($pageUrl) ? strtolower($pageUrl) : '';
+        $referrerDomain = !empty($referrerDomain) ? strtolower($referrerDomain) : '';
 
         foreach ($rules as $rule) {
             switch ($rule['operator']) {
@@ -153,6 +169,10 @@ class ReferralsParser
 
                 case 'NOT MATCH':
                     if (preg_match($rule['pattern'], $pageUrl)) return false;
+                    break;
+
+                case 'REFERRER MATCH':
+                    if ($referrerDomain === '' || !preg_match($rule['pattern'], $referrerDomain)) return false;
                     break;
             }
         }

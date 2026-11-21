@@ -79,6 +79,8 @@ class Uninstaller extends AbstractCore
         delete_option('wp_statistics_check_user_online');
         delete_option('wp_statistics_daily_salt');
         delete_option('wp_statistics_dismissed_notices');
+        delete_option('wp_statistics_tracking_health');
+        delete_option('wp_statistics_tracking_health_lock');
         delete_option('wp_statistics_dismissed_widgets');
         delete_option('wp_statistics_jobs');
         delete_option('wp_statistics_user_modals');
@@ -105,6 +107,7 @@ class Uninstaller extends AbstractCore
             wp_clear_scheduled_hook('wp_statistics_add_visit_hook');
             wp_clear_scheduled_hook('wp_statistics_optimize_table');
             wp_clear_scheduled_hook('wp_statistics_daily_cron_hook');
+            wp_clear_scheduled_hook('wp_statistics_tracking_health_hook');
         }
 
         // Delete all hashed files and their options

@@ -16,6 +16,15 @@ $dir                = $is_rtl ? 'rtl' : 'ltr';
 // Setting up the logo.
 $final_logo = ' <a href="' . esc_url($logo_url) . '"  class="wp-statistics-logo" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0; padding: 0; text-decoration: none;"><img src="' . esc_url($logo_image) . '" width="168" height="38" title="WP Statistics" alt="WP Statistics" style="margin: 0; margin-bottom: 32px; padding: 0; text-decoration: none;"></a>';
 
+// Alerts, for example "visits stopped", pass is_report false: same frame, no report sections.
+$is_report             = !isset($is_report) || !empty($is_report);
+$advanced_reporting_ad = '';
+$privacyBox            = '';
+$email_performance_html = '';
+$tip_html              = '';
+
+if ($is_report) {
+
 // Advertisement For WP Statistics Advanced Report Plugin
 $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' :
     '<table class="better-reports" style="background-color: #404bf2; border: 1px solid #404bf2;  ' . ($email_footer ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; margin-top: 39px;  text-align: center; text-decoration: none;">
@@ -273,6 +282,27 @@ $email_performance_html .= '<td width="60%" >' . implode('', $secondColumnConten
 
 $email_performance_html .= '</tr></table></div></div>';
 
+    $tip_html = '<div class="content" style="' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;">
+                     <table class="content__tip" style="background-color: #E1EBFE; border-radius: 12px;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;  text-decoration: none;">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 20px;">
+                                    <div class="content__tip--title" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; text-decoration: none;">
+                                    <h2 style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; font-size: 17px; font-weight: 500; line-height: 19.92px; margin: 0; text-decoration: none;color: #303032">
+                                       <img alt="' . $tipOfEmail['title'] . '" src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/tip.png') . '" width="16" height="16" style="float:' . $text_align . ';margin-top: 2px;margin-' . $text_align_reverse . ':6px">' . $tipOfEmail['title'] . '
+                                    </h2>
+                                    </div>
+                                    <div class="content__tip--description" style=" color: #303032; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; font-size: 16px; font-weight: 400; line-height: 22px; margin: 0; padding: 0; text-decoration: none;">
+                                    ' . $tipOfEmail['content'] . '
+                                    </div>
+                                                            
+                                </td>                       
+                            </tr>                 
+                        </tbody> 
+                     </table>
+                 </div>';
+}
+
 $email_body = '
         <div class="mail-body" style="direction: ' . $dir . ';background-color: #F7F9FA;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 39px 0; text-decoration: none;">
             <div class="main-section" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin:0 auto;  padding: 0 5px; text-decoration: none; width: 618px; ">
@@ -302,25 +332,7 @@ if (!empty($content)) {
 }
 $email_body .= '</div>
                 ' .$email_performance_html . $privacyBox .'
-                <div class="content" style="' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;">
-                     <table class="content__tip" style="background-color: #E1EBFE; border-radius: 12px;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;  text-decoration: none;">
-                        <tbody>
-                            <tr>
-                                <td style="padding: 20px;">
-                                    <div class="content__tip--title" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; text-decoration: none;">
-                                    <h2 style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; font-size: 17px; font-weight: 500; line-height: 19.92px; margin: 0; text-decoration: none;color: #303032">
-                                       <img alt="' . $tipOfEmail['title'] . '" src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/tip.png') . '" width="16" height="16" style="float:' . $text_align . ';margin-top: 2px;margin-' . $text_align_reverse . ':6px">' . $tipOfEmail['title'] . '
-                                    </h2>
-                                    </div>
-                                    <div class="content__tip--description" style=" color: #303032; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; font-size: 16px; font-weight: 400; line-height: 22px; margin: 0; padding: 0; text-decoration: none;">
-                                    ' . $tipOfEmail['content'] . '
-                                    </div>
-                                                            
-                                </td>                       
-                            </tr>                 
-                        </tbody> 
-                     </table>
-                 </div>
+                 ' . $tip_html . '
                  ' . $advanced_reporting_ad . $email_footer . $copyright . '</div></div>';
 
 

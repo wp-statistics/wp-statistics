@@ -11,6 +11,7 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
+use WP_Statistics\Service\Admin\TrackerDebugger\TrackingHealth;
 
 class Schedule
 {
@@ -116,6 +117,14 @@ class Schedule
         add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
 
         Event::schedule('wp_statistics_check_licenses_status', time(), 'weekly', [$this, 'check_licenses_status']);
+
+        // Daily "visits stopped" check, only while the alert is on.
+        if (TrackingHealth::isEnabled()) {
+            Event::schedule(TrackingHealth::HOOK, time() + HOUR_IN_SECONDS, 'daily', [TrackingHealth::class, 'check']);
+        } else {
+            // An open outage is kept, see TrackingHealth.
+            Event::unschedule(TrackingHealth::HOOK);
+        }
     }
 
     /**

@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.21
+Stable tag: 14.17.0
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -43,7 +43,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Monitor live online user traffic in real-time
 * Fully customized overview dashboard page
 * Shows your most popular posts and pages
-* Referrals Tracking: Track and analyze referrals with five reports: Referred Visitors, Referrers, Search Engines, Social Media, and Source Categories. The new Source Categories report includes support for Organic Search, Paid Search, Organic Social, Paid Social, and more.
+* Referrals Tracking: Track and analyze referrals with five reports: Referred Visitors, Referrers, Search Engines, Social Media, and Source Categories. The new Source Categories report includes support for Organic Search, Paid Search, Organic Social, Paid Social, and more. Paid clicks from Google Ads, Microsoft Ads, OpenAI Ads and Facebook Ads are shown as their own sources.
 * Lists your top referral sources such as search engines
 * Author Analytics: Measures author performance.
 * Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
@@ -51,6 +51,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
 * Consent plugin integration: Works directly with CookieYes, Real Cookie Banner and Borlabs Cookie, and through WP Consent API with plugins like Complianz and Cookiebot.
 * Email reports with customizable content
+* Tracking Alerts: Get an email when your site stops recording visits, for example after a cache or cookie banner change, and another when visits come back.
 * Customize role-based access to view analytics and modify settings.
 * Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
 * Premium Add-on: [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp)
@@ -153,12 +154,12 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
 
 == Changelog ==
-= 14.16.21 - 2026-11-21 =
-- **Fix:** Download Tracker counts files served through a link parameter, such as `?protected_download=file.pdf` ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
-- **Fix:** Top Pages no longer shows a database error on SQLite sites, such as WordPress Playground.
-- **Fix:** More accurate numbers in the Author, Category, Content and Top Pages reports.
-- **Fix:** Correct page numbers and filters in the Visitors, Referrals, Geographic and Devices reports.
-- **Enhancement:** Faster Top Pages and a shorter license notice in the add-on popup.
+= 14.17.0 - 2026-11-21 =
+- **New:** Email alert and notice when visits stop being recorded. Turn it off in Settings → Email Reports.
+- **New:** OpenAI Ads, Microsoft Ads and Facebook Ads clicks show as their own sources.
+- **Fix:** Download Tracker counts files behind a link parameter, such as `?protected_download=file.pdf`, and keeps dotted file names ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** More accurate numbers and filters in the Author, Category, Content, Visitors, Referrals, Geographic and Devices reports.
+- **Fix:** Top Pages works on SQLite sites, such as WordPress Playground, and loads faster.
 
 = 14.16.20 - 2026-11-20 =
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.

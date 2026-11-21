@@ -103,16 +103,26 @@ class VisitorProvider extends AbstractDebuggerProvider
         if ($lastVisit === null && !$failed) {
             // The latest visit by date, not by ID: imported or restored rows can have higher IDs.
             // Ignore future rows so an imported or clock-skewed timestamp cannot keep the card green.
-            $lastVisit = $wpdb->get_var($wpdb->prepare(
-                // Walk the date index from newest to oldest until a non-future row is found.
-                // ORDER BY ... LIMIT can stop there; MAX with a last_view filter scans every row.
-                "SELECT COALESCE(MAX(`last_view`), MAX(`last_counter`)) FROM `{$table}` WHERE `last_counter` = (SELECT `last_counter` FROM `{$table}` WHERE `last_counter` <= %s AND (`last_view` IS NULL OR `last_view` <= %s) ORDER BY `last_counter` DESC LIMIT 1) AND (`last_view` IS NULL OR `last_view` <= %s)",
+            // Walk the date index from newest to oldest until a non-future row is found.
+            // ORDER BY ... LIMIT can stop there; MAX with a last_view filter scans every row.
+            // Two queries, not a subquery: MySQL cannot read a temporary table twice in one query.
+            $lastDay = $wpdb->get_var($wpdb->prepare(
+                "SELECT `last_counter` FROM `{$table}` WHERE `last_counter` <= %s AND (`last_view` IS NULL OR `last_view` <= %s) ORDER BY `last_counter` DESC LIMIT 1",
                 $today,
-                $now,
                 $now
             ));
-            $failed    = $lastVisit === null && $wpdb->last_error !== '';
-            $lastVisit = !empty($lastVisit) ? (string)$lastVisit : null;
+            $failed    = $lastDay === null && $wpdb->last_error !== '';
+            $lastVisit = null;
+
+            if (!empty($lastDay) && !$failed) {
+                $lastVisit = $wpdb->get_var($wpdb->prepare(
+                    "SELECT COALESCE(MAX(`last_view`), MAX(`last_counter`)) FROM `{$table}` WHERE `last_counter` = %s AND (`last_view` IS NULL OR `last_view` <= %s)",
+                    $lastDay,
+                    $now
+                ));
+                $failed    = $lastVisit === null && $wpdb->last_error !== '';
+                $lastVisit = !empty($lastVisit) ? (string)$lastVisit : null;
+            }
         }
 
         if ($lastVisit !== null && $lastVisit < $since && !$failed) {
@@ -140,5 +150,43 @@ class VisitorProvider extends AbstractDebuggerProvider
             // A failed query is not "no visits": the card says it could not check.
             'error'                => $failed,
         ];
+    }
+
+    /**
+     * Reads a getRecordingStatus() result the way the Tracker Debugger card does.
+     *
+     * One rule for the card and for the "visits stopped" alert, so they never disagree:
+     * - error:     the visitor table could not be read, so nothing is known.
+     * - no_visits: no visit was ever recorded (a new or empty site, never an alert).
+     * - working:   a visit was recorded in the last 24 hours.
+     * - quiet:     no visit for 1-2 days, but the site had fewer than 7 visitors in the
+     *              week before, so a day without visits can be normal.
+     * - stopped:   anything older; the card shows "No Recent Visits" as a warning.
+     *
+     * @param array $status Result of getRecordingStatus().
+     * @return string One of error, no_visits, working, quiet, stopped.
+     */
+    public static function getRecordingState($status)
+    {
+        if (!empty($status['error'])) {
+            return 'error';
+        }
+
+        if (!isset($status['last_visit']) || $status['last_visit'] === null) {
+            return 'no_visits';
+        }
+
+        $secondsSince = (int)$status['seconds_since'];
+
+        if ($secondsSince <= DAY_IN_SECONDS) {
+            return 'working';
+        }
+
+        $quietSite = $secondsSince <= 2 * DAY_IN_SECONDS
+            && isset($status['visitors_week_before'])
+            && $status['visitors_week_before'] !== null
+            && $status['visitors_week_before'] < 7;
+
+        return $quietSite ? 'quiet' : 'stopped';
     }
 }

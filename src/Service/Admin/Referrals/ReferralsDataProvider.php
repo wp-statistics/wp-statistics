@@ -11,6 +11,20 @@ use WP_STATISTICS\Visitor;
 
 class ReferralsDataProvider
 {
+    /**
+     * Grouping of the Search Engines and Social Media tables.
+     *
+     * Same as the charts above them, these tables also count visits that come without a
+     * referrer but have a source (paid clicks recognised by their landing URL, such as
+     * Microsoft Ads or OpenAI Ads). Those visits have no domain, so they are grouped by
+     * source name; a visit with a domain stays grouped by domain and channel as before.
+     */
+    const REFERRER_AND_SOURCE_GROUP = [
+        'visitor.referred',
+        'visitor.source_channel',
+        "(CASE WHEN visitor.referred IS NULL OR visitor.referred = '' THEN visitor.source_name ELSE '' END)"
+    ];
+
     protected $args;
     private $visitorsModel;
     private $overviewChartData;
@@ -136,10 +150,12 @@ class ReferralsDataProvider
         return [
             'referrers' => $this->visitorsModel->getReferrers(array_merge($args, [
                 'decorate' => true,
-                'group_by' => ['visitor.referred', 'visitor.source_channel']
+                'not_null' => false,
+                'group_by' => self::REFERRER_AND_SOURCE_GROUP
             ])),
             'total'     => $this->visitorsModel->countReferrers(array_merge($args, [
-                'group_by' => ['visitor.referred', 'visitor.source_channel']
+                'not_null' => false,
+                'group_by' => self::REFERRER_AND_SOURCE_GROUP
             ]))
         ];
     }
@@ -153,10 +169,12 @@ class ReferralsDataProvider
         return [
             'referrers' => $this->visitorsModel->getReferrers(array_merge($args, [
                 'decorate' => true,
-                'group_by' => ['visitor.referred', 'visitor.source_channel']
+                'not_null' => false,
+                'group_by' => self::REFERRER_AND_SOURCE_GROUP
             ])),
             'total'     => $this->visitorsModel->countReferrers(array_merge($args, [
-                'group_by' => ['visitor.referred', 'visitor.source_channel']
+                'not_null' => false,
+                'group_by' => self::REFERRER_AND_SOURCE_GROUP
             ]))
         ];
     }
