@@ -264,11 +264,11 @@ class ReportsExportDataTransformer
             }
 
             if ($type == 'model') {
-                $row['os'] = $item->model;
+                $row['model'] = $item->model;
             }
 
             if ($type == 'device') {
-                $row['os'] = ucfirst($item->device);
+                $row['category'] = ucfirst($item->device);
             }
 
             $row['visitors'] = $item->visitors;

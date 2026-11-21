@@ -53,7 +53,9 @@ $isActive      = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                 <span><?php echo esc_html(number_format_i18n($country->views)); ?></span>
                             </td>
                             <td class="-table__cell o-table__cell--right view-more">
-                                <?php if ($isActive): ?>
+                                <?php if (empty($country->country) || $country->country === Country::$unknown_location): ?>
+                                    <?php /* No details page for visitors with an unknown country */ ?>
+                                <?php elseif ($isActive): ?>
                                     <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $country->country ?? Country::$unknown_location])) ?>" aria-label="View Details">
                                         <?php esc_html_e('View Details', 'wp-statistics') ?>
                                     </a>

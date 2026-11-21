@@ -22,7 +22,7 @@ class ContinentChartDataProvider extends AbstractChartDataProvider
             'order_by'  => 'visitors',
             'group_by'  => 'continent',
             'page'      => 1,
-            'per_page'  => 5
+            'per_page'  => false // Show every continent, the card is not a top list
         ]);
 
         $this->visitorsModel = new VisitorsModel();

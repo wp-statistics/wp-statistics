@@ -588,7 +588,13 @@ class FilterManager
         $args = [];
 
         foreach ($parameters as $key => $parameter) {
-            $title = preg_replace('/^.*' . preg_quote($pageSlug, '/') . '/', '', $parameter->uri);
+            // Show only the query string when the path is the page's own path, otherwise the full URI
+            $uriParts = explode('?', $parameter->uri, 2);
+            $title    = $parameter->uri;
+
+            if (isset($uriParts[1]) && trim($uriParts[0], '/') === trim($pageSlug, '/')) {
+                $title = '?' . $uriParts[1];
+            }
 
             $args[] = [
                 'slug' => esc_attr($parameter->page_id),

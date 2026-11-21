@@ -532,11 +532,12 @@ class Pages
         // Generate SQL
         $selectSql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql}";
 
-        // Group pages with ID of 0 by type and URI, and group the rest of pages by ID
+        // Group pages with ID of 0 by type and URI, and group the rest of pages by ID.
+        // No parentheses around the parts: SQLite (e.g. WordPress Playground) rejects "(SELECT ...) UNION (SELECT ...)".
         $sql = "
-            ($selectSql AND `pages`.`id` != 0 GROUP BY `pages`.`id`)
+            $selectSql AND `pages`.`id` != 0 GROUP BY `pages`.`id`
             UNION
-            ($selectSql AND `pages`.`id` = 0 GROUP BY `pages`.`uri`, `pages`.`type`)
+            $selectSql AND `pages`.`id` = 0 GROUP BY `pages`.`uri`, `pages`.`type`
             ORDER BY `count_sum` DESC
         ";
 
@@ -551,7 +552,7 @@ class Pages
             $reportUrl = '';
             if (isset($page_info['meta']['term_taxonomy_id'])) {
                 $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $item->id]);
-            } else if (isset($page_info['meta']['author_id'])) {
+            } else if (!empty($page_info['meta']['author_id'])) {
                 $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page_info['meta']['author_id']]);
             } else if (isset($page_info['meta']['post_type'])) {
                 $reportUrl = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id]);

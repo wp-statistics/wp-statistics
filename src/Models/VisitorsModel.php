@@ -13,6 +13,17 @@ use WP_Statistics\Utils\Query;
 
 class VisitorsModel extends BaseModel
 {
+    /**
+     * Page types that hold post rows for the given post types (all listed post types when empty).
+     * The `home` type is left out, as countViews() does.
+     *
+     * @param string|array $postType
+     * @return array
+     */
+    private function getPostResourceTypes($postType)
+    {
+        return $this->getResourceTypes(!empty($postType) ? $postType : Helper::get_list_post_type(), false);
+    }
 
     public function countVisitors($args = [])
     {
@@ -31,7 +42,9 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'user_id'       => '',
             'ip'            => '',
+            'exact_ip'      => false,
             'source_name'   => '',
+            'source_channel' => '',
             'logged_in'     => false,
             'user_role'     => '',
             'referrer'      => '',
@@ -54,19 +67,26 @@ class VisitorsModel extends BaseModel
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
             ->where('referred', '=', $args['referrer'])
-            ->where('ip', '=', $args['ip'])
             ->where('source_name', 'IN', $args['source_name'])
             ->whereNotNull($args['not_null'])
             ->whereDate($args['date_field'], $args['date']);
+
+        // Use the same IP and source_channel filters as getVisitorsData() so the total matches the list
+        $this->applyIpFilter($query, $args['ip'], $args['exact_ip']);
+
+        // `unassigned` means visitors without a source channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query->whereNull('visitor.source_channel');
+        } else {
+            $query->where('visitor.source_channel', 'IN', $args['source_channel']);
+        }
 
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
             $query->whereNotNull('visitor.user_id');
 
             if (!empty($args['user_role'])) {
-                $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
-                $query->where('usermeta.meta_key', '=', "wp_capabilities");
-                $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
+                $this->applyUserRoleFilter($query, $args['user_role']);
             }
         }
 
@@ -80,9 +100,11 @@ class VisitorsModel extends BaseModel
         }
 
         if (array_intersect(['post_type', 'author_id', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            // Only match post rows, like countViews(); home, term and author rows reuse the same IDs
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.type', 'IN', $this->getPostResourceTypes($args['post_type']))
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])
@@ -137,9 +159,7 @@ class VisitorsModel extends BaseModel
             $query->whereNotNull('visitor.user_id');
 
             if (!empty($args['user_role'])) {
-                $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
-                $query->where('usermeta.meta_key', '=', "wp_capabilities");
-                $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
+                $this->applyUserRoleFilter($query, $args['user_role']);
             }
         }
 
@@ -246,9 +266,7 @@ class VisitorsModel extends BaseModel
             $query->whereNotNull('visitor.user_id');
 
             if (!empty($args['user_role'])) {
-                $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
-                $query->where('usermeta.meta_key', '=', "wp_capabilities");
-                $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
+                $this->applyUserRoleFilter($query, $args['user_role']);
             }
         }
 
@@ -262,9 +280,11 @@ class VisitorsModel extends BaseModel
         }
 
         if (array_intersect(['post_type', 'author_id', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            // Only match post rows, like countViews(); home, term and author rows reuse the same IDs
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.type', 'IN', $this->getPostResourceTypes($args['post_type']))
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])
@@ -426,6 +446,30 @@ class VisitorsModel extends BaseModel
             ->getAll();
 
         return $result ? $result : [];
+    }
+
+    /**
+     * Counts the rows that getVisitorsDevicesVersions() returns (distinct versions), for pagination.
+     *
+     * @param array $args Same arguments as getVisitorsDevicesVersions().
+     *
+     * @return int
+     */
+    public function countVisitorsDevicesVersions($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'where_col' => 'agent',
+            'where_val' => '',
+        ]);
+
+        $result = Query::select('COUNT(DISTINCT CAST(`version` AS SIGNED)) AS `total`')
+            ->from('visitor')
+            ->where($args['where_col'], '=', $args['where_val'])
+            ->whereDate('last_counter', $args['date'])
+            ->getVar();
+
+        return $result ? intval($result) : 0;
     }
 
     /**
@@ -628,6 +672,7 @@ class VisitorsModel extends BaseModel
             'platform'              => '',
             'user_id'               => '',
             'ip'                    => '',
+            'exact_ip'              => false,
             'query_param'           => '',
             'taxonomy'              => '',
             'term'                  => '',
@@ -690,10 +735,8 @@ class VisitorsModel extends BaseModel
             ->where('agent', '=', $args['agent'])
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
-            ->where('ip', 'LIKE', "%{$args['ip']}%")
             ->where('referred', '=', $args['referrer'])
             ->where('visitor.location', '=', $args['country'])
-            ->where('visitor.source_channel', 'IN', $args['source_channel'])
             ->where('visitor.source_name', 'IN', $args['source_name'])
             ->where('visitor.ID', 'NOT IN', $args['exclude_ids'])
             ->whereNotNull($args['not_null'])
@@ -701,6 +744,8 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->groupBy($args['group_by']);
+
+        $this->applyIpFilter($query, $args['ip'], $args['exact_ip']);
 
         if ($args['decorate'] == true) {
             $query->decorate(VisitorDecorator::class);
@@ -712,7 +757,7 @@ class VisitorsModel extends BaseModel
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel']);
+                ->where('visitor.source_channel', 'IN', $args['source_channel']);
         }
 
         if (!empty($args['referred_visitors'])) {
@@ -730,9 +775,7 @@ class VisitorsModel extends BaseModel
             $query->whereNotNull('visitor.user_id');
 
             if (!empty($args['user_role'])) {
-                $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
-                $query->where('usermeta.meta_key', '=', "wp_capabilities");
-                $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
+                $this->applyUserRoleFilter($query, $args['user_role']);
             }
         }
 
@@ -1023,17 +1066,33 @@ class VisitorsModel extends BaseModel
     public function countGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'        => '',
-            'count_field' => 'location',
-            'continent'   => '',
-            'country'     => '',
-            'region'      => '',
-            'city'        => '',
-            'not_null'    => '',
+            'date'         => '',
+            'count_field'  => 'location',
+            'count_fields' => [],
+            'continent'    => '',
+            'country'      => '',
+            'region'       => '',
+            'city'         => '',
+            'include_null' => false,
         ]);
 
+        // Count the same groups that getVisitorsGeoData() lists
+        if (!empty($args['count_fields'])) {
+            $parts      = array_map(function ($field) {
+                return "COALESCE({$field}, '')";
+            }, (array)$args['count_fields']);
+            $countValue = "COUNT(DISTINCT CONCAT_WS('|', " . implode(', ', $parts) . '))';
+        } else {
+            $countValue = "COUNT(DISTINCT visitor.{$args['count_field']})";
+        }
+
+        // The list can keep rows without a value (e.g. countries with an unknown location) as one more row
+        if ($args['include_null']) {
+            $countValue .= " + COALESCE(MAX(visitor.{$args['count_field']} IS NULL), 0)";
+        }
+
         $result = Query::select([
-            "COUNT(DISTINCT {$args['count_field']}) as total"
+            "{$countValue} as total"
         ])
             ->from('visitor')
             ->whereDate('visitor.last_counter', $args['date'])
@@ -1041,7 +1100,7 @@ class VisitorsModel extends BaseModel
             ->where('visitor.location', '=', $args['country'])
             ->where('visitor.region', '=', $args['region'])
             ->where('visitor.city', '=', $args['city'])
-            ->whereNotNull("visitor.{$args['count_field']}")
+            ->whereNotNull($args['include_null'] ? '' : "visitor.{$args['count_field']}")
             ->getVar();
 
         return $result ? intval($result) : 0;
@@ -1337,16 +1396,21 @@ class VisitorsModel extends BaseModel
             'query_param'    => '',
             'taxonomy'       => '',
             'term'           => '',
-            'not_null'       => 'visitor.referred'
+            'referrer'       => '',
+            'not_null'       => 'visitor.referred',
+            'group_by'       => '',
+            'utm_source'     => '',
+            'utm_medium'     => '',
+            'utm_campaign'   => '',
+            'resource_id'    => '',
+            'resource_type'  => ''
         ]);
 
         $filteredArgs = array_filter($args);
 
-        $query = Query::select([
-            'COUNT(DISTINCT visitor.referred)'
-        ])
+        // Use the same filters as getReferrers() so the total matches the list
+        $query = Query::select(empty($args['group_by']) ? 'COUNT(DISTINCT visitor.referred)' : 'visitor.referred')
             ->from('visitor')
-            ->where('source_channel', 'IN', $args['source_channel'])
             ->where('visitor.location', '=', $args['country'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null']);
@@ -1356,13 +1420,34 @@ class VisitorsModel extends BaseModel
             $query->whereRaw("AND ((visitor.referred != '') OR (visitor.source_channel IS NOT NULL))");
         }
 
-        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+        // When source_channel is `unassigned`, only count visitors without source_channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query->whereNull('visitor.source_channel');
+        } else {
+            $query->where('source_channel', 'IN', $args['source_channel']);
+        }
+
+        if (!empty($args['referrer'])) {
+            $query->where('visitor.referred', 'LIKE', "%{$args['referrer']}%");
+        }
+
+        if (array_intersect(['resource_id', 'resource_type', 'query_param', 'utm_source', 'utm_medium', 'utm_campaign'], array_keys($filteredArgs))) {
+            $query
+                ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('pages.uri', '=', $args['query_param'])
+                ->where('pages.uri', 'LIKE', $args['utm_source'] ? "%utm_source={$args['utm_source']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_medium'] ? "%utm_medium={$args['utm_medium']}%" : '')
+                ->where('pages.uri', 'LIKE', $args['utm_campaign'] ? "%utm_campaign={$args['utm_campaign']}%" : '');
+        }
+
+        if (array_intersect(['post_type', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('pages', ['visitor.first_page', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
-                ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param']);
+                ->where('posts.ID', '=', $args['post_id']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
@@ -1376,6 +1461,16 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        // When the list is grouped by more than the referrer (e.g. referrer + channel), count the grouped rows
+        if (!empty($args['group_by'])) {
+            $groupedQuery = $query
+                ->groupBy($args['group_by'])
+                ->getQuery();
+
+            $query = Query::select('COUNT(*)')
+                ->fromQuery($groupedQuery, 'referrers');
         }
 
         $result = $query->getVar();
@@ -1664,18 +1759,34 @@ class VisitorsModel extends BaseModel
     public function countEntryPages($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'resource_type' => Helper::getPostTypes(),
-            'author_id'     => '',
-            'uri'           => ''
+            'date'              => '',
+            'resource_type'     => Helper::getPostTypes(),
+            'author_id'         => '',
+            'uri'               => '',
+            'source_channel'    => '',
+            'not_null'          => '',
+            'referred_visitors' => false
         ]);
 
+        // Keep the same filters as getEntryPages() so the total matches the list
         $query = Query::select('COUNT(DISTINCT pages.id)')
             ->from('visitor')
             ->join('pages', ['visitor.first_page', 'pages.page_id'])
+            ->where('visitor.source_channel', 'IN', $args['source_channel'])
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['uri'])
+            ->whereNotNull($args['not_null'])
             ->whereDate('last_counter', $args['date']);
+
+        if (!empty($args['referred_visitors'])) {
+            $query->whereRaw("
+                AND (
+                    (visitor.referred != '')
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != 'direct')
+                )
+            ");
+        }
 
         if (!empty($args['author_id'])) {
             $query
@@ -1762,5 +1873,48 @@ class VisitorsModel extends BaseModel
         $result = $query->getVar();
 
         return intval($result);
+    }
+
+    /**
+     * Filter visitors by IP.
+     *
+     * A partial value matches anywhere in the stored IP, so a typed fragment or
+     * a shortened hash (shown as "#abcd1234") finds the visitor. With $exact,
+     * only the same stored IP matches.
+     *
+     * @param Query $query
+     * @param string $ip
+     * @param bool $exact
+     * @return void
+     */
+    protected function applyIpFilter($query, $ip, $exact = false)
+    {
+        if (empty($ip)) {
+            return;
+        }
+
+        if ($exact) {
+            $query->where('visitor.ip', '=', $ip);
+            return;
+        }
+
+        global $wpdb;
+        $query->where('visitor.ip', 'LIKE', '%' . $wpdb->esc_like($ip) . '%');
+    }
+
+    /**
+     * Limit a visitor query to users that have the given role on the current site.
+     *
+     * @param Query $query
+     * @param string $role
+     * @return void
+     */
+    protected function applyUserRoleFilter($query, $role)
+    {
+        global $wpdb;
+
+        $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
+        $query->where('usermeta.meta_key', '=', $wpdb->get_blog_prefix() . 'capabilities');
+        $query->where('usermeta.meta_value', 'LIKE', '%"' . $wpdb->esc_like($role) . '";b:1%');
     }
 }

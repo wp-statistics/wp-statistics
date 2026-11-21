@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, gdpr, stats, cookieless
 Requires at least: 6.6
 Tested up to: 7.1
-Stable tag: 14.16.20
+Stable tag: 14.16.21
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -153,6 +153,13 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
 
 == Changelog ==
+= 14.16.21 - 2026-11-21 =
+- **Fix:** Download Tracker counts files served through a link parameter, such as `?protected_download=file.pdf` ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** Top Pages no longer shows a database error on SQLite sites, such as WordPress Playground.
+- **Fix:** More accurate numbers in the Author, Category, Content and Top Pages reports.
+- **Fix:** Correct page numbers and filters in the Visitors, Referrals, Geographic and Devices reports.
+- **Enhancement:** Faster Top Pages and a shorter license notice in the add-on popup.
+
 = 14.16.20 - 2026-11-20 =
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
 - **Enhancement:** Improved offer cards in the notification inbox.

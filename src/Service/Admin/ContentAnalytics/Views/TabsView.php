@@ -20,11 +20,14 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
+        $this->tabs = Helper::getPostTypes();
+
+        // Reject unknown post types before running any report query
+        parent::__construct();
+
         $this->dataProvider = new ContentAnalyticsDataProvider([
             'post_type' => Request::get('tab', 'post'),
         ]);
-
-        $this->tabs = Helper::getPostTypes();
     }
 
     /**

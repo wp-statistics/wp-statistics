@@ -19,10 +19,7 @@ class TabsView extends BaseTabView
         'browsers',
         'platforms',
         'models',
-        'categories',
-        'resolutions',
-        'languages',
-        'timezones'
+        'categories'
     ];
 
     public function __construct()

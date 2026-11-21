@@ -39,7 +39,7 @@ if ($step_name !== 'first-step') {
         <?php if (!$hasLicense && $isInstalled) : ?>
             <div class="wps-premium-step__notice wps-premium-step__notice--warning">
                 <div>
-                    <?php /* translators: %s: string value */ echo sprintf(__('This add-on does <b>not have an active license</b>, which means it cannot receive updates, including important security updates. For uninterrupted access to updates and to keep your site secure, we strongly recommend activating a license. Activate your license <a href="%s">here</a>.', 'wp-statistics'),
+                    <?php /* translators: %s: string value */ echo sprintf(__('This add-on has <b>no active license</b>, so it won\'t get updates or security fixes. <a href="%s">Activate your license</a>.', 'wp-statistics'),
                         esc_url(admin_url('admin.php?page=wps_plugins_page'))) ?>
                 </div>
             </div>

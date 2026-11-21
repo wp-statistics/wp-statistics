@@ -102,7 +102,9 @@ class ReferralsDataProvider
                 'decorate' => true,
                 'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
-            'total'     => $this->visitorsModel->countReferrers($this->args)
+            'total'     => $this->visitorsModel->countReferrers(array_merge($this->args, [
+                'group_by' => ['visitor.referred', 'visitor.source_channel']
+            ]))
         ];
     }
 
@@ -136,7 +138,9 @@ class ReferralsDataProvider
                 'decorate' => true,
                 'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
-            'total'     => $this->visitorsModel->countReferrers($args)
+            'total'     => $this->visitorsModel->countReferrers(array_merge($args, [
+                'group_by' => ['visitor.referred', 'visitor.source_channel']
+            ]))
         ];
     }
 
@@ -151,7 +155,9 @@ class ReferralsDataProvider
                 'decorate' => true,
                 'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
-            'total'     => $this->visitorsModel->countReferrers($args)
+            'total'     => $this->visitorsModel->countReferrers(array_merge($args, [
+                'group_by' => ['visitor.referred', 'visitor.source_channel']
+            ]))
         ];
     }
 

@@ -111,7 +111,9 @@ class AuthorAnalyticsDataProvider
         ]);
 
         $authors = $this->authorModel->getAuthorsReportData($args);
-        $total   = $this->authorModel->countAuthors($args);
+
+        // The report lists every author who has published this post type (not only in the date range), so count the same set
+        $total = $this->authorModel->countAuthors(array_merge($args, ['date' => '', 'ignore_date' => true]));
 
         return [
             'authors'   => $authors,

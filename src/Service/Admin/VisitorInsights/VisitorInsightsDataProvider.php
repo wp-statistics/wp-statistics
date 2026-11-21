@@ -188,7 +188,17 @@ class VisitorInsightsDataProvider
 
     public function getVisitorData()
     {
-        $visitor  = $this->visitorsModel->getVisitorData($this->args);
+        $visitor = $this->visitorsModel->getVisitorData($this->args);
+
+        // The visitor may have been purged or never existed
+        if (empty($visitor)) {
+            return [
+                'visitor'  => null,
+                'journey'  => [],
+                'sessions' => []
+            ];
+        }
+
         $journey  = $this->visitorsModel->getVisitorJourney($this->args);
         $sessions = [];
 
@@ -203,7 +213,8 @@ class VisitorInsightsDataProvider
             if (!empty($visitor->getUser())) {
                 $args['user_id'] = $visitor->getUserId();
             } else {
-                $args['ip'] = $visitor->getIP();
+                $args['ip']       = $visitor->getIP();
+                $args['exact_ip'] = true;
             }
 
             $sessions = $this->visitorsModel->getVisitorsData($args);

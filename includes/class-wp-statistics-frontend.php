@@ -71,6 +71,13 @@ class Frontend
                     'userOnline'           => false,
                     'isWpConsentApiActive' => IntegrationHelper::isIntegrationActive('wp_consent_api'),
                 ],
+                /**
+                 * Query parameters that hold a file name on download links, for plugins that serve
+                 * files through a parameter, e.g. /?protected_download=report.pdf.
+                 *
+                 * @param string[] $keys Parameter names.
+                 */
+                'downloadQueryKeys'     => array_values(array_filter(array_map('strval', (array)apply_filters('wp_statistics_download_query_keys', ['protected_download', 'download', 'file', 'filename'])))),
                 'isLegacyEventLoaded'   => Assets::isScriptEnqueued('event'), // Check if the legacy event.js script is already loaded
                 'customEventNonce'      => wp_create_nonce('wp_statistics_custom_event'),
 
