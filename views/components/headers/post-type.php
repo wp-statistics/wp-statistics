@@ -52,9 +52,11 @@ $dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $p
             <?php if($datePublished !== $dateUpdated): ?>
                 <span class="wps-content-analytics-header__date_updated"><span><?php echo esc_html__('Updated on', 'wp-statistics'); ?></span> <?php echo esc_html($dateUpdated); ?></span>
             <?php endif; ?>
+            <?php if ((int)$postAuthor > 0) : ?>
             <span class="wps-content-analytics-header__author">
                 <span><?php echo esc_html__('Author:', 'wp-statistics') ?></span> <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor])) ?>"><?php echo esc_html(get_the_author_meta('display_name', $postAuthor)); ?></a>
             </span>
+            <?php endif; ?>
         </div>
         <div class="wps-content-analytics-header__tags">
             <?php
