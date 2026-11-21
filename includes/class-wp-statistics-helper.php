@@ -825,10 +825,15 @@ class Helper
      */
     public static function send_mail($to, $subject, $content, $email_template = true, $args = array())
     {
+        // Alerts pass is_report false: they keep the core layout and skip the report add-ons (custom layout, PDF).
+        $isReport = !isset($args['is_report']) || !empty($args['is_report']);
+
         // Email Template
         if ($email_template) {
             $email_template = WP_STATISTICS_DIR . 'includes/admin/templates/emails/layout.php';
-            $email_template = apply_filters('wp_statistics_email_template_layout', $email_template);
+            if ($isReport) {
+                $email_template = apply_filters('wp_statistics_email_template_layout', $email_template);
+            }
             $email_template = wp_normalize_path($email_template);
         }
 
@@ -901,14 +906,24 @@ class Helper
          */
         try {
 
-            WP_Statistics_Mail::init()
-                ->setTo($to)
-                ->setSubject($subject)
-                ->setBody($content)
-                ->setTemplate($email_template, $arg)
-                ->send();
+            $noAttachments = '__return_empty_array';
+            if (!$isReport) {
+                add_filter('wp_statistics_mail_attachments', $noAttachments, PHP_INT_MAX);
+            }
 
-            return true;
+            try {
+                // wp_mail()'s own answer, so callers know when the email was not sent.
+                return (bool)WP_Statistics_Mail::init()
+                    ->setTo($to)
+                    ->setSubject($subject)
+                    ->setBody($content)
+                    ->setTemplate($email_template, $arg)
+                    ->send();
+            } finally {
+                if (!$isReport) {
+                    remove_filter('wp_statistics_mail_attachments', $noAttachments, PHP_INT_MAX);
+                }
+            }
 
         } catch (Exception $e) {
             \WP_Statistics::log($e->getMessage(), 'error');

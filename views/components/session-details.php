@@ -32,7 +32,10 @@ use WP_Statistics\Components\View;
         <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
             <?php if (!empty($visitor->getReferral()->getReferrer())) :
                 View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
-            else : ?>
+            elseif (!empty($visitor->getReferral()->getSourceName())) : ?>
+                <?php // No referrer, but the source is known from the landing URL (for example Microsoft Ads). ?>
+                <span title="<?php echo esc_attr($visitor->getReferral()->getSourceName()) ?>"><?php echo esc_html($visitor->getReferral()->getSourceName()) ?></span>
+            <?php else : ?>
                 <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             <?php endif; ?>
         </div>

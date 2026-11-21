@@ -1,4 +1,6 @@
 14.16.21 - unreleased
+- **New:** Email alert and admin notice when visits stop being recorded, plus an email when they come back. Turn it off in Settings → Email Reports.
+- **New:** OpenAI Ads, Microsoft Ads and Facebook Ads clicks show as their own sources. New visits only.
 - **Fix:** Download Tracker now counts files served through a download parameter, such as `?protected_download=file.pdf`; more parameters can be added with the `wp_statistics_download_query_keys` filter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
 - **Fix:** Download Tracker keeps full file names that contain dots, such as `Report.final.pdf`.
 - **Fix:** The Top Pages box no longer shows a database error on SQLite sites, such as WordPress Playground.

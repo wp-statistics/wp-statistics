@@ -208,7 +208,8 @@ class settings_page extends Singleton
             "wps_email_free_content_header",
             "wps_email_free_content_footer",
             "wps_email_list",
-            "wps_upgrade_report"
+            "wps_upgrade_report",
+            "wps_tracking_stopped_alert"
         );
 
         foreach ($wps_option_list as $option) {

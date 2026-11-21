@@ -43,7 +43,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Monitor live online user traffic in real-time
 * Fully customized overview dashboard page
 * Shows your most popular posts and pages
-* Referrals Tracking: Track and analyze referrals with five reports: Referred Visitors, Referrers, Search Engines, Social Media, and Source Categories. The new Source Categories report includes support for Organic Search, Paid Search, Organic Social, Paid Social, and more.
+* Referrals Tracking: Track and analyze referrals with five reports: Referred Visitors, Referrers, Search Engines, Social Media, and Source Categories. The new Source Categories report includes support for Organic Search, Paid Search, Organic Social, Paid Social, and more. Paid clicks from Google Ads, Microsoft Ads, OpenAI Ads and Facebook Ads are shown as their own sources.
 * Lists your top referral sources such as search engines
 * Author Analytics: Measures author performance.
 * Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
@@ -51,6 +51,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
 * Consent plugin integration: Works directly with CookieYes, Real Cookie Banner and Borlabs Cookie, and through WP Consent API with plugins like Complianz and Cookiebot.
 * Email reports with customizable content
+* Tracking Alerts: Get an email when your site stops recording visits, for example after a cache or cookie banner change, and another when visits come back.
 * Customize role-based access to view analytics and modify settings.
 * Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
 * Premium Add-on: [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp)
@@ -154,6 +155,8 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 
 == Changelog ==
 = 14.16.21 - unreleased =
+- **New:** Email alert and admin notice when visits stop being recorded, plus an email when they come back. Turn it off in Settings → Email Reports.
+- **New:** OpenAI Ads, Microsoft Ads and Facebook Ads clicks show as their own sources. New visits only.
 - **Fix:** Download Tracker now counts files served through a download parameter, such as `?protected_download=file.pdf`; more parameters can be added with the `wp_statistics_download_query_keys` filter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
 - **Fix:** Download Tracker keeps full file names that contain dots, such as `Report.final.pdf`.
 - **Fix:** The Top Pages box no longer shows a database error on SQLite sites, such as WordPress Playground.
