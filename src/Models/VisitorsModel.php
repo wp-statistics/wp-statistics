@@ -802,6 +802,11 @@ class VisitorsModel extends BaseModel
                 ->where('post_author', '=', $args['author_id'])
                 ->where('posts.ID', '=', $args['post_id']);
 
+            // Only match post rows, like countVisitors(); a query_param-only filter keeps any page type
+            if (array_intersect(['post_type', 'post_id', 'author_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+                $query->where('pages.type', 'IN', $this->getPostResourceTypes($args['post_type']));
+            }
+
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
                     ->from('term_relationships')
@@ -1079,7 +1084,8 @@ class VisitorsModel extends BaseModel
         // Count the same groups that getVisitorsGeoData() lists
         if (!empty($args['count_fields'])) {
             $parts      = array_map(function ($field) {
-                return "COALESCE({$field}, '')";
+                // Keep NULL and '' apart, as GROUP BY does
+                return "IFNULL(CONCAT('v', {$field}), 'n')";
             }, (array)$args['count_fields']);
             $countValue = "COUNT(DISTINCT CONCAT_WS('|', " . implode(', ', $parts) . '))';
         } else {

@@ -349,7 +349,7 @@
               }
             }
 
-            // No lag from the admin's "transition: all", and no focus ring or box-shadow.
+            // No lag from the admin's "transition: all". No focus ring after a mouse click; keyboard users still get one.
             transition: background-color .1s ease;
 
             &:hover,
@@ -358,11 +358,18 @@
               color: #fff;
             }
 
-            &:focus,
-            &:focus-visible {
-              outline: none;
+            &:focus {
               box-shadow: none;
               color: #fff;
+            }
+
+            &:focus:not(:focus-visible) {
+              outline: none;
+            }
+
+            &:focus-visible {
+              outline: 2px solid #3039d9;
+              outline-offset: 2px;
             }
 
           }

@@ -259,7 +259,7 @@ class HistoricalModel
     public function isPostInAllTimeRange($args)
     {
         $id  = $args['resource_id'] ?? $args['post_id'] ?? null;
-        $uri = $args['uri'] ?? $args['query_param'] ?? null;
+        $uri = !empty($args['uri']) ? $args['uri'] : ($args['query_param'] ?? null);
 
         if (empty($id) && empty($uri)) {
             return false;

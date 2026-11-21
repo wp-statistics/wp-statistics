@@ -156,15 +156,15 @@ class ReportsExportDataTransformer
             }
 
             if (isset($author->average_comments)) {
-                $row['comments_avg'] = intval($author->average_comments);
+                $row['comments_avg'] = round(floatval($author->average_comments), 1);
             }
 
             if (isset($author->average_views)) {
-                $row['views_avg'] = intval($author->average_views);
+                $row['views_avg'] = round(floatval($author->average_views), 1);
             }
 
             if (isset($author->average_words)) {
-                $row['words_avg'] = intval($author->average_words);
+                $row['words_avg'] = intval(round(floatval($author->average_words)));
             }
 
             $row['url'] = get_author_posts_url($author->id);

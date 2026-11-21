@@ -3,6 +3,8 @@
 namespace WP_Statistics\Models;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 
@@ -205,6 +207,15 @@ class TaxonomyModel extends BaseModel
 
         $hasData = '(term_views.views IS NOT NULL OR published.posts IS NOT NULL)';
         $query->whereRaw(empty(array_filter((array)$args['taxonomy'])) ? $hasData : "AND {$hasData}");
+
+        // The date filters sit in the subqueries, so cache past ranges here the way whereDate() does
+        if (!empty($args['date'])) {
+            $range = is_array($args['date']) ? $args['date'] : DateRange::get($args['date']);
+
+            if (!empty($range['from']) && !empty($range['to']) && $range['to'] < DateTime::get()) {
+                $query->allowCaching();
+            }
+        }
 
         return $query;
     }

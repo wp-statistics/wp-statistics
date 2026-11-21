@@ -124,6 +124,11 @@ abstract class BaseModel
             return [];
         }
 
+        // A comma-separated list, as the `IN` filters on post_type read it
+        if (is_string($postTypes)) {
+            $postTypes = array_values(array_filter(array_map('trim', explode(',', $postTypes))));
+        }
+
         $parsed = $this->parseResourceTypeArg(['resource_type' => $postTypes]);
         $types  = $parsed['resource_type'];
 

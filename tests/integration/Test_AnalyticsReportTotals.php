@@ -5,6 +5,7 @@ use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
+use WP_Statistics\Service\Admin\ExportImport\Reports\ReportsExportDataTransformer;
 use WP_Statistics\Service\Database\Managers\TableHandler;
 use WP_Statistics\Service\Database\Schema\Manager;
 use WP_STATISTICS\DB;
@@ -130,6 +131,83 @@ class Test_AnalyticsReportTotals extends WP_UnitTestCase
 
         $visitors = (new VisitorsModel())->countVisitors(array_merge($args, ['author_id' => $author]));
         $this->assertSame(1, $visitors);
+
+        // The visitor list uses the same rows as the total
+        $list = (new VisitorsModel())->getVisitorsData(array_merge($args, ['author_id' => $author]));
+        $this->assertCount(1, $list);
+    }
+
+    public function test_authors_export_keeps_fractional_averages()
+    {
+        $author = self::factory()->user->create(['role' => 'author']);
+
+        $rows = ReportsExportDataTransformer::transformAuthorsData([(object)[
+            'id'               => $author,
+            'name'             => 'Test Author',
+            'total_posts'      => 3,
+            'average_comments' => '1.6667',
+            'average_views'    => '2.25',
+            'average_words'    => '845.6',
+        ]]);
+
+        $this->assertSame(1.7, $rows[0]['comments_avg']);
+        $this->assertSame(2.3, $rows[0]['views_avg']);
+        $this->assertSame(846, $rows[0]['words_avg']);
+    }
+
+    public function test_comma_separated_post_types_map_to_each_page_type()
+    {
+        $model  = new VisitorsModel();
+        $method = new ReflectionMethod($model, 'getResourceTypes');
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+
+        $this->assertEquals(['post', 'page', 'home'], $method->invoke($model, 'post,page'));
+        $this->assertEquals(['post', 'page'], $method->invoke($model, 'post, page', false));
+        $this->assertEquals(['post'], $method->invoke($model, 'post'));
+    }
+
+    public function test_terms_report_caches_past_ranges_only()
+    {
+        $calls  = 0;
+        $filter = function ($flag) use (&$calls) {
+            $calls++;
+            return $flag;
+        };
+        add_filter('wp_statistics_query_allow_caching', $filter);
+
+        $model = new TaxonomyModel();
+        $model->getTermsReportDataCount(['date' => ['from' => DateTime::get('-7 days'), 'to' => $this->today()], 'taxonomy' => 'category']);
+        $currentCalls = $calls;
+
+        $model->getTermsReportDataCount(['date' => ['from' => DateTime::get('-14 days'), 'to' => DateTime::get('-7 days')], 'taxonomy' => 'category']);
+        $pastCalls = $calls - $currentCalls;
+
+        remove_filter('wp_statistics_query_allow_caching', $filter);
+
+        // Past range: both subqueries and the outer query; current range: none
+        $this->assertSame(0, $currentCalls);
+        $this->assertSame(3, $pastCalls);
+    }
+
+    public function test_cities_total_keeps_null_and_empty_regions_apart()
+    {
+        $this->addVisitor(['location' => 'US', 'region' => null, 'city' => 'Springfield']);
+        $this->addVisitor(['location' => 'US', 'region' => '', 'city' => 'Springfield']);
+
+        $model = new VisitorsModel();
+        $args  = [
+            'date'         => $this->range(),
+            'group_by'     => ['visitor.location', 'visitor.region', 'visitor.city'],
+            'not_null'     => 'visitor.city',
+            'count_field'  => 'city',
+            'count_fields' => ['visitor.location', 'visitor.region', 'visitor.city'],
+        ];
+
+        $rows = $model->getVisitorsGeoData($args);
+        $this->assertCount(2, $rows);
+        $this->assertSame(2, $model->countGeoData($args));
     }
 
     public function test_authors_report_total_counts_listed_authors()

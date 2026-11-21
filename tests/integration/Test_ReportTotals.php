@@ -120,6 +120,21 @@ class Test_ReportTotals extends WP_UnitTestCase
         $this->assertSame(2, $model->countVisitors($args));
     }
 
+    public function test_unassigned_source_channel_stays_inside_date_range()
+    {
+        $this->addVisitor(['source_channel' => null]);
+        $this->addVisitor(['source_channel' => '']);
+        // Outside the range: must not be counted, with NULL or empty channel
+        $this->addVisitor(['source_channel' => null, 'last_counter' => DateTime::get('-30 days')]);
+        $this->addVisitor(['source_channel' => '', 'last_counter' => DateTime::get('-30 days')]);
+
+        $model = new VisitorsModel();
+        $args  = ['date' => $this->range(), 'source_channel' => 'unassigned'];
+
+        $this->assertCount(2, $model->getVisitorsData($args));
+        $this->assertSame(2, $model->countVisitors($args));
+    }
+
     public function test_visitors_total_uses_partial_ip_like_the_list()
     {
         $this->addVisitor(['ip' => '198.51.100.1']);
@@ -221,6 +236,25 @@ class Test_ReportTotals extends WP_UnitTestCase
         ]);
 
         $this->assertEquals(7, $views);
+    }
+
+    public function test_historical_views_read_query_param_when_uri_is_empty()
+    {
+        global $wpdb;
+
+        self::factory()->post->create(['post_date' => '2010-01-01 00:00:00']);
+
+        $wpdb->insert(DB::table('historical'), ['category' => 'uri', 'page_id' => 0, 'uri' => '/sample/', 'value' => 7]);
+
+        $model = new HistoricalModel();
+        $args  = [
+            'uri'         => '',
+            'query_param' => '/sample/',
+            'date'        => ['from' => '2000-01-01', 'to' => $this->today()],
+        ];
+
+        $this->assertTrue($model->isPostInAllTimeRange($args));
+        $this->assertEquals(7, $model->getViews($args));
     }
 
     public function test_post_views_ignore_archive_rows_with_same_id()
