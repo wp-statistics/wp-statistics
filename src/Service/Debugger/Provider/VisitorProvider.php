@@ -103,16 +103,26 @@ class VisitorProvider extends AbstractDebuggerProvider
         if ($lastVisit === null && !$failed) {
             // The latest visit by date, not by ID: imported or restored rows can have higher IDs.
             // Ignore future rows so an imported or clock-skewed timestamp cannot keep the card green.
-            $lastVisit = $wpdb->get_var($wpdb->prepare(
-                // Walk the date index from newest to oldest until a non-future row is found.
-                // ORDER BY ... LIMIT can stop there; MAX with a last_view filter scans every row.
-                "SELECT COALESCE(MAX(`last_view`), MAX(`last_counter`)) FROM `{$table}` WHERE `last_counter` = (SELECT `last_counter` FROM `{$table}` WHERE `last_counter` <= %s AND (`last_view` IS NULL OR `last_view` <= %s) ORDER BY `last_counter` DESC LIMIT 1) AND (`last_view` IS NULL OR `last_view` <= %s)",
+            // Walk the date index from newest to oldest until a non-future row is found.
+            // ORDER BY ... LIMIT can stop there; MAX with a last_view filter scans every row.
+            // Two queries, not a subquery: MySQL cannot read a temporary table twice in one query.
+            $lastDay = $wpdb->get_var($wpdb->prepare(
+                "SELECT `last_counter` FROM `{$table}` WHERE `last_counter` <= %s AND (`last_view` IS NULL OR `last_view` <= %s) ORDER BY `last_counter` DESC LIMIT 1",
                 $today,
-                $now,
                 $now
             ));
-            $failed    = $lastVisit === null && $wpdb->last_error !== '';
-            $lastVisit = !empty($lastVisit) ? (string)$lastVisit : null;
+            $failed    = $lastDay === null && $wpdb->last_error !== '';
+            $lastVisit = null;
+
+            if (!empty($lastDay) && !$failed) {
+                $lastVisit = $wpdb->get_var($wpdb->prepare(
+                    "SELECT COALESCE(MAX(`last_view`), MAX(`last_counter`)) FROM `{$table}` WHERE `last_counter` = %s AND (`last_view` IS NULL OR `last_view` <= %s)",
+                    $lastDay,
+                    $now
+                ));
+                $failed    = $lastVisit === null && $wpdb->last_error !== '';
+                $lastVisit = !empty($lastVisit) ? (string)$lastVisit : null;
+            }
         }
 
         if ($lastVisit !== null && $lastVisit < $since && !$failed) {

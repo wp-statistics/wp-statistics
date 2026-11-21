@@ -825,7 +825,7 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
     public function test_recording_status_sql_is_prepared()
     {
         $src = file_get_contents(WP_STATISTICS_DIR . 'src/Service/Debugger/Provider/VisitorProvider.php');
-        $this->assertSame(3, substr_count($src, '$wpdb->prepare('));
+        $this->assertSame(4, substr_count($src, '$wpdb->prepare('));
         $this->assertStringNotContainsString('$_GET', $src);
         $this->assertStringNotContainsString('$_POST', $src);
         $this->assertStringNotContainsString('$_REQUEST', $src);
