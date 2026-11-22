@@ -80,7 +80,7 @@ class CategoryReportView extends BaseView
         $parentPage = Menus::getCurrentPage();
         $args       = [
             'title'               => esc_html__('Category Report', 'wp-statistics'),
-            'tooltip'             => esc_html__('List of terms in the selected taxonomy with metrics for content associated with each term.', 'wp-statistics'),
+            'tooltip'             => esc_html__('Each term in this taxonomy, with stats for its content.', 'wp-statistics'),
             'pageName'            => Menus::get_page_slug($parentPage['page_url']),
             'custom_get'          => [
                 'type'      => 'report',

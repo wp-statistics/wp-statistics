@@ -10,14 +10,15 @@ use WP_Statistics\Decorators\VisitorDecorator;
 $visitor = $data['visitor'];
 ?>
 
-<div class="postbox-container-holder postbox-container--two-col postbox-container--visitor">
+<div class="postbox-container-holder postbox-container--two-col postbox-container--visitor wps-visitor-single">
     <div class="postbox-container postbox-container--first-col">
-        <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Visitor Overview', 'wp-statistics'); ?></h2>
-            </div>
-            <?php View::load("components/session-details", ['visitor' => $visitor]); ?>
-        </div>
+        <?php
+        View::load('components/visitor-profile', [
+            'visitor' => $visitor,
+            'summary' => $data['summary'] ?? [],
+            'limit'   => $data['sessions_limit'] ?? 0,
+        ]);
+        ?>
 
         <?php if (!empty($visitor->isLoggedInUser()) && Option::get('visitors_log')) : ?>
             <div class="wps-card">
@@ -28,36 +29,12 @@ $visitor = $data['visitor'];
             </div>
         <?php endif; ?>
     </div>
-    <div class="postbox-container postbox-container--second-col" >
-        <div class="wps-card wps-card wps-card--table">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Views Timeline', 'wp-statistics'); ?></h2>
-            </div>
-            <div class="wps-card--table__body">
-                <?php
-                $args = [
-                    'data'       => $data['journey'],
-                    'pagination' => $pagination ?? null
-                ];
-                View::load("components/tables/recent-views", $args);
-                ?>
-            </div>
-        </div>
-
-        <?php if (!empty($data['sessions'])) : ?>
-            <div class="wps-card wps-card wps-card--table">
-                <div class="wps-card__title">
-                    <h2><?php esc_html_e('Other Visits', 'wp-statistics'); ?></h2>
-                </div>
-                <div class="wps-card--table__body">
-                    <?php
-                    $args = [
-                        'data' => $data['sessions'],
-                    ];
-                    View::load("components/tables/visitors", $args);
-                    ?>
-                </div>
-            </div>
-        <?php endif; ?>
+    <div class="postbox-container postbox-container--second-col">
+        <?php
+        View::load('components/visitor-journey', [
+            'visits'  => $data['visits'] ?? [],
+            'visitor' => $visitor,
+        ]);
+        ?>
     </div>
 </div>

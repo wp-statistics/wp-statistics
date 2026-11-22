@@ -7,6 +7,7 @@ use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Leaderboard\LeaderboardDataProvider;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 use WP_Statistics\Utils\Request;
@@ -81,7 +82,8 @@ class ContentAnalyticsDataProvider
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
         $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
 
-        $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
+        // Top Categories widget: one leaderboard per taxonomy of this post type
+        $taxonomies         = LeaderboardDataProvider::termsByTaxonomy($this->args);
 
         $result = [
             'glance' => [

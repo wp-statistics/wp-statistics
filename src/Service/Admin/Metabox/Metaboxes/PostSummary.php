@@ -6,6 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_Statistics\Service\Admin\Posts\EditorPanel;
 
 class PostSummary extends BaseMetabox
 {
@@ -15,7 +16,7 @@ class PostSummary extends BaseMetabox
 
     public function getName()
     {
-        return esc_html__('Statistics - Summary', 'wp-statistics');
+        return esc_html__('Statistics Summary', 'wp-statistics');
     }
 
     public function getDescription()
@@ -31,6 +32,19 @@ class PostSummary extends BaseMetabox
     public function isActive()
     {
         return $this->isOptionEnabled() && $this->isSinglePost();
+    }
+
+    /**
+     * In the block editor the "WP Statistics" sidebar panel shows this content, so the
+     * meta box is only kept for the Classic Editor (`__back_compat_meta_box`).
+     *
+     * @return array
+     */
+    public function getCallbackArgs()
+    {
+        return [
+            '__back_compat_meta_box' => EditorPanel::isAvailable(),
+        ];
     }
 
     public function getScreen()

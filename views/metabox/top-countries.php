@@ -47,7 +47,8 @@ use WP_Statistics\Components\View;
     }
     View::load("components/objects/no-data", [
         'url'   => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg',
-        'title' => $title
+        'title' => $title,
+        'date'  => $filters['date'] ?? null
     ]);
     ?>
 <?php endif; ?>

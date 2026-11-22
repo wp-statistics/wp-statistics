@@ -4,6 +4,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
 
 ?>
 
@@ -20,17 +21,20 @@ use WP_STATISTICS\Admin_Template;
                                     <th scope="col" class="wps-pd-l">
                                         <?php esc_html_e('City', 'wp-statistics') ?>
                                     </th>
-                                    <th scope="col" class="wps-pd-l">
+                                    <th scope="col" class="wps-pd-l wps-col-low">
                                         <?php esc_html_e('Region', 'wp-statistics') ?>
                                     </th>
-                                    <th scope="col" class="wps-pd-l">
+                                    <th scope="col" class="wps-pd-l wps-col-mid">
                                         <?php esc_html_e('Country', 'wp-statistics') ?>
                                     </th>
-                                    <th scope="col" class="wps-pd-l" style="width: 15%">
+                                    <th scope="col" class="wps-pd-l wps-col-num">
                                         <?php esc_html_e('Visitors', 'wp-statistics') ?>
                                     </th>
-                                    <th scope="col" class="wps-pd-l" style="width: 15%">
+                                    <th scope="col" class="wps-pd-l wps-col-num">
                                         <?php esc_html_e('Views', 'wp-statistics') ?>
+                                    </th>
+                                    <th scope="col" class="wps-pd-l wps-col-share">
+                                        <?php esc_html_e('Share', 'wp-statistics') ?>
                                     </th>
                                 </tr>
                                 </thead>
@@ -41,10 +45,10 @@ use WP_STATISTICS\Admin_Template;
                                         <td class="wps-pd-l">
                                             <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->city)) ?>
                                         </td>
-                                        <td class="wps-pd-l">
+                                        <td class="wps-pd-l wps-col-low">
                                             <?php echo $item->region ? esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) : Admin_Template::UnknownColumn() ?>
                                         </td>
-                                        <td class="wps-pd-l">
+                                        <td class="wps-pd-l wps-col-mid">
                                             <?php if (\WP_STATISTICS\Admin_Template::isUnknown($item->city)) : ?>
                                                 <span title="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" class="wps-country-name">
                                                         <img alt="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" src="<?php echo esc_url(Country::flag(Country::$unknown_location)) ?>" class="log-tools wps-flag"/>
@@ -57,11 +61,14 @@ use WP_STATISTICS\Admin_Template;
                                                     </span>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="wps-pd-l">
-                                            <?php echo esc_html(number_format($item->visitors)) ?>
+                                        <td class="wps-pd-l wps-col-num">
+                                            <?php echo esc_html(number_format_i18n($item->visitors)) ?>
                                         </td>
-                                        <td class="wps-pd-l">
-                                            <?php echo esc_html(number_format($item->views)) ?>
+                                        <td class="wps-pd-l wps-col-num">
+                                            <?php echo esc_html(number_format_i18n($item->views)) ?>
+                                        </td>
+                                        <td class="wps-pd-l wps-col-share">
+                                            <?php View::load('components/objects/percent-bar', ['count' => $item->visitors, 'total' => $data['visitors'] ?? 0, 'label' => __('Share of visitors with a known city', 'wp-statistics')]); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -69,9 +76,7 @@ use WP_STATISTICS\Admin_Template;
                             </table>
                         </div>
                     <?php else : ?>
-                        <div class="o-wrap o-wrap--no-data wps-center">
-                            <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-                        </div>
+                        <?php View::load('components/objects/empty-state'); ?>
                     <?php endif; ?>
                 </div>
                 <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

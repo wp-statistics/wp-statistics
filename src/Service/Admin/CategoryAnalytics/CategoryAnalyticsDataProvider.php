@@ -9,6 +9,7 @@ use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Leaderboard\LeaderboardDataProvider;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
@@ -135,8 +136,6 @@ class CategoryAnalyticsDataProvider
 
         $summary = ChartDataProviderFactory::summaryChart($this->args)->getData();
 
-        $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
-        $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
 
         $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         $referrersData   = $this->visitorsModel->getReferrers($this->args);
@@ -145,20 +144,15 @@ class CategoryAnalyticsDataProvider
         $topPostsByComment = $this->postsModel->getPostsCommentsData($this->args);
         $recentPostsData   = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
 
-        $topViewingCategories    = $this->taxonomyModel->getTermsData($this->args);
-        $topPublishingCategories = $this->taxonomyModel->getTermsData(array_merge($this->args, ['order_by' => 'posts', 'date_field' => 'posts.post_date']));
+        // Top Authors and Top Categories widgets: leaderboards ranked by views
+        $authorsLeaderboard    = LeaderboardDataProvider::authors($this->args);
+        $categoriesLeaderboard = LeaderboardDataProvider::terms($this->args);
 
         $result = [
             'visitors_country' => $visitorsCountry,
             'referrers'        => $referrersData,
-            'authors'          => [
-                'publishing' => $topPublishingAuthors,
-                'viewing'    => $topViewingAuthors
-            ],
-            'categories'       => [
-                'publishing' => $topPublishingCategories,
-                'viewing'    => $topViewingCategories
-            ],
+            'authors'          => $authorsLeaderboard,
+            'categories'       => $categoriesLeaderboard,
             'glance'           => [
                 'posts'        => [
                     'value'  => $posts,

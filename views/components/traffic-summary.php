@@ -8,7 +8,12 @@ use WP_STATISTICS\Menus;
 
 <div class="wps-card">
     <div class="wps-card__title">
-        <h2><?php esc_html_e('Traffic Summary', 'wp-statistics') ?></h2>
+        <h2>
+            <?php echo esc_html(!empty($title) ? $title : __('Traffic Summary', 'wp-statistics')); ?>
+            <?php if (!empty($tooltip)) : ?>
+                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
+            <?php endif; ?>
+        </h2>
     </div>
     <div class="wps-meta-traffic-summary">
 
@@ -51,7 +56,7 @@ use WP_STATISTICS\Menus;
                             <div>
                                 <span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['visitors']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['visitors'], 1)) ?></span>
                                 <?php if (!empty($item['comparison']) && isset($itemData['trend']['visitors']['percentage']) && $itemData['trend']['visitors']['percentage'] !== null) : ?>
-                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?>">
+                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['visitors']['direction']); ?>" title="<?php echo esc_attr($itemData['trend']['visitors']['percentage'] . '%'); ?>">
                                         <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['visitors']['percentage']) ?>%</span>
                                     </div>
                                 <?php endif; ?>
@@ -62,7 +67,7 @@ use WP_STATISTICS\Menus;
                                 <span class="quickstats-values" title="<?php echo esc_attr($itemData['current']['views']); ?>"><?php echo esc_html(Helper::formatNumberWithUnit($itemData['current']['views'], 1)) ?></span>
 
                                 <?php if (!empty($item['comparison']) && isset($itemData['trend']['views']['percentage']) && $itemData['trend']['views']['percentage'] !== null) : ?>
-                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?>">
+                                    <div class="diffs__change <?php echo esc_attr($itemData['trend']['views']['direction']); ?>" title="<?php echo esc_attr($itemData['trend']['views']['percentage'] . '%'); ?>">
                                         <span class="diffs__change__direction"><?php echo esc_html($itemData['trend']['views']['percentage']) ?>%</span>
                                     </div>
                                 <?php endif; ?>

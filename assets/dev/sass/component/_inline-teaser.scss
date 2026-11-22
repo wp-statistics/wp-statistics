@@ -1,0 +1,152 @@
+// ---------------------------------------------------------------------------
+// S2-A inline teaser: one small, closable note inside a working page where a part needs an add-on.
+// A greyed, labelled "Example" preview plus one short line. Hidden in print (exports never include it).
+// PHP: views/components/lock-sections/inline-teaser.php
+// JS:  assets/dev/javascript/components/inline-teaser.js
+// ---------------------------------------------------------------------------
+
+.wps-inline-teaser {
+  position: relative;
+  margin: 4px 0 10px;
+  padding: 10px 12px 8px;
+  border: 1px dashed $wps-brand-soft;
+  border-radius: 8px;
+  background: #FAFAFF;
+  font-size: 12px;
+  line-height: 18px;
+  color: $wps-text;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  &__preview {
+    position: relative;
+  }
+
+  &__example {
+    display: inline-block;
+    border-radius: 3px;
+    padding: 1px 6px;
+    background: $wps-card-rule;
+    color: $wps-text-muted;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  // The sample stays readable but clearly not live data.
+  &__sample {
+    opacity: .6;
+    filter: blur(.4px);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &__note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 8px;
+    margin: 0;
+    color: $wps-text-muted;
+  }
+
+  &__lock {
+    flex: none;
+    color: $wps-text-subtle;
+  }
+
+  &__line {
+    min-width: 0;
+  }
+
+  &__link {
+    color: $wps-brand;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $wps-brand;
+      text-decoration: underline;
+    }
+  }
+
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    margin-inline-start: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: $wps-text-subtle;
+    cursor: pointer;
+
+    &:hover {
+      background: $wps-card-rule;
+      color: $wps-text-strong;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 1px;
+    }
+  }
+
+  @media print {
+    display: none !important;
+  }
+}
+
+// Journey placement: the sample rows use the real event-row layout (time column, orange square marker),
+// the "Example" label sits in the first row's time column and the note lines up with the row text.
+.wps-journey__teaser {
+  margin: 0 0 12px;
+  padding: 10px 10px 8px 6px;
+
+  .rtl & {
+    padding: 10px 6px 8px 10px;
+  }
+
+  .wps-inline-teaser__example {
+    position: absolute;
+    top: 2px;
+    inset-inline-start: 30px;
+    z-index: 1;
+  }
+
+  .wps-journey__steps {
+    margin: 0;
+  }
+
+  .wps-journey__step:last-child {
+    padding-bottom: 8px;
+  }
+
+  .wps-inline-teaser__note {
+    padding-inline-start: 104px;
+  }
+
+  @media (max-width: 480px) {
+    .wps-inline-teaser__example {
+      position: static;
+      margin: 0 0 6px 30px;
+
+      .rtl & {
+        margin: 0 30px 6px 0;
+      }
+    }
+
+    .wps-inline-teaser__note {
+      padding-inline-start: 30px;
+    }
+  }
+}

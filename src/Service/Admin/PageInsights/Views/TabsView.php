@@ -133,7 +133,7 @@ class TabsView extends BaseTabView
                     'id'      => 'top',
                     'link'    => Menus::admin_url('pages', ['tab' => 'top']),
                     'title'   => esc_html__('Top Pages', 'wp-statistics'),
-                    'tooltip' => esc_html__('Shows visitor stats, views and word count for each content.', 'wp-statistics'),
+                    'tooltip' => esc_html__('Visitors, views and word count for each item.', 'wp-statistics'),
                     'class'   => $this->isTab('top') ? 'current' : '',
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
@@ -141,7 +141,7 @@ class TabsView extends BaseTabView
                     'id'      => 'category',
                     'link'    => Menus::admin_url('pages', ['tab' => 'category']),
                     'title'   => esc_html__('Category Pages', 'wp-statistics'),
-                    'tooltip' => esc_html__('Shows the page views for category pages related to the selected taxonomy.', 'wp-statistics'),
+                    'tooltip' => esc_html__('Views of the archive page of each term in this taxonomy.', 'wp-statistics'),
                     'class'   => $this->isTab('category') ? 'current' : '',
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
@@ -149,7 +149,7 @@ class TabsView extends BaseTabView
                     'id'      => 'author',
                     'link'    => Menus::admin_url('pages', ['tab' => 'author']),
                     'title'   => esc_html__('Author Pages', 'wp-statistics'),
-                    'tooltip' => esc_html__('View performance metrics for individual authors\' pages.', 'wp-statistics'),
+                    'tooltip' => esc_html__('Views of each author\'s archive page.', 'wp-statistics'),
                     'class'   => $this->isTab('author') ? 'current' : '',
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
@@ -158,14 +158,14 @@ class TabsView extends BaseTabView
                     'link'      => Menus::admin_url('pages', ['tab' => '404']),
                     'title'     => esc_html__('404 Pages', 'wp-statistics'),
                     'class'     => $this->isTab('404') ? 'current' : '',
-                    'tooltip'   => esc_html__('View URLs that led visitors to 404 errors.', 'wp-statistics'),
+                    'tooltip'   => esc_html__('URLs that led visitors to a 404 (not found) page.', 'wp-statistics'),
                     'export'    => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
                 [
                     'id'      => 'entry-pages',
                     'link'    => Menus::admin_url('pages', ['tab' => 'entry-pages']),
                     'title'   => esc_html__('Entry Pages', 'wp-statistics'),
-                    'tooltip' => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
+                    'tooltip' => esc_html__('This report needs the Data Plus add-on.', 'wp-statistics'),
                     'class'   => $this->isTab('entry-pages') ? 'current' : '',
                     'locked'  => !Helper::isAddOnActive('data-plus'),
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
@@ -174,7 +174,7 @@ class TabsView extends BaseTabView
                     'id'        => 'exit-pages',
                     'link'      => Menus::admin_url('pages', ['tab' => 'exit-pages']),
                     'title'     => esc_html__('Exit Pages', 'wp-statistics'),
-                    'tooltip'   => esc_html__('To view this report, you need to have the Data Plus add-on.', 'wp-statistics'),
+                    'tooltip'   => esc_html__('This report needs the Data Plus add-on.', 'wp-statistics'),
                     'class'     => $this->isTab('exit-pages') ? 'current' : '',
                     'locked'    => !Helper::isAddOnActive('data-plus'),
                     'export'    => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]

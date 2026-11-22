@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\PageHeader\PageHeader;
 
 class AdminManager
 {
@@ -14,6 +15,16 @@ class AdminManager
         $this->initNoticeHandler();
         $this->initSiteHealthInfo();
         $this->initAjaxOptionUpdater();
+        $this->initPageHeader();
+        (new AddonPageFallback())->register();
+    }
+
+    /**
+     * Single reports put their short name (IP, post title, country...) in the browser tab title.
+     */
+    private function initPageHeader()
+    {
+        add_filter('admin_title', [PageHeader::class, 'filterAdminTitle'], 10, 1);
     }
 
     private function initFooterModifier()

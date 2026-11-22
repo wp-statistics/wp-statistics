@@ -1,0 +1,261 @@
+// ---------------------------------------------------------------------------
+// Title cells in report tables: the title (page, referrer, city, file, link ...)
+// takes whatever width the card has left and cuts with an ellipsis only when it
+// really runs out of room. Before this, each table capped the text at a fixed
+// 147/160/200/250px, so short cards cut titles early and wide cards showed
+// "Qui debitis tempore rem praes..." next to a lot of empty space.
+//
+// How: the cell that holds a title gets width:100% + max-width:0 (it takes the
+// space the number columns do not need, and never forces the table wider), with a
+// min-width so it keeps a readable size on phones. The text inside is one line,
+// min-width:0, text-overflow:ellipsis. The full title stays in the DOM (screen
+// readers read it) and in the title attribute the markups already carry.
+// The ↗ new-tab icon is flex:none, so it sits right after the visible text.
+//
+// Markups covered (core, Data Plus, Marketing): .wps-title-cell,
+// .wps-table-ellipsis--name, .wps-ellipsis-parent/.wps-ellipsis-text, .truncate.
+// ---------------------------------------------------------------------------
+
+$wps-title-cell-min: 140px;
+$wps-title-cell-min-phone: 112px;
+
+#wpbody table.o-table,
+#wpbody table.wps-new-table {
+  // Title cells: absorb the free width, never push the table wider.
+  > tbody > tr > td:has(.wps-title-cell, .wps-table-ellipsis--name, .wps-ellipsis-parent, .truncate) {
+    width: 100%;
+    max-width: 0;
+    min-width: $wps-title-cell-min;
+
+    @media (max-width: 600px) {
+      min-width: $wps-title-cell-min-phone;
+    }
+  }
+
+  // Two or more title columns (entry + exit page, page + referrer): share the free width.
+  // (:has() cannot nest, so: a title cell with a later title sibling, and the later ones.)
+  > tbody > tr > td:has(.wps-title-cell, .wps-table-ellipsis--name, .wps-ellipsis-parent, .truncate):has(~ td .wps-title-cell, ~ td .wps-table-ellipsis--name, ~ td .wps-ellipsis-parent, ~ td .truncate),
+  > tbody > tr > td:has(.wps-title-cell, .wps-table-ellipsis--name, .wps-ellipsis-parent, .truncate) ~ td:has(.wps-title-cell, .wps-table-ellipsis--name, .wps-ellipsis-parent, .truncate) {
+    width: 50%;
+  }
+
+  // No fixed caps on the text any more: the cell decides.
+  .wps-title-cell,
+  .wps-table-ellipsis--name,
+  .wps-table-ellipsis--name > span,
+  .wps-ellipsis-parent,
+  .wps-ellipsis-text,
+  .truncate {
+    max-width: 100% !important;
+  }
+
+  .wps-title-cell {
+    display: flex;
+    min-width: 0;
+  }
+
+  // Title link: shrinks, cuts its text.
+  .wps-title-cell > a:not(.wps-new-tab-link),
+  .wps-title-cell > span:not(.wps-new-tab-link),
+  a.wps-table-ellipsis--name,
+  span.wps-table-ellipsis--name {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .wps-table-ellipsis--name > span,
+  .wps-title-cell > span > span,
+  .wps-ellipsis-text {
+    display: block;
+  }
+
+  // Tracker cells put "file" + ".pdf" in two .truncate spans side by side.
+  .truncate {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  .wps-table-ellipsis--name > span,
+  .wps-title-cell > span > span,
+  .wps-ellipsis-text,
+  .truncate {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  // Links that wrap a cut text (tracker URLs, file names) shrink with it; their icon stays.
+  td > a:has(> .truncate),
+  td > div > a:has(> .truncate) {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  span.wps-table-ellipsis--name:not(:has(> span)) {
+    display: block !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  // The old display:table wrapper (fixed layout, 200px cap) becomes a plain shrinking line.
+  .wps-ellipsis-parent {
+    display: flex !important;
+    align-items: center;
+    min-width: 0;
+    width: auto;
+    table-layout: auto;
+
+    > img,
+    > svg,
+    > .wps-tooltip,
+    > .wps-new-tab-link {
+      flex: none;
+    }
+  }
+
+  .wps-new-tab-link {
+    flex: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Wide tables (6+ columns: latest visitors/referrals, most active visitors,
+// link/download tracker): fit the card at 1280px and up without dropping a column.
+//  - title cells keep a smaller minimum (they still grow into free space)
+//  - header labels may wrap onto a second line, columns sit 16px apart
+//  - the visitor IP/name drops under the pill when needed (below)
+// ---------------------------------------------------------------------------
+$wps-title-cell-min-wide: 96px;
+
+#wpbody table.o-table,
+#wpbody table.wps-new-table {
+  > tbody > tr:has(> td:nth-child(6)) > td:has(.wps-title-cell, .wps-table-ellipsis--name, .wps-ellipsis-parent, .truncate) {
+    min-width: $wps-title-cell-min-wide;
+  }
+
+  // 8+ columns (link/download tracker): six text columns share the row.
+  > tbody > tr:has(> td:nth-child(8)) > td:has(.wps-title-cell, .wps-table-ellipsis--name, .wps-ellipsis-parent, .truncate) {
+    min-width: 80px;
+  }
+
+
+  // 16px between columns instead of 24px (the first column keeps the card inset).
+  > thead > tr:has(> th:nth-child(6)) > th.wps-pd-l:not(:first-child),
+  > tbody > tr:has(> td:nth-child(6)) > td.wps-pd-l:not(:first-child) {
+    padding-left: 16px !important; // core pads non-first cells on the left in LTR and RTL
+  }
+}
+
+// Visitor info (pill + IP/name) in tables: the IP or name drops under the pill only
+// when the column is too narrow for both (it used to need ~240px on one line).
+// Layout only: the pill, its hover card and tooltips are untouched.
+// Title columns take all the free width, so the other columns sit at their smallest
+// size. That is only wanted when the card is tight: the table wrapper is a size
+// container, and only under 960px do dates, header labels and the visitor IP/name
+// go to a second line. Wider cards keep every cell on one line.
+#wpbody .o-table-wrapper {
+  container: wps-table / inline-size;
+}
+
+#wpbody table.o-table,
+#wpbody table.wps-new-table {
+  .wps-col-date {
+    white-space: nowrap;
+  }
+
+  .wps-visitor-info {
+    flex-wrap: nowrap;
+  }
+}
+
+@container wps-table (max-width: 960px) {
+  #wpbody table.o-table,
+  #wpbody table.wps-new-table {
+    // "November 19," / "7:41 pm". 7.5em fits "September 30,".
+    .wps-col-date {
+      white-space: normal !important;
+      min-width: 7.5em;
+    }
+
+    // Header labels may take two lines ("Total / Views") in wide tables.
+    > thead > tr:has(> th:nth-child(6)) > th {
+      white-space: normal !important;
+    }
+
+    .wps-visitor-info {
+      flex-wrap: wrap;
+      row-gap: 4px;
+      // The four slots (28 + 25 + 25 + 29px) plus the hover-card padding never split:
+      // only the IP/name wraps.
+      min-width: 126px;
+    }
+  }
+}
+
+// Row hover changes nothing (owner rule): no row tint, no link colour, no icons appearing.
+// A link reacts only when that link itself is hovered or focused. The Data Plus tracker
+// tables (its own admin.css tints the cells and shows the search icon on any row hover)
+// are reset here, since that CSS ships with the add-on.
+#wpbody .wps-tracker-analytics .o-table-wrapper tbody tr:hover > td {
+  background-color: transparent;
+
+  .wps-table-ellipsis--name:not(:hover):not(:focus-visible)::after {
+    visibility: hidden;
+  }
+}
+
+// RTL: an older metabox rule mirrors the 40px LTR gap to the right side while the
+// column gap stays on the left, so every RTL column got 24 + 40px. Keep only the
+// left gap, like LTR.
+.rtl #wpbody table.o-table,
+.rtl #wpbody table.wps-new-table {
+  > thead > tr > th.wps-pd-l:not(:first-child),
+  > tbody > tr > td.wps-pd-l:not(:first-child) {
+    padding-right: 0 !important;
+  }
+}
+
+// RTL: an English title in a right-to-left table is cut at its end ("Lorem ipsum…"), not its start
+// ("…praesentium"): each title takes the direction of its own first letter. The cell keeps the
+// page's alignment (right in RTL).
+#wpbody {
+  .wps-ellipsis-text,
+  .wps-table-ellipsis--name > span,
+  .wps-table-ellipsis--name,
+  .truncate,
+  .wps-title-cell > a {
+    unicode-bidi: plaintext;
+  }
+}
+
+.rtl #wpbody {
+  .wps-ellipsis-text,
+  .wps-table-ellipsis--name > span,
+  .wps-table-ellipsis--name,
+  .truncate,
+  .wps-title-cell > a {
+    text-align: right;
+  }
+}
+
+// Slug next to a term name that appears twice in the same table (Category report).
+#wpbody .wps-title-cell > .wps-term-slug {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 40%;
+  margin-inline-start: 6px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: #EEEFF1;
+  color: $wps-text-muted;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 10px;
+  line-height: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
+}

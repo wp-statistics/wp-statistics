@@ -41,6 +41,8 @@ class GeographicDataProvider
                 'city'      => $cities[0]->city ?? '',
             ],
             'countries' => $countries,
+            // Base of the Top Countries "Share" column: all visitors in the range, not only the five rows
+            'countries_visitors' => $this->visitorsModel->countGeoVisitors($this->args),
             'cities'    => $cities,
             'states'    => $states,
         ];
@@ -72,7 +74,9 @@ class GeographicDataProvider
     {
         return [
             'countries' => $this->visitorsModel->getVisitorsGeoData($this->args),
-            'total'     => $this->visitorsModel->countGeoData(array_merge($this->args, ['include_null' => true]))
+            'total'     => $this->visitorsModel->countGeoData(array_merge($this->args, ['include_null' => true])),
+            // Share base: every visitor in the range, so the column adds up to 100% over all rows (incl. "(not set)")
+            'visitors'  => $this->visitorsModel->countGeoVisitors($this->args)
         ];
     }
 
@@ -89,8 +93,10 @@ class GeographicDataProvider
         );
 
         return [
-            'cities' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'  => $this->visitorsModel->countGeoData($args)
+            'cities'   => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'    => $this->visitorsModel->countGeoData($args),
+            // Share base: visitors with a known city (the same rows as the list)
+            'visitors' => $this->visitorsModel->countGeoVisitors($args)
         ];
     }
 
@@ -103,7 +109,9 @@ class GeographicDataProvider
 
         return [
             'countries' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'     => $this->visitorsModel->countGeoData(array_merge($args, ['include_null' => true]))
+            'total'     => $this->visitorsModel->countGeoData(array_merge($args, ['include_null' => true])),
+            // Share base: all visitors from Europe
+            'visitors'  => $this->visitorsModel->countGeoVisitors($args)
         ];
     }
 
@@ -121,8 +129,10 @@ class GeographicDataProvider
         );
 
         return [
-            'states' => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'  => $this->visitorsModel->countGeoData($args)
+            'states'   => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'    => $this->visitorsModel->countGeoData($args),
+            // Share base: US visitors with a known state (the same rows as the list)
+            'visitors' => $this->visitorsModel->countGeoVisitors($args)
         ];
     }
 

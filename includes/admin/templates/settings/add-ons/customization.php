@@ -118,26 +118,20 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </th>
 
                 <?php
-                $custom_header_logo = esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization')));
-                $default_logo_url   = WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png';
-                $header_logo_url    = !empty($custom_header_logo) ? $custom_header_logo : $default_logo_url;
-                $display_clear      = !empty($custom_header_logo) ? "" : "display: none;";
+                $custom_header_logo = stripslashes((string) WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization'));
 
                 wp_enqueue_media();
                 ?>
-                <script>
-                    var wps_ar_vars = {
-                        'default_avatar_url': "<?php echo esc_url($default_logo_url); ?>"
-                    }
-                </script>
                 <td>
-                    <div class='wps-img-preview-wrapper'>
-                        <img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo">
-                        <input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0 5px;" value="<?php esc_html_e('X', 'wp-statistics') ?>"/>
-                    </div>
-                    <div class="wps-input-group wps-input-group__action">
-                        <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text wps-input-group__field wps-input-group__field--small" value="<?php echo $custom_header_logo; ?>"/>
-                        <input type="button" class="wps_img_settings_upload_button button wps-input-group__label" value="<?php esc_html_e('Upload File', 'wp-statistics') ?>" style="margin: 0; "/>
+                    <div class="wps-media-upload">
+                        <div class="wps-media-upload__preview"<?php echo empty($custom_header_logo) ? ' hidden' : ''; ?>>
+                            <img class="wps-media-upload__image" src="<?php echo esc_url($custom_header_logo); ?>" alt="<?php esc_attr_e('Header logo preview', 'wp-statistics'); ?>">
+                            <button type="button" class="wps-media-upload__remove wps_img_settings_clear_upload_button" aria-label="<?php esc_attr_e('Remove image', 'wp-statistics'); ?>" title="<?php esc_attr_e('Remove image', 'wp-statistics'); ?>"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="wps-input-group wps-input-group__action wps-media-upload__field">
+                            <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text wps-input-group__field" value="<?php echo esc_attr($custom_header_logo); ?>"/>
+                            <button type="button" class="wps_img_settings_upload_button button wps-input-group__label"><?php esc_html_e('Upload File', 'wp-statistics'); ?></button>
+                        </div>
                     </div>
                     <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
                 </td>

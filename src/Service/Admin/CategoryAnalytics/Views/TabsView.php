@@ -96,7 +96,7 @@ class TabsView extends BaseTabView
 
             if ($this->isLockedTab($taxonomy)) {
                 $tab['locked']  = true;
-                $tab['tooltip'] = esc_html__('To view reports for all your custom taxonomies, you need to have the Data Plus add-on.', 'wp-statistics');
+                $tab['tooltip'] = esc_html__('Custom taxonomy reports need the Data Plus add-on.', 'wp-statistics');
             }
 
             $tabs[] = $tab;

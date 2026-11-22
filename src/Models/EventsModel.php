@@ -45,6 +45,42 @@ class EventsModel extends BaseModel
         return $result ?? 0;
     }
 
+    /**
+     * Events (link clicks, downloads...) of several visitor rows, oldest first.
+     * Used by the single visitor journey when Data Plus is active.
+     *
+     * @param array $args {
+     *     @type int[]           $visitor_ids Visitor row IDs.
+     *     @type string|string[] $event_name  Event names. Default click and file_download.
+     *     @type int             $limit       Max rows. Default 500.
+     * }
+     * @return array Rows with ID, visitor_id, date, page_id, event_name, event_data.
+     */
+    public function getVisitorEvents($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'visitor_ids' => [],
+            'event_name'  => ['click', 'file_download'],
+            'limit'       => 500,
+        ]);
+
+        $ids = array_values(array_unique(array_filter(array_map('intval', (array)$args['visitor_ids']))));
+
+        if (empty($ids)) {
+            return [];
+        }
+
+        $result = Query::select(['events.ID', 'events.visitor_id', 'events.date', 'events.page_id', 'events.event_name', 'events.event_data'])
+            ->from('events')
+            ->where('events.visitor_id', 'IN', $ids)
+            ->where('events.event_name', 'IN', $args['event_name'])
+            ->orderBy(['events.date', 'events.ID'], 'DESC')
+            ->perPage(1, max(1, intval($args['limit'])))
+            ->getAll();
+
+        return $result ? array_reverse($result) : [];
+    }
+
     public function getInitialEventDate($args = [])
     {
         $args = $this->parseArgs($args, [

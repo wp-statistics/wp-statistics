@@ -1,0 +1,42 @@
+// ---------------------------------------------------------------------------
+// Empty state (R3): icon, one sentence, the dates.
+// PHP: views/components/objects/empty-state.php (no-data.php wraps it)
+// JS:  wps_js.no_results()
+// ---------------------------------------------------------------------------
+// Centered both ways in a 160px band, so empty cards in one row line up at the same
+// height instead of collapsing to different sizes. Soft grey: it is a quiet state.
+.wps-empty-state {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  min-height: 160px;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 16px 8px;
+
+  &__icon {
+    width: 28px;
+    height: 28px;
+    color: #C4C7CC;
+  }
+
+  &__message {
+    margin: 0 !important;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    color: $wps-text-muted;
+  }
+
+  &__range {
+    margin: 0 !important;
+    font-size: 12px;
+    line-height: 16px;
+    color: $wps-text-subtle;
+  }
+
+  #overview-widgets & {
+    padding: 16px 24px;
+  }
+}

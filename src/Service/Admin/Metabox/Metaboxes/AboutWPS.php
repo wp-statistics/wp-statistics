@@ -13,7 +13,8 @@ class AboutWPS extends BaseMetabox
     protected $settings = [
         'custom_widget' => '',
         'title'         => '',
-        'content'       => ''
+        'content'       => '',
+        'white_label'   => false,
     ];
 
     protected $key = 'about';
@@ -30,6 +31,7 @@ class AboutWPS extends BaseMetabox
             'custom_widget' => Option::getByAddon('show_wps_about_widget_overview', 'customization', 'yes'),
             'title'         => Option::getByAddon('wps_about_widget_title', 'customization', ''),
             'content'       => Option::getByAddon('wps_about_widget_content', 'customization', ''),
+            'white_label'   => Option::getByAddon('wps_white_label', 'customization') == '1',
         ];
     }
 
@@ -40,6 +42,21 @@ class AboutWPS extends BaseMetabox
         }
 
         return "wp-statistics-{$this->key}-metabox";
+    }
+
+    /**
+     * White label without a custom widget: the default card (WP Statistics name, version, links to
+     * wp-statistics.com, review request) would bring the brand back, so it stays out.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        if ($this->settings['white_label'] && $this->settings['custom_widget'] !== 'yes') {
+            return false;
+        }
+
+        return parent::isActive();
     }
 
     public function getName()

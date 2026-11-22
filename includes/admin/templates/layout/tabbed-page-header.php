@@ -61,7 +61,7 @@ View::load('components/objects/share-anonymous-notice');
                     <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
                         <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                     </a>
-                <?php else: ?>
+                <?php elseif (!\WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()): // white label: no upsell button ?>
                     <button class="wps-realtime-btn disabled wps-tooltip-premium">
                         <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                         <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
@@ -89,7 +89,7 @@ View::load('components/objects/share-anonymous-notice');
             if (!empty($tabs) && is_array($tabs)) {
                 foreach ($tabs as $tab) {
                     if ($tab['class'] === 'current' || Url::getParam($tab['link'], 'tab') === $active_tab) {
-                        if (!empty($tab['lastUpdated']) && !empty($tab['lastUpdatedTooltip']) && AuthHelper::isAuthenticated() && Option::getByAddon('site', 'marketing')) {
+                        if (!empty($tab['lastUpdated']) && !empty($tab['lastUpdatedTooltip']) && class_exists(AuthHelper::class) && AuthHelper::isAuthenticated() && Option::getByAddon('site', 'marketing')) {
                             ?>
                             <div class="wps-last-updated wps-tooltip" title="<?php echo esc_attr($tab['lastUpdatedTooltip']); ?>">
                                 <span>
@@ -116,6 +116,8 @@ View::load('components/objects/share-anonymous-notice');
                 $tab['hidden']  = apply_filters("wp_statistics_{$pageKey}_{$tabKey}_hidden", $tab['hidden'] ?? false);
 
                 if (!empty($tab['hidden'])) continue;
+                // White label: a locked (premium) tab is an upsell, so it is left out.
+                if (!empty($tab['locked']) && \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()) continue;
                 ?>
 
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">

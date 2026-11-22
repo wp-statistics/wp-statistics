@@ -1,0 +1,366 @@
+// ---------------------------------------------------------------------------
+// Card (R3): one look for Overview widgets (.postbox on our pages) and
+// inner-page cards (.wps-card). Header/footer come from
+// views/components/objects/card-header.php and card-footer.php.
+// ---------------------------------------------------------------------------
+
+@mixin wps-card-title {
+  font-size: $wps-card-title-size;
+  font-weight: $wps-card-title-weight;
+  line-height: 20px;
+  color: $wps-text-strong;
+}
+
+@mixin wps-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  border-top: 1px solid $wps-card-rule;
+  padding-top: $wps-card-footer-pad;
+  font-size: $wps-card-footer-size;
+  color: $wps-text-muted;
+}
+
+// Inner-page cards
+.wps-wrap .wps-card,
+.wps-card {
+  background: $wps-card-bg;
+  border: 1px solid $wps-card-border;
+  border-radius: $wps-card-radius;
+}
+
+.wps-wrap__main .wps-card {
+  padding: $wps-card-pad-top $wps-card-pad-x $wps-card-pad-bottom;
+
+  @media (max-width: 480px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .wps-card__title h2,
+  .wps-card-header__title {
+    @include wps-card-title;
+  }
+
+  // Both footer markups (wps-card__footer and the c-footer partial) get the same rule + layout.
+  // The footer sits $wps-card-gap under the content: same space as under the header.
+  .wps-card__footer,
+  > .c-footer,
+  > .wps-p-0 > .c-footer {
+    @include wps-card-footer;
+    margin-top: $wps-card-gap;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  // Share lists start $wps-card-gap under the title, like tables.
+  .wps-card__title + .c-wps-horizontal-bar__container {
+    margin-top: $wps-card-gap;
+  }
+}
+
+// Overview page widgets (WordPress postboxes on our dashboard page).
+// Spacing: header, 16px, content, 16px, footer rule, 12px, footer text, 16px, card edge.
+// Cards keep their natural height: no stretching, no empty band above the footer.
+.wps-wrap #overview-widgets .postbox {
+  border: 1px solid $wps-card-border !important;
+  border-radius: $wps-card-radius;
+  box-shadow: none;
+
+  .postbox-header {
+    padding: $wps-card-pad-top $wps-card-pad-x $wps-card-gap;
+
+    @media (max-width: 480px) {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    h2 {
+      @include wps-card-title;
+    }
+  }
+
+  .c-footer {
+    @include wps-card-footer;
+    margin: 0 $wps-card-pad-x;
+    padding: $wps-card-footer-pad 0 0;
+
+    @media (max-width: 480px) {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+  }
+}
+
+.wps-wrap #overview-widgets .postbox:not(.closed) .inside {
+  margin-top: 0;
+  padding-bottom: $wps-card-gap;
+  gap: $wps-card-gap;
+
+  // ui.admin sets padding-top:0 on this footer with a stronger selector, which put the
+  // rule right on top of the footer text.
+  .c-footer {
+    padding-top: $wps-card-footer-pad;
+  }
+}
+
+// Shared header partial (any context)
+.wps-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: $wps-card-tool-size;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    @include wps-card-title;
+  }
+
+  &__tools {
+    margin-inline-start: auto;
+    display: flex;
+    gap: 4px;
+
+    > * {
+      width: $wps-card-tool-size;
+      height: $wps-card-tool-size;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      color: $wps-text-subtle;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Footer row at any card width (narrow sidebar widgets, WP Dashboard, phones):
+// range/filter on the start side, "View ..." link on the end side, one row.
+// The link text cuts with an ellipsis (span.wps-card-footer__label) instead of the
+// two parts stacking. Old add-on markup without the label span may still wrap,
+// then the link keeps to the end side on its own line.
+// ---------------------------------------------------------------------------
+#wpbody .c-footer,
+#wpbody .wps-card__footer {
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  min-width: 0;
+
+  > .c-footer__filter,
+  > .wps-card-footer__range {
+    flex: none;
+  }
+
+  > .c-footer__more,
+  > .wps-card__footer__more {
+    flex: 0 1 auto;
+    min-width: 0;
+    width: auto;
+    margin-inline-start: auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .c-footer__more__link,
+  .wps-card__footer__more__link {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .wps-card-footer__label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:has(.c-footer__more__link:not(:has(.wps-card-footer__label))),
+  &:has(.wps-card__footer__more__link) {
+    flex-wrap: wrap !important;
+  }
+}
+
+// Shared footer partial (any context)
+.wps-card-footer {
+  &__range {
+    color: $wps-text-muted;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+
+    svg {
+      margin-left: 0 !important;
+
+      .rtl & {
+        transform: scaleX(-1);
+      }
+    }
+  }
+}
+
+// Inner-page postboxes built with the card-header / card-footer partials (Devices, Page Insights ...)
+.wps-wrap .postbox {
+  .wps-card-header .wps-card-header__title {
+    @include wps-card-title;
+  }
+
+  .c-footer.wps-card-footer {
+    @include wps-card-footer;
+    margin: 0 $wps-card-pad-x;
+    padding: $wps-card-footer-pad 0 0;
+
+    @media (max-width: 480px) {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Card footer "View ..." link: one look everywhere (Overview widgets, inner-page
+// cards, WP Dashboard widgets, add-on cards). Grey text, darker on hover, same
+// 16px arrow after the text. Covers every footer markup still in use:
+//  - .c-footer__more__link (card-footer partial, meta-box.js, add-ons) with an inline SVG arrow
+//  - .wps-card__footer__more__link (inner cards, Data Plus) and .wps-card__footer__link
+//    (view-more partial) with a CSS arrow
+// #wpbody beats the older per-page colors (blue in generic/referrals, grey in ui.admin).
+// ---------------------------------------------------------------------------
+$wps-footer-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M10.4191 7.98577L7.73705 5.22727L8.44415 4.5L12.3333 8.50003L8.44415 12.5L7.73705 11.7727L10.4191 9.01429H4.33325V7.98577H10.4191Z'/%3E%3C/svg%3E");
+
+#wpbody {
+  .c-footer__more__link,
+  .wps-card__footer__more__link,
+  .wps-card__footer__view-more a,
+  .wps-card__footer__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: $wps-card-footer-size;
+    font-weight: 500;
+    line-height: 16px;
+    color: $wps-text-muted;
+    text-decoration: none;
+    transition: color .15s;
+
+    &:hover,
+    &:focus-visible {
+      color: $wps-text-strong;
+    }
+
+    svg {
+      flex: none;
+      width: 16px;
+      height: 16px;
+      margin: 0 !important;
+      filter: none !important;
+
+      path {
+        fill: currentColor;
+      }
+    }
+
+    .rtl & svg {
+      transform: scaleX(-1) !important;
+    }
+  }
+
+  // CSS arrow (markups without an SVG): drawn with currentColor so it follows the text color.
+  .wps-card__footer__more__link,
+  .wps-card__footer__view-more a,
+  .wps-card__footer__link {
+    &::after {
+      content: '';
+      flex: none;
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background: currentColor !important;
+      -webkit-mask: $wps-footer-arrow center / 16px no-repeat;
+      mask: $wps-footer-arrow center / 16px no-repeat;
+      filter: none !important;
+      transform: none;
+    }
+
+    // Markup that already carries an SVG arrow gets no second one.
+    &:has(svg)::after {
+      content: none;
+    }
+
+    .rtl &::after {
+      transform: scaleX(-1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .c-footer__more__link,
+    .wps-card__footer__more__link,
+    .wps-card__footer__view-more a,
+    .wps-card__footer__link {
+      transition: none;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// WP Dashboard widgets: same rhythm as WordPress's own widgets. Header, 12px,
+// content, 16px, footer, 12px. Content, header title and footer share one 12px
+// inset on both sides (charts used 24px on the left only to the eye, since the
+// footer and title sat at 12px).
+// Traffic Overview (quickstats) has its own boxed layout and is left alone here.
+// ---------------------------------------------------------------------------
+#dashboard-widgets .postbox[id^="wp-statistics-"]:not(#wp-statistics-quickstats-widget):not(.closed) {
+  > .inside {
+    margin: 12px 0 !important;
+    padding: 0 !important;
+  }
+
+  > .inside > .o-wrap {
+    padding: 0 12px !important;
+  }
+
+  > .inside > .o-wrap .wps-postbox-chart--data {
+    margin-top: 0 !important;
+  }
+
+  > .inside > .o-table-wrapper > table.o-table {
+    margin-top: 0 !important;
+  }
+
+  // Same footer as our cards: a light rule, then the text. The rule spans the 12px inset.
+  > .inside > .c-footer {
+    margin: $wps-card-gap 12px 0;
+    padding: 12px 0 0 !important;
+    border-top: 1px solid $wps-card-rule;
+  }
+}
+
+// Phones: card padding is 16px, so full-bleed tables and the live row pull
+// out by 16px, not the -24px set by page styles (they poked 8px past the card).
+@media (max-width: 480px) {
+  #wpbody .wps-wrap__main .wps-card {
+    .o-table-wrapper,
+    .wps-flex-container,
+    .wps-card--table__body,
+    .wps-meta-traffic-summary .c-live {
+      margin-left: -16px;
+      margin-right: -16px;
+    }
+
+    // Already inside a full-bleed body: no second pull-out.
+    .wps-card--table__body .o-table-wrapper {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}

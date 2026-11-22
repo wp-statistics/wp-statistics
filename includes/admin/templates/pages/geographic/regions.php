@@ -47,9 +47,7 @@ use WP_STATISTICS\Admin_Template;
                             </table>
                         </div>
                     <?php else : ?>
-                        <div class="o-wrap o-wrap--no-data wps-center">
-                            <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-                        </div>
+                        <?php \WP_Statistics\Components\View::load('components/objects/empty-state'); ?>
                     <?php endif; ?>
                 </div>
                 <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

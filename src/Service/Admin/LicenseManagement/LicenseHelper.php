@@ -7,6 +7,7 @@ use WP_Statistics\Exception\LicenseException;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\User;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 class LicenseHelper
 {
@@ -282,6 +283,106 @@ class LicenseHelper
         $summary             = $result;
 
         return $summary;
+    }
+
+    /**
+     * Add-on situations returned by {@see getAddonSituation()}.
+     */
+    const SITUATION_ACTIVE        = 'active';
+    const SITUATION_INACTIVE      = 'inactive';
+    const SITUATION_IN_PLAN       = 'in_plan';
+    const SITUATION_NOT_INSTALLED = 'not_installed';
+    const SITUATION_HIDDEN        = 'hidden';
+
+    /**
+     * Where the site stands with one add-on, for the small "this needs <add-on>" teasers inside core pages.
+     *
+     * - `active`:        the add-on runs. Its data shows, so no teaser, whatever the license says
+     *                    (an expired license only stops updates; the license notices already say so).
+     * - `hidden`:        add-on prompts are switched off (Customization white label or a hidden Add-ons menu).
+     * - `inactive`:      installed but turned off.
+     * - `in_plan`:       not installed, but a valid license on this site includes it.
+     * - `not_installed`: not installed and not licensed.
+     *
+     * @param string $slug Add-on slug, e.g. `wp-statistics-data-plus`.
+     * @param PluginHandler|null $pluginHandler
+     *
+     * @return string One of the SITUATION_* constants.
+     */
+    public static function getAddonSituation($slug, $pluginHandler = null)
+    {
+        $pluginHandler = $pluginHandler ?: new PluginHandler();
+
+        if ($pluginHandler->isPluginActive($slug)) {
+            $situation = self::SITUATION_ACTIVE;
+        } elseif (self::areAddonPromptsHidden()) {
+            $situation = self::SITUATION_HIDDEN;
+        } elseif ($pluginHandler->isPluginInstalled($slug)) {
+            $situation = self::SITUATION_INACTIVE;
+        } elseif (self::isPluginLicenseValid($slug)) {
+            $situation = self::SITUATION_IN_PLAN;
+        } else {
+            $situation = self::SITUATION_NOT_INSTALLED;
+        }
+
+        /**
+         * Filters the add-on situation used by the inline teasers.
+         *
+         * @param string $situation One of the LicenseHelper::SITUATION_* constants.
+         * @param string $slug Add-on slug.
+         */
+        return (string)apply_filters('wp_statistics_addon_situation', $situation, $slug);
+    }
+
+    /**
+     * True when the site owner turned add-on prompts off: Customization's white label, or the Add-ons menu
+     * hidden through Customization's "Disable Menus". Teasers then render nothing.
+     *
+     * @return bool
+     */
+    public static function areAddonPromptsHidden()
+    {
+        $hidden = false;
+
+        if (\WP_STATISTICS\Helper::isAddOnActive('customization')) {
+            $hidden = Option::getByAddon('wps_white_label', 'customization') == '1'
+                || in_array('plugins', (array)Option::getByAddon('disable_menus', 'customization', []), true);
+        }
+
+        /**
+         * Filters whether add-on prompts (inline teasers) are hidden.
+         *
+         * @param bool $hidden
+         */
+        return (bool)apply_filters('wp_statistics_hide_addon_prompts', $hidden);
+    }
+
+    /**
+     * WordPress Plugins screen narrowed to one installed-but-off add-on, where the site admin turns it on.
+     * Our links never activate a plugin themselves.
+     *
+     * @param string $slug Add-on slug, e.g. `wp-statistics-data-plus`.
+     *
+     * @return string
+     */
+    public static function getAddonPluginsPageUrl($slug)
+    {
+        return add_query_arg(['plugin_status' => 'inactive', 's' => rawurlencode($slug)], admin_url('plugins.php'));
+    }
+
+    /**
+     * Add-ons screen step that installs the add-ons of a valid license: the download step of the license
+     * that includes this add-on, or the license step when there is none.
+     *
+     * @param string $slug
+     *
+     * @return string
+     */
+    public static function getAddonInstallUrl($slug)
+    {
+        $key = self::isPluginLicenseValid($slug) ? self::getPluginLicense($slug) : null;
+
+        return \WP_STATISTICS\Menus::admin_url('plugins', $key ? ['tab' => 'downloads', 'license_key' => $key] : ['tab' => 'add-license']);
     }
 
     /**

@@ -69,6 +69,23 @@ trait LineChartResponseTrait
     }
 
     /**
+     * Gives the last added dataset a fixed colour (e.g. a source channel's colour).
+     * chart.js uses `color` before its slug/position colours.
+     *
+     * @param string $color Hex colour.
+     * @return void
+     */
+    protected function setLastDatasetColor($color)
+    {
+        if (empty($this->chartData['data']['datasets']) || !is_string($color) || !preg_match('/^#[0-9a-f]{3,8}$/i', $color)) {
+            return;
+        }
+
+        $last = count($this->chartData['data']['datasets']) - 1;
+        $this->chartData['data']['datasets'][$last]['color'] = $color;
+    }
+
+    /**
      * Adds a dataset to the previous chart data.
      *
      * @param string $label The label for the dataset.

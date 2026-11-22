@@ -2316,13 +2316,26 @@ class Helper
         return $array;
     }
 
-    public static function getNoDataMessage($date = '')
+    /**
+     * Message for an empty card or table.
+     *
+     * "Data coming soon!" is only shown when the whole range starts today or later (nothing could
+     * have been recorded yet). A range that merely ends today ("Last 30 days") had its chance, so it
+     * gets "No data found for this date range.".
+     *
+     * @param string $date End date of the range (Y-m-d). Defaults to the active range.
+     * @param string $from Start date of the range (Y-m-d). Defaults to the active range when $date is empty.
+     * @return string
+     */
+    public static function getNoDataMessage($date = '', $from = '')
     {
         if (empty($date)) {
-            $date = DateRange::get()['to'];
+            $range = DateRange::get();
+            $date  = $range['to'] ?? '';
+            $from  = empty($from) ? ($range['from'] ?? '') : $from;
         }
 
-        $isFutureDate = DateTime::isTodayOrFutureDate($date);
+        $isFutureDate = DateTime::isTodayOrFutureDate(!empty($from) ? $from : $date);
 
         $message = esc_html__('No data found for this date range.', 'wp-statistics');
 
@@ -2331,6 +2344,32 @@ class Helper
         }
 
         return $message;
+    }
+
+    /**
+     * Short label for a date range, e.g. "Oct 23 - Nov 21, 2026" or "Nov 21, 2026".
+     *
+     * @param string $from Y-m-d
+     * @param string $to   Y-m-d
+     * @return string Empty string when the dates are not valid.
+     */
+    public static function formatDateRangeLabel($from, $to)
+    {
+        if (!DateTime::isValidDate($from) || !DateTime::isValidDate($to)) {
+            return '';
+        }
+
+        if ($from === $to) {
+            return date_i18n('M j, Y', strtotime($to));
+        }
+
+        $sameYear = substr($from, 0, 4) === substr($to, 0, 4);
+
+        return sprintf(
+            '%s - %s',
+            date_i18n($sameYear ? 'M j' : 'M j, Y', strtotime($from)),
+            date_i18n('M j, Y', strtotime($to))
+        );
     }
 
     /**

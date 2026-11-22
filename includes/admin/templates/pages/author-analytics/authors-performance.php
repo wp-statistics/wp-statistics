@@ -78,7 +78,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             'title'       => esc_html__('Publishing Overview', 'wp-statistics'),
             'tooltip'     => sprintf(
                 /* translators: %s: string value */
-                esc_html__('This heatmap displays the publishing activity of authors over the past 12 months. Darker squares represent more published %s.', 'wp-statistics'),
+                esc_html__('Darker squares mean more %s published, last 12 months.', 'wp-statistics'),
                 strtolower($postTypeNamePlural)
             ),
             'description' => esc_html__('Last 12 Months', 'wp-statistics'),
@@ -88,7 +88,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             'title'   => esc_html__('Top Authors', 'wp-statistics'),
             'tooltip' => sprintf(
                 /* translators: %1$s: string value */
-                esc_html__('This section ranks authors based on various performance metrics such as views, publishing frequency, comments per %1$s, and average words per %1$s. Use the tabs to switch between different metrics to see how each author is performing.', 'wp-statistics'),
+                esc_html__('Ranked by views. Views per %1$s: views divided by how many had a view.', 'wp-statistics'),
                 strtolower($postTypeNameSingular)
             ),
             'data'    => $data
@@ -99,7 +99,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             'title'   => sprintf(esc_html__('Views/Published %s', 'wp-statistics'), $postTypeNamePlural),
             'tooltip' => sprintf(
                 /* translators: %1$s: string value */
-                esc_html__('This scatter plot shows the relationship between the number of %1$s published by an author and the number of views those %1$s have received. Each point represents an author.', 'wp-statistics'),
+                esc_html__('Each dot is an author: %1$s published against views of those %1$s.', 'wp-statistics'),
                 strtolower($postTypeNamePlural)
             )
         ]);

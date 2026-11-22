@@ -19,7 +19,8 @@ use WP_Statistics\Components\View;
     }
     View::load("components/objects/no-data", [
         'url'   => $data['url'],
-        'title' => $title
+        'title' => $title,
+        'date'  => $filters['date'] ?? null
     ]);
     ?>
 <?php endif; ?>

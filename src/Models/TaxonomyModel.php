@@ -260,4 +260,142 @@ class TaxonomyModel extends BaseModel
 
         return $this->buildTermsReportQuery($args, ['COUNT(DISTINCT terms.term_id)'])->getVar();
     }
+
+    /**
+     * Top terms for the leaderboard widgets: views in the date range of the published posts
+     * in each term (any publish date), and how many of those posts got the views.
+     * Slug, parent and term_taxonomy_id are returned so same-name terms can be told apart.
+     *
+     * @param array $args date, taxonomy, post_type, author_id, order_by, order, page, per_page.
+     * @return object[] term_id, term_taxonomy_id, taxonomy, term_name, slug, parent, views, posts_with_views.
+     */
+    public function getTermsLeaderboard($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'order_by'  => 'views',
+            'order'     => 'DESC',
+            'page'      => 1,
+            'per_page'  => 5,
+            'date'      => '',
+            'taxonomy'  => '',
+            'author_id' => '',
+            'post_type' => Helper::getPostTypes()
+        ]);
+
+        $result = Query::select([
+            'terms.term_id',
+            'term_taxonomy.term_taxonomy_id',
+            'term_taxonomy.taxonomy',
+            'term_taxonomy.parent',
+            'terms.name AS term_name',
+            'terms.slug',
+            'SUM(pages.count) AS views',
+            'COUNT(DISTINCT posts.ID) AS posts_with_views'
+        ])
+            ->from('posts')
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->join('pages', ['pages.id', 'posts.ID'], [['pages.type', 'IN', $this->getResourceTypes($args['post_type'], false)]])
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('pages.date', $args['date'])
+            ->groupBy(['term_taxonomy.term_taxonomy_id', 'terms.term_id', 'term_taxonomy.taxonomy', 'term_taxonomy.parent', 'terms.name', 'terms.slug'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->getAll();
+
+        return $result ? $result : [];
+    }
+
+    /**
+     * Published posts per term with a publish date in the range.
+     *
+     * @param int[] $termTaxonomyIds
+     * @param array $args date, post_type, author_id.
+     * @return int[] term_taxonomy_id => count.
+     */
+    public function countPublishedByTerms($termTaxonomyIds, $args = [])
+    {
+        $termTaxonomyIds = array_values(array_filter(array_map('intval', (array) $termTaxonomyIds)));
+
+        // An empty IN list would drop the filter and count every term
+        if (empty($termTaxonomyIds)) {
+            return [];
+        }
+
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'author_id' => '',
+            'post_type' => Helper::getPostTypes()
+        ]);
+
+        $rows = Query::select(['term_relationships.term_taxonomy_id AS id', 'COUNT(DISTINCT posts.ID) AS total'])
+            ->from('posts')
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->where('term_relationships.term_taxonomy_id', 'IN', $termTaxonomyIds)
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('posts.post_date', $args['date'])
+            ->groupBy('term_relationships.term_taxonomy_id')
+            ->getAll();
+
+        return $this->pluckCounts($rows);
+    }
+
+    /**
+     * Approved comments written in the date range on the published posts of each term.
+     *
+     * @param int[] $termTaxonomyIds
+     * @param array $args date, post_type, author_id.
+     * @return int[] term_taxonomy_id => count.
+     */
+    public function countCommentsByTerms($termTaxonomyIds, $args = [])
+    {
+        $termTaxonomyIds = array_values(array_filter(array_map('intval', (array) $termTaxonomyIds)));
+
+        if (empty($termTaxonomyIds)) {
+            return [];
+        }
+
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'author_id' => '',
+            'post_type' => Helper::getPostTypes()
+        ]);
+
+        $rows = Query::select(['term_relationships.term_taxonomy_id AS id', 'COUNT(DISTINCT comments.comment_ID) AS total'])
+            ->from('comments')
+            ->join('posts', ['comments.comment_post_ID', 'posts.ID'])
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->where('term_relationships.term_taxonomy_id', 'IN', $termTaxonomyIds)
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->where('comments.comment_approved', '=', '1')
+            ->where('comments.comment_type', '=', 'comment')
+            ->whereDate('comments.comment_date', $args['date'])
+            ->groupBy('term_relationships.term_taxonomy_id')
+            ->getAll();
+
+        return $this->pluckCounts($rows);
+    }
+
+    /**
+     * @param object[]|null $rows Rows with id + total.
+     * @return int[]
+     */
+    private function pluckCounts($rows)
+    {
+        $counts = [];
+
+        foreach ((array) $rows as $row) {
+            $counts[(int) $row->id] = (int) $row->total;
+        }
+
+        return $counts;
+    }
 }

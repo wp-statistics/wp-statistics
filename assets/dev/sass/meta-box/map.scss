@@ -33,7 +33,7 @@
     border-top: 0;
   }
 }
-#wp-statistics-visitors-map__container:not(:has(.o-wrap--no-data)){
+#wp-statistics-visitors-map__container:not(:has(.o-wrap--no-data, .wps-empty-state)){
   height: 300px;
   width: 100%;
 }

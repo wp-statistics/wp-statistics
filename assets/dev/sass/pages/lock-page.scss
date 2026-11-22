@@ -133,3 +133,9 @@
 
 
 
+
+// White label: the lock page is a neutral note, no upsell.
+.wps-lock-page--unavailable {
+  min-height: 0;
+  padding-bottom: 32px;
+}

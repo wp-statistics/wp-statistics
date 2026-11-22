@@ -155,6 +155,11 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 
 == Changelog ==
 = 14.17.0 - 2026-11-21 =
+- **Enhancement:** Refreshed admin design: one card style, share bars, clearer tables and compact Dashboard widgets.
+- **New:** Visitor card and single visitor page with the full visit journey.
+- **New:** WP Statistics panel in the block editor sidebar.
+- **Enhancement:** Clearer chart tooltips that compare with the previous period.
+- **Enhancement:** Visitor tables share one layout, with entry and exit pages in one column.
 - **New:** Email alert and notice when visits stop being recorded. Turn it off in Settings → Email Reports.
 - **New:** OpenAI Ads, Microsoft Ads and Facebook Ads clicks show as their own sources.
 - **Fix:** Download Tracker counts files behind a link parameter, such as `?protected_download=file.pdf`, and keeps dotted file names ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).

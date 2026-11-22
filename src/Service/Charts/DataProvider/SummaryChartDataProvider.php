@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Models\ViewsModel;
@@ -9,6 +10,17 @@ use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 
 class SummaryChartDataProvider extends AbstractChartDataProvider
 {
+    /**
+     * Args that change how a query runs, not which visitors or views it counts.
+     */
+    const NON_FILTER_ARGS = ['include_total', 'date', 'ignore_date', 'historical', 'prev_data', 'bypass_cache', 'date_field', 'hide_post', 'ignore_post_type', 'decorate', 'page', 'per_page', 'order_by', 'order'];
+
+    /**
+     * Filters that point at one resource. Historical rows are stored per URI, so a single
+     * post or URL keeps its own historical views; any other filter has no historical match.
+     */
+    const SINGLE_RESOURCE_ARGS = ['resource_id', 'post_id', 'query_param', 'resource_type', 'post_type'];
+
     protected $visitorsModel;
     protected $viewsModel;
 
@@ -34,11 +46,17 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
 
             $args = array_merge($this->args, ['date' => $period['date']]);
 
-            // For total period, include historical data
+            // Total period: all time. Historical numbers are site-wide (or per URI), so they are
+            // only added when the card is not filtered, or filtered to a single resource.
             if ($key === 'total') {
-                unset($args['date']);
-                $args['ignore_date'] = true;
-                $args['historical']  = true;
+                if ($this->canIncludeHistorical()) {
+                    unset($args['date']);
+                    $args['ignore_date'] = true;
+                    $args['historical']  = true;
+                } else {
+                    // A date range (not ignore_date) so no historical row is added by the models
+                    $args['date'] = ['from' => DateTime::get(0), 'to' => DateTime::get()];
+                }
             }
 
             // Fetch current data
@@ -74,7 +92,13 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
     {
         $result = ['visitors' => 0, 'views' => 0];
 
-        if ($this->isFilterApplied()) {
+        if (!empty($this->args['referred_visitors'])) {
+            // Referred views live on the visitor rows (hits); the pages table has no referrer
+            $data = $this->visitorsModel->getVisitorsHits($args);
+
+            $result['visitors'] = intval($data['visitors']);
+            $result['views']    = intval($data['hits']);
+        } elseif ($this->isFilterApplied()) {
             // Get visitors and views separately when filtering
             $result['visitors'] = $this->visitorsModel->countVisitors($args);
             $result['views']    = $this->viewsModel->countViews($args);
@@ -87,6 +111,27 @@ class SummaryChartDataProvider extends AbstractChartDataProvider
         }
 
         return $result;
+    }
+
+    /**
+     * Whether the Total row may add the stored historical numbers.
+     *
+     * Historical visitors and views are kept for the whole site (and views per URI), so a
+     * card filtered by country, post type, referrer and so on must not add them.
+     *
+     * @return bool
+     */
+    protected function canIncludeHistorical()
+    {
+        $filters = array_keys(array_filter(array_diff_key($this->args, array_flip(self::NON_FILTER_ARGS))));
+
+        if (empty($filters)) {
+            return true;
+        }
+
+        $isSingleResource = array_intersect(['resource_id', 'post_id', 'query_param'], $filters);
+
+        return $isSingleResource && !array_diff($filters, self::SINGLE_RESOURCE_ARGS);
     }
 
     /**

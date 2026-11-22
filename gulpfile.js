@@ -54,6 +54,20 @@ function buildScripts(done) {
     done()
 }
 
+// Visitor card + title-cell tooltips as a standalone file (no jQuery) for pages that print their own
+// HTML instead of loading admin.min.js, such as the Real-Time add-on page.
+function buildVisitorCardScript(done) {
+    gulp.src([
+        './assets/dev/javascript/components/visitor-card.js',
+        './assets/dev/javascript/components/title-cell.js',
+    ])
+        .pipe(concat('visitor-card.min.js'))
+        .pipe(babel({presets: ['@babel/env']}))
+        .pipe(uglify())
+        .pipe(gulp.dest('./assets/js/'));
+    done()
+}
+
 function buildBackgroundProcessTrackerScript(done) {
     gulp.src([
         './assets/dev/javascript/background-process-tracker.js',
@@ -173,7 +187,7 @@ function revertToES6(cb) {
 
 // Gulp Watch
 function watch() {
-    gulp.watch('assets/dev/javascript/**/*.js', gulp.series(buildScripts));
+    gulp.watch('assets/dev/javascript/**/*.js', gulp.parallel(buildScripts, buildVisitorCardScript));
     gulp.watch('assets/dev/javascript/background-process-tracker.js', gulp.series(buildBackgroundProcessTrackerScript));
     gulp.watch('assets/dev/javascript/mini-chart.js', gulp.series(miniChart));
     gulp.watch('assets/dev/sass/**/*.scss', gulp.series(buildStyles));
@@ -182,7 +196,8 @@ function watch() {
 
 // global Task
 exports.compileSass = buildStyles;
-exports.script = buildScripts;
+exports.script = gulp.parallel(buildScripts, buildVisitorCardScript);
+exports.visitorCardScript = buildVisitorCardScript;
 exports.backgroundProcessTrackerScript = buildBackgroundProcessTrackerScript;
 exports.chartScript = chartScripts;
 exports.frontScript = frontScripts;

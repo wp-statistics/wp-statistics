@@ -3,6 +3,7 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Components\View;
 
 ?>
 <div class="postbox-container wps-postbox-full">
@@ -18,11 +19,11 @@ use WP_STATISTICS\Helper;
                                     <th class="wps-pd-l">
                                         <?php echo esc_html($firstColTitle); ?>
                                     </th>
-                                    <th class="wps-pd-l">
+                                    <th class="wps-pd-l wps-col-num">
                                         <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
                                     </th>
-                                    <th class="wps-pd-l">
-                                        <?php esc_html_e('%', 'wp-statistics'); ?>
+                                    <th class="wps-pd-l wps-col-share">
+                                        <?php esc_html_e('Share', 'wp-statistics'); ?>
                                     </th>
                                 </tr>
                                 </thead>
@@ -35,11 +36,11 @@ use WP_STATISTICS\Helper;
                                                     <?php echo esc_html(Helper::getMajorVersionOnly($item->casted_version)); ?>
                                                 </span>
                                         </td>
-                                        <td class="wps-pd-l">
+                                        <td class="wps-pd-l wps-col-num">
                                             <?php echo number_format_i18n(intval($item->visitors)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                         </td>
-                                        <td class="wps-pd-l">
-                                            <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
+                                        <td class="wps-pd-l wps-col-share">
+                                            <?php View::load('components/objects/percent-bar', ['count' => $item->visitors, 'total' => $data['visits']]); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -47,9 +48,7 @@ use WP_STATISTICS\Helper;
                             </table>
                         </div>
                     <?php else : ?>
-                        <div class="o-wrap o-wrap--no-data wps-center">
-                            <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
-                        </div>
+                        <?php View::load('components/objects/empty-state'); ?>
                     <?php endif; ?>
                 </div>
                 <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

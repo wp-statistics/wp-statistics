@@ -22,9 +22,11 @@ $displayNotifications    = WP_STATISTICS\Option::get('display_notifications') ? 
 $promoBanner             = MarketingCampaignFactory::getLatestMarketingCampaignByType('promo_banner');
 $manageCap               = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
 $hasManageCap            = $manageCap && current_user_can($manageCap);
+// Upsells (upgrade button) only for people who can act on them, and never under white label.
+$showUpgrade             = $hasManageCap && !LicenseHelper::areAddonPromptsHidden() && apply_filters('wp_statistics_enable_upgrade_to_bundle', true);
 
 // The desktop menu and the mobile menu show the same links, so they are defined once here.
-$showAddonsLink  = !$isPremium && apply_filters('wp_statistics_enable_header_addons_menu', true);
+$showAddonsLink  = !$isPremium && $hasManageCap && apply_filters('wp_statistics_enable_header_addons_menu', true);
 $quickAccessMenu = [
     ['slug' => 'wps_pages_page', 'link_text' => __('Top Pages', 'wp-statistics'), 'icon_class' => 'top-pages'],
     ['slug' => 'wps_content-analytics_page', 'link_text' => __('Content Analytics', 'wp-statistics'), 'icon_class' => 'content-analytics'],
@@ -63,11 +65,11 @@ $addonsLink       = $showAddonsLink
             ?>
         </div>
         <div class="wps-adminHeader__side">
-            <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
+            <?php if ($showUpgrade) : ?>
                 <?php echo LicenseHelper::renderLicenseStatusLink($isPremium, $promoBanner); ?>
             <?php endif; ?>
 
-            <?php if (Option::get('privacy_audit')) : ?>
+            <?php if (Option::get('privacy_audit') && $hasManageCap) : ?>
                 <?php
                 $privacyAuditData   = new PrivacyAuditDataProvider();
                 $privacyAuditStatus = $privacyAuditData->getComplianceStatus();
@@ -127,7 +129,7 @@ $addonsLink       = $showAddonsLink
                         </div>
                     <?php }
 
-                    if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) {
+                    if ($showUpgrade) {
                         echo '<div class="wps-bundle">' . LicenseHelper::renderLicenseStatusLink($isPremium, $promoBanner, true) . '</div>';
                     }
                     ?>

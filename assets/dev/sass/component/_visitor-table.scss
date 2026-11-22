@@ -1,0 +1,268 @@
+// ---------------------------------------------------------------------------
+// Shared visitor table (V3-B) + Pages cell (V2-A).
+// PHP: views/components/tables/visitor-table.php, views/components/objects/visitor-pages.php
+//
+// One fixed column order everywhere: Visitor | Referrer | Pages | Views | Last view.
+// The sorted column is bold, its header carries the ↓ (.wps-order). The wrapper is a size
+// container, so the table adapts to its own card (Overview full / half / side column,
+// Visitor Insights pages, WP Dashboard column, phones):
+//  - under 700px: Referrer folds under the visitor pill, dates switch to the narrow form
+//  - under 470px: the number that is not sorted hides
+//  - under 380px: only the pill, the pages and the sorted number
+// Logical properties only, so RTL mirrors by itself.
+// ---------------------------------------------------------------------------
+
+#wpbody .o-table-wrapper.wps-visitor-table-wrap {
+  // Keep the shared wps-table container (title cells, narrow-table rules) and add our own name.
+  container: wps-table wps-vtable / inline-size;
+}
+
+#wpbody table.wps-visitor-table {
+  > thead > tr > th {
+    white-space: nowrap !important;
+  }
+
+  > thead > tr > th.is-sorted {
+    color: $wps-text-strong;
+    font-weight: 600;
+  }
+
+  > tbody > tr > td.is-sorted,
+  > tbody > tr > td.is-sorted a {
+    font-weight: 600;
+  }
+
+  // Visitor: the pill (and the folded referrer under it) at its own width.
+  .wps-visitor-table__visitor {
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  // Referrer: one line per part, cut with an ellipsis, never wider than 220px.
+  td.wps-visitor-table__referrer {
+    max-width: 220px;
+
+    .wps-referral-link,
+    .wps-link-arrow,
+    .wps-link-arrow > span {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .wps-link-arrow > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  // Pages: takes the free width (the title-cell rule gives width:100% / max-width:0).
+  td.wps-visitor-table__pages {
+    min-width: 150px;
+  }
+
+  // Numbers and dates: content width, one line, at the end of the row.
+  .wps-visitor-table__views,
+  .wps-visitor-table__last {
+    width: 1%;
+    white-space: nowrap !important;
+    min-width: 0 !important;
+    text-align: end !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  > thead > tr > th.wps-visitor-table__views .wps-order,
+  > thead > tr > th.wps-visitor-table__last .wps-order {
+    justify-content: flex-end;
+  }
+
+  .wps-visitor-table__date {
+    color: $wps-text;
+  }
+
+  .wps-visitor-table__date-narrow {
+    display: none;
+  }
+
+  .wps-visitor-table__ref-inline {
+    display: none;
+  }
+}
+
+// ---- Pages cell -------------------------------------------------------------
+#wpbody .wps-visitor-pages {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+#wpbody .wps-visitor-pages__line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+
+  > .wps-ellipsis-parent {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .wps-campaign-label {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: #F1EDFB;
+    color: #6B4FBB;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
+}
+
+#wpbody .wps-visitor-pages__icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  min-width: 18px;
+  height: 16px;
+  padding: 0 3px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background: #F1F2F3;
+  color: $wps-text-subtle;
+
+  svg {
+    width: 11px;
+    height: 11px;
+    flex: none;
+  }
+
+  .rtl & svg {
+    transform: scaleX(-1);
+  }
+}
+
+#wpbody .wps-visitor-pages__tag {
+  flex: none;
+  font-size: 11px;
+  line-height: 14px;
+  color: $wps-text-subtle;
+  white-space: nowrap;
+}
+
+#wpbody .wps-visitor-pages__none {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: $wps-text-subtle;
+}
+
+// ---- Responsive (the table's own width) --------------------------------------
+@container wps-vtable (max-width: 700px) {
+  #wpbody table.wps-visitor-table {
+    .wps-visitor-table__referrer {
+      display: none !important;
+    }
+
+    .wps-visitor-table__ref-inline {
+      display: block;
+      max-width: 160px;
+      margin-top: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11.5px;
+      line-height: 15px;
+      color: $wps-text-subtle;
+    }
+
+    .has-narrow .wps-visitor-table__date-wide {
+      display: none;
+    }
+
+    .has-narrow .wps-visitor-table__date-narrow {
+      display: inline;
+    }
+  }
+}
+
+@container wps-vtable (max-width: 470px) {
+  #wpbody table.wps-visitor-table {
+    &.wps-visitor-table--sort-last .wps-visitor-table__views,
+    &.wps-visitor-table--sort-views .wps-visitor-table__last {
+      display: none !important;
+    }
+
+    > thead > tr > th.wps-pd-l:not(:first-child),
+    > tbody > tr > td.wps-pd-l:not(:first-child) {
+      padding-left: 10px !important; // core pads non-first cells on the left in LTR and RTL
+    }
+
+    // Beats the title-cell phone minimum (112px): the pages cut earlier instead of the row overflowing.
+    > tbody > tr > td.wps-visitor-table__pages {
+      min-width: 72px !important;
+    }
+
+    .wps-visitor-table__ref-inline {
+      max-width: 120px;
+    }
+  }
+}
+
+@container wps-vtable (max-width: 380px) {
+  #wpbody table.wps-visitor-table {
+    .wps-visitor-table__ref-inline,
+    .wps-visitor-pages__tag {
+      display: none !important;
+    }
+
+    > tbody > tr > td.wps-visitor-table__pages {
+      min-width: 64px !important;
+    }
+
+    > thead > tr > th:last-child,
+    > tbody > tr > td:last-child {
+      padding-right: 12px !important;
+    }
+
+    .rtl & > thead > tr > th:last-child,
+    .rtl & > tbody > tr > td:last-child {
+      padding-right: 0 !important;
+      padding-left: 12px !important;
+    }
+  }
+}
+
+// ---- WP Dashboard column: tighter cells than the report pages ---------------
+#dashboard-widgets .postbox[id^="wp-statistics-"] .wps-visitor-table-wrap {
+  overflow-x: hidden;
+
+  table.wps-visitor-table {
+    > thead > tr > th,
+    > tbody > tr > td {
+      padding-block: 8px !important;
+      padding-inline: 0 8px !important;
+    }
+
+    > thead > tr > th:last-child,
+    > tbody > tr > td:last-child {
+      padding-inline-end: 0 !important;
+    }
+
+    > thead > tr > th {
+      padding-block: 0 6px !important;
+      font-size: 12px;
+    }
+  }
+}

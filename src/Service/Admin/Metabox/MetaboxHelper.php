@@ -22,9 +22,15 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GlobalVisitorDistribution;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Utils\Request;
 
 class MetaboxHelper
 {
+    /**
+     * Rows per list widget on the WordPress Dashboard (compact set). The Overview page keeps its own limits.
+     */
+    const DASHBOARD_ROWS = 5;
+
     public static $metaboxes = [
         TrafficSummary::class,
         TrafficOverview::class,
@@ -47,6 +53,59 @@ class MetaboxHelper
     ];
 
     /**
+     * Is the widget being rendered for the WordPress Dashboard (wp-admin/index.php)?
+     *
+     * Widget bodies load over AJAX, so the screen comes from the `current_page` the
+     * script sends (wps_js.global.page). The Overview page sends admin.php.
+     *
+     * @return bool
+     */
+    public static function isDashboardContext()
+    {
+        if (Request::isFrom('ajax')) {
+            $currentPage = Request::get('current_page', [], 'array');
+
+            return isset($currentPage['file']) && $currentPage['file'] === 'index.php';
+        }
+
+        if (function_exists('get_current_screen')) {
+            $screen = get_current_screen();
+
+            return $screen && $screen->id === 'dashboard';
+        }
+
+        return false;
+    }
+
+    /**
+     * Whether the "Get More with Premium Analytics" widget stays out.
+     *
+     * @return bool
+     */
+    public static function shouldHideGoPremium()
+    {
+        // The widget sells Traffic by Hour and Weekly Performance: Data Plus already shows them when it is on.
+        return LicenseHelper::isPremiumLicenseAvailable()
+            || LicenseHelper::areAddonPromptsHidden()
+            || !\WP_STATISTICS\User::Access('manage')
+            || self::isDataPlusActive();
+    }
+
+    /**
+     * Is Data Plus turned on (licensed or not)?
+     *
+     * @return bool
+     */
+    private static function isDataPlusActive()
+    {
+        if (!function_exists('is_plugin_active')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        return is_plugin_active('wp-statistics-data-plus/wp-statistics-data-plus.php');
+    }
+
+    /**
      * Retrieves a list of all metaboxes.
      *
      * @return BaseMetabox[]|string[]
@@ -66,7 +125,8 @@ class MetaboxHelper
         $activeMetaboxes = [];
         $skipClasses     = [];
 
-        if (LicenseHelper::isPremiumLicenseAvailable()) {
+        // No upsell widget with a premium license, under white label, or for users who cannot buy add-ons.
+        if (self::shouldHideGoPremium()) {
             $skipClasses[] = GoPremium::class;
         }
 
@@ -101,11 +161,19 @@ class MetaboxHelper
             return $metaboxes;
         }
 
-        $currentScreen = get_current_screen()->id;
+        $screen        = get_current_screen();
+        $currentScreen = $screen->id;
+        $isBlockEditor = method_exists($screen, 'is_block_editor') && $screen->is_block_editor();
 
         // Get screen metaboxes that belong to the current screen
         $screenMetaboxes = [];
         foreach (self::getActiveMetaboxes() as $metabox) {
+            // Classic-only meta boxes are not printed in the block editor, so do not load their data there
+            $callbackArgs = $metabox->getCallbackArgs();
+            if ($isBlockEditor && !empty($callbackArgs['__back_compat_meta_box'])) {
+                continue;
+            }
+
             if (in_array($currentScreen, $metabox->getScreen()) && !$metabox->isStatic()) {
                 $screenMetaboxes[$metabox->getKey()] = $metabox;
             }

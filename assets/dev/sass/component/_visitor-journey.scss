@@ -1,0 +1,520 @@
+// ---------------------------------------------------------------------------
+// Single visitor (V1-B): profile card left, journey right; the card stacks above the journey on phones.
+// PHP: views/components/visitor-profile.php, views/components/visitor-journey.php,
+// views/pages/visitor-insights/single-visitor.php
+// ---------------------------------------------------------------------------
+
+.postbox-container--two-col.wps-visitor-single {
+  align-items: flex-start;
+
+  @media (min-width: 759px) {
+    .postbox-container--first-col {
+      width: 360px;
+      flex: none;
+    }
+
+    .postbox-container--second-col {
+      width: auto;
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 758px) {
+    align-items: stretch;
+
+    .postbox-container--first-col,
+    .postbox-container--second-col {
+      width: 100%;
+    }
+  }
+
+  .wps-card.wps-visitor-profile,
+  .wps-card.wps-journey {
+    gap: 14px;
+    padding: $wps-card-pad-top 20px $wps-card-pad-bottom;
+    min-width: 0;
+
+    @media (max-width: 480px) {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  .wps-card.wps-journey {
+    gap: 0;
+
+    > .wps-card-header {
+      margin-bottom: 14px;
+    }
+  }
+}
+
+// Profile card -------------------------------------------------------------
+.wps-visitor-profile {
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  &__avatar {
+    position: relative;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: $wps-brand-tint;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > img {
+      display: block;
+    }
+
+    &--anonymous {
+      background: #EEEFF1;
+    }
+
+    &--user > img {
+      position: absolute;
+      inset: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  // Shows when the Gravatar cannot load (the image is removed by visitor-card.js).
+  &__initial {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1;
+    color: $wps-brand;
+  }
+
+  &__badge {
+    position: absolute;
+    inset-inline-end: -2px;
+    bottom: -2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 1px $wps-track;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 14px;
+      height: 10px;
+      border-radius: 1px;
+      object-fit: cover;
+    }
+  }
+
+  &__name {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+
+    > span {
+      font-size: 13px;
+      line-height: 18px;
+      color: $wps-text-muted;
+    }
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    color: $wps-text-strong;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
+
+    @at-root a#{&}:hover {
+      color: $wps-brand;
+    }
+  }
+
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__facts {
+    display: grid;
+    gap: 9px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 18px;
+
+    > div {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    dt {
+      margin: 0;
+      color: $wps-text-subtle;
+    }
+
+    dd {
+      margin: 0;
+      min-width: 0;
+      color: $wps-text-strong;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      .wps-link-arrow {
+        max-width: 100%;
+      }
+    }
+  }
+
+  &__rule {
+    display: block !important;
+    border-top: 1px solid $wps-card-rule;
+    margin: 2px 0;
+  }
+
+  &__none {
+    color: $wps-text-subtle;
+  }
+
+  &__note {
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: #F6F7F7;
+    font-size: 12px;
+    line-height: 17px;
+    color: $wps-text-muted;
+  }
+}
+
+// Journey card -------------------------------------------------------------
+.wps-journey {
+  &__muted {
+    color: $wps-text-subtle;
+  }
+
+  &__visit-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    padding: 10px 0;
+    font-size: 13px;
+    line-height: 18px;
+    color: $wps-text;
+
+    b {
+      font-weight: 600;
+      color: $wps-text-strong;
+    }
+  }
+
+  &__visit--open > &__visit-head {
+    padding-top: 0;
+  }
+
+  &__aside {
+    margin-inline-start: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: $wps-text-subtle;
+    white-space: nowrap;
+
+    img {
+      display: block;
+      border-radius: 2px;
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__sep {
+    color: $wps-icon-muted;
+  }
+
+  &__show-all {
+    color: $wps-brand;
+  }
+
+  // Folded visits: native <details>, the row is the toggle.
+  &__visit--folded,
+  &__more {
+    border-top: 1px solid $wps-card-rule;
+
+    > summary {
+      cursor: pointer;
+      list-style: none;
+      border-radius: 4px;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &:hover b,
+      &:hover .wps-journey__show-all {
+        color: $wps-brand;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $wps-brand;
+        outline-offset: 2px;
+      }
+    }
+
+    &[open] > summary .wps-journey__chevron {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__more[open] > summary {
+    display: none;
+  }
+
+  &__more > &__visit--folded:first-of-type {
+    border-top: 1px solid $wps-card-rule;
+  }
+
+  &__chevron {
+    flex: none;
+    color: $wps-text-subtle;
+    transition: transform .15s ease;
+
+    .rtl & {
+      transform: scaleX(-1);
+    }
+
+    .rtl [open] > summary & {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__visit-body {
+    padding: 0 0 12px 24px;
+
+    .rtl & {
+      padding: 0 24px 12px 0;
+    }
+  }
+
+  &__open {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 12px;
+    color: $wps-brand;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__empty {
+    margin: 0 0 8px;
+    font-size: 12px;
+    color: $wps-text-subtle;
+  }
+
+  // Timeline -----------------------------------------------------------------
+  &__steps {
+    list-style: none;
+    margin: 4px 0 6px;
+    padding: 0;
+    padding-inline-start: 4px;
+  }
+
+  &__step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 2px 10px;
+    align-items: baseline;
+    margin: 0;
+    padding-bottom: 12px;
+    padding-inline-start: 26px;
+    font-size: 13px;
+    line-height: 19px;
+
+    // Rail
+    &::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 5px;
+      top: 8px;
+      bottom: -6px;
+      width: 2px;
+      background: $wps-track;
+    }
+
+    &:last-child::before {
+      display: none;
+    }
+
+    // Dot
+    &::after {
+      content: "";
+      position: absolute;
+      inset-inline-start: 1px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: inset 0 0 0 2px $wps-brand;
+      box-sizing: border-box;
+    }
+
+    &--from::after {
+      background: $wps-brand;
+    }
+
+    &--event::after {
+      background: #FFF4E5;
+      box-shadow: inset 0 0 0 2px #C27A12;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: minmax(0, 1fr);
+
+      .wps-journey__time {
+        grid-row: 2;
+      }
+    }
+  }
+
+  &__time {
+    font-size: 12px;
+    color: $wps-text-subtle;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  &__body {
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 6px;
+
+    > svg {
+      flex: none;
+      color: $wps-text-subtle;
+    }
+  }
+
+  &__step--from &__body {
+    font-size: 12px;
+    color: $wps-text;
+
+    a {
+      color: $wps-brand;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  }
+
+  &__step--event &__body {
+    font-size: 12px;
+    color: #8A4B00;
+
+    > svg {
+      color: #C27A12;
+    }
+  }
+
+  &__page {
+    min-width: 0;
+    max-width: 100%;
+
+    > a,
+    > span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $wps-text-strong;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    > a:hover {
+      color: $wps-brand;
+    }
+  }
+
+  &__badge {
+    flex: none;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+
+    &--entry {
+      color: $wps-good;
+      background: $wps-good-bg;
+    }
+
+    &--exit {
+      color: $wps-text-muted;
+      background: $wps-card-rule;
+    }
+  }
+
+  &__stay {
+    flex-basis: 100%;
+    font-size: 12px;
+    color: $wps-text-subtle;
+  }
+}
+
+// RTL: times, durations and counts ("1:22 pm", "5 min 45 s", "30 older visits") keep their own order
+// inside a right-to-left page; a translated value still reads right to left (first strong character decides).
+.wps-journey__time,
+.wps-journey__stay,
+.wps-journey__muted,
+.wps-journey__aside,
+.wps-journey__visit-head b,
+.wps-visitor-profile__facts dd,
+.wps-visitor-profile__name > span {
+  unicode-bidi: plaintext;
+}
+
+// Block-level ones keep the page's alignment (right in RTL) while their text keeps its own order.
+.rtl {
+  .wps-visitor-profile__facts dd,
+  .wps-visitor-profile__name > span {
+    text-align: right;
+  }
+}

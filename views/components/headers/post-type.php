@@ -16,8 +16,9 @@ $dateUpdated      = get_the_modified_date(Helper::getDefaultDateFormat(true), $p
 
 <div class="wps-content-analytics-header">
     <div>
-        <?php if (has_post_thumbnail($postId)) : ?>
-            <img src="<?php echo esc_url(get_the_post_thumbnail_url($postId)); ?>" alt="<?php /* translators: %s: post title */ echo esc_attr(sprintf(__('%s thumbnail', 'wp-statistics'), get_the_title($postId))); ?>">
+        <?php $wpsThumb = has_post_thumbnail($postId) ? get_the_post_thumbnail_url($postId) : ''; // empty when the file is gone ?>
+        <?php if ($wpsThumb) : ?>
+            <img src="<?php echo esc_url($wpsThumb); ?>" alt="<?php /* translators: %s: post title */ echo esc_attr(sprintf(__('%s thumbnail', 'wp-statistics'), get_the_title($postId))); ?>">
         <?php else : ?>
             <svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140" fill="none">
                 <g clip-path="url(#clip0_9208_25189)">

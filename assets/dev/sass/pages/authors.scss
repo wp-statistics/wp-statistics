@@ -5,9 +5,11 @@
     border-radius: 4px;
     overflow-x: auto;
 
+    // Fits the card: author-analytics.js shows as many recent weeks as fit (26-53) and sets
+    // a min width only when 26 weeks do not fit (phones), so only phones scroll.
     .chart-container {
       height: 145px;
-      min-width: 869px;
+      min-width: 0;
     }
   }
 

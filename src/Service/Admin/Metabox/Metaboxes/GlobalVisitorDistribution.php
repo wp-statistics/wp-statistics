@@ -17,7 +17,7 @@ class GlobalVisitorDistribution extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('Geographical representation of where your site\'s visitors come from.', 'wp-statistics');
+        return esc_html__('Visitors by country, on a map.', 'wp-statistics');
     }
 
     public function getOptions()

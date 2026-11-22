@@ -3,6 +3,12 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use Wp_Statistics\Menus;
+use WP_STATISTICS\User;
+
+// The link opens Settings, so only people who can change settings see it.
+if (!User::Access('manage')) {
+    return;
+}
 ?>
 
 <div class="wp-quickstats-widget__enable-email">

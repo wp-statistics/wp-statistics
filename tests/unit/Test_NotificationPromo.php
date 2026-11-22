@@ -66,6 +66,20 @@ class Test_NotificationPromo extends WP_UnitTestCase
         $this->assertSame([2], array_column(NotificationProcessor::filterNotificationsByTags($items), 'id'));
     }
 
+    public function test_white_label_drops_promo_cards_but_keeps_other_notifications()
+    {
+        $items = [
+            ['id' => 1, 'background_color' => 'promo'],
+            ['id' => 2, 'background_color' => 'info'],
+        ];
+
+        $this->assertSame([1, 2], array_column(NotificationProcessor::filterNotificationsByTags($items), 'id'));
+
+        add_filter('wp_statistics_hide_addon_prompts', '__return_true');
+        $this->assertSame([2], array_column(NotificationProcessor::filterNotificationsByTags($items), 'id'));
+        remove_filter('wp_statistics_hide_addon_prompts', '__return_true');
+    }
+
     public function test_bell_badge_comes_from_the_newest_unread_notification_not_the_promo_order()
     {
         update_option('wp_statistics_notifications', ['data' => [

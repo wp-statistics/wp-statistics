@@ -17,7 +17,7 @@ class SearchEngines extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('A breakdown of views from different search engines over time.', 'wp-statistics');
+        return esc_html__('Views from each search engine over time.', 'wp-statistics');
     }
 
     public function getOptions()
