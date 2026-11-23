@@ -60,8 +60,10 @@ test('opens on the add-on named in data-target', () => {
     assert.equal(modal.style.display, 'block');
     assert.equal(body.style.overflow, 'hidden');
     assert.deepEqual(steps.map((s) => s.hidden), [true, true, false]);
-    assert.equal(items[1].getAttribute('aria-pressed'), 'true');
-    assert.equal(items[0].getAttribute('aria-pressed'), 'false');
+    assert.equal(items[1].getAttribute('aria-selected'), 'true');
+    assert.equal(items[0].getAttribute('aria-selected'), 'false');
+    assert.equal(items[1].getAttribute('tabindex'), '0');
+    assert.equal(items[0].getAttribute('tabindex'), '-1');
     assert.deepEqual(images.map((i) => i.getAttribute('src')), ['a.png', 'b.png']);
     assert.equal(closeBtn.focused, true);
 });
@@ -70,7 +72,8 @@ test('unknown target falls back to the intro step', () => {
     const {window, steps, items} = load();
     assert.equal(window.wpsPremiumModal.open('nope'), 'first-step');
     assert.deepEqual(steps.map((s) => s.hidden), [false, true, true]);
-    assert.ok(items.every((i) => i.getAttribute('aria-pressed') === 'false'));
+    assert.ok(items.every((i) => i.getAttribute('aria-selected') === 'false'));
+    assert.equal(items[0].getAttribute('tabindex'), '0');
 });
 
 test('click on a Go Premium link opens the popup and blocks navigation', () => {
@@ -104,4 +107,22 @@ test('Escape closes and returns focus to the opener', () => {
     assert.equal(modal.style.display, 'none');
     assert.equal(body.style.overflow, '');
     assert.equal(opener.focused, true);
+});
+
+test('arrow keys move between switcher tabs and show the add-on', () => {
+    const {window, listeners, modal, steps, items} = load();
+    window.wpsPremiumModal.open('wp-statistics-data-plus');
+    items.forEach((i) => (i.closest = (sel) => (sel === '.js-wps-premiumModal' ? modal : sel === '.js-wps-premiumStepFeature' ? i : null)));
+    let prevented = false;
+    listeners.keydown({key: 'ArrowRight', target: items[0], preventDefault: () => (prevented = true)});
+    assert.equal(prevented, true);
+    assert.deepEqual(steps.map((s) => s.hidden), [true, true, false]);
+    assert.equal(items[1].focused, true);
+    assert.equal(items[1].getAttribute('aria-selected'), 'true');
+
+    listeners.keydown({key: 'ArrowRight', target: items[1], preventDefault: () => {}});
+    assert.equal(items[0].getAttribute('aria-selected'), 'true');
+
+    listeners.keydown({key: 'End', target: items[0], preventDefault: () => {}});
+    assert.equal(items[1].getAttribute('aria-selected'), 'true');
 });

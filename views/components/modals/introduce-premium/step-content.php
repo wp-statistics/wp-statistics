@@ -24,7 +24,7 @@ use WP_Statistics\Components\View;
 $stepId  = $id_prefix . '-step-' . sanitize_html_class($slug);
 $titleId = $stepId . '-title';
 ?>
-<section class="wps-premium-popup__step js-wps-premiumModalStep" id="<?php echo esc_attr($stepId); ?>" data-step="<?php echo esc_attr($slug); ?>" aria-labelledby="<?php echo esc_attr($titleId); ?>" hidden>
+<section class="wps-premium-popup__step js-wps-premiumModalStep" id="<?php echo esc_attr($stepId); ?>" data-step="<?php echo esc_attr($slug); ?>"<?php echo $slug !== 'first-step' ? ' role="tabpanel"' : ''; ?> aria-labelledby="<?php echo esc_attr($titleId); ?>" hidden>
     <div class="wps-premium-popup__media">
         <img class="wps-premium-popup__image js-wps-premiumModalImage" data-src="<?php echo esc_url($image); ?>" alt="<?php
         /* translators: %s: Add-on name. */

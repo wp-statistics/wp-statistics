@@ -59,6 +59,11 @@
     color: $wps-text-subtle;
   }
 
+  &__text {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   &__line {
     min-width: 0;
   }
@@ -76,6 +81,7 @@
   }
 
   &__close {
+    flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -151,37 +157,52 @@
   }
 }
 
-// One quiet line (no preview): two mini icons, the line, the link and ×. No dashed box.
+// One quiet line (no preview): a light dashed card with two small round icons, the line, the link and ×.
 .wps-inline-teaser--line {
-  padding: 6px 8px 6px 10px;
-  border: 0;
-  border-radius: 6px;
-  background: $wps-brand-tint;
-
-  .rtl & {
-    padding: 6px 10px 6px 8px;
-  }
+  display: block;
+  padding: 6px 8px;
+  border: 1px dashed #D9DBE8;
+  border-radius: 8px;
+  background: #FAFAFE;
+  font-size: 12.5px;
+  line-height: 18px;
 
   .wps-inline-teaser__note {
-    color: $wps-text-muted;
+    flex-wrap: nowrap;
+    gap: 8px;
+    color: #50546B;
+  }
+
+  .wps-inline-teaser__close {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    color: #80849A;
+
+    &:hover {
+      background: #ECEEF5;
+      color: $wps-text-strong;
+    }
   }
 }
 
 .wps-inline-teaser__icons {
   display: inline-flex;
   flex: none;
-  gap: 2px;
+  gap: 3px;
 }
 
 .wps-inline-teaser__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #E4E5EE;
+  border-radius: 50%;
   background: #fff;
-  color: $wps-brand;
+  color: #50546B;
+  box-sizing: border-box;
 
   svg {
     display: block;
@@ -193,16 +214,13 @@
   }
 }
 
+// Journey placement: indented like the timeline rows (steps padding + row padding).
 .wps-journey__teaser.wps-inline-teaser--line {
   margin: 0 0 12px;
-  margin-inline-start: 26px;
+  margin-inline-start: 30px;
   padding: 6px 8px;
 
   .wps-inline-teaser__note {
     padding-inline-start: 0;
-  }
-
-  @media (max-width: 480px) {
-    margin-inline-start: 0;
   }
 }

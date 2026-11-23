@@ -1,7 +1,8 @@
 /**
  * Premium popup (views/components/modals/introduce-premium/*): opens from any .js-wps-openPremiumModal link on
  * the add-on named in data-target (or the intro step, "first-step"), switches add-ons from the switcher
- * (switcher.php: .js-wps-premiumStepFeature[data-modal]), closes on ×, Escape or a click on the backdrop and
+ * (switcher.php: a tablist of .js-wps-premiumStepFeature[data-modal]; arrow keys, Home and End move between
+ * add-ons), closes on ×, Escape or a click on the backdrop and
  * gives focus back to the link that opened it. Pictures load on first open.
  *
  * The Overview's one-time welcome popup (.js-wps-premiumModal-welcome) holds the same steps behind its
@@ -44,11 +45,16 @@
         }
 
         var items = modal.querySelectorAll('.js-wps-premiumStepFeature');
+        var anyActive = false;
         for (var k = 0; k < items.length; k++) {
             var active = items[k].getAttribute('data-modal') === target;
+            if (active) anyActive = true;
             items[k].classList.toggle('is-active', active);
-            items[k].setAttribute('aria-pressed', active ? 'true' : 'false');
+            items[k].setAttribute('aria-selected', active ? 'true' : 'false');
+            items[k].setAttribute('tabindex', active ? '0' : '-1');
         }
+        // Intro step: no tab is selected, the first one stays reachable with Tab.
+        if (!anyActive && items.length) items[0].setAttribute('tabindex', '0');
 
         return target;
     }
@@ -131,7 +137,34 @@
         }
     });
 
+    // Switcher tabs: arrow keys (Left/Right and Up/Down), Home and End move to an add-on and show it.
+    function moveTab(event) {
+        var item = closest(event.target, '.js-wps-premiumStepFeature');
+        if (!item) return false;
+        var keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+        if (keys.indexOf(event.key) === -1) return false;
+
+        var modal = closest(item, '.js-wps-premiumModal');
+        if (!modal) return false;
+        var items = Array.prototype.slice.call(modal.querySelectorAll('.js-wps-premiumStepFeature'));
+        var index = items.indexOf(item);
+        if (index === -1 || !items.length) return false;
+
+        var rtl = !!(document.documentElement && document.documentElement.dir === 'rtl');
+        var next = index;
+        if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = items.length - 1;
+        else if (event.key === 'ArrowDown' || event.key === (rtl ? 'ArrowLeft' : 'ArrowRight')) next = (index + 1) % items.length;
+        else next = (index - 1 + items.length) % items.length;
+
+        event.preventDefault();
+        showStep(modal, items[next].getAttribute('data-modal'));
+        if (typeof items[next].focus === 'function') items[next].focus();
+        return true;
+    }
+
     document.addEventListener('keydown', function (event) {
+        if (moveTab(event)) return;
         if (event.key !== 'Escape' && event.key !== 'Tab') return;
         var modals = document.querySelectorAll('.js-wps-premiumModal');
         for (var i = 0; i < modals.length; i++) {

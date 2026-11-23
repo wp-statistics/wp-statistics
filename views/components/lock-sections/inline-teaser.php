@@ -124,10 +124,12 @@ $classes = trim('wps-inline-teaser js-wps-inline-teaser' . (empty($preview) ? ' 
         <?php else : ?>
             <svg class="wps-inline-teaser__lock" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
         <?php endif; ?>
-        <span class="wps-inline-teaser__line"><?php echo esc_html(trim($line)); ?></span>
-        <?php if ($action) : ?>
+        <span class="wps-inline-teaser__text">
+            <span class="wps-inline-teaser__line"><?php echo esc_html(trim($line)); ?></span>
+            <?php if ($action) : ?>
             <a class="wps-inline-teaser__link<?php echo !empty($action['modal']) ? ' js-wps-openPremiumModal' : ''; ?>" href="<?php echo esc_url($action['url']); ?>"<?php echo !empty($action['modal']) ? ' data-target="' . esc_attr($action['modal']) . '"' : ''; ?><?php echo !empty($action['external']) ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html($action['label']); ?></a>
-        <?php endif; ?>
+            <?php endif; ?>
+        </span>
         <button type="button" class="wps-inline-teaser__close js-wps-inline-teaser-close" aria-label="<?php esc_attr_e('Hide this tip', 'wp-statistics'); ?>" title="<?php esc_attr_e('Hide this tip', 'wp-statistics'); ?>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </p>
 </div>

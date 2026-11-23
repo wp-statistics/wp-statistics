@@ -240,34 +240,36 @@
 
 // ---------------------------------------------------------------------------
 // Switcher (views/components/modals/introduce-premium/switcher.php).
-// Temporary design: text tabs that wrap, no truncation. Swap this block with the partial.
+// Tile grid: 4 equal tiles per row, line icon + full name, 2 per row when the popup is narrow.
 // ---------------------------------------------------------------------------
+.wps-premium-popup {
+  container: wps-premium-popup / inline-size;
+}
+
 .wps-premium-switcher {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
-  padding-inline-end: 32px;
 
   &__item {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    min-width: 0;
     margin: 0;
-    padding: 5px 12px;
-    border: 1px solid $wps-card-border;
-    border-radius: 999px;
+    padding: 8px 10px;
+    border: 1px solid #E4E5EE;
+    border-radius: 8px;
     background: #fff;
-    color: $wps-text;
+    color: #50546B;
     font-size: 13px;
     font-weight: 500;
-    line-height: 18px;
-    white-space: normal;
+    line-height: 1.25;
     text-align: start;
     cursor: pointer;
 
     &:hover {
-      border-color: $wps-brand-soft;
-      color: $wps-brand;
+      border-color: #C9CCDC;
     }
 
     &:focus-visible {
@@ -276,25 +278,57 @@
     }
 
     &.is-active,
-    &[aria-pressed="true"] {
+    &[aria-selected="true"] {
       border-color: $wps-brand;
-      background: $wps-brand-tint;
+      background: #EEF0FF;
       color: $wps-brand;
+      font-weight: 600;
     }
   }
 
+  &__icon {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    color: #80849A;
+  }
+
+  &__item.is-active &__icon,
+  &__item[aria-selected="true"] &__icon {
+    color: $wps-brand;
+  }
+
+  // Names wrap, never cut off.
+  &__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    overflow-wrap: anywhere;
+  }
+
   &__badge {
-    padding: 0 6px;
-    border-radius: 999px;
-    background: $wps-flat-bg;
     color: $wps-text-muted;
     font-size: 11px;
     font-weight: 500;
-    line-height: 16px;
+    line-height: 15px;
   }
 
   &__item--active &__badge {
-    background: $wps-good-bg;
     color: $wps-good;
+  }
+}
+
+@container wps-premium-popup (max-width: 620px) {
+  .wps-premium-switcher {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wps-premium-switcher__item {
+    gap: 6px;
+    padding: 7px 8px;
+    font-size: 12.5px;
   }
 }
