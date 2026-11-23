@@ -70,13 +70,13 @@ class AddonCatalog
             ],
             'wp-statistics-advanced-reporting' => [
                 'name'     => __('Advanced Reporting', 'wp-statistics'),
-                'headline' => __('Reports in your inbox, on schedule', 'wp-statistics'),
+                'headline' => __('Schedule reports, export CSV and PDF', 'wp-statistics'),
                 'benefits' => [
-                    __('Email reports with charts and top pages', 'wp-statistics'),
-                    __('Send to any inbox, any schedule', 'wp-statistics'),
-                    __('Export to CSV and PDF', 'wp-statistics'),
+                    __('Email reports to any inbox, on schedule', 'wp-statistics'),
+                    __('Export any report table to CSV', 'wp-statistics'),
+                    __('Save any report page as PDF', 'wp-statistics'),
                 ],
-                'short'    => __('Scheduled email reports with charts, CSV and PDF.', 'wp-statistics'),
+                'short'    => __('Scheduled email reports, CSV and PDF export.', 'wp-statistics'),
             ],
             'wp-statistics-realtime-stats'     => [
                 'name'     => __('Real-Time Stats', 'wp-statistics'),
