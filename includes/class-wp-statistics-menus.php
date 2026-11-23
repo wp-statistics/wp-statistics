@@ -154,6 +154,7 @@ class Menus
          * page_url   : link of Slug Url Page @see WP_Statistics::$page
          * break      : add new line after sub menu if break key == true
          * require    : the Condition From Wp-statistics Option if == true for show admin menu
+         * hidden     : register the page (it still opens by URL) but leave it out of the admin menu
          *
          */
         $list = array(
@@ -270,7 +271,9 @@ class Menus
             if (array_key_exists('sub', $menu)) {
                 //Check Conditions For Show Menu
                 if (Option::check_option_require($menu) === true) {
-                    add_submenu_page(self::get_page_slug($menu['sub']), $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback);
+                    // "options.php" is WordPress's parent for pages that open by URL but have no menu entry.
+                    $parentSlug = !empty($menu['hidden']) ? 'options.php' : self::get_page_slug($menu['sub']);
+                    add_submenu_page($parentSlug, $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback);
                 }
             } else {
                 add_menu_page($menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback, $menu['icon']);

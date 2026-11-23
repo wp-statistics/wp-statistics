@@ -26,7 +26,10 @@ $hasManageCap            = $manageCap && current_user_can($manageCap);
 $showUpgrade             = $hasManageCap && !LicenseHelper::areAddonPromptsHidden() && apply_filters('wp_statistics_enable_upgrade_to_bundle', true);
 
 // The desktop menu and the mobile menu show the same links, so they are defined once here.
-$showAddonsLink  = !$isPremium && $hasManageCap && apply_filters('wp_statistics_enable_header_addons_menu', true);
+// White label: no Add-ons link and no PREMIUM badge (a custom logo from the filter below still wins).
+$promptsHidden   = LicenseHelper::areAddonPromptsHidden();
+$showBadge       = $isPremium && !$promptsHidden;
+$showAddonsLink  = !$isPremium && $hasManageCap && !$promptsHidden && apply_filters('wp_statistics_enable_header_addons_menu', true);
 $quickAccessMenu = [
     ['slug' => 'wps_pages_page', 'link_text' => __('Top Pages', 'wp-statistics'), 'icon_class' => 'top-pages'],
     ['slug' => 'wps_content-analytics_page', 'link_text' => __('Content Analytics', 'wp-statistics'), 'icon_class' => 'content-analytics'],
@@ -42,8 +45,8 @@ $addonsLink       = $showAddonsLink
 
     <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
         <div class="wps-adminHeader__logo--container">
-            <img class="wps-adminHeader__logo <?php echo $isPremium ? 'wps-adminHeader__logo--premium' : '' ?>" aria-label="VeronaLabs logo" alt="VeronaLabs logo"
-                 src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/' . ($isPremium ? 'wp-statistics-premium.svg' : 'white-header-logo.svg'))); ?>"/>
+            <img class="wps-adminHeader__logo <?php echo $showBadge ? 'wps-adminHeader__logo--premium' : '' ?>" aria-label="VeronaLabs logo" alt="VeronaLabs logo"
+                 src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/' . ($showBadge ? 'wp-statistics-premium.svg' : 'white-header-logo.svg'))); ?>"/>
         </div>
         <div class="wps-adminHeader__menu">
             <?php
