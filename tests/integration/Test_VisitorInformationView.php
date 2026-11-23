@@ -13,6 +13,16 @@ use WP_UnitTestCase;
  */
 class Test_VisitorInformationView extends WP_UnitTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // Start every test from the same privacy settings: the defaults differ
+        // between single site and multisite test installs.
+        Option::update('visitors_log', false);
+        Option::update('hash_ips', false);
+    }
+
     public function tearDown(): void
     {
         Option::update('visitors_log', false);
