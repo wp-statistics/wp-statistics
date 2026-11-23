@@ -62,6 +62,36 @@ if ($isRestApiActive && !$isLicenseValid) {
     </div>
 
 <?php
+/**
+ * The REST API add-on prints its "AI agents (MCP)" section here, inside the settings form.
+ */
+if ($isRestApiActive && has_action('wp_statistics_settings_rest_api_mcp')) {
+    do_action('wp_statistics_settings_rest_api_mcp');
+} elseif (!$isRestApiActive) {
+    ?>
+    <div class="postbox">
+        <table class="form-table form-table--preview">
+            <tbody>
+            <tr class="wps-settings-box_head">
+                <th scope="row" colspan="2"><h3><?php esc_html_e('AI agents (MCP)', 'wp-statistics'); ?></h3></th>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <span class="wps-setting-label"><?php esc_html_e('AI Agent Access', 'wp-statistics'); ?></span>
+                </th>
+                <td>
+                    <input id="wps-mcp-preview-status" type="checkbox" disabled>
+                    <label for="wps-mcp-preview-status"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Connect ChatGPT, Claude and other AI agents with MCP, and ask them about your visitors, top pages, referrers and countries. Read only, and you can cut off any agent at any time.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <?php
+}
+
 if ($isRestApiActive) {
     submit_button(__('Update', 'wp-statistics'), 'wps-button wps-button--primary', 'submit', '', array('id' => 'rest_api_submit', 'OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='rest-api-settings'"));
 }
