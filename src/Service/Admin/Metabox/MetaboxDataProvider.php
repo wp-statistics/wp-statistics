@@ -204,8 +204,10 @@ class MetaboxDataProvider
      */
     public function getReferrersShare($args = [], $limit = 5)
     {
+        // Same grouping as the Referrers report: one row per domain and source channel.
         $rows = $this->visitorsModel->getReferrers(array_merge($args, [
             'decorate' => true,
+            'group_by' => ['visitor.referred', 'visitor.source_channel'],
             'per_page' => max(1, intval($limit)),
             'page'     => 1
         ]));

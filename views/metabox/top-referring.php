@@ -17,7 +17,7 @@ $items = [];
 foreach ($rows as $item) {
     /** @var ReferralDecorator $item */
     $items[] = [
-        'label'     => $item->getRawReferrer(),
+        'label'     => $item->getListLabel($rows),
         'url'       => $item->getReferrer(),
         'new_tab'   => true,
         'count'     => intval($item->getTotalReferrals(true)),

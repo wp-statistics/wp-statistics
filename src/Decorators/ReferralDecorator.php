@@ -81,6 +81,44 @@ class ReferralDecorator
     }
 
     /**
+     * Name of the row in a short list (Overview "Top Referring", WP Dashboard).
+     *
+     * Rows are grouped by domain and source channel, like the Referrers report, so one
+     * domain can come twice (google.com as Google and as Google Ads). Pass the rows of the
+     * list: a domain that is listed more than once gets its source name added, so the rows
+     * never look the same. A row without a referrer gets "(no referrer)".
+     *
+     * @param ReferralDecorator[] $rows All rows of the list.
+     * @return string
+     */
+    public function getListLabel($rows = [])
+    {
+        $domain = (string)$this->getRawReferrer();
+        $source = (string)$this->getSourceName();
+
+        if ($domain === '') {
+            return $source !== ''
+                /* translators: %s: Source name, for example "Google Ads". */
+                ? sprintf(__('%s (no referrer)', 'wp-statistics'), $source)
+                : __('(no referrer)', 'wp-statistics');
+        }
+
+        $same = 0;
+        foreach ((array)$rows as $row) {
+            if ($row instanceof self && (string)$row->getRawReferrer() === $domain) {
+                $same++;
+            }
+        }
+
+        if ($same > 1 && $source !== '') {
+            /* translators: 1: Referrer domain, for example "google.com". 2: Source name, for example "Google Ads". */
+            return sprintf(__('%1$s (%2$s)', 'wp-statistics'), $domain, $source);
+        }
+
+        return $domain;
+    }
+
+    /**
      * Get the date of the referral.
      *
      * @return string

@@ -34,7 +34,7 @@ use WP_Statistics\Decorators\ReferralDecorator;
                             <?php
                             View::load("components/objects/external-link", [
                                 'url'   => $item->getReferrer(),
-                                'title' => $item->getRawReferrer()
+                                'title' => $item->getListLabel($data)
                             ]);
                             ?>
                         </td>

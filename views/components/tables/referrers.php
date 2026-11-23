@@ -15,6 +15,11 @@ use WP_Statistics\Components\View;
  *  - share_label (string) Optional. Screen-reader text of the Share cells, naming that base
  *                ("Share of search engine referrals"). Default "Share of all referrals".
  *  - pagination (string) Optional pagination HTML.
+ *
+ * Rows are grouped by domain and source, so one domain can have two rows (google.com as
+ * Google and as Google Ads). The source name is also printed under the domain, shown only
+ * when the Source Name column is hidden, so the rows differ at every width. Rows without
+ * a referrer (paid clicks known from the landing URL) read "(no referrer)".
  */
 $total      = isset($total) ? intval($total) : 0;
 $shareLabel = !empty($share_label) ? $share_label : __('Share of all referrals', 'wp-statistics');
@@ -55,7 +60,11 @@ $shareLabel = !empty($share_label) ? $share_label : __('Share of all referrals',
                                         </a>
                                     </div>
                                 <?php else : ?>
-                                    <?php echo Admin_Template::UnknownColumn() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                    <span class="wps-referrer-none"><?php esc_html_e('(no referrer)', 'wp-statistics') ?></span>
+                                <?php endif; ?>
+                                <?php if (!empty($referrer->getSourceName())) : ?>
+                                    <?php // Shown when the Source Name column is hidden (narrow tables), so rows with the same domain still differ. ?>
+                                    <span class="wps-referrer-source-inline"><bdi><?php echo esc_html($referrer->getSourceName()) ?></bdi></span>
                                 <?php endif; ?>
                             </td>
 

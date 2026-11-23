@@ -74,7 +74,7 @@ class ReferralsDataProvider
             // Referred Traffic card: fixed periods (Today ... Total), not the page date range
             'traffic_summary' => ChartDataProviderFactory::summaryChart(['referred_visitors' => true, 'include_total' => true])->getData(),
             'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 5, 'page' => 1, 'order_by' => VisitorsModel::LATEST_ORDER_BY])),
-            'referrers'     => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred'], 'per_page' => 5, 'page' => 1])),
+            'referrers'     => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred', 'visitor.source_channel'], 'per_page' => 5, 'page' => 1])),
         ];
     }
 
