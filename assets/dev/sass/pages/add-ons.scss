@@ -2217,3 +2217,50 @@
 .wps-wrap .wps-liccard a:focus-visible {
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px #D0D3D8 !important;
 }
+
+// Saved add-on list in use (remote list couldn't be loaded): calm grey bar, not an error.
+// PHP: views/components/notices/addons-list-fallback.php
+.wps-addons-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 0 0 16px;
+  padding: 8px 12px;
+  border: 1px solid $wps-flat-line;
+  border-radius: 6px;
+  background: $wps-flat-bg;
+  color: $wps-flat;
+  font-size: 13px;
+  line-height: 20px;
+
+  &__icon {
+    flex: none;
+  }
+
+  &__retry,
+  #wpbody &__retry {
+    margin-inline-start: auto;
+    color: $wps-brand;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+.wps-addon__step__download .wps-addons-fallback {
+  margin: 0 0 12px;
+}
+
+// Phones: the Free vs Premium table scrolls inside its box instead of widening the page.
+@media (max-width: 600px) {
+  .wps-showcase__table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}

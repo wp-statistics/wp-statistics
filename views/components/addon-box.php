@@ -26,7 +26,7 @@ $statusIcons = [
             <div class="wps-postbox-addon__item--info__text">
                 <div class="wps-postbox-addon__item--info__title">
                     <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank">
-                        <?php echo esc_html($addOn->getName())?><span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion())?></span>
+                        <?php echo esc_html($addOn->getName())?><?php if ($addOn->getVersion()) : ?><span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion())?></span><?php endif; ?>
                     </a>
                     <?php if (!empty($addOn->getLabel())) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
@@ -44,6 +44,9 @@ $statusIcons = [
         </div>
         <div class="wps-postbox-addon__item--actions">
             <div class="wps-postbox-addon__buttons">
+                <?php if ($addOn->isBundled() && !$addOn->isInstalled()) : ?>
+                    <a class="wps-postbox-addon__button wps-postbox-addon__button--learn" href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=install-addon" target="_blank" rel="noopener"><?php esc_html_e('Learn more', 'wp-statistics'); ?><span class="screen-reader-text"> <?php echo esc_html($addOn->getName()); ?></span></a>
+                <?php endif; ?>
                 <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
                     <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" aria-label="<?php esc_html_e('Activate', 'wp-statistics'); ?>"><?php esc_html_e('Activate', 'wp-statistics'); ?></a>
                 <?php endif; ?>

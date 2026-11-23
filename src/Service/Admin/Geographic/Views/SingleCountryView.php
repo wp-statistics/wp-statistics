@@ -24,14 +24,16 @@ class SingleCountryView extends BaseView
     public function render()
     {
         $args = [
-            'page_title'        => esc_html__('Unlock Detailed Geographic Traffic Insights', 'wp-statistics'),
+            'page_title' => __('See traffic from each country in detail', 'wp-statistics'),
+            'benefits'   => [
+                __('Visitors from each region and city', 'wp-statistics'),
+                __('Devices and browsers in that country', 'wp-statistics'),
+                __('How visitors found you', 'wp-statistics'),
+            ],
             'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
             'addon_slug'        => 'wp-statistics-data-plus',
             'campaign'          => 'data-plus',
-            'more_title'        => esc_html__('Learn More', 'wp-statistics'),
-            'premium_btn_title' => esc_html__('Go Premium for Complete Geographic Reports', 'wp-statistics'),
             'images'            => ['geographic-single.png'],
-            'description'       => esc_html__('Discover your traffic on a country-by-country basis. Discover how visitors from each region, city, and country interact with your site. Know where your audience comes from, what devices they use, and how they found you.', 'wp-statistics'),
             'export'            => [ExportTypes::CSV_METRICS, ExportTypes::PDF_PAGE]
         ];
 

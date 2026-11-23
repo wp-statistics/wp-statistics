@@ -1,8 +1,8 @@
 <?php
 /**
  * Inline teaser: one small, closable note inside a working core page, where a part of the page needs an add-on
- * (for example the clicks and downloads Data Plus adds to the visitor journey). Shows a static, greyed
- * "Example" preview of that part plus one short line that follows the site's situation:
+ * (for example the clicks and downloads Data Plus adds to the visitor journey). One quiet line with optional
+ * mini icons (or, when a caller passes one, a static greyed "Example" preview) that follows the site's situation:
  *
  *  - add-on active or prompts off (Customization white label): nothing is printed;
  *  - not installed: the value line and "Learn about <add-on>", which opens the premium modal on that add-on
@@ -23,6 +23,7 @@
  *  - message    (string) Value line for sites without the add-on.
  *  - campaign   (string) utm_campaign of the "Learn about" link. Default: the id.
  *  - preview    (string) Static example markup (trusted HTML from the calling template). Optional.
+ *  - icons      (string[]) Mini icons before the line instead of the lock: "download", "click". Optional.
  *  - class      (string) Extra classes.
  */
 
@@ -101,7 +102,12 @@ if (!$action && !$canManage) {
     $line .= ' ' . sprintf(__('Ask a site admin to set up %s.', 'wp-statistics'), $addon_name);
 }
 
-$classes = trim('wps-inline-teaser js-wps-inline-teaser ' . ($class ?? ''));
+$miniIcons = [
+    'download' => '<path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/>',
+    'click'    => '<path d="M7 17 17 7"/><path d="M9 7h8v8"/>',
+];
+$icons   = !empty($icons) && is_array($icons) ? array_values(array_intersect($icons, array_keys($miniIcons))) : [];
+$classes = trim('wps-inline-teaser js-wps-inline-teaser' . (empty($preview) ? ' wps-inline-teaser--line' : '') . ' ' . ($class ?? ''));
 ?>
 <div class="<?php echo esc_attr($classes); ?>" data-teaser-id="<?php echo esc_attr($teaserId); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce(InlineTeaser::NONCE_ACTION)); ?>" data-situation="<?php echo esc_attr($situation); ?>">
     <?php if (!empty($preview)) : ?>
@@ -113,7 +119,11 @@ $classes = trim('wps-inline-teaser js-wps-inline-teaser ' . ($class ?? ''));
         </div>
     <?php endif; ?>
     <p class="wps-inline-teaser__note">
-        <svg class="wps-inline-teaser__lock" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        <?php if (!empty($icons)) : ?>
+            <span class="wps-inline-teaser__icons" aria-hidden="true"><?php foreach ($icons as $icon) : ?><span class="wps-inline-teaser__icon wps-inline-teaser__icon--<?php echo esc_attr($icon); ?>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><?php echo $miniIcons[$icon]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup above ?></svg></span><?php endforeach; ?></span>
+        <?php else : ?>
+            <svg class="wps-inline-teaser__lock" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        <?php endif; ?>
         <span class="wps-inline-teaser__line"><?php echo esc_html(trim($line)); ?></span>
         <?php if ($action) : ?>
             <a class="wps-inline-teaser__link<?php echo !empty($action['modal']) ? ' js-wps-openPremiumModal' : ''; ?>" href="<?php echo esc_url($action['url']); ?>"<?php echo !empty($action['modal']) ? ' data-target="' . esc_attr($action['modal']) . '"' : ''; ?><?php echo !empty($action['external']) ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html($action['label']); ?></a>

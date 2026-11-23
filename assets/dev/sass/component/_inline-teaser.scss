@@ -150,3 +150,59 @@
     }
   }
 }
+
+// One quiet line (no preview): two mini icons, the line, the link and ×. No dashed box.
+.wps-inline-teaser--line {
+  padding: 6px 8px 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: $wps-brand-tint;
+
+  .rtl & {
+    padding: 6px 10px 6px 8px;
+  }
+
+  .wps-inline-teaser__note {
+    color: $wps-text-muted;
+  }
+}
+
+.wps-inline-teaser__icons {
+  display: inline-flex;
+  flex: none;
+  gap: 2px;
+}
+
+.wps-inline-teaser__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: #fff;
+  color: $wps-brand;
+
+  svg {
+    display: block;
+  }
+
+  // Click arrow points the other way in RTL.
+  .rtl &--click svg {
+    transform: scaleX(-1);
+  }
+}
+
+.wps-journey__teaser.wps-inline-teaser--line {
+  margin: 0 0 12px;
+  margin-inline-start: 26px;
+  padding: 6px 8px;
+
+  .wps-inline-teaser__note {
+    padding-inline-start: 0;
+  }
+
+  @media (max-width: 480px) {
+    margin-inline-start: 0;
+  }
+}

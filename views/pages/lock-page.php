@@ -1,4 +1,21 @@
 <?php
+/**
+ * Lock page: a report that needs an add-on. Split layout, text on the left (one headline, three benefits,
+ * "Upgrade to Premium" / "Learn more", one "Included in Premium" line and the guarantee) and the preview
+ * slider on the right. Stacks on narrow screens.
+ *
+ * Args:
+ *  - page_title  (string)   Required. One short headline.
+ *  - addon_name  (string)   Required. Add-on name.
+ *  - addon_slug  (string)   Required. Add-on slug.
+ *  - campaign    (string)   utm_campaign of the buttons.
+ *  - benefits    (string[]) Three short benefits.
+ *  - description (string)   Optional one-line fallback when there are no benefits.
+ *  - images      (string[]) Preview pictures in assets/images/locked/.
+ *
+ * Notices that stay above the headline: "installed but turned off" and "included in your license".
+ * White label (or a hidden Add-ons menu): a neutral line, no upsell.
+ */
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
@@ -13,6 +30,10 @@ $isActive       = $pluginHandler->isPluginActive($addon_slug);
 $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
 $situation      = LicenseHelper::getAddonSituation($addon_slug, $pluginHandler);
 $canManage      = User::Access('manage');
+$benefits       = !empty($benefits) && is_array($benefits) ? $benefits : [];
+$images         = !empty($images) && is_array($images) ? $images : [];
+$campaign       = !empty($campaign) ? $campaign : 'lock-page';
+$showUpsell     = !$hasLicense && !$isActive && !$isInstalled && $canManage;
 
 // White label (or a hidden Add-ons menu): no upsell, only a neutral line, like the inline teasers.
 if ($situation === LicenseHelper::SITUATION_HIDDEN) : ?>
@@ -27,9 +48,8 @@ if ($situation === LicenseHelper::SITUATION_HIDDEN) : ?>
 endif;
 ?>
 
-
 <div class="wps-wrap__main wps-lock-page__main">
-    <div class="wps-lock-page wps-lock-page--container">
+    <div class="wps-lock-page wps-lock-page--container wps-lock-page--split">
         <?php if ($isInstalled && !$isActive) : ?>
             <div class="wps-notice-settings wps-notice-settings--warning">
                 <div>
@@ -56,40 +76,42 @@ endif;
                 ?>
             </div>
         <?php endif ?>
-        <div class="wps-lock-page__head">
-            <?php echo esc_html($page_title); ?>
-        </div>
-        <div class="wps-lock-page__description">
-            <?php echo esc_html($description); ?>
-        </div>
 
-        <?php if (!empty($page_second_title) || !empty($second_description)): ?>
-            <div class="wps-lock-page__head wps-lock-page__head--second">
-                <?php if (!empty($page_second_title)) echo esc_html($page_second_title); ?>
+        <div class="wps-lock-page__split">
+            <div class="wps-lock-page__text">
+                <p class="wps-lock-page__eyebrow"><?php
+                    /* translators: %s: Add-on name. */
+                    echo esc_html(sprintf(__('%s add-on', 'wp-statistics'), $addon_name)); ?></p>
+                <h1 class="wps-lock-page__head"><?php echo esc_html($page_title ?? ''); ?></h1>
+
+                <?php if (!empty($benefits)) : ?>
+                    <?php View::load('components/upsell/benefits', ['items' => $benefits, 'class' => 'wps-lock-page__benefits']); ?>
+                <?php elseif (!empty($description)) : ?>
+                    <p class="wps-lock-page__description"><?php echo esc_html($description); ?></p>
+                <?php endif; ?>
+
+                <?php if ($showUpsell) : ?>
+                    <?php View::load('components/upsell/actions', ['campaign' => $campaign, 'addon' => $addon_slug, 'class' => 'wps-lock-page__actions']); ?>
+                    <p class="wps-lock-page__included"><?php esc_html_e('Included in Premium with all 8 add-ons', 'wp-statistics'); ?></p>
+                    <?php View::load('components/upsell/guarantee'); ?>
+                <?php endif; ?>
             </div>
-            <div class="wps-lock-page__description">
-                <?php if (!empty($second_description)) echo esc_html($second_description); ?>
-            </div>
-        <?php endif; ?>
 
-
-        <?php if (!$hasLicense && !$isActive && !$isInstalled && $canManage) : ?>
-            <div class="wps-lock-page__actions">
-                <a target="_blank" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=' . esc_html($campaign)) ?>">
-                    <?php echo esc_html($premium_btn_title); ?>
-                </a>
-                <a data-target="<?php echo esc_attr($addon_slug) ?>" class="wps-lock-page__action wps-lock-page__action--learn-more js-wps-openPremiumModal"><?php echo esc_html($more_title) ?></a>
-            </div>
-        <?php endif; ?>
-
-        <div class="wps-lock-page__slider">
-            <div class="wps-slider">
-                <?php foreach ($images as $image) : ?>
-                    <div class="wps-slider__slide">
-                        <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/locked/' . $image); ?>" alt="<?php echo esc_attr($addon_slug); ?> Image">
+            <?php if (!empty($images)) : ?>
+                <div class="wps-lock-page__slider wps-lock-page__media">
+                    <div class="wps-slider">
+                        <?php foreach ($images as $index => $image) : ?>
+                            <div class="wps-slider__slide">
+                                <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/locked/' . $image); ?>" alt="<?php
+                                /* translators: 1: Add-on name, 2: picture number. */
+                                echo esc_attr(sprintf(__('%1$s preview, picture %2$d', 'wp-statistics'), $addon_name, $index + 1)); ?>" loading="lazy">
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endforeach; ?>
-            </div>
-            <div class="wps-slider__dots"></div> <!-- Dots container -->
+                    <div class="wps-slider__dots" data-dot-label="<?php
+                    /* translators: %d: picture number. Keep the %d. */
+                    esc_attr_e('Show picture %d', 'wp-statistics'); ?>"></div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>

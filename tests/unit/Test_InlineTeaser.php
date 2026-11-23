@@ -279,19 +279,48 @@ class Test_InlineTeaser extends WP_UnitTestCase
         return (string)View::load('components/visitor-journey', ['visits' => [$visit], 'visitor' => $visitor], true);
     }
 
-    public function test_journey_shows_two_example_event_rows_without_data_plus()
+    public function test_journey_shows_one_quiet_line_without_data_plus()
     {
         $this->admin();
         $this->situation = LicenseHelper::SITUATION_NOT_INSTALLED;
         $html = $this->journey();
 
         $this->assertSame(1, substr_count($html, 'wps-journey__teaser'));
-        $this->assertSame(2, substr_count($html, 'wps-journey__step--event'));
-        $this->assertStringContainsString('Downloaded user-guide.pdf', $html);
-        $this->assertStringContainsString('Clicked &quot;Download on WordPress.org&quot;', $html);
-        $this->assertStringContainsString('→ wordpress.org', $html);
-        // Example rows link nowhere.
-        $this->assertStringNotContainsString('href="https://wordpress.org', $html);
+        $this->assertStringContainsString('wps-inline-teaser--line', $html);
+        // No example rows any more: two mini icons and one line.
+        $this->assertSame(0, substr_count($html, 'wps-journey__step--event'));
+        $this->assertStringNotContainsString('>Example<', $html);
+        $this->assertSame(1, substr_count($html, 'wps-inline-teaser__icon--download'));
+        $this->assertSame(1, substr_count($html, 'wps-inline-teaser__icon--click'));
+        $this->assertStringContainsString('Clicks and downloads show up here with Data Plus.', $html);
+        // Not installed: "Learn about" opens the Premium popup on Data Plus.
+        $this->assertStringContainsString('Learn about Data Plus', $html);
+        $this->assertStringContainsString('js-wps-openPremiumModal', $html);
+        $this->assertStringContainsString('data-target="wp-statistics-data-plus"', $html);
+    }
+
+    public function test_journey_line_points_to_plugins_page_when_installed_but_off()
+    {
+        $this->admin();
+        $this->situation = LicenseHelper::SITUATION_INACTIVE;
+        $html = $this->journey();
+
+        $this->assertStringContainsString('Data Plus is installed but turned off.', $html);
+        $this->assertStringContainsString('plugins.php', $html);
+        $this->assertStringNotContainsString('js-wps-openPremiumModal', $html);
+    }
+
+    public function test_icons_ignore_unknown_names()
+    {
+        $this->admin();
+        $this->situation = LicenseHelper::SITUATION_NOT_INSTALLED;
+        $html = (string)View::load('components/lock-sections/inline-teaser', [
+            'id' => 'dp-journey', 'addon' => self::SLUG, 'addon_name' => 'Data Plus', 'icons' => ['download', '<script>'],
+        ], true);
+
+        $this->assertSame(1, substr_count($html, 'wps-inline-teaser__icon '));
+        $this->assertStringNotContainsString('<script>', $html);
+        $this->assertStringNotContainsString('wps-inline-teaser__lock', $html);
     }
 
     public function test_journey_has_no_teaser_while_data_plus_runs()

@@ -34,12 +34,14 @@ class LicenseManagerDataProvider
         $licenseMigration = new LicenseMigration($this->apiCommunicator);
         $licenseMigration->migrateOldLicenses();
 
-        // Try to fetch licensed add-ons first
-        $addOnsList = PluginHelper::getRemotePlugins();
-
-        if (empty($addOnsList)) {
-            throw new SystemErrorException(esc_html__('Failed to retrieve the list of available add-ons. Please try again later.', 'wp-statistics'));
+        // "Try again" on the saved-list notice: drop the cached remote list first.
+        if (self::isRefreshRequest()) {
+            SystemCleaner::clearAddonsListCache();
         }
+
+        // Remote list, or the saved list when it can't be loaded, so the page keeps working offline.
+        $isFallback = false;
+        $addOnsList = PluginHelper::getPluginsWithFallback($isFallback);
 
         // Separate active and inactive add-ons
         foreach ($addOnsList as $addOn) {
@@ -53,7 +55,43 @@ class LicenseManagerDataProvider
         return [
             'active_addons'   => $activeAddOns,
             'inactive_addons' => $inactiveAddOns,
+            'is_fallback'     => $isFallback,
         ];
+    }
+
+    /**
+     * Nonce action of the "Try again" link on the saved-list notice.
+     */
+    const REFRESH_NONCE = 'wp_statistics_refresh_addons';
+
+    /**
+     * Is this a nonce-checked "Try again" request?
+     *
+     * @return bool
+     */
+    public static function isRefreshRequest()
+    {
+        $nonce = Request::get('wps_refresh_addons');
+
+        return !empty($nonce) && wp_verify_nonce($nonce, self::REFRESH_NONCE);
+    }
+
+    /**
+     * URL of the "Try again" link.
+     *
+     * @param string $tab License manager tab.
+     *
+     * @return string
+     */
+    public static function getRefreshUrl($tab = 'add-ons')
+    {
+        $args = ['tab' => $tab, 'wps_refresh_addons' => wp_create_nonce(self::REFRESH_NONCE)];
+
+        if (Request::get('license_key')) {
+            $args['license_key'] = Request::get('license_key');
+        }
+
+        return \WP_STATISTICS\Menus::admin_url('plugins', $args);
     }
 
     /**
@@ -75,7 +113,12 @@ class LicenseManagerDataProvider
         $licenseKey      = Request::get('license_key');
         $purchasedAddons = PluginHelper::getLicensedPlugins($licenseKey);
 
-        foreach (PluginHelper::getRemotePlugins() as $addOn) {
+        $isFallback = false;
+        $addOns     = PluginHelper::getPluginsWithFallback($isFallback);
+
+        $result['is_fallback'] = $isFallback;
+
+        foreach ($addOns as $addOn) {
             if (in_array($addOn->getSlug(), $purchasedAddons)) {
                 $result['licensed_addons'][] = $addOn;
             } else {
