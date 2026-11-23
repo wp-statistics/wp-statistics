@@ -34,7 +34,7 @@ use WP_Statistics\Components\View;
                                     <tr>
                                         <td class="wps-pd-l">
                                                 <span title="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->model)); ?>" class="wps-model-name">
-                                                    <?php echo self::isUnknown($item->model) ? esc_html__('Unknown', 'wp-statistics') : esc_html($item->model); ?>
+                                                    <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->model)); ?>
                                                 </span>
                                         </td>
                                         <td class="wps-pd-l wps-col-num">
