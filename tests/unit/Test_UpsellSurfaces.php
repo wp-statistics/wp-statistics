@@ -18,7 +18,12 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
     public function setUp(): void
     {
         parent::setUp();
-        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
+        $admin = self::factory()->user->create(['role' => 'administrator']);
+        // On multisite only a super admin can activate plugins.
+        if (is_multisite()) {
+            grant_super_admin($admin);
+        }
+        wp_set_current_user($admin);
     }
 
     public function tearDown(): void
