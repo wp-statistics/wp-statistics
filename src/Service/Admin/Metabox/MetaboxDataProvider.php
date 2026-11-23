@@ -250,6 +250,18 @@ class MetaboxDataProvider
         ];
     }
 
+    /**
+     * How many visitors are online now (the badge on the Visitors card's "Online now" switch).
+     *
+     * @param array $args
+     *
+     * @return int
+     */
+    public function getOnlineVisitorsCount($args = [])
+    {
+        return intval($this->onlineModel->countOnlines($args));
+    }
+
     public function getPostSummaryData($args = [])
     {
         $postId = Request::get('post', '', 'number');

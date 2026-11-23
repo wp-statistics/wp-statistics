@@ -161,6 +161,7 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 - **New:** WP Statistics panel in the block editor sidebar.
 - **New:** REST API add-on: connect ChatGPT, Claude and other AI agents with MCP, from Settings → REST API.
 - **Enhancement:** Refreshed admin design: cards, share bars, compact tables and Dashboard widgets.
+- **Enhancement:** Overview: Latest, Most Active and Online visitors in one Visitors card.
 - **Enhancement:** Clearer chart tooltips, Anonymous Visitor for unknown visitors, and a redesigned Top Source Categories.
 - **Enhancement:** New Premium pages and pictures: a simpler upgrade popup, lock pages and settings cards.
 - **Fix:** More accurate report totals and filters, and Top Pages works on SQLite.
