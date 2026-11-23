@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement\Views;
 
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\AddonCatalog;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
 
@@ -10,13 +11,10 @@ class LockedRealTimeStatView extends BaseView
 {
     public function render()
     {
+        $copy = AddonCatalog::get('wp-statistics-realtime-stats');
         $args = [
-            'page_title' => __('Watch your site live', 'wp-statistics'),
-            'benefits'   => [
-                __('Visitors online right now', 'wp-statistics'),
-                __('Live views chart and map', 'wp-statistics'),
-                __('Updates without a page refresh', 'wp-statistics'),
-            ],
+            'page_title' => $copy['headline'],
+            'benefits'   => $copy['benefits'],
             'addon_name'         => esc_html__('Real-Time Stats', 'wp-statistics'),
             'addon_slug'         => 'wp-statistics-realtime-stats',
             'campaign'           => 'real-time-stats',

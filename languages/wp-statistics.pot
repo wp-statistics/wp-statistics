@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-23T11:48:34+00:00\n"
+"POT-Creation-Date: 2026-11-23T12:27:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -21,8 +21,6 @@ msgstr ""
 #: includes/admin/templates/settings/advanced.php:111
 #: src/Service/Admin/Metabox/Metaboxes/AboutWPS.php:68
 #: src/Service/Admin/SiteHealthInfo.php:45
-#: assets/blocks/post-summary/post-summary.js:1
-#: assets/dev/blocks/post-summary/index.js:112
 msgid "WP Statistics"
 msgstr ""
 
@@ -1732,8 +1730,8 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:71
 #: includes/admin/templates/settings/add-ons/marketing.php:15
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:60
-#: views/pages/referrals/campaigns.php:17
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:52
+#: views/pages/referrals/campaigns.php:15
 #: views/pages/referrals/google-search.php:17
 #: views/pages/referrals/utm-performance.php:17
 msgid "Marketing"
@@ -1750,7 +1748,7 @@ msgstr ""
 #: src/Service/Admin/ContentAnalytics/Views/SingleView.php:57
 #: src/Service/Admin/ContentAnalytics/Views/TabsView.php:97
 #: src/Service/Admin/Geographic/Views/SingleCountryView.php:33
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:43
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:42
 #: views/components/visitor-journey.php:241
 #: views/pages/page-insights/entry-pages.php:17
 #: views/pages/page-insights/exit-pages.php:17
@@ -1765,27 +1763,27 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:74
 #: includes/admin/templates/settings/add-ons/customization.php:50
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:145
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:102
 msgid "Customization"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:75
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:16
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:94
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:72
 msgid "Advanced Reporting"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:76
 #: includes/admin/templates/settings/add-ons/mini-chart.php:31
 #: includes/class-wp-statistics-helper.php:1795
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:77
-#: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:20
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:62
+#: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:18
 msgid "Mini Chart"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:77
 #: includes/admin/templates/settings/add-ons/rest-api.php:12
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:162
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:112
 #: views/components/premium-showcase.php:22
 msgid "REST API"
 msgstr ""
@@ -1793,6 +1791,22 @@ msgstr ""
 #: includes/admin/templates/layout/menu-settings.php:78
 #: includes/admin/templates/settings/add-ons/widgets.php:12
 msgid "Advanced Widgets"
+msgstr ""
+
+#. translators: %s: Add-on name.
+#: includes/admin/templates/layout/partials/addon-premium-feature.php:37
+#: views/components/lock-sections/inline-teaser.php:54
+#: views/pages/lock-page.php:59
+#, php-format
+msgid "%s is installed but turned off."
+msgstr ""
+
+#. translators: %s: Add-on name.
+#: includes/admin/templates/layout/partials/addon-premium-feature.php:41
+#: views/components/lock-sections/inline-teaser.php:60
+#: views/pages/lock-page.php:64
+#, php-format
+msgid "Activate %s"
 msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:5
@@ -3144,7 +3158,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/marketing.php:302
 #: includes/admin/templates/settings/add-ons/mini-chart.php:148
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:48
-#: includes/admin/templates/settings/add-ons/rest-api.php:68
+#: includes/admin/templates/settings/add-ons/rest-api.php:66
 #: includes/admin/templates/settings/add-ons/widgets.php:82
 #: includes/admin/templates/settings/advanced.php:601
 #: includes/admin/templates/settings/display.php:154
@@ -3226,7 +3240,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/data-plus.php:86
 #: includes/admin/templates/settings/add-ons/marketing.php:88
 #: includes/admin/templates/settings/add-ons/marketing.php:293
-#: includes/admin/templates/settings/add-ons/rest-api.php:43
+#: includes/admin/templates/settings/add-ons/rest-api.php:41
 #: includes/admin/templates/settings/add-ons/widgets.php:71
 #: includes/admin/templates/settings/advanced.php:314
 #: includes/admin/templates/settings/advanced.php:338
@@ -3516,7 +3530,6 @@ msgid "White label and Header Customization"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:99
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:154
 msgid "White label"
 msgstr ""
 
@@ -3653,7 +3666,6 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/marketing.php:47
 #: includes/admin/templates/settings/add-ons/marketing.php:63
 #: includes/admin/templates/settings/add-ons/marketing.php:192
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:70
 msgid "Google Search Console"
 msgstr ""
 
@@ -3720,7 +3732,7 @@ msgid "Authorized Redirect URI"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/marketing.php:154
-#: includes/admin/templates/settings/add-ons/rest-api.php:56
+#: includes/admin/templates/settings/add-ons/rest-api.php:54
 #: includes/admin/templates/settings/advanced.php:233
 #: includes/admin/templates/settings/advanced.php:265
 #: views/components/notification/card.php:39
@@ -3775,8 +3787,8 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/marketing.php:264
 #: views/components/addon-box.php:48
 #: views/components/notices/upgrade-to-premium.php:15
-#: views/components/upsell/actions.php:26
-#: views/components/upsell/actions.php:28
+#: views/components/upsell/actions.php:40
+#: views/components/upsell/actions.php:42
 msgid "Learn more"
 msgstr ""
 
@@ -3933,30 +3945,26 @@ msgstr ""
 msgid "Rest API Add-on"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/rest-api.php:19
-msgid "API documentation"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/rest-api.php:33
+#: includes/admin/templates/settings/add-ons/rest-api.php:31
 msgid "WordPress REST API Integration"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/rest-api.php:38
+#: includes/admin/templates/settings/add-ons/rest-api.php:36
 #: src/Service/Admin/SiteHealthInfo.php:358
 msgid "API Service Status"
 msgstr ""
 
 #. translators: %1$s: string value
-#: includes/admin/templates/settings/add-ons/rest-api.php:44
+#: includes/admin/templates/settings/add-ons/rest-api.php:42
 #, php-format
 msgid "Enable or disable WP Statistics API endpoints. For more information, visit the %1$s."
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/rest-api.php:50
+#: includes/admin/templates/settings/add-ons/rest-api.php:48
 msgid "Authentication Token"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/rest-api.php:58
+#: includes/admin/templates/settings/add-ons/rest-api.php:56
 msgid "Enter your unique token here to secure and authorize API requests."
 msgstr ""
 
@@ -5251,7 +5259,8 @@ msgid "Custom Taxonomy Analytics"
 msgstr ""
 
 #: includes/class-wp-statistics-helper.php:1791
-#: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:20
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:82
+#: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:18
 msgid "Real-Time Stats"
 msgstr ""
 
@@ -6157,327 +6166,168 @@ msgstr ""
 msgid "Failed to migrate license for %1$s: %2$s"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:44
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:43
 msgid "See what visitors click and download"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:46
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:45
 msgid "Track link clicks and file downloads"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:47
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:46
 msgid "Search terms, entry and exit pages"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:48
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:47
 msgid "Filter any report by UTM or query"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:50
-msgid "Track clicks, downloads and custom post types."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:52
-msgid "Link clicks"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:53
-#: src/Service/Charts/DataProvider/EventActivityChartDataProvider.php:99
-msgid "Downloads"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:54
-msgid "Custom post types"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:55
-msgid "UTM filters"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:57
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:49
 msgid "Clicks, downloads, search terms, entry and exit pages."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:61
-msgid "Know which campaigns bring visitors"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:53
+msgid "See which campaigns bring your visitors"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:63
-#: views/pages/referrals/campaigns.php:13
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:55
 msgid "Campaign and UTM link reports"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:64
-msgid "Google Search Console keywords in WordPress"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:56
+msgid "Google Search keywords, clicks and impressions"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:65
-msgid "Set goals and count conversions"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:57
+#: views/pages/referrals/utm-performance.php:15
+msgid "Goals that count your conversions"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:67
-msgid "Campaigns, Google Search keywords and goals in one place."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:69
-msgid "UTM campaigns"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:71
-msgid "Goals"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:72
-msgid "Click events"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:74
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:59
 msgid "UTM campaigns, Google Search Console and goals."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:78
-msgid "Traffic at a glance on every post"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:63
+msgid "Traffic for every post at a glance"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:80
-msgid "Small view charts in your post lists"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:65
+msgid "Small charts in your posts list"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:81
-#: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:17
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:66
 msgid "Traffic chart in the admin bar"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:82
-msgid "Pick your chart type and colors"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:67
+msgid "Choose chart type and colors"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:84
-msgid "Tiny traffic charts on posts, pages and the admin bar."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:86
-msgid "Post list charts"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:87
-msgid "Admin bar chart"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:88
-msgid "Chart type"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:89
-msgid "Colors"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:91
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:69
 msgid "Small traffic charts on posts and in the admin bar."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:95
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:73
 msgid "Reports in your inbox, on schedule"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:97
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:75
 msgid "Email reports with charts and top pages"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:98
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:76
 msgid "Send to any inbox, any schedule"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:99
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:77
 msgid "Export to CSV and PDF"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:101
-msgid "Scheduled email reports with charts, plus CSV and PDF."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:103
-msgid "Charts in email"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:104
-msgid "Any schedule"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:105
-msgid "Any inbox"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:106
-msgid "CSV & PDF"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:108
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:79
 msgid "Scheduled email reports with charts, CSV and PDF."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:111
-msgid "Real-Time"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:83
+msgid "Watch your site live"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:112
-msgid "See who is on your site now"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:85
+msgid "Visitors online right now"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:114
-msgid "Online visitors and what they view"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:86
+msgid "Live views chart and map"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:115
-msgid "Live chart and map"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:116
-#: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:18
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:87
 msgid "Updates without a page refresh"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:118
-msgid "Watch visitors and views as they happen."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:120
-msgid "Online users"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:121
-msgid "Live chart"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:122
-msgid "Live map"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:123
-msgid "No refresh"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:125
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:89
 msgid "Live visitors, views, chart and map."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:128
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:92
 msgid "Widgets"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:129
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:93
 msgid "Show your stats to your visitors"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:131
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:95
 msgid "Gutenberg blocks and theme widgets"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:132
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:96
 msgid "Traffic, top pages, browsers and more"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:133
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:97
 msgid "Cached so your pages stay fast"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:135
-msgid "Show your stats on your site with blocks and widgets."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:137
-msgid "Gutenberg blocks"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:138
-msgid "Theme widgets"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:139
-msgid "Top pages"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:140
-msgid "Caching"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:142
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:99
 msgid "Stats blocks and widgets for your site."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:146
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:103
 msgid "Make WP Statistics your own brand"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:148
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:105
 msgid "Replace our branding with yours"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:149
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:106
 msgid "Choose which menus people see"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:150
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:107
 msgid "Add your own Overview widget"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:152
-msgid "Your brand instead of ours, in menus and the Overview."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:155
-msgid "Your branding"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:156
-msgid "Menu control"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:157
-msgid "Overview widget"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:159
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:109
 msgid "White label: your brand, your menus."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:163
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:113
 msgid "Your stats in any app or AI agent"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:165
-msgid "Connect ChatGPT, Claude and other AI agents"
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:115
+msgid "Connect ChatGPT, Claude and other AI agents (MCP)"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:166
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:116
 msgid "Endpoints for visitors, pages and referrers"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:167
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:117
 msgid "Build custom dashboards and automations"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:169
-msgid "Read your stats from other apps and AI agents."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:171
-msgid "AI agents (MCP)"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:172
-msgid "Visitors & pages"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:173
-msgid "Referrers & search"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:174
-msgid "Summary"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:176
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:119
 msgid "REST endpoints and MCP for AI agents."
 msgstr ""
 
@@ -6602,30 +6452,6 @@ msgstr ""
 #: src/Service/Admin/LicenseManagement/Plugin/PluginUpdater.php:217
 #, php-format
 msgid "To unlock automatic updates and access new features and security improvements, please <a href=\"%s\">activate your license</a>."
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:14
-msgid "Traffic for every post at a glance"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:16
-msgid "Small charts in your posts list"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:18
-msgid "Choose chart type and colors"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:14
-msgid "Watch your site live"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:16
-msgid "Visitors online right now"
-msgstr ""
-
-#: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:17
-msgid "Live views chart and map"
 msgstr ""
 
 #: src/Service/Admin/LicenseManagement/Views/TabsView.php:63
@@ -7987,6 +7813,10 @@ msgid_plural "Other %s countries"
 msgstr[0] ""
 msgstr[1] ""
 
+#: src/Service/Charts/DataProvider/EventActivityChartDataProvider.php:99
+msgid "Downloads"
+msgstr ""
+
 #: src/Service/Charts/DataProvider/LoggedInUsersChartDataProvider.php:47
 #: src/Service/Charts/DataProvider/UsersTrafficChartDataProvider.php:56
 #: src/Service/Charts/DataProvider/UsersTrafficChartDataProvider.php:72
@@ -8696,20 +8526,6 @@ msgid "Remove license"
 msgstr ""
 
 #. translators: %s: Add-on name.
-#: views/components/lock-sections/inline-teaser.php:54
-#: views/pages/lock-page.php:59
-#, php-format
-msgid "%s is installed but turned off."
-msgstr ""
-
-#. translators: %s: Add-on name.
-#: views/components/lock-sections/inline-teaser.php:60
-#: views/pages/lock-page.php:64
-#, php-format
-msgid "Activate %s"
-msgstr ""
-
-#. translators: %s: Add-on name.
 #: views/components/lock-sections/inline-teaser.php:67
 #, php-format
 msgid "%s is included in your plan."
@@ -8750,7 +8566,7 @@ msgstr ""
 msgid "Example"
 msgstr ""
 
-#: views/components/lock-sections/inline-teaser.php:131
+#: views/components/lock-sections/inline-teaser.php:133
 msgid "Hide this tip"
 msgstr ""
 
@@ -8783,14 +8599,19 @@ msgstr ""
 
 #. translators: %s: Add-on name.
 #: views/components/lock-sections/setting-unlock-premium.php:37
+#: views/pages/lock-page.php:84
 #, php-format
-msgid "Unlock %s settings"
+msgid "%s add-on"
 msgstr ""
 
-#. translators: %s: Add-on name.
-#: views/components/lock-sections/setting-unlock-premium.php:44
-#, php-format
-msgid "What %s adds"
+#: views/components/lock-sections/setting-unlock-premium.php:43
+#: views/pages/lock-page.php:95
+msgid "Included in Premium with all 8 add-ons"
+msgstr ""
+
+#: views/components/lock-sections/setting-unlock-premium.php:47
+#: views/components/upsell/guarantee.php:14
+msgid "14-day money-back guarantee"
 msgstr ""
 
 #: views/components/locked-page.php:37
@@ -8968,7 +8789,7 @@ msgstr ""
 msgid "WP Statistics Premium · %d add-ons"
 msgstr ""
 
-#: views/components/modals/introduce-premium/switcher.php:22
+#: views/components/modals/introduce-premium/switcher.php:28
 msgid "Premium add-ons"
 msgstr ""
 
@@ -9919,12 +9740,9 @@ msgstr ""
 msgid "Timeframe"
 msgstr ""
 
-#: views/components/upsell/actions.php:24
+#: views/components/upsell/actions.php:35
+#: views/components/upsell/actions.php:37
 msgid "Upgrade to Premium"
-msgstr ""
-
-#: views/components/upsell/guarantee.php:14
-msgid "14-day money-back guarantee"
 msgstr ""
 
 #. translators: %s: User ID.
@@ -10364,16 +10182,6 @@ msgstr ""
 msgid "Ask a site admin if you need this report."
 msgstr ""
 
-#. translators: %s: Add-on name.
-#: views/pages/lock-page.php:84
-#, php-format
-msgid "%s add-on"
-msgstr ""
-
-#: views/pages/lock-page.php:95
-msgid "Included in Premium with all 8 add-ons"
-msgstr ""
-
 #. translators: 1: Add-on name, 2: picture number.
 #: views/pages/lock-page.php:107
 #, php-format
@@ -10440,19 +10248,6 @@ msgstr ""
 
 #: views/pages/page-insights/overview.php:232
 msgid "View Author Pages"
-msgstr ""
-
-#: views/pages/referrals/campaigns.php:11
-msgid "See which campaigns bring your visitors"
-msgstr ""
-
-#: views/pages/referrals/campaigns.php:14
-msgid "Google Search keywords, clicks and impressions"
-msgstr ""
-
-#: views/pages/referrals/campaigns.php:15
-#: views/pages/referrals/utm-performance.php:15
-msgid "Goals that count your conversions"
 msgstr ""
 
 #: views/pages/referrals/google-search.php:11

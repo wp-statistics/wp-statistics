@@ -1,16 +1,15 @@
 <?php
 /**
- * Settings banner on an add-on settings tab when the add-on is not part of the site's plan: one lavender strip
- * with the add-on icon, one value line, a few feature chips and the upgrade buttons on the right.
- * Copy comes from {@see AddonCatalog} so all 8 tabs look and read the same.
+ * Settings card on an add-on settings tab when the add-on is not part of the site's plan: the lock page
+ * text block without a picture, in a white card. Add-on kicker with its line icon, one headline, three
+ * benefits, "Upgrade to Premium" (opens the Premium popup on the add-on, pricing page as href) and
+ * "Learn more" (add-on page), then one "Included in Premium" + guarantee line.
+ * Copy comes from {@see AddonCatalog}, the same source as the popup and the add-on lock pages.
  *
  * Args:
- *  - addon_modal_target        (string) Required. Add-on slug.
- *  - addon_title               (string) Add-on name, used when the catalog has no entry.
- *  - addon_description         (string) Value line, used when the catalog has no entry.
- *  - addon_utm_campaign        (string) utm_campaign. Default "settings".
- *  - addon_documentation_title (string) Optional extra link text (REST API docs).
- *  - addon_documentation_slug  (string) Optional extra link URL.
+ *  - addon_modal_target (string) Required. Add-on slug.
+ *  - addon_title        (string) Add-on name, used when the catalog has no entry.
+ *  - addon_utm_campaign (string) utm_campaign. Default "settings".
  */
 
 use WP_Statistics\Components\View;
@@ -21,33 +20,31 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 $slug     = $addon_modal_target ?? '';
 $copy     = AddonCatalog::get($slug);
 $name     = $copy['name'] ?? ($addon_title ?? '');
-$value    = $copy['value'] ?? wp_strip_all_tags($addon_description ?? '');
-$chips    = $copy['chips'] ?? [];
-$icon     = AddonCatalog::getIconUrl($slug);
+$headline = $copy['headline'] ?? '';
+$benefits = $copy['benefits'] ?? [];
 $campaign = !empty($addon_utm_campaign) ? $addon_utm_campaign : 'settings';
-$titleId  = 'wps-upsell-banner-' . sanitize_html_class($slug);
+$titleId  = 'wps-upsell-card-' . sanitize_html_class($slug);
+
+if ($headline === '') {
+    return;
+}
 ?>
-<section class="wps-upsell-banner" aria-labelledby="<?php echo esc_attr($titleId); ?>">
-    <?php if ($icon) : ?>
-        <span class="wps-upsell-banner__icon"><img src="<?php echo esc_url($icon); ?>" alt="" width="28" height="28"></span>
-    <?php endif; ?>
-    <div class="wps-upsell-banner__text">
-        <h3 class="wps-upsell-banner__title" id="<?php echo esc_attr($titleId); ?>"><?php
+<section class="wps-upsell-card" aria-labelledby="<?php echo esc_attr($titleId); ?>">
+    <p class="wps-upsell-card__kicker">
+        <?php echo AddonCatalog::getLineIcon($slug, 16, 'wps-upsell-card__icon'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup ?>
+        <span><?php
             /* translators: %s: Add-on name. */
-            echo esc_html(sprintf(__('Unlock %s settings', 'wp-statistics'), $name)); ?></h3>
-        <?php if ($value) : ?>
-            <p class="wps-upsell-banner__value"><?php echo esc_html($value); ?></p>
-        <?php endif; ?>
-        <?php View::load('components/upsell/chips', [
-            'items' => $chips,
-            /* translators: %s: Add-on name. */
-            'label' => sprintf(__('What %s adds', 'wp-statistics'), $name),
-        ]); ?>
-    </div>
-    <div class="wps-upsell-banner__actions">
-        <?php View::load('components/upsell/actions', ['campaign' => $campaign, 'addon' => $slug]); ?>
-        <?php if (!empty($addon_documentation_title) && !empty($addon_documentation_slug)) : ?>
-            <a class="wps-upsell-banner__docs" href="<?php echo esc_url($addon_documentation_slug); ?>" target="_blank" rel="noopener"><?php echo esc_html($addon_documentation_title); ?></a>
-        <?php endif; ?>
-    </div>
+            echo esc_html(sprintf(__('%s add-on', 'wp-statistics'), $name)); ?></span>
+    </p>
+    <h3 class="wps-upsell-card__title" id="<?php echo esc_attr($titleId); ?>"><?php echo esc_html($headline); ?></h3>
+    <?php View::load('components/upsell/benefits', ['items' => $benefits, 'class' => 'wps-upsell-card__benefits']); ?>
+    <?php View::load('components/upsell/actions', ['campaign' => $campaign, 'addon' => $slug, 'upgrade_modal' => true, 'class' => 'wps-upsell-card__actions']); ?>
+    <p class="wps-upsell-card__footer">
+        <span><?php esc_html_e('Included in Premium with all 8 add-ons', 'wp-statistics'); ?></span>
+        <span class="wps-upsell-card__sep" aria-hidden="true">&middot;</span>
+        <span class="wps-upsell-card__guarantee">
+            <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8 4.5 5.6v5.6c0 4.6 3.1 8.3 7.5 10 4.4-1.7 7.5-5.4 7.5-10V5.6L12 2.8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.6 12.2 2.4 2.4 4.5-4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <?php esc_html_e('14-day money-back guarantee', 'wp-statistics'); ?>
+        </span>
+    </p>
 </section>

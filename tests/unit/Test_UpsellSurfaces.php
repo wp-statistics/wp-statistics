@@ -35,49 +35,84 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
 
         foreach ($all as $slug => $copy) {
             $this->assertCount(3, $copy['benefits'], $slug);
-            $this->assertGreaterThanOrEqual(3, count($copy['chips']), $slug);
-            $this->assertLessThanOrEqual(4, count($copy['chips']), $slug);
-            foreach (['name', 'headline', 'value', 'short'] as $key) {
+            foreach (['name', 'headline', 'short'] as $key) {
                 $this->assertNotEmpty($copy[$key], "$slug $key");
             }
+            $this->assertStringContainsString('<svg class="x"', AddonCatalog::getLineIcon($slug, 16, 'x'), $slug);
         }
 
-        $this->assertContains('AI agents (MCP)', $all['wp-statistics-rest-api']['chips']);
+        $this->assertContains('Connect ChatGPT, Claude and other AI agents (MCP)', $all['wp-statistics-rest-api']['benefits']);
+        $this->assertSame('See which campaigns bring your visitors', $all['wp-statistics-marketing']['headline']);
+        $this->assertSame('', AddonCatalog::getLineIcon('nope'));
     }
 
-    // Settings banner -----------------------------------------------------------
+    // Settings card -------------------------------------------------------------
 
-    public function test_settings_banner_is_one_soft_strip_with_chips_and_buttons()
+    public function test_settings_card_is_the_lock_page_text_block()
     {
         $html = Admin_Template::get_template('layout/partials/addon-premium-feature', [
-            'addon_title'               => 'Rest API Add-on',
-            'addon_modal_target'        => 'wp-statistics-rest-api',
-            'addon_campaign'            => 'rest-api',
-            'addon_documentation_title' => 'API documentation',
-            'addon_documentation_slug'  => 'https://documenter.getpostman.com/view/3239688/2s8Z6vZER4',
+            'addon_title'        => 'Rest API Add-on',
+            'addon_modal_target' => 'wp-statistics-rest-api',
+            'addon_campaign'     => 'rest-api',
         ], true);
 
-        $this->assertSame(1, substr_count($html, 'class="wps-upsell-banner"'));
-        $this->assertStringContainsString('Unlock REST API settings', $html);
-        $this->assertStringContainsString('AI agents (MCP)', $html);
-        $this->assertStringContainsString('wps-upsell-chips__chip--ai', $html);
-        $this->assertSame(1, substr_count($html, 'Upgrade to Premium'));
+        $this->assertSame(1, substr_count($html, 'class="wps-upsell-card"'));
+        $this->assertStringContainsString('REST API add-on', $html);
+        $this->assertStringContainsString('wps-upsell-card__icon', $html);
+        $this->assertSame(1, substr_count($html, '<h3'));
+        $this->assertStringContainsString('Your stats in any app or AI agent', $html);
+        $this->assertStringContainsString('Connect ChatGPT, Claude and other AI agents (MCP)', $html);
+        $this->assertSame(3, substr_count($html, 'wps-upsell-benefits__item'));
+        $this->assertStringContainsString('Included in Premium with all 8 add-ons', $html);
+        $this->assertStringContainsString('14-day money-back guarantee', $html);
         $this->assertStringContainsString('utm_campaign=rest-api', $html);
-        $this->assertStringContainsString('data-target="wp-statistics-rest-api"', $html);
-        $this->assertStringContainsString('API documentation', $html);
-        // The old box is gone.
+
+        // "Upgrade to Premium" opens the popup on this add-on, pricing page as href; "Learn more" is the add-on page.
+        $this->assertMatchesRegularExpression('#<a class="wps-upsell-btn wps-upsell-btn--primary js-wps-openPremiumModal" href="[^"]*/pricing/[^"]*" data-target="wp-statistics-rest-api">Upgrade to Premium</a>#', $html);
+        $this->assertMatchesRegularExpression('#<a class="wps-upsell-btn wps-upsell-btn--secondary" href="[^"]*/add-ons/wp-statistics-rest-api/[^"]*" target="_blank" rel="noopener">Learn more</a>#', $html);
+        $this->assertSame(1, substr_count($html, 'js-wps-openPremiumModal'));
+
+        // The soft banner and the old box are gone.
+        $this->assertStringNotContainsString('wps-upsell-banner', $html);
+        $this->assertStringNotContainsString('wps-upsell-chips', $html);
         $this->assertStringNotContainsString('Unlock Premium Features with', $html);
-        $this->assertStringNotContainsString('wps-premium-feature__items', $html);
     }
 
-    public function test_every_settings_tab_uses_the_banner_copy()
+    public function test_every_settings_tab_uses_the_catalog_copy()
     {
         foreach (AddonCatalog::SLUGS as $slug) {
             $html = (string)View::load('components/lock-sections/setting-unlock-premium', ['addon_modal_target' => $slug], true);
             $copy = AddonCatalog::get($slug);
 
-            $this->assertStringContainsString(esc_html($copy['value']), $html, $slug);
-            $this->assertSame(count($copy['chips']), substr_count($html, '<li class="wps-upsell-chips__chip'), $slug);
+            $this->assertStringContainsString(esc_html($copy['headline']), $html, $slug);
+            foreach ($copy['benefits'] as $benefit) {
+                $this->assertStringContainsString(esc_html($benefit), $html, $slug);
+            }
+            $this->assertStringContainsString('data-target="' . $slug . '"', $html, $slug);
+        }
+    }
+
+    public function test_settings_card_hidden_under_white_label()
+    {
+        add_filter('wp_statistics_hide_addon_prompts', '__return_true');
+
+        $html = Admin_Template::get_template('layout/partials/addon-premium-feature', [
+            'addon_title'        => 'Marketing Add-On',
+            'addon_modal_target' => 'wp-statistics-marketing',
+            'addon_campaign'     => 'marketing',
+        ], true);
+
+        $this->assertSame('', trim((string)$html));
+    }
+
+    public function test_settings_card_and_lock_page_share_the_same_copy()
+    {
+        $copy = AddonCatalog::get('wp-statistics-marketing');
+        $html = (string)View::load('pages/referrals/campaigns', [], true);
+
+        $this->assertStringContainsString(esc_html($copy['headline']), $html);
+        foreach ($copy['benefits'] as $benefit) {
+            $this->assertStringContainsString(esc_html($benefit), $html);
         }
     }
 

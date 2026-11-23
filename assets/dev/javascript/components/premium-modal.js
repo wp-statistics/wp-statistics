@@ -106,6 +106,8 @@
     document.addEventListener('click', function (event) {
         var trigger = closest(event.target, '.js-wps-openPremiumModal');
         if (trigger) {
+            // No popup on this page, or a new-tab click: let the link (pricing / add-on page) do its job.
+            if (!getModal(false) || event.metaKey || event.ctrlKey || event.shiftKey || event.button === 1) return;
             event.preventDefault();
             event.stopPropagation();
             open(trigger.getAttribute('data-target'), trigger);

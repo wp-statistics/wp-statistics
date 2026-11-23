@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// Shared upsell pieces: buttons, guarantee line, benefit list, chips, settings banner, Go Premium box.
+// Shared upsell pieces: buttons, guarantee line, benefit list, settings card, Go Premium box.
 // PHP: views/components/upsell/*.php, views/components/lock-sections/setting-unlock-premium.php,
 //      views/metabox/go-premium.php
 // ---------------------------------------------------------------------------
@@ -107,107 +107,93 @@ a.wps-upsell-btn--secondary,
   }
 }
 
-.wps-upsell-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
-
-  &__chip {
-    margin: 0;
-    padding: 2px 10px;
-    border: 1px solid $wps-brand-soft;
-    border-radius: 999px;
-    background: #fff;
-    color: $wps-text;
-    font-size: 12px;
-    line-height: 18px;
-
-    &--ai {
-      border-color: $wps-brand;
-      color: $wps-brand;
-      font-weight: 600;
-    }
-  }
-}
-
-// Settings banner ("Soft banner"): one lavender strip across the add-on settings tab.
-.wps-upsell-banner {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+// Settings card: the lock page text block without a picture, on add-on settings tabs.
+// White card (same look as 14.17 cards), kicker, headline, 3 green checks, buttons, one footer line.
+.wps-upsell-card {
   margin: 0 0 20px;
-  padding: 16px 20px;
-  border: 1px solid $wps-brand-soft;
-  border-radius: 8px;
-  background: $wps-brand-tint;
+  padding: $wps-card-pad-top $wps-card-pad-x $wps-card-pad-bottom;
+  border: 1px solid $wps-card-border;
+  border-radius: $wps-card-radius;
+  background: $wps-card-bg;
   box-sizing: border-box;
+  color: $wps-text;
 
-  &__icon {
-    display: inline-flex;
-    flex: none;
+  @media (max-width: 480px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .wps-upsell-card__kicker {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: #fff;
-
-    img {
-      display: block;
-      width: 28px;
-      height: 28px;
-    }
+    gap: 6px;
+    margin: 0 0 6px;
+    padding: 0;
+    color: $wps-brand;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
   }
 
-  &__text {
-    flex: 1 1 auto;
-    min-width: 0;
+  .wps-upsell-card__icon {
+    flex: none;
   }
 
-  .wps-upsell-banner__title {
-    margin: 0;
+  h3.wps-upsell-card__title {
+    margin: 0 0 12px;
     padding: 0;
     color: $wps-text-strong;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
-    line-height: 22px;
+    line-height: 26px;
+    letter-spacing: -.01em;
   }
 
-  &__value {
-    margin: 2px 0 0;
-    color: $wps-text-muted;
-    font-size: 13px;
-    line-height: 20px;
+  .wps-upsell-card__benefits {
+    margin: 0 0 16px;
+
+    .wps-upsell-benefits__icon {
+      color: $wps-good;
+    }
   }
 
-  &__actions {
+  .wps-upsell-card__footer {
     display: flex;
-    flex: none;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-  }
-
-  &__docs,
-  #wpbody &__docs {
-    color: $wps-brand;
-    font-size: 12px;
-    text-decoration: underline;
-  }
-
-  @media (max-width: 960px) {
     flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    margin: 14px 0 0;
+    padding: 0;
+    color: $wps-text-muted;
+    font-size: 12px;
+    line-height: 18px;
+  }
 
-    &__text {
-      flex-basis: calc(100% - 60px);
+  .wps-upsell-card__guarantee {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: $wps-good;
+
+    svg {
+      flex: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .wps-upsell-card__sep {
+      display: none;
     }
 
-    &__actions {
-      flex-basis: 100%;
+    .wps-upsell-card__footer {
+      flex-direction: column;
       align-items: flex-start;
+    }
+
+    .wps-upsell-card__actions .wps-upsell-btn {
+      flex: 1 1 auto;
     }
   }
 }

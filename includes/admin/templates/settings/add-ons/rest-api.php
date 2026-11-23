@@ -16,8 +16,6 @@ if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-
     'addon_title'        => __('Rest API Add-on', 'wp-statistics'),
     'addon_modal_target' => 'wp-statistics-rest-api',
     'addon_campaign'     => 'rest-api',
-    'addon_documentation_title' => __('API documentation', 'wp-statistics'),
-    'addon_documentation_slug'  => 'https://documenter.getpostman.com/view/3239688/2s8Z6vZER4',
 ], true);
 
 if ($isRestApiActive && !$isLicenseValid) {

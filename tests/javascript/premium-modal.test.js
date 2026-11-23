@@ -90,6 +90,20 @@ test('click on a Go Premium link opens the popup and blocks navigation', () => {
     assert.equal(steps[0].hidden, false);
 });
 
+test('Ctrl/Cmd click on an Upgrade link follows the pricing href', () => {
+    const {listeners, modal} = load();
+    const link = el({'data-target': 'wp-statistics-rest-api', href: 'https://wp-statistics.com/pricing/'});
+    let prevented = false;
+    listeners.click({
+        target: {closest: (sel) => (sel === '.js-wps-openPremiumModal' ? link : null)},
+        metaKey: true,
+        preventDefault: () => (prevented = true),
+        stopPropagation: () => {},
+    });
+    assert.equal(prevented, false);
+    assert.notEqual(modal.style.display, 'block');
+});
+
 test('switcher click changes the step', () => {
     const {window, listeners, modal, steps} = load();
     window.wpsPremiumModal.open('first-step');

@@ -4,15 +4,14 @@ namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 /**
  * Short, translatable sales copy for the 8 Premium add-ons, kept in one place so every upsell surface
- * says the same thing: the Premium popup, the settings banner on each add-on tab and the saved add-on
- * list the Add-ons page falls back to when the remote list can't be loaded.
+ * says the same thing: the Premium popup, the settings card on each add-on tab, the add-on level lock
+ * pages (Marketing campaigns, Mini Chart, Real-Time) and the saved add-on list the Add-ons page falls
+ * back to when the remote list can't be loaded.
  *
  * Each entry:
  *  - name      Add-on name.
- *  - headline  One line for the popup.
- *  - benefits  Three short benefits (popup).
- *  - value     One-line value for the settings banner.
- *  - chips     Three or four feature chips for the settings banner.
+ *  - headline  One headline (popup, settings card, add-on lock pages).
+ *  - benefits  Three short benefits (same surfaces).
  *  - short     Short description for the saved add-on list.
  */
 class AddonCatalog
@@ -47,46 +46,25 @@ class AddonCatalog
                     __('Search terms, entry and exit pages', 'wp-statistics'),
                     __('Filter any report by UTM or query', 'wp-statistics'),
                 ],
-                'value'    => __('Track clicks, downloads and custom post types.', 'wp-statistics'),
-                'chips'    => [
-                    __('Link clicks', 'wp-statistics'),
-                    __('Downloads', 'wp-statistics'),
-                    __('Custom post types', 'wp-statistics'),
-                    __('UTM filters', 'wp-statistics'),
-                ],
                 'short'    => __('Clicks, downloads, search terms, entry and exit pages.', 'wp-statistics'),
             ],
             'wp-statistics-marketing'          => [
                 'name'     => __('Marketing', 'wp-statistics'),
-                'headline' => __('Know which campaigns bring visitors', 'wp-statistics'),
+                'headline' => __('See which campaigns bring your visitors', 'wp-statistics'),
                 'benefits' => [
                     __('Campaign and UTM link reports', 'wp-statistics'),
-                    __('Google Search Console keywords in WordPress', 'wp-statistics'),
-                    __('Set goals and count conversions', 'wp-statistics'),
-                ],
-                'value'    => __('Campaigns, Google Search keywords and goals in one place.', 'wp-statistics'),
-                'chips'    => [
-                    __('UTM campaigns', 'wp-statistics'),
-                    __('Google Search Console', 'wp-statistics'),
-                    __('Goals', 'wp-statistics'),
-                    __('Click events', 'wp-statistics'),
+                    __('Google Search keywords, clicks and impressions', 'wp-statistics'),
+                    __('Goals that count your conversions', 'wp-statistics'),
                 ],
                 'short'    => __('UTM campaigns, Google Search Console and goals.', 'wp-statistics'),
             ],
             'wp-statistics-mini-chart'         => [
                 'name'     => __('Mini Chart', 'wp-statistics'),
-                'headline' => __('Traffic at a glance on every post', 'wp-statistics'),
+                'headline' => __('Traffic for every post at a glance', 'wp-statistics'),
                 'benefits' => [
-                    __('Small view charts in your post lists', 'wp-statistics'),
+                    __('Small charts in your posts list', 'wp-statistics'),
                     __('Traffic chart in the admin bar', 'wp-statistics'),
-                    __('Pick your chart type and colors', 'wp-statistics'),
-                ],
-                'value'    => __('Tiny traffic charts on posts, pages and the admin bar.', 'wp-statistics'),
-                'chips'    => [
-                    __('Post list charts', 'wp-statistics'),
-                    __('Admin bar chart', 'wp-statistics'),
-                    __('Chart type', 'wp-statistics'),
-                    __('Colors', 'wp-statistics'),
+                    __('Choose chart type and colors', 'wp-statistics'),
                 ],
                 'short'    => __('Small traffic charts on posts and in the admin bar.', 'wp-statistics'),
             ],
@@ -98,29 +76,15 @@ class AddonCatalog
                     __('Send to any inbox, any schedule', 'wp-statistics'),
                     __('Export to CSV and PDF', 'wp-statistics'),
                 ],
-                'value'    => __('Scheduled email reports with charts, plus CSV and PDF.', 'wp-statistics'),
-                'chips'    => [
-                    __('Charts in email', 'wp-statistics'),
-                    __('Any schedule', 'wp-statistics'),
-                    __('Any inbox', 'wp-statistics'),
-                    __('CSV & PDF', 'wp-statistics'),
-                ],
                 'short'    => __('Scheduled email reports with charts, CSV and PDF.', 'wp-statistics'),
             ],
             'wp-statistics-realtime-stats'     => [
-                'name'     => __('Real-Time', 'wp-statistics'),
-                'headline' => __('See who is on your site now', 'wp-statistics'),
+                'name'     => __('Real-Time Stats', 'wp-statistics'),
+                'headline' => __('Watch your site live', 'wp-statistics'),
                 'benefits' => [
-                    __('Online visitors and what they view', 'wp-statistics'),
-                    __('Live chart and map', 'wp-statistics'),
+                    __('Visitors online right now', 'wp-statistics'),
+                    __('Live views chart and map', 'wp-statistics'),
                     __('Updates without a page refresh', 'wp-statistics'),
-                ],
-                'value'    => __('Watch visitors and views as they happen.', 'wp-statistics'),
-                'chips'    => [
-                    __('Online users', 'wp-statistics'),
-                    __('Live chart', 'wp-statistics'),
-                    __('Live map', 'wp-statistics'),
-                    __('No refresh', 'wp-statistics'),
                 ],
                 'short'    => __('Live visitors, views, chart and map.', 'wp-statistics'),
             ],
@@ -132,13 +96,6 @@ class AddonCatalog
                     __('Traffic, top pages, browsers and more', 'wp-statistics'),
                     __('Cached so your pages stay fast', 'wp-statistics'),
                 ],
-                'value'    => __('Show your stats on your site with blocks and widgets.', 'wp-statistics'),
-                'chips'    => [
-                    __('Gutenberg blocks', 'wp-statistics'),
-                    __('Theme widgets', 'wp-statistics'),
-                    __('Top pages', 'wp-statistics'),
-                    __('Caching', 'wp-statistics'),
-                ],
                 'short'    => __('Stats blocks and widgets for your site.', 'wp-statistics'),
             ],
             'wp-statistics-customization'      => [
@@ -149,29 +106,15 @@ class AddonCatalog
                     __('Choose which menus people see', 'wp-statistics'),
                     __('Add your own Overview widget', 'wp-statistics'),
                 ],
-                'value'    => __('Your brand instead of ours, in menus and the Overview.', 'wp-statistics'),
-                'chips'    => [
-                    __('White label', 'wp-statistics'),
-                    __('Your branding', 'wp-statistics'),
-                    __('Menu control', 'wp-statistics'),
-                    __('Overview widget', 'wp-statistics'),
-                ],
                 'short'    => __('White label: your brand, your menus.', 'wp-statistics'),
             ],
             'wp-statistics-rest-api'           => [
                 'name'     => __('REST API', 'wp-statistics'),
                 'headline' => __('Your stats in any app or AI agent', 'wp-statistics'),
                 'benefits' => [
-                    __('Connect ChatGPT, Claude and other AI agents', 'wp-statistics'),
+                    __('Connect ChatGPT, Claude and other AI agents (MCP)', 'wp-statistics'),
                     __('Endpoints for visitors, pages and referrers', 'wp-statistics'),
                     __('Build custom dashboards and automations', 'wp-statistics'),
-                ],
-                'value'    => __('Read your stats from other apps and AI agents.', 'wp-statistics'),
-                'chips'    => [
-                    __('AI agents (MCP)', 'wp-statistics'),
-                    __('Visitors & pages', 'wp-statistics'),
-                    __('Referrers & search', 'wp-statistics'),
-                    __('Summary', 'wp-statistics'),
                 ],
                 'short'    => __('REST endpoints and MCP for AI agents.', 'wp-statistics'),
             ],
@@ -223,6 +166,43 @@ class AddonCatalog
             'utm_medium'   => 'link',
             'utm_campaign' => $campaign,
         ], WP_STATISTICS_SITE_URL . '/pricing/');
+    }
+
+    /**
+     * Monochrome line icon for an add-on (24x24 grid, stroke = currentColor), used by the popup switcher and
+     * the settings card kicker. Decorative: hidden from screen readers.
+     *
+     * @param string $slug  Add-on slug.
+     * @param int    $size  Width and height in px.
+     * @param string $class CSS class.
+     *
+     * @return string SVG markup, or an empty string for an unknown slug.
+     */
+    public static function getLineIcon($slug, $size = 18, $class = '')
+    {
+        $paths = [
+            'wp-statistics-data-plus'          => '<path d="M5 4l5.5 15 2.2-6.3L19 10.5z"/><path d="M13 13l5 5"/>',
+            'wp-statistics-marketing'          => '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".9" fill="currentColor"/>',
+            'wp-statistics-mini-chart'         => '<path d="M4 19h16"/><path d="M5 15l4.5-4.5 3.5 3 6-6.5"/><path d="M15 7h4v4"/>',
+            'wp-statistics-advanced-reporting' => '<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7.5l8 6 8-6"/>',
+            'wp-statistics-realtime-stats'     => '<path d="M3 12h4l2.5-6 5 12 2.5-6h4"/>',
+            'wp-statistics-widgets'            => '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+            'wp-statistics-customization'      => '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+            'wp-statistics-rest-api'           => '<path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5.5l-3 13"/>',
+        ];
+
+        if (!isset($paths[$slug])) {
+            return '';
+        }
+
+        $size = (int)$size;
+
+        return sprintf(
+            '<svg class="%1$s" width="%2$d" height="%2$d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">%3$s</svg>',
+            esc_attr($class),
+            $size,
+            $paths[$slug]
+        );
     }
 
     /**

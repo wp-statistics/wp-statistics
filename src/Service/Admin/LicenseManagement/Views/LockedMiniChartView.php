@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement\Views;
 
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\AddonCatalog;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
 
@@ -10,13 +11,10 @@ class LockedMiniChartView extends BaseView
 {
     public function render()
     {
+        $copy = AddonCatalog::get('wp-statistics-mini-chart');
         $args = [
-            'page_title' => __('Traffic for every post at a glance', 'wp-statistics'),
-            'benefits'   => [
-                __('Small charts in your posts list', 'wp-statistics'),
-                __('Traffic chart in the admin bar', 'wp-statistics'),
-                __('Choose chart type and colors', 'wp-statistics'),
-            ],
+            'page_title' => $copy['headline'],
+            'benefits'   => $copy['benefits'],
             'addon_name'         => esc_html__('Mini Chart', 'wp-statistics'),
             'addon_slug'         => 'wp-statistics-mini-chart',
             'campaign'           => 'mini-chart',
