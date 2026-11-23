@@ -12,26 +12,11 @@ $isRestApiActive = WP_STATISTICS\Helper::isAddOnActive('rest-api');
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('REST API', 'wp-statistics'); ?></span></h2>
 
 <?php
-if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'                => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=rest-api'),
-     'addon_title'               => __('Rest API Add-on', 'wp-statistics'),
-     'addon_modal_target'        => 'wp-statistics-rest-api',
-     'addon_description'         => __('The settings on this page are part of the REST API add-on. It lets other apps read your statistics, and lets you connect ChatGPT, Claude and other AI agents with MCP. It adds:', 'wp-statistics'),
-     'addon_features'            => [
-         __('AI agents (MCP): ask ChatGPT, Claude and other AI agents about your traffic', 'wp-statistics'),
-         __('Browsers', 'wp-statistics'),
-         __('Hits', 'wp-statistics'),
-         __('Referrers', 'wp-statistics'),
-         __('Search Engines', 'wp-statistics'),
-         __('Summary', 'wp-statistics'),
-         __('Visitors', 'wp-statistics'),
-         __('Pages', 'wp-statistics'),
-     ],
-     'addon_info'                => __('For more information about the API and endpoints, please refer to the', 'wp-statistics'),
-     'addon_documentation_title' => __('API documentation', 'wp-statistics'),
-     'addon_documentation_slug'  => esc_url('https://documenter.getpostman.com/view/3239688/2s8Z6vZER4'),
-
-    ], true);
+if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [
+    'addon_title'        => __('Rest API Add-on', 'wp-statistics'),
+    'addon_modal_target' => 'wp-statistics-rest-api',
+    'addon_campaign'     => 'rest-api',
+], true);
 
 if ($isRestApiActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
