@@ -159,7 +159,7 @@ class TabsView extends BaseTabView
                         'title'        => esc_html__('Campaigns', 'wp-statistics'),
                         'class'        => $this->isTab('campaigns') ? 'current' : '',
                         'locked'       => true,
-                        'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
+                        'tooltip'      => esc_html__('This report needs the Marketing add-on.', 'wp-statistics'),
                         'lockedTarget' => 'wp-statistics-marketing',
                         'export'       => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
@@ -169,7 +169,7 @@ class TabsView extends BaseTabView
                         'title'        => esc_html__('UTM Performance', 'wp-statistics'),
                         'class'        => $this->isTab('utm-performance') ? 'current' : '',
                         'locked'       => true,
-                        'tooltip'      => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
+                        'tooltip'      => esc_html__('This report needs the Marketing add-on.', 'wp-statistics'),
                         'lockedTarget' => 'wp-statistics-marketing',
                         'export'       => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                     ],
@@ -179,10 +179,10 @@ class TabsView extends BaseTabView
                         'title'              => esc_html__('Google Search', 'wp-statistics'),
                         'class'              => $this->isTab('google-search') ? 'current' : '',
                         'lastUpdated'        => true,
-                        'lastUpdatedTooltip' => esc_html__('We fetch data from Google Search Console once daily to keep things running smoothly without extra load. The numbers you see are based on the latest update at the time shown.', 'wp-statistics'),
+                        'lastUpdatedTooltip' => esc_html__('Search Console data updates once a day. Numbers are from the time shown.', 'wp-statistics'),
                         'locked'             => true,
                         'hidden'             => !Option::getByAddon('gsc_report', 'marketing', '1') && !Option::getByAddon('site', 'marketing'),
-                        'tooltip'            => esc_html__('To view this report, you need to have Marketing add-on.', 'wp-statistics'),
+                        'tooltip'            => esc_html__('This report needs the Marketing add-on.', 'wp-statistics'),
                         'lockedTarget'       => 'wp-statistics-marketing',
                         'export'             => [ExportTypes::PDF_PAGE]
                     ]

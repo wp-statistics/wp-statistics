@@ -203,10 +203,10 @@ $isAuthenticated = apply_filters('wp_statistics_oath_authentication_status', fal
 
                             <div class="js-wps-show_if_gsc-connection-method_equal_direct">
                                 <span class="wps-tooltip wps-d-inline-block"
-                                      data-disable-tooltip="<?php echo esc_html__('To connect, add your Client ID and Client Secret, save changes, then click Connect.', 'wp-statistics')?>"
+                                      data-disable-tooltip="<?php echo esc_html__('Add your Client ID and Secret, save, then click Connect.', 'wp-statistics')?>"
                                       data-enable-tooltip="<?php echo esc_html__('Continues to Google for approval. You can disconnect anytime.', 'wp-statistics')?>"
                                       title="<?php echo empty($gscClientId) || empty($gscClientSecret)
-                                          ? esc_html__('To connect, add your Client ID and Client Secret, save changes, then click Connect.', 'wp-statistics')
+                                          ? esc_html__('Add your Client ID and Secret, save, then click Connect.', 'wp-statistics')
                                           : esc_html__('Continues to Google for approval. You can disconnect anytime.', 'wp-statistics'); ?>"
                                 >
 

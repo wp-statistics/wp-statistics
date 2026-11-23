@@ -45,6 +45,8 @@ class LicenseManagementManager
         add_action('admin_init', [$this, 'showPluginActivationNotice']);
         add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'showUpgradeToBundle']);
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
+
+        (new InlineTeaser())->register();
     }
 
     public function addMenuItem($items)

@@ -1,0 +1,95 @@
+// ---------------------------------------------------------------------------
+// Pill: small rounded label with an optional icon.
+// PHP: views/components/objects/pill.php
+// Visitor facts (country, browser, OS, device), "Latest" on a visit, roles and types in page headers.
+// ---------------------------------------------------------------------------
+
+.wps-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 3px 10px;
+  border: 1px solid $wps-card-rule;
+  border-radius: 999px;
+  background: #F6F7F7;
+  color: $wps-text;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  box-sizing: border-box;
+
+  &__text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__icon {
+    flex: none;
+    display: block;
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+
+    &--flag {
+      width: 16px;
+      height: 12px;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+
+    &--avatar {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+    }
+  }
+
+  // Links keep the pill look; the brand color shows on hover / keyboard focus.
+  @at-root a#{&},
+  #wpbody a#{&} {
+    color: $wps-text;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      border-color: $wps-brand-soft;
+      background: $wps-brand-tint;
+      color: $wps-text-strong;
+    }
+
+    &:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $wps-brand;
+      outline-offset: 1px;
+    }
+  }
+
+  &--brand {
+    padding: 1px 8px;
+    border-color: transparent;
+    background: $wps-brand-tint;
+    color: #2F38C9;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  &--tag {
+    padding: 1px 7px;
+    border: 0;
+    border-radius: 4px;
+    background: $wps-card-rule;
+    color: $wps-text;
+    font-size: 11px;
+    font-weight: 600;
+  }
+}

@@ -1,17 +1,26 @@
 jQuery(document).ready(function ($) {
 
-// WP 3.5+ uploader
+    // Image upload field (settings > Customization header logo, Advanced Reporting report logo).
+    // Markup: .wps-media-upload > .wps-media-upload__preview (img + remove button) + input group.
+    // One media frame is shared; `currentField` points at the field that opened it, so two
+    // upload fields on the same page never write into each other.
     var file_frame;
+    var currentField = null;
+
+    function setImage($field, url) {
+        var $preview = $field.find('.wps-media-upload__preview');
+        $field.find('.wps-input-group__field').val(url);
+        $field.find('.wps-media-upload__image').attr('src', url || '');
+        $preview.prop('hidden', !url);
+    }
 
     $(document.body).on('click', '.wps_img_settings_upload_button', function (e) {
-
         e.preventDefault();
 
-        var button = $(this);
+        currentField = $(this).closest('.wps-media-upload');
 
         // If the media frame already exists, reopen it.
         if (file_frame) {
-            //file_frame.uploader.uploader.param( 'post_id', set_to_post_id );
             file_frame.open();
             return;
         }
@@ -27,9 +36,6 @@ jQuery(document).ready(function ($) {
         });
 
         file_frame.on('menu:render:default', function (view) {
-            // Store our views in an object.
-            var views = {};
-
             // Unset default menu items
             view.unset('library-separator');
             view.unset('gallery');
@@ -37,36 +43,30 @@ jQuery(document).ready(function ($) {
             view.unset('embed');
             view.unset('playlist');
             view.unset('video-playlist');
-
-            // Initialize the views in our view object.
-            view.set(views);
+            view.set({});
         });
 
-        // When an image is selected, run a callback.
+        // When an image is selected, fill the field that opened the frame.
         file_frame.on('insert', function () {
-
-            var selection = file_frame.state().get('selection');
-            selection.each(function (attachment, index) {
-
-                attachment = attachment.toJSON();
-                button.parent().parent().find('input[type="text"]').val(attachment.url);
-                button.parent().parent().parent().find('#wps-upload-image-preview').attr('src', attachment.url);
-                button.parent().parent().find('.wps_img_settings_clear_upload_button').show();
-            });
+            var attachment = file_frame.state().get('selection').first();
+            if (attachment && currentField && currentField.length) {
+                setImage(currentField, attachment.toJSON().url);
+            }
         });
 
-        // Finally, open the modal
         file_frame.open();
     });
 
-
     $(document.body).on('click', '.wps_img_settings_clear_upload_button', function (e) {
-
         e.preventDefault();
-        $(this).parent().parent().find('.wps-input-group__field').val('');
-        $(this).parent().parent().parent().find('#wps-upload-image-preview').attr('src', wps_ar_vars.default_avatar_url);
-        $('.wps_img_settings_clear_upload_button').hide();
+        var $field = $(this).closest('.wps-media-upload');
+        setImage($field, '');
+        $field.find('.wps-input-group__field').trigger('focus');
+    });
 
+    // A URL typed or pasted by hand updates the preview too.
+    $(document.body).on('change', '.wps-media-upload .wps-input-group__field', function () {
+        setImage($(this).closest('.wps-media-upload'), $.trim($(this).val()));
     });
 
 });

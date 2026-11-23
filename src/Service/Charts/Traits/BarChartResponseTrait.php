@@ -22,6 +22,18 @@ trait BarChartResponseTrait
         ];
     }
 
+    /**
+     * Sets the real whole the rows are a share of (e.g. all visitors), so the
+     * front end can divide by it instead of by the rows shown.
+     *
+     * @param int|float $total
+     * @return void
+     */
+    protected function setChartTotal($total)
+    {
+        $this->chartData['total'] = $total;
+    }
+
 
     /**
      * Sets the chart labels.

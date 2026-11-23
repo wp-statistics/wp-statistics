@@ -88,6 +88,16 @@ for (const file of trackerFiles) {
         assert.equal(classify(tracker, 'https://site.test/?protected_download=a.zip'), false);
     });
 
+    test(`${file}: file links with a version or fragment are downloads`, () => {
+        const tracker = loadEventTracker(file);
+        for (const href of ['https://site.test/files/report.pdf?ver=2', 'https://site.test/files/report.pdf#page=2']) {
+            const data = classify(tracker, href);
+            assert.equal(data.en, 'file_download', href);
+            assert.equal(data.fn, 'report', href);
+            assert.equal(data.fx, 'pdf', href);
+        }
+    });
+
     test(`${file}: encoded paths are decoded`, () => {
         const data = classify(loadEventTracker(file), 'https://site.test/files/My%20Report.pdf');
         assert.equal(data.fn, 'My Report');

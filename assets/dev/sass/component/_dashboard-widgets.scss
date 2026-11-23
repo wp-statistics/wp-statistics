@@ -1,0 +1,157 @@
+// ---------------------------------------------------------------------------
+// WP Dashboard widgets, compact set (14.17.0): Latest Visitors, Most Active Visitors,
+// Currently Online, Top Pages, Top Referring. Markup: views/metabox/dashboard/*.
+// The Overview page keeps its own tables (these templates load only on index.php).
+//
+// - Visitor lists: Time, Visitor (shared pill + card), Page, Views. Fixed layout,
+//   one line per cell with ellipsis: never scrolls sideways.
+// - Top lists: the Top Countries share rows (components/objects/share-list, _percent.scss).
+// - Empty: one short line + hint instead of the big icon block.
+// - The widget body is the `wps-widget` size container (_widget-columns.scss):
+//   under 400px any name text after the pill goes and the side columns narrow,
+//   the share rows keep their %.
+// Logical properties only, so RTL mirrors by itself.
+// ---------------------------------------------------------------------------
+
+#dashboard-widgets .postbox[id^="wp-statistics-"] {
+  .wps-dash-list,
+  .wps-dash-rank,
+  .wps-dash-empty {
+    padding-inline: 12px;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .wps-dash-list {
+    overflow: hidden;
+  }
+
+  // ---- Visitor lists -------------------------------------------------------
+  table.wps-dash-table {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 13px;
+    line-height: 18px;
+    color: $wps-text;
+
+    // !important: generic dashboard table rules pad the cells by 24px.
+    th,
+    td {
+      padding-block: 8px !important;
+      padding-inline: 0 8px !important;
+      border-bottom: 1px solid $wps-card-rule;
+      text-align: start;
+      vertical-align: middle;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: none;
+    }
+
+    th {
+      padding-block: 0 6px !important;
+      font-size: 12px;
+      font-weight: 400;
+      color: $wps-text-muted;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    th:last-child,
+    td:last-child {
+      padding-inline-end: 0 !important;
+    }
+
+    .wps-dash-table__time {
+      width: 64px;
+      font-size: 12px;
+      color: $wps-text-muted;
+      font-variant-numeric: tabular-nums;
+    }
+
+    // Fits the widest pill (flag, OS, device, browser + the user or private status icon).
+    .wps-dash-table__visitor {
+      width: 142px;
+      overflow: visible; // the card trigger's focus ring
+    }
+
+    .wps-dash-table__views {
+      width: 44px;
+      text-align: end;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .wps-dash-table__page a,
+    .wps-dash-table__views a {
+      color: $wps-brand;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .wps-dash-table__who {
+      color: $wps-text;
+    }
+
+    // The shared Visitor Information cell, kept on one line inside the fixed column.
+    td.wps-dash-table__visitor .wps-visitor__information--container {
+      display: inline-flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      max-width: 100%;
+      margin: 0;
+      vertical-align: middle;
+    }
+
+    // Name or IP text after the pill (older cells, add-ons): one line, cut with an ellipsis.
+    td.wps-dash-table__visitor .wps-visitor-info__who {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // ---- Empty state ---------------------------------------------------------
+  .wps-dash-empty {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px 8px;
+    padding-block: 10px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 18px;
+    color: $wps-text-muted;
+  }
+
+  .wps-dash-empty__title {
+    font-weight: 600;
+    color: $wps-text-strong;
+  }
+}
+
+// ---- Container widths -------------------------------------------------------
+@container wps-widget (max-width: 400px) {
+  #dashboard-widgets .postbox[id^="wp-statistics-"] table.wps-dash-table {
+    .wps-dash-table__time {
+      width: 58px;
+    }
+
+    .wps-dash-table__views {
+      width: 40px;
+    }
+
+    // Pill only: the name text goes, the status icon stays.
+    td.wps-dash-table__visitor .wps-visitor-info__who {
+      display: none;
+    }
+  }
+}

@@ -4,7 +4,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\View;
-use WP_STATISTICS\Helper;
 
 ?>
 
@@ -25,27 +24,40 @@ use WP_STATISTICS\Helper;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Page', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
+                            <th class="wps-pd-l wps-col-num">
+                                <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                            </th>
+                            <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?></span>
                             </th>
-                            <th class="wps-pd-l"></th>
+                            <th class="wps-pd-l wps-col-share">
+                                <?php esc_html_e('Bounce Rate', 'wp-statistics'); ?>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($data['top'] as $item) : ?>
                             <tr>
                                 <td class="wps-pd-l">
-                                    <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->post_id])) ?>">
-                                        <span title="<?php echo esc_attr($item->title); ?>"><?php echo esc_html($item->title); ?></span>
-                                    </a>
+                                    <span class="wps-title-cell">
+                                        <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->post_id])) ?>">
+                                            <span title="<?php echo esc_attr($item->title); ?>"><?php echo esc_html($item->title); ?></span>
+                                        </a>
+                                        <?php View::load('components/objects/new-tab-link', ['url' => get_permalink($item->post_id)]); ?>
+                                    </span>
                                 </td>
-                                <td class="wps-pd-l">
+                                <td class="wps-pd-l wps-col-num">
+                                    <?php echo esc_html(number_format_i18n($item->visitors)) ?>
+                                </td>
+                                <td class="wps-pd-l wps-col-num">
                                     <?php echo esc_html(number_format_i18n($item->views)) ?>
                                 </td>
-                                <td class="wps-pd-l view-more view-more__arrow">
-                                    <a target="_blank" href="<?php the_permalink($item->post_id) ?>">
-                                        <?php esc_html_e('View Content', 'wp-statistics'); ?>
-                                    </a>
+                                <td class="wps-pd-l wps-col-share">
+                                    <?php if (isset($item->bounce_rate)) : ?>
+                                        <?php View::load('components/objects/percent-bar', ['value' => $item->bounce_rate, 'variant' => 'rate']); ?>
+                                    <?php else : ?>
+                                        <span class="wps-col-empty" title="<?php esc_attr_e('No visitor landed on this page first', 'wp-statistics'); ?>">-</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -53,9 +65,7 @@ use WP_STATISTICS\Helper;
                     </table>
                 </div>
             <?php else : ?>
-                <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
-                </div>
+                <?php View::load('components/objects/empty-state'); ?>
             <?php endif; ?>
         </div>
         <?php
@@ -83,27 +93,24 @@ use WP_STATISTICS\Helper;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Page', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
+                            <th class="wps-pd-l wps-col-num">
                                 <?php esc_html_e('Views', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($data['recent'] as $item) : ?>
                             <tr>
                                 <td class="wps-pd-l">
-                                    <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->post_id])) ?>">
-                                        <span title="<?php echo esc_attr($item->title); ?>"><?php echo esc_html($item->title); ?></span>
-                                    </a>
+                                    <span class="wps-title-cell">
+                                        <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->post_id])) ?>">
+                                            <span title="<?php echo esc_attr($item->title); ?>"><?php echo esc_html($item->title); ?></span>
+                                        </a>
+                                        <?php View::load('components/objects/new-tab-link', ['url' => get_permalink($item->post_id)]); ?>
+                                    </span>
                                 </td>
-                                <td class="wps-pd-l">
+                                <td class="wps-pd-l wps-col-num">
                                     <?php echo esc_html(number_format_i18n($item->views)) ?>
-                                </td>
-                                <td class="wps-pd-l view-more view-more__arrow">
-                                    <a target="_blank" href="<?php the_permalink($item->post_id) ?>">
-                                        <?php esc_html_e('View Content', 'wp-statistics'); ?>
-                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -111,9 +118,7 @@ use WP_STATISTICS\Helper;
                     </table>
                 </div>
             <?php else : ?>
-                <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
-                </div>
+                <?php View::load('components/objects/empty-state'); ?>
             <?php endif; ?>
         </div>
         <?php
@@ -146,7 +151,7 @@ use WP_STATISTICS\Helper;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('URL ', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
+                            <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?></span>
                             </th>
                         </tr>
@@ -160,16 +165,14 @@ use WP_STATISTICS\Helper;
                                         </span>
                                 </td>
 
-                                <td class="wps-pd-l"><?php echo esc_html($item->views) ?></td>
+                                <td class="wps-pd-l wps-col-num"><?php echo esc_html(number_format_i18n($item->views)) ?></td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             <?php else : ?>
-                <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
-                </div>
+                <?php View::load('components/objects/empty-state'); ?>
             <?php endif; ?>
         </div>
         <?php
@@ -197,35 +200,30 @@ use WP_STATISTICS\Helper;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Author ', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
+                            <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order"><?php esc_html_e('Author\'s Page Views', 'wp-statistics'); ?></span>
                             </th>
-                            <th class="wps-pd-l"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($data['author'] as $author) : ?>
                             <tr>
                                 <td class="wps-pd-l">
-                                    <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
-                                        <span title="<?php echo esc_attr($author->name) ?>"><?php echo esc_html($author->name) ?></span>
-                                    </a>
+                                    <span class="wps-title-cell">
+                                        <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
+                                            <span title="<?php echo esc_attr($author->name) ?>"><?php echo esc_html($author->name) ?></span>
+                                        </a>
+                                        <?php View::load('components/objects/new-tab-link', ['url' => get_author_posts_url($author->id), 'label' => __('Open author page in a new tab', 'wp-statistics')]); ?>
+                                    </span>
                                 </td>
-                                <td class="wps-pd-l"><?php echo esc_html(number_format_i18n($author->page_views)); ?></td>
-                                <td class="wps-pd-l view-more view-more__arrow">
-                                    <a target="_blank" href="<?php echo esc_url(get_author_posts_url($author->id)); ?>" title="<?php esc_html_e('View Author Page', 'wp-statistics') ?>">
-                                        <?php esc_html_e('View Author Page', 'wp-statistics') ?>
-                                    </a>
-                                </td>
+                                <td class="wps-pd-l wps-col-num"><?php echo esc_html(number_format_i18n($author->page_views)); ?></td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             <?php else : ?>
-                <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
-                </div>
+                <?php View::load('components/objects/empty-state'); ?>
             <?php endif; ?>
         </div>
         <?php

@@ -55,9 +55,7 @@ $timezoneCountry = Country::getName(Helper::getTimezoneCountry());
     </div>
     <div class="postbox-container" id="wps-postbox-container-2">
         <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Global Visitor Map', 'wp-statistics') ?></h2>
-            </div>
+            <?php View::load('components/objects/card-header', ['title' => __('Global Visitor Map', 'wp-statistics'), 'context' => 'card']); ?>
             <div class="inside wps-geo-map">
                 <?php
                 View::load("metabox/global-visitor-distribution", ['data' => $data['map_data']]);
@@ -66,7 +64,7 @@ $timezoneCountry = Country::getName(Helper::getTimezoneCountry());
         </div>
 
         <?php
-        View::load("components/tables/geographic-top-countries", ['data' => $data['countries']]);
+        View::load("components/tables/geographic-top-countries", ['data' => $data['countries'], 'total' => $data['countries_visitors'] ?? 0]);
 
         View::load("components/tables/geographic-top-cities", ['data' => $data['cities']]);
         ?>

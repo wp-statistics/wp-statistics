@@ -5,6 +5,7 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class MostVisitedPages extends BaseMetabox
 {
@@ -18,7 +19,7 @@ class MostVisitedPages extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics');
+        return esc_html__('Pages with the most views in the period.', 'wp-statistics');
     }
 
     public function getOptions()
@@ -27,7 +28,7 @@ class MostVisitedPages extends BaseMetabox
             'datepicker' => true,
             'button'     => View::load('metabox/action-button', [
                 'link'  => Menus::admin_url('pages', ['tab' => 'top']),
-                'title' => esc_html__('View Top Pages', 'wp-statistics')
+                'title' => MetaboxHelper::isDashboardContext() ? esc_html__('View all pages', 'wp-statistics') : esc_html__('View Top Pages', 'wp-statistics')
             ], true)
         ];
     }
@@ -35,7 +36,17 @@ class MostVisitedPages extends BaseMetabox
     public function getData()
     {
         $args = $this->getFilters();
-        $data = $this->dataProvider->getTopPages($args);
+
+        // WP Dashboard: ranked list with share bars, 5 rows, no bounce-rate queries.
+        if (MetaboxHelper::isDashboardContext()) {
+            return View::load('metabox/dashboard/rank-list', [
+                'data' => $this->dataProvider->getTopPagesShare($args, MetaboxHelper::DASHBOARD_ROWS),
+                'type' => 'pages',
+                'date' => $args['date'] ?? [],
+            ], true);
+        }
+
+        $data = $this->dataProvider->getTopPagesWithEngagement($args);
 
         $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
 

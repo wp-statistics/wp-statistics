@@ -19,10 +19,7 @@ class TabsView extends BaseTabView
         'browsers',
         'platforms',
         'models',
-        'categories',
-        'resolutions',
-        'languages',
-        'timezones'
+        'categories'
     ];
 
     public function __construct()
@@ -109,7 +106,7 @@ class TabsView extends BaseTabView
                     'id'          => 'browsers',
                     'link'        => Menus::admin_url('devices', ['tab' => 'browsers']),
                     'title'       => esc_html__('Browsers', 'wp-statistics'),
-                    'tooltip'     => esc_html__('Displays the different web browsers used by your visitors.', 'wp-statistics'),
+                    'tooltip'     => esc_html__('Visitors by browser.', 'wp-statistics'),
                     'class'       => $this->isTab('browsers') ? 'current' : '',
                     'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
@@ -117,7 +114,7 @@ class TabsView extends BaseTabView
                     'id'          => 'platforms',
                     'link'        => Menus::admin_url('devices', ['tab' => 'platforms']),
                     'title'       => esc_html__('Operating Systems', 'wp-statistics'),
-                    'tooltip'     => esc_html__('Shows the operating systems your visitors are using.', 'wp-statistics'),
+                    'tooltip'     => esc_html__('Visitors by operating system.', 'wp-statistics'),
                     'class'       => $this->isTab('platforms') ? 'current' : '',
                     'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
@@ -125,7 +122,7 @@ class TabsView extends BaseTabView
                     'id'          => 'models',
                     'link'        => Menus::admin_url('devices', ['tab' => 'models']),
                     'title'       => esc_html__('Device Models', 'wp-statistics'),
-                    'tooltip'     => esc_html__('Provides data on the specific models of devices used by your visitors.', 'wp-statistics'),
+                    'tooltip'     => esc_html__('Visitors by device model.', 'wp-statistics'),
                     'class'       => $this->isTab('models') ? 'current' : '',
                     'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
 
@@ -134,7 +131,7 @@ class TabsView extends BaseTabView
                     'id'          => 'categories',
                     'link'        => Menus::admin_url('devices', ['tab' => 'categories']),
                     'title'       => esc_html__('Device Categories', 'wp-statistics'),
-                    'tooltip'     => esc_html__('Displays visitor distribution across various device categories.', 'wp-statistics'),
+                    'tooltip'     => esc_html__('Visitors by device type (desktop, phone, tablet).', 'wp-statistics'),
                     'class'       => $this->isTab('categories') ? 'current' : '',
                     'export'      => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ]

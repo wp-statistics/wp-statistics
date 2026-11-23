@@ -201,7 +201,7 @@ if (!window.WpStatisticsEventTracker) {
             // checked, so search, share and player links are not counted as downloads.
             let fileName = '';
             const linkPath = targetUrl.split(/[?#]/).shift();
-            if (fileExtRegex.test(targetUrl) && fileExtRegex.test(linkPath)) {
+            if (fileExtRegex.test(linkPath)) {
                 fileName = linkPath;
             }
             if (!fileName) {

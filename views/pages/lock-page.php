@@ -2,6 +2,7 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use WP_STATISTICS\User;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
@@ -10,17 +11,45 @@ $pluginHandler  = new PluginHandler();
 $hasLicense     = LicenseHelper::isPluginLicenseValid($addon_slug) ? true : false;
 $isActive       = $pluginHandler->isPluginActive($addon_slug);
 $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
+$situation      = LicenseHelper::getAddonSituation($addon_slug, $pluginHandler);
+$canManage      = User::Access('manage');
+
+// White label (or a hidden Add-ons menu): no upsell, only a neutral line, like the inline teasers.
+if ($situation === LicenseHelper::SITUATION_HIDDEN) : ?>
+    <div class="wps-wrap__main wps-lock-page__main">
+        <div class="wps-lock-page wps-lock-page--container wps-lock-page--unavailable">
+            <div class="wps-lock-page__head"><?php esc_html_e('This feature is not available', 'wp-statistics'); ?></div>
+            <div class="wps-lock-page__description"><?php esc_html_e('Ask a site admin if you need this report.', 'wp-statistics'); ?></div>
+        </div>
+    </div>
+    <?php
+    return;
+endif;
 ?>
 
 
 <div class="wps-wrap__main wps-lock-page__main">
     <div class="wps-lock-page wps-lock-page--container">
-        <?php
-        if (!$hasLicense && $isInstalled) :
-            View::load("components/lock-sections/notice-inactive-license-addon");
-        endif;
-        ?>
-        <?php if ($hasLicense && !$isActive) : ?>
+        <?php if ($isInstalled && !$isActive) : ?>
+            <div class="wps-notice-settings wps-notice-settings--warning">
+                <div>
+                    <div class="wps-notice-settings__desc">
+                        <?php
+                        /* translators: %s: Add-on name. */
+                        echo esc_html(sprintf(__('%s is installed but turned off.', 'wp-statistics'), $addon_name));
+                        if ($canManage && current_user_can('activate_plugins')) :
+                            ?>
+                            <a href="<?php echo esc_url(LicenseHelper::getAddonPluginsPageUrl($addon_slug)); ?>"><?php
+                                /* translators: %s: Add-on name. */
+                                echo esc_html(sprintf(__('Activate %s', 'wp-statistics'), $addon_name)); ?></a>
+                        <?php elseif (!$canManage) : ?>
+                            <?php /* translators: %s: Add-on name. */ echo esc_html(sprintf(__('Ask a site admin to turn on %s.', 'wp-statistics'), $addon_name)); ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if ($hasLicense && !$isActive && !$isInstalled && $canManage) : ?>
             <div class="wps-premium-feature wps-premium-feature--premium-user">
                 <?php
                 View::load("components/lock-sections/setting-active-licensed-addon", ['addon_title' => $addon_name]);
@@ -44,7 +73,7 @@ $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
         <?php endif; ?>
 
 
-        <?php if (!$hasLicense && !$isActive) : ?>
+        <?php if (!$hasLicense && !$isActive && !$isInstalled && $canManage) : ?>
             <div class="wps-lock-page__actions">
                 <a target="_blank" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=' . esc_html($campaign)) ?>">
                     <?php echo esc_html($premium_btn_title); ?>

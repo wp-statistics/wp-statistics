@@ -16,11 +16,17 @@ class CategoryReportView extends BaseView
 
     public function __construct()
     {
+        // Only allow the sortable columns of the report
+        $orderBy = Request::get('order_by', 'views');
+        if (!in_array($orderBy, ['term_name', 'views', 'posts', 'words', 'avg_views', 'avg_words'], true)) {
+            $orderBy = 'views';
+        }
+
         $args = [
             'author_id' => Request::get('author_id', '', 'number'),
             'post_type' => Request::get('pt', ''),
             'taxonomy'  => Request::get('tx', ''),
-            'order_by'  => Request::get('order_by', 'views'),
+            'order_by'  => $orderBy,
             'order'     => Request::get('order', 'DESC'),
             'page'      => Admin_Template::getCurrentPaged(),
             'per_page'  => Admin_Template::$item_per_page,
@@ -74,7 +80,7 @@ class CategoryReportView extends BaseView
         $parentPage = Menus::getCurrentPage();
         $args       = [
             'title'               => esc_html__('Category Report', 'wp-statistics'),
-            'tooltip'             => esc_html__('List of terms in the selected taxonomy with metrics for content associated with each term.', 'wp-statistics'),
+            'tooltip'             => esc_html__('Each term in this taxonomy, with stats for its content.', 'wp-statistics'),
             'pageName'            => Menus::get_page_slug($parentPage['page_url']),
             'custom_get'          => [
                 'type'      => 'report',

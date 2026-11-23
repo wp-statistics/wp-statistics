@@ -5,14 +5,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 use WP_Statistics\Components\View;
 ?>
 <div class="wps-card">
-    <div class="wps-card__title">
-        <h2>
-            <?php echo esc_html($title); ?>
-            <?php if (!empty($tooltip)): ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-            <?php endif ?>
-        </h2>
-    </div>
+    <?php View::load('components/objects/card-header', ['title' => $title, 'tooltip' => $tooltip ?? '', 'context' => 'card']); ?>
     <div class="o-wrap wps-p-0">
         <div class="wps-postbox-chart wps-p-0">
             <div class="wps-postbox-chart--data c-chart__wps-skeleton--legend">
@@ -29,13 +22,7 @@ use WP_Statistics\Components\View;
             </div>
         </div>
     </div>
-    <?php if(isset($footer_title)):?>
-        <div class="wps-card__footer">
-            <div class="wps-card__footer__more">
-                <a class="wps-card__footer__more__link" href="<?php echo esc_url($footer_link) ?>">
-                    <?php echo esc_html($footer_title); ?>
-                </a>
-            </div>
-        </div>
-    <?php endif;?>
+    <?php if (isset($footer_title)) : ?>
+        <?php View::load('components/objects/card-footer', ['href' => $footer_link, 'title' => $footer_title]); ?>
+    <?php endif; ?>
 </div>

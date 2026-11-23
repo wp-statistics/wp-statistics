@@ -3,20 +3,19 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Country;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_Statistics\Components\View;
 
-$pluginHandler = new PluginHandler();
-$isActive      = $pluginHandler->isPluginActive('wp-statistics-data-plus');
+/**
+ * Args:
+ *  - data  (array) Top country rows (country, visitors, views).
+ *  - total (int)   All visitors in the range, the base of the Share column. Optional: without it the column is left out.
+ */
+$total = isset($total) ? intval($total) : 0;
 ?>
 
 <div class="wps-card">
-    <div class="wps-card__title">
-        <h2>
-            <?php echo esc_html__('Top Countries', 'wp-statistics') ?>
-        </h2>
-    </div>
+    <?php View::load('components/objects/card-header', ['title' => __('Top Countries', 'wp-statistics'), 'context' => 'card']); ?>
     <div class="inside">
         <?php if (!empty($data)) : ?>
             <div class="o-table-wrapper">
@@ -26,15 +25,19 @@ $isActive      = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                         <th class="wps-pd-l">
                             <?php esc_html_e('Country', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order">
                                     <?php esc_html_e('Visitors', 'wp-statistics') ?>
                                 </span>
                         </th>
-                        <th class="wps-pd-l">
+                        <th class="wps-pd-l wps-col-num">
                             <?php esc_html_e('Views', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l"></th>
+                        <?php if ($total > 0) : ?>
+                            <th class="wps-pd-l wps-col-share">
+                                <?php esc_html_e('Share', 'wp-statistics') ?>
+                            </th>
+                        <?php endif; ?>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,53 +45,35 @@ $isActive      = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                         <tr>
                             <td class="wps-pd-l">
                                 <div class="wps-country-name">
-                                    <img class="wps-flag" src="<?php echo esc_url(Country::flag($country->country)); ?>" alt="<?php echo esc_attr(Country::getName($country->country)); ?>">
-                                    <span class="truncate" title="<?php echo esc_attr(Country::getName($country->country)); ?>"><?php echo esc_html(Country::getName($country->country)); ?></span>
+                                    <img class="wps-flag" src="<?php echo esc_url(Country::flag($country->country)); ?>" alt="">
+                                    <?php if (empty($country->country) || $country->country === Country::$unknown_location) : ?>
+                                        <?php /* No report for visitors with an unknown country */ ?>
+                                        <span class="truncate" title="<?php echo esc_attr(Country::getName($country->country)); ?>"><?php echo esc_html(Country::getName($country->country)); ?></span>
+                                    <?php else : ?>
+                                        <?php /* The name opens the country report (Data Plus; without it, the page explains the add-on) */ ?>
+                                        <a class="truncate" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $country->country])) ?>" title="<?php echo esc_attr(Country::getName($country->country)); ?>"><?php echo esc_html(Country::getName($country->country)); ?></a>
+                                    <?php endif; ?>
                                 </div>
                             </td>
-                            <td class="wps-pd-l">
+                            <td class="wps-pd-l wps-col-num">
                                 <span><?php echo esc_html(number_format_i18n($country->visitors)); ?></span>
                             </td>
-                            <td class="wps-pd-l">
+                            <td class="wps-pd-l wps-col-num">
                                 <span><?php echo esc_html(number_format_i18n($country->views)); ?></span>
                             </td>
-                            <td class="-table__cell o-table__cell--right view-more">
-                                <?php if ($isActive): ?>
-                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $country->country ?? Country::$unknown_location])) ?>" aria-label="View Details">
-                                        <?php esc_html_e('View Details', 'wp-statistics') ?>
-                                    </a>
-                                <?php else: ?>
-                                    <div>
-                                        <button class="disabled wps-tooltip-premium">
-                                            <a class="wps-tooltip-premium__link" href="#"><?php esc_html_e('View Details', 'wp-statistics'); ?></a>
-                                            <span class="wps-tooltip_templates tooltip-premium tooltip-premium--side tooltip-premium--left">
-                                                    <span id="tooltip_realtime">
-                                                        <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
-                                                        <span>
-                                                             <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
-                                                        </span>
-                                                    </span>
-                                                </span>
-                                        </button>
-                                    </div>
-                                <?php endif; ?>
-                            </td>
+                            <?php if ($total > 0) : ?>
+                                <td class="wps-pd-l wps-col-share">
+                                    <?php View::load('components/objects/percent-bar', ['count' => $country->visitors, 'total' => $total, 'label' => __('Share of all visitors', 'wp-statistics')]); ?>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         <?php else : ?>
-            <div class="o-wrap o-wrap--no-data wps-center">
-                <?php echo esc_html(Helper::getNoDataMessage()); ?>
-            </div>
+            <?php View::load('components/objects/empty-state'); ?>
         <?php endif; ?>
     </div>
-    <div class="wps-card__footer">
-        <div class="wps-card__footer__more">
-            <a class="wps-card__footer__more__link" href="<?php echo esc_url(Menus::admin_url('geographic', ['tab' => 'countries'])) ?>">
-                <?php esc_html_e('View Countries', 'wp-statistics') ?>
-            </a>
-        </div>
-    </div>
+    <?php View::load('components/objects/card-footer', ['href' => Menus::admin_url('geographic', ['tab' => 'countries']), 'title' => __('View Countries', 'wp-statistics')]); ?>
 </div>

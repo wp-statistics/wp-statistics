@@ -45,6 +45,8 @@ $postType = get_post_type($postId);
                 'value'    => $data['glance']['bounce_rate']['value'],
                 'change'   => $data['glance']['bounce_rate']['change'],
                 'polarity' => 'negative',
+                'ring'     => floatval($data['glance']['bounce_rate']['value']),
+                'hint'     => true,
                 'tooltip'  => esc_html__('Share of visits that landed on this content and viewed no other page. A visit is one visitor on one day.', 'wp-statistics'),
             ],
             [
@@ -52,6 +54,7 @@ $postType = get_post_type($postId);
                 'value'    => $data['glance']['exit_rate']['value'],
                 'change'   => $data['glance']['exit_rate']['change'],
                 'polarity' => 'negative',
+                'ring'     => floatval($data['glance']['exit_rate']['value']),
                 'tooltip'  => esc_html__('Percentage of total views that ended on this content.', 'wp-statistics'),
             ]
         ];
@@ -83,28 +86,28 @@ $postType = get_post_type($postId);
 
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by operating system.', 'wp-statistics'),
             'unique_id' => 'content_operating_systems'
         ];
         View::load("components/charts/horizontal-bar", $operatingSystems);
 
         $browsers = [
             'title'     => esc_html__('Browsers', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by browser.', 'wp-statistics'),
             'unique_id' => 'content_browsers'
         ];
         View::load("components/charts/horizontal-bar", $browsers);
 
         $deviceModels = [
             'title'     => esc_html__('Device Models', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by device model.', 'wp-statistics'),
             'unique_id' => 'content_device_models'
         ];
         View::load("components/charts/horizontal-bar", $deviceModels);
 
         $deviceUsage = [
             'title'     => esc_html__('Device Usage', 'wp-statistics'),
-            'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
+            'tooltip'   => esc_html__('Visitors by device type.', 'wp-statistics'),
             'unique_id' => 'content_device_usage'
         ];
         View::load("components/charts/horizontal-bar", $deviceUsage);
@@ -120,7 +123,7 @@ $postType = get_post_type($postId);
         View::load("components/charts/performance", $performance);
 
         $topCountries = [
-            'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),
+            'tooltip' => esc_html__('Countries with the most visitors.', 'wp-statistics'),
             'data'    => $data['visitors_country']
         ];
         View::load("components/tables/top-countries", $topCountries);
@@ -135,7 +138,7 @@ $postType = get_post_type($postId);
         View::load("components/charts/search-engines", $engines);
 
         $topReferring = [
-            'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
+            'tooltip' => esc_html__('Sites that sent the most visitors.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];
         View::load("components/tables/top-referring", $topReferring);

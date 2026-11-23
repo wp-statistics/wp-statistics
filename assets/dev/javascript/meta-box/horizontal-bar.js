@@ -1,7 +1,7 @@
-wps_js.horizontal_bar_metabox = function(response, key, id, label, data, icon, percentages = []) {
+wps_js.horizontal_bar_metabox = function(response, key, id, label, data, icon, percentages = [], opts = {}) {
      if (response && response.response) {
         wps_js.metaBoxInner(key).html(response.response.output);
-        wps_js.horizontal_bar(id, label, data, icon, percentages);
+        wps_js.horizontal_bar(id, label, data, icon, percentages, opts);
         wps_js.initDatePickerHandlers();
     }
 }
@@ -17,7 +17,8 @@ wps_js.render_horizontal_bar_data = function(response, keyName) {
             args['labels'],
             args['data'],
             args['icons'],
-            args['percentages'] ?? []
+            args['percentages'] ?? [],
+            {total: args['total']}
         );
     }
 };

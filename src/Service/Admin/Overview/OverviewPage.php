@@ -8,6 +8,8 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BasePage;
 use WP_Statistics\Service\Admin\ModalHandler\Modal;
+use WP_STATISTICS\User;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 class OverviewPage extends BasePage
 {
@@ -24,11 +26,14 @@ class OverviewPage extends BasePage
     {
         $args = [
             'title'             => esc_html__('Overview', 'wp-statistics'),
-            'tooltip'           => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics'),
+            'tooltip'           => esc_html__('Traffic and visitor stats for your site.', 'wp-statistics'),
             'real_time_button'  => true
         ];
 
-        Modal::showOnce('welcome-premium');
+        // The "Discover Premium" welcome only for people who can buy add-ons, and never under white label.
+        if (User::Access('manage') && !LicenseHelper::areAddonPromptsHidden()) {
+            Modal::showOnce('welcome-premium');
+        }
 
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load(['pages/overview/overview'], $args);

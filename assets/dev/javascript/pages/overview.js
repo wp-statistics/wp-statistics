@@ -72,8 +72,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 return '';
             }
 
-            const start = moment(startDate);
-            const end = moment(endDate);
+            // Month names in the admin language (Admin_Assets::localizeMoment()).
+            const start = moment(startDate).locale(window.wpsMomentLocale || moment.locale());
+            const end = moment(endDate).locale(window.wpsMomentLocale || moment.locale());
 
             if (start.isSame(end, 'day')) {
                 return start.format('MMM D, YYYY');
@@ -213,9 +214,10 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
         handleDateSelection(metaboxId, dates, picker, isHide = false) {
             const $metabox = jQuery('#' + metaboxId);
+            const loc = window.wpsMomentLocale || moment.locale();
             const dateRangeText = dates.startDate === dates.endDate ?
-                picker.startDate.format('MMM D, YYYY') :
-                picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY');
+                picker.startDate.clone().locale(loc).format('MMM D, YYYY') :
+                picker.startDate.clone().locale(loc).format('MMM D, YYYY') + ' - ' + picker.endDate.clone().locale(loc).format('MMM D, YYYY');
 
             this.updateUIElements($metabox, dateRangeText, isHide);
             this.loadMetaBoxData(metaboxId, dates);
@@ -312,7 +314,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     wps_js.handleGoogleSearchButton = function(key, link, title) {
         const $container = jQuery(`#${key}`);
-        const $actionButtons = $container.find('.handle-actions button:first');
+        const $actionButtons = wps_js.metaBoxActionsAnchor(`#${key}`);
         const $googleLink = $container.find('.wps-google-link');
         if ($googleLink.length) $googleLink.remove();
         const linkAttributes = {
@@ -466,7 +468,10 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     };
 
     wps_js.handelReloadButton = key => {
-        const selector = "#" + key + " .handle-actions button:first";
+        // No reload button on the post edit screen: the box loads fresh with the page,
+        // and an extra button there pushes the core header buttons out of line.
+        if (wps_js.isPostEditScreen()) return;
+        const selector = wps_js.metaBoxActionsAnchor("#" + key);
         if (!jQuery('#' + key + ' .wps-refresh').length) {
             jQuery(`<button class="handlediv wps-refresh" aria-label="reload button" type="button" title="${wps_js._('reload')}"></button>`).insertBefore(selector);
         }
@@ -576,7 +581,11 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
             }
         }
 
-        wps_js.metaBoxInner(key).append(html);
+        // No date filter and no button (Traffic Summary): no footer, so no empty rule under the card.
+        const hasFooterContent = (response.options && response.options.datepicker) || (response.options && response.options.button);
+        if (hasFooterContent) {
+            wps_js.metaBoxInner(key).append(html);
+        }
     }
 
     document.addEventListener('click', function (event) {

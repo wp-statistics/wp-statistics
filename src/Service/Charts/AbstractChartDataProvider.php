@@ -36,7 +36,7 @@ abstract class AbstractChartDataProvider
     {
         $args = array_filter($this->args);
 
-        if (array_intersect(['resource_type', 'resource_id', 'query_param', 'post_type', 'author_id', 'post_id', 'taxonomy', 'term', 'event_name', 'event_target', 'utm_source', 'utm_medium', 'utm_campaign'], array_keys($args))) {
+        if (array_intersect(['resource_type', 'resource_id', 'query_param', 'post_type', 'author_id', 'post_id', 'taxonomy', 'term', 'event_name', 'event_target', 'utm_source', 'utm_medium', 'utm_campaign', 'referred_visitors'], array_keys($args))) {
             return true;
         }
 

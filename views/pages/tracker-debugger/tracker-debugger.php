@@ -498,9 +498,7 @@ $consentAnonymous   = $consent && $consent->getKey() === 'borlabs_cookie' && $co
                         <?php if (count($visitors->getVisitor()) < 1) : ?>
                             <tr>
                                 <td colspan="3">
-                                    <div class="o-wrap o-wrap--no-data wps-center">
-                                        <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
-                                    </div>
+                                    <?php \WP_Statistics\Components\View::load('components/objects/empty-state', ['message' => __('No recent data available.', 'wp-statistics'), 'range' => false, 'icon' => 'activity']); ?>
                                 </td>
                             </tr>
                         <?php endif; ?>

@@ -1,0 +1,143 @@
+// ---------------------------------------------------------------------------
+// Change chip (R9). The arrow follows the sign, the color follows polarity.
+// PHP: views/components/objects/change-chip.php
+// Legacy markups restyled here so every chip looks the same:
+//  - .wps-at-a-glance-change(.wps-glance-up|down)(.wps-glance-positive|negative)  At a Glance
+//  - .diffs__change(.up|.down|.plus|.minus|.neutral|.equal) > .diffs__change__direction
+//    Traffic Summary, Dashboard Traffic Overview, Data Plus Weekly Performance
+// #wpbody raises specificity over the older per-page rules and Data Plus CSS.
+// ---------------------------------------------------------------------------
+
+// V3-B "soft pill, no border": tinted pill, no hairline, medium weight, small arrow.
+@mixin wps-chip-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: auto;
+  min-height: 0;
+  padding: 3px 7px;
+  border: 0 !important;
+  border-radius: 999px;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  direction: ltr;
+  color: $wps-flat;
+  background: $wps-flat-bg;
+  box-shadow: none !important;
+  box-sizing: border-box;
+
+  &::before {
+    content: none;
+    background: none !important;
+    transform: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    height: 0 !important;
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+  }
+}
+
+@mixin wps-chip-up {
+  &::before {
+    content: "";
+    display: inline-block;
+    border-top: 0;
+    border-bottom: 4px solid currentColor;
+  }
+}
+
+@mixin wps-chip-down {
+  &::before {
+    content: "";
+    display: inline-block;
+    border-bottom: 0;
+    border-top: 4px solid currentColor;
+  }
+}
+
+@mixin wps-chip-good {
+  color: $wps-good;
+  background: $wps-good-bg;
+}
+
+@mixin wps-chip-bad {
+  color: $wps-bad;
+  background: $wps-bad-bg;
+}
+
+#wpbody {
+  .wps-change {
+    @include wps-chip-base;
+
+    &.wps-change--up { @include wps-chip-up; }
+    &.wps-change--down { @include wps-chip-down; }
+    &.wps-change--good { @include wps-chip-good; }
+    &.wps-change--bad { @include wps-chip-bad; }
+
+    // Inside At a Glance the old ".wps-at-a-glance-value span:first-child" rule would blow
+    // the inner span up to 20px; reset it.
+    span {
+      font: inherit !important;
+      color: inherit !important;
+      display: inline !important;
+      line-height: inherit !important;
+    }
+  }
+
+  .diffs__change {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 6px;
+    line-height: 1;
+
+    .diffs__change__direction {
+      @include wps-chip-base;
+    }
+
+    &.up .diffs__change__direction,
+    &.plus .diffs__change__direction {
+      @include wps-chip-up;
+      @include wps-chip-good;
+    }
+
+    &.down .diffs__change__direction,
+    &.minus .diffs__change__direction {
+      @include wps-chip-down;
+      @include wps-chip-bad;
+    }
+  }
+}
+
+.wps-change-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 14px;
+  color: $wps-text-subtle;
+}
+
+// At a Glance: ring before the value, hint under the value.
+.wps-at-a-glance {
+  .wps-at-a-glance-value {
+    flex-wrap: wrap;
+    gap: 4px 8px !important;
+
+    .wps-at-a-glance-ring {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wps-percent {
+      display: inline-flex !important;
+      font-size: inherit !important;
+      line-height: 1 !important;
+      overflow: visible !important;
+    }
+  }
+}

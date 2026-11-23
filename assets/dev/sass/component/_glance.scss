@@ -178,10 +178,14 @@
       margin-bottom: 12px;
       width: 100%;
       overflow: hidden;
-      display: block;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      word-break: break-all;
+      // Long labels ("Avg. Comments per Post", German) take a second line instead of being cut.
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      white-space: normal;
+      line-height: 14px;
+      overflow-wrap: anywhere;
 
       .wps-tooltip {
         width: 12px;
@@ -330,5 +334,23 @@
       color:#565759!important;
       font-size: 14px!important;
     }
+  }
+}
+// RTL: a Latin value ("Top Entry Page" title, a domain) is cut at its own end, not at its start.
+.wps-at-a-glance-value {
+  > span:first-child,
+  .wps-external-link,
+  > a,
+  > a > span {
+    unicode-bidi: plaintext;
+  }
+}
+
+.rtl .wps-at-a-glance-value {
+  > span:first-child,
+  .wps-external-link,
+  > a,
+  > a > span {
+    text-align: right;
   }
 }

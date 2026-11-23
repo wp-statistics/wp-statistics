@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Charts\DataProvider;
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
@@ -58,7 +59,7 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
 
         foreach ($data as $item) {
             $visitors       = $item->getTotalReferrals(true);
-            $sourceChannel  = $item->getSourceChannel();
+            $sourceChannel  = $item->getRawSourceChannel();
             $date           = $item->getDate();
 
             $thisParsedData[$sourceChannel][$date] = $visitors;
@@ -80,11 +81,12 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
             // Sort data by date
             ksort($data);
 
-            // Add search engine data as dataset
+            // Add the category as a dataset, in its fixed colour (the same as its widget icon).
             $this->addChartDataset(
-                $category,
+                SourceChannels::getName($category),
                 array_values($data)
             );
+            $this->setLastDatasetColor(SourceChannels::getStyle($category)['color']);
         }
 
         if (!empty($thisPeriodTotal)) {

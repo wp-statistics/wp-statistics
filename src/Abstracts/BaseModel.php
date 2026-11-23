@@ -111,6 +111,35 @@ abstract class BaseModel
     }
 
     /**
+     * Convert post type names to the `type` values stored in the pages table
+     * (e.g. a custom post type becomes `post_type_{name}`, and `page` adds `home`).
+     *
+     * @param string|array $postTypes
+     * @param bool $includeHome Whether `page` also adds the `home` type (front page rows).
+     * @return array
+     */
+    protected function getResourceTypes($postTypes, $includeHome = true)
+    {
+        if (empty($postTypes)) {
+            return [];
+        }
+
+        // A comma-separated list, as the `IN` filters on post_type read it
+        if (is_string($postTypes)) {
+            $postTypes = array_values(array_filter(array_map('trim', explode(',', $postTypes))));
+        }
+
+        $parsed = $this->parseResourceTypeArg(['resource_type' => $postTypes]);
+        $types  = $parsed['resource_type'];
+
+        if (!$includeHome) {
+            $types = array_values(array_diff($types, ['home']));
+        }
+
+        return $types;
+    }
+
+    /**
      * Parses the query_param argument.
      *
      * @return array The parsed arguments.

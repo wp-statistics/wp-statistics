@@ -20,11 +20,14 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
+        $this->tabs = Helper::getPostTypes();
+
+        // Reject unknown post types before running any report query
+        parent::__construct();
+
         $this->dataProvider = new ContentAnalyticsDataProvider([
             'post_type' => Request::get('tab', 'post'),
         ]);
-
-        $this->tabs = Helper::getPostTypes();
     }
 
     /**
@@ -57,7 +60,7 @@ class TabsView extends BaseTabView
 
             if ($this->isLockedTab($postType)) {
                 $tab['locked']  = true;
-                $tab['tooltip'] = esc_html__('To view reports for all your custom post types, you need to have the Data Plus add-on.', 'wp-statistics');
+                $tab['tooltip'] = esc_html__('Custom post type reports need the Data Plus add-on.', 'wp-statistics');
             }
 
             $tabs[] = $tab;

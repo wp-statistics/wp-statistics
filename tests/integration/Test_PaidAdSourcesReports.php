@@ -96,13 +96,13 @@ class Test_PaidAdSourcesReports extends WP_UnitTestCase
     public function test_last_touch_takes_a_paid_click_without_referrer()
     {
         Option::update('attribution_model', 'last-touch');
-        $existing = ['referred' => '', 'source_channel' => 'direct', 'source_name' => 'Direct'];
+        $existing = ['referred' => 'google.com', 'source_channel' => 'search', 'source_name' => 'Google'];
 
         $data = (new ReferralsManager())->handleLastTouchAttributionModel($existing, $this->profile('', 'http://example.com/?msclkid=test123'));
 
         $this->assertSame('paid_search', $data['source_channel']);
         $this->assertSame('Microsoft Ads', $data['source_name']);
-        $this->assertSame('', $data['referred'], 'no new referrer to store');
+        $this->assertSame('google.com', $data['referred'], 'no new referrer to store, the old one is kept');
 
         $data = (new ReferralsManager())->handleLastTouchAttributionModel($existing, $this->profile('', 'http://example.com/?oppref=test123'));
 
@@ -168,6 +168,7 @@ class Test_PaidAdSourcesReports extends WP_UnitTestCase
         $this->assertSame(1, $rows['google.com|search|Google']);
         $this->assertSame(1, $rows['google.com|paid_search|Google Ads']);
         $this->assertCount(4, $rows);
+        $this->assertSame(4, (int)$data['total'], 'the page count matches the rows');
     }
 
     public function test_no_referrer_clicks_with_different_names_are_separate_rows()
@@ -185,6 +186,7 @@ class Test_PaidAdSourcesReports extends WP_UnitTestCase
         }
 
         $this->assertEquals(['|Facebook' => 1, '|Instagram' => 1, 'l.facebook.com|Facebook Ads' => 2], $rows);
+        $this->assertSame(3, (int)$data['total'], 'the page count matches the rows');
     }
 
     public function test_referrers_tab_still_lists_only_referrer_domains()
@@ -196,5 +198,6 @@ class Test_PaidAdSourcesReports extends WP_UnitTestCase
 
         $this->assertCount(1, $data['referrers']);
         $this->assertSame('bing.com', $data['referrers'][0]->getRawReferrer());
+        $this->assertSame(1, (int)$data['total'], 'the page count matches the rows');
     }
 }

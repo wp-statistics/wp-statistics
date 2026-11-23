@@ -13,11 +13,7 @@ use WP_STATISTICS\Menus;
 
         <?php
             $metrics = [
-                [
-                    'label'  => esc_html__('Referred Visitors', 'wp-statistics'),
-                    'value'  => Helper::formatNumberWithUnit($data['summary']['visitors']['value']),
-                    'change' => $data['summary']['visitors']['change']
-                ],
+                // "Referred Visitors" moved to the Referred Traffic card below (with its trend per period)
                 [
                     'label'      => esc_html__('Top Referrer', 'wp-statistics'),
                     'link-href'  => !empty($data['summary']['referrer']) ? esc_url($data['summary']['referrer']) : null,
@@ -45,18 +41,14 @@ use WP_STATISTICS\Menus;
 
             View::load("components/objects/glance-card", ['metrics' => $metrics]);
         ?>
+
+        <?php if (!empty($data['traffic_summary'])) : ?>
+            <?php View::load('components/traffic-summary', ['data' => ['summary' => $data['traffic_summary']], 'title' => __('Referred Traffic', 'wp-statistics'), 'tooltip' => __('Visitors who came from another site or a campaign (not Direct), and their views.', 'wp-statistics')]); ?>
+        <?php endif; ?>
         <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Top Referrers', 'wp-statistics') ?></h2>
-            </div>
+            <?php View::load('components/objects/card-header', ['title' => __('Top Referrers', 'wp-statistics'), 'context' => 'card']); ?>
             <?php View::load("components/tables/top-referrers", ['data' => $data['referrers']]); ?>
-            <div class="wps-card__footer">
-                <div class="wps-card__footer__more">
-                    <a class="wps-card__footer__more__link" href="<?php echo esc_url(Menus::admin_url('referrals', ['tab' => 'referrers'])) ?>">
-                        <?php esc_html_e('View Referrers', 'wp-statistics') ?>
-                    </a>
-                </div>
-            </div>
+            <?php View::load('components/objects/card-footer', ['href' => Menus::admin_url('referrals', ['tab' => 'referrers']), 'title' => __('View Referrers', 'wp-statistics')]); ?>
         </div>
 
         <?php
@@ -107,19 +99,11 @@ use WP_STATISTICS\Menus;
         <?php do_action('wp_statistics_referrals_overview_entry_pages_widget'); ?>
 
         <div class="wps-card">
-            <div class="wps-card__title">
-                <h2><?php esc_html_e('Latest Referrals', 'wp-statistics') ?></h2>
-            </div>
+            <?php View::load('components/objects/card-header', ['title' => __('Latest Referrals', 'wp-statistics'), 'context' => 'card']); ?>
             <?php
             View::load("components/tables/latest-referrals", ['visitors' => $data['visitors']]);
             ?>
-            <div class="wps-card__footer">
-                <div class="wps-card__footer__more">
-                    <a class="wps-card__footer__more__link" href="<?php echo esc_url(Menus::admin_url('referrals', ['tab' => 'referred-visitors'])) ?>">
-                        <?php esc_html_e('View Referred Visitors', 'wp-statistics') ?>
-                    </a>
-                </div>
-            </div>
+            <?php View::load('components/objects/card-footer', ['href' => Menus::admin_url('referrals', ['tab' => 'referred-visitors']), 'title' => __('View Referred Visitors', 'wp-statistics')]); ?>
         </div>
     </div>
 </div>

@@ -16,7 +16,15 @@ class NotificationProcessor
     public static function filterNotificationsByTags($notifications)
     {
         if (!empty($notifications) && is_array($notifications)) {
+            // White label (Customization): no sales cards, whatever tags the feed sends.
+            $hidePromos = \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden();
+
             foreach ($notifications as $key => $notification) {
+                if ($hidePromos && ($notification['background_color'] ?? '') === 'promo') {
+                    unset($notifications[$key]);
+                    continue;
+                }
+
                 // Switch on and off by the notification's own dates, so a daily fetch cannot show it early or late.
                 $now    = time();
                 $starts = self::utcTimestamp($notification['starts_at'] ?? null);

@@ -12,8 +12,10 @@ abstract class BaseTabView extends BaseView
 
     public function __construct()
     {
-        // Throw error when invalid tab provided
-        if (!in_array($this->getCurrentTab(), $this->tabs)) {
+        // An unknown tab (an old link, or a tab that is off right now, such as Logged-in Users while user
+        // tracking is off or a tab of a turned-off add-on) shows the default tab instead: no error page, no log entry.
+        // Only when there is no valid tab at all is it a real error.
+        if (!in_array($this->getCurrentTab(), (array)$this->tabs)) {
             throw new SystemErrorException(
                 esc_html__('Invalid tab provided.', 'wp-statistics')
             );
@@ -21,14 +23,19 @@ abstract class BaseTabView extends BaseView
     }
 
     /**
-     * Retrieves the current tab.
+     * Retrieves the current tab: the `tab` query value when it is one of this page's tabs, else the default tab.
      *
-     * @param string $tab The current tab.
      * @return string The current tab.
      */
     public function getCurrentTab()
     {
-        return Request::get('tab', $this->defaultTab);
+        $tab = Request::get('tab', $this->defaultTab);
+
+        if (!empty($this->tabs) && !in_array($tab, (array)$this->tabs)) {
+            return in_array($this->defaultTab, (array)$this->tabs) ? $this->defaultTab : reset($this->tabs);
+        }
+
+        return $tab;
     }
 
     /**

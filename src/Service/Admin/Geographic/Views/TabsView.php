@@ -26,6 +26,11 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
+        // The Regions tab needs the site's country (from the timezone); without it, the tab is hidden and not allowed
+        if (!Helper::getTimezoneCountry()) {
+            $this->tabs = array_values(array_diff($this->tabs, ['regions']));
+        }
+
         parent::__construct();
 
         $this->dataProvider = new GeographicDataProvider([
@@ -98,7 +103,7 @@ class TabsView extends BaseTabView
                     'id'      => 'countries',
                     'link'    => Menus::admin_url('geographic', ['tab'   => 'countries']),
                     'title'   => esc_html__('Countries', 'wp-statistics'),
-                    'tooltip' => esc_html__('Displays visitor counts from different countries.', 'wp-statistics'),
+                    'tooltip' => esc_html__('Visitors by country.', 'wp-statistics'),
                     'class'   => $this->isTab('countries') ? 'current' : '',
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
@@ -106,7 +111,7 @@ class TabsView extends BaseTabView
                     'id'      => 'cities',
                     'link'    => Menus::admin_url('geographic', ['tab' => 'cities']),
                     'title'   => esc_html__('Cities', 'wp-statistics'),
-                    'tooltip' => esc_html__('Displays visitor data based on their cities of origin.', 'wp-statistics'),
+                    'tooltip' => esc_html__('Visitors by city.', 'wp-statistics'),
                     'class'   => $this->isTab('cities') ? 'current' : '',
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
@@ -114,7 +119,7 @@ class TabsView extends BaseTabView
                     'id'      => 'europe',
                     'link'    => Menus::admin_url('geographic', ['tab'   => 'europe']),
                     'title'   => esc_html__('European Countries', 'wp-statistics'),
-                    'tooltip' => esc_html__('Displays visitor counts from European countries.', 'wp-statistics'),
+                    'tooltip' => esc_html__('Visitors by European country.', 'wp-statistics'),
                     'class'   => $this->isTab('europe') ? 'current' : '',
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ],
@@ -122,7 +127,7 @@ class TabsView extends BaseTabView
                     'id'      => 'us',
                     'link'    => Menus::admin_url('geographic', ['tab'   => 'us']),
                     'title'   => esc_html__('US States', 'wp-statistics'),
-                    'tooltip' => esc_html__('Displays visitor counts categorized by states within the USA.', 'wp-statistics'),
+                    'tooltip' => esc_html__('Visitors by US state.', 'wp-statistics'),
                     'class'   => $this->isTab('us') ? 'current' : '',
                     'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
                 ]
@@ -136,7 +141,7 @@ class TabsView extends BaseTabView
                 'link'    => Menus::admin_url('geographic', ['tab'   => 'regions']),
                 /* translators: %s: string value */
                 'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), Country::getName($countryCode)),
-                'tooltip' => esc_html__('Displays visitor statistics for regions within your website’s country, based on your website’s timezone setting.', 'wp-statistics'),
+                'tooltip' => esc_html__('Visitors by region of your site’s country (taken from the site timezone).', 'wp-statistics'),
                 'class'   => $this->isTab('regions') ? 'current' : '',
                 'export'  => [ExportTypes::CSV_TABLE, ExportTypes::PDF_PAGE]
             ];

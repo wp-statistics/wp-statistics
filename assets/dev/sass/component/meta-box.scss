@@ -225,19 +225,22 @@ a.wps-tooltip:hover {
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
+  // Each card keeps its own height: a short card is not stretched to its
+  // neighbour with an empty band above the footer.
+  align-items: start;
 
   .postbox {
     margin-bottom: 0;
     border: 1px solid #DADCE0 !important;
     box-shadow: none !important;
-    padding: 24px 0 56px!important;
+    padding: $wps-card-pad-top 0 $wps-card-gap !important;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: $wps-card-gap;
     position: relative;
 
     .postbox-header {
-      padding: 0 24px 4px!important;
+      padding: 0 24px !important;
 
       h2 {
         font-weight: 500;
@@ -258,12 +261,9 @@ a.wps-tooltip:hover {
       }
     }
 
+    // Footer follows the content (it used to be pinned to the bottom of a stretched card).
     .c-footer{
-      padding-top: 0!important;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 24px;
+      position: static;
     }
 
     .inside, .o-table-wrapper table.wps-new-table {

@@ -2,8 +2,9 @@
 <a class="wps-tabs-item" href="<?php echo esc_url($href) ?>">
     <div class="wps-content-tabs__item--image">
         <span>#<?php echo esc_html($counter); ?></span>
-        <?php if (has_post_thumbnail(esc_html($post->ID))) : ?>
-            <img src="<?php echo esc_url(get_the_post_thumbnail_url(esc_html($post->ID))) ?>" alt="<?php echo esc_attr($post->post_title) ?>">
+        <?php $wpsThumb = has_post_thumbnail($post->ID) ? get_the_post_thumbnail_url($post->ID) : ''; // empty when the file is gone ?>
+        <?php if ($wpsThumb) : ?>
+            <img src="<?php echo esc_url($wpsThumb) ?>" alt="<?php echo esc_attr($post->post_title) ?>">
         <?php else : ?>
             <svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140" fill="none">
                 <g clip-path="url(#clip0_9208_25189)">

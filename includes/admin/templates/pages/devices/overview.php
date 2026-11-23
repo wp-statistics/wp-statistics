@@ -4,7 +4,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\View;
-use WP_STATISTICS\Helper;
 
 ?>
 
@@ -24,11 +23,11 @@ use WP_STATISTICS\Helper;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Browser', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
+                            <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                             </th>
-                            <th class="wps-pd-l">
-                                %
+                            <th class="wps-pd-l wps-col-share">
+                                <?php esc_html_e('Share', 'wp-statistics'); ?>
                             </th>
                         </tr>
                         </thead>
@@ -49,11 +48,11 @@ use WP_STATISTICS\Helper;
                                             <a href="<?php echo esc_url(Menus::admin_url('devices', ['type' => 'single-browser', 'browser' => $browser])) ?>"><?php echo esc_html($browser) ?></a>
                                         </span>
                                 </td>
-                                <td class="wps-pd-l">
+                                <td class="wps-pd-l wps-col-num">
                                     <?php echo esc_html(number_format_i18n($visitors)); ?>
                                 </td>
-                                <td class="wps-pd-l">
-                                    <?php echo esc_html(Helper::calculatePercentage($visitors, array_sum($data['browsers']['data'])) . '%') ?>
+                                <td class="wps-pd-l wps-col-share">
+                                    <?php View::load('components/objects/percent-bar', ['count' => $visitors, 'total' => array_sum($data['browsers']['data'])]); ?>
                                 </td>
                             </tr>
                         <?php endfor; ?>
@@ -61,9 +60,7 @@ use WP_STATISTICS\Helper;
                     </table>
                 </div>
             <?php else : ?>
-                <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
-                </div>
+                <?php View::load('components/objects/empty-state'); ?>
             <?php endif; ?>
         </div>
         <?php
@@ -91,11 +88,11 @@ use WP_STATISTICS\Helper;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('OS', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
+                            <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                             </th>
-                            <th class="wps-pd-l">
-                                %
+                            <th class="wps-pd-l wps-col-share">
+                                <?php esc_html_e('Share', 'wp-statistics'); ?>
                             </th>
                         </tr>
                         </thead>
@@ -114,11 +111,11 @@ use WP_STATISTICS\Helper;
                                             <?php echo esc_html($os); ?>
                                         </span>
                                 </td>
-                                <td class="wps-pd-l">
+                                <td class="wps-pd-l wps-col-num">
                                     <?php echo esc_html(number_format_i18n($visitors)); ?>
                                 </td>
-                                <td class="wps-pd-l">
-                                    <?php echo esc_html(Helper::calculatePercentage($visitors, array_sum($data['os']['data'])) . '%') ?>
+                                <td class="wps-pd-l wps-col-share">
+                                    <?php View::load('components/objects/percent-bar', ['count' => $visitors, 'total' => array_sum($data['os']['data'])]); ?>
                                 </td>
                             </tr>
                         <?php endfor; ?>
@@ -126,9 +123,7 @@ use WP_STATISTICS\Helper;
                     </table>
                 </div>
             <?php else : ?>
-                <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
-                </div>
+                <?php View::load('components/objects/empty-state'); ?>
             <?php endif; ?>
         </div>
         <?php
@@ -155,11 +150,11 @@ use WP_STATISTICS\Helper;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Model', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
+                            <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                             </th>
-                            <th class="wps-pd-l">
-                                %
+                            <th class="wps-pd-l wps-col-share">
+                                <?php esc_html_e('Share', 'wp-statistics'); ?>
                             </th>
                         </tr>
                         </thead>
@@ -176,11 +171,11 @@ use WP_STATISTICS\Helper;
                                             <?php echo esc_html($model); ?>
                                         </span>
                                 </td>
-                                <td class="wps-pd-l">
+                                <td class="wps-pd-l wps-col-num">
                                     <?php echo esc_html(number_format_i18n($visitors)); ?>
                                 </td>
-                                <td class="wps-pd-l">
-                                    <?php echo esc_html(Helper::calculatePercentage($visitors, array_sum($data['models']['data'])) . '%') ?>
+                                <td class="wps-pd-l wps-col-share">
+                                    <?php View::load('components/objects/percent-bar', ['count' => $visitors, 'total' => array_sum($data['models']['data'])]); ?>
                                 </td>
                             </tr>
                         <?php endfor; ?>
@@ -188,9 +183,7 @@ use WP_STATISTICS\Helper;
                     </table>
                 </div>
             <?php else: ?>
-                <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
-                </div>
+                <?php View::load('components/objects/empty-state'); ?>
             <?php endif; ?>
         </div>
         <?php
@@ -218,11 +211,11 @@ use WP_STATISTICS\Helper;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Category', 'wp-statistics'); ?>
                             </th>
-                            <th class="wps-pd-l">
+                            <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                             </th>
-                            <th class="wps-pd-l">
-                                %
+                            <th class="wps-pd-l wps-col-share">
+                                <?php esc_html_e('Share', 'wp-statistics'); ?>
                             </th>
                         </tr>
                         </thead>
@@ -239,11 +232,11 @@ use WP_STATISTICS\Helper;
                                             <?php echo esc_html($device); ?>
                                         </span>
                                 </td>
-                                <td class="wps-pd-l">
+                                <td class="wps-pd-l wps-col-num">
                                     <?php echo esc_html(number_format_i18n($visitors)); ?>
                                 </td>
-                                <td class="wps-pd-l">
-                                    <?php echo esc_html(Helper::calculatePercentage($visitors, array_sum($data['devices']['data'])) . '%') ?>
+                                <td class="wps-pd-l wps-col-share">
+                                    <?php View::load('components/objects/percent-bar', ['count' => $visitors, 'total' => array_sum($data['devices']['data'])]); ?>
                                 </td>
                             </tr>
                         <?php endfor; ?>
@@ -251,9 +244,7 @@ use WP_STATISTICS\Helper;
                     </table>
                 </div>
             <?php else : ?>
-                <div class="o-wrap o-wrap--no-data wps-center">
-                    <?php echo esc_html(Helper::getNoDataMessage()); ?>
-                </div>
+                <?php View::load('components/objects/empty-state'); ?>
             <?php endif; ?>
         </div>
         <?php

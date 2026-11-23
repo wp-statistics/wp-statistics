@@ -20,11 +20,14 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
+        $this->tabs = array_keys(Helper::get_list_taxonomy(true));
+
+        // Reject unknown taxonomies before running any report query
+        parent::__construct();
+
         $this->dataProvider = new CategoryAnalyticsDataProvider([
             'taxonomy' => Request::get('tab', 'category')
         ]);
-
-        $this->tabs = array_keys(Helper::get_list_taxonomy(true));
     }
 
     public function renderLocked()
@@ -93,7 +96,7 @@ class TabsView extends BaseTabView
 
             if ($this->isLockedTab($taxonomy)) {
                 $tab['locked']  = true;
-                $tab['tooltip'] = esc_html__('To view reports for all your custom taxonomies, you need to have the Data Plus add-on.', 'wp-statistics');
+                $tab['tooltip'] = esc_html__('Custom taxonomy reports need the Data Plus add-on.', 'wp-statistics');
             }
 
             $tabs[] = $tab;

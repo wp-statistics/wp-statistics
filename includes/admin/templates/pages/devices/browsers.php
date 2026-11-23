@@ -2,7 +2,7 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-use WP_STATISTICS\Helper;
+use WP_Statistics\Components\View;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 
 ?>
@@ -20,14 +20,11 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
                                     <th class="wps-pd-l">
                                         <?php esc_html_e('Browser', 'wp-statistics'); ?>
                                     </th>
-                                    <th class="wps-pd-l">
+                                    <th class="wps-pd-l wps-col-num">
                                         <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                                     </th>
-                                    <th class="wps-pd-l">
-                                        %
-                                    </th>
-                                    <th scope="col">
-                                        <span class="screen-reader-text"><?php esc_html_e('View browser detail', 'wp-statistics'); ?></span>
+                                    <th class="wps-pd-l wps-col-share">
+                                        <?php esc_html_e('Share', 'wp-statistics'); ?>
                                     </th>
                                 </tr>
                                 </thead>
@@ -37,20 +34,16 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
                                     <tr>
                                         <td class="wps-pd-l">
                                                 <span title="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent)); ?>" class="wps-browser-name">
-                                                    <img alt="<?php echo esc_attr(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent)); ?>" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>" class="log-tools wps-flag"/>
-                                                    <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent)); ?>
+                                                    <img alt="" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>" class="log-tools wps-flag"/>
+                                                    <?php /* The name opens the versions report (was the "View Details" button) */ ?>
+                                                    <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', array_merge($viewMoreUrlArgs, ['browser' => $item->agent]))); ?>"><?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent)); ?></a>
                                                 </span>
                                         </td>
-                                        <td class="wps-pd-l">
+                                        <td class="wps-pd-l wps-col-num">
                                             <?php echo esc_html(number_format_i18n($item->visitors)); ?>
                                         </td>
-                                        <td class="wps-pd-l">
-                                            <?php echo esc_html(Helper::calculatePercentage($item->visitors, $data['visits'])); ?>%
-                                        </td>
-                                        <td class="view-more">
-                                            <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', array_merge($viewMoreUrlArgs, ['browser' => $item->agent]))); ?>" aria-label="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
-                                                <?php esc_html_e('View Details', 'wp-statistics'); ?>
-                                            </a>
+                                        <td class="wps-pd-l wps-col-share">
+                                            <?php View::load('components/objects/percent-bar', ['count' => $item->visitors, 'total' => $data['visits']]); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -58,9 +51,7 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
                             </table>
                         </div>
                     <?php else : ?>
-                        <div class="o-wrap o-wrap--no-data wps-center">
-                            <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
-                        </div>
+                        <?php View::load('components/objects/empty-state'); ?>
                     <?php endif; ?>
                 </div>
                 <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

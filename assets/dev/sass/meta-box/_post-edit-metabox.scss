@@ -130,19 +130,9 @@
   }
 }
 .edit-post-meta-boxes-area {
+  // The header (title, move up/down, toggle) keeps core WordPress styles, hover and focus.
   .ui-sortable #wp-statistics-post-visitors-widget {
     background: $white-color !important;
-
-    .handle-order-higher, .handle-order-lower {
-
-      &:not([aria-disabled="true"]):hover {
-        color: $primary-color;
-      }
-    }
-
-    .handlediv {
-      color: $dim-black-color;
-    }
 
     .wp-statistics-widget {
       box-shadow: none;
@@ -152,6 +142,17 @@
     .wps-fade-effect::after {
       content: unset;
     }
+  }
+}
+
+// Our meta boxes on the post edit screen: keep a long or translated title on one line.
+#wp-statistics-post-summary-widget,
+#wp-statistics-post-visitors-widget {
+  .postbox-header .hndle {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -198,56 +199,116 @@
   }
 }
 
-.c-wps-post-summary-panel-chart{
-  position: relative;
-}
+// Post summary (Edit Post sidebar): labelled rows, a small chart and a link.
+// Generic block, so other post meta boxes can reuse it.
+.wps-post-summary {
+  display: grid;
+  gap: 12px;
+  padding: 2px 0 4px;
+  color: #1E1E1E;
 
-.wps-mini-chart-post-summary-tooltip {
-  box-shadow: 1px 1px 2px 0 #00000005;
-  border: 0.5px solid #DADCE0;
-  border-radius: 2px;
-  background: #fff;
-  padding: 12px;
-  opacity: 1;
-  pointer-events:none;
-  min-width: 105px;
-  margin: 0;
-  position: absolute;
-  transition: all .1s ease;
-  z-index: 99999;
+  &__row {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
 
-  .chart-title {
-    color: #0C0C0D;
-    font-size: 12px;
+  &__label {
+    font-size: 11px;
+    line-height: 16px;
     font-weight: 500;
-    line-height: 14.06px;
-    padding-bottom: 8px;
-    text-align: left;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #757575;
+  }
 
-    .rtl & {
-      text-align: right;
+  &__value {
+    font-size: 13px;
+    line-height: 20px;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+
+    b {
+      font-weight: 600;
     }
   }
 
-  .content-item {
-    display: flex;
-    justify-content: space-between;
+  &__sep {
+    color: #A9AAAE;
+    margin: 0 4px;
+  }
 
-    span:first-child {
-      font-size: 13px;
-      font-style: italic;
-      font-weight: 400;
-      line-height: 15.23px;
-      color: #56585A;
-      display: block !important;
+  &__chart {
+    min-width: 0;
+
+    .c-wps-post-summary-panel-chart {
+      position: relative;
+      height: 80px;
+      margin-top: 4px;
     }
-    span:last-child {
-      color: #0C0C0D;
-      font-size: 13px;
-      font-style: italic;
-      font-weight: 500;
-      line-height: 15.23px;
-      display: block !important;
+
+    canvas {
+      max-width: 100%;
     }
+
+    // Keep the date on one line, so the tooltip width is known before it is placed.
+    .c-wps-mini-chart-post-summary-tooltip {
+      white-space: nowrap;
+    }
+  }
+
+  &__caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 8px;
+    font-size: 11px;
+    line-height: 16px;
+    color: #757575;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__link {
+    justify-self: start;
+    font-size: 13px;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Block editor: "WP Statistics" panel in the Post sidebar (assets/dev/blocks/post-summary).
+.wps-post-panel {
+  // Plugin icon before the title, like the mockup; core puts it after.
+  .components-panel__body-toggle .components-panel__icon {
+    order: -1;
+    margin: -2px 0;
+    margin-inline-end: 8px;
+    color: inherit;
+  }
+
+  .wps-post-summary {
+    padding-top: 4px;
+  }
+
+  // Add-on sections from the WPStatisticsPostPanel slot.
+  &__sections {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #F0F0F0;
+  }
+
+  &__section-title {
+    margin: 0 0 4px;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #757575;
   }
 }

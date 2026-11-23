@@ -1,82 +1,50 @@
 wps_js.TrafficHourCharts=function(data){
+    // Same tooltip as every other chart (chart.js: wpsTooltipHtml): Now | Before | Change.
+    // Today's hours after the current hour have no value yet ("—"), the current hour is "so far".
     const hourTooltipHandler = (context, dataset, colors, data) => {
         const {chart, tooltip} = context;
-        const tooltipEl = getOrCreateTooltip(chart);
-        if (tooltip.opacity === 0) {
-            tooltipEl.style.opacity = 0;
+        if (tooltip.opacity === 0 || !tooltip.dataPoints || !tooltip.dataPoints.length) {
+            wpsShowTooltip(chart, tooltip, null);
             return;
         }
-        if (tooltip.body) {
-            const dataIndex = tooltip.dataPoints[0].dataIndex;
-            const datasets = chart.data.datasets;
-            let innerHtml = `<div>`;
-            const currentDatasets = datasets.filter(d => !d.label.includes('(Previous)'));
-            const previousDatasets = datasets.filter(d => d.label.includes('(Previous)'));
-            const currentHour = new Date().getHours();
-            const hoveredHour = data.data.labels[dataIndex].hour;
-            const hoveredHourNum = parseInt(hoveredHour.match(/\d+/)[0]);
-            const isPM = hoveredHour.includes('PM');
-            // Convert to 24-hour format
-            const hoveredHour24 = hoveredHourNum === 12 ?
-                (isPM ? 12 : 0) :
-                (isPM ? hoveredHourNum + 12 : hoveredHourNum);
-
-            // Check if current period has any non-zero values
-            const hasCurrentValues = currentDatasets.some(dataset =>
-                dataset.data[dataIndex] > 0
-            );
-            const hasPreviousValues = previousDatasets.some(dataset =>
-                dataset.data[dataIndex] > 0
-            );
-            const shouldShowCurrent = hoveredHour24 <= currentHour;
-            const dateToShow = shouldShowCurrent && (hasCurrentValues || (!hasCurrentValues && !hasPreviousValues)) ?
-                data.data.labels[dataIndex].formatted_date + ' (' + data.data.labels[dataIndex].hour + ')' :
-                data.previousData.labels[dataIndex].formatted_date + ' (' + data.data.labels[dataIndex].hour + ')';
-
-            innerHtml += `<div class="chart-title">${dateToShow}</div>`;
-
-            if (shouldShowCurrent && (hasCurrentValues || (!hasCurrentValues && !hasPreviousValues))) {
-                currentDatasets.forEach(dataset => {
-                    const meta = chart.getDatasetMeta(datasets.indexOf(dataset));
-                    if (!meta.hidden) {
-                        const value = dataset.data[dataIndex];
-                        innerHtml += `
-                        <div class="current-data">
-                            <div>
-                                <span class="current-data__color" style="background-color: ${dataset.backgroundColor};"></span>
-                                ${wps_js.escapeHtml(dataset.label)}
-                            </div>
-                            <span class="current-data__value">${value.toLocaleString()}</span>
-                        </div>`;
-                    }
-                });
-            }
-            if (!shouldShowCurrent || hasPreviousValues) {
-                const colorValues = Object.values(colors);
-                previousDatasets.forEach((dataset, index) => {
-                    const meta = chart.getDatasetMeta(datasets.indexOf(dataset));
-                    const prevLabel = dataset.label.replace(' (Previous)', '');
-                    if (!meta.hidden) {
-                        const value = dataset.data[dataIndex];
-                        innerHtml += `
-                        <div class="previous-data">
-                            <div>
-                                 <span class="previous-data__colors">
-                                    <span class="previous-data__color" style="background-color:${wps_js.hex_to_rgba(colorValues[index], 0.5)};"></span>
-                                    <span class="previous-data__color" style="background-color: ${wps_js.hex_to_rgba(colorValues[index], 0.5)}"></span>
-                                 </span>
-                                 ${prevLabel}
-                            </div>
-                            <span class="current-data__value">${value.toLocaleString()}</span>
-                        </div>`;
-                    }
-                });
-            }
-
-            innerHtml += `</div>`;
-            tooltipEl.innerHTML = innerHtml;
-            wps_js.setTooltipPosition(tooltipEl, chart, tooltip);
-        }
+        const dataIndex = tooltip.dataPoints[0].dataIndex;
+        const datasets = chart.data.datasets;
+        const label = (data.data.labels || [])[dataIndex] || {};
+        const isToday = !!label.date && label.date === wpsChartToday();
+        const currentHour = new Date().getHours();
+        const future = isToday && dataIndex > currentHour;
+        const strings = wpsTooltipStrings();
+        const hasPrevious = !!data.previousData;
+        const prevNoData = hasPrevious && (data.previousData.datasets || []).every(ds => (ds.data || []).every(v => !Number(v)));
+        const rows = [];
+        datasets.forEach((set, index) => {
+            if (String(set.label).includes('(Previous)')) return;
+            const meta = chart.getDatasetMeta(index);
+            if (meta.hidden) return;
+            const prevIndex = datasets.findIndex(ds => ds.label === `${set.label} (Previous)`);
+            const hasBefore = prevIndex > -1 && !chart.getDatasetMeta(prevIndex).hidden;
+            const now = future ? null : Number(set.data[dataIndex]) || 0;
+            const before = hasBefore && !prevNoData ? Number(datasets[prevIndex].data[dataIndex]) || 0 : null;
+            rows.push({
+                label: set.label,
+                color: colors[set.label] || set.backgroundColor,
+                bar: true,
+                now,
+                before,
+                hasBefore,
+                change: hasBefore && !prevNoData && !future && !(isToday && dataIndex === currentHour) ? wpsChangePercent(now, before) : null,
+            });
+        });
+        const prevLabel = hasPrevious ? (data.previousData.labels || [])[dataIndex] : null;
+        const footer = prevNoData
+            ? `${strings.noDataFor} ${prevLabel && prevLabel.formatted_date ? prevLabel.formatted_date : ''}`.trim()
+            : (isToday && prevLabel && prevLabel.formatted_date ? `${strings.comparedWith} ${prevLabel.formatted_date}` : strings.comparedPrevious);
+        wpsShowTooltip(chart, tooltip, {
+            title: label.hour || '',
+            tag: isToday && dataIndex === currentHour ? strings.soFar : '',
+            rows,
+            footer,
+        });
     };
     function createPattern(color) {
         const canvas = document.createElement('canvas');
@@ -165,12 +133,14 @@ wps_js.TrafficHourCharts=function(data){
                     width: 0
                 },
                 ticks: {
-                    align: 'inner',
-                    autoSkip: false,
-                    maxRotation: 90,
-                    minRotation: 90,
+                    // 24 hour labels: Chart.js keeps as many as fit (every 2nd, 3rd... hour), level, no collisions.
+                    autoSkip: true,
+                    autoSkipPadding: 12,
+                    maxRotation: 0,
+                    minRotation: 0,
                     callback: function (val, index) {
-                        return ' ' + this.getLabelForValue(val);
+                        // First-strong isolate: "12 AM" stays "12 AM" in RTL, a translated label keeps its own direction.
+                        return '\u2068' + this.getLabelForValue(val) + '\u2069';
                     },
                     font: {
                         color: '#898A8E',
@@ -228,6 +198,7 @@ wps_js.TrafficHourCharts=function(data){
     });
 
     window.wpsCharts.push(lineChart);
+    wps_js.chartKeyboard(lineChart);
 
     const updateLegends = function () {
         const chartElement = document.getElementById('hourly-usage-chart');
@@ -244,7 +215,8 @@ wps_js.TrafficHourCharts=function(data){
                 if (b.label === 'Total (Previous)') return 1;
                 return 0;
             });
-            const previousPeriod = document.querySelectorAll('.wps-postbox-chart--previousPeriod');
+            // This chart's own "Previous period" item, not every chart's on the page.
+            const previousPeriod = chartElement.parentElement.parentElement.querySelectorAll('.wps-postbox-chart--previousPeriod');
             if (previousPeriod.length > 0) {
                 let foundPrevious = false;
 

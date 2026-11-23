@@ -18,3 +18,51 @@ $white-color: #fff;
 $service-green-color: #196140;
 $service-green-medium-color: #ADCABD;
 $service-green-light-color: #E9F5F0;
+
+// ---------------------------------------------------------------------------
+// Design tokens (14.17 admin restyle). Shared by cards, percent bars, change
+// chips, empty states and tabs. Change a value here, not in the components.
+// ---------------------------------------------------------------------------
+
+// Brand / text
+$wps-brand: #404BF2;
+$wps-brand-soft: #C6C9FB;
+$wps-brand-tint: #EEF0FE;
+$wps-text-strong: #0C0C0D;
+$wps-text: #3C4043;
+$wps-text-muted: #56585A;
+$wps-text-subtle: #7D8083;
+$wps-icon-muted: #A9AAAE;
+
+// Card
+$wps-card-bg: #fff;
+$wps-card-border: #DADCE0;
+$wps-card-radius: 8px;
+$wps-card-pad-top: 20px;
+$wps-card-pad-x: 24px;
+$wps-card-pad-bottom: 18px;
+$wps-card-gap: 16px; // header-to-content and content-to-footer space in every card
+$wps-card-title-size: 14px;
+$wps-card-title-weight: 600;
+$wps-card-rule: #EEEFF1;
+$wps-card-footer-size: 12px;
+$wps-card-footer-pad: 16px; // space between the footer rule and the footer text
+$wps-card-tool-size: 24px;
+
+// Percent bar / ring
+$wps-track: #E6E7EA;
+$wps-track-height: 4px;
+$wps-bar-share-width: 120px;
+$wps-bar-rate-width: 56px;
+$wps-ring-size: 18px;
+
+// Change chip
+$wps-good: #196140;
+$wps-good-bg: #EAF5EF;
+$wps-good-line: #C4E0D1;
+$wps-bad: #B3302A;
+$wps-bad-bg: #FCEEEC;
+$wps-bad-line: #F2CBC6;
+$wps-flat: #56585A;
+$wps-flat-bg: #F1F2F3;
+$wps-flat-line: #DADCE0;

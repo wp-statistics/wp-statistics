@@ -125,6 +125,52 @@ class VisitorDecorator
     }
 
     /**
+     * Whether the stored IP may be shown as a raw IP in reports.
+     *
+     * Only when "Hash IP Addresses" is off and the stored value really is an IP. While hashing is on,
+     * no raw IP is shown anywhere, also not for rows saved before hashing was switched on (those still
+     * hold the raw IP until Optimization > "Hash IP Addresses" converts them).
+     *
+     * @return bool
+     */
+    public function isIpVisible()
+    {
+        $ip = $this->visitor->ip ?? '';
+
+        return !Option::get('hash_ips') && !empty($ip) && !$this->isHashedIP();
+    }
+
+    /**
+     * The logged-in user as reports show it: only while "Track Logged-In User Activity" (visitors_log) is on.
+     *
+     * @return UserDecorator|null
+     */
+    public function getVisibleUser()
+    {
+        return Option::get('visitors_log') ? $this->getUser() : null;
+    }
+
+    /**
+     * Name of the visitor in titles and headers, following the same rule as the visitor card:
+     * the user name (user tracking on), else the IP (when visible), else the short hash, else "Anonymous Visitor".
+     *
+     * @return string
+     */
+    public function getDisplayLabel()
+    {
+        $user = $this->getVisibleUser();
+        if ($user) {
+            return (string)$user->getDisplayName();
+        }
+
+        if ($this->isIpVisible() || $this->isHashedIP()) {
+            return (string)$this->getIP();
+        }
+
+        return __('Anonymous Visitor', 'wp-statistics');
+    }
+
+    /**
      * Checks if the visitor is anonymous.
      *
      * @return bool
@@ -257,6 +303,175 @@ class VisitorDecorator
         $date = date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($date));
 
         return $date ?? null;
+    }
+
+    /**
+     * Last view in a short one-line form for narrow widgets: "Nov 22, 10:15 am"
+     * (short month, no year when it is the current year, site date and time formats).
+     *
+     * @return string|null
+     */
+    public function getLastViewShort()
+    {
+        $date = $this->getLastView(true);
+
+        if (empty($date)) {
+            return null;
+        }
+
+        $timestamp = strtotime($date);
+        $format    = DateTime::getDateFormat();
+
+        if (date_i18n('Y', $timestamp) === DateTime::get('now', 'Y')) {
+            $format = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $format);
+        }
+
+        $format = str_replace('F', 'M', trim($format, ' ,')) . ', ' . DateTime::getTimeFormat();
+
+        return date_i18n($format, $timestamp);
+    }
+
+    /**
+     * Number of visitor rows (visit days) merged into this one, e.g. by
+     * MetaboxDataProvider::getTopVisitorsGroupedData(). 1 for a plain row.
+     *
+     * @return int
+     */
+    public function getVisits()
+    {
+        return isset($this->visitor->visits) ? max(1, intval($this->visitor->visits)) : 1;
+    }
+
+    /**
+     * Last view as one short token for compact lists (WP Dashboard widgets):
+     * the time ("7:24 am") when it was today, otherwise the date ("Nov 19", with the
+     * year only when it is not the current year). Site date and time formats.
+     *
+     * @return string|null
+     */
+    public function getLastViewCompact()
+    {
+        $date = $this->getLastView(true);
+
+        if (empty($date)) {
+            return null;
+        }
+
+        $timestamp = strtotime($date);
+
+        // Today, and the row has a time part (last_counter alone is a plain date).
+        if (date('Y-m-d', $timestamp) === DateTime::get() && strlen((string) $date) > 10) {
+            return date_i18n(DateTime::getTimeFormat(), $timestamp);
+        }
+
+        $format = DateTime::getDateFormat();
+
+        if (date('Y', $timestamp) === DateTime::get('now', 'Y')) {
+            $format = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $format);
+        }
+
+        $format = str_replace('F', 'M', trim($format, ' ,./-'));
+
+        return date_i18n($format, $timestamp);
+    }
+
+    /**
+     * Last view for the shared visitor table (views/components/tables/visitor-table.php),
+     * as the parts of one short-date rule. See self::compactDateParts().
+     *
+     * @return array|null ['wide', 'narrow', 'full', 'iso'], or null without a date.
+     */
+    public function getLastViewParts()
+    {
+        return self::compactDateParts($this->getLastView(true));
+    }
+
+    /**
+     * Page view time (single post visitor lists) as short-date parts. See self::compactDateParts().
+     *
+     * @return array|null
+     */
+    public function getPageViewParts()
+    {
+        return self::compactDateParts($this->visitor->page_view ?? null);
+    }
+
+    /**
+     * Whether the visit entered and left on the same page record (one page seen).
+     *
+     * @return bool
+     */
+    public function hasSameEntryAndExit()
+    {
+        return !empty($this->visitor->first_page) && !empty($this->visitor->last_page)
+            && (string)$this->visitor->first_page === (string)$this->visitor->last_page;
+    }
+
+    /**
+     * One short-date rule for visitor tables, in the site's date and time formats
+     * ("F" becomes "M"; the year is dropped for the current year):
+     *  - today:     "4:52 pm" (wide and narrow)
+     *  - yesterday: "Nov 21, 4:52 pm" wide, "Yesterday" narrow
+     *  - this year: "Nov 19, 7:41 pm" wide, "Nov 19" narrow
+     *  - older:     "Nov 19, 2025, 7:41 pm" wide, "Nov 19, 2025" narrow
+     * A plain date without a time ("2026-11-19") gives the date only ("Today" for today).
+     *
+     * @param string      $date Stored date or datetime (site time).
+     * @param string|null $today Today as Y-m-d (site time zone); for tests.
+     * @return array|null ['wide' => string, 'narrow' => string, 'full' => string, 'iso' => string]
+     */
+    public static function compactDateParts($date, $today = null)
+    {
+        if (empty($date) || ($timestamp = strtotime((string)$date)) === false) {
+            return null;
+        }
+
+        $today     = $today ?: DateTime::get();
+        $hasTime   = strlen(trim((string)$date)) > 10;
+        $day       = gmdate('Y-m-d', $timestamp);
+        $yesterday = gmdate('Y-m-d', strtotime($today . ' -1 day'));
+        $thisYear  = gmdate('Y', $timestamp) === substr($today, 0, 4);
+        $time      = $hasTime ? date_i18n(DateTime::getTimeFormat(), $timestamp) : '';
+        $short     = date_i18n(self::shortDateFormat(!$thisYear), $timestamp);
+        $join      = function ($date, $time) {
+            /* translators: 1: short date ("Nov 19"), 2: time ("7:41 pm"). */
+            return $time === '' ? $date : sprintf(_x('%1$s, %2$s', 'short date and time', 'wp-statistics'), $date, $time);
+        };
+
+        if ($day === $today) {
+            $wide   = $hasTime ? $time : __('Today', 'wp-statistics');
+            $narrow = $wide;
+        } else {
+            $wide   = $join($short, $time);
+            $narrow = $day === $yesterday ? __('Yesterday', 'wp-statistics') : $short;
+        }
+
+        return [
+            'wide'   => $wide,
+            'narrow' => $narrow,
+            'full'   => $join(date_i18n(DateTime::getDateFormat(), $timestamp), $time),
+            'iso'    => gmdate($hasTime ? 'Y-m-d\TH:i' : 'Y-m-d', $timestamp),
+        ];
+    }
+
+    /**
+     * The site date format made short: "F" (November) becomes "M" (Nov), and the year
+     * goes unless asked for. "F j, Y" gives "M j"; "j. F Y" gives "j. M"; "d/m/Y" gives "d/m".
+     *
+     * @param bool $withYear
+     * @return string
+     */
+    public static function shortDateFormat($withYear = false)
+    {
+        $format = DateTime::getDateFormat();
+
+        if (!$withYear) {
+            $format = preg_replace('/(,\s?Y|Y\s?,|Y[, \/.-]?|[, \/.-]?Y)/i', '', $format);
+        }
+
+        $format = str_replace('F', 'M', trim($format, ' ,/-'));
+
+        return $format !== '' ? $format : ($withYear ? 'M j, Y' : 'M j');
     }
 
     /**

@@ -1,0 +1,55 @@
+// ---------------------------------------------------------------------------
+// Line chart legend (Traffic Trend and every chart built by chart.js / traffic-hour-chart.js:
+// Overview, WP Dashboard, Visitor Insights, Referrals, Pages, Data Plus, Marketing).
+// Markup: .wps-postbox-chart--data > .wps-postbox-chart--items (one .wps-postbox-chart--item
+// per metric) + .wps-postbox-chart--info ("Previous period", range select).
+//
+// The metrics stay on one row. When the card is too narrow for metrics + info, the info
+// line wraps under the metrics (left-aligned) instead of squeezing the metrics into a
+// column. Metrics only wrap when even they do not fit side by side.
+// Traffic Overview (quickstats) has its own boxed legend and is left alone.
+// ---------------------------------------------------------------------------
+#wpbody .wps-postbox-chart--data:not(#wp-statistics-quickstats-widget *) {
+  flex-wrap: wrap;
+  column-gap: 24px;
+
+  .wps-postbox-chart--items {
+    flex: 0 1 auto;
+    min-width: 0;
+    column-gap: 32px;
+  }
+
+  .wps-postbox-chart--item {
+    flex: none;
+  }
+
+  // "Previous period" + range select keep to the end side, also when they wrap under the metrics.
+  .wps-postbox-chart--info {
+    flex: 1 1 auto; // may shrink: a long "Previous period" / "Täglich" never pushes past the card
+    min-width: 0;
+    max-width: 100%;
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+// Narrow chart cards (sidebar widgets, half-width cards, phones): a tighter legend row.
+#wpbody .wps-postbox-chart--data:not(#wp-statistics-quickstats-widget *) {
+  container-type: inline-size;
+}
+
+@container (max-width: 520px) {
+  #wpbody .wps-postbox-chart--items {
+    column-gap: 16px !important;
+    row-gap: 8px;
+  }
+
+  #wpbody .c-wps-performance-chart__items .current-data {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

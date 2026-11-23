@@ -552,7 +552,7 @@ class Pages
             $reportUrl = '';
             if (isset($page_info['meta']['term_taxonomy_id'])) {
                 $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $item->id]);
-            } else if (isset($page_info['meta']['author_id'])) {
+            } else if (!empty($page_info['meta']['author_id'])) {
                 $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page_info['meta']['author_id']]);
             } else if (isset($page_info['meta']['post_type'])) {
                 $reportUrl = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id]);

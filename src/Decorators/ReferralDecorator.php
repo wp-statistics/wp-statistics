@@ -65,6 +65,22 @@ class ReferralDecorator
     }
 
     /**
+     * Get the source name for a visit that came without a referrer but whose source is known
+     * from the landing URL (for example Microsoft Ads via msclkid). Returns null when there is a
+     * referrer or the visit is direct traffic, so those rows render as before.
+     *
+     * @return string|null
+     */
+    public function getSourceNameWithoutReferrer()
+    {
+        if (!empty($this->item->referred) || $this->getRawSourceChannel() === 'direct') {
+            return null;
+        }
+
+        return $this->getSourceName();
+    }
+
+    /**
      * Get the date of the referral.
      *
      * @return string

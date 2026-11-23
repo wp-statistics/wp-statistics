@@ -258,8 +258,9 @@ jQuery(document).ready(function () {
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
             const activeText = datePickerElement.data('daterangepicker').chosenLabel;
-            const startMoment = moment(requestFromDate).utcOffset(validTimezone, true);
-            const endMoment = moment(requestToDate).utcOffset(validTimezone, true);
+            // Month names in the admin language (see Admin_Assets::localizeMoment()).
+            const startMoment = moment(requestFromDate).utcOffset(validTimezone, true).locale(window.wpsMomentLocale || moment.locale());
+            const endMoment = moment(requestToDate).utcOffset(validTimezone, true).locale(window.wpsMomentLocale || moment.locale());
             let activeRangeText;
             if (startMoment.year() === endMoment.year()) {
                 const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
@@ -277,8 +278,8 @@ jQuery(document).ready(function () {
             }
             datePickerBtn.find('span').html(activeRangeText);
         } else {
-            const defaultStartMoment = moment(defaultStartDate).utcOffset(validTimezone, true);
-            const defaultEndMoment = moment(defaultEndDate).utcOffset(validTimezone, true);
+            const defaultStartMoment = moment(defaultStartDate).utcOffset(validTimezone, true).locale(window.wpsMomentLocale || moment.locale());
+            const defaultEndMoment = moment(defaultEndDate).utcOffset(validTimezone, true).locale(window.wpsMomentLocale || moment.locale());
             datePickerElement.data('daterangepicker').setStartDate(moment(defaultStartDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(defaultEndDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();

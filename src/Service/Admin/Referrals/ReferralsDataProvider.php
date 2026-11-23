@@ -71,7 +71,9 @@ class ReferralsDataProvider
                 'search_engine' => $searchEngine,
                 'social_media'  => $socialMedia
             ],
-            'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 5, 'page' => 1])),
+            // Referred Traffic card: fixed periods (Today ... Total), not the page date range
+            'traffic_summary' => ChartDataProviderFactory::summaryChart(['referred_visitors' => true, 'include_total' => true])->getData(),
+            'visitors'      => $this->visitorsModel->getReferredVisitors(array_merge($this->args, ['per_page' => 5, 'page' => 1, 'order_by' => VisitorsModel::LATEST_ORDER_BY])),
             'referrers'     => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true, 'group_by' => ['visitor.referred'], 'per_page' => 5, 'page' => 1])),
         ];
     }
@@ -104,7 +106,7 @@ class ReferralsDataProvider
     public function getReferredVisitors()
     {
         return [
-            'visitors' => $this->visitorsModel->getReferredVisitors($this->args),
+            'visitors' => $this->visitorsModel->getReferredVisitors(array_merge(['order_by' => VisitorsModel::LATEST_ORDER_BY], $this->args)),
             'total'    => $this->visitorsModel->countReferredVisitors($this->args)
         ];
     }
@@ -116,7 +118,13 @@ class ReferralsDataProvider
                 'decorate' => true,
                 'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
-            'total'     => $this->visitorsModel->countReferrers($this->args)
+            'total'     => $this->visitorsModel->countReferrers(array_merge($this->args, [
+                'group_by' => ['visitor.referred', 'visitor.source_channel']
+            ])),
+            // Share base: all referrals in the range (every row, not only this page)
+            'referrals' => intval($this->visitorsModel->countReferrers(array_merge($this->args, [
+                'sum_visitors' => true
+            ])))
         ];
     }
 
@@ -151,7 +159,15 @@ class ReferralsDataProvider
                 'not_null' => false,
                 'group_by' => self::REFERRER_AND_SOURCE_GROUP
             ])),
-            'total'     => $this->visitorsModel->countReferrers(array_merge($args, ['not_null' => false]))
+            'total'     => $this->visitorsModel->countReferrers(array_merge($args, [
+                'not_null' => false,
+                'group_by' => self::REFERRER_AND_SOURCE_GROUP
+            ])),
+            // Share base: all referrals of these channels, the same total the chart above the table shows
+            'referrals' => intval($this->visitorsModel->countReferrers(array_merge($args, [
+                'not_null'     => false,
+                'sum_visitors' => true
+            ])))
         ];
     }
 
@@ -167,7 +183,15 @@ class ReferralsDataProvider
                 'not_null' => false,
                 'group_by' => self::REFERRER_AND_SOURCE_GROUP
             ])),
-            'total'     => $this->visitorsModel->countReferrers(array_merge($args, ['not_null' => false]))
+            'total'     => $this->visitorsModel->countReferrers(array_merge($args, [
+                'not_null' => false,
+                'group_by' => self::REFERRER_AND_SOURCE_GROUP
+            ])),
+            // Share base: all referrals of these channels, the same total the chart above the table shows
+            'referrals' => intval($this->visitorsModel->countReferrers(array_merge($args, [
+                'not_null'     => false,
+                'sum_visitors' => true
+            ])))
         ];
     }
 

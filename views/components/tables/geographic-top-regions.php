@@ -2,17 +2,13 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Components\View;
 
 ?>
 
 <div class="wps-card">
-    <div class="wps-card__title">
-        <h2>
-            <?php echo esc_html($title); ?>
-        </h2>
-    </div>
+    <?php View::load('components/objects/card-header', ['title' => $title, 'context' => 'card']); ?>
     <div class="inside">
         <?php if (!empty($data)) : ?>
             <div class="o-table-wrapper">
@@ -22,7 +18,7 @@ use WP_STATISTICS\Menus;
                         <th class="wps-pd-l">
                             <?php echo esc_html($top_title); ?>
                         </th>
-                        <th class="wps-pd-l">
+                        <th class="wps-pd-l wps-col-num">
                                 <span class="wps-order">
                                     <?php esc_html_e('Visitors', 'wp-statistics') ?>
                                 </span>
@@ -35,7 +31,7 @@ use WP_STATISTICS\Menus;
                             <td class="wps-pd-l">
                                 <?php echo esc_html($item->region); ?>
                             </td>
-                            <td class="wps-pd-l">
+                            <td class="wps-pd-l wps-col-num">
                                 <?php echo esc_html(number_format_i18n($item->visitors)) ?>
                             </td>
                         </tr>
@@ -44,17 +40,8 @@ use WP_STATISTICS\Menus;
                 </table>
             </div>
         <?php else : ?>
-            <div class="o-wrap o-wrap--no-data wps-center">
-                <?php echo esc_html(Helper::getNoDataMessage()); ?>
-            </div>
+            <?php View::load('components/objects/empty-state'); ?>
         <?php endif; ?>
     </div>
-
-    <div class="wps-card__footer">
-        <div class="wps-card__footer__more">
-            <a class="wps-card__footer__more__link" href="<?php echo esc_url($footer_link) ?>">
-                <?php echo esc_html($footer_title); ?>
-            </a>
-        </div>
-    </div>
+    <?php View::load('components/objects/card-footer', ['href' => $footer_link, 'title' => $footer_title]); ?>
 </div>

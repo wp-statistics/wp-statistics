@@ -5,6 +5,7 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class MostActiveVisitors extends BaseMetabox
 {
@@ -18,7 +19,7 @@ class MostActiveVisitors extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('Visitors with the highest number of views, including their country, city, IP address, and browser.', 'wp-statistics');
+        return esc_html__('Visitors with the most views in the period.', 'wp-statistics');
     }
 
     public function getOptions()
@@ -27,7 +28,7 @@ class MostActiveVisitors extends BaseMetabox
             'datepicker'    => true,
             'button'        => View::load('metabox/action-button',[
                 'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']) ,
-                'title' => esc_html__('View Most Active Visitors', 'wp-statistics')
+                'title' => MetaboxHelper::isDashboardContext() ? esc_html__('View all active visitors', 'wp-statistics') : esc_html__('View Most Active Visitors', 'wp-statistics')
             ],true)
         ];
     }
@@ -38,6 +39,16 @@ class MostActiveVisitors extends BaseMetabox
 
         $isTodayOrFutureDate = DateTime::isTodayOrFutureDate($args['date']['to'] ?? null);
 
+        // WP Dashboard: 5 rows, one per logged-in user ("Admin · 3 visits").
+        if (MetaboxHelper::isDashboardContext()) {
+            $data = $this->dataProvider->getTopVisitorsGroupedData($args, MetaboxHelper::DASHBOARD_ROWS);
+
+            return View::load('metabox/dashboard/visitors-list', [
+                'data'  => $data,
+                'mode'  => 'active',
+                'empty' => ['date' => $args['date'] ?? []],
+            ], true);
+        }
 
         $data   = $this->dataProvider->getTopVisitorsData($args);
         $output = View::load('metabox/most-active-visitors', ['data' => $data, 'filters' => $args, 'isTodayOrFutureDate' => $isTodayOrFutureDate], true);

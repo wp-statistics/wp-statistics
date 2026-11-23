@@ -19,6 +19,7 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
 
     private $timezoneString;
     private $gmtOffset;
+    private $savedOptions;
 
     public function setUp(): void
     {
@@ -29,6 +30,11 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
         if ($this->timezoneString === null) {
             $this->timezoneString = get_option('timezone_string');
             $this->gmtOffset      = get_option('gmt_offset');
+            $this->savedOptions   = [
+                'email_list'            => Option::get('email_list'),
+                TrackingHealth::SETTING => Option::get(TrackingHealth::SETTING),
+                'use_cache_plugin'      => Option::get('use_cache_plugin'),
+            ];
         }
 
         reset_phpmailer_instance();
@@ -58,6 +64,17 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
         )");
     }
 
+    public static function tearDownAfterClass(): void
+    {
+        // These tests replace the visitor table with a small one (and one test drops it):
+        // put the real table back for the test classes that run after this one.
+        global $wpdb;
+        $wpdb->query('DROP TABLE IF EXISTS `' . DB::table('visitor') . '`');
+        \WP_Statistics\Service\Database\Managers\TableHandler::createAllTables();
+
+        parent::tearDownAfterClass();
+    }
+
     public function tearDown(): void
     {
         delete_option(TrackingHealth::STATE_OPTION);
@@ -72,6 +89,9 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
         global $wpdb;
         update_option('timezone_string', $this->timezoneString);
         update_option('gmt_offset', $this->gmtOffset);
+        foreach ($this->savedOptions as $name => $value) {
+            Option::update($name, $value);
+        }
         $wpdb->query('COMMIT');
     }
 
@@ -670,7 +690,7 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
         $this->assertStringContainsString('about 10 visitors a day', $stopped);
         $this->assertStringContainsString('Last visit recorded', $stopped);
         $this->assertStringContainsString('Open the Tracker Debugger', $stopped);
-        $this->assertStringNotContainsString('%', str_replace('%', '', '') . '');
+        $this->assertDoesNotMatchRegularExpression('/%(\d+\$)?[sd]/', $stopped, 'no unfilled placeholders');
         reset_phpmailer_instance();
         TrackingHealth::check($this->st(60));
         $rec = $this->mail(0)->body;

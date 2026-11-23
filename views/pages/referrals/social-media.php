@@ -26,6 +26,8 @@ use WP_Statistics\Components\View;
             <?php
             $args = [
                 'referrers'  => $data['referrers'],
+                'total'      => $data['referrals'] ?? 0,
+                'share_label' => __('Share of social media referrals', 'wp-statistics'),
                 'pagination' => $pagination ?? null
             ];
             View::load("components/tables/referrers", $args);

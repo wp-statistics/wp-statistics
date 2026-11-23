@@ -87,7 +87,8 @@ const renderBarChart = ({elementId, data}) => {
     }
 
     try {
-        wps_js.horizontal_bar(elementId, data.labels, data.data, data.icons);
+        // Pass the real total so a top-5 list shows each row's share of everything, not of the five.
+        wps_js.horizontal_bar(elementId, data.labels, data.data, data.icons, data.percentages || [], {total: data.total});
     } catch (error) {
         jQuery(element).parent().html(wps_js.no_results());
     }

@@ -37,8 +37,7 @@ class SingleBrowserView extends BaseView
     public function render()
     {
         $args = [
-            // translators: %s: Browser/OS/Model/etc. name.
-            'title'         => sprintf(esc_html__('%s Report', 'wp-statistics'), $this->browser),
+            'title'         => $this->browser,
             'backTitle'     => esc_html__('Browsers', 'wp-statistics'),
             'backUrl'       => Menus::admin_url('devices', ['tab' => 'browsers']),
             'firstColTitle' => esc_html__('Version', 'wp-statistics'),

@@ -3,7 +3,6 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Statistics\Components\View;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Visitor;
 
 ?>
@@ -17,13 +16,12 @@ use WP_STATISTICS\Visitor;
                     <th class="wps-pd-l">
                         <?php esc_html_e('Entry Page', 'wp-statistics') ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th class="wps-pd-l wps-col-num">
                         <?php esc_html_e('Unique Entrances', 'wp-statistics') ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th class="wps-pd-l wps-col-share">
                         <?php esc_html_e('Bounce Rate', 'wp-statistics') ?>
                     </th>
-                    <th class="wps-pd-l"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,22 +30,21 @@ use WP_STATISTICS\Visitor;
                     ?>
                     <tr>
                         <td class="wps-pd-l">
-                            <?php View::load("components/objects/internal-link", [
-                                'url'   => $pageInfo['report'],
-                                'title' => $pageInfo['title']
-                            ]); ?>
+                            <span class="wps-title-cell">
+                                <?php View::load("components/objects/internal-link", [
+                                    'url'   => $pageInfo['report'],
+                                    'title' => $pageInfo['title']
+                                ]); ?>
+                                <?php View::load('components/objects/new-tab-link', ['url' => $pageInfo['link']]); ?>
+                            </span>
                         </td>
 
-                        <td class="wps-pd-l">
+                        <td class="wps-pd-l wps-col-num">
                             <span><?php echo esc_html(number_format_i18n($page->visitors)); ?></span>
                         </td>
 
-                        <td class="wps-pd-l">
-                            <span><?php echo esc_html(round((float) ($page->bounce_rate ?? 0), 1) . '%'); ?></span>
-                        </td>
-
-                        <td class="wps-pd-l view-more view-more__arrow">
-                            <a target="_blank" href="<?php echo esc_url($pageInfo['link']) ?>"><?php esc_html_e('View Page', 'wp-statistics') ?></a>
+                        <td class="wps-pd-l wps-col-share">
+                            <?php View::load('components/objects/percent-bar', ['value' => (float) ($page->bounce_rate ?? 0), 'variant' => 'rate']); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -55,8 +52,6 @@ use WP_STATISTICS\Visitor;
             </table>
         </div>
     <?php else : ?>
-        <div class="o-wrap o-wrap--no-data wps-center">
-            <?php echo esc_html(Helper::getNoDataMessage()); ?>
-        </div>
+        <?php View::load('components/objects/empty-state'); ?>
     <?php endif; ?>
 </div>

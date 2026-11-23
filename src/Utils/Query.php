@@ -305,7 +305,7 @@ class Query
 
         if (is_array($fields)) {
             foreach ($fields as $field) {
-                $this->whereClauses[] = "{$field} IS NULL OR {$field} = ''";
+                $this->whereClauses[] = "({$field} IS NULL OR {$field} = '')";
             }
         }
 
@@ -348,7 +348,8 @@ class Query
             case 'IN':
             case 'NOT IN':
                 if (is_string($value)) {
-                    $value = explode(',', $value);
+                    // Trim each item, so 'post, page' matches like 'post,page'.
+                    $value = array_map('trim', explode(',', $value));
                 }
 
                 if (!empty($value) && is_array($value) && count($value) == 1) {

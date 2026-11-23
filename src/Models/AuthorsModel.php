@@ -51,7 +51,7 @@ class AuthorsModel extends BaseModel
             ])
             ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
-            ->join('pages', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->join('pages', ['posts.ID', 'pages.id'], [['pages.type', 'IN', $this->getResourceTypes($args['post_type'], false)]], 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('date', $args['date'])
@@ -166,7 +166,7 @@ class AuthorsModel extends BaseModel
             ])
             ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
-            ->join('pages', ['posts.ID', 'pages.id'])
+            ->join('pages', ['posts.ID', 'pages.id'], [['pages.type', 'IN', $this->getResourceTypes($args['post_type'], false)]])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', $args['date'])
@@ -231,7 +231,7 @@ class AuthorsModel extends BaseModel
 
         $viewsQuery = Query::select(['DISTINCT post_author', 'SUM(count) AS total_views'])
             ->from('posts')
-            ->join('pages', ['posts.ID', 'pages.id'])
+            ->join('pages', ['posts.ID', 'pages.id'], [['pages.type', 'IN', $this->getResourceTypes($args['post_type'], false)]])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('pages.date', $args['date'])
@@ -296,6 +296,163 @@ class AuthorsModel extends BaseModel
         $result = $query->getAll();
 
         return $result ? $result : [];
+    }
+
+    /**
+     * Top authors for the leaderboard widgets: views in the date range of the author's
+     * published content (any publish date), and how many of those posts got the views.
+     * "Views per post" divides by posts_with_views, so it is never empty when there are views.
+     *
+     * @param array $args date, post_type, taxonomy, term, order_by, order, page, per_page.
+     * @return object[] id, name, nicename, views, posts_with_views.
+     */
+    public function getAuthorsLeaderboard($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => Helper::get_list_post_type(),
+            'order_by'  => 'views',
+            'order'     => 'DESC',
+            'page'      => 1,
+            'per_page'  => 5,
+            'taxonomy'  => '',
+            'term'      => ''
+        ]);
+
+        $query = Query::select([
+                'posts.post_author AS id',
+                'users.display_name AS name',
+                'users.user_nicename AS nicename',
+                'SUM(pages.count) AS views',
+                'COUNT(DISTINCT posts.ID) AS posts_with_views'
+            ])
+            ->from('posts')
+            ->join('users', ['posts.post_author', 'users.ID'])
+            ->join('pages', ['posts.ID', 'pages.id'], [['pages.type', 'IN', $this->getResourceTypes($args['post_type'], false)]])
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->whereDate('pages.date', $args['date'])
+            ->groupBy(['posts.post_author', 'users.display_name', 'users.user_nicename'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page']);
+
+        $this->joinTermFilter($query, $args);
+
+        $result = $query->getAll();
+
+        return $result ? $result : [];
+    }
+
+    /**
+     * Published posts per author with a publish date in the range.
+     *
+     * @param int[] $authorIds
+     * @param array $args date, post_type, taxonomy, term.
+     * @return int[] author ID => count.
+     */
+    public function countPublishedByAuthors($authorIds, $args = [])
+    {
+        $authorIds = array_values(array_filter(array_map('intval', (array) $authorIds)));
+
+        // An empty IN list would drop the filter and count every author
+        if (empty($authorIds)) {
+            return [];
+        }
+
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => Helper::get_list_post_type(),
+            'taxonomy'  => '',
+            'term'      => ''
+        ]);
+
+        $query = Query::select(['posts.post_author AS id', 'COUNT(DISTINCT posts.ID) AS total'])
+            ->from('posts')
+            ->where('posts.post_author', 'IN', $authorIds)
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->whereDate('posts.post_date', $args['date'])
+            ->groupBy('posts.post_author');
+
+        $this->joinTermFilter($query, $args);
+
+        return $this->pluckCounts($query->getAll());
+    }
+
+    /**
+     * Approved comments written in the date range on each author's published posts.
+     *
+     * @param int[] $authorIds
+     * @param array $args date, post_type, taxonomy, term.
+     * @return int[] author ID => count.
+     */
+    public function countCommentsByAuthors($authorIds, $args = [])
+    {
+        $authorIds = array_values(array_filter(array_map('intval', (array) $authorIds)));
+
+        if (empty($authorIds)) {
+            return [];
+        }
+
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => Helper::get_list_post_type(),
+            'taxonomy'  => '',
+            'term'      => ''
+        ]);
+
+        $query = Query::select(['posts.post_author AS id', 'COUNT(comments.comment_ID) AS total'])
+            ->from('comments')
+            ->join('posts', ['comments.comment_post_ID', 'posts.ID'])
+            ->where('posts.post_author', 'IN', $authorIds)
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('comments.comment_approved', '=', '1')
+            ->where('comments.comment_type', '=', 'comment')
+            ->whereDate('comments.comment_date', $args['date'])
+            ->groupBy('posts.post_author');
+
+        $this->joinTermFilter($query, $args);
+
+        return $this->pluckCounts($query->getAll());
+    }
+
+    /**
+     * Limit a posts query to a taxonomy and/or term.
+     *
+     * @param Query $query
+     * @param array $args
+     */
+    private function joinTermFilter($query, $args)
+    {
+        if (empty($args['taxonomy']) && empty($args['term'])) {
+            return;
+        }
+
+        $taxQuery = Query::select(['DISTINCT object_id'])
+            ->from('term_relationships')
+            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+            ->where('terms.term_id', '=', $args['term'])
+            ->getQuery();
+
+        $query->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+    }
+
+    /**
+     * @param object[]|null $rows Rows with id + total.
+     * @return int[]
+     */
+    private function pluckCounts($rows)
+    {
+        $counts = [];
+
+        foreach ((array) $rows as $row) {
+            $counts[(int) $row->id] = (int) $row->total;
+        }
+
+        return $counts;
     }
 
     public function getAuthorsPagesData($args = [])

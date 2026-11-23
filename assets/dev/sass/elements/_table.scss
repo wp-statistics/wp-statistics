@@ -189,18 +189,18 @@
       }
     }
 
-    tr:hover, tr:nth-child(even):hover {
-      td {
+    // The inspect icon shows only while its own link is hovered or focused, never on row hover.
+    td:first-child a:hover:after,
+    td:first-child a:focus-visible:after {
+      visibility: visible;
+    }
 
-        &:first-child a:after {
-          visibility: visible;
-        }
-
-        &:not(.view-more) {
-          a, a span {
-            color: #404BF2 !important;
-          }
-        }
+    // Link color only when the link itself is hovered or focused; a row hover keeps
+    // just the row background (the whole row read as one big link before).
+    td:not(.view-more) {
+      a:hover, a:hover span,
+      a:focus-visible, a:focus-visible span {
+        color: #404BF2 !important;
       }
     }
   }
@@ -530,104 +530,214 @@ body .o-table-wrapper table.wps-new-table {
 
       }
 
+      // Visitor Information cell (views/components/visitor-information.php):
+      // flag, OS, device and browser in one rounded pill, then IP / user.
       .wps-visitor__information--container {
         padding: 0;
         margin: 0;
         display: flex;
-        gap: 5px;
+        flex-wrap: nowrap;
         align-items: center;
+        row-gap: 4px;
+        column-gap: 0;
+        list-style: none;
 
         .wps-visitor__information {
-          margin-bottom: 0;
+          margin: 0;
+          padding: 0;
+          line-height: 0;
+
+          a, & > span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+          }
+
+          img {
+            width: 14px;
+            height: 14px;
+            display: block;
+            cursor: pointer;
+            object-fit: contain;
+
+            &.flag {
+              width: 16px;
+              height: 12px;
+              object-fit: cover;
+              border-radius: 2px;
+              box-shadow: 0 0 0 0.5px rgba(12, 12, 13, 0.12);
+            }
+          }
+        }
+
+        // The four icon slots form the pill.
+        .wps-visitor-info__slot {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          width: 24px;
+          height: 24px;
+          background: #F3F4F6;
+          box-shadow: inset 0 1px 0 #E6E7EA, inset 0 -1px 0 #E6E7EA;
+
+          & + .wps-visitor-info__slot {
+            border-inline-start: 1px solid #E2E3E6;
+            width: 25px;
+          }
+
+          &--country {
+            border-start-start-radius: 999px;
+            border-end-start-radius: 999px;
+            width: 28px;
+            padding-inline-start: 4px;
+            box-shadow: inset 0 1px 0 #E6E7EA, inset 0 -1px 0 #E6E7EA, inset 1px 0 0 #E6E7EA;
+
+            .rtl & {
+              box-shadow: inset 0 1px 0 #E6E7EA, inset 0 -1px 0 #E6E7EA, inset -1px 0 0 #E6E7EA;
+            }
+          }
+
+          &--browser {
+            border-start-end-radius: 999px;
+            border-end-end-radius: 999px;
+            width: 29px;
+            padding-inline-end: 4px;
+            box-shadow: inset 0 1px 0 #E6E7EA, inset 0 -1px 0 #E6E7EA, inset -1px 0 0 #E6E7EA;
+
+            .rtl & {
+              box-shadow: inset 0 1px 0 #E6E7EA, inset 0 -1px 0 #E6E7EA, inset 1px 0 0 #E6E7EA;
+            }
+          }
+
+          a:focus-visible {
+            outline: 2px solid #404BF2;
+            outline-offset: 1px;
+            border-radius: 2px;
+            box-shadow: none;
+          }
+        }
+
+        .wps-visitor-info__unknown {
+          width: 16px;
+          height: 12px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: #7D8083;
+          cursor: pointer;
+
+          svg {
+            display: block;
+          }
+        }
+
+        .wps-visitor-info__who {
+          margin-inline-start: 10px;
+          line-height: 16px;
+          min-width: 0;
+          white-space: nowrap;
 
           & > div {
             display: flex;
             gap: 5px;
             align-items: center;
-
-            .wps-visitor__information__incognito {
-              &-text {
-                font-size: 12px;
-                font-weight: 400;
-                color: #56585A !important;
-                border-bottom: 0.5px solid transparent;
-
-                &:hover {
-                  border-bottom: 0.5px solid #0C0C0D;
-                  color: #0C0C0D !important;
-                }
-              }
-
-              &-img {
-                width: 13px;
-                height: 13px;
-                background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTMgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMi4yNjgzMiA0LjIzMjY5TDIuMDI0MDkgNS4yMDk2NEgwLjc3MDgzMkMwLjUzMzUyNCA1LjIwOTY0IDAuMzQxMTQ1IDUuNDAyMDIgMC4zNDExNDUgNS42MzkzMkMwLjM0MTE0NSA1Ljg3NjYzIDAuNTMzNTI0IDYuMDY5MDEgMC43NzA4MzIgNi4wNjkwMUgxMi4yMjkyQzEyLjQ2NjUgNi4wNjkwMSAxMi42NTg5IDUuODc2NjMgMTIuNjU4OSA1LjYzOTMyQzEyLjY1ODkgNS40MDIwMiAxMi40NjY1IDUuMjA5NjQgMTIuMjI5MiA1LjIwOTY0SDEwLjk3NTlMMTAuNzMxNyA0LjIzMjY5QzEwLjQxOSAyLjk4MjIgMTAuMjYyNyAyLjM1Njk1IDkuNzk2NSAxLjk5MjkzQzkuMzMwMjcgMS42Mjg5MSA4LjY4NTc5IDEuNjI4OTEgNy4zOTY3OSAxLjYyODkxSDUuNjAzMjFDNC4zMTQyMSAxLjYyODkxIDMuNjY5NzIgMS42Mjg5MSAzLjIwMzQ5IDEuOTkyOTNDMi43MzcyNiAyLjM1Njk1IDIuNTgwOTUgMi45ODIyIDIuMjY4MzIgNC4yMzI2OVpNMy4zNDg5NiAxMS4zNjg1QzQuMjc4ODkgMTEuMzY4NSA1LjA2MDk4IDEwLjczNTUgNS4yODc4IDkuODc2NzlMNS45MjM1MyA5LjU1ODkzQzYuMjg2NDIgOS4zNzc0OSA2LjcxMzU4IDkuMzc3NDkgNy4wNzY0NyA5LjU1ODkzTDcuNzEyMTggOS44NzY3OUM3LjkzODk5IDEwLjczNTUgOC43MjEwOCAxMS4zNjg1IDkuNjUxMDQgMTEuMzY4NUMxMC43NTg1IDExLjM2ODUgMTEuNjU2MiAxMC40NzA3IDExLjY1NjIgOS4zNjMyOEMxMS42NTYyIDguMjU1ODMgMTAuNzU4NSA3LjM1ODA3IDkuNjUxMDQgNy4zNTgwN0M4LjY5OTk0IDcuMzU4MDcgNy45MDM1MyA4LjAyMDI1IDcuNjk3NTcgOC45MDg2N0w3LjQ2MDg0IDguNzkwMzFDNi44NTU5NSA4LjQ4Nzg3IDYuMTQ0MDUgOC40ODc4NyA1LjUzOTE2IDguNzkwMzFMNS4zMDI0MSA4LjkwODY3QzUuMDk2NDggOC4wMjAyNSA0LjMwMDA1IDcuMzU4MDcgMy4zNDg5NiA3LjM1ODA3QzIuMjQxNTEgNy4zNTgwNyAxLjM0Mzc1IDguMjU1ODMgMS4zNDM3NSA5LjM2MzI4QzEuMzQzNzUgMTAuNDcwNyAyLjI0MTUxIDExLjM2ODUgMy4zNDg5NiAxMS4zNjg1WiIgZmlsbD0iIzU2NTg1QSIvPgo8L3N2Zz4K") center center no-repeat;
-                display: inline-block;
-              }
-            }
-
+            min-width: 0;
           }
+        }
 
-          a {
-            display: block;
-            height: 15px;
+        .wps-visitor__information__incognito-text {
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+          color: #3C4043 !important;
+          font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+          border-bottom: 0.5px solid transparent;
+          direction: ltr;
+          unicode-bidi: isolate;
+
+          &:hover {
+            border-bottom-color: #0C0C0D;
+            color: #0C0C0D !important;
           }
+        }
 
-          img {
+        .wps-visitor__information__incognito-img {
+          width: 13px;
+          height: 13px;
+          background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTMgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMi4yNjgzMiA0LjIzMjY5TDIuMDI0MDkgNS4yMDk2NEgwLjc3MDgzMkMwLjUzMzUyNCA1LjIwOTY0IDAuMzQxMTQ1IDUuNDAyMDIgMC4zNDExNDUgNS42MzkzMkMwLjM0MTE0NSA1Ljg3NjYzIDAuNTMzNTI0IDYuMDY5MDEgMC43NzA4MzIgNi4wNjkwMUgxMi4yMjkyQzEyLjQ2NjUgNi4wNjkwMSAxMi42NTg5IDUuODc2NjMgMTIuNjU4OSA1LjYzOTMyQzEyLjY1ODkgNS40MDIwMiAxMi40NjY1IDUuMjA5NjQgMTIuMjI5MiA1LjIwOTY0SDEwLjk3NTlMMTAuNzMxNyA0LjIzMjY5QzEwLjQxOSAyLjk4MjIgMTAuMjYyNyAyLjM1Njk1IDkuNzk2NSAxLjk5MjkzQzkuMzMwMjcgMS42Mjg5MSA4LjY4NTc5IDEuNjI4OTEgNy4zOTY3OSAxLjYyODkxSDUuNjAzMjFDNC4zMTQyMSAxLjYyODkxIDMuNjY5NzIgMS42Mjg5MSAzLjIwMzQ5IDEuOTkyOTNDMi43MzcyNiAyLjM1Njk1IDIuNTgwOTUgMi45ODIyIDIuMjY4MzIgNC4yMzI2OVpNMy4zNDg5NiAxMS4zNjg1QzQuMjc4ODkgMTEuMzY4NSA1LjA2MDk4IDEwLjczNTUgNS4yODc4IDkuODc2NzlMNS45MjM1MyA5LjU1ODkzQzYuMjg2NDIgOS4zNzc0OSA2LjcxMzU4IDkuMzc3NDkgNy4wNzY0NyA5LjU1ODkzTDcuNzEyMTggOS44NzY3OUM3LjkzODk5IDEwLjczNTUgOC43MjEwOCAxMS4zNjg1IDkuNjUxMDQgMTEuMzY4NUMxMC43NTg1IDExLjM2ODUgMTEuNjU2MiAxMC40NzA3IDExLjY1NjIgOS4zNjMyOEMxMS42NTYyIDguMjU1ODMgMTAuNzU4NSA3LjM1ODA3IDkuNjUxMDQgNy4zNTgwN0M4LjY5OTk0IDcuMzU4MDcgNy45MDM1MyA4LjAyMDI1IDcuNjk3NTcgOC45MDg2N0w3LjQ2MDg0IDguNzkwMzFDNi44NTU5NSA4LjQ4Nzg3IDYuMTQ0MDUgOC40ODc4NyA1LjUzOTE2IDguNzkwMzFMNS4zMDI0MSA4LjkwODY3QzUuMDk2NDggOC4wMjAyNSA0LjMwMDA1IDcuMzU4MDcgMy4zNDg5NiA3LjM1ODA3QzIuMjQxNTEgNy4zNTgwNyAxLjM0Mzc1IDguMjU1ODMgMS4zNDM3NSA5LjM2MzI4QzEuMzQzNzUgMTAuNDcwNyAyLjI0MTUxIDExLjM2ODUgMy4zNDg5NiAxMS4zNjg1WiIgZmlsbD0iIzU2NTg1QSIvPgo8L3N2Zz4K") center center no-repeat;
+          display: inline-block;
+        }
+
+        // Kept for older markup and add-ons.
+        .wps-visitor__information__user-img {
+          width: 13px;
+          height: 13px;
+          background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTMgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF8xNjI4Nl8yOTU3MykiPgo8cGF0aCBkPSJNNi41IDUuOTE0MDZDNy44ODA3MSA1LjkxNDA2IDkgNC43OTQ3NyA5IDMuNDE0MDZDOSAyLjAzMzM1IDcuODgwNzEgMC45MTQwNjIgNi41IDAuOTE0MDYyQzUuMTE5MjkgMC45MTQwNjIgNCAyLjAzMzM1IDQgMy40MTQwNkM0IDQuNzk0NzcgNS4xMTkyOSA1LjkxNDA2IDYuNSA1LjkxNDA2WiIgZmlsbD0iIzBDMEMwRCIvPgo8cGF0aCBkPSJNMTAuOTY4MyA5LjU3MTk5QzEwLjk2ODMgMTAuOTYwMSAxMC45NjgzIDEyLjA4NTQgNi41IDEyLjA4NTRDMi4wMzE3NCAxMi4wODU0IDIuMDMxNzQgMTAuOTYwMSAyLjAzMTc0IDkuNTcxOTlDMi4wMzE3NCA4LjE4Mzg3IDQuMDMyMjQgNy4wNTg1OSA2LjUgNy4wNTg1OUM4Ljk2Nzc2IDcuMDU4NTkgMTAuOTY4MyA4LjE4Mzg3IDEwLjk2ODMgOS41NzE5OVoiIGZpbGw9IiMwQzBDMEQiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8xNjI4Nl8yOTU3MyI+CjxyZWN0IHdpZHRoPSIxMyIgaGVpZ2h0PSIxMiIgZmlsbD0id2hpdGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMC41KSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=") center center no-repeat;
+          display: inline-block;
+        }
+
+        .wps-visitor__information__user-text {
+          display: inline-flex !important;
+          gap: 4px;
+          align-items: center;
+          min-width: 0;
+          border-bottom: 0.5px solid transparent;
+
+          &:before {
+            content: '';
+            flex: none;
             width: 13px;
             height: 13px;
+            margin-inline-end: 1px;
+            background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTMgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF8xNjI4Nl8yOTU3MykiPgo8cGF0aCBkPSJNNi41IDUuOTE0MDZDNy44ODA3MSA1LjkxNDA2IDkgNC43OTQ3NyA5IDMuNDE0MDZDOSAyLjAzMzM1IDcuODgwNzEgMC45MTQwNjIgNi41IDAuOTE0MDYyQzUuMTE5MjkgMC45MTQwNjIgNCAyLjAzMzM1IDQgMy40MTQwNkM0IDQuNzk0NzcgNS4xMTkyOSA1LjkxNDA2IDYuNSA1LjkxNDA2WiIgZmlsbD0iIzBDMEMwRCIvPgo8cGF0aCBkPSJNMTAuOTY4MyA5LjU3MTk5QzEwLjk2ODMgMTAuOTYwMSAxMC45NjgzIDEyLjA4NTQgNi41IDEyLjA4NTRDMi4wMzE3NCAxMi4wODU0IDIuMDMxNzQgMTAuOTYwMSAyLjAzMTc0IDkuNTcxOTlDMi4wMzE3NCA4LjE4Mzg3IDQuMDMyMjQgNy4wNTg1OSA2LjUgNy4wNTg1OUM4Ljk2Nzc2IDcuMDU4NTkgMTAuOTY4MyA4LjE4Mzg3IDEwLjk2ODMgOS41NzE5OVoiIGZpbGw9IiMwQzBDMEQiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8xNjI4Nl8yOTU3MyI+CjxyZWN0IHdpZHRoPSIxMyIgaGVpZ2h0PSIxMiIgZmlsbD0id2hpdGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMC41KSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=") center center no-repeat;
+            opacity: .75;
+          }
+
+          &:hover {
+            border-bottom: 0.5px solid #0C0C0D;
             cursor: pointer;
 
-            &.flag{
-              width: 16px;
-              height: 13px;
-              border-radius: 2px;
-            }
-
-          }
-
-          .wps-visitor__information__user-img {
-            width: 13px;
-            height: 13px;
-            background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTMgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF8xNjI4Nl8yOTU3MykiPgo8cGF0aCBkPSJNNi41IDUuOTE0MDZDNy44ODA3MSA1LjkxNDA2IDkgNC43OTQ3NyA5IDMuNDE0MDZDOSAyLjAzMzM1IDcuODgwNzEgMC45MTQwNjIgNi41IDAuOTE0MDYyQzUuMTE5MjkgMC45MTQwNjIgNCAyLjAzMzM1IDQgMy40MTQwNkM0IDQuNzk0NzcgNS4xMTkyOSA1LjkxNDA2IDYuNSA1LjkxNDA2WiIgZmlsbD0iIzBDMEMwRCIvPgo8cGF0aCBkPSJNMTAuOTY4MyA5LjU3MTk5QzEwLjk2ODMgMTAuOTYwMSAxMC45NjgzIDEyLjA4NTQgNi41IDEyLjA4NTRDMi4wMzE3NCAxMi4wODU0IDIuMDMxNzQgMTAuOTYwMSAyLjAzMTc0IDkuNTcxOTlDMi4wMzE3NCA4LjE4Mzg3IDQuMDMyMjQgNy4wNTg1OSA2LjUgNy4wNTg1OUM4Ljk2Nzc2IDcuMDU4NTkgMTAuOTY4MyA4LjE4Mzg3IDEwLjk2ODMgOS41NzE5OVoiIGZpbGw9IiMwQzBDMEQiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8xNjI4Nl8yOTU3MyI+CjxyZWN0IHdpZHRoPSIxMyIgaGVpZ2h0PSIxMiIgZmlsbD0id2hpdGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMC41KSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=") center center no-repeat;
-            display: inline-block;
-          }
-
-          .wps-visitor__information__user-text {
-            display: flex !important;
-            gap: 3px;
-            align-items: center;
-            border-bottom: 0.5px solid transparent;
-
-            &:hover {
-              border-bottom: 0.5px solid #0C0C0D;
-              cursor: pointer;
-
-              span {
-                &:first-child, &:last-child {
-                  color: #0C0C0D !important;
-                }
-              }
-            }
-
             span {
-              font-size: 13px;
-              font-weight: 400;
-              line-height: 15.23px;
-
-              &:first-child {
-                text-transform: capitalize;
+              &:first-child, &:last-child {
                 color: #0C0C0D !important;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 200px;
-              }
-
-              &:last-child {
-                color: #56585a !important;
               }
             }
+          }
+
+          span {
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 16px;
+
+            &:first-child {
+              text-transform: capitalize;
+              color: #0C0C0D !important;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 200px;
+            }
+
+            &:last-child {
+              color: #7D8083 !important;
+              white-space: nowrap;
+            }
+          }
+        }
+
+        // Phones: the IP or name drops below the pill.
+        @media (max-width: 600px) {
+          flex-wrap: wrap;
+
+          .wps-visitor-info__who {
+            flex-basis: 100%;
+            margin-inline-start: 0;
+          }
+
+          .wps-visitor__information__user-text span:first-child {
+            max-width: 160px;
           }
         }
       }
@@ -888,5 +998,31 @@ body .o-table-wrapper table.wps-new-table {
 #wp-statistics-referring-widget  ,body.statistics_page_wps_visitors_page{
   .o-table-wrapper table.wps-new-table tbody tr td .wps-link-arrow{
     max-width: 200px;
+  }
+}
+// Visitor Information pill: icons rest slightly muted so the row text leads; hovering or
+// focusing the pill itself brings them to full strength (a row hover changes nothing).
+.wps-visitor__information--container {
+  .wps-visitor-info__slot img,
+  .wps-visitor-info__unknown {
+    opacity: .75;
+    filter: grayscale(.25);
+    transition: opacity .15s ease, filter .15s ease;
+  }
+
+  &:hover,
+  &:focus-within {
+    .wps-visitor-info__slot img,
+    .wps-visitor-info__unknown {
+      opacity: 1;
+      filter: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wps-visitor-info__slot img,
+    .wps-visitor-info__unknown {
+      transition: none;
+    }
   }
 }

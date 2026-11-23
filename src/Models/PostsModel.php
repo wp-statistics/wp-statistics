@@ -19,7 +19,8 @@ class PostsModel extends BaseModel
             'taxonomy'              => '',
             'term'                  => '',
             'filter_by_view_date'   => false,
-            'url'                   => ''
+            'url'                   => '',
+            'resource_type'         => Helper::get_list_post_type()
         ]);
 
         $query = Query::select('COUNT(*)')
@@ -30,8 +31,10 @@ class PostsModel extends BaseModel
 
         // Count posts within view date
         if ($args['filter_by_view_date'] == true) {
+            // Same page types as getPostsReportData(), so archive rows that share a post ID are not counted
             $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
                 ->from('pages')
+                ->where('type', 'IN', $args['resource_type'])
                 ->where('uri', 'LIKE', "%{$args['url']}%")
                 ->whereDate('pages.date', $args['date'])
                 ->groupBy('pages.id')
@@ -243,7 +246,7 @@ class PostsModel extends BaseModel
             ->perPage($args['page'], $args['per_page']);
 
         if (WordCountService::isActive()) {
-            $query->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT');
+            $query->join('postmeta', ['posts.ID', 'postmeta.post_id'], [['postmeta.meta_key', '=', 'wp_statistics_words_count']], 'LEFT');
         }
 
         $result = $query->getAll();
@@ -269,8 +272,10 @@ class PostsModel extends BaseModel
         // Get posts with zero views or not
         $joinType = $args['show_no_views'] ? 'LEFT' : 'INNER';
 
+        // Only count rows of the listed post types; term, author and home rows reuse the same IDs
         $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
             ->from('pages')
+            ->where('type', 'IN', $this->getResourceTypes($args['post_type']))
             ->whereDate('date', $args['date'])
             ->groupBy('id')
             ->getQuery();
@@ -425,7 +430,7 @@ class PostsModel extends BaseModel
             "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words",
         ])
             ->from('posts')
-            ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
+            ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [['postmeta.meta_key', '=', 'wp_statistics_words_count']], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])

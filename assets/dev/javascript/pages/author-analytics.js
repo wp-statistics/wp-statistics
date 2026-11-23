@@ -248,22 +248,61 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return interpolatedColor;
             };
 
+            // Fit the card: as many recent weeks as fit at >= MIN_COL px per column (26-53 weeks).
+            // Only when even 26 weeks do not fit (phones) does the chart keep a min width and scroll.
+            const MIN_COL = 11, MIN_WEEKS = 26, MAX_WEEKS = 53, Y_LABELS = 36;
+            const canvas = document.getElementById('overviewPublishChart');
+            if (!canvas) return;
+            const chartBox = canvas.closest('.chart-container');
+            const frame = canvas.closest('.wps-card__chart-matrix') || chartBox;
+            const allData = Wp_Statistics_Author_Analytics_Object.publish_chart_data.datasets.slice().sort((a, b) => (a.x < b.x ? -1 : a.x > b.x ? 1 : 0));
+
+            const weeksThatFit = () => {
+                const cs = getComputedStyle(frame);
+                const avail = frame.clientWidth - parseFloat(cs.paddingLeft || 0) - parseFloat(cs.paddingRight || 0) - Y_LABELS;
+                return Math.max(MIN_WEEKS, Math.min(MAX_WEEKS, Math.floor(avail / MIN_COL)));
+            };
+
+            const recentWeeks = (weeks) => {
+                if (!allData.length || weeks >= MAX_WEEKS) return allData;
+                const last = new Date(allData[allData.length - 1].x + 'T00:00:00');
+                const monday = new Date(last);
+                monday.setDate(last.getDate() - ((last.getDay() + 6) % 7) - (weeks - 1) * 7);
+                const pad = (n) => (n < 10 ? '0' : '') + n;
+                const cutoff = monday.getFullYear() + '-' + pad(monday.getMonth() + 1) + '-' + pad(monday.getDate());
+                return allData.filter(item => item.x >= cutoff);
+            };
+
+            let shownWeeks = weeksThatFit();
+            const sizeBox = (weeks) => {
+                if (!chartBox) return;
+                const needed = weeks * MIN_COL + Y_LABELS;
+                const cs = getComputedStyle(frame);
+                const avail = frame.clientWidth - parseFloat(cs.paddingLeft || 0) - parseFloat(cs.paddingRight || 0);
+                chartBox.style.minWidth = needed > avail ? needed + 'px' : '';
+            };
+            sizeBox(shownWeeks);
+
+            const cellGap = (size) => (size > 16 ? 3 : 2);
+
             const overviewPublishData = {
                 datasets: [{
                     label: 'overview',
-                    data: Wp_Statistics_Author_Analytics_Object.publish_chart_data.datasets,
+                    data: recentWeeks(shownWeeks),
                     backgroundColor: (c) => backgroundColor(c),
                     borderColor: 'transparent',
-                    borderWidth: 4,
+                    borderWidth: 0,
                     borderRadius: 2,
                     boxShadow: 0,
                     width(c) {
                         const a = c.chart.chartArea || {};
-                        return ((a.right - a.left) / 53 - 1) - 2;
+                        const col = (a.right - a.left) / shownWeeks;
+                        return Math.max(2, col - cellGap(col));
                     },
                     height(c) {
                         const a = c.chart.chartArea || {};
-                        return ((a.bottom - a.top) / 7 - 1) - 1;
+                        const row = (a.bottom - a.top) / 7;
+                        return Math.max(2, row - cellGap(row));
                     }
                 }]
             }
@@ -376,7 +415,21 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             };
 
-            new Chart(document.getElementById('overviewPublishChart'), overviewPublishConfig);
+            let publishChart = new Chart(canvas, overviewPublishConfig);
+
+            // Re-fit when the card width changes enough to show a different number of weeks.
+            let resizeTimer;
+            window.addEventListener('resize', function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    const weeks = weeksThatFit();
+                    if (weeks === shownWeeks) return;
+                    shownWeeks = weeks;
+                    sizeBox(weeks);
+                    publishChart.data.datasets[0].data = recentWeeks(weeks);
+                    publishChart.update('none');
+                }, 150);
+            });
         }
     };
 

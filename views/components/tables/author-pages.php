@@ -23,18 +23,15 @@ $order = Request::get('order', 'desc');
                                 <?php esc_html_e('Author', 'wp-statistics'); ?>
                             </a>
                         </th>
-                        <th scope="col" class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l wps-col-num">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('page_views')); ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'page_views') ? esc_attr($order) : '' ?>">
                                 <?php esc_html_e('Author\'s Page Views', 'wp-statistics'); ?>
                             </a>
                         </th>
-                        <th scope="col" class="wps-pd-l">
+                        <th scope="col" class="wps-pd-l wps-col-num">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('total_posts')); ?>" class="sort <?php echo Request::compare('order_by', 'total_posts') ? esc_attr($order) : '' ?>">
                                 <?php esc_html_e('Published Contents', 'wp-statistics'); ?>
                             </a>
-                        </th>
-                        <th scope="col">
-                            <span class="screen-reader-text"><?php esc_html_e('View Author Page', 'wp-statistics'); ?></span>
                         </th>
                     </tr>
                     </thead>
@@ -42,27 +39,23 @@ $order = Request::get('order', 'desc');
                     <?php foreach ($data as $author) : ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
-                                    <img class="wps-avatar" src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_attr($author->name) ?>" role="presentation"/>
-                                    <span><?php echo esc_html($author->name) ?></span>
-                                </a>
+                                <span class="wps-title-cell">
+                                    <a class="wps-table-ellipsis--name" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
+                                        <img class="wps-avatar" src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_attr($author->name) ?>" role="presentation"/>
+                                        <span><?php echo esc_html($author->name) ?></span>
+                                    </a>
+                                    <?php \WP_Statistics\Components\View::load('components/objects/new-tab-link', ['url' => get_author_posts_url($author->id), 'label' => __('Open author page in a new tab', 'wp-statistics')]); ?>
+                                </span>
                             </td>
-                            <td class="wps-pd-l"><?php echo esc_html($author->page_views) ?></td>
-                            <td class="wps-pd-l"><?php echo esc_html($author->total_posts) ?></td>
-                            <td class="wps-pd-l view-more view-more__arrow">
-                                <a target="_blank" href="<?php echo esc_url(get_author_posts_url($author->id)); ?>">
-                                    <?php esc_html_e('View Author Page', 'wp-statistics') ?>
-                                </a>
-                            </td>
+                            <td class="wps-pd-l wps-col-num"><?php echo esc_html(number_format_i18n($author->page_views)) ?></td>
+                            <td class="wps-pd-l wps-col-num"><?php echo esc_html(number_format_i18n($author->total_posts)) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         <?php else : ?>
-            <div class="o-wrap o-wrap--no-data wps-center">
-                <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-            </div>
+            <?php \WP_Statistics\Components\View::load('components/objects/empty-state'); ?>
         <?php endif; ?>
     </div>
 <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

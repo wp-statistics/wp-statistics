@@ -1,0 +1,127 @@
+// ---------------------------------------------------------------------------
+// R1: small ↗ icon right after a linked title, opens the live page in a new tab.
+// PHP: views/components/objects/new-tab-link.php
+// Replaces the repeated "View Content" / "View Page" button column.
+// ---------------------------------------------------------------------------
+
+.wps-title-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-width: 0;
+  vertical-align: middle;
+
+  // The ↗ icon replaces the hover magnifier the inspect tables add after the title link.
+  > a:not(.wps-new-tab-link)::after {
+    display: none !important;
+  }
+}
+
+#wpbody .wps-new-tab-link,
+.wps-new-tab-link {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  border-radius: 4px;
+  color: $wps-text-subtle !important;
+  text-decoration: none;
+  box-shadow: none;
+  line-height: 1;
+
+  &::before,
+  &::after {
+    content: none !important;
+  }
+
+  svg {
+    display: block;
+    width: 12px !important;
+    min-width: 12px !important;
+    max-width: 12px !important;
+    height: 12px !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  &:hover {
+    color: $wps-brand !important;
+    background: $wps-brand-tint;
+  }
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  &:focus-visible {
+    color: $wps-brand !important;
+    background: $wps-brand-tint;
+    outline: 2px solid $wps-brand;
+    outline-offset: 1px;
+  }
+
+  // The arrow points up and out; in RTL it points up and to the left.
+  .rtl & svg {
+    transform: scaleX(-1);
+  }
+}
+
+// Right-aligned number columns in the restyled page tables
+.wps-new-table {
+  th.wps-col-num,
+  td.wps-col-num,
+  th.wps-col-share,
+  td.wps-col-share {
+    text-align: end !important;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+
+    // Sortable headers wrap the label in a flex .wps-order; push it to the end too.
+    .wps-order {
+      justify-content: flex-end;
+    }
+  }
+
+  th.wps-col-num,
+  th.wps-col-share {
+    .wps-order,
+    a.sort {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  .wps-col-empty {
+    color: $wps-text-subtle;
+  }
+}
+
+// Phones: keep title + ↗ + numbers + rate in the card width where possible.
+@media (max-width: 600px) {
+  #wpbody .wps-new-table tr {
+    th.wps-col-num,
+    td.wps-col-num,
+    th.wps-col-share,
+    td.wps-col-share {
+      padding-left: 12px !important;
+    }
+  }
+
+  .wps-new-table {
+    th.wps-col-num,
+    th.wps-col-share {
+      white-space: normal !important;
+    }
+
+    // The number stays; the small rate track goes so four columns fit.
+    td.wps-col-share .wps-percent--rate .wps-percent__track {
+      display: none;
+    }
+  }
+}
