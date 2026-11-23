@@ -15,7 +15,7 @@
         </div>
         <div class="c-about__premium__content">
             <div class="c-about__row c-about__premium">
-                <p><?php esc_html_e('Upgrade to unlock advanced analytics, including detailed traffic trends and weekly performance summaries.', 'wp-statistics'); ?></p>
+                <p><?php esc_html_e('Upgrade to see clicks, downloads, live visitors and goals.', 'wp-statistics'); ?></p>
                 <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=premium'); ?>" target=" _blank">
                 <?php esc_html_e('Discover More, Go Premium', 'wp-statistics'); ?>
                 </a>
