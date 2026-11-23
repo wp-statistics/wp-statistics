@@ -5,6 +5,10 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\AddonCatalog;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
+use WP_STATISTICS\Option;
 
 /**
  * Upsell redesign: settings banner, lock page, Go Premium box, Premium popup and the saved add-on list.
@@ -21,6 +25,8 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
     {
         remove_all_filters('pre_http_request');
         remove_all_filters('wp_statistics_hide_addon_prompts');
+        remove_all_filters('wp_statistics_addon_situation');
+        Option::deleteOptionGroup('TEST-KEY-1', LicenseHelper::LICENSE_OPTION_KEY);
         parent::tearDown();
     }
 
@@ -207,6 +213,171 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
         // No duplicate ids.
         preg_match_all('/ id="([^"]+)"/', $html, $ids);
         $this->assertSame(count($ids[1]), count(array_unique($ids[1])));
+    }
+
+    public function test_popup_step_for_an_installed_but_off_add_on_offers_activate()
+    {
+        add_filter('wp_statistics_addon_situation', function ($situation, $slug) {
+            return $slug === 'wp-statistics-data-plus' ? \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::SITUATION_INACTIVE : $situation;
+        }, 10, 2);
+
+        $html = (string)View::load('components/modals/introduce-premium/introduce-premium-modal', [], true);
+        remove_all_filters('wp_statistics_addon_situation');
+
+        preg_match('/<section[^>]*data-step="wp-statistics-data-plus".*?<\/section>/s', $html, $step);
+        $this->assertNotEmpty($step);
+        $step = $step[0];
+
+        $this->assertStringContainsString('Data Plus is installed but turned off.', $step);
+        $this->assertStringContainsString('Activate Data Plus', $step);
+        $this->assertStringContainsString('plugins.php?plugin_status=inactive&#038;s=wp-statistics-data-plus', $step);
+        $this->assertStringNotContainsString('no active license', $step);
+        $this->assertStringNotContainsString('Activate your license', $step);
+        $this->assertStringNotContainsString('/pricing/', $step);
+        $this->assertStringContainsString('wps-premium-switcher__item--activate', $html);
+        $this->assertStringContainsString('Turned off', $html);
+    }
+
+    public function test_popup_step_for_installed_but_off_asks_admin_when_user_cannot_activate()
+    {
+        $editor = self::factory()->user->create(['role' => 'editor']);
+        wp_set_current_user($editor);
+        add_filter('wp_statistics_addon_situation', function ($situation, $slug) {
+            return $slug === 'wp-statistics-data-plus' ? \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::SITUATION_INACTIVE : $situation;
+        }, 10, 2);
+
+        $html = (string)View::load('components/modals/introduce-premium/introduce-premium-modal', [], true);
+        remove_all_filters('wp_statistics_addon_situation');
+
+        preg_match('/<section[^>]*data-step="wp-statistics-data-plus".*?<\/section>/s', $html, $step);
+        $this->assertStringContainsString('Ask a site admin to turn on Data Plus.', $step[0]);
+        $this->assertStringNotContainsString('plugins.php', $step[0]);
+    }
+
+    // Add-ons screen, white label, locked pages ----------------------------------------
+
+    private function saveLicense($sku)
+    {
+        Option::saveOptionGroup('TEST-KEY-1', ['status' => 'valid', 'sku' => $sku, 'products' => AddonCatalog::SLUGS], LicenseHelper::LICENSE_OPTION_KEY);
+    }
+
+    public function test_add_license_step_does_not_sell_premium_to_a_premium_site()
+    {
+        $this->saveLicense('premium');
+        $html = (string)View::load('pages/license-manager/add-license', [], true);
+
+        $this->assertStringNotContainsString('Buy Premium Now', $html);
+        $this->assertStringNotContainsString('Unlock Premium Features', $html);
+        $this->assertStringContainsString('Add Another License', $html);
+        $this->assertStringContainsString('Download your add-ons', $html);
+        $this->assertStringContainsString('tab=downloads&#038;license_key=TEST-KEY-1', $html);
+    }
+
+    public function test_add_license_step_keeps_the_offer_without_a_license()
+    {
+        $html = (string)View::load('pages/license-manager/add-license', [], true);
+
+        $this->assertStringContainsString('Unlock Premium Features', $html);
+        $this->assertStringContainsString('Buy Premium Now', $html);
+        $this->assertStringNotContainsString('Download your add-ons', $html);
+    }
+
+    public function test_add_ons_menu_entry_is_hidden_under_white_label_but_the_page_stays_registered()
+    {
+        $manager = new LicenseManagementManager();
+        $this->assertEmpty((new LicenseManagementManager())->addMenuItem([])['plugins']['hidden']);
+
+        add_filter('wp_statistics_hide_addon_prompts', '__return_true');
+        $item = $manager->addMenuItem([])['plugins'];
+        $this->assertTrue($item['hidden']);
+
+        global $submenu, $_registered_pages;
+        $hook = get_plugin_page_hookname('wps_plugins_page', 'options.php');
+        $menus = new \WP_STATISTICS\Menus();
+        $menus->wp_admin_menu();
+
+        $this->assertArrayHasKey($hook, (array)$_registered_pages);
+        $slugs = array_column((array)($submenu['wps_overview_page'] ?? []), 2);
+        $this->assertNotContains('wps_plugins_page', $slugs);
+    }
+
+    private function fakeHandler($active)
+    {
+        return new class($active) extends PluginHandler {
+            private $active;
+
+            public function __construct($active)
+            {
+                $this->active = $active;
+            }
+
+            public function isPluginActive($pluginSlug)
+            {
+                return in_array($pluginSlug, $this->active, true);
+            }
+
+            public function isPluginInstalled($pluginSlug)
+            {
+                return in_array($pluginSlug, $this->active, true);
+            }
+        };
+    }
+
+    public function test_locked_pages_send_an_active_add_on_to_its_real_screen()
+    {
+        $handler = $this->fakeHandler(['wp-statistics-realtime-stats', 'wp-statistics-mini-chart']);
+
+        $this->assertStringContainsString('page=wp_statistics_realtime_stats', LicenseManagementManager::getLockedViewRedirect('locked-real-time', $handler));
+        $this->assertStringContainsString('tab=mini-chart-settings', LicenseManagementManager::getLockedViewRedirect('locked-mini-chart', $handler));
+        $this->assertNull(LicenseManagementManager::getLockedViewRedirect('add-ons', $handler));
+    }
+
+    public function test_locked_pages_stay_when_the_add_on_is_not_running()
+    {
+        $handler = $this->fakeHandler([]);
+
+        $this->assertNull(LicenseManagementManager::getLockedViewRedirect('locked-real-time', $handler));
+        $this->assertNull(LicenseManagementManager::getLockedViewRedirect('locked-mini-chart', $handler));
+    }
+
+    public function test_locked_page_shows_no_sales_copy_under_white_label()
+    {
+        add_filter('wp_statistics_hide_addon_prompts', '__return_true');
+        $html = $this->lockPage(['addon_slug' => 'wp-statistics-realtime-stats', 'addon_name' => 'Real-Time Stats']);
+
+        $this->assertStringContainsString('This feature is not available', $html);
+        $this->assertStringNotContainsString('/pricing/', $html);
+        $this->assertStringNotContainsString('Upgrade to Premium', $html);
+    }
+
+    private function header()
+    {
+        // The layout wrapper loads this file with require_once, so include it directly to render it more than once.
+        $_GET['page'] = 'wps_overview_page';
+        ob_start();
+        include WP_STATISTICS_DIR . 'includes/admin/templates/header.php';
+        unset($_GET['page']);
+        return (string)ob_get_clean();
+    }
+
+    public function test_header_premium_badge_hidden_under_white_label()
+    {
+        $this->saveLicense('premium');
+        $this->assertStringContainsString('wp-statistics-premium.svg', $this->header());
+
+        add_filter('wp_statistics_hide_addon_prompts', '__return_true');
+        $html = $this->header();
+        $this->assertStringNotContainsString('wp-statistics-premium.svg', $html);
+        $this->assertStringNotContainsString('wps-adminHeader__logo--premium', $html);
+        $this->assertStringContainsString('white-header-logo.svg', $html);
+    }
+
+    public function test_header_has_no_add_ons_link_under_white_label()
+    {
+        $this->assertStringContainsString('page=wps_plugins_page', $this->header());
+
+        add_filter('wp_statistics_hide_addon_prompts', '__return_true');
+        $this->assertStringNotContainsString('page=wps_plugins_page', $this->header());
     }
 
     // Add-ons fallback ------------------------------------------------------------
