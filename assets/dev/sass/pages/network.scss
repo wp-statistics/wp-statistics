@@ -1,0 +1,112 @@
+// Network Admin > Statistics > Overview: one card per site (views/pages/network/overview.php).
+.wps-network-overview {
+  max-width: 1200px;
+
+  .wps-network-overview__intro {
+    color: var(--wps-text-muted, #646970);
+    margin: 4px 0 16px;
+  }
+
+  .wps-network-overview__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .wps-network-overview__empty {
+    padding: 16px;
+  }
+}
+
+.wps-network-site {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 20px;
+  min-width: 0;
+  background: var(--wps-card-bg, #fff);
+  border: 1px solid var(--wps-card-border, #dcdcde);
+  border-radius: var(--wps-card-radius, 8px);
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
+
+  .wps-network-site__head {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .wps-network-site__name {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--wps-text-strong, #1d2327);
+    overflow-wrap: anywhere;
+  }
+
+  .wps-network-site__url {
+    font-size: 13px;
+    color: var(--wps-text-muted, #646970);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+
+    &:hover,
+    &:focus {
+      color: var(--wps-brand, #2271b1);
+      text-decoration: underline;
+    }
+  }
+
+  .wps-network-site__numbers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin: 0;
+  }
+
+  .wps-network-site__number {
+    dt {
+      font-size: 12px;
+      color: var(--wps-text-muted, #646970);
+    }
+
+    dd {
+      margin: 2px 0 0;
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 28px;
+      color: var(--wps-text-strong, #1d2327);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .wps-network-site__links ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0;
+    }
+  }
+
+  .wps-network-site__note {
+    margin: 0;
+    color: var(--wps-text-muted, #646970);
+  }
+
+  &.wps-network-site--inactive {
+    background: transparent;
+  }
+}

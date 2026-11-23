@@ -4,6 +4,10 @@ namespace WP_STATISTICS;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\View;
+use WP_Statistics\Models\VisitorsModel;
+
 class Network
 {
     /**
@@ -25,6 +29,11 @@ class Network
     }
 
     /**
+     * Transient that caches a site's key numbers on the network overview (stored per site).
+     */
+    const NUMBERS_TRANSIENT = 'wps_network_overview_numbers';
+
+    /**
      * Load WordPress Network Admin Menu
      */
     public function wp_admin_menu()
@@ -40,12 +49,154 @@ class Network
         // Add the sub items.
         add_submenu_page(WP_STATISTICS_MAIN_FILE, __('Overview', 'wp-statistics'), __('Overview', 'wp-statistics'), $read_cap, WP_STATISTICS_MAIN_FILE, array($this, 'overview'));
 
-        // Add sub Menu for All Blog
+        // One sub item per site. The slug is the site's Overview URL and there is no
+        // callback, so WordPress links straight to it (no redirect page in between).
         $sites = Helper::get_wp_sites_list();
         foreach ($sites as $blog_id) {
             $details = get_blog_details($blog_id);
-            add_submenu_page(WP_STATISTICS_MAIN_FILE, $details->blogname, $details->blogname, $manage_cap, 'wp_statistics_blogid_' . $blog_id, array($this, 'goto_blog'));
+            if (empty($details)) {
+                continue;
+            }
+
+            add_submenu_page(WP_STATISTICS_MAIN_FILE, $details->blogname, $details->blogname, $manage_cap, self::getSiteUrl($blog_id, 'overview'));
         }
+    }
+
+    /**
+     * Admin URL of one WP Statistics page on a site.
+     *
+     * @param int $blogId
+     * @param string $page Page key from Menus::$pages (overview, visitors, ...).
+     * @return string
+     */
+    public static function getSiteUrl($blogId, $page = 'overview')
+    {
+        return get_admin_url((int)$blogId, 'admin.php?page=' . Menus::get_page_slug($page));
+    }
+
+    /**
+     * Report links shown for every site. Keys are page keys from Menus::$pages.
+     *
+     * @return array<string, string>
+     */
+    public static function getReportLinks()
+    {
+        return [
+            'overview'          => __('Overview', 'wp-statistics'),
+            'visitors'          => __('Visitors', 'wp-statistics'),
+            'pages'             => __('Pages', 'wp-statistics'),
+            'referrals'         => __('Referrals', 'wp-statistics'),
+            'content-analytics' => __('Content', 'wp-statistics'),
+            'settings'          => __('Settings', 'wp-statistics'),
+        ];
+    }
+
+    /**
+     * Whether WP Statistics runs on a site (network-activated or activated on that site).
+     *
+     * @param int $blogId
+     * @return bool
+     */
+    private static function isActiveOnSite($blogId)
+    {
+        if (!function_exists('is_plugin_active_for_network')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        $basename = plugin_basename(WP_STATISTICS_MAIN_FILE);
+
+        if (is_plugin_active_for_network($basename)) {
+            return true;
+        }
+
+        $active = get_blog_option($blogId, 'active_plugins', []);
+
+        return is_array($active) && in_array($basename, $active, true);
+    }
+
+    /**
+     * Collects the data for the network overview: one entry per site with its name,
+     * address, key numbers for the last 7 days and links to its reports.
+     *
+     * @return array[]
+     */
+    public static function getSitesOverview()
+    {
+        $items = [];
+
+        foreach (Helper::get_wp_sites_list() as $blogId) {
+            $blogId  = (int)$blogId;
+            $details = get_blog_details($blogId);
+
+            if (empty($details)) {
+                continue;
+            }
+
+            $active = self::isActiveOnSite($blogId);
+            $item   = [
+                'id'       => $blogId,
+                'name'     => $details->blogname,
+                'url'      => $details->home,
+                'active'   => $active,
+                'visitors' => null,
+                'views'    => null,
+                'links'    => [],
+            ];
+
+            if ($active) {
+                switch_to_blog($blogId);
+
+                $numbers = self::getSiteNumbers();
+                $item['visitors'] = $numbers['visitors'];
+                $item['views']    = $numbers['views'];
+
+                foreach (self::getReportLinks() as $page => $label) {
+                    $item['links'][] = [
+                        'label' => $label,
+                        'url'   => self::getSiteUrl($blogId, $page),
+                    ];
+                }
+
+                restore_current_blog();
+            }
+
+            $items[] = $item;
+        }
+
+        return $items;
+    }
+
+    /**
+     * Visitors and views of the current site for the last 7 days, cached for an hour.
+     * Null values mean the numbers are not available (for example, no tables yet).
+     *
+     * @return array{visitors: int|null, views: int|null}
+     */
+    private static function getSiteNumbers()
+    {
+        $cached = get_transient(self::NUMBERS_TRANSIENT);
+        if (is_array($cached) && array_key_exists('visitors', $cached)) {
+            return $cached;
+        }
+
+        $numbers = ['visitors' => null, 'views' => null];
+
+        try {
+            if (DB::table('visitor') && DB::ExistTable(DB::table('visitor'))) {
+                $date           = DateRange::get('7days');
+                $visitorsModel  = new VisitorsModel();
+                $numbers        = [
+                    'visitors' => (int)$visitorsModel->countVisitors(['date' => $date]),
+                    'views'    => (int)$visitorsModel->countHits(['date' => $date]),
+                ];
+            }
+        } catch (\Throwable $e) {
+            $numbers = ['visitors' => null, 'views' => null];
+        }
+
+        set_transient(self::NUMBERS_TRANSIENT, $numbers, HOUR_IN_SECONDS);
+
+        return $numbers;
     }
 
     /**
@@ -53,87 +204,20 @@ class Network
      */
     public function overview()
     {
-        ?>
-        <div id="wrap wps-wrap">
-            <br/>
-            <table class="widefat wp-list-table" style="width: auto;">
-                <thead>
-                <tr>
-                    <th style='text-align: left'><?php esc_html_e('Website Details', 'wp-statistics'); ?></th>
-                    <th style='text-align: left'><?php esc_html_e('Options', 'wp-statistics'); ?></th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                $i = 0;
-
-                $options = array(
-                    __('Overview', 'wp-statistics')           => Menus::get_page_slug('overview'),
-                    __('Views', 'wp-statistics')              => Menus::get_page_slug('hits'),
-                    __('Online', 'wp-statistics')             => Menus::get_page_slug('online'),
-                    __('Visitors', 'wp-statistics')           => Menus::get_page_slug('visitors'),
-                    __('Referrers', 'wp-statistics')          => Menus::get_page_slug('referrers'),
-                    __('Search Engines', 'wp-statistics')     => Menus::get_page_slug('searches'),
-                    __('Post Types', 'wp-statistics')         => Menus::get_page_slug('pages'),
-                    __('Taxonomies', 'wp-statistics')         => Menus::get_page_slug('taxonomies'),
-                    __('Author Analytics', 'wp-statistics')   => Menus::get_page_slug('author-analytics'),
-                    __('Browsers', 'wp-statistics')           => Menus::get_page_slug('browser'),
-                    __('Operating Systems', 'wp-statistics')  => Menus::get_page_slug('platform'),
-                    __('Top Visitors Today', 'wp-statistics') => Menus::get_page_slug('top-visitors'),
-                    __('Exclusions', 'wp-statistics')         => Menus::get_page_slug('exclusions'),
-                    __('Optimization', 'wp-statistics')       => Menus::get_page_slug('optimization'),
-                    __('Settings', 'wp-statistics')           => Menus::get_page_slug('settings'),
-                );
-
-                $sites = Helper::get_wp_sites_list();
-                foreach ($sites as $blog_id) {
-                    $details   = get_blog_details($blog_id);
-                    $url       = get_admin_url($blog_id, '/') . 'admin.php?page=';
-                    $alternate = '';
-
-                    if ($i % 2 == 0) {
-                        $alternate = ' class="alternate"';
-                    }
-                    ?>
-
-                    <tr<?php echo esc_attr($alternate); ?>>
-                        <td style='text-align: left'>
-                            <?php echo esc_attr($details->blogname); ?>
-                        </td>
-                        <td style='text-align: left'>
-                            <?php
-                            $options_len = count($options);
-                            $j           = 0;
-
-                            foreach ($options as $key => $value) {
-                                echo '<a href="' . esc_url($url . $value) . '">' . esc_attr($key) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                $j++;
-                                if ($j < $options_len) {
-                                    echo ' - '; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                }
-                            }
-                            ?>
-                        </td>
-                    </tr>
-                    <?php
-                    $i++;
-                }
-                ?>
-                </tbody>
-            </table>
-        </div>
-        <?php
+        View::load('pages/network/overview', ['sites' => self::getSitesOverview()]);
     }
 
     /**
      * Goto Network Blog
+     *
+     * @deprecated 14.17.0 The site menu items link to the site's Overview directly.
      */
     public function goto_blog()
     {
         global $plugin_page;
-        $blog_id = str_replace('wp_statistics_blogid_', '', $plugin_page);
-        $url     = esc_url(get_admin_url($blog_id) . '/admin.php?page=' . Menus::get_page_slug('overview'));
-        echo "<script>window.location.href = '$url';</script>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        $blog_id = (int)str_replace('wp_statistics_blogid_', '', (string)$plugin_page);
+        $url     = self::getSiteUrl($blog_id, 'overview');
+        echo '<script>window.location.href = ' . wp_json_encode(esc_url_raw($url)) . ';</script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 }
 
