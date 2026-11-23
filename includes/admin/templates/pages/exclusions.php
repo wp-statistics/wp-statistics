@@ -43,7 +43,7 @@ use WP_Statistics\Components\View;
                             <?php foreach ($data['data'] as $item) : ?>
                                 <tr>
                                     <td class="wps-pd-l">
-                                        <b><?php echo esc_html(ucwords($item->reason)) ?></b>
+                                        <b><?php echo esc_html(\WP_STATISTICS\Exclusion::get_reason_label($item->reason)) ?></b>
                                     </td>
                                     <td class="wps-pd-l wps-col-num">
                                         <?php echo esc_html(number_format_i18n($item->count)); ?>
