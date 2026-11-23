@@ -2,7 +2,8 @@
 /**
  * Compact ranked content list with a "Rank by" menu in the card header (Top Contents).
  * One list per ranking; the menu shows one at a time (assets/dev/javascript/components/leaderboard.js).
- * Each item: rank, featured image or a colour tile with initials, the title (cut with an
+ * Each item: rank, featured image (WordPress's 'thumbnail' size, shown at 40px, lazy-loaded) or a
+ * colour tile with initials when the post has none, the title (cut with an
  * ellipsis, full title on hover), a ↗ link to the live page and the number.
  *
  * Args:
@@ -51,7 +52,8 @@ if (count($lists) > 1) {
                         <li class="wps-rank-list__item">
                             <span class="wps-rank-list__rank" aria-hidden="true"><?php echo esc_html(number_format_i18n($rank + 1)); ?></span>
                             <?php if (!empty($item['thumb'])) : ?>
-                                <img class="wps-rank-list__thumb" src="<?php echo esc_url($item['thumb']); ?>" alt="" width="32" height="32" loading="lazy" decoding="async">
+                                <?php /* Decorative: the title is the next element, so alt="" keeps screen readers from reading it twice. */ ?>
+                                <img class="wps-rank-list__thumb" src="<?php echo esc_url($item['thumb']); ?>" alt="" width="40" height="40" loading="lazy" decoding="async">
                             <?php else : ?>
                                 <span class="wps-rank-list__thumb wps-rank-list__thumb--tile" style="background-color:<?php echo esc_attr($item['color']); ?>" aria-hidden="true"><?php echo esc_html($item['initials']); ?></span>
                             <?php endif; ?>

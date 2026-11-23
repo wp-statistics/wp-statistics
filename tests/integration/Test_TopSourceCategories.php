@@ -195,7 +195,7 @@ class Test_TopSourceCategories extends WP_UnitTestCase
         $this->assertStringContainsString('source_channel=social', $rows[0]['url']);
     }
 
-    public function test_widget_renders_share_rows_with_icon_and_grey_domain()
+    public function test_widget_renders_share_rows_without_icon_and_with_grey_domain()
     {
         $this->addVisitors('search', 3, 'https://google.com/');
         $this->addVisitors('direct', 1);
@@ -204,7 +204,8 @@ class Test_TopSourceCategories extends WP_UnitTestCase
 
         $this->assertStringContainsString('wps-horizontal-bar wps-share-list', $html);
         $this->assertSame(2, substr_count($html, 'wps-horizontal-bar__item'));
-        $this->assertStringContainsString('style="color:#4285F4"', $html);
+        $this->assertStringNotContainsString('wps-source-channel-icon', $html, 'The widget rows have no category icon');
+        $this->assertStringNotContainsString('<svg', $html);
         $this->assertSame(1, substr_count($html, 'wps-share-list__meta'), 'Direct has no domain line');
         $this->assertStringContainsString('dir="ltr" title="google.com">google.com</span>', $html);
         $this->assertStringNotContainsString('>-<', $html);

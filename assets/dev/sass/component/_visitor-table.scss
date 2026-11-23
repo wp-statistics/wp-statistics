@@ -1,14 +1,14 @@
 // ---------------------------------------------------------------------------
-// Shared visitor table (V3-B) + Pages cell (V2-A).
+// Shared visitor table (V3-B) + Journey cell.
 // PHP: views/components/tables/visitor-table.php, views/components/objects/visitor-pages.php
 //
-// One fixed column order everywhere: Visitor | Referrer | Pages | Views | Last view.
+// One fixed column order everywhere: Visitor | Referrer | Journey | Views | Last view.
 // The sorted column is bold, its header carries the ↓ (.wps-order). The wrapper is a size
 // container, so the table adapts to its own card (Overview full / half / side column,
 // Visitor Insights pages, WP Dashboard column, phones):
 //  - under 700px: Referrer folds under the visitor pill, dates switch to the narrow form
 //  - under 470px: the number that is not sorted hides
-//  - under 380px: only the pill, the pages and the sorted number
+//  - under 380px: only the pill, the journey and the sorted number
 // Logical properties only, so RTL mirrors by itself.
 // ---------------------------------------------------------------------------
 
@@ -32,15 +32,33 @@
     font-weight: 600;
   }
 
-  // Visitor: the pill (and the folded referrer under it) at its own width.
+  // Fixed column widths: the browser does not size columns by their content, so the
+  // Visitors card tabs (Latest / Most active / Online now) and every reload keep the same
+  // columns. Widths sit on the header cells (the first row decides in a fixed table), so a
+  // column hidden by the container queries below takes its width with it. Journey takes
+  // whatever is left.
+  table-layout: fixed;
+
+  > thead > tr > th {
+    box-sizing: border-box;
+  }
+
+  // Visitor: the pill (flag, OS, device, browser, user) with the folded referrer under it.
+  > thead > tr > th.wps-visitor-table__visitor {
+    width: 158px;
+  }
+
   .wps-visitor-table__visitor {
-    width: 1%;
     white-space: nowrap;
   }
 
-  // Referrer: one line per part, cut with an ellipsis, never wider than 220px.
+  // Referrer: one line per part, cut with an ellipsis.
+  > thead > tr > th.wps-visitor-table__referrer {
+    width: 20%;
+  }
+
   td.wps-visitor-table__referrer {
-    max-width: 220px;
+    overflow: hidden;
 
     .wps-referral-link,
     .wps-link-arrow,
@@ -56,17 +74,37 @@
     }
   }
 
-  // Pages: takes the free width (the title-cell rule gives width:100% / max-width:0).
-  td.wps-visitor-table__pages {
-    min-width: 150px;
+  // No Journey column (older add-on tables): the referrer takes the free width.
+  &.wps-visitor-table--no-pages > thead > tr > th.wps-visitor-table__referrer {
+    width: auto;
   }
 
-  // Numbers and dates: content width, one line, at the end of the row.
+  // Journey: the free width (the title-cell rule gives width:100% / max-width:0 to cells,
+  // which a fixed table ignores; the header has no width, so it gets the rest).
+  > thead > tr > th.wps-visitor-table__pages {
+    width: auto;
+  }
+
+  td.wps-visitor-table__pages {
+    min-width: 0;
+  }
+
+  // Numbers and dates: one line, at the end of the row, digits of one width.
+  > thead > tr > th.wps-visitor-table__views {
+    width: 80px;
+  }
+
+  // "Oct 28, 10:55 pm" in bold; an older-year date cuts with the full date on hover.
+  > thead > tr > th.wps-visitor-table__last {
+    width: 160px;
+  }
+
   .wps-visitor-table__views,
   .wps-visitor-table__last {
-    width: 1%;
+    overflow: hidden;
     white-space: nowrap !important;
     min-width: 0 !important;
+    text-overflow: ellipsis;
     text-align: end !important;
     font-variant-numeric: tabular-nums;
   }
@@ -89,7 +127,7 @@
   }
 }
 
-// ---- Pages cell -------------------------------------------------------------
+// ---- Journey cell -------------------------------------------------------------
 #wpbody .wps-visitor-pages {
   display: grid;
   gap: 4px;
@@ -126,36 +164,70 @@
   }
 }
 
-#wpbody .wps-visitor-pages__icon {
+// Dot before the entry page: filled when the visit went on to other pages, a hollow ring
+// for a one-page visit. The exit line starts with a small "└" connector under the dot,
+// drawn with logical borders so it mirrors in RTL.
+#wpbody .wps-visitor-pages__dot {
   flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-  min-width: 18px;
-  height: 16px;
-  padding: 0 3px;
   box-sizing: border-box;
-  border-radius: 3px;
-  background: #F1F2F3;
-  color: $wps-text-subtle;
+  width: 7px;
+  height: 7px;
+  margin-inline: 1px 0;
+  border-radius: 50%;
+  border: 1.5px solid $wps-brand;
+  background: $wps-brand;
 
-  svg {
-    width: 11px;
-    height: 11px;
-    flex: none;
-  }
-
-  .rtl & svg {
-    transform: scaleX(-1);
+  &--hollow {
+    background: transparent;
+    border-color: #A9AAAE;
   }
 }
 
-#wpbody .wps-visitor-pages__tag {
+#wpbody .wps-visitor-pages__connector {
   flex: none;
-  font-size: 11px;
-  line-height: 14px;
+  align-self: flex-start;
+  box-sizing: border-box;
+  width: 8px;
+  height: 11px;
+  margin-top: -5px;
+  margin-inline-start: 4px;
+  margin-inline-end: -4px;
+  border-inline-start: 1.5px solid #C9CBCE;
+  border-block-end: 1.5px solid #C9CBCE;
+  border-end-start-radius: 3px;
+}
+
+#wpbody .wps-visitor-pages__line--exit .wps-ellipsis-text {
+  font-weight: 400;
+}
+
+#wpbody .wps-visitor-pages__back,
+#wpbody .wps-visitor-pages__count {
+  font-size: 12px;
+  line-height: 16px;
   color: $wps-text-subtle;
+  white-space: nowrap;
+}
+
+#wpbody .wps-visitor-pages__back {
+  flex: none;
+}
+
+#wpbody .wps-visitor-pages__count {
+  flex: none;
+  margin-inline-start: -2px;
+}
+
+// One page and gone: a small amber pill.
+#wpbody .wps-visitor-pages__bounced {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 9px;
+  background: #FFF4DC;
+  color: #8A5A00;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 14px;
   white-space: nowrap;
 }
 
@@ -177,7 +249,7 @@
 
     .wps-visitor-table__ref-inline {
       display: block;
-      max-width: 160px;
+      max-width: 100%;
       margin-top: 3px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -194,6 +266,14 @@
     .has-narrow .wps-visitor-table__date-narrow {
       display: inline;
     }
+
+    > thead > tr > th.wps-visitor-table__last {
+      width: 112px;
+    }
+
+    > thead > tr > th.wps-visitor-table__views {
+      width: 76px;
+    }
   }
 }
 
@@ -209,13 +289,20 @@
       padding-left: 10px !important; // core pads non-first cells on the left in LTR and RTL
     }
 
+    // Views and Last view (only one shows) share one width, so Journey keeps its width
+    // between the Latest and Most active tabs.
+    > thead > tr > th.wps-visitor-table__views,
+    > thead > tr > th.wps-visitor-table__last {
+      width: 96px;
+    }
+
     // Beats the title-cell phone minimum (112px): the pages cut earlier instead of the row overflowing.
     > tbody > tr > td.wps-visitor-table__pages {
       min-width: 72px !important;
     }
 
     .wps-visitor-table__ref-inline {
-      max-width: 120px;
+      max-width: 100%;
     }
   }
 }
@@ -223,7 +310,7 @@
 @container wps-vtable (max-width: 380px) {
   #wpbody table.wps-visitor-table {
     .wps-visitor-table__ref-inline,
-    .wps-visitor-pages__tag {
+    .wps-visitor-pages__count {
       display: none !important;
     }
 

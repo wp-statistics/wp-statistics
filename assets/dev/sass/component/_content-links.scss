@@ -18,7 +18,7 @@
     text-decoration: none;
 
     .wps-ellipsis-text,
-    > span:not(.wps-tooltip):not(.badge):not(.wps-visitor-pages__icon):not(.wps-visitor-pages__tag) {
+    > span:not(.wps-tooltip):not(.badge) {
       color: $wps-text-strong !important;
       text-decoration: none;
     }
@@ -29,7 +29,7 @@
       text-decoration: underline;
 
       .wps-ellipsis-text,
-      > span:not(.wps-tooltip):not(.badge):not(.wps-visitor-pages__icon):not(.wps-visitor-pages__tag) {
+      > span:not(.wps-tooltip):not(.badge) {
         color: $wps-brand !important;
         text-decoration: underline;
       }
