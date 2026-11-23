@@ -113,7 +113,8 @@ class Test_PaidAdSources extends WP_UnitTestCase
     {
         return [
             'fbclid alone'                    => ['https://l.facebook.com/', 'http://example.com/?fbclid=test123', 'Facebook', 'social'],
-            'fbclid alone, no referrer'       => ['', 'http://example.com/?fbclid=test123', null, null],
+            'fbclid alone, no referrer'       => ['', 'http://example.com/?fbclid=test123', 'Facebook', 'social'],
+            'fbclid, paid medium, no referrer' => ['', 'http://example.com/?fbclid=test123&utm_medium=paid', 'Paid Other', 'paid_other'],
             'fbclid with paid medium only'    => ['https://l.facebook.com/', 'http://example.com/?fbclid=test123&utm_medium=paid', 'Facebook', 'paid_social'],
             'organic utm_medium'              => ['https://l.facebook.com/', 'http://example.com/?utm_source=facebook&utm_medium=social', 'Facebook', 'social'],
             'paid tags but no referrer'       => ['', 'http://example.com/?utm_source=facebook&utm_medium=paid', 'Facebook', 'paid_social'],

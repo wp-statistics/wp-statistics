@@ -44,8 +44,9 @@ $classes = trim('wps-empty-state ' . ($class ?? ''));
     <?php elseif ($icon === 'activity') : ?>
         <svg class="wps-empty-state__icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/></svg>
     <?php endif; ?>
-    <p class="wps-empty-state__message"><?php echo esc_html($message); ?></p>
+    <?php // dir="auto": an untranslated (English) message keeps its full stop at its end on RTL screens. ?>
+    <p class="wps-empty-state__message" dir="auto"><?php echo esc_html($message); ?></p>
     <?php if (!empty($range)) : ?>
-        <p class="wps-empty-state__range"><?php echo esc_html($range); ?></p>
+        <p class="wps-empty-state__range" dir="auto"><?php echo esc_html($range); ?></p>
     <?php endif; ?>
 </div>

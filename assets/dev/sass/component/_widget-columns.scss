@@ -191,11 +191,29 @@
 //  - .wps-col-low: first to go (container under 760px), e.g. Region, Source Name, Publish Date;
 //  - .wps-col-mid: next (under 460px), e.g. the country next to a city;
 //  - a second number column (Views after Visitors) goes under 460px when the table has a Share column.
+// Referrers tables: the source name under the domain, only while the Source Name column is hidden,
+// so two rows with the same domain (Google and Google Ads) never look the same.
+.wps-referrer-source-inline {
+  display: none;
+  color: #56585a;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.wps-referrer-none {
+  color: #56585a;
+  font-style: italic;
+}
+
 @container wps-table (max-width: 760px) {
   #wpbody table.o-table,
   #wpbody table.wps-new-table {
     .wps-col-low {
       display: none !important;
+    }
+
+    .wps-referrer-source-inline {
+      display: block;
     }
   }
 }

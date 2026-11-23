@@ -865,10 +865,31 @@ class Query
         return $this;
     }
 
+    /**
+     * Returns the table name without its database prefix, for use as an alias.
+     *
+     * On a multisite sub-site, plugin tables use the site prefix (wp_2_) but global
+     * tables such as users and usermeta keep the network base prefix (wp_), so the
+     * longest matching prefix is removed, never a fixed number of characters.
+     *
+     * @param string $table Full table name.
+     * @return string
+     */
     public function removeTablePrefix($table)
     {
-        $prefixLength   = strlen($this->db->prefix);
-        $table          = substr($table, $prefixLength);
+        $prefixes = array_unique(array_filter([$this->db->prefix, $this->db->base_prefix ?? '']));
+
+        // Try the longer prefix first (wp_2_ before wp_).
+        usort($prefixes, function ($a, $b) {
+            return strlen($b) - strlen($a);
+        });
+
+        foreach ($prefixes as $prefix) {
+            if (strpos($table, $prefix) === 0) {
+                $table = substr($table, strlen($prefix));
+                break;
+            }
+        }
 
         return str_replace('statistics_', '', $table);
     }

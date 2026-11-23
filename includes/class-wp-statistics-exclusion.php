@@ -47,6 +47,33 @@ class Exclusion
     }
 
     /**
+     * Translated label of a stored exclusion reason ("robot" -> "Robot", "ip match" -> "IP Match").
+     *
+     * Reasons are stored as the keys of exclusion_list(); other reasons (added with the
+     * wp_statistics_exclusion_list filter) fall back to the key in title case.
+     *
+     * @param string $reason
+     * @return string
+     */
+    public static function get_reason_label($reason)
+    {
+        $reason = (string)$reason;
+        $labels = self::exclusion_list();
+
+        if (isset($labels[$reason])) {
+            return $labels[$reason];
+        }
+
+        foreach ($labels as $key => $label) {
+            if (strcasecmp($key, $reason) === 0) {
+                return $label;
+            }
+        }
+
+        return ucwords(str_replace(['_', '-'], ' ', $reason));
+    }
+
+    /**
      * Check to see if the user wants us to record why we're excluding hits.
      *
      * @return mixed

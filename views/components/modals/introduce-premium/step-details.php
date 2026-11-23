@@ -73,8 +73,30 @@ foreach (AddonCatalog::SLUGS as $slug) {
     $hasLicense  = LicenseHelper::isPluginLicenseValid($slug);
     $notice      = '';
     $badge       = '';
+    $activateUrl = '';
 
-    if ($hasLicense && $isActive) {
+    // Same reading as the inline teasers and the lock page, so every surface agrees on "installed but turned off".
+    $situation = LicenseHelper::getAddonSituation($slug, $pluginHandler);
+
+    if ($situation === LicenseHelper::SITUATION_INACTIVE) {
+        $state  = 'activate';
+        $badge  = __('Turned off', 'wp-statistics');
+        $notice = sprintf(
+            /* translators: %s: Add-on name. */
+            __('%s is installed but turned off.', 'wp-statistics'),
+            esc_html($copy['name'])
+        );
+
+        if (current_user_can('activate_plugins')) {
+            $activateUrl = LicenseHelper::getAddonPluginsPageUrl($slug);
+        } else {
+            $notice .= ' ' . esc_html(sprintf(
+                /* translators: %s: Add-on name. */
+                __('Ask a site admin to turn on %s.', 'wp-statistics'),
+                $copy['name']
+            ));
+        }
+    } elseif ($hasLicense && $isActive) {
         $state = 'active';
     } elseif (($hasLicense && !$isActive) || (!$hasLicense && $isInstalled)) {
         $state = 'addons-page';
@@ -82,7 +104,9 @@ foreach (AddonCatalog::SLUGS as $slug) {
         $state = 'upgrade';
     }
 
-    if ($hasLicense && !$isActive) {
+    if ($state === 'activate') {
+        // Notice and badge set above.
+    } elseif ($hasLicense && !$isActive) {
         $notice = sprintf(
             /* translators: %s: Add-on name. */
             __('Your license includes the %s, but it’s not installed yet. Go to the Add-ons page to install and activate it, so you can start using all its features.', 'wp-statistics'),
@@ -107,8 +131,9 @@ foreach (AddonCatalog::SLUGS as $slug) {
         'image'     => WP_STATISTICS_URL . 'assets/images/premium-modal/' . $slug . '.png',
         'state'     => $state,
         'notice'    => $notice,
-        'notice_warning' => !$hasLicense && $isInstalled,
+        'notice_warning' => $state === 'activate' || (!$hasLicense && $isInstalled),
         'learn_url' => AddonCatalog::getProductUrl($slug),
+        'activate_url' => $activateUrl,
     ];
 
     $switcher[$slug] = ['name' => $copy['name'], 'state' => $state, 'badge' => $badge];

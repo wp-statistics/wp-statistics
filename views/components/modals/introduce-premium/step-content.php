@@ -9,7 +9,8 @@
  *  - title      (string)   Headline.
  *  - benefits   (string[]) Three short benefits.
  *  - image      (string)   Picture URL, loaded when the popup opens.
- *  - state      (string)   upgrade | addons-page | active | premium.
+ *  - state      (string)   upgrade | addons-page | activate | active | premium.
+ *  - activate_url (string) Plugins screen narrowed to the add-on (state "activate"); empty when the user can't activate plugins.
  *  - notice     (string)   Optional license notice (trusted, may hold <b>/<a>).
  *  - notice_warning (bool) Warning look for the notice.
  *  - learn_url  (string)   "Learn more" URL.
@@ -43,6 +44,14 @@ $titleId = $stepId . '-title';
         <?php if ($state === 'upgrade') : ?>
             <?php View::load('components/upsell/actions', ['campaign' => 'pop-up-premium', 'addon' => $slug === 'first-step' ? '' : $slug, 'modal' => false, 'learn_url' => $learn_url, 'class' => 'wps-premium-popup__actions']); ?>
             <?php View::load('components/upsell/guarantee'); ?>
+        <?php elseif ($state === 'activate') : ?>
+            <?php if (!empty($activate_url)) : ?>
+                <div class="wps-upsell-actions wps-premium-popup__actions">
+                    <a class="wps-upsell-btn wps-upsell-btn--primary" href="<?php echo esc_url($activate_url); ?>"><?php
+                        /* translators: %s: Add-on name. */
+                        echo esc_html(sprintf(__('Activate %s', 'wp-statistics'), $name)); ?></a>
+                </div>
+            <?php endif; ?>
         <?php elseif ($state === 'addons-page') : ?>
             <div class="wps-upsell-actions wps-premium-popup__actions">
                 <a class="wps-upsell-btn wps-upsell-btn--primary" href="<?php echo esc_url($addons_url); ?>"><?php esc_html_e('Go to Add-ons Page', 'wp-statistics'); ?></a>

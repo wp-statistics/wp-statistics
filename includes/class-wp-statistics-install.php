@@ -188,7 +188,18 @@ class Install
      */
     public function remove_table_on_delete_blog($tables)
     {
-        $tables[] = array_merge($tables, DB::table('all'));
+        $tables = is_array($tables) ? $tables : [];
+
+        // Every known table name, whether it exists or not: WordPress drops them
+        // with DROP TABLE IF EXISTS, so missing add-on tables are skipped.
+        foreach (array_unique(DB::$db_table) as $name) {
+            $table = DB::getTableName($name);
+
+            if (!in_array($table, $tables, true)) {
+                $tables[] = $table;
+            }
+        }
+
         return $tables;
     }
 

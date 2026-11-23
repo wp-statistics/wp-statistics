@@ -191,6 +191,11 @@ class AdminBar
                 )
             );
 
+            // White label (or a hidden Add-ons menu): no "Unlock" teaser in the admin bar.
+            if (\WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()) {
+                unset($admin_bar_list['wp-statistics-menu-page']);
+            }
+
             $data = [
                 'object_id'          => $object_id,
                 'view_type'          => $view_type,

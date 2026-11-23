@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Geographic;
 
+use WP_Statistics\Service\Charts\DataProvider\CountryChartDataProvider;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Country;
 use WP_Statistics\Components\DateRange;
@@ -73,7 +74,8 @@ class GeographicDataProvider
     public function getCountriesData()
     {
         return [
-            'countries' => $this->visitorsModel->getVisitorsGeoData($this->args),
+            // One "(not set)" row placed by its visitor count, the same as the Top Countries widget
+            'countries' => CountryChartDataProvider::mergeUnknownCountries($this->visitorsModel->getVisitorsGeoData($this->args)),
             'total'     => $this->visitorsModel->countGeoData(array_merge($this->args, ['include_null' => true])),
             // Share base: every visitor in the range, so the column adds up to 100% over all rows (incl. "(not set)")
             'visitors'  => $this->visitorsModel->countGeoVisitors($this->args)

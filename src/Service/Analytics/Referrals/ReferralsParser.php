@@ -36,6 +36,11 @@ class ReferralsParser
         ]);
 
         foreach ($this->referralsList as $channelData) {
+            // "fallback" groups only apply when nothing else matched (see getFallbackSource()).
+            if (!empty($channelData['fallback'])) {
+                continue;
+            }
+
             // check if rules don't match, skip to the next channel
             if (!$this->checkRules($channelData['rules'], $pageUrl, $referrerUrl)) {
                 continue;
@@ -91,7 +96,48 @@ class ReferralsParser
             }
         }
 
-        return $this->getSourceInfo($channels);
+        $source = $this->getSourceInfo($channels);
+
+        if ($source === false && empty($referrerUrl)) {
+            $source = $this->getFallbackSource($pageUrl, $referrerUrl);
+        }
+
+        return $source;
+    }
+
+    /**
+     * Returns the first "fallback" group whose rules match.
+     *
+     * Fallback groups cover visits that carry only an ad or social click id
+     * (gclid, gad_source, fbclid, ...) with no referrer and no known utm_source.
+     * They are only checked when there is no referrer at all.
+     * Without them such visits matched no channel and were stored with an empty
+     * source channel.
+     *
+     * @param string $pageUrl
+     * @param string $referrerDomain
+     *
+     * @return array|bool
+     */
+    private function getFallbackSource($pageUrl, $referrerDomain)
+    {
+        foreach ($this->referralsList as $channelData) {
+            if (empty($channelData['fallback']) || empty($channelData['channels'][0])) {
+                continue;
+            }
+
+            if (!$this->checkRules($channelData['rules'], $pageUrl, $referrerDomain)) {
+                continue;
+            }
+
+            return [
+                'name'       => $channelData['channels'][0]['name'],
+                'identifier' => $channelData['channels'][0]['identifier'],
+                'channel'    => $channelData['type'],
+            ];
+        }
+
+        return false;
     }
 
     /**

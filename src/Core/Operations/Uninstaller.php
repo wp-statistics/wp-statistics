@@ -91,6 +91,8 @@ class Uninstaller extends AbstractCore
         delete_option('wp_statistics_installation_time');
         delete_option('wps_robotlist');
         delete_option('wp_statistics_cipher_key');
+        delete_option('wp_statistics_is_fresh');
+        delete_option('wp_statistics_queue_background_process');
 
         // Delete the transients.
         delete_transient('wps_top_referring');
@@ -108,6 +110,12 @@ class Uninstaller extends AbstractCore
             wp_clear_scheduled_hook('wp_statistics_optimize_table');
             wp_clear_scheduled_hook('wp_statistics_daily_cron_hook');
             wp_clear_scheduled_hook('wp_statistics_tracking_health_hook');
+            wp_clear_scheduled_hook('wp_statistics_referrals_db_hook');
+            wp_clear_scheduled_hook('wp_statistics_licenses_hook');
+            wp_clear_scheduled_hook('wp_statistics_record_daily_summary');
+            wp_clear_scheduled_hook('wp_statistics_anonymized_share_data_hook');
+            wp_clear_scheduled_hook('wp_statistics_marketing_campaign_hook');
+            wp_clear_scheduled_hook('wp_statistics_notification_hook');
         }
 
         // Delete all hashed files and their options

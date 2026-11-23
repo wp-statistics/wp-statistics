@@ -166,6 +166,10 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 - **Fix:** More accurate report totals and filters, and Top Pages works on SQLite.
 - **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
 - **Fix:** Views column width in the Posts list, white label leaks, and a Google Search tab crash without Marketing.
+- **Fix:** Multisite: every site is set up on network activation, new sites get their tables, deleted sites lose them, author reports work on sub-sites, and a new Network Admin overview.
+- **Fix:** Ad clicks without a referrer (gclid, fbclid and similar) now get a source, and same-domain rows (Google and Google Ads) always differ.
+- **Fix:** Emails: no error when two are sent at once, and they fit phone screens.
+- **Fix:** CSV exports hide raw IPs while IP hashing is on, the `[wpstatistics stat=referrer]` shortcode counts again, and labels, RTL text and white label details are cleaner.
 
 = 14.16.20 - 2026-11-20 =
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.

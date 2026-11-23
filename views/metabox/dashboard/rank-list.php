@@ -41,7 +41,7 @@ foreach ($rows as $row) {
     } else {
         /** @var ReferralDecorator $row */
         $items[] = [
-            'label'    => $row->getRawReferrer(),
+            'label'    => $row->getListLabel($rows),
             'url'      => Menus::admin_url('referrals', array_merge(['tab' => 'referred-visitors', 'referrer' => $row->getRawReferrer()], $range)),
             'count'    => intval($row->getTotalReferrals(true)),
             'external' => $row->getReferrer(),

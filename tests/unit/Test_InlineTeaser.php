@@ -79,7 +79,14 @@ class Test_InlineTeaser extends WP_UnitTestCase
 
     private function admin()
     {
-        wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
+        $userId = self::factory()->user->create(['role' => 'administrator']);
+
+        // On multisite only a super admin can activate or install plugins.
+        if (is_multisite()) {
+            grant_super_admin($userId);
+        }
+
+        wp_set_current_user($userId);
     }
 
     private function render($args = [])

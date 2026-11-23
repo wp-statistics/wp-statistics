@@ -17,7 +17,8 @@ class ReportsExportDataTransformer
 
             $row['ID']             = $visitor->getId();
             $row['hash_ip']        = $visitor->isHashedIP() ? $visitor->getRawIP() : '';
-            $row['ip']             = !$visitor->isHashedIP() ? $visitor->getRawIP() : '';
+            // Same rule as the reports: no raw IP while "Hash IP Addresses" is on (also for rows saved before it).
+            $row['ip']             = $visitor->isIpVisible() ? $visitor->getRawIP() : '';
             $row['user_id']        = $visitor->getUserId();
             $row['country']        = $visitor->getLocation()->getCountryName();
             $row['region']         = $visitor->getLocation()->getRegion();
@@ -50,7 +51,8 @@ class ReportsExportDataTransformer
             $row['ID']             = $visitor->getId();
             $row['view_time']      = $visitor->getLastView(true);
             $row['hash_ip']        = $visitor->isHashedIP() ? $visitor->getRawIP() : '';
-            $row['ip']             = !$visitor->isHashedIP() ? $visitor->getRawIP() : '';
+            // Same rule as the reports: no raw IP while "Hash IP Addresses" is on (also for rows saved before it).
+            $row['ip']             = $visitor->isIpVisible() ? $visitor->getRawIP() : '';
             $row['user_id']        = $visitor->getUserId();
             $row['country']        = $visitor->getLocation()->getCountryName();
             $row['region']         = $visitor->getLocation()->getRegion();
@@ -85,7 +87,7 @@ class ReportsExportDataTransformer
                 $row['words'] = $post->words;
             }
 
-            $row['published_data'] = $post->date;
+            $row['published_date'] = $post->date;
             $row['url']            = get_permalink($post->post_id);
 
             $result[] = $row;

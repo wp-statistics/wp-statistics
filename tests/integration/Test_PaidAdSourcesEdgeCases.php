@@ -68,6 +68,23 @@ class Test_PaidAdSourcesEdgeCases extends WP_UnitTestCase
             ['https://www.google.com/', '/?fbclid=a&utm_source=facebook&utm_medium=paid', ['Facebook', 'paid_social']],
             ['https://l.facebook.com/', '/?utm_source=facebook-ads&utm_medium=paid', ['facebook-ads', 'paid_other']],
             ['https://l.facebook.com/', '/?utm_source=facebookx&utm_medium=cpc', ['facebookx', 'paid_other']],
+            // click ids with no referrer (fallback groups)
+            ['', '/?gclid=a', ['Google Ads', 'paid_search']],
+            ['', '/?gad_source=1', ['Google Ads', 'paid_search']],
+            ['', '/?gad_source=1&gclid=a&gbraid=b', ['Google Ads', 'paid_search']],
+            ['', '/?wbraid=a', ['Google Ads', 'paid_search']],
+            ['', '/?dclid=a', ['Google Ads', 'paid_search']],
+            ['', '/?yclid=a', ['Yandex', 'paid_search']],
+            ['', '/?fbclid=a', ['Facebook', 'social']],
+            ['', '/?fbclid=a&utm_medium=cpc', ['Paid Other', 'paid_other']],
+            ['', '/?li_fat_id=a', ['LinkedIn', 'paid_social']],
+            ['', '/?twclid=a', ['X (Twitter)', 'paid_social']],
+            ['', '/?ttclid=a', ['tiktok', 'paid_social']],
+            // a known utm_source still wins over the click id
+            ['', '/?gclid=a&utm_source=newsletter&utm_medium=email', ['newsletter', 'email']],
+            // a referrer still decides: the fallback is only for visits with no referrer
+            ['https://unknown.example.com/', '/?gclid=a', [null, null]],
+            ['', '/?xgclid=a', ['Direct', 'direct']],
             // untouched
             ['', '/', ['Direct', 'direct']],
             ['', '/?utm_source=newsletter&utm_medium=email', ['newsletter', 'email']],
