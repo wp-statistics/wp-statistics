@@ -75,6 +75,13 @@ class ShortCode
             case 'visits':
                 $visitorsModel = new VisitorsModel();
                 $args          = $this->parseArgs($atts['time'], $atts);
+
+                // "total" includes the historical views, the same as stat=visitors time=total
+                // includes the historical visitors.
+                if (isset($atts['time']) && $atts['time'] === 'total') {
+                    $args['historical'] = true;
+                }
+
                 $result        = $visitorsModel->countHits($args);
                 break;
 

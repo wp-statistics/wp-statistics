@@ -202,6 +202,11 @@ function wp_statistics_visit($time, $daily = null)
         'date' => DateRange::resolveDate($time)
     ];
 
+    // "total" includes the historical views, like wp_statistics_visitor('total') does for visitors.
+    if ($time === 'total') {
+        $args['historical'] = true;
+    }
+
     $visitorModel = new VisitorsModel();
 
     return $visitorModel->countHits($args);
@@ -863,17 +868,33 @@ function wp_statistics_referrer($time = null, $range = [])
 
     $result = $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
-    $urls = array();
+    // Referrers are stored as a bare domain ("google.com") since 14.x; older rows hold a full URL.
+    $siteHost = strtolower(preg_replace('/^www\./i', '', (string)wp_parse_url(home_url(), PHP_URL_HOST)));
+    $hosts    = array();
     foreach ($result as $item) {
-        $url = wp_parse_url($item->referred);
-        if (empty($url['host']) || stripos(get_bloginfo('url'), $url['host']) !== false) {
+        $referred = trim((string)$item->referred);
+        if ($referred === '') {
             continue;
         }
-        $urls[] = $url['scheme'] . '://' . $url['host'];
-    }
-    $get_urls = array_count_values($urls);
 
-    return count($get_urls);
+        if (!preg_match('#^[a-z][a-z0-9+.-]*://#i', $referred)) {
+            $referred = 'http://' . $referred;
+        }
+
+        $host = wp_parse_url($referred, PHP_URL_HOST);
+        if (empty($host)) {
+            continue;
+        }
+
+        $host = strtolower(preg_replace('/^www\./i', '', $host));
+        if ($host === $siteHost) {
+            continue;
+        }
+
+        $hosts[$host] = true;
+    }
+
+    return count($hosts);
 }
 
 /**
