@@ -1,15 +1,15 @@
-14.17.0 - 2026-11-21
-- **Enhancement:** Refreshed admin design: one card style, share bars, clearer tables and compact Dashboard widgets.
-- **New:** Visitor card and single visitor page with the full visit journey.
+14.17.0 - 2026-11-23
+- **New:** Email alert and notice when visits stop being recorded.
+- **New:** OpenAI Ads, Microsoft Ads and Facebook Ads show as their own sources.
+- **New:** Visitor card and a visitor journey page.
 - **New:** WP Statistics panel in the block editor sidebar.
-- **Enhancement:** Clearer chart tooltips that compare with the previous period.
-- **Enhancement:** Visitor tables share one layout, with entry and exit pages in one column.
-- **New:** Email alert and notice when visits stop being recorded. Turn it off in Settings → Email Reports.
-- **New:** OpenAI Ads, Microsoft Ads and Facebook Ads clicks show as their own sources.
-- **Fix:** Download Tracker counts files behind a link parameter, such as `?protected_download=file.pdf`, and keeps dotted file names ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
-- **Fix:** More accurate numbers and filters in the Author, Category, Content, Visitors, Referrals, Geographic and Devices reports.
-- **Fix:** Top Pages works on SQLite sites, such as WordPress Playground, and loads faster.
-- **Fix:** The Views column in the Posts and Pages lists has a compact fixed width, so Title and Author keep their room when other plugins add columns.
+- **New:** REST API add-on: connect ChatGPT, Claude and other AI agents with MCP, from Settings → REST API.
+- **Enhancement:** Refreshed admin design: cards, share bars, compact tables and Dashboard widgets.
+- **Enhancement:** Clearer chart tooltips, Anonymous Visitor for unknown visitors, and a redesigned Top Source Categories.
+- **Enhancement:** New Premium pages and pictures: a simpler upgrade popup, lock pages and settings cards.
+- **Fix:** More accurate report totals and filters, and Top Pages works on SQLite.
+- **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** Views column width in the Posts list, white label leaks, and a Google Search tab crash without Marketing.
 
 14.16.20 - 2026-11-20
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.
