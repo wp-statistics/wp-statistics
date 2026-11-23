@@ -9,6 +9,7 @@
 - **Fix:** Download Tracker counts files behind a link parameter, such as `?protected_download=file.pdf`, and keeps dotted file names ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
 - **Fix:** More accurate numbers and filters in the Author, Category, Content, Visitors, Referrals, Geographic and Devices reports.
 - **Fix:** Top Pages works on SQLite sites, such as WordPress Playground, and loads faster.
+- **Fix:** The Views column in the Posts and Pages lists has a compact fixed width, so Title and Author keep their room when other plugins add columns.
 
 14.16.20 - 2026-11-20
 - **Fix:** Locked pages and the Add-ons page no longer show other plugins' notices, the pricing table displays correctly on right-to-left sites, and there is a single license notice.

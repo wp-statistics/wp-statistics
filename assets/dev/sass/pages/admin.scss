@@ -28,7 +28,10 @@
 
 
 .column-wp-statistics-post-hits ,.column-wp-statistics-tax-hits{
-  width: 12%;
+  // List tables use fixed column widths. A percentage here grew with the
+  // screen and took space from Title and Author when other plugins add
+  // columns too, so keep a compact fixed width that fits the count and chart.
+  width: 7.5em;
 
   .wps-column__chart{
     span{
