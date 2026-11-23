@@ -309,6 +309,16 @@ class PluginDecorator
     }
 
     /**
+     * Is this entry from the saved list shipped with the plugin (no price, version or download)?
+     *
+     * @return bool
+     */
+    public function isBundled()
+    {
+        return !empty($this->plugin->bundled);
+    }
+
+    /**
      * Return product utm campaign
      *
      * @return string

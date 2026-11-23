@@ -16,18 +16,11 @@ global $wp_version;
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></span></h2>
 
 <?php
-if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=advanced-reporting'),
-     'addon_title'        => __('Advanced Reporting Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-advanced-reporting',
-     'addon_description'  => __('The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.', 'wp-statistics'),
-     'addon_features'     => [
-         __('Receive graphical statistics charts via email.', 'wp-statistics'),
-         __('Schedule reports to be sent to any inbox of your choice.', 'wp-statistics'),
-         __('Monitor your website\'s traffic and activity with no hassle.', 'wp-statistics'),
-     ],
-     'addon_info'         => __('Keep a close eye on your website\'s performance with the Advanced Reporting add-on.', 'wp-statistics'),
-    ], true);
+if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [
+    'addon_title'        => __('Advanced Reporting Add-on', 'wp-statistics'),
+    'addon_modal_target' => 'wp-statistics-advanced-reporting',
+    'addon_campaign'     => 'advanced-reporting',
+], true);
 
 
 if ($isAdvancedReportingActive && !$isLicenseValid) {

@@ -4,6 +4,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 
 ?>
@@ -23,6 +24,9 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
                 </h3>
                 <a class="wps-addon__download_select-all js-wps-addon-select-all <?php echo empty($data['display_select_all']) ? 'wps-hide' : ''; ?>"><?php esc_html_e('Select All', 'wp-statistics'); ?></a>
             </div>
+            <?php if (!empty($data['is_fallback'])) {
+                View::load('components/notices/addons-list-fallback', ['retry_url' => LicenseManagerDataProvider::getRefreshUrl('downloads')]);
+            } ?>
             <div class="wps-addon__download__items">
                 <?php
                 if (!empty($data['licensed_addons'])) {

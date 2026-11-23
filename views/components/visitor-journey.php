@@ -233,26 +233,15 @@ if ($opened === null && !empty($folded)) {
             </div>
             <?php $wpsJourneySteps($opened); ?>
             <?php
-            // Clicks and downloads come from Data Plus. Without it, one closable teaser with two example rows
-            // in the real event-row layout. Nothing prints while Data Plus runs or prompts are off.
-            ob_start();
-            ?>
-            <ol class="wps-journey__steps">
-                <?php
-                /* translators: %s: File name. */
-                $wpsJourneyEvent(['kind' => 'download', 'label' => sprintf(__('Downloaded %s', 'wp-statistics'), 'user-guide.pdf')], true);
-                /* translators: %s: Link or button text. */
-                $wpsJourneyEvent(['kind' => 'click', 'label' => sprintf(__('Clicked "%s"', 'wp-statistics'), __('Download on WordPress.org', 'wp-statistics')), 'host' => 'wordpress.org'], true);
-                ?>
-            </ol>
-            <?php
+            // Clicks and downloads come from Data Plus. Without it, one quiet closable line.
+            // Nothing prints while Data Plus runs or prompts are off.
             View::load('components/lock-sections/inline-teaser', [
                 'id'         => 'dp-journey',
                 'addon'      => 'wp-statistics-data-plus',
                 'addon_name' => __('Data Plus', 'wp-statistics'),
-                'message'    => __('Clicks and downloads are tracked with Data Plus.', 'wp-statistics'),
+                'message'    => __('Clicks and downloads show up here with Data Plus.', 'wp-statistics'),
                 'campaign'   => 'dp-journey',
-                'preview'    => ob_get_clean(),
+                'icons'      => ['download', 'click'],
                 'class'      => 'wps-journey__teaser',
             ]);
             ?>

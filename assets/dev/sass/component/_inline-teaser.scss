@@ -59,6 +59,11 @@
     color: $wps-text-subtle;
   }
 
+  &__text {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   &__line {
     min-width: 0;
   }
@@ -76,6 +81,7 @@
   }
 
   &__close {
+    flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -148,5 +154,73 @@
     .wps-inline-teaser__note {
       padding-inline-start: 30px;
     }
+  }
+}
+
+// One quiet line (no preview): a light dashed card with two small round icons, the line, the link and ×.
+.wps-inline-teaser--line {
+  display: block;
+  padding: 6px 8px;
+  border: 1px dashed #D9DBE8;
+  border-radius: 8px;
+  background: #FAFAFE;
+  font-size: 12.5px;
+  line-height: 18px;
+
+  .wps-inline-teaser__note {
+    flex-wrap: nowrap;
+    gap: 8px;
+    color: #50546B;
+  }
+
+  .wps-inline-teaser__close {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    color: #80849A;
+
+    &:hover {
+      background: #ECEEF5;
+      color: $wps-text-strong;
+    }
+  }
+}
+
+.wps-inline-teaser__icons {
+  display: inline-flex;
+  flex: none;
+  gap: 3px;
+}
+
+.wps-inline-teaser__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #E4E5EE;
+  border-radius: 50%;
+  background: #fff;
+  color: #50546B;
+  box-sizing: border-box;
+
+  svg {
+    display: block;
+  }
+
+  // Click arrow points the other way in RTL.
+  .rtl &--click svg {
+    transform: scaleX(-1);
+  }
+}
+
+// Journey placement: indented like the timeline rows (steps padding + row padding).
+.wps-journey__teaser.wps-inline-teaser--line {
+  margin: 0 0 12px;
+  margin-inline-start: 30px;
+  padding: 6px 8px;
+
+  .wps-inline-teaser__note {
+    padding-inline-start: 0;
   }
 }

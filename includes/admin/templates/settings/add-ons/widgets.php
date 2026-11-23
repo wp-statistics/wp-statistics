@@ -12,18 +12,11 @@ $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('Advanced Widgets', 'wp-statistics'); ?></span></h2>
 
 <?php
-if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=widgets'),
-     'addon_title'        => __('Advanced Widgets Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-widgets',
-     'addon_description'  => __('The settings on this page are part of the Advanced Widgets add-on, allowing you to display a range of data widgets on your website.', 'wp-statistics'),
-     'addon_features'     => [
-         __('Display data widgets using Gutenberg blocks or theme widgets.', 'wp-statistics'),
-         __('Easily present vital website statistics.', 'wp-statistics'),
-         __('Enhance your audience\'s user experience.', 'wp-statistics'),
-     ],
-     'addon_info'         => __('With Advanced Widgets, you can easily display your website\'s important statistics', 'wp-statistics'),
-    ], true);
+if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [
+    'addon_title'        => __('Advanced Widgets Add-on', 'wp-statistics'),
+    'addon_modal_target' => 'wp-statistics-widgets',
+    'addon_campaign'     => 'widgets',
+], true);
 
 if ($isWidgetsActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
