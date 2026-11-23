@@ -84,7 +84,7 @@ class MetaboxHelper
      */
     public static function shouldHideGoPremium()
     {
-        // The widget sells Traffic by Hour and Weekly Performance: Data Plus already shows them when it is on.
+        // The widget sells clicks, downloads, live visitors and goals: with Data Plus on, the user already has the main part.
         return LicenseHelper::isPremiumLicenseAvailable()
             || LicenseHelper::areAddonPromptsHidden()
             || !\WP_STATISTICS\User::Access('manage')
