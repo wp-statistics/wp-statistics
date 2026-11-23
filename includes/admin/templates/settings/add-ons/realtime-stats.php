@@ -11,17 +11,11 @@ $isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 ?>
     <h2 class="wps-settings-box__title"><span><?php esc_html_e('Real-time Stats', 'wp-statistics'); ?></span></h2>
 <?php
-if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime-stats'),
-     'addon_title'        => __('Real-Time Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-realtime-stats',
-     'addon_description'  => __('The settings on this page are part of the Real-Time add-on, which allows you to track your visitors and online users in real time without needing to refresh the page.', 'wp-statistics'),
-     'addon_features'     => [
-         __('Monitor website traffic and activity instantly.', 'wp-statistics'),
-         __('Display real-time statistics directly on your WordPress dashboard.', 'wp-statistics'),
-     ],
-     'addon_info'         => __('Keep a close eye on your website\'s performance with the Real-Time add-on.', 'wp-statistics'),
-    ], true);
+if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [
+    'addon_title'        => __('Real-Time Add-on', 'wp-statistics'),
+    'addon_modal_target' => 'wp-statistics-realtime-stats',
+    'addon_campaign'     => 'realtime-stats',
+], true);
 
 if ($isRealTimeStatsActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");

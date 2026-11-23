@@ -32,18 +32,11 @@ foreach ($miniChartPostTypes as $name => $label) {
 
 
 <?php
-if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart'),
-     'addon_title'        => __('Mini Chart Add-on', 'wp-statistics'),
-     'addon_modal_target' => 'wp-statistics-mini-chart',
-     'addon_description'  => __('The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data.', 'wp-statistics'),
-     'addon_features'     => [
-         __('Tiny charts for posts and pages to measure performance.', 'wp-statistics'),
-         __('Admin Bar for easy access to traffic data.', 'wp-statistics'),
-         __('Customizable chart type and color.', 'wp-statistics'),
-     ],
-     'addon_info'         => __('Get clear insights into your website\'s traffic and content success with the Mini Chart add-on.', 'wp-statistics'),
-    ], true);
+if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', [
+    'addon_title'        => __('Mini Chart Add-on', 'wp-statistics'),
+    'addon_modal_target' => 'wp-statistics-mini-chart',
+    'addon_campaign'     => 'mini-chart',
+], true);
 
 if ($isMiniChartActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");

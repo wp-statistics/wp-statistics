@@ -49,6 +49,54 @@ class PluginHelper
     }
 
     /**
+     * The 8 add-ons as saved in the plugin, for when the remote list can't be loaded (no connection,
+     * blocked outbound requests, API down). Entries have no price, version, download or changelog,
+     * so views show "Learn more" only. See {@see PluginDecorator::isBundled()}.
+     *
+     * @return PluginDecorator[]
+     */
+    public static function getBundledPlugins()
+    {
+        $result = [];
+
+        foreach (AddonCatalog::all() as $slug => $copy) {
+            $result[] = new PluginDecorator((object)[
+                'id'                => 0,
+                'slug'              => $slug,
+                'name'              => $copy['name'],
+                'description'       => $copy['short'],
+                'short_description' => $copy['short'],
+                'thumbnail'         => '',
+                'price'             => '',
+                'label'             => '',
+                'version'           => '',
+                'changelog_url'     => '',
+                'changelog'         => [],
+                'product_url'       => WP_STATISTICS_SITE_URL . '/add-ons/' . $slug . '/',
+                'documentation_url' => '',
+                'bundled'           => true,
+            ]);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Remote add-on list, or the saved list when the remote one is empty.
+     *
+     * @param bool $isFallback Set to true when the saved list is returned.
+     *
+     * @return PluginDecorator[]
+     */
+    public static function getPluginsWithFallback(&$isFallback = false)
+    {
+        $plugins    = self::getRemotePlugins();
+        $isFallback = empty($plugins);
+
+        return $isFallback ? self::getBundledPlugins() : $plugins;
+    }
+
+    /**
      * Retrieve plugin info by slug.
      *
      * @param string $slug Plugin slug.

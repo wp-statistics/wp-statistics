@@ -292,7 +292,7 @@ class Test_PrivacyRoleWhiteLabel extends WP_UnitTestCase
         $html = View::load('pages/lock-page', ['addon_slug' => 'wp-statistics-data-plus', 'addon_name' => 'Data Plus'], true);
 
         $this->assertStringContainsString('This feature is not available', $html);
-        $this->assertStringNotContainsString('wps-lock-page__action--premium', $html);
+        $this->assertStringNotContainsString('wps-upsell-btn--primary', $html);
         $this->assertStringNotContainsString('pricing', $html);
     }
 

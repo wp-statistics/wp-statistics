@@ -3,6 +3,7 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 
 $type = $data['license_notice_type'];
@@ -18,6 +19,11 @@ $isFreeTour = $type === 'no_license' && empty($data['active_addons']);
         View::load('components/premium-showcase');
         echo '<details class="wps-fold" id="wps-addons-fold"><summary class="wps-fold__summary"><span>🔑 ' . esc_html__('Already have a license? Install or manage add-ons', 'wp-statistics') . '</span><span class="wps-fold__chev" aria-hidden="true">▾</span></summary><div class="wps-fold__body">';
         $type = '';
+    }
+
+    // The remote list couldn't be loaded: the cards below come from the saved list.
+    if (!empty($data['is_fallback'])) {
+        View::load('components/notices/addons-list-fallback', ['retry_url' => LicenseManagerDataProvider::getRefreshUrl('add-ons')]);
     }
 
     // Shown once after a license was removed from this site.

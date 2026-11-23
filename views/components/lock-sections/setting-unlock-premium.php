@@ -1,48 +1,50 @@
-<?php if (!defined('ABSPATH')) exit; // Exit if accessed directly ?>
 <?php
-$allowed_html = [
-    'b' => [],
-    'strong' => [],
-];
-?>
-<div class="wps-premium-feature__head">
-    <h1>
-        <?php esc_html_e('Unlock Premium Features with', 'wp-statistics')?>
-        <span><?php echo esc_html($addon_title); ?></span>
-    </h1>
-    <?php if (!empty($addon_description)): ?>
-        <p><?php echo wp_kses($addon_description, $allowed_html); ?></p>
-    <?php endif; ?>
-</div>
-<?php if (!empty($addon_features)): ?>
-    <div class="wps-premium-feature__items <?php echo esc_html($addon_title); ?>">
-        <?php foreach ($addon_features as $feature): ?>
-            <div class="wps-premium-feature__item"><?php echo wp_kses($feature, $allowed_html);; ?></div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
+/**
+ * Settings card on an add-on settings tab when the add-on is not part of the site's plan: the lock page
+ * text block without a picture, in a white card. Add-on kicker with its line icon, one headline, three
+ * benefits, "Upgrade to Premium" (opens the Premium popup on the add-on, pricing page as href) and
+ * "Learn more" (add-on page), then one "Included in Premium" + guarantee line.
+ * Copy comes from {@see AddonCatalog}, the same source as the popup and the add-on lock pages.
+ *
+ * Args:
+ *  - addon_modal_target (string) Required. Add-on slug.
+ *  - addon_title        (string) Add-on name, used when the catalog has no entry.
+ *  - addon_utm_campaign (string) utm_campaign. Default "settings".
+ */
 
-<?php if (!empty($addon_info)): ?>
-    <div class="wps-premium-feature__addon_info">
-        <?php if (isset($addon_info)) {
-            echo esc_html($addon_info);
-            }
-        ?>
-        <?php if (!empty($addon_documentation_title) && !empty($addon_documentation_slug)): ?>
-            <a href="<?php echo esc_url($addon_documentation_slug) ?>" target="_blank" aria-label="<?php echo esc_html($addon_documentation_title); ?>"><?php echo esc_html($addon_documentation_title); ?></a>.
-        <?php endif; ?>
-    </div>
-<?php endif; ?>
-<h2 class="wps-premium-feature__info">
-    <?php esc_html_e('To unlock every premium feature in WP Statistics, upgrade to Premium.', 'wp-statistics'); ?>
-</h2>
-<div class="wps-premium-feature__buttons">
-    <a class="button button-primary" target="_blank" href="<?php
-    if (isset($addon_utm_campaign)) {
-        echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=' . esc_html($addon_utm_campaign));
-    } else {
-        echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings');
-    }
-    ?>"><?php esc_html_e('Unlock Everything with Premium', 'wp-statistics') ?></a>
-    <a class="wps-show-premium-modal button  js-wps-openPremiumModal" data-target="<?php echo esc_html($addon_modal_target) ?>" data-name="<?php echo esc_html($addon_title) ?>"><?php esc_html_e('Learn More', 'wp-statistics') ?></a>
-</div>
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\AddonCatalog;
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
+$slug     = $addon_modal_target ?? '';
+$copy     = AddonCatalog::get($slug);
+$name     = $copy['name'] ?? ($addon_title ?? '');
+$headline = $copy['headline'] ?? '';
+$benefits = $copy['benefits'] ?? [];
+$campaign = !empty($addon_utm_campaign) ? $addon_utm_campaign : 'settings';
+$titleId  = 'wps-upsell-card-' . sanitize_html_class($slug);
+
+if ($headline === '') {
+    return;
+}
+?>
+<section class="wps-upsell-card" aria-labelledby="<?php echo esc_attr($titleId); ?>">
+    <p class="wps-upsell-card__kicker">
+        <?php echo AddonCatalog::getLineIcon($slug, 16, 'wps-upsell-card__icon'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup ?>
+        <span><?php
+            /* translators: %s: Add-on name. */
+            echo esc_html(sprintf(__('%s add-on', 'wp-statistics'), $name)); ?></span>
+    </p>
+    <h3 class="wps-upsell-card__title" id="<?php echo esc_attr($titleId); ?>"><?php echo esc_html($headline); ?></h3>
+    <?php View::load('components/upsell/benefits', ['items' => $benefits, 'class' => 'wps-upsell-card__benefits']); ?>
+    <?php View::load('components/upsell/actions', ['campaign' => $campaign, 'addon' => $slug, 'upgrade_modal' => true, 'class' => 'wps-upsell-card__actions']); ?>
+    <p class="wps-upsell-card__footer">
+        <span><?php esc_html_e('Included in Premium with all 8 add-ons', 'wp-statistics'); ?></span>
+        <span class="wps-upsell-card__sep" aria-hidden="true">&middot;</span>
+        <span class="wps-upsell-card__guarantee">
+            <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8 4.5 5.6v5.6c0 4.6 3.1 8.3 7.5 10 4.4-1.7 7.5-5.4 7.5-10V5.6L12 2.8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.6 12.2 2.4 2.4 4.5-4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <?php esc_html_e('14-day money-back guarantee', 'wp-statistics'); ?>
+        </span>
+    </p>
+</section>
