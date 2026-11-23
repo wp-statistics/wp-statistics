@@ -19,7 +19,7 @@ $features  = [
     ['emoji' => '🔎', 'title' => __('Advanced filtering and tracking', 'wp-statistics'), 'tip' => __('Data Plus add-on. Filter any report, and track outbound and download links.', 'wp-statistics'), 'slug' => 'wp-statistics-data-plus'],
     ['emoji' => '📈', 'title' => __('Admin-bar mini chart', 'wp-statistics'), 'tip' => __('Mini Chart add-on. A small traffic chart in the WordPress admin bar.', 'wp-statistics'), 'slug' => 'wp-statistics-mini-chart'],
     ['emoji' => '📬', 'title' => __('Branded email reports', 'wp-statistics'), 'tip' => __('Advanced Reporting add-on. Email reports with your own branding.', 'wp-statistics'), 'slug' => 'wp-statistics-advanced-reporting'],
-    ['emoji' => '🔌', 'title' => __('REST API', 'wp-statistics'), 'tip' => __('REST API add-on. Read your statistics from other tools and apps.', 'wp-statistics'), 'slug' => 'wp-statistics-rest-api'],
+    ['emoji' => '🔌', 'title' => __('REST API', 'wp-statistics'), 'tip' => __('REST API add-on. Read your statistics from other tools and apps, and connect ChatGPT, Claude and other AI agents with MCP.', 'wp-statistics'), 'slug' => 'wp-statistics-rest-api'],
     ['emoji' => '🧩', 'title' => __('Front-end widgets and blocks', 'wp-statistics'), 'tip' => __('Advanced Widgets add-on. Show stats to your visitors with blocks and widgets.', 'wp-statistics'), 'slug' => 'wp-statistics-widgets'],
     ['emoji' => '🎨', 'title' => __('White-label and custom branding', 'wp-statistics'), 'tip' => __('Customisation add-on. Your colours and your brand in the admin and in reports.', 'wp-statistics'), 'slug' => 'wp-statistics-customization'],
 ];

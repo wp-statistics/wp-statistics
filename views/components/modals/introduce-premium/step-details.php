@@ -133,7 +133,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             $data = [
                 'description' => sprintf(
                     /* translators: %s: string value */
-                    __('<p>Unlock powerful integration options with the Rest API add-on. This feature enables access to your website’s statistics through WordPress REST API endpoints, allowing seamless data retrieval for external applications, custom dashboards, and automation tools. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    __('<p>Read your website’s statistics through WordPress REST API endpoints, for other apps, custom dashboards and automation tools. You can also connect ChatGPT, Claude and other AI agents with MCP and ask them about your traffic. Read only, and you choose which agents get access. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-rest-api',
