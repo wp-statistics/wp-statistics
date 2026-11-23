@@ -11,7 +11,7 @@
  * between tiles with the arrow keys, Home and End.
  *
  * Args:
- *  - items     (array)  slug => ['name' => string, 'state' => upgrade|addons-page|active, 'badge' => string]
+ *  - items     (array)  slug => ['name' => string, 'state' => upgrade|addons-page|activate|active, 'badge' => string]
  *  - id_prefix (string) Element id prefix.
  */
 
