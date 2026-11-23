@@ -66,13 +66,11 @@ $postTypePlural   = Helper::getPostTypeName($postType);
 
         View::load("components/traffic-summary", ['data' => $data]);
 
-        $categories = [
-            'title'      => esc_html__('Top Categories', 'wp-statistics'),
-            /* translators: %s: string value */
-            'tooltip'    => sprintf(esc_html__('Terms ranked by views of their %s. Click a column to sort.', 'wp-statistics'), strtolower($postTypePlural)),
-            'taxonomies' => $data['taxonomies']
+        $topCountries = [
+            'tooltip' => esc_html__('Countries with the most visitors.', 'wp-statistics'),
+            'data'    => $data['visitors_country']
         ];
-        Admin_Template::get_template(['layout/content-analytics/top-categories'], $categories);
+        View::load("components/tables/top-countries", $topCountries);
 
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),
@@ -121,11 +119,15 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         ];
         Admin_Template::get_template(['layout/content-analytics/top-picks'], $topPages);
 
-        $topCountries = [
-            'tooltip' => esc_html__('Countries with the most visitors.', 'wp-statistics'),
-            'data'    => $data['visitors_country']
+        // Top Categories has five columns (name, posts, per post, published, comments): it needs the
+        // wide column. Top Countries (one name + count rows) takes its place in the narrow one.
+        $categories = [
+            'title'      => esc_html__('Top Categories', 'wp-statistics'),
+            /* translators: %s: string value */
+            'tooltip'    => sprintf(esc_html__('Terms ranked by views of their %s. Click a column to sort.', 'wp-statistics'), strtolower($postTypePlural)),
+            'taxonomies' => $data['taxonomies']
         ];
-        View::load("components/tables/top-countries", $topCountries);
+        Admin_Template::get_template(['layout/content-analytics/top-categories'], $categories);
 
         $engines = [
             'title'     => esc_html__('Search Engines', 'wp-statistics'),

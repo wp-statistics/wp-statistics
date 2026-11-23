@@ -168,4 +168,73 @@ class Test_Leaderboard extends WP_UnitTestCase
         $this->assertSame('1 comment', LeaderboardPresenter::metricText((object) ['comments' => 1], 'comments'));
         $this->assertSame('1.23K views', LeaderboardPresenter::metricText((object) ['views' => 1234], 'views'));
     }
+
+    /**
+     * An image attachment with a made-up file and a 150x150 "thumbnail" size in its metadata.
+     */
+    private function imageAttachment($postId)
+    {
+        $attachmentId = self::factory()->attachment->create_object([
+            'file'           => '2026/11/cover.jpg',
+            'post_parent'    => $postId,
+            'post_mime_type' => 'image/jpeg',
+            'post_title'     => 'Cover',
+        ]);
+
+        wp_update_attachment_metadata($attachmentId, [
+            'width'  => 800,
+            'height' => 600,
+            'file'   => '2026/11/cover.jpg',
+            'sizes'  => [
+                'thumbnail' => ['file' => 'cover-150x150.jpg', 'width' => 150, 'height' => 150, 'mime-type' => 'image/jpeg'],
+            ],
+        ]);
+
+        return $attachmentId;
+    }
+
+    public function test_content_items_use_the_wordpress_thumbnail_size_and_fall_back_to_initials()
+    {
+        $withImage = self::factory()->post->create(['post_title' => 'Quick Dinners']);
+        $noImage   = self::factory()->post->create(['post_title' => 'Slow Evenings']);
+        set_post_thumbnail($withImage, $this->imageAttachment($withImage));
+
+        $posts = [
+            (object) ['ID' => $withImage, 'post_title' => 'Quick Dinners', 'views' => 12],
+            (object) ['ID' => $noImage, 'post_title' => 'Slow Evenings', 'views' => 3],
+        ];
+        $items = LeaderboardPresenter::contentItems($posts, 'views', function () {
+            return 'https://example.test/report';
+        });
+
+        $this->assertStringEndsWith('/2026/11/cover-150x150.jpg', $items[0]['thumb'], 'WordPress\'s own "thumbnail" size, no new size');
+        $this->assertSame('', $items[1]['thumb']);
+        $this->assertSame('SE', $items[1]['initials']);
+
+        $html = \WP_Statistics\Components\View::load('components/content-rank-list', [
+            'id'    => 'test-rank',
+            'title' => 'Top Posts',
+            'lists' => [['key' => 'views', 'label' => 'Most viewed', 'items' => $items]],
+        ], true);
+
+        $this->assertMatchesRegularExpression('#<img class="wps-rank-list__thumb" src="[^"]+cover-150x150\.jpg" alt="" width="40" height="40" loading="lazy" decoding="async">#', $html);
+        $this->assertSame(1, substr_count($html, '<img'), 'only the post with a featured image gets one');
+        $this->assertStringContainsString('wps-rank-list__thumb--tile', $html);
+        $this->assertStringContainsString('>SE</span>', $html, 'the other post keeps its initials tile');
+    }
+
+    public function test_content_items_fall_back_when_the_featured_image_is_gone()
+    {
+        $postId       = self::factory()->post->create(['post_title' => 'Gone Image']);
+        $attachmentId = $this->imageAttachment($postId);
+        set_post_thumbnail($postId, $attachmentId);
+        wp_delete_post($attachmentId, true);
+
+        $items = LeaderboardPresenter::contentItems([(object) ['ID' => $postId, 'post_title' => 'Gone Image', 'views' => 1]], 'views', function () {
+            return '';
+        });
+
+        $this->assertSame('', $items[0]['thumb']);
+        $this->assertSame('GI', $items[0]['initials']);
+    }
 }

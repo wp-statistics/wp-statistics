@@ -8,7 +8,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
 use WP_UnitTestCase;
 
 /**
- * Shared visitor table (views/components/tables/visitor-table.php), the Pages cell
+ * Shared visitor table (views/components/tables/visitor-table.php), the Journey cell
  * (views/components/objects/visitor-pages.php) and the short-date rule
  * (VisitorDecorator::compactDateParts()). All visitors and pages are made up.
  */
@@ -67,50 +67,88 @@ class Test_VisitorTableView extends WP_UnitTestCase
         return ['id' => 1, 'link' => '', 'title' => $title, 'query' => '', 'report' => $report ?: 'https://example.test/report/' . md5($title), 'sub_page' => ''];
     }
 
-    public function test_pages_cell_two_lines_with_icons_only()
+    public function test_journey_cell_several_pages_shows_entry_exit_and_count()
     {
         $html = View::load('components/objects/visitor-pages', ['entry' => $this->page('Pricing'), 'exit' => $this->page('Cart'), 'views' => 3], true);
 
+        $this->assertStringContainsString('wps-visitor-pages--multi', $html);
         $this->assertSame(2, substr_count($html, 'wps-visitor-pages__line '), 'entry + exit lines');
-        $this->assertStringContainsString('title="Entry page"', $html);
-        $this->assertStringContainsString('<span class="screen-reader-text">Exit page</span>', $html);
-        $this->assertStringNotContainsString('>In<', $html, 'no In/Out words');
-        $this->assertStringNotContainsString('>Out<', $html);
+        $this->assertStringContainsString('wps-visitor-pages__dot"', $html, 'filled dot');
+        $this->assertStringNotContainsString('wps-visitor-pages__dot--hollow', $html);
+        $this->assertStringContainsString('wps-visitor-pages__connector', $html);
+        $this->assertStringContainsString('<span class="screen-reader-text">Entry page: </span>', $html);
+        $this->assertStringContainsString('<span class="screen-reader-text">Exit page: </span>', $html);
         $this->assertStringContainsString('Pricing', $html);
         $this->assertStringContainsString('Cart', $html);
+        $this->assertStringContainsString('3 pages', $html);
+        $this->assertStringNotContainsString('Bounced', $html);
+        $this->assertStringNotContainsString('<svg', $html, 'no entry/exit icons any more');
         $this->assertStringContainsString('wps-ellipsis-text', $html, 'each line cuts with the title-cell ellipsis');
     }
 
-    public function test_pages_cell_same_page_once_with_one_page_tag()
+    public function test_journey_cell_back_to_start()
+    {
+        $page = $this->page('Home');
+        $html = View::load('components/objects/visitor-pages', ['entry' => $page, 'exit' => $page, 'views' => 4], true);
+
+        $this->assertStringContainsString('wps-visitor-pages--multi', $html);
+        $this->assertSame(1, substr_count($html, '>Home<'), 'the title is not repeated');
+        $this->assertStringContainsString('Back to start', $html);
+        $this->assertStringContainsString('4 pages', $html);
+        $this->assertStringNotContainsString('Bounced', $html);
+    }
+
+    public function test_journey_cell_one_page_bounced()
     {
         $page = $this->page('Home');
         $one  = View::load('components/objects/visitor-pages', ['entry' => $page, 'exit' => $page, 'views' => 1], true);
 
+        $this->assertStringContainsString('wps-visitor-pages--single', $one);
         $this->assertSame(1, substr_count($one, 'wps-visitor-pages__line '));
         $this->assertSame(1, substr_count($one, '>Home<'));
-        $this->assertStringContainsString('title="Entry and exit page"', $one);
-        $this->assertStringContainsString('1 page', $one);
+        $this->assertStringContainsString('wps-visitor-pages__dot wps-visitor-pages__dot--hollow', $one);
+        $this->assertStringContainsString('wps-visitor-pages__bounced', $one);
+        $this->assertStringContainsString('>Bounced<', $one);
+        $this->assertStringNotContainsString('wps-visitor-pages__connector', $one);
+        $this->assertStringNotContainsString('pages<', $one);
 
-        $two = View::load('components/objects/visitor-pages', ['entry' => $page, 'exit' => $page, 'views' => 2], true);
-        $this->assertStringNotContainsString('1 page', $two, 'several views on one page: no tag');
+        // Views unknown: one line, hollow dot, but no "Bounced" (only exactly one view says so).
+        $unknown = View::load('components/objects/visitor-pages', ['entry' => $page, 'exit' => $page], true);
+        $this->assertStringContainsString('wps-visitor-pages--single', $unknown);
+        $this->assertStringNotContainsString('Bounced', $unknown);
     }
 
-    public function test_pages_cell_missing_exit_campaign_and_unknown()
+    public function test_journey_cell_missing_exit_campaign_and_unknown()
     {
         $entry          = $this->page('Shop');
         $entry['query'] = 'utm_source=news&utm_campaign=always-on';
 
+        // Exit missing with one view: a one-page visit.
         $html = View::load('components/objects/visitor-pages', ['entry' => $entry, 'exit' => null, 'views' => 1], true);
-        $this->assertStringContainsString('Not recorded', $html);
+        $this->assertStringContainsString('wps-visitor-pages--single', $html);
         $this->assertStringContainsString('wps-campaign-label', $html);
         $this->assertStringContainsString('always-on', $html);
 
+        // Exit missing with several views: second line says it was not recorded.
+        $more = View::load('components/objects/visitor-pages', ['entry' => $entry, 'exit' => null, 'views' => 2], true);
+        $this->assertStringContainsString('Not recorded', $more);
+        $this->assertStringContainsString('2 pages', $more);
+
         $online = View::load('components/objects/visitor-pages', ['entry' => $this->page('A'), 'exit' => $this->page('B'), 'exit_label' => 'Current page'], true);
-        $this->assertStringContainsString('title="Current page"', $online);
+        $this->assertStringContainsString('<span class="screen-reader-text">Current page: </span>', $online);
+        $this->assertStringNotContainsString('pages<', $online, 'no count when the views are unknown');
 
         $none = View::load('components/objects/visitor-pages', ['entry' => null, 'exit' => null], true);
         $this->assertStringContainsString('Unknown', $none);
         $this->assertStringNotContainsString('wps-visitor-pages', $none);
+    }
+
+    public function test_journey_cell_escapes_titles()
+    {
+        $html = View::load('components/objects/visitor-pages', ['entry' => $this->page('<b>Hi</b>'), 'exit' => $this->page('"Bye"'), 'views' => 2], true);
+
+        $this->assertStringNotContainsString('<b>Hi</b>', $html);
+        $this->assertStringContainsString('&lt;b&gt;Hi&lt;/b&gt;', $html);
     }
 
     private function visitor($row = [])
@@ -150,7 +188,7 @@ class Test_VisitorTableView extends WP_UnitTestCase
         $latest = View::load('components/tables/visitor-table', ['visitors' => [$this->visitor()], 'sort' => 'last'], true);
         $active = View::load('components/tables/visitor-table', ['visitors' => [$this->visitor()], 'sort' => 'views'], true);
 
-        $order = ['Visitor', 'Referrer', 'Pages', 'Views', 'Last view'];
+        $order = ['Visitor', 'Referrer', 'Journey', 'Views', 'Last view'];
         $this->assertSame($order, $this->headers($latest));
         $this->assertSame($order, $this->headers($active), 'same order, only the sort changes');
 

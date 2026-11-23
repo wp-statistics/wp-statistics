@@ -2,7 +2,7 @@
 /**
  * Shared visitor table: one fixed column order everywhere,
  *
- *   Visitor | Referrer | Pages | Views | Last view
+ *   Visitor | Referrer | Journey | Views | Last view
  *
  * Only the sort changes between tables: the sorted column header is bold with the ↓ arrow
  * (Most Active / Top Visitors sort by Views, Latest / Online / Logged-in / Referred by Last view).
@@ -10,20 +10,24 @@
  * the Visitor Insights tables (Visitors, Top Visitors, Online, Logged-in Users), Referred
  * Visitors and the WP Dashboard visitor widgets.
  *
+ * Column widths are fixed (table-layout: fixed, widths on the header cells in
+ * component/_visitor-table.scss), so tables that show different visitors (the Visitors card
+ * tabs Latest / Most active / Online now) keep the same columns. Journey takes the free width.
+ *
  * Responsive by its own width (container query on .wps-visitor-table-wrap, works in any card):
  *  - under 700px: the Referrer column folds under the visitor pill, dates use the narrow form
  *  - under 470px: the number that is not sorted (Views or Last view) hides
- *  - under 380px: only the pill, the pages and the sorted number
+ *  - under 380px: only the pill, the journey and the sorted number
  *
  * Args:
  *  - visitors     (VisitorDecorator[]) Rows (`data` is read too).
  *  - sort         (string) 'last' (default) or 'views'.
- *  - show_pages   (bool)   Default true. Pages cell: views/components/objects/visitor-pages.php.
+ *  - show_pages   (bool)   Default true. Journey cell: views/components/objects/visitor-pages.php.
  *  - show_views   (bool)   Default true.
  *  - show_date    (bool)   Default true.
  *  - date_source  (string) 'last_view' (default) or 'page_view' (single post lists).
  *  - date_label   (string) Header of the date column. Default "Last view".
- *  - exit_label   (string) Accessible name of the exit icon (Online: "Current page").
+ *  - exit_label   (string) Accessible name of the exit line (Online: "Current page").
  *  - views_hint   (string) Tooltip text after the "Views" header (full report pages).
  *  - target       (string) Link target for the views link ('_blank' in editor side panels).
  *  - empty        (array|false) Args for components/objects/empty-state when there are no rows;
@@ -68,13 +72,13 @@ $sortedHeader = function ($label, $isSorted, $hint = '') {
 };
 ?>
 <div class="o-table-wrapper wps-visitor-table-wrap<?php echo esc_attr($extraClass); ?>">
-    <table width="100%" class="o-table wps-new-table wps-visitor-table wps-visitor-table--sort-<?php echo esc_attr($sort); ?>">
+    <table width="100%" class="o-table wps-new-table wps-visitor-table wps-visitor-table--sort-<?php echo esc_attr($sort); ?><?php echo $showPages ? '' : ' wps-visitor-table--no-pages'; ?>">
         <thead>
         <tr>
             <th scope="col" class="wps-pd-l wps-visitor-table__visitor"><?php esc_html_e('Visitor', 'wp-statistics'); ?></th>
             <th scope="col" class="wps-pd-l wps-visitor-table__referrer"><?php esc_html_e('Referrer', 'wp-statistics'); ?></th>
             <?php if ($showPages) : ?>
-                <th scope="col" class="wps-pd-l wps-visitor-table__pages"><?php esc_html_e('Pages', 'wp-statistics'); ?></th>
+                <th scope="col" class="wps-pd-l wps-visitor-table__pages"><?php echo esc_html_x('Journey', 'visitor table column: entry and exit page', 'wp-statistics'); ?></th>
             <?php endif; ?>
             <?php if ($showViews) : ?>
                 <th scope="col" class="wps-pd-l wps-col-num wps-visitor-table__views<?php echo $sort === 'views' ? ' is-sorted' : ''; ?>"<?php echo $sort === 'views' ? ' aria-sort="descending"' : ''; ?>>

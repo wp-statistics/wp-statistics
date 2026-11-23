@@ -1,22 +1,28 @@
 <?php
 /**
- * Pages cell for visitor tables: the entry page on line 1, the exit page on line 2,
- * each after a small icon (no "In"/"Out" words; the icon carries the label as a title
- * and as screen-reader text). Each line cuts with an ellipsis; the full title shows on
- * hover (assets/dev/javascript/components/title-cell.js).
+ * Journey cell for visitor tables: where the visit started and where it ended, from data
+ * the visitor row already has (entry page, exit page, number of views). No extra queries.
  *
- *  - Same entry and exit page: one line with the combined icon, plus a "1 page" tag
- *    when the visitor had one view.
- *  - Exit not recorded: the second line says "Not recorded" (muted).
+ *  - Several pages: line 1 is a filled dot + the entry page; line 2 is a small "└" connector,
+ *    the exit page and a muted " · N pages". When the visitor ended where they started,
+ *    line 2 says "Back to start · N pages" instead of repeating the title.
+ *  - One page: one line with a hollow dot, the page and an amber "Bounced" pill (the pill
+ *    only when the view count is exactly 1).
+ *  - Exit not recorded: line 2 says "Not recorded" (muted).
  *  - Neither page known: the unknown "-" value.
  *  - A utm_campaign on the entry URL adds the campaign tag after the entry page.
+ *
+ * Each title cuts with an ellipsis; the full title shows on hover
+ * (assets/dev/javascript/components/title-cell.js). The dot and connector are drawn in CSS
+ * with logical properties, so the connector mirrors in RTL. Screen readers hear
+ * "Entry page" / "Exit page" before each title.
  *
  * Args (all optional except a visitor or the pages):
  *  - visitor     (VisitorDecorator) Reads entry/exit pages and views from it.
  *  - entry, exit (array|null)       Page arrays from Visitor::get_page_by_id() (report, title, query),
  *                                   used when no visitor is given.
- *  - views       (int)              Views of the visit, for the "1 page" tag.
- *  - exit_label  (string)           Accessible name of the exit icon (default "Exit page";
+ *  - views       (int)              Views of the visit (the visitor's views when no visit count exists).
+ *  - exit_label  (string)           Accessible name of the exit line (default "Exit page";
  *                                   the Online table passes "Current page").
  *
  * Example:
@@ -55,16 +61,15 @@ if (empty($entryPage) && empty($exitPage)) {
     return;
 }
 
+// One page: entry and exit are the same page (or only the entry is known) and at most one view.
+$onePage = ($samePage || empty($exitPage)) && !empty($entryPage) && $viewCount <= 1;
+$bounced = $onePage && $viewCount === 1;
+
 $entryLabel = __('Entry page', 'wp-statistics');
 $exitLabel  = !empty($exit_label) ? (string)$exit_label : __('Exit page', 'wp-statistics');
-$bothLabel  = __('Entry and exit page', 'wp-statistics');
 
-// 24px stroke icons: an arrow going into a frame (entry) and out of one (exit).
-$iconEntry = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12h11M10 7l5 5-5 5M17 4h3v16h-3"/></svg>';
-$iconExit  = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4H4v16h3M10 12h11M17 7l5 5-5 5"/></svg>';
-
-$icon = function ($type, $label, $svg) {
-    return '<span class="wps-visitor-pages__icon wps-visitor-pages__icon--' . esc_attr($type) . '" title="' . esc_attr($label) . '">' . $svg . '<span class="screen-reader-text">' . esc_html($label) . '</span></span>';
+$srText = function ($label) {
+    return '<span class="screen-reader-text">' . esc_html($label) . ': </span>';
 };
 
 $link = function ($page, $withQuery = false) {
@@ -77,15 +82,15 @@ $link = function ($page, $withQuery = false) {
 
 $campaign = !empty($entryPage['query']) ? sanitize_text_field((string)Url::getParam('?' . $entryPage['query'], 'utm_campaign')) : '';
 $notSet   = '<span class="wps-visitor-pages__none">' . esc_html__('Not recorded', 'wp-statistics') . '</span>';
+
+/* translators: %s: number of pages the visitor saw. */
+$pagesText = $viewCount > 1 ? sprintf(_n('%s page', '%s pages', $viewCount, 'wp-statistics'), number_format_i18n($viewCount)) : '';
 ?>
-<div class="wps-visitor-pages<?php echo $samePage ? ' wps-visitor-pages--single' : ''; ?>">
+<div class="wps-visitor-pages <?php echo $onePage ? 'wps-visitor-pages--single' : 'wps-visitor-pages--multi'; ?>">
     <div class="wps-visitor-pages__line wps-visitor-pages__line--entry">
+        <span class="wps-visitor-pages__dot<?php echo $onePage ? ' wps-visitor-pages__dot--hollow' : ''; ?>" aria-hidden="true"></span>
         <?php
-        if ($samePage) {
-            echo $icon('both', $bothLabel, $iconEntry . $iconExit); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        } else {
-            echo $icon('entry', $entryLabel, $iconEntry); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        }
+        echo $srText($entryLabel); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
         if (!empty($entryPage)) {
             $link($entryPage, true);
@@ -96,22 +101,27 @@ $notSet   = '<span class="wps-visitor-pages__none">' . esc_html__('Not recorded'
         <?php if ($campaign) : ?>
             <span class="wps-campaign-label wps-tooltip" title="<?php echo esc_attr__('Campaign:', 'wp-statistics') . ' ' . esc_attr(Helper::plainText($campaign)); ?>"><?php echo esc_html(Helper::plainText($campaign)); ?></span>
         <?php endif; ?>
-        <?php if ($samePage && $viewCount === 1) : ?>
-            <?php /* translators: %s: number of pages the visitor saw (always 1 here). */ ?>
-            <span class="wps-visitor-pages__tag"><?php echo esc_html(sprintf(_n('%s page', '%s pages', 1, 'wp-statistics'), number_format_i18n(1))); ?></span>
+        <?php if ($bounced) : ?>
+            <span class="wps-visitor-pages__bounced" title="<?php esc_attr_e('Left after one page', 'wp-statistics'); ?>"><?php echo esc_html_x('Bounced', 'visitor left after one page', 'wp-statistics'); ?></span>
         <?php endif; ?>
     </div>
-    <?php if (!$samePage) : ?>
+    <?php if (!$onePage) : ?>
         <div class="wps-visitor-pages__line wps-visitor-pages__line--exit">
+            <span class="wps-visitor-pages__connector" aria-hidden="true"></span>
             <?php
-            echo $icon('exit', $exitLabel, $iconExit); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo $srText($exitLabel); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-            if (!empty($exitPage)) {
+            if ($samePage) {
+                echo '<span class="wps-visitor-pages__back">' . esc_html__('Back to start', 'wp-statistics') . '</span>';
+            } elseif (!empty($exitPage)) {
                 $link($exitPage);
             } else {
                 echo $notSet; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
             ?>
+            <?php if ($pagesText !== '') : ?>
+                <span class="wps-visitor-pages__count"><span aria-hidden="true">&middot; </span><?php echo esc_html($pagesText); ?></span>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </div>

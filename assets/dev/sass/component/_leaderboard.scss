@@ -461,19 +461,25 @@ $wps-lb-min-width: 520px;
     font-variant-numeric: tabular-nums;
   }
 
+  // Featured image (WordPress's own 150px "thumbnail" size, shown at 40px) or the
+  // colour tile with initials when the post has none. Same size and corners for both.
   &__thumb {
     flex: none;
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 5px;
+    box-sizing: border-box;
+    width: 40px !important;
+    height: 40px !important;
+    max-width: none;
+    margin: 0;
+    border-radius: 6px;
     object-fit: cover;
+    background: #F1F2F3;
 
     &--tile {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       color: #fff;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: .02em;
       line-height: 1;

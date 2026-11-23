@@ -1,8 +1,10 @@
 <?php
 /**
  * Top Source Categories: the Top Countries share rows (components/objects/share-list).
- * Category icon in its colour + name, the top domain as grey text, count + share on the
- * end side, thin bar under the row. The last row sums the categories past the top five.
+ * Category name (no icon: the rows read as a plain ranking, like Top Countries without flags),
+ * the top domain as grey text, count + share on the end side, thin bar under the row. The last
+ * row sums the categories past the top five. The full Referrals > Source Categories report keeps
+ * the coloured icons, because there they match the lines of the chart above the table.
  *
  * Args:
  *  - data    (array) Rows from TopSourceCategoriesDataProvider::getData(). Rows with only the
@@ -34,7 +36,7 @@ foreach ($rows as $row) {
         $domain = $domain === '-' ? '' : $domain;
     }
 
-    $item = [
+    $items[] = [
         'label'    => $label,
         'count'    => $count,
         'url'      => $row['url'] ?? '',
@@ -42,12 +44,6 @@ foreach ($rows as $row) {
         'meta_dir' => 'ltr',
         'class'    => !empty($row['is_other']) ? 'wps-share-list__item--other' : '',
     ];
-
-    if (!empty($row['icon'])) {
-        $item['icon'] = ['svg' => $row['icon'], 'color' => $row['color'] ?? ''];
-    }
-
-    $items[] = $item;
 }
 ?>
 <?php if ($wrap) : ?><div class="inside"><?php endif; ?>

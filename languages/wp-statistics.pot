@@ -3,13 +3,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics 14.17.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wps-visitors\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-23T15:06:49+00:00\n"
+"POT-Creation-Date: 2026-11-23T17:59:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -21,6 +21,7 @@ msgstr ""
 #: includes/admin/templates/settings/advanced.php:111
 #: src/Service/Admin/Metabox/Metaboxes/AboutWPS.php:68
 #: src/Service/Admin/SiteHealthInfo.php:45
+#: assets/blocks/post-summary/post-summary.js:1
 msgid "WP Statistics"
 msgstr ""
 
@@ -240,7 +241,7 @@ msgstr ""
 #: views/components/tables/geographic-top-countries.php:34
 #: views/components/tables/summary.php:24
 #: views/components/tables/top-report.php:34
-#: views/components/tables/visitor-table.php:81
+#: views/components/tables/visitor-table.php:85
 #: views/components/traffic-summary.php:39
 #: views/components/visitor-profile.php:152
 #: views/metabox/most-visited-pages.php:15
@@ -407,7 +408,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:449
 #: includes/admin/templates/pages/category-analytics/category-performance.php:70
 #: includes/admin/templates/pages/category-analytics/category-single.php:69
-#: includes/admin/templates/pages/content-analytics/post-type.php:85
+#: includes/admin/templates/pages/content-analytics/post-type.php:83
 #: includes/admin/templates/pages/content-analytics/single-resource.php:38
 #: includes/admin/templates/pages/content-analytics/single.php:95
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:41
@@ -770,7 +771,7 @@ msgstr ""
 #: src/Service/Admin/VisitorInsights/VisitorInsightsPage.php:68
 #: views/components/session-details.php:31
 #: views/components/tables/views.php:24
-#: views/components/tables/visitor-table.php:75
+#: views/components/tables/visitor-table.php:79
 #: views/components/visitor-profile.php:135
 msgid "Referrer"
 msgstr ""
@@ -1068,7 +1069,6 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:87
 #: includes/admin/templates/settings/add-ons/mini-chart.php:18
-#: views/components/tables/visitor-table.php:77
 msgid "Pages"
 msgstr ""
 
@@ -2443,7 +2443,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:63
 #: includes/admin/templates/pages/category-analytics/category-single.php:62
-#: includes/admin/templates/pages/content-analytics/post-type.php:78
+#: includes/admin/templates/pages/content-analytics/post-type.php:76
 #: includes/admin/templates/pages/content-analytics/single-resource.php:31
 #: includes/admin/templates/pages/content-analytics/single.php:88
 #: src/Service/Admin/Devices/Views/TabsView.php:116
@@ -2452,7 +2452,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:64
 #: includes/admin/templates/pages/category-analytics/category-single.php:63
-#: includes/admin/templates/pages/content-analytics/post-type.php:79
+#: includes/admin/templates/pages/content-analytics/post-type.php:77
 #: includes/admin/templates/pages/content-analytics/single-resource.php:32
 #: includes/admin/templates/pages/content-analytics/single.php:89
 #: src/Service/Admin/Devices/Views/TabsView.php:117
@@ -2462,7 +2462,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:71
 #: includes/admin/templates/pages/category-analytics/category-single.php:70
-#: includes/admin/templates/pages/content-analytics/post-type.php:86
+#: includes/admin/templates/pages/content-analytics/post-type.php:84
 #: includes/admin/templates/pages/content-analytics/single-resource.php:39
 #: includes/admin/templates/pages/content-analytics/single.php:96
 #: src/Service/Admin/Devices/Views/TabsView.php:109
@@ -2472,7 +2472,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:77
 #: includes/admin/templates/pages/category-analytics/category-single.php:76
-#: includes/admin/templates/pages/content-analytics/post-type.php:92
+#: includes/admin/templates/pages/content-analytics/post-type.php:90
 #: includes/admin/templates/pages/content-analytics/single-resource.php:45
 #: includes/admin/templates/pages/content-analytics/single.php:102
 #: includes/admin/templates/pages/devices/overview.php:141
@@ -2482,7 +2482,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:78
 #: includes/admin/templates/pages/category-analytics/category-single.php:77
-#: includes/admin/templates/pages/content-analytics/post-type.php:93
+#: includes/admin/templates/pages/content-analytics/post-type.php:91
 #: includes/admin/templates/pages/content-analytics/single-resource.php:46
 #: includes/admin/templates/pages/content-analytics/single.php:103
 #: src/Service/Admin/Devices/Views/TabsView.php:125
@@ -2491,7 +2491,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:85
 #: includes/admin/templates/pages/category-analytics/category-single.php:83
-#: includes/admin/templates/pages/content-analytics/post-type.php:99
+#: includes/admin/templates/pages/content-analytics/post-type.php:97
 #: includes/admin/templates/pages/content-analytics/single-resource.php:52
 #: includes/admin/templates/pages/content-analytics/single.php:109
 msgid "Device Usage"
@@ -2499,7 +2499,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:86
 #: includes/admin/templates/pages/category-analytics/category-single.php:84
-#: includes/admin/templates/pages/content-analytics/post-type.php:100
+#: includes/admin/templates/pages/content-analytics/post-type.php:98
 #: includes/admin/templates/pages/content-analytics/single-resource.php:53
 #: includes/admin/templates/pages/content-analytics/single.php:110
 #: src/Service/Admin/Metabox/Metaboxes/DeviceUsageBreakdown.php:21
@@ -2508,7 +2508,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:96
 #: includes/admin/templates/pages/category-analytics/category-single.php:94
-#: includes/admin/templates/pages/content-analytics/post-type.php:110
+#: includes/admin/templates/pages/content-analytics/post-type.php:108
 #: includes/admin/templates/pages/content-analytics/single.php:120
 msgid "Performance"
 msgstr ""
@@ -2518,7 +2518,7 @@ msgid "Last 15 Days"
 msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:103
-#: includes/admin/templates/pages/content-analytics/post-type.php:70
+#: includes/admin/templates/pages/content-analytics/post-type.php:125
 msgid "Top Categories"
 msgstr ""
 
@@ -2541,7 +2541,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:125
 #: includes/admin/templates/pages/category-analytics/category-single.php:107
-#: includes/admin/templates/pages/content-analytics/post-type.php:125
+#: includes/admin/templates/pages/content-analytics/post-type.php:70
 #: includes/admin/templates/pages/content-analytics/single-resource.php:69
 #: includes/admin/templates/pages/content-analytics/single.php:126
 msgid "Countries with the most visitors."
@@ -2549,7 +2549,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:131
 #: includes/admin/templates/pages/category-analytics/category-single.php:113
-#: includes/admin/templates/pages/content-analytics/post-type.php:131
+#: includes/admin/templates/pages/content-analytics/post-type.php:133
 #: includes/admin/templates/pages/content-analytics/single-resource.php:75
 #: includes/admin/templates/pages/content-analytics/single.php:134
 #: src/Service/Admin/Referrals/Views/TabsView.php:138
@@ -2558,7 +2558,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:132
 #: includes/admin/templates/pages/category-analytics/category-single.php:114
-#: includes/admin/templates/pages/content-analytics/post-type.php:132
+#: includes/admin/templates/pages/content-analytics/post-type.php:134
 #: includes/admin/templates/pages/content-analytics/single-resource.php:76
 #: includes/admin/templates/pages/content-analytics/single.php:135
 msgid "Search engine traffic over the selected period."
@@ -2566,7 +2566,7 @@ msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-performance.php:138
 #: includes/admin/templates/pages/category-analytics/category-single.php:120
-#: includes/admin/templates/pages/content-analytics/post-type.php:138
+#: includes/admin/templates/pages/content-analytics/post-type.php:140
 #: includes/admin/templates/pages/content-analytics/single-resource.php:82
 #: includes/admin/templates/pages/content-analytics/single.php:141
 msgid "Sites that sent the most visitors."
@@ -2627,21 +2627,21 @@ msgid "All Time Views"
 msgstr ""
 
 #. translators: %s: string value
-#: includes/admin/templates/pages/content-analytics/post-type.php:72
-#, php-format
-msgid "Terms ranked by views of their %s. Click a column to sort."
-msgstr ""
-
-#. translators: %s: string value
-#: includes/admin/templates/pages/content-analytics/post-type.php:117
+#: includes/admin/templates/pages/content-analytics/post-type.php:115
 #, php-format
 msgid "Top %s"
 msgstr ""
 
 #. translators: %s: string value
-#: includes/admin/templates/pages/content-analytics/post-type.php:119
+#: includes/admin/templates/pages/content-analytics/post-type.php:117
 #, php-format
 msgid "Most viewed, most commented or newest %s. Switch with \"Rank by\"."
+msgstr ""
+
+#. translators: %s: string value
+#: includes/admin/templates/pages/content-analytics/post-type.php:127
+#, php-format
+msgid "Terms ranked by views of their %s. Click a column to sort."
 msgstr ""
 
 #: includes/admin/templates/pages/content-analytics/single-resource.php:63
@@ -8354,7 +8354,7 @@ msgstr ""
 msgid "Traffic trend chart"
 msgstr ""
 
-#: views/components/content-rank-list.php:34
+#: views/components/content-rank-list.php:35
 msgid "Rank by"
 msgstr ""
 
@@ -9048,33 +9048,42 @@ msgstr ""
 msgid "Open site in a new tab"
 msgstr ""
 
-#: views/components/objects/visitor-pages.php:58
+#: views/components/objects/visitor-pages.php:68
 msgid "Entry page"
 msgstr ""
 
-#: views/components/objects/visitor-pages.php:59
+#: views/components/objects/visitor-pages.php:69
 msgid "Exit page"
 msgstr ""
 
-#: views/components/objects/visitor-pages.php:60
-msgid "Entry and exit page"
-msgstr ""
-
-#: views/components/objects/visitor-pages.php:79
+#: views/components/objects/visitor-pages.php:84
 msgid "Not recorded"
 msgstr ""
 
-#: views/components/objects/visitor-pages.php:97
-msgid "Campaign:"
-msgstr ""
-
-#. translators: %s: number of pages the visitor saw (always 1 here).
-#: views/components/objects/visitor-pages.php:101
+#. translators: %s: number of pages the visitor saw.
+#: views/components/objects/visitor-pages.php:87
 #, php-format
 msgid "%s page"
 msgid_plural "%s pages"
 msgstr[0] ""
 msgstr[1] ""
+
+#: views/components/objects/visitor-pages.php:102
+msgid "Campaign:"
+msgstr ""
+
+#: views/components/objects/visitor-pages.php:105
+msgid "Left after one page"
+msgstr ""
+
+#: views/components/objects/visitor-pages.php:105
+msgctxt "visitor left after one page"
+msgid "Bounced"
+msgstr ""
+
+#: views/components/objects/visitor-pages.php:115
+msgid "Back to start"
+msgstr ""
 
 #: views/components/premium-showcase.php:10
 msgid "Visitor, page and referrer statistics"
@@ -9713,12 +9722,17 @@ msgstr ""
 msgid "Hits"
 msgstr ""
 
-#: views/components/tables/visitor-table.php:51
+#: views/components/tables/visitor-table.php:55
 msgid "Last view"
 msgstr ""
 
-#: views/components/tables/visitor-table.php:74
+#: views/components/tables/visitor-table.php:78
 msgid "Visitor"
+msgstr ""
+
+#: views/components/tables/visitor-table.php:81
+msgctxt "visitor table column: entry and exit page"
+msgid "Journey"
 msgstr ""
 
 #: views/components/tables/visitors.php:24
