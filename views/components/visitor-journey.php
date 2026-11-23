@@ -95,9 +95,10 @@ $wpsJourneyEvent = function ($step, $example = false) use ($wpsJourneyTime) {
             <?php else : ?>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 9l11 4-5 2-2 5z"/><path d="M5 5l2 2M12 3v2M3 12h2"/></svg>
             <?php endif; ?>
-            <span><?php echo esc_html($step['label']); ?></span>
+            <?php // dir="auto" isolates data (event names, domains) so quotes and full stops stay in place in RTL. ?>
+            <span dir="auto"><?php echo esc_html($step['label']); ?></span>
             <?php if (!empty($step['host']) && $kind === 'click' && strpos($step['label'], $step['host']) === false) : ?>
-                <span class="wps-journey__muted">→ <?php echo esc_html($step['host']); ?></span>
+                <span class="wps-journey__muted"><span aria-hidden="true"><?php echo is_rtl() ? '←' : '→'; ?></span> <span dir="auto"><?php echo esc_html($step['host']); ?></span></span>
             <?php endif; ?>
             <?php if ($example) : ?>
                 <span class="wps-new-tab-link"><svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 2.5h-2v7h7v-2"/><path d="M7 1.5h3.5V5"/><path d="M10.5 1.5 5.5 6.5"/></svg></span>
@@ -129,9 +130,9 @@ $wpsJourneySteps = function ($visit) use ($wpsJourneyTime, $wpsJourneyEvent) {
                     <div class="wps-journey__body">
                         <span class="wps-journey__page wps-title-cell">
                             <?php if (!empty($page['report'])) : ?>
-                                <a href="<?php echo esc_url($page['report']); ?>"<?php echo !empty($page['sub_page']) ? ' title="' . esc_attr($page['sub_page']) . '"' : ''; ?>><?php echo esc_html($title); ?></a>
+                                <a href="<?php echo esc_url($page['report']); ?>"<?php echo !empty($page['sub_page']) ? ' title="' . esc_attr($page['sub_page']) . '"' : ''; ?>><span dir="auto"><?php echo esc_html($title); ?></span></a>
                             <?php else : ?>
-                                <span><?php echo esc_html($title); ?></span>
+                                <span dir="auto"><?php echo esc_html($title); ?></span>
                             <?php endif; ?>
                             <?php if (!empty($page['link'])) {
                                 View::load('components/objects/new-tab-link', ['url' => $page['link']]);
@@ -158,8 +159,8 @@ $wpsJourneySteps = function ($visit) use ($wpsJourneyTime, $wpsJourneyEvent) {
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
                     <?php
                     $from = $referral->getReferrer()
-                        ? sprintf('<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url($referral->getReferrer()), esc_html($source))
-                        : '<b>' . esc_html($source) . '</b>';
+                        ? sprintf('<a href="%s" target="_blank" rel="noopener noreferrer"><span dir="auto">%s</span></a>', esc_url($referral->getReferrer()), esc_html($source))
+                        : '<b><span dir="auto">' . esc_html($source) . '</span></b>';
                     /* translators: %s: Referrer domain or source name. */
                     echo wp_kses_post(sprintf(__('From %s', 'wp-statistics'), $from));
                     if ($referral->getSourceChannel() && $referral->getRawSourceChannel() !== 'unassigned') {
@@ -174,7 +175,7 @@ $wpsJourneySteps = function ($visit) use ($wpsJourneyTime, $wpsJourneyEvent) {
         </li>
     </ol>
     <?php if (empty($visit['steps'])) : ?>
-        <p class="wps-journey__empty"><?php esc_html_e('The pages of this visit were not recorded.', 'wp-statistics'); ?></p>
+        <p class="wps-journey__empty" dir="auto"><?php esc_html_e('The pages of this visit were not recorded.', 'wp-statistics'); ?></p>
     <?php endif;
 };
 
