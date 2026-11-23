@@ -47,7 +47,7 @@ $sites = isset($sites) && is_array($sites) ? $sites : [];
                             <ul>
                                 <?php foreach ($site['links'] as $index => $link) : ?>
                                     <li>
-                                        <a href="<?php echo esc_url($link['url']); ?>"<?php echo $index === 0 ? ' class="button button-primary"' : ' class="button"'; ?>><?php echo esc_html($link['label']); ?></a>
+                                        <a href="<?php echo esc_url($link['url']); ?>"<?php echo $index === 0 ? ' class="button button-primary"' : ' class="wps-network-site__link"'; ?>><?php echo esc_html($link['label']); ?></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
