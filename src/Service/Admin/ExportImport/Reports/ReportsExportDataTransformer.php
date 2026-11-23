@@ -87,7 +87,7 @@ class ReportsExportDataTransformer
                 $row['words'] = $post->words;
             }
 
-            $row['published_data'] = $post->date;
+            $row['published_date'] = $post->date;
             $row['url']            = get_permalink($post->post_id);
 
             $result[] = $row;
