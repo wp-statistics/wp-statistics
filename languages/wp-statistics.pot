@@ -3,13 +3,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics 14.17.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wps-visitors\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-23T14:44:30+00:00\n"
+"POT-Creation-Date: 2026-11-23T15:06:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -21,7 +21,6 @@ msgstr ""
 #: includes/admin/templates/settings/advanced.php:111
 #: src/Service/Admin/Metabox/Metaboxes/AboutWPS.php:68
 #: src/Service/Admin/SiteHealthInfo.php:45
-#: assets/blocks/post-summary/post-summary.js:1
 msgid "WP Statistics"
 msgstr ""
 
@@ -48,6 +47,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-ajax.php:112
 #: src/Abstracts/BaseMetabox.php:225
 #: src/Service/Admin/LicenseManagement/InlineTeaser.php:106
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:330
 #: src/Service/Admin/Notification/NotificationActions.php:34
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:24
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:48
@@ -179,6 +179,8 @@ msgstr ""
 #: includes/admin/templates/pages/geographic/us.php:24
 #: includes/admin/templates/settings/add-ons/mini-chart.php:76
 #: includes/class-wp-statistics-shortcode.php:297
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:52
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:266
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:112
 #: src/Service/Admin/PageHeader/SingleHeaders.php:129
 #: src/Service/Admin/PageHeader/SingleHeaders.php:140
@@ -6501,34 +6503,6 @@ msgstr ""
 msgid "View Browser Usage"
 msgstr ""
 
-#: src/Service/Admin/Metabox/Metaboxes/CurrentlyOnline.php:18
-msgid "Currently Online"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/CurrentlyOnline.php:34
-msgid "View Online Visitors"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/CurrentlyOnline.php:40
-msgid "Open Real-Time"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/CurrentlyOnline.php:42
-msgid "View all online visitors"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/CurrentlyOnline.php:66
-msgid "No one online right now"
-msgstr ""
-
-#. translators: %s: Number of minutes.
-#: src/Service/Admin/Metabox/Metaboxes/CurrentlyOnline.php:68
-#, php-format
-msgid "Visitors from the last %s minute show here."
-msgid_plural "Visitors from the last %s minutes show here."
-msgstr[0] ""
-msgstr[1] ""
-
 #: src/Service/Admin/Metabox/Metaboxes/DailyTrafficTrend.php:15
 msgid "Traffic Trend"
 msgstr ""
@@ -6555,47 +6529,6 @@ msgstr ""
 
 #: src/Service/Admin/Metabox/Metaboxes/GlobalVisitorDistribution.php:20
 msgid "Visitors by country, on a map."
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/LatestVisitor.php:16
-msgid "Latest Visitors"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/LatestVisitor.php:21
-msgid "The latest visitors, newest first."
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/LatestVisitor.php:30
-msgid "View all visitors"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/LatestVisitor.php:30
-msgid "View Latest Visitors"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/LatestVisitor.php:47
-msgid "No visitors yet"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/LatestVisitor.php:48
-msgid "New visits show here as they happen."
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:17
-#: views/pages/visitor-insights/overview.php:134
-msgid "Most Active Visitors"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:22
-msgid "Visitors with the most views in the period."
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:31
-msgid "View all active visitors"
-msgstr ""
-
-#: src/Service/Admin/Metabox/Metaboxes/MostActiveVisitors.php:31
-msgid "View Most Active Visitors"
 msgstr ""
 
 #: src/Service/Admin/Metabox/Metaboxes/MostVisitedPages.php:22
@@ -6667,6 +6600,55 @@ msgstr ""
 #: src/Service/Admin/Metabox/Metaboxes/TrafficSummary.php:15
 #: views/components/traffic-summary.php:12
 msgid "Traffic Summary"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:57
+msgid "Latest visitors, the most active in the period, and who is online now."
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:202
+#: views/components/visitor-journey.php:229
+msgid "Latest"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:203
+msgid "Most active"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:204
+msgid "Online now"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:228
+msgid "View all active visitors"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:228
+msgid "View Most Active Visitors"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:237
+msgid "Open Real-Time"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:243
+msgid "View all online visitors"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:243
+msgid "View Online Visitors"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:249
+msgid "View all visitors"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:249
+msgid "View Latest Visitors"
+msgstr ""
+
+#: src/Service/Admin/Metabox/Metaboxes/Visitors.php:336
+msgid "Invalid request."
 msgstr ""
 
 #. translators: %1$s: string value, %2$s: string value, %3$s: string value
@@ -9656,8 +9638,8 @@ msgid "View Countries"
 msgstr ""
 
 #: views/components/tables/online.php:15
-#: views/metabox/currently-online.php:17
-#: views/metabox/dashboard/visitors-list.php:31
+#: views/metabox/dashboard/visitors-list.php:27
+#: views/metabox/visitors.php:66
 msgid "Current page"
 msgstr ""
 
@@ -9906,10 +9888,6 @@ msgid "No pages were recorded for this visitor."
 msgstr ""
 
 #: views/components/visitor-journey.php:229
-msgid "Latest"
-msgstr ""
-
-#: views/components/visitor-journey.php:229
 msgid "This visit"
 msgstr ""
 
@@ -10048,10 +10026,6 @@ msgstr ""
 msgid "Powered by VeronaLabs"
 msgstr ""
 
-#: views/metabox/currently-online.php:24
-msgid "No activity right now."
-msgstr ""
-
 #: views/metabox/daily-traffic-trend.php:18
 msgid "Day-by-day breakdown of views and page views chart over the selected period"
 msgstr ""
@@ -10070,10 +10044,6 @@ msgstr ""
 
 #: views/metabox/go-premium.php:28
 msgid "See what Premium adds"
-msgstr ""
-
-#: views/metabox/latest-visitor.php:11
-msgid "No visitors recorded yet."
 msgstr ""
 
 #. translators: 1: Link to DataPlus add-on - 2: Name of the add-on.
@@ -10104,6 +10074,32 @@ msgstr ""
 
 #: views/metabox/traffic-overview.php:88
 msgid "Date range"
+msgstr ""
+
+#: views/metabox/visitors.php:32
+#: views/metabox/visitors.php:53
+msgid "No one online right now"
+msgstr ""
+
+#. translators: %s: Number of minutes.
+#: views/metabox/visitors.php:34
+#: views/metabox/visitors.php:55
+#, php-format
+msgid "Visitors from the last %s minute show here."
+msgid_plural "Visitors from the last %s minutes show here."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/metabox/visitors.php:38
+msgid "No visitors yet"
+msgstr ""
+
+#: views/metabox/visitors.php:39
+msgid "New visits show here as they happen."
+msgstr ""
+
+#: views/metabox/visitors.php:59
+msgid "No visitors recorded yet."
 msgstr ""
 
 #: views/pages/license-manager/add-license.php:19
@@ -10798,6 +10794,10 @@ msgstr ""
 
 #: views/pages/visitor-insights/overview.php:123
 msgid "View Entry Pages"
+msgstr ""
+
+#: views/pages/visitor-insights/overview.php:134
+msgid "Most Active Visitors"
 msgstr ""
 
 #: views/pages/visitor-insights/overview.php:143

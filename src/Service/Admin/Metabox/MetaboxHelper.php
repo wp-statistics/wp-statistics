@@ -9,16 +9,14 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\PostSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\BrowserUsage;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopCountries;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopReferring;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\LatestVisitor;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\SearchEngines;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopDeviceModel;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficOverview;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\CurrentlyOnline;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostVisitedPages;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\Visitors;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GlobalVisitorDistribution;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
@@ -41,9 +39,7 @@ class MetaboxHelper
         DailyTrafficTrend::class,
         SearchEngines::class,
         MostVisitedPages::class,
-        MostActiveVisitors::class,
-        LatestVisitor::class,
-        CurrentlyOnline::class,
+        Visitors::class, // Latest, Most active and Online now in one card (was three widgets before 14.17).
         TopCountries::class,
         TopReferring::class,
         AboutWPS::class,
