@@ -186,7 +186,10 @@ class SingleHeaders
         // IP privacy is a setting, not a login status: its own fact.
         if ($visitor->isHashedIP() || !$visitor->isIpVisible()) {
             $header['facts'][] = [
-                'text' => $visitor->isHashedIP() ? __('Hashed IP', 'wp-statistics') : __('IP hidden', 'wp-statistics'),
+                // Short hash ("#e7b398f9 · hashed"), same as the visitor card, so visits can be matched.
+                'text' => $visitor->isHashedIP()
+                    ? ($visitor->getIP() ? /* translators: %s: Short hash of the visitor's IP, e.g. #e7b398f9. */ sprintf(__('%s · hashed', 'wp-statistics'), $visitor->getIP()) : __('Hashed IP', 'wp-statistics'))
+                    : __('IP hidden', 'wp-statistics'),
                 'svg'  => 'lock',
             ];
         }

@@ -183,6 +183,17 @@ class Test_PrivacyRoleWhiteLabel extends WP_UnitTestCase
         $this->assertStringNotContainsString('from this IP', $html);
     }
 
+    public function test_single_visitor_header_shows_short_hash_for_hashed_ip()
+    {
+        Option::update('hash_ips', true);
+
+        $header = SingleHeaders::visitor($this->visitor($this->hashedIp()));
+        $facts  = wp_list_pluck($header['facts'], 'text');
+
+        $this->assertContains('#a1b2c3d4 · hashed', $facts);
+        $this->assertNotContains('Hashed IP', $facts);
+    }
+
     public function test_single_visitor_header_says_anonymous_and_keeps_ip_privacy_as_a_fact()
     {
         Option::update('hash_ips', true);
