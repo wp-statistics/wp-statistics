@@ -269,11 +269,10 @@ class Test_UpsellLinks extends WP_UnitTestCase
         $this->assertStringContainsString('utm_medium=plugins-list', $links);
     }
 
-    public function test_header_menu_says_add_ons()
+    public function test_header_menu_says_go_premium_on_free_sites()
     {
         $header = file_get_contents(WP_STATISTICS_DIR . 'includes/admin/templates/header.php');
-        $this->assertStringNotContainsString("__('Go Premium'", $header);
-        $this->assertStringContainsString("'link_text' => __('Add-ons', 'wp-statistics')", $header);
+        $this->assertStringContainsString("LicenseHelper::isFreeOnly() ? __('Go Premium', 'wp-statistics') : __('Add-ons', 'wp-statistics')", $header);
     }
 
     private function captureReportEmail()
