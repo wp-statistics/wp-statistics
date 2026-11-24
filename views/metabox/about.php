@@ -16,20 +16,6 @@ $wpsAboutLinks = [
         'icon'  => '<path d="M10 3.5a2 2 0 0 1 4 0V5h3a1 1 0 0 1 1 1v3h1.5a2 2 0 0 1 0 4H18v4a1 1 0 0 1-1 1h-3.5v-1.5a2 2 0 0 0-4 0V19H6a1 1 0 0 1-1-1v-4h1.5a2 2 0 0 0 0-4H5V6a1 1 0 0 1 1-1h4z"/>',
     ],
     [
-        'key'   => 'release',
-        'label' => __('Release notes', 'wp-statistics'),
-        'title' => __('Release Notes', 'wp-statistics'),
-        'url'   => WP_STATISTICS_SITE_URL . '/changelog/?utm_source=wp-statistics&utm_medium=link&utm_campaign=changelog',
-        'icon'  => '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
-    ],
-    [
-        'key'   => 'request',
-        'label' => __('Ideas', 'wp-statistics'),
-        'title' => __('Request a feature', 'wp-statistics'),
-        'url'   => 'https://github.com/wp-statistics/wp-statistics/issues/new/choose',
-        'icon'  => '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/>',
-    ],
-    [
         'key'   => 'blog',
         'label' => __('Blog', 'wp-statistics'),
         'title' => __('Blog Updates', 'wp-statistics'),
