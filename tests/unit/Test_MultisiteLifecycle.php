@@ -308,9 +308,8 @@ class Test_MultisiteLifecycle extends WP_UnitTestCase
         }
 
         $html = get_echo([new Network(), 'overview']);
-        $this->assertStringContainsString('wps-network-site', $html);
+        $this->assertStringContainsString('wps-network-table', $html);
         $this->assertStringContainsString('page=wps_overview_page', $html);
-        $this->assertStringContainsString('page=wps_referrals_page', $html);
         $this->assertStringNotContainsString('wps_hits_page', $html);
     }
 }

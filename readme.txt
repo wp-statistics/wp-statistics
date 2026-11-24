@@ -164,7 +164,7 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 - **Enhancement:** Visitor tables show the visit journey, Top Posts show featured images, and chart tooltips are clearer.
 - **Fix:** More accurate report totals and filters, and Top Pages works on SQLite.
 - **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)), and ad clicks without a referrer (gclid, fbclid) get a source.
-- **Fix:** Multisite: every site is set up on network activation, new and deleted sites keep their tables in step, and a new Network Admin overview.
+- **Fix:** Multisite: every site is set up on network activation, new and deleted sites keep their tables in step, and a new Network Admin overview: one sortable, searchable table of all sites with visitors, views, change, a 7-day line and the top page.
 - **Fix:** Emails no longer fail when two are sent at once, and they fit phone screens.
 - **Fix:** CSV exports hide raw IPs while IP hashing is on, the `[wpstatistics stat=referrer]` shortcode counts again, and white label details stay hidden.
 - **Fix:** Geographic tables list "(not set)" once and their shares add up under filters, the visits stopped email skips small and long-quiet sites, the visitor journey keeps older visits, "Filter by IP" matches only that IP, and download names with `%` are read correctly.

@@ -26,12 +26,36 @@ class Network
         }
 
         add_action('network_admin_menu', array($this, 'wp_admin_menu'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueueAssets'));
     }
 
     /**
-     * Transient that caches a site's key numbers on the network overview (stored per site).
+     * Sorting, search and pages for the site table (the table works without it: all rows show).
+     *
+     * @param string $hook
      */
-    const NUMBERS_TRANSIENT = 'wps_network_overview_numbers';
+    public function enqueueAssets($hook)
+    {
+        if (!is_network_admin() || strpos((string)$hook, 'wp-statistics') === false) {
+            return;
+        }
+
+        wp_enqueue_script('wp-statistics-network-overview', Admin_Assets::url('network-overview.min.js'), [], Admin_Assets::version(), true);
+        wp_localize_script('wp-statistics-network-overview', 'wpsNetworkOverview', [
+            /* translators: 1: first row number, 2: last row number, 3: number of sites. */
+            'range'   => __('%1$s–%2$s of %3$s sites', 'wp-statistics'),
+            /* translators: %s: number of sites. */
+            'count'   => __('%s sites', 'wp-statistics'),
+            'one'     => __('1 site', 'wp-statistics'),
+            'noMatch' => __('No sites match your search.', 'wp-statistics'),
+            'perPage' => 10,
+        ]);
+    }
+
+    /**
+     * Transient that caches a site's row numbers on the network overview (stored per site).
+     */
+    const NUMBERS_TRANSIENT = 'wps_network_overview_site';
 
     /**
      * Load WordPress Network Admin Menu
@@ -115,8 +139,15 @@ class Network
     }
 
     /**
-     * Collects the data for the network overview: one entry per site with its name,
-     * address, key numbers for the last 7 days and links to its reports.
+     * Most sites the network overview loads. Above this the page lists the first ones only
+     * (sorting, search and pages run in the browser over the loaded rows).
+     */
+    const MAX_SITES = 500;
+
+    /**
+     * Collects the data for the network overview: one row per site with its name, address,
+     * visitors and views for the last 7 days, the change against the 7 days before, daily
+     * views for the mini line and the most viewed page. Numbers come from a per-site cache.
      *
      * @return array[]
      */
@@ -124,7 +155,7 @@ class Network
     {
         $items = [];
 
-        foreach (Helper::get_wp_sites_list() as $blogId) {
+        foreach (self::getSiteIds() as $blogId) {
             $blogId  = (int)$blogId;
             $details = get_blog_details($blogId);
 
@@ -134,22 +165,27 @@ class Network
 
             $active = self::isActiveOnSite($blogId);
             $item   = [
-                'id'       => $blogId,
-                'name'     => $details->blogname,
-                'url'      => $details->home,
-                'active'   => $active,
-                'visitors' => null,
-                'views'    => null,
-                'links'    => [],
+                'id'             => $blogId,
+                'name'           => (string)$details->blogname,
+                'url'            => (string)$details->home,
+                'active'         => $active,
+                'visitors'       => null,
+                'views'          => null,
+                'prev_visitors'  => null,
+                'change'         => null,
+                'daily'          => [],
+                'top_page'       => null,
+                'overview_url'   => '',
+                'activate_url'   => get_admin_url($blogId, 'plugins.php'),
+                'links'          => [],
             ];
 
             if ($active) {
                 switch_to_blog($blogId);
 
-                $numbers = self::getSiteNumbers();
-                $item['visitors'] = $numbers['visitors'];
-                $item['views']    = $numbers['views'];
+                $item = array_merge($item, self::getSiteNumbers());
 
+                $item['overview_url'] = self::getSiteUrl($blogId, 'overview');
                 foreach (self::getReportLinks() as $page => $label) {
                     $item['links'][] = [
                         'label' => $label,
@@ -163,40 +199,207 @@ class Network
             $items[] = $item;
         }
 
-        return $items;
+        /**
+         * Rows of the network overview table, one per site.
+         *
+         * @param array[] $items
+         */
+        return (array)apply_filters('wp_statistics_network_overview_sites', $items);
     }
 
     /**
-     * Visitors and views of the current site for the last 7 days, cached for an hour.
-     * Null values mean the numbers are not available (for example, no tables yet).
+     * Network totals over all rows: visitors, views and visitors of the 7 days before.
      *
-     * @return array{visitors: int|null, views: int|null}
+     * @param array[] $sites Rows from getSitesOverview().
+     * @return array{visitors: int, views: int, prev_visitors: int, change: float|null}
      */
-    private static function getSiteNumbers()
+    public static function getTotals($sites)
+    {
+        $totals = ['visitors' => 0, 'views' => 0, 'prev_visitors' => 0];
+
+        foreach ($sites as $site) {
+            foreach (array_keys($totals) as $key) {
+                $totals[$key] += isset($site[$key]) ? (int)$site[$key] : 0;
+            }
+        }
+
+        $totals['change'] = self::getChange($totals['visitors'], $totals['prev_visitors']);
+
+        return $totals;
+    }
+
+    /**
+     * Percent change from the previous period. Null when there is nothing to compare with
+     * (no visitors before), so the page shows "New" or nothing instead of a made-up 100%.
+     *
+     * @param int|null $current
+     * @param int|null $previous
+     * @return float|null
+     */
+    public static function getChange($current, $previous)
+    {
+        if ($current === null || $previous === null || (int)$previous === 0) {
+            return null;
+        }
+
+        return round(((int)$current - (int)$previous) / (int)$previous * 100, 1);
+    }
+
+    /**
+     * IDs of the network's sites (not deleted), at most MAX_SITES.
+     *
+     * @return int[]
+     */
+    private static function getSiteIds()
+    {
+        if (!is_multisite()) {
+            return [get_current_blog_id()];
+        }
+
+        $limit = (int)apply_filters('wp_statistics_network_overview_max_sites', self::MAX_SITES);
+
+        return array_map('intval', get_sites([
+            'fields'  => 'ids',
+            'number'  => max(1, $limit),
+            'deleted' => 0,
+            'orderby' => 'id',
+        ]));
+    }
+
+    /**
+     * Numbers of the current site (call it inside switch_to_blog()), cached for an hour.
+     * Visitors and views are null when the plugin's tables are missing.
+     *
+     * @return array{visitors: int|null, views: int|null, prev_visitors: int|null, change: float|null, daily: int[], top_page: array|null}
+     */
+    public static function getSiteNumbers()
     {
         $cached = get_transient(self::NUMBERS_TRANSIENT);
-        if (is_array($cached) && array_key_exists('visitors', $cached)) {
+        if (is_array($cached) && array_key_exists('daily', $cached)) {
             return $cached;
         }
 
-        $numbers = ['visitors' => null, 'views' => null];
+        $numbers = [
+            'visitors'      => null,
+            'views'         => null,
+            'prev_visitors' => null,
+            'change'        => null,
+            'daily'         => [],
+            'top_page'      => null,
+        ];
 
         try {
-            if (DB::table('visitor') && DB::ExistTable(DB::table('visitor'))) {
-                $date           = DateRange::get('7days');
-                $visitorsModel  = new VisitorsModel();
-                $numbers        = [
-                    'visitors' => (int)$visitorsModel->countVisitors(['date' => $date]),
-                    'views'    => (int)$visitorsModel->countHits(['date' => $date]),
-                ];
+            $visitorTable = DB::table('visitor');
+
+            if ($visitorTable && DB::ExistTable($visitorTable)) {
+                $date          = DateRange::get('7days');
+                $prevDate      = DateRange::getPrevPeriod('7days');
+                $visitorsModel = new VisitorsModel();
+
+                $numbers['visitors']      = (int)$visitorsModel->countVisitors(['date' => $date]);
+                $numbers['views']         = (int)$visitorsModel->countHits(['date' => $date]);
+                $numbers['prev_visitors'] = (int)$visitorsModel->countVisitors(['date' => $prevDate]);
+                $numbers['change']        = self::getChange($numbers['visitors'], $numbers['prev_visitors']);
+                $numbers['daily']         = self::getDailyViews($date);
+                $numbers['top_page']      = $numbers['views'] > 0 ? self::getTopPage($date) : null;
             }
         } catch (\Throwable $e) {
-            $numbers = ['visitors' => null, 'views' => null];
+            $numbers['visitors'] = $numbers['views'] = $numbers['prev_visitors'] = $numbers['change'] = $numbers['top_page'] = null;
+            $numbers['daily']    = [];
         }
 
         set_transient(self::NUMBERS_TRANSIENT, $numbers, HOUR_IN_SECONDS);
 
         return $numbers;
+    }
+
+    /**
+     * Views per day of the current site, one value per day of the range (0 for days without visits).
+     *
+     * @param array{from: string, to: string} $date
+     * @return int[]
+     */
+    private static function getDailyViews($date)
+    {
+        global $wpdb;
+
+        $rows = $wpdb->get_results($wpdb->prepare(
+            'SELECT `last_counter` AS `day`, SUM(`hits`) AS `views` FROM `' . DB::table('visitor') . '` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `last_counter`', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $date['from'],
+            $date['to']
+        ), ARRAY_A);
+
+        $byDay = [];
+        foreach ((array)$rows as $row) {
+            $byDay[substr((string)$row['day'], 0, 10)] = (int)$row['views'];
+        }
+
+        $daily = [];
+        $day   = strtotime($date['from'] . ' 00:00:00 UTC');
+        $last  = strtotime($date['to'] . ' 00:00:00 UTC');
+
+        for ($i = 0; $day <= $last && $i < 31; $i++, $day += DAY_IN_SECONDS) {
+            $key     = gmdate('Y-m-d', $day);
+            $daily[] = $byDay[$key] ?? 0;
+        }
+
+        return $daily;
+    }
+
+    /**
+     * Most viewed page of the current site in the range.
+     *
+     * @param array{from: string, to: string} $date
+     * @return array{title: string, url: string, views: int}|null
+     */
+    private static function getTopPage($date)
+    {
+        global $wpdb;
+
+        $pagesTable = DB::table('pages');
+        if (!$pagesTable || !DB::ExistTable($pagesTable)) {
+            return null;
+        }
+
+        $row = $wpdb->get_row($wpdb->prepare(
+            'SELECT `id`, `type`, `uri`, SUM(`count`) AS `views` FROM `' . $pagesTable . '` WHERE `date` BETWEEN %s AND %s GROUP BY `id`, `type`, `uri` ORDER BY `views` DESC LIMIT 1', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            $date['from'],
+            $date['to']
+        ), ARRAY_A);
+
+        if (empty($row)) {
+            return null;
+        }
+
+        $uri   = (string)$row['uri'];
+        $title = '';
+        $link  = '';
+
+        if ($row['type'] === 'home') {
+            $title = __('Home', 'wp-statistics');
+        } elseif ((int)$row['id'] > 0) {
+            $info  = Pages::get_page_info((int)$row['id'], (string)$row['type'], $uri);
+            $title = isset($info['title']) ? (string)$info['title'] : '';
+            $link  = isset($info['link']) && is_string($info['link']) && wp_http_validate_url($info['link']) ? $info['link'] : '';
+        }
+
+        // The stored URI is the full path (with the site's folder on subfolder networks),
+        // so it goes after the host, not after home_url().
+        if ($link === '') {
+            $home = wp_parse_url(home_url());
+            $link = (isset($home['scheme']) ? $home['scheme'] : 'http') . '://' . (isset($home['host']) ? $home['host'] : '') . (isset($home['port']) ? ':' . $home['port'] : '') . '/' . ltrim($uri, '/');
+        }
+
+        $title = trim(html_entity_decode(wp_strip_all_tags($title), ENT_QUOTES, get_bloginfo('charset')));
+        if ($title === '' || $title === '-') {
+            $title = $uri !== '' ? $uri : '/';
+        }
+
+        return [
+            'title' => $title,
+            'url'   => $link,
+            'views' => (int)$row['views'],
+        ];
     }
 
     /**
