@@ -1,5 +1,7 @@
 // ---------------------------------------------------------------------------
-// Settings pages polish (core and add-on tabs).
+// Settings pages polish: add-on tabs only (div.tab-content.wps-addon-tab in settings.php).
+// Core tabs (General, Advanced, Privacy, Display, Notifications, Access, Exclusions) keep their
+// original look, so every rule here is scoped to .wps-addon-tab.
 // CSS only on the classes the templates already print, so older and newer add-ons that
 // add their own rows (Data Plus, Marketing, REST API MCP section, ...) get the same look
 // without any change on their side. Nothing here renames or hides a field.
@@ -10,11 +12,10 @@ $wps-set-field-width: 320px;
 $wps-set-field-height: 40px;
 $wps-set-row-rule: #F1F2F4;
 
-#wp-statistics-settings-form {
+#wp-statistics-settings-form .wps-addon-tab {
 
   // Section cards: one border, one radius, even space between them.
-  .tab-content > .postbox,
-  .tab-content .postbox {
+  .postbox {
     border: 1px solid $wps-card-border;
     border-radius: $wps-card-radius;
     box-shadow: none;
@@ -262,7 +263,7 @@ $wps-set-row-rule: #F1F2F4;
 // ---------------------------------------------------------------------------
 // The label text and the (i) button flow as one line of text, so a long label that wraps
 // keeps the button at the end of its last line (not alone on a new line).
-#wp-statistics-settings-form .form-table th {
+#wp-statistics-settings-form .wps-addon-tab .form-table th {
   .wps-setting-help__label,
   .wps-setting-label:has(.wps-setting-help),
   .wps-setting-label > span:has(> .wps-setting-help) {
@@ -332,7 +333,7 @@ $wps-set-row-rule: #F1F2F4;
 }
 
 // Help text shown in place (click on the (i) button): a soft note under the field.
-#wp-statistics-settings-form .form-table td > p.description.wps-setting-help__text:not([hidden]) {
+#wp-statistics-settings-form .wps-addon-tab .form-table td > p.description.wps-setting-help__text:not([hidden]) {
   margin-top: 10px;
   padding: 10px 12px;
   border-radius: 6px;
@@ -340,7 +341,7 @@ $wps-set-row-rule: #F1F2F4;
   border-inline-start: 3px solid $wps-brand-soft;
 }
 
-#wp-statistics-settings-form .form-table td > p.description.wps-setting-help__text[hidden] {
+#wp-statistics-settings-form .wps-addon-tab .form-table td > p.description.wps-setting-help__text[hidden] {
   display: none !important;
 }
 
@@ -371,7 +372,7 @@ $wps-set-row-rule: #F1F2F4;
 // Swatch (shows the colour) + hex field as one 40px group with one focus ring;
 // the picker opens as a card under the group.
 // ---------------------------------------------------------------------------
-#wp-statistics-settings-form .wp-picker-container,
+#wp-statistics-settings-form .wps-addon-tab .wp-picker-container,
 #wp-statistics-settings-form #mini-chart-settings .wp-picker-container {
   position: relative;
   display: inline-flex !important;
@@ -538,7 +539,7 @@ $wps-set-row-rule: #F1F2F4;
 // ---------------------------------------------------------------------------
 // Customization > Import & Export Settings.
 // ---------------------------------------------------------------------------
-#wp-statistics-settings-form {
+#wp-statistics-settings-form .wps-addon-tab {
   .wps-export__table,
   .wps-import__table {
     .wps-export__item {
@@ -617,11 +618,11 @@ $wps-set-row-rule: #F1F2F4;
 }
 
 // The colour picker card opens over the rows below; the settings card must not clip it.
-#wp-statistics-settings-form .postbox:has(.wp-picker-container) {
+#wp-statistics-settings-form .wps-addon-tab .postbox:has(.wp-picker-container) {
   overflow: visible !important;
 }
 
 // An empty help paragraph (some rows print one) takes no space.
-#wp-statistics-settings-form .form-table td > p.description:empty {
+#wp-statistics-settings-form .wps-addon-tab .form-table td > p.description:empty {
   display: none;
 }
