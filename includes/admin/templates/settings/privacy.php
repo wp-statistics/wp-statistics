@@ -8,6 +8,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 $isWpConsentApiActive    = IntegrationHelper::getIntegration('wp_consent_api')->isActive();
 $compatiblePlugins       = IntegrationHelper::getIntegration('wp_consent_api')->getCompatiblePlugins();
 $consentIntegration      = Option::get('consent_integration');
+$consentWarning          = IntegrationHelper::getConfigurationWarning();
 ?>
 
     <script type="text/javascript">
@@ -130,13 +131,17 @@ $consentIntegration      = Option::get('consent_integration');
                             if ($key === 'wp_consent_api') {
                                 $name = esc_html__('Via WP Consent API', 'wp-statistics');
                             }
+
+                            // The saved choice stays selectable, so saving this page never clears it.
                             ?>
-                            <option <?php disabled(!$isSelectable) ?> value="<?php echo esc_attr($key); ?>" <?php selected($consentIntegration, $key); ?>><?php echo esc_html($name); ?></option>
+                            <option <?php disabled(!$isSelectable && $key !== $consentIntegration) ?> value="<?php echo esc_attr($key); ?>" <?php selected($consentIntegration, $key); ?>><?php echo esc_html($name); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Real Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
 
-                    <?php if ($isWpConsentApiActive && empty($compatiblePlugins)) : ?>
+                    <?php if (!empty($consentWarning)) : ?>
+                        <p class="description"><b><?php echo '⚠️ ' . esc_html($consentWarning); ?></b> <a target="_blank" href="https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings"><?php esc_html_e('See compatible plugins', 'wp-statistics'); ?></a></p>
+                    <?php elseif ($isWpConsentApiActive && empty($compatiblePlugins)) : ?>
                         <p class="description">
                             <b><?php echo wp_kses_post(__("⚠️ WP Consent API is active, but no compatible consent plugin is installed. WP Statistics won’t use consent until you add one. <a target='_blank' href='https://wp-statistics.com/resources/integrating-wp-statistics-with-consent-management-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'>See compatible plugins</a>.", 'wp-statistics')); ?></b>
                         </p>

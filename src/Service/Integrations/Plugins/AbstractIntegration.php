@@ -55,6 +55,37 @@ abstract class AbstractIntegration
     }
 
     /**
+     * Checks the integration can read visitor consent right now.
+     *
+     * When the saved integration is not available, WP Statistics keeps the setting and records
+     * visits anonymously until it is available again or the admin changes it.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return $this->isActive();
+    }
+
+    /**
+     * Returns a warning for the admin when this integration is selected but cannot work.
+     *
+     * @return string The warning, or an empty string when the setup is fine.
+     */
+    public function getConfigurationWarning()
+    {
+        if ($this->isAvailable()) {
+            return '';
+        }
+
+        return sprintf(
+            /* translators: %s: consent plugin name */
+            esc_html__('Consent integration is set to %s, but it is not active or not set up. WP Statistics records visits anonymously until it works again or you change the setting.', 'wp-statistics'),
+            $this->getName()
+        );
+    }
+
+    /**
      * Get integration status
      * @return array
      */

@@ -70,12 +70,8 @@ class WpConsentApi extends AbstractIntegration
         // If any other consent integration is active, return
         if (!empty($integration) && $integration !== $this->getKey()) return;
 
-        // If no compatible plugin found, deactivate the integration and return early
-        if ($integration === $this->getKey() && empty($this->getCompatiblePlugins())) {
-            Option::update('consent_integration', '');
-            return;
-        }
-
+        // The saved choice is never cleared here: without a cookie plugin the setting stays, the
+        // tracker keeps asking WP Consent API, and the admin sees a notice on WP Statistics pages.
         $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
         add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
     }
@@ -93,9 +89,31 @@ class WpConsentApi extends AbstractIntegration
     }
 
     /**
+     * Warns when WP Consent API is active but no cookie plugin gives it consent to read.
+     *
+     * @return string The warning, or an empty string when the setup is fine.
+     */
+    public function getConfigurationWarning()
+    {
+        if (!$this->isAvailable()) {
+            return parent::getConfigurationWarning();
+        }
+
+        if (!empty($this->getCompatiblePlugins())) {
+            return '';
+        }
+
+        return esc_html__('Consent integration is set to WP Consent API, but no compatible cookie plugin is active. Visitors are tracked as WP Consent API allows until you activate one.', 'wp-statistics');
+    }
+
+    /**
      * Return an array of active compatible plugins with WP Consent API.
      *
-     * @return array
+     * Compatible means a plugin from the known list, or any other active plugin that registers
+     * itself with WP Consent API and provides a consent type (so it manages consent, rather than
+     * only reading it). Extend the list with the `wp_statistics_consent_api_compatible_plugins` filter.
+     *
+     * @return array Plugin basename => plugin name.
      */
     public function getCompatiblePlugins()
     {
@@ -163,6 +181,60 @@ class WpConsentApi extends AbstractIntegration
 
         if (is_plugin_active('iubenda-cookie-law-solution/iubenda_cookie_solution.php')) {
             $plugins['iubenda-cookie-law-solution/iubenda_cookie_solution.php'] = esc_html__('iubenda Cookie Consent', 'wp-statistics');
+        }
+
+        $plugins = array_merge($this->getRegisteredPlugins(), $plugins);
+
+        /**
+         * Filters the active cookie plugins that work with the WP Consent API integration.
+         *
+         * @param array $plugins Plugin basename => plugin name.
+         */
+        $plugins = apply_filters('wp_statistics_consent_api_compatible_plugins', $plugins);
+
+        return is_array($plugins) ? $plugins : [];
+    }
+
+    /**
+     * Returns active plugins that register with WP Consent API and set a consent type.
+     *
+     * Plugins that only read consent (WooCommerce, Site Kit, WP Statistics itself) register too,
+     * so registration alone is not enough: a cookie plugin also answers `wp_get_consent_type`.
+     *
+     * @return array Plugin basename => plugin name.
+     */
+    protected function getRegisteredPlugins()
+    {
+        if (!$this->isActive() || !has_filter('wp_get_consent_type')) {
+            return [];
+        }
+
+        $activePlugins = (array)get_option('active_plugins', []);
+
+        if (is_multisite()) {
+            $activePlugins = array_merge($activePlugins, array_keys((array)get_site_option('active_sitewide_plugins', [])));
+        }
+
+        $ownPlugin   = plugin_basename(WP_STATISTICS_MAIN_FILE);
+        $allPlugins  = function_exists('get_plugins') ? get_plugins() : [];
+        $plugins     = [];
+
+        foreach (array_unique($activePlugins) as $plugin) {
+            if (!is_string($plugin) || $plugin === $ownPlugin || $plugin === $this->getPath()) {
+                continue;
+            }
+
+            $isRegistered = function_exists('consent_api_registered')
+                ? consent_api_registered($plugin)
+                : apply_filters("wp_consent_api_registered_{$plugin}", false);
+
+            if (!$isRegistered) {
+                continue;
+            }
+
+            $plugins[$plugin] = !empty($allPlugins[$plugin]['Name'])
+                ? esc_html($allPlugins[$plugin]['Name'])
+                : esc_html(dirname($plugin) !== '.' ? dirname($plugin) : $plugin);
         }
 
         return $plugins;

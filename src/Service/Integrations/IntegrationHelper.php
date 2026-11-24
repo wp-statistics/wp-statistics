@@ -68,12 +68,48 @@ class IntegrationHelper
      */
     public static function getActiveIntegration()
     {
-        $integration = Option::get('consent_integration');
-        $integration = self::getIntegration($integration);
+        $integration = self::getSelectedIntegration();
 
-        return !empty($integration) && $integration->isActive()
+        return !empty($integration) && $integration->isAvailable()
             ? $integration
             : false;
+    }
+
+    /**
+     * Returns the integration saved in the settings, whether or not it can work right now.
+     *
+     * @return AbstractIntegration|false False if no integration is selected.
+     */
+    public static function getSelectedIntegration()
+    {
+        $integration = Option::get('consent_integration');
+
+        return !empty($integration) ? self::getIntegration($integration) : false;
+    }
+
+    /**
+     * Checks if an integration is selected in the settings but cannot read consent right now
+     * (its plugin is inactive or not set up). The setting is kept; visits are recorded anonymously.
+     *
+     * @return bool
+     */
+    public static function isSelectedIntegrationUnavailable()
+    {
+        $integration = self::getSelectedIntegration();
+
+        return !empty($integration) && !$integration->isAvailable();
+    }
+
+    /**
+     * Returns the warning for the selected integration when it cannot work as set up.
+     *
+     * @return string The warning, or an empty string when the setup is fine.
+     */
+    public static function getConfigurationWarning()
+    {
+        $integration = self::getSelectedIntegration();
+
+        return !empty($integration) ? $integration->getConfigurationWarning() : '';
     }
 
     /**
@@ -128,11 +164,17 @@ class IntegrationHelper
      * Checks if the currently active integration requires anonymous tracking.
      *
      * If there's no active integration, it assumes it doesn't require anonymous tracking.
+     * If an integration is selected but not available, visits are recorded anonymously, so
+     * no personal data is kept while the consent plugin is missing.
      *
      * @return bool
      */
     public static function shouldTrackAnonymously()
     {
+        if (self::isSelectedIntegrationUnavailable()) {
+            return true;
+        }
+
         $integration = self::getActiveIntegration();
 
         return !empty($integration) && $integration->trackAnonymously();
