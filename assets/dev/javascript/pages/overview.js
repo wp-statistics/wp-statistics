@@ -381,38 +381,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         if (box) box.dataset.wpsSegment = segment;
         wps_js.set_content(response, key);
         drawVisitorsSwitch(options, segment);
-        updateVisitorsScroll(box);
     };
-
-    // Long lists scroll inside the card (component/_visitors-card.scss): mark the scroll box
-    // and fade the bottom edge while more rows sit below it.
-    function updateVisitorsScroll(box) {
-        const list = box ? box.querySelector('.wps-visitors-panel > .wps-visitor-table-wrap') : null;
-        if (!list) return;
-
-        list.scrollTop = 0;
-        markVisitorsScroll(list);
-    }
-
-    function markVisitorsScroll(list) {
-        const panel = list.parentElement;
-        const scrollable = list.scrollHeight - list.clientHeight > 1;
-        list.classList.toggle('is-scrollable', scrollable);
-        if (panel) panel.classList.toggle('has-more', scrollable && list.scrollHeight - list.clientHeight - list.scrollTop > 1);
-    }
-
-    // Scroll does not bubble: listen in the capture phase, so lists drawn later need no binding.
-    document.addEventListener('scroll', function (e) {
-        const list = e.target;
-        if (list && list.nodeType === 1 && list.matches('#' + VISITORS_KEY + ' .wps-visitors-panel > .wps-visitor-table-wrap')) {
-            markVisitorsScroll(list);
-        }
-    }, true);
-
-    window.addEventListener('resize', function () {
-        const list = document.querySelector('#' + VISITORS_KEY + ' .wps-visitors-panel > .wps-visitor-table-wrap');
-        if (list) markVisitorsScroll(list);
-    });
 
     function saveVisitorsSegment(segment) {
         jQuery.post(wps_js.global.admin_url + 'admin-ajax.php', {

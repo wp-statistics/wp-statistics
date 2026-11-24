@@ -238,6 +238,19 @@ if (!window.WpStatisticsEventTracker) {
                 // If the link is a WooCommerce download file, add a non empty value to file name and extension (so that they don't get skipped in the parser)
                 eventData.fn = isWooCommerceDownloadLink ? eventData.df : fileName.substring(0, fileName.lastIndexOf('.'));
                 eventData.fx = isWooCommerceDownloadLink ? eventData.df : fileName.split('.').pop();
+
+                // Data Plus before 2.9.0 drops a file name with "%" (100%.pdf, file%20name.pdf). Send the
+                // exact name as `fnr` (read by newer Data Plus) and, in `fn`, the name those versions accept.
+                if (!isWooCommerceDownloadLink && eventData.fn.indexOf('%') !== -1) {
+                    eventData.fnr = eventData.fn;
+                    let legacyName = eventData.fn;
+                    try {
+                        legacyName = decodeURIComponent(legacyName);
+                    } catch (e) {
+                        // Malformed encoding (100%): keep it and drop the "%" below
+                    }
+                    eventData.fn = legacyName.replace(/%/g, '').trim() || eventData.fn;
+                }
             }
 
             // If it's a click event (a middle click arrives as mouseup)

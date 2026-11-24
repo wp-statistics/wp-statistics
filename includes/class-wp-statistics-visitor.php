@@ -209,8 +209,22 @@ class Visitor
 
             $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
 
-            $visitorModel = new VisitorsModel();
-            $visitorModel->updateVisitor($visitor_id, $data);
+            // Several tabs opened at once read the same hits value; writing "read value + 1" back
+            // lost all but one of them. Add 1 in the database instead, unless a filter set its own number.
+            $addOneHit = isset($data['hits']) && (int) $data['hits'] === (int) $same_visitor->hits + 1;
+            if ($addOneHit) {
+                unset($data['hits']);
+            }
+
+            if (!empty($data)) {
+                $visitorModel = new VisitorsModel();
+                $visitorModel->updateVisitor($visitor_id, $data);
+            }
+
+            if ($addOneHit) {
+                global $wpdb;
+                $wpdb->query($wpdb->prepare("UPDATE %i SET `hits` = `hits` + 1 WHERE `ID` = %d", DB::table('visitor'), $visitor_id));
+            }
         }
 
         return $visitor_id;

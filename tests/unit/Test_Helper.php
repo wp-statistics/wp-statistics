@@ -237,4 +237,16 @@ class Test_Helper extends WP_UnitTestCase
     {
         $this->assertEquals('summer-sale 2026', Helper::plainText('summer-sale 2026'), 'Plain values should be unchanged.');
     }
+
+    public function test_remove_query_string_url_keeps_url_without_query()
+    {
+        $this->assertSame('/wp-login.php', Helper::RemoveQueryStringUrl('/wp-login.php'), 'A URL with no query string must come back unchanged, not empty.');
+    }
+
+    public function test_remove_query_string_url_strips_query()
+    {
+        $this->assertSame('/wp-login.php', Helper::RemoveQueryStringUrl('/wp-login.php?action=lostpassword'));
+        $this->assertSame('/wp-login.php', Helper::RemoveQueryStringUrl('/wp-login.php?redirect_to=/a?b=1'), 'Everything after the first ? is the query string.');
+        $this->assertSame('', Helper::RemoveQueryStringUrl(''));
+    }
 }

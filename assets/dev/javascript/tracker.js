@@ -46,16 +46,38 @@ function wpStatisticsStopTracking() {
 }
 
 function handleWpConsentApiIntegration() {
-    if (wp_has_consent('statistics') || wp_has_consent('statistics-anonymous')) {
+    const hasStatisticsConsent = () => wp_has_consent('statistics') || wp_has_consent('statistics-anonymous');
+
+    // The cookie banner sets window.wp_consent_type and then fires wp_consent_type_defined. Until it
+    // does, wp_has_consent() answers from the site-wide fallback type, which can say "yes" before the
+    // visitor has seen the banner. When the banner has told the Consent API to wait for it
+    // (waitfor_consent_hook), decide only once the type is known.
+    let typeKnown = typeof window.wp_consent_type !== 'undefined' || !window.waitfor_consent_hook;
+
+    if (typeKnown && hasStatisticsConsent()) {
         wpStatisticsStartTracking();
     }
 
+    document.addEventListener('wp_consent_type_defined', function () {
+        if (typeKnown) {
+            return;
+        }
+
+        typeKnown = true;
+        if (hasStatisticsConsent()) {
+            wpStatisticsStartTracking();
+        }
+    });
+
     document.addEventListener("wp_listen_for_consent_change", function (e) {
+        // A consent change means the banner is running, so the type is known from here on.
+        typeKnown = true;
+
         const changedConsentCategory = e.detail;
         for (let key in changedConsentCategory) {
             if (changedConsentCategory.hasOwnProperty(key)) {
                 if (key === 'statistics' || key === 'statistics-anonymous') {
-                    if (wp_has_consent('statistics') || wp_has_consent('statistics-anonymous')) {
+                    if (hasStatisticsConsent()) {
                         wpStatisticsStartTracking();
                     } else {
                         wpStatisticsStopTracking();
