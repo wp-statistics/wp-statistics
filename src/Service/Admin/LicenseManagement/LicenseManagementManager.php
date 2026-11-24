@@ -107,17 +107,11 @@ class LicenseManagementManager
 
     public function addMenuItem($items)
     {
-        // "Go Premium" until a valid license is saved, same as the header link.
-        $label = LicenseHelper::isValidLicenseAvailable() ? __('Add-ons', 'wp-statistics') : __('Go Premium', 'wp-statistics');
-
-        // Orange asks for a click: free-only sites, or a license problem. Green means the licenses are fine (switched-off add-ons do not count).
-        $labelClass = 'wps-text-warning';
-        if (!LicenseHelper::isFreeOnly() && LicenseHelper::canManageLicenses()) {
-            $summary = LicenseHelper::getLicenseSummary();
-            if ($summary['expired'] === 0 && $summary['missing'] === 0) {
-                $labelClass = 'wps-addons-menu';
-            }
-        }
+        // Same rules as the header link: "Go Premium" only when no add-on is installed, orange only
+        // when it asks for a click (free-only site, active add-on without a license, expired license).
+        $state      = LicenseHelper::getAddonsMenuState();
+        $label      = $state['label'];
+        $labelClass = $state['warning'] ? 'wps-text-warning' : 'wps-addons-menu';
 
         $items['plugins'] = [
             'sub'      => 'overview',
@@ -128,7 +122,7 @@ class LicenseManagementManager
             'cap'      => User::ExistCapability(Option::get('manage_capability', 'manage_options')),
             'priority' => 90,
             // White label: no Add-ons entry (its pages link to wp-statistics.com). The page still opens by URL for license work.
-            'hidden'   => LicenseHelper::areAddonPromptsHidden(),
+            'hidden'   => !$state['visible'],
         ];
         return $items;
     }

@@ -234,10 +234,10 @@ class LicenseHelper
     }
 
     /**
-     * One summary of the add-ons and their licenses, shared by the header badge and the Add-ons screen.
-     * Built once per request.
+     * One summary of the add-ons and their licenses, shared by the header badge, the sidebar menu,
+     * the bell card and the Add-ons screen. Built once per request.
      *
-     * @return array total, licensed, installed, missing, expired, inactive, not_installed, attention
+     * @return array total, licensed, installed, missing, active_missing, expired, inactive, not_installed, attention
      */
     public static function getLicenseSummary()
     {
@@ -247,42 +247,101 @@ class LicenseHelper
             return $summary;
         }
 
-        $result = ['total' => 0, 'licensed' => 0, 'installed' => 0, 'missing' => 0, 'expired' => 0, 'inactive' => 0, 'not_installed' => 0, 'attention' => 0];
-
         try {
-            foreach (PluginHelper::getRemotePlugins() as $plugin) {
-                $result['total']++;
-
-                $installed = $plugin->isInstalled();
-                $valid     = $plugin->isLicenseValid();
-
-                if ($valid) {
-                    $result['licensed']++;
-                }
-
-                if (!$installed) {
-                    $result['not_installed']++;
-                    continue;
-                }
-
-                $result['installed']++;
-
-                if ($plugin->isLicenseExpired()) {
-                    $result['expired']++;
-                } elseif (!$valid) {
-                    $result['missing']++;
-                } elseif (!$plugin->isActivated()) {
-                    $result['inactive']++;
-                }
-            }
+            $summary = self::summarizeAddons(PluginHelper::getRemotePlugins());
         } catch (\Throwable $e) {
-            return $result;
+            return self::summarizeAddons([]);
         }
 
-        $result['attention'] = $result['missing'] + $result['expired'] + $result['inactive'];
-        $summary             = $result;
-
         return $summary;
+    }
+
+    /**
+     * Counts add-on states. `attention` is the number shown on the Add-ons link:
+     * active add-ons without a valid license plus expired licenses. Switched-off add-ons
+     * without a license do not count; they do nothing until someone turns them on.
+     *
+     * @param iterable $plugins Objects with isInstalled(), isActivated(), isLicenseValid() and isLicenseExpired().
+     *
+     * @return array
+     */
+    public static function summarizeAddons($plugins)
+    {
+        $result = ['total' => 0, 'licensed' => 0, 'installed' => 0, 'missing' => 0, 'active_missing' => 0, 'expired' => 0, 'inactive' => 0, 'not_installed' => 0, 'attention' => 0];
+
+        foreach ($plugins as $plugin) {
+            $result['total']++;
+
+            $valid = $plugin->isLicenseValid();
+
+            if ($valid) {
+                $result['licensed']++;
+            }
+
+            if (!$plugin->isInstalled()) {
+                $result['not_installed']++;
+                continue;
+            }
+
+            $result['installed']++;
+
+            if ($plugin->isLicenseExpired()) {
+                $result['expired']++;
+            } elseif (!$valid) {
+                $result['missing']++;
+                if ($plugin->isActivated()) {
+                    $result['active_missing']++;
+                }
+            } elseif (!$plugin->isActivated()) {
+                $result['inactive']++;
+            }
+        }
+
+        $result['attention'] = $result['active_missing'] + $result['expired'];
+
+        return $result;
+    }
+
+    /**
+     * What the header "Add-ons" link and the sidebar menu entry show. Both read this, so they always match.
+     *
+     * @return array visible (bool), label (string), count (int, 0 = no number), warning (bool, orange in the sidebar)
+     */
+    public static function getAddonsMenuState()
+    {
+        $canManage = self::canManageLicenses();
+        $freeOnly  = $canManage && self::isFreeOnly();
+        $summary   = $canManage && !$freeOnly ? self::getLicenseSummary() : null;
+
+        return self::resolveAddonsMenuState($freeOnly, self::areAddonPromptsHidden(), $summary);
+    }
+
+    /**
+     * The menu rules on their own:
+     *  - white label: hidden;
+     *  - no add-on installed: "Go Premium", orange, no number;
+     *  - otherwise "Add-ons", with a number and orange only when something needs fixing
+     *    (an active add-on without a license, or an expired license).
+     *
+     * @param bool       $freeOnly      No add-on installed and no license.
+     * @param bool       $promptsHidden White label.
+     * @param array|null $summary       {@see summarizeAddons()}; null when the user cannot see license state.
+     *
+     * @return array
+     */
+    public static function resolveAddonsMenuState($freeOnly, $promptsHidden, $summary = null)
+    {
+        if ($promptsHidden) {
+            return ['visible' => false, 'label' => __('Add-ons', 'wp-statistics'), 'count' => 0, 'warning' => false];
+        }
+
+        if ($freeOnly) {
+            return ['visible' => true, 'label' => __('Go Premium', 'wp-statistics'), 'count' => 0, 'warning' => true];
+        }
+
+        $count = is_array($summary) ? (int)($summary['attention'] ?? 0) : 0;
+
+        return ['visible' => true, 'label' => __('Add-ons', 'wp-statistics'), 'count' => $count, 'warning' => $count > 0];
     }
 
     /**

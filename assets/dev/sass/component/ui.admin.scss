@@ -524,16 +524,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   color: #ED7A34 !important;
 }
 
-.wp-has-submenu.menu-top.toplevel_page_wps_overview_page .wps-addons-menu {
-  color: #5FAE62 !important;
-}
-
 .wp-has-submenu.menu-top.toplevel_page_wps_overview_page li a.addon-menu {
   margin-top: 10px !important;
 }
 
-// The Add-ons item keeps its state color (orange: needs attention, green: all good), so on its own
-// page "selected" is shown by bold text instead of WordPress's white.
+// The Add-ons item is orange when it needs attention and the normal menu color otherwise
+// (.wps-addons-menu has no color of its own). On its own page "selected" is shown by bold text.
 .wp-has-submenu.menu-top.toplevel_page_wps_overview_page li.current a.addon-menu :is(.wps-text-warning, .wps-addons-menu) {
   font-weight: 700;
 }
