@@ -12,7 +12,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Cookieless, privacy-friendly WordPress analytics. Clear graphs and visitor data kept on your own server.
 
 == Description ==
-Discover privacy-friendly analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
+Discover privacy-friendly analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking and full data ownership. Everything is stored in your own WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
 
@@ -32,28 +32,21 @@ WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/co
 You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
 
 = Top Features =
-* Fully integrate with your WordPress and your content structure and you have the all reports all in your WP dashboard
-* Content and Category Analytics: Track performance based on your site’s content and categories.
-* Simple analytics dashboard
-* Bounce Rate Tracking: See your site-wide bounce rate in Visitor Insights and per-page bounce rate in the Entry Pages report, so you can spot pages that lose visitors after a single page view.
-* Super easy to install. No coding or technical knowledge needed
-* Advanced data privacy settings that are customizable to fit your needs, to match the data protection laws that apply to you
-* Track URL parameters, including UTMs, for campaign analysis
-* With configurable settings, manage large amounts of data on high-traffic websites
-* Monitor live online user traffic in real-time
-* Fully customized overview dashboard page
-* Shows your most popular posts and pages
-* Referrals Tracking: Track and analyze referrals with five reports: Referred Visitors, Referrers, Search Engines, Social Media, and Source Categories. The new Source Categories report includes support for Organic Search, Paid Search, Organic Social, Paid Social, and more. Paid clicks from Google Ads, Microsoft Ads, OpenAI Ads and Facebook Ads are shown as their own sources.
-* Lists your top referral sources such as search engines
-* Author Analytics: Measures author performance.
-* Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
-* Devices Report: Detailed device-specific analytics covering browsers, operating systems, device categories and device models.
-* Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
-* Consent plugin integration: Works directly with CookieYes, Real Cookie Banner and Borlabs Cookie, and through WP Consent API with plugins like Complianz and Cookiebot.
-* Email reports with customizable content
-* Tracking Alerts: Get an email when your site stops recording visits, for example after a cache or cookie banner change, and another when visits come back.
-* Customize role-based access to view analytics and modify settings.
-* Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
+* **Clean, simple dashboard:** Visitors, views, top pages and sources on one Overview screen, with charts that compare now, before and the change.
+* **Visitor Journey:** See where each visit started, where it ended, and who bounced. Open any visitor for their full path.
+* **Visitor card:** Location, browser, system and device for every visitor. With IP hashing on, you see a short hash, never the IP.
+* **Online now:** A green dot marks visitors who are on your site right now.
+* **Traffic sources:** Search engines, social media, AI assistants like ChatGPT and Perplexity, and paid ads from Google, Microsoft, OpenAI and Facebook, each as its own source. UTM campaigns are tracked too.
+* **Content Analytics:** Views, visitors, bounce rate and exit rate for every post, page, category and author, with sortable leaderboards.
+* **Stats in the block editor:** A WP Statistics panel shows each post's views, visitors and latest readers while you write.
+* **Tracking alerts:** Get an email when your site stops recording visits, for example after a cache or cookie banner change, and another when visits come back.
+* **Email reports:** Daily, weekly or monthly reports that look good on phones.
+* **Geographic and Devices reports:** Countries, regions and cities on a map, plus browsers, systems, device types and models.
+* **Multisite:** One sortable, searchable table of all your sites in Network Admin.
+* **Consent plugins:** Works with CookieYes, Real Cookie Banner and Borlabs Cookie, and with any cookie plugin that supports WP Consent API, such as Complianz and Cookiebot.
+* **Bypass ad blockers:** Load the tracking script under a unique name and address so ad blockers do not stop it.
+* **Access and filters:** Choose which roles see reports and change settings. Exclude visits by role, IP, country, URL and more.
+* **Easy to set up:** No coding or external account needed. Built for small blogs and high-traffic sites alike.
 * Premium Add-on: [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp)
  * **Custom Post Type Tracking**: DataPlus extends WP Statistics' tracking to include all custom post types in addition to Posts and Pages.
  * **Custom Taxonomy Analytics**: In addition to monitoring default taxonomies like Categories and Tags, DataPlus also tracks custom taxonomies.
@@ -67,6 +60,8 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
  * **Google Search Console Integration**: Monitor impressions, clicks, and queries.
  * **Custom Event Tracking**: Create goals based on clicks, pageviews, or events and monitor conversions.
  * **Built-in UTM Link Builder**: Generate and validate campaign URLs inside your dashboard.
+* Premium Add-on: [REST API](https://wp-statistics.com/add-ons/wp-statistics-rest-api/?utm_source=wporg&utm_medium=link&utm_campaign=rest-api)
+ * **Ask AI about your stats**: Connect ChatGPT, Claude and other AI agents to your stats with MCP. Read only, and you can cut off any agent at any time.
 
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
 Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), [Marketing](https://wp-statistics.com/product/wp-statistics-marketing/?utm_source=wporg&utm_medium=link&utm_campaign=marketing), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
