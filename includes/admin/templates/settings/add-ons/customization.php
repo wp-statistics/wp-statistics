@@ -180,8 +180,7 @@ if ($isCustomizationActive && !$isLicenseValid) {
                     <?php endforeach; ?>
 
                     <p class="description"><?php esc_html_e('Choose any WP Statistics add‑ons whose settings you want in the file (e.g. Data Plus, Advanced Reporting, Real‑Time Stats). Core plugin settings are always included.', 'wp-statistics'); ?></p>
-                    <br>
-                    <button type="button" class="wps-button wps-button--default" id="wps-btn-export-settings">
+                    <button type="button" class="wps-button wps-button--default wps-export__button" id="wps-btn-export-settings">
                         <?php esc_html_e('Download export file', 'wp-statistics'); ?>
                     </button>
                     <p class="description">
@@ -200,28 +199,32 @@ if ($isCustomizationActive && !$isLicenseValid) {
                 </th>
 
                 <td>
-                    <input
-                        type="file"
-                        accept=".json,.txt"
-                        id="wps-input-import-file"
-                        name="import_file"
-                        class="wps-import__file"
-                    >
+                    <div class="wps-file-input">
+                        <input
+                            type="file"
+                            accept=".json,.txt"
+                            id="wps-input-import-file"
+                            name="import_file"
+                            class="wps-import__file wps-file-input__native"
+                        >
+                        <label for="wps-input-import-file" class="wps-button wps-button--default wps-file-input__button"><?php esc_html_e('Choose file', 'wp-statistics'); ?></label>
+                        <span class="wps-file-input__name" data-empty="<?php esc_attr_e('No file chosen', 'wp-statistics'); ?>" aria-live="polite"><?php esc_html_e('No file chosen', 'wp-statistics'); ?></span>
+                    </div>
                     <p class="description"><?php esc_html_e('Select a JSON file exported from WP Statistics.', 'wp-statistics'); ?></p>
-                    <br>
 
-                    <input
-                        id="wps-input-import-images"
-                        type="checkbox"
-                        name="import_images"
-                        value="1"
-                        class="wps-import__checkbox"
-                    >
-                    <label for="wps-input-import-images"><?php esc_html_e('Download and import image files', 'wp-statistics'); ?></label>
+                    <p class="wps-import__option">
+                        <input
+                            id="wps-input-import-images"
+                            type="checkbox"
+                            name="import_images"
+                            value="1"
+                            class="wps-import__checkbox"
+                        >
+                        <label for="wps-input-import-images"><?php esc_html_e('Download and import image files', 'wp-statistics'); ?></label>
+                    </p>
                     <p class="description"><?php esc_html_e('If the exported settings reference custom images, fetch them and add them to this site’s Media Library.', 'wp-statistics'); ?></p>
-                    <br>
 
-                    <button type="button" class="wps-button wps-button--default" id="wps-btn-import-settings">
+                    <button type="button" class="wps-button wps-button--primary wps-import__button" id="wps-btn-import-settings">
                         <?php esc_html_e('Start import', 'wp-statistics'); ?>
                     </button>
 

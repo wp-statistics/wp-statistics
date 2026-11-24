@@ -92,3 +92,6 @@ $image_path: "../images";
 
 // PLugins
 @import "plugin/tooltipster.bundle.css";
+
+// Settings pages polish (last, so it wins over the older settings rules)
+@import "pages/setting-polish";
