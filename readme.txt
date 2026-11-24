@@ -122,36 +122,32 @@ Data can be exported to XML, CSV, or TSV files for backup or reporting purposes.
 WP Statistics supports WordPress Multi-Site/Network installations. In the network admin, you can view combined or separate analytics for each subsite.
 
 == Screenshots ==
-1. Overview
-2. Visitors Insights
-3. Online Visitors Monitoring
-4. Optimization
-5. Settings
-6. Real-Time Stats
-7. Download Tracker
-8. Understand Your Traffic Sources
-9. Geographic
-10. Author Analytics
-11. Devices
-12. Link Tracker
-13. Privacy Audit
-14. Content Analytics Dashboard
-15. Category Analytics
-16. Website Performance Report
-17. Mini Chart Quick View
-18. Page Insights
-19. Detailed Visitor Report
-20. Campaign Reports
-21. Google Search Console Reports
-22. Goal and Event Tracking
 
-== Upgrade Notice ==
-= 14.15 =
-To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
-Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
-
-== Third-Party Data ==
-This product includes GeoLite2 Data created by MaxMind, available from [https://www.maxmind.com](https://www.maxmind.com). [IP Geolocation by DB-IP](https://db-ip.com).
+1. Overview: Visitors, views, top pages and sources on one screen.
+2. Visitor journey: See where every visit started, where it ended, and who bounced.
+3. Traffic Sources: Search, social, AI assistants like ChatGPT and paid ads, side by side.
+4. Visitor card: Location, browser and device for any visitor. IP hidden when hashed.
+5. Content Analytics: Views, visitors, bounce and exit rate for every post and page.
+6. Privacy Audit: Check every privacy setting in one place and fix issues in one click.
+7. Editor panel: A post's views and visitors, right in the block editor.
+8. Author leaderboard: See which writers bring the most readers.
+9. Geographic: Visitors by country on a map, plus regions and cities.
+10. Devices: Browsers, systems, device types and models, with share bars.
+11. Real-Time Stats: Watch visitors arrive live and see what they read right now.
+12. Campaigns: Visitors and views for every UTM campaign.
+13. Search Console: Google clicks, impressions and search terms next to your stats.
+14. Goals: Set a goal, like a sign-up, and see your conversion rate.
+15. Link Tracker: See which outgoing links people click most.
+16. Download Tracker: Count downloads of every file and see who downloaded what.
+17. Email report: A daily, weekly or monthly email report. PDF with Advanced Reporting.
+18. Mini Chart: A small views chart next to each post in your list.
+19. Dashboard widgets: Your key numbers on the WordPress dashboard.
+20. Tracking alert: An email if visits stop being recorded. Checked once a day.
+21. Category Analytics: Find the categories and tags that bring the most readers.
+22. Page Insights: Top pages, entry and exit pages, and 404 pages.
+23. Visitor Insights: Visitors over time, bounce rate, logged-in users and who is online.
+24. Settings: Choose what to track, who sees reports and how long data stays.
+25. Optimization: Clean old data and keep your database small.
 
 == Changelog ==
 = 14.17.0 - 2026-11-24 =
