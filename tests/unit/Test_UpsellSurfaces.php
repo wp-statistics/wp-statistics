@@ -239,7 +239,7 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
         $this->assertNotEmpty($step);
         $step = $step[0];
 
-        $this->assertStringContainsString('Data Plus is installed but turned off.', $step);
+        $this->assertStringContainsString('The Data Plus add-on isn\'t activated.', $step);
         $this->assertStringContainsString('Activate Data Plus', $step);
         $this->assertStringContainsString('plugins.php?plugin_status=inactive&#038;s=wp-statistics-data-plus', $step);
         $this->assertStringNotContainsString('no active license', $step);

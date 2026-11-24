@@ -226,7 +226,7 @@ class Test_InlineTeaser extends WP_UnitTestCase
         $this->situation = LicenseHelper::SITUATION_INACTIVE;
         $html = $this->render();
 
-        $this->assertStringContainsString('Data Plus is installed but turned off.', $html);
+        $this->assertStringContainsString('The Data Plus add-on isn\'t activated.', $html);
         $this->assertStringContainsString('Activate Data Plus', $html);
         $this->assertStringContainsString('plugins.php?plugin_status=inactive&#038;s=wp-statistics-data-plus', $html);
         $this->assertStringNotContainsString('action=activate', $html);
@@ -314,7 +314,7 @@ class Test_InlineTeaser extends WP_UnitTestCase
         $this->situation = LicenseHelper::SITUATION_INACTIVE;
         $html = $this->journey();
 
-        $this->assertStringContainsString('Data Plus is installed but turned off.', $html);
+        $this->assertStringContainsString('The Data Plus add-on isn\'t activated.', $html);
         $this->assertStringContainsString('plugins.php', $html);
         $this->assertStringNotContainsString('js-wps-openPremiumModal', $html);
     }

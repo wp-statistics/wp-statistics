@@ -55,7 +55,7 @@ endif;
                     <div class="wps-notice-settings__desc">
                         <?php
                         /* translators: %s: Add-on name. */
-                        echo esc_html(sprintf(__('%s is installed but turned off.', 'wp-statistics'), $addon_name));
+                        echo esc_html(sprintf(__('The %s add-on isn\'t activated.', 'wp-statistics'), $addon_name));
                         if ($canManage && current_user_can('activate_plugins')) :
                             ?>
                             <a href="<?php echo esc_url(LicenseHelper::getAddonPluginsPageUrl($addon_slug)); ?>"><?php

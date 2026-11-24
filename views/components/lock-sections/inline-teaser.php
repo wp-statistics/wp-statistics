@@ -52,7 +52,7 @@ $action    = null; // ['url' => ..., 'label' => ..., 'external' => bool]
 switch ($situation) {
     case LicenseHelper::SITUATION_INACTIVE:
         /* translators: %s: Add-on name. */
-        $line = sprintf(__('%s is installed but turned off.', 'wp-statistics'), $addon_name);
+        $line = sprintf(__('The %s add-on isn\'t activated.', 'wp-statistics'), $addon_name);
 
         if ($canManage && current_user_can('activate_plugins')) {
             $action = [

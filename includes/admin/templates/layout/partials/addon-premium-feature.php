@@ -34,7 +34,7 @@ if ($situation === LicenseHelper::SITUATION_INACTIVE) : ?>
             <div class="wps-notice-settings__desc">
                 <?php
                 /* translators: %s: Add-on name. */
-                echo esc_html(sprintf(__('%s is installed but turned off.', 'wp-statistics'), $addonName));
+                echo esc_html(sprintf(__('The %s add-on isn\'t activated.', 'wp-statistics'), $addonName));
                 if (User::Access('manage') && current_user_can('activate_plugins')) : ?>
                     <a href="<?php echo esc_url(LicenseHelper::getAddonPluginsPageUrl($addon_modal_target)); ?>"><?php
                         /* translators: %s: Add-on name. */

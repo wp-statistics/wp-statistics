@@ -82,7 +82,7 @@ foreach (AddonCatalog::SLUGS as $slug) {
         $badge  = __('Turned off', 'wp-statistics');
         $notice = sprintf(
             /* translators: %s: Add-on name. */
-            __('%s is installed but turned off.', 'wp-statistics'),
+            __('The %s add-on isn\'t activated.', 'wp-statistics'),
             esc_html($copy['name'])
         );
 
