@@ -98,6 +98,17 @@ class Loader extends AbstractCore
      */
     public function removeTableOnDeleteBlog($tables, $blogId = 0)
     {
+        return self::addSiteTables($tables);
+    }
+
+    /**
+     * Adds the current site's WP Statistics table names to a list of tables.
+     *
+     * @param string[] $tables
+     * @return string[]
+     */
+    public static function addSiteTables($tables)
+    {
         $tables = is_array($tables) ? $tables : [];
 
         // Every known table name, whether it exists or not: WordPress drops them
