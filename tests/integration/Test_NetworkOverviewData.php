@@ -139,8 +139,12 @@ class Test_NetworkOverviewData extends WP_UnitTestCase
         $this->assertNull($numbers['top_page']);
     }
 
-    public function test_overview_rows_and_totals()
+    public function test_overview_rows_on_multisite()
     {
+        if (!is_multisite()) {
+            $this->markTestSkipped('Multisite only (get_blog_details()).');
+        }
+
         $this->addVisitor(0, 2);
         $this->addVisitor(9, 1);
 
@@ -153,7 +157,10 @@ class Test_NetworkOverviewData extends WP_UnitTestCase
         }
         $this->assertTrue($row['active']);
         $this->assertStringContainsString('page=wps_overview_page', $row['overview_url']);
+    }
 
+    public function test_totals_add_up_every_site()
+    {
         $totals = Network::getTotals([
             ['visitors' => 10, 'views' => 20, 'prev_visitors' => 5],
             ['visitors' => null, 'views' => null, 'prev_visitors' => null], // plugin not active
