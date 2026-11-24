@@ -49,3 +49,20 @@ test('built CSS has the help button, colour field and file field styles', () => 
         assert.ok(css.includes(s), s);
     }
 });
+
+test('help button and new look apply to add-on tabs only, core tabs stay as before', () => {
+    const help = load();
+    assert.match(help.ROWS, /\.wps-addon-tab \.form-table > tbody > tr/);
+    for (const part of help.ROWS.split(',')) assert.ok(part.includes('.wps-addon-tab'), part);
+
+    const tpl = fs.readFileSync('includes/admin/templates/settings.php', 'utf8');
+    const addons = ['marketing', 'data-plus', 'realtime-stats', 'customization', 'advanced-reporting', 'mini-chart', 'rest-api', 'widgets'];
+    const core = ['general', 'advanced', 'privacy', 'display', 'notifications', 'access', 'exclusions'];
+    for (const t of addons) assert.ok(tpl.includes(`<div id="${t}-settings" class="tab-content wps-addon-tab">`), t);
+    for (const t of core) assert.match(tpl, new RegExp(`<div id="${t}-settings" class="tab-content( current)?">`), t);
+
+    const scss = fs.readFileSync('assets/dev/sass/pages/_setting-polish.scss', 'utf8');
+    const roots = scss.split('\n').filter(l => /^#wp-statistics-settings-form/.test(l));
+    assert.ok(roots.length > 0);
+    for (const l of roots) assert.ok(l.includes('.wps-addon-tab') || l.includes('#mini-chart-settings'), l);
+});

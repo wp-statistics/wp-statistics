@@ -1,7 +1,8 @@
 /**
  * Settings: long help text moves into an (i) button next to the field label.
  *
- * Works on the markup every settings tab already prints (core and add-on rows alike):
+ * Add-on tabs only (div.tab-content.wps-addon-tab in settings.php); the core tabs keep their
+ * help text visible under the field, as before. Works on the markup those tabs already print:
  *   <tr><th>label</th><td>field <p class="description">help</p></td></tr>
  * Nothing in the markup is renamed. A <p class="description"> longer than one short line
  * is hidden and an (i) button is added after the label:
@@ -18,6 +19,8 @@
     // Some add-ons redefine the global wps_js on this page, so keep our own references.
     var core = window.wps_js || {};
     var MAX_VISIBLE_CHARS = 100;
+    // Rows this applies to: add-on settings tabs only.
+    var ROWS = '.wp-statistics-settings .wps-addon-tab .form-table > tbody > tr, .wp-statistics-settings .wps-addon-tab .form-table > tr';
     var uid = 0;
 
     function text(key, fallback) {
@@ -173,7 +176,7 @@
     function init(root) {
         root = root || document;
         var scope = root.querySelector ? root : document;
-        Array.prototype.forEach.call(scope.querySelectorAll('.wp-statistics-settings .form-table > tbody > tr, .wp-statistics-settings .form-table > tr'), enhanceRow);
+        Array.prototype.forEach.call(scope.querySelectorAll(ROWS), enhanceRow);
     }
 
     // Styled file field (Customization > Import Settings): the native input stays (same id and
@@ -187,7 +190,7 @@
         box.classList.toggle('wps-file-input--chosen', !!file);
     }
 
-    core.settingsHelp = {init: init, shouldMove: shouldMove, MAX_VISIBLE_CHARS: MAX_VISIBLE_CHARS};
+    core.settingsHelp = {init: init, shouldMove: shouldMove, MAX_VISIBLE_CHARS: MAX_VISIBLE_CHARS, ROWS: ROWS};
 
     if ($ && document.querySelector) {
         $(function () {
