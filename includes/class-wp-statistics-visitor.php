@@ -157,30 +157,19 @@ class Visitor
             //Save Visitor TO DB
             $visitor_id = self::save_visitor($visitor, $visitorProfile);
 
-        } else {
+            // Two first hits of the same visitor at the same moment (several tabs): the unique key
+            // (day, ip, agent, platform, version) let only one row in and INSERT IGNORE gave this
+            // request no ID. Count this hit on the row the other request created.
+            if (empty($visitor_id)) {
+                $same_visitor = self::find_today_row($visitor);
 
-            //Get Current Visitor ID
-            $visitor_id = $same_visitor->ID;
-
-            // Update Same Visitor Hits
-            if ($args['exclusion_reason'] != 'Robot threshold') {
-
-                // Action Before Visitor Update
-                do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
-
-                $data = [
-                    'hits'    => $same_visitor->hits + 1,
-                    'user_id' => !empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
-                ];
-
-                $data['last_page'] = $args['page_id'];
-                $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
-
-                $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
-
-                $visitorModel = new VisitorsModel();
-                $visitorModel->updateVisitor($visitor_id, $data);
+                if ($same_visitor) {
+                    $visitor_id = self::update_same_visitor($same_visitor, $visitorProfile, $args);
+                }
             }
+
+        } else {
+            $visitor_id = self::update_same_visitor($same_visitor, $visitorProfile, $args);
         }
 
         $visitor_id = (isset($visitor_id) ? $visitor_id : false);
@@ -189,6 +178,63 @@ class Visitor
         do_action('wp_statistics_record_visitor', $visitor_id);
 
         return $visitor_id;
+    }
+
+    /**
+     * Count one more hit on today's visitor row.
+     *
+     * @param object         $same_visitor   Row from the visitor table.
+     * @param VisitorProfile $visitorProfile
+     * @param array          $args           record() args (exclusion_reason, page_id).
+     * @return int Visitor ID.
+     */
+    private static function update_same_visitor($same_visitor, $visitorProfile, $args)
+    {
+        $visitor_id = (int) $same_visitor->ID;
+
+        // Update Same Visitor Hits
+        if ($args['exclusion_reason'] != 'Robot threshold') {
+
+            // Action Before Visitor Update
+            do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
+
+            $data = [
+                'hits'    => $same_visitor->hits + 1,
+                'user_id' => !empty($same_visitor->user_id) ? $same_visitor->user_id : $visitorProfile->getUserId()
+            ];
+
+            $data['last_page'] = $args['page_id'];
+            $data['last_view'] = TimeZone::getCurrentDate('Y-m-d H:i:s');
+
+            $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
+
+            $visitorModel = new VisitorsModel();
+            $visitorModel->updateVisitor($visitor_id, $data);
+        }
+
+        return $visitor_id;
+    }
+
+    /**
+     * Today's visitor row that matches the visitor table's unique key (day, ip, agent, platform, version).
+     *
+     * @param array $visitor The row that could not be inserted.
+     * @return object|false
+     */
+    private static function find_today_row($visitor)
+    {
+        global $wpdb;
+
+        $row = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s AND `agent` = %s AND `platform` = %s AND `version` = %s LIMIT 1",
+            $visitor['last_counter'],
+            $visitor['ip'],
+            (string) $visitor['agent'],
+            (string) $visitor['platform'],
+            (string) $visitor['version']
+        ));
+
+        return $row ? $row : self::exist_ip_in_day($visitor['ip'], $visitor['last_counter']);
     }
 
     /**

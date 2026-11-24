@@ -22,6 +22,7 @@ $leaderboard = isset($data['rows']) ? $data : ['rows' => [], 'columns' => [], 'p
 
     <?php View::load('components/leaderboard', [
         'rows'       => LeaderboardPresenter::termRows($leaderboard['rows']),
+        'rankings'   => LeaderboardPresenter::termRankings($leaderboard),
         'columns'    => $leaderboard['columns'],
         'name_label' => $taxObject ? $taxObject->labels->singular_name : __('Category', 'wp-statistics'),
         'caption'    => $title,

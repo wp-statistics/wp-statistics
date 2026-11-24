@@ -65,7 +65,10 @@ test('opens on the add-on named in data-target', () => {
     assert.equal(items[1].getAttribute('tabindex'), '0');
     assert.equal(items[0].getAttribute('tabindex'), '-1');
     assert.deepEqual(images.map((i) => i.getAttribute('src')), ['a.png', 'b.png']);
-    assert.equal(closeBtn.focused, true);
+    // Focus goes to the dialog (tabindex -1, no ring), not to the × button.
+    assert.equal(modal.focused, true);
+    assert.equal(modal.getAttribute('tabindex'), '-1');
+    assert.equal(closeBtn.focused, false);
 });
 
 test('unknown target falls back to the intro step', () => {

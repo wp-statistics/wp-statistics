@@ -4,6 +4,7 @@ namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Models\HistoricalModel;
 use WP_STATISTICS\Option;
 
@@ -137,6 +138,26 @@ abstract class BaseModel
         }
 
         return $types;
+    }
+
+    /**
+     * Cache a query whose date filters sit in its subqueries, the way whereDate() does: only when the
+     * range ends before today.
+     *
+     * @param Query $query
+     * @param array|string $date
+     */
+    protected function allowCachingForPastRange($query, $date)
+    {
+        if (empty($date)) {
+            return;
+        }
+
+        $range = is_array($date) ? $date : DateRange::get($date);
+
+        if (!empty($range['from']) && !empty($range['to']) && $range['to'] < DateTime::get()) {
+            $query->allowCaching();
+        }
     }
 
     /**

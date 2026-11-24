@@ -79,9 +79,6 @@ endif;
 
         <div class="wps-lock-page__split">
             <div class="wps-lock-page__text">
-                <p class="wps-lock-page__eyebrow"><?php
-                    /* translators: %s: Add-on name. */
-                    echo esc_html(sprintf(__('%s add-on', 'wp-statistics'), $addon_name)); ?></p>
                 <h1 class="wps-lock-page__head"><?php echo esc_html($page_title ?? ''); ?></h1>
 
                 <?php if (!empty($benefits)) : ?>

@@ -8,6 +8,12 @@
   z-index: 100050;
   display: none;
 
+  // The dialog takes focus when it opens (premium-modal.js); it is a container, so no ring on it.
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+
   .wps-modal__content {
     position: absolute;
     top: 50%;

@@ -40,6 +40,7 @@ $taxonomies = array_filter($taxonomies, function ($item) {
                 <div class="wps-tabs__content">
                     <?php View::load('components/leaderboard', [
                         'rows'       => LeaderboardPresenter::termRows($leaderboard['rows']),
+                        'rankings'   => LeaderboardPresenter::termRankings($leaderboard),
                         'columns'    => $leaderboard['columns'],
                         'name_label' => $taxObject ? $taxObject->labels->singular_name : $taxName,
                         'caption'    => $title . ': ' . $taxName,

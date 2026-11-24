@@ -49,6 +49,54 @@ class LeaderboardPresenter
     }
 
     /**
+     * Author rows for every server ranking of a LeaderboardDataProvider::authors() result.
+     *
+     * @param array  $leaderboard
+     * @param string $postType
+     * @return array[] metric => rows (only 'views' for results without rankings).
+     */
+    public static function authorRankings($leaderboard, $postType = '')
+    {
+        $rankings = self::rankings($leaderboard);
+
+        foreach ($rankings as $metric => $rows) {
+            $rankings[$metric] = self::authorRows($rows, $postType);
+        }
+
+        return $rankings;
+    }
+
+    /**
+     * Term rows for every server ranking of a LeaderboardDataProvider::terms() result.
+     *
+     * @param array $leaderboard
+     * @return array[] metric => rows.
+     */
+    public static function termRankings($leaderboard)
+    {
+        $rankings = self::rankings($leaderboard);
+
+        foreach ($rankings as $metric => $rows) {
+            $rankings[$metric] = self::termRows($rows);
+        }
+
+        return $rankings;
+    }
+
+    /**
+     * @param array $leaderboard
+     * @return array[]
+     */
+    private static function rankings($leaderboard)
+    {
+        if (!empty($leaderboard['rankings']) && is_array($leaderboard['rankings'])) {
+            return $leaderboard['rankings'];
+        }
+
+        return ['views' => isset($leaderboard['rows']) ? (array) $leaderboard['rows'] : []];
+    }
+
+    /**
      * Add 'url' (Category Analytics single term report) to term rows.
      *
      * @param array[] $rows
@@ -81,21 +129,47 @@ class LeaderboardPresenter
             $title = trim(wp_strip_all_tags((string) $post->post_title));
             $title = $title !== '' ? $title : __('(no title)', 'wp-statistics');
 
-            $thumb = has_post_thumbnail($id) ? get_the_post_thumbnail_url($id, 'thumbnail') : '';
+            $thumb = self::thumb($id, $title);
 
             $items[] = [
                 'id'       => $id,
                 'title'    => $title,
                 'url'      => call_user_func($url, $post),
                 'link'     => get_permalink($id),
-                'thumb'    => $thumb ? $thumb : '', // empty when the file is gone
-                'initials' => Leaderboard::initials($title, 2),
-                'color'    => Leaderboard::color($id),
+                'thumb'    => $thumb['thumb'],
+                'initials' => $thumb['initials'],
+                'color'    => $thumb['color'],
                 'metric'   => self::metricText($post, $metric),
             ];
         }
 
         return $items;
+    }
+
+    /**
+     * One post's picture for components/objects/post-thumb: the featured image in WordPress's own
+     * 'thumbnail' size, or (no image, or its file is gone) a colour tile with two initials.
+     * Used by every content list and table, so a post looks the same everywhere.
+     *
+     * @param int    $postId
+     * @param string $title  Shown title (initials come from it).
+     * @return array thumb (URL or ''), initials, color.
+     */
+    public static function thumb($postId, $title = '')
+    {
+        $postId = (int) $postId;
+        $title  = trim(wp_strip_all_tags((string) $title));
+        if ($title === '' && $postId) {
+            $title = trim(wp_strip_all_tags((string) get_the_title($postId)));
+        }
+
+        $url = ($postId && has_post_thumbnail($postId)) ? get_the_post_thumbnail_url($postId, 'thumbnail') : '';
+
+        return [
+            'thumb'    => $url ? (string) $url : '', // empty when the file is gone
+            'initials' => Leaderboard::initials($title, 2),
+            'color'    => Leaderboard::color($postId),
+        ];
     }
 
     /**

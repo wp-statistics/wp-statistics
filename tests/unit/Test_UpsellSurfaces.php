@@ -68,8 +68,9 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
         ], true);
 
         $this->assertSame(1, substr_count($html, 'class="wps-upsell-card"'));
-        $this->assertStringContainsString('REST API add-on', $html);
-        $this->assertStringContainsString('wps-upsell-card__icon', $html);
+        // No add-on kicker above the headline (owner test 14.17).
+        $this->assertStringNotContainsString('REST API add-on', $html);
+        $this->assertStringNotContainsString('wps-upsell-card__kicker', $html);
         $this->assertSame(1, substr_count($html, '<h3'));
         $this->assertStringContainsString('Your stats in any app or AI agent', $html);
         $this->assertStringContainsString('Connect ChatGPT, Claude and other AI agents (MCP)', $html);

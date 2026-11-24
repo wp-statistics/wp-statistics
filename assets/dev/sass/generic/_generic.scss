@@ -1263,3 +1263,73 @@ body .o-table-wrapper table.wps-new-table.wps-recent-views-table tbody tr td
     text-align: right !important;
   }
 }
+
+// Locked header buttons (views/components/objects/premium-locked-button.php): no tooltip, a click opens the
+// Premium popup. The old tooltip styles drop the outline, so keyboard focus gets its ring back here.
+.wps-premium-locked-btn {
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid #404BF2 !important;
+    outline-offset: 2px;
+  }
+}
+
+// One post picture everywhere (views/components/objects/post-thumb.php): featured image, or a colour tile
+// with initials. Each place sets only its size and corners.
+.wps-post-thumb {
+  flex: none;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+
+.wps-post-thumb--tile {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: .02em;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+// Top Pages and other tables: 27px, the same box as the image. The table's title-span rule is very
+// specific, so this one matches it and wins on order.
+body .o-table-wrapper table.wps-new-table tbody tr td .wps-table-ellipsis--name span.wps-post-thumb--tile,
+span.wps-pages-image.wps-post-thumb--tile {
+  width: 27px;
+  min-width: 27px;
+  max-width: 27px;
+  height: 27px;
+  overflow: hidden;
+  border-radius: 4px;
+  color: #fff !important;
+  font-size: 10px;
+  font-weight: 700;
+  text-overflow: clip;
+}
+
+img.wps-pages-image.wps-post-thumb {
+  border-radius: 4px;
+}
+
+// Single content header: 54px circle, like the image.
+.wps-content-analytics-header span.wps-content-analytics-header__thumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  font-size: 17px;
+}
+
+// Content tabs item: 39px circle.
+.wps-content-tabs__item--image span.wps-post-thumb--tile {
+  position: static;
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+}

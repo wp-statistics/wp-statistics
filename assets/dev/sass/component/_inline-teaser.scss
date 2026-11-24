@@ -214,10 +214,9 @@
   }
 }
 
-// Journey placement: indented like the timeline rows (steps padding + row padding).
+// Journey placement: full width of the journey column, edges aligned with the event rows.
 .wps-journey__teaser.wps-inline-teaser--line {
   margin: 0 0 12px;
-  margin-inline-start: 30px;
   padding: 6px 8px;
 
   .wps-inline-teaser__note {

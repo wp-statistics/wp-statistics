@@ -16,17 +16,21 @@ class Leaderboard
     const PALETTE = ['#7C3AED', '#0891B2', '#DB2777', '#EA580C', '#16A34A', '#404BF2', '#0E7490', '#9333EA', '#B45309', '#BE185D'];
 
     /**
-     * Views per post = views / posts that got views in the range.
-     * The old widgets divided by posts *published* in the range, so a range with no new
-     * posts showed "No data" next to authors with hundreds of views.
+     * The metrics a leaderboard can be ranked by on the server (the sortable column headers).
+     */
+    const RANKINGS = ['views', 'published', 'views_per_post'];
+
+    /**
+     * Views per post = views / posts published in the range, the same as the Authors and
+     * Categories reports ("Published" and "Views per post" columns there).
      *
      * @param int|float $views
-     * @param int $postsWithViews
-     * @return float|null Null when no post got a view.
+     * @param int $published Posts published in the range.
+     * @return float|null Null when nothing was published in the range.
      */
-    public static function perPost($views, $postsWithViews)
+    public static function perPost($views, $published)
     {
-        $posts = (int) $postsWithViews;
+        $posts = (int) $published;
 
         if ($posts <= 0) {
             return null;
@@ -38,14 +42,15 @@ class Leaderboard
     /**
      * Build the rows of a leaderboard from the ranked query rows plus the side counts.
      *
-     * @param object[]|array[] $ranked    Rows with views + posts_with_views, already ranked by views.
+     * @param object[]|array[] $ranked    Rows with views (+ published, posts_with_views), already ranked.
      * @param array            $keys      ['id' => field holding the row id, 'name' => field holding the name,
      *                                     'count_key' => field used to look up $published / $comments (default: id)].
-     * @param int[]            $published count_key value => posts published in the range.
+     * @param int[]            $publishedMap count_key value => posts published in the range. Used when a row
+     *                                    has no 'published' field of its own.
      * @param int[]            $comments  count_key value => comments written in the range.
      * @return array[] id, name, views, posts_with_views, views_per_post, published, comments, raw.
      */
-    public static function buildRows($ranked, $keys, $published = [], $comments = [])
+    public static function buildRows($ranked, $keys, $publishedMap = [], $comments = [])
     {
         $idKey    = isset($keys['id']) ? $keys['id'] : 'id';
         $nameKey  = isset($keys['name']) ? $keys['name'] : 'name';
@@ -54,19 +59,20 @@ class Leaderboard
         $rows = [];
 
         foreach ((array) $ranked as $item) {
-            $item  = (array) $item;
-            $id    = isset($item[$idKey]) ? (int) $item[$idKey] : 0;
-            $count = isset($item[$countKey]) ? (int) $item[$countKey] : $id;
-            $views = isset($item['views']) ? (int) $item['views'] : 0;
-            $posts = isset($item['posts_with_views']) ? (int) $item['posts_with_views'] : 0;
+            $item      = (array) $item;
+            $id        = isset($item[$idKey]) ? (int) $item[$idKey] : 0;
+            $count     = isset($item[$countKey]) ? (int) $item[$countKey] : $id;
+            $views     = isset($item['views']) ? (int) $item['views'] : 0;
+            $posts     = isset($item['posts_with_views']) ? (int) $item['posts_with_views'] : 0;
+            $published = isset($item['published']) ? (int) $item['published'] : (isset($publishedMap[$count]) ? (int) $publishedMap[$count] : 0);
 
             $rows[] = [
                 'id'               => $id,
                 'name'             => isset($item[$nameKey]) ? trim(wp_strip_all_tags((string) $item[$nameKey])) : '',
                 'views'            => $views,
                 'posts_with_views' => $posts,
-                'views_per_post'   => self::perPost($views, $posts),
-                'published'        => isset($published[$count]) ? (int) $published[$count] : 0,
+                'views_per_post'   => self::perPost($views, $published),
+                'published'        => $published,
                 'comments'         => isset($comments[$count]) ? (int) $comments[$count] : 0,
                 'tag'              => null,
                 'raw'              => $item,
@@ -77,23 +83,18 @@ class Leaderboard
     }
 
     /**
-     * Which optional columns to show. Views, Posts with views and Views per post are always on.
+     * Which columns to show. Views, Posts (published in the range) and Views per post are always on,
+     * like the Authors report; Comments only when the content takes comments and someone commented.
      *
-     * @param array[] $rows
-     * @param array   $options 'published' (bool) the widget is about publishing at all,
-     *                         'comments' (bool) the content type takes comments.
-     * @return bool[] views, posts_with_views, views_per_post, published, comments.
+     * @param array[] $rows    All shown rows (every ranking).
+     * @param array   $options 'comments' (bool) the content type takes comments.
+     * @return bool[] views, published, views_per_post, comments (posts_with_views is kept for old callers, off).
      */
     public static function columns($rows, $options = [])
     {
-        $hasPublished = false;
-        $hasComments  = false;
+        $hasComments = false;
 
         foreach ((array) $rows as $row) {
-            if (!empty($row['published'])) {
-                $hasPublished = true;
-            }
-
             if (!empty($row['comments'])) {
                 $hasComments = true;
             }
@@ -101,10 +102,9 @@ class Leaderboard
 
         return [
             'views'            => true,
-            'posts_with_views' => true,
+            'published'        => true,
             'views_per_post'   => true,
-            // A column of zeros says nothing; the footer still says "0 posts published".
-            'published'        => !empty($options['published']) && $hasPublished,
+            'posts_with_views' => false,
             // Comments off, or nobody commented in the range: hide the column.
             'comments'         => !empty($options['comments']) && $hasComments,
         ];

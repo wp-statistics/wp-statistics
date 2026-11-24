@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-24T07:04:46+00:00\n"
+"POT-Creation-Date: 2026-11-24T08:26:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -148,9 +148,9 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:426
 #: includes/admin/templates/layout/tabbed-page-header.php:62
-#: includes/admin/templates/layout/tabbed-page-header.php:66
+#: includes/admin/templates/layout/tabbed-page-header.php:67
 #: includes/admin/templates/layout/title.php:78
-#: includes/admin/templates/layout/title.php:82
+#: includes/admin/templates/layout/title.php:83
 msgid "Realtime"
 msgstr ""
 
@@ -235,7 +235,7 @@ msgstr ""
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:114
 #: src/Service/Charts/DataProvider/TrafficChartDataProvider.php:51
 #: src/Service/Charts/DataProvider/TrafficChartDataProvider.php:65
-#: views/components/leaderboard.php:55
+#: views/components/leaderboard.php:68
 #: views/components/tables/404.php:23
 #: views/components/tables/geographic-top-cities.php:34
 #: views/components/tables/geographic-top-countries.php:34
@@ -634,13 +634,12 @@ msgstr ""
 #: includes/admin/templates/pages/author-analytics/authors-report.php:35
 #: includes/admin/templates/pages/category-analytics/category-report.php:35
 #: src/Service/Admin/PageHeader/SingleHeaders.php:254
-#: views/components/leaderboard.php:60
 msgid "Published"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:509
-#: includes/admin/templates/layout/author-analytics/top-authors.php:24
-#: includes/admin/templates/layout/category-analytics/top-authors.php:23
+#: includes/admin/templates/layout/author-analytics/top-authors.php:25
+#: includes/admin/templates/layout/category-analytics/top-authors.php:24
 #: includes/admin/templates/layout/filters/author-filter.php:8
 #: includes/admin/templates/pages/author-analytics/authors-report.php:26
 #: src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php:43
@@ -746,7 +745,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:527
 #: includes/class-wp-statistics-widget.php:256
-#: views/components/leaderboard.php:37
+#: views/components/leaderboard.php:50
 msgid "Name"
 msgstr ""
 
@@ -841,7 +840,7 @@ msgid "Show less"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:544
-#: views/components/headers/post-type.php:94
+#: views/components/headers/post-type.php:86
 msgid "Show more"
 msgstr ""
 
@@ -1240,7 +1239,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-template.php:274
 #: includes/admin/class-wp-statistics-admin-template.php:279
-#: includes/class-wp-statistics-visitor.php:403
+#: includes/class-wp-statistics-visitor.php:449
 #: src/Service/Admin/LicenseManagement/Plugin/PluginDecorator.php:225
 #: src/Service/Analytics/DeviceDetection/DeviceHelper.php:40
 msgid "Unknown"
@@ -1505,19 +1504,19 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:33
-#: includes/admin/templates/layout/category-analytics/top-authors.php:32
+#: includes/admin/templates/layout/author-analytics/top-authors.php:34
+#: includes/admin/templates/layout/category-analytics/top-authors.php:33
 msgid "See all authors"
 msgstr ""
 
-#: includes/admin/templates/layout/category-analytics/top-category.php:26
+#: includes/admin/templates/layout/category-analytics/top-category.php:27
 #: includes/admin/templates/pages/devices/categories.php:21
 #: includes/admin/templates/pages/devices/overview.php:212
 #: includes/class-wp-statistics-helper.php:960
 msgid "Category"
 msgstr ""
 
-#: includes/admin/templates/layout/category-analytics/top-category.php:34
+#: includes/admin/templates/layout/category-analytics/top-category.php:35
 msgid "See all categories"
 msgstr ""
 
@@ -1541,7 +1540,7 @@ msgid "See all contents"
 msgstr ""
 
 #. translators: %s: plural name in lower case, a post type ("posts") or a taxonomy ("categories").
-#: includes/admin/templates/layout/content-analytics/top-categories.php:50
+#: includes/admin/templates/layout/content-analytics/top-categories.php:51
 #: includes/admin/templates/layout/content-analytics/top-picks.php:48
 #, php-format
 msgid "See all %s"
@@ -1563,31 +1562,11 @@ msgstr ""
 msgid "Post Type"
 msgstr ""
 
-#: includes/admin/templates/layout/filters/query-params-filter.php:14
+#: includes/admin/templates/layout/filters/query-params-filter.php:15
 msgid "Query Parameter : All"
 msgstr ""
 
-#: includes/admin/templates/layout/filters/query-params-filter.php:17
-#: includes/admin/templates/layout/tabbed-page-header.php:69
-#: includes/admin/templates/layout/title.php:85
-#: includes/class-wp-statistics-admin-bar.php:171
-#: views/components/addon-download-card.php:20
-#: views/components/addon-download-card.php:21
-#: views/components/lock-sections/tooltip-premium.php:4
-#: views/components/objects/export-button.php:88
-#: views/components/objects/share-anonymous-notice.php:19
-msgid "Learn More"
-msgstr ""
-
-#: includes/admin/templates/layout/filters/query-params-filter.php:19
-#: includes/admin/templates/layout/tabbed-page-header.php:71
-#: includes/admin/templates/layout/title.php:87
-#: views/components/lock-sections/tooltip-premium.php:5
-#: views/components/objects/export-button.php:90
-msgid "Premium Feature"
-msgstr ""
-
-#: includes/admin/templates/layout/filters/query-params-filter.php:29
+#: includes/admin/templates/layout/filters/query-params-filter.php:24
 #: src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php:34
 msgid "Query Parameter"
 msgstr ""
@@ -1877,16 +1856,16 @@ msgstr ""
 msgid "Real-time stats are available! Click here to view"
 msgstr ""
 
-#: includes/admin/templates/layout/tabbed-page-header.php:96
+#: includes/admin/templates/layout/tabbed-page-header.php:92
 msgid "Last Updated:"
 msgstr ""
 
-#: includes/admin/templates/layout/tabbed-page-header.php:125
+#: includes/admin/templates/layout/tabbed-page-header.php:121
 msgid "Coming soon"
 msgstr ""
 
-#: includes/admin/templates/layout/tabbed-page-header.php:146
-#: includes/admin/templates/layout/tabbed-page-header.php:147
+#: includes/admin/templates/layout/tabbed-page-header.php:142
+#: includes/admin/templates/layout/tabbed-page-header.php:143
 msgid "Unique visitors who viewed a page in the last 5 minutes"
 msgstr ""
 
@@ -1942,7 +1921,7 @@ msgstr ""
 #: includes/admin/templates/optimization/export.php:14
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:361
 #: views/components/objects/export-button.php:12
-#: views/components/objects/export-button.php:85
+#: views/components/objects/export-button.php:87
 msgid "Export"
 msgstr ""
 
@@ -2357,7 +2336,7 @@ msgstr ""
 #: includes/admin/templates/pages/category-analytics/category-single.php:46
 #: includes/admin/templates/pages/content-analytics/post-type.php:52
 #: includes/admin/templates/pages/content-analytics/single.php:73
-#: views/components/leaderboard.php:61
+#: views/components/leaderboard.php:75
 msgid "Comments"
 msgstr ""
 
@@ -2581,7 +2560,7 @@ msgid "Words/Content"
 msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-report.php:73
-#: views/components/leaderboard.php:76
+#: views/components/leaderboard.php:91
 msgid "Slug"
 msgstr ""
 
@@ -4173,7 +4152,7 @@ msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:321
 #: views/components/tables/top-entry-pages.php:58
-#: views/components/tables/top-report.php:110
+#: views/components/tables/top-report.php:100
 msgid "at"
 msgstr ""
 
@@ -4993,6 +4972,14 @@ msgstr ""
 msgid "Unlock the Full Power of WP Statistics"
 msgstr ""
 
+#: includes/class-wp-statistics-admin-bar.php:171
+#: views/components/addon-download-card.php:20
+#: views/components/addon-download-card.php:21
+#: views/components/lock-sections/tooltip-premium.php:4
+#: views/components/objects/share-anonymous-notice.php:19
+msgid "Learn More"
+msgstr ""
+
 #: includes/class-wp-statistics-admin-bar.php:186
 msgid "Mini Chart Logo"
 msgstr ""
@@ -5304,7 +5291,7 @@ msgstr ""
 msgid "Item processed"
 msgstr ""
 
-#: includes/class-wp-statistics-ip.php:356
+#: includes/class-wp-statistics-ip.php:423
 msgid "Invalid IP address or Range."
 msgstr ""
 
@@ -6044,12 +6031,12 @@ msgstr ""
 msgid "%s plugin notifications"
 msgstr ""
 
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:82
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:130
 msgid "(no title)"
 msgstr ""
 
 #. translators: %s: number of comments
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:114
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:188
 #, php-format
 msgid "%s comment"
 msgid_plural "%s comments"
@@ -6057,7 +6044,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of words
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:119
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:193
 #, php-format
 msgid "%s word"
 msgid_plural "%s words"
@@ -6065,7 +6052,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: Number of views.
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:130
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:204
 #: views/components/meta-box/post-summary-row.php:31
 #: views/components/visitor-information.php:84
 #: views/components/visitor-journey.php:66
@@ -6076,7 +6063,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of pages
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:149
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:223
 #, php-format
 msgid "%s page published in this range"
 msgid_plural "%s pages published in this range"
@@ -6084,7 +6071,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of products
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:154
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:228
 #, php-format
 msgid "%s product published in this range"
 msgid_plural "%s products published in this range"
@@ -6092,13 +6079,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: post type name (plural), 2: number published
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:162
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:236
 #, php-format
 msgid "%1$s published in this range: %2$s"
 msgstr ""
 
 #. translators: %s: number of posts
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:167
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:241
 #, php-format
 msgid "%s post published in this range"
 msgid_plural "%s posts published in this range"
@@ -6106,7 +6093,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of posts, pages and other content
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:171
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:245
 #, php-format
 msgid "%s item published in this range"
 msgid_plural "%s items published in this range"
@@ -8383,16 +8370,16 @@ msgid "Email to Author"
 msgstr ""
 
 #. translators: %s: post title
-#: views/components/headers/post-type.php:21
+#: views/components/headers/post-type.php:23
 #, php-format
 msgid "%s thumbnail"
 msgstr ""
 
-#: views/components/headers/post-type.php:54
+#: views/components/headers/post-type.php:46
 msgid "Updated on"
 msgstr ""
 
-#: views/components/headers/post-type.php:58
+#: views/components/headers/post-type.php:50
 msgid "Author:"
 msgstr ""
 
@@ -8404,39 +8391,49 @@ msgstr ""
 msgid "Link Report"
 msgstr ""
 
+#. translators: Short leaderboard column header; the full meaning is "Posts published in this range".
+#: views/components/leaderboard.php:70
+msgctxt "leaderboard column: posts published in the range"
+msgid "Posts"
+msgstr ""
+
 #. translators: Short leaderboard column header; the full meaning is "Posts with views".
-#: views/components/leaderboard.php:57
+#: views/components/leaderboard.php:72
 msgctxt "leaderboard column: posts with views"
 msgid "Posts"
 msgstr ""
 
-#. translators: Short leaderboard column header; the full meaning is "Views per post".
-#: views/components/leaderboard.php:59
+#. translators: Short leaderboard column header; the full meaning is "Views per post published in this range".
+#: views/components/leaderboard.php:74
 msgctxt "leaderboard column: views per post"
 msgid "Per post"
 msgstr ""
 
-#: views/components/leaderboard.php:65
+#: views/components/leaderboard.php:79
+msgid "Posts published in this range"
+msgstr ""
+
+#: views/components/leaderboard.php:80
 msgid "Posts with views"
 msgstr ""
 
-#: views/components/leaderboard.php:66
-msgid "Views per post"
+#: views/components/leaderboard.php:81
+msgid "Views per post published in this range"
 msgstr ""
 
-#: views/components/leaderboard.php:74
+#: views/components/leaderboard.php:89
 msgid "Language"
 msgstr ""
 
-#: views/components/leaderboard.php:75
+#: views/components/leaderboard.php:90
 msgid "Parent"
 msgstr ""
 
-#: views/components/leaderboard.php:87
+#: views/components/leaderboard.php:102
 msgid "Rank"
 msgstr ""
 
-#: views/components/leaderboard.php:105
+#: views/components/leaderboard.php:124
 msgid "(no name)"
 msgstr ""
 
@@ -8589,21 +8586,18 @@ msgstr ""
 msgid "Go to Add-ons Page"
 msgstr ""
 
-#. translators: %s: Add-on name.
-#: views/components/lock-sections/setting-unlock-premium.php:37
-#: views/pages/lock-page.php:84
-#, php-format
-msgid "%s add-on"
-msgstr ""
-
-#: views/components/lock-sections/setting-unlock-premium.php:43
-#: views/pages/lock-page.php:95
+#: views/components/lock-sections/setting-unlock-premium.php:35
+#: views/pages/lock-page.php:92
 msgid "Included in Premium with all 8 add-ons"
 msgstr ""
 
-#: views/components/lock-sections/setting-unlock-premium.php:47
+#: views/components/lock-sections/setting-unlock-premium.php:39
 #: views/components/upsell/guarantee.php:14
 msgid "14-day money-back guarantee"
+msgstr ""
+
+#: views/components/lock-sections/tooltip-premium.php:5
+msgid "Premium Feature"
 msgstr ""
 
 #: views/components/locked-page.php:37
@@ -9030,6 +9024,10 @@ msgstr ""
 
 #: views/components/objects/page-header.php:28
 msgid "Breadcrumb"
+msgstr ""
+
+#: views/components/objects/premium-locked-button.php:25
+msgid "(Premium feature, opens details)"
 msgstr ""
 
 #: views/components/objects/share-anonymous-notice.php:15
@@ -9703,7 +9701,7 @@ msgstr ""
 msgid "Published Date"
 msgstr ""
 
-#: views/components/tables/top-report.php:99
+#: views/components/tables/top-report.php:89
 #: views/metabox/most-visited-pages.php:42
 #: views/pages/page-insights/overview.php:59
 msgid "No visitor landed on this page first"
@@ -10225,13 +10223,13 @@ msgid "Ask a site admin if you need this report."
 msgstr ""
 
 #. translators: 1: Add-on name, 2: picture number.
-#: views/pages/lock-page.php:107
+#: views/pages/lock-page.php:104
 #, php-format
 msgid "%1$s preview, picture %2$d"
 msgstr ""
 
 #. translators: %d: picture number. Keep the %d.
-#: views/pages/lock-page.php:113
+#: views/pages/lock-page.php:110
 #, php-format
 msgid "Show picture %d"
 msgstr ""

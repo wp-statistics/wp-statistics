@@ -3,7 +3,7 @@
  * the add-on named in data-target (or the intro step, "first-step"), switches add-ons from the switcher
  * (switcher.php: a tablist of .js-wps-premiumStepFeature[data-modal]; arrow keys, Home and End move between
  * add-ons), closes on ×, Escape or a click on the backdrop and
- * gives focus back to the link that opened it. Pictures load on first open.
+ * gives focus back to the link that opened it. On open, focus sits on the dialog (no ring), Tab is kept inside. Pictures load on first open.
  *
  * The Overview's one-time welcome popup (.js-wps-premiumModal-welcome) holds the same steps behind its
  * "Discover Premium Features" button.
@@ -76,8 +76,16 @@
         loadImages(modal);
         var shown = showStep(modal, target || 'first-step');
 
-        var close = modal.querySelector('.wps-premium-popup__close');
-        if (close && typeof close.focus === 'function') close.focus();
+        // Focus goes to the dialog itself (tabindex="-1", no ring), not the × button: screen readers announce
+        // the popup, the next Tab reaches the first button, and a mouse open shows no heavy focus ring.
+        if (typeof modal.focus === 'function') {
+            if (modal.getAttribute('tabindex') === null) modal.setAttribute('tabindex', '-1');
+            try {
+                modal.focus({preventScroll: true});
+            } catch (e) {
+                modal.focus();
+            }
+        }
 
         return shown;
     }
@@ -187,10 +195,16 @@
             if (!focusable.length) return;
             var first = focusable[0];
             var last = focusable[focusable.length - 1];
-            if (event.shiftKey && document.activeElement === first) {
+            var active = document.activeElement;
+            // Focus on the dialog itself (right after opening) or outside it: Tab goes to the first button,
+            // Shift+Tab to the last one.
+            if (!active || active === modals[i] || (modals[i].contains && !modals[i].contains(active))) {
+                event.preventDefault();
+                (event.shiftKey ? last : first).focus();
+            } else if (event.shiftKey && active === first) {
                 event.preventDefault();
                 last.focus();
-            } else if (!event.shiftKey && document.activeElement === last) {
+            } else if (!event.shiftKey && active === last) {
                 event.preventDefault();
                 first.focus();
             }

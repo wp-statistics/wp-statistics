@@ -19,6 +19,7 @@ $leaderboard = isset($data['rows']) ? $data : ['rows' => [], 'columns' => [], 'p
 
     <?php View::load('components/leaderboard', [
         'rows'       => LeaderboardPresenter::authorRows($leaderboard['rows']),
+        'rankings'   => LeaderboardPresenter::authorRankings($leaderboard),
         'columns'    => $leaderboard['columns'],
         'name_label' => __('Author', 'wp-statistics'),
         'caption'    => $title,

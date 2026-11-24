@@ -123,24 +123,6 @@ a.wps-upsell-btn--secondary,
     padding-right: 16px;
   }
 
-  .wps-upsell-card__kicker {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin: 0 0 6px;
-    padding: 0;
-    color: $wps-brand;
-    font-size: 11.5px;
-    font-weight: 600;
-    line-height: 16px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-  }
-
-  .wps-upsell-card__icon {
-    flex: none;
-  }
-
   h3.wps-upsell-card__title {
     margin: 0 0 12px;
     padding: 0;

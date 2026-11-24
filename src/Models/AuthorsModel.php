@@ -288,12 +288,15 @@ class AuthorsModel extends BaseModel
     }
 
     /**
-     * Top authors for the leaderboard widgets: views in the date range of the author's
-     * published content (any publish date), and how many of those posts got the views.
-     * "Views per post" divides by posts_with_views, so it is never empty when there are views.
+     * Top authors for the leaderboard widgets, ranked on the server by one metric. Same numbers as
+     * the Authors report:
+     *  - views:          views in the range of the author's published content (any publish date);
+     *  - published:      posts published in the range ("Posts");
+     *  - views_per_post: views / posts published in the range (NULL when nothing was published).
+     * An author is listed when they have views or a published post in the range. Ties fall back to views.
      *
-     * @param array $args date, post_type, taxonomy, term, order_by, order, page, per_page.
-     * @return object[] id, name, nicename, views, posts_with_views.
+     * @param array $args date, post_type, taxonomy, term, order_by (views|published|views_per_post), page, per_page.
+     * @return object[] id, name, nicename, views, posts_with_views, published, views_per_post.
      */
     public function getAuthorsLeaderboard($args = [])
     {
@@ -308,24 +311,57 @@ class AuthorsModel extends BaseModel
             'term'      => ''
         ]);
 
-        $query = Query::select([
-                'posts.post_author AS id',
-                'users.display_name AS name',
-                'users.user_nicename AS nicename',
+        $orderBy = in_array($args['order_by'], ['views', 'published', 'views_per_post'], true) ? $args['order_by'] : 'views';
+
+        $viewsQuery = Query::select([
+                'posts.post_author AS author_id',
                 'SUM(pages.count) AS views',
                 'COUNT(DISTINCT posts.ID) AS posts_with_views'
             ])
             ->from('posts')
-            ->join('users', ['posts.post_author', 'users.ID'])
             ->join('pages', ['posts.ID', 'pages.id'], [['pages.type', 'IN', $this->getResourceTypes($args['post_type'], false)]])
             ->where('posts.post_status', '=', 'publish')
             ->where('posts.post_type', 'IN', $args['post_type'])
             ->whereDate('pages.date', $args['date'])
-            ->groupBy(['posts.post_author', 'users.display_name', 'users.user_nicename'])
-            ->orderBy($args['order_by'], $args['order'])
+            ->groupBy('posts.post_author');
+        $this->joinTermFilter($viewsQuery, $args);
+
+        $publishedQuery = Query::select([
+                'posts.post_author AS author_id',
+                'COUNT(DISTINCT posts.ID) AS published'
+            ])
+            ->from('posts')
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->whereDate('posts.post_date', $args['date'])
+            ->groupBy('posts.post_author');
+        $this->joinTermFilter($publishedQuery, $args);
+
+        // Everyone with a published post of these types; the two side queries pick the ones active in the range.
+        $authorsQuery = Query::select(['DISTINCT posts.post_author'])
+            ->from('posts')
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->getQuery();
+
+        $query = Query::select([
+                'users.ID AS id',
+                'users.display_name AS name',
+                'users.user_nicename AS nicename',
+                'COALESCE(author_views.views, 0) AS views',
+                'COALESCE(author_views.posts_with_views, 0) AS posts_with_views',
+                'COALESCE(author_published.published, 0) AS published',
+                'COALESCE(author_views.views, 0) / NULLIF(author_published.published, 0) AS views_per_post'
+            ])
+            ->fromQuery($authorsQuery, 'authors')
+            ->join('users', ['authors.post_author', 'users.ID'])
+            ->joinQuery($viewsQuery->getQuery(), ['users.ID', 'author_views.author_id'], 'author_views', 'LEFT')
+            ->joinQuery($publishedQuery->getQuery(), ['users.ID', 'author_published.author_id'], 'author_published', 'LEFT')
+            ->whereRaw('(author_views.author_id IS NOT NULL OR author_published.author_id IS NOT NULL)')
+            ->orderBy($orderBy === 'views' ? ['views', 'published'] : [$orderBy, 'views'], 'DESC')
             ->perPage($args['page'], $args['per_page']);
 
-        $this->joinTermFilter($query, $args);
+        $this->allowCachingForPastRange($query, $args['date']);
 
         $result = $query->getAll();
 

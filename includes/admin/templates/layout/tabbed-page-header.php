@@ -62,17 +62,13 @@ View::load('components/objects/share-anonymous-notice');
                         <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                     </a>
                 <?php elseif (!\WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::areAddonPromptsHidden()): // white label: no upsell button ?>
-                    <button class="wps-realtime-btn disabled wps-tooltip-premium">
-                        <?php esc_html_e('Realtime', 'wp-statistics'); ?>
-                        <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
-                        <span id="tooltip_realtime">
-                            <a data-target="wp-statistics-realtime-stats" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
-                            <span>
-                                <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
-                            </span>
-                        </span>
-                    </span>
-                    </button>
+                    <?php
+                    View::load('components/objects/premium-locked-button', [
+                        'label' => __('Realtime', 'wp-statistics'),
+                        'addon' => 'wp-statistics-realtime-stats',
+                        'class' => 'wps-realtime-btn',
+                    ]);
+                    ?>
                 <?php endif;
             endif;
 
