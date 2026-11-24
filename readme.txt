@@ -155,7 +155,7 @@ This product includes GeoLite2 Data created by MaxMind, available from [https://
 
 == Changelog ==
 = 14.17.0 - 2026-11-24 =
-Read the [14.17 release post](https://wp-statistics.com/?p=32938) for screenshots and details.
+Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17/) for screenshots and details.
 - **New:** Refreshed admin design: cards, share bars, compact tables and new Premium pages.
 - **New:** Visitors card on the Overview with a green dot for online visitors, a visitor card and a visitor journey page.
 - **New:** WP Statistics panel in the block editor sidebar.
