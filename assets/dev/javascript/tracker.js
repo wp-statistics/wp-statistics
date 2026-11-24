@@ -54,37 +54,65 @@ function wpStatisticsStopTracking() {
 }
 
 function handleWpConsentApiIntegration() {
-    const hasStatisticsConsent = () => wp_has_consent('statistics') || wp_has_consent('statistics-anonymous');
+    // The visitor's stored answer, as WP Consent API saves it: "allow", "deny" or "" (no answer yet).
+    const storedChoice = (category) => {
+        const prefix = (window.consent_api && window.consent_api.cookie_prefix) || 'wp_consent';
+        const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + prefix + '_' + category + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : '';
+    };
 
-    // The cookie banner sets window.wp_consent_type and then fires wp_consent_type_defined. Until it
-    // does, wp_has_consent() answers from the site-wide fallback type, which can say "yes" before the
-    // visitor has seen the banner. When the banner has told the Consent API to wait for it
-    // (waitfor_consent_hook), decide only once the type is known.
-    let typeKnown = typeof window.wp_consent_type !== 'undefined' || !window.waitfor_consent_hook;
+    const hasStoredChoice = () => storedChoice('statistics') !== '' || storedChoice('statistics-anonymous') !== '';
 
-    if (typeKnown && hasStatisticsConsent()) {
-        wpStatisticsStartTracking();
-    }
+    const hasStatisticsConsent = () => {
+        // An answer the visitor gave always counts. Without a consent type (some banners only set it
+        // after the page has loaded, or not at all for a returning visitor) wp_has_consent() would
+        // allow everything, so a visitor who clicked Reject would still be counted.
+        if (hasStoredChoice()) {
+            return storedChoice('statistics') === 'allow' || storedChoice('statistics-anonymous') === 'allow';
+        }
 
-    document.addEventListener('wp_consent_type_defined', function () {
-        if (typeKnown) {
+        return wp_has_consent('statistics') || wp_has_consent('statistics-anonymous');
+    };
+
+    // The cookie banner sets window.wp_consent_type (or tells WP Consent API on the server) and fires
+    // wp_consent_type_defined. Until then, wp_has_consent() treats the site as having no banner and
+    // allows everything, even before the visitor has seen the banner.
+    const typeKnown = () => typeof window.wp_consent_type !== 'undefined' || (!window.waitfor_consent_hook && !!window.wp_fallback_consent_type);
+
+    let decided = false;
+    const decide = () => {
+        if (decided) {
             return;
         }
 
-        typeKnown = true;
+        decided = true;
         if (hasStatisticsConsent()) {
             wpStatisticsStartTracking();
         }
-    });
+    };
+
+    if (typeKnown() || hasStoredChoice()) {
+        decide();
+    } else if (!window.waitfor_consent_hook) {
+        // Not waiting forever: without a banner that sets the type, WP Consent API allows everything,
+        // so decide once the page has loaded and the banner has had its chance.
+        const decideLater = () => setTimeout(decide, 500);
+        if (document.readyState === 'complete') {
+            decideLater();
+        } else {
+            window.addEventListener('load', decideLater);
+        }
+    }
+
+    document.addEventListener('wp_consent_type_defined', decide);
 
     document.addEventListener("wp_listen_for_consent_change", function (e) {
-        // A consent change means the banner is running, so the type is known from here on.
-        typeKnown = true;
-
         const changedConsentCategory = e.detail;
         for (let key in changedConsentCategory) {
             if (changedConsentCategory.hasOwnProperty(key)) {
                 if (key === 'statistics' || key === 'statistics-anonymous') {
+                    // A consent change means the banner is running, so the decision is made from here on.
+                    decided = true;
                     if (hasStatisticsConsent()) {
                         wpStatisticsStartTracking();
                     } else {
