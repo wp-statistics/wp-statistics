@@ -25,6 +25,8 @@ class CountryChartDataProvider extends AbstractChartDataProvider
         // the same base as the Geographic > Countries tab.
         $this->args = array_merge($this->args, [
             'order_by'  => 'visitors',
+            // NULL, empty and unknown locations come back as one "(not set)" row
+            'merge_unknown_country' => true,
             'page'      => false,
             'per_page'  => false
         ]);

@@ -14,7 +14,7 @@ use WP_STATISTICS\DB;
  */
 class Test_ShareTotals extends WP_UnitTestCase
 {
-    private static $tables = ['visitor', 'pages'];
+    private static $tables = ['visitor', 'pages', 'visitor_relationships'];
 
     public static function setUpBeforeClass(): void
     {
@@ -104,6 +104,83 @@ class Test_ShareTotals extends WP_UnitTestCase
 
         $all = (new GeographicDataProvider(['date' => $this->range()]))->getCountriesData();
         $this->assertSame($this->sumVisitors($all['countries']), $all['visitors']);
+    }
+
+    public function test_unknown_countries_are_one_row_on_one_page()
+    {
+        // NULL, empty and the unknown code: three spellings of "(not set)", 1 + 1 + 1 visitors
+        $this->addVisitor(['location' => 'DE'], 5);
+        $this->addVisitor(['location' => 'FR'], 4);
+        $this->addVisitor(['location' => null]);
+        $this->addVisitor(['location' => '']);
+        $this->addVisitor(['location' => '000']);
+        $this->addVisitor(['location' => 'IT'], 2);
+
+        $all = (new GeographicDataProvider(['date' => $this->range()]))->getCountriesData();
+        $this->assertSame(['DE', 'FR', '000', 'IT'], array_column(array_map('get_object_vars', $all['countries']), 'country'));
+        $this->assertSame(3, (int)$all['countries'][2]->visitors);
+        $this->assertSame(4, $all['total'], 'the row count matches the rows');
+
+        // Page by page, "(not set)" shows exactly once and the pages add up to the total
+        $seen = [];
+        for ($page = 1; $page <= 2; $page++) {
+            $data = (new GeographicDataProvider(['date' => $this->range(), 'per_page' => 2, 'page' => $page]))->getCountriesData();
+            $this->assertSame(4, $data['total']);
+            foreach ($data['countries'] as $row) {
+                $seen[] = $row->country;
+            }
+        }
+        $this->assertSame(['DE', 'FR', '000', 'IT'], $seen);
+    }
+
+    public function test_share_base_follows_the_same_filters_as_the_rows()
+    {
+        $this->addVisitor(['location' => 'DE', 'source_channel' => 'search'], 3);
+        $this->addVisitor(['location' => 'FR', 'source_channel' => 'search'], 1);
+        $this->addVisitor(['location' => 'DE', 'source_channel' => 'direct'], 6);
+        $this->addVisitor(['location' => 'US', 'referred' => 'https://ref.example/', 'source_channel' => 'referral'], 2);
+
+        $model = new VisitorsModel();
+
+        foreach ([
+            ['source_channel' => 'search'],
+            ['referrer' => 'https://ref.example/'],
+            ['referred_visitors' => true],
+        ] as $filter) {
+            $args = array_merge(['date' => $this->range()], $filter);
+            $rows = $model->getVisitorsGeoData($args);
+
+            $this->assertSame($this->sumVisitors($rows), $model->countGeoVisitors($args), json_encode($filter));
+            $this->assertSame(count($rows), $model->countGeoData(array_merge($args, ['merge_unknown_country' => true])), json_encode($filter));
+        }
+
+        $this->assertSame(4, $model->countGeoVisitors(['date' => $this->range(), 'source_channel' => 'search']));
+    }
+
+    public function test_share_base_with_a_page_filter_counts_each_visitor_once()
+    {
+        global $wpdb;
+
+        $post = self::factory()->post->create();
+        $wpdb->insert(DB::table('pages'), ['uri' => '/a/', 'type' => 'post', 'date' => DateTime::get(), 'count' => 1, 'id' => $post]);
+        $pageId = $wpdb->insert_id;
+
+        $this->addVisitor(['location' => 'DE'], 2);
+        $visitorIds = $wpdb->get_col('SELECT ID FROM `' . DB::table('visitor') . '`');
+        foreach ($visitorIds as $visitorId) {
+            // Two views of the same post each
+            $wpdb->insert(DB::table('visitor_relationships'), ['visitor_id' => $visitorId, 'page_id' => $pageId, 'date' => DateTime::get() . ' 10:00:00']);
+            $wpdb->insert(DB::table('visitor_relationships'), ['visitor_id' => $visitorId, 'page_id' => $pageId, 'date' => DateTime::get() . ' 10:05:00']);
+        }
+        $this->addVisitor(['location' => 'FR'], 3); // no view of the post
+
+        $model = new VisitorsModel();
+        $args  = ['date' => $this->range(), 'post_id' => $post];
+
+        $this->assertSame(2, $this->sumVisitors($model->getVisitorsGeoData($args)));
+        $this->assertSame(2, $model->countGeoVisitors($args));
+
+        $wpdb->query('DELETE FROM `' . DB::table('visitor_relationships') . '`');
     }
 
     public function test_europe_share_base_is_visitors_from_europe()

@@ -46,18 +46,7 @@ class PostsModel extends BaseModel
                 ->whereDate('post_date', $args['date']);
         }
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-        }
+        $this->joinTermFilter($query, $args);
 
         $result = $query->getVar();
 
@@ -87,18 +76,7 @@ class PostsModel extends BaseModel
             ->whereDate('post_date', $args['date'])
             ->groupBy('Date(post_date)');
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-        }
+        $this->joinTermFilter($query, $args);
 
         $result = $query->getAll();
 
@@ -133,18 +111,7 @@ class PostsModel extends BaseModel
                 ->whereDate('post_date', $args['date']);
         }
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-        }
+        $this->joinTermFilter($query, $args);
 
         $result = $query->getVar();
 
@@ -173,18 +140,7 @@ class PostsModel extends BaseModel
             ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('comment_date', $args['date']);
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-        }
+        $this->joinTermFilter($query, $args);
 
         $result = $query->getVar();
 
@@ -296,18 +252,7 @@ class PostsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page']);
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-        }
+        $this->joinTermFilter($query, $args);
 
         $result = $query->getAll();
 
@@ -393,18 +338,7 @@ class PostsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page']);
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-        }
+        $this->joinTermFilter($query, $args);
 
         $result = $query->getAll();
 

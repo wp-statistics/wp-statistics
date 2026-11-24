@@ -174,6 +174,12 @@ $wpsJourneySteps = function ($visit) use ($wpsJourneyTime, $wpsJourneyEvent) {
             </div>
         </li>
     </ol>
+    <?php if (!empty($visit['truncated'])) : ?>
+        <p class="wps-journey__empty" dir="auto"><?php
+            /* translators: 1: number of page views listed, 2: page views of the visit. */
+            echo esc_html(sprintf(__('Showing the latest %1$s of %2$s page views in this visit.', 'wp-statistics'), number_format_i18n((int)$visit['views_shown']), number_format_i18n((int)$visit['views'])));
+        ?></p>
+    <?php endif; ?>
     <?php if (empty($visit['steps'])) : ?>
         <p class="wps-journey__empty" dir="auto"><?php esc_html_e('The pages of this visit were not recorded.', 'wp-statistics'); ?></p>
     <?php endif;

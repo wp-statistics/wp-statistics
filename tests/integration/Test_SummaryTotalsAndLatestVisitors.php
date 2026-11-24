@@ -261,4 +261,51 @@ class Test_SummaryTotalsAndLatestVisitors extends WP_UnitTestCase
         $latest = (new ReferralsDataProvider(['date' => $range]))->getReferralsOverview()['visitors'];
         $this->assertSame([$first, $third, $second], $this->ids($latest));
     }
+
+    public function test_paged_latest_list_is_bounded_to_its_days_and_keeps_the_order()
+    {
+        // Four days, rows inserted out of time order within each day
+        $expected = [];
+        foreach ([3, 2, 1, 0] as $daysAgo) {
+            $day  = DateTime::get("-{$daysAgo} days");
+            $rows = [];
+            foreach (['09:00:00', '18:00:00', '12:00:00'] as $time) {
+                $rows[$time] = $this->addVisitor(['last_counter' => $day, 'last_view' => "{$day} {$time}"]);
+            }
+            krsort($rows);
+            $expected = array_merge(array_values($rows), $expected);
+        }
+
+        $model = new VisitorsModel();
+        $range = ['from' => DateTime::get('-10 days'), 'to' => $this->today()];
+        $all   = [];
+
+        $queries = [];
+        $catch   = function ($query) use (&$queries) {
+            $queries[] = $query;
+            return $query;
+        };
+        add_filter('query', $catch);
+
+        for ($page = 1; $page <= 3; $page++) {
+            $all = array_merge($all, $this->ids($model->getVisitorsData([
+                'date'     => $range,
+                'order_by' => VisitorsModel::LATEST_ORDER_BY,
+                'order'    => 'DESC',
+                'page'     => $page,
+                'per_page' => 4,
+            ])));
+        }
+
+        remove_filter('query', $catch);
+
+        $this->assertSame($expected, $all, 'same order as one unbounded sort, page after page');
+
+        // Page 1 (4 rows) only needs the last two days
+        $bounded = array_values(array_filter($queries, function ($query) {
+            return strpos($query, 'last_view') !== false && strpos($query, 'ORDER BY') !== false && strpos($query, 'LIMIT 4 OFFSET 0') !== false;
+        }));
+        $this->assertNotEmpty($bounded);
+        $this->assertStringContainsString("last_counter` >= '" . DateTime::get('-1 day') . "'", str_replace('visitor.last_counter', '`last_counter`', $bounded[0]));
+    }
 }

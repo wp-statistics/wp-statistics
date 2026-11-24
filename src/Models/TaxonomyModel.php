@@ -383,19 +383,4 @@ class TaxonomyModel extends BaseModel
 
         return $this->pluckCounts($rows);
     }
-
-    /**
-     * @param object[]|null $rows Rows with id + total.
-     * @return int[]
-     */
-    private function pluckCounts($rows)
-    {
-        $counts = [];
-
-        foreach ((array) $rows as $row) {
-            $counts[(int) $row->id] = (int) $row->total;
-        }
-
-        return $counts;
-    }
 }

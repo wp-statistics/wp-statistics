@@ -17,6 +17,9 @@ class VisitorsModel extends BaseModel
      * Order for "latest visitors" lists: newest day first, then the visitor's last view, then ID.
      * Visitor IDs follow the first visit of the day, so ordering by ID alone puts a visitor who
      * came back in the evening below one who only came at noon.
+     *
+     * `last_view` has no index, so getVisitorsData() first bounds a paged list with this order to
+     * the days that hold the rows of the page (see getLatestOrderSince()).
      */
     const LATEST_ORDER_BY = ['visitor.last_counter', 'visitor.last_view', 'visitor.ID'];
 
@@ -129,18 +132,7 @@ class VisitorsModel extends BaseModel
                 ->where('post_author', '=', $args['author_id'])
                 ->where('posts.ID', '=', $args['post_id']);
 
-            if (!empty($args['taxonomy']) || !empty($args['term'])) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
+            $this->joinTermFilter($query, $args);
         }
 
         $result = $query->getVar();
@@ -321,18 +313,7 @@ class VisitorsModel extends BaseModel
                 ->where('post_author', '=', $args['author_id'])
                 ->where('posts.ID', '=', $args['post_id']);
 
-            if (!empty($args['taxonomy']) || !empty($args['term'])) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
+            $this->joinTermFilter($query, $args);
         }
 
         if (!empty($args['bypass_cache'])) {
@@ -731,6 +712,12 @@ class VisitorsModel extends BaseModel
             'since'                 => ''
         ]);
 
+        // A paged "latest" list only needs the days that hold its rows: sorting those by last_view
+        // is cheap, sorting a whole year of rows is not.
+        if (empty($args['since']) && empty($args['export']) && $args['order_by'] === self::LATEST_ORDER_BY && intval($args['per_page']) > 0) {
+            $args['since'] = $this->getLatestOrderSince($args);
+        }
+
         // Set default fields
         if (empty($args['fields'])) {
             $args['fields'] = [
@@ -840,18 +827,7 @@ class VisitorsModel extends BaseModel
                 $query->where('pages.type', 'IN', $this->getPostResourceTypes($args['post_type']));
             }
 
-            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
+            $this->joinTermFilter($query, $args);
         }
 
         if (!empty($args['event_target']) || !empty($args['event_name'])) {
@@ -864,6 +840,33 @@ class VisitorsModel extends BaseModel
         $result = $query->getAll();
 
         return $result ? $result : [];
+    }
+
+    /**
+     * Day of the last row on the requested page when the same list is sorted by day only.
+     *
+     * LATEST_ORDER_BY sorts by day first, so every row of pages 1..N has a `last_counter` on or after
+     * the day of row N*per_page in day order. That row is found from the `date_ip_agent` index (no
+     * sort of `last_view`), and the real query then sorts only the rows of those days.
+     *
+     * @param array $args Parsed getVisitorsData() args.
+     * @return string Date (Y-m-d), or '' when the list has fewer rows than the page needs.
+     */
+    private function getLatestOrderSince($args)
+    {
+        $rows = max(1, intval($args['page'])) * intval($args['per_page']);
+
+        $result = $this->getVisitorsData(array_merge($args, [
+            'fields'   => ['visitor.last_counter'],
+            'order_by' => 'visitor.last_counter',
+            'order'    => 'DESC',
+            'page'     => $rows,
+            'per_page' => 1,
+            'decorate' => false,
+            'since'    => '',
+        ]));
+
+        return !empty($result[0]->last_counter) ? (string)$result[0]->last_counter : '';
     }
 
     /**
@@ -1131,9 +1134,13 @@ class VisitorsModel extends BaseModel
      * Page views of several visitor rows (visits) in one query, oldest first.
      * Used by the single visitor journey to show every visit from the same IP or user.
      *
+     * Each visit gets its own newest `per_visit` views, so a long recent visit can not push the
+     * older visits out of the list (one UNION query, one indexed part per visit).
+     *
      * @param array $args {
      *     @type int[] $visitor_ids Visitor row IDs.
-     *     @type int   $limit       Max rows (0 = no limit). Default 2000.
+     *     @type int   $per_visit   Max views per visit, newest kept (0 = no limit). Default 100.
+     *     @type int   $limit       Max rows over all visits (0 = no limit). Default 0.
      * }
      * @return array Rows with visitor_id, date, page_id.
      */
@@ -1141,7 +1148,8 @@ class VisitorsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'visitor_ids' => [],
-            'limit'       => 2000,
+            'per_visit'   => 100,
+            'limit'       => 0,
         ]);
 
         $ids = array_values(array_unique(array_filter(array_map('intval', (array)$args['visitor_ids']))));
@@ -1150,16 +1158,34 @@ class VisitorsModel extends BaseModel
             return [];
         }
 
-        $query = Query::select([
+        $fields   = [
+            'visitor_relationships.ID',
             'visitor_relationships.visitor_id',
             'visitor_relationships.date',
             'visitor_relationships.page_id',
-        ])
-            ->from('visitor_relationships')
-            ->where('visitor_relationships.visitor_id', 'IN', $ids)
-            // Newest first so a limit drops the oldest views, then flip back to oldest first.
-            ->orderBy(['visitor_relationships.date', 'visitor_relationships.ID'], 'DESC');
+        ];
+        $perVisit = intval($args['per_visit']);
 
+        if ($perVisit > 0) {
+            // The row ID keeps two views of the same page in the same second apart (UNION drops duplicates).
+            $parts = [];
+            foreach ($ids as $id) {
+                $parts[] = Query::select($fields)
+                    ->from('visitor_relationships')
+                    ->where('visitor_relationships.visitor_id', '=', $id)
+                    ->orderBy(['visitor_relationships.date', 'visitor_relationships.ID'], 'DESC')
+                    ->perPage(1, $perVisit);
+            }
+
+            $query = count($parts) === 1 ? $parts[0] : Query::union($parts)->orderBy(['date', 'ID'], 'DESC');
+        } else {
+            $query = Query::select($fields)
+                ->from('visitor_relationships')
+                ->where('visitor_relationships.visitor_id', 'IN', $ids)
+                ->orderBy(['visitor_relationships.date', 'visitor_relationships.ID'], 'DESC');
+        }
+
+        // Newest first so a limit drops the oldest views, then flip back to oldest first.
         if (intval($args['limit']) > 0) {
             $query->perPage(1, intval($args['limit']));
         }
@@ -1169,95 +1195,22 @@ class VisitorsModel extends BaseModel
         return $result ? array_reverse($result) : [];
     }
 
-    public function countGeoData($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'         => '',
-            'count_field'  => 'location',
-            'count_fields' => [],
-            'continent'    => '',
-            'country'      => '',
-            'region'       => '',
-            'city'         => '',
-            'include_null' => false,
-        ]);
-
-        // Count the same groups that getVisitorsGeoData() lists
-        if (!empty($args['count_fields'])) {
-            $parts      = array_map(function ($field) {
-                // Keep NULL and '' apart, as GROUP BY does
-                return "IFNULL(CONCAT('v', {$field}), 'n')";
-            }, (array)$args['count_fields']);
-            $countValue = "COUNT(DISTINCT CONCAT_WS('|', " . implode(', ', $parts) . '))';
-        } else {
-            $countValue = "COUNT(DISTINCT visitor.{$args['count_field']})";
-        }
-
-        // The list can keep rows without a value (e.g. countries with an unknown location) as one more row
-        if ($args['include_null']) {
-            $countValue .= " + COALESCE(MAX(visitor.{$args['count_field']} IS NULL), 0)";
-        }
-
-        $result = Query::select([
-            "{$countValue} as total"
-        ])
-            ->from('visitor')
-            ->whereDate('visitor.last_counter', $args['date'])
-            ->where('visitor.continent', '=', $args['continent'])
-            ->where('visitor.location', '=', $args['country'])
-            ->where('visitor.region', '=', $args['region'])
-            ->where('visitor.city', '=', $args['city'])
-            ->whereNotNull($args['include_null'] ? '' : "visitor.{$args['count_field']}")
-            ->getVar();
-
-        return $result ? intval($result) : 0;
-    }
+    /**
+     * SQL that puts every visitor without a known country (NULL, empty or the unknown code) in one
+     * group, so lists, totals and pages agree on a single "(not set)" row.
+     */
+    const UNKNOWN_COUNTRY_SQL = "COALESCE(NULLIF(visitor.location, ''), '000')";
 
     /**
-     * Counts the visitors behind all rows of getVisitorsGeoData() (every page, not only the one shown).
+     * Filters shared by getVisitorsGeoData(), countGeoData() and countGeoVisitors(), so a list,
+     * its row count and its "Share" base always look at the same visitors.
      *
-     * This is the base of the "Share" column on the Geographic tables: each row's visitors divided by
-     * this total, so the column adds up to 100% over all rows.
-     *
-     * @param array $args Same filters as getVisitorsGeoData(): `date`, `continent`, `country`, `region`, `city`, `not_null`.
-     *
-     * @return int
+     * @param array $defaults Extra defaults of the calling method.
+     * @return array Defaults for parseArgs().
      */
-    public function countGeoVisitors($args = [])
+    private function geoFilterDefaults($defaults = [])
     {
-        $args = $this->parseArgs($args, [
-            'date'      => '',
-            'continent' => '',
-            'country'   => '',
-            'region'    => '',
-            'city'      => '',
-            'not_null'  => '',
-        ]);
-
-        $result = Query::select('COUNT(visitor.ID) as total')
-            ->from('visitor')
-            ->where('visitor.location', 'IN', $args['country'])
-            ->where('visitor.city', 'IN', $args['city'])
-            ->where('visitor.region', 'IN', $args['region'])
-            ->where('visitor.continent', 'IN', $args['continent'])
-            ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull($args['not_null'])
-            ->getVar();
-
-        return $result ? intval($result) : 0;
-    }
-
-    public function getVisitorsGeoData($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'fields'            => [
-                'city'      => 'visitor.city as city',
-                'country'   => 'visitor.location as country',
-                'region'    => 'visitor.region as region',
-                'continent' => 'visitor.continent as continent',
-                'visitors'  => 'COUNT(visitor.ID) as visitors',
-                'views'     => 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
-            ],
+        return array_merge([
             'date'                  => '',
             'country'               => '',
             'city'                  => '',
@@ -1267,46 +1220,60 @@ class VisitorsModel extends BaseModel
             'post_type'             => '',
             'author_id'             => '',
             'post_id'               => '',
-            'per_page'              => '',
             'query_param'           => '',
             'taxonomy'              => '',
             'term'                  => '',
-            'page'                  => 1,
             'source_channel'        => '',
-            'group_by'              => 'visitor.location',
             'event_name'            => '',
             'event_target'          => '',
-            'order_by'              => ['visitors', 'views'],
-            'order'                 => 'DESC',
             'utm_source'            => '',
             'utm_medium'            => '',
             'utm_campaign'          => '',
             'referrer'              => '',
             'resource_id'           => '',
             'resource_type'         => '',
-            'referred_visitors'     => false
-        ]);
+            'referred_visitors'     => false,
+            'merge_unknown_country' => false,
+        ], $defaults);
+    }
 
+    /**
+     * Whether the geo filters join other tables (so one visitor can match several rows).
+     *
+     * @param array $args
+     * @return bool
+     */
+    private function geoFiltersJoin($args)
+    {
+        return (bool)array_intersect(['resource_type', 'resource_id', 'query_param', 'post_type', 'author_id', 'post_id', 'taxonomy', 'term', 'event_name', 'event_target', 'utm_source', 'utm_medium', 'utm_campaign'], array_keys(array_filter($args)));
+    }
+
+    /**
+     * Apply the shared geo filters to a query on the visitor table.
+     *
+     * @param Query $query
+     * @param array $args Parsed with geoFilterDefaults().
+     * @return void
+     */
+    private function applyGeoFilters($query, $args)
+    {
         $filteredArgs = array_filter($args);
 
-        // If joined to other tables, add DISTINCT to count unique visitors
-        if (isset($args['fields']['visitors']) && array_intersect(['resource_type', 'resource_id', 'query_param', 'post_type', 'author_id', 'post_id', 'taxonomy', 'term', 'event_name', 'event_target'], array_keys($filteredArgs))) {
-            $args['fields']['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
-        }
-
-        $query = Query::select($args['fields'])
-            ->from('visitor')
+        $query
             ->where('visitor.location', 'IN', $args['country'])
             ->where('visitor.city', 'IN', $args['city'])
             ->where('visitor.region', 'IN', $args['region'])
             ->where('visitor.continent', 'IN', $args['continent'])
             ->where('visitor.referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull($args['not_null'])
-            ->perPage($args['page'], $args['per_page'])
-            ->groupBy($args['group_by'])
-            ->orderBy($args['order_by'], $args['order']);
+            ->whereNotNull($args['not_null']);
 
+        // `unassigned` means visitors without a source channel, as in countVisitors()
+        if ($args['source_channel'] === 'unassigned') {
+            $query->whereNull('visitor.source_channel');
+        } else {
+            $query->where('visitor.source_channel', 'IN', $args['source_channel']);
+        }
 
         if (!empty($args['referred_visitors'])) {
             $query->whereRaw("
@@ -1344,18 +1311,7 @@ class VisitorsModel extends BaseModel
                 ->where('posts.ID', '=', $args['post_id'])
                 ->where('pages.uri', '=', $args['query_param']);
 
-            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
+            $this->joinTermFilter($query, $args);
         }
 
         if (!empty($args['event_target']) || !empty($args['event_name'])) {
@@ -1364,6 +1320,111 @@ class VisitorsModel extends BaseModel
                 ->where('event_name', 'IN', $args['event_name'])
                 ->whereJson('event_data', 'target_url', '=', $args['event_target']);
         }
+    }
+
+    public function countGeoData($args = [])
+    {
+        $args = $this->parseArgs($args, $this->geoFilterDefaults([
+            'count_field'  => 'location',
+            'count_fields' => [],
+            'include_null' => false,
+        ]));
+
+        // Count the same groups that getVisitorsGeoData() lists
+        if (!empty($args['merge_unknown_country']) && $args['count_field'] === 'location' && empty($args['count_fields'])) {
+            // Unknown locations are one group, as in the list
+            $countValue = 'COUNT(DISTINCT ' . self::UNKNOWN_COUNTRY_SQL . ')';
+            $notNull    = $args['not_null'];
+        } elseif (!empty($args['count_fields'])) {
+            $parts      = array_map(function ($field) {
+                // Keep NULL and '' apart, as GROUP BY does
+                return "IFNULL(CONCAT('v', {$field}), 'n')";
+            }, (array)$args['count_fields']);
+            $countValue = "COUNT(DISTINCT CONCAT_WS('|', " . implode(', ', $parts) . '))';
+            $notNull    = $args['not_null'] ?: "visitor.{$args['count_field']}";
+        } else {
+            $countValue = "COUNT(DISTINCT visitor.{$args['count_field']})";
+
+            // The list can keep rows without a value as one more row
+            if ($args['include_null']) {
+                $countValue .= " + COALESCE(MAX(visitor.{$args['count_field']} IS NULL), 0)";
+            }
+
+            $notNull = $args['include_null'] ? $args['not_null'] : ($args['not_null'] ?: "visitor.{$args['count_field']}");
+        }
+
+        $query = Query::select(["{$countValue} as total"])->from('visitor');
+
+        $this->applyGeoFilters($query, array_merge($args, ['not_null' => $notNull]));
+
+        $result = $query->getVar();
+
+        return $result ? intval($result) : 0;
+    }
+
+    /**
+     * Counts the visitors behind all rows of getVisitorsGeoData() (every page, not only the one shown).
+     *
+     * This is the base of the "Share" column on the Geographic tables: each row's visitors divided by
+     * this total, so the column adds up to 100% over all rows.
+     *
+     * @param array $args Same filters as getVisitorsGeoData() (see geoFilterDefaults()).
+     *
+     * @return int
+     */
+    public function countGeoVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, $this->geoFilterDefaults());
+
+        // Joined rows repeat a visitor: count each one once, as the list does
+        $count = $this->geoFiltersJoin($args) ? 'COUNT(DISTINCT visitor.ID)' : 'COUNT(visitor.ID)';
+        $query = Query::select("{$count} as total")->from('visitor');
+
+        $this->applyGeoFilters($query, $args);
+
+        $result = $query->getVar();
+
+        return $result ? intval($result) : 0;
+    }
+
+    public function getVisitorsGeoData($args = [])
+    {
+        $args = $this->parseArgs($args, $this->geoFilterDefaults([
+            'fields'   => [
+                'city'      => 'visitor.city as city',
+                'country'   => 'visitor.location as country',
+                'region'    => 'visitor.region as region',
+                'continent' => 'visitor.continent as continent',
+                'visitors'  => 'COUNT(visitor.ID) as visitors',
+                'views'     => 'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
+            ],
+            'per_page' => '',
+            'page'     => 1,
+            'group_by' => 'visitor.location',
+            'order_by' => ['visitors', 'views'],
+            'order'    => 'DESC',
+        ]));
+
+        // If joined to other tables, add DISTINCT to count unique visitors
+        if (isset($args['fields']['visitors']) && $this->geoFiltersJoin($args)) {
+            $args['fields']['visitors'] = 'COUNT(DISTINCT visitor.ID) as visitors';
+        }
+
+        // One "(not set)" group for NULL, empty and unknown locations (the count does the same)
+        if (!empty($args['merge_unknown_country']) && isset($args['fields']['country'])) {
+            $args['fields']['country'] = self::UNKNOWN_COUNTRY_SQL . ' as country';
+            $args['group_by']          = array_map(function ($field) {
+                return in_array($field, ['visitor.location', 'location'], true) ? self::UNKNOWN_COUNTRY_SQL : $field;
+            }, (array)$args['group_by']);
+        }
+
+        $query = Query::select($args['fields'])
+            ->from('visitor')
+            ->perPage($args['page'], $args['per_page'])
+            ->groupBy($args['group_by'])
+            ->orderBy($args['order_by'], $args['order']);
+
+        $this->applyGeoFilters($query, $args);
 
         $result = $query->getAll();
 
@@ -1503,18 +1564,7 @@ class VisitorsModel extends BaseModel
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id']);
 
-            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
+            $this->joinTermFilter($query, $args);
         }
 
         if ($args['decorate']) {
@@ -1601,18 +1651,7 @@ class VisitorsModel extends BaseModel
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id']);
 
-            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
+            $this->joinTermFilter($query, $args);
         }
 
         // When the list is grouped by more than the referrer (e.g. referrer + channel), count the grouped rows

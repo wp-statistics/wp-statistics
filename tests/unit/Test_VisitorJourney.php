@@ -70,6 +70,21 @@ class Test_VisitorJourney extends WP_UnitTestCase
         $this->assertSame('2026-04-01 15:05:00', $visit['start']);
     }
 
+    public function test_visit_with_only_its_newest_views_loaded_uses_real_hits()
+    {
+        $visit = VisitorJourney::buildVisit($this->visitor(1, '2026-04-01 15:00:00', '2026-04-01 15:30:00', 60), [
+            $this->view(1, '2026-04-01 15:20:00', 10),
+            $this->view(1, '2026-04-01 15:30:00', 11),
+        ], []);
+
+        $this->assertSame(60, $visit['views']);
+        $this->assertSame(2, $visit['views_shown']);
+        $this->assertTrue($visit['truncated']);
+        // The real entry page was not loaded, so no step is marked as entry; the visit starts at first_view.
+        $this->assertSame([false, false], array_column($visit['steps'], 'is_entry'));
+        $this->assertSame('2026-04-01 15:00:00', $visit['start']);
+    }
+
     public function test_events_sit_above_the_page_they_happened_on_and_do_not_change_time_on_page()
     {
         $event = VisitorJourney::normalizeEvent([
