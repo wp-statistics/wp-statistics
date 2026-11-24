@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded', function handler() {
+function wpStatisticsBootTracker() {
     // Defer until a prerendered document is activated by user navigation.
     // The server drops prerender hits via Sec-Purpose, and activation does
     // not re-run scripts — without this gate the real pageview is lost.
     if (document.prerendering) {
-        document.addEventListener('prerenderingchange', handler, { once: true });
+        document.addEventListener('prerenderingchange', wpStatisticsBootTracker, { once: true });
         return;
     }
 
@@ -33,7 +33,15 @@ document.addEventListener('DOMContentLoaded', function handler() {
     if (consentIntegration === 'cookieyes') {
         handleCookieYesIntegration();
     }
-});
+}
+
+// A consent plugin (Borlabs Cookie, for example) can release this script only after
+// the visitor accepts, when DOMContentLoaded has already fired. Start right away then.
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wpStatisticsBootTracker);
+} else {
+    wpStatisticsBootTracker();
+}
 
 function wpStatisticsStartTracking() {
     WpStatisticsUserTracker.init();
