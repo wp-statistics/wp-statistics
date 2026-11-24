@@ -68,6 +68,16 @@ function buildVisitorCardScript(done) {
     done()
 }
 
+// Network Admin > Statistics: sort, search and pages for the site table (no jQuery).
+function buildNetworkOverviewScript(done) {
+    gulp.src(['./assets/dev/javascript/network-overview.js'])
+        .pipe(concat('network-overview.min.js'))
+        .pipe(babel({presets: ['@babel/env']}))
+        .pipe(uglify())
+        .pipe(gulp.dest('./assets/js/'));
+    done()
+}
+
 function buildBackgroundProcessTrackerScript(done) {
     gulp.src([
         './assets/dev/javascript/background-process-tracker.js',
@@ -187,7 +197,7 @@ function revertToES6(cb) {
 
 // Gulp Watch
 function watch() {
-    gulp.watch('assets/dev/javascript/**/*.js', gulp.parallel(buildScripts, buildVisitorCardScript));
+    gulp.watch('assets/dev/javascript/**/*.js', gulp.parallel(buildScripts, buildVisitorCardScript, buildNetworkOverviewScript));
     gulp.watch('assets/dev/javascript/background-process-tracker.js', gulp.series(buildBackgroundProcessTrackerScript));
     gulp.watch('assets/dev/javascript/mini-chart.js', gulp.series(miniChart));
     gulp.watch('assets/dev/sass/**/*.scss', gulp.series(buildStyles));
@@ -196,7 +206,8 @@ function watch() {
 
 // global Task
 exports.compileSass = buildStyles;
-exports.script = gulp.parallel(buildScripts, buildVisitorCardScript);
+exports.script = gulp.parallel(buildScripts, buildVisitorCardScript, buildNetworkOverviewScript);
+exports.networkOverviewScript = buildNetworkOverviewScript;
 exports.visitorCardScript = buildVisitorCardScript;
 exports.backgroundProcessTrackerScript = buildBackgroundProcessTrackerScript;
 exports.chartScript = chartScripts;
