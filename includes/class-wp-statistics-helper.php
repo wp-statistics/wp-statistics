@@ -639,12 +639,15 @@ class Helper
     /**
      * Remove Query String From Url
      *
-     * @param $url
-     * @return bool|string
+     * @param string $url
+     * @return string The URL without its query string; the URL itself when it has none.
      */
     public static function RemoveQueryStringUrl($url)
     {
-        return substr($url, 0, strrpos($url, "?"));
+        $url = (string) $url;
+        $pos = strpos($url, '?');
+
+        return $pos === false ? $url : substr($url, 0, $pos);
     }
 
     /**

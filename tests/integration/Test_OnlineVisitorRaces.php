@@ -141,4 +141,30 @@ class Test_OnlineVisitorRaces extends WP_UnitTestCase
         $this->assertSame(2, (int) $rows[0]->hits);
         $this->assertSame(11, (int) $rows[0]->last_page);
     }
+
+    /**
+     * Eight tabs at once: each request read hits before any of them wrote, and each wrote
+     * "read value + 1", so the row ended at 2 instead of 9. The update must add 1 in the database.
+     */
+    public function test_a_hit_counted_from_a_stale_row_still_adds_one()
+    {
+        global $wpdb;
+        $ip = '#hash#89abcdef0123456789abcdef0123456789abcdef';
+
+        $id    = Visitor::record($this->profile($ip), ['page_id' => 10]);
+        $stale = $wpdb->get_row($wpdb->prepare('SELECT * FROM `' . DB::table('visitor') . '` WHERE ID = %d', $id));
+
+        $update = new \ReflectionMethod(Visitor::class, 'update_same_visitor');
+        if (PHP_VERSION_ID < 80100) {
+            $update->setAccessible(true);
+        }
+        foreach ([11, 12, 13] as $page) {
+            // Every request holds the same old row (hits = 1), as concurrent tabs do.
+            $update->invoke(null, $stale, $this->profile($ip), ['exclusion_reason' => '', 'page_id' => $page]);
+        }
+
+        $row = $wpdb->get_row($wpdb->prepare('SELECT * FROM `' . DB::table('visitor') . '` WHERE ID = %d', $id));
+        $this->assertSame(4, (int) $row->hits, 'Each hit adds one, whatever the request read before');
+        $this->assertSame(13, (int) $row->last_page);
+    }
 }
