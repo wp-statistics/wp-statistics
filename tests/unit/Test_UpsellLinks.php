@@ -3,7 +3,10 @@
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\ModalHandler\Modal;
 use WP_Statistics\Service\HooksManager;
 
@@ -269,28 +272,113 @@ class Test_UpsellLinks extends WP_UnitTestCase
         $this->assertStringContainsString('utm_medium=plugins-list', $links);
     }
 
-    public function test_header_menu_says_go_premium_on_free_sites()
+    // Add-ons menu (header link + sidebar entry) -----------------------------------------
+
+    /**
+     * A stand-in for one add-on with the four flags the summary reads.
+     */
+    private function addon($installed, $active, $license = 'none')
     {
-        // "Add-ons" only once a valid license is saved; an installed add-on alone keeps "Go Premium".
-        $header = file_get_contents(WP_STATISTICS_DIR . 'includes/admin/templates/header.php');
-        $this->assertStringContainsString("LicenseHelper::isValidLicenseAvailable() ? __('Add-ons', 'wp-statistics') : __('Go Premium', 'wp-statistics')", $header);
-        $this->assertStringNotContainsString('isFreeOnly', $header);
+        return new class($installed, $active, $license) {
+            private $installed, $active, $license;
+
+            public function __construct($installed, $active, $license)
+            {
+                $this->installed = $installed;
+                $this->active    = $installed && $active;
+                $this->license   = $license;
+            }
+
+            public function isInstalled() { return $this->installed; }
+            public function isActivated() { return $this->active; }
+            public function isLicenseValid() { return $this->license === 'valid'; }
+            public function isLicenseExpired() { return $this->license === 'expired'; }
+        };
     }
 
-    public function test_sidebar_menu_says_go_premium_until_a_license_is_valid()
+    /**
+     * The 8 owner-approved situations: label, number, sidebar color.
+     * Number = active add-ons without a valid license + expired licenses; switched-off add-ons do not count.
+     */
+    public function test_add_ons_menu_follows_the_8_situations()
     {
-        $user = self::factory()->user->create(['role' => 'administrator']);
-        if (is_multisite()) {
-            grant_super_admin($user);
+        $notInstalled = $this->addon(false, false);
+        $situations   = [
+            // name => [add-ons, white label, label, number, orange]
+            '1 free only'                 => [[$notInstalled, $notInstalled], false, 'Go Premium', 0, true],
+            '2 installed, all off'        => [[$this->addon(true, false), $this->addon(true, false), $notInstalled], false, 'Add-ons', 0, false],
+            '3 some active, no license'   => [[$this->addon(true, true), $this->addon(true, true), $this->addon(true, false)], false, 'Add-ons', 2, true],
+            '4 all active, no license'    => [[$this->addon(true, true), $this->addon(true, true), $this->addon(true, true)], false, 'Add-ons', 3, true],
+            '5a license, no problem'      => [[$this->addon(true, true, 'valid'), $this->addon(true, false, 'valid'), $this->addon(true, false), $notInstalled], false, 'Add-ons', 0, false],
+            '5b license, one unlicensed'  => [[$this->addon(true, true, 'valid'), $this->addon(true, true), $this->addon(true, false)], false, 'Add-ons', 1, true],
+            '6 premium, all licensed'     => [[$this->addon(true, true, 'valid'), $this->addon(true, true, 'valid'), $this->addon(false, false, 'valid')], false, 'Add-ons', 0, false],
+            '7 expired'                   => [[$this->addon(true, true, 'expired'), $this->addon(true, false, 'expired'), $this->addon(true, true, 'valid')], false, 'Add-ons', 2, true],
+            '8 white label'               => [[$this->addon(true, true), $this->addon(true, true)], true, null, 0, false],
+        ];
+
+        foreach ($situations as $name => list($addons, $whiteLabel, $label, $number, $orange)) {
+            $summary  = LicenseHelper::summarizeAddons($addons);
+            $freeOnly = $summary['installed'] === 0;
+            $state    = LicenseHelper::resolveAddonsMenuState($freeOnly, $whiteLabel, $summary);
+
+            if ($label === null) {
+                $this->assertFalse($state['visible'], "$name: hidden");
+                continue;
+            }
+
+            $this->assertTrue($state['visible'], "$name: visible");
+            $this->assertSame($label, $state['label'], "$name: label");
+            $this->assertSame($number, $state['count'], "$name: number");
+            $this->assertSame($orange, $state['warning'], "$name: orange");
         }
-        wp_set_current_user($user);
+    }
 
-        $manager = new \WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager();
-        $this->assertSame('Go Premium', $manager->addMenuItem([])['plugins']['title']);
+    private function renderHeader()
+    {
+        $_GET['page'] = 'wps_overview_page';
+        ob_start();
+        include WP_STATISTICS_DIR . 'includes/admin/templates/header.php';
+        unset($_GET['page']);
 
-        \WP_STATISTICS\Option::saveOptionGroup('TEST-MENU-KEY', ['status' => 'valid', 'sku' => 'premium', 'products' => []], \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::LICENSE_OPTION_KEY);
-        $this->assertSame('Add-ons', $manager->addMenuItem([])['plugins']['title']);
-        \WP_STATISTICS\Option::deleteOptionGroup('TEST-MENU-KEY', \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::LICENSE_OPTION_KEY);
+        return (string)ob_get_clean();
+    }
+
+    private function headerAddonsLink($html)
+    {
+        foreach ($this->links($html) as $link) {
+            if (strpos($link['href'], 'page=wps_plugins_page') !== false) {
+                return $link['label'];
+            }
+        }
+
+        return null;
+    }
+
+    public function test_header_and_sidebar_show_the_same_add_ons_entry()
+    {
+        $manager = new LicenseManagementManager();
+
+        // Free only: "Go Premium", orange, no number.
+        $item = $manager->addMenuItem([])['plugins'];
+        $this->assertSame('Go Premium', $item['title']);
+        $this->assertStringContainsString('wps-text-warning', $item['name']);
+        $this->assertFalse($item['hidden']);
+        $this->assertSame('Go Premium', $this->headerAddonsLink($this->renderHeader()));
+
+        // Premium license, nothing wrong: "Add-ons", normal color, and the header link stays (it used to vanish).
+        Option::saveOptionGroup('TEST-MENU-KEY', ['status' => 'valid', 'sku' => 'premium', 'products' => []], LicenseHelper::LICENSE_OPTION_KEY);
+        $item = $manager->addMenuItem([])['plugins'];
+        $this->assertSame('Add-ons', $item['title']);
+        $this->assertStringContainsString('wps-addons-menu', $item['name']);
+        $this->assertStringNotContainsString('wps-text-warning', $item['name']);
+        $this->assertSame('Add-ons', $this->headerAddonsLink($this->renderHeader()));
+
+        // White label: both gone.
+        add_filter('wp_statistics_hide_addon_prompts', '__return_true');
+        $this->assertTrue($manager->addMenuItem([])['plugins']['hidden']);
+        $this->assertNull($this->headerAddonsLink($this->renderHeader()));
+
+        Option::deleteOptionGroup('TEST-MENU-KEY', LicenseHelper::LICENSE_OPTION_KEY);
     }
 
     private function captureReportEmail()
