@@ -11,6 +11,7 @@ Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17
 - **Fix:** More accurate totals, filters and online counts; Top Pages works on SQLite.
 - **Fix:** Multisite sets up every site on activation, keeps site tables in step and works on WordPress 6.6.
 - **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
+- **Fix:** Consent integration works with any cookie plugin that supports WP Consent API and is no longer switched off on its own.
 - **Fix:** Ad clicks without a referrer (gclid, fbclid) get a source.
 - **Fix:** Emails no longer fail when sent together, and they fit phone screens.
 - **Fix:** CSV exports hide raw IPs with IP hashing on; the referrer shortcode counts again.

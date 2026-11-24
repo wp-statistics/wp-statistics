@@ -28,6 +28,7 @@ class GeneralNotices
      */
     private $coreNotices = [
         'detectConsentIntegrations',
+        'consentIntegrationWarning',
         'detectCachePlugins',
         'checkTrackingMode',
         'performanceAndCleanUp',
@@ -58,6 +59,30 @@ class GeneralNotices
                 }
             }
         }
+    }
+
+    /**
+     * Warns on WP Statistics pages when the selected consent integration cannot work as set up.
+     *
+     * @return void
+     */
+    private function consentIntegrationWarning()
+    {
+        if (!Menus::in_plugin_page()) return;
+
+        $warning = IntegrationHelper::getConfigurationWarning();
+
+        if (empty($warning)) return;
+
+        $message = sprintf(
+            '<div><b class="wp-statistics-notice__title">%s</b><p>%s <a href="%s">%s</a></p></div>',
+            esc_html__('WP Statistics - Consent Integration Needs Attention', 'wp-statistics'),
+            esc_html($warning),
+            esc_url(Menus::admin_url('settings', ['tab' => 'privacy-settings']) . '#consent_integration'),
+            esc_html__('Review consent settings ›', 'wp-statistics')
+        );
+
+        Notice::addNotice(wp_kses_post($message), 'consent_integration_warning', 'warning', false);
     }
 
     /**
