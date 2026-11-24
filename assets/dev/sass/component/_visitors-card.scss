@@ -40,6 +40,52 @@ $wps-switch-track: #f0f1f2;
   }
 }
 
+// Long lists (a busy "Online now"): the list scrolls inside the card past ten rows (a row is
+// about 64px, the header 34px), so
+// the card keeps its height and the footer link stays in view. The header row stays on top
+// while scrolling, and a soft fade at the bottom edge shows there is more below
+// (has-more is set by overview.js). Visitor cards (popovers) open in <body>, so the scroll
+// box never clips them.
+$wps-visitors-list-max: 680px;
+
+#wp-statistics-visitors-widget .wps-visitors-panel {
+  position: relative;
+
+  > .wps-visitor-table-wrap {
+    max-height: $wps-visitors-list-max;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+
+    table.wps-visitor-table > thead > tr > th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #fff;
+    }
+  }
+
+  // Sticky cells lose their collapsed border: draw the header line as a shadow instead.
+  > .wps-visitor-table-wrap.is-scrollable table.wps-visitor-table > thead > tr > th {
+    box-shadow: inset 0 -1px 0 $light-secondary-color;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 90%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s ease;
+  }
+
+  &.has-more::after {
+    opacity: 1;
+  }
+}
+
 .wps-visitors-switch {
   display: inline-flex;
   align-items: center;
