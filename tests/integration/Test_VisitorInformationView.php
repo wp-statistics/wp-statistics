@@ -130,7 +130,9 @@ class Test_VisitorInformationView extends WP_UnitTestCase
 
         $this->assertStringContainsString('wps-visitor-info__slot--anonymous', $html, 'login status icon, not an IP icon');
         $this->assertStringContainsString('IP hidden', $html);
-        $this->assertStringContainsString('IP hidden (hashed)', $card);
+        $this->assertStringContainsString('<span class="wps-visitor-card__ip">#e7b398f9</span>', $card, 'short hash shown');
+        $this->assertStringContainsString('hashed', $card);
+        $this->assertStringNotContainsString('e7b398f96b14993b', $card, 'never the full hash');
         $this->assertStringNotContainsString('data-wps-copy=', $card);
         $this->assertStringNotContainsString('Filter by IP', $card);
         $this->assertStringContainsString('location=DE', $card, 'country filter instead');

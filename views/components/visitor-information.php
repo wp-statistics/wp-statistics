@@ -273,7 +273,11 @@ $statusIcon = function ($type, $width = 14) {
         <?php else : ?>
             <li class="wps-visitor-card__muted">
                 <span class="wps-visitor-card__icon" aria-hidden="true"><?php echo $svg($icon['lock']); ?></span>
-                <span class="wps-visitor-card__text"><?php echo $isHashed ? esc_html__('IP hidden (hashed)', 'wp-statistics') : (!empty($ip) ? esc_html__('IP hidden', 'wp-statistics') : esc_html__('IP not stored', 'wp-statistics')); ?></span>
+                <?php if ($isHashed && !empty($ip)) : ?>
+                    <span class="wps-visitor-card__text"><span class="screen-reader-text"><?php esc_html_e('Hashed IP:', 'wp-statistics'); ?></span><span class="wps-visitor-card__ip"><?php echo esc_html($ip) ?></span><span class="wps-visitor-card__sep" aria-hidden="true">·</span><?php esc_html_e('hashed', 'wp-statistics'); ?></span>
+                <?php else : ?>
+                    <span class="wps-visitor-card__text"><?php echo $isHashed ? esc_html__('IP hidden (hashed)', 'wp-statistics') : (!empty($ip) ? esc_html__('IP hidden', 'wp-statistics') : esc_html__('IP not stored', 'wp-statistics')); ?></span>
+                <?php endif; ?>
             </li>
         <?php endif; ?>
         <?php if ($user && $canSeeUsers && $user->getEmail()) : ?>
