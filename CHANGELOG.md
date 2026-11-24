@@ -1,7 +1,7 @@
 14.17.0 - 2026-11-24
-Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17/) for screenshots and details.
+Read the [14.17 release post](https://wp-statistics.com/?p=32938) for screenshots and details.
 - **New:** Refreshed admin design: cards, share bars, compact tables and new Premium pages.
-- **New:** Visitors card on the Overview, a visitor card and a visitor journey page.
+- **New:** Visitors card on the Overview with a green dot for online visitors, a visitor card and a visitor journey page.
 - **New:** WP Statistics panel in the block editor sidebar.
 - **New:** REST API add-on: connect ChatGPT, Claude and other AI agents with MCP.
 - **New:** Email alert and notice when visits stop being recorded.
@@ -10,10 +10,8 @@ Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17
 - **Enhancement:** Clearer chart tooltips, sortable leaderboards and Top Posts thumbnails.
 - **Fix:** More accurate totals, filters and online counts; Top Pages works on SQLite.
 - **Fix:** Multisite sets up every site on activation, keeps site tables in step and works on WordPress 6.6.
-- **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
-- **Fix:** Download Tracker: file names with % are counted.
-- **Fix:** Consent integration works with any cookie plugin that supports WP Consent API and is no longer switched off on its own.
-- **Fix:** WP Consent API: no visit is counted before the cookie banner is ready.
+- **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)) and file names with %.
+- **Fix:** Any cookie plugin that supports WP Consent API works, no visit is counted before the banner is ready, and the consent setting no longer switches itself off.
 - **Fix:** Hits are no longer lost when a visitor opens several tabs at once, and login page visits keep their address.
 - **Fix:** Ad clicks without a referrer (gclid, fbclid) get a source.
 - **Fix:** Emails no longer fail when sent together, and they fit phone screens.
