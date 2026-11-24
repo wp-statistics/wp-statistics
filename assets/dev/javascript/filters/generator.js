@@ -374,7 +374,7 @@ FilterGenerator.prototype.createDropdown = function (filterConfig, filterData) {
 
             if (item.premium) {
                 dropdownHTML += `
-                 <a data-target="wp-statistics-data-plus" title="${item.name}" 
+                 <a data-target="wp-statistics-data-plus" data-surface="post-type-filter" title="${item.name}"
                    class="js-wps-openPremiumModal ${classList.join(" ")}" role="option" aria-label="${item.name} (Premium)">
                     ${item.name}
                 </a>`;

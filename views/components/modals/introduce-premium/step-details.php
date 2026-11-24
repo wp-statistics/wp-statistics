@@ -60,7 +60,6 @@ $steps = [
         'name'      => __('WP Statistics Premium', 'wp-statistics'),
         'image'     => WP_STATISTICS_URL . 'assets/images/premium-widget.svg',
         'notice'    => '',
-        'learn_url' => WP_STATISTICS_SITE_URL . '/add-ons/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium',
     ]),
 ];
 
@@ -132,7 +131,6 @@ foreach (AddonCatalog::SLUGS as $slug) {
         'state'     => $state,
         'notice'    => $notice,
         'notice_warning' => $state === 'activate' || (!$hasLicense && $isInstalled),
-        'learn_url' => AddonCatalog::getProductUrl($slug),
         'activate_url' => $activateUrl,
     ];
 

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-24T08:26:43+00:00\n"
+"POT-Creation-Date: 2026-11-24T08:54:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -157,7 +157,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:427
 #: includes/admin/class-wp-statistics-admin-assets.php:453
 #: includes/admin/class-wp-statistics-admin-network.php:86
-#: includes/admin/templates/emails/layout.php:163
+#: includes/admin/templates/emails/layout.php:164
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:32
 #: includes/admin/templates/pages/category-analytics/category-performance.php:22
 #: includes/admin/templates/pages/category-analytics/category-single.php:22
@@ -212,7 +212,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:465
 #: includes/admin/class-wp-statistics-admin-assets.php:534
 #: includes/admin/class-wp-statistics-admin-user.php:38
-#: includes/admin/templates/emails/layout.php:177
+#: includes/admin/templates/emails/layout.php:178
 #: includes/admin/templates/optimization/purging.php:242
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:37
 #: includes/admin/templates/pages/category-analytics/category-performance.php:27
@@ -235,7 +235,7 @@ msgstr ""
 #: src/Service/Charts/DataProvider/PerformanceChartDataProvider.php:114
 #: src/Service/Charts/DataProvider/TrafficChartDataProvider.php:51
 #: src/Service/Charts/DataProvider/TrafficChartDataProvider.php:65
-#: views/components/leaderboard.php:68
+#: views/components/leaderboard.php:83
 #: views/components/tables/404.php:23
 #: views/components/tables/geographic-top-cities.php:34
 #: views/components/tables/geographic-top-countries.php:34
@@ -663,7 +663,7 @@ msgid "Receive Weekly Email Reports"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:513
-#: views/components/modals/introduce-premium/step-details.php:143
+#: views/components/modals/introduce-premium/step-details.php:141
 #: views/components/visitor-information.php:221
 #: views/metabox/go-premium.php:18
 msgid "Close"
@@ -700,7 +700,7 @@ msgid "Activated"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:518
-#: views/components/modals/introduce-premium/step-details.php:123
+#: views/components/modals/introduce-premium/step-details.php:122
 msgid "Active"
 msgstr ""
 
@@ -745,12 +745,12 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:527
 #: includes/class-wp-statistics-widget.php:256
-#: views/components/leaderboard.php:50
+#: views/components/leaderboard.php:65
 msgid "Name"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:528
-#: includes/admin/templates/settings/notifications.php:102
+#: includes/admin/templates/settings/notifications.php:104
 #: src/Service/Admin/PageHeader/SingleHeaders.php:389
 #: src/Service/Analytics/Referrals/SourceChannels.php:21
 msgid "Email"
@@ -1072,7 +1072,7 @@ msgid "Pages"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:88
-#: includes/admin/templates/emails/layout.php:169
+#: includes/admin/templates/emails/layout.php:170
 #: includes/admin/templates/settings/add-ons/customization.php:20
 #: src/Service/Admin/Referrals/ReferralsManager.php:63
 #: src/Service/Admin/Referrals/Views/TabsView.php:92
@@ -1090,7 +1090,7 @@ msgstr ""
 #: includes/admin/templates/header.php:116
 #: includes/admin/templates/layout/menu-settings.php:10
 #: includes/class-wp-statistics-menus.php:163
-#: src/Service/HooksManager.php:75
+#: src/Service/HooksManager.php:76
 #: views/components/addon-active-card.php:45
 #: views/components/addon-active-card.php:47
 #: views/components/addon-box.php:63
@@ -1346,61 +1346,61 @@ msgstr ""
 msgid "Thank you for choosing WP Statistics for your website analytics."
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:32
+#: includes/admin/templates/emails/layout.php:33
 msgid "Get Better Reports"
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:34
+#: includes/admin/templates/emails/layout.php:35
 msgid "Detailed and customizable email reports are available with the Advanced Reporting add-on. Make sure you always have the insights you need to make informed decisions by digging deeper into your website analytics."
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:36
 #: includes/admin/templates/emails/layout.php:37
+#: includes/admin/templates/emails/layout.php:38
 msgid "See the Full Picture — Try Advanced Reporting Today"
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:54
+#: includes/admin/templates/emails/layout.php:55
 msgid "Attention required!"
 msgstr ""
 
 #. translators: %s: Count of non-compliance items.
-#: includes/admin/templates/emails/layout.php:58
+#: includes/admin/templates/emails/layout.php:59
 #, php-format
 msgid "There are %d items that need to be addressed to ensure compliance with privacy laws."
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:61
+#: includes/admin/templates/emails/layout.php:62
 msgid "Review Audit Details"
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:150
+#: includes/admin/templates/emails/layout.php:151
 msgid "Your performance at a glance"
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:183
+#: includes/admin/templates/emails/layout.php:184
 #: includes/admin/templates/pages/category-analytics/category-performance.php:17
 #: includes/admin/templates/pages/category-analytics/category-single.php:17
 #: views/components/tables/author-pages.php:33
 msgid "Published Contents"
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:201
-#: includes/admin/templates/emails/layout.php:205
+#: includes/admin/templates/emails/layout.php:202
+#: includes/admin/templates/emails/layout.php:206
 msgid "Top Author"
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:215
-#: includes/admin/templates/emails/layout.php:219
+#: includes/admin/templates/emails/layout.php:216
+#: includes/admin/templates/emails/layout.php:220
 msgid "Top Category"
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:237
-#: includes/admin/templates/emails/layout.php:241
+#: includes/admin/templates/emails/layout.php:238
+#: includes/admin/templates/emails/layout.php:242
 msgid "Top Content"
 msgstr ""
 
-#: includes/admin/templates/emails/layout.php:262
-#: includes/admin/templates/emails/layout.php:266
+#: includes/admin/templates/emails/layout.php:263
+#: includes/admin/templates/emails/layout.php:267
 msgid "Top Referral"
 msgstr ""
 
@@ -1430,14 +1430,6 @@ msgstr ""
 #: src/Service/Admin/AuthorAnalytics/Views/PerformanceView.php:41
 #: src/Service/Admin/PageHeader/SingleHeaders.php:362
 msgid "Author Analytics"
-msgstr ""
-
-#: includes/admin/templates/header.php:41
-#: src/Service/Admin/LicenseManagement/LicenseManagementManager.php:111
-#: src/Service/Admin/Metabox/Metaboxes/GoPremium.php:18
-#: views/components/premium-showcase.php:31
-#: views/components/premium-showcase.php:77
-msgid "Go Premium"
 msgstr ""
 
 #: includes/admin/templates/header.php:41
@@ -1556,7 +1548,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/filters/post-type-filter.php:8
 #: includes/admin/templates/layout/filters/post-types-filter.php:8
-#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:42
+#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:43
 #: src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php:35
 #: src/Service/Admin/PageInsights/PageInsightsPage.php:100
 msgid "Post Type"
@@ -1632,7 +1624,7 @@ msgid "Display Options"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:40
-#: includes/admin/templates/settings/notifications.php:11
+#: includes/admin/templates/settings/notifications.php:13
 msgid "Email Reports"
 msgstr ""
 
@@ -1659,7 +1651,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:71
 #: includes/admin/templates/settings/add-ons/marketing.php:15
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:52
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:54
 #: views/pages/referrals/campaigns.php:15
 #: views/pages/referrals/google-search.php:17
 #: views/pages/referrals/utm-performance.php:17
@@ -1677,8 +1669,9 @@ msgstr ""
 #: src/Service/Admin/ContentAnalytics/Views/SingleView.php:57
 #: src/Service/Admin/ContentAnalytics/Views/TabsView.php:97
 #: src/Service/Admin/Geographic/Views/SingleCountryView.php:33
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:42
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:44
 #: views/components/visitor-journey.php:248
+#: views/pages/page-insights/category.php:19
 #: views/pages/page-insights/entry-pages.php:17
 #: views/pages/page-insights/exit-pages.php:17
 #: views/pages/visitor-insights/search-terms.php:17
@@ -1692,28 +1685,28 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:74
 #: includes/admin/templates/settings/add-ons/customization.php:50
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:102
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:104
 msgid "Customization"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:75
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:16
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:72
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:74
 msgid "Advanced Reporting"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:76
 #: includes/admin/templates/settings/add-ons/mini-chart.php:31
 #: includes/class-wp-statistics-helper.php:1795
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:62
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:64
 #: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:18
 msgid "Mini Chart"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:77
 #: includes/admin/templates/settings/add-ons/rest-api.php:12
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:112
-#: views/components/premium-showcase.php:22
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:114
+#: views/components/premium-showcase.php:30
 msgid "REST API"
 msgstr ""
 
@@ -1724,72 +1717,20 @@ msgstr ""
 
 #. translators: %s: Add-on name.
 #: includes/admin/templates/layout/partials/addon-premium-feature.php:37
-#: views/components/lock-sections/inline-teaser.php:54
-#: views/components/modals/introduce-premium/step-details.php:86
-#: views/pages/lock-page.php:59
+#: views/components/lock-sections/inline-teaser.php:55
+#: views/components/modals/introduce-premium/step-details.php:85
+#: views/pages/lock-page.php:58
 #, php-format
 msgid "%s is installed but turned off."
 msgstr ""
 
 #. translators: %s: Add-on name.
 #: includes/admin/templates/layout/partials/addon-premium-feature.php:41
-#: views/components/lock-sections/inline-teaser.php:60
-#: views/components/modals/introduce-premium/step-content.php:52
-#: views/pages/lock-page.php:64
+#: views/components/lock-sections/inline-teaser.php:61
+#: views/components/modals/introduce-premium/step-content.php:51
+#: views/pages/lock-page.php:63
 #, php-format
 msgid "Activate %s"
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:5
-#: views/components/locked-page.php:5
-msgid "This Feature is Part of the"
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:6
-#: includes/admin/templates/settings/add-ons/data-plus.php:21
-#: views/components/locked-page.php:6
-#: views/metabox/pages-visitors-preview.php:8
-msgid "DataPlus Add-on"
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:9
-#: views/components/locked-page.php:9
-msgid "The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights."
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:14
-#: views/components/locked-page.php:14
-msgid "Track custom post types and taxonomies."
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:17
-#: views/components/locked-page.php:17
-msgid "Use advanced filtering for specific query parameters and UTM tags."
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:20
-#: views/components/locked-page.php:20
-msgid "Monitor outbound link clicks and downloads."
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:23
-#: views/components/locked-page.php:23
-msgid "Compare weekly traffic and view hourly visitor patterns."
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:26
-#: views/components/locked-page.php:26
-msgid "Analyze individual content pieces with detailed widgets."
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:30
-#: views/components/locked-page.php:30
-msgid "Unlock deeper insights into your website's performance with DataPlus."
-msgstr ""
-
-#: includes/admin/templates/layout/partials/data-plus-locked-page.php:33
-#: views/components/locked-page.php:33
-msgid "Upgrade Now."
 msgstr ""
 
 #: includes/admin/templates/layout/privacy-audit/privacy-audits.php:12
@@ -1864,8 +1805,8 @@ msgstr ""
 msgid "Coming soon"
 msgstr ""
 
-#: includes/admin/templates/layout/tabbed-page-header.php:142
 #: includes/admin/templates/layout/tabbed-page-header.php:143
+#: includes/admin/templates/layout/tabbed-page-header.php:144
 msgid "Unique visitors who viewed a page in the last 5 minutes"
 msgstr ""
 
@@ -1913,7 +1854,7 @@ msgstr ""
 #: includes/admin/templates/settings/display.php:10
 #: includes/admin/templates/settings/exclusions.php:10
 #: includes/admin/templates/settings/general.php:11
-#: includes/admin/templates/settings/notifications.php:12
+#: includes/admin/templates/settings/notifications.php:14
 #: includes/admin/templates/settings/privacy.php:39
 msgid "View Guide"
 msgstr ""
@@ -1932,7 +1873,7 @@ msgstr ""
 #: includes/admin/templates/optimization/export.php:24
 #: includes/admin/templates/optimization/export.php:43
 #: includes/admin/templates/settings/display.php:142
-#: includes/admin/templates/settings/notifications.php:101
+#: includes/admin/templates/settings/notifications.php:103
 msgid "Please select"
 msgstr ""
 
@@ -2336,7 +2277,7 @@ msgstr ""
 #: includes/admin/templates/pages/category-analytics/category-single.php:46
 #: includes/admin/templates/pages/content-analytics/post-type.php:52
 #: includes/admin/templates/pages/content-analytics/single.php:73
-#: views/components/leaderboard.php:75
+#: views/components/leaderboard.php:90
 msgid "Comments"
 msgstr ""
 
@@ -2560,7 +2501,7 @@ msgid "Words/Content"
 msgstr ""
 
 #: includes/admin/templates/pages/category-analytics/category-report.php:73
-#: views/components/leaderboard.php:91
+#: views/components/leaderboard.php:106
 msgid "Slug"
 msgstr ""
 
@@ -3025,8 +2966,14 @@ msgid "Get updates, tips, and news about WP Statistics to help you get even more
 msgstr ""
 
 #: includes/admin/templates/pages/help-center.php:197
-#: views/metabox/pages-visitors-preview.php:11
-msgid "Upgrade Now"
+#: src/Service/Admin/LicenseManagement/LicenseHelper.php:465
+#: src/Service/HooksManager.php:82
+#: views/components/notices/upgrade-to-premium.php:17
+#: views/components/premium-showcase.php:39
+#: views/components/premium-showcase.php:85
+#: views/components/upsell/actions.php:26
+#: views/pages/license-manager/add-license.php:42
+msgid "Upgrade to Premium"
 msgstr ""
 
 #: includes/admin/templates/pages/help-center.php:199
@@ -3119,7 +3066,7 @@ msgstr ""
 #: includes/admin/templates/settings/display.php:154
 #: includes/admin/templates/settings/exclusions.php:221
 #: includes/admin/templates/settings/general.php:134
-#: includes/admin/templates/settings/notifications.php:189
+#: includes/admin/templates/settings/notifications.php:197
 #: includes/admin/templates/settings/privacy.php:178
 msgid "Update"
 msgstr ""
@@ -3163,7 +3110,7 @@ msgid "Select Reporting Period"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:71
-#: includes/admin/templates/settings/notifications.php:83
+#: includes/admin/templates/settings/notifications.php:85
 msgid "Disable"
 msgstr ""
 
@@ -3216,7 +3163,7 @@ msgstr ""
 #: includes/admin/templates/settings/general.php:33
 #: includes/admin/templates/settings/general.php:53
 #: includes/admin/templates/settings/general.php:115
-#: includes/admin/templates/settings/notifications.php:171
+#: includes/admin/templates/settings/notifications.php:173
 #: includes/admin/templates/settings/privacy.php:61
 #: includes/admin/templates/settings/privacy.php:79
 #: includes/admin/templates/settings/privacy.php:100
@@ -3333,24 +3280,24 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:250
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:252
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:260
-#: includes/admin/templates/settings/notifications.php:143
+#: includes/admin/templates/settings/notifications.php:145
 msgid "Email Header Customization"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:262
-#: includes/admin/templates/settings/notifications.php:148
+#: includes/admin/templates/settings/notifications.php:150
 msgid "Add a custom header to your email reports to introduce your brand or report summary."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:269
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:271
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:279
-#: includes/admin/templates/settings/notifications.php:154
+#: includes/admin/templates/settings/notifications.php:156
 msgid "Email Footer Customization"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:281
-#: includes/admin/templates/settings/notifications.php:159
+#: includes/admin/templates/settings/notifications.php:161
 msgid "Insert a custom footer in your email reports for additional notes, disclaimers, or contact information."
 msgstr ""
 
@@ -3596,6 +3543,10 @@ msgstr ""
 msgid "Craft the content for your widget; text, images, and HTML are supported."
 msgstr ""
 
+#: includes/admin/templates/settings/add-ons/data-plus.php:21
+msgid "DataPlus Add-on"
+msgstr ""
+
 #: includes/admin/templates/settings/add-ons/data-plus.php:36
 msgid "Event Tracking"
 msgstr ""
@@ -3748,9 +3699,10 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/marketing.php:212
 #: includes/admin/templates/settings/add-ons/marketing.php:264
 #: views/components/addon-box.php:48
-#: views/components/notices/upgrade-to-premium.php:15
-#: views/components/upsell/actions.php:40
-#: views/components/upsell/actions.php:42
+#: views/components/addon-download-card.php:20
+#: views/components/addon-download-card.php:21
+#: views/components/notices/upgrade-to-premium.php:18
+#: views/components/upsell/actions.php:27
 msgid "Learn more"
 msgstr ""
 
@@ -4674,116 +4626,116 @@ msgstr ""
 msgid "Use the Tracker Debugger to inspect and troubleshoot your tracking script, ensuring accurate data collection."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:19
+#: includes/admin/templates/settings/notifications.php:21
 msgid "Email Configuration"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:24
+#: includes/admin/templates/settings/notifications.php:26
 msgid "Recipient Email Addresses"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:32
+#: includes/admin/templates/settings/notifications.php:34
 msgid "Enter email addresses to receive reports. Use a comma to separate multiple addresses. If this field is left empty, the \"Administration Email Address\" from the \"General Settings\" of WordPress will be used."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:43
+#: includes/admin/templates/settings/notifications.php:45
 msgid "Tracking Alerts"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:48
+#: includes/admin/templates/settings/notifications.php:50
 msgid "Visits Stopped"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:52
+#: includes/admin/templates/settings/notifications.php:54
 msgid "Email me when visits stop being recorded"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:53
+#: includes/admin/templates/settings/notifications.php:55
 msgid "Checks once a day. If your site usually gets visitors and none were recorded for more than a day, we send one email to the addresses above, and one more when visits are recorded again."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:65
+#: includes/admin/templates/settings/notifications.php:67
 msgid "Automated Report Delivery"
 msgstr ""
 
 #. translators: %1$s: string value, %2$s: string value
-#: includes/admin/templates/settings/notifications.php:71
+#: includes/admin/templates/settings/notifications.php:73
 #, php-format
 msgid "Your next report is scheduled to be sent on <b>%1$s at %2$s</b>."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:79
+#: includes/admin/templates/settings/notifications.php:81
 #: src/Service/Admin/SiteHealthInfo.php:235
 msgid "Report Frequency"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:90
+#: includes/admin/templates/settings/notifications.php:92
 msgid "Select the frequency of report deliveries."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:96
+#: includes/admin/templates/settings/notifications.php:98
 msgid "Delivery Method"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:104
+#: includes/admin/templates/settings/notifications.php:106
 #: src/Service/Analytics/Referrals/SourceChannels.php:31
 msgid "SMS"
 msgstr ""
 
 #. translators: %s: string value
-#: includes/admin/templates/settings/notifications.php:108
+#: includes/admin/templates/settings/notifications.php:110
 #, php-format
 msgid "Select your preferred method for receiving reports: via email or SMS. (Note: SMS notifications only include the Custom Report. For full reports, please choose email. SMS notifications are sent using the %s Plugin to the Admin Mobile Number)."
 msgstr ""
 
 #. translators: %s: string value
-#: includes/admin/templates/settings/notifications.php:108
+#: includes/admin/templates/settings/notifications.php:110
 msgid "WP SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:114
+#: includes/admin/templates/settings/notifications.php:116
 msgid "Custom Report"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:119
+#: includes/admin/templates/settings/notifications.php:121
 msgid "Using WP Statistics shortcodes to display specific statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:122
+#: includes/admin/templates/settings/notifications.php:124
 msgid "Insert any of the following shortcode examples to show corresponding data:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:124
+#: includes/admin/templates/settings/notifications.php:126
 #: includes/class-wp-statistics-widget.php:56
 #: includes/class-wp-statistics-widget.php:273
 msgid "Today's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:126
+#: includes/admin/templates/settings/notifications.php:128
 #: includes/class-wp-statistics-widget.php:49
 #: includes/class-wp-statistics-widget.php:269
 msgid "Today's Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:128
+#: includes/admin/templates/settings/notifications.php:130
 #: includes/class-wp-statistics-widget.php:70
 #: includes/class-wp-statistics-widget.php:281
 msgid "Yesterday's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:130
+#: includes/admin/templates/settings/notifications.php:132
 #: includes/class-wp-statistics-widget.php:63
 #: includes/class-wp-statistics-widget.php:277
 msgid "Yesterday's Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:132
+#: includes/admin/templates/settings/notifications.php:134
 #: includes/class-wp-statistics-widget.php:105
 #: includes/class-wp-statistics-widget.php:301
 msgid "Total Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:134
+#: includes/admin/templates/settings/notifications.php:136
 #: includes/class-wp-statistics-widget.php:98
 #: includes/class-wp-statistics-widget.php:297
 #: views/components/session-details.php:145
@@ -4791,24 +4743,31 @@ msgstr ""
 msgid "Total Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:137
+#: includes/admin/templates/settings/notifications.php:139
 msgid "Refer to our complete <a href=\"https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">shortcode guide</a> for more options."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:167
+#: includes/admin/templates/settings/notifications.php:169
 msgid "Privacy Audit issues"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:172
+#: includes/admin/templates/settings/notifications.php:174
 msgid "Include open audit issues in each report email."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:179
+#: includes/admin/templates/settings/notifications.php:183
 msgid "Enhanced Visual Report"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:182
-msgid "For graphical representations of your data, explore our <a class=\"js-wps-openPremiumModal\"  data-target=\"wp-statistics-advanced-reporting\" href=\"https://wp-statistics.com/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" >Advanced Reporting Add-on</a> for additional chart and graph options."
+#: includes/admin/templates/settings/notifications.php:187
+msgid "Charts and graphs in your email reports come with the Advanced Reporting add-on."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:188
+#: includes/class-wp-statistics-admin-bar.php:171
+#: views/components/lock-sections/inline-teaser.php:87
+#: views/metabox/go-premium.php:28
+msgid "See what's included"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:45
@@ -4899,7 +4858,7 @@ msgid "Respects the visitor's browser setting to not track their web activity. P
 msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:47
-#: includes/class-wp-statistics-admin-bar.php:188
+#: includes/class-wp-statistics-admin-bar.php:186
 msgid "Explore Details"
 msgstr ""
 
@@ -4972,15 +4931,7 @@ msgstr ""
 msgid "Unlock the Full Power of WP Statistics"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:171
-#: views/components/addon-download-card.php:20
-#: views/components/addon-download-card.php:21
-#: views/components/lock-sections/tooltip-premium.php:4
-#: views/components/objects/share-anonymous-notice.php:19
-msgid "Learn More"
-msgstr ""
-
-#: includes/class-wp-statistics-admin-bar.php:186
+#: includes/class-wp-statistics-admin-bar.php:184
 msgid "Mini Chart Logo"
 msgstr ""
 
@@ -5236,7 +5187,7 @@ msgid "Custom Taxonomy Analytics"
 msgstr ""
 
 #: includes/class-wp-statistics-helper.php:1791
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:82
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:84
 #: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:18
 msgid "Real-Time Stats"
 msgstr ""
@@ -5791,7 +5742,7 @@ msgid "Every 2 Months"
 msgstr ""
 
 #. translators: %s: string value
-#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:96
+#: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsPage.php:104
 #, php-format
 msgid "This post type doesn’t support authors, affecting the accuracy of author performance data. To fix this, please enable author support for this post type. <a href=\"%s\" target=\"_blank\">Learn more</a>."
 msgstr ""
@@ -5856,6 +5807,7 @@ msgstr ""
 #: src/Service/Admin/CategoryAnalytics/Views/CategoryReportView.php:62
 #: src/Service/Admin/CategoryAnalytics/Views/SingleView.php:61
 #: src/Service/Admin/CategoryAnalytics/Views/TabsView.php:40
+#: views/pages/page-insights/category.php:17
 #: views/pages/page-insights/entry-pages.php:15
 #: views/pages/page-insights/exit-pages.php:15
 #: views/pages/visitor-insights/search-terms.php:15
@@ -6031,12 +5983,12 @@ msgstr ""
 msgid "%s plugin notifications"
 msgstr ""
 
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:130
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:136
 msgid "(no title)"
 msgstr ""
 
 #. translators: %s: number of comments
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:188
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:194
 #, php-format
 msgid "%s comment"
 msgid_plural "%s comments"
@@ -6044,7 +5996,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of words
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:193
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:199
 #, php-format
 msgid "%s word"
 msgid_plural "%s words"
@@ -6052,7 +6004,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: Number of views.
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:204
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:210
 #: views/components/meta-box/post-summary-row.php:31
 #: views/components/visitor-information.php:84
 #: views/components/visitor-journey.php:66
@@ -6063,7 +6015,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of pages
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:223
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:229
 #, php-format
 msgid "%s page published in this range"
 msgid_plural "%s pages published in this range"
@@ -6071,7 +6023,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of products
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:228
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:234
 #, php-format
 msgid "%s product published in this range"
 msgid_plural "%s products published in this range"
@@ -6079,13 +6031,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: post type name (plural), 2: number published
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:236
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:242
 #, php-format
 msgid "%1$s published in this range: %2$s"
 msgstr ""
 
 #. translators: %s: number of posts
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:241
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:247
 #, php-format
 msgid "%s post published in this range"
 msgid_plural "%s posts published in this range"
@@ -6093,7 +6045,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: number of posts, pages and other content
-#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:245
+#: src/Service/Admin/Leaderboard/LeaderboardPresenter.php:251
 #, php-format
 msgid "%s item published in this range"
 msgid_plural "%s items published in this range"
@@ -6134,10 +6086,6 @@ msgstr ""
 msgid "Unknown tip."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/LicenseHelper.php:465
-msgid "Upgrade To Premium"
-msgstr ""
-
 #. translators: %1$s: string value, %2$s: string value
 #: src/Service/Admin/LicenseManagement/LicenseHelper.php:471
 #, php-format
@@ -6146,6 +6094,11 @@ msgstr ""
 
 #: src/Service/Admin/LicenseManagement/LicenseHelper.php:479
 msgid "Upgrade"
+msgstr ""
+
+#: src/Service/Admin/LicenseManagement/LicenseManagementManager.php:111
+#: src/Service/Admin/Metabox/Metaboxes/GoPremium.php:18
+msgid "Go Premium"
 msgstr ""
 
 #. translators: %s: string value
@@ -6160,168 +6113,168 @@ msgstr ""
 msgid "Failed to migrate license for %1$s: %2$s"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:43
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:45
 msgid "See what visitors click and download"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:45
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:47
 msgid "Track link clicks and file downloads"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:46
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:48
 msgid "Search terms, entry and exit pages"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:47
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:49
 msgid "Filter any report by UTM or query"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:49
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:51
 msgid "Clicks, downloads, search terms, entry and exit pages."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:53
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:55
 msgid "See which campaigns bring your visitors"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:55
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:57
 msgid "Campaign and UTM link reports"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:56
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:58
 msgid "Google Search keywords, clicks and impressions"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:57
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:59
 #: views/pages/referrals/utm-performance.php:15
 msgid "Goals that count your conversions"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:59
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:61
 msgid "UTM campaigns, Google Search Console and goals."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:63
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:65
 msgid "Traffic for every post at a glance"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:65
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:67
 msgid "Small charts in your posts list"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:66
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:68
 msgid "Traffic chart in the admin bar"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:67
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:69
 msgid "Choose chart type and colors"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:69
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:71
 msgid "Small traffic charts on posts and in the admin bar."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:73
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:75
 msgid "Schedule reports, export CSV and PDF"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:75
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:77
 msgid "Email reports to any inbox, on schedule"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:76
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:78
 msgid "Export any report table to CSV"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:77
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:79
 msgid "Save any report page as PDF"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:79
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:81
 msgid "Scheduled email reports, CSV and PDF export."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:83
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:85
 msgid "Watch your site live"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:85
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:87
 msgid "Visitors online right now"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:86
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:88
 msgid "Live views chart and map"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:87
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:89
 msgid "Updates without a page refresh"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:89
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:91
 msgid "Live visitors, views, chart and map."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:92
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:94
 msgid "Widgets"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:93
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:95
 msgid "Show your stats to your visitors"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:95
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:97
 msgid "Gutenberg blocks and theme widgets"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:96
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:98
 msgid "Traffic, top pages, browsers and more"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:97
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:99
 msgid "Cached so your pages stay fast"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:99
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:101
 msgid "Stats blocks and widgets for your site."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:103
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:105
 msgid "Make WP Statistics your own brand"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:105
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:107
 msgid "Replace our branding with yours"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:106
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:108
 msgid "Choose which menus people see"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:107
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:109
 msgid "Add your own Overview widget"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:109
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:111
 msgid "White label: your brand, your menus."
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:113
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:115
 msgid "Your stats in any app or AI agent"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:115
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:117
 msgid "Connect ChatGPT, Claude and other AI agents (MCP)"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:116
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:118
 msgid "Endpoints for visitors, pages and referrers"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:117
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:119
 msgid "Build custom dashboards and automations"
 msgstr ""
 
-#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:119
+#: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:121
 msgid "REST endpoints and MCP for AI agents."
 msgstr ""
 
@@ -6384,7 +6337,7 @@ msgstr ""
 #: src/Service/Admin/SiteHealthInfo.php:306
 #: src/Service/Admin/SiteHealthInfo.php:311
 #: src/Service/Admin/SiteHealthInfo.php:316
-#: views/components/modals/introduce-premium/step-details.php:115
+#: views/components/modals/introduce-premium/step-details.php:114
 msgid "Not Installed"
 msgstr ""
 
@@ -8095,12 +8048,8 @@ msgstr ""
 msgid "Failed to move extracted file."
 msgstr ""
 
-#: src/Service/HooksManager.php:76
+#: src/Service/HooksManager.php:77
 msgid "Docs"
-msgstr ""
-
-#: src/Service/HooksManager.php:80
-msgid "Get Premium"
 msgstr ""
 
 #: src/Service/Integrations/IntegrationHelper.php:158
@@ -8314,7 +8263,11 @@ msgstr ""
 msgid "Suggestion"
 msgstr ""
 
-#: views/components/author-box.php:20
+#: views/components/author-box.php:22
+msgid "Premium feature. See what's included"
+msgstr ""
+
+#: views/components/author-box.php:26
 msgid "View author analytics"
 msgstr ""
 
@@ -8392,48 +8345,48 @@ msgid "Link Report"
 msgstr ""
 
 #. translators: Short leaderboard column header; the full meaning is "Posts published in this range".
-#: views/components/leaderboard.php:70
+#: views/components/leaderboard.php:85
 msgctxt "leaderboard column: posts published in the range"
 msgid "Posts"
 msgstr ""
 
 #. translators: Short leaderboard column header; the full meaning is "Posts with views".
-#: views/components/leaderboard.php:72
+#: views/components/leaderboard.php:87
 msgctxt "leaderboard column: posts with views"
 msgid "Posts"
 msgstr ""
 
 #. translators: Short leaderboard column header; the full meaning is "Views per post published in this range".
-#: views/components/leaderboard.php:74
+#: views/components/leaderboard.php:89
 msgctxt "leaderboard column: views per post"
 msgid "Per post"
 msgstr ""
 
-#: views/components/leaderboard.php:79
+#: views/components/leaderboard.php:94
 msgid "Posts published in this range"
 msgstr ""
 
-#: views/components/leaderboard.php:80
+#: views/components/leaderboard.php:95
 msgid "Posts with views"
 msgstr ""
 
-#: views/components/leaderboard.php:81
+#: views/components/leaderboard.php:96
 msgid "Views per post published in this range"
 msgstr ""
 
-#: views/components/leaderboard.php:89
+#: views/components/leaderboard.php:104
 msgid "Language"
 msgstr ""
 
-#: views/components/leaderboard.php:90
+#: views/components/leaderboard.php:105
 msgid "Parent"
 msgstr ""
 
-#: views/components/leaderboard.php:102
+#: views/components/leaderboard.php:117
 msgid "Rank"
 msgstr ""
 
-#: views/components/leaderboard.php:124
+#: views/components/leaderboard.php:139
 msgid "(no name)"
 msgstr ""
 
@@ -8446,7 +8399,7 @@ msgid "Add a new license key"
 msgstr ""
 
 #: views/components/licenses-card.php:20
-#: views/components/premium-showcase.php:39
+#: views/components/premium-showcase.php:47
 msgid "Premium"
 msgstr ""
 
@@ -8514,48 +8467,42 @@ msgid "Remove license"
 msgstr ""
 
 #. translators: %s: Add-on name.
-#: views/components/lock-sections/inline-teaser.php:67
+#: views/components/lock-sections/inline-teaser.php:68
 #, php-format
 msgid "%s is included in your plan."
 msgstr ""
 
 #. translators: %s: Add-on name.
-#: views/components/lock-sections/inline-teaser.php:73
+#: views/components/lock-sections/inline-teaser.php:74
 #, php-format
 msgid "Install %s"
 msgstr ""
 
 #. translators: %s: Add-on name.
-#: views/components/lock-sections/inline-teaser.php:80
+#: views/components/lock-sections/inline-teaser.php:81
 #, php-format
 msgid "This part comes with %s."
 msgstr ""
 
 #. translators: %s: Add-on name.
-#: views/components/lock-sections/inline-teaser.php:90
-#, php-format
-msgid "Learn about %s"
-msgstr ""
-
-#. translators: %s: Add-on name.
-#: views/components/lock-sections/inline-teaser.php:99
-#: views/components/modals/introduce-premium/step-details.php:95
-#: views/pages/lock-page.php:66
+#: views/components/lock-sections/inline-teaser.php:95
+#: views/components/modals/introduce-premium/step-details.php:94
+#: views/pages/lock-page.php:65
 #, php-format
 msgid "Ask a site admin to turn on %s."
 msgstr ""
 
 #. translators: %s: Add-on name.
-#: views/components/lock-sections/inline-teaser.php:102
+#: views/components/lock-sections/inline-teaser.php:98
 #, php-format
 msgid "Ask a site admin to set up %s."
 msgstr ""
 
-#: views/components/lock-sections/inline-teaser.php:115
+#: views/components/lock-sections/inline-teaser.php:111
 msgid "Example"
 msgstr ""
 
-#: views/components/lock-sections/inline-teaser.php:133
+#: views/components/lock-sections/inline-teaser.php:129
 msgid "Hide this tip"
 msgstr ""
 
@@ -8576,32 +8523,19 @@ msgstr ""
 #. translators: %s: string value
 #. translators: %s: Add-on name.
 #: views/components/lock-sections/setting-active-licensed-addon.php:8
-#: views/components/modals/introduce-premium/step-details.php:112
+#: views/components/modals/introduce-premium/step-details.php:111
 #, php-format
 msgid "Your license includes the %s, but it’s not installed yet. Go to the Add-ons page to install and activate it, so you can start using all its features."
 msgstr ""
 
 #: views/components/lock-sections/setting-active-licensed-addon.php:10
-#: views/components/modals/introduce-premium/step-content.php:57
+#: views/components/modals/introduce-premium/step-content.php:56
 msgid "Go to Add-ons Page"
 msgstr ""
 
-#: views/components/lock-sections/setting-unlock-premium.php:35
-#: views/pages/lock-page.php:92
+#: views/components/lock-sections/setting-unlock-premium.php:34
+#: views/pages/lock-page.php:91
 msgid "Included in Premium with all 8 add-ons"
-msgstr ""
-
-#: views/components/lock-sections/setting-unlock-premium.php:39
-#: views/components/upsell/guarantee.php:14
-msgid "14-day money-back guarantee"
-msgstr ""
-
-#: views/components/lock-sections/tooltip-premium.php:5
-msgid "Premium Feature"
-msgstr ""
-
-#: views/components/locked-page.php:37
-msgid "DataPlus features"
 msgstr ""
 
 #. translators: %s: Number of visitors.
@@ -8707,16 +8641,16 @@ msgid "WP Statistics Premium"
 msgstr ""
 
 #. translators: %s: Add-on name.
-#: views/components/modals/introduce-premium/step-content.php:32
+#: views/components/modals/introduce-premium/step-content.php:31
 #, php-format
 msgid "%s preview"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-content.php:62
+#: views/components/modals/introduce-premium/step-content.php:61
 msgid "Premium Activated"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-content.php:62
+#: views/components/modals/introduce-premium/step-content.php:61
 msgid "Add-on Activated"
 msgstr ""
 
@@ -8759,22 +8693,22 @@ msgstr ""
 msgid "All 8 add-ons in one plan"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:83
+#: views/components/modals/introduce-premium/step-details.php:82
 msgid "Turned off"
 msgstr ""
 
-#: views/components/modals/introduce-premium/step-details.php:115
+#: views/components/modals/introduce-premium/step-details.php:114
 msgid "Not activated"
 msgstr ""
 
 #. translators: %s: Add-ons page URL.
-#: views/components/modals/introduce-premium/step-details.php:119
+#: views/components/modals/introduce-premium/step-details.php:118
 #, php-format
 msgid "This add-on has <b>no active license</b>, so it won't get updates or security fixes. <a href=\"%s\">Activate your license</a>."
 msgstr ""
 
 #. translators: %d: number of add-ons.
-#: views/components/modals/introduce-premium/step-details.php:148
+#: views/components/modals/introduce-premium/step-details.php:146
 #, php-format
 msgid "WP Statistics Premium · %d add-ons"
 msgstr ""
@@ -8827,7 +8761,7 @@ msgstr ""
 #: views/components/notices/expired-license.php:21
 #: views/components/notices/missing-addons.php:20
 #: views/components/notices/no-license-for-addons.php:21
-#: views/components/notices/upgrade-to-premium.php:16
+#: views/components/notices/upgrade-to-premium.php:19
 msgid "Contact support"
 msgstr ""
 
@@ -8874,23 +8808,19 @@ msgstr ""
 #. translators: %1$s: string value, %2$s: string value
 #: views/components/notices/no-license.php:9
 #, php-format
-msgid "You haven’t registered a WP Statistics license yet. Having a valid license unlocks premium add-ons and features. <a href=\"%1$s\" target=\"_blank\">Purchase</a> or <a href=\"%2$s\">add a license</a> now to get started!"
+msgid "You haven’t registered a WP Statistics license yet. Having a valid license unlocks premium add-ons and features. <a href=\"%1$s\" target=\"_blank\" rel=\"noopener\">Upgrade to Premium</a> or <a href=\"%2$s\">add a license</a> now to get started!"
 msgstr ""
 
 #: views/components/notices/simple-notice.php:6
 msgid "Dismiss this notice."
 msgstr ""
 
-#: views/components/notices/upgrade-to-premium.php:11
+#: views/components/notices/upgrade-to-premium.php:14
 msgid "Upgrade to WP Statistics Premium"
 msgstr ""
 
-#: views/components/notices/upgrade-to-premium.php:12
+#: views/components/notices/upgrade-to-premium.php:15
 msgid "Want more powerful analytics? Premium unlocks every add-on, enhanced features and priority support."
-msgstr ""
-
-#: views/components/notices/upgrade-to-premium.php:14
-msgid "Upgrade now"
 msgstr ""
 
 #: views/components/notification/card.php:15
@@ -9026,8 +8956,8 @@ msgstr ""
 msgid "Breadcrumb"
 msgstr ""
 
-#: views/components/objects/premium-locked-button.php:25
-msgid "(Premium feature, opens details)"
+#: views/components/objects/premium-locked-button.php:30
+msgid "(Premium feature. See what's included)"
 msgstr ""
 
 #: views/components/objects/share-anonymous-notice.php:15
@@ -9036,6 +8966,10 @@ msgstr ""
 
 #: views/components/objects/share-anonymous-notice.php:16
 msgid "We’ve added a new Usage Tracking option to help us understand how WP Statistics is used and identify areas for improvement. By enabling this feature, you’ll help us make the plugin better for everyone. No personal or sensitive data is collected."
+msgstr ""
+
+#: views/components/objects/share-anonymous-notice.php:19
+msgid "Learn More"
 msgstr ""
 
 #: views/components/objects/share-anonymous-notice.php:23
@@ -9058,154 +8992,154 @@ msgstr ""
 msgid "Not recorded"
 msgstr ""
 
-#: views/components/objects/visitor-pages.php:102
+#: views/components/objects/visitor-pages.php:99
 msgid "Campaign:"
 msgstr ""
 
-#: views/components/objects/visitor-pages.php:105
+#: views/components/objects/visitor-pages.php:102
 msgid "Left after one page"
 msgstr ""
 
-#: views/components/objects/visitor-pages.php:105
+#: views/components/objects/visitor-pages.php:102
 msgctxt "visitor left after one page"
 msgid "Bounced"
 msgstr ""
 
-#: views/components/objects/visitor-pages.php:115
+#: views/components/objects/visitor-pages.php:112
 msgid "Back to start"
 msgstr ""
 
-#: views/components/premium-showcase.php:10
+#: views/components/premium-showcase.php:18
 msgid "Visitor, page and referrer statistics"
 msgstr ""
 
-#: views/components/premium-showcase.php:11
+#: views/components/premium-showcase.php:19
 msgid "Country, browser and device reports"
 msgstr ""
 
-#: views/components/premium-showcase.php:12
+#: views/components/premium-showcase.php:20
 msgid "Scheduled email reports"
 msgstr ""
 
-#: views/components/premium-showcase.php:13
+#: views/components/premium-showcase.php:21
 msgid "Privacy tools and GDPR readiness"
 msgstr ""
 
-#: views/components/premium-showcase.php:16
+#: views/components/premium-showcase.php:24
 msgid "Campaign reports and UTM analytics"
 msgstr ""
 
-#: views/components/premium-showcase.php:16
+#: views/components/premium-showcase.php:24
 msgid "Marketing add-on. See which campaign links bring visitors, and build and check UTM links."
 msgstr ""
 
-#: views/components/premium-showcase.php:17
+#: views/components/premium-showcase.php:25
 msgid "Goals and conversions"
 msgstr ""
 
-#: views/components/premium-showcase.php:17
+#: views/components/premium-showcase.php:25
 msgid "Marketing add-on. Set goals and see how many visitors reach them."
 msgstr ""
 
-#: views/components/premium-showcase.php:18
+#: views/components/premium-showcase.php:26
 msgid "Real-time dashboard"
 msgstr ""
 
-#: views/components/premium-showcase.php:18
+#: views/components/premium-showcase.php:26
 msgid "Real-Time Stats add-on. Watch visitors and views as they happen."
 msgstr ""
 
-#: views/components/premium-showcase.php:19
+#: views/components/premium-showcase.php:27
 msgid "Advanced filtering and tracking"
 msgstr ""
 
-#: views/components/premium-showcase.php:19
+#: views/components/premium-showcase.php:27
 msgid "Data Plus add-on. Filter any report, and track outbound and download links."
 msgstr ""
 
-#: views/components/premium-showcase.php:20
+#: views/components/premium-showcase.php:28
 msgid "Admin-bar mini chart"
 msgstr ""
 
-#: views/components/premium-showcase.php:20
+#: views/components/premium-showcase.php:28
 msgid "Mini Chart add-on. A small traffic chart in the WordPress admin bar."
 msgstr ""
 
-#: views/components/premium-showcase.php:21
+#: views/components/premium-showcase.php:29
 msgid "Branded email reports"
 msgstr ""
 
-#: views/components/premium-showcase.php:21
+#: views/components/premium-showcase.php:29
 msgid "Advanced Reporting add-on. Email reports with your own branding."
 msgstr ""
 
-#: views/components/premium-showcase.php:22
+#: views/components/premium-showcase.php:30
 msgid "REST API add-on. Read your statistics from other tools and apps, and connect ChatGPT, Claude and other AI agents with MCP."
 msgstr ""
 
-#: views/components/premium-showcase.php:23
+#: views/components/premium-showcase.php:31
 msgid "Front-end widgets and blocks"
 msgstr ""
 
-#: views/components/premium-showcase.php:23
+#: views/components/premium-showcase.php:31
 msgid "Advanced Widgets add-on. Show stats to your visitors with blocks and widgets."
 msgstr ""
 
-#: views/components/premium-showcase.php:24
+#: views/components/premium-showcase.php:32
 msgid "White-label and custom branding"
 msgstr ""
 
-#: views/components/premium-showcase.php:24
+#: views/components/premium-showcase.php:32
 msgid "Customisation add-on. Your colours and your brand in the admin and in reports."
 msgstr ""
 
-#: views/components/premium-showcase.php:27
+#: views/components/premium-showcase.php:35
 msgid "What Premium adds"
 msgstr ""
 
-#: views/components/premium-showcase.php:28
+#: views/components/premium-showcase.php:36
 msgid "Unlock more with WP Statistics Premium"
 msgstr ""
 
-#: views/components/premium-showcase.php:29
+#: views/components/premium-showcase.php:37
 msgid "WP Statistics stays free. Premium adds these, with a 14-day money-back guarantee. Click a feature to see it."
 msgstr ""
 
-#: views/components/premium-showcase.php:37
+#: views/components/premium-showcase.php:45
 msgid "Feature"
 msgstr ""
 
-#: views/components/premium-showcase.php:38
+#: views/components/premium-showcase.php:46
 msgid "Free"
 msgstr ""
 
-#: views/components/premium-showcase.php:38
+#: views/components/premium-showcase.php:46
 msgid "you are here"
 msgstr ""
 
 #. translators: %s: feature name
-#: views/components/premium-showcase.php:54
+#: views/components/premium-showcase.php:62
 #, php-format
-msgid "More about %s"
+msgid "See what's included: %s"
 msgstr ""
 
-#: views/components/premium-showcase.php:63
+#: views/components/premium-showcase.php:71
 msgid "Priority support"
 msgstr ""
 
-#: views/components/premium-showcase.php:64
+#: views/components/premium-showcase.php:72
 msgid "Email and community"
 msgstr ""
 
-#: views/components/premium-showcase.php:65
+#: views/components/premium-showcase.php:73
 msgid "Premium Support"
 msgstr ""
 
-#: views/components/premium-showcase.php:73
+#: views/components/premium-showcase.php:81
 msgid "14-Day Money Back Guarantee"
 msgstr ""
 
-#: views/components/premium-showcase.php:74
+#: views/components/premium-showcase.php:82
 msgid "No questions asked. Full refund if not satisfied."
 msgstr ""
 
@@ -9740,9 +9674,8 @@ msgstr ""
 msgid "Timeframe"
 msgstr ""
 
-#: views/components/upsell/actions.php:35
-#: views/components/upsell/actions.php:37
-msgid "Upgrade to Premium"
+#: views/components/upsell/guarantee.php:16
+msgid "14-day money-back guarantee"
 msgstr ""
 
 #. translators: %s: User ID.
@@ -10052,24 +9985,6 @@ msgstr ""
 msgid "Upgrade to see clicks, downloads, live visitors and goals."
 msgstr ""
 
-#: views/metabox/go-premium.php:28
-msgid "See what Premium adds"
-msgstr ""
-
-#. translators: 1: Link to DataPlus add-on - 2: Name of the add-on.
-#: views/metabox/pages-visitors-preview.php:6
-#, php-format
-msgid "Latest Visitors is included in <a href=\"%1$s\" target=\"_blank\">%2$s</a>"
-msgstr ""
-
-#: views/metabox/pages-visitors-preview.php:10
-msgid "Unlock deeper insights into your website's performance with WP Statistics Premium."
-msgstr ""
-
-#: views/metabox/pages-visitors-preview.php:14
-msgid "Page visitors locked section"
-msgstr ""
-
 #: views/metabox/search_engines.php:18
 msgid "Search engine traffic over the selected period"
 msgstr ""
@@ -10134,10 +10049,6 @@ msgstr ""
 
 #: views/pages/license-manager/add-license.php:37
 msgid "Download your add-ons"
-msgstr ""
-
-#: views/pages/license-manager/add-license.php:42
-msgid "Buy Premium Now"
 msgstr ""
 
 #: views/pages/license-manager/add-license.php:46
@@ -10206,22 +10117,22 @@ msgstr ""
 msgid "No, Take me to the Overview"
 msgstr ""
 
-#: views/pages/lock-page.php:42
+#: views/pages/lock-page.php:41
 msgid "This feature is not available"
 msgstr ""
 
-#: views/pages/lock-page.php:43
+#: views/pages/lock-page.php:42
 msgid "Ask a site admin if you need this report."
 msgstr ""
 
 #. translators: 1: Add-on name, 2: picture number.
-#: views/pages/lock-page.php:104
+#: views/pages/lock-page.php:102
 #, php-format
 msgid "%1$s preview, picture %2$d"
 msgstr ""
 
 #. translators: %d: picture number. Keep the %d.
-#: views/pages/lock-page.php:110
+#: views/pages/lock-page.php:108
 #, php-format
 msgid "Show picture %d"
 msgstr ""
@@ -10246,6 +10157,18 @@ msgstr ""
 #: views/pages/network/overview.php:46
 #, php-format
 msgid "Reports for %s"
+msgstr ""
+
+#: views/pages/page-insights/category.php:13
+msgid "See traffic for every custom taxonomy"
+msgstr ""
+
+#: views/pages/page-insights/category.php:15
+msgid "Views and visitors for custom taxonomies"
+msgstr ""
+
+#: views/pages/page-insights/category.php:16
+msgid "Custom post types in every report"
 msgstr ""
 
 #: views/pages/page-insights/entry-pages.php:11

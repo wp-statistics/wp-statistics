@@ -209,8 +209,10 @@ class Test_InlineTeaser extends WP_UnitTestCase
         $this->assertStringContainsString('>Example<', $html);
         $this->assertStringContainsString('aria-hidden="true"', $html);
         $this->assertStringContainsString('Clicks and downloads are tracked with Data Plus.', $html);
-        $this->assertStringContainsString('Learn about Data Plus', $html);
-        $this->assertStringContainsString('/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&#038;utm_medium=link&#038;utm_campaign=dp-journey', $html);
+        $this->assertStringContainsString("See what&#039;s included", $html);
+        $this->assertStringContainsString('/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&#038;utm_medium=teaser&#038;utm_campaign=data-plus&#038;utm_content=learn-more', $html);
+        $this->assertStringContainsString('data-surface="teaser"', $html);
+        $this->assertStringNotContainsString('target="_blank"', $html);
         $this->assertStringContainsString('js-wps-inline-teaser-close', $html);
         $this->assertStringContainsString('data-nonce="' . wp_create_nonce(InlineTeaser::NONCE_ACTION) . '"', $html);
         // Opens the premium modal on the add-on; the URL stays as the no-JS fallback.
@@ -300,8 +302,8 @@ class Test_InlineTeaser extends WP_UnitTestCase
         $this->assertSame(1, substr_count($html, 'wps-inline-teaser__icon--download'));
         $this->assertSame(1, substr_count($html, 'wps-inline-teaser__icon--click'));
         $this->assertStringContainsString('Clicks and downloads show up here with Data Plus.', $html);
-        // Not installed: "Learn about" opens the Premium popup on Data Plus.
-        $this->assertStringContainsString('Learn about Data Plus', $html);
+        // Not installed: "See what's included" opens the Premium popup on Data Plus.
+        $this->assertStringContainsString("See what&#039;s included", $html);
         $this->assertStringContainsString('js-wps-openPremiumModal', $html);
         $this->assertStringContainsString('data-target="wp-statistics-data-plus"', $html);
     }

@@ -4,6 +4,7 @@
 - **New:** Visitor card, visitor journey page, and a WP Statistics panel in the block editor sidebar.
 - **New:** REST API add-on: connect ChatGPT, Claude and other AI agents with MCP, from Settings → REST API.
 - **Enhancement:** Refreshed admin design: cards, share bars, compact tables, Dashboard widgets and new Premium pages.
+- **Enhancement:** Premium links say where they go: "Upgrade to Premium" opens the pricing page, "Learn more" the add-on page, "See what's included" the Premium popup; none show under white label.
 - **Enhancement:** Overview: Latest, Most Active and Online visitors in one Visitors card.
 - **Enhancement:** Visitor tables show the visit journey, Top Posts show featured images, and chart tooltips are clearer.
 - **Fix:** More accurate report totals and filters, and Top Pages works on SQLite.

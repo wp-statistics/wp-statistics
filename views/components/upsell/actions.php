@@ -1,44 +1,28 @@
 <?php
 /**
- * Upsell buttons used by every Premium surface: "Upgrade to Premium" and "Learn more".
- *
- * Default: "Upgrade to Premium" goes to the pricing page (new tab) and "Learn more" opens the Premium popup
- * on the add-on (the add-on page stays the href for no-JS).
- * With upgrade_modal: "Upgrade to Premium" opens the Premium popup on the add-on (pricing page stays the
- * href) and "Learn more" goes to the add-on page in a new tab.
+ * The two upsell buttons of the big surfaces (lock pages, settings cards, the Premium popup). One behaviour
+ * everywhere, the words say where you go:
+ *  - "Upgrade to Premium" = pricing page, new tab.
+ *  - "Learn more"         = the add-on's page on wp-statistics.com (the add-ons list when there is no
+ *                           add-on), new tab.
+ * Neither opens the Premium popup. Links: {@see UpsellLink}.
  *
  * Args:
- *  - campaign      (string) utm_campaign of both links. Default "premium".
- *  - addon         (string) Add-on slug. Empty: the popup opens on the first step.
- *  - modal         (bool)   "Learn more" opens the Premium popup. Default true. Off inside the popup itself.
- *  - upgrade_modal (bool)   "Upgrade to Premium" opens the popup instead (settings card). Default false.
- *  - learn_url     (string) Overrides the "Learn more" URL.
- *  - class         (string) Extra classes on the wrapper.
+ *  - surface (string) utm_medium, e.g. "lock-page", "settings-card", "popup". Default "lock-page".
+ *  - addon   (string) Add-on slug. Empty: Premium as a whole (utm_campaign "premium").
+ *  - class   (string) Extra classes on the wrapper.
  */
 
-use WP_Statistics\Service\Admin\LicenseManagement\Plugin\AddonCatalog;
+use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-$campaign = !empty($campaign) ? $campaign : 'premium';
-$addon    = !empty($addon) ? $addon : '';
-$modal    = isset($modal) ? (bool)$modal : true;
-$upgModal = !empty($upgrade_modal);
-$target   = $addon ? $addon : 'first-step';
-if ($upgModal) {
-    $modal = false;
-}
-$learnUrl = !empty($learn_url) ? $learn_url : ($addon ? AddonCatalog::getProductUrl($addon, $campaign) : WP_STATISTICS_SITE_URL . '/add-ons/?utm_source=wp-statistics&utm_medium=link&utm_campaign=' . rawurlencode($campaign));
+$surface = !empty($surface) ? $surface : 'lock-page';
+$addon   = !empty($addon) && $addon !== 'first-step' ? $addon : '';
+// Popup links get utm_term (the surface that opened it) from premium-modal.js.
+$popup   = $surface === 'popup' ? ' js-wps-premiumModalLink' : '';
 ?>
 <div class="wps-upsell-actions<?php echo !empty($class) ? ' ' . esc_attr($class) : ''; ?>">
-    <?php if ($upgModal) : ?>
-        <a class="wps-upsell-btn wps-upsell-btn--primary js-wps-openPremiumModal" href="<?php echo esc_url(AddonCatalog::getPricingUrl($campaign)); ?>" data-target="<?php echo esc_attr($target); ?>"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
-    <?php else : ?>
-        <a class="wps-upsell-btn wps-upsell-btn--primary" href="<?php echo esc_url(AddonCatalog::getPricingUrl($campaign)); ?>" target="_blank" rel="noopener"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
-    <?php endif; ?>
-    <?php if ($modal) : ?>
-        <a class="wps-upsell-btn wps-upsell-btn--secondary js-wps-openPremiumModal" href="<?php echo esc_url($learnUrl); ?>" data-target="<?php echo esc_attr($target); ?>"><?php esc_html_e('Learn more', 'wp-statistics'); ?></a>
-    <?php else : ?>
-        <a class="wps-upsell-btn wps-upsell-btn--secondary" href="<?php echo esc_url($learnUrl); ?>" target="_blank" rel="noopener"><?php esc_html_e('Learn more', 'wp-statistics'); ?></a>
-    <?php endif; ?>
+    <a class="wps-upsell-btn wps-upsell-btn--primary<?php echo esc_attr($popup); ?>" href="<?php echo esc_url(UpsellLink::pricing($surface, $addon)); ?>" target="_blank" rel="noopener"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
+    <a class="wps-upsell-btn wps-upsell-btn--secondary<?php echo esc_attr($popup); ?>" href="<?php echo esc_url(UpsellLink::addon($addon, $surface)); ?>" target="_blank" rel="noopener"><?php esc_html_e('Learn more', 'wp-statistics'); ?></a>
 </div>

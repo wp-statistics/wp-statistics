@@ -13,7 +13,6 @@
  *  - activate_url (string) Plugins screen narrowed to the add-on (state "activate"); empty when the user can't activate plugins.
  *  - notice     (string)   Optional license notice (trusted, may hold <b>/<a>).
  *  - notice_warning (bool) Warning look for the notice.
- *  - learn_url  (string)   "Learn more" URL.
  *  - is_premium (bool)     Site has Premium.
  *  - addons_url (string)   Add-ons page URL.
  */
@@ -42,7 +41,7 @@ $titleId = $stepId . '-title';
         <?php endif; ?>
 
         <?php if ($state === 'upgrade') : ?>
-            <?php View::load('components/upsell/actions', ['campaign' => 'pop-up-premium', 'addon' => $slug === 'first-step' ? '' : $slug, 'modal' => false, 'learn_url' => $learn_url, 'class' => 'wps-premium-popup__actions']); ?>
+            <?php View::load('components/upsell/actions', ['surface' => 'popup', 'addon' => $slug === 'first-step' ? '' : $slug, 'class' => 'wps-premium-popup__actions']); ?>
             <?php View::load('components/upsell/guarantee'); ?>
         <?php elseif ($state === 'activate') : ?>
             <?php if (!empty($activate_url)) : ?>

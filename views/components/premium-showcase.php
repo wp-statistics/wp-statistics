@@ -1,10 +1,18 @@
 <?php
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\UpsellLink;
+
 // A short tour of what Premium adds, for sites with no license. The pictures ship inside the plugin.
-$buyUrl    = 'https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=addons-showcase';
+// The buttons go to the pricing page (new tab); each info icon opens the Premium popup on that add-on.
+if (LicenseHelper::areAddonPromptsHidden()) {
+    return;
+}
+
+$buyUrl    = UpsellLink::pricing('showcase');
 $addonUrl  = function ($slug) {
-    return WP_STATISTICS_SITE_URL . '/add-ons/' . $slug . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=addons-showcase';
+    return UpsellLink::addon($slug, 'showcase');
 };
 $freeFeatures = [
     __('Visitor, page and referrer statistics', 'wp-statistics'),
@@ -28,7 +36,7 @@ $features  = [
     <div class="wps-lock-page__head">🚀 <?php esc_html_e('Unlock more with WP Statistics Premium', 'wp-statistics'); ?></div>
     <div class="wps-lock-page__description"><?php esc_html_e('WP Statistics stays free. Premium adds these, with a 14-day money-back guarantee. Click a feature to see it.', 'wp-statistics'); ?></div>
     <div class="wps-lock-page__actions">
-        <a target="_blank" rel="noopener noreferrer" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url($buyUrl); ?>"><?php esc_html_e('Go Premium', 'wp-statistics'); ?></a>
+        <a target="_blank" rel="noopener" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url($buyUrl); ?>"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
     </div>
 
     <table class="wps-showcase__table">
@@ -51,7 +59,7 @@ $features  = [
                 <tr>
                     <td>
                         <span class="wps-showcase__label"><?php echo esc_html($feature['title']); ?></span>
-                        <a class="wps-showcase__info js-wps-openPremiumModal" href="<?php echo esc_url($addonUrl($feature['slug'])); ?>" data-target="<?php echo esc_attr($feature['slug']); ?>" aria-label="<?php echo esc_attr(sprintf(/* translators: %s: feature name */ __('More about %s', 'wp-statistics'), $feature['title'])); ?>">
+                        <a class="wps-showcase__info js-wps-openPremiumModal" href="<?php echo esc_url($addonUrl($feature['slug'])); ?>"<?php echo UpsellLink::popupAttributes($feature['slug'], 'showcase'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper ?> aria-label="<?php echo esc_attr(sprintf(/* translators: %s: feature name */ __('See what\'s included: %s', 'wp-statistics'), $feature['title'])); ?>">
                             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1.2" fill="currentColor"/></svg>
                         </a>
                     </td>
@@ -74,7 +82,7 @@ $features  = [
             <span><?php esc_html_e('No questions asked. Full refund if not satisfied.', 'wp-statistics'); ?></span>
         </div>
         <div class="wps-lock-page__actions">
-            <a target="_blank" rel="noopener noreferrer" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url($buyUrl); ?>"><?php esc_html_e('Go Premium', 'wp-statistics'); ?></a>
+            <a target="_blank" rel="noopener" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url($buyUrl); ?>"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
         </div>
     </div>
 </section>

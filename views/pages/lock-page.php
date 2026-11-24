@@ -1,14 +1,14 @@
 <?php
 /**
  * Lock page: a report that needs an add-on. Split layout, text on the left (one headline, three benefits,
- * "Upgrade to Premium" / "Learn more", one "Included in Premium" line and the guarantee) and the preview
- * slider on the right. Stacks on narrow screens.
+ * "Upgrade to Premium" (pricing page) / "Learn more" (add-on page), both new tab and never the popup, then one
+ * line: guarantee · "Included in Premium") and the preview slider on the right. Stacks on narrow screens.
  *
  * Args:
  *  - page_title  (string)   Required. One short headline.
  *  - addon_name  (string)   Required. Add-on name.
  *  - addon_slug  (string)   Required. Add-on slug.
- *  - campaign    (string)   utm_campaign of the buttons.
+ *  - campaign    (string)   Kept for callers; utm_campaign comes from addon_slug ({@see UpsellLink}).
  *  - benefits    (string[]) Three short benefits.
  *  - description (string)   Optional one-line fallback when there are no benefits.
  *  - images      (string[]) Preview pictures in assets/images/locked/.
@@ -32,7 +32,6 @@ $situation      = LicenseHelper::getAddonSituation($addon_slug, $pluginHandler);
 $canManage      = User::Access('manage');
 $benefits       = !empty($benefits) && is_array($benefits) ? $benefits : [];
 $images         = !empty($images) && is_array($images) ? $images : [];
-$campaign       = !empty($campaign) ? $campaign : 'lock-page';
 $showUpsell     = !$hasLicense && !$isActive && !$isInstalled && $canManage;
 
 // White label (or a hidden Add-ons menu): no upsell, only a neutral line, like the inline teasers.
@@ -88,9 +87,8 @@ endif;
                 <?php endif; ?>
 
                 <?php if ($showUpsell) : ?>
-                    <?php View::load('components/upsell/actions', ['campaign' => $campaign, 'addon' => $addon_slug, 'class' => 'wps-lock-page__actions']); ?>
-                    <p class="wps-lock-page__included"><?php esc_html_e('Included in Premium with all 8 add-ons', 'wp-statistics'); ?></p>
-                    <?php View::load('components/upsell/guarantee'); ?>
+                    <?php View::load('components/upsell/actions', ['surface' => 'lock-page', 'addon' => $addon_slug, 'class' => 'wps-lock-page__actions']); ?>
+                    <?php View::load('components/upsell/guarantee', ['extra' => __('Included in Premium with all 8 add-ons', 'wp-statistics'), 'class' => 'wps-lock-page__included']); ?>
                 <?php endif; ?>
             </div>
 
