@@ -159,6 +159,44 @@ class Test_ReportTotals extends WP_UnitTestCase
         $this->assertCount(1, $rows);
     }
 
+    public function test_exact_ip_list_and_total_agree()
+    {
+        $this->addVisitor(['ip' => '1.2.3.4']);
+        $this->addVisitor(['ip' => '11.2.3.4']);
+        $this->addVisitor(['ip' => '1.2.3.45']);
+
+        $model = new VisitorsModel();
+        $exact = ['date' => $this->range(), 'ip' => '1.2.3.4', 'exact_ip' => true];
+
+        $rows = $model->getVisitorsData($exact);
+        $this->assertCount(1, $rows);
+        $this->assertSame(1, $model->countVisitors($exact));
+
+        // Without exact_ip the same value matches every IP containing it
+        $partial = ['date' => $this->range(), 'ip' => '1.2.3.4'];
+        $this->assertCount(3, $model->getVisitorsData($partial));
+        $this->assertSame(3, $model->countVisitors($partial));
+    }
+
+    public function test_visitors_tab_reads_exact_ip_from_the_link()
+    {
+        $this->addVisitor(['ip' => '1.2.3.4']);
+        $this->addVisitor(['ip' => '11.2.3.4']);
+
+        $_REQUEST['ip']       = $_GET['ip'] = '1.2.3.4';
+        $_REQUEST['exact_ip'] = $_GET['exact_ip'] = '1';
+
+        try {
+            $view = new \WP_Statistics\Service\Admin\VisitorInsights\Views\TabsView();
+            $data = $view->getVisitorsData();
+        } finally {
+            unset($_REQUEST['ip'], $_GET['ip'], $_REQUEST['exact_ip'], $_GET['exact_ip']);
+        }
+
+        $this->assertCount(1, $data['data']);
+        $this->assertSame(1, $data['total']);
+    }
+
     public function test_single_visitor_data_is_empty_for_missing_visitor()
     {
         $provider = new VisitorInsightsDataProvider(['visitor_id' => 99999999]);
