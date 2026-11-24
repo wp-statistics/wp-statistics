@@ -32,6 +32,8 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
         remove_all_filters('wp_statistics_hide_addon_prompts');
         remove_all_filters('wp_statistics_addon_situation');
         Option::deleteOptionGroup('TEST-KEY-1', LicenseHelper::LICENSE_OPTION_KEY);
+        PluginHelper::clearFetchFailure();
+        unset($_GET['tab'], $_REQUEST['tab']);
         parent::tearDown();
     }
 
@@ -448,6 +450,79 @@ class Test_UpsellSurfaces extends WP_UnitTestCase
         $card    = (string)View::load('components/addon-box', ['addOn' => $plugins[0]], true);
         $this->assertStringContainsString('>Learn more<', $card);
         $this->assertStringNotContainsString('wps-postbox-addon__version', $card);
+    }
+
+    public function test_failed_list_fetch_is_not_retried_on_every_page_load()
+    {
+        $requests = 0;
+        add_filter('pre_http_request', function () use (&$requests) {
+            $requests++;
+            return new WP_Error('http_request_blocked', 'Blocked in test');
+        });
+        \WP_Statistics\Components\SystemCleaner::clearAddonsListCache();
+
+        $this->assertSame([], PluginHelper::getRemotePlugins());
+        $tries = $requests;
+        $this->assertGreaterThan(0, $tries);
+        $this->assertNotFalse(get_transient(PluginHelper::FETCH_FAILED_TRANSIENT));
+
+        // Later page loads use the saved list without asking the server again.
+        PluginHelper::getRemotePlugins();
+        $isFallback = false;
+        $this->assertCount(8, PluginHelper::getPluginsWithFallback($isFallback));
+        $this->assertTrue($isFallback);
+        $this->assertSame($tries, $requests);
+
+        // "Try again" clears the failure and asks once more.
+        \WP_Statistics\Components\SystemCleaner::clearAddonsListCache();
+        PluginHelper::getRemotePlugins();
+        $this->assertGreaterThan($tries, $requests);
+    }
+
+    /**
+     * Fakes an installed add-on file. Skips when the add-on really exists here, so a real install is never touched.
+     */
+    private function fakeInstalledAddon($slug)
+    {
+        $dir = WP_PLUGIN_DIR . '/' . $slug;
+        if (file_exists("$dir/$slug.php")) {
+            $this->markTestSkipped("$slug is really installed in this test site.");
+        }
+        wp_mkdir_p($dir);
+        file_put_contents("$dir/$slug.php", "<?php\n/* Plugin Name: Test */\n");
+
+        return function () use ($dir, $slug) {
+            @unlink("$dir/$slug.php");
+            @rmdir($dir);
+        };
+    }
+
+    public function test_nothing_to_download_when_every_licensed_add_on_is_installed()
+    {
+        $slug = 'wp-statistics-data-plus';
+        Option::saveOptionGroup('TEST-KEY-1', ['status' => 'valid', 'sku' => 'data-plus', 'products' => [$slug]], LicenseHelper::LICENSE_OPTION_KEY);
+        $cleanup = $this->fakeInstalledAddon($slug);
+
+        try {
+            $this->assertFalse(PluginHelper::hasAddonsToDownload());
+
+            $html = (string)View::load('pages/license-manager/add-license', [], true);
+            $this->assertStringContainsString('Add Another License', $html);
+            $this->assertStringNotContainsString('Download your add-ons', $html);
+
+            // The stepper shows only the Add License step, no dead "Download Add-ons" link.
+            $this->blockHttp();
+            $_GET['tab'] = $_REQUEST['tab'] = 'add-license';
+            ob_start();
+            (new \WP_Statistics\Service\Admin\LicenseManagement\Views\TabsView())->render();
+            $page = ob_get_clean();
+            $this->assertStringContainsString('Add Your License', $page);
+            $this->assertStringNotContainsString('wps-step-link__title">Download Add-ons', $page);
+        } finally {
+            $cleanup();
+        }
+
+        $this->assertTrue(PluginHelper::hasAddonsToDownload());
     }
 
     public function test_refresh_request_needs_a_valid_nonce()

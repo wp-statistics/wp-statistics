@@ -271,8 +271,26 @@ class Test_UpsellLinks extends WP_UnitTestCase
 
     public function test_header_menu_says_go_premium_on_free_sites()
     {
+        // "Add-ons" only once a valid license is saved; an installed add-on alone keeps "Go Premium".
         $header = file_get_contents(WP_STATISTICS_DIR . 'includes/admin/templates/header.php');
-        $this->assertStringContainsString("LicenseHelper::isFreeOnly() ? __('Go Premium', 'wp-statistics') : __('Add-ons', 'wp-statistics')", $header);
+        $this->assertStringContainsString("LicenseHelper::isValidLicenseAvailable() ? __('Add-ons', 'wp-statistics') : __('Go Premium', 'wp-statistics')", $header);
+        $this->assertStringNotContainsString('isFreeOnly', $header);
+    }
+
+    public function test_sidebar_menu_says_go_premium_until_a_license_is_valid()
+    {
+        $user = self::factory()->user->create(['role' => 'administrator']);
+        if (is_multisite()) {
+            grant_super_admin($user);
+        }
+        wp_set_current_user($user);
+
+        $manager = new \WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager();
+        $this->assertSame('Go Premium', $manager->addMenuItem([])['plugins']['title']);
+
+        \WP_STATISTICS\Option::saveOptionGroup('TEST-MENU-KEY', ['status' => 'valid', 'sku' => 'premium', 'products' => []], \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::LICENSE_OPTION_KEY);
+        $this->assertSame('Add-ons', $manager->addMenuItem([])['plugins']['title']);
+        \WP_STATISTICS\Option::deleteOptionGroup('TEST-MENU-KEY', \WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper::LICENSE_OPTION_KEY);
     }
 
     private function captureReportEmail()
