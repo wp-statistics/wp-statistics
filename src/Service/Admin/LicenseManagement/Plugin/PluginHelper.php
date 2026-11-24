@@ -23,20 +23,44 @@ class PluginHelper
     ];
 
     /**
+     * Set when the remote add-on list could not be loaded; no new fetch is tried while it exists.
+     */
+    const FETCH_FAILED_TRANSIENT = 'wp_statistics_addons_list_failed';
+
+    /**
+     * How long a failed fetch of the add-on list is remembered.
+     */
+    const FETCH_FAILED_DURATION = HOUR_IN_SECONDS;
+
+    /**
+     * Forget a failed fetch, so the next call asks the server again ("Try again", Downloads tab).
+     */
+    public static function clearFetchFailure()
+    {
+        delete_transient(self::FETCH_FAILED_TRANSIENT);
+    }
+
+    /**
      * Returns a decorated list of plugins (add-ons) from API, excluding bundled plugins.
      *
      * @return PluginDecorator[] List of plugins
      */
     public static function getRemotePlugins()
     {
-        $result = [];
+        $result   = [];
+        $products = [];
 
-        try {
-            $apiCommunicator    = new ApiCommunicator();
-            $products           = $apiCommunicator->getProducts();
-        } catch (Exception $e) {
-            WP_Statistics()->log($e->getMessage(), 'error');
-            $products = [];
+        // A failed fetch is remembered for an hour, so blocked outbound requests cost one try
+        // and one log line per hour instead of several per admin page. The saved list fills in meanwhile.
+        if (!get_transient(self::FETCH_FAILED_TRANSIENT)) {
+            try {
+                $apiCommunicator = new ApiCommunicator();
+                $products        = $apiCommunicator->getProducts();
+            } catch (Exception $e) {
+                set_transient(self::FETCH_FAILED_TRANSIENT, time(), self::FETCH_FAILED_DURATION);
+                WP_Statistics()->log($e->getMessage(), 'error');
+                $products = [];
+            }
         }
 
         foreach ($products as $product) {
@@ -146,5 +170,24 @@ class PluginHelper
         }
 
         return $result;
+    }
+
+    /**
+     * Is any add-on covered by a saved valid license still not installed?
+     * When every licensed add-on is already on the site there is nothing for the Download step to do.
+     *
+     * @return bool
+     */
+    public static function hasAddonsToDownload()
+    {
+        $handler = new PluginHandler();
+
+        foreach (array_unique(self::getLicensedPlugins()) as $slug) {
+            if (!is_string($slug) || !isset(self::$plugins[$slug])) continue;
+
+            if (!$handler->isPluginInstalled($slug)) return true;
+        }
+
+        return false;
     }
 }

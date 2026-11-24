@@ -3,11 +3,14 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 // A site that already has a valid license is not asked to buy Premium again: it can add another key or download its add-ons.
 $validKeys  = array_keys(LicenseHelper::getLicenses('valid'));
 $hasLicense = !empty($validKeys);
 $hasPremium = (bool)LicenseHelper::isPremiumLicenseAvailable();
+// No download link when every licensed add-on is already installed.
+$canDownload = $hasLicense && PluginHelper::hasAddonsToDownload();
 ?>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
@@ -32,7 +35,7 @@ $hasPremium = (bool)LicenseHelper::isPremiumLicenseAvailable();
          </div>
         <div class="wps-addon__step__faq">
             <ul>
-                <?php if ($hasLicense) : ?>
+                <?php if ($canDownload) : ?>
                     <li>
                         <a href="<?php echo esc_url(Menus::admin_url('plugins', ['tab' => 'downloads', 'license_key' => $validKeys[0]])); ?>"><?php esc_html_e('Download your add-ons', 'wp-statistics'); ?></a>
                     </li>

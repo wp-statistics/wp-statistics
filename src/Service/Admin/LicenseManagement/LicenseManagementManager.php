@@ -107,8 +107,8 @@ class LicenseManagementManager
 
     public function addMenuItem($items)
     {
-        // A site with only the free plugin and no license sees "Go Premium" here.
-        $label = LicenseHelper::isFreeOnly() ? __('Go Premium', 'wp-statistics') : __('Add-ons', 'wp-statistics');
+        // "Go Premium" until a valid license is saved, same as the header link.
+        $label = LicenseHelper::isValidLicenseAvailable() ? __('Add-ons', 'wp-statistics') : __('Go Premium', 'wp-statistics');
 
         // Orange asks for a click: free-only sites, or a license problem. Green means the licenses are fine (switched-off add-ons do not count).
         $labelClass = 'wps-text-warning';

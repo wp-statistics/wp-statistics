@@ -35,10 +35,11 @@ $quickAccessMenu = [
     ['slug' => 'wps_content-analytics_page', 'link_text' => __('Content Analytics', 'wp-statistics'), 'icon_class' => 'content-analytics'],
     ['slug' => 'wps_author-analytics_page', 'link_text' => __('Author Analytics', 'wp-statistics'), 'icon_class' => 'author-analytics'],
 ];
+// "Go Premium" until a valid license is saved; installing an add-on alone does not change it.
 // A number on the Add-ons link when an installed add-on has no valid license, is expired or is switched off.
 $licenseAttention = ($showAddonsLink || $isPremium) && LicenseHelper::canManageLicenses() ? LicenseHelper::getLicenseSummary()['attention'] : 0;
 $addonsLink       = $showAddonsLink
-    ? Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => LicenseHelper::isFreeOnly() ? __('Go Premium', 'wp-statistics') : __('Add-ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => $licenseAttention > 0 ? $licenseAttention : null], true)
+    ? Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => LicenseHelper::isValidLicenseAvailable() ? __('Add-ons', 'wp-statistics') : __('Go Premium', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => $licenseAttention > 0 ? $licenseAttention : null], true)
     : '';
 
 ?>
