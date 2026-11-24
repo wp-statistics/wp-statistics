@@ -63,6 +63,9 @@ if (empty($rows)) {
     return;
 }
 
+// Online-now dots: one query at most, only for rows whose list query had no last_view.
+VisitorDecorator::primeOnlineStatus($rows);
+
 $sortedHeader = function ($label, $isSorted, $hint = '') {
     if (!$isSorted) {
         return esc_html($label) . ($hint ? ' <span class="wps-tooltip" title="' . esc_attr($hint) . '"><i class="wps-tooltip-icon"></i></span>' : '');

@@ -95,6 +95,24 @@ $wps-pill: '.wps-visitor__information--container.wps-visitor-info.wps-visitor-in
     color: #56585A;
   }
 
+  // Online now: a green dot with a white edge on the corner of the status icon, like an avatar.
+  // inset-inline-end puts it on the left corner in RTL.
+  .wps-visitor-info__slot--status {
+    position: relative;
+  }
+
+  .wps-visitor-info__online {
+    position: absolute;
+    top: 2px;
+    inset-inline-end: 2px;
+    width: 8px;
+    height: 8px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #00A32A;
+    box-shadow: 0 0 0 2px #fff;
+  }
+
   // IP / name stay in the markup for add-ons, PDF exports and print, never on screen.
   .wps-visitor-info__who {
     display: none !important;

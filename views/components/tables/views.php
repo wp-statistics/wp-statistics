@@ -33,6 +33,7 @@ use WP_STATISTICS\Menus;
                     </thead>
 
                     <tbody>
+                    <?php VisitorDecorator::primeOnlineStatus($data); ?>
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
