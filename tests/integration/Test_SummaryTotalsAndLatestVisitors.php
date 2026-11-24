@@ -308,4 +308,60 @@ class Test_SummaryTotalsAndLatestVisitors extends WP_UnitTestCase
         $this->assertNotEmpty($bounded);
         $this->assertStringContainsString("last_counter` >= '" . DateTime::get('-1 day') . "'", str_replace('visitor.last_counter', '`last_counter`', $bounded[0]));
     }
+
+    public function test_paged_referred_visitors_are_bounded_to_their_days_and_keep_the_order()
+    {
+        // Four days of referred rows inserted out of time order, plus direct and other-source rows
+        // that the filters must keep out even when they are the newest of their day
+        $expected = [];
+        foreach ([3, 2, 1, 0] as $daysAgo) {
+            $day  = DateTime::get("-{$daysAgo} days");
+            $rows = [];
+            foreach (['09:00:00', '18:00:00', '12:00:00'] as $time) {
+                $rows[$time] = $this->addVisitor(['last_counter' => $day, 'last_view' => "{$day} {$time}", 'referred' => 'https://a.example/', 'source_channel' => 'referral', 'source_name' => 'a.example']);
+            }
+            $this->addVisitor(['last_counter' => $day, 'last_view' => "{$day} 23:00:00"]);
+            $this->addVisitor(['last_counter' => $day, 'last_view' => "{$day} 22:00:00", 'referred' => 'https://b.example/', 'source_channel' => 'referral', 'source_name' => 'b.example']);
+            krsort($rows);
+            $expected = array_merge(array_values($rows), $expected);
+        }
+
+        $model = new VisitorsModel();
+        $range = ['from' => DateTime::get('-10 days'), 'to' => $this->today()];
+        $args  = ['date' => $range, 'order_by' => VisitorsModel::LATEST_ORDER_BY, 'source_name' => 'a.example'];
+
+        // One full sort, no paging, so no bound
+        $full = $this->ids($model->getReferredVisitors($args));
+        $this->assertSame($expected, $full);
+
+        $queries = [];
+        $catch   = function ($query) use (&$queries) {
+            $queries[] = $query;
+            return $query;
+        };
+        add_filter('query', $catch);
+
+        $paged = [];
+        for ($page = 1; $page <= 3; $page++) {
+            $paged = array_merge($paged, $this->ids($model->getReferredVisitors(array_merge($args, [
+                'page'     => $page,
+                'per_page' => 4,
+            ]))));
+        }
+
+        remove_filter('query', $catch);
+
+        $this->assertSame($full, $paged, 'paged order equals one full sort');
+
+        // Page 1 (4 rows) only needs the last two days
+        $bounded = array_values(array_filter($queries, function ($query) {
+            return strpos($query, 'last_view') !== false && strpos($query, 'ORDER BY') !== false && strpos($query, 'LIMIT 4 OFFSET 0') !== false;
+        }));
+        $this->assertNotEmpty($bounded);
+        $this->assertStringContainsString("last_counter` >= '" . DateTime::get('-1 day') . "'", str_replace('visitor.last_counter', '`last_counter`', $bounded[0]));
+
+        // A page past the end still returns nothing, and the provider list keeps working
+        $this->assertSame([], $this->ids($model->getReferredVisitors(array_merge($args, ['page' => 4, 'per_page' => 4]))));
+        $this->assertSame(array_slice($expected, 0, 5), $this->ids((new ReferralsDataProvider(['date' => $range, 'source_name' => 'a.example']))->getReferralsOverview()['visitors']));
+    }
 }

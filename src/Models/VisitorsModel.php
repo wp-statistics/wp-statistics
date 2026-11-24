@@ -18,7 +18,7 @@ class VisitorsModel extends BaseModel
      * Visitor IDs follow the first visit of the day, so ordering by ID alone puts a visitor who
      * came back in the evening below one who only came at noon.
      *
-     * `last_view` has no index, so getVisitorsData() first bounds a paged list with this order to
+     * `last_view` has no index, so getVisitorsData() and getReferredVisitors() first bound a paged list with this order to
      * the days that hold the rows of the page (see getLatestOrderSince()).
      */
     const LATEST_ORDER_BY = ['visitor.last_counter', 'visitor.last_view', 'visitor.ID'];
@@ -714,7 +714,7 @@ class VisitorsModel extends BaseModel
 
         // A paged "latest" list only needs the days that hold its rows: sorting those by last_view
         // is cheap, sorting a whole year of rows is not.
-        if (empty($args['since']) && empty($args['export']) && $args['order_by'] === self::LATEST_ORDER_BY && intval($args['per_page']) > 0) {
+        if ($this->isBoundableLatestList($args)) {
             $args['since'] = $this->getLatestOrderSince($args);
         }
 
@@ -849,14 +849,15 @@ class VisitorsModel extends BaseModel
      * the day of row N*per_page in day order. That row is found from the `date_ip_agent` index (no
      * sort of `last_view`), and the real query then sorts only the rows of those days.
      *
-     * @param array $args Parsed getVisitorsData() args.
+     * @param array  $args   Parsed args of the list method.
+     * @param string $method List method that runs the same filters (getVisitorsData or getReferredVisitors).
      * @return string Date (Y-m-d), or '' when the list has fewer rows than the page needs.
      */
-    private function getLatestOrderSince($args)
+    private function getLatestOrderSince($args, $method = 'getVisitorsData')
     {
         $rows = max(1, intval($args['page'])) * intval($args['per_page']);
 
-        $result = $this->getVisitorsData(array_merge($args, [
+        $result = $this->$method(array_merge($args, [
             'fields'   => ['visitor.last_counter'],
             'order_by' => 'visitor.last_counter',
             'order'    => 'DESC',
@@ -867,6 +868,22 @@ class VisitorsModel extends BaseModel
         ]));
 
         return !empty($result[0]->last_counter) ? (string)$result[0]->last_counter : '';
+    }
+
+    /**
+     * Whether a list can be bounded with getLatestOrderSince(): a paged, newest-first LATEST_ORDER_BY
+     * list with no `since` of its own (exports keep the full sort).
+     *
+     * @param array $args Parsed args of the list method.
+     * @return bool
+     */
+    private function isBoundableLatestList($args)
+    {
+        return empty($args['since'])
+            && empty($args['export'])
+            && $args['order_by'] === self::LATEST_ORDER_BY
+            && strtoupper((string)$args['order']) === 'DESC'
+            && intval($args['per_page']) > 0;
     }
 
     /**
@@ -913,14 +930,21 @@ class VisitorsModel extends BaseModel
             'resource_id'    => '',
             'resource_type'  => Helper::getPostTypes(),
             'group_by'       => '',
-            'decorate'       => true
+            'decorate'       => true,
+            'since'          => ''
         ]);
+
+        // Same bound as getVisitorsData(): sort only the days that hold the rows of the page
+        if ($this->isBoundableLatestList($args)) {
+            $args['since'] = $this->getLatestOrderSince($args, 'getReferredVisitors');
+        }
 
         $query = Query::select($args['fields'])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
+            ->where('visitor.last_counter', '>=', $args['since'])
             ->whereRaw("
                 AND (
                     (visitor.referred != '')
