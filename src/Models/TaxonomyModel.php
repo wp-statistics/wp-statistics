@@ -267,11 +267,17 @@ class TaxonomyModel extends BaseModel
      *  - views:          views in the range of the published posts in the term (any publish date);
      *  - published:      posts in the term published in the range ("Posts");
      *  - views_per_post: views / posts published in the range (NULL when nothing was published).
-     * A term is listed when it has views or a published post in the range. Ties fall back to views.
+     *  - comments:       approved comments written in the range on the term's published posts.
+     * A term is listed when it has views or a published post in the range, in both directions, so
+     * ascending ("lowest first") ranks the active terms and never fills up with unused ones. Ties fall
+     * back to views, in the same direction. A missing Per post (nothing published) counts as the lowest
+     * value, the "0" the table shows.
      * Slug, parent and term_taxonomy_id are returned so same-name terms can be told apart.
      *
-     * @param array $args date, taxonomy, post_type, author_id, order_by (views|published|views_per_post), page, per_page.
-     * @return object[] term_id, term_taxonomy_id, taxonomy, term_name, slug, parent, views, posts_with_views, published, views_per_post.
+     * @param array $args date, taxonomy, post_type, author_id, order_by (views|published|views_per_post|comments),
+     *                    order (DESC|ASC), page, per_page.
+     * @return object[] term_id, term_taxonomy_id, taxonomy, term_name, slug, parent, views, posts_with_views, published,
+     *                  views_per_post (+ comments when ranked by it).
      */
     public function getTermsLeaderboard($args = [])
     {
@@ -286,7 +292,8 @@ class TaxonomyModel extends BaseModel
             'post_type' => Helper::getPostTypes()
         ]);
 
-        $orderBy = in_array($args['order_by'], ['views', 'published', 'views_per_post'], true) ? $args['order_by'] : 'views';
+        $orderBy = in_array($args['order_by'], ['views', 'published', 'views_per_post', 'comments'], true) ? $args['order_by'] : 'views';
+        $order   = strtoupper((string) $args['order']) === 'ASC' ? 'ASC' : 'DESC';
 
         $viewsQuery = Query::select([
             'term_relationships.term_taxonomy_id AS tt_id',
@@ -316,7 +323,7 @@ class TaxonomyModel extends BaseModel
             ->groupBy('term_relationships.term_taxonomy_id')
             ->getQuery();
 
-        $query = Query::select([
+        $fields = [
             'terms.term_id',
             'term_taxonomy.term_taxonomy_id',
             'term_taxonomy.taxonomy',
@@ -327,17 +334,45 @@ class TaxonomyModel extends BaseModel
             'COALESCE(term_views.posts_with_views, 0) AS posts_with_views',
             'COALESCE(term_published.published, 0) AS published',
             'COALESCE(term_views.views, 0) / NULLIF(term_published.published, 0) AS views_per_post'
-        ])
+        ];
+
+        // Comments are only joined when they are the ranking; other rankings get them from countCommentsByTerms().
+        $commentsQuery = null;
+        if ($orderBy === 'comments') {
+            $fields[]      = 'COALESCE(term_comments.comments, 0) AS comments';
+            $commentsQuery = Query::select([
+                'term_relationships.term_taxonomy_id AS tt_id',
+                'COUNT(DISTINCT comments.comment_ID) AS comments'
+            ])
+                ->from('comments')
+                ->join('posts', ['comments.comment_post_ID', 'posts.ID'])
+                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                ->where('posts.post_type', 'IN', $args['post_type'])
+                ->where('posts.post_status', '=', 'publish')
+                ->where('posts.post_author', '=', $args['author_id'])
+                ->where('comments.comment_approved', '=', '1')
+                ->where('comments.comment_type', '=', 'comment')
+                ->whereDate('comments.comment_date', $args['date'])
+                ->groupBy('term_relationships.term_taxonomy_id')
+                ->getQuery();
+        }
+
+        $query = Query::select($fields)
             ->from('term_taxonomy')
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
             ->joinQuery($viewsQuery, ['term_taxonomy.term_taxonomy_id', 'term_views.tt_id'], 'term_views', 'LEFT')
-            ->joinQuery($publishedQuery, ['term_taxonomy.term_taxonomy_id', 'term_published.tt_id'], 'term_published', 'LEFT')
-            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+            ->joinQuery($publishedQuery, ['term_taxonomy.term_taxonomy_id', 'term_published.tt_id'], 'term_published', 'LEFT');
+
+        if ($commentsQuery) {
+            $query->joinQuery($commentsQuery, ['term_taxonomy.term_taxonomy_id', 'term_comments.tt_id'], 'term_comments', 'LEFT');
+        }
+
+        $query->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
 
         $hasData = '(term_views.tt_id IS NOT NULL OR term_published.tt_id IS NOT NULL)';
         $query->whereRaw(empty(array_filter((array) $args['taxonomy'])) ? $hasData : "AND {$hasData}");
 
-        $query->orderBy($orderBy === 'views' ? ['views', 'published'] : [$orderBy, 'views'], 'DESC')
+        $query->orderBy($orderBy === 'views' ? ['views', 'published'] : [$orderBy, 'views'], $order)
             ->perPage($args['page'], $args['per_page']);
 
         $this->allowCachingForPastRange($query, $args['date']);

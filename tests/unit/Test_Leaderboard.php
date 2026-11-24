@@ -90,14 +90,58 @@ class Test_Leaderboard extends WP_UnitTestCase
             'caption'  => 'Top Authors',
         ], true);
 
-        $this->assertStringContainsString('<tbody data-ranking="views">', $html);
-        $this->assertStringContainsString('<tbody data-ranking="published" hidden>', $html);
-        $this->assertStringContainsString('<tbody data-ranking="views_per_post" hidden>', $html);
+        // A plain metric => rows array is read as the high-to-low lists.
+        $this->assertStringContainsString('<tbody data-ranking="views" data-direction="descending">', $html);
+        $this->assertStringContainsString('<tbody data-ranking="published" data-direction="descending" hidden>', $html);
+        $this->assertStringContainsString('<tbody data-ranking="views_per_post" data-direction="descending" hidden>', $html);
+        $this->assertStringNotContainsString('data-direction="ascending"', $html);
         $this->assertStringContainsString('data-sort-key="published"', $html);
         $this->assertStringContainsString('Posts published in this range', $html);
         $this->assertStringNotContainsString('data-sort-key="posts_with_views"', $html);
         // admin is only in the Posts and Per post rankings, as rank 1.
-        $this->assertMatchesRegularExpression('#data-ranking="published" hidden>\s*<tr data-rank="1"[^>]*data-published="9"#', $html);
+        $this->assertMatchesRegularExpression('#data-ranking="published" data-direction="descending" hidden>\s*<tr data-rank="1"[^>]*data-published="9"#', $html);
+    }
+
+    public function test_leaderboard_view_draws_both_directions_and_a_sortable_comments_column()
+    {
+        $row = function ($id, $name, $views, $published, $comments = 0) {
+            return ['id' => $id, 'name' => $name, 'views' => $views, 'posts_with_views' => 1, 'published' => $published, 'views_per_post' => Leaderboard::perPost($views, $published), 'comments' => $comments, 'tag' => null];
+        };
+
+        $top    = [$row(9, 'Anastasia', 1454, 2, 4), $row(8, 'Floyd', 1148, 1, 1)];
+        $bottom = [$row(8, 'Floyd', 1148, 1, 1), $row(9, 'Anastasia', 1454, 2, 4)];
+
+        $html = \WP_Statistics\Components\View::load('components/leaderboard', [
+            'rankings' => [
+                'descending' => ['views' => $top, 'published' => $top, 'views_per_post' => $top, 'comments' => $top],
+                'ascending'  => ['views' => $bottom, 'published' => $bottom, 'views_per_post' => $bottom, 'comments' => $bottom],
+            ],
+            'columns'  => Leaderboard::columns($top, ['comments' => true]),
+            'caption'  => 'Top Authors',
+        ], true);
+
+        $this->assertStringContainsString('<tbody data-ranking="views" data-direction="descending">', $html);
+        $this->assertStringContainsString('<tbody data-ranking="views" data-direction="ascending" hidden>', $html);
+        $this->assertStringContainsString('<tbody data-ranking="comments" data-direction="ascending" hidden>', $html);
+        $this->assertSame(8, substr_count($html, '<tbody '), 'four metrics, two directions');
+        $this->assertStringContainsString('data-sort-key="comments"', $html, 'Comments has its own ranking, so it is sortable');
+        $this->assertMatchesRegularExpression('#data-ranking="views" data-direction="ascending" hidden>\s*<tr data-rank="1"[^>]*data-views="1148"#', $html);
+    }
+
+    public function test_presenter_passes_both_directions_to_the_view()
+    {
+        $rows   = [['id' => 3, 'name' => 'Cat', 'views' => 1, 'published' => 0, 'views_per_post' => null, 'comments' => 0, 'tag' => null]];
+        $result = \WP_Statistics\Service\Admin\Leaderboard\LeaderboardPresenter::termRankings([
+            'rows'         => $rows,
+            'rankings'     => ['views' => $rows],
+            'rankings_asc' => ['views' => $rows],
+        ]);
+
+        $this->assertSame(['descending', 'ascending'], array_keys($result));
+        $this->assertNotEmpty($result['ascending']['views'][0]['url']);
+
+        // Older results: high to low only.
+        $this->assertSame(['descending'], array_keys(\WP_Statistics\Service\Admin\Leaderboard\LeaderboardPresenter::termRankings(['rows' => $rows])));
     }
 
     public function test_same_name_terms_get_language_tag_first()

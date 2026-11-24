@@ -2,8 +2,11 @@
  * Leaderboard tables (views/components/leaderboard.php) and "Rank by" lists
  * (views/components/content-rank-list.php).
  *
- * - Server-ranked tables (one <tbody data-ranking="views|published|views_per_post"> per metric):
- *   a header button shows that metric's own top rows, high to low. aria-sort moves to that header.
+ * - Server-ranked tables (one <tbody data-ranking="views|published|views_per_post|comments"
+ *   data-direction="descending|ascending"> per metric and direction): the first click on a header
+ *   shows that metric's own top rows (high to low), the next click its bottom rows (low to high),
+ *   and so on. aria-sort (and the arrow) moves to that header. Markup without ascending lists
+ *   stays high to low.
  * - Older tables without rankings: a header button sorts the shown rows in the browser, first
  *   click high to low, second click low to high; ranks are renumbered.
  * - The "Rank by" menu shows one ranked list at a time.
@@ -51,7 +54,8 @@
     var document = root.document;
 
     /**
-     * Show the server ranking for a key. Returns false when the table has no rankings.
+     * Show the server ranking for a key: high to low on a new header, flipped on the sorted one.
+     * Returns false when the table has no rankings.
      */
     function showRanking(table, th, key) {
         var bodies = Array.prototype.slice.call(table.tBodies).filter(function (body) {
@@ -59,9 +63,21 @@
         });
         if (!bodies.length) return false;
 
-        var target = bodies.filter(function (body) {
-            return body.getAttribute('data-ranking') === key;
-        })[0];
+        var find = function (direction) {
+            return bodies.filter(function (body) {
+                return body.getAttribute('data-ranking') === key &&
+                    (body.getAttribute('data-direction') || 'descending') === direction;
+            })[0];
+        };
+
+        var direction = th.hasAttribute('aria-sort') ? nextDirection(th.getAttribute('aria-sort')) : 'descending';
+        var target    = find(direction);
+
+        // Older markup has only the high-to-low lists.
+        if (!target && direction === 'ascending') {
+            direction = 'descending';
+            target    = find(direction);
+        }
         if (!target) return true;
 
         bodies.forEach(function (body) {
@@ -71,7 +87,7 @@
         Array.prototype.forEach.call(table.querySelectorAll('thead th[aria-sort]'), function (cell) {
             cell.removeAttribute('aria-sort');
         });
-        th.setAttribute('aria-sort', 'descending');
+        th.setAttribute('aria-sort', direction);
 
         return true;
     }

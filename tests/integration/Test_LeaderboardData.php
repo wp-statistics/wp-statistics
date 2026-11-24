@@ -160,6 +160,69 @@ class Test_LeaderboardData extends WP_UnitTestCase
         $this->assertSame(0.0, $data['rankings']['published'][0]['views_per_post']);
     }
 
+    public function test_authors_are_ranked_low_to_high_among_active_authors()
+    {
+        // Second click on a header: the bottom of the ranking, but only authors with views or a
+        // published post in the range, so authors who did nothing never fill the list.
+        $idle   = self::factory()->user->create(['role' => 'author', 'display_name' => 'Idle']);
+        $authors = [];
+
+        $this->oldPost($idle); // published long ago, no views in the range
+
+        foreach ([300, 40, 120, 5, 80, 200] as $i => $views) {
+            $authors[$views] = self::factory()->user->create(['role' => 'author', 'display_name' => 'Author ' . $i]);
+            $this->addViews($this->oldPost($authors[$views]), $views);
+        }
+
+        // One fresh post each for two authors: Per post and Posts get real values.
+        $this->addViews(self::factory()->post->create(['post_author' => $authors[40], 'post_date' => DateTime::get('-1 days') . ' 10:00:00']), 2);
+        $this->addViews(self::factory()->post->create(['post_author' => $authors[300], 'post_date' => DateTime::get('-1 days') . ' 10:00:00']), 1);
+
+        $data = LeaderboardDataProvider::authors(['date' => $this->range(), 'post_type' => 'post', 'per_page' => 5]);
+
+        $this->assertArrayHasKey('rankings_asc', $data);
+        $this->assertSame(['views', 'published', 'views_per_post', 'comments'], array_keys($data['rankings_asc']));
+
+        $ascViews = array_column($data['rankings_asc']['views'], 'views');
+        $this->assertSame([5, 42, 80, 120, 200], $ascViews, 'lowest views first');
+        $this->assertNotContains($idle, array_column($data['rankings_asc']['views'], 'id'), 'no views and nothing published: not ranked');
+
+        $descViews = array_column($data['rankings']['views'], 'views');
+        $this->assertSame([301, 200, 120, 80, 42], $descViews);
+
+        // Posts low to high: authors with 0 posts published in the range first, ties by fewest views.
+        $ascPublished = $data['rankings_asc']['published'];
+        $this->assertSame(0, $ascPublished[0]['published']);
+        $this->assertSame($authors[5], $ascPublished[0]['id']);
+
+        // Per post low to high: no posts in the range counts as 0 (what the table shows), then real averages.
+        $ascAverage = $data['rankings_asc']['views_per_post'];
+        $this->assertNull($ascAverage[0]['views_per_post']);
+        $this->assertCount(5, $ascAverage);
+        $this->assertSame([301.0, 42.0], array_values(array_filter(array_column($data['rankings']['views_per_post'], 'views_per_post'))), 'high to low, real averages first');
+    }
+
+    public function test_authors_rank_by_comments_both_ways()
+    {
+        $chatty = self::factory()->user->create(['role' => 'author', 'display_name' => 'Chatty']);
+        $quiet  = self::factory()->user->create(['role' => 'author', 'display_name' => 'Quiet']);
+
+        $post = $this->oldPost($chatty);
+        $this->addViews($post, 5);
+        $this->addViews($this->oldPost($quiet), 50);
+
+        for ($i = 0; $i < 3; $i++) {
+            self::factory()->comment->create(['comment_post_ID' => $post, 'comment_approved' => '1', 'comment_type' => 'comment', 'comment_date' => DateTime::get() . ' 09:00:00']);
+        }
+
+        $data = LeaderboardDataProvider::authors(['date' => $this->range(), 'post_type' => 'post']);
+
+        $this->assertSame([$chatty, $quiet], array_column($data['rankings']['comments'], 'id'));
+        $this->assertSame([3, 0], array_column($data['rankings']['comments'], 'comments'));
+        $this->assertSame([$quiet, $chatty], array_column($data['rankings_asc']['comments'], 'id'));
+        $this->assertTrue($data['columns']['comments']);
+    }
+
     public function test_authors_published_and_comments_columns()
     {
         $anna = self::factory()->user->create(['role' => 'author', 'display_name' => 'Anna']);
@@ -221,6 +284,25 @@ class Test_LeaderboardData extends WP_UnitTestCase
         $this->assertSame($fresh, $data['rankings']['published'][0]['id']);
         $this->assertSame(1, $data['rankings']['published'][0]['published']);
         $this->assertSame(12.0, $data['rankings']['views_per_post'][0]['views_per_post']);
+    }
+
+    public function test_terms_are_ranked_low_to_high_among_active_terms()
+    {
+        $author = self::factory()->user->create(['role' => 'author']);
+        $big    = self::factory()->category->create(['name' => 'Big']);
+        $small  = self::factory()->category->create(['name' => 'Small']);
+        $unused = self::factory()->category->create(['name' => 'Unused']);
+
+        $this->addViews($this->oldPost($author, ['post_category' => [$big]]), 300);
+        $this->addViews($this->oldPost($author, ['post_category' => [$small]]), 7);
+        $this->oldPost($author, ['post_category' => [$unused]]);
+
+        $data = LeaderboardDataProvider::terms(['date' => $this->range(), 'taxonomy' => 'category', 'post_type' => 'post']);
+
+        $this->assertSame([$small, $big], array_column($data['rankings_asc']['views'], 'id'));
+        $this->assertSame([$big, $small], array_column($data['rankings']['views'], 'id'));
+        $this->assertNotContains($unused, array_column($data['rankings_asc']['published'], 'id'), 'unused terms stay out of the low-to-high list');
+        $this->assertSame($small, $data['rankings_asc']['published'][0]['id'], 'ties fall back to views, low to high');
     }
 
     public function test_terms_with_the_same_name_prefer_language_then_parent()

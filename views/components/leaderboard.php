@@ -4,16 +4,19 @@
  * (views / posts published in the range) and the optional Comments column. Same numbers as the
  * Authors and Categories reports.
  *
- * Ranked on the server: with `rankings` (one list per sortable metric, LeaderboardDataProvider), a
- * click on the Views, Posts or Per post header shows that metric's own top rows (one <tbody> each,
- * assets/dev/javascript/components/leaderboard.js). Without `rankings` (older callers) the header
- * re-orders the shown rows in the browser. Under ~520px the table scrolls inside its card.
+ * Ranked on the server: with `rankings` (one list per sortable metric and direction, LeaderboardDataProvider),
+ * a click on the Views, Posts, Per post or Comments header shows that metric's own top rows, a second click
+ * its bottom rows (one <tbody data-ranking data-direction> each, assets/dev/javascript/components/leaderboard.js).
+ * Without `rankings` (older callers) the header re-orders the shown rows in the browser, both ways.
+ * Under ~520px the table scrolls inside its card.
  *
  * Args:
  *  - rows       (array[]) Leaderboard::buildRows() rows, ranked by views. Optional per row:
  *                         'url' (report link; no link when empty), 'avatar' (image URL),
  *                         'title' (hover text for the name).
- *  - rankings   (array[]) Optional. Leaderboard::RANKINGS key => rows ranked by that metric.
+ *  - rankings   (array[]) Optional. 'descending' and 'ascending' => metric (Leaderboard::SORTABLE) => rows
+ *                         ranked by that metric (LeaderboardPresenter::authorRankings()). A plain
+ *                         metric => rows array is read as the descending lists.
  *  - columns    (bool[])  Leaderboard::columns() flags.
  *  - name_label (string)  Header of the name column, e.g. "Author".
  *  - caption    (string)  Accessible table name, e.g. the card title.
@@ -38,13 +41,25 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\Leaderboard\Leaderboard;
 
-$rows       = isset($rows) && is_array($rows) ? $rows : [];
-$rankings   = isset($rankings) && is_array($rankings) ? array_intersect_key($rankings, array_flip(Leaderboard::RANKINGS)) : [];
-$serverSort = !empty($rankings);
+$rows     = isset($rows) && is_array($rows) ? $rows : [];
+$rankings = isset($rankings) && is_array($rankings) ? $rankings : [];
+if (!empty($rankings) && !isset($rankings['descending']) && !isset($rankings['ascending'])) {
+    $rankings = ['descending' => $rankings];
+}
+
+// direction => metric => rows, known metrics only.
+$lists = [];
+foreach (Leaderboard::DIRECTIONS as $direction) {
+    if (!empty($rankings[$direction]) && is_array($rankings[$direction])) {
+        $lists[$direction] = array_intersect_key($rankings[$direction], array_flip(Leaderboard::SORTABLE));
+    }
+}
+
+$serverSort = !empty($lists['descending']);
 if ($serverSort) {
-    $rows = isset($rankings['views']) ? $rankings['views'] : reset($rankings);
+    $rows = isset($lists['descending']['views']) ? $lists['descending']['views'] : reset($lists['descending']);
 } else {
-    $rankings = ['views' => $rows];
+    $lists = ['descending' => ['views' => $rows]];
 }
 $columns    = isset($columns) && is_array($columns) ? $columns : Leaderboard::columns($rows);
 $name_label = !empty($name_label) ? $name_label : __('Name', 'wp-statistics');
@@ -103,7 +118,7 @@ $tagLabels = [
                 <th scope="col" class="wps-leaderboard__name"><?php echo esc_html($name_label); ?></th>
                 <?php foreach ($numberColumns as $key => $label) :
                     // Server-ranked tables sort only by the metrics that have their own ranking.
-                    $sortable = !$serverSort || isset($rankings[$key]);
+                    $sortable = !$serverSort || isset($lists['descending'][$key]);
                     ?>
                     <th scope="col" class="wps-leaderboard__num"<?php echo $key === 'views' ? ' aria-sort="descending"' : ''; ?>>
                         <?php if ($sortable) : ?><button type="button" class="wps-leaderboard__sort" data-sort-key="<?php echo esc_attr($key); ?>"<?php echo isset($columnHints[$key]) ? ' title="' . esc_attr($columnHints[$key]) . '"' : ''; ?>><?php else : ?><span class="wps-leaderboard__head"<?php echo isset($columnHints[$key]) ? ' title="' . esc_attr($columnHints[$key]) . '"' : ''; ?>><?php endif; ?>
@@ -118,8 +133,8 @@ $tagLabels = [
                 <?php endforeach; ?>
             </tr>
             </thead>
-            <?php foreach ($rankings as $ranking => $rankingRows) : ?>
-            <tbody<?php if ($serverSort) : ?> data-ranking="<?php echo esc_attr($ranking); ?>"<?php echo $ranking !== 'views' ? ' hidden' : ''; ?><?php endif; ?>>
+            <?php foreach ($lists as $direction => $directionRankings) : foreach ($directionRankings as $ranking => $rankingRows) : ?>
+            <tbody<?php if ($serverSort) : ?> data-ranking="<?php echo esc_attr($ranking); ?>" data-direction="<?php echo esc_attr($direction); ?>"<?php echo ($ranking !== 'views' || $direction !== 'descending') ? ' hidden' : ''; ?><?php endif; ?>>
             <?php foreach ((array) $rankingRows as $index => $row) :
                 $name    = $row['name'] !== '' ? $row['name'] : __('(no name)', 'wp-statistics');
                 $tag     = !empty($row['tag']['text']) ? $row['tag'] : null;
@@ -174,7 +189,7 @@ $tagLabels = [
                 </tr>
             <?php endforeach; ?>
             </tbody>
-            <?php endforeach; ?>
+            <?php endforeach; endforeach; ?>
         </table>
     </div>
     <?php if ($note !== '') : ?>
