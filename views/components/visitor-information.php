@@ -288,7 +288,7 @@ $statusIcon = function ($type, $width = 14) {
     $actions = [];
     if ($ipVisible) {
         $actions[] = '<button type="button" data-wps-copy="' . esc_attr($ip) . '">' . $svg($icon['copy']) . '<span data-wps-copy-label>' . esc_html__('Copy IP', 'wp-statistics') . '</span></button>';
-        $actions[] = '<a href="' . esc_url(Menus::admin_url('visitors', ['tab' => 'visitors', 'ip' => $ip])) . '">' . $svg($icon['filter']) . '<span>' . esc_html__('Filter by IP', 'wp-statistics') . '</span></a>';
+        $actions[] = '<a href="' . esc_url(Menus::admin_url('visitors', ['tab' => 'visitors', 'ip' => $ip, 'exact_ip' => 1])) . '">' . $svg($icon['filter']) . '<span>' . esc_html__('Filter by IP', 'wp-statistics') . '</span></a>';
     } elseif (!$isUnknown) {
         $actions[] = '<a href="' . esc_url(Menus::admin_url('visitors', ['tab' => 'visitors', 'location' => $countryCode])) . '">' . $svg($icon['filter']) . '<span>' . esc_html__('Filter by country', 'wp-statistics') . '</span></a>';
     }

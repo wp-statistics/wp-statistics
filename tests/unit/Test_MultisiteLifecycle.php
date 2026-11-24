@@ -161,6 +161,19 @@ class Test_MultisiteLifecycle extends WP_UnitTestCase
         $this->assertSame(count($result), count(array_unique($result)));
     }
 
+    public function test_legacy_install_method_gives_the_same_tables_as_the_loader()
+    {
+        global $wpdb;
+
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
+
+        $tables = [$wpdb->prefix . 'posts'];
+        $legacy = (new \WP_STATISTICS\Install())->remove_table_on_delete_blog($tables);
+
+        $this->assertSame((new Loader())->removeTableOnDeleteBlog($tables, get_current_blog_id()), $legacy);
+        $this->assertFalse(has_filter('wpmu_drop_tables', [\WP_STATISTICS\Install::class, 'remove_table_on_delete_blog']));
+    }
+
     public function test_deleting_a_site_drops_its_tables()
     {
         $this->requireMultisite();

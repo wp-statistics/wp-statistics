@@ -79,6 +79,9 @@ class VisitorJourney
 
         $steps     = [];
         $pageCount = count($views);
+        // The visit's own view count; only its newest views may be loaded (see getVisitorsJourneys()).
+        $hits      = max($pageCount, (int)$visitor->getHits(true));
+        $truncated = $pageCount > 0 && $hits > $pageCount;
 
         foreach ($views as $i => $view) {
             $next = $views[$i + 1] ?? null;
@@ -96,7 +99,8 @@ class VisitorJourney
                 'page_id'      => (int)$view->page_id,
                 'page'         => $pageResolver ? call_user_func($pageResolver, (int)$view->page_id) : null,
                 'time_on_page' => $timeOnPage,
-                'is_entry'     => $i === 0,
+                // The entry page is only known when the first view was loaded.
+                'is_entry'     => $i === 0 && !$truncated,
                 'is_exit'      => $i === $pageCount - 1 && $pageCount > 1,
             ];
         }
@@ -114,7 +118,7 @@ class VisitorJourney
             array_splice($steps, $position, 0, [array_merge($event, ['type' => 'event'])]);
         }
 
-        $start = $pageCount ? $views[0]->date : ($visitor->getFirstView(true) ?: $visitor->getLastView(true));
+        $start = $pageCount && !$truncated ? $views[0]->date : ($visitor->getFirstView(true) ?: ($pageCount ? $views[0]->date : $visitor->getLastView(true)));
         $end   = $pageCount ? $views[$pageCount - 1]->date : $visitor->getLastView(true);
 
         $duration = null;
@@ -132,7 +136,10 @@ class VisitorJourney
             // Visits are listed by last view, newest first (same order as the latest-visitor lists).
             'sort'       => (string)($end ?: ($start ?: '')),
             'duration'   => $duration,
-            'views'      => $pageCount ?: (int)$visitor->getHits(true),
+            'views'      => $hits,
+            // Fewer steps than views: the oldest views of this visit are not listed.
+            'views_shown' => $pageCount,
+            'truncated'  => $truncated,
             'events'     => count($events),
             'steps'      => array_reverse($steps),
         ];

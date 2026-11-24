@@ -812,9 +812,16 @@ class Query
         $parts = [];
         $index = 0;
         foreach (array_values($this->queries) as $part) {
-            $part = trim($part);
+            if ($part instanceof self) {
+                // Query part: wrap only when orderBy() or perPage() was called on it
+                $wrap = $part->hasOrderOrLimit();
+                $part = trim($part->getQuery());
+            } else {
+                $part = trim((string)$part);
+                $wrap = self::sqlHasOwnOrderOrLimit($part);
+            }
 
-            if (preg_match('/\b(ORDER\s+BY|LIMIT)\b/i', $part)) {
+            if ($wrap) {
                 $part = "SELECT * FROM ($part) AS union_part_$index";
             }
 
@@ -835,6 +842,68 @@ class Query
         }
 
         return $query;
+    }
+
+    /**
+     * Whether orderBy() or perPage() set an ORDER BY or LIMIT on this query.
+     *
+     * @return bool
+     */
+    public function hasOrderOrLimit()
+    {
+        return !empty($this->orderClause) || !empty($this->limitClause);
+    }
+
+    /**
+     * Whether a SQL string has its own ORDER BY or LIMIT at the top level.
+     * Text inside parentheses (sub queries, functions) and quoted strings is ignored,
+     * so "ORDER BY" in a sub query or a literal does not count.
+     *
+     * @param string $sql
+     * @return bool
+     */
+    protected static function sqlHasOwnOrderOrLimit($sql)
+    {
+        $topLevel = '';
+        $depth    = 0;
+        $quote    = null;
+        $length   = strlen($sql);
+
+        for ($i = 0; $i < $length; $i++) {
+            $char = $sql[$i];
+
+            if ($quote !== null) {
+                if ($char === '\\') {
+                    $i++;
+                } elseif ($char === $quote) {
+                    $quote = null;
+                }
+                continue;
+            }
+
+            if ($char === "'" || $char === '"' || $char === '`') {
+                $quote     = $char;
+                $topLevel .= ' ';
+                continue;
+            }
+
+            if ($char === '(') {
+                $depth++;
+                continue;
+            }
+
+            if ($char === ')') {
+                $depth = max(0, $depth - 1);
+                $topLevel .= ' ';
+                continue;
+            }
+
+            if ($depth === 0) {
+                $topLevel .= $char;
+            }
+        }
+
+        return (bool)preg_match('/\b(ORDER\s+BY|LIMIT)\b/i', $topLevel);
     }
 
     /**

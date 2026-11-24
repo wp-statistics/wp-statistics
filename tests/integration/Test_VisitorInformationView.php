@@ -106,7 +106,7 @@ class Test_VisitorInformationView extends WP_UnitTestCase
         $this->assertSame(1, substr_count($card, '203.0.113.7</'), 'IP shown once in the card');
         $this->assertStringContainsString('Visitor Journey', $card);
         $this->assertStringContainsString('visitor_id=42', $card);
-        $this->assertStringContainsString('tab=visitors&#038;ip=203.0.113.7', $card);
+        $this->assertStringContainsString('tab=visitors&#038;ip=203.0.113.7&#038;exact_ip=1', $card);
         $this->assertStringContainsString('Anonymous Visitor', $card);
         $this->assertStringContainsString('Munich, Bavaria, <a', $card);
         $this->assertStringContainsString('country=DE', $card, 'country report link kept');

@@ -59,18 +59,7 @@ class AuthorsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page']);
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-        }
+        $this->joinTermFilter($query, $args);
 
         $result = $query->getAll();
 
@@ -415,44 +404,6 @@ class AuthorsModel extends BaseModel
         $this->joinTermFilter($query, $args);
 
         return $this->pluckCounts($query->getAll());
-    }
-
-    /**
-     * Limit a posts query to a taxonomy and/or term.
-     *
-     * @param Query $query
-     * @param array $args
-     */
-    private function joinTermFilter($query, $args)
-    {
-        if (empty($args['taxonomy']) && empty($args['term'])) {
-            return;
-        }
-
-        $taxQuery = Query::select(['DISTINCT object_id'])
-            ->from('term_relationships')
-            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-            ->where('terms.term_id', '=', $args['term'])
-            ->getQuery();
-
-        $query->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-    }
-
-    /**
-     * @param object[]|null $rows Rows with id + total.
-     * @return int[]
-     */
-    private function pluckCounts($rows)
-    {
-        $counts = [];
-
-        foreach ((array) $rows as $row) {
-            $counts[(int) $row->id] = (int) $row->total;
-        }
-
-        return $counts;
     }
 
     public function getAuthorsPagesData($args = [])

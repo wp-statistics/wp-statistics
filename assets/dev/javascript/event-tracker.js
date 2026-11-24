@@ -202,25 +202,25 @@ if (!window.WpStatisticsEventTracker) {
             let fileName = '';
             const linkPath = targetUrl.split(/[?#]/).shift();
             if (fileExtRegex.test(linkPath)) {
-                fileName = linkPath;
+                // Paths keep percent-encoding (My%20Report.pdf), so decode them once
+                fileName = linkPath.substring(linkPath.lastIndexOf('/') + 1);
+                try {
+                    fileName = decodeURIComponent(fileName);
+                } catch (e) {
+                    // Leave malformed encoding (100%.pdf) as it is
+                }
             }
             if (!fileName) {
                 const queryKeys = (typeof WP_Statistics_Tracker_Object !== 'undefined' && Array.isArray(WP_Statistics_Tracker_Object.downloadQueryKeys)) ? WP_Statistics_Tracker_Object.downloadQueryKeys : [];
                 try {
+                    // searchParams.get() already decodes the value, so it is not decoded again
                     const params = new URL(targetUrl).searchParams;
                     const key = queryKeys.find(k => fileExtRegex.test(params.get(k) || ''));
                     fileName = key ? params.get(key) : '';
                 } catch (e) {
                     // Not a valid URL, so not a download link
                 }
-            }
-            fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
-
-            // Paths keep percent-encoding (My%20Report.pdf), so decode them like query values
-            try {
-                fileName = decodeURIComponent(fileName);
-            } catch (e) {
-                // Leave malformed encoding as it is
+                fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
             }
 
             // Extract file name and extension from <a> tag href

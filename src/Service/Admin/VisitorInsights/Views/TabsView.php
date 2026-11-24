@@ -43,6 +43,8 @@ class TabsView extends BaseTabView
             'platform'       => Request::get('platform', ''),
             'user_id'        => Request::get('user_id', ''),
             'ip'             => Request::get('ip', ''),
+            // Set by the visitor card's "Filter by IP" link: only this IP, not every IP containing it
+            'exact_ip'       => Request::get('exact_ip', '') === '1',
             'referrer'       => Request::get('referrer', ''),
             'source_channel' => Request::get('source_channel', ''),
         ]);

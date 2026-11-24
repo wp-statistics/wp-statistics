@@ -140,6 +140,47 @@ abstract class BaseModel
     }
 
     /**
+     * Limit a query on the posts table to a taxonomy and/or term (no-op when neither is set).
+     *
+     * @param Query $query
+     * @param array $args Reads `taxonomy` and `term`.
+     * @param string $postIdColumn Column holding the post ID in $query.
+     */
+    protected function joinTermFilter($query, $args, $postIdColumn = 'posts.ID')
+    {
+        if (empty($args['taxonomy']) && empty($args['term'])) {
+            return;
+        }
+
+        $taxQuery = Query::select(['DISTINCT object_id'])
+            ->from('term_relationships')
+            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'] ?? '')
+            ->where('terms.term_id', '=', $args['term'] ?? '')
+            ->getQuery();
+
+        $query->joinQuery($taxQuery, [$postIdColumn, 'tax.object_id'], 'tax');
+    }
+
+    /**
+     * Turn rows of `id` + `total` into an id => count map.
+     *
+     * @param object[]|null $rows
+     * @return int[]
+     */
+    protected function pluckCounts($rows)
+    {
+        $counts = [];
+
+        foreach ((array) $rows as $row) {
+            $counts[(int) $row->id] = (int) $row->total;
+        }
+
+        return $counts;
+    }
+
+    /**
      * Parses the query_param argument.
      *
      * @return array The parsed arguments.

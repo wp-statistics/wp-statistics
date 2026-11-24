@@ -127,6 +127,16 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
         }
     }
 
+    /** Steady traffic: $perDay visitors on each of the 14 days ending $secondsAgo ago. */
+    private function steadySite($secondsAgo, $perDay = 6, $everyNthDay = 1)
+    {
+        for ($day = 0; $day < 14; $day += $everyNthDay) {
+            for ($i = 0; $i < $perDay; $i++) {
+                $this->visit($secondsAgo + $day * DAY_IN_SECONDS + $i);
+            }
+        }
+    }
+
     private function state()
     {
         return VisitorProvider::getRecordingState((new VisitorProvider())->getRecordingStatus());
@@ -224,10 +234,86 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
 
     public function test_visits_only_8_days_ago()
     {
-        $this->site(8 * DAY_IN_SECONDS, 50);
+        $this->steadySite(8 * DAY_IN_SECONDS);
         $this->assertSame('stopped', $this->state());
         TrackingHealth::check();
         $this->assertSame(1, $this->mails());
+    }
+
+    // ---------- who gets the alert (steady traffic, usual gap, baseline) ----------
+
+    public function test_small_blog_with_three_visits_a_week_gets_no_alert()
+    {
+        // A visit every other day or so: 3 a week, last one 3 days ago
+        foreach ([3, 5, 7, 10, 12, 14] as $daysAgo) {
+            $this->visit($daysAgo * DAY_IN_SECONDS);
+        }
+
+        $status = (new VisitorProvider())->getRecordingStatus();
+        $this->assertSame('stopped', VisitorProvider::getRecordingState($status), 'the card still shows no recent visits');
+        $this->assertSame(6, $status['active_days']);
+        $this->assertFalse(TrackingHealth::shouldAlert($status));
+
+        TrackingHealth::check();
+        TrackingHealth::check();
+        $this->assertSame(0, $this->mails());
+        $this->assertFalse(TrackingHealth::isStopped());
+    }
+
+    public function test_dormant_site_gets_no_alert_on_the_first_run_after_update()
+    {
+        // Steady traffic once, but the last visit was months ago
+        $this->steadySite(120 * DAY_IN_SECONDS);
+
+        $status = (new VisitorProvider())->getRecordingStatus();
+        $this->assertTrue(TrackingHealth::shouldAlert($status), 'steady before it went quiet');
+
+        TrackingHealth::check();
+        TrackingHealth::check();
+        $this->assertSame(0, $this->mails());
+        $this->assertFalse(TrackingHealth::isStopped());
+        $this->assertFalse(get_option(TrackingHealth::BASELINE_OPTION, false), 'no recent visit, so no baseline');
+    }
+
+    public function test_steady_site_that_stops_is_alerted_once_then_recovers()
+    {
+        $this->steadySite(30 * HOUR_IN_SECONDS);
+
+        $this->assertSame('stopped', TrackingHealth::check());
+        $this->assertSame(1, $this->mails());
+        $this->assertNotFalse(get_option(TrackingHealth::BASELINE_OPTION, false));
+
+        TrackingHealth::check();
+        TrackingHealth::check();
+        $this->assertSame(1, $this->mails(), 'one email per outage');
+
+        $this->visit(60);
+        $this->assertSame('working', TrackingHealth::check());
+        $this->assertSame(2, $this->mails());
+        $this->assertStringContainsString('recorded again', $this->mail(1)->subject);
+    }
+
+    public function test_quiet_window_follows_the_usual_gap()
+    {
+        // Visits on 7 of 14 days (every other day): the alert waits 3 days, not 1
+        $base = ['last_visit' => '2026-01-01 00:00:00', 'visitors_week_before' => 70, 'active_days' => 7, 'error' => false];
+
+        $this->assertFalse(TrackingHealth::shouldAlert($base + ['seconds_since' => 2 * DAY_IN_SECONDS]));
+        $this->assertTrue(TrackingHealth::shouldAlert($base + ['seconds_since' => 3 * DAY_IN_SECONDS + 1]));
+
+        // Visits every day: one day is enough
+        $daily = ['active_days' => 14] + $base;
+        $this->assertTrue(TrackingHealth::shouldAlert($daily + ['seconds_since' => DAY_IN_SECONDS + 1]));
+
+        // Few visitors and few active days: never
+        $this->assertFalse(TrackingHealth::shouldAlert(['visitors_week_before' => 3, 'active_days' => 6, 'seconds_since' => 30 * DAY_IN_SECONDS] + $base));
+    }
+
+    public function test_deactivation_resets_the_baseline()
+    {
+        update_option(TrackingHealth::BASELINE_OPTION, time());
+        \WP_Statistics::deactivator(false);
+        $this->assertFalse(get_option(TrackingHealth::BASELINE_OPTION, false));
     }
 
     public function test_visits_only_8_days_ago_tiny_site_is_stopped_not_quiet()
@@ -556,7 +642,7 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
 
     public function test_cron_passes_empty_string_arg_is_handled()
     {
-        $this->site(3 * DAY_IN_SECONDS, 50);
+        $this->steadySite(3 * DAY_IN_SECONDS);
         $this->assertSame('stopped', TrackingHealth::check(''));
         $this->assertSame('stopped', TrackingHealth::check(false));
         $this->assertSame(1, $this->mails());
@@ -845,7 +931,7 @@ class Test_TrackingHealthEdgeCases extends WP_UnitTestCase
     public function test_recording_status_sql_is_prepared()
     {
         $src = file_get_contents(WP_STATISTICS_DIR . 'src/Service/Debugger/Provider/VisitorProvider.php');
-        $this->assertSame(4, substr_count($src, '$wpdb->prepare('));
+        $this->assertSame(5, substr_count($src, '$wpdb->prepare('));
         $this->assertStringNotContainsString('$_GET', $src);
         $this->assertStringNotContainsString('$_POST', $src);
         $this->assertStringNotContainsString('$_REQUEST', $src);
