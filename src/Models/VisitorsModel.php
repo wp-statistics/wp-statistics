@@ -2051,7 +2051,7 @@ class VisitorsModel extends BaseModel
             $parts[] = '(pages.id = 0 AND pages.uri IN (' . implode(', ', array_fill(0, count($uris), '%s')) . '))';
             $values  = array_merge($values, array_values($uris));
         }
-        $condition = 'AND (' . implode(' OR ', $parts) . ')';
+        $condition = '(' . implode(' OR ', $parts) . ')';
 
         // id 0 rows are told apart by uri + type; other rows by id only
         $uriExpr  = "CASE WHEN pages.id = 0 THEN pages.uri ELSE '' END";
@@ -2071,7 +2071,7 @@ class VisitorsModel extends BaseModel
                 ->from('visitor_relationships')
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
                 ->whereDate('visitor_relationships.date', $args['date'])
-                ->whereRaw($condition, $values)
+                ->whereRaw('AND ' . $condition, $values)
                 ->groupBy(['pages.id', $uriExpr, $typeExpr])
                 ->getAll();
 
@@ -2083,16 +2083,28 @@ class VisitorsModel extends BaseModel
         }
 
         if (in_array('bounce_rate', (array)$args['fields'], true)) {
-            $rows = Query::select([
-                'pages.id AS id',
-                "$uriExpr AS match_uri",
-                "$typeExpr AS match_type",
+            // Count landings per first_page first (one pass over the visitor table, grouped
+            // by an integer), then join the small result to pages. Joining every visitor
+            // row to pages and grouping by the uri/type expressions was 2x slower on big sites.
+            $landingsQuery = Query::select([
+                'visitor.first_page',
                 'COUNT(visitor.ID) AS entrances',
                 'SUM(CASE WHEN visitor.hits = 1 THEN 1 ELSE 0 END) AS bounces',
             ])
                 ->from('visitor')
-                ->join('pages', ['visitor.first_page', 'pages.page_id'])
                 ->whereDate('visitor.last_counter', $args['date'])
+                ->groupBy('visitor.first_page')
+                ->getQuery();
+
+            $rows = Query::select([
+                'pages.id AS id',
+                "$uriExpr AS match_uri",
+                "$typeExpr AS match_type",
+                'SUM(landings.entrances) AS entrances',
+                'SUM(landings.bounces) AS bounces',
+            ])
+                ->fromQuery($landingsQuery, 'landings')
+                ->join('pages', ['landings.first_page', 'pages.page_id'])
                 ->whereRaw($condition, $values)
                 ->groupBy(['pages.id', $uriExpr, $typeExpr])
                 ->getAll();

@@ -201,6 +201,29 @@ class Test_PagesEngagement extends WP_UnitTestCase
         $this->assertSame([], $result);
     }
 
+    public function test_one_landing_page_split_over_several_page_rows_is_summed()
+    {
+        // Same post on three days = three page rows; landings on each add up under one key.
+        $day1 = $this->addPage(60, '/split/', 'post', 1, DateTime::get('-2 days'));
+        $day2 = $this->addPage(60, '/split/', 'post', 1, DateTime::get('-1 days'));
+        $day3 = $this->addPage(60, '/split/', 'post', 1);
+        $next = $this->addPage(61, '/next/', 'post', 1);
+
+        $this->addVisitor([$day1], DateTime::get('-2 days'));
+        $this->addVisitor([$day2, $next], DateTime::get('-1 days'));
+        $this->addVisitor([$day3]);
+        $this->addVisitor([$day3, $next]);
+
+        $result = (new VisitorsModel())->getPagesEngagement([
+            'date'      => $this->range(),
+            'resources' => [['id' => 60], ['id' => 0, 'uri' => '/nobody/', 'type' => '404']],
+            'fields'    => ['bounce_rate'],
+        ]);
+
+        $this->assertSame(['visitors' => 0, 'entrances' => 4, 'bounces' => 2, 'bounce_rate' => 50.0], $result[VisitorsModel::pageEngagementKey(60)]);
+        $this->assertCount(1, $result);
+    }
+
     public function test_top_pages_card_rows_carry_visitors_and_bounce_rate()
     {
         $home = $this->addPage(0, '/', 'home', 5);
