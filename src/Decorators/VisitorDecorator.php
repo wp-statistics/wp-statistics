@@ -360,13 +360,13 @@ class VisitorDecorator
         $timestamp = strtotime($date);
 
         // Today, and the row has a time part (last_counter alone is a plain date).
-        if (date('Y-m-d', $timestamp) === DateTime::get() && strlen((string) $date) > 10) {
+        if (gmdate('Y-m-d', $timestamp) === DateTime::get() && strlen((string) $date) > 10) {
             return date_i18n(DateTime::getTimeFormat(), $timestamp);
         }
 
         $format = DateTime::getDateFormat();
 
-        if (date('Y', $timestamp) === DateTime::get('now', 'Y')) {
+        if (gmdate('Y', $timestamp) === DateTime::get('now', 'Y')) {
             $format = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $format);
         }
 

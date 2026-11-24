@@ -120,7 +120,8 @@ class Admin_Assets
             return;
         }
 
-        $tag = '<script src="' . esc_url(self::url('visitor-card.min.js') . '?ver=' . self::version()) . '"></script>';
+        // These pages never fire wp_print_footer_scripts, so an enqueued script would not print; build the tag with core's helper.
+        $tag = wp_get_script_tag(['src' => esc_url(add_query_arg('ver', self::version(), self::url('visitor-card.min.js')))]);
 
         ob_start(function ($html) use ($tag) {
             return self::insertBeforeBodyEnd($html, $tag);

@@ -9,7 +9,7 @@ Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17
 - **Enhancement:** Network Admin lists all sites in one sortable, searchable table.
 - **Enhancement:** Clearer chart tooltips, sortable leaderboards and Top Posts thumbnails.
 - **Fix:** More accurate totals, filters and online counts; Top Pages works on SQLite.
-- **Fix:** Multisite sets up every site on activation and keeps site tables in step.
+- **Fix:** Multisite sets up every site on activation, keeps site tables in step and works on WordPress 6.6.
 - **Fix:** Download Tracker counts files behind a link parameter ([#1202](https://github.com/wp-statistics/wp-statistics/issues/1202)).
 - **Fix:** Ad clicks without a referrer (gclid, fbclid) get a source.
 - **Fix:** Emails no longer fail when sent together, and they fit phone screens.
