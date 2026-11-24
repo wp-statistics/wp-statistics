@@ -238,25 +238,23 @@ class FilterManager
 
         // Base query
         $query = "SELECT visitors.user_id, users.user_login, users.user_email
-                  FROM `" . DB::table('visitor') . "` AS visitors
-                  JOIN `" . $wpdb->users . "` AS users
+                  FROM %i AS visitors
+                  JOIN %i AS users
                   ON visitors.user_id = users.ID
                   WHERE visitors.user_id > 0";
+        $params = [DB::table('visitor'), $wpdb->users];
 
         // If search term is provided, filter by email or username
         if (!empty($search)) {
             $search = '%' . $wpdb->esc_like($search) . '%';
-            $query .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
+            $query    .= " AND (users.user_login LIKE %s OR users.user_email LIKE %s)";
+            $params[] = $search;
+            $params[] = $search;
         }
 
         $query .= " GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;";
 
-        // Prepare and execute the query
-        if (!empty($search)) {
-            $query = $wpdb->prepare($query, $search, $search);
-        }
-
-        $results = $wpdb->get_results($query, ARRAY_A);
+        $results = $wpdb->get_results($wpdb->prepare($query, $params), ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $query is built from fixed strings above
 
         foreach ($results as $user) {
             $option = [

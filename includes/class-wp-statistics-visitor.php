@@ -92,8 +92,9 @@ class Visitor
         $columns      = (empty($fields) ? '*' : Helper::prepareArrayToStringForQuery($fields));
         $columns      = str_replace("'", '', $columns);
         $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
-        $visitor      = $wpdb->get_row(
-            $wpdb->prepare("SELECT {$columns} FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip)
+        // $columns is a column list from the calling code (quotes stripped), never request input.
+        $visitor      = $wpdb->get_row( // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter
+            $wpdb->prepare("SELECT {$columns} FROM %i WHERE `last_counter` = %s AND `ip` = %s", DB::table('visitor'), $last_counter, $ip) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         );
 
         return (!$visitor ? false : $visitor);
@@ -226,7 +227,8 @@ class Visitor
         global $wpdb;
 
         $row = $wpdb->get_row($wpdb->prepare(
-            "SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s AND `agent` = %s AND `platform` = %s AND `version` = %s LIMIT 1",
+            "SELECT * FROM %i WHERE `last_counter` = %s AND `ip` = %s AND `agent` = %s AND `platform` = %s AND `version` = %s LIMIT 1",
+            DB::table('visitor'),
             $visitor['last_counter'],
             $visitor['ip'],
             (string) $visitor['agent'],
@@ -260,7 +262,7 @@ class Visitor
          *
          */
         $row = $wpdb->get_row(
-            $wpdb->prepare("SELECT ID, page_id FROM `" . $tableName . "` WHERE `visitor_id` = %d AND DATE(`date`) = %s ORDER BY `date` DESC LIMIT 1", $visitor_id, $currentDate)
+            $wpdb->prepare("SELECT ID, page_id FROM %i WHERE `visitor_id` = %d AND DATE(`date`) = %s ORDER BY `date` DESC LIMIT 1", $tableName, $visitor_id, $currentDate)
         );
 
         // Insert a new record in visitor relationship only if the last viewed page is not equal to the current page
@@ -319,7 +321,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
+        $args['sql'] = $wpdb->prepare("SELECT * FROM %i WHERE last_counter = %s ORDER BY hits DESC", DB::table('visitor'), $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -529,9 +531,9 @@ class Visitor
     public static function Count($args = array())
     {
         global $wpdb;
-        $sql = "SELECT COUNT(*) FROM `" . DB::table('visitor') . "`";
+        $sql = $wpdb->prepare("SELECT COUNT(*) FROM %i", DB::table('visitor'));
         $sql .= Helper::getConditionSQL($args);
-        return $wpdb->get_var($sql);
+        return $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- conditions come from internal callers, not request input
     }
 
     /**
@@ -543,7 +545,11 @@ class Visitor
     {
         global $wpdb;
         $query = $wpdb->get_results(
-            "SELECT visitors.user_id, users.user_login, users.user_email FROM `" . DB::table('visitor') . "` AS visitors JOIN `" . $wpdb->users . "` AS users ON visitors.user_id = users.ID WHERE visitors.user_id > 0 GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;",
+            $wpdb->prepare(
+                "SELECT visitors.user_id, users.user_login, users.user_email FROM %i AS visitors JOIN %i AS users ON visitors.user_id = users.ID WHERE visitors.user_id > 0 GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;",
+                DB::table('visitor'),
+                $wpdb->users
+            ),
             ARRAY_A
         );
         $item  = array();

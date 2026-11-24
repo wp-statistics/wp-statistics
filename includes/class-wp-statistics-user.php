@@ -380,7 +380,14 @@ class User
         }
 
         if (is_multisite()) {
-            if (!empty(get_current_blog_id()) && current_user_can_for_site(get_current_blog_id(), $capability)) {
+            $blogId = get_current_blog_id();
+
+            if (empty($blogId)) {
+                return;
+            }
+
+            // Not current_user_can_for_site(): it needs WP 6.7 and the plugin supports 6.6.
+            if (self::currentUserCanForBlog($blogId, $capability)) {
                 return true;
             }
 
@@ -396,6 +403,30 @@ class User
         }
 
         return;
+    }
+
+    /**
+     * Same as current_user_can_for_site() (WP 6.7+), for WP 6.6: switches only when $blogId is another site.
+     *
+     * @param int $blogId
+     * @param string $capability
+     * @return bool
+     */
+    private static function currentUserCanForBlog($blogId, $capability)
+    {
+        $switched = is_multisite() && (int)$blogId !== get_current_blog_id();
+
+        if ($switched) {
+            switch_to_blog($blogId);
+        }
+
+        $can = current_user_can($capability);
+
+        if ($switched) {
+            restore_current_blog();
+        }
+
+        return $can;
     }
 
     /**
