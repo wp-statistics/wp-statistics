@@ -3,13 +3,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Statistics 14.17.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wps-pot\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wps-pot2\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-24T15:51:34+00:00\n"
+"POT-Creation-Date: 2026-11-24T18:08:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-statistics\n"
@@ -580,7 +580,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:497
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:43
 #: src/Service/Admin/SiteHealthInfo.php:85
-#: views/metabox/about.php:47
+#: views/metabox/about.php:33
 msgid "Version"
 msgstr ""
 
@@ -948,7 +948,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:570
 #: includes/admin/class-wp-statistics-admin-assets.php:572
-#: includes/class-wp-statistics-helper.php:2343
+#: includes/class-wp-statistics-helper.php:2348
 #: views/components/objects/no-data.php:15
 #: views/components/tables/most-active-visitors.php:13
 #: views/metabox/horizontal-bar.php:16
@@ -958,7 +958,7 @@ msgid "No data found for this date range."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:571
-#: includes/class-wp-statistics-helper.php:2346
+#: includes/class-wp-statistics-helper.php:2351
 #: views/components/objects/no-data.php:16
 #: views/components/tables/most-active-visitors.php:15
 #: views/metabox/horizontal-bar.php:18
@@ -1716,7 +1716,7 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:76
 #: includes/admin/templates/settings/add-ons/mini-chart.php:31
-#: includes/class-wp-statistics-helper.php:1798
+#: includes/class-wp-statistics-helper.php:1803
 #: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:64
 #: src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php:18
 msgid "Mini Chart"
@@ -5156,87 +5156,87 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1648
+#: includes/class-wp-statistics-helper.php:1653
 msgid "a year"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1650
+#: includes/class-wp-statistics-helper.php:1655
 msgid "a month"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1653
+#: includes/class-wp-statistics-helper.php:1658
 msgid "a week"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1655
+#: includes/class-wp-statistics-helper.php:1660
 msgid "a day"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1741
+#: includes/class-wp-statistics-helper.php:1746
 msgid "Optimize Your Content Strategy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1743
+#: includes/class-wp-statistics-helper.php:1748
 #, php-format
 msgid "For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style=\"margin-top: 16px\">For more details, read <a href=\"%1$s\" style=\"color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none\" target=\"_blank\">%2$s <img width=\"6.67\" height=\"10.91\" style=\"margin-"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1750
+#: includes/class-wp-statistics-helper.php:1755
 msgid "Optimize Your Data Accuracy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1754
+#: includes/class-wp-statistics-helper.php:1759
 msgid "Keep the plugin up-to-date"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1755
+#: includes/class-wp-statistics-helper.php:1760
 msgid "Ensure that your WP Statistics plugin is up-to-date in order to get the latest features and security improvements."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1758
+#: includes/class-wp-statistics-helper.php:1763
 msgid "Maintain Privacy Compliance"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1762
+#: includes/class-wp-statistics-helper.php:1767
 msgid "WordPress Export and Erasure"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1766
+#: includes/class-wp-statistics-helper.php:1771
 msgid "Track Links and Downloads"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1770
+#: includes/class-wp-statistics-helper.php:1775
 msgid "Advanced Filtering"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1774
+#: includes/class-wp-statistics-helper.php:1779
 msgid "Weekly Performance Overview"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1778
+#: includes/class-wp-statistics-helper.php:1783
 msgid "Traffic by Hour Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1782
+#: includes/class-wp-statistics-helper.php:1787
 msgid "Content-Specific Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1786
+#: includes/class-wp-statistics-helper.php:1791
 msgid "Custom Post Type Tracking"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1790
+#: includes/class-wp-statistics-helper.php:1795
 msgid "Custom Taxonomy Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1794
+#: includes/class-wp-statistics-helper.php:1799
 #: src/Service/Admin/LicenseManagement/Plugin/AddonCatalog.php:84
 #: src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php:18
 msgid "Real-Time Stats"
 msgstr ""
 
 #. translators: %s: Name of the request parameter that failed validation.
-#: includes/class-wp-statistics-helper.php:2111
+#: includes/class-wp-statistics-helper.php:2116
 #, php-format
 msgid "Invalid hit/online request (%s)."
 msgstr ""
@@ -8155,8 +8155,8 @@ msgstr ""
 msgid "CookieYes"
 msgstr ""
 
-#: src/Service/Integrations/Plugins/RealCookieBanner.php:21
-msgid "Real Cookie Banner PRO"
+#: src/Service/Integrations/Plugins/RealCookieBanner.php:28
+msgid "Real Cookie Banner"
 msgstr ""
 
 #: src/Service/Integrations/Plugins/WpConsentApi.php:41
@@ -10010,51 +10010,35 @@ msgid "Help"
 msgstr ""
 
 #: views/metabox/about.php:20
-msgid "Release notes"
-msgstr ""
-
-#: views/metabox/about.php:21
-msgid "Release Notes"
-msgstr ""
-
-#: views/metabox/about.php:27
-msgid "Ideas"
-msgstr ""
-
-#: views/metabox/about.php:28
-msgid "Request a feature"
-msgstr ""
-
-#: views/metabox/about.php:34
 msgid "Blog"
 msgstr ""
 
-#: views/metabox/about.php:35
+#: views/metabox/about.php:21
 msgid "Blog Updates"
 msgstr ""
 
-#: views/metabox/about.php:46
-#: views/metabox/about.php:49
+#: views/metabox/about.php:32
+#: views/metabox/about.php:35
 msgid "What's new"
 msgstr ""
 
-#: views/metabox/about.php:54
+#: views/metabox/about.php:40
 msgid "Quick Actions"
 msgstr ""
 
-#: views/metabox/about.php:66
+#: views/metabox/about.php:52
 msgid "Is WP Statistics helping your site? A short review on WordPress.org helps other site owners find it."
 msgstr ""
 
-#: views/metabox/about.php:69
+#: views/metabox/about.php:55
 msgid "Leave a review"
 msgstr ""
 
-#: views/metabox/about.php:77
+#: views/metabox/about.php:63
 msgid "How to Customize This Widget"
 msgstr ""
 
-#: views/metabox/about.php:82
+#: views/metabox/about.php:68
 msgid "Powered by VeronaLabs"
 msgstr ""
 
