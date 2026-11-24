@@ -70,6 +70,8 @@ function loadTracker(files, integration, options = {}) {
         wp_has_consent(category) {
             return consentGranted && category === 'statistics';
         },
+        // A cookie banner that has set its consent type, as WP Consent API expects.
+        wp_consent_type: 'optin',
         getCkyConsent() {
             return {categories: {analytics: consentGranted}};
         },

@@ -12,13 +12,34 @@ class RealCookieBanner extends AbstractIntegration
     protected $path = 'real-cookie-banner-pro/index.php';
 
     /**
+     * The free version from WordPress.org. It has the same consent API as PRO.
+     *
+     * @var string
+     */
+    protected $freePath = 'real-cookie-banner/index.php';
+
+    /**
      * Returns the name of the integration.
      *
      * @return  string
      */
     public function getName()
     {
-        return esc_html__('Real Cookie Banner PRO', 'wp-statistics');
+        return esc_html__('Real Cookie Banner', 'wp-statistics');
+    }
+
+    /**
+     * Returns the path of the active Real Cookie Banner plugin, PRO first.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        if (!is_plugin_active($this->path) && is_plugin_active($this->freePath)) {
+            return $this->freePath;
+        }
+
+        return $this->path;
     }
 
     public function register()
@@ -95,6 +116,10 @@ class RealCookieBanner extends AbstractIntegration
      */
     public function getJsHandles()
     {
-        return ['real-cookie-banner-pro-banner'];
+        // The handle is the plugin folder plus "-banner": real-cookie-banner-pro-banner or real-cookie-banner-banner.
+        // Only depend on a registered handle: WordPress drops a script whose dependency is missing.
+        $handle = dirname($this->getPath()) . '-banner';
+
+        return wp_script_is($handle, 'registered') ? [$handle] : [];
     }
 }
