@@ -573,6 +573,8 @@ class Admin_Assets
             'confirm_repair_schema'        => __('Are you sure you want to repair the schema issues?', 'wp-statistics'),
             'operation_completed'          => __('Operation completed.', 'wp-statistics'),
             'to_range'                     => __('to', 'wp-statistics'),
+            // Settings: (i) button that shows a field's help text (assets/dev/javascript/pages/settings-help.js).
+            'setting_help'                 => __('More info', 'wp-statistics'),
             // Chart tooltip (assets/dev/javascript/chart.js, wpsTooltipStrings()).
             'tooltip_now'                  => _x('Now', 'chart tooltip column: this period', 'wp-statistics'),
             'tooltip_before'               => _x('Before', 'chart tooltip column: previous period', 'wp-statistics'),
