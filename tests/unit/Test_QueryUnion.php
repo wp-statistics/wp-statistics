@@ -61,4 +61,36 @@ class Test_QueryUnion extends WP_UnitTestCase
         );
         $this->assertSame($sql, $query->getQuery());
     }
+
+    /**
+     * ORDER BY or LIMIT inside a sub query or a quoted value is not the part's own clause.
+     */
+    public function test_order_by_inside_sub_query_or_literal_does_not_wrap()
+    {
+        $sql = Query::union([
+            "SELECT id FROM wp_statistics_pages WHERE id IN (SELECT id FROM wp_statistics_pages ORDER BY id LIMIT 5)",
+            "SELECT id FROM wp_statistics_pages WHERE uri = '/order by limit/'",
+        ])->getQuery();
+
+        $this->assertStringNotContainsString('union_part_', $sql);
+    }
+
+    /**
+     * Query parts are wrapped only when orderBy() or perPage() was called on them.
+     */
+    public function test_query_parts_wrap_by_flag()
+    {
+        $plain   = Query::select('id')->from('pages')->where('id', '!=', '0')->groupBy('id');
+        $limited = Query::select('id')->from('pages')->where('id', '=', '0')->orderBy('id')->perPage(1, 5);
+
+        $this->assertFalse($plain->hasOrderOrLimit());
+        $this->assertTrue($limited->hasOrderOrLimit());
+
+        $sql = Query::union([$plain, $limited])->orderBy('id')->getQuery();
+
+        $this->assertStringNotContainsString('union_part_0', $sql);
+        $this->assertStringContainsString('SELECT * FROM (SELECT id FROM', $sql);
+        $this->assertStringContainsString(') AS union_part_1', $sql);
+        $this->assertStringStartsWith('SELECT id FROM', $sql);
+    }
 }
