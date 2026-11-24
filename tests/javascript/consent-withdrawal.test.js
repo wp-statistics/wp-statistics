@@ -49,6 +49,7 @@ function loadTracker(files, integration, options = {}) {
         navigator: {},
         document: {
             cookie: '',
+            readyState: options.readyState || 'loading',
             prerendering: false,
             referrer: '',
             addEventListener: addListener(documentListeners),
@@ -387,4 +388,16 @@ for (const [bundle, files] of Object.entries(trackerBundles)) {
         await Promise.resolve();
         assert.equal(tracker.getHits(), 2, 'repeated consent updates do not duplicate the hit');
     });
+}
+
+for (const [bundle, files] of Object.entries(trackerBundles)) {
+    // Borlabs Cookie releases the tracker only after consent, when DOMContentLoaded has already fired.
+    for (const integration of ['', 'borlabs_cookie']) {
+        test(`${bundle} tracker loaded after the page is ready still counts the visit (${integration || 'no integration'})`, () => {
+            const tracker = loadTracker(files, integration, {readyState: 'complete'});
+            assert.equal(tracker.getHits(), 1);
+            tracker.dispatchDocument('DOMContentLoaded');
+            assert.equal(tracker.getHits(), 1, 'no second hit');
+        });
+    }
 }

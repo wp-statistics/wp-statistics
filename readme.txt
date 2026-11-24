@@ -161,6 +161,7 @@ Read the [14.17 release post](https://wp-statistics.com/blog/wp-statistics-14-17
 - **Fix:** Any cookie plugin that supports WP Consent API works, no visit is counted before the banner is ready, and the consent setting no longer switches itself off.
 - **Fix:** Hits are no longer lost when a visitor opens several tabs at once, and login page visits keep their address.
 - **Fix:** Ad clicks without a referrer (gclid, fbclid) get a source.
+- **Fix:** Visits are counted when a cookie plugin like Borlabs Cookie loads the tracker after consent; no false low-memory warning when PHP has no memory limit.
 - **Fix:** Emails no longer fail when sent together, and they fit phone screens.
 - **Fix:** CSV exports hide raw IPs with IP hashing on; the referrer shortcode counts again.
 

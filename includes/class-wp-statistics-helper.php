@@ -1533,6 +1533,11 @@ class Helper
 
         $memoryLimit = ini_get('memory_limit');
 
+        // -1 (or an empty value) means no limit.
+        if ($memoryLimit === false || $memoryLimit === '' || (int)$memoryLimit <= 0) {
+            return false;
+        }
+
         if (memory_get_peak_usage(true) > self::convertBytes($memoryLimit)) {
             return true;
         }
