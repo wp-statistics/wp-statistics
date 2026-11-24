@@ -10,7 +10,9 @@ let wpsAutoSlideInterval;
 function showSlide(index) {
     currentSlide = index;
     slides.forEach((slide, i) => {
-        slide.style.display = (i === index) ? 'block' : 'none';
+        // The class shows the slide (CSS); split lock pages keep every slide in one grid cell so the
+        // box stays as tall as the tallest picture and nothing jumps when pictures change.
+        slide.classList.toggle('is-active', i === index);
         slide.setAttribute('aria-hidden', i === index ? 'false' : 'true');
     });
     updateDots(index);

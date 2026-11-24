@@ -2,8 +2,10 @@
  * Leaderboard tables (views/components/leaderboard.php) and "Rank by" lists
  * (views/components/content-rank-list.php).
  *
- * - A header button sorts the shown rows (5-10) in the browser: first click high to low,
- *   second click low to high. aria-sort moves to the sorted header; ranks are renumbered.
+ * - Server-ranked tables (one <tbody data-ranking="views|published|views_per_post"> per metric):
+ *   a header button shows that metric's own top rows, high to low. aria-sort moves to that header.
+ * - Older tables without rankings: a header button sorts the shown rows in the browser, first
+ *   click high to low, second click low to high; ranks are renumbered.
  * - The "Rank by" menu shows one ranked list at a time.
  * Delegated, so cards added later (AJAX, add-ons) work without setup.
  */
@@ -37,7 +39,7 @@
         return current === 'descending' ? 'ascending' : 'descending';
     }
 
-    var api = {order: order, nextDirection: nextDirection};
+    var api = {order: order, nextDirection: nextDirection, showRanking: showRanking};
 
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = api;
@@ -48,10 +50,38 @@
     root.wpsLeaderboard = api;
     var document = root.document;
 
+    /**
+     * Show the server ranking for a key. Returns false when the table has no rankings.
+     */
+    function showRanking(table, th, key) {
+        var bodies = Array.prototype.slice.call(table.tBodies).filter(function (body) {
+            return body.hasAttribute('data-ranking');
+        });
+        if (!bodies.length) return false;
+
+        var target = bodies.filter(function (body) {
+            return body.getAttribute('data-ranking') === key;
+        })[0];
+        if (!target) return true;
+
+        bodies.forEach(function (body) {
+            body.hidden = body !== target;
+        });
+
+        Array.prototype.forEach.call(table.querySelectorAll('thead th[aria-sort]'), function (cell) {
+            cell.removeAttribute('aria-sort');
+        });
+        th.setAttribute('aria-sort', 'descending');
+
+        return true;
+    }
+
     function sortTable(button) {
         var th    = button.closest('th');
         var table = button.closest('table');
         if (!th || !table || !table.tBodies[0]) return;
+
+        if (showRanking(table, th, button.getAttribute('data-sort-key'))) return;
 
         var tbody     = table.tBodies[0];
         var key       = button.getAttribute('data-sort-key');

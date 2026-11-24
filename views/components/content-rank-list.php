@@ -51,12 +51,13 @@ if (count($lists) > 1) {
                     <?php foreach ($list['items'] as $rank => $item) : ?>
                         <li class="wps-rank-list__item">
                             <span class="wps-rank-list__rank" aria-hidden="true"><?php echo esc_html(number_format_i18n($rank + 1)); ?></span>
-                            <?php if (!empty($item['thumb'])) : ?>
-                                <?php /* Decorative: the title is the next element, so alt="" keeps screen readers from reading it twice. */ ?>
-                                <img class="wps-rank-list__thumb" src="<?php echo esc_url($item['thumb']); ?>" alt="" width="40" height="40" loading="lazy" decoding="async">
-                            <?php else : ?>
-                                <span class="wps-rank-list__thumb wps-rank-list__thumb--tile" style="background-color:<?php echo esc_attr($item['color']); ?>" aria-hidden="true"><?php echo esc_html($item['initials']); ?></span>
-                            <?php endif; ?>
+                            <?php View::load('components/objects/post-thumb', [
+                                'thumb'    => $item['thumb'],
+                                'initials' => $item['initials'],
+                                'color'    => $item['color'],
+                                'size'     => 40,
+                                'class'    => 'wps-rank-list__thumb',
+                            ]); ?>
                             <span class="wps-title-cell wps-rank-list__title">
                                 <a href="<?php echo esc_url($item['url']); ?>" title="<?php echo esc_attr($item['title']); ?>"><span class="wps-ellipsis-text"><?php echo esc_html($item['title']); ?></span></a>
                                 <?php View::load('components/objects/new-tab-link', ['url' => $item['link']]); ?>

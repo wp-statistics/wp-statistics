@@ -262,12 +262,16 @@ class TaxonomyModel extends BaseModel
     }
 
     /**
-     * Top terms for the leaderboard widgets: views in the date range of the published posts
-     * in each term (any publish date), and how many of those posts got the views.
+     * Top terms for the leaderboard widgets, ranked on the server by one metric. Same numbers as the
+     * categories report:
+     *  - views:          views in the range of the published posts in the term (any publish date);
+     *  - published:      posts in the term published in the range ("Posts");
+     *  - views_per_post: views / posts published in the range (NULL when nothing was published).
+     * A term is listed when it has views or a published post in the range. Ties fall back to views.
      * Slug, parent and term_taxonomy_id are returned so same-name terms can be told apart.
      *
-     * @param array $args date, taxonomy, post_type, author_id, order_by, order, page, per_page.
-     * @return object[] term_id, term_taxonomy_id, taxonomy, term_name, slug, parent, views, posts_with_views.
+     * @param array $args date, taxonomy, post_type, author_id, order_by (views|published|views_per_post), page, per_page.
+     * @return object[] term_id, term_taxonomy_id, taxonomy, term_name, slug, parent, views, posts_with_views, published, views_per_post.
      */
     public function getTermsLeaderboard($args = [])
     {
@@ -282,30 +286,63 @@ class TaxonomyModel extends BaseModel
             'post_type' => Helper::getPostTypes()
         ]);
 
-        $result = Query::select([
+        $orderBy = in_array($args['order_by'], ['views', 'published', 'views_per_post'], true) ? $args['order_by'] : 'views';
+
+        $viewsQuery = Query::select([
+            'term_relationships.term_taxonomy_id AS tt_id',
+            'SUM(pages.count) AS views',
+            'COUNT(DISTINCT posts.ID) AS posts_with_views'
+        ])
+            ->from('posts')
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->join('pages', ['pages.id', 'posts.ID'], [['pages.type', 'IN', $this->getResourceTypes($args['post_type'], false)]])
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('pages.date', $args['date'])
+            ->groupBy('term_relationships.term_taxonomy_id')
+            ->getQuery();
+
+        $publishedQuery = Query::select([
+            'term_relationships.term_taxonomy_id AS tt_id',
+            'COUNT(DISTINCT posts.ID) AS published'
+        ])
+            ->from('posts')
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_status', '=', 'publish')
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('posts.post_date', $args['date'])
+            ->groupBy('term_relationships.term_taxonomy_id')
+            ->getQuery();
+
+        $query = Query::select([
             'terms.term_id',
             'term_taxonomy.term_taxonomy_id',
             'term_taxonomy.taxonomy',
             'term_taxonomy.parent',
             'terms.name AS term_name',
             'terms.slug',
-            'SUM(pages.count) AS views',
-            'COUNT(DISTINCT posts.ID) AS posts_with_views'
+            'COALESCE(term_views.views, 0) AS views',
+            'COALESCE(term_views.posts_with_views, 0) AS posts_with_views',
+            'COALESCE(term_published.published, 0) AS published',
+            'COALESCE(term_views.views, 0) / NULLIF(term_published.published, 0) AS views_per_post'
         ])
-            ->from('posts')
-            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
-            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->from('term_taxonomy')
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-            ->join('pages', ['pages.id', 'posts.ID'], [['pages.type', 'IN', $this->getResourceTypes($args['post_type'], false)]])
-            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-            ->where('posts.post_type', 'IN', $args['post_type'])
-            ->where('posts.post_status', '=', 'publish')
-            ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('pages.date', $args['date'])
-            ->groupBy(['term_taxonomy.term_taxonomy_id', 'terms.term_id', 'term_taxonomy.taxonomy', 'term_taxonomy.parent', 'terms.name', 'terms.slug'])
-            ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->getAll();
+            ->joinQuery($viewsQuery, ['term_taxonomy.term_taxonomy_id', 'term_views.tt_id'], 'term_views', 'LEFT')
+            ->joinQuery($publishedQuery, ['term_taxonomy.term_taxonomy_id', 'term_published.tt_id'], 'term_published', 'LEFT')
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+
+        $hasData = '(term_views.tt_id IS NOT NULL OR term_published.tt_id IS NOT NULL)';
+        $query->whereRaw(empty(array_filter((array) $args['taxonomy'])) ? $hasData : "AND {$hasData}");
+
+        $query->orderBy($orderBy === 'views' ? ['views', 'published'] : [$orderBy, 'views'], 'DESC')
+            ->perPage($args['page'], $args['per_page']);
+
+        $this->allowCachingForPastRange($query, $args['date']);
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }

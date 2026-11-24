@@ -1,14 +1,13 @@
 <?php
 /**
  * Settings card on an add-on settings tab when the add-on is not part of the site's plan: the lock page
- * text block without a picture, in a white card. Add-on kicker with its line icon, one headline, three
- * benefits, "Upgrade to Premium" (opens the Premium popup on the add-on, pricing page as href) and
+ * text block without a picture, in a white card. One headline, three benefits, "Upgrade to Premium" (opens the Premium popup on the add-on, pricing page as href) and
  * "Learn more" (add-on page), then one "Included in Premium" + guarantee line.
  * Copy comes from {@see AddonCatalog}, the same source as the popup and the add-on lock pages.
  *
  * Args:
  *  - addon_modal_target (string) Required. Add-on slug.
- *  - addon_title        (string) Add-on name, used when the catalog has no entry.
+ *  - addon_title        (string) Add-on name (kept for callers; the card shows no add-on label).
  *  - addon_utm_campaign (string) utm_campaign. Default "settings".
  */
 
@@ -19,7 +18,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 $slug     = $addon_modal_target ?? '';
 $copy     = AddonCatalog::get($slug);
-$name     = $copy['name'] ?? ($addon_title ?? '');
 $headline = $copy['headline'] ?? '';
 $benefits = $copy['benefits'] ?? [];
 $campaign = !empty($addon_utm_campaign) ? $addon_utm_campaign : 'settings';
@@ -30,12 +28,6 @@ if ($headline === '') {
 }
 ?>
 <section class="wps-upsell-card" aria-labelledby="<?php echo esc_attr($titleId); ?>">
-    <p class="wps-upsell-card__kicker">
-        <?php echo AddonCatalog::getLineIcon($slug, 16, 'wps-upsell-card__icon'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed markup ?>
-        <span><?php
-            /* translators: %s: Add-on name. */
-            echo esc_html(sprintf(__('%s add-on', 'wp-statistics'), $name)); ?></span>
-    </p>
     <h3 class="wps-upsell-card__title" id="<?php echo esc_attr($titleId); ?>"><?php echo esc_html($headline); ?></h3>
     <?php View::load('components/upsell/benefits', ['items' => $benefits, 'class' => 'wps-upsell-card__benefits']); ?>
     <?php View::load('components/upsell/actions', ['campaign' => $campaign, 'addon' => $slug, 'upgrade_modal' => true, 'class' => 'wps-upsell-card__actions']); ?>

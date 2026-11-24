@@ -1,14 +1,19 @@
 <?php
 /**
- * Leaderboard table: rank, name, Views (default sort), Posts (with views), Per post (views per post),
- * and the optional Published / Comments columns. Headers sort the shown rows in the
- * browser (assets/dev/javascript/components/leaderboard.js); under ~520px the table
- * scrolls inside its card.
+ * Leaderboard table: rank, name, Views (default ranking), Posts (published in the range), Per post
+ * (views / posts published in the range) and the optional Comments column. Same numbers as the
+ * Authors and Categories reports.
+ *
+ * Ranked on the server: with `rankings` (one list per sortable metric, LeaderboardDataProvider), a
+ * click on the Views, Posts or Per post header shows that metric's own top rows (one <tbody> each,
+ * assets/dev/javascript/components/leaderboard.js). Without `rankings` (older callers) the header
+ * re-orders the shown rows in the browser. Under ~520px the table scrolls inside its card.
  *
  * Args:
- *  - rows       (array[]) Leaderboard::buildRows() rows. Optional per row:
+ *  - rows       (array[]) Leaderboard::buildRows() rows, ranked by views. Optional per row:
  *                         'url' (report link; no link when empty), 'avatar' (image URL),
  *                         'title' (hover text for the name).
+ *  - rankings   (array[]) Optional. Leaderboard::RANKINGS key => rows ranked by that metric.
  *  - columns    (bool[])  Leaderboard::columns() flags.
  *  - name_label (string)  Header of the name column, e.g. "Author".
  *  - caption    (string)  Accessible table name, e.g. the card title.
@@ -19,6 +24,7 @@
  * Example:
  *  View::load('components/leaderboard', [
  *      'rows'       => $data['rows'],
+ *      'rankings'   => LeaderboardPresenter::authorRankings($data),
  *      'columns'    => $data['columns'],
  *      'name_label' => __('Author', 'wp-statistics'),
  *      'caption'    => __('Top Authors', 'wp-statistics'),
@@ -33,6 +39,13 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\Leaderboard\Leaderboard;
 
 $rows       = isset($rows) && is_array($rows) ? $rows : [];
+$rankings   = isset($rankings) && is_array($rankings) ? array_intersect_key($rankings, array_flip(Leaderboard::RANKINGS)) : [];
+$serverSort = !empty($rankings);
+if ($serverSort) {
+    $rows = isset($rankings['views']) ? $rankings['views'] : reset($rankings);
+} else {
+    $rankings = ['views' => $rows];
+}
 $columns    = isset($columns) && is_array($columns) ? $columns : Leaderboard::columns($rows);
 $name_label = !empty($name_label) ? $name_label : __('Name', 'wp-statistics');
 $caption    = !empty($caption) ? $caption : '';
@@ -53,17 +66,19 @@ if (empty($rows)) {
 // Short header on screen (one line in a narrow card), the full meaning in the tooltip and for screen readers.
 $numberColumns = [
     'views'            => __('Views', 'wp-statistics'),
+    /* translators: Short leaderboard column header; the full meaning is "Posts published in this range". */
+    'published'        => _x('Posts', 'leaderboard column: posts published in the range', 'wp-statistics'),
     /* translators: Short leaderboard column header; the full meaning is "Posts with views". */
     'posts_with_views' => _x('Posts', 'leaderboard column: posts with views', 'wp-statistics'),
-    /* translators: Short leaderboard column header; the full meaning is "Views per post". */
+    /* translators: Short leaderboard column header; the full meaning is "Views per post published in this range". */
     'views_per_post'   => _x('Per post', 'leaderboard column: views per post', 'wp-statistics'),
-    'published'        => __('Published', 'wp-statistics'),
     'comments'         => __('Comments', 'wp-statistics'),
 ];
 
 $columnHints = [
+    'published'        => __('Posts published in this range', 'wp-statistics'),
     'posts_with_views' => __('Posts with views', 'wp-statistics'),
-    'views_per_post'   => __('Views per post', 'wp-statistics'),
+    'views_per_post'   => __('Views per post published in this range', 'wp-statistics'),
 ];
 
 $numberColumns = array_filter($numberColumns, function ($key) use ($columns) {
@@ -86,22 +101,26 @@ $tagLabels = [
             <tr>
                 <th scope="col" class="wps-leaderboard__rank"><span aria-hidden="true">#</span><span class="screen-reader-text"><?php esc_html_e('Rank', 'wp-statistics'); ?></span></th>
                 <th scope="col" class="wps-leaderboard__name"><?php echo esc_html($name_label); ?></th>
-                <?php foreach ($numberColumns as $key => $label) : ?>
+                <?php foreach ($numberColumns as $key => $label) :
+                    // Server-ranked tables sort only by the metrics that have their own ranking.
+                    $sortable = !$serverSort || isset($rankings[$key]);
+                    ?>
                     <th scope="col" class="wps-leaderboard__num"<?php echo $key === 'views' ? ' aria-sort="descending"' : ''; ?>>
-                        <button type="button" class="wps-leaderboard__sort" data-sort-key="<?php echo esc_attr($key); ?>"<?php echo isset($columnHints[$key]) ? ' title="' . esc_attr($columnHints[$key]) . '"' : ''; ?>>
+                        <?php if ($sortable) : ?><button type="button" class="wps-leaderboard__sort" data-sort-key="<?php echo esc_attr($key); ?>"<?php echo isset($columnHints[$key]) ? ' title="' . esc_attr($columnHints[$key]) . '"' : ''; ?>><?php else : ?><span class="wps-leaderboard__head"<?php echo isset($columnHints[$key]) ? ' title="' . esc_attr($columnHints[$key]) . '"' : ''; ?>><?php endif; ?>
                             <?php if (isset($columnHints[$key])) : ?>
                                 <abbr class="wps-leaderboard__label" aria-hidden="true"><?php echo esc_html($label); ?></abbr><span class="screen-reader-text"><?php echo esc_html($columnHints[$key]); ?></span>
                             <?php else : ?>
                                 <span class="wps-leaderboard__label"><?php echo esc_html($label); ?></span>
                             <?php endif; ?>
-                            <span class="wps-leaderboard__arrow" aria-hidden="true"></span>
-                        </button>
+                            <?php if ($sortable) : ?><span class="wps-leaderboard__arrow" aria-hidden="true"></span>
+                        </button><?php else : ?></span><?php endif; ?>
                     </th>
                 <?php endforeach; ?>
             </tr>
             </thead>
-            <tbody>
-            <?php foreach ($rows as $index => $row) :
+            <?php foreach ($rankings as $ranking => $rankingRows) : ?>
+            <tbody<?php if ($serverSort) : ?> data-ranking="<?php echo esc_attr($ranking); ?>"<?php echo $ranking !== 'views' ? ' hidden' : ''; ?><?php endif; ?>>
+            <?php foreach ((array) $rankingRows as $index => $row) :
                 $name    = $row['name'] !== '' ? $row['name'] : __('(no name)', 'wp-statistics');
                 $tag     = !empty($row['tag']['text']) ? $row['tag'] : null;
                 $url     = !empty($row['url']) ? $row['url'] : '';
@@ -111,7 +130,7 @@ $tagLabels = [
                 ?>
                 <tr data-rank="<?php echo esc_attr($index + 1); ?>"
                     data-views="<?php echo esc_attr((int) $row['views']); ?>"
-                    data-posts_with_views="<?php echo esc_attr((int) $row['posts_with_views']); ?>"
+                    data-posts_with_views="<?php echo esc_attr((int) ($row['posts_with_views'] ?? 0)); ?>"
                     data-views_per_post="<?php echo esc_attr((float) $row['views_per_post']); ?>"
                     data-published="<?php echo esc_attr((int) $row['published']); ?>"
                     data-comments="<?php echo esc_attr((int) $row['comments']); ?>">
@@ -140,7 +159,7 @@ $tagLabels = [
                         </span>
                     </th>
                     <?php foreach ($numberColumns as $key => $label) :
-                        $value = $row[$key];
+                        $value = $row[$key] ?? 0;
 
                         if ($key === 'views_per_post') {
                             $text  = Leaderboard::formatAverage($value);
@@ -155,6 +174,7 @@ $tagLabels = [
                 </tr>
             <?php endforeach; ?>
             </tbody>
+            <?php endforeach; ?>
         </table>
     </div>
     <?php if ($note !== '') : ?>

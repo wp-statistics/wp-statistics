@@ -96,6 +96,10 @@
       display: none;
       width: 100%;
 
+      &.is-active {
+        display: block;
+      }
+
       img{
         max-width: 99%;
         height: auto;
@@ -161,14 +165,6 @@
     line-height: 32px;
   }
 
-  .wps-lock-page__eyebrow {
-    margin: 0 0 8px;
-    color: $wps-brand;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 20px;
-  }
-
   .wps-lock-page__description {
     margin: 0 0 20px;
   }
@@ -189,13 +185,28 @@
     line-height: 20px;
   }
 
+  // Every slide sits in the same cell: the box is as tall as the tallest picture (no jump when the
+  // pictures rotate) and each picture's frame ends where the picture ends.
   .wps-slider {
+    display: grid;
+    align-items: start;
     margin-top: 0;
+
+    &__slide {
+      display: block;
+      grid-area: 1 / 1;
+      visibility: hidden;
+
+      &.is-active {
+        visibility: visible;
+      }
+    }
 
     &__slide img {
       display: block;
       max-width: 100%;
       width: 100%;
+      height: auto;
     }
   }
 

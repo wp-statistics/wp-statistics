@@ -14,7 +14,7 @@ if (!empty($post_type)) {
 ?>
 
 <?php if ($show_preview) : ?>
-    <div class="disabled wps-tooltip-premium">
+    <div class="disabled wps-tooltip-premium js-wps-openPremiumModal" data-target="wp-statistics-data-plus">
         <div class="wps-tabs-item">
             <div class="wps-content-tabs__item--image">
                 <span><a href="<?php echo esc_url(Menus::admin_url('author-analytics', $authorUrlArgs)) ?>"> <span class="screen-reader-text"><?php esc_html_e('View author analytics', 'wp-statistics') ?></span></a></span>
@@ -25,13 +25,6 @@ if (!empty($post_type)) {
                 <span><span class="wps-content-tabs__item--count"><?php echo esc_html(Helper::formatNumberWithUnit($count, 1)); ?></span><?php echo esc_html($count_label) ?></span>
             </div>
         </div>
-
-        <?php
-        View::load("components/lock-sections/tooltip-premium", [
-            'class'         => 'tooltip-premium--side tooltip-premium--left',
-            'addon_name'    => 'wp-statistics-data-plus',
-        ]);
-        ?>
     </div>
 <?php else: ?>
     <a class="wps-tabs-item" href="<?php echo esc_url(Menus::admin_url('author-analytics', $authorUrlArgs)) ?>">

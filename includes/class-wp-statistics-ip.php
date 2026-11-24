@@ -209,6 +209,99 @@ class IP
     }
 
     /**
+     * Option holding today's random salt for hashed IPs: ['date' => 'Y-m-d', 'salt' => '...'].
+     */
+    const DAILY_SALT_OPTION = 'wp_statistics_daily_salt';
+
+    /**
+     * Today's salt, kept for the rest of the request.
+     *
+     * @var array|null ['date' => ..., 'salt' => ...]
+     */
+    private static $dailySalt = null;
+
+    /**
+     * Today's random salt for hashed IPs. It rotates with the site's day (the same day the visitor
+     * row is counted on, `last_counter`), and only one request may create it: when several first
+     * hits of a day arrive at once (one device, several tabs), they all end up with the same salt,
+     * so the same device keeps one hash and one visitor row.
+     *
+     * @return string
+     */
+    public static function getDailySalt()
+    {
+        global $wpdb;
+
+        $date = TimeZone::getCurrentDate('Y-m-d');
+
+        if (is_array(self::$dailySalt) && self::$dailySalt['date'] === $date) {
+            return self::$dailySalt['salt'];
+        }
+
+        $stored = get_option(self::DAILY_SALT_OPTION);
+
+        if (!self::isSaltFor($stored, $date)) {
+            $fresh = [
+                'date' => $date,
+                'salt' => hash('sha256', wp_generate_password(64, true, true)),
+            ];
+
+            // Write only if nobody else did since we read it: insert when missing, else swap the old value.
+            $row = $wpdb->get_var($wpdb->prepare("SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1", self::DAILY_SALT_OPTION));
+
+            if ($row === null) {
+                $wpdb->query($wpdb->prepare(
+                    "INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) VALUES (%s, %s, 'yes')",
+                    self::DAILY_SALT_OPTION,
+                    maybe_serialize($fresh)
+                ));
+            } elseif (!self::isSaltFor(maybe_unserialize($row), $date)) {
+                $wpdb->query($wpdb->prepare(
+                    "UPDATE {$wpdb->options} SET option_value = %s WHERE option_name = %s AND option_value = %s",
+                    maybe_serialize($fresh),
+                    self::DAILY_SALT_OPTION,
+                    $row
+                ));
+            }
+
+            // Whoever won, use what is stored now.
+            wp_cache_delete(self::DAILY_SALT_OPTION, 'options');
+            wp_cache_delete('alloptions', 'options');
+            wp_cache_delete('notoptions', 'options');
+
+            $stored = maybe_unserialize($wpdb->get_var($wpdb->prepare("SELECT option_value FROM {$wpdb->options} WHERE option_name = %s LIMIT 1", self::DAILY_SALT_OPTION)));
+
+            // The direct write failed (no table access, read-only replica, ...): fall back to the options API.
+            if (!self::isSaltFor($stored, $date)) {
+                update_option(self::DAILY_SALT_OPTION, $fresh);
+                $stored = $fresh;
+            }
+        }
+
+        self::$dailySalt = $stored;
+
+        return $stored['salt'];
+    }
+
+    /**
+     * Forget the salt kept for this request (tests, long-running processes).
+     */
+    public static function resetDailySaltCache()
+    {
+        self::$dailySalt = null;
+    }
+
+    /**
+     * @param mixed  $salt
+     * @param string $date
+     * @return bool
+     */
+    private static function isSaltFor($salt, $date)
+    {
+        return is_array($salt) && isset($salt['date'], $salt['salt']) && $salt['date'] === $date && $salt['salt'] !== '';
+    }
+
+    /**
      * Generates a hashed version of an IP address using a daily salt, provided the hashing option is enabled.
      *
      * @example 192.168.1.1 -> #hash#e7b398f96b14993b571215e36b41850c65f39b1a
@@ -217,33 +310,7 @@ class IP
      */
     public static function hashUserIp($ip = false)
     {
-        $date           = gmdate('Y-m-d'); // Capture the current date to use in salt generation.
-        $saltOptionName = 'wp_statistics_daily_salt'; // Define the option name for storing the daily salt.
-
-        // Retrieve the currently stored daily salt from the WordPress options.
-        $dailySalt = get_option($saltOptionName);
-
-        // If today's date is different from the stored salt's date, generate and save a new daily salt.
-        if (isset($dailySalt['date']) && $dailySalt['date'] != $date) {
-            $dailySalt = [
-                'date' => $date, // Update the salt's date to today.
-                'salt' =>  hash('sha256', wp_generate_password()) // Generate a new salt based on a new password and today's date.
-            ];
-
-            // Save the new daily salt in the WordPress options for future use.
-            update_option($saltOptionName, $dailySalt);
-        }
-
-        // If there is no existing daily salt, generate and save it.
-        if (!$dailySalt || !is_array($dailySalt)) {
-            $dailySalt = [
-                'date' => $date, // Set the salt's date to today.
-                'salt' =>  hash('sha256', wp_generate_password()) // Generate a new salt.
-            ];
-
-            // Save the new daily salt in the WordPress options.
-            update_option($saltOptionName, $dailySalt);
-        }
+        $salt = self::getDailySalt();
 
         // Determine the IP address to hash; use the provided IP or the current user's IP if none is provided.
         if (!$ip) {
@@ -253,7 +320,7 @@ class IP
         // Retrieve the current user agent, defaulting to '' if unavailable or empty.
         $userAgent = UserAgent::getHttpUserAgent();
 
-        $hash          = hash('sha256', $dailySalt['salt'] . $ip . $userAgent);
+        $hash          = hash('sha256', $salt . $ip . $userAgent);
         $truncatedHash = substr( self::$hash_ip_prefix . $hash, 0, 46);
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.

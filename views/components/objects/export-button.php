@@ -81,17 +81,14 @@ $isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-repor
         </ul>
     </div>
 <?php else : ?>
-    <button class="wps-premium-btn wps-premium-btn__export disabled wps-tooltip-premium">
-        <?php esc_html_e('Export', 'wp-statistics'); ?>
-        <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
-            <span id="tooltip_realtime">
-                <a data-target="wp-statistics-advanced-reporting" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
-                <span>
-                    <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
-                </span>
-            </span>
-        </span>
-    </button>
+    <?php
+    // No Advanced Reporting: no tooltip, a click opens the Premium popup on Advanced Reporting.
+    \WP_Statistics\Components\View::load('components/objects/premium-locked-button', [
+        'label' => __('Export', 'wp-statistics'),
+        'addon' => 'wp-statistics-advanced-reporting',
+        'class' => 'wps-premium-btn wps-premium-btn__export',
+    ]);
+    ?>
 <?php endif; ?>
 
 

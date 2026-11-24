@@ -53,7 +53,7 @@ class AuthorAnalyticsDataProvider
         $avgComments     = Helper::divideNumbers($comments, $posts);
         $prevAvgComments = Helper::divideNumbers($prevComments, $prevPosts);
 
-        // Top Authors widget: one leaderboard (views, posts with views, views per post, ...)
+        // Top Authors widget: one leaderboard (views, posts published, views per post), ranked on the server per metric
         $leaderboard = LeaderboardDataProvider::authors($this->args);
 
         $result = [

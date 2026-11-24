@@ -8,38 +8,41 @@ use WP_Statistics\Service\Admin\Leaderboard\LeaderboardPresenter;
  */
 class Test_Leaderboard extends WP_UnitTestCase
 {
-    public function test_per_post_divides_by_posts_that_got_views()
+    public function test_per_post_divides_by_posts_published_in_the_range()
     {
-        // Real data from the design notes: Anastasia 196 views over 4 posts with views.
-        $this->assertSame(49.0, Leaderboard::perPost(196, 4));
+        // Same as the Authors report: views / posts published in the range.
+        $this->assertSame(30.9, Leaderboard::perPost(278, 9));
         $this->assertSame(26.3, Leaderboard::perPost(105, 4));
         $this->assertSame(31.2, Leaderboard::perPost(718, 23));
     }
 
-    public function test_per_post_is_null_without_posts()
+    public function test_per_post_is_null_without_published_posts()
     {
         $this->assertNull(Leaderboard::perPost(10, 0));
         $this->assertNull(Leaderboard::perPost(0, 0));
     }
 
-    public function test_build_rows_is_never_empty_when_nothing_was_published()
+    public function test_build_rows_reads_published_from_the_ranked_row()
     {
-        // Nothing published in the range: the old widget showed "No data" here.
+        // Owner test 14.17: admin published 9 posts this year (278 views); Anastasia none (1,454 views).
         $ranked = [
-            (object) ['id' => 9, 'name' => 'Anastasia', 'views' => '196', 'posts_with_views' => '4'],
-            (object) ['id' => 8, 'name' => 'Floyd', 'views' => '156', 'posts_with_views' => '4'],
+            (object) ['id' => 1, 'name' => 'admin', 'views' => '278', 'posts_with_views' => '6', 'published' => '9'],
+            (object) ['id' => 9, 'name' => 'Anastasia', 'views' => '1454', 'posts_with_views' => '4', 'published' => '0'],
         ];
 
         $rows = Leaderboard::buildRows($ranked, ['id' => 'id', 'name' => 'name'], [], []);
 
         $this->assertCount(2, $rows);
-        $this->assertSame(49.0, $rows[0]['views_per_post']);
-        $this->assertSame(39.0, $rows[1]['views_per_post']);
-        $this->assertSame(0, $rows[0]['published']);
+        $this->assertSame(9, $rows[0]['published']);
+        $this->assertSame(30.9, $rows[0]['views_per_post']);
+        $this->assertSame(0, $rows[1]['published'], 'Posts = published in the range, not posts with views');
+        $this->assertNull($rows[1]['views_per_post']);
+        $this->assertSame(4, $rows[1]['posts_with_views']);
     }
 
     public function test_build_rows_reads_side_counts_by_count_key()
     {
+        // Older rows without a published field: the side map by count key still works.
         $ranked = [(object) ['term_id' => 50, 'term_taxonomy_id' => 70, 'term_name' => 'Blog', 'views' => 19, 'posts_with_views' => 2]];
 
         $rows = Leaderboard::buildRows($ranked, ['id' => 'term_id', 'name' => 'term_name', 'count_key' => 'term_taxonomy_id'], [70 => 3], [70 => 5]);
@@ -47,33 +50,54 @@ class Test_Leaderboard extends WP_UnitTestCase
         $this->assertSame(50, $rows[0]['id']);
         $this->assertSame(3, $rows[0]['published']);
         $this->assertSame(5, $rows[0]['comments']);
-        $this->assertSame(9.5, $rows[0]['views_per_post']);
+        $this->assertSame(6.3, $rows[0]['views_per_post']);
     }
 
-    public function test_optional_columns_hide_when_all_zero()
+    public function test_columns_match_the_authors_report()
     {
         $rows = [
             ['published' => 0, 'comments' => 0],
             ['published' => 0, 'comments' => 0],
         ];
 
-        $columns = Leaderboard::columns($rows, ['published' => true, 'comments' => true]);
+        $columns = Leaderboard::columns($rows, ['comments' => true]);
         $this->assertTrue($columns['views']);
-        $this->assertTrue($columns['posts_with_views']);
+        $this->assertTrue($columns['published'], 'Posts (published in the range) always shows, like the report');
         $this->assertTrue($columns['views_per_post']);
-        $this->assertFalse($columns['published']);
-        $this->assertFalse($columns['comments']);
+        $this->assertFalse($columns['posts_with_views']);
+        $this->assertFalse($columns['comments'], 'Nobody commented: hidden');
 
         $rows[1]['comments'] = 2;
-        $rows[0]['published'] = 1;
-        $columns = Leaderboard::columns($rows, ['published' => true, 'comments' => true]);
-        $this->assertTrue($columns['published']);
-        $this->assertTrue($columns['comments']);
+        $this->assertTrue(Leaderboard::columns($rows, ['comments' => true])['comments']);
 
         // Comments off for the post type: hidden even with values.
-        $columns = Leaderboard::columns($rows, ['published' => false, 'comments' => false]);
-        $this->assertFalse($columns['published']);
-        $this->assertFalse($columns['comments']);
+        $this->assertFalse(Leaderboard::columns($rows, ['comments' => false])['comments']);
+    }
+
+    public function test_leaderboard_view_draws_one_ranking_per_sortable_metric()
+    {
+        $row = function ($id, $name, $views, $published) {
+            return ['id' => $id, 'name' => $name, 'views' => $views, 'posts_with_views' => 1, 'published' => $published, 'views_per_post' => Leaderboard::perPost($views, $published), 'comments' => 0, 'tag' => null];
+        };
+
+        $html = \WP_Statistics\Components\View::load('components/leaderboard', [
+            'rankings' => [
+                'views'          => [$row(9, 'Anastasia', 1454, 0), $row(8, 'Floyd', 1148, 0)],
+                'published'      => [$row(1, 'admin', 278, 9), $row(9, 'Anastasia', 1454, 0)],
+                'views_per_post' => [$row(1, 'admin', 278, 9)],
+            ],
+            'columns'  => Leaderboard::columns([]),
+            'caption'  => 'Top Authors',
+        ], true);
+
+        $this->assertStringContainsString('<tbody data-ranking="views">', $html);
+        $this->assertStringContainsString('<tbody data-ranking="published" hidden>', $html);
+        $this->assertStringContainsString('<tbody data-ranking="views_per_post" hidden>', $html);
+        $this->assertStringContainsString('data-sort-key="published"', $html);
+        $this->assertStringContainsString('Posts published in this range', $html);
+        $this->assertStringNotContainsString('data-sort-key="posts_with_views"', $html);
+        // admin is only in the Posts and Per post rankings, as rank 1.
+        $this->assertMatchesRegularExpression('#data-ranking="published" hidden>\s*<tr data-rank="1"[^>]*data-published="9"#', $html);
     }
 
     public function test_same_name_terms_get_language_tag_first()
@@ -217,9 +241,9 @@ class Test_Leaderboard extends WP_UnitTestCase
             'lists' => [['key' => 'views', 'label' => 'Most viewed', 'items' => $items]],
         ], true);
 
-        $this->assertMatchesRegularExpression('#<img class="wps-rank-list__thumb" src="[^"]+cover-150x150\.jpg" alt="" width="40" height="40" loading="lazy" decoding="async">#', $html);
+        $this->assertMatchesRegularExpression('#<img class="wps-post-thumb wps-rank-list__thumb" src="[^"]+cover-150x150\.jpg" alt="" width="40" height="40" loading="lazy" decoding="async">#', $html);
         $this->assertSame(1, substr_count($html, '<img'), 'only the post with a featured image gets one');
-        $this->assertStringContainsString('wps-rank-list__thumb--tile', $html);
+        $this->assertStringContainsString('wps-post-thumb--tile', $html);
         $this->assertStringContainsString('>SE</span>', $html, 'the other post keeps its initials tile');
     }
 

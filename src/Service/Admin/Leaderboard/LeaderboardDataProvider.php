@@ -12,13 +12,14 @@ use WP_Statistics\Models\TaxonomyModel;
  * and Top Categories (Category Analytics, Content Analytics, Data Plus author page).
  *
  * Each method returns:
- *  - rows            Leaderboard::buildRows() rows, ranked by views.
+ *  - rows            Leaderboard::buildRows() rows, ranked by views (the default view).
+ *  - rankings        Leaderboard::RANKINGS key => rows ranked on the server by that metric (top N each),
+ *                    so a click on the Posts or Per post header shows the real top N, not the same rows re-ordered.
  *  - columns         Leaderboard::columns() flags.
  *  - published_total Posts published in the range (for the "N posts published" line).
  *  - post_type       The post type(s) the numbers cover.
  *
- * Three small queries per widget: the ranked rows, then published and comment counts for
- * the shown ids only.
+ * Numbers follow the full reports: Posts = published in the range, Per post = views / Posts.
  */
 class LeaderboardDataProvider
 {
@@ -31,28 +32,25 @@ class LeaderboardDataProvider
         $args  = self::limitPostTypes($args, Helper::get_list_post_type());
         $model = new AuthorsModel();
 
-        $ranked = $model->getAuthorsLeaderboard($args);
-        $ids    = array_map(function ($row) {
-            return (int) $row->id;
-        }, $ranked);
+        $ranked = [];
+        foreach (Leaderboard::RANKINGS as $metric) {
+            $ranked[$metric] = $model->getAuthorsLeaderboard(array_merge($args, ['order_by' => $metric]));
+        }
 
         $supportsComments = self::supportsComments($args['post_type']);
-        $published        = $model->countPublishedByAuthors($ids, $args);
-        $comments         = $supportsComments ? $model->countCommentsByAuthors($ids, $args) : [];
+        $comments         = $supportsComments ? $model->countCommentsByAuthors(self::ids($ranked, 'id'), $args) : [];
 
-        $rows = Leaderboard::buildRows($ranked, ['id' => 'id', 'name' => 'name'], $published, $comments);
+        $rankings = [];
+        foreach ($ranked as $metric => $list) {
+            $rows = Leaderboard::buildRows($list, ['id' => 'id', 'name' => 'name'], [], $comments);
 
-        // Two authors with the same display name: show their @username.
-        $rows = Leaderboard::disambiguate($rows, function ($row) {
-            return ['slug' => !empty($row['raw']['nicename']) ? '@' . $row['raw']['nicename'] : ''];
-        });
+            // Two authors with the same display name: show their @username.
+            $rankings[$metric] = Leaderboard::disambiguate($rows, function ($row) {
+                return ['slug' => !empty($row['raw']['nicename']) ? '@' . $row['raw']['nicename'] : ''];
+            });
+        }
 
-        return [
-            'rows'            => $rows,
-            'columns'         => Leaderboard::columns($rows, ['published' => true, 'comments' => $supportsComments]),
-            'published_total' => (int) (new PostsModel())->countPosts(self::countArgs($args)),
-            'post_type'       => $args['post_type'],
-        ];
+        return self::result($rankings, $supportsComments, $args);
     }
 
     /**
@@ -64,24 +62,63 @@ class LeaderboardDataProvider
         $args  = self::limitPostTypes($args, Helper::getPostTypes());
         $model = new TaxonomyModel();
 
-        $ranked = $model->getTermsLeaderboard($args);
-        $ttIds  = array_map(function ($row) {
-            return (int) $row->term_taxonomy_id;
-        }, $ranked);
+        $ranked = [];
+        foreach (Leaderboard::RANKINGS as $metric) {
+            $ranked[$metric] = $model->getTermsLeaderboard(array_merge($args, ['order_by' => $metric]));
+        }
 
         $supportsComments = self::supportsComments($args['post_type']);
-        $published        = $model->countPublishedByTerms($ttIds, $args);
-        $comments         = $supportsComments ? $model->countCommentsByTerms($ttIds, $args) : [];
+        $comments         = $supportsComments ? $model->countCommentsByTerms(self::ids($ranked, 'term_taxonomy_id'), $args) : [];
 
-        $rows = Leaderboard::buildRows($ranked, ['id' => 'term_id', 'name' => 'term_name', 'count_key' => 'term_taxonomy_id'], $published, $comments);
-        $rows = Leaderboard::disambiguate($rows, [__CLASS__, 'termContext']);
+        $rankings = [];
+        foreach ($ranked as $metric => $list) {
+            $rows               = Leaderboard::buildRows($list, ['id' => 'term_id', 'name' => 'term_name', 'count_key' => 'term_taxonomy_id'], [], $comments);
+            $rankings[$metric] = Leaderboard::disambiguate($rows, [__CLASS__, 'termContext']);
+        }
+
+        return self::result($rankings, $supportsComments, $args);
+    }
+
+    /**
+     * @param array[] $rankings metric => rows.
+     * @param bool    $supportsComments
+     * @param array   $args
+     * @return array
+     */
+    private static function result($rankings, $supportsComments, $args)
+    {
+        $all = [];
+        foreach ($rankings as $rows) {
+            $all = array_merge($all, $rows);
+        }
 
         return [
-            'rows'            => $rows,
-            'columns'         => Leaderboard::columns($rows, ['published' => true, 'comments' => $supportsComments]),
+            'rows'            => $rankings['views'],
+            'rankings'        => $rankings,
+            'columns'         => Leaderboard::columns($all, ['comments' => $supportsComments]),
             'published_total' => (int) (new PostsModel())->countPosts(self::countArgs($args)),
             'post_type'       => $args['post_type'],
         ];
+    }
+
+    /**
+     * Distinct ids across every ranking, for the side counts.
+     *
+     * @param array[] $ranked metric => query rows.
+     * @param string  $field
+     * @return int[]
+     */
+    private static function ids($ranked, $field)
+    {
+        $ids = [];
+
+        foreach ($ranked as $list) {
+            foreach ((array) $list as $row) {
+                $ids[] = (int) ((array) $row)[$field];
+            }
+        }
+
+        return array_values(array_unique(array_filter($ids)));
     }
 
     /**
